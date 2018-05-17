@@ -8,7 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LocationComponent } from './components/location/location.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
-
+import { TestingComponent } from './components/testing/testing.component';
 
 export const routes: Routes = [
     
@@ -23,6 +23,10 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent
+    },
+    {
+        path: 'testing',
+        component: TestingComponent
     },
     {
       path:'**',
