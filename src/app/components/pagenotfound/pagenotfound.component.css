@@ -1,0 +1,24 @@
+li{
+	list-style-type: none;
+}
+.scroll{
+	overflow-y: scroll;
+	height: 300px;
+}
+.block{
+	text-align: center;
+	padding: 30px;
+	background: #aaa;
+}
+.block a{
+	color: #fff;
+}
+.btn-link{
+	float: right;
+}
+.row .btn-outline-primary{
+	float: right;
+}
+.btn2{
+	float: right;
+}
