@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
@@ -8,12 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class LocationComponent implements OnInit {
+	
+
 
   constructor() { }
     
   
+
+
+
   ngOnInit() {
   	
   }
-
 }
