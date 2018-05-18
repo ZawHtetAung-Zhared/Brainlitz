@@ -7,11 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./location.component.css']
   
 })
+
 export class LocationComponent implements OnInit {
 	
 
-  constructor() {
-   }
+
+  constructor() { }
+    
+  
+
+
 
   ngOnInit() {
   	
