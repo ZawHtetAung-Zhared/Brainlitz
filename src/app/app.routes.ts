@@ -15,15 +15,11 @@ export const routes: Routes = [
     
     {
         path: '',
-        component: DashboardComponent
+        component: LocationComponent
     },
     {
         path: 'login',
         component: LoginComponent
-    },
-    {
-        path: 'dashboard',
-        component: DashboardComponent
     },
     {
         path: 'location',
