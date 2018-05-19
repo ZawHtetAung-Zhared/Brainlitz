@@ -55,11 +55,11 @@ export class appService{
     createUser(data: object): Observable<any>{
     	console.log(data)
     	let apiUrl = this.baseUrl + '/signup';
-    	let body = JSON.stringify(data);
+    	// let body = JSON.stringify(data);
     	const opt = {
 	        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
 	    };
-	    return this.httpClient.post(apiUrl, body, opt)
+	    return this.httpClient.post(apiUrl, data, opt)
       	.map((res:Response) => {
       	  let result = res; 
       	  console.log(result)

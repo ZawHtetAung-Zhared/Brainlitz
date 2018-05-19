@@ -17,6 +17,7 @@ export class UsersComponent implements OnInit {
 	stuffs: Staff = new Staff();
 	customers: Customer = new Customer();
 	public img: any;
+	public orgID = '5af9130791b3b22c22ae0cb8';
 	public regionID = '5af915541de9052c869687a3';
 	public userLists: any;
 
@@ -45,16 +46,33 @@ export class UsersComponent implements OnInit {
 	createUser(obj, type){
 		console.log(obj)
 		console.log(type)
-		let dataObj = {
-			"orgId": this.regionID,
+		let dataObj = new FormData();
+		dataObj.append('orgId', this.orgID);
+		dataObj.append('firstName', obj.fname);
+		dataObj.append('lastName', obj.lname);
+		dataObj.append('preferredName', obj.dname);
+		dataObj.append('email', obj.mail);
+		dataObj.append('regionId', this.regionID);
+		dataObj.append('password', obj.pwd);
+
+		console.log(dataObj)
+
+		let Obj = {
+			"orgId": this.orgID,
+			"firstName": obj.fname,
+			"lastName": obj.lname,
+			"preferredName": obj.dname,
 			"email": obj.mail,
+			"regionId": this.regionID,
 			"password": obj.pwd,
 			"profilePic": this.img
 		}
+
 		this._service.createUser(dataObj)
     	.subscribe((res:any) => {
   		console.log(res)
   		this.userLists = res;
+  		console.log(this.userLists)
     	this.closeModal();
     }, err => {
     	console.log(err)
@@ -62,7 +80,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	private closeModal(): void {
-		$('.modal-backdrop, #staffModal').removeClass('show');
+		$('.modal-backdrop, #staffModal, #customerModal').removeClass('show');
 	}
 
 }
