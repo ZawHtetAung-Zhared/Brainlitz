@@ -9,6 +9,7 @@ import { LocationComponent } from './components/location/location.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { TestingComponent } from './components/testing/testing.component';
+import { SampleComponent } from './components/sample/sample.component';
 
 export const routes: Routes = [
     
@@ -25,8 +26,20 @@ export const routes: Routes = [
         component: DashboardComponent
     },
     {
+        path: 'location',
+        component: LocationComponent
+    },
+    {
+        path: 'user',
+        component: UsersComponent
+    },
+    {
         path: 'testing',
         component: TestingComponent
+    },
+    {
+        path: 'sample',
+        component: SampleComponent
     },
     {
       path:'**',

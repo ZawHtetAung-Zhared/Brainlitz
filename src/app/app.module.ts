@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http'; 
 import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
@@ -13,7 +14,9 @@ import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { AppRoutingModule } from './app.routes';
 import { TestingComponent } from './components/testing/testing.component';
-
+import { appService } from './service/app.service';
+import { SampleComponent } from './components/sample/sample.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -23,16 +26,21 @@ import { TestingComponent } from './components/testing/testing.component';
     LocationComponent,
     UsersComponent,
     PagenotfoundComponent,
-    TestingComponent
+    TestingComponent,
+    SampleComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     HttpModule,
     FormsModule,
     AppRoutingModule,
     BsModalModule
   ],
-  providers: [],
+  providers: [
+    appService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
