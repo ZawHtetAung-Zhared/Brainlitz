@@ -16,13 +16,13 @@ export class appService{
 
     public reqHeader = new Headers({
 	    'Content-Type': 'application/json',
-	    'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'
+	    'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.dnFRamlUMElvbXlkbnNTeHVMRFdxbmxWZ3QwTFhZa1A.rBkiiuA9SVoVGQvxhlwjqWgS8VB5IKVDFj4OMmeeDvk'
 	});
 
     getLocations(id: string): Observable<any>{
     	let url = this.baseUrl + '/' + id + '/locations';
 		const httpOptions = {
-	        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+	        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.dnFRamlUMElvbXlkbnNTeHVMRFdxbmxWZ3QwTFhZa1A.rBkiiuA9SVoVGQvxhlwjqWgS8VB5IKVDFj4OMmeeDvk' })
 	    };
        	return this.httpClient.get(url, httpOptions)
       	.map((res:Response) => {
@@ -38,7 +38,7 @@ export class appService{
     	let apiUrl = this.baseUrl + '/' + id + '/locations';
 
     	const httpOptions = {
-	        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+	        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.dnFRamlUMElvbXlkbnNTeHVMRFdxbmxWZ3QwTFhZa1A.rBkiiuA9SVoVGQvxhlwjqWgS8VB5IKVDFj4OMmeeDvk' })
 	    };
 
 	    console.log(httpOptions)
@@ -55,7 +55,7 @@ export class appService{
     getSingleLocation(id:string){
       let apiUrl = this.baseUrl  + '/locations/' + id;
       const httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.dnFRamlUMElvbXlkbnNTeHVMRFdxbmxWZ3QwTFhZa1A.rBkiiuA9SVoVGQvxhlwjqWgS8VB5IKVDFj4OMmeeDvk' })
       };
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
@@ -70,7 +70,7 @@ export class appService{
       console.log(body)
       let apiUrl = this.baseUrl  + '/locations/' + id;
       const httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.dnFRamlUMElvbXlkbnNTeHVMRFdxbmxWZ3QwTFhZa1A.rBkiiuA9SVoVGQvxhlwjqWgS8VB5IKVDFj4OMmeeDvk' })
       };
       return this.httpClient.put(apiUrl,body, httpOptions)
       .map((res:Response) => {
@@ -84,7 +84,7 @@ export class appService{
       console.log(id)
       let apiUrl = this.baseUrl  + '/locations/' + id;
       const httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.dnFRamlUMElvbXlkbnNTeHVMRFdxbmxWZ3QwTFhZa1A.rBkiiuA9SVoVGQvxhlwjqWgS8VB5IKVDFj4OMmeeDvk' })
       };
       return this.httpClient.delete(apiUrl, httpOptions)
       .map((res:Response) => {
@@ -99,7 +99,7 @@ export class appService{
     	let apiUrl = this.baseUrl + '/signup';
     	// let body = JSON.stringify(data);
     	const opt = {
-	        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+	        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.dnFRamlUMElvbXlkbnNTeHVMRFdxbmxWZ3QwTFhZa1A.rBkiiuA9SVoVGQvxhlwjqWgS8VB5IKVDFj4OMmeeDvk' })
 	    };
 	    return this.httpClient.post(apiUrl, data, opt)
       	.map((res:Response) => {

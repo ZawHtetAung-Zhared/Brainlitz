@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  apiurl: 'http://dev-app.brainlitz.com/api/v1',
+  apiurl: 'https://staging-brainlitz.pagewerkz.com/api/v1',
   enableDebug: true
 };

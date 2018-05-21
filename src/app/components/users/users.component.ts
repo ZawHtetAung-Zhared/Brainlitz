@@ -17,8 +17,8 @@ export class UsersComponent implements OnInit {
 	stuffs: Staff = new Staff();
 	customers: Customer = new Customer();
 	public img: any;
-	public orgID = '5af9130791b3b22c22ae0cb8';
-	public regionID = '5af915541de9052c869687a3';
+	public orgID = '5b023d39c41a330f1cf7572f';
+	public regionID = '5b023ecbc41a330f1cf75730';
 	public userLists: any;
 
 	constructor(private _service: appService) { }
@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit {
     }
 	}
 
-	createUser(obj, type){
+	createUser(obj, type, f){
 		console.log(obj)
 		console.log(type)
 		let dataObj = new FormData();
@@ -69,18 +69,30 @@ export class UsersComponent implements OnInit {
 		}
 
 		this._service.createUser(dataObj)
-    	.subscribe((res:any) => {
-  		console.log(res)
-  		this.userLists = res;
-  		console.log(this.userLists)
-    	this.closeModal();
-    }, err => {
-    	console.log(err)
-    })
+	    	.subscribe((res:any) => {
+	  		console.log(res)
+	  		this.userLists = res;
+	  		console.log(this.userLists)
+	  		f.reset();
+	    	this.closeModal();
+	    }, err => {
+	    	console.log(err)
+	    })
 	}
 
 	private closeModal(): void {
-		$('.modal-backdrop, #staffModal, #customerModal').removeClass('show');
-	}
+		$('#staffModal, #customerModal').removeClass('show');
+		$('#staffModal, #customerModal').css("display", "none");
+		$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
+    }
+
+    cancel(f){
+    	f.reset();
+    	$('#staffModal, #customerModal').removeClass('show');
+    	$('#staffModal, #customerModal').css("display", "none");
+		$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
+    }
 
 }

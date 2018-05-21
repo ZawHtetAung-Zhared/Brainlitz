@@ -16,7 +16,7 @@ export class LocationComponent implements OnInit {
 	@ViewChild('f') form: any;
   	@ViewChild('closeBtn') closeBtn: ElementRef;
 	public location: Location;
-	public regionID = '5af915541de9052c869687a3';
+	public regionID = '5b023ecbc41a330f1cf75730';
 	public locationLists: any;
 	public formID: any;
 	public hideModal: boolean = false;
@@ -30,9 +30,6 @@ export class LocationComponent implements OnInit {
 	}
 	
 	getAllLocation(){
-		let header = {
-			'authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'
-		}
 		this._service.getLocations(this.regionID)
 		.subscribe((res:any) => {
     		this.locationLists = res;
@@ -106,6 +103,7 @@ export class LocationComponent implements OnInit {
 
 	private closeModal(): void {
 		$('#locationModal').removeClass('show');
+		$('#locationModal').css("display", "none");
 		$('body').removeClass('modal-open');
     	$('.modal-backdrop').remove();
     }
