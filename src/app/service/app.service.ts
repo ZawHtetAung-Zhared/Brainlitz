@@ -52,12 +52,27 @@ export class appService{
       	// catchError(this.handleError('addProduct'))
     }
 
-    getSingleLocation(id){
+    getSingleLocation(id:string){
       let apiUrl = this.baseUrl  + '/locations/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
       };
       return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    updateLocation(id:string, body: object){
+      console.log(id)
+      console.log(body)
+      let apiUrl = this.baseUrl  + '/locations/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+      return this.httpClient.put(apiUrl,body, httpOptions)
       .map((res:Response) => {
         let result = res; 
         console.log(result)

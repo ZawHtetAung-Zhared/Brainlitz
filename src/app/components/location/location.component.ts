@@ -18,7 +18,9 @@ export class LocationComponent implements OnInit {
 	public location: Location;
 	public regionID = '5af915541de9052c869687a3';
 	public locationLists: any;
+	public formID: any;
 	public hideModal: boolean = false;
+	public isUpdate: boolean = false;
 	model: Location = new Location();
 
 	constructor(private _service: appService) { }
@@ -39,8 +41,10 @@ export class LocationComponent implements OnInit {
 	    })
 	}
 
-	createLocation(val) {
+	createLocation(f, val, update, id) {
 		console.log('hi', val)
+		console.log(status)
+		console.log(id)
 		let data = {
 			"regionId": this.regionID,
 			"name": val.name,
@@ -48,19 +52,32 @@ export class LocationComponent implements OnInit {
 			"phoneNumber": val.phoneNumber
 		}
 		console.log(data)
-		if (this.form.valid) {
-	      	console.log("Form Submitted!");
-	      	this._service.createLocation(this.regionID, data)
-	      	.subscribe((res:any) => {
+		if(update == true){
+			this._service.updateLocation(id, data)
+			.subscribe((res:any) => {
 	    		console.log(res)
 	    		this.getAllLocation();
+		    	f.reset();
 		    	this.closeModal();
 		    }, err => {
 		    	console.log(err)
 		    })
-	    }else{
-	    	console.log('form is not valid')
-	    }
+		}else{
+			if (this.form.valid) {
+		      	console.log("Form Submitted!");
+		      	this._service.createLocation(this.regionID, data)
+		      	.subscribe((res:any) => {
+		    		console.log(res)
+		    		this.getAllLocation();
+		    		f.reset();
+			    	this.closeModal();
+			    }, err => {
+			    	console.log(err)
+			    })
+		    }else{
+		    	console.log('form is not valid')
+		    }
+		}
 	}
 
 	deleteLocation(id){
@@ -76,22 +93,29 @@ export class LocationComponent implements OnInit {
 
 	editLocationInfo(id){
 		console.log(this.model)
+		this.isUpdate = true;
+		this.formID = id;
 		this._service.getSingleLocation(id)
 		.subscribe((res:any) => {
 			console.log(res);
 			this.model = res;
-			// this.getAllLocation();
 		},err => {
 			console.log(err);
 		})
 	}
 
 	private closeModal(): void {
-		$('.modal-backdrop, #locationModal').removeClass('show');
+		$('#locationModal').removeClass('show');
+		$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
     }
 
-    cancel(){
-    	// this.form : Location;
-    	$('.modal-backdrop, #locationModal').removeClass('show');
+    cancel(f){
+    	console.log(this.model)
+    	f.reset();
+    	$('#locationModal').removeClass('show');
+    	$('#locationModal').css("display", "none");
+		$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
     }
 }
