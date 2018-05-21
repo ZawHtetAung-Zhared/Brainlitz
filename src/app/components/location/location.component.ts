@@ -45,7 +45,7 @@ export class LocationComponent implements OnInit {
 			"regionId": this.regionID,
 			"name": val.name,
 			"address": val.address,
-			"phoneNumber": val.phone
+			"phoneNumber": val.phoneNumber
 		}
 		console.log(data)
 		if (this.form.valid) {
@@ -63,7 +63,35 @@ export class LocationComponent implements OnInit {
 	    }
 	}
 
+	deleteLocation(id){
+		console.log(id)
+		this._service.deleteLocation(id)
+		.subscribe((res:any) => {
+			console.log(res);
+			this.getAllLocation();
+		},err => {
+			console.log(err);
+		})
+	}
+
+	editLocationInfo(id){
+		console.log(this.model)
+		this._service.getSingleLocation(id)
+		.subscribe((res:any) => {
+			console.log(res);
+			this.model = res;
+			// this.getAllLocation();
+		},err => {
+			console.log(err);
+		})
+	}
+
 	private closeModal(): void {
-		$('.modal-backdrop, #locationModal').removeClass('show');		
+		$('.modal-backdrop, #locationModal').removeClass('show');
+    }
+
+    cancel(){
+    	// this.form : Location;
+    	$('.modal-backdrop, #locationModal').removeClass('show');
     }
 }
