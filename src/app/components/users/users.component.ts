@@ -17,8 +17,8 @@ export class UsersComponent implements OnInit {
 	stuffs: Staff = new Staff();
 	customers: Customer = new Customer();
 	public img: any;
-	public orgID = '5b023d39c41a330f1cf7572f';
-	public regionID = '5b023ecbc41a330f1cf75730';
+	public orgID = '5afe8dfd71dde3a69470ba47';
+	public regionID = '5afe931a71dde3a69470ba4d';
 	public userLists: any;
 
 	constructor(private _service: appService) { }

@@ -16,7 +16,7 @@ export class LocationComponent implements OnInit {
 	@ViewChild('f') form: any;
   	@ViewChild('closeBtn') closeBtn: ElementRef;
 	public location: Location;
-	public regionID = '5b023ecbc41a330f1cf75730';
+	public regionID = '5afe931a71dde3a69470ba4d';
 	public locationLists: any;
 	public formID: any;
 	public hideModal: boolean = false;
