@@ -1,1 +1,22 @@
-<button (click)="createCourse()">Course</button>
+<div>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showplanModal">Course</button>
+
+	<!-- CoursePlan Modal -->
+	<div class="modal" id="showplanModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+			    <h4 class="modal-title">Course Plan</h4>
+			    <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  </div>
+			  <div class="modal-body">
+			  	<h2>This is Course Plan Modal</h2>
+			  </div>
+			  <div class="modal-footer">
+			  	<button type="button" class="btn btn-danger">Cancel</button>
+			  	<button type="button" class="btn btn-primary">Submit</button>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>

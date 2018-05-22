@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
 import { BsModalModule } from 'ng2-bs3-modal';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -40,7 +41,8 @@ import { CoursecreateComponent } from './components/coursecreate/coursecreate.co
     HttpModule,
     FormsModule,
     AppRoutingModule,
-    BsModalModule
+    BsModalModule,
+    NgbModule.forRoot()
   ],
   providers: [
     appService
