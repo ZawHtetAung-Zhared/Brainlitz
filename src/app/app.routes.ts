@@ -10,6 +10,7 @@ import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { TestingComponent } from './components/testing/testing.component';
 import { SampleComponent } from './components/sample/sample.component';
+import { CourseComponent } from './components/course/course.component';
 
 export const routes: Routes = [
     
@@ -36,6 +37,10 @@ export const routes: Routes = [
     {
         path: 'sample',
         component: SampleComponent
+    },
+    {
+       path: 'course',
+       component: CourseComponent 
     },
     {
       path:'**',

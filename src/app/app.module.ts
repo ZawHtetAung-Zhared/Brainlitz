@@ -17,6 +17,8 @@ import { TestingComponent } from './components/testing/testing.component';
 import { appService } from './service/app.service';
 import { SampleComponent } from './components/sample/sample.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { CourseComponent } from './components/course/course.component';
+import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     PagenotfoundComponent,
     TestingComponent,
     SampleComponent,
-    SidebarComponent
+    SidebarComponent,
+    CourseComponent,
+    CoursecreateComponent
   ],
   imports: [
     BrowserModule,
