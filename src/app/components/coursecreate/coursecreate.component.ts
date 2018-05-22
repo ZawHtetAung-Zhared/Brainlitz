@@ -22,6 +22,7 @@ export class CoursecreateComponent implements OnInit {
   	console.log("Show Course")
   }
   getValue(plan){
-  	console.log(plan)
+  	console.log(plan);
+  	// this.modalService.open(content);
   }
 }

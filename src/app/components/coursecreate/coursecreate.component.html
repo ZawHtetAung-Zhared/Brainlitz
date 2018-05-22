@@ -19,18 +19,3 @@
 
 <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Course Create</button>
 
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Choose Course</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <h2>Create Course</h2>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="c('Close click')">Close</button>
-    <button type="button" class="btn btn-primary">Submit</button>
-  </div>
-</ng-template>
