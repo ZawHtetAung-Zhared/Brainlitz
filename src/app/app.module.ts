@@ -21,6 +21,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
+import { CourseplanComponent } from './components/courseplan/courseplan.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CategoryComponent } from './components/category/category.component';
     CourseComponent,
     CoursecreateComponent,
     CategoryComponent
+    CourseplanComponent
   ],
   imports: [
     BrowserModule,
