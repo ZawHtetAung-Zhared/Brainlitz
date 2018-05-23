@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { appService } from '../../service/app.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-courseplan',
@@ -9,73 +11,112 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class CourseplanComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private _service: appService) { }
 
   ngOnInit() {
 
   }
-  	courseCategories: any[] = [
-	    {	
-	     	"id": "1",	
-	     	"name": "Category1"
-	    },
-	    {
-	      	"id": "2",	
-	     	"name": "Category2"
-	    },
-	    {
-	      	"id": "3",	
-	     	"name": "Category3"
-	    },
-	    {
-	      	"id": "4",	
-	     	"name": "Category4"
-	    }
-  	];
+  depostiId: any[] = [
+    { 
+      "id": "5af915541de9052c869687a3" 
+    },
+    { 
+      "id": "4cf915541de9052c869687a3" 
+    }
+  ];
 
-  	public showModal: boolean = false;
-  	public showsubModal: boolean = true;
-  	public checked: boolean = false;
-  	public modalReference: any;
-  	public closeResult: any;
+  public regionID = '5af915541de9052c869687a3';
+	showModal: boolean = false;
+	showsubModal: boolean = true;
+	checked: boolean = false;
+	modalReference: any;
+	closeResult: any;
+  checkedName: any;
+  courseCategories: any;
+  categoryId: any;
+  allowchecked: boolean = false;
+  allowMakeup: boolean = false;
+  checkedCatId: any;
 
-  	open(content){
-  		// this.modalService.open(content, { size: 'lg' });
-  		this.showModal = true;
-  		this.showsubModal = false;
-  		this.checked = false;
+	open(content){
+		// this.modalService.open(content, { size: 'lg' });
+		this.showModal = true;
+		this.showsubModal = false;
+		this.checked = false;
+		this.modalReference = this.modalService.open(content, { size: 'lg' });
+	  this.modalReference.result.then((result) => {
+	  this.closeResult = `Closed with: ${result}`;
+	}, (reason) => {
+	  this.closeResult = `Closed with: ${reason}`;
+	});
+    this._service.getCategory(this.regionID)
+    .subscribe((res:any) => {
+      console.log('success',res)
+      this.courseCategories = res;
+      }, err => {
+        console.log(err)
+      })
+	}
 
-  		this.modalReference = this.modalService.open(content, { size: 'lg' });
-		  this.modalReference.result.then((result) => {
-		  this.closeResult = `Closed with: ${result}`;
-		}, (reason) => {
-		  this.closeResult = `Closed with: ${reason}`;
-		});
-  	}
+	selectedRadioId(id){
+    console.log(id)
+		this.showModal = false;
+		this.showsubModal = true;
+    this.categoryId = id;
+    this.allowchecked = false;
+    this.allowMakeup = false;
+    this.checkedName = this.checked;
+	}
 
-  	selectedRadioId(data, opensubModal){
-  		this.showModal = false;
-  		this.showsubModal = true;
-  	}
+	back(){
+		this.showModal = true;
+		this.showsubModal = false;
+	}
 
-  	back(){
-  		this.showModal = true;
-  		this.showsubModal = false;
-  	}
+	checkedData(id){
+      this.checkedCatId = id;
+	}
 
-  	checkedData(data, e){
-  		if(e.target.checked == true){
-  			this.checked = true;
-  		}
-  		else {
-  			this.checked = false;
-  		}
-  		console.log(data)
-  	}
+	createdPlan(formData) {
+		console.log('created', formData)
+    let data = {
+      "regionId": this.regionID,
+      "categoryId": this.categoryId,
+      "name": formData.coursename,
+      "description": formData.description,
+      "makeupPolicy": {
+        "allowMakeupPass": formData.allowMakeup,
+        "maxPassPerUser":  formData.makeupUser,
+        "maxDayPerPass": formData.makeupPass
+      },
+      "allowPagewerkzBooks": formData.allowpagewerkz,
+      "paymentPolicy": {
+        "deposit": formData.deposit,
+        "courseFee": formData.courseFee,
+        "allowProrated": formData.allowProrated,
+        "proratedLessonFee": formData.proratedLessonFee,
+        "miscFee": formData.miscFee
+      },
+      "lesson": {
+        "min": formData.minDuration,
+        "max": formData.maxDuration,
+        "duration": formData.lesson_duration
+      },
+      "seats": formData.seats,
+      "age": {
+        "min": formData.minage,
+        "max": formData.maxage,
+      },
+      "quizwerkz": 'dummystring'
 
-  	createdPlan() {
-  		console.log('created')
-  		this.modalReference.close();
-  	}
+    }
+    this._service.createCoursePlan(this.regionID,data)
+    .subscribe((res:any) => {
+      console.log('success post',res)
+      }, err => {
+        console.log(err)
+      })
+		this.modalReference.close();
+	}
 
 }
