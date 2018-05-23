@@ -1,0 +1,19 @@
+.modal-body {
+	min-height: 450px;
+}
+
+.modal-body ul li {
+	list-style: none;
+}
+
+.fl-rt{
+	float: left;
+}
+
+.fields-mr {
+	margin: 15px auto;
+}
+
+.back-modal {
+	cursor: pointer;
+}
