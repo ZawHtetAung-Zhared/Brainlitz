@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+declare var $: any;
 
 @Component({
   selector: 'app-courseplan',
@@ -39,23 +40,25 @@ export class CourseplanComponent implements OnInit {
   checkedCatId: any;
 
 	open(content){
-		// this.modalService.open(content, { size: 'lg' });
 		this.showModal = true;
 		this.showsubModal = false;
 		this.checked = false;
-		this.modalReference = this.modalService.open(content, { size: 'lg' });
-	  this.modalReference.result.then((result) => {
+		this.modalReference = this.modalService.open(content, { size: 'lg', backdrop:'static', windowClass:'animation-wrap'});
+	  // setImmediate(() => {
+   //    this.modalReference.windowClass = 'animation-wrap'
+   //  })
+    this.modalReference.result.then((result) => {
 	  this.closeResult = `Closed with: ${result}`;
-	}, (reason) => {
-	  this.closeResult = `Closed with: ${reason}`;
-	});
+  	}, (reason) => {
+  	  this.closeResult = `Closed with: ${reason}`;
+  	});
     this._service.getCategory(this.regionID)
     .subscribe((res:any) => {
       console.log('success',res)
       this.courseCategories = res;
       }, err => {
         console.log(err)
-      })
+      });
 	}
 
 	selectedRadioId(id){
@@ -76,6 +79,12 @@ export class CourseplanComponent implements OnInit {
 	checkedData(id){
       this.checkedCatId = id;
 	}
+
+  getInteger(int){
+    var regx = /^[-+]?[\d.]+$/g;
+    return regx.test(int);
+  }
+
 
 	createdPlan(formData) {
 		console.log('created', formData)

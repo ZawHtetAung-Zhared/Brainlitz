@@ -28,3 +28,10 @@
 .makeup-group input[type=number] {
 	width: 10%;
 }
+.makeup-group select {
+	margin-bottom: 10px;
+	width: 15%;
+}
+
+
+

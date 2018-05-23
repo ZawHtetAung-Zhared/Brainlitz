@@ -36,7 +36,7 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     SidebarComponent,
     CourseComponent,
     CoursecreateComponent,
-    CategoryComponent
+    CategoryComponent,
     CourseplanComponent
   ],
   imports: [
