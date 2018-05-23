@@ -1,0 +1,14 @@
+.body
+{
+    position: fixed; 
+    overflow-y: hidden;
+    width: 100%;
+}
+.scrollable
+{
+      overflow-y: scroll;
+      height: 100vh;
+ }
+ .margin-left{
+    margin-left: 20px !important;
+}
