@@ -1,0 +1,26 @@
+<div>
+	<button type="button" class="btn btn-primary" (click)="open(content)">+ create Category</button>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form novalidate (ngSubmit)="createCategory(categoryForm, item)" #categoryForm="ngForm">
+  	<div class="modal-body">
+	  	<div class="form-group">
+	      <label for="name">Name</label>   
+	      <input type="text" class="form-control" placeholder="location name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+	    </div>
+  	</div>
+  	<div class="modal-footer">
+  	  <button type="submit" class="btn btn-light" (click)="c('Close click')">Close</button>
+  	  <button type="submit" class="btn btn-light" >Create</button>
+  	</div>
+  </form>
+  <pre>{{categoryForm.value | json}}</pre>
+</ng-template>
