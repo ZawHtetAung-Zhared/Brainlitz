@@ -21,16 +21,16 @@ export class appService{
 
     getLocations(id: string): Observable<any>{
     	let url = this.baseUrl + '/' + id + '/locations';
-		const httpOptions = {
-	        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
-	    };
-       	return this.httpClient.get(url, httpOptions)
-      	.map((res:Response) => {
-	        let result = res;
-	        console.log(result);        
-	        return result;
-	    }) 
-    }
+  		const httpOptions = {
+  	        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+  	    };
+         	return this.httpClient.get(url, httpOptions)
+        	.map((res:Response) => {
+  	        let result = res;
+  	        console.log(result);        
+  	        return result;
+  	    }) 
+      }
 
     createLocation(id: string, body: object): Observable<any>{
     	console.log(id)
@@ -129,6 +129,21 @@ export class appService{
           headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
       };
       return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+
+
+    createCategory(data: object, id: string): Observable<any>{
+      console.log(data);
+      let apiUrl = this.baseUrl + '/' + id + '/category';
+      const opt = {
+          headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+
+      return this.httpClient.post(apiUrl, data, opt)
       .map((res:Response) => {
         let result = res; 
         console.log(result)
