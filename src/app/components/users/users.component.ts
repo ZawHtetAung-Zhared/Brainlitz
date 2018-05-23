@@ -24,6 +24,8 @@ export class UsersComponent implements OnInit {
 	constructor(private _service: appService) { }
 
 	ngOnInit() {
+		this.getAllUsers()
+		
 	}
 
 	onFileChange(event) {
@@ -79,8 +81,19 @@ export class UsersComponent implements OnInit {
     })
 	}
 
+	getAllUsers(){
+		this._service.getAllUsers(this.regionID)
+		.subscribe((res:any) => {
+			this.userLists = res;
+			console.log(this.userLists)
+	    }, err => {
+	    	console.log(err)
+	    })
+	}
+
 	private closeModal(): void {
 		$('.modal-backdrop, #staffModal, #customerModal').removeClass('show');
 	}
 
 }
+

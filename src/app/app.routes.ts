@@ -11,12 +11,17 @@ import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.co
 import { TestingComponent } from './components/testing/testing.component';
 import { SampleComponent } from './components/sample/sample.component';
 import { CourseComponent } from './components/course/course.component';
+import { CategoryComponent } from './components/category/category.component';
 
 export const routes: Routes = [
     
     {
         path: '',
         component: LocationComponent
+    },
+    {
+       path: 'category',
+       component: CategoryComponent 
     },
     {
         path: 'login',

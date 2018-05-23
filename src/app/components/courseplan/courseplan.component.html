@@ -1,0 +1,95 @@
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Course Plan</button>
+
+<ng-template #content let-c="close" let-d="dismiss">
+	<div *ngIf="showModal == true">
+		<form #mainCatForm="ngForm" novalidate>
+			<div class="modal-header">
+			    <h4 class="modal-title">Choose Course Plan</h4>
+			    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			      <span aria-hidden="true">&times;</span>
+			    </button>
+			</div>
+		  	<div class="modal-body">
+		    	<ul>
+				    <li *ngFor="let cate of courseCategories">
+					    <div class="col-md-4 fl-rt">
+					    	<input type="radio" id="{{cate._id}}" [(ngModel)]='checked' (click)="checkedData(cate._id)" name="cate" value="{{cate.name}}">
+					    	<label for="{{cate._id}}" class="limit-text">{{cate.name}}</label>
+					    </div>
+					</li>
+				</ul>
+		  	</div>
+		  	<div class="modal-footer">
+		    	<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+		    	<button type="submit" class="btn btn-primary" [disabled]="!checked" (click)="selectedRadioId(checkedCatId)">Select</button>
+		  	</div>
+		</form>
+	</div>
+	<div *ngIf="showsubModal == true">
+		<form #subCatForm="ngForm" novalidate>
+			<div class="modal-header">
+				<button type="button" class="back-modal" (click)="back()">Back</button>
+			    <h4 class="modal-title">{{checkedName}}</h4>
+			    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			      <span aria-hidden="true">&times;</span>
+			    </button>
+			</div>
+			<div class="modal-body">
+				<div class="col-md-12 fields-mr">
+					<label for="course_name">Course Name</label>
+					<input type="text" [(ngModel)]='coursename' name="coursename" required>
+				</div>
+				<div class="col-md-12 fields-mr">
+					<label for="desc">Description</label>
+					<textarea rows="5" col="5" [(ngModel)]='description' name="description" required></textarea>
+				</div>
+				<div class="col-md-12 fields-mr">
+					<label for="makeup_policy">MakeupPolicy</label>
+					<div class="col-md-12 makeup-group">
+						AllowMakeupPass <input type="checkbox" [(ngModel)]="allowMakeup" id="allowmakepass" name="allowmakeup" required>
+						MaxDayPerPass <input type="number" [(ngModel)]="makeupPass" min="0" id="makeupass" name="makeuppass" required>
+						MaxDayPerUser <input type="number" [(ngModel)]="makeupUser" min="0" id="makeupuser" name="makeupuser" required>
+					</div>
+				</div>
+				<div class="col-md-12 fields-mr">
+					<label for="payment_policy">PaymentPolicy</label>
+					<div class="col-md-12 makeup-group" style="margin-bottom: 10px;">
+						Deposit
+						<select style="width:15%" required>
+							<option></option>
+							<option *ngFor="let deposit of depostiId">{{deposit.id}}</option>
+						</select>
+						CourseFee <input type="number" [(ngModel)]="courseFee" min="0" name="courseFee" required>
+						AllowProrated <input type="checkbox" [(ngModel)]="allowProrated" min="0" name="allowProrated" required>
+					</div>
+					<div class="col-md-12 makeup-group">
+						ProratedLessonFee <input type="number" [(ngModel)]="proratedLessonFee" min="0" name="proratedLessonFee" required>
+						MiscFee <input type="number" [(ngModel)]="miscFee" min="0" name="miscFee">
+					</div>
+				</div>
+				<div class="col-md-12 fields-mr makeup-group">
+					<label for="seat">Seats</label>
+					<input type="number" [(ngModel)]="seatCount" min="0" id="seat" name="seats" required>
+				</div>
+				<div class="col-md-12 fields-mr makeup-group">
+					<label for="age">Age</label>
+					From <input type="number" [(ngModel)]="minAge" min="0" id="age" name="minage" required> to <input type="number" [(ngModel)]="maxAge" min="1" id="age" name="maxage" required>
+				</div>
+				<div class="col-md-12 fields-mr">
+					<label for="allowpw">Allow Pagewerkz Books</label>
+					<input type="checkbox" [(ngModel)]='allowchecked' id="allowpw" name="allowpagewerkz" required>
+				</div>
+				<div class="col-md-12 fields-mr makeup-group">
+					<label for="duration">Lesson</label>
+					Min <input type="number" [(ngModel)]="minDuration" min="0" name="minDuration" required> 
+					Max <input type="number" [(ngModel)]="maxDuration" min="1" name="maxDuration" required>
+					Lesson Duration <input type="number" [(ngModel)]='lessonDuration' min="1" id="duration" name="lesson_duration" required>
+				</div>
+			</div>
+			<div class="modal-footer">
+		    	<button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+		    	<button type="submit" class="btn btn-primary" [disabled]="!subCatForm.valid" (click)="createdPlan(subCatForm.value)">Create</button>
+		  	</div>
+		</form>
+	</div>
+</ng-template>
