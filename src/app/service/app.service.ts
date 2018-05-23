@@ -134,7 +134,7 @@ export class appService{
         console.log(result)
         return result;
       })
-
+    } 
 
     createCategory(data: object, id: string): Observable<any>{
       console.log(data);
@@ -149,7 +149,5 @@ export class appService{
         console.log(result)
         return result;
       })
-    }    
-
-
+    }
 }
