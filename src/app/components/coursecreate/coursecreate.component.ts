@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+
+import { Course } from './course'
 
 @Component({
   selector: 'app-coursecreate',
@@ -7,8 +9,18 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./coursecreate.component.css']
 })
 export class CoursecreateComponent implements OnInit {
-  closeResult: string;
-  coursePlan = ["CoursePlan1","CoursePlan2","CoursePlan3","CoursePlan4"]
+  public closeResult: string;
+  public modalReference: any;
+  public coursePlan =[
+        { "id": 1111 , "name":"CoursePlan1"},
+        { "id": 2222 , "name":"CoursePlan2"},
+        { "id": 3333 , "name":"CoursePlan3"},
+        { "id": 4444 , "name":"CoursePlan4"}
+    ]
+  public choosePlan: any;
+  public model: Course = new Course();
+  public showCourse:boolean = false;
+
 
   constructor(private modalService: NgbModal) { }
 
@@ -16,13 +28,42 @@ export class CoursecreateComponent implements OnInit {
   }
 
   open(content){
-  	this.modalService.open(content);
+    this.modalReference = this.modalService.open(content);
+	this.modalReference.result.then((result) => {
+	  this.closeResult = `Closed with: ${result}`;
+	}, (reason) => {
+	  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+	});
+    if(this.closeResult != ''){
+    	this.choosePlan = '';
+    	this.showCourse = false;
+    }else{
+    	this.showCourse = true;
+    }
   }
-  showCourseModal(){
-  	console.log("Show Course")
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
-  getValue(plan){
-  	console.log(plan);
-  	// this.modalService.open(content);
+  showCourseModal(plan,course){
+  	console.log("Show Course",plan)
+  	this.showCourse = true;
+  	this.model.coursePlanId = this.choosePlan;
+  	console.log(this.model.coursePlanId)
+  	// this.modalService.open(course);
+  	// console.log(this.choosePlan);
+  }
+  back(){
+  	console.log("Back Works")
+  	this.showCourse = false;
+  }
+  createCourse(){
+  	console.log("createCourse work");
+  	this.modalReference.close();
   }
 }

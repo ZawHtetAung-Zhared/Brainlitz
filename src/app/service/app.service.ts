@@ -32,6 +32,20 @@ export class appService{
   	    }) 
       }
 
+    getAllUsers(id: string): Observable<any>{
+      console.log(id)
+      let url = this.baseUrl+ '/' + id + '/user';
+      const httpOptions = {
+        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+    }) 
+    }
+
     createLocation(id: string, body: object): Observable<any>{
     	console.log(id)
     	console.log(body)
