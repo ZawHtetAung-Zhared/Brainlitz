@@ -3,6 +3,12 @@ import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { Staff } from './staff';
 import { Customer } from './customer';
 import { appService } from '../../service/app.service';
+
+
+
+
+
+
 declare var $:any;
 
 @Component({
@@ -24,6 +30,8 @@ export class UsersComponent implements OnInit {
 	constructor(private _service: appService) { }
 
 	ngOnInit() {
+		this.getAllUsers()
+		
 	}
 
 	onFileChange(event) {
@@ -79,8 +87,21 @@ export class UsersComponent implements OnInit {
     })
 	}
 
+	getAllUsers(){
+		this._service.getAllUsers(this.regionID)
+		.subscribe((res:any) => {
+			this.userLists = res;
+			console.log(this.userLists)
+	    }, err => {
+	    	console.log(err)
+	    })
+	}
+
+	
+
 	private closeModal(): void {
 		$('.modal-backdrop, #staffModal, #customerModal').removeClass('show');
 	}
 
 }
+

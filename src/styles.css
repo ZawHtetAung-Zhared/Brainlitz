@@ -19,3 +19,21 @@ main{
 	border: 1px solid #4c3bc1 !important;
 	padding: 9px !important;
 }
+
+@keyframes slideInFromTop {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 5px;
+  }
+}
+.animation-wrap {
+  animation: 0.3s linear 0s slideInFromTop;
+}
+
+.modal-title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

@@ -1,0 +1,52 @@
+.col-1{
+	width: 25%;
+}
+.col-2{
+	width: 65%;
+}
+.col-3{
+ 	width: 10%;
+}
+.item-list{
+	list-style: none;
+	column-count: 2;
+}
+.calendar-wrap{
+	display: flex;
+}
+.flex-item{
+	position: relative;
+	width: 50%;
+	flex: 1;
+}
+.flex-item:first-child{
+	margin-right: 5px;
+}
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute; 
+  top: 0;
+  right: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1; 
+  width: 100%;
+  transition: .5s ease;
+  opacity:1;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+}
+.overlay img{
+	width: 25px;
+}
+.fee-wrap{
+	display: flex;
+}

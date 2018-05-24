@@ -32,6 +32,20 @@ export class appService{
   	    }) 
       }
 
+    getAllUsers(id: string): Observable<any>{
+      console.log(id)
+      let url = this.baseUrl+ '/' + id + '/user';
+      const httpOptions = {
+        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+    }) 
+    }
+
     createLocation(id: string, body: object): Observable<any>{
     	console.log(id)
     	console.log(body)
@@ -109,6 +123,33 @@ export class appService{
       	})
     }
 
+    getCategory(id: string): Observable<any>{
+      console.log(id)
+      let url = this.baseUrl + '/' + id + '/category';
+      const httpOptions = {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
+    
+    createCoursePlan(id: string, data: object): Observable<any>{
+      let url = this.baseUrl + '/' + id + '/courseplan';
+      const httpOptions = {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    } 
+
     createCategory(data: object, id: string): Observable<any>{
       console.log(data);
       let apiUrl = this.baseUrl + '/' + id + '/category';
@@ -124,4 +165,17 @@ export class appService{
       })
     }
 
+    getAllCoursePlan(id: string): Observable<any>{
+      console.log(id)
+      let url = this.baseUrl+ '/' + id + '/courseplan';
+      const httpOptions = {
+        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+    }) 
+    }
 }

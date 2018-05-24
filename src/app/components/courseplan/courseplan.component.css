@@ -8,12 +8,33 @@
 
 .fl-rt{
 	float: left;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .fields-mr {
 	margin: 15px auto;
 }
+.fields-mr label{
+	width: 30%;
+	vertical-align: top;
+} 
 
 .back-modal {
 	cursor: pointer;
 }
+
+.makeup-group input {
+	margin-right: 15px; 
+}
+.makeup-group input[type=number] {
+	width: 10%;
+}
+.makeup-group select {
+	margin-bottom: 10px;
+	width: 15%;
+}
+
+
+
