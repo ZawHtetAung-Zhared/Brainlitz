@@ -158,10 +158,13 @@
 
 <div class="scrollable container">
 	<ul class="list-group-flush">  
-		<li class="list-group-item">
-			Ma Ma
-			example@gmail.com
-			<button class="btn-clipboard" title="" data-original-title="Copy to clipboard" aria-describedby="tooltip240833">Copy</button>
+		<li id="{{userList._id}}" class="list-group-item" *ngFor="let preferredName of userLists; let i = index" [attr.data-index]="i">
+			{{i + 1}}-{{ preferredName.name }} 
+			
+			<input type="text" value="Hello World" id="myInput">
+			<button type="button" class="btn-sm" (click)="copy">copy</button>
+			<input type="text" value="Hello World" id="myInput">
+			<button onclick="myFunction()">Copy text</button>
 			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
 			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
 		</li>
@@ -174,4 +177,6 @@
 	</ul>
 	
 </div> 
-1
+<script src="https://wzrd.in/standalone/copy-to-clipboard@latest" async></script>
+
+
