@@ -21,3 +21,9 @@ main{
 .animation-wrap {
   animation: 0.3s linear 0s slideInFromTop;
 }
+
+.modal-title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

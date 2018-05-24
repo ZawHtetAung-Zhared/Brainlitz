@@ -8,6 +8,9 @@
 
 .fl-rt{
 	float: left;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .fields-mr {
