@@ -12,6 +12,7 @@ import { TestingComponent } from './components/testing/testing.component';
 import { SampleComponent } from './components/sample/sample.component';
 import { CourseComponent } from './components/course/course.component';
 import { CategoryComponent } from './components/category/category.component';
+import { CourseplanComponent } from './components/courseplan/courseplan.component';
 
 export const routes: Routes = [
     
@@ -46,6 +47,10 @@ export const routes: Routes = [
     {
        path: 'course',
        component: CourseComponent 
+    },
+    {
+       path: 'courseplan',
+       component: CourseplanComponent
     },
     {
       path:'**',

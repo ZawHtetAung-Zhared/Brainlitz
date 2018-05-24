@@ -39,17 +39,17 @@ export class CourseplanComponent implements OnInit {
   allowMakeup: boolean = false;
   checkedCatId: any;
   public courseplanLists: any;
+  public showLoading: boolean = false;
 
 	open(content){
 		this.showModal = true;
 		this.showsubModal = false;
+    this.showLoading = true;
 		this.checked = false;
 		this.modalReference = this.modalService.open(content, { size: 'lg', backdrop:'static', windowClass:'animation-wrap'});
-	  // setImmediate(() => {
-   //    this.modalReference.windowClass = 'animation-wrap'
-   //  })
     this.modalReference.result.then((result) => {
-	  this.closeResult = `Closed with: ${result}`;
+    this.showLoading = false;  
+	  this.closeResult = `Closed with: ${result}`
   	}, (reason) => {
   	  this.closeResult = `Closed with: ${reason}`;
   	});
@@ -57,6 +57,7 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       console.log('success',res)
       this.courseCategories = res;
+      this.showLoading = false;
       }, err => {
         console.log(err)
       });
