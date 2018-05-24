@@ -1,15 +1,14 @@
-.col-1{
-	width: 25%;
-}
-.col-2{
-	width: 65%;
-}
-.col-3{
- 	width: 10%;
+.list-wrap{
+  width: 60%;
+  margin: 0 auto;
+  /*background-color: #d3d3d3;*/
 }
 .item-list{
 	list-style: none;
 	column-count: 2;
+}
+.btn-wrap{
+  float: right;
 }
 .calendar-wrap{
 	display: flex;
@@ -47,6 +46,14 @@
 .overlay img{
 	width: 25px;
 }
-.fee-wrap{
-	display: flex;
+@keyframes slideInFromLeft {
+  100% {
+    transform: translateX(0);
+  }
+  0% {
+    transform: translateX(100%);
+  }
+}
+.form-container{
+  animation: 1.3s ease-in 0s 1 slideInFromLeft;
 }

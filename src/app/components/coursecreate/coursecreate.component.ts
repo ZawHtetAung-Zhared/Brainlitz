@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
+import { Router } from '@angular/router';
 
 // import { Course } from './course'
 
@@ -12,58 +13,32 @@ import { appService } from '../../service/app.service';
 export class CoursecreateComponent implements OnInit {
   public closeResult: string;
   public modalReference: any;
-  public coursePlan =[
-        { "id": 1111 , "name":"CoursePlan1"},
-        { "id": 2222 , "name":"CoursePlan2"},
-        { "id": 3333 , "name":"CoursePlan3"},
-        { "id": 4444 , "name":"CoursePlan4"}
-    ]
   public choosePlan: any;
   public model: any = {};
   public showCourse:boolean = false;
   public courseObj:{};
-  public coursePlanTest;
+  public coursePlan:{};
   public regionID = '5af915541de9052c869687a3';
   public users;
   public locationList;
+  public showPlanList:boolean = false;
 
-  constructor(private modalService: NgbModal, private service: appService) { }
+  constructor(private modalService: NgbModal, private service: appService, private router: Router) { }
 
   ngOnInit() {
-
+  	this.getCoursePlanList();
   }
 
-  open(content){
-    this.modalReference = this.modalService.open(content);
-	this.modalReference.result.then((result) => {
-	  this.closeResult = `Closed with: ${result}`;
-	}, (reason) => {
-	  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-	});
-    if(this.closeResult != ''){
-    	this.choosePlan = '';
-    	this.showCourse = false;
-    }else{
-    	this.showCourse = true;
-    }
-
-    this.service.getAllCoursePlan(this.regionID)
+  getCoursePlanList(){
+  	this.service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
-    	this.coursePlanTest = res;
-    	console.log(this.coursePlanTest);
+    	this.coursePlan = res;
+    	console.log(this.coursePlan);
     });
   }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-  showCourseModal(plan,course){
-  	console.log("Show Course",plan)
+
+  selectCoursePlan(plan){
+  	console.log("selectCoursePlan",plan);
   	this.showCourse = true;
   	this.model.coursePlanId = this.choosePlan;
   	console.log(this.model.coursePlanId)
@@ -80,20 +55,14 @@ export class CoursecreateComponent implements OnInit {
     	console.log(this.locationList);
     	this.model.locationId = '';
     })
-
-  	// this.modalService.open(course);
-  	// console.log(this.choosePlan);
   }
+  
   back(){
   	console.log("Back Works")
   	this.showCourse = false;
   }
   createCourse(){
-  	this.modalReference.close();
-  	// let testDate = this.changeDateFormat(this.model.startDate);
   	console.log("createCourse work",this.model);
-  	var test = JSON.stringify(this.model.startDate);
-  	console.log(test)
   	this.courseObj = {
 	  "coursePlanId": this.model.coursePlanId,
 	  "name": this.model.courseName,
@@ -111,11 +80,15 @@ export class CoursecreateComponent implements OnInit {
   	.subscribe((res:any) => {
     	console.log(res); 
     });
+    this.router.navigate(['course/']); 
   }
   changeDateFormat(date){
   	let ngbDate = date;
   	let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
   	console.log(myDate);
   	return myDate;
+  }
+  cancel(){
+  	this.router.navigate(['course/']); 
   }
 }
