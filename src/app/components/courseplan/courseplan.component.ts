@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+
 declare var $: any;
 
 @Component({
@@ -39,24 +40,26 @@ export class CourseplanComponent implements OnInit {
   allowMakeup: boolean = false;
   checkedCatId: any;
   public courseplanLists: any;
+  public showLoading: boolean = false;
 
 	open(content){
 		this.showModal = true;
 		this.showsubModal = false;
+    this.showLoading = true;
 		this.checked = false;
 		this.modalReference = this.modalService.open(content, { size: 'lg', backdrop:'static', windowClass:'animation-wrap'});
-	  // setImmediate(() => {
-   //    this.modalReference.windowClass = 'animation-wrap'
-   //  })
     this.modalReference.result.then((result) => {
-	  this.closeResult = `Closed with: ${result}`;
+    this.showLoading = false;  
+	  this.closeResult = `Closed with: ${result}`
   	}, (reason) => {
+      this.showLoading = false;
   	  this.closeResult = `Closed with: ${reason}`;
   	});
     this._service.getCategory(this.regionID)
     .subscribe((res:any) => {
       console.log('success',res)
       this.courseCategories = res;
+      this.showLoading = false;
       }, err => {
         console.log(err)
       });
@@ -128,6 +131,18 @@ export class CourseplanComponent implements OnInit {
       })
 		this.modalReference.close();
   }
+
+  deleteCoursePlan(id){
+		console.log(id)
+		this._service.deleteCoursePlan(id)
+		.subscribe((res:any) => {
+			console.log(res);
+			this.getAllCoursePlan();
+		},err => {
+			console.log(err);
+		})
+	}
+
   getAllCoursePlan(){
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {

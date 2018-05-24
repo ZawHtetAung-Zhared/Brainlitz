@@ -163,6 +163,20 @@ export class appService{
       })
     } 
 
+    deleteCoursePlan(id){
+      console.log(id)
+      let apiUrl = this.baseUrl  + '/courseplan/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
     createCategory(data: object, id: string): Observable<any>{
       console.log(data);
       let apiUrl = this.baseUrl + '/' + id + '/category';

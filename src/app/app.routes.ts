@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Component } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -13,6 +13,7 @@ import { SampleComponent } from './components/sample/sample.component';
 import { CourseComponent } from './components/course/course.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
+import { CourseplanComponent } from './components/courseplan/courseplan.component';
 
 export const routes: Routes = [
     
@@ -53,8 +54,12 @@ export const routes: Routes = [
        component: CourseComponent 
     },
     {
-        path: 'courseCreate',
-        component: CoursecreateComponent
+      path: 'courseCreate',
+      component: CoursecreateComponent
+    },
+    {
+       path: 'courseplan',
+       component: CourseplanComponent
     },
     {
       path:'**',
