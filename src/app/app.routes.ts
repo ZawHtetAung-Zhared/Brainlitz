@@ -20,6 +20,10 @@ export const routes: Routes = [
         component: LocationComponent
     },
     {
+       path: 'dashboard',
+       component: DashboardComponent 
+    },
+    {
        path: 'category',
        component: CategoryComponent 
     },
