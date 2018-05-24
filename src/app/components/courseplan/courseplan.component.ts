@@ -14,7 +14,7 @@ export class CourseplanComponent implements OnInit {
   constructor(private modalService: NgbModal, private _service: appService) { }
 
   ngOnInit() {
-
+    this.getAllCoursePlan()
   }
   depostiId: any[] = [
     { 
@@ -37,6 +37,7 @@ export class CourseplanComponent implements OnInit {
   allowchecked: boolean = false;
   allowMakeup: boolean = false;
   checkedCatId: any;
+  public courseplanLists: any;
 
 	open(content){
 		// this.modalService.open(content, { size: 'lg' });
@@ -117,6 +118,15 @@ export class CourseplanComponent implements OnInit {
         console.log(err)
       })
 		this.modalReference.close();
-	}
+  }
+  getAllCoursePlan(){
+    this._service.getAllCoursePlan(this.regionID)
+    .subscribe((res:any) => {
+      this.courseplanLists = res;
+      console.log(this.courseplanLists)
+      }, err => {
+        console.log(err)
+      })
+  }
 
 }
