@@ -47,7 +47,7 @@ export class CoursecreateComponent implements OnInit {
     	this.showCourse = true;
     }
 
-    this.service.getTest(this.regionID)
+    this.service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
     	this.coursePlanTest = res;
     	console.log(this.coursePlanTest);
