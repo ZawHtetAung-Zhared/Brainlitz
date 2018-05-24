@@ -1,12 +1,12 @@
 <section id="container" class="d-flex flex-column h-100 w-100">
-    <header id="header" >
+    <header id="header" [hidden]="isLogin">
       <button class="btn dropdown-toggle float-right amd-btn" type="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           Admin
       </button>
     </header>
     <div id="content" class="d-flex flex-row h-100 w-100">
-      <aside class="overflow left-sidebar col-md-2">
+      <aside [hidden]="isLogin" class="overflow left-sidebar col-md-2">
         <app-sidebar></app-sidebar>
       </aside>
       <section id="main-content-wrapper" class="w-100 overflow">
