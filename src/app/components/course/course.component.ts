@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course',
@@ -8,14 +8,13 @@ import { appService } from '../../service/app.service';
   styleUrls: ['./course.component.css']
 })
 export class CourseComponent implements OnInit {
-
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-  
+  	
   }
 
- 
-
-
+  changeRoute(){
+  	this.router.navigate(['courseCreate/']); 
+  }
 }
