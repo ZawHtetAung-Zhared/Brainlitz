@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+
 declare var $: any;
 
 @Component({
@@ -130,6 +131,18 @@ export class CourseplanComponent implements OnInit {
       })
 		this.modalReference.close();
   }
+
+  deleteCoursePlan(id){
+		console.log(id)
+		this._service.deleteCoursePlan(id)
+		.subscribe((res:any) => {
+			console.log(res);
+			this.getAllCoursePlan();
+		},err => {
+			console.log(err);
+		})
+	}
+
   getAllCoursePlan(){
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
