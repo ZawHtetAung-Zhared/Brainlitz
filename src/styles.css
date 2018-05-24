@@ -9,3 +9,15 @@ body{
 main{
     height: 100%;
 }
+
+@keyframes slideInFromTop {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 5px;
+  }
+}
+.animation-wrap {
+  animation: 0.3s linear 0s slideInFromTop;
+}

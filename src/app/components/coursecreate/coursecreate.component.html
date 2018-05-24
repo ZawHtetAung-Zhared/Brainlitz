@@ -1,20 +1,135 @@
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Choose Course Plan</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <ul>
-	     <li *ngFor="let plan of coursePlan"><input type="radio" name="cplan" (click)="getValue(plan)" value="{{plan}}" #cplan> {{plan}} 
-	     </li>
-	</ul>
-  </div>
-  <!-- <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="c('Close click')">Close</button>
-    <button type="button" class="btn btn-primary" (click)="showCourseModal()">Submit</button>
-  </div> -->
+<ng-template id="myModal" #content let-c="close" let-d="dismiss">
+	<div *ngIf="!showCourse">
+	  <div class="modal-header" style="text-align: center;">
+	    <h4 style="text-align: center;">Choose Course Plan</h4>
+	    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </div>
+	  <div class="modal-body">
+	    <ul class="item-list">
+		     <li *ngFor="let plan of coursePlan">
+		     	<label>
+		     		<input type="radio" name="cplan" value="{{plan.id}}" #cplan [(ngModel)]="choosePlan">
+		     		{{plan.name}}
+		     	</label> 
+		     </li>
+		</ul>
+	  </div>
+	  <div class="modal-footer">
+	    <button type="button" class="btn btn-danger" (click)="c('Close click')">Close</button>
+	    <button type="button" class="btn btn-primary" (click)="showCourseModal(choosePlan,course)">Submit</button>
+	  </div>
+	</div>
+	<div *ngIf="showCourse">
+		<div class="modal-header">
+			<button (click)="back()">Back</button>
+			<h4 class="modal-title">Choose Course Plan</h4>
+			<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+		      <span aria-hidden="true">&times;</span>
+		    </button>
+		</div>
+		<div class="modal-body">
+			<form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+				<div class="form-group">
+					<label for="alterEgo">Course Code</label>
+					<input type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" name="courseCode">
+				</div>
+				<!-- <div class="form-group">
+					<label for="alterEgo">Region ID</label>
+					<input type="text" class="form-control" id="regionId" [(ngModel)]="model.regionId" name="regionId">
+				</div> -->
+				<div class="form-group">
+					<label for="alterEgo">Room</label>
+					<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
+				</div>
+				<div class="form-group">
+					<label for="alterEgo">Reserved Number of Seat</label>
+					<input type="number" class="form-control" id="regionId" [(ngModel)]="model.regionId" name="regionId">
+				</div>
+				<div class="form-group">
+					<label for="alterEgo">Teacher ID</label>
+					<input type="text" class="form-control" id="teacherId" [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
+					<!-- <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
+					  Teacher ID is required
+					</div> -->
+				</div>
+				<fieldset>
+					<legend>Payment Policy</legend>
+					<div class="form-group">
+						<label for="alterEgo">Deposit</label>
+						<input type="text" class="form-control" id="deposit" [(ngModel)]="model.deposit" name="deposit">
+					</div>
+					<div class="form-group">
+						<label for="alterEgo">CourseFee</label>
+						<input type="number" class="form-control" id="courseFee" [(ngModel)]="model.courseFee" name="courseFee">
+					</div>
+					<div class="fee-wrap">
+						<div style="margin-right: 15px;">
+					     	<input type="checkbox" name="ckbox" #ckbox [(ngModel)]="model.allowProrated">
+					     	<label>AllowProrated</label> 
+				     	</div>
+				     	<div>
+				     		<label for="alterEgo">ProratedLessonFee</label>
+							<input type="number" id="proratedLessonFee" [(ngModel)]="model.proratedLessonFee" name="proratedLessonFee">
+				     	</div>
+				     	<div>
+				     		<label for="alterEgo">MiscFee</label>
+							<input type="number" id="miscFee" [(ngModel)]="model.miscFee" name="miscFee">
+				     	</div>
+					</div>
+				</fieldset>
+				<div class="form-group">
+					<label for="alterEgo">coursePlanId</label>
+					<input type="text" class="form-control" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel">
+					<!-- <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
+					  Teacher ID is required
+					</div> -->
+				</div>
+				<div class="form-group">
+					<label for="alterEgo">Description</label>
+					<input type="text" class="form-control" id="name" [(ngModel)]="model.description" name="description" #description="ngModel">
+					<!-- <div [hidden]="description.valid || description.pristine"
+					     class="alert alert-danger">
+					  Description is required
+					</div> -->
+				</div>
+				<fieldset>
+					<legend>Lesson</legend>
+					<div class="form-group">
+						<label for="alterEgo">Subject</label>
+						<input type="text" class="form-control" id="subject" [(ngModel)]="model.subject" name="subject" #subject="ngModel">
+					</div>
+					<div class="form-group calendar-wrap">
+						<div class="flex-item" >
+					      <input type="text" name="txt" class="image" placeholder="Start Date" name="dp" [(ngModel)]="model.startDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+	  					  <div class="overlay" (click)="d.toggle()"><img src="./assets/img/calendar.png"></div>
+					    </div>
+					    <div class="flex-item">
+					      <input type="text" name="txt" class="image" placeholder="End Date" name="dp" [(ngModel)]="model.endDate" ngbDatepicker #n="ngbDatepicker" (click)="n.toggle()">
+	  					  <div class="overlay" (click)="n.toggle()"><img src="./assets/img/calendar.png"></div>
+					    </div>
+					</div>
+					<div class="form-group">
+						<label for="alterEgo">Place</label>
+						<input type="text" class="form-control" id="place" [(ngModel)]="model.place" name="place" #place="ngModel">
+					</div>
+					<div class="form-group">
+						<label for="alterEgo">Teacher ID</label>
+						<input type="text" class="form-control" id="teacherId" [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
+						<!-- <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
+						  Teacher ID is required
+						</div> -->
+					</div>
+				</fieldset>
+				<!-- <pre>Model: {{ model.startDate | json }}</pre> -->
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" (click)="c('Close click')">Close</button>
+			<button type="button" class="btn btn-primary" (click)="createCourse()">Submit</button>
+		</div>
+	</div>
 </ng-template>
 
 <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Course Create</button>
