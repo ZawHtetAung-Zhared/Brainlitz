@@ -1,3 +1,19 @@
 #main-content-wrapper{
-	padding: 30px 15px;
+	padding: 30px 45px;
+}
+#header{
+	padding: 10px;
+    -webkit-box-shadow: 0 0 7px 1px rgba(76, 76, 76, 0.5);
+    -moz-box-shadow: 0 0 7px 1px rgba(76, 76, 76, 0.5);
+    box-shadow: 0 0 7px 1px rgba(76, 76, 76, 0.5);
+    z-index: 1;
+}
+.amd-btn{
+	background: transparent;
+	border: none;
+	color: #713bc1;
+}
+.left-sidebar{
+	background: linear-gradient(#903bc1, #421684);
+	padding: 0;
 }

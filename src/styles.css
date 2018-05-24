@@ -9,3 +9,13 @@ body{
 main{
     height: 100%;
 }
+.overflow{
+	overflow-y: auto; 
+	min-height: 0px;
+}
+.btn-primary{
+	color: #703bc1 !important;
+	background-color: transparent !important;
+	border: 1px solid #4c3bc1 !important;
+	padding: 9px !important;
+}

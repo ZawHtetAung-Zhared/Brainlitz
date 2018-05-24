@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
 import { BsModalModule } from 'ng2-bs3-modal';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { OAuthModule } from 'angular-oauth2-oidc';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -36,7 +38,7 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     SidebarComponent,
     CourseComponent,
     CoursecreateComponent,
-    CategoryComponent
+    CategoryComponent,
     CourseplanComponent
   ],
   imports: [
@@ -46,7 +48,8 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     FormsModule,
     AppRoutingModule,
     BsModalModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    OAuthModule.forRoot()
   ],
   providers: [
     appService

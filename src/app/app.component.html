@@ -1,4 +1,25 @@
-<div class="container--fluid">
+<section id="container" class="d-flex flex-column h-100 w-100">
+    <header id="header" >
+      <button class="btn dropdown-toggle float-right amd-btn" type="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Admin
+      </button>
+    </header>
+    <div id="content" class="d-flex flex-row h-100 w-100">
+      <aside class="overflow left-sidebar col-md-2">
+        <app-sidebar></app-sidebar>
+      </aside>
+      <section id="main-content-wrapper" class="w-100 overflow">
+        <main>
+          <router-outlet></router-outlet> 
+        </main>
+      </section>
+    </div>
+    <!-- <footer id="footer" >This is a footer</footer> -->
+</section>
+
+
+<!-- <div class="container--fluid">
     <div class="d-flex align-items-stretch navbar sticky-top navbar-light" style="background: rgb(70, 65, 65)">
       <div class="col-sm-12">
         <button class="btn btn-secondary dropdown-toggle float-right" type="button" data-toggle="dropdown"
@@ -24,7 +45,7 @@
         </div>
       </div>
     </div>
-</div>
+</div> -->
 
 
 <!-- <main>
