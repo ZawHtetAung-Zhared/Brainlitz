@@ -137,20 +137,6 @@ export class appService{
       }) 
     }
 
-    getTest(id: string): Observable<any>{
-      console.log(id)
-      let url = this.baseUrl + '/' + id + '/courseplan';
-      const httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4' })
-      };
-        return this.httpClient.get(url, httpOptions)
-        .map((res:Response) => {
-          let result = res;
-          console.log(result);        
-          return result;
-      }) 
-    }
-
     createCourse(id: string, data: object): Observable<any>{
       let url = this.baseUrl + '/' + id + '/course';
       const httpOptions = {
