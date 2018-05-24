@@ -8,6 +8,9 @@
 
 .fl-rt{
 	float: left;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .fields-mr {
@@ -28,3 +31,10 @@
 .makeup-group input[type=number] {
 	width: 10%;
 }
+.makeup-group select {
+	margin-bottom: 10px;
+	width: 15%;
+}
+
+
+

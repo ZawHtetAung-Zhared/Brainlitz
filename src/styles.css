@@ -9,3 +9,34 @@ body{
 main{
     height: 100%;
 }
+.overflow{
+	overflow-y: auto; 
+	min-height: 0px;
+}
+.btn-primary{
+	color: #703bc1 !important;
+	background-color: transparent !important;
+	border: 1px solid #4c3bc1 !important;
+	padding: 9px !important;
+}
+.mb-30{
+  margin-bottom: 30px;
+}
+
+@keyframes slideInFromTop {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 5px;
+  }
+}
+.animation-wrap {
+  animation: 0.3s linear 0s slideInFromTop;
+}
+
+.modal-title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

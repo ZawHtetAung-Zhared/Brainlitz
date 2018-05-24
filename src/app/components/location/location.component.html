@@ -1,6 +1,7 @@
-<div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#locationModal">+ create Location</button>
-
+<div class="d-flex flex-column w-100 h-100">
+    <div class="mb-30">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#locationModal">+ create Location</button>
+    </div>
     <!-- Location Modal -->
     <div class="modal fade" id="locationModal">
       <div class="modal-dialog">
@@ -41,14 +42,16 @@
         </div>
       </div>
     </div>
+
+    <div class="overflow">
+      <ul class="list-group-flush">  
+        <li id="{{location._id}}" class="list-group-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
+          {{i + 1}}-{{ location.name }} 
+          <button type="submit" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
+          <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
+        </li>
+      </ul>
+    </div>
 </div>
-<div class="scrollable container">
-  <ul class="list-group-flush">  
-    <li id="{{location._id}}" class="list-group-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
-      {{i + 1}}-{{ location.name }} 
-      <button type="submit" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
-    </li>
-  </ul>
-</div>   
+   
  

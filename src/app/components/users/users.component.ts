@@ -3,6 +3,12 @@ import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { Staff } from './staff';
 import { Customer } from './customer';
 import { appService } from '../../service/app.service';
+
+
+
+
+
+
 declare var $:any;
 
 @Component({
@@ -90,6 +96,8 @@ export class UsersComponent implements OnInit {
 	    	console.log(err)
 	    })
 	}
+
+	
 
 	private closeModal(): void {
 		$('.modal-backdrop, #staffModal, #customerModal').removeClass('show');
