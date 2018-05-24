@@ -8,9 +8,9 @@
 	  </div>
 	  <div class="modal-body">
 	    <ul class="item-list">
-		     <li *ngFor="let plan of coursePlan">
+		     <li *ngFor="let plan of coursePlanTest">
 		     	<label>
-		     		<input type="radio" name="cplan" value="{{plan.id}}" #cplan [(ngModel)]="choosePlan">
+		     		<input type="radio" name="cplan" value="{{plan._id}}" #cplan [(ngModel)]="choosePlan">
 		     		{{plan.name}}
 		     	</label> 
 		     </li>
@@ -32,54 +32,6 @@
 		<div class="modal-body">
 			<form (ngSubmit)="onSubmit()" #heroForm="ngForm">
 				<div class="form-group">
-					<label for="alterEgo">Course Code</label>
-					<input type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" name="courseCode">
-				</div>
-				<!-- <div class="form-group">
-					<label for="alterEgo">Region ID</label>
-					<input type="text" class="form-control" id="regionId" [(ngModel)]="model.regionId" name="regionId">
-				</div> -->
-				<div class="form-group">
-					<label for="alterEgo">Room</label>
-					<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
-				</div>
-				<div class="form-group">
-					<label for="alterEgo">Reserved Number of Seat</label>
-					<input type="number" class="form-control" id="regionId" [(ngModel)]="model.regionId" name="regionId">
-				</div>
-				<div class="form-group">
-					<label for="alterEgo">Teacher ID</label>
-					<input type="text" class="form-control" id="teacherId" [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
-					<!-- <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
-					  Teacher ID is required
-					</div> -->
-				</div>
-				<fieldset>
-					<legend>Payment Policy</legend>
-					<div class="form-group">
-						<label for="alterEgo">Deposit</label>
-						<input type="text" class="form-control" id="deposit" [(ngModel)]="model.deposit" name="deposit">
-					</div>
-					<div class="form-group">
-						<label for="alterEgo">CourseFee</label>
-						<input type="number" class="form-control" id="courseFee" [(ngModel)]="model.courseFee" name="courseFee">
-					</div>
-					<div class="fee-wrap">
-						<div style="margin-right: 15px;">
-					     	<input type="checkbox" name="ckbox" #ckbox [(ngModel)]="model.allowProrated">
-					     	<label>AllowProrated</label> 
-				     	</div>
-				     	<div>
-				     		<label for="alterEgo">ProratedLessonFee</label>
-							<input type="number" id="proratedLessonFee" [(ngModel)]="model.proratedLessonFee" name="proratedLessonFee">
-				     	</div>
-				     	<div>
-				     		<label for="alterEgo">MiscFee</label>
-							<input type="number" id="miscFee" [(ngModel)]="model.miscFee" name="miscFee">
-				     	</div>
-					</div>
-				</fieldset>
-				<div class="form-group">
 					<label for="alterEgo">coursePlanId</label>
 					<input type="text" class="form-control" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel">
 					<!-- <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
@@ -87,42 +39,58 @@
 					</div> -->
 				</div>
 				<div class="form-group">
+					<label for="alterEgo">courseName</label>
+					<input type="text" class="form-control" id="name" [(ngModel)]="model.courseName" name="name" #name="ngModel">
+					<!-- <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
+					  Teacher ID is required
+					</div> -->
+				</div>
+				<div class="form-group calendar-wrap">
+					<div class="flex-item" >
+				      <input type="text" name="txt" class="image" placeholder="Start Date" name="dp" [(ngModel)]="model.startDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+  					  <div class="overlay" (click)="d.toggle()"><img src="./assets/img/calendar.png"></div>
+				    </div>
+				    <div class="flex-item">
+				      <input type="text" name="txt" class="image" placeholder="End Date" name="dp" [(ngModel)]="model.endDate" ngbDatepicker #n="ngbDatepicker" (click)="n.toggle()">
+  					  <div class="overlay" (click)="n.toggle()"><img src="./assets/img/calendar.png"></div>
+				    </div>
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="user"
+			        required [(ngModel)]="model.teacherId" name="user" #user="ngModel">
+			          <option value="" disabled="true">Select teacher Id</option>
+			          <option *ngFor="let user of users" [value]="user.userId">{{user.userId}}</option>
+			        </select>
+			        {{model.teacherId}}
+				</div>
+				<div class="form-group">
+					<label for="alterEgo">Course Code</label>
+					<input type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" name="courseCode">
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="user"
+			        required [(ngModel)]="model.locationId" name="location" #location="ngModel">
+			          <option value="" disabled="true">Select Location</option>
+			          <option *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
+			        </select>
+			        {{model.locationId}}
+				</div>
+				<div class="form-group">
+					<label for="alterEgo">Room</label>
+					<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
+				</div>
+				<div class="form-group">
+					<label for="alterEgo">Reserved Number of Seat</label>
+					<input type="number" class="form-control" id="regionId" [(ngModel)]="model.reservedNumSeat" name="regionId">
+				</div>
+				<div class="form-group">
 					<label for="alterEgo">Description</label>
-					<input type="text" class="form-control" id="name" [(ngModel)]="model.description" name="description" #description="ngModel">
+					<input type="text" class="form-control" id="description" [(ngModel)]="model.description" name="description" #description="ngModel">
 					<!-- <div [hidden]="description.valid || description.pristine"
 					     class="alert alert-danger">
 					  Description is required
 					</div> -->
 				</div>
-				<fieldset>
-					<legend>Lesson</legend>
-					<div class="form-group">
-						<label for="alterEgo">Subject</label>
-						<input type="text" class="form-control" id="subject" [(ngModel)]="model.subject" name="subject" #subject="ngModel">
-					</div>
-					<div class="form-group calendar-wrap">
-						<div class="flex-item" >
-					      <input type="text" name="txt" class="image" placeholder="Start Date" name="dp" [(ngModel)]="model.startDate" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
-	  					  <div class="overlay" (click)="d.toggle()"><img src="./assets/img/calendar.png"></div>
-					    </div>
-					    <div class="flex-item">
-					      <input type="text" name="txt" class="image" placeholder="End Date" name="dp" [(ngModel)]="model.endDate" ngbDatepicker #n="ngbDatepicker" (click)="n.toggle()">
-	  					  <div class="overlay" (click)="n.toggle()"><img src="./assets/img/calendar.png"></div>
-					    </div>
-					</div>
-					<div class="form-group">
-						<label for="alterEgo">Place</label>
-						<input type="text" class="form-control" id="place" [(ngModel)]="model.place" name="place" #place="ngModel">
-					</div>
-					<div class="form-group">
-						<label for="alterEgo">Teacher ID</label>
-						<input type="text" class="form-control" id="teacherId" [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
-						<!-- <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
-						  Teacher ID is required
-						</div> -->
-					</div>
-				</fieldset>
-				<!-- <pre>Model: {{ model.startDate | json }}</pre> -->
 			</form>
 		</div>
 		<div class="modal-footer">
@@ -133,4 +101,5 @@
 </ng-template>
 
 <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Course Create</button>
+<pre>{{courseObj | json}}</pre>
 

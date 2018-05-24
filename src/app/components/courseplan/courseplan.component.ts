@@ -51,6 +51,7 @@ export class CourseplanComponent implements OnInit {
     this.showLoading = false;  
 	  this.closeResult = `Closed with: ${result}`
   	}, (reason) => {
+      this.showLoading = false;
   	  this.closeResult = `Closed with: ${reason}`;
   	});
     this._service.getCategory(this.regionID)
