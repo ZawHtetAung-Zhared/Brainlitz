@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'})
@@ -11,13 +12,28 @@ import { environment } from '../../environments/environment';
  
 @Injectable()
 export class appService{
-    constructor(private httpClient: HttpClient) {}
+    constructor(private oauthService: OAuthService, private httpClient: HttpClient) {}
     private baseUrl = environment.apiurl;
 
-    public reqHeader = new Headers({
-	    'Content-Type': 'application/json',
-	    'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'
-	});
+    public headers = new HttpHeaders({
+        "Authorization": "Bearer " + this.oauthService.getAccessToken()
+    });
+
+
+    private handleData(res: Response) {
+      let body = res.json();
+      console.log(body)
+      return body;
+    }
+
+    private handleError (error: any) {
+      // In a real world app, we might use a remote logging infrastructure
+      // We'd also dig deeper into the error to get a better message
+      let errMsg = (error.message) ? error.message :
+        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+      console.error(errMsg); // log to console instead
+      return Observable.throw(errMsg);
+    }
 
     getLocations(id: string): Observable<any>{
     	let url = this.baseUrl + '/' + id + '/locations';

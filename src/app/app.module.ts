@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'; 
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { OAuthService } from 'angular2-oauth2/oauth-service';
+import { OAuthModule } from 'angular-oauth2-oidc';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -45,11 +46,11 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     HttpModule,
     FormsModule,
     AppRoutingModule,
+    OAuthModule.forRoot(),
     NgbModule.forRoot()
   ],
   providers: [
     appService,
-    OAuthService
   ],
   bootstrap: [AppComponent]
 })

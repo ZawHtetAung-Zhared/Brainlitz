@@ -1,7 +1,6 @@
 <section id="container" class="d-flex flex-column h-100 w-100">
     <header id="header" [hidden]="isLogin">
-      <button class="btn dropdown-toggle float-right amd-btn" type="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
+      <button class="btn dropdown-toggle float-right amd-btn" type="button" (click)="logoff()">
           Admin
       </button>
     </header>
