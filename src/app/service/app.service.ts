@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular2-oauth2/oauth-service';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'})
@@ -12,13 +12,16 @@ import { OAuthService } from 'angular-oauth2-oidc';
  
 @Injectable()
 export class appService{
-    constructor(private oauthService: OAuthService, private httpClient: HttpClient) {}
+    constructor(private oauthService: OAuthService, private httpClient: HttpClient) {
+      console.log('oninit');
+      this.getToken();
+    }
+   
     private baseUrl = environment.apiurl;
 
     public headers = new HttpHeaders({
         "Authorization": "Bearer " + this.oauthService.getAccessToken()
     });
-
 
     private handleData(res: Response) {
       let body = res.json();
@@ -33,6 +36,29 @@ export class appService{
         error.status ? `${error.status} - ${error.statusText}` : 'Server error';
       console.error(errMsg); // log to console instead
       return Observable.throw(errMsg);
+    }
+    
+
+    getToken(){
+      console.log('hi')
+      let session = sessionStorage.getItem('nonce');
+      let url = 'https://dev-brainlitz.pagewerkz.com/oauth/token' ;      
+      let body = { 
+        grant_type: 'authorization_code',
+        code: session,
+        redirect_uri: 'https://app.getpostman.com/oauth2/callback',
+        client_id: 'weblocal' 
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      };
+      return this.httpClient.post(url, body, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+      .subscribe(res => console.log(res.json()));
     }
 
     getLocations(id: string): Observable<any>{

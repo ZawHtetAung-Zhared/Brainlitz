@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular2-oauth2/oauth-service';
 
 @Component({
   selector: 'app-login',
@@ -11,26 +11,15 @@ import { OAuthService } from 'angular-oauth2-oidc';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private oauthService: OAuthService) {}
-
+  constructor(private oAuthService: OAuthService) {}
 
   ngOnInit() {
   }
 
   public login() {
-  	console.log('login')
-  	console.log(this.oauthService)
-        this.oauthService.initImplicitFlow();
-    }
-
-    public logoff() {
-        this.oauthService.logOut();
-    }
-
-    public get name() {
-        let claims = this.oauthService.getIdentityClaims();
-        if (!claims) return null;
-        return claims;
-    }
+  	console.log('login start');
+  	this.oAuthService.initImplicitFlow();
+  }
+    
 
 }

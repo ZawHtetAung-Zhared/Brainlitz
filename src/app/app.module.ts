@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
-
+import { OAuthService } from 'angular2-oauth2/oauth-service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -51,6 +51,7 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
   ],
   providers: [
     appService,
+    OAuthService
   ],
   bootstrap: [AppComponent]
 })
