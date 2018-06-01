@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
-import { OAuthService } from 'angular2-oauth2/oauth-service';
 import { Cookie } from 'ng2-cookies';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 
@@ -12,76 +11,48 @@ import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angula
 })
 export class AppComponent {
   title = 'app';
-  route: string;
   public showSidebar: any;
   
 
-  constructor(public router:Router, private http: Http, private oauthService: OAuthService, private _router: Router) {
-          
-	  // this.oauthService.loginUrl = "https://dev-brainlitz.pagewerkz.com/dialog/authorize/5b063e2636f2e0f83cdbac88/"; //Id-Provider?
-	  // this.oauthService.redirectUri = "http://localhost:4200/#/";
-	  // this.oauthService.clientId = "weblocal";
-	  // this.oauthService.clientSecret = "weblocal";
-	  // this.oauthService.issuer = "https://dev-brainlitz.pagewerkz.com/";
-	  // this.oauthService.scope = "openid profile email voucher";
-	  // this.oauthService.setStorage(sessionStorage);
-	  // this.oauthService.logoutUrl = "http://localhost:4200/#/login";
-	  // this.oauthService.tryLogin({
-	  // 	onTokenReceived: context => {
-	  //       //
-	  //       // Output just for purpose of demonstration
-	  //       // Don't try this at home ... ;-)
-	  //       // 
-	  //       console.debug("logged in");
-	  //       console.debug(context);
-	  //   },
-	  //   validationHandler: context => {
-	  //       var search = new URLSearchParams();
-	  //       search.set('token', context.idToken); 
-	  //       search.set('client_id', oauthService.clientId);
-	  //       // return http.get(validationUrl, { search}).toPromise();
-	  //   }
-	  // });
+  constructor(public router:Router, private http: Http, private _router: Router) {      
   	if (window.location.hash.indexOf("#") === 0) {
   		var data = {}, pairs, pair, separatorIndex, escapedKey, escapedValue;
         var queryString = window.location.search.substr(1);
 
         let pairs = queryString.split("&");
         for (var i = 0; i < pairs.length; i++) {
-            pair = pairs[i];
-            separatorIndex = pair.indexOf("=");
-            if (separatorIndex === -1) {
-                escapedKey = pair;
-                escapedValue = null;
-            }
-            else {
-                escapedKey = pair.substr(0, separatorIndex);
-                escapedValue = pair.substr(separatorIndex + 1);
-            }
-            if(escapedKey == "code") {
-            	localStorage.setItem("code", escapedValue);
-            }
+          pair = pairs[i];
+          separatorIndex = pair.indexOf("=");
+          if (separatorIndex === -1) {
+              escapedKey = pair;
+              escapedValue = null;
+          }
+          else {
+              escapedKey = pair.substr(0, separatorIndex);
+              escapedValue = pair.substr(separatorIndex + 1);
+          }
+          if(escapedKey == "code") {
+          	localStorage.setItem("code", escapedValue);
+          }
         }
     }
   	router.events.forEach((event) => {
-  	    if(event instanceof NavigationStart) {
-  	    	console.log(event.url);
-  	        // this.showSidebar = event.url !== "/pagenotfound";
-  	        this.showSidebar = event.url !== "/login";
-  	    }
-  	  });
+	    if(event instanceof NavigationStart) {
+        if(event.url == "/login" || event.url == "/region"){
+          this.showSidebar = false;
+        }else{
+          this.showSidebar = true;
+        }
+	    }
+	  });
 	}
 
 	delete_cookie( name ) {
 	  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	}
 
-
 	public logoff() {
-        this.oauthService.logOut();
-        Cookie.deleteAll();
-        //this._router.navigateByUrl('/login')
-    }	
-
-    
+    Cookie.deleteAll();
+    this._router.navigateByUrl('/login')
+  }	    
 }

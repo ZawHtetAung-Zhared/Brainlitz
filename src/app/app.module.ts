@@ -23,6 +23,8 @@ import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
+import { RegionComponent } from './components/region/region.component';
+import { CallbackComponent } from './components/callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     CourseComponent,
     CoursecreateComponent,
     CategoryComponent,
-    CourseplanComponent
+    CourseplanComponent,
+    RegionComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,

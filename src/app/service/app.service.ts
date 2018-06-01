@@ -4,7 +4,6 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { OAuthService } from 'angular2-oauth2/oauth-service';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'})
@@ -12,60 +11,47 @@ import { OAuthService } from 'angular2-oauth2/oauth-service';
  
 @Injectable()
 export class appService{
-    constructor(private oauthService: OAuthService, private httpClient: HttpClient, public router: Router) {
-      console.log('oninit');
-      router.events.forEach((event) => {
-        if(event instanceof NavigationStart) {
-            console.log(event.url)
-        }
-      });  
-
+    constructor( private httpClient: HttpClient) {      
       this.getToken();
-    }
-   
-    private baseUrl = environment.apiurl;
-
-    public headers = new HttpHeaders({
-        "Authorization": "Bearer " + this.oauthService.getAccessToken()
-    });
-
-    private handleData(res: Response) {
-      let body = res.json();
-      console.log(body)
-      return body;
-    }
-
-    private handleError (error: any) {
-      // In a real world app, we might use a remote logging infrastructure
-      // We'd also dig deeper into the error to get a better message
-      let errMsg = (error.message) ? error.message :
-        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-      console.error(errMsg); // log to console instead
-      return Observable.throw(errMsg);
-    }
+    }   
     
+    private baseUrl = environment.apiurl;
+    public accessToken: any;
+
+    // public headers = new HttpHeaders({
+    //     "Authorization": "Bearer " + this.oauthService.getAccessToken()
+    // });  
 
     getToken(){
-      console.log('hi')
       let session = localStorage.getItem('code');
-      console.log(session);
+      let temptoken = session;
+      console.log(temptoken);
       let url = 'https://dev-brainlitz.pagewerkz.com/oauth/token' ;      
-      let body = { 
-        grant_type: 'authorization_code',
-        code: session,
-        redirect_uri: 'https://app.getpostman.com/oauth2/callback',
-        client_id: 'weblocal' 
+      let body = {
+        'grant_type': 'authorization_code',
+        'code': session,
+        'redirect_uri': 'http://localhost:4200/#/',
+        'client_id': 'weblocal',
       }
+
       const httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+          headers: new HttpHeaders({ 'authorization': 'Basic d2VibG9jYWw6d2VibG9jYWw=' })
       };
       return this.httpClient.post(url, body, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        console.log(result)
-        return result;
-      })
-      .subscribe(res => console.log(res.json()));
+      .subscribe((res:any) => {
+        console.log(res)
+        this.accessToken = res.access_token;
+      });
+    }
+
+    getAllRegion(id: string): Observable<any>{
+      console.log(id);
+      let url = this.baseUrl + '/' + id + '/regions';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization':'Bearer ' })
+      };
     }
 
     getLocations(id: string): Observable<any>{
