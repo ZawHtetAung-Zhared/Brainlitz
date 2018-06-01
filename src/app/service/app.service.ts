@@ -52,6 +52,12 @@ export class appService{
             'Content-Type': 'application/json', 
             'authorization':'Bearer ' })
       };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
     }
 
     getLocations(id: string): Observable<any>{

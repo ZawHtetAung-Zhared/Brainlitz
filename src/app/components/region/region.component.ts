@@ -20,12 +20,12 @@ export class RegionComponent implements OnInit {
   getAllRegion(){
   	console.log(this.orgID)
   	this._service.getAllRegion(this.orgID)
-  	// .subscribe((res:any) => {
-  	// 	this.regionLists = res;
-  	// 	console.log(this.regionLists);
-   //  }, err => {
-   //  	console.log(err)
-   //  })
+  	.subscribe((res:any) => {
+  		this.regionLists = res;
+  		console.log(this.regionLists);
+    }, err => {
+    	console.log(err)
+    })
   }
 
 
