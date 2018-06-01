@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
@@ -12,8 +12,14 @@ import { OAuthService } from 'angular2-oauth2/oauth-service';
  
 @Injectable()
 export class appService{
-    constructor(private oauthService: OAuthService, private httpClient: HttpClient) {
+    constructor(private oauthService: OAuthService, private httpClient: HttpClient, public router: Router) {
       console.log('oninit');
+      router.events.forEach((event) => {
+        if(event instanceof NavigationStart) {
+            console.log(event.url)
+        }
+      });  
+
       this.getToken();
     }
    
@@ -41,7 +47,8 @@ export class appService{
 
     getToken(){
       console.log('hi')
-      let session = sessionStorage.getItem('nonce');
+      let session = localStorage.getItem('code');
+      console.log(session);
       let url = 'https://dev-brainlitz.pagewerkz.com/oauth/token' ;      
       let body = { 
         grant_type: 'authorization_code',
