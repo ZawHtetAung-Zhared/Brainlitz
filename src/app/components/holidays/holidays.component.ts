@@ -31,8 +31,11 @@ export class HolidaysComponent implements OnInit {
 	  	});
 	}
 
-	createHolidays(data){
-		console.log(data);
+	createHolidays(formData){
+		console.log(formData.dp);
+		var date = JSON.stringify(formData.dp);
+		console.log(date);
+		this.modalReference.close();
 	}
 
 }

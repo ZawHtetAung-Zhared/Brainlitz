@@ -1,3 +1,27 @@
-<p>
-  calendar works!
-</p>
+<div>
+	<button type="button" class="btn btn-primary" (click)="open(content)">+ create Calendar</button>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  	<div class="modal-header">
+	    <h4 class="modal-title">Create Calendar</h4>
+	    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+  	</div>
+  	<form novalidate #holidaysForm="ngForm">
+	  	<div class="modal-body">
+		  	<div class="form-group">
+		      <label for="name">Name</label>   
+		      <input type="text" class="form-control" [(ngModel)]="holidayName" name="name">
+		    </div>
+		    <select>
+		    	<option>ss</option>
+		    </select>
+	  	</div>
+	  	<div class="modal-footer">
+	  	  <button type="submit" class="btn btn-danger" (click)="c('Close click')">Close</button>
+	  	  <button type="submit" class="btn btn-primary" (click)="createHolidays(holidaysForm.value)" >Create</button>
+	  	</div>
+  	</form>
+</ng-template>

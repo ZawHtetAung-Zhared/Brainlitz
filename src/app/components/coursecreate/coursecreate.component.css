@@ -8,7 +8,8 @@
 	column-count: 2;
 }
 .btn-wrap{
-  float: right;
+  display: flex;
+  justify-content: flex-end;
 }
 .calendar-wrap{
 	display: flex;
@@ -65,4 +66,11 @@
  }
  .margin-left{
     margin-left: 20px !important;
+}
+.btn-danger{
+  background: #fcfcfc;
+    color: #000;
+    border: 1px solid #888;
+    padding: 9px 8px;
+    margin-right: 20px;
 }
