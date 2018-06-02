@@ -12,6 +12,8 @@ import { Bounds } from 'ng2-img-cropper/src/model/bounds';
 import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { Croppie } from 'croppie';
 import Cropper from 'cropperjs';
+import { environment } from '../../../environments/environment';
+
 
 declare var $:any;
 
@@ -27,8 +29,8 @@ export class UsersComponent implements OnInit {
 	stuffs: Staff = new Staff();
 	customers: Customer = new Customer();
 	public img: any;
-	public orgID = '5af9130791b3b22c22ae0cb8';
-	public regionID = '5af915541de9052c869687a3';
+	public orgID = environment.orgID;
+	public regionID = localStorage.getItem('regionId');
 	public userLists: any;
 	test:any;
 
