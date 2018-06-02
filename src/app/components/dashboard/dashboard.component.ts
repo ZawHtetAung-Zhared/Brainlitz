@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import { appService } from '../../service/oauth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,10 @@ export class DashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  	console.log('hello');
   }
 
+  getAdministrator(){
+  	
+  }
 }

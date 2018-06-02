@@ -3,11 +3,15 @@ import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { Staff } from './staff';
 import { Customer } from './customer';
 import { appService } from '../../service/app.service';
-
-
-
-
-
+import { NgForm } from '@angular/forms';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Rx';
+import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
+import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
+import { Bounds } from 'ng2-img-cropper/src/model/bounds';
+import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
+import { Croppie } from 'croppie';
+import Cropper from 'cropperjs';
 
 declare var $:any;
 
@@ -28,33 +32,129 @@ export class UsersComponent implements OnInit {
 	public userLists: any;
 	test:any;
 
-	constructor(private _service: appService) { }
+	@ViewChild("cropper", undefined)
+	cropper: ImageCropperComponent;
+	resetCroppers: Function;
+	cropperSettings1: CropperSettings;
+	input: any;
+	uploadCrop: any;
+	blankCrop: boolean = false;
+	cropButton: boolean = true;
+	modalReference: any;
+	closeResult: any;
+	imageUrl: any;
 
-	ngOnInit() {
-		this.getAllUsers()
-		
+	constructor(private modalService: NgbModal, private _service: appService) { 
+	    this.cropperSettings1 = new CropperSettings();
+	    this.cropperSettings1.rounded = true;
+	    this.cropperSettings1.noFileInput = true;
+	    this.cropperSettings1.cropperDrawSettings.strokeColor = "rgba(255,0,0,1)";
+	    this.cropperSettings1.cropperDrawSettings.strokeWidth = 2;
 	}
 
-	onFileChange(event) {
-    let reader = new FileReader();
-    if(event.target.files && event.target.files.length > 0) {
-      let file = event.target.files[0];
-      console.log(file)
-      this.img = file;
-      // reader.readAsDataURL(file);
-      // reader.onload = () => {
-      //   this.form.get('stuff--img').setValue({
-      //     filename: file.name,
-      //     filetype: file.type,
-      //     value: reader.result.split(',')[1]
-      //   })
-      // };
-    }
+	ngOnInit() {
+		this.getAllUsers()	
+	}
+
+	open1(staffModal){
+		this.blankCrop = false; 
+		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
+	    this.modalReference.result.then((result) => {
+		  	this.closeResult = `Closed with: ${result}`
+	  	}, (reason) => {
+	  	  this.closeResult = `Closed with: ${reason}`;
+	  	});
+	}
+
+	open2(customerModal){
+		this.blankCrop = false;
+		this.modalReference = this.modalService.open(customerModal, { backdrop:'static', windowClass:'animation-wrap'});
+	    this.modalReference.result.then((result) => {
+		  this.closeResult = `Closed with: ${result}`
+	  	}, (reason) => {
+	  	  this.closeResult = `Closed with: ${reason}`;
+	  	});
+	}
+
+  	uploadCropImg($event: any) {
+	    this.blankCrop = true; 
+	    this.cropButton = false;
+	    this.input = $event.target.files[0];
+	    if (this.input) {
+	      	if (this.input && this.uploadCrop) {
+	        	this.uploadCrop.destroy();
+	      	}
+      	var reader = new FileReader();
+        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
+	        viewport: {
+	            width: 150,
+	            height: 150,
+	            type: 'circle'
+	          },
+	        boundary: {
+	            width: 300,
+	            height: 300
+	        },
+          	enableExif: true
+        });
+	      	var $uploadCrop = this.uploadCrop;
+	      	reader.onload = function(e: any) {
+	        $uploadCrop.bind({
+	            url: e.target.result
+	          })
+	          .then(function(e: any) {});
+	      };
+	      reader.readAsDataURL($event.target.files[0]);
+	    }
+  	}
+
+  	cropResult(modal) {
+	    let self = this;
+	    this.blankCrop = true;
+	    setTimeout(function() {
+	      $("#upload-demo img:last-child").attr("id", "blobUrl");
+	    }, 200);
+	    this.uploadCrop
+	      .result({
+	      	circle: false,
+	        type: "canvas",
+	        size: {
+				width: 800,
+				height: 800
+			},
+			quality:1 
+	      })
+	      .then(function(resp: any) {
+	      	$("#upload-demo img:last-child").remove();
+	        if (resp) {
+	          $("#upload-demo").append('<img src="' + resp + '" width="100%" />');
+	          $(".modal-backdrop.fade").css('opacity', '0.5');
+	        }
+	    });
+  	}
+
+  	dataURItoBlob(dataURI: any) {
+	    var byteString = atob(dataURI.split(",")[1]);
+	    var mimeString = dataURI
+	      .split(",")[0]
+	      .split(":")[1]
+	      .split(";")[0];
+	    var ab = new ArrayBuffer(byteString.length);
+	    var ia = new Uint8Array(ab);
+	    for (var i = 0; i < byteString.length; i++) {
+	      ia[i] = byteString.charCodeAt(i);
+	    }
+	    return new Blob([ab], { type: mimeString });
 	}
 
 	createUser(obj, type){
 		console.log(obj)
 		console.log(type)
+
+		this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
+		this.img = this.dataURItoBlob(this.imageUrl);
+		console.log(this.img);
+
 		let dataObj = new FormData();
 		dataObj.append('orgId', this.orgID);
 		dataObj.append('firstName', obj.fname);
@@ -63,6 +163,9 @@ export class UsersComponent implements OnInit {
 		dataObj.append('email', obj.mail);
 		dataObj.append('regionId', this.regionID);
 		dataObj.append('password', obj.pwd);
+		dataObj.append('gender', obj.gender);
+		dataObj.append('type', obj.type);
+		dataObj.append('profilePic', this.img);
 
 		console.log(dataObj)
 
@@ -74,6 +177,8 @@ export class UsersComponent implements OnInit {
 			"email": obj.mail,
 			"regionId": this.regionID,
 			"password": obj.pwd,
+			"gender": obj.gender,
+			"type": obj.type,
 			"profilePic": this.img
 		}
 
@@ -86,6 +191,7 @@ export class UsersComponent implements OnInit {
     }, err => {
     	console.log(err)
     })
+    	this.modalReference.close();	
 	}
 
 	getAllUsers(){

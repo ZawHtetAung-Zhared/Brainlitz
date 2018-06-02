@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'; 
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
-import { BsModalModule } from 'ng2-bs3-modal';
+// import { BsModalModule } from 'ng2-bs3-modal';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -25,6 +24,10 @@ import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
+import { HolidaysComponent } from './components/holidays/holidays.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { RegionComponent } from './components/region/region.component';
+import { CallbackComponent } from './components/callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,11 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     CourseComponent,
     CoursecreateComponent,
     CategoryComponent,
-    CourseplanComponent
+    CourseplanComponent,
+    HolidaysComponent,
+    CalendarComponent,
+    RegionComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -48,9 +55,7 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     HttpModule,
     FormsModule,
     AppRoutingModule,
-    BsModalModule,
-    NgbModule.forRoot(),
-    OAuthModule.forRoot()
+    NgbModule.forRoot()
   ],
   providers: [
     appService

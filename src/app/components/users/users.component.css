@@ -52,3 +52,17 @@
     visibility: visible;
     opacity: 1;
 }
+
+.modal-dialog {
+    width: 100%;
+}
+
+.modal-body {
+    min-height: 600px;
+    overflow-x: scroll;
+    max-height: 600px;
+}
+
+.upload-result {
+    margin-left: 13px;
+}

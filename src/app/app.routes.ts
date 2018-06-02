@@ -4,6 +4,7 @@ import { Routes, RouterModule, Router } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegionComponent } from './components/region/region.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LocationComponent } from './components/location/location.component';
 import { UsersComponent } from './components/users/users.component';
@@ -14,12 +15,18 @@ import { CourseComponent } from './components/course/course.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
+import { HolidaysComponent } from './components/holidays/holidays.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 export const routes: Routes = [
     
     {
         path: '',
         component: LocationComponent
+    },
+    {
+       path: 'region',
+       component: RegionComponent 
     },
     {
        path: 'dashboard',
@@ -60,6 +67,14 @@ export const routes: Routes = [
     {
        path: 'courseplan',
        component: CourseplanComponent
+    },
+    {
+       path: 'holidays',
+       component: HolidaysComponent
+    },
+    {
+       path: 'calendar',
+       component: CalendarComponent
     },
     {
       path:'**',

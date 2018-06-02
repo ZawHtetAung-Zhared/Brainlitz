@@ -3,7 +3,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepicke
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 // declare var jQuery: any;
- import * as $ from 'jquery';
+
 // import { Course } from './course'
 
 @Component({
@@ -102,11 +102,11 @@ export class CoursecreateComponent implements OnInit {
   //   id.close();
   // }
 
-  newTest(){
-      console.log("Test")
-      jQuery("#end").hide();
+  // newTest(){
+  //     console.log("Test")
+  //     jQuery("#end").hide();
 
-  }
+  // }
   
   back(){
   	console.log("Back Works")
