@@ -16,8 +16,9 @@ export class CourseComponent implements OnInit {
   ngOnInit() {
   	this.getCourseLists();
   }
+
   getCourseLists(){
-    this._service.getAllCourse(this.regionID)
+    this._service.getAllCourse('id')
     .subscribe((res:any) => {
       console.log(res);
       this.courseList = res;

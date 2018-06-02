@@ -34,5 +34,8 @@ export class RegionComponent implements OnInit {
     })
   }
 
-
+  setRegionID(id){
+  	console.log(id)
+    localStorage.setItem("regionId", id);
+  }
 }
