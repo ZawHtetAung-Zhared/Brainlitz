@@ -1,3 +1,35 @@
-<p>
-  assignuser works!
-</p>
+<button (click)="backtoCourse()">Back</button>
+<h2>CourseCode: {{selectedCourse.coursecode}}</h2>
+<div>
+  <button type="button" class="btn btn-primary" (click)="open(content)">+ Add Staff</button>
+  <button type="button" class="btn btn-primary" (click)="open(content)">+ Add Customer</button>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+  <h4>User List</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  <div class="form-group itemlist-wrap">
+		<ul class="item-list">
+		     <li *ngFor="let user of userList">
+		     	<label>
+		     		<input type="radio" name="username" value="{{user.userId}}" #username [(ngModel)]="chooseUser">
+		     		{{user.preferredName}}
+		     	</label> 
+		     </li>
+		</ul>
+	</div>
+    <!-- <label>
+                 <input type="radio" name="keys_on_hand" [value]="key.value" [(ngModel)]="key.value">
+                   {{key.display}}
+          </label> -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    <button type="submit" class="btn btn-light" (click)="assignSelected(chooseUser)">Assign</button>
+  </div>
+</ng-template>

@@ -442,6 +442,27 @@ export class appService{
       })
     }
 
+    assignUser(regionid,body){
+      console.log(regionid)
+      console.log(body)
+      let apiUrl = this.baseUrl + '/' + regionid + '/timetable';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      console.log(httpOptions)
+
+      return this.httpClient.post(apiUrl, body, httpOptions)
+        .map((res:Response) => {
+          let result = res; 
+          console.log(result)
+          return result;
+        })
+    }
+
 }
 
 
