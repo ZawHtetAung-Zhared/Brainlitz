@@ -60,7 +60,7 @@ export class appService{
 
     getAllRegion(id: string): Observable<any>{
       console.log(id);
-      let url = this.baseUrl + '/' + id + '/regions';
+      let url = this.baseUrl + '/organization/user/regions';
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
