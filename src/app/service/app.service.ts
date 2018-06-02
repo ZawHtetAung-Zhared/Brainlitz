@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { OAuthService } from 'angular-oauth2-oidc';
 
 // const httpOptions = {
 //     headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA'})
@@ -12,27 +11,53 @@ import { OAuthService } from 'angular-oauth2-oidc';
  
 @Injectable()
 export class appService{
-    constructor(private oauthService: OAuthService, private httpClient: HttpClient) {}
+    constructor( private httpClient: HttpClient) {      
+      this.getToken();
+    }   
+    
     private baseUrl = environment.apiurl;
+    public accessToken: any;
 
-    public headers = new HttpHeaders({
-        "Authorization": "Bearer " + this.oauthService.getAccessToken()
-    });
+    // public headers = new HttpHeaders({
+    //     "Authorization": "Bearer " + this.oauthService.getAccessToken()
+    // });  
 
+    getToken(){
+      let session = localStorage.getItem('code');
+      let temptoken = session;
+      console.log(temptoken);
+      let url = 'https://dev-brainlitz.pagewerkz.com/oauth/token' ;      
+      let body = {
+        'grant_type': 'authorization_code',
+        'code': session,
+        'redirect_uri': 'http://localhost:4200/#/',
+        'client_id': 'weblocal',
+      }
 
-    private handleData(res: Response) {
-      let body = res.json();
-      console.log(body)
-      return body;
+      const httpOptions = {
+          headers: new HttpHeaders({ 'authorization': 'Basic d2VibG9jYWw6d2VibG9jYWw=' })
+      };
+      return this.httpClient.post(url, body, httpOptions)
+      .subscribe((res:any) => {
+        console.log(res)
+        this.accessToken = res.access_token;
+      });
     }
 
-    private handleError (error: any) {
-      // In a real world app, we might use a remote logging infrastructure
-      // We'd also dig deeper into the error to get a better message
-      let errMsg = (error.message) ? error.message :
-        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-      console.error(errMsg); // log to console instead
-      return Observable.throw(errMsg);
+    getAllRegion(id: string): Observable<any>{
+      console.log(id);
+      let url = this.baseUrl + '/' + id + '/regions';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization':'Bearer ' })
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
     }
 
     getLocations(id: string): Observable<any>{

@@ -5,8 +5,6 @@ import { Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { OAuthModule } from 'angular-oauth2-oidc';
-
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -25,6 +23,8 @@ import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
 import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { RegionComponent } from './components/region/region.component';
+import { CallbackComponent } from './components/callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,9 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     CategoryComponent,
     CourseplanComponent,
     HolidaysComponent,
-    CalendarComponent
+    CalendarComponent,
+    RegionComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -50,11 +52,10 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     HttpModule,
     FormsModule,
     AppRoutingModule,
-    OAuthModule.forRoot(),
     NgbModule.forRoot()
   ],
   providers: [
-    appService,
+    appService
   ],
   bootstrap: [AppComponent]
 })

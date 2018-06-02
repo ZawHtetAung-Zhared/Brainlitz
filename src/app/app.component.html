@@ -1,11 +1,11 @@
 <section id="container" class="d-flex flex-column h-100 w-100">
-    <header id="header" [hidden]="isLogin">
+    <header id="header" [hidden]="isLogin" *ngIf="showSidebar">
       <button class="btn dropdown-toggle float-right amd-btn" type="button" (click)="logoff()">
           Admin
       </button>
     </header>
     <div id="content" class="d-flex flex-row h-100 w-100">
-      <aside [hidden]="isLogin" class="overflow left-sidebar col-md-2">
+      <aside [hidden]="isLogin" class="overflow left-sidebar col-md-2" *ngIf="showSidebar">
         <app-sidebar></app-sidebar>
       </aside>
       <section id="main-content-wrapper" class="w-100 overflow">
