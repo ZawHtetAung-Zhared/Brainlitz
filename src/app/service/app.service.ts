@@ -25,7 +25,7 @@ export class appService{
 
     public reqHeader = new Headers({
 	    'Content-Type': 'application/json',
-      'authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA'
+      'authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.NXZiQ0phakVNeTBMUnl1dURjOUhlQVNtMkxOdkRNbFA.BmsaPCWOOU3zVeReV_n-0iFHAkF3uFEGpMGxRHGY-RI'
 	    // 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'
 	});
   // public authToken = 'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA'
@@ -288,7 +288,7 @@ export class appService{
       console.log(id)
       let url = this.baseUrl+ '/' + id + '/courseplan';
       const httpOptions = {
-        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.NXZiQ0phakVNeTBMUnl1dURjOUhlQVNtMkxOdkRNbFA.BmsaPCWOOU3zVeReV_n-0iFHAkF3uFEGpMGxRHGY-RI' })
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
@@ -301,7 +301,7 @@ export class appService{
     getAllCourse(id: string): Observable<any>{
       let url = this.baseUrl+ '/' + id + '/course';
       const httpOptions = {
-        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.NXZiQ0phakVNeTBMUnl1dURjOUhlQVNtMkxOdkRNbFA.BmsaPCWOOU3zVeReV_n-0iFHAkF3uFEGpMGxRHGY-RI' })
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {

@@ -17,6 +17,7 @@ import { CoursecreateComponent } from './components/coursecreate/coursecreate.co
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
 import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { AssignuserComponent } from './components/assignuser/assignuser.component';
 
 export const routes: Routes = [
     
@@ -75,6 +76,10 @@ export const routes: Routes = [
     {
        path: 'calendar',
        component: CalendarComponent
+    },
+    {
+      path: 'assign',
+      component: AssignuserComponent
     },
     {
       path:'**',
