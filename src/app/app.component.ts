@@ -38,7 +38,7 @@ export class AppComponent {
     }
   	router.events.forEach((event) => {
 	    if(event instanceof NavigationStart) {
-        if(event.url == "/login" || event.url == "/region"){
+        if(event.url == "/login" || event.url == "/region" || event.url == "/"){
           this.showSidebar = false;
         }else{
           this.showSidebar = true;

@@ -20,7 +20,7 @@ export const routes: Routes = [
     
     {
         path: '',
-        component: LocationComponent
+        component: RegionComponent
     },
     {
        path: 'region',

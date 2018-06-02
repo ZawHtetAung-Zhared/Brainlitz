@@ -5,22 +5,22 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
 
-// const httpOptions = {
-//     headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'})
-// };
  
 @Injectable()
 export class appService{
-    constructor( private httpClient: HttpClient) {      
-      this.getToken();
-    }   
-    
     private baseUrl = environment.apiurl;
-    public accessToken: any;
+    public temp: any;    
+    public accessToken = localStorage.getItem('token');
+    public tokenType = localStorage.getItem('tokenType');
 
-    // public headers = new HttpHeaders({
-    //     "Authorization": "Bearer " + this.oauthService.getAccessToken()
-    // });  
+    constructor( private httpClient: HttpClient) { 
+      let isToken = localStorage.getItem('token');     
+      if(isToken != undefined){
+        console.log('~~~~', isToken)
+      }else{
+        this.getToken();
+      }
+    }       
 
     getToken(){
       let session = localStorage.getItem('code');
@@ -40,7 +40,9 @@ export class appService{
       return this.httpClient.post(url, body, httpOptions)
       .subscribe((res:any) => {
         console.log(res)
-        this.accessToken = res.access_token;
+        this.temp = res.access_token;
+        localStorage.setItem("token", this.temp);
+        localStorage.setItem("tokenType", res.token_type);
       });
     }
 
@@ -50,7 +52,7 @@ export class appService{
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
-            'authorization':'Bearer ' })
+            'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
