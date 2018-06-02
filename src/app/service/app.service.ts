@@ -4,6 +4,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
+import 'rxjs/Rx';
  
 @Injectable()
 export class appService{
