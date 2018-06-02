@@ -28,6 +28,7 @@ import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { RegionComponent } from './components/region/region.component';
 import { CallbackComponent } from './components/callback/callback.component';
+import { AssignuserComponent } from './components/assignuser/assignuser.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CallbackComponent } from './components/callback/callback.component';
     HolidaysComponent,
     CalendarComponent,
     RegionComponent,
-    CallbackComponent
+    CallbackComponent,
+    AssignuserComponent
   ],
   imports: [
     BrowserModule,

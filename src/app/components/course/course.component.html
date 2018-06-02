@@ -1,6 +1,13 @@
-
-<!-- <app-coursecreate></app-coursecreate> -->
-<button class="btn btn-lg btn-outline-primary" (click)="changeRoute()">Course Create</button>
+<app-coursecreate></app-coursecreate>
+<div class="scrollable container">
+  <ul class="list-group-flush">
+    <li class="list-group-item" *ngFor="let course of courseList">
+      {{course.name}}
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="view()">View</button>
+    </li>
+  </ul>
+</div>
+<!-- <button class="btn btn-lg btn-outline-primary" (click)="changeRoute()">Course Create</button> -->
 <!-- <app-courseplan></app-courseplan> -->
 
 <!-- <ul class="nav nav-tabs" role="tablist">

@@ -23,6 +23,7 @@ export class CoursecreateComponent implements OnInit {
   public users;
   public locationList;
   public showPlanList:boolean = false;
+  public showPlan:boolean = false;
   minDate:any;
   maxDate:any;
   // isDisabled:any;
@@ -48,7 +49,10 @@ export class CoursecreateComponent implements OnInit {
     this.getCourseLists();
   }
 
-
+  showPlanlist(){
+    console.log("showPlanList")
+    this.showPlan = true;
+  }
 
   getCoursePlanList(){
   	this._service.getAllCoursePlan(this.regionID)

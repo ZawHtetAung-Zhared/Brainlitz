@@ -11,10 +11,17 @@ export class CourseComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-  	
+  	this.getCourseLists();
+  }
+  getCourseLists(){
+    this._service.getAllCourse(this.regionID)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.courseList = res;
+    })
+  }
+  view(){
+  	console.log("View");
   }
 
-  changeRoute(){
-  	this.router.navigate(['courseCreate/']); 
-  }
 }
