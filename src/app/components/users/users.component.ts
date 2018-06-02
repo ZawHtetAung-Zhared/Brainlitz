@@ -26,6 +26,7 @@ export class UsersComponent implements OnInit {
 	public orgID = '5af9130791b3b22c22ae0cb8';
 	public regionID = '5af915541de9052c869687a3';
 	public userLists: any;
+	test:any;
 
 	constructor(private _service: appService) { }
 
@@ -97,7 +98,12 @@ export class UsersComponent implements OnInit {
 	    })
 	}
 
-	
+	copyText(id){
+		 const inputElement = document.getElementById(id);
+		  (<any>inputElement).select();
+		  document.execCommand('copy');
+		  inputElement.blur();
+	}
 
 	private closeModal(): void {
 		$('.modal-backdrop, #staffModal, #customerModal').removeClass('show');

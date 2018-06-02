@@ -7,6 +7,7 @@ import { FormsModule }    from '@angular/forms';
 import { BsModalModule } from 'ng2-bs3-modal';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
+// import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 import { AppComponent } from './app.component';
