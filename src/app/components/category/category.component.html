@@ -10,17 +10,28 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form novalidate (ngSubmit)="createCategory(categoryForm, item)" #categoryForm="ngForm">
+  <form novalidate #categoryForm="ngForm">
   	<div class="modal-body">
 	  	<div class="form-group">
 	      <label for="name">Name</label>   
-	      <input type="text" class="form-control" placeholder="location name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+	      <input type="text" class="form-control" placeholder="category name" name="name" [(ngModel)]="item.name" required #name="ngModel">
 	    </div>
   	</div>
   	<div class="modal-footer">
   	  <button type="submit" class="btn btn-light" (click)="c('Close click')">Close</button>
-  	  <button type="submit" class="btn btn-light" >Create</button>
+  	  <button *ngIf="!isEdit" type="submit" class="btn btn-light" (click)="createCategory(item)">Create</button>
+      <button *ngIf="isEdit" type="submit" class="btn btn-light" (click)="updateCategory(item)">Update</button>
   	</div>
   </form>
   <pre>{{categoryForm.value | json}}</pre>
 </ng-template>
+
+<div class="scrollable container">
+  <ul class="list-group-flush">
+    <li class="list-group-item" *ngFor="let category of categoryList">
+      {{category.name}}
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editCategory(category._id,category.regionId,content)">Edit</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteCategory(category._id,category.regionId)">Delete</button>
+    </li>
+  </ul>
+</div>

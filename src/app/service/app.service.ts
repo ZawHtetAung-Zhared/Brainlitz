@@ -8,19 +8,31 @@ import { environment } from '../../environments/environment';
 // const httpOptions = {
 //     headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.SjZkTjZhM1RaNUd3U002YWZraWt0N0tLSVhyVFJOeGY._kdDj2IhnypBe1JvpI8muHIuC4G-dAWvVaHRYfFn6FM'})
 // };
+import 'rxjs/Rx';
  
 @Injectable()
 export class appService{
-    constructor( private httpClient: HttpClient) {      
-      this.getToken();
-    }   
-    
     private baseUrl = environment.apiurl;
-    public accessToken: any;
+    public temp: any;    
+    public accessToken = localStorage.getItem('token');
+    public tokenType = localStorage.getItem('tokenType');
 
-    // public headers = new HttpHeaders({
-    //     "Authorization": "Bearer " + this.oauthService.getAccessToken()
-    // });  
+    constructor( private httpClient: HttpClient) { 
+      let isToken = localStorage.getItem('token');     
+      if(isToken != undefined){
+        console.log('~~~~', isToken)
+      }else{
+        this.getToken();
+      }
+    }       
+
+
+    public reqHeader = new Headers({
+	    'Content-Type': 'application/json',
+      'authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA'
+	    // 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'
+	});
+  // public authToken = 'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA'
 
     getToken(){
       let session = localStorage.getItem('code');
@@ -40,7 +52,9 @@ export class appService{
       return this.httpClient.post(url, body, httpOptions)
       .subscribe((res:any) => {
         console.log(res)
-        this.accessToken = res.access_token;
+        this.temp = res.access_token;
+        localStorage.setItem("token", this.temp);
+        localStorage.setItem("tokenType", res.token_type);
       });
     }
 
@@ -50,7 +64,7 @@ export class appService{
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
-            'authorization':'Bearer ' })
+            'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
@@ -59,6 +73,7 @@ export class appService{
           return result;
       }) 
     }
+
 
     getLocations(id: string): Observable<any>{
     	let url = this.baseUrl + '/' + id + '/locations';
@@ -164,12 +179,13 @@ export class appService{
       	})
     }
 
-    getCategory(id: string): Observable<any>{
-      console.log(id)
-      let url = this.baseUrl + '/' + id + '/category';
+    getCategory(regionid: string): Observable<any>{
+      console.log(regionid)
+      let url = this.baseUrl + '/' + regionid + '/category';
       const httpOptions = {
           headers: new HttpHeaders({ 'Content-Type': 'application/json', 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.SjZkTjZhM1RaNUd3U002YWZraWt0N0tLSVhyVFJOeGY._kdDj2IhnypBe1JvpI8muHIuC4G-dAWvVaHRYfFn6FM' })
       };
+
         return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
@@ -226,6 +242,47 @@ export class appService{
       };
 
       return this.httpClient.post(apiUrl, data, opt)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    updateCategory(id:string, body:any){
+      let apiUrl = this.baseUrl + '/category/' + id;
+      const options = {
+           headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+      };
+      return this.httpClient.put(apiUrl,body, options)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    getSingleCategory(id:string,regionid:string): Observable<any>{
+      console.log(id);
+      let apiUrl = this.baseUrl + '/' + regionid + '/category/' + id;
+      const httpOptions = {
+           headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    deleteCategory(id,regionid){
+      console.log(id,regionid)
+      let apiUrl = this.baseUrl + '/category/' +  id;
+      const httpOptions = {
+           headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
         console.log(result)
@@ -313,4 +370,48 @@ export class appService{
         return result;
       }) 
     }
+
+    getSingleCourse(id:string,regionid:string): Observable<any>{
+      console.log(id);
+      let apiUrl = this.baseUrl + '/course/' + id;
+      const httpOptions = {
+           headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    updateCourse(id,regionid,body){
+      let apiUrl = this.baseUrl + '/' + regionid + '/course' + id;
+      const httpOptions = {
+         headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+      };
+      return this.httpClient.put(apiUrl, body, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    deleteCourse(id, regionid){
+      console.log(id,regionid);
+      let apiUrl = this.baseUrl+ '/'+ regionid + '/course/' +  id;
+      const httpOptions = {
+           headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.MmpNT0JsRXE0c0lDN3VqRWRqMEZ0Z01YcFhsWWpGdEc.82xgonmzzknNruGVax04d3khcJt06h4VCZIY8PAzgzA' })
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
 }
+
+

@@ -10,11 +10,17 @@ import { environment } from '../../../environments/environment';
 export class RegionComponent implements OnInit {
 	private orgID = environment.orgID;
 	public regionLists: any;
+	public accessToken = localStorage.getItem('token');
 
   constructor(private _service: appService) { }
 
   ngOnInit() {
-  	this.getAllRegion();
+  	if(this.accessToken != undefined){
+      console.log('~~~~', )
+      this.getAllRegion();
+    }else{
+      console.log("dont't have token")
+    }
   }
 
   getAllRegion(){
