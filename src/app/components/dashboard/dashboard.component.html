@@ -9,9 +9,10 @@
     	<div class="form-group">
 	      <label for="name">Timezone</label> 
 	      <ng2-timezone-picker 
-	      	[(timezone)]="timezone" 
+	      	[(timezone)]="item.timezone" 
 	      	showOffset="true">
 	      </ng2-timezone-picker>
+	      <!-- _{{item.timezone}} -->
 	    </div>
     	<div class="form-group">
 	      <label for="name">Url</label>   
