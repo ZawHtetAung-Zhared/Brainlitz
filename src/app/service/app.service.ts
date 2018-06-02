@@ -303,7 +303,7 @@ export class appService{
     getAllCourse(id: string): Observable<any>{
       let url = this.baseUrl+ '/' + id + '/course';
       const httpOptions = {
-        headers: new HttpHeaders({ 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.NXZiQ0phakVNeTBMUnl1dURjOUhlQVNtMkxOdkRNbFA.BmsaPCWOOU3zVeReV_n-0iFHAkF3uFEGpMGxRHGY-RI' })
+        headers: new HttpHeaders({ 'authorization': this.tokenType + ' ' + this.accessToken })
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
