@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
-import { Cookie } from 'ng2-cookies';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 
 @Component({
@@ -46,13 +45,5 @@ export class AppComponent {
 	    }
 	  });
 	}
-
-	delete_cookie( name ) {
-	  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-	}
-
-	public logoff() {
-    Cookie.deleteAll();
-    this._router.navigateByUrl('/login')
-  }	    
+    
 }
