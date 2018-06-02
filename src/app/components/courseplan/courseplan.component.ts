@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgForm } from '@angular/forms';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 
@@ -47,7 +47,7 @@ export class CourseplanComponent implements OnInit {
 		this.showsubModal = false;
     this.showLoading = true;
 		this.checked = false;
-		this.modalReference = this.modalService.open(content, { size: 'lg', backdrop:'static', windowClass:'animation-wrap'});
+		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
     this.modalReference.result.then((result) => {
     this.showLoading = false;  
 	  this.closeResult = `Closed with: ${result}`

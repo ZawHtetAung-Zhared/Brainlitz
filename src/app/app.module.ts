@@ -23,6 +23,8 @@ import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
+import { HolidaysComponent } from './components/holidays/holidays.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
     CourseComponent,
     CoursecreateComponent,
     CategoryComponent,
-    CourseplanComponent
+    CourseplanComponent,
+    HolidaysComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
