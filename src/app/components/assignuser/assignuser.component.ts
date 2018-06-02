@@ -12,6 +12,8 @@ export class AssignuserComponent implements OnInit {
   regionid = localStorage.getItem('regionId');
   selectedCourse =  JSON.parse(localStorage.getItem('courseObj'));
   userList: any;
+  modalReference:any;
+  closeResult: any;
   public chooseUser: any;
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
 
