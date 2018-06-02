@@ -1,5 +1,23 @@
 <div class="d-flex flex-column w-100 h-100">
   <div class="mb-30">
-    Reagional Administrator
+    <h2 class="mb-30">Regional Administrator</h2>
+    <form novalidate #categoryForm="ngForm" style="width: 600px;">
+    	<div class="form-group">
+	      <label for="name">Organization Name</label>   
+	      <input type="text" class="form-control" placeholder="organization name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+	    </div>
+    	<div class="form-group">
+	      <label for="name">Timezone</label> 
+	      <ng2-timezone-picker 
+	      	[(timezone)]="timezone" 
+	      	showOffset="true">
+	      </ng2-timezone-picker>
+	    </div>
+    	<div class="form-group">
+	      <label for="name">Url</label>   
+	      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" required #url="ngModel" required>
+	    </div>
+  	  <button type="submit" class="btn btn-light" (click)="updateRegionalInfo(item)">Update</button>
+    </form>
   </div>
 </div>

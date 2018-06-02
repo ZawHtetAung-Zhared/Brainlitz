@@ -4,9 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
-// import { BsModalModule } from 'ng2-bs3-modal';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { TimezonePickerModule } from 'ng2-timezone-selector';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppComponent } from './app.component';
@@ -57,6 +57,7 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
     HttpModule,
     FormsModule,
     AppRoutingModule,
+    TimezonePickerModule,
     NgbModule.forRoot()
   ],
   providers: [
