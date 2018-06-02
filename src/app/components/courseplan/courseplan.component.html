@@ -13,8 +13,8 @@
 		    	<ul *ngIf="showLoading != true" class="ul-pad">
 				    <li *ngFor="let cate of courseCategories">
 					    <div class="col-md-4 fl-rt">
-					    	<label for="{{cate._id}}" class="limit-text">
-						    	<input type="radio" id="{{cate._id}}" [(ngModel)]='checked' (click)="checkedData(cate._id)" name="cate" value="{{cate.name}}">
+						    <input type="radio" id="{{cate._id}}" [(ngModel)]='checked' (click)="checkedData(cate._id)" name="cate" value="{{cate.name}}">
+						    <label for="{{cate._id}}" class="limit-text">	
 						    	{{cate.name}}
 					    	</label>
 					    	<span class="checkmark"></span>

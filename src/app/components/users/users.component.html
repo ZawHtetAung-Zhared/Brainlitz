@@ -188,30 +188,9 @@
 	<div class="overflow">
 		<ul class="list-group-flush">
 			<li class="list-group-item" *ngFor="let user of userLists; let i = index">
-			
-				<input id="{{i}}" type="text" value="{{user.preferredName}}">
-				<button type="button" class="btn-sm" (click)="copyText(i)">copy</button>
-				<input id="{{user.userId}}" type="text" value="{{user.email}}">
-				<button (click)="copyText(user.userId)">Copy</button>
-				<button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-				<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
+			{{user.preferredName}}
 			</li>
 		</ul>
-		<!-- <ul class="list-group-flush">  
-			<li class="list-group-item" *ngFor="let preferredName of userLists; let i = index" [attr.data-index]="i">
-				<input type="text" value="Hello World">
-				<button type="button" class="btn-sm" (click)="copy">copy</button>
-				<input type="text" value="Hello World">
-				<button onclick="myFunction()">Copy text</button>
-				<button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-				<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
-			</li>
-			<li class="list-group-item">
-				Mya Mya
-				<button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-				<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
-			</li>	 
-		</ul>	 -->
 	</div>
 	
 </div>

@@ -21,7 +21,8 @@ export class HolidaysComponent implements OnInit {
 
   	modalReference: any;
 	closeResult: any;
-	regionID: 'sss';
+	regionID: any;
+
 
   	open(content){
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
@@ -33,8 +34,13 @@ export class HolidaysComponent implements OnInit {
 	}
 
 	createHolidays(formData){
-		console.log(formData.dp);		
-		var date = JSON.stringify(formData.dp);
+		console.log(formData.dp);	
+		var day = formData.dp.day;
+		var month = formData.dp.month;
+		var year = formData.dp.year;
+		var date = year+ '-' + month+ '-' + day;
+
+		this.regionID = localStorage.getItem('regionId');
 
 		let dataObj = {
 			'regionId': this.regionID,
@@ -42,7 +48,7 @@ export class HolidaysComponent implements OnInit {
 			'date': date	
 		}
 		console.log(dataObj);
-		
+
 		this._service.createHolidays(this.regionID,dataObj)
 	    .subscribe((res:any) => {
 	      console.log('success holidays post',res)

@@ -70,6 +70,36 @@ export class appService{
       }) 
     }
 
+    getRegionalAdministrator(regionId): Observable<any>{
+      let url = this.baseUrl + '/regions/' + regionId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
+
+    updateRegionalInfo(regionId:string, body: object){
+      let apiUrl = this.baseUrl  + '/regions/' + regionId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
 
     getLocations(id: string): Observable<any>{
     	let url = this.baseUrl + '/' + id + '/locations';
