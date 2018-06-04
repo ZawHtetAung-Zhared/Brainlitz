@@ -36,6 +36,11 @@ export class CourseComponent implements OnInit {
   	localStorage.setItem('courseObj',JSON.stringify(obj));
   }
 
+  changeRoute(){
+  	console.log("Change Route")
+  	this.router.navigate(['/courseCreate']);
+  }
+
   // getCourseDetail(){
   // 	this._service.getSingleCourse()
   // 	.subscribe((res:any) => {
