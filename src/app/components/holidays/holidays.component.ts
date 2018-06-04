@@ -54,6 +54,7 @@ export class HolidaysComponent implements OnInit {
 		this._service.createHolidays(this.regionID,dataObj)
 	    .subscribe((res:any) => {
 	      console.log('success holidays post',res)
+	      this.getAllHolidays();
 	      }, err => {
 	        console.log(err)
 	      })

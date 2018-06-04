@@ -69,6 +69,7 @@ export class CalendarComponent implements OnInit {
  		this._service.createHolidaysCalendar(this.regionID,dataObj)
 	    .subscribe((res:any) => {
 	      console.log('success holidayCalendar post',res)
+        this.getAllHolidaysCalendar();
 	      }, err => {
 	        console.log(err)
 	      })
