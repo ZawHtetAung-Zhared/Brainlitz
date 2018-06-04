@@ -125,7 +125,8 @@ export class CourseplanComponent implements OnInit {
     }
     this._service.createCoursePlan(this.regionID,data)
     .subscribe((res:any) => {
-      console.log('success post',res)
+      console.log('success post',res);
+      this.getAllCoursePlan();
       }, err => {
         console.log(err)
       })
