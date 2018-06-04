@@ -183,12 +183,12 @@ export class UsersComponent implements OnInit {
 			"type": obj.type,
 			"profilePic": this.img
 		}
+		this.modalReference.close();
 
 		this._service.createUser(dataObj)
     	.subscribe((res:any) => {
   		console.log(res)
 	  		this.userLists = res;
-	  		this.modalReference.close();
 	  		this.getAllUsers();
 	  		console.log(this.userLists)
 	    }, err => {

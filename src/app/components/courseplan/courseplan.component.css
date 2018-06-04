@@ -38,6 +38,7 @@
 	width: 30%;
 	vertical-align: top;
 	float: left;
+	font-weight: bold;
 } 
 
 .form-control {
@@ -138,5 +139,4 @@ input:checked ~ .checkmark:after {
 	outline: none !important;
 	box-shadow: none !important;
 }
-
 
