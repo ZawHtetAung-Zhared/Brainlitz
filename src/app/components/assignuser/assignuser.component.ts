@@ -52,8 +52,9 @@ export class AssignuserComponent implements OnInit {
   assignSelected(id){
   	console.log("Assign Users",id);
   	let obj = {
-  		courseId: this.selectedCourse.courseid,
- 		userId: id
+  		'courseId': this.selectedCourse.courseid,
+ 		  'userId': id,
+      'userType': 'customer'
   	}
   	this.modalReference.close();
   	this._service.assignUser(this.regionid,obj)
