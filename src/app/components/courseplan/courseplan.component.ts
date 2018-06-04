@@ -47,7 +47,7 @@ export class CourseplanComponent implements OnInit {
 		this.showsubModal = false;
     this.showLoading = true;
 		this.checked = false;
-		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
+		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
     this.showLoading = false;  
 	  this.closeResult = `Closed with: ${result}`
