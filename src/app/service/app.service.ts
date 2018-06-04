@@ -26,7 +26,7 @@ export class appService{
       let body = {
         'grant_type': 'authorization_code',
         'code': session,
-        'redirect_uri': 'https://staging-brainlitz-web.pagewerkz.com/',
+        'redirect_uri': 'https://staging-brainlitz-web.pagewerkz.com/#/',
         'client_id': 'webstg',
       }
 
