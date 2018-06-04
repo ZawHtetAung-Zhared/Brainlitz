@@ -30,7 +30,7 @@
           </div> -->
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-light" (click)="c('Close click')">Close</button>
+          <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
           <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createLocation(model, false)">Create</button>
           <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createLocation(model, true, currentID)">Update</button>
         </div>
