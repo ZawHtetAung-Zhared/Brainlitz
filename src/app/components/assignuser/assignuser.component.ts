@@ -31,6 +31,16 @@ export class AssignuserComponent implements OnInit {
     });
   }
 
+  open1(content1) {
+    this.modalReference = this.modalService.open(content1, { size: 'lg' });
+    this.getUsers();
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -49,13 +59,22 @@ export class AssignuserComponent implements OnInit {
   	})
   }
 
-  assignSelected(id){
+  assignSelected(id, type){
   	console.log("Assign Users",id);
-  	let obj = {
-  		'courseId': this.selectedCourse.courseid,
- 		  'userId': id,
-      'userType': 'customer'
-  	}
+    if(type == 'staff'){
+     let obj = {
+       'courseId': this.selectedCourse.courseid,
+        'userId': id,
+       'userType': 'staff'
+     }
+    }else{
+     let obj = {
+       'courseId': this.selectedCourse.courseid,
+        'userId': id,
+       'userType': 'customer'
+     }
+    }
+  	
   	this.modalReference.close();
   	this._service.assignUser(this.regionid,obj)
   	.subscribe((res:any) => {
