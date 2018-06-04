@@ -31,7 +31,7 @@ export class appService{
       }
 
       const httpOptions = {
-          headers: new HttpHeaders({ 'authorization': 'Basic d2VibG9jYWw6d2VibG9jYWw=' })
+          headers: new HttpHeaders({ 'authorization': 'Basic d2Vic3RnOndlYnN0Zw==' })
       };
       return this.httpClient.post(url, body, httpOptions)
       .map((res:any) => {
