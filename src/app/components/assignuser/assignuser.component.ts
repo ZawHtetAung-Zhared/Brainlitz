@@ -62,24 +62,30 @@ export class AssignuserComponent implements OnInit {
   assignSelected(id, type){
   	console.log("Assign Users",id);
     if(type == 'staff'){
-     let obj = {
+     let obj1 = {
        'courseId': this.selectedCourse.courseid,
         'userId': id,
        'userType': 'staff'
      }
+     this._service.assignUser(this.regionid,obj1)
+     .subscribe((res:any) => {
+       this.modalReference.close();
+       console.log(res);
+     })
     }else{
      let obj = {
        'courseId': this.selectedCourse.courseid,
         'userId': id,
        'userType': 'customer'
      }
+     this._service.assignUser(this.regionid,obj)
+     .subscribe((res:any) => {
+       this.modalReference.close();
+       console.log(res);
+     })
     }
   	
-  	this.modalReference.close();
-  	this._service.assignUser(this.regionid,obj)
-  	.subscribe((res:any) => {
-  		console.log(res);
-  	})
+  	
   }
 
   backtoCourse(){
