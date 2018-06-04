@@ -5,8 +5,8 @@
 <ng-template #content let-c="close" let-d="dismiss">
   	<div class="modal-header">
 	    <h4 class="modal-title">Create Holidays</h4>
-	    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-	      <span aria-hidden="true">&times;</span>
+		<button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
+	     	 <span aria-hidden="true">&times;</span>
 	    </button>
   	</div>
   	<form novalidate #holidaysForm="ngForm">
@@ -30,7 +30,7 @@
 		    </div>
 	  	</div>
 	  	<div class="modal-footer">
-	  	  <button type="submit" class="btn btn-danger" (click)="c('Close click')">Close</button>
+	  	  <button type="submit" class="btn btn-light" (click)="c('Close click')">Close</button>
 	  	  <button type="submit" class="btn btn-primary" [disabled]="!holidaysForm.valid" (click)="createHolidays(holidaysForm.value)" >Create</button>
 	  	</div>
   	</form>
