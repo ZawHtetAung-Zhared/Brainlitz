@@ -42,6 +42,11 @@ export class appService{
       })
     }
 
+    getLocalstorage(){
+      this.accessToken = localStorage.getItem('token');  
+      this.tokenType = localStorage.getItem('tokenType');  
+    }
+
     getAllRegion(type: any, token: any): Observable<any>{
       let url = this.baseUrl + '/organization/user/regions';
       const httpOptions = {
@@ -57,12 +62,13 @@ export class appService{
       }) 
     }
 
-    getRegionalAdministrator(regionId): Observable<any>{
+    getRegionalAdministrator(regionId: any, token: any, type: any): Observable<any>{
+      console.log(token)
       let url = this.baseUrl + '/regions/' + regionId;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
+            'authorization': type + ' ' + token})
       };
       return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
@@ -72,12 +78,12 @@ export class appService{
       }) 
     }
 
-    updateRegionalInfo(regionId:string, body: object){
+    updateRegionalInfo(regionId:string, body: object, token: any, type: any){
       let apiUrl = this.baseUrl  + '/regions/' + regionId;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
+            'authorization': type + ' ' + token})
       };
       return this.httpClient.put(apiUrl,body, httpOptions)
       .map((res:Response) => {
@@ -89,6 +95,7 @@ export class appService{
 
 
     getLocations(id: string): Observable<any>{
+      this.getLocalstorage();
     	let url = this.baseUrl + '/' + id + '/locations';
   		const httpOptions = {
           headers: new HttpHeaders({ 
@@ -104,6 +111,7 @@ export class appService{
       }
 
     getAllUsers(id: string): Observable<any>{
+      this.getLocalstorage();
       console.log(id)
       let url = this.baseUrl+ '/' + id + '/user';
       const httpOptions = {
@@ -116,10 +124,11 @@ export class appService{
         let result = res;
         console.log(result);        
         return result;
-    }) 
+      }) 
     }
 
     createLocation(id: string, body: object): Observable<any>{
+      this.getLocalstorage();
     	console.log(id)
     	console.log(body)
     	let apiUrl = this.baseUrl + '/' + id + '/locations';

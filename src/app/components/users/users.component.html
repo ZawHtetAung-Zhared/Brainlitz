@@ -185,9 +185,10 @@
 	<div class="overflow">
 		<ul class="list-group-flush">
 			<li class="list-group-item" *ngFor="let user of userLists; let i = index">
-				<span>{{user.preferredName}}</span>
+				<span style="padding-right: 40px;" *ngIf="user.preferredName != undefined">Name: {{user.preferredName}}</span>
+				<span style="padding-right: 40px;" *ngIf="user.preferredName == undefined">Name: -</span>
 				<span>
-					<input class="usermail" id="{{user.userId}}" type="text" value="{{user.email}}">
+					Email: <input class="usermail" id="{{user.userId}}" type="text" value="{{user.email}}">
 				</span>
 				<button class="btn btn-info" (click)="copyText(user.userId)">Copy</button>
 			</li>

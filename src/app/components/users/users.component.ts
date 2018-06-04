@@ -183,13 +183,14 @@ export class UsersComponent implements OnInit {
 			"type": obj.type,
 			"profilePic": this.img
 		}
-		this.modalReference.close();
+		
 
 		this._service.createUser(dataObj)
     	.subscribe((res:any) => {
   		console.log(res)
-	  		this.userLists = res;
+	  		// this.userLists = res;
 	  		this.getAllUsers();
+	  		this.modalReference.close();
 	  		console.log(this.userLists)
 	    }, err => {
 	    	console.log(err)
@@ -198,6 +199,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	getAllUsers(){
+		console.log('get all')
 		this._service.getAllUsers(this.regionID)
 		.subscribe((res:any) => {
 			this.userLists = res;

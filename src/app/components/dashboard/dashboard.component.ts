@@ -10,6 +10,8 @@ import { TimezonePickerModule } from 'ng2-timezone-selector';
 })
 export class DashboardComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
+  public token: any;
+  public type: any;
   public admin: any;
   public item:any = {
     name: '',
@@ -19,15 +21,15 @@ export class DashboardComponent implements OnInit {
 
   constructor(private _service: appService) { }
 
-
-
   ngOnInit() {
   	console.log('hello');
     this.getAdministrator();
   }
 
   getAdministrator(){
-	  this._service.getRegionalAdministrator(this.regionId)
+    this.token = localStorage.getItem('token');
+    this.type = localStorage.getItem('tokenType');
+	  this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
     .subscribe((res:any) => {
       this.admin = res;
       this.item.name = res.name;
@@ -40,8 +42,10 @@ export class DashboardComponent implements OnInit {
   }
 
   updateRegionalInfo(data){
+    this.token = localStorage.getItem('token');
+    this.type = localStorage.getItem('tokenType');
     console.log(data)
-    this._service.updateRegionalInfo(this.regionId, data)
+    this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
     .subscribe((res:any) => {
       console.log('~~~', res)
     }, err => {
