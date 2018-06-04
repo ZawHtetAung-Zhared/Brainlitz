@@ -1,0 +1,142 @@
+.ul-pad {
+	padding: 0;
+}
+
+.modal-header.hideFlex {
+	display: block;
+}
+
+.modal-body {
+	min-height: 600px;
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+.modal-body ul li {
+	list-style: none;
+}
+
+.fl-rt{
+	float: left;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.fl-rt input, .fl-rt label {
+	cursor: pointer;
+	padding-left: 10px;
+}
+.fl-rt input {
+	display: none;
+}
+
+.fields-mr {
+	margin: 15px auto;
+}
+.fields-mr label{
+	width: 30%;
+	vertical-align: top;
+	float: left;
+	font-weight: bold;
+} 
+
+.form-control {
+	width: 70%;
+}
+
+.back-modal {
+	cursor: pointer;
+	outline: none;
+	padding: 3px 0px;
+	background: transparent;
+	border: none;
+	margin-bottom: 20px;
+	font-size: 13px;
+}
+
+.makeup-group input {
+	margin-right: 15px; 
+}
+.makeup-group input[type=number] {
+	/*width: 10%;*/
+}
+.makeup-group select {
+	margin-bottom: 10px;
+	/*width: 15%;*/
+}
+.makeup-group .col-md-4 {
+	float: left;
+	font-size: 14px;
+}
+
+.all-box-lt .col-md-12 {
+	float: right;
+	padding: 0;
+}
+
+.loading-align {
+	margin: 150px auto;
+    width: 50px;
+}
+
+.bt-color {
+	color: #703bc1;
+	border: 1px solid #4c3bc1;
+	font-size: 16px;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle, .bt-color:hover, .bt-color:focus, .btn-danger:hover, .btn-danger:focus {
+	background: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.checkmark {
+	position: absolute;
+    top: 3px;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #703bc1;
+    cursor: pointer;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+	border-radius: 50%;
+	background: #703bc1;
+}
+
+input:checked ~ .checkmark {
+    background-color: #fff;
+}
+
+input:checked ~ .checkmark:after {
+    display: block;
+    background: #703bc1;
+}
+
+.btn-danger {
+	background: #fcfcfc;
+    color: #000;
+    border: 1px solid #888;
+    padding: 9px 8px;
+}
+
+.btn-danger:active {
+	background: none !important;
+	border: none !important;
+	color: #000 !important;
+	outline: none !important;
+	box-shadow: none !important;
+}
+

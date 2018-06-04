@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";*/
 
+@import '../node_modules/croppie/croppie.css';
 
 html,
 body{
@@ -8,4 +9,65 @@ body{
 }
 main{
     height: 100%;
+}
+.overflow{
+	overflow-y: auto; 
+	min-height: 0px;
+}
+.btn-primary{
+	color: #703bc1 !important;
+	background-color: transparent !important;
+	border: 1px solid #4c3bc1 !important;
+	padding: 9px !important;
+  min-width: 155px;
+}
+.mb-30{
+  margin-bottom: 30px;
+}
+
+@keyframes slideInFromTop {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 5px;
+  }
+}
+.animation-wrap {
+  animation: 0.3s linear 0s slideInFromTop;
+}
+
+.modal-title {
+	text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+::placeholder { 
+  color: #c7b6e0 !important;
+  font-size: 13px;
+}
+
+:-ms-input-placeholder { 
+  color: #c7b6e0 !important;
+  font-size: 13px;
+}
+
+::-ms-input-placeholder {
+    color: #c7b6e0 !important;
+    font-size: 13px;
+}
+
+.select2-container .select2-selection--single{
+  height: 38px !important;
+  padding-top: 3px !important;
+  border: 1px solid #ced4da !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+  top: 5px !important;
+}
+.btn-light1{
+  padding: 9px !important;
+  min-width: 155px;
+  border: 1px solid #ccc !important;
 }

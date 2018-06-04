@@ -1,55 +1,51 @@
-<div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#locationModal">+ create Location</button>
-
+<div class="d-flex flex-column w-100 h-100">
+    <div class="mb-30">
+      <button type="button" class="btn btn-primary" (click)="open(locationModal)">+ create Location</button>
+    </div>
     <!-- Location Modal -->
-    <div class="modal fade" id="locationModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Create Location</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <form novalidate (ngSubmit)="createLocation(f, f.value, isUpdate, formID)" #f="ngForm">
-            <div class="modal-body">
-                <div class="form-group">
-                  <label for="name">Name</label>   
-                  <input type="text" class="form-control" placeholder="location name" name="name" [(ngModel)]="model.name" required #name="ngModel">
-                </div>
-                <div class="form-group">
-              <label for="address">Address</label>
-              <textarea class="form-control" rows="3" placeholder="Address" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
+    <ng-template #locationModal let-c="close" let-d="dismiss">  
+      <div class="modal-header">
+        <h4 class="modal-title">Create Location</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form novalidate #categoryForm="ngForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">Name</label>   
+            <input type="text" class="form-control" placeholder="location name" name="name" [(ngModel)]="model.name" required #name="ngModel">
           </div>
           <div class="form-group">
-                  <label for="phone">Phone</label>              
-                  <input type="tel" class="form-control" placeholder="Phone" name="phoneNumber" [(ngModel)]="model.phoneNumber" required #phoneNumber="ngModel">
-                </div>
-                <div class="form-group">
-              <label for="gps">GPS Location</label>
-              <textarea class="form-control" rows="3" placeholder="GPS Location" name="gps" [(ngModel)]="model.gps" #gps="ngModel"></textarea>
+            <label for="address">Address</label>
+            <textarea class="form-control" rows="3" placeholder="Address" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
           </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="cancel(f)">Cancel</button>     
-                <button type="submit"
-              class="btn btn-primary"
-              [disabled]="f.invalid"
-              #closeBtn>Submit
-          </button>
-            </div>
-            <!-- <pre>{{f.value | json}}</pre> -->
-          </form>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" class="form-control" placeholder="Phone" name="phoneNumber" [(ngModel)]="model.phoneNumber" required #phoneNumber="ngModel">
+          </div>
+          <!-- <div class="form-group">
+            <label for="gps">GPS Location</label>
+            <textarea class="form-control" rows="3" placeholder="GPS Location" name="gps" [(ngModel)]="model.gps" #gps="ngModel"></textarea>
+          </div> -->
         </div>
-      </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
+          <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createLocation(model, false)">Create</button>
+          <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createLocation(model, true, currentID)">Update</button>
+        </div>
+      </form>
+    </ng-template>    
+
+    <div class="overflow">
+      <ul class="list-group-flush">  
+        <li id="{{location._id}}" class="list-group-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
+          {{i + 1}}-{{ location.name }} 
+          <button type="submit" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="getSingleLocation(location._id, locationModal)">Edit</button>
+          <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
+        </li>
+      </ul>
     </div>
 </div>
-<div class="scrollable container">
-  <ul class="list-group-flush">  
-    <li id="{{location._id}}" class="list-group-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
-      {{i + 1}}-{{ location.name }} 
-      <button type="view" class="btn btn-secondary float-right btn-sm margin-left">View</button>
-      <button type="submit" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
-    </li>
-  </ul>
-</div>   
+   
  

@@ -1,0 +1,44 @@
+<div class="mb-30">
+	<button type="button" class="btn btn-primary" (click)="open(content)">+ create Calendar</button>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  	<div class="modal-header">
+	    <h4 class="modal-title">Create Calendar</h4>
+	    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+  	</div>
+  	<form novalidate #calendarForm="ngForm">
+	  	<div class="modal-body">
+		  	<div class="form-group">
+		      <label for="name">Name</label>   
+		      <input type="text" class="form-control" [(ngModel)]="calendarName" name="name" required>
+		    </div>
+		    <div class="form-group">
+		    	<label>Holiday Lists</label>
+		    	<div class="height-scroll">
+		    		<div *ngFor="let holidayDate of holidayLists" >
+			    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" required>
+			    		<label for="{{holidayDate._id}}"> {{holidayDate.name}}</label>
+			    	</div>
+		    	</div>
+		    	<!-- <select  class="form-control" name="holidayDate._id" (change)="ChangeValue($event)" multiple>
+			    	<option *ngFor="let holidayDate of holidayLists" [value]="holidayDate._id">{{holidayDate.name}}</option>
+			    </select> -->
+		    </div>
+	  	</div>
+	  	<div class="modal-footer">
+	  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
+	  	  <button type="submit" class="btn btn-primary" [disabled]="!calendarForm.valid" (click)="createCalendar(calendarForm.value)" >Create</button>
+	  	</div>
+  	</form>
+</ng-template>
+
+<div class="overflow">
+	<ul class="list-group-flush">  
+	  <li id="{{calendar._id}}" class="list-group-item" *ngFor="let calendar of calendarLists; let i = index" [attr.data-index]="i">
+		{{i + 1}}-{{ calendar.name }} 
+	  </li>
+	</ul>
+</div>

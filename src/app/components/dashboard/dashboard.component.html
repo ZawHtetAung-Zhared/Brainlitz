@@ -1,29 +1,26 @@
-<div class="container--fluid">
-  <div class="d-flex align-items-stretch navbar sticky-top navbar-light" style="background: rgb(70, 65, 65)">
-    <div class="col-sm-12">
-      <button class="btn btn-secondary dropdown-toggle float-right" type="button" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        Admin
-       
-      </button> 
-      <div class="dropdown-menu dropdown-menu-right ">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-      </div>    
-    </div>
-  </div>
-  <div class="container-fluid" style="height: 100vh;">
-    <div class="row h-100">
-      <div class="col-md-2 clearfix h-100" style= "background:grey;"> 
-         <app-sidebar></app-sidebar>
-      </div>
-      <div class="col-md-10 clearfix h-100"> 
-        <app-location></app-location>
-      </div>
-    </div>
+<div class="d-flex flex-column w-100 h-100">
+  <div class="mb-30">
+    <h2 class="mb-30">Regional Administrator</h2>
+    <form novalidate #categoryForm="ngForm" style="width: 600px;">
+    	<div class="form-group">
+	      <label for="name">Organization Name</label>   
+	      <input type="text" class="form-control" placeholder="organization name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+	    </div>
+    	<div class="form-group">
+	      <label for="name">Timezone</label> 
+	      <ng2-timezone-picker 
+	      	[(timezone)]="item.timezone" 
+	      	showOffset="true">
+	      </ng2-timezone-picker>
+	      <!-- _{{item.timezone}} -->
+	    </div>
+    	<div class="form-group mb-30">
+	      <label for="name">Url</label>   
+	      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" required #url="ngModel" required>
+	    </div>
+	    <div style="margin-top: 50px;">
+  	  		<button type="submit" class="btn btn-primary" (click)="updateRegionalInfo(item)">Update</button>
+  	  	</div>
+    </form>
   </div>
 </div>
-<!-- <app-location></app-location> -->
-<!-- <app-users></app-users> -->
-

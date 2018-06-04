@@ -1,0 +1,9 @@
+.item-list{
+	list-style: none;
+	column-count: 3;
+}
+
+.itemlist-wrap{
+	height: 400px;
+	overflow: auto;
+}
