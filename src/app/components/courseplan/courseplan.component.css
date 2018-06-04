@@ -38,6 +38,7 @@
 	width: 30%;
 	vertical-align: top;
 	float: left;
+	font-weight: bold;
 } 
 
 .form-control {
@@ -46,8 +47,12 @@
 
 .back-modal {
 	cursor: pointer;
-    outline: none;
-    padding: 3px 15px;
+	outline: none;
+	padding: 3px 0px;
+	background: transparent;
+	border: none;
+	margin-bottom: 20px;
+	font-size: 13px;
 }
 
 .makeup-group input {
@@ -134,5 +139,4 @@ input:checked ~ .checkmark:after {
 	outline: none !important;
 	box-shadow: none !important;
 }
-
 

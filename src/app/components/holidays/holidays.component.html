@@ -1,4 +1,4 @@
-<div>
+<div class="mb-30">
 	<button type="button" class="btn btn-primary" (click)="open(content)">+ create Holidays</button>
 </div>
 
@@ -23,7 +23,7 @@
 			             [showWeekNumbers]="showWeekNumbers" [(ngModel)]="datePicker"  ngbDatepicker #d="ngbDatepicker" required>
 			      <div class="input-group-append">
 			        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-			          <img src="../assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+			          <img src="" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
 			        </button>
 			      </div>
 			    </div>
@@ -35,3 +35,12 @@
 	  	</div>
   	</form>
 </ng-template>
+
+
+<div class="overflow">
+	<ul class="list-group-flush">  
+	  <li id="{{holiday._id}}" class="list-group-item" *ngFor="let holiday of holidayLists; let i = index" [attr.data-index]="i">
+		{{i + 1}}-{{ holiday.name }} 
+	  </li>
+	</ul>
+</div>

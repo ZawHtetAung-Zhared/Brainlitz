@@ -14,17 +14,20 @@ export class CalendarComponent implements OnInit {
   constructor(private modalService: NgbModal, private _service: appService) { }
 
   ngOnInit() {
-  	this.getAllHolidays();
+  	// this.getAllHolidays();
+    this.getAllHolidaysCalendar();
   }
 
-  	modalReference: any;
+  modalReference: any;
 	closeResult: any;
 	regionID: any;
 	chosenHoliday: any;
 	arrayHoliday: Array<any> = [];
 	holidayLists: any;
+  calendarLists: any;
 
-  	open(content){
+  open(content){
+    this.getAllHolidays();
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 		  this.closeResult = `Closed with: ${result}`
@@ -72,5 +75,18 @@ export class CalendarComponent implements OnInit {
   		this.arrayHoliday = [];
   		this.modalReference.close();
   	}
+
+    getAllHolidaysCalendar(){
+      this.regionID = localStorage.getItem('regionId');
+        this._service.getAllHolidaysCalendar(this.regionID)
+        .subscribe((res:any) => {
+          this.calendarLists = res;
+          console.log(this.calendarLists)
+        }, err => {
+            console.log(err)
+        })
+      }
+
+
 
 }
