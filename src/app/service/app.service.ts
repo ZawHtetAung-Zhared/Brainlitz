@@ -22,11 +22,11 @@ export class appService{
     getToken(){
       let session = localStorage.getItem('code');
       let temptoken = session;
-      let url = 'https://dev-brainlitz.pagewerkz.com/oauth/token' ;      
+      let url = 'https://staging-brainlitz.pagewerkz.com/oauth/token' ;      
       let body = {
         'grant_type': 'authorization_code',
         'code': session,
-        'redirect_uri': 'http://localhost:4200/#/',
+        'redirect_uri': 'https://staging-brainlitz-web.pagewerkz.com/',
         'client_id': 'weblocal',
       }
 
