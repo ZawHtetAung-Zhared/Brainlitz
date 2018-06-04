@@ -69,9 +69,9 @@ export class AssignuserComponent implements OnInit {
      }
      this._service.assignUser(this.regionid,obj1)
      .subscribe((res:any) => {
-       this.modalReference.close();
        console.log(res);
      })
+     this.modalReference.close();
     }else{
      let obj = {
        'courseId': this.selectedCourse.courseid,
@@ -80,9 +80,9 @@ export class AssignuserComponent implements OnInit {
      }
      this._service.assignUser(this.regionid,obj)
      .subscribe((res:any) => {
-       this.modalReference.close();
        console.log(res);
      })
+     this.modalReference.close();
     }
   	
   	
