@@ -1,12 +1,6 @@
-li{
-	list-style-type: none;
+.select2-container .select2-selection--single{
+	height: 38px !important;
 }
 
-body{
-    overflow-y: hidden;
-    
-    height: 100%;
-    overflow: hidden;
 
-}
 
