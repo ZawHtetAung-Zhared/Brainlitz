@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Location } from './location';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
@@ -12,22 +13,44 @@ declare var $: any;
   
 })
 
-export class LocationComponent implements OnInit {
-	@ViewChild('f') form: any;
-  	@ViewChild('closeBtn') closeBtn: ElementRef;
+export class LocationComponent implements OnInit {	
+	@ViewChild('categoryForm') form: any;
 	public location: Location;
-	public regionID = '5af915541de9052c869687a3';
+	public regionID = localStorage.getItem('regionId');
 	public locationLists: any;
-	public formID: any;
-	public hideModal: boolean = false;
 	public isUpdate: boolean = false;
+	public currentID: any;
 	model: Location = new Location();
+	private modalReference: NgbModalRef;
+	closeResult: string;
 
-	constructor(private _service: appService) { }
+	constructor(private modalService: NgbModal, private _service: appService) { }
 
 	ngOnInit() {
 		this.getAllLocation();
 	}
+
+	open(locationModal) {
+	  this.modalReference = this.modalService.open(locationModal);
+	  this.modalReference.result.then((result) => {
+	    this.closeResult = `Closed with: ${result}`;
+	    this.model = new Location();
+	  }, (reason) => {
+	    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+	    this.model = new Location();
+	  });
+	}
+
+	private getDismissReason(reason: any): string {
+	  if (reason === ModalDismissReasons.ESC) {
+	    return 'by pressing ESC';
+	  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+	    return 'by clicking on a backdrop';
+	  } else {
+	    return `with: ${reason}`;
+	  }
+	}
+
 	
 	getAllLocation(){
 		let header = {
@@ -41,42 +64,36 @@ export class LocationComponent implements OnInit {
 	    })
 	}
 
-	createLocation(f, val, update, id) {
-		console.log('hi', val)
-		console.log(status)
-		console.log(id)
+	createLocation(obj, update, locationID) {
 		let data = {
 			"regionId": this.regionID,
-			"name": val.name,
-			"address": val.address,
-			"phoneNumber": val.phoneNumber
+			"name": obj.name,
+			"address": obj.address,
+			"phoneNumber": obj.phoneNumber
 		}
-		console.log(data)
 		if(update == true){
-			this._service.updateLocation(id, data)
-			.subscribe((res:any) => {
-	    		console.log(res)
-	    		this.getAllLocation();
-		    	f.reset();
-		    	this.closeModal();
-		    }, err => {
-		    	console.log(err)
-		    })
+			console.log(update)
+			this._service.updateLocation(locationID, data)
+			 .subscribe((res:any) => {
+	     		console.log(res)
+	     		this.model = new Location();
+	     		this.modalReference.close();
+	     		this.getAllLocation();
+	     	}, err => {
+	     		console.log(err)
+	    })
 		}else{
-			if (this.form.valid) {
-		      	console.log("Form Submitted!");
-		      	this._service.createLocation(this.regionID, data)
-		      	.subscribe((res:any) => {
-		    		console.log(res)
-		    		this.getAllLocation();
-		    		f.reset();
-			    	this.closeModal();
-			    }, err => {
-			    	console.log(err)
-			    })
-		    }else{
-		    	console.log('form is not valid')
-		    }
+    	console.log("Form Submitted!", this.regionID);
+    	this._service.createLocation(this.regionID, obj)
+      	.subscribe((res:any) => {
+    		console.log(res);
+    		this.model = new Location();
+    		this.modalReference.close();
+    		this.getAllLocation();
+	    }, err => {
+	    	console.log(err)
+	    })
+		  
 		}
 	}
 
@@ -91,31 +108,17 @@ export class LocationComponent implements OnInit {
 		})
 	}
 
-	editLocationInfo(id){
+	getSingleLocation(id,locationModal){
 		console.log(this.model)
 		this.isUpdate = true;
-		this.formID = id;
+		this.modalReference = this.modalService.open(locationModal);
 		this._service.getSingleLocation(id)
 		.subscribe((res:any) => {
 			console.log(res);
+			this.currentID = res._id;
 			this.model = res;
 		},err => {
 			console.log(err);
 		})
 	}
-
-	private closeModal(): void {
-		$('#locationModal').removeClass('show');
-		$('body').removeClass('modal-open');
-    	$('.modal-backdrop').remove();
-    }
-
-    cancel(f){
-    	console.log(this.model)
-    	f.reset();
-    	$('#locationModal').removeClass('show');
-    	$('#locationModal').css("display", "none");
-		$('body').removeClass('modal-open');
-    	$('.modal-backdrop').remove();
-    }
 }

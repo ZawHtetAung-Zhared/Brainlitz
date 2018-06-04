@@ -1,8 +1,6 @@
 <section id="container" class="d-flex flex-column h-100 w-100">
-    <header id="header" [hidden]="isLogin" *ngIf="showSidebar">
-      <button class="btn dropdown-toggle float-right amd-btn" type="button" (click)="logoff()">
-          Admin
-      </button>
+    <header id="header" *ngIf="showHeader">
+      <app-header></app-header>
     </header>
     <div id="content" class="d-flex flex-row h-100 w-100">
       <aside [hidden]="isLogin" class="overflow left-sidebar col-md-2" *ngIf="showSidebar">
@@ -14,39 +12,4 @@
         </main>
       </section>
     </div>
-    <!-- <footer id="footer" >This is a footer</footer> -->
 </section>
-
-
-<!-- <div class="container--fluid">
-    <div class="d-flex align-items-stretch navbar sticky-top navbar-light" style="background: rgb(70, 65, 65)">
-      <div class="col-sm-12">
-        <button class="btn btn-secondary dropdown-toggle float-right" type="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          Admin
-        </button> 
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>  
-      </div>
-    </div> 
-    <div class="container-fluid" style="height: 100vh;">
-      <div class="row h-100">
-        <div class="col-md-2 clearfix h-100" style= "background:grey;"> 
-           <app-sidebar></app-sidebar>
-        </div>
-        <div id="main-content-wrapper" class="col-md-10 clearfix h-100"> 
-	        <main>
-				 		<router-outlet></router-outlet> 
-					</main>
-        </div>
-      </div>
-    </div>
-</div> -->
-
-
-<!-- <main>
- <router-outlet></router-outlet> 
-</main> -->

@@ -9,16 +9,14 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
+import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LocationComponent } from './components/location/location.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
-import { AppRoutingModule } from './app.routes';
-import { TestingComponent } from './components/testing/testing.component';
 import { appService } from './service/app.service';
-import { SampleComponent } from './components/sample/sample.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
@@ -27,8 +25,10 @@ import { CourseplanComponent } from './components/courseplan/courseplan.componen
 import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { RegionComponent } from './components/region/region.component';
-import { CallbackComponent } from './components/callback/callback.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
+import { HeaderComponent } from './components/header/header.component';
+
+import { BrowserCookiesModule } from '@ngx-utils/cookies/browser';
 
 @NgModule({
   declarations: [
@@ -38,8 +38,6 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
     LocationComponent,
     UsersComponent,
     PagenotfoundComponent,
-    TestingComponent,
-    SampleComponent,
     SidebarComponent,
     CourseComponent,
     CoursecreateComponent,
@@ -48,8 +46,8 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
     HolidaysComponent,
     CalendarComponent,
     RegionComponent,
-    CallbackComponent,
-    AssignuserComponent
+    AssignuserComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +56,8 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
     FormsModule,
     AppRoutingModule,
     TimezonePickerModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    BrowserCookiesModule.forRoot({path: '/',domain: 'dev-brainlitz.pagewerkz.com', secure: true, httpOnly: true}),
   ],
   providers: [
     appService

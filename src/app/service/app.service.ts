@@ -15,25 +15,16 @@ export class appService{
 
     constructor( private httpClient: HttpClient) { 
       let isToken = localStorage.getItem('token');     
-      if(isToken != undefined){
-        console.log('~~~~', isToken)
-      }else{
-        this.getToken();
-      }
-    }       
-
-
-    public reqHeader = new Headers({
-	    'Content-Type': 'application/json',
-      'authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.NXZiQ0phakVNeTBMUnl1dURjOUhlQVNtMkxOdkRNbFA.BmsaPCWOOU3zVeReV_n-0iFHAkF3uFEGpMGxRHGY-RI'
-	    // 'authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'
-	  });
-  
+      // if(isToken != undefined){
+      //   console.log('~~~~', isToken)
+      // }else{
+      //   this.getToken();
+      // }
+    }         
 
     getToken(){
       let session = localStorage.getItem('code');
       let temptoken = session;
-      console.log(temptoken);
       let url = 'https://dev-brainlitz.pagewerkz.com/oauth/token' ;      
       let body = {
         'grant_type': 'authorization_code',
@@ -46,21 +37,20 @@ export class appService{
           headers: new HttpHeaders({ 'authorization': 'Basic d2VibG9jYWw6d2VibG9jYWw=' })
       };
       return this.httpClient.post(url, body, httpOptions)
-      .subscribe((res:any) => {
+      .map((res:any) => {
         console.log(res)
         this.temp = res.access_token;
         localStorage.setItem("token", this.temp);
         localStorage.setItem("tokenType", res.token_type);
-      });
+      })
     }
 
-    getAllRegion(id: string): Observable<any>{
-      console.log(id);
+    getAllRegion(type: any, token: any): Observable<any>{
       let url = this.baseUrl + '/organization/user/regions';
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
+            'authorization': type + ' ' + token})
       };
       return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
@@ -148,7 +138,6 @@ export class appService{
     	return this.httpClient.post(apiUrl, body, httpOptions)
       	.map((res:Response) => {
       	  let result = res; 
-      	  console.log(result)
       	  return result;
       	})
       	// catchError(this.handleError('addProduct'))
@@ -164,7 +153,6 @@ export class appService{
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
-        console.log(result)
         return result;
       })
     }
@@ -181,7 +169,6 @@ export class appService{
       return this.httpClient.put(apiUrl,body, httpOptions)
       .map((res:Response) => {
         let result = res; 
-        console.log(result)
         return result;
       })
     }
