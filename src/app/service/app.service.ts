@@ -27,7 +27,7 @@ export class appService{
         'grant_type': 'authorization_code',
         'code': session,
         'redirect_uri': 'https://staging-brainlitz-web.pagewerkz.com/',
-        'client_id': 'weblocal',
+        'client_id': 'webstg',
       }
 
       const httpOptions = {
