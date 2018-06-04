@@ -15,11 +15,8 @@ export class appService{
 
     constructor( private httpClient: HttpClient) { 
       let isToken = localStorage.getItem('token');     
-      // if(isToken != undefined){
-      //   console.log('~~~~', isToken)
-      // }else{
-      //   this.getToken();
-      // }
+      this.accessToken = localStorage.getItem('token');  
+      this.tokenType = localStorage.getItem('tokenType');  
     }         
 
     getToken(){
