@@ -187,13 +187,14 @@ export class UsersComponent implements OnInit {
 		this._service.createUser(dataObj)
     	.subscribe((res:any) => {
   		console.log(res)
-  		this.userLists = res;
-  		console.log(this.userLists)
-    	this.closeModal();
-    }, err => {
-    	console.log(err)
-    })
-    	this.modalReference.close();	
+	  		this.userLists = res;
+	  		this.modalReference.close();
+	  		this.getAllUsers();
+	  		console.log(this.userLists)
+	    }, err => {
+	    	console.log(err)
+	    })
+    		
 	}
 
 	getAllUsers(){
@@ -211,10 +212,6 @@ export class UsersComponent implements OnInit {
 		  (<any>inputElement).select();
 		  document.execCommand('copy');
 		  inputElement.blur();
-	}
-
-	private closeModal(): void {
-		$('.modal-backdrop, #staffModal, #customerModal').removeClass('show');
 	}
 
 }

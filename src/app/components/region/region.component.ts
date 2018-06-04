@@ -10,23 +10,46 @@ import { environment } from '../../../environments/environment';
 export class RegionComponent implements OnInit {
 	private orgID = environment.orgID;
 	public regionLists: any;
-	public accessToken = localStorage.getItem('token');
+  public accessToken: any;
+	public tokenType: any;
 
   constructor(private _service: appService) { }
 
   ngOnInit() {
-  	if(this.accessToken != undefined){
-      console.log('~~~~', )
+    this.accessToken = localStorage.getItem('token');
+    if(this.accessToken != undefined){
+      console.log('!undefined')
       this.getAllRegion();
     }else{
-      console.log("dont't have token")
-    }
+      console.log('==undefined')
+      this.getAccessToken();
+    } 	
+  }
+
+  getAccessToken(){
+    console.log(this.orgID)
+    this._service.getToken()
+    .subscribe((res:any) => {
+      console.log('ready to call next request')
+      if(this.accessToken != undefined){
+        console.log('access token genereated ~~~~', )
+        this.getAllRegion();
+      }else{
+        console.log("dont't have token")
+        this.getAllRegion();
+      }
+    }, err => {
+      console.log(err)
+    })
   }
 
   getAllRegion(){
-  	console.log(this.orgID)
-  	this._service.getAllRegion(this.orgID)
+    console.log('start request')
+    this.accessToken = localStorage.getItem('token');
+    this.tokenType = localStorage.getItem('tokenType');    
+  	this._service.getAllRegion(this.tokenType, this.accessToken)
   	.subscribe((res:any) => {
+      console.log('show the region lists')
   		this.regionLists = res;
   		console.log(this.regionLists);
     }, err => {

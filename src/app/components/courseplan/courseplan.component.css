@@ -46,8 +46,12 @@
 
 .back-modal {
 	cursor: pointer;
-    outline: none;
-    padding: 3px 15px;
+	outline: none;
+	padding: 3px 0px;
+	background: transparent;
+	border: none;
+	margin-bottom: 20px;
+	font-size: 13px;
 }
 
 .makeup-group input {

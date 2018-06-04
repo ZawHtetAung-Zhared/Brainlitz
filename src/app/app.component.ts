@@ -10,7 +10,8 @@ import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angula
 })
 export class AppComponent {
   title = 'app';
-  public showSidebar: any;
+  public showSidebar: boolean = true;
+  public showHeader: boolean = true;
   
 
   constructor(public router:Router, private http: Http, private _router: Router) {      
@@ -35,13 +36,11 @@ export class AppComponent {
           }
         }
     }
+
   	router.events.forEach((event) => {
 	    if(event instanceof NavigationStart) {
-        if(event.url == "/login" || event.url == "/region" || event.url == "/"){
-          this.showSidebar = false;
-        }else{
-          this.showSidebar = true;
-        }
+        this.showSidebar = (event.url == "/login" || event.url == "/region" || event.url == "/") ? this.showSidebar = false : this.showSidebar = true; 
+        this.showHeader = (event.url == "/login" ) ? this.showHeader = false : this.showHeader = true; 
 	    }
 	  });
 	}

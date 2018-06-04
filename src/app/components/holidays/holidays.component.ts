@@ -14,9 +14,11 @@ declare var $: any;
 
 export class HolidaysComponent implements OnInit {
 
+	public holidayLists: any;
   	constructor(private modalService: NgbModal, private _service: appService) { }
 
   	ngOnInit() {
+  		this.getAllHolidays();
   	}
 
   	modalReference: any;
@@ -57,5 +59,16 @@ export class HolidaysComponent implements OnInit {
 	      })
 		this.modalReference.close();
 	}
+
+	getAllHolidays(){
+		this.regionID = localStorage.getItem('regionId');
+	    this._service.getAllHolidays(this.regionID)
+	    .subscribe((res:any) => {
+	      this.holidayLists = res;
+	      console.log(this.holidayLists)
+	    }, err => {
+	        console.log(err)
+	    })
+  	}
 
 }

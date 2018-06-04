@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   public item:any = {
     name: '',
     timezone: '',
-    orgUrl: ''
+    url: ''
   };
 
   constructor(private _service: appService) { }
@@ -30,7 +30,10 @@ export class DashboardComponent implements OnInit {
 	  this._service.getRegionalAdministrator(this.regionId)
     .subscribe((res:any) => {
       this.admin = res;
-      this.item.name = res.name
+      this.item.name = res.name;
+      this.item.timezone = res.timezone;
+      this.item.url = res.url
+      console.log('~~~', this.item)
     }, err => {
       console.log(err)
     })
@@ -40,8 +43,7 @@ export class DashboardComponent implements OnInit {
     console.log(data)
     this._service.updateRegionalInfo(this.regionId, data)
     .subscribe((res:any) => {
-      this.admin = res;
-      this.item.name = res.name
+      console.log('~~~', res)
     }, err => {
       console.log(err)
     })

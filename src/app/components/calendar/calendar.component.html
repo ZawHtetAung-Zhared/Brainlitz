@@ -1,4 +1,4 @@
-<div>
+<div class="mb-30">
 	<button type="button" class="btn btn-primary" (click)="open(content)">+ create Calendar</button>
 </div>
 
@@ -34,3 +34,11 @@
 	  	</div>
   	</form>
 </ng-template>
+
+<div class="overflow">
+	<ul class="list-group-flush">  
+	  <li id="{{calendar._id}}" class="list-group-item" *ngFor="let calendar of calendarLists; let i = index" [attr.data-index]="i">
+		{{i + 1}}-{{ calendar.name }} 
+	  </li>
+	</ul>
+</div>

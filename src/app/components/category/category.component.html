@@ -1,11 +1,11 @@
-<div>
+<div class="mb-30">
 	<button type="button" class="btn btn-primary" (click)="open(content)">+ create Category</button>
 </div>
 
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
+    <h4 class="modal-title">Create Category</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -23,7 +23,7 @@
       <button *ngIf="isEdit" type="submit" class="btn btn-light" (click)="updateCategory(item)">Update</button>
   	</div>
   </form>
-  <pre>{{categoryForm.value | json}}</pre>
+  <!-- <pre>{{categoryForm.value | json}}</pre> -->
 </ng-template>
 
 <div class="scrollable container">
