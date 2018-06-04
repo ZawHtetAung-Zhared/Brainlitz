@@ -28,7 +28,6 @@ import { RegionComponent } from './components/region/region.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
 import { HeaderComponent } from './components/header/header.component';
 
-import { BrowserCookiesModule } from '@ngx-utils/cookies/browser';
 
 @NgModule({
   declarations: [
@@ -57,7 +56,7 @@ import { BrowserCookiesModule } from '@ngx-utils/cookies/browser';
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),
-    BrowserCookiesModule.forRoot({path: '/',domain: 'dev-brainlitz.pagewerkz.com', secure: true, httpOnly: true}),
+    
   ],
   providers: [
     appService
