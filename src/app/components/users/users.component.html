@@ -175,10 +175,21 @@
     </form>
 	</ng-template>
 
-	<div class="overflow">
+	<!-- <div class="overflow">
 		<ul class="list-group-flush">
 			<li class="list-group-item" *ngFor="let user of userLists; let i = index">
 				{{user.preferredName}}
+			</li>
+		</ul>
+	</div> -->
+	<div class="overflow">
+		<ul class="list-group-flush">
+			<li class="list-group-item" *ngFor="let user of userLists; let i = index">
+				<span>{{user.preferredName}}</span>
+				<span>
+					<input class="usermail" id="{{user.userId}}" type="text" value="{{user.email}}">
+				</span>
+				<button (click)="copyText(user.userId)">Copy</button>
 			</li>
 		</ul>
 	</div>
