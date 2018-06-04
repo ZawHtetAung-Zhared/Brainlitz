@@ -18,9 +18,9 @@
 	    </div>
   	</div>
   	<div class="modal-footer">
-  	  <button type="submit" class="btn btn-light" (click)="c('Close click')">Close</button>
+  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
   	  <button *ngIf="!isEdit" type="submit" class="btn btn-primary" (click)="createCategory(item)">Create</button>
-      <button *ngIf="isEdit" type="submit" class="btn btn-light" (click)="updateCategory(item)">Update</button>
+      <button *ngIf="isEdit" type="submit" class="btn btn-light1" (click)="updateCategory(item)">Update</button>
   	</div>
   </form>
   <!-- <pre>{{categoryForm.value | json}}</pre> -->
