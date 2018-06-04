@@ -58,7 +58,7 @@
 					<label for="makeup_policy">MakeupPolicy</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							AllowMakeupPass<br /><input type="checkbox" [(ngModel)]="allowMakeup" id="allowmakepass" name="allowmakeup" required>
+							AllowMakeupPass<br /><input type="checkbox" [(ngModel)]="allowMakeup" id="allowmakepass" name="allowmakeup">
 						</div>
 						<div class="col-md-4">
 							MaxDayPerPass <input type="number" class="form-control" class="form-control" [(ngModel)]="makeupPass" min="0" id="makeupass" name="makeuppass" required>
@@ -72,7 +72,7 @@
 					<label for="payment_policy">PaymentPolicy</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							AllowProrated <br /><input type="checkbox" [(ngModel)]="allowProrated" min="0" name="allowProrated" required>
+							AllowProrated <br /><input type="checkbox" [(ngModel)]="allowProrated" min="0" name="allowProrated">
 						</div>
 						<div class="col-md-4">
 							Deposit
@@ -121,7 +121,7 @@
 				</div>
 				<div class="col-md-12 fields-mr">
 					<label for="allowpw">Allow Pagewerkz Books</label>
-					<input type="checkbox" [(ngModel)]='allowchecked' id="allowpw" name="allowpagewerkz" required>
+					<input type="checkbox" [(ngModel)]='allowchecked' id="allowpw" name="allowpagewerkz">
 				</div>
 			</div>
 			<div class="modal-footer">
