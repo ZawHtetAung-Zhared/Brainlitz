@@ -66,3 +66,7 @@
 .upload-result {
     margin-left: 13px;
 }
+.usermail{
+    outline: none;
+    border: none transparent;
+}

@@ -20,7 +20,7 @@
 		<div class="col-md-3 col-sm-3">
 			<button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Submit</button>
 		</div> -->
-		<button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+		<button type="button" class="btn btn-light newbtn" (click)="cancel()">Cancel</button>
 	    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Submit</button>
 	</div>
 </div>
@@ -98,7 +98,7 @@
 			</div>
 		</div>
 		<div class="form-group" style="float: right;">
-			<button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+			<button type="button" class="btn btn-light newbtn" (click)="cancel()">Cancel</button>
 			<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid">Submit</button>
 		</div>
 	</form>
