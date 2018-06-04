@@ -335,6 +335,7 @@ export class appService{
     }
 
     getAllCoursePlan(id: string): Observable<any>{
+      this.getLocalstorage();
       console.log(id)
       let url = this.baseUrl+ '/' + id + '/courseplan';
       const httpOptions = {
@@ -350,6 +351,7 @@ export class appService{
     }
 
     getAllCourse(id: string): Observable<any>{
+      this.getLocalstorage();
       let url = this.baseUrl+ '/' + id + '/course';
       const httpOptions = {
           headers: new HttpHeaders({  
@@ -379,6 +381,7 @@ export class appService{
     }
 
     getAllHolidays(id: string): Observable<any>{
+      this.getLocalstorage();
       let url = this.baseUrl+ '/' + id + '/holidays';
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -408,6 +411,7 @@ export class appService{
     }
 
     getAllHolidaysCalendar(id: string): Observable<any>{
+      this.getLocalstorage();
       let url = this.baseUrl+ '/' + id + '/holidaysCalendar';
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -422,6 +426,7 @@ export class appService{
     }
 
     getSingleCourse(id:string,regionid:string): Observable<any>{
+      this.getLocalstorage();
       console.log(id);
       let apiUrl = this.baseUrl + '/course/' + id;
       const httpOptions = {
