@@ -20,7 +20,7 @@
 		<div class="col-md-3 col-sm-3">
 			<button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Submit</button>
 		</div> -->
-		<button type="button" class="btn btn-light newbtn" (click)="cancel()">Cancel</button>
+		<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
 	    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Select</button>
 	</div>
 </div>
@@ -44,11 +44,11 @@
 		</div>
 		<div class="form-group calendar-wrap">
 			<div class="flex-item">
-		      <input type="text" name="txt" class="image" placeholder="Start Date" name="dp" required [(ngModel)]="model.startDate" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
+		      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="dp" required [(ngModel)]="model.startDate" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
 				  <div class="overlay" (click)="start.toggle();end.close()"><img src="./assets/img/calendar.png"></div>
 		    </div>
 		    <div class="flex-item">
-		      <input type="text" name="txt" class="image" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="dp" required [(ngModel)]="model.endDate" ngbDatepicker #end="ngbDatepicker">
+		      <input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="dp" required [(ngModel)]="model.endDate" ngbDatepicker #end="ngbDatepicker">
 				  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
 		    </div>
 		</div>
@@ -98,7 +98,7 @@
 			</div>
 		</div>
 		<div class="form-group" style="float: right;">
-			<button type="button" class="btn btn-light newbtn" (click)="cancel()">Cancel</button>
+			<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
 			<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid">Submit</button>
 		</div>
 	</form>
