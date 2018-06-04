@@ -26,7 +26,7 @@ export class CategoryComponent implements OnInit {
   }
 
   openLg(content) {
-    this.modalService.open(content, { size: 'lg' });
+    this.modalService.open(content, { size: 'lg'});
   }
 
   createCategory(item) {
@@ -63,7 +63,7 @@ export class CategoryComponent implements OnInit {
   }
 
   open(content) {
-    this.modalReference = this.modalService.open(content);
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.item = {};
