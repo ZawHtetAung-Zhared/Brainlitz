@@ -1,10 +1,10 @@
 <!-- <button class="btn btn-lg btn-outline-primary" (click)="showPlanlist()">Course Create</button> -->
 <div class="list-wrap" *ngIf="!showCourse">
 	<div class="form-group">
-		<h4 style="text-align: center;">Choose Course Plan</h4>
+		<h4 class="mb-30">Choose Course Plan</h4>
 	</div>
 	<div class="form-group">
-		<ul class="item-list">
+		<ul class="item-list" style="padding-left: 0;">
 		     <li *ngFor="let plan of coursePlan">
 		     	<label class="container">
 		     		<input type="radio" name="cplan" value="{{plan._id}}" #cplan [(ngModel)]="choosePlan">
@@ -21,7 +21,7 @@
 			<button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Submit</button>
 		</div> -->
 		<button type="button" class="btn btn-light newbtn" (click)="cancel()">Cancel</button>
-	    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Submit</button>
+	    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Select</button>
 	</div>
 </div>
 
