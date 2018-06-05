@@ -128,7 +128,7 @@ export class CoursecreateComponent implements OnInit {
       "room": this.model.room,
       "reservedNumberofSeat": this.model.reservedNumSeat,
       "name": this.model.courseName,
-      "lessonCount": 2,
+      // "lessonCount": 2,
       "repeatDays": "[0,1,2,3,4,5,6]",
       "description": this.model.description,
     };
