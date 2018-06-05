@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -7,6 +8,11 @@ import { Observable } from 'rxjs/Rx';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  private loginUrl = environment.apiurl + '/dialog/authorize/5b063e2636f2e0f83cdbac88';
+  private clientId = environment.client_id;
+  private clientSecret = environment.clientSecret;
+  private redirectUri = environment.redirect_uri;
+  private responseType = environment.response_type;
   constructor() {}
 
   ngOnInit() {
@@ -14,10 +20,8 @@ export class LoginComponent implements OnInit {
 
   public login() {
   	console.log('login start');
-
-    window.location.href = "https://staging-brainlitz.pagewerkz.com/dialog/authorize/5b063e2636f2e0f83cdbac88/?client_id=webstg&clientSecret=webstg&response_type=code&redirect_uri=https%3A%2F%2Fstaging-brainlitz-web.pagewerkz.com%2F%23%2F";
-
+    this.redirectUri = encodeURIComponent(this.redirectUri);
+    window.location.href = this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri
   }
-    
-
+  
 }

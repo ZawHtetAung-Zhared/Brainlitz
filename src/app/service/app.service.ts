@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
+import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
  
 @Injectable()
 export class appService{
-    private baseUrl = environment.apiurl;
+    private baseUrl = environment.apiurl + '/api/v1';
     public temp: any;    
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType');
@@ -20,18 +20,17 @@ export class appService{
     }         
 
     getToken(){
-      let session = localStorage.getItem('code');
-      let temptoken = session;
-      let url = 'https://staging-brainlitz.pagewerkz.com/oauth/token' ;      
+      let tempToken = localStorage.getItem('code');
+      let url = environment.apiurl + '/oauth/token' ;      
       let body = {
-        'grant_type': 'authorization_code',
-        'code': session,
-        'redirect_uri': 'https://staging-brainlitz-web.pagewerkz.com/#/',
-        'client_id': 'webstg',
+        'grant_type': environment.grant_type,
+        'code': tempToken,
+        'redirect_uri': environment.redirect_uri,
+        'client_id': environment.client_id,
       }
-
+      let basicToken = window.btoa(environment.client_id + ":" + environment.client_id)
       const httpOptions = {
-          headers: new HttpHeaders({ 'authorization': 'Basic d2Vic3RnOndlYnN0Zw==' })
+          headers: new HttpHeaders({ 'authorization': 'Basic ' + basicToken })
       };
       return this.httpClient.post(url, body, httpOptions)
       .map((res:any) => {
