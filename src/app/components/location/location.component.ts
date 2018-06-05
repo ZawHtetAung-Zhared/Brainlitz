@@ -53,9 +53,6 @@ export class LocationComponent implements OnInit {
 
 	
 	getAllLocation(){
-		let header = {
-			'authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.M2RRNklOYllNdXlDcHZ6SmJHbE5PNnJnZlNGV21hajM.kgjNrlDmqQDnawrIo-ShBOJdtkknPtxgyzk92Ukdl-4'
-		}
 		this._service.getLocations(this.regionID)
 		.subscribe((res:any) => {
     		this.locationLists = res;

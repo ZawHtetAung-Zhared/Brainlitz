@@ -13,7 +13,7 @@ export class CategoryComponent implements OnInit {
 	@ViewChild('categoryForm') form: any;
 	// public item:any = {name: ''};
   public item:any = {};
-	public regionID = '5af915541de9052c869687a3';
+	public regionID = localStorage.getItem('regionId');
   private modalReference: NgbModalRef;
   closeResult: string;
   public categoryList: any;
