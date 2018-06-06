@@ -320,21 +320,6 @@ export class appService{
       })
     }
 
-    deleteCategory(id,regionid){
-      console.log(id,regionid)
-      let apiUrl = this.baseUrl + '/category/' +  id;
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.delete(apiUrl, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        console.log(result)
-        return result;
-      })
-    }
-
     getAllCoursePlan(id: string): Observable<any>{
       this.getLocalstorage();
       console.log(id)

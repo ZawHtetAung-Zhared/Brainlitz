@@ -2,11 +2,11 @@
 	padding: 30px 45px;
 }
 #header{
-	padding: 10px;
+	/*padding: 10px;*/
     -webkit-box-shadow: 0 0 7px 1px rgba(76, 76, 76, 0.5);
     -moz-box-shadow: 0 0 7px 1px rgba(76, 76, 76, 0.5);
     box-shadow: 0 0 7px 1px rgba(76, 76, 76, 0.5);
-    z-index: 1;
+    /*z-index: 1;*/
 }
 .amd-btn{
 	background: transparent;
@@ -16,4 +16,8 @@
 .left-sidebar{
 	background: linear-gradient(#903bc1, #421684);
 	padding: 0;
+}
+.top-header{
+	border-bottom: 1px solid #d6d6d6;
+    padding: 10px 20px;
 }
