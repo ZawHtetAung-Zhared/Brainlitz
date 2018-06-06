@@ -1,11 +1,13 @@
 <section id="container" class="d-flex flex-column h-100 w-100">
-    <header id="header" *ngIf="showHeader">
-      <app-header></app-header>
+    <header id="header">
+      <app-header class="d-flex header-top flex-row-reverse top-header"></app-header>
+      <app-sidebar class="d-flex" *ngIf="showSidebar"></app-sidebar>
+      
     </header>
     <div id="content" class="d-flex flex-row h-100 w-100">
-      <aside [hidden]="isLogin" class="overflow left-sidebar col-md-2" *ngIf="showSidebar">
+      <!-- <aside [hidden]="isLogin" class="overflow left-sidebar col-md-2" *ngIf="showSidebar">
         <app-sidebar></app-sidebar>
-      </aside>
+      </aside> -->
       <section id="main-content-wrapper" class="w-100 overflow">
         <main>
           <router-outlet></router-outlet> 

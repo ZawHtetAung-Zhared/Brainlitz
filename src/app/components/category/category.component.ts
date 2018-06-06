@@ -69,15 +69,6 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  deleteCategory(id,regionid){
-    console.log("Delete Category Works",id,regionid);
-    this._service.deleteCategory(id,regionid)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.getAllCategories();
-    })
-  }
-
   editCategory(id,content){
     this.isEdit = true; 
     console.log("Edit Category", id)
