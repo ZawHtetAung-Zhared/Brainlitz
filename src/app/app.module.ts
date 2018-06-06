@@ -27,7 +27,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { RegionComponent } from './components/region/region.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
 import { HeaderComponent } from './components/header/header.component';
-
+import { BlockUIModule } from 'ng-block-ui';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,7 @@ import { HeaderComponent } from './components/header/header.component';
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),
-    
+    BlockUIModule.forRoot()
   ],
   providers: [
     appService
