@@ -28,6 +28,8 @@ import { RegionComponent } from './components/region/region.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
 import { HeaderComponent } from './components/header/header.component';
 import { BlockUIModule } from 'ng-block-ui';
+import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { BlockUIModule } from 'ng-block-ui';
     CalendarComponent,
     RegionComponent,
     AssignuserComponent,
-    HeaderComponent
+    HeaderComponent,
+    QuizwerkzComponent
   ],
   imports: [
     BrowserModule,

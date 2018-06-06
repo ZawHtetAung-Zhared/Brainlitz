@@ -13,7 +13,7 @@ export class CategoryComponent implements OnInit {
 	@ViewChild('categoryForm') form: any;
 	// public item:any = {name: ''};
   public item:any = {};
-	public regionID = '5af915541de9052c869687a3';
+	public regionID = localStorage.getItem('regionId');
   private modalReference: NgbModalRef;
   closeResult: string;
   public categoryList: any;
@@ -23,10 +23,6 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCategories();
-  }
-
-  openLg(content) {
-    this.modalService.open(content, { size: 'lg'});
   }
 
   createCategory(item) {
@@ -40,18 +36,6 @@ export class CategoryComponent implements OnInit {
         console.log(err);
       })
       this.item = {};
-  	// console.log(Formobj)
-  	// if(Formobj.submitted == true){
-  	// 	this._service.createCategory(item, this.regionID)
-  	// 	.subscribe((res:any) => {
-			// 	console.log(res);
-   //      this.modalReference.close();
-   //      this.getAllCategories();
-			// },err => {
-			// 	console.log(err);
-			// })
-  	// 	this.item = {};
-  	// }
 	}
 
   getAllCategories(){
@@ -94,14 +78,14 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-  editCategory(id,regionid,content){
+  editCategory(id,content){
     this.isEdit = true; 
-    console.log("Edit Category")
-    this._service.getSingleCategory(id,regionid)
+    console.log("Edit Category", id)
+    this.modalReference = this.modalService.open(content);
+    this._service.getSingleCategory(id, this.regionID)
     .subscribe((res:any) => {
       console.log(res);
       this.item = res;
-      this.open(content);
     })
   }
 

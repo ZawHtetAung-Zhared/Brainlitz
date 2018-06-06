@@ -1,0 +1,29 @@
+<div class="mb-30">
+	<button type="button" class="btn btn-primary" (click)="open(content)">+ Create Quizwerkz</button>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Create Quizwerkz</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form novalidate #pdfForm="ngForm">
+  	<div class="modal-body">
+	  	<div class="form-group">
+	      <label for="name">Name</label>   
+	      <input type="text" class="form-control" placeholder="category name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+	    </div>
+	    <div class="form-group">
+	      <label for="name">Book Url</label>   
+	      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" required #url="ngModel" required>
+	    </div>
+  	</div>
+  	<div class="modal-footer">
+  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
+  	  <button *ngIf="!isEdit" type="submit" class="btn btn-primary" (click)="createPdf(item, isEdit)">Create</button>
+      <button *ngIf="isEdit" type="submit" class="btn btn-primary" (click)="updatePdf(item, isEdit, currentID)">Update</button>
+  	</div>
+  </form>
+</ng-template>

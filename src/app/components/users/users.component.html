@@ -103,13 +103,18 @@
  		<div class="modal-header">
 	      	<h4 class="modal-title">Create Customer</h4>
 	      	<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+<<<<<<< HEAD
 		    	<span aria-hidden="true">&times;</span>
+=======
+	    	<span aria-hidden="true">&times;</span>
+>>>>>>> 2c7c557bd2e09df8755ad722fa4e6346f5672d72
 			</button>
   		</div>
  		<form novalidate #f="ngForm">
 	      	<div class="modal-body">
 	    		<div class="form-group">
 		  	    	<label for="fname">First Name</label> 	
+<<<<<<< HEAD
 		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="fname" [(ngModel)]="formFieldc.fname" #fname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
@@ -125,14 +130,31 @@
 		  	    	<input type="email" class="form-control" placeholder="Enter emai" name="mail" [(ngModel)]="formFieldc.mail" required #mail="ngModel">
 		  	  	</div>
 			  	<div class="form-group">
+=======
+		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="fname" [(ngModel)]="customers.fname" #fname="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="lname">Last Name</label> 	
+		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="lname" [(ngModel)]="customers.lname" #lname="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="dname">Display Name</label> 	
+		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="dname" [(ngModel)]="customers.dname" #dname="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="mail">Email</label> 	
+		  	    	<input type="email" class="form-control" placeholder="Enter emai" name="mail" [(ngModel)]="customers.mail" required #mail="ngModel">
+		  	  	</div>
+		    	<div class="form-group">
+>>>>>>> 2c7c557bd2e09df8755ad722fa4e6346f5672d72
 					<label for="pwd">Password</label>
 					<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="formFieldc.pwd" required #pwd="ngModel">
 				</div>
-				<!-- <div class="form-group">
-  	    	<label for="gmail">Guardian Email</label>
-  	    	<input type="email" class="form-control" placeholder="Enter guardian mail" name="gmail" [(ngModel)]="customers.gmail" #gmail="ngModel">
-  	  	</div>
-  	  	<div class="form-group">
+				<div class="form-group">
+		  	    	<label for="gmail">Guardian Email</label>
+		  	    	<input type="email" class="form-control" placeholder="Enter guardian mail" name="gmail" [(ngModel)]="customers.gmail" #gmail="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
 					<label for="gender">Gender</label><br>
 					<div class="form-check form-check-inline">
 					   <input class="form-check-input" type="radio" value="male" name="gender" id="custom-male" [(ngModel)]="customers.gender" #male="ngModel">
@@ -142,9 +164,14 @@
 					   <input class="form-check-input" type="radio" value="female" name="gender" id="custom-female" [(ngModel)]="customers.gender" #female="ngModel">
 					   <label class="form-check-label" for="custom-female">Female</label>
 					</div>
-				</div> -->
+				</div>
 				<div class="form-group">
+<<<<<<< HEAD
 	  				<label for="exampleInputFile">Upload Profile</label>
+=======
+					<label for="exampleInputFile">Upload Profile</label>
+					<!-- <input type="file" id="custom -img" class="form-control-file" aria-describedby="fileHelp" name="staffImg" [(ngModel)]="customers.staffImg" #staffImg="ngModel" accept="image/*" (change)="onFileChange($event)" #stuffPic>-->
+>>>>>>> 2c7c557bd2e09df8755ad722fa4e6346f5672d72
 					<div class="demo-wrap upload-demo">
 			          	<div class="container" style="padding: 0;">
 				            <div class="grid">
@@ -161,6 +188,7 @@
 					              <div id="upload-demo"></div>
 					            </div>
 				            </div>
+<<<<<<< HEAD
 			          	</div>
 			      	</div>
 	  			</div>
@@ -170,6 +198,17 @@
 		        <button type="submit" (click)="createUser(f.value, 'customer')" class="btn btn-primary" [disabled]="f.invalid">Submit
 				</button>
 	     	</div>
+=======
+			        </div>
+				      </div>
+			  	</div>
+			</div>
+	    	<div class="modal-footer">
+	       	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+	        	<button type="submit" (click)="createUser(f.value, 'customer')" class="btn btn-primary" [disabled]="f.invalid">Submit
+				</button>
+	      	</div>
+>>>>>>> 2c7c557bd2e09df8755ad722fa4e6346f5672d72
     	</form>
 	</ng-template>
 
