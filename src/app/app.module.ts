@@ -29,7 +29,9 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
 import { HeaderComponent } from './components/header/header.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
-
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastModule} from 'ng5-toastr/ng5-toastr';
+import {ToastOptions} from 'ng5-toastr';
 
 @NgModule({
   declarations: [
@@ -59,10 +61,13 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),
-    BlockUIModule.forRoot()
+    BlockUIModule.forRoot(),
+    BrowserAnimationsModule,
+    ToastModule.forRoot()
   ],
   providers: [
-    appService
+    appService,
+    ToastOptions
   ],
   bootstrap: [AppComponent]
 })

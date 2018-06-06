@@ -78,7 +78,7 @@
 							Deposit
 							<select class="form-control" required>
 								<option></option>
-								<option *ngFor="let deposit of depostiId">{{deposit.id}}</option>
+								<option *ngFor="let deposit of depositLists">{{deposit.amount}}</option>
 							</select>
 						</div>
 						<div class="col-md-4">
@@ -122,6 +122,14 @@
 				<div class="col-md-12 fields-mr">
 					<label for="allowpw">Allow Pagewerkz Books</label>
 					<input type="checkbox" [(ngModel)]='formField.allowchecked' id="allowpw" name="allowpagewerkz">
+				</div>
+				<div class="col-md-12 fields-mr">
+					<label>Holiday</label>
+					<select style="width: 19%;" class="form-control" required>
+						<option></option>
+						<option *ngFor="let holiday of holidayLists">{{holiday.name}}</option>
+					</select>
+					
 				</div>
 			</div>
 			<div class="modal-footer">
