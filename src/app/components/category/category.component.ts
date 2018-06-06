@@ -25,10 +25,6 @@ export class CategoryComponent implements OnInit {
     this.getAllCategories();
   }
 
-  openLg(content) {
-    this.modalService.open(content, { size: 'lg'});
-  }
-
   createCategory(item) {
   	console.log(item)
       this._service.createCategory(item, this.regionID)
@@ -40,18 +36,6 @@ export class CategoryComponent implements OnInit {
         console.log(err);
       })
       this.item = {};
-  	// console.log(Formobj)
-  	// if(Formobj.submitted == true){
-  	// 	this._service.createCategory(item, this.regionID)
-  	// 	.subscribe((res:any) => {
-			// 	console.log(res);
-   //      this.modalReference.close();
-   //      this.getAllCategories();
-			// },err => {
-			// 	console.log(err);
-			// })
-  	// 	this.item = {};
-  	// }
 	}
 
   getAllCategories(){
@@ -94,14 +78,14 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-  editCategory(id,regionid,content){
+  editCategory(id,content){
     this.isEdit = true; 
-    console.log("Edit Category")
-    this._service.getSingleCategory(id,regionid)
+    console.log("Edit Category", id)
+    this.modalReference = this.modalService.open(content);
+    this._service.getSingleCategory(id, this.regionID)
     .subscribe((res:any) => {
       console.log(res);
       this.item = res;
-      this.open(content);
     })
   }
 

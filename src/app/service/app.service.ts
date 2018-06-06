@@ -307,7 +307,7 @@ export class appService{
     getSingleCategory(id:string,regionid:string): Observable<any>{
       console.log(id);
       this.getLocalstorage();
-      let apiUrl = this.baseUrl + '/' + regionid + '/category/' + id;
+      let apiUrl = this.baseUrl + '/category/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
