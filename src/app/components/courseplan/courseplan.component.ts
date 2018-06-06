@@ -18,18 +18,10 @@ export class CourseplanComponent implements OnInit {
   constructor(private modalService: NgbModal, private _service: appService) { }
 
   ngOnInit() {
-    this.getAllCoursePlan()
+    this.getAllCoursePlan();
   }
-  depostiId: any[] = [
-    { 
-      "id": "5af915541de9052c869687a3" 
-    },
-    { 
-      "id": "4cf915541de9052c869687a3" 
-    }
-  ];
 
-  public regionID = '5af915541de9052c869687a3';
+  public regionID = localStorage.getItem('regionId');;
 	showModal: boolean = false;
 	showsubModal: boolean = true;
 	checked: boolean = false;
@@ -44,13 +36,17 @@ export class CourseplanComponent implements OnInit {
   public courseplanLists: any;
   public showLoading: boolean = false;
   formField: cPlanField = new cPlanField();
+  depositLists: any;
   @BlockUI() blockUI: NgBlockUI;
+  holidayLists: any;
 
 	open(content){
 		this.showModal = true;
 		this.showsubModal = false;
     this.showLoading = true;
 		this.checked = false;
+    this.getAllDeposit();
+    this.getAllHolidays();
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
     this.formField = new cPlanField();
@@ -162,6 +158,25 @@ export class CourseplanComponent implements OnInit {
       }, err => {
         console.log(err)
       })
+  }
+
+  getAllDeposit(){
+    this._service.getAllDeposit(this.regionID)
+    .subscribe((res:any) => {
+      this.depositLists = res;
+      console.log(this.courseplanLists)
+      }, err => {
+        console.log(err)
+      })
+  }
+
+  getAllHolidays(){
+      this._service.getAllHolidays(this.regionID)
+      .subscribe((res:any) => {
+        this.holidayLists = res;
+        }, err => {
+          console.log(err)
+        })
   }
 
 }

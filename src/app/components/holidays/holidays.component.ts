@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { holidays } from './holidays';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 declare var $: any;
 
@@ -16,7 +18,9 @@ declare var $: any;
 export class HolidaysComponent implements OnInit {
 
 	public holidayLists: any;
-  	constructor(private modalService: NgbModal, private _service: appService) { }
+  	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
+  		this.toastr.setRootViewContainerRef(vcr);
+  	}
 
   	ngOnInit() {
   		this.getAllHolidays();
@@ -26,6 +30,7 @@ export class HolidaysComponent implements OnInit {
 	closeResult: any;
 	regionID: any;
 	formField: holidays = new holidays();
+	@BlockUI() blockUI: NgBlockUI;
 
   	open(content){
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
@@ -53,22 +58,27 @@ export class HolidaysComponent implements OnInit {
 			'date': date	
 		}
 		console.log(dataObj);
-
-		this._service.createHolidays(this.regionID,dataObj)
-	    .subscribe((res:any) => {
-	      console.log('success holidays post',res)
-	      this.getAllHolidays();
-	      }, err => {
-	        console.log(err)
-	      })
-		this.modalReference.close();
+		this.toastr.success('Successfully Created.');
+		//this.blockUI.start('Loading...');
+		//this.modalReference.close();
+		//this._service.createHolidays(this.regionID,dataObj)
+	   // .subscribe((res:any) => {
+	     // console.log('success holidays post',res)
+	    //  this.blockUI.stop();
+	    //  this.getAllHolidays();
+	    //  }, err => {
+	    //    console.log(err)
+	    //  })
+		
 	}
 
 	getAllHolidays(){
+		this.blockUI.start('Loading...');
 		this.regionID = localStorage.getItem('regionId');
 	    this._service.getAllHolidays(this.regionID)
 	    .subscribe((res:any) => {
 	      this.holidayLists = res;
+	      this.blockUI.stop();
 	      console.log(this.holidayLists)
 	    }, err => {
 	        console.log(err)

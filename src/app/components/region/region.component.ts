@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { environment } from '../../../environments/environment';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-region',
@@ -12,6 +13,7 @@ export class RegionComponent implements OnInit {
 	public regionLists: any;
   public accessToken: any;
 	public tokenType: any;
+  @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService) { }
 
@@ -33,6 +35,7 @@ export class RegionComponent implements OnInit {
       console.log('ready to call next request')
       if(this.accessToken != undefined){
         console.log('access token genereated ~~~~', )
+        this.blockUI.stop();
         this.getAllRegion();
       }else{
         console.log("dont't have token")
@@ -45,12 +48,14 @@ export class RegionComponent implements OnInit {
 
   getAllRegion(){
     console.log('start request')
+    this.blockUI.start('Loading...');
     this.accessToken = localStorage.getItem('token');
     this.tokenType = localStorage.getItem('tokenType');    
   	this._service.getAllRegion(this.tokenType, this.accessToken)
   	.subscribe((res:any) => {
       console.log('show the region lists')
   		this.regionLists = res;
+      this.blockUI.stop();
   		console.log(this.regionLists);
     }, err => {
     	console.log(err)
