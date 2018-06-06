@@ -1,8 +1,7 @@
 .scrollable
 {
-      overflow-y: scroll;
-      height: 100vh;
- }
+    overflow-y: scroll;
+}
  .margin-left{
     margin-left: 20px !important;
 }
