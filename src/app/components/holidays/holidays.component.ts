@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+import { holidays } from './holidays';
 
 declare var $: any;
 
@@ -24,14 +25,16 @@ export class HolidaysComponent implements OnInit {
   	modalReference: any;
 	closeResult: any;
 	regionID: any;
-
+	formField: holidays = new holidays();
 
   	open(content){
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
-		  this.closeResult = `Closed with: ${result}`
+	    	this.formField = new holidays();
+		  	this.closeResult = `Closed with: ${result}`
 	  	}, (reason) => {
-	  	  this.closeResult = `Closed with: ${reason}`;
+	  		this.formField = new holidays();
+	  	  	this.closeResult = `Closed with: ${reason}`;
 	  	});
 	}
 

@@ -13,7 +13,9 @@ import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { Croppie } from 'croppie';
 import Cropper from 'cropperjs';
 import { environment } from '../../../environments/environment';
-
+import { staff } from './user';
+import { customer } from './user';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 declare var $:any;
 
@@ -33,6 +35,8 @@ export class UsersComponent implements OnInit {
 	public regionID = localStorage.getItem('regionId');
 	public userLists: any;
 	test:any;
+	formFields: staff = new staff();
+	formFieldc: customer = new customer();
 
 	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
@@ -45,6 +49,8 @@ export class UsersComponent implements OnInit {
 	modalReference: any;
 	closeResult: any;
 	imageUrl: any;
+	public showLoading: boolean = false;
+	@BlockUI() blockUI: NgBlockUI;
 
 	constructor(private modalService: NgbModal, private _service: appService) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -54,17 +60,20 @@ export class UsersComponent implements OnInit {
 	    this.cropperSettings1.cropperDrawSettings.strokeWidth = 2;
 	}
 
+
 	ngOnInit() {
-		this.getAllUsers()	
+		this.getAllUsers();
 	}
 
 	open1(staffModal){
 		this.blankCrop = false; 
 		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
+	    	this.formFields = new staff();	
 		  	this.closeResult = `Closed with: ${result}`
 	  	}, (reason) => {
-	  	  this.closeResult = `Closed with: ${reason}`;
+	  		this.formFields = new staff();	
+	  	    this.closeResult = `Closed with: ${reason}`;
 	  	});
 	}
 
@@ -72,9 +81,11 @@ export class UsersComponent implements OnInit {
 		this.blankCrop = false;
 		this.modalReference = this.modalService.open(customerModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
-		  this.closeResult = `Closed with: ${result}`
+	    	this.formFieldc = new customer();	
+		  	this.closeResult = `Closed with: ${result}`
 	  	}, (reason) => {
-	  	  this.closeResult = `Closed with: ${reason}`;
+	  		this.formFieldc = new customer();
+	  	  	this.closeResult = `Closed with: ${reason}`;
 	  	});
 	}
 
@@ -150,9 +161,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	createUser(obj, type){
-		console.log(obj)
-		console.log(type)
-
+		console.log(obj);
+		console.log(type);
 		this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
 		this.img = this.dataURItoBlob(this.imageUrl);
 		console.log(this.img);
@@ -183,14 +193,13 @@ export class UsersComponent implements OnInit {
 			"type": obj.type,
 			"profilePic": this.img
 		}
-		
-
+		this.blockUI.start('Loading...');
+		this.modalReference.close();
 		this._service.createUser(dataObj)
     	.subscribe((res:any) => {
   		console.log(res)
-	  		// this.userLists = res;
+	  		this.blockUI.stop();
 	  		this.getAllUsers();
-	  		this.modalReference.close();
 	  		console.log(this.userLists)
 	    }, err => {
 	    	console.log(err)
@@ -200,9 +209,11 @@ export class UsersComponent implements OnInit {
 
 	getAllUsers(){
 		console.log('get all')
+		this.blockUI.start('Loading...');
 		this._service.getAllUsers(this.regionID)
 		.subscribe((res:any) => {
 			this.userLists = res;
+			this.blockUI.stop();
 			console.log(this.userLists)
 	    }, err => {
 	    	console.log(err)

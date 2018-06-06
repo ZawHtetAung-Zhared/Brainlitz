@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+import { calendarField } from './calendar';
 
 @Component({
   selector: 'app-calendar',
@@ -25,13 +26,16 @@ export class CalendarComponent implements OnInit {
 	arrayHoliday: Array<any> = [];
 	holidayLists: any;
   calendarLists: any;
+  formField: calendarField = new calendarField();
 
   open(content){
     this.getAllHolidays();
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
-		  this.closeResult = `Closed with: ${result}`
+        this.formField = new calendarField();
+		    this.closeResult = `Closed with: ${result}`
 	  	}, (reason) => {
+        this.formField = new calendarField();
 	  	  this.closeResult = `Closed with: ${reason}`;
 	  	});
 	}
@@ -66,7 +70,7 @@ export class CalendarComponent implements OnInit {
   			"holidays": this.arrayHoliday
   		}
   		console.log(dataObj);
- 		this._service.createHolidaysCalendar(this.regionID,dataObj)
+ 		 this._service.createHolidaysCalendar(this.regionID,dataObj)
 	    .subscribe((res:any) => {
 	      console.log('success holidayCalendar post',res)
         this.getAllHolidaysCalendar();

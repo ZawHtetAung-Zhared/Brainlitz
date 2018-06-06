@@ -11,7 +11,7 @@
 			    </button>
 			</div>
 		  	<div class="modal-body" style="padding: 40px 20px;">
-		    	<ul *ngIf="showLoading != true" class="ul-pad">
+		    	<ul class="ul-pad">
 				    <li *ngFor="let cate of courseCategories">
 					    <div class="col-md-4 fl-rt">
 						    <input type="radio" id="{{cate._id}}" [(ngModel)]='checked' (click)="checkedData(cate._id)" name="cate" value="{{cate.name}}">
@@ -22,9 +22,9 @@
 					    </div>
 					</li>
 				</ul>
-				<div *ngIf="showLoading == true" class="loading-align">
+				<!-- <div *ngIf="showLoading == true" class="loading-align">
 					<img src="../assets/img/loading-spinner.gif">
-				</div>
+				</div> -->
 		  	</div>
 		  	<div class="modal-footer">
 		    	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
@@ -44,27 +44,27 @@
 			<div class="modal-body all-box-lt">
 				<div class="col-md-12 fields-mr">
 					<label for="course_name">Course Name</label>
-					<input class="form-control" type="text" [(ngModel)]='coursename' name="coursename" required>
+					<input class="form-control" type="text" [(ngModel)]='formField.coursename' name="coursename" required>
 				</div>
 				<div class="col-md-12 fields-mr">
 					<label for="desc">Description</label>
-					<textarea class="form-control" rows="4" [(ngModel)]='description' name="description" required></textarea>
+					<textarea class="form-control" rows="4" [(ngModel)]='formField.description' name="description" required></textarea>
 				</div>
 				<div class="col-md-12 fields-mr makeup-group">
 					<label for="seat">Seats</label>
-					<input type="number" style="width: 19%;" class="form-control" [(ngModel)]="seatCount" min="0" id="seat" name="seats" required>
+					<input type="number" style="width: 19%;" class="form-control" [(ngModel)]="formField.seatCount" min="0" id="seat" name="seats" required>
 				</div>
 				<div class="col-md-12 fields-mr">
 					<label for="makeup_policy">MakeupPolicy</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							AllowMakeupPass<br /><input type="checkbox" [(ngModel)]="allowMakeup" id="allowmakepass" name="allowmakeup">
+							AllowMakeupPass<br /><input type="checkbox" [(ngModel)]="formField.allowMakeup" id="allowmakepass" name="allowmakeup">
 						</div>
 						<div class="col-md-4">
-							MaxDayPerPass <input type="number" class="form-control" class="form-control" [(ngModel)]="makeupPass" min="0" id="makeupass" name="makeuppass" required>
+							MaxDayPerPass <input type="number" class="form-control" class="form-control" [(ngModel)]="formField.makeupPass" min="0" id="makeupass" name="makeuppass" required>
 						</div>
 						<div class="col-md-4">
-							MaxDayPerUser <input type="number" class="form-control" class="form-control" [(ngModel)]="makeupUser" min="0" id="makeupuser" name="makeupuser" required>
+							MaxDayPerUser <input type="number" class="form-control" class="form-control" [(ngModel)]="formField.makeupUser" min="0" id="makeupuser" name="makeupuser" required>
 						</div>
 					</div>
 				</div>
@@ -72,7 +72,7 @@
 					<label for="payment_policy">PaymentPolicy</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							AllowProrated <br /><input type="checkbox" [(ngModel)]="allowProrated" min="0" name="allowProrated">
+							AllowProrated <br /><input type="checkbox" [(ngModel)]="formField.allowProrated" min="0" name="allowProrated">
 						</div>
 						<div class="col-md-4">
 							Deposit
@@ -82,15 +82,15 @@
 							</select>
 						</div>
 						<div class="col-md-4">
-							CourseFee <input type="number" class="form-control" class="form-control" [(ngModel)]="courseFee" min="0" name="courseFee" required>
+							CourseFee <input type="number" class="form-control" class="form-control" [(ngModel)]="formField.courseFee" min="0" name="courseFee" required>
 						</div>
 					</div>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							ProratedLessonFee <input type="number" class="form-control" [(ngModel)]="proratedLessonFee" min="0" name="proratedLessonFee" required>
+							ProratedLessonFee <input type="number" class="form-control" [(ngModel)]="formField.proratedLessonFee" min="0" name="proratedLessonFee" required>
 						</div>
 						<div class="col-md-4">
-							MiscFee <input type="number" class="form-control" [(ngModel)]="miscFee" min="0" name="miscFee">
+							MiscFee <input type="number" class="form-control" [(ngModel)]="formField.miscFee" min="0" name="miscFee">
 						</div>
 					</div>
 				</div>
@@ -98,10 +98,10 @@
 					<label for="age">Age</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							From <input type="number" class="form-control" [(ngModel)]="minAge" min="0" id="age" name="minage" required>
+							From <input type="number" class="form-control" [(ngModel)]="formField.minAge" min="0" id="age" name="minage" required>
 						</div>
 					 	<div class="col-md-4">
-					 		to <input type="number" class="form-control" [(ngModel)]="maxAge" min="1" id="age" name="maxage" required>
+					 		to <input type="number" class="form-control" [(ngModel)]="formField.maxAge" min="1" id="age" name="maxage" required>
 					 	</div>
 					</div>
 				</div>
@@ -109,19 +109,19 @@
 					<label for="duration">Lesson</label>
 					<div class="col-md-12  makeup-group">
 						<div class="col-md-4">
-							Min <input type="number" class="form-control" [(ngModel)]="minDuration" min="0" name="minDuration" required>
+							Min <input type="number" class="form-control" [(ngModel)]="formField.minDuration" min="0" name="minDuration" required>
 						</div> 
 						<div class="col-md-4">
-							Max <input type="number" class="form-control" [(ngModel)]="maxDuration" min="1" name="maxDuration" required>
+							Max <input type="number" class="form-control" [(ngModel)]="formField.maxDuration" min="1" name="maxDuration" required>
 						</div>
 						<div class="col-md-4">
-							Lesson Duration <input type="number" class="form-control" [(ngModel)]='lessonDuration' min="1" id="duration" name="lesson_duration" required>
+							Lesson Duration <input type="number" class="form-control" [(ngModel)]='formField.lessonDuration' min="1" id="duration" name="lesson_duration" required>
 						</div>	
 					</div>
 				</div>
 				<div class="col-md-12 fields-mr">
 					<label for="allowpw">Allow Pagewerkz Books</label>
-					<input type="checkbox" [(ngModel)]='allowchecked' id="allowpw" name="allowpagewerkz">
+					<input type="checkbox" [(ngModel)]='formField.allowchecked' id="allowpw" name="allowpagewerkz">
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -131,7 +131,7 @@
 		</form>		
 	</div>
 </ng-template>
-
+<block-ui message="Deafult Message"></block-ui>
 
 <div class="overflow">
 	<ul class="list-group-flush">  

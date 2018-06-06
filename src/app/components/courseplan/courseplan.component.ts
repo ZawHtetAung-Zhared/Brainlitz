@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+import { cPlanField } from './courseplan';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 declare var $: any;
 
@@ -41,6 +43,8 @@ export class CourseplanComponent implements OnInit {
   checkedCatId: any;
   public courseplanLists: any;
   public showLoading: boolean = false;
+  formField: cPlanField = new cPlanField();
+  @BlockUI() blockUI: NgBlockUI;
 
 	open(content){
 		this.showModal = true;
@@ -49,17 +53,19 @@ export class CourseplanComponent implements OnInit {
 		this.checked = false;
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
-    this.showLoading = false;  
+    this.formField = new cPlanField();
+    //this.showLoading = false;  
 	  this.closeResult = `Closed with: ${result}`
   	}, (reason) => {
-      this.showLoading = false;
+      this.formField = new cPlanField();
+      //this.showLoading = false;
   	  this.closeResult = `Closed with: ${reason}`;
   	});
     this._service.getCategory(this.regionID)
     .subscribe((res:any) => {
       console.log('success',res)
       this.courseCategories = res;
-      this.showLoading = false;
+      //this.showLoading = false;
       }, err => {
         console.log(err)
       });
@@ -123,14 +129,16 @@ export class CourseplanComponent implements OnInit {
       "quizwerkz": 'dummystring'
 
     }
+    this.blockUI.start('Loading...');
+    this.modalReference.close();
     this._service.createCoursePlan(this.regionID,data)
     .subscribe((res:any) => {
       console.log('success post',res);
+      this.blockUI.stop();
       this.getAllCoursePlan();
       }, err => {
         console.log(err)
       })
-		this.modalReference.close();
   }
 
   deleteCoursePlan(id){
@@ -145,9 +153,11 @@ export class CourseplanComponent implements OnInit {
 	}
 
   getAllCoursePlan(){
+    this.blockUI.start('Loading...');
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
       this.courseplanLists = res;
+      this.blockUI.stop();
       console.log(this.courseplanLists)
       }, err => {
         console.log(err)
