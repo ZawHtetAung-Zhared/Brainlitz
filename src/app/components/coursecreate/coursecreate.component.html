@@ -1,107 +1,106 @@
 <!-- <button class="btn btn-lg btn-outline-primary" (click)="showPlanlist()">Course Create</button> -->
 <div class="list-wrap" *ngIf="!showCourse">
-	<div class="form-group">
-		<h4 class="mb-30">Choose Course Plan</h4>
-	</div>
-	<div class="form-group">
-		<ul class="item-list" style="padding-left: 0;">
-		     <li *ngFor="let plan of coursePlan">
-		     	<label class="container">
-		     		<input type="radio" name="cplan" value="{{plan._id}}" #cplan [(ngModel)]="choosePlan">
-		     		{{plan.name}}
-		     	</label> 
-		     </li>
-		</ul>
-	</div>
-	<div class="form-group btn-wrap">
-		<!-- <div class="col-md-3 col-sm-3 col-md-offset-6">
-			<button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+		<div class="form-group">
+			<h4 class="mb-30">Choose Course Plan</h4>
 		</div>
-		<div class="col-md-3 col-sm-3">
-			<button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Submit</button>
-		</div> -->
-		<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-	    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Select</button>
-	</div>
+		<div class="form-group">
+			<ul class="item-list" style="padding-left: 0;">
+			     <li *ngFor="let plan of coursePlan">
+			     	<label class="container">
+			     		<input type="radio" name="cplan" value="{{plan._id}}" #cplan [(ngModel)]="choosePlan">
+			     		{{plan.name}}
+			     	</label> 
+			     </li>
+			</ul>
+		</div>
+		<div class="form-group btn-wrap">
+			<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
+		    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Select</button>
+		</div>
 </div>
+<block-ui message="Deafult Message">
+  <!-- Markup here -->
+</block-ui>
 
 <div class="form-container container h-100" *ngIf="showCourse">
-	<div>
-		<button class="btn btn-info" (click)="back()">Back</button>
-		<h4 style="text-align: center;">Create Course</h4>
+	<div *blockUI="'contact-list'">
+		<div>
+			<button class="btn btn-info" (click)="back()">Back</button>
+			<h4 style="text-align: center;">Create Course</h4>
+		</div>
+		<form #heroForm="ngForm">
+			<div class="form-group">
+				<label for="alterEgo">Course Plan Id</label>
+				<input type="text" class="form-control" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel" readonly>
+			</div>
+			<div class="form-group">
+				<label for="alterEgo">Course Name</label>
+				<input type="text" class="form-control" id="courseName" required (click)="onClick($event)" [(ngModel)]="model.courseName" name="courseName" #courseName="ngModel">
+				<div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
+				  Course Name is required
+				</div>
+			</div>
+			<div class="form-group calendar-wrap">
+				<div class="flex-item">
+			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="dp" required [(ngModel)]="model.startDate" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
+					  <div class="overlay" (click)="start.toggle();end.close();"><img src="./assets/img/calendar.png"></div>
+			    </div>
+			    <div class="flex-item">
+			      <input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="dp" required [(ngModel)]="model.endDate" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+					  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
+			    </div>
+			</div>
+			<div class="form-group">
+				<label for="alterEgo">Teacher Name</label>
+				<select class="form-control" id="teacherId"
+		        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
+		          <!-- <option value="" disabled="true">Select teacher Id</option> -->
+		          <option *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
+		        </select>
+		        <!-- {{model.teacherId}} -->
+		        <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
+				  Teacher Name is required
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="alterEgo">Course Code</label>
+				<input type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
+				<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
+				  Course Code is required
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="alterEgo">Choose Location</label>
+				<select class="form-control" id="user"
+		        [(ngModel)]="model.locationId" name="location" #location="ngModel">
+		          <option value="" disabled="true">Select Location</option>
+		          <option *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
+		        </select>
+		        <!-- {{model.locationId}} -->
+		        <!-- <div [hidden]="location.valid || location.pristine" class="alert alert-danger">
+				  Location ID is required
+				</div> -->
+			</div>
+			<div class="form-group">
+				<label for="alterEgo">Room</label>
+				<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
+			</div>
+			<div class="form-group">
+				<label for="alterEgo">Reserved Number of Seat</label>
+				<input type="number" class="form-control" id="regionId" [(ngModel)]="model.reservedNumSeat" name="regionId">
+			</div>
+			<div class="form-group">
+				<label for="alterEgo">Description</label>
+				<input type="text" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel">
+				<div [hidden]="description.valid || description.pristine"
+				     class="alert alert-danger">
+				  Description is required
+				</div>
+			</div>
+			<div class="form-group" style="float: right;">
+				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
+				<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid">Submit</button>
+			</div>
+		</form>
 	</div>
-	<form #heroForm="ngForm">
-		<div class="form-group">
-			<label for="alterEgo">Course Plan Id</label>
-			<input type="text" class="form-control" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel" readonly>
-		</div>
-		<div class="form-group">
-			<label for="alterEgo">Course Name</label>
-			<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.courseName" name="courseName" #courseName="ngModel">
-			<div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
-			  Course Name is required
-			</div>
-		</div>
-		<div class="form-group calendar-wrap">
-			<div class="flex-item">
-		      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="dp" required [(ngModel)]="model.startDate" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
-				  <div class="overlay" (click)="start.toggle();end.close()"><img src="./assets/img/calendar.png"></div>
-		    </div>
-		    <div class="flex-item">
-		      <input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="dp" required [(ngModel)]="model.endDate" ngbDatepicker #end="ngbDatepicker">
-				  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
-		    </div>
-		</div>
-		<div class="form-group">
-			<label for="alterEgo">Teacher ID</label>
-			<select class="form-control" id="teacherId"
-	        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
-	          <!-- <option value="" disabled="true">Select teacher Id</option> -->
-	          <option *ngFor="let user of users; let i = index" [value]="user.userId">{{user.userId}}</option>
-	        </select>
-	        <!-- {{model.teacherId}} -->
-	        <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
-			  Teacher ID is required
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="alterEgo">Course Code</label>
-			<input type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
-			<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
-			  Course Code is required
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="alterEgo">Choose Location</label>
-			<select class="form-control" id="user"
-	        [(ngModel)]="model.locationId" name="location" #location="ngModel">
-	          <option value="" disabled="true">Select Location</option>
-	          <option *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
-	        </select>
-	        <!-- {{model.locationId}} -->
-	        <!-- <div [hidden]="location.valid || location.pristine" class="alert alert-danger">
-			  Location ID is required
-			</div> -->
-		</div>
-		<div class="form-group">
-			<label for="alterEgo">Room</label>
-			<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
-		</div>
-		<div class="form-group">
-			<label for="alterEgo">Reserved Number of Seat</label>
-			<input type="number" class="form-control" id="regionId" [(ngModel)]="model.reservedNumSeat" name="regionId">
-		</div>
-		<div class="form-group">
-			<label for="alterEgo">Description</label>
-			<input type="text" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel">
-			<div [hidden]="description.valid || description.pristine"
-			     class="alert alert-danger">
-			  Description is required
-			</div>
-		</div>
-		<div class="form-group" style="float: right;">
-			<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-			<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid">Submit</button>
-		</div>
-	</form>
 </div>

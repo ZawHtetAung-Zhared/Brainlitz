@@ -1,11 +1,13 @@
 <div class="mb-30">
-	<button type="button" class="btn btn-primary" (click)="open(content)">+ create Category</button>
+	<button type="button" class="btn btn-primary" (click)="open(content, isEdit=false)">+ create Category</button>
 </div>
 
 
 <ng-template #content let-c="close" let-d="dismiss">
+<div *blockUI="'contact-list'">
   <div class="modal-header">
-    <h4 class="modal-title">Create Category</h4>
+    <h4 *ngIf="isEdit == false" class="modal-title">Create Category</h4>
+    <h4 *ngIf="isEdit == true" class="modal-title">Update Category</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -24,6 +26,7 @@
   	</div>
   </form>
   <!-- <pre>{{categoryForm.value | json}}</pre> -->
+  </div>
 </ng-template>
 
 <div class="scrollable container">
@@ -34,3 +37,6 @@
     </li>
   </ul>
 </div>
+<block-ui message="Deafult Message">
+  <!-- Your markup here -->
+</block-ui>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-course',
@@ -11,6 +12,8 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class CourseComponent implements OnInit {
   courseList:any;
   code:any ;
+  @BlockUI() blockUI: NgBlockUI;
+
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
   public regionId = localStorage.getItem('regionId');;
   ngOnInit() {
@@ -18,10 +21,14 @@ export class CourseComponent implements OnInit {
   }
 
   getCourseLists(){
+    this.blockUI.start('Loading...'); 
     this._service.getAllCourse(this.regionId)
     .subscribe((res:any) => {
       console.log(res);
       this.courseList = res;
+       setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 500);
     })
   }
 

@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild,Input,Output,EventEmitter } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
-// declare var jQuery: any;
-
-// import { Course } from './course'
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-coursecreate',
@@ -30,8 +28,8 @@ export class CoursecreateComponent implements OnInit {
   courseList: any;
   bsValue: Date;
   powers: any;
-   // powers = ['Really Smart', 'Super Flexible',
-   //          'Super Hot', 'Weather Changer'];
+  @BlockUI() blockUI: NgBlockUI;
+  
 
   constructor(private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig) {
       // weekends are disabled
@@ -39,26 +37,27 @@ export class CoursecreateComponent implements OnInit {
     //   const d = new Date(date.year, date.month - 1, date.day);
     //   return d.getDay() === this.model.startDate;
     // }
-
    }
-
-
 
   ngOnInit() {
   	this.getCoursePlanList();
-    this.getCourseLists();
+    // this.getCourseLists();
   }
-
+  
   showPlanlist(){
     console.log("showPlanList")
     this.showPlan = true;
   }
 
   getCoursePlanList(){
+    this.blockUI.start('Loading...');
   	this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
     	this.coursePlan = res;
     	console.log(this.coursePlan);
+       setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 80);
     });
   }
 
@@ -117,6 +116,7 @@ export class CoursecreateComponent implements OnInit {
   	this.showCourse = false;
   }
   createCourse(){
+
   	console.log("createCourse work",this.model);
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
@@ -139,6 +139,7 @@ export class CoursecreateComponent implements OnInit {
     });
     this.router.navigate(['course/']); 
   }
+
   setMinDate(event){
     console.log("setMinDate",event);
     this.minDate = event;
@@ -147,6 +148,7 @@ export class CoursecreateComponent implements OnInit {
     console.log("setMaxDate",date);
     this.maxDate =  date;
   }
+
   // isDisabled(date: NgbDateStruct) {
   //   const d = new Date(date.year, date.month - 1, date.day);
   //   console.log(d);
@@ -163,13 +165,13 @@ export class CoursecreateComponent implements OnInit {
   cancel(){
   	this.router.navigate(['course/']); 
   }
-  getCourseLists(){
-    this._service.getAllCourse(this.regionID)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.courseList = res;
-    })
-  }
+  // getCourseLists(){
+  //   this._service.getAllCourse(this.regionID)
+  //   .subscribe((res:any) => {
+  //     console.log(res);
+  //     this.courseList = res;
+  //   })
+  // }
 
   // editCourse(course){
   //   console.log("Edit Course",course);
