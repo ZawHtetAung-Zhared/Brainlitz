@@ -15,119 +15,118 @@
 
 	<!-- Staff Modal -->
 	<ng-template #staffModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title">Create Staff</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-	      <span aria-hidden="true">&times;</span>
-	    </button>
-    </div>
-    <form novalidate #s="ngForm">
-      <div class="modal-body">
-      	<div class="form-group">
-  	    	<label for="fname">First Name</label> 	
-  	    	<input type="text" class="form-control" placeholder="Enter user name" name="fname" [(ngModel)]="stuffs.fname" #fname="ngModel">
-  	  	</div>
-  	  	<div class="form-group">
-  	    	<label for="lname">Last Name</label> 	
-  	    	<input type="text" class="form-control" placeholder="Enter user name" name="lname" [(ngModel)]="stuffs.lname" #lname="ngModel">
-  	  	</div>
-  	  	<div class="form-group">
-  	    	<label for="dname">Display Name</label> 	
-  	    	<input type="text" class="form-control" placeholder="Enter user name" name="dname" [(ngModel)]="stuffs.dname" #dname="ngModel">
-  	  	</div>
-  	  	<div class="form-group">
-  	    	<label for="mail">Email</label> 	
-  	    	<input type="email" class="form-control" placeholder="Enter user name" name="mail" [(ngModel)]="stuffs.mail" required #mail="ngModel">
-  	  	</div>
-  	  	<div class="form-group">
-			  	<label for="pwd">Password</label>
-			  	<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="stuffs.pwd" required #pwd="ngModel">
-				</div>
-				<!-- <div class="form-group">
-					<label for="gender">Gender</label><br>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" value="male" name="gender" id="gender-male" [(ngModel)]="stuffs.gender" #male="ngModel">
-					  <label class="form-check-label" for="gender-male">Male</label>
-					</div>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" value="female" name="gender" id="gender-female" [(ngModel)]="stuffs.gender" #female="ngModel">
-					  <label class="form-check-label" for="gender-female">Female</label>
-					</div>
-				</div>
-				<div class="form-group">
-			  	<label for="pwd">Staff Type</label><br>
-			  	<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="type" value="manager" id="manager" [(ngModel)]="stuffs.type" #manager="ngModel">
-						<label class="form-check-label" for="manager">Manager</label>
-					</div>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="type" value="staff" id="staff" [(ngModel)]="stuffs.type" #staff="ngModel">
-					  <label class="form-check-label" for="staff">Staff</label>
-					</div>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="type" value="teacher" id="teacher" [(ngModel)]="stuffs.type" #teacher="ngModel">
-					  <label class="form-check-label" for="teacher">Teacher</label>
-					</div>
-				</div> -->
-		  	<div class="form-group">
-		  		<label for="exampleInputFile">Upload Profile</label>
-						<!--<input type="file" id="stuff--img" class="form-control-file" aria-describedby="fileHelp" name="staffImg" [(ngModel)]="stuffs.staffImg" #staffImg="ngModel" accept="image/*" (change)="onFileChange($event)" #stuffPic> -->
-						<div class="demo-wrap upload-demo">
-	          	<div class="container" style="padding: 0;">
-		            <div class="grid">
-		              <div class="col-1-2">
-		                <div class="actions">
-		                  <a class="btn file-btn">
-		                    <input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file"
-		                      accept="image/*" />
-		                  </a>
-		                  <button *ngIf="blankCrop"class="upload-result result-color" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
-		                </div>
-		              </div><br />
-		              <div class="upload-demo-wrap">
-		                <div id="upload-demo"></div>
-		              </div>
-		            </div>
-	          	</div>
-		        </div>
-		  	</div>
+	    <div class="modal-header">
+	      <h4 class="modal-title">Create Staff</h4>
+	      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+		      <span aria-hidden="true">&times;</span>
+		    </button>
 	    </div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-        	<button type="submit" (click)="createUser(s.value, 'stuff')" class="btn btn-primary" [disabled]="s.invalid">Submit</button>
-      </div>
-    </form>
+	    <form novalidate #s="ngForm">
+      		<div class="modal-body">
+	      	<div class="form-group">
+	  	    	<label for="fname">First Name</label> 	
+	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="fname" [(ngModel)]="formFields.fname" #fname="ngModel">
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	    	<label for="lname">Last Name</label> 	
+	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="lname" [(ngModel)]="formFields.lname" #lname="ngModel">
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	    	<label for="dname">Display Name</label> 	
+	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="dname" [(ngModel)]="formFields.dname" #dname="ngModel">
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	    	<label for="mail">Email</label> 	
+	  	    	<input type="email" class="form-control" placeholder="Enter user name" name="mail" [(ngModel)]="formFields.mail" required #mail="ngModel">
+	  	  	</div>
+	  	  	<div class="form-group">
+				  	<label for="pwd">Password</label>
+				  	<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="formFields.pwd" required #pwd="ngModel">
+					</div>
+					<!-- <div class="form-group">
+						<label for="gender">Gender</label><br>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="radio" value="male" name="gender" id="gender-male" [(ngModel)]="stuffs.gender" #male="ngModel">
+						  <label class="form-check-label" for="gender-male">Male</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="radio" value="female" name="gender" id="gender-female" [(ngModel)]="stuffs.gender" #female="ngModel">
+						  <label class="form-check-label" for="gender-female">Female</label>
+						</div>
+					</div>
+					<div class="form-group">
+				  	<label for="pwd">Staff Type</label><br>
+				  	<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="type" value="manager" id="manager" [(ngModel)]="stuffs.type" #manager="ngModel">
+							<label class="form-check-label" for="manager">Manager</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="radio" name="type" value="staff" id="staff" [(ngModel)]="stuffs.type" #staff="ngModel">
+						  <label class="form-check-label" for="staff">Staff</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="radio" name="type" value="teacher" id="teacher" [(ngModel)]="stuffs.type" #teacher="ngModel">
+						  <label class="form-check-label" for="teacher">Teacher</label>
+						</div>
+					</div> -->
+			  	<div class="form-group">
+			  		<label for="exampleInputFile">Upload Profile</label>
+					<div class="demo-wrap upload-demo">
+			          	<div class="container" style="padding: 0;">
+				            <div class="grid">
+				              <div class="col-1-2">
+				                <div class="actions">
+				                  <a class="btn file-btn">
+				                    <input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file"
+				                      accept="image/*" />
+				                  </a>
+				                  <button *ngIf="blankCrop"class="upload-result result-color" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
+				                </div>
+				              </div><br />
+				              <div class="upload-demo-wrap">
+				                <div id="upload-demo"></div>
+				              </div>
+				            </div>
+			          	</div>
+		        	</div>
+			  	</div>
+	    	</div>
+	      	<div class="modal-footer">
+		      	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+		        	<button type="submit" (click)="createUser(s.value, 'stuff')" class="btn btn-primary" [disabled]="s.invalid">Submit</button>
+	      	</div>
+    	</form>
 	</ng-template>
-
+	<block-ui message="Deafult Message"></block-ui>
 	<!-- Customer Modal -->
 	<ng-template #customerModal let-c="close" let-d="dismiss">
  		<div class="modal-header">
 	      	<h4 class="modal-title">Create Customer</h4>
 	      	<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-	    	<span aria-hidden="true">&times;</span>
+		    	<span aria-hidden="true">&times;</span>
 			</button>
   		</div>
  		<form novalidate #f="ngForm">
 	      	<div class="modal-body">
 	    		<div class="form-group">
 		  	    	<label for="fname">First Name</label> 	
-		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="fname" [(ngModel)]="customers.fname" #fname="ngModel">
+		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="fname" [(ngModel)]="formFieldc.fname" #fname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="lname">Last Name</label> 	
-		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="lname" [(ngModel)]="customers.lname" #lname="ngModel">
+		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="lname" [(ngModel)]="formFieldc.lname" #lname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="dname">Display Name</label> 	
-		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="dname" [(ngModel)]="customers.dname" #dname="ngModel">
+		  	    	<input type="text" class="form-control" placeholder="Enter user name" name="dname" [(ngModel)]="formFieldc.dname" #dname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="mail">Email</label> 	
-		  	    	<input type="email" class="form-control" placeholder="Enter emai" name="mail" [(ngModel)]="customers.mail" required #mail="ngModel">
+		  	    	<input type="email" class="form-control" placeholder="Enter emai" name="mail" [(ngModel)]="formFieldc.mail" required #mail="ngModel">
 		  	  	</div>
-		    	<div class="form-group">
+			  	<div class="form-group">
 					<label for="pwd">Password</label>
-					<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="customers.pwd" required #pwd="ngModel">
+					<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="formFieldc.pwd" required #pwd="ngModel">
 				</div>
 				<div class="form-group">
 		  	    	<label for="gmail">Guardian Email</label>
@@ -146,7 +145,6 @@
 				</div>
 				<div class="form-group">
 					<label for="exampleInputFile">Upload Profile</label>
-					<!-- <input type="file" id="custom -img" class="form-control-file" aria-describedby="fileHelp" name="staffImg" [(ngModel)]="customers.staffImg" #staffImg="ngModel" accept="image/*" (change)="onFileChange($event)" #stuffPic>-->
 					<div class="demo-wrap upload-demo">
 			          	<div class="container" style="padding: 0;">
 				            <div class="grid">
@@ -163,8 +161,8 @@
 					              <div id="upload-demo"></div>
 					            </div>
 				            </div>
-			        </div>
-				      </div>
+			       		 </div>
+				    </div>
 			  	</div>
 			</div>
 	    	<div class="modal-footer">

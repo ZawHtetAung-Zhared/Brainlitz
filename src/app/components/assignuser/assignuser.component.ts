@@ -26,8 +26,10 @@ export class AssignuserComponent implements OnInit {
     this.getUsers();
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.chooseUser = '';
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.chooseUser = '';
     });
   }
 
@@ -36,8 +38,10 @@ export class AssignuserComponent implements OnInit {
     this.getUsers();
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.chooseUser = '';
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.chooseUser = '';
     });
   }
 
