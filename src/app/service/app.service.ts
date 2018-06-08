@@ -441,9 +441,9 @@ export class appService{
       })
     }
 
-    deleteCourse(id, regionid){
-      console.log(id,regionid);
-      let apiUrl = this.baseUrl+ '/'+ regionid + '/course/' +  id;
+    deleteCourse(id){
+      console.log(id);
+      let apiUrl = this.baseUrl+ '/course/' +  id;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})

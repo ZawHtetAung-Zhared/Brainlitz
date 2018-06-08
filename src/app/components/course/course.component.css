@@ -13,3 +13,6 @@ li button{
  .margin-left{
     margin-left: 20px !important;
 }
+.btn-cancel{
+	background: #a9a9a9;
+}
