@@ -32,6 +32,7 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng5-toastr/ng5-toastr';
 import {ToastOptions} from 'ng5-toastr';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {ToastOptions} from 'ng5-toastr';
     NgbModule.forRoot(),
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    ClickOutsideModule
   ],
   providers: [
     appService,

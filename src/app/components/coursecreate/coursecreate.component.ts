@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild,Input,Output,EventEmitter } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -22,6 +23,15 @@ export class CoursecreateComponent implements OnInit {
   public locationList;
   public showPlanList:boolean = false;
   public showPlan:boolean = false;
+  public days = [
+    {"day":"Sun", "val": 0},
+    {"day":"Mon", "val": 1},
+    {"day":"Tue", "val": 2},
+    {"day":"Wed", "val": 3},
+    {"day":"Thu", "val": 4},
+    {"day":"Fri ", "val": 5},
+    {"day":"Sat", "val": 6},
+  ]
   minDate:any;
   maxDate:any;
   // isDisabled:any;
@@ -29,6 +39,9 @@ export class CoursecreateComponent implements OnInit {
   bsValue: Date;
   powers: any;
   @BlockUI() blockUI: NgBlockUI;
+  date = new Date();
+  time = this.date.toTimeString().split(' ')[0].split(':');
+
   
 
   constructor(private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig) {
@@ -100,21 +113,31 @@ export class CoursecreateComponent implements OnInit {
       this.model.locationId = '';
     })
   }
-
-  //  closeDatepicker(id){
-  //   id.close();
-  // }
-
-  // newTest(){
-  //     console.log("Test")
-  //     jQuery("#end").hide();
-
-  // }
   
   back(){
   	console.log("Back Works")
   	this.showCourse = false;
   }
+  
+  selectedDay = [];
+
+  selectDay(data, event): void {
+    console.log("Day",data,event);
+    
+        if (event.target.checked) {
+            this.selectedDay.push(data);
+         } else {
+           var index = this.selectedDay.indexOf(event.target.value);
+           console.log("Else")
+           
+                this.selectedDay.splice(index, 1);
+           
+        }
+       
+        this.selectedDay.sort();
+         console.log(this.selectedDay);
+  }
+
   createCourse(){
 
   	console.log("createCourse work",this.model);
@@ -128,8 +151,9 @@ export class CoursecreateComponent implements OnInit {
       "room": this.model.room,
       "reservedNumberofSeat": this.model.reservedNumSeat,
       "name": this.model.courseName,
-      // "lessonCount": 2,
-      "repeatDays": "[0,1,2,3,4,5,6]",
+      "lessonCount": 11,
+      // "repeatDays": "[0,1,2,3,4,5,6]",
+      "repeatDays": this.selectedDay,
       "description": this.model.description,
     };
   	console.log("Course",this.courseObj);
@@ -164,6 +188,9 @@ export class CoursecreateComponent implements OnInit {
   }
   cancel(){
   	this.router.navigate(['course/']); 
+  }
+  onClickedOutside(e: Event) {
+    console.log('Clicked outside:', e);
   }
   // getCourseLists(){
   //   this._service.getAllCourse(this.regionID)
