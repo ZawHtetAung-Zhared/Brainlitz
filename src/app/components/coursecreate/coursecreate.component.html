@@ -84,7 +84,7 @@
 				<label class="label-input">ENDS</label>
 				<div class="new-input">
 					<div style="margin: 0px 0px 15px 0px">
-						After <input type="number" name="lesson">lessons
+						After <input type="number" name="lesson" required [(ngModel)]="model.lessonCount">lessons
 					</div>
 					<div class="flex-item">
 						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="dp" required [(ngModel)]="model.endDate" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
@@ -141,7 +141,7 @@
 			</div>
 			<div class="form-group" style="float: right;">
 				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-				<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid">Submit</button>
+				<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid && toggleBool">Submit</button>
 			</div>
 		</form>
 	</div>

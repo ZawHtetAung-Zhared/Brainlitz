@@ -23,6 +23,7 @@ export class CoursecreateComponent implements OnInit {
   public locationList;
   public showPlanList:boolean = false;
   public showPlan:boolean = false;
+  public toggleBool: boolean=true;
   public days = [
     {"day":"Sun", "val": 0},
     {"day":"Mon", "val": 1},
@@ -126,12 +127,12 @@ export class CoursecreateComponent implements OnInit {
     
         if (event.target.checked) {
             this.selectedDay.push(data);
+            this.toggleBool= false;
          } else {
            var index = this.selectedDay.indexOf(event.target.value);
            console.log("Else")
-           
-                this.selectedDay.splice(index, 1);
-           
+            this.selectedDay.splice(index, 1);
+            this.toggleBool= true;
         }
        
         this.selectedDay.sort();
@@ -151,7 +152,7 @@ export class CoursecreateComponent implements OnInit {
       "room": this.model.room,
       "reservedNumberofSeat": this.model.reservedNumSeat,
       "name": this.model.courseName,
-      "lessonCount": 11,
+      "lessonCount": this.model.lessonCount,
       // "repeatDays": "[0,1,2,3,4,5,6]",
       "repeatDays": this.selectedDay,
       "description": this.model.description,
