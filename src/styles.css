@@ -3,9 +3,19 @@
 
 @import '../node_modules/croppie/croppie.css';
 
+@font-face {
+  font-family: 'Montserrat-Light';
+  src:  url('assets/fonts/Montserrat-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src:  url('assets/fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
 html,
 body{
     height: 100%;
+    font-family: 'Montserrat-Light','Arial', sans-serif !important;
 }
 main{
     height: 100%;
