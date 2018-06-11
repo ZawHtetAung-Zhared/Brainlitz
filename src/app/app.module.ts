@@ -29,6 +29,7 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
 import { HeaderComponent } from './components/header/header.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
+import { ToolsComponent } from './components/tools/tools.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
     RegionComponent,
     AssignuserComponent,
     HeaderComponent,
-    QuizwerkzComponent
+    QuizwerkzComponent,
+    ToolsComponent
   ],
   imports: [
     BrowserModule,

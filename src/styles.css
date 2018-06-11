@@ -44,18 +44,18 @@ main{
 }
 
 ::placeholder { 
-  color: #c7b6e0 !important;
-  font-size: 13px;
+  color: #c4c4c4 !important;
+  
 }
 
 :-ms-input-placeholder { 
-  color: #c7b6e0 !important;
-  font-size: 13px;
+  color: #c4c4c4 !important;
+  
 }
 
 ::-ms-input-placeholder {
-    color: #c7b6e0 !important;
-    font-size: 13px;
+    color: #c4c4c4 !important;
+    
 }
 
 .select2-container .select2-selection--single{
