@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { calendarField } from './calendar';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-calendar',
@@ -13,7 +14,9 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 })
 export class CalendarComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private _service: appService) { }
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     this.getAllHolidaysCalendar();
@@ -46,7 +49,9 @@ export class CalendarComponent implements OnInit {
 		this.regionID = localStorage.getItem('regionId');
 	    this._service.getAllHolidays(this.regionID)
 	    .subscribe((res:any) => {
-        this.blockUI.stop();
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
 	      this.holidayLists = res;
 	      console.log(this.holidayLists)
 	      }, err => {
@@ -78,9 +83,12 @@ export class CalendarComponent implements OnInit {
  		  this._service.createHolidaysCalendar(this.regionID,dataObj)
 	    .subscribe((res:any) => {
 	      console.log('success holidayCalendar post',res)
+        this.toastr.success('Successfully Created.');
         this.blockUI.stop();
         this.getAllHolidaysCalendar();
 	      }, err => {
+          this.toastr.error('Create Fail');
+          this.blockUI.stop();
 	        console.log(err)
 	      })
   		this.arrayHoliday = [];
@@ -91,7 +99,9 @@ export class CalendarComponent implements OnInit {
       this.regionID = localStorage.getItem('regionId');
         this._service.getAllHolidaysCalendar(this.regionID)
         .subscribe((res:any) => {
-          this.blockUI.stop();
+          setTimeout(() => {
+            this.blockUI.stop(); // Stop blocking
+          }, 300);
           this.calendarLists = res;
           console.log(this.calendarLists)
         }, err => {

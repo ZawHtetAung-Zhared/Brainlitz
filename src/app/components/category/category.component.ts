@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-category',
@@ -22,7 +23,9 @@ export class CategoryComponent implements OnInit {
   public categoryList: any;
   public isEdit:boolean = false;
 
-  constructor(private modalService: NgbModal, private _service: appService) { }
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     this.getAllCategories();
@@ -30,12 +33,17 @@ export class CategoryComponent implements OnInit {
 
   createCategory(item) {
   	console.log(item);
+      this.blockUI.start('Loading...');
+      this.modalReference.close();
       this._service.createCategory(item, this.regionID)
       .subscribe((res:any) => {
         console.log(res);
-        this.modalReference.close();
+        this.toastr.success('Successfully Created.');
+        this.blockUI.stop();
         this.getAllCategories();
       },err => {
+        this.toastr.error('Create Fail');
+        this.blockUI.stop();
         console.log(err);
       })
       this.item = {};
@@ -98,6 +106,7 @@ export class CategoryComponent implements OnInit {
     this._service.updateCategory(data._id,data)
     .subscribe((res:any) => {
       console.log(res);
+      this.toastr.success('Successfully Updated.');
       this.modalReference.close();
       this.getAllCategories();
       this.isEdit = false;

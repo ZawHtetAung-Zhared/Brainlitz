@@ -31,7 +31,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng5-toastr/ng5-toastr';
-import {ToastOptions} from 'ng5-toastr';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 @NgModule({
   declarations: [
@@ -63,11 +63,13 @@ import {ToastOptions} from 'ng5-toastr';
     NgbModule.forRoot(),
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger' // set defaults here
+    })
   ],
   providers: [
-    appService,
-    ToastOptions
+    appService
   ],
   bootstrap: [AppComponent]
 })

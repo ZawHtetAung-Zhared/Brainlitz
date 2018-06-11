@@ -2,6 +2,7 @@
 /*@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";*/
 
 @import '../node_modules/croppie/croppie.css';
+@import '../node_modules/ng5-toastr/bundles/ng5-toastr.min.css';
 
 html,
 body{

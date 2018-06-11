@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { cPlanField } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 declare var $: any;
 
@@ -15,7 +16,9 @@ declare var $: any;
 })
 export class CourseplanComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private _service: appService) { }
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     this.getAllCoursePlan();
@@ -38,15 +41,20 @@ export class CourseplanComponent implements OnInit {
   formField: cPlanField = new cPlanField();
   depositLists: any;
   @BlockUI() blockUI: NgBlockUI;
-  holidayLists: any;
+  holidayCalendarLists: any;
+  public updateButton: boolean = false;
+  public createButton: boolean = true;
 
 	open(content){
+    this.formField = new cPlanField();
 		this.showModal = true;
 		this.showsubModal = false;
     this.showLoading = true;
 		this.checked = false;
+    this.updateButton = false;
+    this.createButton = true;
     this.getAllDeposit();
-    this.getAllHolidays();
+    this.getAllHolidaysCalendar();
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
     this.formField = new cPlanField();
@@ -100,9 +108,9 @@ export class CourseplanComponent implements OnInit {
       "name": formData.coursename,
       "description": formData.description,
       "makeupPolicy": {
-        "allowMakeupPass": formData.allowMakeup,
-        "maxPassPerUser":  formData.makeupUser,
-        "maxDayPerPass": formData.makeupPass
+        "allowMakeupPass": formData.allowmakeup,
+        "maxPassPerUser":  formData.makeupuser,
+        "maxDayPerPass": formData.makeuppass
       },
       "allowPagewerkzBooks": formData.allowpagewerkz,
       "paymentPolicy": {
@@ -122,19 +130,24 @@ export class CourseplanComponent implements OnInit {
         "min": formData.minage,
         "max": formData.maxage,
       },
-      "quizwerkz": 'dummystring'
-
+      "quizwerkz": '5b1de641e262092b06a1cce1',
+      "holidayCalendarId": formData.holidayCalendar
     }
+
     this.blockUI.start('Loading...');
     this.modalReference.close();
     this._service.createCoursePlan(this.regionID,data)
     .subscribe((res:any) => {
       console.log('success post',res);
+      this.toastr.success('Successfully Created.');
       this.blockUI.stop();
       this.getAllCoursePlan();
       }, err => {
+        this.toastr.error('Create Fail');
+        this.blockUI.stop();
         console.log(err)
       })
+    
   }
 
   deleteCoursePlan(id){
@@ -142,8 +155,10 @@ export class CourseplanComponent implements OnInit {
 		this._service.deleteCoursePlan(id)
 		.subscribe((res:any) => {
 			console.log(res);
+     this.toastr.success('Successfully Deleted.');
 			this.getAllCoursePlan();
 		},err => {
+     this.toastr.error('Delete Fail');
 			console.log(err);
 		})
 	}
@@ -153,7 +168,9 @@ export class CourseplanComponent implements OnInit {
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
       this.courseplanLists = res;
-      this.blockUI.stop();
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
       console.log(this.courseplanLists)
       }, err => {
         console.log(err)
@@ -170,13 +187,87 @@ export class CourseplanComponent implements OnInit {
       })
   }
 
-  getAllHolidays(){
-      this._service.getAllHolidays(this.regionID)
+  getAllHolidaysCalendar(){
+      this._service.getAllHolidaysCalendar(this.regionID)
       .subscribe((res:any) => {
-        this.holidayLists = res;
+        this.holidayCalendarLists = res;
         }, err => {
           console.log(err)
         })
   }
+  editId: any;
+  editcPlan(content, id){
+    console.log(id)
+    this.updateButton = true;
+    this.createButton = false;
+    this.getAllDeposit();
+    this.getAllHolidaysCalendar();
+    this.showModal = false;
+    this.showsubModal = true;
+    this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap', size: 'lg'});
+    this._service.getSignlecPlan(id)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.formField = res;
+      this.editId = res._id;
+    },err => {
+      console.log(err);
+    })
+  }
+
+  updatedPlan(formData){
+    console.log('updated', formData)
+    let data = {
+      "regionId": this.regionID,
+      "categoryId": this.categoryId,
+      "name": formData.coursename,
+      "description": formData.description,
+      "makeupPolicy": {
+        "allowMakeupPass": formData.allowmakeup,
+        "maxPassPerUser":  formData.makeupuser,
+        "maxDayPerPass": formData.makeuppass
+      },
+      "allowPagewerkzBooks": formData.allowpagewerkz,
+      "paymentPolicy": {
+        "deposit": formData.deposit,
+        "courseFee": formData.courseFee,
+        "allowProrated": formData.allowProrated,
+        "proratedLessonFee": formData.proratedLessonFee,
+        "miscFee": formData.miscFee
+      },
+      "lesson": {
+        "min": formData.minDuration,
+        "max": formData.maxDuration,
+        "duration": formData.lesson_duration
+      },
+      "seats": formData.seats,
+      "age": {
+        "min": formData.minage,
+        "max": formData.maxage,
+      },
+      "quizwerkz": '5b1de641e262092b06a1cce1',
+      "holidayCalendarId": formData.holidayCalendar
+    }
+    this.blockUI.start('Loading...');
+    this.modalReference.close();
+    console.log('this.editId', this.editId)
+    this._service.updateSignlecPlan(this.editId, data)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.toastr.success('Successfully Updated.');
+      this.blockUI.stop();
+      this.getAllCoursePlan();
+    },err => {
+      console.log(err);
+    })
+    this.formField = new cPlanField();
+  }
 
 }
+
+  export class MyComponent {
+    public popoverTitle: string = 'Are you sure?';
+    public popoverMessage: string = 'Are you really <b>sure</b> you want to do this?';
+    public confirmClicked: boolean = false;
+    public cancelClicked: boolean = false;
+  }

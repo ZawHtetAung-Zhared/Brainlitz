@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild,Input,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-coursecreate',
@@ -31,7 +32,8 @@ export class CoursecreateComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   
 
-  constructor(private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig) {
+  constructor(private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
       // weekends are disabled
     // config.markDisabled = (date: NgbDateStruct) => {
     //   const d = new Date(date.year, date.month - 1, date.day);
@@ -136,6 +138,7 @@ export class CoursecreateComponent implements OnInit {
   	this._service.createCourse(this.regionID,this.courseObj)
   	.subscribe((res:any) => {
     	console.log(res); 
+      this.toastr.success('Successfully Created.');
     });
     this.router.navigate(['course/']); 
   }

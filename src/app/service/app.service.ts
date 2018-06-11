@@ -491,6 +491,34 @@ export class appService{
       }) 
     }
 
+    getSignlecPlan(id:string){
+      let apiUrl = this.baseUrl + '/courseplan/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    updateSignlecPlan(id:string, data: object){
+      let apiUrl = this.baseUrl + '/courseplan/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 }
 
 

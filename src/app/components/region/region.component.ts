@@ -55,7 +55,9 @@ export class RegionComponent implements OnInit {
   	.subscribe((res:any) => {
       console.log('show the region lists')
   		this.regionLists = res;
-      this.blockUI.stop();
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
   		console.log(this.regionLists);
     }, err => {
     	console.log(err)

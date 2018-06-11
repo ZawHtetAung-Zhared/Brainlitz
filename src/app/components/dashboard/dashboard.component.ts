@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { TimezonePickerService, Timezone } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,9 @@ export class DashboardComponent implements OnInit {
     url: ''
   };
 
-  constructor(private _service: appService) { }
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
   	console.log('hello');
@@ -47,6 +50,7 @@ export class DashboardComponent implements OnInit {
     console.log(data)
     this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
     .subscribe((res:any) => {
+      this.toastr.success('Successfully Updated.');
       console.log('~~~', res)
     }, err => {
       console.log(err)
