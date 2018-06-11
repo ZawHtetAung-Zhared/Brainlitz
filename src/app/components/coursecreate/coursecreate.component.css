@@ -77,3 +77,27 @@
 .newbtn{
   margin-right: 10px;
 }
+.selected {color: OrangeRed;}
+.day{
+    width: 60px;
+    padding: 2px;
+    background: #e9ecef;
+    margin: 5px 10px 5px 0px;
+}
+.form-head{
+  display: flex;
+  margin: 15px 0px 15px 0px;
+}
+.label-input{
+  width: 30%;
+}
+.form-input{
+  width: 70%;
+  display: flex;
+}
+.label-location{
+  width: 30%;
+}
+.new-input{
+  width: 70%;
+}

@@ -2,14 +2,46 @@
 <div class="mb-30">
   <button class="btn btn-primary" (click)="changeRoute()">+ Course Create</button>
 </div>
+<block-ui message="Deafult Message"></block-ui>
 <div class="scrollable container">
   <ul class="list-group-flush">
     <li class="list-group-item" *ngFor="let course of courseList">
       <span style="margin-right: 20px;">{{course.courseCode}}</span>{{course.name}}
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">View</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
     </li>
   </ul>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>Are You sure you want to delete?</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger" (click)="comfirmDelete(selectCourse,content1)">Delete</button>
+  </div>
+</ng-template>
+
+<ng-template #content1 let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>We are going to delete {{deleteCourse.name}}</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger" (click)="courseDelete(deleteCourse._id)">Comfirm</button>
+  </div>
+</ng-template>
 
 <!-- <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">

@@ -4,6 +4,8 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 declare var $: any;
 
 @Component({
@@ -23,6 +25,7 @@ export class LocationComponent implements OnInit {
 	model: Location = new Location();
 	private modalReference: NgbModalRef;
 	closeResult: string;
+	@BlockUI() blockUI: NgBlockUI;
 
 	constructor(private modalService: NgbModal, private _service: appService) { }
 
@@ -31,7 +34,7 @@ export class LocationComponent implements OnInit {
 	}
 
 	open(locationModal) {
-	  this.modalReference = this.modalService.open(locationModal);
+	  this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
 	  this.modalReference.result.then((result) => {
 	    this.closeResult = `Closed with: ${result}`;
 	    this.model = new Location();
@@ -53,8 +56,10 @@ export class LocationComponent implements OnInit {
 
 	
 	getAllLocation(){
+		this.blockUI.start('Loading...');
 		this._service.getLocations(this.regionID)
 		.subscribe((res:any) => {
+			this.blockUI.stop();
     		this.locationLists = res;
 	    }, err => {
 	    	console.log(err)
@@ -70,22 +75,26 @@ export class LocationComponent implements OnInit {
 		}
 		if(update == true){
 			console.log(update)
+			this.blockUI.start('Loading...');
+    		this.modalReference.close();
 			this._service.updateLocation(locationID, data)
 			 .subscribe((res:any) => {
 	     		console.log(res)
 	     		this.model = new Location();
-	     		this.modalReference.close();
+	     		this.blockUI.stop();
 	     		this.getAllLocation();
 	     	}, err => {
 	     		console.log(err)
 	    })
 		}else{
     	console.log("Form Submitted!", this.regionID);
+    	this.blockUI.start('Loading...');
+    	this.modalReference.close();
     	this._service.createLocation(this.regionID, obj)
       	.subscribe((res:any) => {
     		console.log(res);
     		this.model = new Location();
-    		this.modalReference.close();
+    		this.blockUI.stop();
     		this.getAllLocation();
 	    }, err => {
 	    	console.log(err)

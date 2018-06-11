@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-assignuser',
@@ -15,6 +16,8 @@ export class AssignuserComponent implements OnInit {
   modalReference:any;
   closeResult: any;
   public chooseUser: any;
+  @BlockUI('contact-list') blockUIList: NgBlockUI;
+
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -56,10 +59,12 @@ export class AssignuserComponent implements OnInit {
   }
 
   getUsers(){
+    this.blockUIList.start('Loading...');
   	this._service.getAllUsers(this.regionid)
   	.subscribe((res:any) => {
   		console.log(res);
   		this.userList = res;
+      this.blockUIList.stop(); 
   	})
   }
 
@@ -71,8 +76,10 @@ export class AssignuserComponent implements OnInit {
         'userId': id,
        'userType': 'staff'
      }
+     this.blockUIList.start('Loading...');
      this._service.assignUser(this.regionid,obj1)
      .subscribe((res:any) => {
+       this.blockUIList.stop();
        console.log(res);
      })
      this.modalReference.close();
@@ -82,14 +89,14 @@ export class AssignuserComponent implements OnInit {
         'userId': id,
        'userType': 'customer'
      }
+     this.blockUIList.start('Loading...');
      this._service.assignUser(this.regionid,obj)
      .subscribe((res:any) => {
+       this.blockUIList.stop(); 
        console.log(res);
      })
      this.modalReference.close();
     }
-  	
-  	
   }
 
   backtoCourse(){

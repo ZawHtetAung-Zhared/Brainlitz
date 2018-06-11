@@ -4,6 +4,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { calendarField } from './calendar';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-calendar',
@@ -15,7 +16,6 @@ export class CalendarComponent implements OnInit {
   constructor(private modalService: NgbModal, private _service: appService) { }
 
   ngOnInit() {
-  	// this.getAllHolidays();
     this.getAllHolidaysCalendar();
   }
 
@@ -27,6 +27,7 @@ export class CalendarComponent implements OnInit {
 	holidayLists: any;
   calendarLists: any;
   formField: calendarField = new calendarField();
+  @BlockUI() blockUI: NgBlockUI;
 
   open(content){
     this.getAllHolidays();
@@ -41,9 +42,11 @@ export class CalendarComponent implements OnInit {
 	}
 
 	getAllHolidays(){
+    this.blockUI.start('Loading...');
 		this.regionID = localStorage.getItem('regionId');
 	    this._service.getAllHolidays(this.regionID)
 	    .subscribe((res:any) => {
+        this.blockUI.stop();
 	      this.holidayLists = res;
 	      console.log(this.holidayLists)
 	      }, err => {
@@ -70,21 +73,25 @@ export class CalendarComponent implements OnInit {
   			"holidays": this.arrayHoliday
   		}
   		console.log(dataObj);
- 		 this._service.createHolidaysCalendar(this.regionID,dataObj)
+      this.blockUI.start('Loading...');
+      this.modalReference.close();
+ 		  this._service.createHolidaysCalendar(this.regionID,dataObj)
 	    .subscribe((res:any) => {
 	      console.log('success holidayCalendar post',res)
+        this.blockUI.stop();
         this.getAllHolidaysCalendar();
 	      }, err => {
 	        console.log(err)
 	      })
   		this.arrayHoliday = [];
-  		this.modalReference.close();
   	}
 
     getAllHolidaysCalendar(){
+      this.blockUI.start('Loading...');
       this.regionID = localStorage.getItem('regionId');
         this._service.getAllHolidaysCalendar(this.regionID)
         .subscribe((res:any) => {
+          this.blockUI.stop();
           this.calendarLists = res;
           console.log(this.calendarLists)
         }, err => {

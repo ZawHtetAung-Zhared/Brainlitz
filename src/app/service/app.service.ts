@@ -441,9 +441,9 @@ export class appService{
       })
     }
 
-    deleteCourse(id, regionid){
-      console.log(id,regionid);
-      let apiUrl = this.baseUrl+ '/'+ regionid + '/course/' +  id;
+    deleteCourse(id){
+      console.log(id);
+      let apiUrl = this.baseUrl+ '/course/' +  id;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -475,6 +475,20 @@ export class appService{
           console.log(result)
           return result;
         })
+    }
+
+    getAllDeposit(id: string): Observable<any>{
+      let url = this.baseUrl+ '/' + id + '/deposits';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
     }
 
 }

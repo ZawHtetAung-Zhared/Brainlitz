@@ -30,7 +30,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
-
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastModule} from 'ng5-toastr/ng5-toastr';
+import {ToastOptions} from 'ng5-toastr';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -61,10 +64,14 @@ import { ToolsComponent } from './components/tools/tools.component';
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),
-    BlockUIModule.forRoot()
+    BlockUIModule.forRoot(),
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
+    ClickOutsideModule
   ],
   providers: [
-    appService
+    appService,
+    ToastOptions
   ],
   bootstrap: [AppComponent]
 })
