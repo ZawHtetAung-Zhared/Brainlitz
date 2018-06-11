@@ -140,3 +140,11 @@ input:checked ~ .checkmark:after {
 	box-shadow: none !important;
 }
 
+.view label {
+	font-weight: bold;
+}
+
+.view span {
+	font-size: 14px;
+}
+

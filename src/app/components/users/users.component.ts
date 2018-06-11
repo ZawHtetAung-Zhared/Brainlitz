@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { Staff } from './staff';
 import { Customer } from './customer';
@@ -16,6 +16,7 @@ import { environment } from '../../../environments/environment';
 import { staff } from './user';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 declare var $:any;
 
@@ -52,12 +53,13 @@ export class UsersComponent implements OnInit {
 	public showLoading: boolean = false;
 	@BlockUI() blockUI: NgBlockUI;
 
-	constructor(private modalService: NgbModal, private _service: appService) { 
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
 	    this.cropperSettings1.rounded = true;
 	    this.cropperSettings1.noFileInput = true;
 	    this.cropperSettings1.cropperDrawSettings.strokeColor = "rgba(255,0,0,1)";
 	    this.cropperSettings1.cropperDrawSettings.strokeWidth = 2;
+	    this.toastr.setRootViewContainerRef(vcr);
 	}
 
 
@@ -197,11 +199,14 @@ export class UsersComponent implements OnInit {
 		this.modalReference.close();
 		this._service.createUser(dataObj)
     	.subscribe((res:any) => {
-  		console.log(res)
+  			console.log(res)
+  			this.toastr.success('Successfully Created.');
 	  		this.blockUI.stop();
 	  		this.getAllUsers();
 	  		console.log(this.userLists)
 	    }, err => {
+	    	this.toastr.error('Create Fail');
+	    	this.blockUI.stop();
 	    	console.log(err)
 	    })
     		
@@ -213,7 +218,9 @@ export class UsersComponent implements OnInit {
 		this._service.getAllUsers(this.regionID)
 		.subscribe((res:any) => {
 			this.userLists = res;
-			this.blockUI.stop();
+			setTimeout(() => {
+		        this.blockUI.stop(); // Stop blocking
+		    }, 300);
 			console.log(this.userLists)
 	    }, err => {
 	    	console.log(err)
