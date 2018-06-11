@@ -32,7 +32,7 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng5-toastr/ng5-toastr';
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+//import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
 
@@ -68,9 +68,9 @@ import { ClickOutsideModule } from 'ng-click-outside';
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
     ToastModule.forRoot(),
-    ConfirmationPopoverModule.forRoot({
-      confirmButtonType: 'danger' // set defaults here
-    })
+    //ConfirmationPopoverModule.forRoot({
+     // confirmButtonType: 'danger' // set defaults here
+    //}),
     ClickOutsideModule
   ],
   providers: [

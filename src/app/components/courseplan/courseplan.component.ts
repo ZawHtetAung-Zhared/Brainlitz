@@ -29,6 +29,7 @@ export class CourseplanComponent implements OnInit {
 	showsubModal: boolean = true;
 	checked: boolean = false;
 	modalReference: any;
+  modalReference1: any;
 	closeResult: any;
   checkedName: any;
   courseCategories: any;
@@ -44,6 +45,11 @@ export class CourseplanComponent implements OnInit {
   holidayCalendarLists: any;
   public updateButton: boolean = false;
   public createButton: boolean = true;
+  editId: any;
+  selectcPlan: any;
+  viewCplan: any;
+  holidayCalendarName: any;
+  depositName: any;
 
 	open(content){
     this.formField = new cPlanField();
@@ -55,7 +61,7 @@ export class CourseplanComponent implements OnInit {
     this.createButton = true;
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
-		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap', size: 'lg'});
+		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
     this.formField = new cPlanField();
     //this.showLoading = false;  
@@ -150,18 +156,77 @@ export class CourseplanComponent implements OnInit {
     
   }
 
-  deleteCoursePlan(id){
+  onclickDelete(cplan, confirmDelete1){
+    this.selectcPlan = cplan;
+    console.log("onclickDelete",confirmDelete1);
+    this.modalReference = this.modalService.open(confirmDelete1, { backdrop:'static', windowClass: 'animation-wrap'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Closed with: ${reason}`;
+    });
+  }
+
+  comfirmDelete(selectcPlan ,confirmDelete2){
+    this.selectcPlan = selectcPlan;
+    this.modalReference.close();
+    this.modalReference1 = this.modalService.open(confirmDelete2, { backdrop:'static', windowClass: 'animation-wrap'});
+    this.modalReference1.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Closed with: ${reason}`;
+    });
+  }
+
+  deleteCoursePlan(id) {
 		console.log(id)
+    this.blockUI.start('Loading...');
+    this.modalReference1.close();
 		this._service.deleteCoursePlan(id)
 		.subscribe((res:any) => {
 			console.log(res);
-     this.toastr.success('Successfully Deleted.');
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
+      this.toastr.success('Successfully Deleted.');
 			this.getAllCoursePlan();
 		},err => {
      this.toastr.error('Delete Fail');
 			console.log(err);
 		})
 	}
+
+  viewPlan(view, id){
+    this.getAllHolidaysCalendar();
+    this.getAllDeposit();
+    this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Closed with: ${reason}`;
+    });
+    this._service.getSignlecPlan(id)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.viewCplan = res;
+      if(this.holidayCalendarLists){
+        for( var i = 0; i < this.holidayCalendarLists.length; i++){
+          if(this.viewCplan.holidayCalendarId == this.holidayCalendarLists[i]._id){
+            this.holidayCalendarName = this.holidayCalendarLists[i].name;
+          }
+        }
+      }
+      if(this.depositLists){
+        for( var j = 0; j < this.depositLists.length; j++){
+          if(this.viewCplan.paymentPolicy.deposit == this.depositLists[j]._id){
+            this.depositName = this.depositLists[j].amount;
+          }
+        }
+      }
+    },err => {
+      console.log(err);
+    })
+  }
 
   getAllCoursePlan(){
     this.blockUI.start('Loading...');
@@ -181,7 +246,7 @@ export class CourseplanComponent implements OnInit {
     this._service.getAllDeposit(this.regionID)
     .subscribe((res:any) => {
       this.depositLists = res;
-      console.log(this.courseplanLists)
+      console.log(this.depositLists)
       }, err => {
         console.log(err)
       })
@@ -195,7 +260,7 @@ export class CourseplanComponent implements OnInit {
           console.log(err)
         })
   }
-  editId: any;
+
   editcPlan(content, id){
     console.log(id)
     this.updateButton = true;
@@ -264,10 +329,3 @@ export class CourseplanComponent implements OnInit {
   }
 
 }
-
-  export class MyComponent {
-    public popoverTitle: string = 'Are you sure?';
-    public popoverMessage: string = 'Are you really <b>sure</b> you want to do this?';
-    public confirmClicked: boolean = false;
-    public cancelClicked: boolean = false;
-  }
