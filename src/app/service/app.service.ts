@@ -96,7 +96,7 @@ export class appService{
       console.log(obj)     
       console.log(obj.locationId)     
       this.getLocalstorage();
-      let url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&' + obj.type + '=1'  ;
+      let url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option   ;
       console.log(url)
       const httpOptions = {
         headers: new HttpHeaders({  

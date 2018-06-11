@@ -30,7 +30,7 @@ export class ToolsComponent implements OnInit {
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
-      "type": data.type
+      "option": data.type
     }
 
     let body = {

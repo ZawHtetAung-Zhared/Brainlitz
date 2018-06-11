@@ -1,7 +1,7 @@
-<h2>Send notification</h2>
+<h2 class="title-heading">Send notification</h2>
 <div class="d-flex flex-row">
 	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		<form novalidate #notiForm="ngForm">
+		<form novalidate #notiForm="ngForm" class="notif">
 			<div class="form-group">
 			  	<label for="address">Send to</label>
 			  	<div class="d-flex">
@@ -32,19 +32,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-check">
-			    <label class="form-check-label">
-			      <input type="checkbox" class="form-check-input" name="activeUser" [(ngModel)]="item.activeUser" #activeUser="ngModel">
-			      Only active users
-			    </label>
+			<div class="form-group">
+				<div class="form-check">
+				    <label class="form-check-label">
+				      <input type="checkbox" class="form-check-input" name="activeUser" [(ngModel)]="item.activeUser" #activeUser="ngModel">
+				      Only active users
+				    </label>
+				</div>
 			</div>
 			<div class="form-group">
-			  <label for="address">Subject</label>
+			  <label for="address" class="lable-title">Subject</label>
 			  <input type="text" class="form-control" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" required>
 			</div>
 			<div class="form-group">
-			  <label for="address">Message</label>
-			  <textarea class="form-control" rows="4" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
+			  <label for="address" class="lable-title">Message</label>
+			  <textarea class="form-control" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
 			</div>			
 			<div>
 				<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
@@ -53,6 +55,8 @@
 		</form>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-		
+		<div class="user-count">
+			
+		</div>
 	</div>
 </div>
