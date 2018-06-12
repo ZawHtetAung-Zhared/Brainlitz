@@ -24,7 +24,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllCoursePlan();
   }
 
-  public regionID = localStorage.getItem('regionId');;
+  public regionID = localStorage.getItem('regionId');
 	showModal: boolean = false;
 	showsubModal: boolean = true;
 	checked: boolean = false;
