@@ -50,3 +50,6 @@ input[type="radio"]:checked{
     margin-top: 5em;
     margin-left: 3em;
 }
+.choose-cat{	
+	width: 95.5% !important;
+}

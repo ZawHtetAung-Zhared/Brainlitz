@@ -33,11 +33,35 @@
 				</div>
 			</div>
 
-			<div *ngIf="isChecked == 'category'" class="form-group">
-				hi category
+			<div *ngIf="isChecked == 'category'" class="form-group choose-cat">
+				<label for="typeahead-focus">Search for a category:</label>	
+				<input
+				  id="typeahead-focus"
+				  type="text"
+				  class="form-control"
+				  name="itemID"
+				  [(ngModel)]="item.itemID"
+				  #itemID="ngModel"
+				  (focus)="focus$.next($event.target.value)"
+				  (click)="click$.next($event.target.value)"
+				  [ngbTypeahead]="search"
+				  #instance="ngbTypeahead"
+				/>
 			</div>
 			<div *ngIf="isChecked == 'course'" class="form-group">
-				hi isCourse
+				<label for="typeahead-focus">Search for a course:</label>	
+				<input
+				  id="typeahead-focus"
+				  type="text"
+				  class="form-control"
+				  name="itemID"
+				  [(ngModel)]="item.itemID"
+				  #itemID="ngModel"
+				  (focus)="focus$.next($event.target.value)"
+				  (click)="click$.next($event.target.value)"
+				  [ngbTypeahead]="search"
+				  #instance="ngbTypeahead"
+				/>
 			</div>
 			<div *ngIf="isChecked == 'user'" class="form-group">
 				hi isUser
