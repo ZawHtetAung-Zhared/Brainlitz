@@ -35,6 +35,7 @@ import {ToastModule} from 'ng5-toastr/ng5-toastr';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { TimepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -68,10 +69,11 @@ import { ClickOutsideModule } from 'ng-click-outside';
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
     ToastModule.forRoot(),
+    ClickOutsideModule,
+    TimepickerModule.forRoot()
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),
-    ClickOutsideModule
   ],
   providers: [
     appService

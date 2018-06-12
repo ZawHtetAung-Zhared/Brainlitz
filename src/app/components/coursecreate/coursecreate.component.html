@@ -56,13 +56,13 @@
 			<div class="form-group form-head">
 				<label class="label-input">Start:</label>
 				<div class="flex-item">
-			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="dp" required [(ngModel)]="model.startDate" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
+			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.startDate" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
 					  <div class="overlay" (click)="start.toggle();end.close();"><img src="./assets/img/calendar.png"></div>
 			    </div>
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Start Time</label>
-				<input id="test1" type="time" value="10:40"/>
+				<input id="test1" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" />
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Duration:</label>
@@ -84,10 +84,10 @@
 				<label class="label-input">ENDS</label>
 				<div class="new-input">
 					<div style="margin: 0px 0px 15px 0px">
-						After <input type="number" name="lesson" required [(ngModel)]="model.lessonCount">lessons
+						After <input type="number" name="lesson" required [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
 					</div>
 					<div class="flex-item">
-						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="dp" required [(ngModel)]="model.endDate" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="end" required [(ngModel)]="model.endDate" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
 						  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
 					</div>
 				</div>
@@ -141,6 +141,7 @@
 			</div>
 			<div class="form-group" style="float: right;">
 				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
+				<!-- <button type="button" class="btn btn-primary" (click)="createCourse()">Submit</button> -->
 				<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid && toggleBool">Submit</button>
 			</div>
 		</form>
