@@ -33,6 +33,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng5-toastr/ng5-toastr';
 import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { TimepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { ClickOutsideModule } from 'ng-click-outside';
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
     ToastModule.forRoot(),
-    ClickOutsideModule
+    ClickOutsideModule,
+    TimepickerModule.forRoot()
   ],
   providers: [
     appService,

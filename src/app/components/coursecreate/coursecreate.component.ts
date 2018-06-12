@@ -41,9 +41,7 @@ export class CoursecreateComponent implements OnInit {
   powers: any;
   @BlockUI() blockUI: NgBlockUI;
   date = new Date();
-  time = this.date.toTimeString().split(' ')[0].split(':');
-
-  
+  // mytime: Date = new Date(); 
 
   constructor(private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig) {
       // weekends are disabled
@@ -140,7 +138,6 @@ export class CoursecreateComponent implements OnInit {
   }
 
   createCourse(){
-
   	console.log("createCourse work",this.model);
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
@@ -156,6 +153,7 @@ export class CoursecreateComponent implements OnInit {
       // "repeatDays": "[0,1,2,3,4,5,6]",
       "repeatDays": this.selectedDay,
       "description": this.model.description,
+      // "starttime": this.changeTime(this.model.starttime)
     };
   	console.log("Course",this.courseObj);
   	this._service.createCourse(this.regionID,this.courseObj)
@@ -179,14 +177,28 @@ export class CoursecreateComponent implements OnInit {
   //   console.log(d);
   //   return date.day==13;
   // }
-  
+  // new Date(Date.UTC.apply(undefined, dateParts.concat(timeParts))).toISOString();
+  // changeDateFormat(date,time){
+  //   console.log(date,time)
+  // 	let ngbDate = date;
+  // 	let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
+  //   console.log(myDate)
+  //   let newFormat = (myDate.toISOString()); 
+  //   // let newFormat = new Date(Date.UTC.apply(undefined,myDate.concat(time))).toISOString();
+  //   console.log(newFormat);
+  // 	return newFormat;
+  // }
   changeDateFormat(date){
-  	let ngbDate = date;
-  	let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
+    let ngbDate = date;
+    let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
+    console.log(myDate)
     let newFormat = (myDate.toISOString()); 
     console.log(newFormat);
-  	return newFormat;
+    return newFormat;
   }
+  // changeTime(time){
+  //   console.log(time);
+  // }
   cancel(){
   	this.router.navigate(['course/']); 
   }
