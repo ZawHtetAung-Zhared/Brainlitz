@@ -1,0 +1,10 @@
+#inputState {
+	border: none;
+	font-weight: bold;
+	width: auto;
+	height: auto;
+}
+
+#inputState:focus {
+	box-shadow: none;
+}

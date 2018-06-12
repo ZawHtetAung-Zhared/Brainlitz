@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 declare var $:any;
@@ -12,10 +12,20 @@ declare var $:any;
 export class HeaderComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public locationLists: any;
+  public showHeader: any;
   
-  constructor(private _router: Router, private _service: appService) { }
+  constructor(private _router: Router, private _service: appService) {
+    _router.events.forEach((event) => {
+    console.log(event)
+      if(event instanceof NavigationStart) {
+        this.showHeader = (event.url == "/login" || event.url == "/" ) ? this.showHeader = false : this.showHeader = true; 
+      }
+    });
+
+   }
   
   ngOnInit() {
+    this.getAllLocation();
   }
 
   logoff(){
@@ -34,4 +44,12 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  selectLocation(e){
+    let locationId = e.target.value;
+    localStorage.setItem('locationId', locationId)
+    console.log(e)
+  }
+
+
 }
+
