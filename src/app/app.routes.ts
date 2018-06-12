@@ -17,6 +17,7 @@ import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
+import { ToolsComponent } from './components/tools/tools.component';
 
 export const routes: Routes = [
     
@@ -75,6 +76,10 @@ export const routes: Routes = [
     {
       path: 'quizwerkz',
       component: QuizwerkzComponent
+    },
+    {
+      path: 'tools',
+      component: ToolsComponent
     },
     {
       path:'**',

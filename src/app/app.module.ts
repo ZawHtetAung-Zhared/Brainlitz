@@ -29,8 +29,10 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
 import { HeaderComponent } from './components/header/header.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
+import { ToolsComponent } from './components/tools/tools.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng5-toastr/ng5-toastr';
+//import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TimepickerModule } from 'ngx-bootstrap';
@@ -53,7 +55,8 @@ import { TimepickerModule } from 'ngx-bootstrap';
     RegionComponent,
     AssignuserComponent,
     HeaderComponent,
-    QuizwerkzComponent
+    QuizwerkzComponent,
+    ToolsComponent
   ],
   imports: [
     BrowserModule,
@@ -68,10 +71,12 @@ import { TimepickerModule } from 'ngx-bootstrap';
     ToastModule.forRoot(),
     ClickOutsideModule,
     TimepickerModule.forRoot()
+    //ConfirmationPopoverModule.forRoot({
+     // confirmButtonType: 'danger' // set defaults here
+    //}),
   ],
   providers: [
-    appService,
-    ToastOptions
+    appService
   ],
   bootstrap: [AppComponent]
 })

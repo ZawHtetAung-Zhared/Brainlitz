@@ -92,6 +92,24 @@ export class appService{
       })
     }
 
+    createNoti(obj, body): Observable<any>{ 
+      console.log(obj)     
+      console.log(obj.locationId)     
+      this.getLocalstorage();
+      let url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option   ;
+      console.log(url)
+      const httpOptions = {
+        headers: new HttpHeaders({  
+          'Content-Type': 'application/json',
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log('service ~~ ', result);
+        return result;
+      })
+    }
 
     getLocations(id: string): Observable<any>{
       this.getLocalstorage();
@@ -101,11 +119,11 @@ export class appService{
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-           return this.httpClient.get(url, httpOptions)
-          .map((res:Response) => {
-            let result = res;
-            console.log(result);        
-            return result;
+         return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
         }) 
       }
 
@@ -489,6 +507,34 @@ export class appService{
         console.log(result);        
         return result;
       }) 
+    }
+
+    getSignlecPlan(id:string){
+      let apiUrl = this.baseUrl + '/courseplan/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    updateSignlecPlan(id:string, data: object){
+      let apiUrl = this.baseUrl + '/courseplan/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
     }
 
 }

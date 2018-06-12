@@ -18,7 +18,7 @@ declare var $: any;
 export class HolidaysComponent implements OnInit {
 
 	public holidayLists: any;
-  	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
+  	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
   		this.toastr.setRootViewContainerRef(vcr);
   	}
 
@@ -58,17 +58,19 @@ export class HolidaysComponent implements OnInit {
 			'date': date	
 		}
 		console.log(dataObj);
-		this.toastr.success('Successfully Created.');
-		//this.blockUI.start('Loading...');
-		//this.modalReference.close();
-		//this._service.createHolidays(this.regionID,dataObj)
-	   // .subscribe((res:any) => {
-	     // console.log('success holidays post',res)
-	    //  this.blockUI.stop();
-	    //  this.getAllHolidays();
-	    //  }, err => {
-	    //    console.log(err)
-	    //  })
+		this.blockUI.start('Loading...');
+		this.modalReference.close();
+		this._service.createHolidays(this.regionID,dataObj)
+	   	.subscribe((res:any) => {
+	     	console.log('success holidays post',res)
+	     	this.toastr.success('Successfully Created.');
+	       	this.blockUI.stop();
+	   		this.getAllHolidays();
+	    	}, err => {
+	    		this.toastr.error('Create Fail');
+	    		this.blockUI.stop();
+	    		console.log(err)
+	    	})
 		
 	}
 
@@ -78,7 +80,9 @@ export class HolidaysComponent implements OnInit {
 	    this._service.getAllHolidays(this.regionID)
 	    .subscribe((res:any) => {
 	      this.holidayLists = res;
-	      this.blockUI.stop();
+	      setTimeout(() => {
+	        this.blockUI.stop(); // Stop blocking
+	      }, 300);
 	      console.log(this.holidayLists)
 	    }, err => {
 	        console.log(err)

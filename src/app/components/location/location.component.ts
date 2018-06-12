@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { Location } from './location';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 declare var $: any;
 
@@ -27,7 +28,9 @@ export class LocationComponent implements OnInit {
 	closeResult: string;
 	@BlockUI() blockUI: NgBlockUI;
 
-	constructor(private modalService: NgbModal, private _service: appService) { }
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+		this.toastr.setRootViewContainerRef(vcr);
+	}
 
 	ngOnInit() {
 		this.getAllLocation();
@@ -59,7 +62,9 @@ export class LocationComponent implements OnInit {
 		this.blockUI.start('Loading...');
 		this._service.getLocations(this.regionID)
 		.subscribe((res:any) => {
-			this.blockUI.stop();
+			setTimeout(() => {
+		        this.blockUI.stop(); // Stop blocking
+		      }, 300);
     		this.locationLists = res;
 	    }, err => {
 	    	console.log(err)
@@ -81,11 +86,13 @@ export class LocationComponent implements OnInit {
 			 .subscribe((res:any) => {
 	     		console.log(res)
 	     		this.model = new Location();
+	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
 	     		this.getAllLocation();
 	     	}, err => {
+	     		this.toastr.error('Update fail');
 	     		console.log(err)
-	    })
+	    	})
 		}else{
     	console.log("Form Submitted!", this.regionID);
     	this.blockUI.start('Loading...');
@@ -94,9 +101,12 @@ export class LocationComponent implements OnInit {
       	.subscribe((res:any) => {
     		console.log(res);
     		this.model = new Location();
+    		this.toastr.success('Successfully Created.');
     		this.blockUI.stop();
     		this.getAllLocation();
 	    }, err => {
+	    	this.toastr.error('Create Fail.');
+	    	this.blockUI.stop();
 	    	console.log(err)
 	    })
 		  
@@ -108,8 +118,10 @@ export class LocationComponent implements OnInit {
 		this._service.deleteLocation(id)
 		.subscribe((res:any) => {
 			console.log(res);
+			this.toastr.success('Successfully Deleted.');
 			this.getAllLocation();
 		},err => {
+			this.toastr.error('Delete Fail.');
 			console.log(err);
 		})
 	}

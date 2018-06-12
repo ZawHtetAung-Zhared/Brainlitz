@@ -1,50 +1,52 @@
-<h2>Send notification</h2>
+<h2 class="title-heading">Send notification</h2>
 <div class="d-flex flex-row">
-	<div class="col-md-8">
-		<form novalidate #notiForm="ngForm">
+	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+		<form novalidate #notiForm="ngForm" class="notif">
 			<div class="form-group">
 			  	<label for="address">Send to</label>
-			  	<div>
-					<div class="form-check form-check-inline">
+			  	<div class="d-flex">
+					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type1" value="customers" [(ngModel)]="item.type" #type="ngModel"> All customers
+					    <input class="form-check-input" type="radio" name="type" id="type1" value="allCustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged()"> All customers
 					  </label>
 					</div>
-					<div class="form-check form-check-inline">
+					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type2" value="staffs" [(ngModel)]="item.type" #type="ngModel"> All staffs
+					    <input class="form-check-input" type="radio" name="type" id="type2" value="allStaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> All staffs
 					  </label>
 					</div>
-					<div class="form-check form-check-inline">
+					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel"> Category
+					    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> Category
 					  </label>
 					</div>
-					<div class="form-check form-check-inline">
+					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel"> Selected course
+					    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> Selected course
 					  </label>
 					</div>
-					<div class="form-check form-check-inline">
+					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel"> Selected user
+					    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> Selected user
 					  </label>
 					</div>
 				</div>
 			</div>
-			<div class="form-check">
-			    <label class="form-check-label">
-			      <input type="checkbox" class="form-check-input">
-			      Only active users
-			    </label>
+			<div class="form-group">
+				<div class="form-check">
+				    <label class="form-check-label">
+				      <input type="checkbox" class="form-check-input" name="activeUser" [(ngModel)]="item.activeUser" #activeUser="ngModel">
+				      Only active users
+				    </label>
+				</div>
 			</div>
 			<div class="form-group">
-			  <label for="address">Subject</label>
-			  <input type="text" class="form-control" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" required #subject="ngModel">
+			  <label for="address" class="lable-title">Subject</label>
+			  <input type="text" class="form-control" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" required>
 			</div>
 			<div class="form-group">
-			  <label for="address">Subject</label>
-			  <textarea class="form-control" rows="4" placeholder="Write message" name="message" [(ngModel)]="item.message" required #message="ngModel"></textarea>
+			  <label for="address" class="lable-title">Message</label>
+			  <textarea class="form-control" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
 			</div>			
 			<div>
 				<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
@@ -52,7 +54,9 @@
 			</div>
 		</form>
 	</div>
-	<div class="col-md-4">
-		
+	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+		<div class="user-count">
+			
+		</div>
 	</div>
 </div>
