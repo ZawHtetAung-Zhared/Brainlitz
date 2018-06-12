@@ -432,7 +432,7 @@ export class appService{
     getSingleCourse(id:string,regionid:string): Observable<any>{
       this.getLocalstorage();
       console.log(id);
-      let apiUrl = this.baseUrl + '/course/' + id;
+      let apiUrl = this.baseUrl + '/' + regionid + '/course/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -533,6 +533,38 @@ export class appService{
       return this.httpClient.put(apiUrl, data, httpOptions)
       .map((res:Response) => {
         let result = res; 
+        return result;
+      })
+    }
+
+    getAllPdf(regionId){
+      console.log(regionId)
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    createPdf(obj){
+      console.log(obj);
+      let apiUrl = this.baseUrl + '/' + obj.regionId + '/quizwerkzs';
+      const opt = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl, obj, opt)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
         return result;
       })
     }

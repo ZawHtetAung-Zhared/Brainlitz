@@ -17,6 +17,7 @@ export class CourseComponent implements OnInit {
   closeResult:any;
   selectCourse:any;
   deleteCourse:any;
+  time = {hour: 13, minute: 30};
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
@@ -94,8 +95,8 @@ export class CourseComponent implements OnInit {
       this.getCourseLists();
     })
   }
-  // getCourseDetail(){
-  // 	this._service.getSingleCourse()
+  // courseEdit(course){
+  // 	this._service.getSingleCourse(this.regionId,course._id)
   // 	.subscribe((res:any) => {
   // 		console.log(res);
   // 	})
