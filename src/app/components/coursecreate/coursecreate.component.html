@@ -7,7 +7,7 @@
 			<ul class="item-list" style="padding-left: 0;">
 			     <li *ngFor="let plan of coursePlan">
 			     	<label class="container">
-			     		<input type="radio" name="cplan" value="{{plan._id}}" #cplan [(ngModel)]="choosePlan">
+			     		<input type="radio" name="cplan" [value]="plan" #cplan [(ngModel)]="choosePlan">
 			     		{{plan.name}}
 			     	</label> 
 			     </li>
@@ -15,7 +15,7 @@
 		</div>
 		<div class="form-group btn-wrap">
 			<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-		    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)">Select</button>
+		    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)" [disabled]="!choosePlan">Select</button>
 		</div>
 </div>
 <block-ui message="Deafult Message">
@@ -34,15 +34,17 @@
 				<div class="form-input"> 
 					<label class="label-location">Choose Location</label>
 					<select class="form-control" id="user"
-			        [(ngModel)]="model.locationId" name="location" #location="ngModel">
+			        [(ngModel)]="model.locationId" name="location" #location="ngModel" required>
 			          <option value="" disabled="true">Select Location</option>
 			          <option *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
 			        </select>
 				</div>
 			</div>
 			<div class="form-group form-head">
-				<label class="label-input">Course Plan Id</label>
-				<input type="text" class="form-control new-input" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel" readonly>
+				<label class="label-input">Course Plan</label>
+				{{model.coursePlanName}} 
+				<span style="margin-left: 20px;">({{model.coursePlanId}})</span>
+				<!-- <input type="text" class="form-control new-input" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel" readonly> -->
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Course Name</label>
@@ -66,11 +68,7 @@
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Duration:</label>
-				<input type="num" name="duration">
-				<select>
-				  <option value="volvo">min</option>
-				  <option value="saab">hour</option>
-				</select>	
+				<input type="num" name="duration" [(ngModel)]="model.duration" readonly>
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Repeat Days</label>
@@ -142,7 +140,7 @@
 			<div class="form-group" style="float: right;">
 				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
 				<!-- <button type="button" class="btn btn-primary" (click)="createCourse()">Submit</button> -->
-				<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid && toggleBool">Submit</button>
+				<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool">Submit</button>
 			</div>
 		</form>
 	</div>

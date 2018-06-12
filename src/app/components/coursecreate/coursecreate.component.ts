@@ -78,21 +78,11 @@ export class CoursecreateComponent implements OnInit {
   selectCoursePlan(plan){
   	console.log("selectCoursePlan",plan);
   	this.showCourse = true;
-  	this.model.coursePlanId = this.choosePlan;
+  	this.model.coursePlanId = plan._id;
+    this.model.coursePlanName = plan.name;
+    this.model.duration = plan.lesson.duration;
+    console.log(this.model.duration)
   	console.log(this.model.coursePlanId)
-    // this._service.getAllUsers(this.regionID)
-    // .subscribe((res:any) => {
-    //   console.log(res);
-    //   this.users = res;
-    //   this.model.teacherId = '';
-    // });
-
-    // this._service.getLocations(this.regionID)
-    // .subscribe((res:any) => {
-    //   this.locationList = res;
-    //   console.log(this.locationList);
-    //   this.model.locationId = '';
-    // })
     this.getUserList();
     this.getLocationsList();
   }
@@ -143,8 +133,8 @@ export class CoursecreateComponent implements OnInit {
   	console.log("createCourse work",this.model);
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
-      "startDate": this.changeDateFormat(this.model.startDate),
-      "endDate": this.changeDateFormat(this.model.endDate),
+      "startDate": this.changeDateFormat(this.model.startDate,this.model.starttime),
+      "endDate": this.changeDateFormat(this.model.endDate,0),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
@@ -152,10 +142,8 @@ export class CoursecreateComponent implements OnInit {
       "reservedNumberofSeat": this.model.reservedNumSeat,
       "name": this.model.courseName,
       "lessonCount": this.model.lessonCount,
-      // "repeatDays": "[0,1,2,3,4,5,6]",
       "repeatDays": this.selectedDay,
       "description": this.model.description,
-      // "starttime": this.changeTime(this.model.starttime)
     };
   	console.log("Course",this.courseObj);
   	this._service.createCourse(this.regionID,this.courseObj)
@@ -175,33 +163,22 @@ export class CoursecreateComponent implements OnInit {
     this.maxDate =  date;
   }
 
-  // isDisabled(date: NgbDateStruct) {
-  //   const d = new Date(date.year, date.month - 1, date.day);
-  //   console.log(d);
-  //   return date.day==13;
-  // }
-  // new Date(Date.UTC.apply(undefined, dateParts.concat(timeParts))).toISOString();
-  // changeDateFormat(date,time){
-  //   console.log(date,time)
-  // 	let ngbDate = date;
-  // 	let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
-  //   console.log(myDate)
-  //   let newFormat = (myDate.toISOString()); 
-  //   // let newFormat = new Date(Date.UTC.apply(undefined,myDate.concat(time))).toISOString();
-  //   console.log(newFormat);
-  // 	return newFormat;
-  // }
-  changeDateFormat(date){
-    let ngbDate = date;
-    let myDate = new Date(ngbDate.year, ngbDate.month-1, ngbDate.day);
-    console.log(myDate)
-    let newFormat = (myDate.toISOString()); 
-    console.log(newFormat);
-    return newFormat;
+  changeDateFormat(date,time){
+    if(time == 0){
+      let enddate =  date.year+ '-' +date.month+ '-' +date.day;
+      return enddate;
+    }else{
+      let sdate = date.year+ '-' +date.month+ '-' +date.day;
+      let dateParts = sdate.split('-');
+      let timeParts = time.split(':');
+      if(dateParts && timeParts) {
+          let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
+          console.log(fullDate)
+          return fullDate;
+      }
+    }
   }
-  // changeTime(time){
-  //   console.log(time);
-  // }
+  
   cancel(){
   	this.router.navigate(['course/']); 
   }
