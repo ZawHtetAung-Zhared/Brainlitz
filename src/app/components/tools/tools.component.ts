@@ -16,6 +16,9 @@ export class ToolsComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
 	public locationId = '5b13c2bd693dfb588d34f9de';
   public isChecked: boolean = false;
+  public categoryLists:any;
+  public userLists:any;
+  public courseLists:any;
   constructor(private _service: appService) { }
 
   ngOnInit() {
@@ -24,9 +27,6 @@ export class ToolsComponent implements OnInit {
   sendNoti(data){
     console.log(data)
   	console.log(data.type)
-
-
-
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
@@ -37,14 +37,6 @@ export class ToolsComponent implements OnInit {
       "title": data.subject,
       "message": data.message
     }
-
-    // if(data.type == 'customers'){
-    //   dataObj["allCustomer"] = 1
-    // }else if(data.type == 'staffs'){
-    //   dataObj["allStaff"] = 1
-    // }else{
-
-    // }
 
     console.log(dataObj)
     this._service.createNoti(dataObj, body)
@@ -57,8 +49,37 @@ export class ToolsComponent implements OnInit {
   	
   }
 
-  somethingChanged(){
+  somethingChanged(type){
     console.log('what')
+    this.isChecked = type;
+    if(type == 'category'){
+      this._service.getCategory(this.regionID)
+      .subscribe((res:any) => {
+        console.log('~~~', res)
+        this.categoryLists = res;
+      }, err => {
+        console.log(err)
+      })
+    }else if(type == 'course'){
+      this._service.getAllCourse(this.regionID)
+      .subscribe((res:any) => {
+        console.log('~~~', res)
+        this.courseLists = res;
+      }, err => {
+        console.log(err)
+      })
+    }else if(type == 'user'){
+      this._service.getAllUsers(this.regionID)
+      .subscribe((res:any) => {
+        console.log('~~~', res)
+        this.userLists = res;
+      }, err => {
+        console.log(err)
+      })
+    }else{
+
+    }
+
     var $radioButtons = $('input[type="radio"]');    
     $radioButtons.each(function() {
         $(this).parent().toggleClass('radio-selected', this.checked);
