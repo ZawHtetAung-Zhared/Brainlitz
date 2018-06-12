@@ -64,11 +64,20 @@
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Start Time</label>
-				<input id="test1" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" />
+				<input id="test1" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Duration:</label>
-				<input type="num" name="duration" [(ngModel)]="model.duration" readonly>
+				<div class="new-input">
+					<div style="margin: 0px 0px 5px 0px">
+						<input type="num" name="duration" [(ngModel)]="model.duration" readonly>
+					</div>
+					<div *ngIf="classend" class="flex-item">
+						<label>-will end at {{classend}}</label>
+					</div>
+				</div>
+				<!-- <input type="num" name="duration" [(ngModel)]="model.duration" readonly>
+				<p>will end at {{classend}}</p> -->
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Repeat Days</label>

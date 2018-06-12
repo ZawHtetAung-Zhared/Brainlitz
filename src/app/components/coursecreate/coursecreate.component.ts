@@ -25,6 +25,7 @@ export class CoursecreateComponent implements OnInit {
   public showPlanList:boolean = false;
   public showPlan:boolean = false;
   public toggleBool: boolean=true;
+  public classend: any;
   public days = [
     {"day":"Sun", "val": 0},
     {"day":"Mon", "val": 1},
@@ -128,6 +129,17 @@ export class CoursecreateComponent implements OnInit {
         this.selectedDay.sort();
          console.log(this.selectedDay);
   }
+
+  calculateDuration(time){
+    console.log("Calculate",time)
+    // let myTime = time.substring(0,3).concat(this.model.duration);
+    // console.log("end",myTime)
+    let piece = time.split(':');
+    let mins = piece[0]*60 + +piece[1] + +this.model.duration;
+    this.classend = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+    console.log(this.classend)
+  }
+  D(J){ return (J<10? '0':'') + J};
 
   createCourse(){
   	console.log("createCourse work",this.model);
