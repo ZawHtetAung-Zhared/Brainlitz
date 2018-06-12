@@ -48,12 +48,13 @@ export class QuizwerkzComponent implements OnInit {
   }
 
   getAllPdf(){
-  // 	this._service.getPdfs(this.regionID)
-		// .subscribe((res:any) => {
-  // 		this.locationLists = res;
-  //   }, err => {
-  //   	console.log(err)
-  //   })
+  	this._service.getAllPdf(this.regionID)
+		.subscribe((res:any) => {
+      this.pdfList = res;
+      console.log("pdflist",this.pdfList);
+    }, err => {
+    	console.log(err)
+    })
   }
 
   createPdf(obj, update){
@@ -64,8 +65,15 @@ export class QuizwerkzComponent implements OnInit {
   	}
   	if(update == true){
 			console.log('update', data)
+      this.modalReference.close();
 		}else{
 			console.log('create', data)
+      this.modalReference.close();
+      this._service.createPdf(data)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.getAllPdf();
+      })
 		}
   }
 

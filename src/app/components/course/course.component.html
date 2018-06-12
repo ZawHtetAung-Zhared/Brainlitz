@@ -10,6 +10,7 @@
   <ul class="list-group-flush">
     <li class="list-group-item" *ngFor="let course of courseList">
       <span style="margin-right: 20px;">{{course.courseCode}}</span>{{course.name}}
+      <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseEdit(course)">Edit</button> -->
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">View</button>
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
     </li>

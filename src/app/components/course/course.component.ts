@@ -95,8 +95,8 @@ export class CourseComponent implements OnInit {
       this.getCourseLists();
     })
   }
-  // getCourseDetail(){
-  // 	this._service.getSingleCourse()
+  // courseEdit(course){
+  // 	this._service.getSingleCourse(this.regionId,course._id)
   // 	.subscribe((res:any) => {
   // 		console.log(res);
   // 	})
