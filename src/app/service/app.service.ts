@@ -569,6 +569,21 @@ export class appService{
       })
     }
 
+    deleteQuizwerkz(qwid){
+      console.log(qwid);
+      let apiUrl = this.baseUrl+ '/quizwerkzs/' +  qwid;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
 }
 
 
