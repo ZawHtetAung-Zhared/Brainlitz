@@ -97,7 +97,7 @@ export class appService{
       console.log(obj.id)     
       this.getLocalstorage();
       if(obj.id != undefined){
-        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&id' + obj.id  ;
+        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&id=' + obj.id  ;
       }else{
         var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option   ;
       }
@@ -112,6 +112,26 @@ export class appService{
       .map((res:Response) => {
         let result = res; 
         console.log('service ~~ ', result);
+        return result;
+      })
+    }
+
+    userCount(obj): Observable<any>{
+      console.log(obj)
+      this.getLocalstorage();
+      if(obj.id != undefined){
+        var url = this.baseUrl + '/' + obj.regionId + '/' + obj.locationId + '/user/count' + '?option=' + obj.option + '&id=' + obj.id ;
+      }else{
+        var url = this.baseUrl + '/' + obj.regionId + '/' + obj.locationId + '/user/count' + '?option=' + obj.option ;
+      }
+      const httpOptions = {
+        headers: new HttpHeaders({  
+          'Content-Type': 'application/json',
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
         return result;
       })
     }
@@ -567,6 +587,21 @@ export class appService{
       };
 
       return this.httpClient.post(apiUrl, obj, opt)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    deleteQuizwerkz(qwid){
+      console.log(qwid);
+      let apiUrl = this.baseUrl+ '/quizwerkzs/' +  qwid;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
         console.log(result)
