@@ -16,7 +16,7 @@ declare var $: any;
 })
 export class CourseplanComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
   }
 
@@ -24,10 +24,9 @@ export class CourseplanComponent implements OnInit {
     this.getAllCoursePlan();
   }
 
-  public regionID = localStorage.getItem('regionId');
-	showModal: boolean = false;
-	showsubModal: boolean = true;
-	checked: boolean = false;
+	public showModal: boolean = false;
+	public showsubModal: boolean = true;
+	public checked: boolean = false;
 	modalReference: any;
   modalReference1: any;
 	closeResult: any;
@@ -45,11 +44,14 @@ export class CourseplanComponent implements OnInit {
   holidayCalendarLists: any;
   public updateButton: boolean = false;
   public createButton: boolean = true;
+  public regionID = localStorage.getItem('regionId');
   editId: any;
   selectcPlan: any;
   viewCplan: any;
   holidayCalendarName: any;
   depositName: any;
+  pdfList: any;
+  pdfName: any[] = [];
 
 	open(content){
     this.formField = new cPlanField();
@@ -61,6 +63,7 @@ export class CourseplanComponent implements OnInit {
     this.createButton = true;
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
+    this.getAllPdf();
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
     this.formField = new cPlanField();
@@ -136,7 +139,7 @@ export class CourseplanComponent implements OnInit {
         "min": formData.minage,
         "max": formData.maxage,
       },
-      "quizwerkz": '5b1de641e262092b06a1cce1',
+      "quizwerkz": formData.pdf,
       "holidayCalendarId": formData.holidayCalendar
     }
 
@@ -167,7 +170,7 @@ export class CourseplanComponent implements OnInit {
     });
   }
 
-  comfirmDelete(selectcPlan ,confirmDelete2){
+  confirmDelete(selectcPlan ,confirmDelete2){
     this.selectcPlan = selectcPlan;
     this.modalReference.close();
     this.modalReference1 = this.modalService.open(confirmDelete2, { backdrop:'static', windowClass: 'animation-wrap'});
@@ -199,6 +202,7 @@ export class CourseplanComponent implements OnInit {
   viewPlan(view, id){
     this.getAllHolidaysCalendar();
     this.getAllDeposit();
+    this.getAllPdf();
     this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap'});
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -220,6 +224,16 @@ export class CourseplanComponent implements OnInit {
         for( var j = 0; j < this.depositLists.length; j++){
           if(this.viewCplan.paymentPolicy.deposit == this.depositLists[j]._id){
             this.depositName = this.depositLists[j].amount;
+          }
+        }
+      }
+      if(this.pdfList){
+        this.pdfName = [];
+        for(var i= 0; i < this.viewCplan.quizwerkz.length; i++){
+          for(var j= 0; j < this.pdfList.length; j++){
+            if(this.viewCplan.quizwerkz[i] == this.pdfList[j]._id){
+              this.pdfName.push(this.pdfList[j].name);
+            }
           }
         }
       }
@@ -261,8 +275,18 @@ export class CourseplanComponent implements OnInit {
         })
   }
 
+  getAllPdf(){
+    this._service.getAllPdf(this.regionID)
+    .subscribe((res:any) => {
+      this.pdfList = res;
+    }, err => {
+      console.log(err)
+    })
+  }
+
   editcPlan(content, id){
     console.log(id)
+    this.getAllPdf();
     this.updateButton = true;
     this.createButton = false;
     this.getAllDeposit();
@@ -310,7 +334,7 @@ export class CourseplanComponent implements OnInit {
         "min": formData.minage,
         "max": formData.maxage,
       },
-      "quizwerkz": '5b1de641e262092b06a1cce1',
+      "quizwerkz": formData.pdf,
       "holidayCalendarId": formData.holidayCalendar
     }
     this.blockUI.start('Loading...');

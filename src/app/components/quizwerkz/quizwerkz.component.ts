@@ -18,6 +18,9 @@ export class QuizwerkzComponent implements OnInit {
 	public pdfList: any;
 	public isEdit:boolean = false;
 	public currentID:any;
+  public selectQw:any;
+  public deleteQw:any;
+  public modalReference1:any;
   constructor(private modalService: NgbModal, private _service: appService) { }
 
   ngOnInit() {
@@ -75,6 +78,39 @@ export class QuizwerkzComponent implements OnInit {
         this.getAllPdf();
       })
 		}
+  }
+
+  onClickDelete(data,comfirm){
+    this.selectQw = data;
+    console.log("onclickDelete",data);
+    this.modalReference = this.modalService.open(comfirm);
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  comfirmDelete(qw,content1){
+    console.log(qw);
+    this.deleteQw = qw;
+    this.modalReference.close();
+    this.modalReference1 = this.modalService.open(content1);
+    this.modalReference1.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  quizwerkzDelete(qwId){
+    console.log("quizwerkz delete",qwId);
+    this._service.deleteQuizwerkz(qwId)
+    .subscribe((res:any) => {
+      this.modalReference1.close();
+      console.log("Res",res);
+      this.getAllPdf();
+    })
   }
 
 }
