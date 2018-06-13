@@ -95,10 +95,11 @@ export class CourseComponent implements OnInit {
       this.getCourseLists();
     })
   }
-  // courseEdit(course){
-  // 	this._service.getSingleCourse(this.regionId,course._id)
-  // 	.subscribe((res:any) => {
-  // 		console.log(res);
-  // 	})
-  // }
+  singleCourse(course){
+    console.log("GET single",course);
+  	this._service.getSingleCourse(course._id)
+  	.subscribe((res:any) => {
+  		console.log(res);
+  	})
+  }
 }
