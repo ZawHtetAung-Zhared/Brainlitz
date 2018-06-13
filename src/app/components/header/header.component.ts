@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit {
         this.showHeader = (event.url == "/login" || event.url == "/" ) ? this.showHeader = false : this.showHeader = true; 
       }
     });
-
    }
   
   ngOnInit() {
@@ -35,10 +34,17 @@ export class HeaderComponent implements OnInit {
 	}
 
   getAllLocation(){
-    console.log(this.regionID)
     this._service.getLocations(this.regionID)
     .subscribe((res:any) => {
-      this.locationLists = res;      
+      this.locationLists = res; 
+      let locationId  = localStorage.getItem('locationId');
+      if(locationId){
+        for(var i = 0; i < this.locationLists.length; i++){
+          if(this.locationLists[i]._id == locationId){
+            this.locationLists[i].selected = true;
+          }
+        }
+      }  
     }, err => {
       console.log(err)
     })
