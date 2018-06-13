@@ -7,30 +7,64 @@
 			  	<div class="d-flex">
 					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type1" value="allCustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged()"> All customers
+					    <input class="form-check-input" type="radio" name="type" id="type1" value="allCustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allCustomer')"> All customers
 					  </label>
 					</div>
 					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type2" value="allStaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> All staffs
+					    <input class="form-check-input" type="radio" name="type" id="type2" value="allStaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allStaff')"> All staffs
 					  </label>
 					</div>
 					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> Category
+					    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('category')"> Category
 					  </label>
 					</div>
 					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> Selected course
+					    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('course')"> Selected course
 					  </label>
 					</div>
 					<div class="form-check form-check-inline tool-checked">
 					  <label class="form-check-label">
-					    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged()"> Selected user
+					    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('user')"> Selected user
 					  </label>
 					</div>
 				</div>
+			</div>
+
+			<div *ngIf="isChecked == 'category'" class="form-group choose-cat">
+				<label for="typeahead-focus">Search for a category:</label>	
+				<input
+				  id="typeahead-focus"
+				  type="text"
+				  class="form-control"
+				  name="itemID"
+				  [(ngModel)]="item.itemID"
+				  #itemID="ngModel"
+				  (focus)="focus$.next($event.target.value)"
+				  (click)="click$.next($event.target.value)"
+				  [ngbTypeahead]="search"
+				  #instance="ngbTypeahead"
+				/>
+			</div>
+			<div *ngIf="isChecked == 'course'" class="form-group">
+				<label for="typeahead-focus">Search for a course:</label>	
+				<input
+				  id="typeahead-focus"
+				  type="text"
+				  class="form-control"
+				  name="itemID"
+				  [(ngModel)]="item.itemID"
+				  #itemID="ngModel"
+				  (focus)="focus$.next($event.target.value)"
+				  (click)="click$.next($event.target.value)"
+				  [ngbTypeahead]="search"
+				  #instance="ngbTypeahead"
+				/>
+			</div>
+			<div *ngIf="isChecked == 'user'" class="form-group">
+				hi isUser
 			</div>
 			<div class="form-group">
 				<div class="form-check">
