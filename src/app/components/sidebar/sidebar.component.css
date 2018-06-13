@@ -13,12 +13,19 @@ ul.nav-style li:hover{
 	/*background: #8a48c0;*/
 }
 ul.nav-style li a{
-	color: #383838;
+	color: #5e5e5e;
+	padding-bottom: 0;
+	border-bottom: 2px solid transparent;
+	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
 }
 ul.nav-style li:hover a{
 	color: #535353;
 }
 li.nav-item {
-    padding: 5px 15px;
+    padding: 5px 15px 10px;
     float: left;
+}
+a.nav-link.active {
+	border-bottom: 2px solid #4392f1 !important;
+	color: #4392f1 !important;
 }

@@ -18,26 +18,51 @@ export class ToolsComponent implements OnInit {
   click$ = new Subject<string>();
 	public item:any = {};
   public regionID = localStorage.getItem('regionId');
-	public locationId = '5b13c2bd693dfb588d34f9de';
+	public locationId = localStorage.getItem('locationId');
   public isChecked: boolean = false;
   public categoryLists:any;
   public userLists:any;
   public courseLists:any;
   public dataLists:any;
+  public userCount:any;
   constructor(private _service: appService) { }
 
   ngOnInit() {
+    $('#type1').parent().toggleClass('radio-selected');    
   }
+
 
 
 
   somethingChanged(type){
     console.log('what')
     this.isChecked = type;
+    let dataObj = {
+      "regionId": this.regionID,
+      "locationId": this.locationId,
+      "option": type
+    }
+
+    console.log(dataObj)
+    this._service.userCount(dataObj)
+    .subscribe((res:any) => {      
+      if(type != 'course'){
+        console.log(res);
+        console.log(res.count);
+        this.userCount = res.count;
+      }else{
+        console.log(res);
+        console.log(res.length);    
+        this.userCount = res.length;  
+      }
+    }, err => {
+      console.log(err)
+    })
+
+    this.item.itemID = '';
     if(type == 'category'){
       this._service.getCategory(this.regionID)
       .subscribe((res:any) => {
-        console.log('~~~', res.name)
         let temp_category = res;
         this.categoryLists = res;
         this.dataLists = this.categoryLists.map(a => a.name);
@@ -53,16 +78,17 @@ export class ToolsComponent implements OnInit {
       }, err => {
         console.log(err)
       })
-    }else if(type == 'user'){
+    }else if(type == 'alluser'){
       this._service.getAllUsers(this.regionID)
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.userLists = res;
+        this.dataLists = this.userLists.map(a => a.preferredName);
       }, err => {
         console.log(err)
       })
     }else{
-
+      console.log('=)')
     }
 
     var $radioButtons = $('input[type="radio"]');    
@@ -82,6 +108,47 @@ export class ToolsComponent implements OnInit {
       : this.dataLists.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
   );
   
+  valuechange(newValue, type) {
+    console.log(newValue)
+    let dataObj = {
+      "regionId": this.regionID,
+      "locationId": this.locationId,
+      "option": type
+    }
+
+    if(type == 'course'){
+      for (var i in this.courseLists) {
+        if (this.courseLists[i].name == newValue) {
+          console.log('....', this.courseLists[i]);
+          let temp = this.courseLists[i];
+          dataObj["id"] = temp._id
+        }
+      }
+    }else if(type == 'category'){
+      for (var i in this.categoryLists) {
+        if (this.categoryLists[i].name == newValue) {
+          console.log('....', this.categoryLists[i]);
+          let temp = this.categoryLists[i];
+          dataObj["id"] = temp._id
+        }
+      }
+    }
+    
+
+    console.log(dataObj)
+
+    this._service.userCount(dataObj)
+    .subscribe((res:any) => {      
+      
+        console.log(res);
+        console.log(res.count);
+        this.userCount = res.count;
+      
+    }, err => {
+      console.log(err)
+    })
+  }
+
 
   sendNoti(data){
     console.log(data)
@@ -106,6 +173,24 @@ export class ToolsComponent implements OnInit {
           dataObj["id"] = temp._id
         }
       }
+    }else if(data.type == 'course'){
+      for (var i in this.courseLists) {
+        if (this.courseLists[i].name == data.itemID) {
+          console.log('....', this.courseLists[i]);
+          let temp = this.courseLists[i];
+          dataObj["id"] = temp._id
+        }
+      }
+    }else if(data.type == 'alluser'){
+      for (var i in this.userLists) {
+        if (this.userLists[i].preferredName == data.itemID) {
+          console.log('....', this.userLists[i]);
+          let temp = this.userLists[i];
+          dataObj["id"] = temp.userId
+        }
+      }
+    }else{
+      console.log(':)')
     }
 
     console.log(dataObj)
