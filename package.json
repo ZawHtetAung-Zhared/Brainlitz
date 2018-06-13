@@ -21,7 +21,7 @@
     "@angular/platform-browser": "^5.2.11",
     "@angular/platform-browser-dynamic": "^5.2.11",
     "@angular/router": "^5.2.11",
-    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^1.1.1",
     "@ngx-utils/cookies": "^3.0.1",
     "angular-confirmation-popover": "^4.1.0",
     "angular-oauth2-oidc": "^3.1.4",
@@ -41,7 +41,7 @@
     "ng2-timezone-selector": "^0.2.4",
     "ng5-toastr": "^4.1.5",
     "ngclipboard": "^2.0.0",
-    "ngx-bootstrap": "2.0.5",
+    "ngx-bootstrap": "^2.0.5",
     "rxjs": "^5.5.11",
     "zone.js": "^0.8.19"
   },

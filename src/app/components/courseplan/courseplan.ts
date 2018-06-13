@@ -4,8 +4,8 @@ export class cPlanField {
 	public seats: number;
 	public makeupPolicy: Array<Object> = [
 		{ allowMakeupPass: '' }, 
-		{ maxPassPerUser: '' }, 
-		{ maxDayPerPass: '' },
+		{ maxDayPerPass: '' }, 
+		{ maxPassPerUser: '' },
 	];
 	public paymentPolicy: Array<Object> = [
 		{ allowProrated: ''}, 
@@ -25,5 +25,6 @@ export class cPlanField {
 	];
 	public allowPagewerkzBooks: boolean;
 	public holidayCalendarId: string;
+	public quizwerkz: Array<any> = [];
 	
 }

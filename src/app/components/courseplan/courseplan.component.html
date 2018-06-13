@@ -61,10 +61,10 @@
 							AllowMakeupPass<br /><input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup">
 						</div>
 						<div class="col-md-4">
-							MaxDayPerPass <input type="number" class="form-control" [(ngModel)]='formField.makeupPolicy.maxPassPerPass' min="0" id="makeupass" name="makeuppass" required>
+							MaxDayPerPass <input type="number" class="form-control" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" required>
 						</div>
 						<div class="col-md-4">
-							MaxDayPerUser <input type="number" class="form-control" [(ngModel)]="formField.makeupPolicy.maxDayPerUser" min="0" id="makeupuser" name="makeupuser" required>
+							MaxDayPerUser <input type="number" class="form-control" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" required>
 						</div>
 					</div>
 				</div>
@@ -124,12 +124,17 @@
 					<input type="checkbox" [(ngModel)]='formField.allowPagewerkzBooks' id="allowpw" name="allowpagewerkz">
 				</div>
 				<div class="col-md-12 fields-mr">
+					<label>Pdf</label>
+					<select style="width: 19%;" class="form-control" name="pdf" [(ngModel)]="formField.quizwerkz" required multiple>
+						<option *ngFor="let pdf of pdfList; let i = index" value="{{pdf._id}}">{{pdf.name}}</option>
+					</select>					
+				</div>
+				<div class="col-md-12 fields-mr">
 					<label>Holiday</label>
 					<select style="width: 19%;" class="form-control" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" required>
 						<option></option>
 						<option *ngFor="let holidayCalendar of holidayCalendarLists" value="{{holidayCalendar._id}}">{{holidayCalendar.name}}</option>
-					</select>
-					
+					</select>					
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -209,6 +214,9 @@
     	<label>AllowPagewerkzBooks:</label> <span>{{viewCplan.allowPagewerkzBooks}}</span>
     </div>
     <div>
+    	<label>Pdf:</label> <span>{{pdfName}}</span>
+    </div>
+    <div>
     	<label>Holiday:</label> <span>{{holidayCalendarName}}</span>
     </div>
   </div>
@@ -228,7 +236,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="comfirmDelete(selectcPlan,confirmDelete2)">Delete</button>
+    <button type="submit" class="btn btn-danger" (click)="confirmDelete(selectcPlan,confirmDelete2)">Delete</button>
   </div>
 </ng-template>
 
