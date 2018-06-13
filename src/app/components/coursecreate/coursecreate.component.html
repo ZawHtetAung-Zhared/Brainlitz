@@ -99,6 +99,21 @@
 					</div>
 				</div>
 			</div>
+			<div class="form-group form-head">
+				<label class="label-input">Pdf</label>
+				<div class="new-input">
+					<!-- <label *ngFor="let pdf of pdfList" >
+		                <input type="checkbox" name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="userSelected.indexOf(pdf._id)!= -1"> {{pdf.name}}
+		            </label> -->
+		            <label *ngFor="let pdf of pdfList;let i=index;" >
+		                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}} 
+		            </label>
+					<!-- <div class='form-group que-box' *ngFor="let pdf of pdfList; let i=index">
+						<input type="checkbox" value={{pdf._id}} name={{pdf.name}}/>
+						<label><span>{{pdf.name}}</span></label>
+					</div> -->
+				</div>
+			</div>
 			<!-- <div class="form-group">
 				<div class="flex-item">
 					<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="dp" required [(ngModel)]="model.endDate" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">

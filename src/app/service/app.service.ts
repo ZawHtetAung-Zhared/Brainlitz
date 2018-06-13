@@ -434,10 +434,10 @@ export class appService{
       }) 
     }
 
-    getSingleCourse(id:string,regionid:string): Observable<any>{
+    getSingleCourse(id:string): Observable<any>{
       this.getLocalstorage();
       console.log(id);
-      let apiUrl = this.baseUrl + '/' + regionid + '/course/' + id;
+      let apiUrl = this.baseUrl + '/course/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
