@@ -136,6 +136,22 @@ export class appService{
       })
     }
 
+    viewNoti(regionID:string): Observable<any>{
+      console.log(regionID)
+      this.getLocalstorage();
+      const httpOptions = {
+        headers: new HttpHeaders({  
+          'Content-Type': 'application/json',
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      var url = this.baseUrl + '/noti?regionId=' + regionID;
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     getLocations(id: string): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl + '/' + id + '/locations';
