@@ -50,8 +50,9 @@ export class CourseplanComponent implements OnInit {
   viewCplan: any;
   holidayCalendarName: any;
   depositName: any;
-  pdfList: any;
+  pdfList: any[] = [];
   pdfName: any[] = [];
+  pdfId: any[] = [];
 
 	open(content){
     this.formField = new cPlanField();
@@ -64,21 +65,19 @@ export class CourseplanComponent implements OnInit {
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
     this.getAllPdf();
+    this.pdfId = [];
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
     this.formField = new cPlanField();
-    //this.showLoading = false;  
 	  this.closeResult = `Closed with: ${result}`
   	}, (reason) => {
       this.formField = new cPlanField();
-      //this.showLoading = false;
   	  this.closeResult = `Closed with: ${reason}`;
   	});
     this._service.getCategory(this.regionID)
     .subscribe((res:any) => {
       console.log('success',res)
       this.courseCategories = res;
-      //this.showLoading = false;
       }, err => {
         console.log(err)
       });
@@ -108,6 +107,7 @@ export class CourseplanComponent implements OnInit {
     return regx.test(int);
   }
 
+  categoryName: any;
 
 	createdPlan(formData) {
 		console.log('created', formData)
@@ -139,7 +139,7 @@ export class CourseplanComponent implements OnInit {
         "min": formData.minage,
         "max": formData.maxage,
       },
-      "quizwerkz": formData.pdf,
+      "quizwerkz": this.pdfId,
       "holidayCalendarId": formData.holidayCalendar
     }
 
@@ -156,7 +156,7 @@ export class CourseplanComponent implements OnInit {
         this.blockUI.stop();
         console.log(err)
       })
-    
+      this.pdfName = [];
   }
 
   onclickDelete(cplan, confirmDelete1){
@@ -198,6 +198,18 @@ export class CourseplanComponent implements OnInit {
 			console.log(err);
 		})
 	}
+  
+  ChangeValue(e){
+    if(e.target.checked == true){
+      this.pdfId.push(e.target.value); 
+      console.log(this.pdfId)
+    }
+    else {
+      var index = this.pdfList.indexOf(e.target.value);
+      this.pdfId.splice(index, 1);
+      console.log(this.pdfId)
+    }
+  }
 
   viewPlan(view, id){
     this.getAllHolidaysCalendar();
@@ -237,6 +249,17 @@ export class CourseplanComponent implements OnInit {
           }
         }
       }
+      this._service.getCategory(this.regionID)
+      .subscribe((res:any) => {
+        this.courseCategories = res;
+          for(var i=0; i < this.courseCategories.length; i++){
+            if(this.viewCplan.categoryId == this.courseCategories[i]._id){
+              this.checkedName = this.courseCategories[i].name;
+            }
+          }
+        }, err => {
+          console.log(err)
+        });
     },err => {
       console.log(err);
     })
@@ -287,6 +310,7 @@ export class CourseplanComponent implements OnInit {
   editcPlan(content, id){
     console.log(id)
     this.getAllPdf();
+    this.pdfId = [];
     this.updateButton = true;
     this.createButton = false;
     this.getAllDeposit();
@@ -298,6 +322,17 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.formField = res;
+      for(var i = 0; i < this.formField.quizwerkz.length; i++){
+        for(var j = 0; j < this.pdfList.length; j++){
+          if(this.formField.quizwerkz[i] == this.pdfList[j]._id){
+            this.pdfList[j].checked = true;
+            if(this.pdfList[j].checked){
+              this.pdfId.push(this.pdfList[j]._id);
+            }
+          }
+        }
+      }
+       console.log( this.pdfList);
       this.editId = res._id;
     },err => {
       console.log(err);
@@ -305,7 +340,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   updatedPlan(formData){
-    console.log('updated', formData)
+    console.log('updated', formData, this.pdfId)
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -334,7 +369,7 @@ export class CourseplanComponent implements OnInit {
         "min": formData.minage,
         "max": formData.maxage,
       },
-      "quizwerkz": formData.pdf,
+      "quizwerkz": this.pdfId,
       "holidayCalendarId": formData.holidayCalendar
     }
     this.blockUI.start('Loading...');
@@ -350,6 +385,7 @@ export class CourseplanComponent implements OnInit {
       console.log(err);
     })
     this.formField = new cPlanField();
+    this.pdfId = [];
   }
 
 }

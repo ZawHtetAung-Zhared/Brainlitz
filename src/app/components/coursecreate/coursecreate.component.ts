@@ -22,10 +22,12 @@ export class CoursecreateComponent implements OnInit {
   public regionID = '5af915541de9052c869687a3';
   public users;
   public locationList;
+  public pdfList:any;
   public showPlanList:boolean = false;
   public showPlan:boolean = false;
   public toggleBool: boolean=true;
   public classend: any;
+  public selectedDay = [];
   public days = [
     {"day":"Sun", "val": 0},
     {"day":"Mon", "val": 1},
@@ -34,7 +36,9 @@ export class CoursecreateComponent implements OnInit {
     {"day":"Thu", "val": 4},
     {"day":"Fri ", "val": 5},
     {"day":"Sat", "val": 6},
-  ]
+  ];
+  public selectedPdf = [];
+  public cbChecked;
   minDate:any;
   maxDate:any;
   // isDisabled:any;
@@ -75,17 +79,21 @@ export class CoursecreateComponent implements OnInit {
       }, 80);
     });
   }
-
+  original:any;
   selectCoursePlan(plan){
   	console.log("selectCoursePlan",plan);
   	this.showCourse = true;
   	this.model.coursePlanId = plan._id;
     this.model.coursePlanName = plan.name;
     this.model.duration = plan.lesson.duration;
+    this.original = plan.quizwerkz;
+    this.cbChecked = plan.quizwerkz;
+    console.log("qw",this.cbChecked)
     console.log(this.model.duration)
   	console.log(this.model.coursePlanId)
     this.getUserList();
     this.getLocationsList();
+    this.getPdfList();
   }
 
   getUserList(){
@@ -105,30 +113,61 @@ export class CoursecreateComponent implements OnInit {
       this.model.locationId = '';
     })
   }
+
+  getPdfList(){
+    this._service.getAllPdf(this.regionID)
+    .subscribe((res:any) => {
+      this.pdfList = res;
+      console.log(this.pdfList)
+    })
+  }
   
   back(){
   	console.log("Back Works")
   	this.showCourse = false;
   }
-  
-  selectedDay = [];
 
   selectDay(data, event): void {
     console.log("Day",data,event);
-    
-        if (event.target.checked) {
-            this.selectedDay.push(data);
-            this.toggleBool= false;
-         } else {
-           var index = this.selectedDay.indexOf(event.target.value);
-           console.log("Else")
-            this.selectedDay.splice(index, 1);
-            this.toggleBool= true;
-        }
-       
-        this.selectedDay.sort();
-         console.log(this.selectedDay);
+    if (event.target.checked) {
+        this.selectedDay.push(data);
+        this.toggleBool= false;
+     } else {
+       var index = this.selectedDay.indexOf(event.target.value);
+       console.log("Else")
+        this.selectedDay.splice(index, 1);
+        this.toggleBool= true;
+    }
+    this.selectedDay.sort();
+    console.log(this.selectedDay);
   }
+
+  selectPdf(data, event): void {
+    console.log("Day",data,event);
+    var cbIdx = this.cbChecked.indexOf(data);
+    console.log(cbIdx)
+    if (event.target.checked) {
+        // this.selectedPdf.push(data);
+        // this.toggleBool= false;
+        if(cbIdx < 0 )
+            this.cbChecked.push(data);
+     } else {
+       if(cbIdx >= 0 )
+            this.cbChecked.splice(cbIdx,1);
+       // var index = this.selectedDay.indexOf(event.target.value);
+       // console.log("Else")
+       //  this.selectedPdf.splice(index, 1);
+       //  this.toggleBool= true;
+    }
+    // this.selectedPdf.sort();
+    console.log(this.cbChecked);
+  }
+   //  filternames:any;
+   // checked() {
+   //         console.log(this.filternames .filter(item => { return item.checked; }))
+   //        return this.filternames .filter(item => { return item.checked; });
+   //      }
+
 
   calculateDuration(time){
     console.log("Calculate",time)
@@ -143,6 +182,7 @@ export class CoursecreateComponent implements OnInit {
 
   createCourse(){
   	console.log("createCourse work",this.model);
+    console.log(this.model.optionsSelected)
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.startDate,this.model.starttime),
@@ -155,6 +195,7 @@ export class CoursecreateComponent implements OnInit {
       "name": this.model.courseName,
       "lessonCount": this.model.lessonCount,
       "repeatDays": this.selectedDay,
+      "quizwerkz": this.cbChecked,
       "description": this.model.description,
     };
   	console.log("Course",this.courseObj);

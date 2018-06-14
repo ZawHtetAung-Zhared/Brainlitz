@@ -5,7 +5,7 @@
 	<div *ngIf="showModal == true">
 		<form #mainCatForm="ngForm" novalidate>
 			<div class="modal-header">
-			    <h4 class="modal-title">Choose Course Plan</h4>
+			    <h4 class="modal-title">Choose Category</h4>
 			    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
 			      <span aria-hidden="true">&times;</span>
 			    </button>
@@ -123,11 +123,17 @@
 					<label for="allowpw">Allow Pagewerkz Books</label>
 					<input type="checkbox" [(ngModel)]='formField.allowPagewerkzBooks' id="allowpw" name="allowpagewerkz">
 				</div>
-				<div class="col-md-12 fields-mr">
+				<div class="col-md-12">
 					<label>Pdf</label>
-					<select style="width: 19%;" class="form-control" name="pdf" [(ngModel)]="formField.quizwerkz" required multiple>
+					<div class="height-scroll">
+			    		<div *ngFor="let pdf of pdfList; let i = index" style="float: left; margin-right: 15px;">
+				    		<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue($event)" name="pdf" [checked]="pdf.checked">
+				    		<label for="{{pdf._id}}"> {{pdf.name}}</label>
+				    	</div>
+			    	</div>
+					<!-- <select style="width: 19%;" class="form-control" name="pdf" [(ngModel)]="formField.quizwerkz" required multiple>
 						<option *ngFor="let pdf of pdfList; let i = index" value="{{pdf._id}}">{{pdf.name}}</option>
-					</select>					
+					</select> -->					
 				</div>
 				<div class="col-md-12 fields-mr">
 					<label>Holiday</label>
@@ -170,6 +176,7 @@
     </button>
   </div>
   <div class="modal-body view" *ngIf="viewCplan">
+  	<div><label>Category Name:</label> <span>{{checkedName}}</span></div>
     <div><label>Course Name:</label> <span>{{viewCplan.name}}</span> </div>
     <div><label>Description:</label> <span>{{viewCplan.description}}</span></div>
     <div><label>Seats:</label> <span>{{viewCplan.seats}}</span></div>

@@ -1,10 +1,31 @@
 #inputState {
 	border: none;
 	font-weight: bold;
-	width: auto;
+	width: 200px;
 	height: auto;
+	margin: -12px;
 }
 
 #inputState:focus {
 	box-shadow: none;
+}
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+i {
+  	border: solid #888;
+ 	border-width: 0 2px 2px 0;
+  	display: inline-block;
+  	padding: 3px;
+    position: absolute;
+    left: 170px;
+    top: 31px;
+}
+
+.down-arrow {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }
