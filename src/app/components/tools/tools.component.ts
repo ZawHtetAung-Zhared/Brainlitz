@@ -25,14 +25,54 @@ export class ToolsComponent implements OnInit {
   public courseLists:any;
   public dataLists:any;
   public userCount:any;
+  public notiType:any;
+  public notiLists:any;
   constructor(private _service: appService) { }
 
   ngOnInit() {
-    $('#type1').parent().toggleClass('radio-selected');
+    this.notiType = 'send';
+    this.setDefaultSelected();
   }
 
+  clickTab(type){
+    this.notiType = type;
+    if(type == 'view'){
+      // this.viewNoti();
+    }else{
+      this.setDefaultSelected();
+    }
+  }
 
+  viewNoti(){
+    console.log(this.regionID)
+    this._service.viewNoti(this.regionID)
+    .subscribe((res:any) => {  
+      console.log(res);
+      this.notiLists = res; 
+    }, err => {
+      console.log(err)
+    })
+  }
 
+  setDefaultSelected(){
+    let dataObj = {
+      "regionId": this.regionID,
+      "locationId": this.locationId,
+      "option": 'allcustomer'
+    }
+    console.log(dataObj)
+    setTimeout(()=>{ 
+      $('#type1').parent().toggleClass('radio-selected');      
+    }, 10);
+    
+    this._service.userCount(dataObj)
+    .subscribe((res:any) => {  
+      console.log(res.count);
+      this.userCount = res.count;  
+    }, err => {
+      console.log(err)
+    })    
+  }
 
   somethingChanged(type){
     console.log('what')
@@ -203,4 +243,9 @@ export class ToolsComponent implements OnInit {
     })
     
   }
+
+  resetForm(){
+    this.item = {};
+  }
+
 }

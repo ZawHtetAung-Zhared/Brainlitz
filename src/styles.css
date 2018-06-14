@@ -23,7 +23,7 @@ body{
     font-family: 'Montserrat-Light','Arial', sans-serif !important;
 }
 .inner-wrapper{
-  padding-top: 40px;
+  padding: 50px;
 }
 main{
     height: 100%;
@@ -33,9 +33,9 @@ main{
 	min-height: 0px;
 }
 .btn-primary{
-	color: #703bc1 !important;
+	color: #5e5e5e !important;
 	background-color: transparent !important;
-	border: 1px solid #4c3bc1 !important;
+	border: 1px solid #4292f1 !important;
 	padding: 9px !important;
   min-width: 155px;
 }
