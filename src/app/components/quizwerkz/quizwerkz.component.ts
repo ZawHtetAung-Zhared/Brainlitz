@@ -3,6 +3,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+import { quizWerkzForm } from './quizWerkz';
 
 @Component({
   selector: 'app-quizwerkz',
@@ -11,7 +12,7 @@ import { Observable } from 'rxjs/Rx';
 })
 export class QuizwerkzComponent implements OnInit {
 	@ViewChild('pdfForm') form: any;
-	public item:any = {};
+	formField: quizWerkzForm = new quizWerkzForm();
 	public regionID = localStorage.getItem('regionId');
 	private modalReference: NgbModalRef;
 	closeResult: string;
@@ -21,6 +22,8 @@ export class QuizwerkzComponent implements OnInit {
   public selectQw:any;
   public deleteQw:any;
   public modalReference1:any;
+  public editId: any;
+
   constructor(private modalService: NgbModal, private _service: appService) { }
 
   ngOnInit() {
@@ -28,14 +31,14 @@ export class QuizwerkzComponent implements OnInit {
   }
 
   open(content) {
+    this.isEdit = false;
+    this.formField = new quizWerkzForm();
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      this.item = {};
       this.isEdit = false;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.item = {};
       this.isEdit = false;
     });
   }
@@ -60,24 +63,19 @@ export class QuizwerkzComponent implements OnInit {
     })
   }
 
-  createPdf(obj, update){
+  createQuizWerkz(obj, update){
   	let data={
   		"regionId": this.regionID,
   		"name": obj.name,
-  		"url": obj.url
+  		"url": obj.url,
+      "cover": obj.cover
   	}
-  	if(update == true){
-			console.log('update', data)
-      this.modalReference.close();
-		}else{
-			console.log('create', data)
-      this.modalReference.close();
-      this._service.createPdf(data)
-      .subscribe((res:any) => {
-        console.log(res);
-        this.getAllPdf();
-      })
-		}
+    this.modalReference.close();
+    this._service.createPdf(data)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.getAllPdf();
+    })
   }
 
   onClickDelete(data,comfirm){
@@ -91,7 +89,7 @@ export class QuizwerkzComponent implements OnInit {
     });
   }
 
-  comfirmDelete(qw,content1){
+  confirmDelete(qw,content1){
     console.log(qw);
     this.deleteQw = qw;
     this.modalReference.close();
@@ -110,6 +108,43 @@ export class QuizwerkzComponent implements OnInit {
       this.modalReference1.close();
       console.log("Res",res);
       this.getAllPdf();
+    })
+  }
+
+  editQuizWerkz(id, content){
+    this.isEdit = true;
+    this.editId = id;
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
+    this._service.getSingleQuizwerkz(id)
+    .subscribe((res:any) => {
+      console.log(res)
+      this.formField = res;
+    })
+  }
+
+  updateQuizWerkz(obj){
+    console.log(obj)
+    let data={
+      "regionId": this.regionID,
+      "name": obj.name,
+      "url": obj.url,
+      "cover": obj.cover
+    }
+    this.modalReference.close();
+    this._service.updateSignleQuizwerkz(this.editId, data)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.getAllPdf();
+    })
+  }
+  viewQuiz: any;
+  viewQuizWerkz(id,view){
+    console.log(this.editId)
+    this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap'});
+    this._service.getSingleQuizwerkz(id)
+    .subscribe((res:any) => {
+      console.log(res)
+      this.viewQuiz = res;
     })
   }
 

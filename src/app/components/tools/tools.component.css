@@ -1,3 +1,6 @@
+.noti-wrapper{
+	padding-top: 40px;
+}
 .tool-checked{	
 	margin-right: 0;
 	flex: auto;
@@ -40,6 +43,7 @@ input[type="radio"]:checked{
 	font-size: 27px;
 	color: #5e5e5e;
 	margin-bottom: 40px;
+	padding-left: 15px;
 	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
 }
 .user-count{
@@ -57,5 +61,26 @@ input[type="radio"]:checked{
 	min-width: 22px;
 }
 .choose-cat{	
-	width: 95.5% !important;
+	/*width: 95.5% !important;*/
+}
+.noti-sidebar{
+	padding-top: 20px;
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 1px solid #dedede;
+}
+.noti-tab.active{
+	background: #e6ecf2;
+	color: #4292f1;
+}
+.noti-tab{
+	background: #fff;
+	padding: 14px 12px;
+	border-radius: 0;
+	outline: none;
+	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+}
+.noti-tab:focus{
+	outline: none;
+	box-shadow: none;
 }

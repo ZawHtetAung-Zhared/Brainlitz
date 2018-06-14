@@ -2,8 +2,8 @@
 	<form *ngIf="showHeader" novalidate #chooseLocationForm="ngForm">
 		<div class="form-group col-md-4">
 		  <label for="inputState">Location</label>
+		  <i class="down-arrow"></i>
 		  <select id="inputState" class="form-control" name="location" (change)="selectLocation($event)">
-		    <span class="glyphicon glyphicon-menu-down"></span>
 		    <option>Choose Location</option>
 		    <option [selected]="location.selected" *ngFor="let location of locationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
 		  </select>

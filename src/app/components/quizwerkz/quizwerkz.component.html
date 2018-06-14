@@ -1,3 +1,4 @@
+<div class="inner-wrapper">
 <div class="mb-30">
 	<button type="button" class="btn btn-primary" (click)="open(content)">+ Create Quizwerkz</button>
 </div>
@@ -8,6 +9,8 @@
       <span style="margin-right: 20px;">{{pdf.name}}</span><!-- {{course.name}} -->
       <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">Create</button> -->
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onClickDelete(pdf,comfirm)">Delete</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm" style="margin-right: 5px;" (click)="editQuizWerkz(pdf._id, content)">Edit</button>
+       <button type="button" class="btn btn-secondary float-right btn-sm" style="margin-right: 5px;" (click)="viewQuizWerkz(pdf._id,view)">View</button>
     </li>
   </ul>
 </div>
@@ -23,20 +26,41 @@
   	<div class="modal-body">
 	  	<div class="form-group">
 	      <label for="name">Name</label>   
-	      <input type="text" class="form-control" placeholder="quizwerkz name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+	      <input type="text" class="form-control" placeholder="quizwerkz name" name="name" [(ngModel)]="formField.name" required #name="ngModel">
 	    </div>
 	    <div class="form-group">
 	      <label for="name">Book Url</label>   
-	      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" required #url="ngModel" required>
+	      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="formField.url" required #url="ngModel" required>
 	    </div>
+      <div class="form-group">
+        <label for="name">Book Cover Url</label>   
+        <input type="url" class="form-control" placeholder="enter cover URl link" name="cover" [(ngModel)]="formField.cover" required #cover="ngModel" required>
+      </div>
   	</div>
   	<div class="modal-footer">
   	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-  	  <button *ngIf="!isEdit" type="submit" class="btn btn-primary" (click)="createPdf(item, isEdit)">Create</button>
-      <button *ngIf="isEdit" type="submit" class="btn btn-primary" (click)="updatePdf(item, isEdit, currentID)">Update</button>
+  	  <button *ngIf="!isEdit" type="submit" [disabled]="!pdfForm.valid" class="btn btn-primary" (click)="createQuizWerkz(formField, isEdit)">Create</button>
+      <button *ngIf="isEdit" type="submit" [disabled]="!pdfForm.valid" class="btn btn-primary" (click)="updateQuizWerkz(formField)">Update</button>
   	</div>
   </form>
 </ng-template>
+
+<ng-template #view let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Quizwerkz View</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body view" *ngIf="viewQuiz">
+    <div><label>Name:</label> <span>{{viewQuiz.name}}</span></div>
+    <div><label>Book Url:</label> <span>{{viewQuiz.url}}</span> </div>
+    <div><label>Book Cover Url:</label> <span>{{viewQuiz.cover}}</span> </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+  </div>
+</ng-template> 
 
 <ng-template #comfirm let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -49,7 +73,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="comfirmDelete(selectQw,content1)">Delete</button>
+    <button type="submit" class="btn btn-danger" (click)="confirmDelete(selectQw,content1)">Delete</button>
   </div>
 </ng-template>
 
@@ -64,6 +88,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="quizwerkzDelete(deleteQw._id)">Comfirm</button>
+    <button type="submit" class="btn btn-danger" (click)="quizwerkzDelete(deleteQw._id)">Confirm</button>
   </div>
 </ng-template>
+</div>

@@ -136,6 +136,22 @@ export class appService{
       })
     }
 
+    viewNoti(regionID:string): Observable<any>{
+      console.log(regionID)
+      this.getLocalstorage();
+      const httpOptions = {
+        headers: new HttpHeaders({  
+          'Content-Type': 'application/json',
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      var url = this.baseUrl + '/noti?regionId=' + regionID;
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     getLocations(id: string): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl + '/' + id + '/locations';
@@ -605,6 +621,35 @@ export class appService{
       .map((res:Response) => {
         let result = res; 
         console.log(result)
+        return result;
+      })
+    }
+
+    getSingleQuizwerkz(id:string){
+      console.log(id)
+      let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    updateSignleQuizwerkz(id:string, data: object){
+      let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
         return result;
       })
     }
