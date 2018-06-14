@@ -1,0 +1,7 @@
+.view label {
+	font-weight: bold;
+}
+
+.btn-primary:disabled {
+	cursor: not-allowed;
+}

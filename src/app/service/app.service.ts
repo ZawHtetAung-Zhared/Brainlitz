@@ -609,6 +609,35 @@ export class appService{
       })
     }
 
+    getSingleQuizwerkz(id:string){
+      console.log(id)
+      let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    updateSignleQuizwerkz(id:string, data: object){
+      let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 }
 
 
