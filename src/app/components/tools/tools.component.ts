@@ -37,7 +37,7 @@ export class ToolsComponent implements OnInit {
   clickTab(type){
     this.notiType = type;
     if(type == 'view'){
-      this.viewNoti();
+      // this.viewNoti();
     }else{
       this.setDefaultSelected();
     }
@@ -243,4 +243,9 @@ export class ToolsComponent implements OnInit {
     })
     
   }
+
+  resetForm(){
+    this.item = {};
+  }
+
 }

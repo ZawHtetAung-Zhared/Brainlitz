@@ -1,4 +1,4 @@
-<div class="d-flex flex-column w-100 h-100">
+<div class="d-flex flex-column w-100 h-100 inner-wrapper">
 	<div class="mb-30">
 		<button type="button" class="btn btn-primary" data-toggle="modal" (click)="open1(staffModal)">
 			+ Create Staff
@@ -180,7 +180,7 @@
 			</li>
 		</ul>
 	</div> -->
-	<div class="overflow">
+	<div class="overflow container">
 		<ul class="list-group-flush">
 			<li class="list-group-item" *ngFor="let user of userLists; let i = index">
 				<span style="padding-right: 40px;" *ngIf="user.preferredName != undefined">Name: {{user.preferredName}}</span>

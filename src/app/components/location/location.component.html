@@ -1,4 +1,4 @@
-<div class="d-flex flex-column w-100 h-100">
+<div class="d-flex flex-column w-100 h-100 inner-wrapper">
     <div class="mb-30">
       <button type="button" class="btn btn-primary" (click)="open(locationModal)">+ create Location</button>
     </div>
@@ -37,7 +37,7 @@
       </form>
     </ng-template>    
     <block-ui message="Deafult Message"></block-ui>
-    <div class="overflow">
+    <div class="overflow container">
       <ul class="list-group-flush">  
         <li id="{{location._id}}" class="list-group-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
           {{i + 1}}-{{ location.name }} 

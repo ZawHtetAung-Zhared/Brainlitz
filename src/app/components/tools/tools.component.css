@@ -1,3 +1,6 @@
+.noti-wrapper{
+	padding-top: 40px;
+}
 .tool-checked{	
 	margin-right: 0;
 	flex: auto;
@@ -58,7 +61,7 @@ input[type="radio"]:checked{
 	min-width: 22px;
 }
 .choose-cat{	
-	width: 95.5% !important;
+	/*width: 95.5% !important;*/
 }
 .noti-sidebar{
 	padding-top: 20px;
