@@ -59,3 +59,9 @@ input[type="radio"]:checked{
 .choose-cat{	
 	width: 95.5% !important;
 }
+.noti-sidebar{
+	padding-top: 20px;
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 1px solid #dedede;
+}

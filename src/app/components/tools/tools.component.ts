@@ -28,7 +28,7 @@ export class ToolsComponent implements OnInit {
   constructor(private _service: appService) { }
 
   ngOnInit() {
-    $('#type1').parent().toggleClass('radio-selected');    
+    $('#type1').parent().toggleClass('radio-selected');
   }
 
 
