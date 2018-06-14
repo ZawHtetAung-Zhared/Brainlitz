@@ -147,27 +147,14 @@ export class CoursecreateComponent implements OnInit {
     var cbIdx = this.cbChecked.indexOf(data);
     console.log(cbIdx)
     if (event.target.checked) {
-        // this.selectedPdf.push(data);
-        // this.toggleBool= false;
         if(cbIdx < 0 )
             this.cbChecked.push(data);
      } else {
        if(cbIdx >= 0 )
             this.cbChecked.splice(cbIdx,1);
-       // var index = this.selectedDay.indexOf(event.target.value);
-       // console.log("Else")
-       //  this.selectedPdf.splice(index, 1);
-       //  this.toggleBool= true;
     }
-    // this.selectedPdf.sort();
     console.log(this.cbChecked);
   }
-   //  filternames:any;
-   // checked() {
-   //         console.log(this.filternames .filter(item => { return item.checked; }))
-   //        return this.filternames .filter(item => { return item.checked; });
-   //      }
-
 
   calculateDuration(time){
     console.log("Calculate",time)

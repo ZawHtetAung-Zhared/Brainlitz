@@ -17,13 +17,22 @@ export class CourseComponent implements OnInit {
   closeResult:any;
   selectCourse:any;
   deleteCourse:any;
-  time = {hour: 13, minute: 30};
+  detailCourse:any;
+  allCoursePlan:any;
+  coursePlanName:any;
+  teacherName:any;
+  day;
+  dayArr=[];
+  repeatDay:any;
+  allUsers:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
   public regionId = localStorage.getItem('regionId');;
   ngOnInit() {
   	this.getCourseLists();
+    this.getCoursePlans();
+    this.getUsers();
   }
 
   getCourseLists(){
@@ -38,7 +47,7 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  courseDetail(course){
+  courseView(course){
   	console.log(course)
   	this.router.navigate(['/assign']);
   	let obj = {
@@ -95,11 +104,91 @@ export class CourseComponent implements OnInit {
       this.getCourseLists();
     })
   }
-  singleCourse(course){
-    console.log("GET single",course);
+
+  getUsers(){
+    this._service.getAllUsers(this.regionId)
+    .subscribe((res:any)=>{
+      this.allUsers = res;
+      console.log("All Users",this.allUsers);
+    })
+  }
+
+  getCoursePlans(){
+    this._service.getAllCoursePlan(this.regionId)
+    .subscribe((res:any)=>{
+      this.allCoursePlan = res;
+      console.log("Course Plans",this.allCoursePlan);
+    })
+  }
+
+  showCoursePlanName(planid){
+    console.log("course plan id",planid);
+    console.log("Test",this.allCoursePlan);
+    let item1 = this.allCoursePlan.filter(item => item._id === planid)[0];
+    console.log(item1);
+    return item1;
+  }
+  showUserName(userid){
+    console.log("user id",userid);
+    console.log("Test",this.allUsers);
+    let item = this.allUsers.filter(item => item.userId === userid)[0];
+    console.log(item);
+    return item;
+  }
+
+  showRepeatedDays(arr){
+    let test = arr;
+    console.log("Test",test)
+    for (let i = 0; i < arr.length; i++) {
+      console.log(arr[i]);
+      switch (arr[i]) {
+        case 0:
+        this.day = "Sunday";
+        break;
+        case 1:
+        this.day = "Monday";
+            break;
+        case 2:
+        this.day = "Tuesday";
+            break;
+        case 3:
+        this.day = "Wednesday";
+            break;
+        case 4:
+        this.day = "Thursday";
+            break;
+        case 5:
+        this.day = "Friday";
+            break;
+        case  6:
+        this.day = "Saturday";
+      }
+      this.dayArr.push(this.day) 
+    }
+    console.log(this.dayArr)
+    return this.dayArr; 
+  }
+
+  courseDetail(course,detail){
+    this.dayArr =[];
   	this._service.getSingleCourse(course._id)
   	.subscribe((res:any) => {
-  		console.log(res);
+  		console.log("course detail",res);
+      this.detailCourse = res;
+      let coursePlan=this.showCoursePlanName(this.detailCourse.coursePlanId);
+      this.coursePlanName = coursePlan.name;
+      console.log("coursePlanName",this.coursePlanName)
+      let teacher = this.showUserName(this.detailCourse.teacherId);
+      this.teacherName = teacher.preferredName;
+      console.log("teacher name",this.teacherName)
+      this.repeatDay = this.showRepeatedDays(this.detailCourse.repeatDays);
+      console.log("Repeat",this.repeatDay)
+      this.modalReference = this.modalService.open(detail);
+      this.modalReference.result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
   	})
   }
 }
