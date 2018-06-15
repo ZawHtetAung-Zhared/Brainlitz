@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+import {Subject} from 'rxjs/Subject';
  
 @Injectable()
 export class appService{
@@ -13,10 +14,15 @@ export class appService{
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType');
 
+
+    sendData: Observable<any>;
+    private sendParentToChild = new Subject<any>();
+
     constructor( private httpClient: HttpClient) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
+      this.sendData = this.sendParentToChild.asObservable();
     }   
 
     getToken(){
@@ -163,7 +169,8 @@ export class appService{
          return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
-          console.log(result);    
+          console.log(result);  
+          this.sendParentToChild.next(result);  
           return result;
         }) 
       }
