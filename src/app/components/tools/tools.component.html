@@ -1,8 +1,12 @@
 <div class="d-flex flex-row h-100 w-100">
 	<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 noti-sidebar">
-		<div class="d-flex flex-column justify-content-center">			
-			<button [ngClass]="{'active': notiType == 'send'}" class="btn noti-tab" (click)="clickTab('send')">Send notification</button>
-			<!-- <button [ngClass]="{'active': notiType == 'view'}" class="btn noti-tab" (click)="clickTab('view')">View sent history</button> -->
+		<div class="d-flex flex-column justify-content-center">
+			<div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
+				<button class="btn noti-tab w-100" (click)="clickTab('send')">Send notification</button>
+			</div>
+			<!-- <div [ngClass]="{'active': notiType == 'view'}" class="tab-wrap">			
+				<button class="btn noti-tab w-100" (click)="clickTab('view')">View sent history</button>
+			</div> -->
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 w-100 overflow noti-wrapper">	
@@ -14,27 +18,27 @@
 						<div class="form-group">
 						  	<label for="address">Send to</label>
 						  	<div class="d-flex">
-								<div class="form-check form-check-inline tool-checked">
+								<div [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check form-check-inline tool-checked">
 								  <label class="form-check-label">
 								    <input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> All customers
 								  </label>
 								</div>
-								<div class="form-check form-check-inline tool-checked">
+								<div [ngClass]="{'selected': isChecked == 'allstaff'}" class="form-check form-check-inline tool-checked">
 								  <label class="form-check-label">
 								    <input class="form-check-input" type="radio" name="type" id="type2" value="allstaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allstaff')"> All staffs
 								  </label>
 								</div>
-								<div class="form-check form-check-inline tool-checked">
+								<div [ngClass]="{'selected': isChecked == 'category'}" class="form-check form-check-inline tool-checked">
 								  <label class="form-check-label">
 								    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('category')"> Category
 								  </label>
 								</div>
-								<div class="form-check form-check-inline tool-checked">
+								<div [ngClass]="{'selected': isChecked == 'course'}" class="form-check form-check-inline tool-checked">
 								  <label class="form-check-label">
 								    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('course')"> Selected course
 								  </label>
 								</div>
-								<div class="form-check form-check-inline tool-checked">
+								<div [ngClass]="{'selected': isChecked == 'alluser'}" class="form-check form-check-inline tool-checked">
 								  <label class="form-check-label">
 								    <input class="form-check-input" type="radio" name="type" id="type5" value="alluser" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('alluser')"> Selected user
 								  </label>
