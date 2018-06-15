@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
@@ -17,7 +17,7 @@ export class appService{
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
-    }         
+    }   
 
     getToken(){
       let tempToken = localStorage.getItem('code');
@@ -163,7 +163,7 @@ export class appService{
          return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
-          console.log(result);        
+          console.log(result);    
           return result;
         }) 
       }
@@ -190,7 +190,6 @@ export class appService{
       console.log(id)
       console.log(body)
       let apiUrl = this.baseUrl + '/' + id + '/locations';
-
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -468,6 +467,36 @@ export class appService{
         console.log(result);        
         return result;
       }) 
+    }
+
+    getSingleCalendar(calendarId:string): Observable<any>{
+      let apiUrl = this.baseUrl  + '/holidaysCalendar/' + calendarId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    deleteCalendar(id:string): Observable<any>{
+      console.log(id)
+      let apiUrl = this.baseUrl  + '/holidaysCalendar/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
     }
 
     getSingleCourse(id:string): Observable<any>{

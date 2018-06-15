@@ -1,30 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+
 declare var $:any;
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public locationLists: any;
-  public showHeader: any;
+  public accessToken: any;
   
   constructor(private _router: Router, private _service: appService) {
-    _router.events.forEach((event) => {
-    console.log(event)
-      if(event instanceof NavigationStart) {
-        this.showHeader = (event.url == "/login" || event.url == "/" ) ? this.showHeader = false : this.showHeader = true; 
-      }
-    });
-   }
+  }
   
   ngOnInit() {
-    this.getAllLocation();
+    console.log('headerLocation work')
+    this.accessToken = localStorage.getItem('token');
+    if(this.accessToken != undefined){
+        console.log('!undefined')
+        this.getAllLocation();
+      }
   }
 
   logoff(){
@@ -34,9 +34,11 @@ export class HeaderComponent implements OnInit {
 	}
 
   getAllLocation(){
+    console.log('afterclick region', this.regionID)
     this._service.getLocations(this.regionID)
     .subscribe((res:any) => {
       this.locationLists = res; 
+      console.log('header locationlists',this.locationLists)
       let locationId  = localStorage.getItem('locationId');
       if(locationId){
         for(var i = 0; i < this.locationLists.length; i++){
@@ -44,7 +46,11 @@ export class HeaderComponent implements OnInit {
             this.locationLists[i].selected = true;
           }
         }
-      }  
+      } 
+      let regionId  = localStorage.getItem('regionId');
+      if(regionId){
+        localStorage.setItem('locationId', this.locationLists[0]._id);
+      } 
     }, err => {
       console.log(err)
     })
@@ -57,5 +63,7 @@ export class HeaderComponent implements OnInit {
   }
 
 
+
 }
+
 

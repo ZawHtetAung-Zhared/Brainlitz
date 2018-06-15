@@ -68,4 +68,5 @@ export class RegionComponent implements OnInit {
   	console.log(id)
     localStorage.setItem("regionId", id);
   }
+
 }
