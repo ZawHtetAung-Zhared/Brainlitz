@@ -19,7 +19,7 @@ export class ToolsComponent implements OnInit {
 	public item:any = {};
   public regionID = localStorage.getItem('regionId');
 	public locationId = localStorage.getItem('locationId');
-  public isChecked: boolean = false;
+  public isChecked:any;
   public categoryLists:any;
   public userLists:any;
   public courseLists:any;
@@ -62,7 +62,7 @@ export class ToolsComponent implements OnInit {
     }
     console.log(dataObj)
     setTimeout(()=>{ 
-      $('#type1').parent().toggleClass('radio-selected');      
+      this.isChecked = 'allcustomer';
     }, 10);
     
     this._service.userCount(dataObj)
@@ -131,10 +131,10 @@ export class ToolsComponent implements OnInit {
       console.log('=)')
     }
 
-    var $radioButtons = $('input[type="radio"]');    
-    $radioButtons.each(function() {
-        $(this).parent().toggleClass('radio-selected', this.checked);
-    });
+    // var $radioButtons = $('input[type="radio"]');    
+    // $radioButtons.each(function() {
+    //     $(this).parent().toggleClass('radio-selected', this.checked);
+    // });
     
   }
 
@@ -246,6 +246,7 @@ export class ToolsComponent implements OnInit {
 
   resetForm(){
     this.item = {};
+    this.isChecked = 'allcustomer';
   }
 
 }

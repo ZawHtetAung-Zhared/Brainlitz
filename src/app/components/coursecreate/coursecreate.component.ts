@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRe
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
+import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -19,7 +20,9 @@ export class CoursecreateComponent implements OnInit {
   public showCourse:boolean = false;
   public courseObj:{};
   public coursePlan:{};
-  public regionID = '5af915541de9052c869687a3';
+  public regionID = localStorage.getItem('regionId');
+  public coursePlanId;
+  public courseId;
   public users;
   public locationList;
   public pdfList:any;
@@ -28,6 +31,7 @@ export class CoursecreateComponent implements OnInit {
   public toggleBool: boolean=true;
   public classend: any;
   public selectedDay = [];
+  public isEdit:boolean = false;
   public days = [
     {"day":"Sun", "val": 0},
     {"day":"Mon", "val": 1},
@@ -49,51 +53,41 @@ export class CoursecreateComponent implements OnInit {
   date = new Date();
   // mytime: Date = new Date(); 
 
-  constructor(private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef) {
+  constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
-      // weekends are disabled
     // config.markDisabled = (date: NgbDateStruct) => {
     //   const d = new Date(date.year, date.month - 1, date.day);
     //   return d.getDay() === this.model.startDate;
     // }
    }
-
+   test;
   ngOnInit() {
-  	this.getCoursePlanList();
-    // this.getCourseLists();
-  }
-  
-  showPlanlist(){
-    console.log("showPlanList")
-    this.showPlan = true;
+    this.getCoursePlanList();
+    this.coursePlanId = localStorage.getItem('coursePlanId');
+    this.courseId = localStorage.getItem('courseId');
+    console.log(this.coursePlanId)
+    if(this.coursePlanId){
+      this.showCourse = true;
+    }
+    if(this.courseId){
+      console.log("EDIT")
+      this.editCourse(this.courseId);
+      this.getLocationsList();
+      this.getUserList();
+      this.getPdfList();
+    }
   }
 
   getCoursePlanList(){
     this.blockUI.start('Loading...');
-  	this._service.getAllCoursePlan(this.regionID)
+    this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
-    	this.coursePlan = res;
-    	console.log(this.coursePlan);
+      this.coursePlan = res;
+      console.log(this.coursePlan);
        setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
       }, 80);
     });
-  }
-  original:any;
-  selectCoursePlan(plan){
-  	console.log("selectCoursePlan",plan);
-  	this.showCourse = true;
-  	this.model.coursePlanId = plan._id;
-    this.model.coursePlanName = plan.name;
-    this.model.duration = plan.lesson.duration;
-    this.original = plan.quizwerkz;
-    this.cbChecked = plan.quizwerkz;
-    console.log("qw",this.cbChecked)
-    console.log(this.model.duration)
-  	console.log(this.model.coursePlanId)
-    this.getUserList();
-    this.getLocationsList();
-    this.getPdfList();
   }
 
   getUserList(){
@@ -118,63 +112,89 @@ export class CoursecreateComponent implements OnInit {
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
       this.pdfList = res;
-      console.log(this.pdfList)
+      console.log("quizwerkz",this.pdfList)
     })
   }
-  
+
+  showPlanlist(){
+    console.log("showPlanList")
+    this.showPlan = true;
+  }
+
+  original:any;
+  selectCoursePlan(plan){
+  	console.log("selectCoursePlan",plan);
+  	this.showCourse = true;
+    localStorage.setItem('coursePlanId',plan._id);
+  	this.model.coursePlanId = plan._id;
+    this.model.coursePlanName = plan.name;
+    this.model.durationTimes = plan.lesson.duration;
+    this.original = plan.quizwerkz;
+    this.cbChecked = plan.quizwerkz;
+    console.log("CHECKED create state",this.cbChecked)
+    console.log(this.model.duration)
+  	console.log(this.model.coursePlanId)
+    this.getUserList();
+    this.getLocationsList();
+    this.getPdfList();
+  }
+
   back(){
   	console.log("Back Works")
   	this.showCourse = false;
   }
 
   selectDay(data, event): void {
+    // console.log("Day",data,event);
+    // if (event.target.checked) {
+    //     this.selectedDay.push(data);
+    //     this.toggleBool= false;
+    //  } else {
+    //    var index = this.selectedDay.indexOf(event.target.value);
+    //    console.log("Else")
+    //     this.selectedDay.splice(index, 1);
+    //     this.toggleBool= true;
+    // }
+    // this.selectedDay.sort();
+    // console.log(this.selectedDay);
     console.log("Day",data,event);
+    var dayIdx = this.selectedDay.indexOf(data);
+    console.log(dayIdx)
     if (event.target.checked) {
-        this.selectedDay.push(data);
-        this.toggleBool= false;
+        if(dayIdx < 0 )
+            this.selectedDay.push(data);
+          this.toggleBool= false;
      } else {
-       var index = this.selectedDay.indexOf(event.target.value);
-       console.log("Else")
-        this.selectedDay.splice(index, 1);
-        this.toggleBool= true;
+       if(dayIdx >= 0 )
+            this.selectedDay.splice(dayIdx,1);
+          this.toggleBool= true;
     }
     this.selectedDay.sort();
     console.log(this.selectedDay);
   }
 
   selectPdf(data, event): void {
-    console.log("Day",data,event);
+    console.log("Pdf",data,event);
+    console.log("cbChecked",this.cbChecked)
     var cbIdx = this.cbChecked.indexOf(data);
     console.log(cbIdx)
     if (event.target.checked) {
-        // this.selectedPdf.push(data);
-        // this.toggleBool= false;
         if(cbIdx < 0 )
             this.cbChecked.push(data);
      } else {
        if(cbIdx >= 0 )
+         console.log("else")
             this.cbChecked.splice(cbIdx,1);
-       // var index = this.selectedDay.indexOf(event.target.value);
-       // console.log("Else")
-       //  this.selectedPdf.splice(index, 1);
-       //  this.toggleBool= true;
     }
-    // this.selectedPdf.sort();
     console.log(this.cbChecked);
   }
-   //  filternames:any;
-   // checked() {
-   //         console.log(this.filternames .filter(item => { return item.checked; }))
-   //        return this.filternames .filter(item => { return item.checked; });
-   //      }
-
 
   calculateDuration(time){
     console.log("Calculate",time)
     // let myTime = time.substring(0,3).concat(this.model.duration);
     // console.log("end",myTime)
     let piece = time.split(':');
-    let mins = piece[0]*60 + +piece[1] + +this.model.duration;
+    let mins = piece[0]*60 + +piece[1] + +this.model.durationTimes;
     this.classend = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
     console.log(this.classend)
   }
@@ -185,14 +205,14 @@ export class CoursecreateComponent implements OnInit {
     console.log(this.model.optionsSelected)
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
-      "startDate": this.changeDateFormat(this.model.startDate,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.endDate,0),
+      "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+      "endDate": this.changeDateFormat(this.model.end,0),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
       "room": this.model.room,
-      "reservedNumberofSeat": this.model.reservedNumSeat,
-      "name": this.model.courseName,
+      "reservedNumberofSeat": this.model.reservedNumberofSeat,
+      "name": this.model.name,
       "lessonCount": this.model.lessonCount,
       "repeatDays": this.selectedDay,
       "quizwerkz": this.cbChecked,
@@ -203,6 +223,7 @@ export class CoursecreateComponent implements OnInit {
   	.subscribe((res:any) => {
     	console.log(res); 
       this.toastr.success('Successfully Created.');
+      localStorage.removeItem('coursePlanId');
     });
     this.router.navigate(['course/']); 
   }
@@ -233,37 +254,63 @@ export class CoursecreateComponent implements OnInit {
   }
   
   cancel(){
+    localStorage.removeItem('coursePlanId');
+    localStorage.removeItem('courseId');
   	this.router.navigate(['course/']); 
   }
   onClickedOutside(e: Event) {
     console.log('Clicked outside:', e);
   }
-  // getCourseLists(){
-  //   this._service.getAllCourse(this.regionID)
-  //   .subscribe((res:any) => {
-  //     console.log(res);
-  //     this.courseList = res;
-  //   })
-  // }
 
-  // editCourse(course){
-  //   console.log("Edit Course",course);
-  //   this.model = course;
-  //   this.getUserList();
-  //   this.getLocationsList();
-  //   this.showCourse = true;
-  //   this._service.getSingleCourse(id,regionid)
-  //   .subscribe((res:any)=>{
-  //     console.log(res)
-  //   })
-  // }
-
-  // deleteCourse(id,regionid){
-  //   console.log("Delete Course",id,regionid);
-  //   this._service.deleteCourse(id,regionid)
-  //   .subscribe((res:any) => {
-  //     console.log(res);
-  //     this.getCourseLists();
-  //   })
-  // }
+  editCourse(cId){
+    this.isEdit = true;
+    this._service.getSingleCourse(cId)
+    .subscribe((res:any) => {
+      this.model = res;
+      // console.log('Edit Course',this.model);
+      this.model.start = this.changeDateStrtoObj(this.model.startDate);
+      // console.log(this.model.start);
+      this.model.end = this.changeDateStrtoObj(this.model.endDate);
+      // console.log(this.model.end);
+      this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
+      // console.log(this.model.starttime);
+      this.selectedDay = this.model.repeatDays;
+      this.cbChecked = this.model.quizwerkz;
+      console.log("CHECKED create state",this.cbChecked)
+    })
+  }
+  updateCourse(courseid){
+    console.log("updateCourse",courseid);
+    let obj = {
+      "coursePlanId": this.model.coursePlanId,
+      "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+      "endDate": this.changeDateFormat(this.model.end,0),
+      "teacherId": this.model.teacherId,
+      "courseCode": this.model.courseCode,
+      "locationId": this.model.locationId,
+      "room": this.model.room,
+      "reservedNumberofSeat": this.model.reservedNumberofSeat,
+      "name": this.model.name,
+      "lessonCount": this.model.lessonCount,
+      "repeatDays": this.selectedDay,
+      "quizwerkz": this.cbChecked,
+      "description": this.model.description,
+    };
+    this._service.updateCourse(courseid,obj)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.toastr.success('Successfully Updated.');
+      localStorage.removeItem('coursePlanId');
+    })
+    this.router.navigate(['course/']); 
+  }
+  
+  changeDateStrtoObj(datestr){
+    console.log(datestr)
+    let test = datestr.substring(0, datestr.search("T"));
+    let testSplit = test.split("-");
+    let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+    return format;
+  }
+  
 }

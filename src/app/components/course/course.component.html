@@ -10,10 +10,10 @@
   <ul class="list-group-flush">
     <li class="list-group-item" *ngFor="let course of courseList">
       <span style="margin-right: 20px;">{{course.name}}</span>
-      <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseEdit(course)">Edit</button> -->
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">View</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="singleCourse(course)">Detail</button>
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="edit(course)">Edit</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseView(course)">View</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course,detail)">Detail</button>
     </li>
   </ul>
 </div>
@@ -45,6 +45,99 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
     <button type="submit" class="btn btn-danger" (click)="courseDelete(deleteCourse._id)">Comfirm</button>
+  </div>
+</ng-template>
+
+<ng-template #detail let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4>Course Detail</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <label class="detail-label">Course Plan Name:</label> 
+      <span>{{coursePlanName}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Course Name:</label> 
+      <span>{{detailCourse.name}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Course Code:</label> 
+      <span>{{detailCourse.courseCode}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Description:</label> 
+      <span>{{detailCourse.description}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Start Date:</label> 
+      <span>{{detailCourse.startDate}}</span>
+    </div>
+    <div>
+      <label class="detail-label">End Date:</label> 
+      <span>{{detailCourse.endDate}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Duration:</label> 
+      <span>{{detailCourse.durationTimes}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Repeated Days:</label> 
+        <label *ngFor="let day of repeatDay" class="repeatday">
+          {{day}}
+        </label>
+    </div>
+    <div>
+      <label class="detail-label">Lesson Count:</label> 
+      <span>{{detailCourse.lessonCount}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Payment Policy</label> 
+    </div>
+    <div>
+      <label>Allow Prorated:</label> 
+      <span>{{detailCourse.paymentPolicy.allowProrated}}</span>
+    </div>
+    <div>
+      <label>Course Fee:</label> 
+      <span>{{detailCourse.paymentPolicy.courseFee}}</span>
+    </div>
+    <div>
+      <label>Deposit</label> 
+      <span>{{detailCourse.paymentPolicy.deposit}}</span>
+    </div>
+    <div>
+      <label>Misc Fee:</label> 
+      <span>{{detailCourse.paymentPolicy.miscFee}}</span>
+    </div>
+    <div>
+      <label>Prorated Lesson Fee:</label> 
+      <span>{{detailCourse.paymentPolicy.proratedLessonFee}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Reserved Number of Seat:</label> 
+      <span>{{detailCourse.reservedNumberofSeat}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Room:</label> 
+      <span>{{detailCourse.room}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Teacher Name:</label> 
+      <span>{{teacherName}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Quizwerkz:</label> 
+      <label *ngFor="let pdf of quizwerkz" class="repeatday">
+        {{pdf}}
+      </label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
   </div>
 </ng-template>
 

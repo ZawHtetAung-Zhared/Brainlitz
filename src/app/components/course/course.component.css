@@ -16,3 +16,9 @@ li button{
 .btn-cancel{
 	background: #a9a9a9;
 }
+.detail-label{
+	font-weight: bold;
+}
+.repeatday{
+	margin: 5px;
+}
