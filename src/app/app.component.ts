@@ -40,8 +40,15 @@ export class AppComponent {
   	router.events.forEach((event) => {
 	    if(event instanceof NavigationStart) {
         this.showSidebar = (event.url == "/login" || event.url == "/region" || event.url == "/") ? this.showSidebar = false : this.showSidebar = true; 
+        this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/region" ) ? this.showHeader = false : this.showHeader = true; 
 	    }
 	  });
 	}
+
+  logoff(){
+    console.log('log out');
+    localStorage.clear();
+    this._router.navigateByUrl('/login');
+  }
     
 }

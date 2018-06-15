@@ -1,6 +1,13 @@
 <section id="container" class="d-flex flex-column h-100 w-100">
     <header id="header">
-      <app-header class="d-flex header-top top-header"></app-header>
+      <div class="col-md-12 header-br">
+        <app-header class="d-flex header-top top-header" *ngIf="showHeader" ></app-header>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4  d-flex justify-content-end pos-logout">
+          <button class="btn dropdown-toggle" type="button" (click)="logoff()">
+            Admin
+          </button> 
+        </div>
+      </div>
       <app-sidebar class="d-flex" *ngIf="showSidebar"></app-sidebar>
       
     </header>

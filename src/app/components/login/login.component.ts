@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
 
   public login() {
   	console.log('login start');
-    localStorage.removeItem("locationId");
     this.redirectUri = encodeURIComponent(this.redirectUri);
     window.location.href = this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri
   }
