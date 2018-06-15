@@ -27,9 +27,11 @@ input[type="radio"] {
 input[type="radio"]:checked{
 
 }
-.radio-selected{
+.tool-checked.selected{
 	background: #4392f1;
-	color: #fff !important;
+}
+.selected label{
+	color: #fff !important;	
 }
 .lable-title{
 	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
@@ -69,15 +71,41 @@ input[type="radio"]:checked{
     padding-left: 0;
     border-right: 1px solid #dedede;
 }
-.noti-tab.active{
+.tab-wrap{
+	padding: 9px 0px;
+	position: relative;
+}
+.active .noti-tab::after,
+.active .noti-tab::before {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 0;
+}
+.active .noti-tab::before {    
+    border-bottom: 5px solid #4292f1;
+    border-right: 3px solid transparent;
+    top: 5px;
+}
+.active .noti-tab::after {  
+   	border-top: 5px solid #4292f1;
+   	border-right: 3px solid transparent;
+   	bottom: 5px;
+}
+.active{
+	background: #e6ecf2;
+}
+.active .noti-tab{
 	background: #e6ecf2;
 	color: #4292f1;
+	border-left: 3px solid #4292f1;
 }
 .noti-tab{
-	background: #fff;
-	padding: 14px 12px;
+	padding: 7px 12px;
 	border-radius: 0;
 	outline: none;
+	border-left: 3px solid transparent;
 	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
 }
 .noti-tab:focus{
