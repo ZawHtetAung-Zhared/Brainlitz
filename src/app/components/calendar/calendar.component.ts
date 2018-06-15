@@ -29,6 +29,8 @@ export class CalendarComponent implements OnInit {
 	arrayHoliday: Array<any> = [];
 	holidayLists: any;
   calendarLists: any;
+  public calendarName: any;
+  public calendarId: any;
   formField: calendarField = new calendarField();
   @BlockUI() blockUI: NgBlockUI;
 
@@ -44,20 +46,33 @@ export class CalendarComponent implements OnInit {
 	  	});
 	}
 
+  openDeleteModal(deletemodal, id){
+    console.log('hi', id)  
+    this.getSingleCalendar(id);
+    this.calendarId = id; 
+    console.log(this.calendarId);
+    this.modalReference = this.modalService.open(deletemodal, { backdrop:'static', windowClass:'animation-wrap'});
+      this.modalReference.result.then((result) => {        
+        this.closeResult = `Closed with: ${result}`
+      }, (reason) => {        
+        this.closeResult = `Closed with: ${reason}`;
+      });
+  }
+
 	getAllHolidays(){
     this.blockUI.start('Loading...');
-		this.regionID = localStorage.getItem('regionId');
-	    this._service.getAllHolidays(this.regionID)
-	    .subscribe((res:any) => {
-        setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
-        }, 300);
-	      this.holidayLists = res;
-	      console.log(this.holidayLists)
-	      }, err => {
-	        console.log(err)
-	      })
-  	}
+  	this.regionID = localStorage.getItem('regionId');
+    this._service.getAllHolidays(this.regionID)
+    .subscribe((res:any) => {
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
+      this.holidayLists = res;
+      console.log(this.holidayLists)
+      }, err => {
+        console.log(err)
+      })
+	}
 
   	ChangeValue(e){
   		if(e.target.checked == true){
@@ -109,6 +124,28 @@ export class CalendarComponent implements OnInit {
         })
       }
 
+    deleteCalendar(id){
+       console.log(id)
+       this._service.deleteCalendar(id)
+       .subscribe((res:any) => {
+         console.log(res);
+         this.toastr.success('Successfully Deleted.');
+         this.blockUI.stop();
+         this.getAllHolidaysCalendar();
+       },err => {
+         this.toastr.error('Delete Fail.');
+         console.log(err);
+       })
+    } 
 
+    getSingleCalendar(calendarId){
+      this._service.getSingleCalendar(calendarId)
+        .subscribe((res:any) => {
+          this.calendarName = res.name;
+          console.log(res);
+        },err => {
+          console.log(err);
+      })
+    }
 
 }

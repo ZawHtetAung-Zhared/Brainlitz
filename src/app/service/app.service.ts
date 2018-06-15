@@ -476,6 +476,36 @@ export class appService{
       }) 
     }
 
+    getSingleCalendar(calendarId:string): Observable<any>{
+      let apiUrl = this.baseUrl  + '/holidaysCalendar/' + calendarId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    deleteCalendar(id:string): Observable<any>{
+      console.log(id)
+      let apiUrl = this.baseUrl  + '/holidaysCalendar/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
     getSingleCourse(id:string): Observable<any>{
       this.getLocalstorage();
       console.log(id);
