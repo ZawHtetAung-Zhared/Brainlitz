@@ -42,7 +42,7 @@ export class CoursecreateComponent implements OnInit {
     {"day":"Sat", "val": 6},
   ];
   public selectedPdf = [];
-  public cbChecked;
+  public cbChecked = [];
   minDate:any;
   maxDate:any;
   // isDisabled:any;
@@ -71,10 +71,10 @@ export class CoursecreateComponent implements OnInit {
     }
     if(this.courseId){
       console.log("EDIT")
-      this.editCourse(this.courseId);
       this.getLocationsList();
       this.getUserList();
       this.getPdfList();
+      this.editCourse(this.courseId);
     }
   }
 
@@ -107,11 +107,12 @@ export class CoursecreateComponent implements OnInit {
       this.model.locationId = '';
     })
   }
-
+  public pdfListLength:any;
   getPdfList(){
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
       this.pdfList = res;
+      this.pdfListLength = this.pdfList.length;
       console.log("quizwerkz",this.pdfList)
     })
   }
@@ -261,6 +262,8 @@ export class CoursecreateComponent implements OnInit {
   onClickedOutside(e: Event) {
     console.log('Clicked outside:', e);
   }
+   pdfId = [];
+   
 
   editCourse(cId){
     this.isEdit = true;
@@ -279,6 +282,7 @@ export class CoursecreateComponent implements OnInit {
       console.log("CHECKED create state",this.cbChecked)
     })
   }
+
   updateCourse(courseid){
     console.log("updateCourse",courseid);
     let obj = {
@@ -312,5 +316,5 @@ export class CoursecreateComponent implements OnInit {
     let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
     return format;
   }
-  
+
 }
