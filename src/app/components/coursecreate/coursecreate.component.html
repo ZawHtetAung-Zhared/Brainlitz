@@ -24,7 +24,7 @@
 <div class="form-container container h-100" *ngIf="showCourse">
 	<div *blockUI="'contact-list'">
 		<div>
-			<button class="btn btn-info" (click)="back()">Back</button>
+			<button *ngIf="!isEdit" class="btn btn-info" (click)="back()">Back</button>
 		</div>
 		<form #heroForm="ngForm">
 			<div class="form-head">
@@ -49,7 +49,7 @@
 			<div class="form-group form-head">
 				<label class="label-input">Course Name</label>
 				<div class="new-input">
-					<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.courseName" name="courseName" #courseName="ngModel">
+					<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.name" name="courseName" #courseName="ngModel">
 					<div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
 					  Course Name is required
 					</div>
@@ -58,7 +58,7 @@
 			<div class="form-group form-head">
 				<label class="label-input">Start:</label>
 				<div class="flex-item">
-			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.startDate" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
+			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
 					  <div class="overlay" (click)="start.toggle();end.close();"><img src="./assets/img/calendar.png"></div>
 			    </div>
 			</div>
@@ -70,7 +70,7 @@
 				<label class="label-input">Duration:</label>
 				<div class="new-input">
 					<div style="margin: 0px 0px 5px 0px">
-						<input type="num" name="duration" [(ngModel)]="model.duration" readonly>
+						<input type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
 					</div>
 					<div *ngIf="classend" class="flex-item">
 						<label>-will end at {{classend}}</label>
@@ -82,8 +82,8 @@
 			<div class="form-group form-head">
 				<label class="label-input">Repeat Days</label>
 				<div>
-					<label class="day" *ngFor="let d of days" >
-		                <input type="checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)"> {{d.day}}
+					<label class="day" *ngFor="let d of days;let i=index;" >
+		                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1"> {{d.day}}
 		            </label>
 				</div>
 			</div>
@@ -94,7 +94,7 @@
 						After <input type="number" name="lesson" required [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
 					</div>
 					<div class="flex-item">
-						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="end" required [(ngModel)]="model.endDate" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="end" required [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
 						  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
 					</div>
 				</div>
@@ -105,13 +105,16 @@
 					<!-- <label *ngFor="let pdf of pdfList" >
 		                <input type="checkbox" name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="userSelected.indexOf(pdf._id)!= -1"> {{pdf.name}}
 		            </label> -->
-		            <label *ngFor="let pdf of pdfList;let i=index;" >
+		            <label *ngFor="let pdf of pdfList;let i=index;">
 		                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}} 
 		            </label>
 					<!-- <div class='form-group que-box' *ngFor="let pdf of pdfList; let i=index">
 						<input type="checkbox" value={{pdf._id}} name={{pdf.name}}/>
 						<label><span>{{pdf.name}}</span></label>
 					</div> -->
+					<!-- <label *ngFor="let pdf of pdfList;let i=index;">
+		                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}} 
+		            </label> -->
 				</div>
 			</div>
 			<!-- <div class="form-group">
@@ -149,7 +152,7 @@
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Reserved Number of Seat</label>
-				<input type="number" class="form-control new-input" id="regionId" [(ngModel)]="model.reservedNumSeat" name="regionId">
+				<input type="number" class="form-control new-input" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId">
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Description</label>
@@ -164,7 +167,8 @@
 			<div class="form-group" style="float: right;">
 				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
 				<!-- <button type="button" class="btn btn-primary" (click)="createCourse()">Submit</button> -->
-				<button type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool">Submit</button>
+				<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool">Submit</button>
+				<button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="updateCourse(model._id)" [disabled]="!heroForm.form.valid">Update</button>
 			</div>
 		</form>
 	</div>

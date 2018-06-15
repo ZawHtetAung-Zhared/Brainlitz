@@ -486,8 +486,8 @@ export class appService{
       })
     }
 
-    updateCourse(id,regionid,body){
-      let apiUrl = this.baseUrl + '/' + regionid + '/course' + id;
+    updateCourse(id, body){
+      let apiUrl = this.baseUrl + '/course/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})

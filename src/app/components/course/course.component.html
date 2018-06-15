@@ -10,11 +10,10 @@
   <ul class="list-group-flush">
     <li class="list-group-item" *ngFor="let course of courseList">
       <span style="margin-right: 20px;">{{course.name}}</span>
-      <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseEdit(course)">Edit</button> -->
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseView(course)">View</button>
-      <!-- <button class="btn btn-secondary float-right btn-sm margin-left">Edit</button> -->
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course,detail)">Detail</button>
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="edit(course)">Edit</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseView(course)">View</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course,detail)">Detail</button>
     </li>
   </ul>
 </div>
@@ -129,6 +128,12 @@
     <div>
       <label class="detail-label">Teacher Name:</label> 
       <span>{{teacherName}}</span>
+    </div>
+    <div>
+      <label class="detail-label">Quizwerkz:</label> 
+      <label *ngFor="let pdf of quizwerkz" class="repeatday">
+        {{pdf}}
+      </label>
     </div>
   </div>
   <div class="modal-footer">
