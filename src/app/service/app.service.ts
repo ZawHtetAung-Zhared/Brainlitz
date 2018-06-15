@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
@@ -17,7 +17,7 @@ export class appService{
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
-    }         
+    }   
 
     getToken(){
       let tempToken = localStorage.getItem('code');
@@ -163,7 +163,7 @@ export class appService{
          return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
-          console.log(result);        
+          console.log(result);    
           return result;
         }) 
       }
@@ -190,7 +190,6 @@ export class appService{
       console.log(id)
       console.log(body)
       let apiUrl = this.baseUrl + '/' + id + '/locations';
-
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -516,8 +515,8 @@ export class appService{
       })
     }
 
-    updateCourse(id,regionid,body){
-      let apiUrl = this.baseUrl + '/' + regionid + '/course' + id;
+    updateCourse(id, body){
+      let apiUrl = this.baseUrl + '/course/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})

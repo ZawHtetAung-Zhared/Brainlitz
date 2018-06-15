@@ -56,7 +56,6 @@ export class LocationComponent implements OnInit {
 	    return `with: ${reason}`;
 	  }
 	}
-
 	
 	getAllLocation(){
 		this.blockUI.start('Loading...');

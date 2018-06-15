@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
+import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -22,17 +23,36 @@ export class CourseComponent implements OnInit {
   coursePlanName:any;
   teacherName:any;
   day;
+  quizwerkz;
   dayArr=[];
   repeatDay:any;
   allUsers:any;
+  allPdf;
   @BlockUI() blockUI: NgBlockUI;
 
-  constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
+  constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal) { }
   public regionId = localStorage.getItem('regionId');;
   ngOnInit() {
   	this.getCourseLists();
     this.getCoursePlans();
     this.getUsers();
+    this.getPdfList();
+  }
+
+  changeRoute(){
+    console.log("Change Route")
+    localStorage.removeItem('coursePlanId');
+    localStorage.removeItem('courseId');
+    this.router.navigate(['/courseCreate']);
+  }
+
+  edit(course){
+    console.log("Edit",course);
+    localStorage.setItem('coursePlanId',course.coursePlanId);
+    localStorage.setItem('courseId',course._id)
+    this.dataservice.hero = course; 
+    // this.dataservice.edit = true;
+    this.router.navigate(['/courseCreate']);
   }
 
   getCourseLists(){
@@ -56,11 +76,6 @@ export class CourseComponent implements OnInit {
   		coursecode: course.courseCode
   	}
   	localStorage.setItem('courseObj',JSON.stringify(obj));
-  }
-
-  changeRoute(){
-  	console.log("Change Route")
-  	this.router.navigate(['/courseCreate']);
   }
 
   onclickDelete(course,content){
@@ -121,6 +136,14 @@ export class CourseComponent implements OnInit {
     })
   }
 
+  getPdfList(){
+    this._service.getAllPdf(this.regionId)
+    .subscribe((res:any) => {
+      this.allPdf = res;
+      console.log("quizwerkz",this.allPdf)
+    })
+  }
+
   showCoursePlanName(planid){
     console.log("course plan id",planid);
     console.log("Test",this.allCoursePlan);
@@ -134,6 +157,20 @@ export class CourseComponent implements OnInit {
     let item = this.allUsers.filter(item => item.userId === userid)[0];
     console.log(item);
     return item;
+  }
+  nameArr=[];
+  showQuizwerkz(qw){
+    let qwArr = qw;
+    console.log("qw",qwArr);
+    for (let i=0; i < qwArr.length; i++){
+      let qwId = qwArr[i];
+      console.log(qwId);
+      let qwName = this.allPdf.filter(item => item._id === qwId)[0].name;
+      console.log(qwName)
+      this.nameArr.push(qwName)
+    }
+    console.log(this.nameArr)
+    return this.nameArr;
   }
 
   showRepeatedDays(arr){
@@ -171,6 +208,7 @@ export class CourseComponent implements OnInit {
 
   courseDetail(course,detail){
     this.dayArr =[];
+    this.nameArr = [];
   	this._service.getSingleCourse(course._id)
   	.subscribe((res:any) => {
   		console.log("course detail",res);
@@ -183,6 +221,8 @@ export class CourseComponent implements OnInit {
       console.log("teacher name",this.teacherName)
       this.repeatDay = this.showRepeatedDays(this.detailCourse.repeatDays);
       console.log("Repeat",this.repeatDay)
+      this.quizwerkz = this.showQuizwerkz(this.detailCourse.quizwerkz);
+      // console.log("quizwerkz",this.quizwerkz)
       this.modalReference = this.modalService.open(detail);
       this.modalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
