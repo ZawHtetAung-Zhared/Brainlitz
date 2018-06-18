@@ -55,6 +55,7 @@ export class CoursecreateComponent implements OnInit {
   powers: any;
   @BlockUI() blockUI: NgBlockUI;
   date = new Date();
+  hello = JSON.parse(localStorage.getItem('splan')) ;
   // mytime: Date = new Date(); 
   public pdfListLength:any;
 
@@ -67,13 +68,30 @@ export class CoursecreateComponent implements OnInit {
    }
    test;
   ngOnInit() {    
+    // this.hello =JSON.parse(localStorage.getItem('splan'))
     this.getCoursePlanList();
     this.courseId = localStorage.getItem('courseId');
     console.log(this.coursePlanId)
     if(this.coursePlanId){
       this.showCourse = true;
+      this.getUserList();
       this.getPdfList();
       this.getLocationsList();
+      console.log('this hello',this.hello);
+      this.model.coursePlanId = this.hello.planid;
+    this.model.coursePlanName = this.hello.planname;
+    this.model.durationTimes = this.hello.duration;
+    this.original = this.hello.quizwerkz;
+    this.cbChecked = this.hello.quizwerkz;
+    console.log("CHECKED create state",this.cbChecked)
+    console.log(this.model.duration)
+    console.log(this.model.coursePlanId)
+      // this.selectCoursePlan(this.coursePlanId);
+      // this.hello =  JSON.parse(localStorage.getItem('courseId'));
+      // this.getCoursePlanList();
+      // console.log(this.coursePlan)
+      // let splan = this.coursePlan.filter(item => item._id === this.coursePlanId)[0];
+      // console.log(splan);
     }
     if(this.courseId){
       console.log("EDIT")
@@ -95,10 +113,10 @@ export class CoursecreateComponent implements OnInit {
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
       this.coursePlan = res;
-      if(this.coursePlanId != undefined){
-        this.showCoursePlanName(this.coursePlanId);
-        console.log('hello ~~');
-      }
+      // if(this.coursePlanId != undefined){
+      //   this.showCoursePlanName(this.coursePlanId);
+      //   console.log('hello ~~');
+      // }
       console.log(this.coursePlan);
        setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
@@ -140,11 +158,18 @@ export class CoursecreateComponent implements OnInit {
 
   original:any;
   selectCoursePlan(plan){
-
+    let newSelect ={
+      'planid': plan._id,
+      'planname': plan.name,
+      'duration': plan.lesson.duration,
+      'quizwerkz': plan.quizwerkz,
+    };
+    localStorage.setItem('splan',JSON.stringify(newSelect));
   	console.log("selectCoursePlan",plan);
   	this.showCourse = true;
     localStorage.setItem('coursePlanId',plan._id);
-    this.coursePlanId = localStorage.getItem('coursePlanId');    
+    this.coursePlanId = localStorage.getItem('coursePlanId');
+    console.log("Course Plan",this.hello)    
   	this.model.coursePlanId = plan._id;
     this.model.coursePlanName = plan.name;
     this.model.durationTimes = plan.lesson.duration;
@@ -153,9 +178,19 @@ export class CoursecreateComponent implements OnInit {
     console.log("CHECKED create state",this.cbChecked)
     console.log(this.model.duration)
   	console.log(this.model.coursePlanId)
+    // this.model.coursePlanId = this.hello.planid;
+    // this.model.coursePlanName = this.hello.planname;
+    // this.model.durationTimes = this.hello.duration;
+    // this.original = this.hello.quizwerkz;
+    // this.cbChecked = this.hello.quizwerkz;
+    // console.log("CHECKED create state",this.cbChecked)
+    // console.log(this.model.duration)
+    // console.log(this.model.coursePlanId)
     this.getUserList();
     this.getLocationsList();
     this.getPdfList();
+    // let isplanSelect:boolean = true;
+    // localStorage.setItem('selectedPlan',isplanSelect)
   }
 
   back(){
@@ -243,6 +278,7 @@ export class CoursecreateComponent implements OnInit {
     	console.log(res); 
       this.toastr.success('Successfully Created.');
       localStorage.removeItem('coursePlanId');
+      localStorage.removeItem('splan');
     });
     this.router.navigate(['course/']); 
   }
@@ -286,6 +322,7 @@ export class CoursecreateComponent implements OnInit {
   cancel(){
     localStorage.removeItem('coursePlanId');
     localStorage.removeItem('courseId');
+    localStorage.removeItem('splan');
   	this.router.navigate(['course/']); 
   }
   // onClickedOutside(e: Event) {
@@ -300,12 +337,12 @@ export class CoursecreateComponent implements OnInit {
     .subscribe((res:any) => {
       this.model = res;
       // console.log('Edit Course',this.model);
-      let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
-      this.coursePlanName = coursePlan.name;
+      // let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
+      // this.coursePlanName = coursePlan.name;
       // console.log("coursePlanName",this.coursePlanName)
-      this.model.start = this.changeDateStrtoObj(this.model.startDate);
+      this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
       // console.log(this.model.start);
-      this.model.end = this.changeDateStrtoObj(this.model.endDate);
+      this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
       // console.log(this.model.end);
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
       // console.log(this.model.starttime);
@@ -315,13 +352,13 @@ export class CoursecreateComponent implements OnInit {
     })
   }
 
-  showCoursePlanName(planid){
-    console.log("course plan id",planid);
-    let item1 = this.coursePlan.filter(item => item._id === planid)[0];
-    console.log(item1.name);
-    this.coursePlanName = item1.name;
-    return item1;
-  }
+  // showCoursePlanName(planid){
+  //   console.log("course plan id",planid);
+  //   let item1 = this.coursePlan.filter(item => item._id === planid)[0];
+  //   console.log(item1.name);
+  //   this.coursePlanName = item1.name;
+  //   return item1;
+  // }
 
   updateCourse(courseid){
     console.log("updateCourse",courseid);
@@ -349,12 +386,25 @@ export class CoursecreateComponent implements OnInit {
     this.router.navigate(['course/']); 
   }
   
-  changeDateStrtoObj(datestr){
-    console.log(datestr)
-    let test = datestr.substring(0, datestr.search("T"));
-    let testSplit = test.split("-");
-    let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
-    return format;
+  changeDateStrtoObj(datestr,type){
+    if(type == "start"){
+      console.log(datestr)
+      let test = datestr.substring(0, datestr.search("T"));
+      let testSplit = test.split("-");
+      let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+      return format;
+    }else if(type == "end"){ 
+      if(datestr){
+        console.log(datestr)
+        let test = datestr.substring(0, datestr.search("T"));
+        let testSplit = test.split("-");
+        let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+        return format;
+      }else if(datestr == null){
+        return null;
+      }
+    }
+    
   }
 
 }
