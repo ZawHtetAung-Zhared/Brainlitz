@@ -220,7 +220,7 @@ export class CoursecreateComponent implements OnInit {
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,0),
+      "endDate": this.changeEndDateFormat(this.model.end,0),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
@@ -266,15 +266,26 @@ export class CoursecreateComponent implements OnInit {
       }
     }
   }
+
+  changeEndDateFormat(date,time){
+    console.log("end")
+    if (date == null) {
+      console.log('null',date)
+      return ""
+    }else{
+       let enddate =  date.year+ '-' +date.month+ '-' +date.day;
+        return enddate;
+    }
+  }
   
   cancel(){
     localStorage.removeItem('coursePlanId');
     localStorage.removeItem('courseId');
   	this.router.navigate(['course/']); 
   }
-  onClickedOutside(e: Event) {
-    console.log('Clicked outside:', e);
-  }
+  // onClickedOutside(e: Event) {
+  //   console.log('Clicked outside:', e);
+  // }
    pdfId = [];
    
 
@@ -312,7 +323,7 @@ export class CoursecreateComponent implements OnInit {
     let obj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,0),
+      "endDate": this.changeEndDateFormat(this.model.end,0),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
