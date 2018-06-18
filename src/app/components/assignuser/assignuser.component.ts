@@ -16,12 +16,15 @@ export class AssignuserComponent implements OnInit {
   modalReference:any;
   closeResult: any;
   public chooseUser: any;
-  public assignList: any;
+  public assignList= [];
+  public selectedUser: any;
+  public deleteUser: any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    console.log(this.regionid)
     console.log(this.selectedCourse)
     this.getAssignList();
   }
@@ -29,6 +32,9 @@ export class AssignuserComponent implements OnInit {
   open(content) {
     this.modalReference = this.modalService.open(content, { size: 'lg' });
     this.getUsers();
+    console.log(this.assignList)
+    let test = this.assignList.indexOf("5b272018f6f5fb1b0d844ba3");
+    console.log("Test",test);
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.chooseUser = '';
@@ -83,6 +89,7 @@ export class AssignuserComponent implements OnInit {
      .subscribe((res:any) => {
        this.blockUIList.stop();
        console.log(res);
+       this.getAssignList();
      })
      this.modalReference.close();
     }else{
@@ -96,6 +103,7 @@ export class AssignuserComponent implements OnInit {
      .subscribe((res:any) => {
        this.blockUIList.stop(); 
        console.log(res);
+       this.getAssignList();
      })
      this.modalReference.close();
     }
@@ -103,12 +111,50 @@ export class AssignuserComponent implements OnInit {
 
   getAssignList(){
     console.log("getAssignList")
-    // this._service.getAllAssignUser(this.regionid)
-    //  .subscribe((res:any) => {
-    //    this.blockUIList.stop();
-    //    console.log("getAssignList",res);
-    //    this.assignList = res; 
-    //  })
+    this._service.getAssignUser(this.regionid,this.selectedCourse.courseid)
+     .subscribe((res:any) => {
+       this.blockUIList.stop();
+       console.log("getAssignList",res);
+       this.assignList = res; 
+     })
+  }
+
+  onclickDelete(user,comfirm){
+    this.selectedUser = user;
+    console.log("onclickDelete",user);
+    this.modalReference = this.modalService.open(comfirm);
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  comfirmDelete(user,alert){
+     console.log(user);
+      this.deleteUser = user;
+      this.modalReference.close();
+      this.modalReference = this.modalService.open(alert);
+      this.modalReference.result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+  }
+
+  withdrawUser(userid){
+    console.log(userid);
+    console.log(this.selectedCourse.courseid)
+    let userobj = {
+       'courseId': this.selectedCourse.courseid,
+       'userId': userid
+     }
+    this._service.withdrawAssignUser(this.regionid,userobj)
+    .subscribe((res:any) => {
+      this.modalReference.close();
+      console.log(res);
+      this.getAssignList();
+    })
   }
 
   backtoCourse(){
