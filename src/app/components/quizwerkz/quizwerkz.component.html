@@ -53,9 +53,9 @@
     </button>
   </div>
   <div class="modal-body view" *ngIf="viewQuiz">
-    <div><label>Name:</label> <span>{{viewQuiz.name}}</span></div>
-    <div><label>Book Url:</label> <span>{{viewQuiz.url}}</span> </div>
-    <div><label>Book Cover Url:</label> <span>{{viewQuiz.cover}}</span> </div>
+    <div><label class="info_title">Name:</label> <span class="view_info">{{viewQuiz.name}}</span></div>
+    <div><label class="info_title">Book Url:</label> <span class="view_info">{{viewQuiz.url}}</span> </div>
+    <div><label class="info_title">Book Cover Url:</label> <span class="view_info">{{viewQuiz.cover}}</span> </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
@@ -72,8 +72,8 @@
     <h4>Are You sure you want to delete?</h4>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="confirmDelete(selectQw,content1)">Delete</button>
+    <button type="submit" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-primary" (click)="confirmDelete(selectQw,content1)">Delete</button>
   </div>
 </ng-template>
 

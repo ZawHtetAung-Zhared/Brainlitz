@@ -5,3 +5,11 @@
 .btn-primary:disabled {
 	cursor: not-allowed;
 }
+
+.view_info{
+	word-wrap: break-word;
+}
+.info_title{
+	font-family: 'Montserrat-Regular';
+	font-weight: bold;
+}

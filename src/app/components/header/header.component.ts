@@ -49,13 +49,15 @@ export class HeaderComponent implements OnInit {
         for(var i = 0; i < this.locationLists.length; i++){
           if(this.locationLists[i]._id == locationId){
             this.locationLists[i].selected = true;
+            localStorage.setItem('locationId', this.locationLists[i]._id);
           }
         }
       } 
       let regionId  = localStorage.getItem('regionId');
-      if(regionId){
+      if(!localStorage.getItem('locationId')){
         localStorage.setItem('locationId', this.locationLists[0]._id);
       } 
+      
     }, err => {
       console.log(err)
     })
