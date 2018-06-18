@@ -31,7 +31,7 @@ export class CourseComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal) { }
-  public regionId = localStorage.getItem('regionId');;
+  public regionId = localStorage.getItem('regionId');
   ngOnInit() {
   	this.getCourseLists();
     this.getCoursePlans();
@@ -43,6 +43,7 @@ export class CourseComponent implements OnInit {
     console.log("Change Route")
     localStorage.removeItem('coursePlanId');
     localStorage.removeItem('courseId');
+    localStorage.removeItem('splan');
     this.router.navigate(['/courseCreate']);
   }
 
@@ -71,9 +72,9 @@ export class CourseComponent implements OnInit {
   	console.log(course)
   	this.router.navigate(['/assign']);
   	let obj = {
-  		courseid: course._id,
-  		coursename: course.name,
-  		coursecode: course.courseCode,
+  		'courseid': course._id,
+  		'coursename': course.name,
+  		'coursecode': course.courseCode,
   	}
   	localStorage.setItem('courseObj',JSON.stringify(obj));
   }
