@@ -76,7 +76,7 @@ export class ToolsComponent implements OnInit {
   }
 
   somethingChanged(type){
-    console.log('what')
+    console.log('what', type)
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
     let dataObj = {
@@ -88,14 +88,14 @@ export class ToolsComponent implements OnInit {
     console.log(dataObj)
     this._service.userCount(dataObj)
     .subscribe((res:any) => {      
-      if(type != 'course'){
-        console.log(res);
-        console.log(res.count);
-        this.userCount = res.count;
-      }else{
+      if(type == 'course' || type == 'user'){
         console.log(res);
         console.log(res.length);    
         this.userCount = res.length;  
+      }else{
+        console.log(res);
+        console.log(res.count);
+        this.userCount = res.count;  
       }
     }, err => {
       console.log(err)
