@@ -137,7 +137,7 @@
 					</select> -->					
 				</div>
 				<div class="col-md-12 fields-mr">
-					<label>Holiday</label>
+					<label>Holiday Calendar</label>
 					<select style="width: 19%;" class="form-control" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" required>
 						<option></option>
 						<option *ngFor="let holidayCalendar of holidayCalendarLists" value="{{holidayCalendar._id}}">{{holidayCalendar.name}}</option>

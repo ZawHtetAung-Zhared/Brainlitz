@@ -193,12 +193,14 @@ export class ToolsComponent implements OnInit {
   sendNoti(data){
     console.log(data)
     console.log(data.type)
+    console.log(this.isChecked)
 
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
-      "option": data.type
+      "option": this.isChecked
     }
+    console.log(dataObj.option)
 
     let body = {
       "title": data.subject,
@@ -232,7 +234,7 @@ export class ToolsComponent implements OnInit {
     }else{
       console.log(':)')
     }
-
+    // this.item = {};
     console.log(dataObj)
     this._service.createNoti(dataObj, body)
     .subscribe((res:any) => {
