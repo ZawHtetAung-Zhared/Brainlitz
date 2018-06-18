@@ -167,7 +167,10 @@ export class UsersComponent implements OnInit {
 		console.log(type);
 		this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
 		this.img = this.dataURItoBlob(this.imageUrl);
-		let guardianArray = obj.guardianmail.split(',');
+		let guardianArray;
+		if(obj.guardianmail){
+			guardianArray = obj.guardianmail.split(',');
+		}
 		let dataObj = new FormData();
 		dataObj.append('orgId', this.orgID);
 		dataObj.append('firstName', obj.fname);
