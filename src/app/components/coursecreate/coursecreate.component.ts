@@ -24,7 +24,7 @@ export class CoursecreateComponent implements OnInit {
   public courseObj:{};
   public coursePlan;
   public regionID = localStorage.getItem('regionId');
-  public coursePlanId;
+  public coursePlanId = localStorage.getItem('coursePlanId');    
   public coursePlanName;
   public courseId;
   public users;
@@ -67,7 +67,6 @@ export class CoursecreateComponent implements OnInit {
    test;
   ngOnInit() {
     this.getCoursePlanList();
-    this.coursePlanId = localStorage.getItem('coursePlanId');
     this.courseId = localStorage.getItem('courseId');
     console.log(this.coursePlanId)
     if(this.coursePlanId){
@@ -93,6 +92,10 @@ export class CoursecreateComponent implements OnInit {
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
       this.coursePlan = res;
+      if(this.coursePlanId != undefined){
+        this.showCoursePlanName(this.coursePlanId);
+        console.log('hello ~~');
+      }
       console.log(this.coursePlan);
        setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
@@ -299,7 +302,8 @@ export class CoursecreateComponent implements OnInit {
   showCoursePlanName(planid){
     console.log("course plan id",planid);
     let item1 = this.coursePlan.filter(item => item._id === planid)[0];
-    console.log(item1);
+    console.log(item1.name);
+    this.coursePlanName = item1.name;
     return item1;
   }
 
