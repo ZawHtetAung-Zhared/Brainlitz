@@ -18,6 +18,15 @@ declare var $: any;
 export class HolidaysComponent implements OnInit {
 
 	public holidayLists: any;
+	public isUpdate: boolean = false;
+	public currentID: any;
+	public holidayName: any;
+	modalReference: any;
+	closeResult: any;
+	public regionID = localStorage.getItem('regionId');
+	formField: holidays = new holidays();
+	@BlockUI() blockUI: NgBlockUI;
+
   	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
   		this.toastr.setRootViewContainerRef(vcr);
   	}
@@ -26,31 +35,23 @@ export class HolidaysComponent implements OnInit {
   		this.getAllHolidays();
   	}
 
-  	modalReference: any;
-	closeResult: any;
-	regionID: any;
-	formField: holidays = new holidays();
-	@BlockUI() blockUI: NgBlockUI;
-
   	open(content){
+  		this.formField = new holidays();
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
-	    this.modalReference.result.then((result) => {
-	    	this.formField = new holidays();
+	    this.modalReference.result.then((result) => {	    	
 		  	this.closeResult = `Closed with: ${result}`
-	  	}, (reason) => {
-	  		this.formField = new holidays();
+	  	}, (reason) => {	  		
 	  	  	this.closeResult = `Closed with: ${reason}`;
 	  	});
 	}
 
-	createHolidays(formData){
-		console.log(formData.dp);	
-		var day = formData.dp.day;
-		var month = formData.dp.month;
-		var year = formData.dp.year;
+	createHolidays(formData, update, id){
+		console.log(formData)
+		console.log(formData.createdDate);	
+		var day = formData.createdDate.day;
+		var month = formData.createdDate.month;
+		var year = formData.createdDate.year;
 		var date = year+ '-' + month+ '-' + day;
-
-		this.regionID = localStorage.getItem('regionId');
 
 		let dataObj = {
 			'regionId': this.regionID,
@@ -60,23 +61,34 @@ export class HolidaysComponent implements OnInit {
 		console.log(dataObj);
 		this.blockUI.start('Loading...');
 		this.modalReference.close();
-		this._service.createHolidays(this.regionID,dataObj)
-	   	.subscribe((res:any) => {
-	     	console.log('success holidays post',res)
-	     	this.toastr.success('Successfully Created.');
-	       	this.blockUI.stop();
-	   		this.getAllHolidays();
-	    	}, err => {
-	    		this.toastr.error('Create Fail');
-	    		this.blockUI.stop();
-	    		console.log(err)
-	    	})
-		
+		if(update == false){
+			this._service.createHolidays(this.regionID,dataObj)
+		   	.subscribe((res:any) => {
+		     	console.log('success holidays post',res)
+		     	this.toastr.success('Successfully Created.');
+		       	this.blockUI.stop();
+		   		this.getAllHolidays();
+		    	}, err => {
+		    		this.toastr.error('Create Fail');
+		    		this.blockUI.stop();
+		    		console.log(err)
+		    	})
+		}else{
+			this._service.updateHoliday(id,dataObj)
+		   	.subscribe((res:any) => {
+		     	this.toastr.success('Successfully Updated.');
+		       	this.blockUI.stop();
+		   		this.getAllHolidays();
+		    	}, err => {
+		    		this.toastr.error('Updat Fail');
+		    		this.blockUI.stop();
+		    		console.log(err)
+		    	})
+		}
 	}
 
 	getAllHolidays(){
 		this.blockUI.start('Loading...');
-		this.regionID = localStorage.getItem('regionId');
 	    this._service.getAllHolidays(this.regionID)
 	    .subscribe((res:any) => {
 	      this.holidayLists = res;
@@ -87,6 +99,54 @@ export class HolidaysComponent implements OnInit {
 	    }, err => {
 	        console.log(err)
 	    })
+  	}
+
+  	getSingleHoliday(id, content){
+  		this.isUpdate = true;
+		this.modalReference = this.modalService.open(content);
+  		this._service.getSingleHoliday(id)
+		.subscribe((res:any) => {
+			console.log(res);
+			this.currentID = res._id;
+			this.formField = res;
+			this.formField.createdDate = this.changeDateStrtoObj(res.date);
+		},err => {
+			console.log(err);
+		})
+  	}
+
+  	changeDateStrtoObj(datestr){
+  	  console.log(datestr)
+  	  let test = datestr.substring(0, datestr.search("T"));
+  	  let testSplit = test.split("-");
+  	  let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+  	  return format;
+  	}
+
+  	deleteModal(deletemodal, id){
+  		this.modalReference = this.modalService.open(deletemodal);
+  		this._service.getSingleHoliday(id)
+  		.subscribe((res:any) => {
+			console.log(res);
+			this.currentID = res._id;
+			this.holidayName = res.name;
+		},err => {
+			console.log(err);
+		})
+  	}
+
+  	deleteHoldiay(id){
+  		this._service.deleteHoliday(id)
+  		.subscribe((res:any) => {
+			console.log(res);
+			this.modalReference.close();
+			this.getAllHolidays();
+			this.toastr.success('Successfully deleted.');
+		},err => {
+			this.toastr.error('Delete Fail');
+			this.modalReference.close();
+			console.log(err);
+		})
   	}
 
 }
