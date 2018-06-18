@@ -93,7 +93,7 @@ export class CategoryComponent implements OnInit {
   editCategory(id,content){
     this.isEdit = true; 
     console.log("Edit Category", id)
-    this.modalReference = this.modalService.open(content);
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
     this._service.getSingleCategory(id, this.regionID)
     .subscribe((res:any) => {
       console.log(res);

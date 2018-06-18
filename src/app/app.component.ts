@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
@@ -8,11 +8,10 @@ import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angula
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'app';
   public showSidebar: boolean = true;
   public showHeader: boolean = true;
-  
 
   constructor(public router:Router, private http: Http, private _router: Router) {      
   	if (window.location.hash.indexOf("#") === 0) {
@@ -44,6 +43,13 @@ export class AppComponent {
 	    }
 	  });
 	}
+
+  ngOnInit() {  
+    // let isToken = localStorage.getItem('token');   
+    // if(isToken == undefined){
+    //   this._router.navigateByUrl('/login');
+    // } 
+  }
 
   logoff(){
     console.log('log out');

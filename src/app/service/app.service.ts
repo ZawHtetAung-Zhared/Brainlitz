@@ -37,6 +37,7 @@ export class appService{
         'redirect_uri': environment.redirect_uri,
         'client_id': environment.client_id,
       }
+      console.log('~~~ ',body)
       let basicToken = window.btoa(environment.client_id + ":" + environment.client_id)
       const httpOptions = {
           headers: new HttpHeaders({ 'authorization': 'Basic ' + basicToken })

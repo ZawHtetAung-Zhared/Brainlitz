@@ -131,7 +131,7 @@ export class LocationComponent implements OnInit {
 	getSingleLocation(id,locationModal){
 		console.log(this.model)
 		this.isUpdate = true;
-		this.modalReference = this.modalService.open(locationModal);
+		this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
 		this.singleLocation(id);
 	}
 
@@ -149,7 +149,7 @@ export class LocationComponent implements OnInit {
 
 
 	deleteModal(deletemodal, id){
-		this.modalReference = this.modalService.open(deletemodal);
+		this.modalReference = this.modalService.open(deletemodal, {backdrop:'static', windowClass:'animation-wrap'});
 		this.singleLocation(id);
 	}
 }

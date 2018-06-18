@@ -36,12 +36,15 @@ export class HolidaysComponent implements OnInit {
   	}
 
   	open(content){
+  		this.isUpdate = false;
   		this.formField = new holidays();
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {	    	
-		  	this.closeResult = `Closed with: ${result}`
+		  	this.closeResult = `Closed with: ${result}`;
+		  	this.isUpdate = false;
 	  	}, (reason) => {	  		
 	  	  	this.closeResult = `Closed with: ${reason}`;
+	  	  	this.isUpdate = false;
 	  	});
 	}
 
@@ -79,6 +82,7 @@ export class HolidaysComponent implements OnInit {
 		     	this.toastr.success('Successfully Updated.');
 		       	this.blockUI.stop();
 		   		this.getAllHolidays();
+		   		this.isUpdate = false;
 		    	}, err => {
 		    		this.toastr.error('Updat Fail');
 		    		this.blockUI.stop();
@@ -103,7 +107,7 @@ export class HolidaysComponent implements OnInit {
 
   	getSingleHoliday(id, content){
   		this.isUpdate = true;
-		this.modalReference = this.modalService.open(content);
+		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
   		this._service.getSingleHoliday(id)
 		.subscribe((res:any) => {
 			console.log(res);
@@ -124,7 +128,7 @@ export class HolidaysComponent implements OnInit {
   	}
 
   	deleteModal(deletemodal, id){
-  		this.modalReference = this.modalService.open(deletemodal);
+  		this.modalReference = this.modalService.open(deletemodal, { backdrop:'static', windowClass:'animation-wrap' });
   		this._service.getSingleHoliday(id)
   		.subscribe((res:any) => {
 			console.log(res);

@@ -5,7 +5,8 @@
     <!-- Location Modal -->
     <ng-template #locationModal let-c="close" let-d="dismiss">  
       <div class="modal-header">
-        <h4 class="modal-title">Create Location</h4>
+        <h4 *ngIf="isUpdate == false" class="modal-title">Create Location</h4>
+        <h4 *ngIf="isUpdate == true" class="modal-title">Update Location</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
