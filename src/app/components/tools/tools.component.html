@@ -18,8 +18,8 @@
 						<div class="form-group">
 						  	<label for="address">Send to</label>
 						  	<div class="d-flex">
-								<div [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check form-check-inline tool-checked">
-								  <label class="form-check-label">
+								<div class="form-check form-check-inline tool-checked">
+								  <label [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check-label">
 								    <input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> All customers
 								  </label>
 								</div>
@@ -38,9 +38,9 @@
 								    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('course')"> Selected course
 								  </label>
 								</div>
-								<div [ngClass]="{'selected': isChecked == 'alluser'}" class="form-check form-check-inline tool-checked">
+								<div [ngClass]="{'selected': isChecked == 'user'}" class="form-check form-check-inline tool-checked">
 								  <label class="form-check-label">
-								    <input class="form-check-input" type="radio" name="type" id="type5" value="alluser" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('alluser')"> Selected user
+								    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('user')"> Selected user
 								  </label>
 								</div>
 							</div>
@@ -78,7 +78,7 @@
 							  (ngModelChange)="valuechange($event, 'course')"
 							/>
 						</div>
-						<div *ngIf="isChecked == 'alluser'" class="form-group">
+						<div *ngIf="isChecked == 'user'" class="form-group">
 							<label for="typeahead-focus">Search for a user:</label>	
 							<input
 							  id="typeahead-focus"

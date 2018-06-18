@@ -27,8 +27,10 @@ input[type="radio"] {
 input[type="radio"]:checked{
 
 }
-.tool-checked.selected{
+.tool-checked.selected,
+.tool-checked label.selected{
 	background: #4392f1;
+	color: #fff;
 }
 .selected label{
 	color: #fff !important;	
