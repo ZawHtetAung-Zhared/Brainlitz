@@ -565,6 +565,24 @@ export class appService{
         })
     }
 
+    getAllAssignUser(regionid){
+      let url = this.baseUrl+ '/' + regionid + '/timetable';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
+    // deleteAssignUser(regionid,body){
+     
+    // }
+
     getAllDeposit(id: string): Observable<any>{
       let url = this.baseUrl+ '/' + id + '/deposits';
       const httpOptions = {

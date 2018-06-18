@@ -5,6 +5,15 @@
   <button type="button" class="btn btn-primary" (click)="open1(content1)">+ Add Customer</button>
 </div>
 
+<!-- <div class="scrollable container">
+  <ul class="list-group-flush">
+    <li class="list-group-item" *ngFor="let user of assignList">
+      <span style="margin-right: 20px;">{{user}}</span>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
+    </li>
+  </ul>
+</div> -->
+
 <ng-template #content let-c="close" let-d="dismiss">
   <div *blockUI="'contact-list'">
     <div class="modal-header">
