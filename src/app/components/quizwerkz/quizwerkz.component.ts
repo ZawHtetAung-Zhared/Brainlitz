@@ -3,7 +3,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
-import { quizWerkzForm } from './quizWerkz';
+import { quizWerkzForm } from './quizwerkz';
 
 @Component({
   selector: 'app-quizwerkz',
