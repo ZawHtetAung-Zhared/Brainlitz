@@ -24,7 +24,7 @@ export class CoursecreateComponent implements OnInit {
   public courseObj:{};
   public coursePlan;
   public regionID = localStorage.getItem('regionId');
-  public coursePlanId;
+  public coursePlanId = localStorage.getItem('coursePlanId');    
   public coursePlanName;
   public courseId;
   public users;
@@ -67,7 +67,6 @@ export class CoursecreateComponent implements OnInit {
    test;
   ngOnInit() {
     this.getCoursePlanList();
-    this.coursePlanId = localStorage.getItem('coursePlanId');
     this.courseId = localStorage.getItem('courseId');
     console.log(this.coursePlanId)
     if(this.coursePlanId){
@@ -93,6 +92,10 @@ export class CoursecreateComponent implements OnInit {
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
       this.coursePlan = res;
+      if(this.coursePlanId != undefined){
+        this.showCoursePlanName(this.coursePlanId);
+        console.log('hello ~~');
+      }
       console.log(this.coursePlan);
        setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
@@ -217,7 +220,7 @@ export class CoursecreateComponent implements OnInit {
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,0),
+      "endDate": this.changeEndDateFormat(this.model.end,0),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
@@ -263,15 +266,26 @@ export class CoursecreateComponent implements OnInit {
       }
     }
   }
+
+  changeEndDateFormat(date,time){
+    console.log("end")
+    if (date == null) {
+      console.log('null',date)
+      return ""
+    }else{
+       let enddate =  date.year+ '-' +date.month+ '-' +date.day;
+        return enddate;
+    }
+  }
   
   cancel(){
     localStorage.removeItem('coursePlanId');
     localStorage.removeItem('courseId');
   	this.router.navigate(['course/']); 
   }
-  onClickedOutside(e: Event) {
-    console.log('Clicked outside:', e);
-  }
+  // onClickedOutside(e: Event) {
+  //   console.log('Clicked outside:', e);
+  // }
    pdfId = [];
    
 
@@ -299,7 +313,8 @@ export class CoursecreateComponent implements OnInit {
   showCoursePlanName(planid){
     console.log("course plan id",planid);
     let item1 = this.coursePlan.filter(item => item._id === planid)[0];
-    console.log(item1);
+    console.log(item1.name);
+    this.coursePlanName = item1.name;
     return item1;
   }
 
@@ -308,7 +323,7 @@ export class CoursecreateComponent implements OnInit {
     let obj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,0),
+      "endDate": this.changeEndDateFormat(this.model.end,0),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
