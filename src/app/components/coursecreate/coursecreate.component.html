@@ -65,13 +65,13 @@
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Start Time</label>
-				<input id="test1" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
+				<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
 			</div>
 			<div class="form-group form-head">
 				<label class="label-input">Duration:</label>
 				<div class="new-input">
 					<div style="margin: 0px 0px 5px 0px">
-						<input type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
+						<input class="form-control" type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
 					</div>
 					<div *ngIf="classend" class="flex-item">
 						<label>-will end at {{classend}}</label>
@@ -142,7 +142,8 @@
 			<div class="form-group form-head">
 				<label class="label-input">Description</label>
 				<div class="new-input">
-					<input type="text" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel">
+					<!-- <input type="text" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel"> -->
+					<textarea row="7" col="50" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
 					<div [hidden]="description.valid || description.pristine"
 					     class="alert alert-danger">
 					  Description is required
