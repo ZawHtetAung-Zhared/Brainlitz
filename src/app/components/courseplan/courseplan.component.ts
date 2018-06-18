@@ -66,7 +66,6 @@ export class CourseplanComponent implements OnInit {
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
     this.getAllPdf();
-    this.responseChecked = [];
     this.pdfId = [];
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
@@ -313,6 +312,7 @@ export class CourseplanComponent implements OnInit {
     console.log(id)
     this.getAllPdf();
     this.responseChecked = [];
+    this.pdfId = [];
     this.updateButton = true;
     this.createButton = false;
     this.getAllDeposit();
@@ -325,8 +325,13 @@ export class CourseplanComponent implements OnInit {
       console.log(res);
       this.formField = res;
       this.responseChecked = this.formField.quizwerkz;
-      this.pdfId = this.responseChecked;
-       console.log( this.pdfId);
+      for(var i= 0; i < this.responseChecked.length; i++){
+          for(var j= 0; j < this.pdfList.length; j++){
+            if(this.responseChecked[i] == this.pdfList[j]._id){
+              this.pdfId.push(this.pdfList[j]._id);
+            }
+          }
+        }
       this.editId = res._id;
     },err => {
       console.log(err);
@@ -379,6 +384,7 @@ export class CourseplanComponent implements OnInit {
       console.log(err);
     })
     this.formField = new cPlanField();
+    this.pdfId = [];
   }
 
 }
