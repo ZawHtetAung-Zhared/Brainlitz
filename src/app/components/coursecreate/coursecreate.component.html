@@ -92,10 +92,10 @@
 				<label class="label-input">ENDS</label>
 				<div class="new-input">
 					<div style="margin: 0px 0px 15px 0px">
-						After <input type="number" name="lesson" required [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
+						After <input type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
 					</div>
 					<div class="flex-item">
-						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="end" required [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
 						  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
 					</div>
 				</div>

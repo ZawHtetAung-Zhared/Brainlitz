@@ -7,3 +7,12 @@
 	height: 400px;
 	overflow: auto;
 }
+
+.name-label{
+	font-size: 28px;
+}
+
+.name{
+	font-size: 30px;
+	font-weight: bold;
+}

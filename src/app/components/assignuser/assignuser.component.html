@@ -1,18 +1,24 @@
-<button class="btn btn-info" (click)="backtoCourse()">Back</button>
-<h2>CourseCode: {{selectedCourse.coursecode}}</h2>
-<div>
-  <button type="button" class="btn btn-primary" (click)="open(content)">+ Add Staff</button>
-  <button type="button" class="btn btn-primary" (click)="open1(content1)">+ Add Customer</button>
-</div>
+<div class="inner-wrapper">
+  <button class="btn btn-info" (click)="backtoCourse()">Back</button>
+  <!-- <h2>CourseName: {{selectedCourse.coursename}}</h2> -->
+  <div>
+    <label class="name-label">Course Name: </label>
+    <span class="name">{{selectedCourse.coursename}}</span>
+  </div>
+  <div>
+    <button type="button" class="btn btn-primary" style="margin-right: 10px" (click)="open(content)">+ Add Staff</button>
+    <button type="button" class="btn btn-primary" (click)="open1(content1)">+ Add Customer</button>
+  </div>
 
-<!-- <div class="scrollable container">
-  <ul class="list-group-flush">
-    <li class="list-group-item" *ngFor="let user of assignList">
-      <span style="margin-right: 20px;">{{user}}</span>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
-    </li>
-  </ul>
-</div> -->
+  <div class="scrollable container">
+    <ul class="list-group-flush">
+      <li class="list-group-item" *ngFor="let user of assignList">
+        <span style="margin-right: 20px;">{{user.preferredName}}</span>
+        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Delete</button>
+      </li>
+    </ul>
+  </div>
+</div>
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div *blockUI="'contact-list'">
@@ -60,6 +66,7 @@
             <label>
               <input type="radio" name="username" value="{{user.userId}}" #username [(ngModel)]="chooseUser">
               {{user.preferredName}}
+              {{assignList.indexOf(userId)}}
             </label> 
            </li>
       </ul>
@@ -73,5 +80,35 @@
       <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
       <button type="submit" class="btn btn-primary" (click)="assignSelected(chooseUser, 'customer')">Assign</button>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #comfirm let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>Are You sure you want to delete {{selectedUser.preferredName}}?</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger" (click)="comfirmDelete(selectedUser,alert)">Delete</button>
+  </div>
+</ng-template>
+
+<ng-template #alert let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>We are going to delete <span style="color: red;">"{{deleteUser.preferredName}}"</span></h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger" (click)="withdrawUser(deleteUser.userId)">Comfirm</button>
   </div>
 </ng-template>

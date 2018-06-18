@@ -8,7 +8,8 @@ li button{
 .scrollable
 {
       overflow-y: scroll;
-      height: 100vh;
+      min-height: 0;
+      /*height: 100vh;*/
  }
  .margin-left{
     margin-left: 20px !important;

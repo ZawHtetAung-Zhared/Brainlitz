@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Http ,Request, RequestMethod} from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
@@ -15,10 +16,12 @@ export class appService{
     public tokenType = localStorage.getItem('tokenType');
 
 
+
     sendData: Observable<any>;
     private sendParentToChild = new Subject<any>();
 
     constructor( private httpClient: HttpClient) { 
+
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
@@ -615,8 +618,8 @@ export class appService{
         })
     }
 
-    getAllAssignUser(regionid){
-      let url = this.baseUrl+ '/' + regionid + '/timetable';
+    getAssignUser(regionid,courseid){
+      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -629,9 +632,44 @@ export class appService{
       }) 
     }
 
-    // deleteAssignUser(regionid,body){
-     
+    withdrawAssignUser(regionid,obj:any){
+      console.log(regionid,obj);
+      let apiUrl = this.baseUrl+ '/' + regionid + '/timetable';
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken}),
+          body: obj  
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+
+    }
+
+    // withdrawAssignUser(regionid,obj:any){
+    //   let apiUrl = this.baseUrl+ '/' + regionid + '/timetable';
+    //   let headers = new Headers({
+    //     'authorization': this.tokenType + ' ' + this.accessToken});
+
+    //   let options = new RequestOptions({
+    //     headers: headers,
+    //     body: obj
+    //   });
+
+    //   return this.http.delete(apiUrl, options)
+    //     .map((response: Response) => {
+    //       console.log(response)
+    //       return response.json()
+    //     })
+    //     .catch(err => {
+    //       return err;
+    //     });
+
     // }
+   
 
     getAllDeposit(id: string): Observable<any>{
       let url = this.baseUrl+ '/' + id + '/deposits';
