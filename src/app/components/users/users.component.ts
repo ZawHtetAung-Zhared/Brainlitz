@@ -167,8 +167,7 @@ export class UsersComponent implements OnInit {
 		console.log(type);
 		this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
 		this.img = this.dataURItoBlob(this.imageUrl);
-		console.log(this.img);
-
+		let guardianArray = obj.guardianmail.split(',');
 		let dataObj = new FormData();
 		dataObj.append('orgId', this.orgID);
 		dataObj.append('firstName', obj.fname);
@@ -179,7 +178,7 @@ export class UsersComponent implements OnInit {
 		dataObj.append('password', obj.pwd);
 		dataObj.append('gender', obj.gender);
 		dataObj.append('type', obj.type);
-		dataObj.append('guardianEmail', obj.guardianmail);
+		dataObj.append('guardianEmail', JSON.stringify(guardianArray));
 		dataObj.append('profilePic', this.img);
 
 		console.log(dataObj)
