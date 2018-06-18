@@ -56,6 +56,7 @@ export class CoursecreateComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   date = new Date();
   // mytime: Date = new Date(); 
+  public pdfListLength:any;
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -65,12 +66,14 @@ export class CoursecreateComponent implements OnInit {
     // }
    }
    test;
-  ngOnInit() {
+  ngOnInit() {    
     this.getCoursePlanList();
     this.courseId = localStorage.getItem('courseId');
     console.log(this.coursePlanId)
     if(this.coursePlanId){
       this.showCourse = true;
+      this.getPdfList();
+      this.getLocationsList();
     }
     if(this.courseId){
       console.log("EDIT")
@@ -120,7 +123,7 @@ export class CoursecreateComponent implements OnInit {
       this.model.locationId = '';
     })
   }
-  public pdfListLength:any;
+  
   getPdfList(){
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
@@ -137,9 +140,11 @@ export class CoursecreateComponent implements OnInit {
 
   original:any;
   selectCoursePlan(plan){
+
   	console.log("selectCoursePlan",plan);
   	this.showCourse = true;
     localStorage.setItem('coursePlanId',plan._id);
+    this.coursePlanId = localStorage.getItem('coursePlanId');    
   	this.model.coursePlanId = plan._id;
     this.model.coursePlanName = plan.name;
     this.model.durationTimes = plan.lesson.duration;
