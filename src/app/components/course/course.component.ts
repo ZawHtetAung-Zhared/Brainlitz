@@ -73,7 +73,7 @@ export class CourseComponent implements OnInit {
   	let obj = {
   		courseid: course._id,
   		coursename: course.name,
-  		coursecode: course.courseCode
+  		coursecode: course.courseCode,
   	}
   	localStorage.setItem('courseObj',JSON.stringify(obj));
   }

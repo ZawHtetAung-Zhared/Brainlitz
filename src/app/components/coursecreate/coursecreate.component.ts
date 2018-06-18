@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -8,6 +8,9 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
+  host: {
+    '(document:click)': 'onClick($event)',
+  },
   selector: 'app-coursecreate',
   templateUrl: './coursecreate.component.html',
   styleUrls: ['./coursecreate.component.css']
@@ -54,7 +57,7 @@ export class CoursecreateComponent implements OnInit {
   date = new Date();
   // mytime: Date = new Date(); 
 
-  constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef) {
+  constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
     // config.markDisabled = (date: NgbDateStruct) => {
     //   const d = new Date(date.year, date.month - 1, date.day);
@@ -78,6 +81,12 @@ export class CoursecreateComponent implements OnInit {
       this.editCourse(this.courseId);
     }
   }
+
+   onClick(event) {
+     console.log(event)
+     if (this._eref.nativeElement.contains(event.target)) // or some similar check
+     console.log(this._eref.nativeElement.contains(event.target))
+    }
 
   getCoursePlanList(){
     this.blockUI.start('Loading...');

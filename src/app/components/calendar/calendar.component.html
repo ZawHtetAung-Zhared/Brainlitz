@@ -10,7 +10,7 @@
 		      <span aria-hidden="true">&times;</span>
 		    </button>
 	  	</div>
-	  	<form novalidate #calendarForm="ngForm">
+	  	<form novalidate #calendarForm="ngForm" novalidate>
 		  	<div class="modal-body">
 			  	<div class="form-group">
 			      <label for="name">Name</label>   
@@ -19,8 +19,8 @@
 			    <div class="form-group">
 			    	<label>Holiday Lists</label>
 			    	<div class="height-scroll">
-			    		<div *ngFor="let holidayDate of holidayLists" >
-				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" name="holidayDate" required [checked]="holidayDate.checked">
+			    		<div *ngFor="let holidayDate of holidayLists; let i=index;" >
+				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" [checked]="responseChecked.indexOf(holidayDate._id) != -1">
 				    		<label for="{{holidayDate._id}}"> {{holidayDate.name}}</label>
 				    	</div>
 			    	</div>
@@ -30,9 +30,13 @@
 			    </div>
 		  	</div>
 		  	<div class="modal-footer">
-		  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-		  	  <button type="submit" [hidden]="!createButton" class="btn btn-primary" [disabled]="!calendarForm.valid" (click)="createCalendar(calendarForm.value)" >Create</button>
-		  	  <button type="submit" [hidden]="!updateButton" class="btn btn-primary" [disabled]="!calendarForm.valid" (click)="updateCalendar(calendarForm.value)" >Update</button>
+		  	  	<button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
+		  	  	<div [hidden]="!createButton">
+		  	  		<button type="submit" [disabled]="!calendarForm.valid" class="btn btn-primary" (click)="createCalendar(calendarForm.value)" >Create</button>
+		  		</div>
+		  	  	<div [hidden]="!updateButton">
+		  	  		<button type="submit" class="btn btn-primary" [disabled]="!calendarForm.valid" (click)="updateCalendar(calendarForm.value)" >Update</button>
+		  	  	</div>
 		  	</div>
 	  	</form>
 	</ng-template>
