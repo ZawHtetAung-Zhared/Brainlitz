@@ -19,9 +19,10 @@ export class CoursecreateComponent implements OnInit {
   public model: any = {};
   public showCourse:boolean = false;
   public courseObj:{};
-  public coursePlan:{};
+  public coursePlan;
   public regionID = localStorage.getItem('regionId');
   public coursePlanId;
+  public coursePlanName;
   public courseId;
   public users;
   public locationList;
@@ -271,6 +272,9 @@ export class CoursecreateComponent implements OnInit {
     .subscribe((res:any) => {
       this.model = res;
       // console.log('Edit Course',this.model);
+      let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
+      this.coursePlanName = coursePlan.name;
+      // console.log("coursePlanName",this.coursePlanName)
       this.model.start = this.changeDateStrtoObj(this.model.startDate);
       // console.log(this.model.start);
       this.model.end = this.changeDateStrtoObj(this.model.endDate);
@@ -281,6 +285,13 @@ export class CoursecreateComponent implements OnInit {
       this.cbChecked = this.model.quizwerkz;
       console.log("CHECKED create state",this.cbChecked)
     })
+  }
+
+  showCoursePlanName(planid){
+    console.log("course plan id",planid);
+    let item1 = this.coursePlan.filter(item => item._id === planid)[0];
+    console.log(item1);
+    return item1;
   }
 
   updateCourse(courseid){
