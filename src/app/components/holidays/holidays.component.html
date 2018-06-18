@@ -5,7 +5,8 @@
 
 	<ng-template #content let-c="close" let-d="dismiss">
 	  	<div class="modal-header">
-		    <h4 class="modal-title">Create Holidays</h4>
+		    <h4 *ngIf="isUpdate == false" class="modal-title">Create Holidays</h4>
+		    <h4 *ngIf="isUpdate == true" class="modal-title">Update Holidays</h4>
 			<button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
 		     	 <span aria-hidden="true">&times;</span>
 		    </button>
@@ -14,14 +15,12 @@
 		  	<div class="modal-body">
 			  	<div class="form-group">
 			      <label for="name">Name</label>   
-			      <input type="text" class="form-control" [(ngModel)]="formField.holidayName"  name="name" required>
+			      <input type="text" class="form-control" name="name" [(ngModel)]="formField.name" required #name="ngModel">
 			    </div>
 			    <div>
 			    	<label>Date</label>
 			    	<div class="input-group">
-				      <input class="form-control" placeholder="yyyy-mm-dd"
-				             name="dp" [displayMonths]="displayMonths" [navigation]="navigation"
-				             [showWeekNumbers]="showWeekNumbers" [(ngModel)]="formField.datePicker"  ngbDatepicker #d="ngbDatepicker" required>
+				      <input class="form-control" placeholder="yyyy-mm-dd" name="createdDate" [displayMonths]="displayMonths" [navigation]="navigation" [showWeekNumbers]="showWeekNumbers" [(ngModel)]="formField.createdDate"  ngbDatepicker #d="ngbDatepicker" #createdDate="ngModel" required>
 				      <div class="input-group-append">
 				        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
 				          <img src="../assets/img/calendar.png" class="img-width"/>
@@ -32,16 +31,35 @@
 		  	</div>
 		  	<div class="modal-footer">
 		  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-		  	  <button type="submit" class="btn btn-primary" [disabled]="!holidaysForm.valid" (click)="createHolidays(holidaysForm.value)" >Create</button>
+		  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" [disabled]="!holidaysForm.valid" (click)="createHolidays(formField, false)" >Create</button>
+
+		  	  <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" [disabled]="!holidaysForm.valid" (click)="createHolidays(formField, true, currentID)" >Update</button>
 		  	</div>
 	  	</form>
 	</ng-template>
 	<block-ui message="Deafult Message"></block-ui>
 
+	<ng-template #deletemodal let-c="close" let-d="dismiss">
+	  	<div class="modal-header">
+		    <h4 class="modal-title">Delete Holiday</h4>
+		    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+		      <span aria-hidden="true">&times;</span>
+		    </button>
+	  	</div>
+	  	<div class="modal-body">
+	  		<p>Are you sure you want to delete <span class="bold-text">"{{holidayName}}"</span></p>
+	  	</div>
+	  	<div class="modal-footer">
+	  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+	  	  <button type="submit" class="btn btn-primary" (click)="deleteHoldiay(currentID)" >Delete</button>
+	  	</div>
+	</ng-template>
 	<div class="overflow">
 		<ul class="list-group-flush">  
 		  <li id="{{holiday._id}}" class="list-group-item" *ngFor="let holiday of holidayLists; let i = index" [attr.data-index]="i">
-			{{i + 1}}-{{ holiday.name }} 
+				{{i + 1}}-{{ holiday.name }} 
+				<button type="submit" class="btn btn-secondary float-right btn-sm margin-left" (click)="getSingleHoliday(holiday._id, content)">Edit</button>
+	      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, holiday._id)">Delete</button>
 		  </li>
 		</ul>
 	</div>

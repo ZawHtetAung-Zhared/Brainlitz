@@ -23,6 +23,7 @@ export class LocationComponent implements OnInit {
 	public locationLists: any;
 	public isUpdate: boolean = false;
 	public currentID: any;
+	public locationName: any;
 	model: Location = new Location();
 	private modalReference: NgbModalRef;
 	closeResult: string;
@@ -37,13 +38,12 @@ export class LocationComponent implements OnInit {
 	}
 
 	open(locationModal) {
+		this.model = new Location();
 	  this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
 	  this.modalReference.result.then((result) => {
-	    this.closeResult = `Closed with: ${result}`;
-	    this.model = new Location();
+	    this.closeResult = `Closed with: ${result}`;	    
 	  }, (reason) => {
-	    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-	    this.model = new Location();
+	    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;	    
 	  });
 	}
 
@@ -117,9 +117,11 @@ export class LocationComponent implements OnInit {
 		this._service.deleteLocation(id)
 		.subscribe((res:any) => {
 			console.log(res);
+			this.modalReference.close();
 			this.toastr.success('Successfully Deleted.');
 			this.getAllLocation();
 		},err => {
+			this.modalReference.close();
 			this.toastr.error('Delete Fail.');
 			console.log(err);
 		})
@@ -129,13 +131,23 @@ export class LocationComponent implements OnInit {
 		console.log(this.model)
 		this.isUpdate = true;
 		this.modalReference = this.modalService.open(locationModal);
+		this.singleLocation(id);
+	}
+
+	singleLocation(id){
 		this._service.getSingleLocation(id)
 		.subscribe((res:any) => {
 			console.log(res);
 			this.currentID = res._id;
+			this.locationName = res.name;
 			this.model = res;
 		},err => {
 			console.log(err);
 		})
+	}
+
+	deleteModal(deletemodal, id){
+		this.modalReference = this.modalService.open(deletemodal);
+		this.singleLocation(id);
 	}
 }

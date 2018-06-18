@@ -424,6 +424,20 @@ export class appService{
       }) 
     }
 
+    updateHoliday(holidayId: string, data: object){
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     getAllHolidays(id: string): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl+ '/' + id + '/holidays';
@@ -437,6 +451,35 @@ export class appService{
         console.log(result);        
         return result;
       }) 
+    }
+
+    getSingleHoliday(holidayId:string){
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    deleteHoliday(holidayId:string): Observable<any>{
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
     }
 
     createHolidaysCalendar(id: string, data: object): Observable<any>{
