@@ -60,13 +60,9 @@ export class CalendarComponent implements OnInit {
   }
 
 	getAllHolidays(){
-    this.blockUI.start('Loading...');
   	this.regionID = localStorage.getItem('regionId');
     this._service.getAllHolidays(this.regionID)
     .subscribe((res:any) => {
-      setTimeout(() => {
-        this.blockUI.stop(); // Stop blocking
-      }, 300);
       this.holidayLists = res;
       console.log(this.holidayLists)
       }, err => {

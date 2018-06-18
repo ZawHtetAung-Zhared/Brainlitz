@@ -179,22 +179,24 @@ export class UsersComponent implements OnInit {
 		dataObj.append('password', obj.pwd);
 		dataObj.append('gender', obj.gender);
 		dataObj.append('type', obj.type);
+		dataObj.append('guardianEmail', obj.guardianmail);
 		dataObj.append('profilePic', this.img);
 
 		console.log(dataObj)
 
-		let Obj = {
-			"orgId": this.orgID,
-			"firstName": obj.fname,
-			"lastName": obj.lname,
-			"preferredName": obj.dname,
-			"email": obj.mail,
-			"regionId": this.regionID,
-			"password": obj.pwd,
-			"gender": obj.gender,
-			"type": obj.type,
-			"profilePic": this.img
-		}
+		//let Obj = {
+		//	"orgId": this.orgID,
+		//	"firstName": obj.fname,
+		//	"lastName": obj.lname,
+		//	"preferredName": obj.dname,
+		//	"email": obj.mail,
+		//	"regionId": this.regionID,
+		//	"password": obj.pwd,
+		//	"gender": obj.gender,
+		//	"type": obj.type,
+		//	"guardianEmail": obj.guardianmail,
+		//	"profilePic": this.img
+		//}
 		this.blockUI.start('Loading...');
 		this.modalReference.close();
 		this._service.createUser(dataObj)
