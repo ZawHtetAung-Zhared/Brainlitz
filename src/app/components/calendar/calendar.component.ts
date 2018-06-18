@@ -24,7 +24,7 @@ export class CalendarComponent implements OnInit {
 
   modalReference: any;
 	closeResult: any;
-	regionID: any;
+	public regionID = localStorage.getItem('regionId');
 	chosenHoliday: any;
 	arrayHoliday: Array<any> = [];
 	holidayLists: any;
@@ -36,10 +36,12 @@ export class CalendarComponent implements OnInit {
   editId: any;
   public updateButton: boolean = false;
   public createButton: boolean = true;
+  public responseChecked: Array<any> = [];
 
   open(content){
     this.getAllHolidays();
     this.formField = new calendarField();
+    this.responseChecked = [];
     this.arrayHoliday = [];
     this.updateButton = false;
     this.createButton = true;
@@ -66,8 +68,82 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-	getAllHolidays(){
-  	this.regionID = localStorage.getItem('regionId');
+	ChangeValue(e){
+		if(e.target.checked == true){
+			this.arrayHoliday.push(e.target.value);	
+			console.log(this.arrayHoliday)
+		}
+		else {
+			var index = this.arrayHoliday.indexOf(e.target.value);
+			this.arrayHoliday.splice(index, 1);
+			console.log(this.arrayHoliday)
+		}
+	}
+
+	createCalendar(formData){
+		let dataObj = {
+			"name": formData.name,
+			"holidays": this.arrayHoliday
+		}
+		console.log(dataObj);
+    this.blockUI.start('Loading...');
+    this.modalReference.close();
+		  this._service.createHolidaysCalendar(this.regionID,dataObj)
+    .subscribe((res:any) => {
+      console.log('success holidayCalendar post',res)
+      this.toastr.success('Successfully Created.');
+      this.blockUI.stop();
+      this.getAllHolidaysCalendar();
+      }, err => {
+        this.toastr.error('Create Fail');
+        this.blockUI.stop();
+        console.log(err)
+      })
+		this.arrayHoliday = [];
+	}
+
+  getAllHolidaysCalendar(){
+    this.blockUI.start('Loading...');
+      this._service.getAllHolidaysCalendar(this.regionID)
+      .subscribe((res:any) => {
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
+        this.calendarLists = res;
+        console.log(this.calendarLists)
+      }, err => {
+          console.log(err)
+      })
+    }
+
+  deleteCalendar(id){
+     console.log(id)
+     this.blockUI.start('Loading...');
+     this.modalReference.close();
+     this._service.deleteCalendar(id)
+     .subscribe((res:any) => {
+       console.log(res);
+       this.toastr.success('Successfully Deleted.');
+       this.blockUI.stop();
+       this.getAllHolidaysCalendar();
+     },err => {
+       this.toastr.error('Delete Fail.');
+       console.log(err);
+     })
+  } 
+
+  getSingleCalendar(calendarId){
+    this._service.getSingleCalendar(calendarId)
+      .subscribe((res:any) => {
+        this.calendarName = res.name;
+        console.log(res);
+      },err => {
+        console.log(err);
+    })
+  }
+
+
+  getAllHolidays(){
     this._service.getAllHolidays(this.regionID)
     .subscribe((res:any) => {
       this.holidayLists = res;
@@ -75,130 +151,45 @@ export class CalendarComponent implements OnInit {
       }, err => {
         console.log(err)
       })
-	}
+  }
 
-  	ChangeValue(e){
-  		if(e.target.checked == true){
-  			this.arrayHoliday.push(e.target.value);	
-  			console.log(this.arrayHoliday)
-  		}
-  		else {
-  			var index = this.arrayHoliday.indexOf(e.target.value);
-  			this.arrayHoliday.splice(index, 1);
-  			console.log(this.arrayHoliday)
-  		}
-  	}
-
-  	createCalendar(formData){
-  		this.regionID = localStorage.getItem('regionId');
-  		let dataObj = {
-  			"name": formData.name,
-  			"holidays": this.arrayHoliday
-  		}
-  		console.log(dataObj);
-      this.blockUI.start('Loading...');
-      this.modalReference.close();
- 		  this._service.createHolidaysCalendar(this.regionID,dataObj)
-	    .subscribe((res:any) => {
-	      console.log('success holidayCalendar post',res)
-        this.toastr.success('Successfully Created.');
-        this.blockUI.stop();
-        this.getAllHolidaysCalendar();
-	      }, err => {
-          this.toastr.error('Create Fail');
-          this.blockUI.stop();
-	        console.log(err)
-	      })
-  		this.arrayHoliday = [];
-  	}
-
-    getAllHolidaysCalendar(){
-      this.blockUI.start('Loading...');
-      this.regionID = localStorage.getItem('regionId');
-        this._service.getAllHolidaysCalendar(this.regionID)
-        .subscribe((res:any) => {
-          setTimeout(() => {
-            this.blockUI.stop(); // Stop blocking
-          }, 300);
-          this.calendarLists = res;
-          console.log(this.calendarLists)
-        }, err => {
-            console.log(err)
-        })
-      }
-
-    deleteCalendar(id){
-       console.log(id)
-       this.blockUI.start('Loading...');
-       this.modalReference.close();
-       this._service.deleteCalendar(id)
-       .subscribe((res:any) => {
-         console.log(res);
-         this.toastr.success('Successfully Deleted.');
-         this.blockUI.stop();
-         this.getAllHolidaysCalendar();
-       },err => {
-         this.toastr.error('Delete Fail.');
-         console.log(err);
-       })
-    } 
-
-    getSingleCalendar(calendarId){
-      this._service.getSingleCalendar(calendarId)
-        .subscribe((res:any) => {
-          this.calendarName = res.name;
-          console.log(res);
-        },err => {
-          console.log(err);
-      })
-    }
-
-    editCalendar(content,id){
-      console.log(id)
-      this.arrayHoliday = [];
-      this.updateButton = true;
-      this.createButton = false;
-      this.getAllHolidays();
-      this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
-      this._service.getSingleCalendar(id)
-        .subscribe((res:any) => {
-          console.log(res)
-          this.formField = res;
-          for(var i=0; i < this.formField.holidays.length; i++){
-            for(var j=0; j < this.holidayLists.length; j++){
-              if(this.formField.holidays[i] == this.holidayLists[j]._id){
-                this.holidayLists[j].checked = true;
-                if(this.holidayLists[j].checked){
-                  this.arrayHoliday.push(this.holidayLists[j]._id);
-                }
-              }
-            }
-          }
-          console.log(this.holidayLists);
-          this.editId = res._id;
-      })
-
-    }
-
-    updateCalendar(formData){
-      console.log('updated', formData, this.arrayHoliday)
-      this.regionID = localStorage.getItem('regionId');
-      let dataObj = {
-        "name": formData.name,
-        "holidays": this.arrayHoliday
-      }
-      this.blockUI.start('Loading...');
-      this.modalReference.close();
-      this._service.updateSignleCalendar(this.editId, dataObj)
+  editCalendar(content,id){
+    this.getAllHolidays();
+    this.responseChecked = [];
+    this.updateButton = true;
+    this.createButton = false;
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
+    this._service.getSingleCalendar(id)
       .subscribe((res:any) => {
-          console.log(res);
-          this.blockUI.stop();
-          this.toastr.success('Successfully Updated.');
-          this.getAllHolidaysCalendar();
-        },err => {
-          console.log(err);
-        })
-        this.formField = new calendarField();
+        this.responseChecked = res.holidays;
+        this.formField = res;
+        this.arrayHoliday = this.responseChecked;
+        this.editId = res._id;
+    })
+  }
+
+
+  updateCalendar(formData){
+    console.log('updated', formData, this.arrayHoliday)
+    let dataObj = {
+      "name": formData.name,
+      "holidays": this.arrayHoliday
     }
+    this.blockUI.start('Loading...');
+    this.modalReference.close();
+    this._service.updateSignleCalendar(this.editId, dataObj)
+    .subscribe((res:any) => {
+        console.log(res);
+        this.blockUI.stop();
+        this.toastr.success('Successfully Updated.');
+        this.getAllHolidaysCalendar();
+      },err => {
+        console.log(err);
+      })
+      this.formField = new calendarField();
+
+  }
+
+    
 }
 
