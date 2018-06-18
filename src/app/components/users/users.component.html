@@ -130,16 +130,16 @@
 				</div>
 				<div class="form-group">
 		  	    	<label for="gmail">Guardian Email</label>
-		  	    	<input type="email" class="form-control" placeholder="Enter guardian mail" name="gmail" [(ngModel)]="customers.gmail" #gmail="ngModel">
+		  	    	<input type="email" class="form-control" placeholder="Enter guardian mail" name="guardianmail" [(ngModel)]="formFieldc.guardianmail" #gmail="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 					<label for="gender">Gender</label><br>
 					<div class="form-check form-check-inline">
-					   <input class="form-check-input" type="radio" value="male" name="gender" id="custom-male" [(ngModel)]="customers.gender" #male="ngModel">
+					   <input class="form-check-input" type="radio" value="male" name="gender" id="custom-male" [(ngModel)]="formFieldc.gender" #male="ngModel">
 					   <label class="form-check-label" for="custom-male">Male</label>
 					</div>
 					<div class="form-check form-check-inline">
-					   <input class="form-check-input" type="radio" value="female" name="gender" id="custom-female" [(ngModel)]="customers.gender" #female="ngModel">
+					   <input class="form-check-input" type="radio" value="female" name="gender" id="custom-female" [(ngModel)]="formFieldc.gender" #female="ngModel">
 					   <label class="form-check-label" for="custom-female">Female</label>
 					</div>
 				</div>

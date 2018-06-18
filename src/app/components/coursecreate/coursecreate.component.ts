@@ -19,9 +19,10 @@ export class CoursecreateComponent implements OnInit {
   public model: any = {};
   public showCourse:boolean = false;
   public courseObj:{};
-  public coursePlan:{};
+  public coursePlan;
   public regionID = localStorage.getItem('regionId');
   public coursePlanId;
+  public coursePlanName;
   public courseId;
   public users;
   public locationList;
@@ -42,7 +43,7 @@ export class CoursecreateComponent implements OnInit {
     {"day":"Sat", "val": 6},
   ];
   public selectedPdf = [];
-  public cbChecked;
+  public cbChecked = [];
   minDate:any;
   maxDate:any;
   // isDisabled:any;
@@ -71,10 +72,10 @@ export class CoursecreateComponent implements OnInit {
     }
     if(this.courseId){
       console.log("EDIT")
-      this.editCourse(this.courseId);
       this.getLocationsList();
       this.getUserList();
       this.getPdfList();
+      this.editCourse(this.courseId);
     }
   }
 
@@ -107,11 +108,12 @@ export class CoursecreateComponent implements OnInit {
       this.model.locationId = '';
     })
   }
-
+  public pdfListLength:any;
   getPdfList(){
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
       this.pdfList = res;
+      this.pdfListLength = this.pdfList.length;
       console.log("quizwerkz",this.pdfList)
     })
   }
@@ -261,6 +263,8 @@ export class CoursecreateComponent implements OnInit {
   onClickedOutside(e: Event) {
     console.log('Clicked outside:', e);
   }
+   pdfId = [];
+   
 
   editCourse(cId){
     this.isEdit = true;
@@ -268,6 +272,9 @@ export class CoursecreateComponent implements OnInit {
     .subscribe((res:any) => {
       this.model = res;
       // console.log('Edit Course',this.model);
+      let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
+      this.coursePlanName = coursePlan.name;
+      // console.log("coursePlanName",this.coursePlanName)
       this.model.start = this.changeDateStrtoObj(this.model.startDate);
       // console.log(this.model.start);
       this.model.end = this.changeDateStrtoObj(this.model.endDate);
@@ -279,6 +286,14 @@ export class CoursecreateComponent implements OnInit {
       console.log("CHECKED create state",this.cbChecked)
     })
   }
+
+  showCoursePlanName(planid){
+    console.log("course plan id",planid);
+    let item1 = this.coursePlan.filter(item => item._id === planid)[0];
+    console.log(item1);
+    return item1;
+  }
+
   updateCourse(courseid){
     console.log("updateCourse",courseid);
     let obj = {
@@ -312,5 +327,5 @@ export class CoursecreateComponent implements OnInit {
     let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
     return format;
   }
-  
+
 }

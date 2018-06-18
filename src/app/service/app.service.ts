@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+import {Subject} from 'rxjs/Subject';
  
 @Injectable()
 export class appService{
@@ -13,10 +14,15 @@ export class appService{
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType');
 
+
+    sendData: Observable<any>;
+    private sendParentToChild = new Subject<any>();
+
     constructor( private httpClient: HttpClient) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
+      this.sendData = this.sendParentToChild.asObservable();
     }   
 
     getToken(){
@@ -163,7 +169,8 @@ export class appService{
          return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
-          console.log(result);    
+          console.log(result);  
+          this.sendParentToChild.next(result);  
           return result;
         }) 
       }
@@ -608,6 +615,24 @@ export class appService{
         })
     }
 
+    getAllAssignUser(regionid){
+      let url = this.baseUrl+ '/' + regionid + '/timetable';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
+    // deleteAssignUser(regionid,body){
+     
+    // }
+
     getAllDeposit(id: string): Observable<any>{
       let url = this.baseUrl+ '/' + id + '/deposits';
       const httpOptions = {
@@ -714,6 +739,20 @@ export class appService{
 
     updateSignleQuizwerkz(id:string, data: object){
       let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    updateSignleCalendar(id:string, data: object){
+      let apiUrl = this.baseUrl + '/holidaysCalendar/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

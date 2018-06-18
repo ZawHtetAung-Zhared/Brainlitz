@@ -31,6 +31,7 @@ export class LocationComponent implements OnInit {
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);
+		this._service.getLocations(this.regionID);
 	}
 
 	ngOnInit() {
@@ -145,6 +146,7 @@ export class LocationComponent implements OnInit {
 			console.log(err);
 		})
 	}
+
 
 	deleteModal(deletemodal, id){
 		this.modalReference = this.modalService.open(deletemodal);

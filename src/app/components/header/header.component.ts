@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
+import { LocationComponent } from '../location/location.component';
 
 declare var $:any;
 
@@ -16,6 +17,10 @@ export class HeaderComponent implements OnInit {
   public accessToken: any;
   
   constructor(private _router: Router, private _service: appService) {
+    this._service.sendData.subscribe((data) => {
+        console.log('work', data)
+        this.locationLists = data; 
+    })
   }
   
   ngOnInit() {

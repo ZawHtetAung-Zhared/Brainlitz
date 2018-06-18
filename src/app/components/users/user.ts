@@ -12,4 +12,6 @@ export class customer {
 	dname: string;
 	mail: string;
 	pwd: string;
+	guardianmail: string;
+	gender: boolean;
 }

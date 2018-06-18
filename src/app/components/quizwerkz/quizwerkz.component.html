@@ -8,7 +8,7 @@
     <li class="list-group-item" *ngFor="let pdf of pdfList">
       <span style="margin-right: 20px;">{{pdf.name}}</span><!-- {{course.name}} -->
       <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">Create</button> -->
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onClickDelete(pdf,comfirm)">Delete</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onClickDelete(pdf,confirm)">Delete</button>
       <button type="button" class="btn btn-secondary float-right btn-sm" style="margin-right: 5px;" (click)="editQuizWerkz(pdf._id, content)">Edit</button>
        <button type="button" class="btn btn-secondary float-right btn-sm" style="margin-right: 5px;" (click)="viewQuizWerkz(pdf._id,view)">View</button>
     </li>
@@ -62,7 +62,7 @@
   </div>
 </ng-template> 
 
-<ng-template #comfirm let-c="close" let-d="dismiss">
+<ng-template #confirm let-c="close" let-d="dismiss">
   <div class="modal-header">
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>

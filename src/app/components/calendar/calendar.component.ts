@@ -33,9 +33,16 @@ export class CalendarComponent implements OnInit {
   public calendarId: any;
   formField: calendarField = new calendarField();
   @BlockUI() blockUI: NgBlockUI;
+  editId: any;
+  public updateButton: boolean = false;
+  public createButton: boolean = true;
 
   open(content){
     this.getAllHolidays();
+    this.formField = new calendarField();
+    this.arrayHoliday = [];
+    this.updateButton = false;
+    this.createButton = true;
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
         this.formField = new calendarField();
@@ -60,13 +67,9 @@ export class CalendarComponent implements OnInit {
   }
 
 	getAllHolidays(){
-    this.blockUI.start('Loading...');
   	this.regionID = localStorage.getItem('regionId');
     this._service.getAllHolidays(this.regionID)
     .subscribe((res:any) => {
-      setTimeout(() => {
-        this.blockUI.stop(); // Stop blocking
-      }, 300);
       this.holidayLists = res;
       console.log(this.holidayLists)
       }, err => {
@@ -126,6 +129,8 @@ export class CalendarComponent implements OnInit {
 
     deleteCalendar(id){
        console.log(id)
+       this.blockUI.start('Loading...');
+       this.modalReference.close();
        this._service.deleteCalendar(id)
        .subscribe((res:any) => {
          console.log(res);
@@ -148,4 +153,52 @@ export class CalendarComponent implements OnInit {
       })
     }
 
+    editCalendar(content,id){
+      console.log(id)
+      this.arrayHoliday = [];
+      this.updateButton = true;
+      this.createButton = false;
+      this.getAllHolidays();
+      this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap'});
+      this._service.getSingleCalendar(id)
+        .subscribe((res:any) => {
+          console.log(res)
+          this.formField = res;
+          for(var i=0; i < this.formField.holidays.length; i++){
+            for(var j=0; j < this.holidayLists.length; j++){
+              if(this.formField.holidays[i] == this.holidayLists[j]._id){
+                this.holidayLists[j].checked = true;
+                if(this.holidayLists[j].checked){
+                  this.arrayHoliday.push(this.holidayLists[j]._id);
+                }
+              }
+            }
+          }
+          console.log(this.holidayLists);
+          this.editId = res._id;
+      })
+
+    }
+
+    updateCalendar(formData){
+      console.log('updated', formData, this.arrayHoliday)
+      this.regionID = localStorage.getItem('regionId');
+      let dataObj = {
+        "name": formData.name,
+        "holidays": this.arrayHoliday
+      }
+      this.blockUI.start('Loading...');
+      this.modalReference.close();
+      this._service.updateSignleCalendar(this.editId, dataObj)
+      .subscribe((res:any) => {
+          console.log(res);
+          this.blockUI.stop();
+          this.toastr.success('Successfully Updated.');
+          this.getAllHolidaysCalendar();
+        },err => {
+          console.log(err);
+        })
+        this.formField = new calendarField();
+    }
 }
+
