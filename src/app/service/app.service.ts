@@ -708,6 +708,20 @@ export class appService{
       })
     }
 
+    updateSignleCalendar(id:string, data: object){
+      let apiUrl = this.baseUrl + '/holidaysCalendar/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 }
 
 
