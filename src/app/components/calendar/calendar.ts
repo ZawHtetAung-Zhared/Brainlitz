@@ -1,4 +1,4 @@
 export class calendarField {
-	calenderName: string;
-	hLists: string;
+	name: string;
+	holidays: string;
 }

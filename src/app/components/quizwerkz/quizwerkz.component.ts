@@ -23,6 +23,7 @@ export class QuizwerkzComponent implements OnInit {
   public deleteQw:any;
   public modalReference1:any;
   public editId: any;
+  viewQuiz: any;
 
   constructor(private modalService: NgbModal, private _service: appService) { }
 
@@ -78,10 +79,10 @@ export class QuizwerkzComponent implements OnInit {
     })
   }
 
-  onClickDelete(data,comfirm){
+  onClickDelete(data,confirm){
     this.selectQw = data;
     console.log("onclickDelete",data);
-    this.modalReference = this.modalService.open(comfirm);
+    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'animation-wrap' });
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -93,7 +94,7 @@ export class QuizwerkzComponent implements OnInit {
     console.log(qw);
     this.deleteQw = qw;
     this.modalReference.close();
-    this.modalReference1 = this.modalService.open(content1);
+    this.modalReference1 = this.modalService.open(content1,{ backdrop:'static', windowClass:'animation-wrap' });
     this.modalReference1.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -137,7 +138,7 @@ export class QuizwerkzComponent implements OnInit {
       this.getAllPdf();
     })
   }
-  viewQuiz: any;
+  
   viewQuizWerkz(id,view){
     console.log(this.editId)
     this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap'});

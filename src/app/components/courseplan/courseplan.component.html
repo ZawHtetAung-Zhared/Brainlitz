@@ -127,8 +127,8 @@
 				<div class="col-md-12">
 					<label>Pdf</label>
 					<div class="height-scroll">
-			    		<div *ngFor="let pdf of pdfList; let i = index" style="float: left; margin-right: 15px;">
-				    		<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue($event)" name="pdf" [checked]="pdf.checked">
+			    		<div *ngFor="let pdf of pdfList; let i=index;" style="float: left; margin-right: 15px;">
+				    		<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue($event)" name="pdf" [checked]="responseChecked.indexOf(pdf._id) != -1">
 				    		<label for="{{pdf._id}}"> {{pdf.name}}</label>
 				    	</div>
 			    	</div>

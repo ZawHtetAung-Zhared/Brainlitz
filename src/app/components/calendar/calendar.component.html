@@ -10,17 +10,17 @@
 		      <span aria-hidden="true">&times;</span>
 		    </button>
 	  	</div>
-	  	<form novalidate #calendarForm="ngForm">
+	  	<form novalidate #calendarForm="ngForm" novalidate>
 		  	<div class="modal-body">
 			  	<div class="form-group">
 			      <label for="name">Name</label>   
-			      <input type="text" class="form-control" [(ngModel)]="formField.calendarName" name="name" required>
+			      <input type="text" class="form-control" [(ngModel)]="formField.name" name="name" required>
 			    </div>
 			    <div class="form-group">
 			    	<label>Holiday Lists</label>
 			    	<div class="height-scroll">
-			    		<div *ngFor="let holidayDate of holidayLists" >
-				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" required>
+			    		<div *ngFor="let holidayDate of holidayLists; let i=index;" >
+				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" [checked]="responseChecked.indexOf(holidayDate._id) != -1">
 				    		<label for="{{holidayDate._id}}"> {{holidayDate.name}}</label>
 				    	</div>
 			    	</div>
@@ -30,8 +30,13 @@
 			    </div>
 		  	</div>
 		  	<div class="modal-footer">
-		  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-		  	  <button type="submit" class="btn btn-primary" [disabled]="!calendarForm.valid" (click)="createCalendar(calendarForm.value)" >Create</button>
+		  	  	<button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
+		  	  	<div [hidden]="!createButton">
+		  	  		<button type="submit" [disabled]="!calendarForm.valid" class="btn btn-primary" (click)="createCalendar(calendarForm.value)" >Create</button>
+		  		</div>
+		  	  	<div [hidden]="!updateButton">
+		  	  		<button type="submit" class="btn btn-primary" [disabled]="!calendarForm.valid" (click)="updateCalendar(calendarForm.value)" >Update</button>
+		  	  	</div>
 		  	</div>
 	  	</form>
 	</ng-template>
@@ -58,6 +63,7 @@
 		  <li id="{{calendar._id}}" class="list-group-item" *ngFor="let calendar of calendarLists; let i = index" [attr.data-index]="i">
 			{{i + 1}}-{{ calendar.name }} 
 			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="openDeleteModal(deletemodal, calendar._id)">Delete</button>
+			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCalendar(content,calendar._id)" style="margin-right: 5px;">Edit</button>
 			<!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteCalendar(calendar._id)">Delete</button> -->
 		  </li>
 		</ul>

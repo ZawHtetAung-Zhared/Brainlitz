@@ -53,6 +53,7 @@ export class CourseplanComponent implements OnInit {
   pdfList: any[] = [];
   pdfName: any[] = [];
   pdfId: any[] = [];
+  public responseChecked: any[] = [];
 
 	open(content){
     this.formField = new cPlanField();
@@ -65,6 +66,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
     this.getAllPdf();
+    this.responseChecked = [];
     this.pdfId = [];
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
@@ -157,11 +159,11 @@ export class CourseplanComponent implements OnInit {
         console.log(err)
       })
       this.pdfName = [];
+      this.pdfId = [];
   }
 
   onclickDelete(cplan, confirmDelete1){
     this.selectcPlan = cplan;
-    console.log("onclickDelete",confirmDelete1);
     this.modalReference = this.modalService.open(confirmDelete1, { backdrop:'static', windowClass: 'animation-wrap'});
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -310,7 +312,7 @@ export class CourseplanComponent implements OnInit {
   editcPlan(content, id){
     console.log(id)
     this.getAllPdf();
-    this.pdfId = [];
+    this.responseChecked = [];
     this.updateButton = true;
     this.createButton = false;
     this.getAllDeposit();
@@ -322,17 +324,9 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.formField = res;
-      for(var i = 0; i < this.formField.quizwerkz.length; i++){
-        for(var j = 0; j < this.pdfList.length; j++){
-          if(this.formField.quizwerkz[i] == this.pdfList[j]._id){
-            this.pdfList[j].checked = true;
-            if(this.pdfList[j].checked){
-              this.pdfId.push(this.pdfList[j]._id);
-            }
-          }
-        }
-      }
-       console.log( this.pdfList);
+      this.responseChecked = this.formField.quizwerkz;
+      this.pdfId = this.responseChecked;
+       console.log( this.pdfId);
       this.editId = res._id;
     },err => {
       console.log(err);
@@ -385,7 +379,6 @@ export class CourseplanComponent implements OnInit {
       console.log(err);
     })
     this.formField = new cPlanField();
-    this.pdfId = [];
   }
 
 }

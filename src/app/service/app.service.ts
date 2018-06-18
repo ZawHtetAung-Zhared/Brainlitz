@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+import {Subject} from 'rxjs/Subject';
  
 @Injectable()
 export class appService{
@@ -14,10 +15,17 @@ export class appService{
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType');
 
-    constructor( private httpClient: HttpClient, private http:Http) { 
+
+
+    sendData: Observable<any>;
+    private sendParentToChild = new Subject<any>();
+
+    constructor( private httpClient: HttpClient) { 
+
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
+      this.sendData = this.sendParentToChild.asObservable();
     }   
 
     getToken(){
@@ -164,7 +172,8 @@ export class appService{
          return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
-          console.log(result);    
+          console.log(result);  
+          this.sendParentToChild.next(result);  
           return result;
         }) 
       }
@@ -425,6 +434,20 @@ export class appService{
       }) 
     }
 
+    updateHoliday(holidayId: string, data: object){
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     getAllHolidays(id: string): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl+ '/' + id + '/holidays';
@@ -438,6 +461,35 @@ export class appService{
         console.log(result);        
         return result;
       }) 
+    }
+
+    getSingleHoliday(holidayId:string){
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    deleteHoliday(holidayId:string): Observable<any>{
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
     }
 
     createHolidaysCalendar(id: string, data: object): Observable<any>{
@@ -725,6 +777,20 @@ export class appService{
 
     updateSignleQuizwerkz(id:string, data: object){
       let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    updateSignleCalendar(id:string, data: object){
+      let apiUrl = this.baseUrl + '/holidaysCalendar/' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
