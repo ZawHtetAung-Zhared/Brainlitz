@@ -207,7 +207,7 @@ export class ToolsComponent implements OnInit {
       "message": data.message
     }
 
-    if(data.type == 'category'){
+    if(this.isChecked == 'category'){
       for (var i in this.categoryLists) {
         if (this.categoryLists[i].name == data.itemID) {
           console.log('....', this.categoryLists[i]);
@@ -215,7 +215,7 @@ export class ToolsComponent implements OnInit {
           dataObj["id"] = temp._id
         }
       }
-    }else if(data.type == 'course'){
+    }else if(this.isChecked == 'course'){
       for (var i in this.courseLists) {
         if (this.courseLists[i].name == data.itemID) {
           console.log('....', this.courseLists[i]);
@@ -223,7 +223,7 @@ export class ToolsComponent implements OnInit {
           dataObj["id"] = temp._id
         }
       }
-    }else if(data.type == 'alluser'){
+    }else if(this.isChecked == 'alluser'){
       for (var i in this.userLists) {
         if (this.userLists[i].preferredName == data.itemID) {
           console.log('....', this.userLists[i]);
@@ -234,8 +234,8 @@ export class ToolsComponent implements OnInit {
     }else{
       console.log(':)')
     }
-    // this.item = {};
     console.log(dataObj)
+    // this.item = {};
     this._service.createNoti(dataObj, body)
     .subscribe((res:any) => {
       console.log('~~~', res)
