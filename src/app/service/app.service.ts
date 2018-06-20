@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Http ,Request, RequestMethod} from '@angular/http';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
@@ -12,6 +12,7 @@ import {Subject} from 'rxjs/Subject';
 export class appService{
     private baseUrl = environment.apiurl + '/api/v1';
     public temp: any;    
+    public tempToken: any;    
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType');
 
@@ -20,20 +21,38 @@ export class appService{
     sendData: Observable<any>;
     private sendParentToChild = new Subject<any>();
 
-    constructor( private httpClient: HttpClient) { 
-
+    constructor( private httpClient: HttpClient, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
       this.sendData = this.sendParentToChild.asObservable();
-    }   
+    }  
+
+    isLoggedIn(): boolean {
+      console.log('isloggedin')
+      this.tempToken = localStorage.getItem('code');
+      console.log(this.tempToken)
+      if(this.tempToken != null ){
+        return true;
+      }else{
+        localStorage.clear();
+        this._router.navigateByUrl('/login');        
+        return false;
+      }
+    }
+
+    logout(){
+      localStorage.clear();
+      this._router.navigateByUrl('/login');
+    }
 
     getToken(){
-      let tempToken = localStorage.getItem('code');
+      console.log('start...')
+      this.tempToken = localStorage.getItem('code');
       let url = environment.apiurl + '/oauth/token' ;      
       let body = {
         'grant_type': environment.grant_type,
-        'code': tempToken,
+        'code': this.tempToken,
         'redirect_uri': environment.redirect_uri,
         'client_id': environment.client_id,
       }
@@ -42,6 +61,8 @@ export class appService{
       const httpOptions = {
           headers: new HttpHeaders({ 'authorization': 'Basic ' + basicToken })
       };
+
+      
       return this.httpClient.post(url, body, httpOptions)
       .map((res:any) => {
         console.log(res)
@@ -53,10 +74,15 @@ export class appService{
 
     getLocalstorage(){
       this.accessToken = localStorage.getItem('token');  
-      this.tokenType = localStorage.getItem('tokenType');  
+      this.tokenType = localStorage.getItem('tokenType'); 
+      console.log(this.accessToken) 
+      // if(this.accessToken == undefined){
+      //   this._router.navigateByUrl('/login');
+      // }
     }
 
     getAllRegion(type: any, token: any): Observable<any>{
+      this.getLocalstorage();
       let url = this.baseUrl + '/organization/user/regions';
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -73,6 +99,7 @@ export class appService{
 
     getRegionalAdministrator(regionId: any, token: any, type: any): Observable<any>{
       console.log(token)
+      this.getLocalstorage();
       let url = this.baseUrl + '/regions/' + regionId;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -127,6 +154,7 @@ export class appService{
     }
 
     userCount(obj): Observable<any>{
+      this.getLocalstorage();
       console.log(obj)
       this.getLocalstorage();
       if(obj.id != undefined){
