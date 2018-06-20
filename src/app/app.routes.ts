@@ -18,6 +18,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
+import { ReportComponent } from './components/report/report.component';
 
 export const routes: Routes = [
     
@@ -80,6 +81,10 @@ export const routes: Routes = [
     {
       path: 'tools',
       component: ToolsComponent
+    },
+    {
+      path: 'report',
+      component: ReportComponent
     },
     {
       path:'**',

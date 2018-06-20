@@ -52,7 +52,7 @@ export class CourseplanComponent implements OnInit {
   depositName: any;
   pdfList: any[] = [];
   pdfName: any[] = [];
-  pdfId: any[] = [];
+  public pdfId: any[] = [];
   public responseChecked: any[] = [];
 
 	open(content){
@@ -200,15 +200,20 @@ export class CourseplanComponent implements OnInit {
 		})
 	}
   
-  ChangeValue(e){
+  ChangeValue(data, e){
+    var cbIdx = this.pdfId.indexOf(data);
     if(e.target.checked == true){
-      this.pdfId.push(e.target.value); 
-      console.log(this.pdfId)
+      console.log('true')
+      if(cbIdx < 0 )
+        this.pdfId.push(data);
+        console.log(this.pdfId)
     }
     else {
-      var index = this.pdfList.indexOf(e.target.value);
-      this.pdfId.splice(index, 1);
-      console.log(this.pdfId)
+      console.log('false')
+      if(cbIdx >= 0 ){
+         this.pdfId.splice(cbIdx, 1);
+         console.log(this.pdfId)
+      }
     }
   }
 
@@ -324,14 +329,7 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.formField = res;
-      this.responseChecked = this.formField.quizwerkz;
-      for(var i= 0; i < this.responseChecked.length; i++){
-          for(var j= 0; j < this.pdfList.length; j++){
-            if(this.responseChecked[i] == this.pdfList[j]._id){
-              this.pdfId.push(this.pdfList[j]._id);
-            }
-          }
-        }
+      this.pdfId = this.formField.quizwerkz;     
       this.editId = res._id;
     },err => {
       console.log(err);
@@ -384,7 +382,6 @@ export class CourseplanComponent implements OnInit {
       console.log(err);
     })
     this.formField = new cPlanField();
-    this.pdfId = [];
   }
 
 }
