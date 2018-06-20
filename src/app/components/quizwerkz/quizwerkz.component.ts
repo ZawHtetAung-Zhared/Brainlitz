@@ -3,7 +3,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
-import { quizWerkzForm } from './quizWerkz';
+import { quizWerkzForm } from './quizwerkz';
 
 @Component({
   selector: 'app-quizwerkz',
@@ -141,7 +141,7 @@ export class QuizwerkzComponent implements OnInit {
   
   viewQuizWerkz(id,view){
     console.log(this.editId)
-    this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap'});
+    this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap',  size: 'lg' });
     this._service.getSingleQuizwerkz(id)
     .subscribe((res:any) => {
       console.log(res)

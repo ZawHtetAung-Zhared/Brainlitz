@@ -30,6 +30,7 @@ export class ToolsComponent implements OnInit {
   constructor(private _service: appService) { }
 
   ngOnInit() {
+    this.locationId = localStorage.getItem('locationId');
     this.notiType = 'send';
     this.setDefaultSelected();
   }
@@ -75,8 +76,9 @@ export class ToolsComponent implements OnInit {
   }
 
   somethingChanged(type){
-    console.log('what')
+    console.log('what', type)
     this.isChecked = type;
+    this.locationId = localStorage.getItem('locationId');
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
@@ -86,14 +88,14 @@ export class ToolsComponent implements OnInit {
     console.log(dataObj)
     this._service.userCount(dataObj)
     .subscribe((res:any) => {      
-      if(type != 'course'){
-        console.log(res);
-        console.log(res.count);
-        this.userCount = res.count;
-      }else{
+      if(type == 'course' || type == 'user'){
         console.log(res);
         console.log(res.length);    
         this.userCount = res.length;  
+      }else{
+        console.log(res);
+        console.log(res.count);
+        this.userCount = res.count;  
       }
     }, err => {
       console.log(err)
@@ -118,7 +120,7 @@ export class ToolsComponent implements OnInit {
       }, err => {
         console.log(err)
       })
-    }else if(type == 'alluser'){
+    }else if(type == 'user'){
       this._service.getAllUsers(this.regionID)
       .subscribe((res:any) => {
         console.log('~~~', res)
@@ -223,7 +225,7 @@ export class ToolsComponent implements OnInit {
           dataObj["id"] = temp._id
         }
       }
-    }else if(this.isChecked == 'alluser'){
+    }else if(this.isChecked == 'user'){
       for (var i in this.userLists) {
         if (this.userLists[i].preferredName == data.itemID) {
           console.log('....', this.userLists[i]);
