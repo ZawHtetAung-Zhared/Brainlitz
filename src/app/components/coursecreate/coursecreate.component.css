@@ -101,3 +101,18 @@
 .new-input{
   width: 70%;
 }
+.end-item{
+  position: relative;
+  margin-left: 5px;
+}
+.labl{
+  display: flex;
+}
+.endOpt{
+  margin-right: 5px;
+}
+.lesson-input{
+  width: 200px;
+  margin-left: 5px;
+  margin-right: 5px;
+}

@@ -298,6 +298,7 @@ export class appService{
     }
 
     createCourse(id: string, data: object): Observable<any>{
+      console.log("APP Service")
       let url = this.baseUrl + '/' + id + '/course';
       const httpOptions = {
           headers: new HttpHeaders({ 
