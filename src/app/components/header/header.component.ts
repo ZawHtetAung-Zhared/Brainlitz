@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
   
   constructor(private _router: Router, private _service: appService) {
     this._service.sendData.subscribe((data) => {
-        console.log('work', data)
         this.locationLists = data; 
     })
   }
@@ -64,9 +63,9 @@ export class HeaderComponent implements OnInit {
   }
 
   selectLocation(e){
-    let locationId = e.target.value;
-    localStorage.setItem('locationId', locationId)
-    console.log(e)
+    let LocationId = e.target.value;
+    localStorage.setItem('locationId', LocationId);
+    this._service.setLocationId(LocationId);
   }
 
 

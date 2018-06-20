@@ -16,9 +16,9 @@ export class appService{
     public tokenType = localStorage.getItem('tokenType');
 
 
-
     sendData: Observable<any>;
     private sendParentToChild = new Subject<any>();
+    itemValue = new Subject();
 
     constructor( private httpClient: HttpClient) { 
 
@@ -27,6 +27,11 @@ export class appService{
       this.tokenType = localStorage.getItem('tokenType');  
       this.sendData = this.sendParentToChild.asObservable();
     }   
+
+    setLocationId(value) {
+      this.itemValue.next(value); // this will make sure to tell every subscriber about the change.
+       localStorage.setItem('theItem', value);
+    }
 
     getToken(){
       let tempToken = localStorage.getItem('code');
@@ -800,6 +805,34 @@ export class appService{
       return this.httpClient.put(apiUrl, data, httpOptions)
       .map((res:Response) => {
         let result = res; 
+        return result;
+      })
+    }
+
+    getFeedBackList(regionId, teacherId){
+      let apiUrl = this.baseUrl +'/'+ regionId + '/feedback/' + teacherId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getRatingList(locationId: string){
+      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
         return result;
       })
     }
