@@ -188,12 +188,14 @@
 				<span>
 					Email: <input class="usermail" id="{{user.userId}}" type="text" value="{{user.email}}">
 				</span>
-				<button class="btn btn-info" (click)="copyText(user.userId)">Copy</button>
+				<button class="btn btn-secondary" style="float: right;" (click)="rating()">Feedback</button>
+				<button class="btn btn-info" style="float: right; margin-right: 5px;" (click)="copyText(user.userId)">Copy</button>
 			</li>
 		</ul>
 	</div>
 	
 </div>
+
 
 
 

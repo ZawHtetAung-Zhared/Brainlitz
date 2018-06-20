@@ -17,9 +17,9 @@ export class appService{
     public tokenType = localStorage.getItem('tokenType');
 
 
-
     sendData: Observable<any>;
     private sendParentToChild = new Subject<any>();
+    itemValue = new Subject();
 
     constructor( private httpClient: HttpClient, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
@@ -44,6 +44,11 @@ export class appService{
     logout(){
       localStorage.clear();
       this._router.navigateByUrl('/login');
+    }
+
+    setLocationId(value) {
+      this.itemValue.next(value); // this will make sure to tell every subscriber about the change.
+       localStorage.setItem('theItem', value);
     }
 
     getToken(){
@@ -326,6 +331,7 @@ export class appService{
     }
 
     createCourse(id: string, data: object): Observable<any>{
+      console.log("APP Service")
       let url = this.baseUrl + '/' + id + '/course';
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -828,6 +834,34 @@ export class appService{
       return this.httpClient.put(apiUrl, data, httpOptions)
       .map((res:Response) => {
         let result = res; 
+        return result;
+      })
+    }
+
+    getFeedBackList(regionId, teacherId){
+      let apiUrl = this.baseUrl +'/'+ regionId + '/feedback/' + teacherId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getRatingList(locationId: string){
+      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
         return result;
       })
     }

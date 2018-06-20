@@ -1,0 +1,39 @@
+<div class="container h-100">
+	<div *ngIf="!showDetail">
+		<ol>
+			<h5>Average Rating</h5>
+			<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;">
+				<div><label>Name:</label> {{staffRating.preferredName}}</div>
+				<div><label>Rating</label> {{staffRating.rating}}</div>
+				<button class="btn btn-secondary" (click)="feedBack(staffRating.teacherId)">Detail</button>
+			</li>	
+		</ol>
+	</div>
+	<div class="form-container" *ngIf="showDetail">
+		<div>
+			<button class="btn btn-info" (click)="back()">Back</button>
+		</div>
+		<form #reportForm="ngForm">
+			<ol>
+				<li *ngFor="let detail of feedbackLists; let i = index;">
+					<div class="form-group">
+						<label>Name:</label><span>{{detail.preferredName}}</span><br>
+						<label>Title:</label><span>{{detail.title}}</span><br>
+						<label>Message:</label><span>{{detail.message}}</span><br>
+						<label>rating:</label><span>{{detail.rating}}</span>
+						<div><label>Course</label>
+							<div>
+								Coursecode:<span>{{detail.course.courseCode}}</span><br>
+								Description: <span>{{detail.course.description}}</span><br>
+								Room:<span>{{detail.course.room}}</span><br>
+								Name:<span>{{detail.course.name}}</span><br>
+								Start Date: <span>{{detail.course.startDate}}</span><br>
+								End Date:<span>{{detail.course.endDate}}</span>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ol>
+		</form>
+	</div>	
+</div>
