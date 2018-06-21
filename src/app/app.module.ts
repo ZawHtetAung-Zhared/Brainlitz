@@ -17,6 +17,7 @@ import { LocationComponent } from './components/location/location.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { appService } from './service/app.service';
+import { LoggedInGuard } from './service/loggedIn.guard';
 import { DataService } from './service/data.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CourseComponent } from './components/course/course.component';
@@ -80,7 +81,8 @@ import { ReportComponent } from './components/report/report.component';
   ],
   providers: [
     appService,
-    DataService
+    DataService,
+    LoggedInGuard
   ],
   bootstrap: [AppComponent]
 })

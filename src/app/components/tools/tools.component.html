@@ -4,11 +4,12 @@
 			<div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('send')">Send notification</button>
 			</div>
-			<!-- <div [ngClass]="{'active': notiType == 'view'}" class="tab-wrap">			
+			<div [ngClass]="{'active': notiType == 'view'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('view')">View sent history</button>
-			</div> -->
+			</div>
 		</div>
 	</div>
+	<block-ui message="Deafult Message"></block-ui>
 	<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 w-100 overflow noti-wrapper">	
 		<div *ngIf="notiType == 'send'">
 			<h2 class="title-heading">Send notification</h2>

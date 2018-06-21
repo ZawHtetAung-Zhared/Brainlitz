@@ -60,7 +60,7 @@
 			<div class="form-group form-head">
 				<label class="label-input">Start:</label>
 				<div class="flex-item">
-			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="false" ngbDatepicker #start="ngbDatepicker">
+			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
 					  <div class="overlay" (click)="start.toggle();end.close();"><img src="./assets/img/calendar.png"></div>
 			    </div>
 			</div>
@@ -92,13 +92,20 @@
 			<div class="form-group form-head">
 				<label class="label-input">ENDS</label>
 				<div class="new-input">
-					<div style="margin: 0px 0px 15px 0px">
-						After <input type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
-					</div>
-					<div class="flex-item">
-						<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="false" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
-						  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
-					</div>
+					<label class="labl">
+						<input type="radio" name="end-input" class="endOpt" [(ngModel)]="model.opt" value="lessoncount">
+						After <input type="number" name="lesson" class="form-control lesson-input" [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
+						<!-- <div style="margin: 0px 0px 15px 0px">
+							After <input type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
+						</div> -->
+					</label>
+					<label class="labl">
+						<input type="radio" name="end-input" class="endOpt" [(ngModel)]="model.opt" value="enddate">
+						on <div class="end-item">
+							<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+							  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
+						</div>
+					</label>
 				</div>
 			</div>
 			<div class="form-group form-head">
@@ -153,7 +160,6 @@
 			</div>
 			<div class="form-group" style="float: right;">
 				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-				<!-- <button type="button" class="btn btn-primary" (click)="createCourse()">Submit</button> -->
 				<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool">Submit</button>
 				<button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="updateCourse(model._id)" [disabled]="!heroForm.form.valid">Update</button>
 			</div>

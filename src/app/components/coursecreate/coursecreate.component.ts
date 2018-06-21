@@ -8,9 +8,9 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
-  host: {
-    '(document:click)': 'onClick($event)',
-  },
+  // host: {
+  //   '(document:click)': 'onClick($event)',
+  // },
   selector: 'app-coursecreate',
   templateUrl: './coursecreate.component.html',
   styleUrls: ['./coursecreate.component.css']
@@ -102,11 +102,11 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
-   onClick(event) {
-     console.log(event)
-     if (this._eref.nativeElement.contains(event.target)) // or some similar check
-     console.log(this._eref.nativeElement.contains(event.target))
-    }
+   // onClick(event) {
+   //   console.log(event)
+   //   if (this._eref.nativeElement.contains(event.target)) // or some similar check
+   //   console.log(this._eref.nativeElement.contains(event.target))
+   //  }
 
   getCoursePlanList(){
     this.blockUI.start('Loading...');
@@ -216,12 +216,16 @@ export class CoursecreateComponent implements OnInit {
     console.log(dayIdx)
     if (event.target.checked) {
         if(dayIdx < 0 )
-            this.selectedDay.push(data);
+          this.selectedDay.push(data);
           this.toggleBool= false;
      } else {
        if(dayIdx >= 0 )
-            this.selectedDay.splice(dayIdx,1);
-          this.toggleBool= true;
+          this.selectedDay.splice(dayIdx,1);
+          if(this.selectedDay.length>0){
+            this.toggleBool= false;
+          }else{
+            this.toggleBool= true;
+          }
     }
     this.selectedDay.sort();
     console.log(this.selectedDay);
@@ -257,6 +261,12 @@ export class CoursecreateComponent implements OnInit {
   createCourse(){
   	console.log("createCourse work",this.model);
     console.log(this.model.optionsSelected)
+    console.log(this.model.opt)
+    if(this.model.opt == "lessoncount"){
+      this.model.end = null;
+    }else if(this.model.opt == "enddate"){
+      this.model.lessonCount = null;
+    }
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
@@ -293,16 +303,25 @@ export class CoursecreateComponent implements OnInit {
   }
 
   changeDateFormat(date,time){
+    var sample ="2018-06-19T13:02:00.000Z"
     if(time == 0){
       let enddate =  date.year+ '-' +date.month+ '-' +date.day;
       return enddate;
     }else{
       let sdate = date.year+ '-' +date.month+ '-' +date.day;
       let dateParts = sdate.split('-');
+      console.log("dateParts",dateParts)
+      if(dateParts[1]){
+        console.log(Number(dateParts[1])-1);
+        let newParts = Number(dateParts[1])-1;
+        dateParts[1] = newParts.toString();
+      }
       let timeParts = time.split(':');
       if(dateParts && timeParts) {
+          let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+          console.log("UTC",testDate)
           let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
-          console.log(fullDate)
+          console.log("ISO",fullDate)
           return fullDate;
       }
     }
