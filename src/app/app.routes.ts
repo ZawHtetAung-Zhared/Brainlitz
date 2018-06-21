@@ -20,67 +20,82 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { ReportComponent } from './components/report/report.component';
 
+import { LoggedInGuard } from './service/loggedIn.guard';
+
 export const routes: Routes = [
     
-    {
-        path: '',
-        component: RegionComponent
+    { path: '',   
+      redirectTo: '/region', 
+      pathMatch: 'full' 
     },
     {
        path: 'region',
-       component: RegionComponent 
+       component: RegionComponent,
+       canActivate: [LoggedInGuard]
     },
     {
        path: 'dashboard',
-       component: DashboardComponent
+       component: DashboardComponent,
+       canActivate: [LoggedInGuard]
     },
     {
        path: 'category',
-       component: CategoryComponent 
+       component: CategoryComponent,
+       canActivate: [LoggedInGuard]
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
     },
     {
         path: 'location',
-        component: LocationComponent
+        component: LocationComponent,
+        canActivate: [LoggedInGuard]
     },
     {
         path: 'user',
-        component: UsersComponent
+        component: UsersComponent,
+        canActivate: [LoggedInGuard]
     },
     {
        path: 'course',
-       component: CourseComponent 
+       component: CourseComponent,
+       canActivate: [LoggedInGuard] 
     },
     {
       path: 'courseCreate',
-      component: CoursecreateComponent
+      component: CoursecreateComponent,
+      canActivate: [LoggedInGuard]
     },
     {
        path: 'courseplan',
-       component: CourseplanComponent
+       component: CourseplanComponent,
+       canActivate: [LoggedInGuard]
     },
     {
        path: 'holidays',
-       component: HolidaysComponent
+       component: HolidaysComponent,
+       canActivate: [LoggedInGuard]
     },
     {
        path: 'calendar',
-       component: CalendarComponent
+       component: CalendarComponent,
+       canActivate: [LoggedInGuard]
     },
     {
       path: 'assign',
-      component: AssignuserComponent
+      component: AssignuserComponent,
+      canActivate: [LoggedInGuard]
     },
     {
       path: 'quizwerkz',
-      component: QuizwerkzComponent
+      component: QuizwerkzComponent,
+      canActivate: [LoggedInGuard]
     },
     {
       path: 'tools',
-      component: ToolsComponent
+      component: ToolsComponent,
+      canActivate: [LoggedInGuard]
     },
     {
       path: 'report',

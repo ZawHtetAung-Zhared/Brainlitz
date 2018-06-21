@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild , ViewContainerRef} from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -6,6 +6,8 @@ import {Observable, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map, merge} from 'rxjs/operators';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-tools',
@@ -14,6 +16,7 @@ declare var $:any;
 })
 export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
+  @BlockUI() blockUI: NgBlockUI;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 	public item:any = {};
@@ -27,7 +30,9 @@ export class ToolsComponent implements OnInit {
   public userCount:any;
   public notiType:any;
   public notiLists:any;
-  constructor(private _service: appService) { }
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     this.locationId = localStorage.getItem('locationId');
@@ -237,12 +242,15 @@ export class ToolsComponent implements OnInit {
       console.log(':)')
     }
     console.log(dataObj)
-    // this.item = {};
+    this.blockUI.start('Loading...');
     this._service.createNoti(dataObj, body)
     .subscribe((res:any) => {
       console.log('~~~', res)
+      this.toastr.success('Successfully notified.');
+      this.blockUI.stop();
       this.item = {};
     }, err => {
+      this.toastr.error('Notify fail');
       console.log(err)
     })
     
