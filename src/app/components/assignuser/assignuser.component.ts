@@ -73,6 +73,7 @@ export class AssignuserComponent implements OnInit {
   	.subscribe((res:any) => {
   		console.log(res);
   		this.userList = res;
+      this.blockUIList.stop();
   	})
   }
 
