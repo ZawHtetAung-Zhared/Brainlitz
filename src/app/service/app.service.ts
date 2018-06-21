@@ -80,7 +80,7 @@ export class appService{
     getLocalstorage(){
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType'); 
-      console.log(this.accessToken) 
+      // console.log(this.accessToken) 
       // if(this.accessToken == undefined){
       //   this._router.navigateByUrl('/login');
       // }
@@ -212,10 +212,15 @@ export class appService{
         }) 
       }
 
-    getAllUsers(id: string): Observable<any>{
+    getAllUsers(id: string,type: string): Observable<any>{
       this.getLocalstorage();
-      console.log(id)
-      let url = this.baseUrl+ '/' + id + '/user';
+      if(type == "staff"){
+        console.log(type,id);
+        var url = this.baseUrl+ '/' + id + '/user?type=staff';
+      }else{
+        console.log(type,id)
+        var url = this.baseUrl+ '/' + id + '/user?type=customer';
+      }
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

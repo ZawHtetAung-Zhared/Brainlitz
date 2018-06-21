@@ -72,33 +72,33 @@ export class CoursecreateComponent implements OnInit {
     this.getCoursePlanList();
     this.courseId = localStorage.getItem('courseId');
     console.log(this.coursePlanId)
-    if(this.coursePlanId){
-      this.showCourse = true;
-      this.getUserList();
-      this.getPdfList();
-      this.getLocationsList();
-      console.log('this hello',this.hello);
-      this.model.coursePlanId = this.hello.planid;
-    this.model.coursePlanName = this.hello.planname;
-    this.model.durationTimes = this.hello.duration;
-    this.original = this.hello.quizwerkz;
-    this.cbChecked = this.hello.quizwerkz;
-    console.log("CHECKED create state",this.cbChecked)
-    console.log(this.model.duration)
-    console.log(this.model.coursePlanId)
-      // this.selectCoursePlan(this.coursePlanId);
-      // this.hello =  JSON.parse(localStorage.getItem('courseId'));
-      // this.getCoursePlanList();
-      // console.log(this.coursePlan)
-      // let splan = this.coursePlan.filter(item => item._id === this.coursePlanId)[0];
-      // console.log(splan);
-    }
     if(this.courseId){
       console.log("EDIT")
       this.getLocationsList();
       this.getUserList();
       this.getPdfList();
       this.editCourse(this.courseId);
+    }else if(this.coursePlanId){
+      console.log("Create")
+      this.showCourse = true;
+      this.getUserList();
+      this.getPdfList();
+      this.getLocationsList();
+      console.log('this hello',this.hello);
+      this.model.coursePlanId = this.hello.planid;
+      this.model.coursePlanName = this.hello.planname;
+      this.model.durationTimes = this.hello.duration;
+      this.original = this.hello.quizwerkz;
+      this.cbChecked = this.hello.quizwerkz;
+      console.log("CHECKED create state",this.cbChecked)
+      console.log(this.model.duration)
+      console.log(this.model.coursePlanId)
+      // this.selectCoursePlan(this.coursePlanId);
+      // this.hello =  JSON.parse(localStorage.getItem('courseId'));
+      // this.getCoursePlanList();
+      // console.log(this.coursePlan)
+      // let splan = this.coursePlan.filter(item => item._id === this.coursePlanId)[0];
+      // console.log(splan);
     }
   }
 
@@ -125,7 +125,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   getUserList(){
-    this._service.getAllUsers(this.regionID)
+    this._service.getAllUsers(this.regionID,"staff")
     .subscribe((res:any) => {
       console.log(res);
       this.users = res;
@@ -262,11 +262,16 @@ export class CoursecreateComponent implements OnInit {
   	console.log("createCourse work",this.model);
     console.log(this.model.optionsSelected)
     console.log(this.model.opt)
+    if(this.model.prop == 'A'){
+      this.model.end = null;
+    }else if(this.model.prop == 'B'){
+      this.model.lessonCount == null;
+    }
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
       "endDate": this.changeEndDateFormat(this.model.end,0),
-      "teacherId": this.model.teacherId,
+      "teacherId": this.model.teacherid,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
       "room": this.model.room,
@@ -344,43 +349,61 @@ export class CoursecreateComponent implements OnInit {
   // }
    pdfId = [];
    
+  showCoursePlanName(planid){
+    this.getCoursePlanList();
+    console.log("course planid ",planid);
+    console.log("Course PLans",this.coursePlan)
+    let item1 = this.coursePlan.filter(item => item._id === planid)[0];
+    console.log(item1.name);
+    // this.coursePlanName = item1.name;
+    return item1;
+  }
 
   editCourse(cId){
     this.isEdit = true;
+    this.showCourse = true;
     this._service.getSingleCourse(cId)
     .subscribe((res:any) => {
       this.model = res;
-      // console.log('Edit Course',this.model);
-      // let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
-      // this.coursePlanName = coursePlan.name;
-      // console.log("coursePlanName",this.coursePlanName)
+      console.log('Edit Course',this.model); 
+      let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
+      this.model.coursePlanName = coursePlan.name;
+      console.log("coursePlanName",this.coursePlanName)
+      this.model.teacherid = this.model.teacher.userId;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
-      // console.log(this.model.start);
+      console.log(this.model.start);
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
-      // console.log(this.model.end);
+      console.log(this.model.end);
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
-      // console.log(this.model.starttime);
+      console.log(this.model.starttime);
       this.selectedDay = this.model.repeatDays;
-      this.cbChecked = this.model.quizwerkz;
-      console.log("CHECKED create state",this.cbChecked)
+      let checkedarr = this.model.quizwerkz;
+      console.log("CHECKED create state",checkedarr)
+      for(let i=0; i < checkedarr.length ; i++){
+        let qw = checkedarr[i]._id;
+        this.cbChecked.push(qw);
+        console.log("cbChecked Arr",qw)
+      }
+      if(this.model.end){
+        this.model.prop = 'B';
+      }else if(this.model.lessonCount){
+        this.model.prop= 'A';
+      }
     })
   }
 
-  // showCoursePlanName(planid){
-  //   console.log("course plan id",planid);
-  //   let item1 = this.coursePlan.filter(item => item._id === planid)[0];
-  //   console.log(item1.name);
-  //   this.coursePlanName = item1.name;
-  //   return item1;
-  // }
-
   updateCourse(courseid){
     console.log("updateCourse",courseid);
+    if(this.model.prop == 'A'){
+      this.model.end = null;
+    }else if(this.model.prop == 'B'){
+      this.model.lessonCount == null;
+    }
     let obj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
       "endDate": this.changeEndDateFormat(this.model.end,0),
-      "teacherId": this.model.teacherId,
+      "teacherId": this.model.teacherid,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
       "room": this.model.room,

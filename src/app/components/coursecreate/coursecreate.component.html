@@ -115,11 +115,12 @@
 			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
 			            </label>
 					</div>
+					<!-- {{cbChecked | json}} -->
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Teacher Name</label>
 					<select class="form-control new-input" id="teacherId"
-			        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
+			        required [(ngModel)]="model.teacherid" name="teacherId" #teacherId="ngModel">
 			          <option value="" disabled="true">Select teacher Id</option>
 			          <option *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
 			        </select>
