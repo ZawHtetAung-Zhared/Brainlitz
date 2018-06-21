@@ -1,3 +1,15 @@
+.single-noti{
+	border-bottom: 1px solid #dcdcdc;
+	margin-bottom: 20px;
+	padding: 5px 20px;
+	color: #6f6f6f;
+}
+.single-noti span {
+    font-weight: bold;
+    font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+    font-size: 1.1em;
+    color: #060606;
+}
 .noti-wrapper{
 	padding-top: 40px;
 }

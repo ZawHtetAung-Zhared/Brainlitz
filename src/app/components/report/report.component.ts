@@ -23,6 +23,7 @@ export class ReportComponent implements OnInit {
 	showDetail: boolean = false;
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
+	noData: boolean = true;
 
   	ngOnInit() {
   		this.getStaffRating();
@@ -47,6 +48,12 @@ export class ReportComponent implements OnInit {
 		.subscribe((res:any) => {
 			this.ratingLists = res;
 			this.blockUI.stop();
+			if(this.ratingLists == ''){
+				this.noData = true;
+			}
+			else {
+				this.noData = false;
+			}
 			console.log('this.ratingLists', this.ratingLists)
 	    }, err => {
 	    	console.log(err)

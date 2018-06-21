@@ -13,8 +13,35 @@
 
 .form-group span {
 	margin-left: 15px;
+	font-size: 15px;
 }
 
 .form-group label {
 	font-weight: bold;
+}
+
+.inner-wrapper {
+	padding-top: 50px;
+}
+
+.btn-style {
+	float: right; 
+	margin-right: 20px; 
+	margin-top: -15px; 
+    padding: 5px 10px;
+}
+
+.divide-line {
+	border-bottom: 1px solid rgba(0,0,0,.125);
+	padding-bottom: 5px;
+}
+
+.mr-group {
+	font-size: 15px; 
+	margin-left:15px;
+}
+
+.txt-color-center {
+	text-align: center;
+	padding: 100px;
 }

@@ -21,7 +21,7 @@ export class ToolsComponent implements OnInit {
   click$ = new Subject<string>();
 	public item:any = {};
   public regionID = localStorage.getItem('regionId');
-	public locationId = localStorage.getItem('locationId');
+	public locationId:any;
   public isChecked:any;
   public categoryLists:any;
   public userLists:any;
@@ -32,6 +32,11 @@ export class ToolsComponent implements OnInit {
   public notiLists:any;
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.locationID.subscribe((data) => {
+        this.locationId = data;
+        console.log(this.locationId) 
+        this.setDefaultSelected();
+    });
   }
 
   ngOnInit() {
@@ -43,7 +48,7 @@ export class ToolsComponent implements OnInit {
   clickTab(type){
     this.notiType = type;
     if(type == 'view'){
-      // this.viewNoti();
+      this.viewNoti();
     }else{
       this.setDefaultSelected();
     }
@@ -51,11 +56,15 @@ export class ToolsComponent implements OnInit {
 
   viewNoti(){
     console.log(this.regionID)
-    this._service.viewNoti(this.regionID)
+    this.blockUI.start('Loading...');
+    this._service.viewNoti()
     .subscribe((res:any) => {  
       console.log(res);
+      this.blockUI.stop();
       this.notiLists = res; 
     }, err => {
+      this.blockUI.stop();
+      this.toastr.error('View sent history fail');
       console.log(err)
     })
   }

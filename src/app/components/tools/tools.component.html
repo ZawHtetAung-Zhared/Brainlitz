@@ -124,17 +124,22 @@
 			</div>
 		</div>
 		<div *ngIf="notiType == 'view'">
-			<div *ngFor="let noti of notiLists; let i = index">
-				<div>
+			<div *ngFor="let noti of notiLists; let i = index" class="single-noti">
+				<p><span>Title:</span>--{{noti.title}}</p>
+				<p><span>Message:</span>--{{noti.message}}</p>
+				<p><span>Date:</span>--{{noti.createdDate}}</p>
+				<p><span>Sent by:</span>--{{noti.sender.preferredName}}</p>
+				<p><span>Sent to:</span>--{{noti.user.preferredName}}</p>
+				<!-- <div>
 					<h4>{{noti.date.day}}/{{noti.date.month}}/{{noti.date.year}}</h4>
 					<ul>
 						<li *ngFor="let info of noti.noti; let i = index" id="{{info._id}}">
-							--{{info.title}}
-							--{{info.message}}
-							--{{info.isRead}}
+							<p><span>Title:</span>--{{info.title}}</p>
+							<p><span>Message:</span>--{{info.message}}</p>
+							<p><span>Date:</span>--{{info.createdDate}}</p>
 						</li>
 					</ul>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
