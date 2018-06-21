@@ -329,22 +329,6 @@ export class appService{
           return result;
       }) 
     }
-
-    createCourse(id: string, data: object): Observable<any>{
-      console.log("APP Service")
-      let url = this.baseUrl + '/' + id + '/course';
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.post(url, data, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        console.log(result)
-        return result;
-      })
-    }
     
     createCoursePlan(id: string, data: object): Observable<any>{
       let url = this.baseUrl + '/' + id + '/courseplan';
@@ -437,21 +421,6 @@ export class appService{
         console.log(result);        
         return result;
     }) 
-    }
-
-    getAllCourse(id: string): Observable<any>{
-      this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/course';
-      const httpOptions = {
-          headers: new HttpHeaders({  
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.get(url, httpOptions)
-      .map((res:Response) => {
-        let result = res;
-        console.log(result);        
-        return result;
-      }) 
     }
 
     createHolidays(id: string, data: object): Observable<any>{
@@ -587,6 +556,37 @@ export class appService{
       })
     }
 
+    createCourse(id: string, data: object): Observable<any>{
+      console.log("APP Service")
+      let url = this.baseUrl + '/' + id + '/course';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    getAllCourse(id: string): Observable<any>{
+      this.getLocalstorage();
+      let url = this.baseUrl+ '/' + id + '/course';
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
     getSingleCourse(id:string): Observable<any>{
       this.getLocalstorage();
       console.log(id);
@@ -625,6 +625,22 @@ export class appService{
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    getQuizwerkzForCourse(courseid){
+      this.getLocalstorage();
+      console.log('QuizwerkzForCourse',courseid);
+      let apiUrl = this.baseUrl + '/course/' + courseid + '/quizwerkz';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
         console.log(result)
@@ -681,30 +697,7 @@ export class appService{
         console.log(result)
         return result;
       })
-
     }
-
-    // withdrawAssignUser(regionid,obj:any){
-    //   let apiUrl = this.baseUrl+ '/' + regionid + '/timetable';
-    //   let headers = new Headers({
-    //     'authorization': this.tokenType + ' ' + this.accessToken});
-
-    //   let options = new RequestOptions({
-    //     headers: headers,
-    //     body: obj
-    //   });
-
-    //   return this.http.delete(apiUrl, options)
-    //     .map((response: Response) => {
-    //       console.log(response)
-    //       return response.json()
-    //     })
-    //     .catch(err => {
-    //       return err;
-    //     });
-
-    // }
-   
 
     getAllDeposit(id: string): Observable<any>{
       let url = this.baseUrl+ '/' + id + '/deposits';
