@@ -1,34 +1,41 @@
-<div class="container h-100">
+<div class="inner-wrapper">
 	<div *ngIf="!showDetail">
-		<ol>
+		<div *ngIf="noData" class="txt-color-center">
+			<h3>Don't have staff for this location.</h3>
+		</div>
+		<div *ngIf="!noData">			
 			<h5>Average Rating</h5>
-			<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;">
-				<div><label>Name:</label> {{staffRating.preferredName}}</div>
-				<div><label>Rating</label> {{staffRating.rating}}</div>
-				<button class="btn btn-secondary" (click)="feedBack(staffRating.teacherId)">Detail</button>
-			</li>	
-		</ol>
+			<ol style="margin-top: 30px; border-bottom: 1px solid rgba(0,0,0,.125);">
+				<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;">
+					<div>
+						<label>Name:</label> {{staffRating.preferredName}}<br>
+						<label>Rating</label> {{staffRating.rating}}
+						<button class="btn btn-secondary btn-style" (click)="getFeedBack(staffRating.teacherId)">Detail</button>
+					</div>
+				</li>	
+			</ol>
+		</div>
 	</div>
-	<div class="form-container" *ngIf="showDetail">
+	<div class="form-container container" *ngIf="showDetail">
 		<div>
 			<button class="btn btn-info" (click)="back()">Back</button>
 		</div>
 		<form #reportForm="ngForm">
-			<ol>
+			<ol style="padding: 15px;">
 				<li *ngFor="let detail of feedbackLists; let i = index;">
-					<div class="form-group">
+					<div class="form-group divide-line">
 						<label>Name:</label><span>{{detail.preferredName}}</span><br>
 						<label>Title:</label><span>{{detail.title}}</span><br>
 						<label>Message:</label><span>{{detail.message}}</span><br>
 						<label>rating:</label><span>{{detail.rating}}</span>
 						<div><label>Course</label>
-							<div>
-								Coursecode:<span>{{detail.course.courseCode}}</span><br>
-								Description: <span>{{detail.course.description}}</span><br>
-								Room:<span>{{detail.course.room}}</span><br>
-								Name:<span>{{detail.course.name}}</span><br>
-								Start Date: <span>{{detail.course.startDate}}</span><br>
-								End Date:<span>{{detail.course.endDate}}</span>
+							<div class="mr-group">
+								<p>Coursecode:<span>{{detail.course.courseCode}}</span></p>
+								<p>Description: <span>{{detail.course.description}}</span></p>
+								<p>Room:<span>{{detail.course.room}}</span></p>
+								<p>Name:<span>{{detail.course.name}}</span></p>
+								<p>Start Date: <span>{{detail.course.startDate}}</span></p>
+								<p>End Date:<span>{{detail.course.endDate}}</span></p>
 							</div>
 						</div>
 					</div>

@@ -1,6 +1,6 @@
 <div class="inner-wrapper">
 <!-- <button class="btn btn-lg btn-outline-primary" (click)="showPlanlist()">Course Create</button> -->
-<div class="list-wrap" *ngIf="!showCourse">
+	<div class="list-wrap" *ngIf="!showCourse">
 		<div class="form-group">
 			<h4 class="mb-30">Choose Course Plan</h4>
 		</div>
@@ -18,152 +18,151 @@
 			<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
 		    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)" [disabled]="!choosePlan">Select</button>
 		</div>
-</div>
-<block-ui message="Deafult Message">
-</block-ui>
-
-<div class="form-container container h-100" *ngIf="showCourse">
-	<div *blockUI="'contact-list'">
-		<div>
-			<button *ngIf="!isEdit" class="btn btn-info" (click)="back()">Back</button>
-		</div>
-		<form #heroForm="ngForm">
-			<div class="form-head">
-				<div class="label-input">
-					<h4>Create Course</h4>
-				</div>
-				<div class="form-input"> 
-					<label class="label-location">Choose Location</label>
-					<select class="form-control" id="user"
-			        [(ngModel)]="model.locationId" name="location" #location="ngModel" required>
-			          <option value="" disabled="true">Select Location</option>
-			          <option *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
-			        </select>
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Course Plan</label>
-				<span>{{model.coursePlanName}}</span>
-				<!-- <span  *ngIf="coursePlanName">{{coursePlanName}}</span>  -->
-				<span style="margin-left: 20px;">({{coursePlanId}})</span>
-				<!-- <input type="text" class="form-control new-input" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel" readonly> -->
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Course Name</label>
-				<div class="new-input">
-					<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.name" name="courseName" #courseName="ngModel">
-					<div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
-					  Course Name is required
-					</div>
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Start:</label>
-				<div class="flex-item">
-			      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
-					  <div class="overlay" (click)="start.toggle();end.close();"><img src="./assets/img/calendar.png"></div>
-			    </div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Start Time</label>
-				<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Duration:</label>
-				<div class="new-input">
-					<div style="margin: 0px 0px 5px 0px">
-						<input class="form-control" type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
-					</div>
-					<div *ngIf="classend" class="flex-item">
-						<label>-will end at {{classend}}</label>
-					</div>
-				</div>
-				<!-- <input type="num" name="duration" [(ngModel)]="model.duration" readonly>
-				<p>will end at {{classend}}</p> -->
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Repeat Days</label>
-				<div>
-					<label class="day" *ngFor="let d of days;let i=index;" >
-		                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1"> {{d.day}}
-		            </label>
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">ENDS</label>
-				<div class="new-input">
-					<label class="labl">
-						<input type="radio" name="end-input" class="endOpt" [(ngModel)]="model.opt" value="lessoncount">
-						After <input type="number" name="lesson" class="form-control lesson-input" [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
-						<!-- <div style="margin: 0px 0px 15px 0px">
-							After <input type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel">lessons
-						</div> -->
-					</label>
-					<label class="labl">
-						<input type="radio" name="end-input" class="endOpt" [(ngModel)]="model.opt" value="enddate">
-						on <div class="end-item">
-							<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
-							  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
-						</div>
-					</label>
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Pdf</label>
-				<div class="new-input">
-		            <label *ngFor="let pdf of pdfList;let i=index;">
-		                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
-		            </label>
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Teacher Name</label>
-				<select class="form-control new-input" id="teacherId"
-		        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
-		          <option value="" disabled="true">Select teacher Id</option>
-		          <option *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
-		        </select>
-		        <!-- {{model.teacherId}} -->
-		        <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
-				  Teacher Name is required
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Course Code</label>
-				<div class="new-input">
-					<input type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
-					<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
-					  Course Code is required
-					</div>
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Room</label>
-				<div class="new-input">
-					<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
-				</div>
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Reserved Number of Seat</label>
-				<input type="number" class="form-control new-input" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId">
-			</div>
-			<div class="form-group form-head">
-				<label class="label-input">Description</label>
-				<div class="new-input">
-					<!-- <input type="text" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel"> -->
-					<textarea row="7" col="50" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
-					<div [hidden]="description.valid || description.pristine"
-					     class="alert alert-danger">
-					  Description is required
-					</div>
-				</div>
-			</div>
-			<div class="form-group" style="float: right;">
-				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-				<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool">Submit</button>
-				<button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="updateCourse(model._id)" [disabled]="!heroForm.form.valid">Update</button>
-			</div>
-		</form>
 	</div>
-</div>
+
+	<block-ui message="Deafult Message">
+	</block-ui>
+
+	<div class="form-container container h-100" *ngIf="showCourse">
+		<div *blockUI="'contact-list'">
+			<div>
+				<button *ngIf="!isEdit" class="btn btn-info" (click)="back()">Back</button>
+			</div>
+			<form #heroForm="ngForm">
+				<div class="form-head">
+					<div class="label-input">
+						<h4>Create Course</h4>
+					</div>
+					<div class="form-input"> 
+						<label class="label-location">Choose Location</label>
+						<select class="form-control" id="user"
+				        [(ngModel)]="model.locationId" name="location" #location="ngModel" required>
+				          <option value="" disabled="true">Select Location</option>
+				          <option *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
+				        </select>
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Course Plan</label>
+					<span>{{model.coursePlanName}}</span>
+					<!-- <span  *ngIf="coursePlanName">{{coursePlanName}}</span>  -->
+					<span style="margin-left: 20px;">({{coursePlanId}})</span>
+					<!-- <input type="text" class="form-control new-input" id="coursePlanId" [(ngModel)]="model.coursePlanId" name="coursePlanId" #coursePlanId="ngModel" readonly> -->
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Course Name</label>
+					<div class="new-input">
+						<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.name" name="courseName" #courseName="ngModel">
+						<div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
+						  Course Name is required
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Start:</label>
+					<div class="flex-item">
+				      <input type="text" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+						  <div class="overlay" (click)="start.toggle();end.close();"><img src="./assets/img/calendar.png"></div>
+				    </div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Start Time</label>
+					<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Duration:</label>
+					<div class="new-input">
+						<div style="margin: 0px 0px 5px 0px">
+							<input class="form-control" type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
+						</div>
+						<div *ngIf="classend" class="flex-item">
+							<label>-will end at {{classend}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Repeat Days</label>
+					<div>
+						<label class="day" *ngFor="let d of days;let i=index;" >
+			                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1"> {{d.day}}
+			            </label>
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">ENDS</label>
+					<div class="new-input">
+						<div>
+							<label><input type="radio" [(ngModel)]="model.prop" name="prop" value="A"> Lessons Count </label>
+						</div>
+						<div class="lesson-wrap" *ngIf="model.prop === 'A'">
+							After <input type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel"> lessons
+						</div>
+						<div>
+							<label><input type="radio" [(ngModel)]="model.prop" name="prop" value="B"> End Date </label>
+						</div>
+						<div class="enddate-wrap" *ngIf="model.prop === 'B'">
+							on <div class="end-item">
+								<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+								  <div class="overlay" (click)="end.toggle();start.close()"><img src="./assets/img/calendar.png"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Pdf</label>
+					<div class="new-input">
+			            <label *ngFor="let pdf of pdfList;let i=index;">
+			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
+			            </label>
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Teacher Name</label>
+					<select class="form-control new-input" id="teacherId"
+			        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
+			          <option value="" disabled="true">Select teacher Id</option>
+			          <option *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
+			        </select>
+			        <!-- {{model.teacherId}} -->
+			        <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
+					  Teacher Name is required
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Course Code</label>
+					<div class="new-input">
+						<input type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
+						<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
+						  Course Code is required
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Room</label>
+					<div class="new-input">
+						<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
+					</div>
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Reserved Number of Seat</label>
+					<input type="number" class="form-control new-input" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId">
+				</div>
+				<div class="form-group form-head">
+					<label class="label-input">Description</label>
+					<div class="new-input">
+						<textarea row="7" col="50" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
+						<div [hidden]="description.valid || description.pristine"
+						     class="alert alert-danger">
+						  Description is required
+						</div>
+					</div>
+				</div>
+				<div class="form-group" style="float: right;">
+					<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
+					<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool || !model.prop">Submit</button>
+					<button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="updateCourse(model._id)" [disabled]="!heroForm.form.valid">Update</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

@@ -262,11 +262,6 @@ export class CoursecreateComponent implements OnInit {
   	console.log("createCourse work",this.model);
     console.log(this.model.optionsSelected)
     console.log(this.model.opt)
-    if(this.model.opt == "lessoncount"){
-      this.model.end = null;
-    }else if(this.model.opt == "enddate"){
-      this.model.lessonCount = null;
-    }
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),

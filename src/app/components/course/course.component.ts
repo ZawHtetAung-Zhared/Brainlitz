@@ -68,7 +68,7 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  courseView(course){
+  assignUser(course){
   	console.log(course)
   	this.router.navigate(['/assign']);
   	let obj = {
@@ -207,6 +207,14 @@ export class CourseComponent implements OnInit {
     return this.dayArr; 
   }
 
+  getQuizwerkz(courseid){
+    this._service.getQuizwerkzForCourse(courseid)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.quizwerkz = res;
+    })
+  }
+
   courseDetail(course,detail){
     this.dayArr =[];
     this.nameArr = [];
@@ -214,6 +222,7 @@ export class CourseComponent implements OnInit {
   	.subscribe((res:any) => {
   		console.log("course detail",res);
       this.detailCourse = res;
+      this.getQuizwerkz(this.detailCourse._id);
       let coursePlan=this.showCoursePlanName(this.detailCourse.coursePlanId);
       this.coursePlanName = coursePlan.name;
       console.log("coursePlanName",this.coursePlanName)
@@ -222,8 +231,6 @@ export class CourseComponent implements OnInit {
       console.log("teacher name",this.teacherName)
       this.repeatDay = this.showRepeatedDays(this.detailCourse.repeatDays);
       console.log("Repeat",this.repeatDay)
-      this.quizwerkz = this.showQuizwerkz(this.detailCourse.quizwerkz);
-      // console.log("quizwerkz",this.quizwerkz)
       this.modalReference = this.modalService.open(detail);
       this.modalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
