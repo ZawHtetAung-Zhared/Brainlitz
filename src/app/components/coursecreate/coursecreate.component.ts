@@ -364,31 +364,35 @@ export class CoursecreateComponent implements OnInit {
     this.showCourse = true;
     this._service.getSingleCourse(cId)
     .subscribe((res:any) => {
+      console.log(res)
       this.model = res;
-      console.log('Edit Course',this.model); 
-      let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
-      this.model.coursePlanName = coursePlan.name;
-      console.log("coursePlanName",this.coursePlanName)
-      this.model.teacherid = this.model.teacher.userId;
-      this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
-      console.log(this.model.start);
-      this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
-      console.log(this.model.end);
-      this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
-      console.log(this.model.starttime);
-      this.selectedDay = this.model.repeatDays;
-      let checkedarr = this.model.quizwerkz;
-      console.log("CHECKED create state",checkedarr)
-      for(let i=0; i < checkedarr.length ; i++){
-        let qw = checkedarr[i]._id;
-        this.cbChecked.push(qw);
-        console.log("cbChecked Arr",qw)
-      }
-      if(this.model.end){
-        this.model.prop = 'B';
-      }else if(this.model.lessonCount){
-        this.model.prop= 'A';
-      }
+      console.log(this.model)
+      // console.log('Edit Course',this.model); 
+      // let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
+
+
+      // this.model.coursePlanName = coursePlan.name;
+      // console.log("coursePlanName",this.coursePlanName)
+      // this.model.teacherid = this.model.teacher.userId;
+      // this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
+      // console.log(this.model.start);
+      // this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
+      // console.log(this.model.end);
+      // this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
+      // console.log(this.model.starttime);
+      // this.selectedDay = this.model.repeatDays;
+      // let checkedarr = this.model.quizwerkz;
+      // console.log("CHECKED create state",checkedarr)
+      // for(let i=0; i < checkedarr.length ; i++){
+      //   let qw = checkedarr[i]._id;
+      //   this.cbChecked.push(qw);
+      //   console.log("cbChecked Arr",qw)
+      // }
+      // if(this.model.end){
+      //   this.model.prop = 'B';
+      // }else if(this.model.lessonCount){
+      //   this.model.prop= 'A';
+      // }
     })
   }
 

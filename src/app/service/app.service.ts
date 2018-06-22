@@ -189,7 +189,7 @@ export class appService{
           'Content-Type': 'application/json',
           'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      var url = this.baseUrl + '/noti/history';
+      var url = this.baseUrl + '/noti/logs';
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
         let result = res; 
