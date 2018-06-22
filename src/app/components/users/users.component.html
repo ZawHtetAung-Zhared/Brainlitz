@@ -188,7 +188,7 @@
 				<span *ngIf="user.preferredName == undefined">Name: -</span>
 				<div>
 					<span>
-						Email: {{user.email}}
+						Email: <input class="usermail" id="{{user.userId}}" type="text" value="{{user.email}}">
 					</span>
 					<button class="btn btn-info bt-copy" (click)="copyText(user.userId)">Copy</button>
 				</div>
@@ -203,9 +203,9 @@
 				<span *ngIf="customer.preferredName == undefined">Name: -</span>
 				<div>
 					<span>
-						Email: {{customer.email}}
+						Email: <input class="usermail" id="{{customer.userId}}" type="text" value="{{customer.email}}">
 					</span>
-					<button class="btn btn-info bt-copy"(click)="copyText(customer.userId)">Copy</button>
+					<button class="btn btn-info bt-copy" (click)="copyText(customer.userId)">Copy</button>
 				</div>
 			</li>
 		</ul>
@@ -217,8 +217,10 @@
 				<span *ngIf="staff.preferredName != undefined">Name: {{staff.preferredName}}</span>
 				<span *ngIf="staff.preferredName == undefined">Name: -</span>
 				<div>
-					<span>Email: {{staff.email}}</span>
-					<button class="btn btn-info bt-copy"(click)="copyText(staff.userId)">Copy</button>
+					<span>
+						Email: <input class="usermail" id="{{staff.userId}}" type="text" value="{{staff.email}}">
+					</span>
+					<button class="btn btn-info bt-copy" (click)="copyText(staff.userId)">Copy</button>
 				</div>
 			</li>
 		</ul>

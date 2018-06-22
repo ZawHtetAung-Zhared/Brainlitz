@@ -270,6 +270,7 @@ export class UsersComponent implements OnInit {
 	  }
 
 	copyText(id){
+		console.log(id)
 		 const inputElement = document.getElementById(id);
 		  (<any>inputElement).select();
 		  document.execCommand('copy');
