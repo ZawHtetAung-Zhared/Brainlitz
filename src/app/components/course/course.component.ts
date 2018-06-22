@@ -29,6 +29,7 @@ export class CourseComponent implements OnInit {
   allUsers:any;
   allPdf;
   @BlockUI() blockUI: NgBlockUI;
+  type: any;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal) { }
   public regionId = localStorage.getItem('regionId');
@@ -122,7 +123,7 @@ export class CourseComponent implements OnInit {
   }
 
   getUsers(){
-    this._service.getAllUsers(this.regionId)
+    this._service.getAllUsers(this.regionId, this.type)
     .subscribe((res:any)=>{
       this.allUsers = res;
       console.log("All Users",this.allUsers);

@@ -30,6 +30,8 @@ export class ToolsComponent implements OnInit {
   public userCount:any;
   public notiType:any;
   public notiLists:any;
+  type: any;
+
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
   }
@@ -126,7 +128,7 @@ export class ToolsComponent implements OnInit {
         console.log(err)
       })
     }else if(type == 'user'){
-      this._service.getAllUsers(this.regionID)
+      this._service.getAllUsers(this.regionID, this.type)
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.userLists = res;

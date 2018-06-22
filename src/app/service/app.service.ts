@@ -212,10 +212,18 @@ export class appService{
         }) 
       }
 
-    getAllUsers(id: string): Observable<any>{
+    getAllUsers(id: string, type: any): Observable<any>{
       this.getLocalstorage();
-      console.log(id)
-      let url = this.baseUrl+ '/' + id + '/user';
+      let url; 
+      if(type == 'customer'){
+        url = this.baseUrl+ '/' + id + '/user?type=customer';
+      }
+      else if(type == 'staff'){
+        url = this.baseUrl+ '/' + id + '/user?type=staff';
+      }
+      else {
+        url = this.baseUrl+ '/' + id + '/user';
+      }
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -223,8 +231,7 @@ export class appService{
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
-        let result = res;
-        console.log(result);        
+        let result = res;      
         return result;
       }) 
     }

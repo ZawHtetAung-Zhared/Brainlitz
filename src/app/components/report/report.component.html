@@ -5,25 +5,27 @@
 		</div>
 		<div *ngIf="!noData">			
 			<h5>Average Rating</h5>
-			<ol style="margin-top: 30px; border-bottom: 1px solid rgba(0,0,0,.125);">
-				<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;">
+			<ul style="padding: 20px;">
+				<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+					<div style="float: left;margin: 0 10px 10px 0;">{{i+1}}- </div>
 					<div>
 						<label>Name:</label> {{staffRating.preferredName}}<br>
 						<label>Rating</label> {{staffRating.rating}}
 						<button class="btn btn-secondary btn-style" (click)="getFeedBack(staffRating.teacherId)">Detail</button>
 					</div>
 				</li>	
-			</ol>
+			</ul>
 		</div>
 	</div>
-	<div class="form-container container" *ngIf="showDetail">
+	<div class="form-container" *ngIf="showDetail">
 		<div>
 			<button class="btn btn-info" (click)="back()">Back</button>
 		</div>
 		<form #reportForm="ngForm">
-			<ol style="padding: 15px;">
-				<li *ngFor="let detail of feedbackLists; let i = index;">
-					<div class="form-group divide-line">
+			<ul style="padding: 15px;">
+				<li *ngFor="let detail of feedbackLists; let i = index;" class="divide-line">
+					<div style="float: left; margin: 0 10px 350px 0;">{{i+1}}- </div>
+					<div class="form-group">
 						<label>Name:</label><span>{{detail.preferredName}}</span><br>
 						<label>Title:</label><span>{{detail.title}}</span><br>
 						<label>Message:</label><span>{{detail.message}}</span><br>
@@ -40,7 +42,7 @@
 						</div>
 					</div>
 				</li>
-			</ol>
+			</ul>
 		</form>
 	</div>	
 </div>

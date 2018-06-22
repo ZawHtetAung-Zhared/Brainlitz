@@ -71,3 +71,32 @@
     border: none transparent;
 }
 
+.tab-wrap{
+    padding: 9px 0px;
+    position: relative;
+    outline: none;
+}
+
+.noti-sidebar {
+    padding-top: 20px;
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 1px solid #dedede;
+}
+
+.active {
+    background: #e6ecf2;
+}
+.active .noti-tab {
+    background: #e6ecf2;
+    color: #4292f1;
+    border-left: 3px solid #4292f1;
+}
+
+.min-scroll {
+    min-height: 350px; 
+    overflow: scroll;
+    border-left: 1px solid #dedede; 
+}
+
+

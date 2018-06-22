@@ -58,6 +58,7 @@ export class CoursecreateComponent implements OnInit {
   hello = JSON.parse(localStorage.getItem('splan')) ;
   // mytime: Date = new Date(); 
   public pdfListLength:any;
+  type: any;
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -125,7 +126,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   getUserList(){
-    this._service.getAllUsers(this.regionID)
+    this._service.getAllUsers(this.regionID, this.type)
     .subscribe((res:any) => {
       console.log(res);
       this.users = res;

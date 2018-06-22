@@ -47,7 +47,9 @@ export class ReportComponent implements OnInit {
 		this._service.getRatingList(this.locationID)
 		.subscribe((res:any) => {
 			this.ratingLists = res;
-			this.blockUI.stop();
+			setTimeout(() => {
+		        this.blockUI.stop(); // Stop blocking
+		      }, 300);
 			if(this.ratingLists == ''){
 				this.noData = true;
 			}

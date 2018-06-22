@@ -20,6 +20,7 @@ export class AssignuserComponent implements OnInit {
   public selectedUser: any;
   public deleteUser: any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
+  type: any;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
 
@@ -67,10 +68,12 @@ export class AssignuserComponent implements OnInit {
   }
 
   getUsers(){
-  	this._service.getAllUsers(this.regionid)
+    this.blockUIList.start('Loading...');
+  	this._service.getAllUsers(this.regionid, this.type)
   	.subscribe((res:any) => {
   		console.log(res);
   		this.userList = res;
+      this.blockUIList.stop();
   	})
   }
 

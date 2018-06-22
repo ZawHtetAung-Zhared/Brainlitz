@@ -52,6 +52,9 @@ export class UsersComponent implements OnInit {
 	imageUrl: any;
 	public showLoading: boolean = false;
 	@BlockUI() blockUI: NgBlockUI;
+	staffLists: any;
+	customerLists: any;
+	userType: any;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -64,7 +67,7 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getAllUsers();
+		this.getAllUsers('');
 	}
 
 	open1(staffModal){
@@ -206,7 +209,8 @@ export class UsersComponent implements OnInit {
   			console.log(res)
   			this.toastr.success('Successfully Created.');
 	  		this.blockUI.stop();
-	  		this.getAllUsers();
+	  		let aa = '';
+	  		this.getAllUsers(this.regionID);
 	  		console.log(this.userLists)
 	    }, err => {
 	    	this.toastr.error('Create Fail');
@@ -216,20 +220,43 @@ export class UsersComponent implements OnInit {
     		
 	}
 
-	getAllUsers(){
-		console.log('get all')
-		this.blockUI.start('Loading...');
-		this._service.getAllUsers(this.regionID)
+	getAllUsers(type){
+		this.blockUI.start('Loading...');		
+		this._service.getAllUsers(this.regionID, type)
 		.subscribe((res:any) => {
-			this.userLists = res;
+			if(type == 'customer'){
+				this.customerLists = res;
+				console.log('this.customerLists', this.customerLists)
+			}
+			else if(type == 'staff'){
+				this.staffLists = res;
+				console.log('this.staffLists', this.staffLists)
+			}
+			else {
+				this.userType = 'all';
+				this.userLists = res;
+				console.log('this.userLists', this.userLists)
+			}
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		    }, 300);
-			console.log(this.userLists)
 	    }, err => {
 	    	console.log(err)
 	    })
 	}
+
+	clickTab(type){
+	    if(type == 'customer'){
+	    	this.userType = 'customer';
+	        this.getAllUsers('customer');
+	    }else if(type == 'staff'){
+	    	this.userType = 'staff';
+	        this.getAllUsers('staff');
+	    }else{
+	    	this.userType = 'all';
+	    	this.getAllUsers('');
+	    }
+	  }
 
 	copyText(id){
 		 const inputElement = document.getElementById(id);

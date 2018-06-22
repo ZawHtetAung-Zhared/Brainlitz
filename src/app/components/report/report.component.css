@@ -33,15 +33,19 @@
 
 .divide-line {
 	border-bottom: 1px solid rgba(0,0,0,.125);
-	padding-bottom: 5px;
+	padding-top: 15px;
 }
 
 .mr-group {
 	font-size: 15px; 
-	margin-left:15px;
+	margin-left: 40px;
 }
 
 .txt-color-center {
 	text-align: center;
 	padding: 100px;
+}
+
+ul li {
+	list-style: none;
 }
