@@ -24,6 +24,10 @@
 .user{
 	word-break: break-all;
 }
+.user-wrap{
+	padding: .75rem 1.25rem;
+	border-bottom: 1px solid rgba(0,0,0,.125); 
+}
 /*.bt-color {
 	color: #703bc1;
 	border: 1px solid #4c3bc1;
@@ -35,3 +39,30 @@
 	box-shadow: none;
 	outline: none;
 }*/
+.tab-wrap{
+    padding: 9px 0px;
+    position: relative;
+    outline: none;
+}
+
+.noti-sidebar {
+    padding-top: 20px;
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 1px solid #dedede;
+}
+
+.active {
+    background: #e6ecf2;
+}
+.active .noti-tab {
+    background: #e6ecf2;
+    color: #4292f1;
+    border-left: 3px solid #4292f1;
+}
+
+.min-scroll {
+    min-height: 350px; 
+    overflow: scroll;
+    border-left: 1px solid #dedede; 
+}

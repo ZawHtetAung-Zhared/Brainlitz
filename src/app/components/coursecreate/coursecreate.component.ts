@@ -129,7 +129,7 @@ export class CoursecreateComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.users = res;
-      this.model.teacherId = '';
+      // this.model.teacherId = '';
     });
   }
 
@@ -138,7 +138,7 @@ export class CoursecreateComponent implements OnInit {
     .subscribe((res:any) => {
       this.locationList = res;
       console.log(this.locationList);
-      this.model.locationId = '';
+      // this.model.locationId = '';
     })
   }
   
@@ -270,8 +270,8 @@ export class CoursecreateComponent implements OnInit {
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeEndDateFormat(this.model.end,0),
-      "teacherId": this.model.teacherid,
+      "endDate": this.changeDateFormat(this.model.end,0),
+      "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
       "room": this.model.room,
@@ -289,8 +289,8 @@ export class CoursecreateComponent implements OnInit {
       this.toastr.success('Successfully Created.');
       localStorage.removeItem('coursePlanId');
       localStorage.removeItem('splan');
+      this.router.navigate(['course/']); 
     });
-    this.router.navigate(['course/']); 
   }
 
   setMinDate(event){
@@ -303,10 +303,16 @@ export class CoursecreateComponent implements OnInit {
   }
 
   changeDateFormat(date,time){
-    var sample ="2018-06-19T13:02:00.000Z"
     if(time == 0){
-      let enddate =  date.year+ '-' +date.month+ '-' +date.day;
-      return enddate;
+      if (date == null) {
+        console.log('null',date)
+        return ""
+      }else{
+         let enddate =  date.year+ '-' +date.month+ '-' +date.day;
+          return enddate;
+      }
+      // let enddate =  date.year+ '-' +date.month+ '-' +date.day;
+      // return enddate;
     }else{
       let sdate = date.year+ '-' +date.month+ '-' +date.day;
       let dateParts = sdate.split('-');
@@ -327,16 +333,16 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
-  changeEndDateFormat(date,time){
-    console.log("end")
-    if (date == null) {
-      console.log('null',date)
-      return ""
-    }else{
-       let enddate =  date.year+ '-' +date.month+ '-' +date.day;
-        return enddate;
-    }
-  }
+  // changeEndDateFormat(date,time){
+  //   console.log("end")
+  //   if (date == null) {
+  //     console.log('null',date)
+  //     return ""
+  //   }else{
+  //      let enddate =  date.year+ '-' +date.month+ '-' +date.day;
+  //       return enddate;
+  //   }
+  // }
   
   cancel(){
     localStorage.removeItem('coursePlanId');
@@ -369,7 +375,7 @@ export class CoursecreateComponent implements OnInit {
       let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
       this.model.coursePlanName = coursePlan.name;
       console.log("coursePlanName",this.coursePlanName)
-      this.model.teacherid = this.model.teacher.userId;
+      // this.model.teacherid = this.model.teacher.userId;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
       console.log(this.model.start);
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
@@ -402,8 +408,8 @@ export class CoursecreateComponent implements OnInit {
     let obj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeEndDateFormat(this.model.end,0),
-      "teacherId": this.model.teacherid,
+      "endDate": this.changeDateFormat(this.model.end,0),
+      "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
       "room": this.model.room,
@@ -419,8 +425,8 @@ export class CoursecreateComponent implements OnInit {
       console.log(res);
       this.toastr.success('Successfully Updated.');
       localStorage.removeItem('coursePlanId');
+      this.router.navigate(['course/']); 
     })
-    this.router.navigate(['course/']); 
   }
   
   changeDateStrtoObj(datestr,type){

@@ -23,6 +23,8 @@ export class AssignuserComponent implements OnInit {
   public toggleBtn:boolean = true; 
   public checkedName = [];
   public assignedUser = [];
+  public getAllUsers:any;
+  public userType:any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
@@ -31,6 +33,7 @@ export class AssignuserComponent implements OnInit {
     console.log(this.regionid)
     console.log(this.selectedCourse)
     this.getAssignList();
+    this.userType = 'all';
   }
 
   openStaff(content) {
@@ -199,5 +202,15 @@ export class AssignuserComponent implements OnInit {
     }
     console.log(this.checkedUserStr);
   }
+
+  clickTab(type){
+      if(type == 'customer'){
+        this.userType = 'customer';
+      }else if(type == 'staff'){
+        this.userType = 'staff';
+      }else{
+        this.userType = 'all';
+      }
+    }
 
 }
