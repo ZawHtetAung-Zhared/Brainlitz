@@ -16,3 +16,22 @@
 	font-size: 30px;
 	font-weight: bold;
 }
+.checkedName{
+	background: #e9ecef;
+    padding: 5px;
+    margin: 0px 10px 5px 0px;
+}
+.user{
+	word-break: break-all;
+}
+/*.bt-color {
+	color: #703bc1;
+	border: 1px solid #4c3bc1;
+	font-size: 16px;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active{
+	background: none;
+	box-shadow: none;
+	outline: none;
+}*/
