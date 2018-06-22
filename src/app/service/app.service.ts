@@ -14,9 +14,9 @@ export class appService{
     public temp: any;    
     public tempToken: any;    
     public accessToken = localStorage.getItem('token');
-    public tokenType = localStorage.getItem('tokenType');
-
-
+    public tokenType = localStorage.getItem('tokenType');   
+    locationID: Observable<any>;
+    private getLocationID = new Subject<any>(); 
     sendData: Observable<any>;
     private sendParentToChild = new Subject<any>();
     itemValue = new Subject();
@@ -26,7 +26,8 @@ export class appService{
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
       this.sendData = this.sendParentToChild.asObservable();
-    }  
+      this.locationID = this.getLocationID.asObservable();
+    }
 
     isLoggedIn(): boolean {
       console.log('isloggedin')
@@ -49,6 +50,8 @@ export class appService{
     setLocationId(value) {
       this.itemValue.next(value); // this will make sure to tell every subscriber about the change.
        localStorage.setItem('theItem', value);
+      let locationTemp = localStorage.getItem('theItem');
+      this.getLocationID.next(locationTemp)
     }
 
     getToken(){
@@ -80,7 +83,7 @@ export class appService{
     getLocalstorage(){
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType'); 
-      console.log(this.accessToken) 
+      // console.log(this.accessToken) 
       // if(this.accessToken == undefined){
       //   this._router.navigateByUrl('/login');
       // }
@@ -179,15 +182,14 @@ export class appService{
       })
     }
 
-    viewNoti(regionID:string): Observable<any>{
-      console.log(regionID)
+    viewNoti(): Observable<any>{
       this.getLocalstorage();
       const httpOptions = {
         headers: new HttpHeaders({  
           'Content-Type': 'application/json',
           'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      var url = this.baseUrl + '/noti?regionId=' + regionID;
+      var url = this.baseUrl + '/noti/history';
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
         let result = res; 

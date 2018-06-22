@@ -28,16 +28,16 @@ export class CourseComponent implements OnInit {
   repeatDay:any;
   allUsers:any;
   allPdf;
+  allLocation;
+  locationName;
   @BlockUI() blockUI: NgBlockUI;
-  type: any;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal) { }
   public regionId = localStorage.getItem('regionId');
   ngOnInit() {
   	this.getCourseLists();
     this.getCoursePlans();
-    this.getUsers();
-    this.getPdfList();
+    this.getLocationList();
   }
 
   changeRoute(){
@@ -66,6 +66,14 @@ export class CourseComponent implements OnInit {
        setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
       }, 500);
+    })
+  }
+
+  getLocationList(){
+    this._service.getLocations(this.regionId)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.allLocation = res;
     })
   }
 
@@ -123,7 +131,7 @@ export class CourseComponent implements OnInit {
   }
 
   getUsers(){
-    this._service.getAllUsers(this.regionId, this.type)
+    this._service.getAllUsers(this.regionId, 'undefined')
     .subscribe((res:any)=>{
       this.allUsers = res;
       console.log("All Users",this.allUsers);
@@ -146,20 +154,20 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  showCoursePlanName(planid){
-    console.log("course plan id",planid);
-    console.log("Test",this.allCoursePlan);
-    let item1 = this.allCoursePlan.filter(item => item._id === planid)[0];
-    console.log(item1);
-    return item1;
+  showItemName(itemid,type){
+    if(type == "plan"){
+      console.log("itemid",itemid);
+      let item1 = this.allCoursePlan.filter(item => item._id === itemid)[0];
+      console.log(item1);
+      return item1;
+    }else if(type == "location"){
+      console.log("user id",itemid);
+      let item = this.allLocation.filter(item => item._id === itemid)[0];
+      console.log(item);
+      return item;
+    }
   }
-  showUserName(userid){
-    console.log("user id",userid);
-    console.log("Test",this.allUsers);
-    let item = this.allUsers.filter(item => item.userId === userid)[0];
-    console.log(item);
-    return item;
-  }
+
   nameArr=[];
   showQuizwerkz(qw){
     let qwArr = qw;
@@ -207,15 +215,7 @@ export class CourseComponent implements OnInit {
     console.log(this.dayArr)
     return this.dayArr; 
   }
-
-  getQuizwerkz(courseid){
-    this._service.getQuizwerkzForCourse(courseid)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.quizwerkz = res;
-    })
-  }
-
+  
   courseDetail(course,detail){
     this.dayArr =[];
     this.nameArr = [];
@@ -223,15 +223,14 @@ export class CourseComponent implements OnInit {
   	.subscribe((res:any) => {
   		console.log("course detail",res);
       this.detailCourse = res;
-      this.getQuizwerkz(this.detailCourse._id);
-      let coursePlan=this.showCoursePlanName(this.detailCourse.coursePlanId);
+      let coursePlan=this.showItemName(this.detailCourse.coursePlanId,"plan");
       this.coursePlanName = coursePlan.name;
       console.log("coursePlanName",this.coursePlanName)
-      let teacher = this.showUserName(this.detailCourse.teacherId);
-      this.teacherName = teacher.preferredName;
-      console.log("teacher name",this.teacherName)
       this.repeatDay = this.showRepeatedDays(this.detailCourse.repeatDays);
-      console.log("Repeat",this.repeatDay)
+      console.log("Repeat",this.repeatDay);
+      let location = this.showItemName(this.detailCourse.locationId,"location");
+      this.locationName = location.name;
+      console.log("location",this.locationName);
       this.modalReference = this.modalService.open(detail);
       this.modalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;

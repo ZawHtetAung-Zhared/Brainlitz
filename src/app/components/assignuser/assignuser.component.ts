@@ -20,7 +20,6 @@ export class AssignuserComponent implements OnInit {
   public selectedUser: any;
   public deleteUser: any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
-  type: any;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
 
@@ -30,9 +29,9 @@ export class AssignuserComponent implements OnInit {
     this.getAssignList();
   }
 
-  open(content) {
+  openStaff(content) {
     this.modalReference = this.modalService.open(content, { size: 'lg' });
-    this.getUsers();
+    this.getUsers("staff");
     console.log(this.assignList)
     let test = this.assignList.indexOf("5b272018f6f5fb1b0d844ba3");
     console.log("Test",test);
@@ -45,9 +44,9 @@ export class AssignuserComponent implements OnInit {
     });
   }
 
-  open1(content1) {
+  openCustomer(content1) {
     this.modalReference = this.modalService.open(content1, { size: 'lg' });
-    this.getUsers();
+    this.getUsers("customer");
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.chooseUser = '';
@@ -67,9 +66,10 @@ export class AssignuserComponent implements OnInit {
     }
   }
 
-  getUsers(){
+
+  getUsers(type){
     this.blockUIList.start('Loading...');
-  	this._service.getAllUsers(this.regionid, this.type)
+  	this._service.getAllUsers(this.regionid, type)
   	.subscribe((res:any) => {
   		console.log(res);
   		this.userList = res;
