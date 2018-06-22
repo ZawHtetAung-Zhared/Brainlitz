@@ -131,7 +131,7 @@ export class CourseComponent implements OnInit {
   }
 
   getUsers(){
-    this._service.getAllUsers(this.regionId, 'undefined')
+    this._service.getAllUsers(this.regionId, 'all')
     .subscribe((res:any)=>{
       this.allUsers = res;
       console.log("All Users",this.allUsers);

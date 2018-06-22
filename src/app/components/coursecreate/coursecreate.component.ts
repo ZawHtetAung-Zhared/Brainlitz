@@ -165,19 +165,19 @@ export class CoursecreateComponent implements OnInit {
       'quizwerkz': plan.quizwerkz,
     };
     localStorage.setItem('splan',JSON.stringify(newSelect));
-  	console.log("selectCoursePlan",plan);
-  	this.showCourse = true;
+    console.log("selectCoursePlan",plan);
+    this.showCourse = true;
     localStorage.setItem('coursePlanId',plan._id);
     this.coursePlanId = localStorage.getItem('coursePlanId');
     console.log("Course Plan",this.hello)    
-  	this.model.coursePlanId = plan._id;
+    this.model.coursePlanId = plan._id;
     this.model.coursePlanName = plan.name;
     this.model.durationTimes = plan.lesson.duration;
     this.original = plan.quizwerkz;
     this.cbChecked = plan.quizwerkz;
     console.log("CHECKED create state",this.cbChecked)
     console.log(this.model.duration)
-  	console.log(this.model.coursePlanId)
+    console.log(this.model.coursePlanId)
     // this.model.coursePlanId = this.hello.planid;
     // this.model.coursePlanName = this.hello.planname;
     // this.model.durationTimes = this.hello.duration;
@@ -194,8 +194,8 @@ export class CoursecreateComponent implements OnInit {
   }
 
   back(){
-  	console.log("Back Works")
-  	this.showCourse = false;
+    console.log("Back Works")
+    this.showCourse = false;
   }
 
   selectDay(data, event): void {
@@ -259,7 +259,7 @@ export class CoursecreateComponent implements OnInit {
   D(J){ return (J<10? '0':'') + J};
 
   createCourse(){
-  	console.log("createCourse work",this.model);
+    console.log("createCourse work",this.model);
     console.log(this.model.optionsSelected)
     console.log(this.model.opt)
     if(this.model.prop == 'A'){
@@ -282,10 +282,10 @@ export class CoursecreateComponent implements OnInit {
       "quizwerkz": this.cbChecked,
       "description": this.model.description,
     };
-  	console.log("Course",this.courseObj);
-  	this._service.createCourse(this.regionID,this.courseObj)
-  	.subscribe((res:any) => {
-    	console.log(res); 
+    console.log("Course",this.courseObj);
+    this._service.createCourse(this.regionID,this.courseObj)
+    .subscribe((res:any) => {
+      console.log(res); 
       this.toastr.success('Successfully Created.');
       localStorage.removeItem('coursePlanId');
       localStorage.removeItem('splan');
@@ -348,7 +348,7 @@ export class CoursecreateComponent implements OnInit {
     localStorage.removeItem('coursePlanId');
     localStorage.removeItem('courseId');
     localStorage.removeItem('splan');
-  	this.router.navigate(['course/']); 
+    this.router.navigate(['course/']); 
   }
   // onClickedOutside(e: Event) {
   //   console.log('Clicked outside:', e);

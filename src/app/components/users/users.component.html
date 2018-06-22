@@ -47,26 +47,18 @@
 					  <input class="form-check-input" type="radio" value="female" name="gender" id="gender-female" [(ngModel)]="stuffs.gender" #female="ngModel">
 					  <label class="form-check-label" for="gender-female">Female</label>
 					</div>
-				</div>
-				<div class="form-group">
-			  	<label for="pwd">Staff Type</label><br>
-			  	<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="type" value="manager" id="manager" [(ngModel)]="stuffs.type" #manager="ngModel">
-						<label class="form-check-label" for="manager">Manager</label>
-					</div>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="type" value="staff" id="staff" [(ngModel)]="stuffs.type" #staff="ngModel">
-					  <label class="form-check-label" for="staff">Staff</label>
-					</div>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" name="type" value="teacher" id="teacher" [(ngModel)]="stuffs.type" #teacher="ngModel">
-					  <label class="form-check-label" for="teacher">Teacher</label>
-					</div>
 				</div> -->
+			<div class="form-group">
+				<label>Permission as</label><br>
+				<div class="form-check form-check-inline" *ngFor="let user of permissionLists; let i = index" >
+				  	<input type="radio" name="role" id="{{user._id}}" [(ngModel)]="gender" value="{{user._id}}">
+				  	<label for={{user._id}} class="form-check-label mr-lt">{{user.name}}</label>
+				</div>
+			</div>	
 		  	<div class="form-group">
 		  		<label for="exampleInputFile">Upload Profile</label>
 				<div class="demo-wrap upload-demo">
-		          	<div class="container" style="padding: 0;">
+		          	<div class="container tab-pad">
 			            <div class="grid">
 			              <div class="col-1-2">
 			                <div class="actions">
@@ -87,7 +79,7 @@
     	</div>
       	<div class="modal-footer">
 	      	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-	        <button type="submit" (click)="createUser(s.value, 'stuff')" class="btn btn-primary" [disabled]="s.invalid">Submit</button>
+	        <button type="submit" (click)="createUser(s.value, 'staff')" class="btn btn-primary" [disabled]="s.invalid">Submit</button>
       	</div>
 	</form>
 </ng-template>
@@ -126,7 +118,7 @@
 	  	    	<label for="gmail">Guardian Email</label>
 	  	    	<input type="email" class="form-control" placeholder="Enter guardian mail" name="guardianmail" [(ngModel)]="formFieldc.guardianmail" #gmail="ngModel">
 	  	  	</div>
-	  	  	<div class="form-group">
+	  	  <!-- 	<div class="form-group">
 				<label for="gender">Gender</label><br>
 				<div class="form-check form-check-inline">
 				   <input class="form-check-input" type="radio" value="male" name="gender" id="custom-male" [(ngModel)]="formFieldc.gender" #male="ngModel">
@@ -136,11 +128,11 @@
 				   <input class="form-check-input" type="radio" value="female" name="gender" id="custom-female" [(ngModel)]="formFieldc.gender" #female="ngModel">
 				   <label class="form-check-label" for="custom-female">Female</label>
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group">
 				<label for="exampleInputFile">Upload Profile</label>
 				<div class="demo-wrap upload-demo">
-		          	<div class="container" style="padding: 0;">
+		          	<div class="container tab-pad">
 			            <div class="grid">
 		              	<div class="col-1-2">
 		                	<div class="actions">
@@ -175,7 +167,7 @@
 	</ul>
 </div> -->
 <div class="d-flex flex-row h-100 w-100" style="display: flex;">
-	<div class="col-md-2 noti-sidebar" style="padding: 0;">
+	<div class="col-md-2 noti-sidebar tab-pad">
 		<div class="d-flex flex-column justify-content-center">
 			<div [ngClass]="{'active': userType == 'all'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('all')">All Users</button>
@@ -191,14 +183,14 @@
 	<div *ngIf="userType == 'all'" class="col-md-10 min-scroll">
 		<ul class="list-group-flush">
 			<li class="list-group-item" *ngFor="let user of userLists; let i = index">
-				{{i+1}} -
-				<span style="padding-right: 40px;" *ngIf="user.preferredName != undefined">Name: {{user.preferredName}}</span>
-				<span style="padding-right: 40px;" *ngIf="user.preferredName == undefined">Name: -</span>
+				<div class="count-pos">{{i+1}}- </div>
+				<span *ngIf="user.preferredName != undefined">Name: {{user.preferredName}}</span>
+				<span *ngIf="user.preferredName == undefined">Name: -</span>
 				<div>
 					<span>
-						Email: {{user.email}}
+						Email: <input class="usermail" id="{{user.userId}}" type="text" value="{{user.email}}">
 					</span>
-					<button class="btn btn-info" style="float: right;" (click)="copyText(user.userId)">Copy</button>
+					<button class="btn btn-info bt-copy" (click)="copyText(user.userId)">Copy</button>
 				</div>
 			</li>
 		</ul>
@@ -206,14 +198,14 @@
 	<div *ngIf="userType == 'customer'" class="col-md-10 min-scroll">
 		<ul class="list-group-flush">
 			<li class="list-group-item" *ngFor="let customer of customerLists; let i = index">
-				{{i+1}} -
-				<span style="padding-right: 40px;" *ngIf="customer.preferredName != undefined">Name: {{customer.preferredName}}</span>
-				<span style="padding-right: 40px;" *ngIf="customer.preferredName == undefined">Name: -</span>
+				<div class="count-pos">{{i+1}}- </div>
+				<span *ngIf="customer.preferredName != undefined">Name: {{customer.preferredName}}</span>
+				<span *ngIf="customer.preferredName == undefined">Name: -</span>
 				<div>
 					<span>
-						Email: {{customer.email}}
+						Email: <input class="usermail" id="{{customer.userId}}" type="text" value="{{customer.email}}">
 					</span>
-					<button class="btn btn-info" style="float: right; margin-right: 5px;" (click)="copyText(customer.userId)">Copy</button>
+					<button class="btn btn-info bt-copy" (click)="copyText(customer.userId)">Copy</button>
 				</div>
 			</li>
 		</ul>
@@ -221,52 +213,20 @@
 	<div *ngIf="userType == 'staff'" class="col-md-10 min-scroll">
 		<ul class="list-group-flush">
 			<li class="list-group-item" *ngFor="let staff of staffLists; let i = index">
-				{{i+1}} -
-				<span style="padding-right: 40px;" *ngIf="staff.preferredName != undefined">Name: {{staff.preferredName}}</span>
-				<span style="padding-right: 40px;" *ngIf="staff.preferredName == undefined">Name: -</span>
+				<div class="count-pos">{{i+1}}- </div>
+				<span *ngIf="staff.preferredName != undefined">Name: {{staff.preferredName}}</span>
+				<span *ngIf="staff.preferredName == undefined">Name: -</span>
 				<div>
-					<span>Email: {{staff.email}}</span>
-					<button class="btn btn-info" style="float: right; margin-right: 5px;" (click)="copyText(staff.userId)">Copy</button>
+					<span>
+						Email: <input class="usermail" id="{{staff.userId}}" type="text" value="{{staff.email}}">
+					</span>
+					<button class="btn btn-info bt-copy" (click)="copyText(staff.userId)">Copy</button>
 				</div>
 			</li>
 		</ul>
 	</div>	
 </div>
 
-<!-- <div class="overflow container" style="display: flex;">
-	<div class="col-md-4">
-		<h5>All Users</h5>
-		<ul class="list-group-flush">
-			<li class="list-group-item" *ngFor="let user of userLists; let i = index">
-				<span style="padding-right: 40px;" *ngIf="user.preferredName != undefined">Name: {{user.preferredName}}</span>
-				<span style="padding-right: 40px;" *ngIf="user.preferredName == undefined">Name: -</span>
-			</li>
-		</ul>
-	</div>
-	<div class="col-md-4">
-		<h5>Customers</h5>
-		<ul class="list-group-flush">
-			<li class="list-group-item" *ngFor="let customer of customerLists; let i = index">
-				<span style="padding-right: 40px;" *ngIf="customer.preferredName != undefined">Name: {{customer.preferredName}}</span>
-				<span style="padding-right: 40px;" *ngIf="customer.preferredName == undefined">Name: -</span>
-			</li>
-		</ul>
-	</div>
-	<div class="col-md-4">
-		<h5>Staffs</h5>
-		<ul class="list-group-flush">
-			<li class="list-group-item" *ngFor="let staff of staffLists; let i = index">
-				<span style="padding-right: 40px;" *ngIf="staff.preferredName != undefined">Name: {{staff.preferredName}}</span>
-				<span style="padding-right: 40px;" *ngIf="staff.preferredName == undefined">Name: -</span>
-				<span>
-					Email: <input class="customermail" id="{{customer.customerId}}" type="text" value="{{customer.email}}">
-				</span>
-				<button class="btn btn-secondary" style="float: right;" (click)="rating()">Feedback</button>
-				<button class="btn btn-info" style="float: right; margin-right: 5px;" (click)="copyText(customer.userId)">Copy</button>
-			</li>
-		</ul>
-	</div>	
-</div> -->
 
 
 
