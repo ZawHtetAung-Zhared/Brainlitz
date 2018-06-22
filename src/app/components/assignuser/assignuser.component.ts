@@ -19,6 +19,10 @@ export class AssignuserComponent implements OnInit {
   public assignList= [];
   public selectedUser: any;
   public deleteUser: any;
+  public checkedUser = [];
+  public toggleBtn:boolean = true; 
+  public checkedName = [];
+  public assignedUser = [];
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
@@ -47,12 +51,24 @@ export class AssignuserComponent implements OnInit {
   openCustomer(content1) {
     this.modalReference = this.modalService.open(content1, { size: 'lg' });
     this.getUsers("customer");
+    if(this.assignList.length > 0){
+      for (var i=0; i < this.assignList.length ; i++) {
+        this.assignedUser.push(this.assignList[i].userId);
+      }
+      console.log(this.checkedUser);
+    }
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.chooseUser = '';
+      this.checkedUser = [];
+      this.checkedName = [];
+      this.checkedUserStr = "";
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.chooseUser = '';
+      this.checkedUser = [];
+      this.checkedName = [];
+      this.checkedUserStr = "";
     });
   }
 
@@ -161,11 +177,27 @@ export class AssignuserComponent implements OnInit {
   backtoCourse(){
   	this.router.navigate(['/course']);
   }
+  checkedUserStr:any;
+  // for userlist checkbox
+  selectUser(user,event){
+    var idx = this.checkedUser.indexOf(user.userId);
+    console.log(idx)
+    console.log('selectUser',user.userId,event);
+    if(event.target.checked){
+      this.checkedUser.push(user.userId);
+      this.checkedUserStr = this.checkedUser.toString();
+      this.checkedName.push(user.preferredName); 
+      this.toggleBtn = false;
+    }else{
+      this.checkedUser.splice(idx,1);
+      this.checkedName.splice(idx,1);
+       if(this.checkedUser.length > 0){
+         this.toggleBtn = false;
+       }else{
+         this.toggleBtn = true;
+       }
+    }
+    console.log(this.checkedUserStr);
+  }
 
-  // getCourseDetail(){
-  // 	this._service.getSingleCourse(this.regionId)
-  // 	.subscribe((res:any) => {
-  // 		console.log(res);
-  // 	})
-  // }
 }
