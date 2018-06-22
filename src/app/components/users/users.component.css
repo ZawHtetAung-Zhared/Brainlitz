@@ -122,3 +122,7 @@
 .tab-pad {
     padding: 0;
 }
+
+.flex-row ul {
+    padding-right: 40px;
+}
