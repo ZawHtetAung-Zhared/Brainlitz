@@ -20,67 +20,72 @@
   </div>
 </div>
 
+<!-- staff list with checkbox -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div *blockUI="'contact-list'">
     <div class="modal-header">
-    <h4>User List</h4>
+      <h4>Staff List</h4>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-    <div class="form-group itemlist-wrap">
-  		<ul class="item-list">
-  		     <li *ngFor="let user of userList">
-  		     	<label>
-  		     		<input type="radio" name="username" value="{{user.userId}}" #username [(ngModel)]="chooseUser">
-  		     		{{user.preferredName}}
-  		     	</label> 
-  		     </li>
-  		</ul>
-  	</div>
-      <!-- <label>
-                   <input type="radio" name="keys_on_hand" [value]="key.value" [(ngModel)]="key.value">
-                     {{key.display}}
-            </label> -->
+      <div class="form-group itemlist-wrap">
+        <ul class="item-list">
+          <li *ngFor="let user of userList">
+            <label>
+              <input type="checkbox" name={{user.userId}} value="{{user.userId}}" (change)="selectUser(user,$event)" [checked]="assignedUser.indexOf(user.userId) != -1" [disabled]="assignedUser.indexOf(user.userId) != -1">
+              <span  class="user">{{user.preferredName}}</span>
+            </label> 
+          </li>
+        </ul>
+      </div>
+      <div>
+        <label class="checkedName" *ngFor="let name of checkedName">
+          {{name}}
+        </label>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-      <button type="submit" class="btn btn-primary" (click)="assignSelected(chooseUser, 'staff')">Assign</button>
+      <button type="submit" class="btn btn-primary" (click)="assignSelected(checkedUserStr, 'staff')">Assign</button>
     </div>
   </div>
 </ng-template>
 
+<!-- customer list with checkbox-->
 <ng-template #content1 let-c="close" let-d="dismiss">
   <div *blockUI="'contact-list'">
     <div class="modal-header">
-    <h4>User List</h4>
+      <h4>Customer List</h4>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-    <div class="form-group itemlist-wrap">
-      <ul class="item-list">
-           <li *ngFor="let user of userList">
+      <div class="form-group itemlist-wrap">
+        <ul class="item-list">
+          <li *ngFor="let user of userList">
             <label>
-              <input type="radio" name="username" value="{{user.userId}}" #username [(ngModel)]="chooseUser">
-              {{user.preferredName}}
+              <input type="checkbox" name={{user.userId}} value="{{user.userId}}" (change)="selectUser(user,$event)" [checked]="assignedUser.indexOf(user.userId) != -1" [disabled]="assignedUser.indexOf(user.userId) != -1">
+              <span  class="user">{{user.preferredName}}</span>
             </label> 
-           </li>
-      </ul>
-    </div>
-      <!-- <label>
-                   <input type="radio" name="keys_on_hand" [value]="key.value" [(ngModel)]="key.value">
-                     {{key.display}}
-            </label> -->
+          </li>
+        </ul>
+      </div>
+      <div>
+        <label class="checkedName" *ngFor="let name of checkedName">
+          {{name}}
+        </label>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-      <button type="submit" class="btn btn-primary" (click)="assignSelected(chooseUser, 'customer')">Assign</button>
+      <button type="submit" class="btn btn-primary" (click)="assignSelected(checkedUserStr, 'customer')" [disabled]="toggleBtn">Assign</button>
     </div>
   </div>
 </ng-template>
+
 
 <ng-template #comfirm let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -89,7 +94,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <h4>Are You sure you want to delete {{selectedUser.preferredName}}?</h4>
+    <p>Are You sure you want to delete {{selectedUser.preferredName}}?</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
@@ -104,7 +109,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <h4>We are going to delete <span style="color: red;">"{{deleteUser.preferredName}}"</span></h4>
+    <p>We are going to delete <span style="color: red;">"{{deleteUser.preferredName}}"</span></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
