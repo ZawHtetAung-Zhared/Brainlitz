@@ -868,6 +868,20 @@ export class appService{
       })
     }
 
+    getAllPermission(id: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/permissions';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
 }
 
 

@@ -7,7 +7,7 @@
 			<h5>Average Rating</h5>
 			<ul style="padding: 20px;">
 				<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;" style="border-bottom: 1px solid rgba(0,0,0,.125);">
-					<div style="float: left;margin: 0 10px 10px 0;">{{i+1}}- </div>
+					<div class="count-pos">{{i+1}}- </div>
 					<div>
 						<label>Name:</label> {{staffRating.preferredName}}<br>
 						<label>Rating</label> {{staffRating.rating}}
@@ -24,7 +24,7 @@
 		<form #reportForm="ngForm">
 			<ul style="padding: 15px;">
 				<li *ngFor="let detail of feedbackLists; let i = index;" class="divide-line">
-					<div style="float: left; margin: 0 10px 350px 0;">{{i+1}}- </div>
+					<div class="count-pos">{{i+1}}- </div>
 					<div class="form-group">
 						<label>Name:</label><span>{{detail.preferredName}}</span><br>
 						<label>Title:</label><span>{{detail.title}}</span><br>

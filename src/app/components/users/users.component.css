@@ -4,6 +4,7 @@
     overflow-y: hidden;
     width: 100%;
 }
+
 .scrollable
 {
       overflow-y: scroll;
@@ -99,4 +100,25 @@
     border-left: 1px solid #dedede; 
 }
 
+.mr-lt {
+    margin-left: 10px;
+}
 
+.count-pos {
+    float: left; 
+    margin: 0 10px 10px 0;
+}
+
+.bt-copy {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+}
+
+.list-group-flush li span {
+    padding-right: 40px;
+}
+
+.tab-pad {
+    padding: 0;
+}

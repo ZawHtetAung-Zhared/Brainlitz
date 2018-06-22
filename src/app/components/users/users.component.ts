@@ -55,6 +55,9 @@ export class UsersComponent implements OnInit {
 	staffLists: any;
 	customerLists: any;
 	userType: any;
+	permissionLists: any;
+	locationLists: any;
+	public locationID = localStorage.getItem('locationId');
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -72,6 +75,8 @@ export class UsersComponent implements OnInit {
 
 	open1(staffModal){
 		this.blankCrop = false; 
+		this.getAllpermission();
+		this.getAllLocation();
 		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.formFields = new staff();	
@@ -170,53 +175,59 @@ export class UsersComponent implements OnInit {
 		console.log(type);
 		this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
 		this.img = this.dataURItoBlob(this.imageUrl);
-		let guardianArray;
-		if(obj.guardianmail){
-			guardianArray = obj.guardianmail.split(',');
+		let objData = new FormData();
+		if(type == 'staff'){
+			let locationObj = [{'locationId': this.locationID,'permissionId': obj.role}];
+			console.log('locationObj', locationObj)
+			objData.append('orgId', this.orgID),
+			objData.append('firstName', obj.fname),
+			objData.append('lastName', obj.lname),
+			objData.append('preferredName', obj.dname),
+			objData.append('email', obj.mail),
+			objData.append('regionId', this.regionID),
+			objData.append('password', obj.pwd),
+			objData.append('location', JSON.stringify(locationObj)),
+			objData.append('profilePic', this.img)
+			console.log(objData)
+
 		}
-		let dataObj = new FormData();
-		dataObj.append('orgId', this.orgID);
-		dataObj.append('firstName', obj.fname);
-		dataObj.append('lastName', obj.lname);
-		dataObj.append('preferredName', obj.dname);
-		dataObj.append('email', obj.mail);
-		dataObj.append('regionId', this.regionID);
-		dataObj.append('password', obj.pwd);
-		dataObj.append('gender', obj.gender);
-		dataObj.append('type', obj.type);
-		dataObj.append('guardianEmail', JSON.stringify(guardianArray));
-		dataObj.append('profilePic', this.img);
+		else if(type == 'customer'){
+			let guardianArray;
+			if(obj.guardianmail){
+				guardianArray = obj.guardianmail.split(',')
+			}
+			objData.append('orgId', this.orgID);
+			objData.append('firstName', obj.fname);
+			objData.append('lastName', obj.lname);
+			objData.append('preferredName', obj.dname);
+			objData.append('email', obj.mail);
+			objData.append('regionId', this.regionID);
+			objData.append('password', obj.pwd);
+			objData.append('gender', obj.gender);
+			objData.append('guardianEmail', JSON.stringify(guardianArray));
+			objData.append('location', JSON.stringify([]));
+			objData.append('profilePic', this.img)
+			console.log(objData)
+		}
+		else {
+			console.log('error')
+		}
 
-		console.log(dataObj)
-
-		//let Obj = {
-		//	"orgId": this.orgID,
-		//	"firstName": obj.fname,
-		//	"lastName": obj.lname,
-		//	"preferredName": obj.dname,
-		//	"email": obj.mail,
-		//	"regionId": this.regionID,
-		//	"password": obj.pwd,
-		//	"gender": obj.gender,
-		//	"type": obj.type,
-		//	"guardianEmail": obj.guardianmail,
-		//	"profilePic": this.img
-		//}
 		this.blockUI.start('Loading...');
 		this.modalReference.close();
-		this._service.createUser(dataObj)
+		this._service.createUser(objData)
     	.subscribe((res:any) => {
   			console.log(res)
   			this.toastr.success('Successfully Created.');
 	  		this.blockUI.stop();
-	  		let aa = '';
-	  		this.getAllUsers(this.regionID);
-	  		console.log(this.userLists)
+	  		this.getAllUsers('all');
 	    }, err => {
 	    	this.toastr.error('Create Fail');
 	    	this.blockUI.stop();
 	    	console.log(err)
 	    })
+		
+	
     		
 	}
 
@@ -263,6 +274,22 @@ export class UsersComponent implements OnInit {
 		  (<any>inputElement).select();
 		  document.execCommand('copy');
 		  inputElement.blur();
+	}
+
+	getAllpermission(){
+		this._service.getAllPermission(this.regionID)
+		.subscribe((res:any) => {
+			this.permissionLists = res;
+			console.log('this.permissionLists', this.permissionLists)
+		})
+	}
+
+	getAllLocation(){
+		this._service.getLocations(this.regionID)
+		.subscribe((res:any) =>{
+			this.locationLists = res;
+			console.log('this.locationLists', this.locationLists)
+		})
 	}
 
 
