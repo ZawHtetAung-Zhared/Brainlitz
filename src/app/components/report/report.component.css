@@ -14,6 +14,7 @@
 .form-group span {
 	margin-left: 15px;
 	font-size: 15px;
+	word-wrap: break-word;
 }
 
 .form-group label {

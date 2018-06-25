@@ -1,17 +1,17 @@
 export class staff {
-	fname: string;
-	lname: string;
-	dname: string;
-	mail: string;
+	firstName: string;
+	lastName: string;
+	preferredName: string;
+	email: string;
 	pwd: string;
 }
 
 export class customer {
-	fname: string;
-	lname: string;
-	dname: string;
-	mail: string;
+	firstName: string;
+	lastName: string;
+	preferredName: string;
+	email: string;
 	pwd: string;
-	guardianmail: string;
+	guardianEmail: string;
 	gender: boolean;
 }
