@@ -127,7 +127,7 @@ input[type="radio"]:checked{
 	box-shadow: none;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1066px) {
 	.tool-checked label{
 		height: 66px;
 	}
