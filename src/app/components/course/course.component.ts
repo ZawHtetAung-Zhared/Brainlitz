@@ -161,7 +161,7 @@ export class CourseComponent implements OnInit {
       console.log(item1);
       return item1;
     }else if(type == "location"){
-      console.log("user id",itemid);
+      console.log("location id",itemid);
       let item = this.allLocation.filter(item => item._id === itemid)[0];
       console.log(item);
       return item;
@@ -229,6 +229,7 @@ export class CourseComponent implements OnInit {
       this.repeatDay = this.showRepeatedDays(this.detailCourse.repeatDays);
       console.log("Repeat",this.repeatDay);
       let location = this.showItemName(this.detailCourse.locationId,"location");
+      console.log(location);
       this.locationName = location.name;
       console.log("location",this.locationName);
       this.modalReference = this.modalService.open(detail);

@@ -126,3 +126,9 @@ input[type="radio"]:checked{
 	outline: none;
 	box-shadow: none;
 }
+
+@media (max-width: 1066px) {
+	.tool-checked label{
+		height: 66px;
+	}
+}

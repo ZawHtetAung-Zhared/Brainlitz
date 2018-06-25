@@ -93,19 +93,19 @@ export class CoursecreateComponent implements OnInit {
       console.log("CHECKED create state",this.cbChecked)
       console.log(this.model.duration)
       console.log(this.model.coursePlanId)
-      // this.selectCoursePlan(this.coursePlanId);
-      // this.hello =  JSON.parse(localStorage.getItem('courseId'));
-      // this.getCoursePlanList();
-      // console.log(this.coursePlan)
-      // let splan = this.coursePlan.filter(item => item._id === this.coursePlanId)[0];
-      // console.log(splan);
     }
   }
 
    // onClick(event) {
-   //   console.log(event)
-   //   if (this._eref.nativeElement.contains(event.target)) // or some similar check
-   //   console.log(this._eref.nativeElement.contains(event.target))
+   //  console.log(event);
+   //  var target = event.target || event.srcElement || event.currentTarget;
+   //  var idAttr = target.attributes.id;
+   //  var value = idAttr.nodeValue;
+   //  console.log('target id',value)
+   //  if(value!="startD"){
+   //  }
+   //   // if (this._eref.nativeElement.contains(event.target)) // or some similar check
+   //   // console.log(this._eref.nativeElement.contains(event.target))
    //  }
 
   getCoursePlanList(){
@@ -262,11 +262,11 @@ export class CoursecreateComponent implements OnInit {
     console.log("createCourse work",this.model);
     console.log(this.model.optionsSelected)
     console.log(this.model.opt)
-    if(this.model.prop == 'A'){
-      this.model.end = null;
-    }else if(this.model.prop == 'B'){
-      this.model.lessonCount == null;
-    }
+    // if(this.model.prop == 'A'){
+    //   this.model.end = null;
+    // }else if(this.model.prop == 'B'){
+    //   this.model.lessonCount == null;
+    // }
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
@@ -349,6 +349,7 @@ export class CoursecreateComponent implements OnInit {
     localStorage.removeItem('courseId');
     localStorage.removeItem('splan');
     this.router.navigate(['course/']); 
+    this.isEdit = true;
   }
   // onClickedOutside(e: Event) {
   //   console.log('Clicked outside:', e);
@@ -426,6 +427,8 @@ export class CoursecreateComponent implements OnInit {
       this.toastr.success('Successfully Updated.');
       localStorage.removeItem('coursePlanId');
       this.router.navigate(['course/']); 
+    },err => {
+      console.log(err);
     })
   }
   
