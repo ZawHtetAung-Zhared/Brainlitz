@@ -124,15 +124,17 @@
 			</div>
 		</div>
 		<div *ngIf="notiType == 'view'">
-			<img src="https://about.canva.com/wp-content/uploads/sites/3/2015/01/children_bookcover.png">
 			<div *ngFor="let noti of notiLists; let i = index" class="single-noti">
 				<p><span>Title:</span>--{{noti.title}}</p>
 				<p><span>Message:</span>--{{noti.message}}</p>
 				<p><span>Sent by:</span>--{{noti.sender.preferredName}}</p>
-				<p><span>Date:</span>--{{log.createdDate}}</p>
-				<div *ngFor="let log of noti.logs; let i = index" id="{{log.notiId}}">
-					<p><span>Sent to:</span>--{{log.user.preferredName}}</p>
-				</div>
+				<p><span>Date:</span>--{{noti.utc.day}}/{{noti.utc.month}}/{{noti.utc.year}}</p>
+				<span>Sent to:</span>
+				<ul>
+					<li *ngFor="let log of noti.logs; let i = index" id="{{log.notiId}}">
+						--{{log.user.preferredName}}
+					</li>
+				</ul>
 				<!-- <p><span>Sent by:</span>--{{noti.logs.sender.preferredName}}</p> -->
 				<!-- <p><span>Sent to:</span>--{{noti.user.preferredName}}</p> -->
 				<!-- <div>
