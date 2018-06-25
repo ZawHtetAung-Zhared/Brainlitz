@@ -75,8 +75,12 @@ export class UsersComponent implements OnInit {
 
 	open1(staffModal){
 		this.blankCrop = false; 
+		this.notShowEdit = true;
 		this.getAllpermission();
 		this.getAllLocation();
+		this.formFields = new staff();
+		this.updateButton = false;
+    	this.createButton = true;
 		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.formFields = new staff();	
@@ -89,6 +93,10 @@ export class UsersComponent implements OnInit {
 
 	open2(customerModal){
 		this.blankCrop = false;
+		this.notShowEdit = true;
+		this.formFieldc = new customer();
+		this.updateButton = false;
+    	this.createButton = true;
 		this.modalReference = this.modalService.open(customerModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.formFieldc = new customer();	
@@ -102,6 +110,7 @@ export class UsersComponent implements OnInit {
   	uploadCropImg($event: any) {
 	    this.blankCrop = true; 
 	    this.cropButton = false;
+	    $("#upload-demo img:first").remove();
 	    this.input = $event.target.files[0];
 	    if (this.input) {
 	      	if (this.input && this.uploadCrop) {
@@ -170,7 +179,7 @@ export class UsersComponent implements OnInit {
 	    return new Blob([ab], { type: mimeString });
 	}
 
-	createUser(obj, type){
+	createUser(obj, type, apiState){
 		console.log(obj);
 		console.log(type);
 		this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
@@ -215,20 +224,106 @@ export class UsersComponent implements OnInit {
 
 		this.blockUI.start('Loading...');
 		this.modalReference.close();
-		this._service.createUser(objData)
-    	.subscribe((res:any) => {
-  			console.log(res)
-  			this.toastr.success('Successfully Created.');
-	  		this.blockUI.stop();
-	  		this.getAllUsers('all');
-	    }, err => {
-	    	this.toastr.error('Create Fail');
-	    	this.blockUI.stop();
-	    	console.log(err)
-	    })
+		if(apiState == 'create'){
+			console.log('create')
+			this._service.createUser(objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res)
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.getAllUsers('all');
+		    }, err => {
+		    	this.toastr.error('Create Fail');
+		    	this.blockUI.stop();
+		    	console.log(err)
+		    })
+		}
+		else if (apiState == 'update'){
+			console.log('update')
+			this._service.updateUser(this.regionID,this.editId, objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res)
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.getAllUsers('all');
+		    }, err => {
+		    	this.toastr.error('Create Fail');
+		    	this.blockUI.stop();
+		    	console.log(err)
+		    })
+		}
+		else {
+			console.log('error')
+		}
 		
-	
     		
+	}
+
+	notShowEdit: boolean = true;
+	permissionId: any[] = [];
+	editId: any;
+	public updateButton: boolean = false;
+  	public createButton: boolean = true;
+
+	edit(id, type, modal){
+		console.log(id)
+		this.getAllpermission();
+		this.blankCrop= true;
+		this.notShowEdit = false;
+		this.updateButton = true;
+		this.createButton = false;
+		if(type == "customer"){
+			console.log('hello customer')
+			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
+			this._service.userDetail(this.regionID, id)
+			.subscribe((res:any) => {
+				console.log('customer', res);
+				this.formFieldc = res;
+				//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
+				//$("#upload-demo img").css("width", "100%");
+			})
+		}
+		else if (type == "staff"){
+			console.log('hello staff')
+			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
+			this._service.userDetail(this.regionID, id)
+			.subscribe((res:any) => {
+				console.log('staff', res);
+				this.formFields = res;
+				//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
+				//$("#upload-demo img").css("width", "100%");
+				//this.permissionId = this.formFields.location[0].permissionId;
+				this.editId = id;
+			})
+		}
+		else {
+			console.log('all user')
+			this._service.getAllUsers(this.regionID, type)
+			.subscribe((res:any) => {
+				for(var i = 0; i < res.length; i++){
+					if(res[i].userId == id && res[i].permissionCount == 0){
+						modal = customer
+						this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
+					}
+					else if(res[i].userId == id && res[i].permissionCount == 1){
+						this.modalReference = this.modalService.open('staffModal', { backdrop:'static', windowClass:'animation-wrap'});
+					}
+					else {
+						console.log('error')
+					}
+				}
+			})
+		}
+	}
+
+	updateUser(obj, type){
+		if(type == "customer"){
+			console.log('update customer')
+		}else if(type == "staff"){
+			console.log('update staff')
+		}else{
+			console.log('update all')
+		}
 	}
 
 	getAllUsers(type){

@@ -206,7 +206,7 @@ export class ToolsComponent implements OnInit {
           dataObj["id"] = temp._id
         }
       }
-    }else(type == 'user'){
+    }else{
       this.userCount = 1;
     }
     
