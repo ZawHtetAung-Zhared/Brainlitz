@@ -38,7 +38,7 @@
 						<select class="form-control" id="user"
 				        [(ngModel)]="model.locationId" name="location" #location="ngModel" required>
 				          <option value="" disabled="true">Select Location</option>
-				          <option *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
+				          <option [disabled]="isEdit" *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
 				        </select>
 					</div>
 				</div>
@@ -61,16 +61,18 @@
 				<div class="form-group form-head">
 					<label class="label-input">Start:</label>
 					<div class="flex-item">
-				      <input type="text" id="startD" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+				      <input [disabled]="isEdit" type="text" id="startD" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
 						  <div class="overlay" (click)="start.toggle()"><img src="./assets/img/calendar.png"></div>
 				    </div>
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Start Time</label>
-					<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
+					<input *ngIf="!isEdit" style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
+					<input *ngIf="isEdit" readonly style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" #starttime="ngModel" (ngModelChange)="calculateDuration(model.starttime)" required />
 				</div>
 				<div class="form-group form-head">
-					<label class="label-input">Duration:</label>
+					<label *ngIf="!isEdit" class="label-input">Duration:</label>
+					<label *ngIf="isEdit" class="label-input">Duration Times:</label>
 					<div class="new-input">
 						<div style="margin: 0px 0px 5px 0px">
 							<input class="form-control" type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
@@ -84,7 +86,7 @@
 					<label class="label-input">Repeat Days</label>
 					<div>
 						<label class="day" *ngFor="let d of days;let i=index;" >
-			                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1"> {{d.day}}
+			                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit"> {{d.day}}
 			            </label>
 					</div>
 				</div>
@@ -92,17 +94,20 @@
 					<label class="label-input">ENDS</label>
 					<div class="new-input">
 						<div>
-							<label><input type="radio" [(ngModel)]="model.prop" name="prop" value="A"> Lessons Count </label>
+							<label>
+								<input type="radio" [(ngModel)]= "model.prop" name="prop" value="A" (click)="model.end = null"> Lessons Count
+							</label>
 						</div>
 						<div class="lesson-wrap" *ngIf="model.prop === 'A'">
-							After <input type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel"> lessons
+							After <input *ngIf="!isEdit" type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel">
+							<input  *ngIf="isEdit" type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel" readonly> lessons
 						</div>
 						<div>
-							<label><input type="radio" [(ngModel)]="model.prop" name="prop" value="B"> End Date </label>
+							<label><input [disabled]="isEdit" type="radio" [(ngModel)]="model.prop" name="prop" value="B" (click)="model.lessonCount = ''"> End Date </label>
 						</div>
 						<div class="enddate-wrap" *ngIf="model.prop === 'B'">
 							on <div class="end-item">
-								<input type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+								<input [disabled]="isEdit" type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
 								  <div class="overlay" (click)="end.toggle()"><img src="./assets/img/calendar.png"></div>
 							</div>
 						</div>
@@ -112,40 +117,43 @@
 					<label class="label-input">Pdf</label>
 					<div class="new-input chklist-wrap">
 			            <label *ngFor="let pdf of pdfList;let i=index;">
-			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
+			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1" [disabled]="isEdit"> {{pdf.name}}
 			            </label>
 					</div>
 					<!-- {{cbChecked | json}} -->
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Teacher Name</label>
-					<select class="form-control new-input" id="teacherId"
+					<select class="form-control new-input"
 			        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
 			          <option value="" disabled="true">Select teacher Id</option>
-			          <option *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
+			          <option [disabled]="isEdit" *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
 			        </select>
-			        <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
+			       <!--  <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
 					  Teacher Name is required
-					</div>
+					</div> -->
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Course Code</label>
 					<div class="new-input">
-						<input type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
-						<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
+						<input *ngIf="!isEdit" type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
+						<input *ngIf="isEdit" readonly type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
+						<!-- <div [hidden]="code.valid || code.pristine" class="alert alert-danger">
 						  Course Code is required
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Room</label>
 					<div class="new-input">
-						<input type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
+						<input *ngIf="!isEdit" type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
+						<input *ngIf="isEdit" readonly type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
 					</div>
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Reserved Number of Seat</label>
-					<input type="number" class="form-control new-input" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId">
+					<input *ngIf="!isEdit" type="number" class="form-control new-input" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId">
+					<input *ngIf="isEdit" readonly type="number" class="form-control new-input" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId">
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Description</label>
