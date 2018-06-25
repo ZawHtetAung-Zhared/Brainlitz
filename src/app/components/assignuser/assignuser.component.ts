@@ -3,6 +3,7 @@ import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-assignuser',
@@ -27,7 +28,7 @@ export class AssignuserComponent implements OnInit {
   public userType:any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
-  constructor(private router: Router, private _service: appService, private modalService: NgbModal) { }
+  constructor(private router: Router, private _service: appService, private modalService: NgbModal, public toastr: ToastsManager) { }
 
   ngOnInit() {
     console.log(this.regionid)
@@ -185,6 +186,7 @@ export class AssignuserComponent implements OnInit {
     .subscribe((res:any) => {
       this.modalReference.close();
       console.log(res);
+      // this.toastr.success('WITHDRAWAL COMPLETED');
       this.getAssignList();
     })
   }
