@@ -167,7 +167,7 @@
 				</div>
 				<div class="form-group" style="float: right;">
 					<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-					<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool || !model.prop">Submit</button>
+					<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool || !model.lessonCount && !model.end">Submit</button>
 					<button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="updateCourse(model._id)" [disabled]="!heroForm.form.valid">Update</button>
 				</div>
 			</form>
