@@ -206,21 +206,25 @@ export class ToolsComponent implements OnInit {
           dataObj["id"] = temp._id
         }
       }
+    }else(type == 'user'){
+      this.userCount = 1;
     }
     
 
     console.log(dataObj)
-
-    this._service.userCount(dataObj)
-    .subscribe((res:any) => {      
-      
-        console.log(res);
-        console.log(res.count);
-        this.userCount = res.count;
-      
-    }, err => {
-      console.log(err)
-    })
+    if(type != 'user'){
+      this._service.userCount(dataObj)
+      .subscribe((res:any) => {      
+        
+          console.log(res);
+          console.log(res.count);
+          this.userCount = res.count;
+        
+      }, err => {
+        console.log(err)
+      })
+    }
+    
   }
 
 
