@@ -42,12 +42,24 @@ export class AssignuserComponent implements OnInit {
     console.log(this.assignList)
     let test = this.assignList.indexOf("5b272018f6f5fb1b0d844ba3");
     console.log("Test",test);
+    if(this.assignList.length > 0){
+      for (var i=0; i < this.assignList.length ; i++) {
+        this.assignedUser.push(this.assignList[i].userId);
+      }
+      console.log(this.checkedUser);
+    }
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.chooseUser = '';
+      this.checkedUser = [];
+      this.checkedName = [];
+      this.checkedUserStr = "";
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.chooseUser = '';
+      this.checkedUser = [];
+      this.checkedName = [];
+      this.checkedUserStr = "";
     });
   }
 
