@@ -103,10 +103,31 @@ export class CoursecreateComponent implements OnInit {
   }
 
    // onClick(event) {
-   //   console.log(event)
-   //   if (this._eref.nativeElement.contains(event.target)) // or some similar check
-   //   console.log(this._eref.nativeElement.contains(event.target))
+   //  console.log(event);
+   //  var target = event.target || event.srcElement || event.currentTarget;
+   //  var idAttr = target.attributes.id;
+   //  var value = idAttr.nodeValue;
+   //  console.log('target id',value)
+   //  if(value!="startD"){
    //  }
+   //   // if (this._eref.nativeElement.contains(event.target)) // or some similar check
+   //   // console.log(this._eref.nativeElement.contains(event.target))
+   //  }
+
+  // closeFix(event, datePicker) {
+  //   console.log("picker Click",event);
+  //    var target = event.target || event.srcElement || event.currentTarget;
+  //   var idAttr = target.attributes.name;
+  //   var value = idAttr.nodeValue;
+  //   console.log('target id',value)
+  //   if(value!="start"){
+  //     console.log("KKKKK")
+  //   }
+  //   // if(event.target.offsetParent != null)
+  //   //   datePicker.close();
+  //   // else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER")
+  //   //   datePicker.close();
+  // }
 
   getCoursePlanList(){
     this.blockUI.start('Loading...');
