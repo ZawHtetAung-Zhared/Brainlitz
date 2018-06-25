@@ -95,6 +95,10 @@
     border-left: 3px solid #4292f1;
 }
 
+.shadow-remove {
+    box-shadow: none;
+}
+
 .min-scroll {
     min-height: 350px; 
     overflow: scroll;
@@ -111,9 +115,12 @@
 }
 
 .bt-copy {
-    position: absolute;
-    right: 0;
-    bottom: 10px;
+    float: right;
+    margin-right: 10px;
+}
+
+.flt-right {
+    float: right;
 }
 
 .list-group-flush li span {
@@ -126,4 +133,8 @@
 
 .flex-row ul {
     padding-right: 40px;
+}
+
+.bt-mr {
+    margin-bottom: 5px;
 }
