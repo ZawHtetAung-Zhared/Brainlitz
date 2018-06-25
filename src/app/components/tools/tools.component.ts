@@ -30,6 +30,7 @@ export class ToolsComponent implements OnInit {
   public userCount:any;
   public notiType:any;
   public notiLists:any;
+  public utcDate:any;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -62,7 +63,23 @@ export class ToolsComponent implements OnInit {
     .subscribe((res:any) => {  
       console.log(res);
       this.blockUI.stop();
-      this.notiLists = res; 
+      this.notiLists = res;
+      for (var i in this.notiLists) {
+        let year = this.notiLists[i].utc.year;
+        let month = this.notiLists[i].utc.month;
+        let day = this.notiLists[i].utc.day;
+        let hour = this.notiLists[i].utc.hour;
+        let minutes = this.notiLists[i].utc.minutes;
+
+        var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
+        this.utcDate = utcTemp.toUTCString();
+
+        if(this.notiLists[i].utc){
+          this.notiLists[i].utc = this.utcDate;
+        }
+        // this.notiLists[i].push(this.utcDate)
+      }
+      console.log(this.notiLists)
     }, err => {
       this.blockUI.stop();
       this.toastr.error('View sent history fail');
