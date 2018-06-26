@@ -24,20 +24,22 @@
 		<form #reportForm="ngForm">
 			<ul style="padding: 15px;">
 				<li *ngFor="let detail of feedbackLists; let i = index;" class="divide-line">
-					<div class="count-pos">{{i+1}}- </div>
-					<div class="form-group">
-						<label>Name:</label><span>{{detail.preferredName}}</span><br>
-						<label>Title:</label><span>{{detail.title}}</span><br>
-						<label>Message:</label><span>{{detail.message}}</span><br>
-						<label>rating:</label><span>{{detail.rating}}</span>
-						<div><label>Course</label>
-							<div class="mr-group">
-								<p>Coursecode:<span>{{detail.course.courseCode}}</span></p>
-								<p>Description: <span>{{detail.course.description}}</span></p>
-								<p>Room:<span>{{detail.course.room}}</span></p>
-								<p>Name:<span>{{detail.course.name}}</span></p>
-								<p>Start Date: <span>{{detail.course.startDate}}</span></p>
-								<p>End Date:<span>{{detail.course.endDate}}</span></p>
+					<div class="d-flex flex-row">
+						<div class="count-pos col-md-1">{{i+1}}- </div>
+						<div class="form-group col-md-11">
+							<label>Name:</label><span>{{detail.preferredName}}</span><br>
+							<!-- <label>Title:</label><span>{{detail.title}}</span><br> -->
+							<label>Message:</label><span>{{detail.message}}</span><br>
+							<label>rating:</label><span>{{detail.rating}}</span>
+							<div><label>Course</label>
+								<div class="mr-group">
+									<p>Coursecode:<span>{{detail.course.courseCode}}</span></p>
+									<p>Description: <span>{{detail.course.description}}</span></p>
+									<p>Room:<span>{{detail.course.room}}</span></p>
+									<p>Name:<span>{{detail.course.name}}</span></p>
+									<p>Start Date: <span>{{detail.course.startDate}}</span></p>
+									<p *ngIf="detail.course.endDate != null">End Date:<span>{{detail.course.endDate}}</span></p>
+								</div>
 							</div>
 						</div>
 					</div>
