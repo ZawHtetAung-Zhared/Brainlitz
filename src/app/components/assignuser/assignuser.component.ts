@@ -55,12 +55,14 @@ export class AssignuserComponent implements OnInit {
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.chooseUser = '';
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     });
   }
 
@@ -79,12 +81,14 @@ export class AssignuserComponent implements OnInit {
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.chooseUser = '';
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     });
   }
 
@@ -111,6 +115,7 @@ export class AssignuserComponent implements OnInit {
 
   assignSelected(id, type){
   	console.log("Assign Users",id);
+    this.assignedUser = [];
     if(type == 'staff'){
      let obj1 = {
        'courseId': this.selectedCourse.courseid,

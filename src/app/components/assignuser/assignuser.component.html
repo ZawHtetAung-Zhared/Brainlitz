@@ -99,7 +99,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-      <button type="submit" class="btn btn-primary" (click)="assignSelected(checkedUserStr, 'staff')">Assign</button>
+      <button type="submit" class="btn btn-primary" (click)="assignSelected(checkedUserStr, 'staff')" [disabled]="toggleBtn">Assign</button>
     </div>
   </div>
 </ng-template>
