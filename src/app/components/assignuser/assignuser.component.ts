@@ -55,12 +55,14 @@ export class AssignuserComponent implements OnInit {
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.chooseUser = '';
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     });
   }
 
@@ -79,12 +81,14 @@ export class AssignuserComponent implements OnInit {
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.chooseUser = '';
       this.checkedUser = [];
       this.checkedName = [];
       this.checkedUserStr = "";
+      this.assignedUser = [];
     });
   }
 
@@ -111,6 +115,7 @@ export class AssignuserComponent implements OnInit {
 
   assignSelected(id, type){
   	console.log("Assign Users",id);
+    this.assignedUser = [];
     if(type == 'staff'){
      let obj1 = {
        'courseId': this.selectedCourse.courseid,
@@ -201,13 +206,18 @@ export class AssignuserComponent implements OnInit {
     console.log(idx)
     console.log('selectUser',user.userId,event);
     if(event.target.checked){
+      console.log("checked")
       this.checkedUser.push(user.userId);
       this.checkedUserStr = this.checkedUser.toString();
       this.checkedName.push(user.preferredName); 
       this.toggleBtn = false;
     }else{
+      console.log("unchecked")
       this.checkedUser.splice(idx,1);
       this.checkedName.splice(idx,1);
+      this.checkedUserStr = this.checkedUser.toString();
+      console.log('unchecked str',this.checkedUserStr)
+      console.log('unchecked arr',this.checkedUser)
        if(this.checkedUser.length > 0){
          this.toggleBtn = false;
        }else{

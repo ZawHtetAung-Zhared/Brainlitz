@@ -7,10 +7,14 @@
 		<div class="form-group">
 			<ul class="item-list" style="padding-left: 0;">
 			     <li *ngFor="let plan of coursePlan">
-			     	<label class="container">
+			     	<!-- <label class="container">
 			     		<input type="radio" name="cplan" [value]="plan" #cplan [(ngModel)]="choosePlan">
 			     		{{plan.name}}
-			     	</label> 
+			     	</label>  -->
+			     	<label class="radio-container">{{plan.name}}
+					  <input type="radio" id="{{plan._id}}" [(ngModel)]='checked' (click)="checkedData(plan)" name="cplan" value="{{plan.name}}">
+					  <span class="checkmark"></span>
+					</label>
 			     </li>
 			</ul>
 		</div>

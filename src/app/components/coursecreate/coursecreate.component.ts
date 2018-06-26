@@ -93,6 +93,8 @@ export class CoursecreateComponent implements OnInit {
       console.log("CHECKED create state",this.cbChecked)
       console.log(this.model.duration)
       console.log(this.model.coursePlanId)
+    }else{
+      this.showCourse = false;
     }
   }
 
@@ -154,6 +156,11 @@ export class CoursecreateComponent implements OnInit {
   showPlanlist(){
     console.log("showPlanList")
     this.showPlan = true;
+  }
+
+  checkedData(plan){
+    this.choosePlan = plan;
+    console.log('choose plan',this.choosePlan)
   }
 
   original:any;
