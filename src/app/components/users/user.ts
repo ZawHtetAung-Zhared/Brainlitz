@@ -4,6 +4,7 @@ export class staff {
 	preferredName: string;
 	email: string;
 	pwd: string;
+	permission: string;
 }
 
 export class customer {

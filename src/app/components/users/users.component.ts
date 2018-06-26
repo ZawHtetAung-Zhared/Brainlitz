@@ -182,8 +182,13 @@ export class UsersComponent implements OnInit {
 	createUser(obj, type, apiState){
 		console.log(obj);
 		console.log(type);
-		this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
-		this.img = this.dataURItoBlob(this.imageUrl);
+		let getImg = document.getElementById("blobUrl");
+		if(getImg != undefined){
+			this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
+			this.img = this.dataURItoBlob(this.imageUrl);
+		}else{
+			this.img = '';
+		}
 		let objData = new FormData();
 		if(type == 'staff'){
 			let locationObj = [{'locationId': this.locationID,'permissionId': obj.role}];
@@ -191,7 +196,7 @@ export class UsersComponent implements OnInit {
 			objData.append('orgId', this.orgID),
 			objData.append('firstName', obj.fname),
 			objData.append('lastName', obj.lname),
-			objData.append('preferredName', obj.dname),
+			objData.append('preferredName', obj.preferredName),
 			objData.append('email', obj.mail),
 			objData.append('regionId', this.regionID),
 			objData.append('password', obj.pwd),
@@ -208,7 +213,7 @@ export class UsersComponent implements OnInit {
 			objData.append('orgId', this.orgID);
 			objData.append('firstName', obj.fname);
 			objData.append('lastName', obj.lname);
-			objData.append('preferredName', obj.dname);
+			objData.append('preferredName', obj.preferredName);
 			objData.append('email', obj.mail);
 			objData.append('regionId', this.regionID);
 			objData.append('password', obj.pwd);
@@ -232,9 +237,15 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.getAllUsers('all');
-		    }, err => {
-		    	this.toastr.error('Create Fail');
+		    }, err => {		    	
 		    	this.blockUI.stop();
+		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    		this.toastr.error('Email already exist');
+		    	}
+		    	else {
+		    		this.toastr.error('Create Fail');
+		    	}
+		    	
 		    	console.log(err)
 		    })
 		}
