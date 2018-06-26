@@ -27,8 +27,12 @@
   	  	</div>
   	  	<div class="form-group">
   	    	<label for="dname">Display Name</label> 	
-  	    	<input type="text" class="form-control" placeholder="Enter user name" name="dname" [(ngModel)]="formFields.preferredName" #dname="ngModel">
+  	    	<input type="text" class="form-control" placeholder="Enter user name" name="preferredName" [(ngModel)]="formFields.preferredName" #preferredName="ngModel" maxlength="15">
+  	    	<span style="color:red" *ngIf="formFields.preferredName?.length >= 15 ">
+			      Display Name cannot be more than 15 characters long.
+			</span>
   	  	</div>
+  	  	
   	  	<div class="form-group">
   	    	<label for="mail">Email</label> 	
   	    	<input type="email" class="form-control" placeholder="Enter user name" name="mail" [(ngModel)]="formFields.email" required #mail="ngModel">
@@ -51,7 +55,7 @@
 			<div class="form-group">
 				<label>Permission as</label><br>
 				<div class="form-check form-check-inline" *ngFor="let user of permissionLists; let i = index;" >
-					<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="permission" [checked]="permissionId.indexOf(user._id) != -1">
+					<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="formFields.permission" [checked]="permissionId.indexOf(user._id) != -1" required>
 				  	<label for={{user._id}} class="form-check-label mr-lt">{{user.name}}</label>
 				</div>
 			</div>	
@@ -105,7 +109,10 @@
 	  	  	</div>
 	  	  	<div class="form-group">
 	  	    	<label for="dname">Display Name</label> 	
-	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="dname" [(ngModel)]="formFieldc.preferredName" #dname="ngModel" required>
+	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="preferredName" [(ngModel)]="formFieldc.preferredName" #preferredName="ngModel" required maxlength="15">
+	  	    	<span style="color:red" *ngIf="formFieldc.preferredName?.length >= 15 ">
+				      Display Name cannot be more than 15 characters long.
+				</span>
 	  	  	</div>
 	  	  	<div class="form-group">
 	  	    	<label for="mail">Email</label> 	

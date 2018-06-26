@@ -1,6 +1,6 @@
 <div class="inner-wrapper">
 <div class="mb-30">
-	<button type="button" class="btn btn-primary" (click)="open(content)">+ Create Quizwerkz</button>
+  <button type="button" class="btn btn-primary" (click)="open(content)">+ Create Quizwerkz</button>
 </div>
 
 <div class="scrollable container">
@@ -23,25 +23,41 @@
     </button>
   </div>
   <form novalidate #pdfForm="ngForm">
-  	<div class="modal-body">
-	  	<div class="form-group">
-	      <label for="name">Name</label>   
-	      <input type="text" class="form-control" placeholder="quizwerkz name" name="name" [(ngModel)]="formField.name" required #name="ngModel">
-	    </div>
-	    <div class="form-group">
-	      <label for="name">Book Url</label>   
-	      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="formField.url" required #url="ngModel" required>
-	    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="name">Name</label>   
+        <input type="text" class="form-control" placeholder="quizwerkz name" name="name" [(ngModel)]="formField.name" required #name="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="name">Book Url</label>   
+        <input type="url" class="form-control" placeholder="https://bookurl.jpg" pattern="https?://.+" name="url" [(ngModel)]="formField.url" required #url="ngModel" required>
+        <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
+          <div [hidden]="!url.errors.required">
+            URL is required!
+          </div>
+          <div [hidden]="!url.errors.pattern">
+            Must be a valid URL!
+          </div>
+        </div>
+      </div>
       <div class="form-group">
         <label for="name">Book Cover Url</label>   
-        <input type="url" class="form-control" placeholder="enter cover URl link" name="cover" [(ngModel)]="formField.cover" required #cover="ngModel" required>
+        <input type="url" class="form-control" placeholder="enter cover URl link" name="cover" [(ngModel)]="formField.cover" required #cover="ngModel" required placeholder="https://bookcover.jpg" pattern="https?://.+" >
+        <div *ngIf="cover.errors && (cover.dirty || cover.touched)" class="alert alert-danger">
+          <div [hidden]="!cover.errors.required">
+            URL is required!
+          </div>
+          <div [hidden]="!cover.errors.pattern">
+            Must be a valid URL!
+          </div>
+        </div>
       </div>
-  	</div>
-  	<div class="modal-footer">
-  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-  	  <button *ngIf="!isEdit" type="submit" [disabled]="!pdfForm.valid" class="btn btn-primary" (click)="createQuizWerkz(formField, isEdit)">Create</button>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
+      <button *ngIf="!isEdit" type="submit" [disabled]="!pdfForm.valid" class="btn btn-primary" (click)="createQuizWerkz(formField, isEdit)">Create</button>
       <button *ngIf="isEdit" type="submit" [disabled]="!pdfForm.valid" class="btn btn-primary" (click)="updateQuizWerkz(formField)">Update</button>
-  	</div>
+    </div>
   </form>
 </ng-template>
 
