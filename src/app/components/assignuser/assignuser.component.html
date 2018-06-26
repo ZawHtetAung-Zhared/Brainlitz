@@ -36,7 +36,7 @@
       <ul class="list-group-flush">
         <li class="list-group-item" *ngFor="let user of assignList">
           <span style="margin-right: 20px;">{{user.preferredName}}</span>
-          <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
+          <button *ngIf="user.userType != 'TEACHER'" type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
         </li>
       </ul>
     </div>
@@ -48,7 +48,7 @@
               <span style="margin-right: 20px;">{{user.preferredName}}</span>
             </div>
             <div class="col-sm">
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
+              <button *ngIf="user.userType != 'TEACHER'" type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@
               <span style="margin-right: 20px;">{{user.preferredName}}</span>
             </div>
             <div class="col-sm">
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
+              <button *ngIf="user.userType != 'TEACHER'" type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
             </div>
           </div>
         </div>
