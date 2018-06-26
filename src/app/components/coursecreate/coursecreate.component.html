@@ -121,7 +121,7 @@
 					<label class="label-input">Pdf</label>
 					<div class="new-input chklist-wrap">
 			            <label *ngFor="let pdf of pdfList;let i=index;">
-			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1" [disabled]="isEdit"> {{pdf.name}}
+			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
 			            </label>
 					</div>
 					<!-- {{cbChecked | json}} -->

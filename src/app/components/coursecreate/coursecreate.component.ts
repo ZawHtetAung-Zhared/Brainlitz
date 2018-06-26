@@ -176,7 +176,9 @@ export class CoursecreateComponent implements OnInit {
     this.showCourse = true;
     localStorage.setItem('coursePlanId',plan._id);
     this.coursePlanId = localStorage.getItem('coursePlanId');
-    console.log("Course Plan",this.hello)    
+    console.log("Course Plan",this.hello) 
+    this.model.locationId = "";  
+    this.model.teacherId = "";  
     this.model.coursePlanId = plan._id;
     this.model.coursePlanName = plan.name;
     this.model.durationTimes = plan.lesson.duration;
