@@ -113,7 +113,7 @@
 						</div>			
 						<div>
 							<button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button>
-							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary">Submit</button>
+							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid">Submit</button>
 						</div>
 					</form>
 				</div>
