@@ -99,10 +99,10 @@
 					<label for="age">Age</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							From <input type="number" class="form-control" [(ngModel)]="formField.age.min" min="0" id="age" name="minage" required>
+							From <input type="number" class="form-control" [(ngModel)]="formField.age.min" max="{{formField.age.max-1}}" min="1" id="age" name="minage" required>
 						</div>
 					 	<div class="col-md-4">
-					 		to <input type="number" class="form-control" [(ngModel)]="formField.age.max" min="1" id="age" name="maxage" required>
+					 		to <input type="number" class="form-control" [(ngModel)]="formField.age.max" min="{{formField.age.min+1}}" id="age" name="maxage" required>
 					 	</div>
 					</div>
 				</div>

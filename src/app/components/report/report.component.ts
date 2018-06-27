@@ -25,14 +25,12 @@ export class ReportComponent implements OnInit {
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
-	utcDate: any;
+	utcStartDate: any;
+  	utcEndDate: any;
 
   	ngOnInit() {
   		this.getStaffRating();
   	}
-
-  	utcStartDate: any;
-  	utcEndDate: any;
 
   	getFeedBack(teacherId){
   		this.showDetail = true;
