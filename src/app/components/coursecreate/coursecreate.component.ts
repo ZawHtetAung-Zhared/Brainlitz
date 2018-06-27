@@ -383,7 +383,7 @@ export class CoursecreateComponent implements OnInit {
     let obj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,0),
+      "endDate": this.changeDateFormat(this.model.end,"00:00"),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
