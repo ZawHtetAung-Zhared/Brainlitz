@@ -1,3 +1,76 @@
+.book-li{
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-flow: column;
+	-ms-flex-flow: column;
+	flex-flow: column;
+	-webkit-flex: 1 0 22%;
+	-ms-flex: 1 0 22%;
+	flex: 1 0 22%;
+	max-width: 22%;
+	position: relative;
+}
+.bookcover-wrap{
+	/*width: 100%;
+	height: auto;*/
+	position: relative;
+    z-index: 0;
+    /*overflow: hidden;*/
+}
+.bookcover-wrap img{
+	position: absolute;
+	clip: rect(0px, 290px, 274px, 0px);
+	z-index: 999;
+	display: block;
+    max-width: 100%;
+    height: auto;
+    transition: opacity .2s ease;
+}
+.book-info{
+	margin-top: 280px;
+}
+ul.qwbook-lists{
+	/*display: inline-block;
+	list-style: none;*/
+	display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    width: 960px;
+}
+/*ul.qwbook-lists .book-li{
+	display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-flow: column;
+    -ms-flex-flow: column;
+    flex-flow: column;
+    -webkit-flex: 1 0 22%;
+    -ms-flex: 1 0 22%;
+    flex: 1 0 22%;
+    margin: 0 38px 62px 0;
+    max-width: 22%;
+    position: relative;
+}*/
+ul.qwbook-lists li{
+	padding-right: 20px;
+	min-height: 430px;
+	margin-bottom: 3em;
+}
+ul.qwbook-lists li p{
+	text-transform: capitalize;
+	min-height: 45px;
+	margin-top: 1em;
+}
 .view label {
 	font-weight: bold;
 }

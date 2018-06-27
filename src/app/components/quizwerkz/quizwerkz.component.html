@@ -3,14 +3,22 @@
   <button type="button" class="btn btn-primary" (click)="open(content)">+ Create Quizwerkz</button>
 </div>
 
-<div class="scrollable container">
-  <ul class="list-group-flush">
-    <li class="list-group-item" *ngFor="let pdf of pdfList">
-      <span style="margin-right: 20px;">{{pdf.name}}</span><!-- {{course.name}} -->
-      <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">Create</button> -->
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onClickDelete(pdf,confirm)">Delete</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm" style="margin-right: 5px;" (click)="editQuizWerkz(pdf._id, content)">Edit</button>
-       <button type="button" class="btn btn-secondary float-right btn-sm" style="margin-right: 5px;" (click)="viewQuizWerkz(pdf._id,view)">View</button>
+<div class="scrollable container">  
+  <!-- <ul class="qwbook-lists d-flex flex-row flex-wrap"> -->
+  <ul class="qwbook-lists">
+    <li class="book-li" *ngFor="let pdf of pdfList">
+      <div class="bookcover-wrap">
+        <img src="{{pdf.cover}}">
+      </div>
+      <div class="book-info">
+        <p>{{pdf.name}}</p><!-- {{course.name}} -->
+        <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">Create</button> -->
+        <div>
+          <button type="button" class="btn btn-secondary btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onClickDelete(pdf,confirm)">Delete</button>
+          <button type="button" class="btn btn-secondary btn-sm" style="margin-right: 5px;" (click)="editQuizWerkz(pdf._id, content)">Edit</button>
+          <button type="button" class="btn btn-secondary btn-sm" style="margin-right: 5px;" (click)="viewQuizWerkz(pdf._id,view)">View</button>
+        </div>
+      </div>
     </li>
   </ul>
 </div>
