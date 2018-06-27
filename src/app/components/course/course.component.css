@@ -21,5 +21,9 @@ li button{
 	font-weight: bold;
 }
 .repeatday{
-	margin: 5px;
+	/*margin: 5px;*/
+	margin-left: 5px;
+}
+.child{
+	font-size: 14px;
 }
