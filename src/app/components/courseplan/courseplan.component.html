@@ -110,10 +110,10 @@
 					<label for="duration">Lesson</label>
 					<div class="col-md-12  makeup-group">
 						<div class="col-md-4">
-							Min <input type="number" class="form-control" [(ngModel)]="formField.lesson.min" min="0" name="minDuration" required>
+							Min <input type="number" class="form-control" [(ngModel)]="formField.lesson.min" min="1" max="{{formField.lesson.max-1}}" name="minDuration" required>
 						</div> 
 						<div class="col-md-4">
-							Max <input type="number" class="form-control" [(ngModel)]="formField.lesson.max" min="1" name="maxDuration" required>
+							Max <input type="number" class="form-control" [(ngModel)]="formField.lesson.max" min="{{formField.lesson.min+1}}" name="maxDuration" required>
 						</div>
 						<div class="col-md-4">
 							Lesson Duration <input type="number" class="form-control" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" required>
