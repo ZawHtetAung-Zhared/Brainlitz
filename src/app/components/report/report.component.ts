@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import * as moment from 'moment'; //
 
 @Component({
   selector: 'app-report',
@@ -24,6 +25,8 @@ export class ReportComponent implements OnInit {
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
+	utcStartDate: any;
+  	utcEndDate: any;
 
   	ngOnInit() {
   		this.getStaffRating();
@@ -35,6 +38,18 @@ export class ReportComponent implements OnInit {
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
 			console.log('this.feedbackLists', this.feedbackLists)
+			for (var i in this.feedbackLists) {
+			    if(this.feedbackLists[i].course.startDate){
+			    	let startDateGet = this.feedbackLists[i].course.startDate;
+		       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
+		          	this.feedbackLists[i].course.startDate = this.utcStartDate;
+		        }
+		        if(this.feedbackLists[i].course.endDate){
+		        	let endDateGet = this.feedbackLists[i].course.endDate;
+		        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
+		        	this.feedbackLists[i].course.endDate = this.utcEndDate;
+		        }
+		      }
 	    }, err => {
 	    	console.log(err)
 	    })

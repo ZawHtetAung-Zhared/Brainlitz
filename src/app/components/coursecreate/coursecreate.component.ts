@@ -49,14 +49,12 @@ export class CoursecreateComponent implements OnInit {
   public cbChecked = [];
   minDate:any;
   maxDate:any;
-  // isDisabled:any;
   courseList: any;
   bsValue: Date;
   powers: any;
   @BlockUI() blockUI: NgBlockUI;
   date = new Date();
   hello = JSON.parse(localStorage.getItem('splan')) ;
-  // mytime: Date = new Date(); 
   public pdfListLength:any;
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
@@ -85,6 +83,8 @@ export class CoursecreateComponent implements OnInit {
       this.getPdfList();
       this.getLocationsList();
       console.log('this hello',this.hello);
+      this.model.locationId = "";  
+      this.model.teacherId = "";  
       this.model.coursePlanId = this.hello.planid;
       this.model.coursePlanName = this.hello.planname;
       this.model.durationTimes = this.hello.duration;
@@ -208,18 +208,6 @@ export class CoursecreateComponent implements OnInit {
   }
 
   selectDay(data, event): void {
-    // console.log("Day",data,event);
-    // if (event.target.checked) {
-    //     this.selectedDay.push(data);
-    //     this.toggleBool= false;
-    //  } else {
-    //    var index = this.selectedDay.indexOf(event.target.value);
-    //    console.log("Else")
-    //     this.selectedDay.splice(index, 1);
-    //     this.toggleBool= true;
-    // }
-    // this.selectedDay.sort();
-    // console.log(this.selectedDay);
     console.log("Day",data,event);
     var dayIdx = this.selectedDay.indexOf(data);
     console.log(dayIdx)
@@ -279,7 +267,7 @@ export class CoursecreateComponent implements OnInit {
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,0),
+      "endDate": this.changeDateFormat(this.model.end,"00:00"),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
@@ -311,47 +299,24 @@ export class CoursecreateComponent implements OnInit {
     this.maxDate =  date;
   }
 
-  changeDateFormat(date,time){
-    if(time == 0){
-      if (date == null) {
-        console.log('null',date)
-        return ""
-      }else{
-         let enddate =  date.year+ '-' +date.month+ '-' +date.day;
-          return enddate;
-      }
-      // let enddate =  date.year+ '-' +date.month+ '-' +date.day;
-      // return enddate;
-    }else{
-      let sdate = date.year+ '-' +date.month+ '-' +date.day;
-      let dateParts = sdate.split('-');
-      console.log("dateParts",dateParts)
-      if(dateParts[1]){
-        console.log(Number(dateParts[1])-1);
-        let newParts = Number(dateParts[1])-1;
-        dateParts[1] = newParts.toString();
-      }
-      let timeParts = time.split(':');
-      if(dateParts && timeParts) {
-          let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
-          console.log("UTC",testDate)
-          let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
-          console.log("ISO",fullDate)
-          return fullDate;
-      }
+  changeDateFormat(date,time){    
+    let sdate = date.year+ '-' +date.month+ '-' +date.day;
+    let dateParts = sdate.split('-');
+    console.log("dateParts",dateParts)
+    if(dateParts[1]){
+      console.log(Number(dateParts[1])-1);
+      let newParts = Number(dateParts[1])-1;
+      dateParts[1] = newParts.toString();
+    }
+    let timeParts = time.split(':');
+    if(dateParts && timeParts) {
+        let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+        console.log("UTC",testDate)
+        let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
+        console.log("ISO",fullDate)
+        return fullDate;
     }
   }
-
-  // changeEndDateFormat(date,time){
-  //   console.log("end")
-  //   if (date == null) {
-  //     console.log('null',date)
-  //     return ""
-  //   }else{
-  //      let enddate =  date.year+ '-' +date.month+ '-' +date.day;
-  //       return enddate;
-  //   }
-  // }
   
   cancel(){
     localStorage.removeItem('coursePlanId');
@@ -418,7 +383,7 @@ export class CoursecreateComponent implements OnInit {
     let obj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,0),
+      "endDate": this.changeDateFormat(this.model.end,"00:00"),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,

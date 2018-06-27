@@ -59,7 +59,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body course-view">
     <div>
       <label class="detail-label">Course Plan Name:</label> 
       <span>{{coursePlanName}}</span>
@@ -74,7 +74,7 @@
     </div>
     <div>
       <label class="detail-label">Description:</label> 
-      <span>{{detailCourse.description}}</span>
+      <label>{{detailCourse.description}}</label>
     </div>
     <div>
       <label class="detail-label">Location:</label> 
@@ -94,8 +94,8 @@
     </div>
     <div>
       <label class="detail-label">Repeated Days:</label> 
-        <label *ngFor="let day of repeatDay" class="repeatday">
-          {{day}}
+        <label *ngFor="let day of repeatDay;let isLast=last" class="repeatday">
+          {{day}}{{isLast ? '' : ', '}}
         </label>
     </div>
     <div>
@@ -105,23 +105,23 @@
     <div>
       <label class="detail-label">Payment Policy</label> 
     </div>
-    <div>
+    <div class="child">
       <label>Allow Prorated:</label> 
       <span>{{detailCourse.paymentPolicy.allowProrated}}</span>
     </div>
-    <div>
+    <div class="child">
       <label>Course Fee:</label> 
       <span>{{detailCourse.paymentPolicy.courseFee}}</span>
     </div>
-    <div>
+    <div class="child">
       <label>Deposit</label> 
       <span>{{detailCourse.paymentPolicy.deposit}}</span>
     </div>
-    <div>
+    <div class="child">
       <label>Misc Fee:</label> 
       <span>{{detailCourse.paymentPolicy.miscFee}}</span>
     </div>
-    <div>
+    <div class="child">
       <label>Prorated Lesson Fee:</label> 
       <span>{{detailCourse.paymentPolicy.proratedLessonFee}}</span>
     </div>
@@ -139,8 +139,8 @@
     </div>
     <div>
       <label class="detail-label">Quizwerkz:</label> 
-      <label *ngFor="let pdf of detailCourse.quizwerkz" class="repeatday">
-        {{pdf.name}}
+      <label *ngFor="let pdf of detailCourse.quizwerkz;let isLast=last" class="repeatday">
+        {{pdf.name}}{{isLast ? '' : ', '}}
       </label>
     </div>
   </div>
