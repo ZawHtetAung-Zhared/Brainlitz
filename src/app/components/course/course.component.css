@@ -27,3 +27,8 @@ li button{
 .child{
 	font-size: 14px;
 }
+.course-view{
+	min-height: 600px;
+    max-height: 600px;
+    overflow-y: auto;
+}
