@@ -211,7 +211,10 @@ export class CoursecreateComponent implements OnInit {
     this.selectedDay=[];
     let xxx = JSON.parse(localStorage.getItem('splan'))
     console.log(xxx.quizwerkz)
-    this.choosePlan.quizwerkz = xxx.quizwerkz
+    console.log("choosePlan in Back",this.choosePlan);
+    if(this.choosePlan){
+      this.choosePlan.quizwerkz = xxx.quizwerkz
+    }
   }
 
   selectDay(data, event): void {
