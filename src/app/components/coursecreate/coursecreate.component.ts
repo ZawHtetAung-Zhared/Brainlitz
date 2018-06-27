@@ -176,13 +176,13 @@ export class CoursecreateComponent implements OnInit {
     this.showCourse = true;
     localStorage.setItem('coursePlanId',plan._id);
     this.coursePlanId = localStorage.getItem('coursePlanId');
-    console.log("Course Plan",this.hello) 
+    // console.log("Course Plan",this.hello) 
     this.model.locationId = "";  
     this.model.teacherId = "";  
     this.model.coursePlanId = plan._id;
     this.model.coursePlanName = plan.name;
     this.model.durationTimes = plan.lesson.duration;
-    this.original = plan.quizwerkz;
+    // this.original = plan.quizwerkz;
     this.cbChecked = plan.quizwerkz;
     console.log("CHECKED create state",this.cbChecked)
     console.log(this.model.duration)
@@ -205,6 +205,13 @@ export class CoursecreateComponent implements OnInit {
   back(){
     console.log("Back Works")
     this.showCourse = false;
+    this.model = {};
+    this.cbChecked = [];
+    console.log("pdf checked",this.cbChecked)
+    this.selectedDay=[];
+    let xxx = JSON.parse(localStorage.getItem('splan'))
+    console.log(xxx.quizwerkz)
+    this.choosePlan.quizwerkz = xxx.quizwerkz
   }
 
   selectDay(data, event): void {
@@ -299,22 +306,27 @@ export class CoursecreateComponent implements OnInit {
     this.maxDate =  date;
   }
 
-  changeDateFormat(date,time){    
-    let sdate = date.year+ '-' +date.month+ '-' +date.day;
-    let dateParts = sdate.split('-');
-    console.log("dateParts",dateParts)
-    if(dateParts[1]){
-      console.log(Number(dateParts[1])-1);
-      let newParts = Number(dateParts[1])-1;
-      dateParts[1] = newParts.toString();
-    }
-    let timeParts = time.split(':');
-    if(dateParts && timeParts) {
-        let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
-        console.log("UTC",testDate)
-        let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
-        console.log("ISO",fullDate)
-        return fullDate;
+  changeDateFormat(date,time){
+      if (date == null) {
+        console.log('null',date)
+        return ""
+      }else{
+        let sdate = date.year+ '-' +date.month+ '-' +date.day;
+        let dateParts = sdate.split('-');
+        console.log("dateParts",dateParts)
+        if(dateParts[1]){
+          console.log(Number(dateParts[1])-1);
+          let newParts = Number(dateParts[1])-1;
+          dateParts[1] = newParts.toString();
+        }
+        let timeParts = time.split(':');
+        if(dateParts && timeParts) {
+            let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+            console.log("UTC",testDate)
+            let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
+            console.log("ISO",fullDate)
+            return fullDate;
+        }
     }
   }
   
