@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -28,7 +28,9 @@ export class AssignuserComponent implements OnInit {
   public userType:any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
-  constructor(private router: Router, private _service: appService, private modalService: NgbModal, public toastr: ToastsManager) { }
+  constructor(private router: Router, private _service: appService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
+     this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     console.log(this.regionid)
@@ -127,6 +129,7 @@ export class AssignuserComponent implements OnInit {
      .subscribe((res:any) => {
        this.blockUIList.stop();
        console.log(res);
+       this.toastr.success('Successfully Assigned.');
        this.getAssignList();
      })
      this.modalReference.close();
@@ -141,6 +144,7 @@ export class AssignuserComponent implements OnInit {
      .subscribe((res:any) => {
        this.blockUIList.stop(); 
        console.log(res);
+       this.toastr.success('Successfully Assigned.');
        this.getAssignList();
      })
      this.modalReference.close();
@@ -191,7 +195,7 @@ export class AssignuserComponent implements OnInit {
     .subscribe((res:any) => {
       this.modalReference.close();
       console.log(res);
-      // this.toastr.success('WITHDRAWAL COMPLETED');
+      this.toastr.success('Withdrawal Completed.');
       this.getAssignList();
     })
   }
