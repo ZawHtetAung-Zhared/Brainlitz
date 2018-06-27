@@ -64,6 +64,7 @@ export class ToolsComponent implements OnInit {
       console.log(res);
       this.blockUI.stop();
       this.notiLists = res;
+      console.log('haha', this.notiLists)
       for (var i in this.notiLists) {
         let year = this.notiLists[i].utc.year;
         let month = this.notiLists[i].utc.month;
