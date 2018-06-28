@@ -140,12 +140,15 @@ export class appService{
     createNoti(obj, body): Observable<any>{ 
       console.log(obj)     
       console.log(obj.id)     
+      console.log(obj.active)     
       this.getLocalstorage();
       if(obj.id != undefined){
         var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&id=' + obj.id  ;
       }else{
         var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option   ;
       }
+
+      url = (obj.active != undefined) ? url + '&active=1' : url;
 
       console.log(url)
       const httpOptions = {

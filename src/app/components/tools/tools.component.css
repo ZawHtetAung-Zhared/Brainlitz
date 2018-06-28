@@ -63,12 +63,23 @@
 	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
 }
 .user-count{
-	padding: 25px 65px;
+	padding: 25px 20px;
     background: #ece8ef;
+    border: 1px solid transparent;
+    color: #212529;
     display: table;
     border-radius: 5px;
     margin-top: 5em;
     margin-left: 3em;
+    -webkit-transition: .1s all ease-out;
+    transition: .1s all ease-out;
+    text-align: center;
+    width: 160px;
+}
+.no-user{
+	background: #fff;
+	border: 1px solid #f5575f;
+	color: #f5575f;
 }
 .user-count p{
 	margin-bottom: 0;
