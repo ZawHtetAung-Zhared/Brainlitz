@@ -115,14 +115,11 @@ export class CoursecreateComponent implements OnInit {
     this._service.getAllCoursePlan(this.regionID)
     .subscribe((res:any) => {
       this.coursePlan = res;
-      // if(this.coursePlanId != undefined){
-      //   this.showCoursePlanName(this.coursePlanId);
-      //   console.log('hello ~~');
-      // }
       console.log(this.coursePlan);
-       setTimeout(() => {
-        this.blockUI.stop(); // Stop blocking
-      }, 80);
+      this.blockUI.stop(); // Stop blocking
+      //  setTimeout(() => {
+      //   this.blockUI.stop(); // Stop blocking
+      // }, 80);
     });
   }
 
@@ -158,10 +155,10 @@ export class CoursecreateComponent implements OnInit {
     this.showPlan = true;
   }
 
-  checkedData(plan){
-    this.choosePlan = plan;
-    console.log('choose plan',this.choosePlan)
-  }
+  // checkedData(plan){
+  //   this.choosePlan = plan;
+  //   console.log('choose plan',this.choosePlan)
+  // }
 
   original:any;
   selectCoursePlan(plan){
@@ -187,14 +184,6 @@ export class CoursecreateComponent implements OnInit {
     console.log("CHECKED create state",this.cbChecked)
     console.log(this.model.duration)
     console.log(this.model.coursePlanId)
-    // this.model.coursePlanId = this.hello.planid;
-    // this.model.coursePlanName = this.hello.planname;
-    // this.model.durationTimes = this.hello.duration;
-    // this.original = this.hello.quizwerkz;
-    // this.cbChecked = this.hello.quizwerkz;
-    // console.log("CHECKED create state",this.cbChecked)
-    // console.log(this.model.duration)
-    // console.log(this.model.coursePlanId)
     this.getUserList();
     this.getLocationsList();
     this.getPdfList();
@@ -215,9 +204,29 @@ export class CoursecreateComponent implements OnInit {
     if(this.choosePlan){
       this.choosePlan.quizwerkz = xxx.quizwerkz
     }
+    localStorage.removeItem('coursePlanId');
+  }
+  testChar:boolean;
+  numberOnly(event):boolean{
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log("character");
+      this.testChar = true;
+      return false;
+    }
+    this.testChar = false;
+    return true;
+    // return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
+  public hide: boolean = true;
+  onChange(technology) {
+    console.log(technology);
+    this.hide = false;
   }
 
+  clickInit:boolean = false;
   selectDay(data, event): void {
+    this.clickInit = true;
     console.log("Day",data,event);
     var dayIdx = this.selectedDay.indexOf(data);
     console.log(dayIdx)
@@ -225,14 +234,14 @@ export class CoursecreateComponent implements OnInit {
         if(dayIdx < 0 )
           this.selectedDay.push(data);
           this.toggleBool= false;
-     } else {
-       if(dayIdx >= 0 )
-          this.selectedDay.splice(dayIdx,1);
-          if(this.selectedDay.length>0){
-            this.toggleBool= false;
-          }else{
-            this.toggleBool= true;
-          }
+    } else {
+        if(dayIdx >= 0 )
+        this.selectedDay.splice(dayIdx,1);
+        if(this.selectedDay.length>0){
+          this.toggleBool= false;
+        }else{
+          this.toggleBool= true;
+        }
     }
     this.selectedDay.sort();
     console.log(this.selectedDay);
@@ -292,12 +301,18 @@ export class CoursecreateComponent implements OnInit {
     console.log("Course",this.courseObj);
     this._service.createCourse(this.regionID,this.courseObj)
     .subscribe((res:any) => {
-      console.log(res); 
-      this.toastr.success('Successfully Created.');
+      console.log(res);
+      setTimeout(() => {
+        this.toastr.success('Successfully Created.');
+      }, 300); 
+      // this.toastr.success('Successfully Created.');
       localStorage.removeItem('coursePlanId');
       localStorage.removeItem('splan');
       this.router.navigate(['course/']); 
-    });
+    },err => {
+        this.toastr.error('Create Fail');
+        console.log(err)
+      });
   }
 
   setMinDate(event){
@@ -413,10 +428,13 @@ export class CoursecreateComponent implements OnInit {
     this._service.updateCourse(courseid,obj)
     .subscribe((res:any) => {
       console.log(res);
-      this.toastr.success('Successfully Updated.');
       localStorage.removeItem('coursePlanId');
+      setTimeout(() => {
+        this.toastr.success('Successfully Updated.');
+      }, 300); 
       this.router.navigate(['course/']); 
     },err => {
+      this.toastr.error('Edit Fail');
       console.log(err);
     })
   }
