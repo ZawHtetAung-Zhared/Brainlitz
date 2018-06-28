@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { quizWerkzForm } from './quizwerkz';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-quizwerkz',
@@ -11,6 +13,7 @@ import { quizWerkzForm } from './quizwerkz';
   styleUrls: ['./quizwerkz.component.css']
 })
 export class QuizwerkzComponent implements OnInit {
+  @BlockUI() blockUI: NgBlockUI;
 	@ViewChild('pdfForm') form: any;
 	formField: quizWerkzForm = new quizWerkzForm();
 	public regionID = localStorage.getItem('regionId');
@@ -25,7 +28,9 @@ export class QuizwerkzComponent implements OnInit {
   public editId: any;
   viewQuiz: any;
 
-  constructor(private modalService: NgbModal, private _service: appService) { }
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
   	this.getAllPdf();
@@ -71,11 +76,17 @@ export class QuizwerkzComponent implements OnInit {
   		"url": obj.url,
       "cover": obj.cover
   	}
+    this.blockUI.start('Loading...');
     this.modalReference.close();
     this._service.createPdf(data)
     .subscribe((res:any) => {
       console.log(res);
+      this.blockUI.stop();
+      this.toastr.success('Quizwerkz successfully created.');
       this.getAllPdf();
+    }, err => {
+      this.toastr.error('Create quizwerkz failed.');
+      console.log(err)
     })
   }
 
@@ -131,11 +142,17 @@ export class QuizwerkzComponent implements OnInit {
       "url": obj.url,
       "cover": obj.cover
     }
+    this.blockUI.start('Loading...');
     this.modalReference.close();
     this._service.updateSignleQuizwerkz(this.editId, data)
     .subscribe((res:any) => {
       console.log(res);
+      this.toastr.success('Successfully edited.');
+      this.blockUI.stop();
       this.getAllPdf();
+    }, err => {
+      this.toastr.error('Edit fail');
+      console.log(err)
     })
   }
   

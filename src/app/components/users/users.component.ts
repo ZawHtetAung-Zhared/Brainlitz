@@ -58,6 +58,7 @@ export class UsersComponent implements OnInit {
 	permissionLists: any;
 	locationLists: any;
 	public locationID = localStorage.getItem('locationId');
+	emailAlert: boolean = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -81,6 +82,7 @@ export class UsersComponent implements OnInit {
 		this.formFields = new staff();
 		this.updateButton = false;
     	this.createButton = true;
+    	this.emailAlert = false;
 		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.formFields = new staff();	
@@ -97,6 +99,7 @@ export class UsersComponent implements OnInit {
 		this.formFieldc = new customer();
 		this.updateButton = false;
     	this.createButton = true;
+    	this.emailAlert = false;
 		this.modalReference = this.modalService.open(customerModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.formFieldc = new customer();	
@@ -397,6 +400,21 @@ export class UsersComponent implements OnInit {
 			this.locationLists = res;
 			console.log('this.locationLists', this.locationLists)
 		})
+	}
+
+	validateEmail(data){
+		console.log(data)
+		if( !this.isValidateEmail(data)) { 
+			this.emailAlert = true;
+		}
+		else {
+			this.emailAlert = false;
+		}
+	}
+
+	isValidateEmail($email) {
+	  var emailReg = /^([A-Za-z0-9\.\+])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+	  	return emailReg.test( $email );
 	}
 
 

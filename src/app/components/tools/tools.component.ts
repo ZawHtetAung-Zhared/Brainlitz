@@ -8,6 +8,7 @@ import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tools',
@@ -67,14 +68,13 @@ export class ToolsComponent implements OnInit {
       console.log('haha', this.notiLists)
       for (var i in this.notiLists) {
         let year = this.notiLists[i].utc.year;
-        let month = this.notiLists[i].utc.month;
+        let month = this.notiLists[i].utc.month - 1;
         let day = this.notiLists[i].utc.day;
         let hour = this.notiLists[i].utc.hour;
         let minutes = this.notiLists[i].utc.minutes;
 
         var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
         this.utcDate = utcTemp.toUTCString();
-
         if(this.notiLists[i].utc){
           this.notiLists[i].utc = this.utcDate;
         }
@@ -102,9 +102,13 @@ export class ToolsComponent implements OnInit {
     this._service.userCount(dataObj)
     .subscribe((res:any) => {  
       console.log(res.count);
-      this.userCount = res.count;  
+      this.userCount = res.count;
+      if(this.userCount == 0){
+        this.toastr.error("You have no user to send notification.");
+      }  
     }, err => {
-      console.log(err)
+      console.log(err);
+      this.toastr.error("Error in calling API.");
     })    
   }
 
@@ -121,15 +125,8 @@ export class ToolsComponent implements OnInit {
     console.log(dataObj)
     this._service.userCount(dataObj)
     .subscribe((res:any) => {      
-      if(type == 'course' || type == 'user'){
-        console.log(res);
-        console.log(res.length);    
-        this.userCount = res.length;  
-      }else{
-        console.log(res);
-        console.log(res.count);
-        this.userCount = res.count;  
-      }
+      console.log(res.count);
+      this.userCount = res.count; 
     }, err => {
       console.log(err)
     })
@@ -154,6 +151,7 @@ export class ToolsComponent implements OnInit {
         console.log(err)
       })
     }else if(type == 'user'){
+      console.log(this.userLists)
       this._service.getAllUsers(this.regionID, 'all')
       .subscribe((res:any) => {
         console.log('~~~', res)
@@ -184,7 +182,7 @@ export class ToolsComponent implements OnInit {
   );
   
   valuechange(newValue, type) {
-    console.log(newValue)
+    console.log('<3 <3 ',newValue)
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
@@ -215,15 +213,20 @@ export class ToolsComponent implements OnInit {
     console.log(dataObj)
     if(type != 'user'){
       this._service.userCount(dataObj)
-      .subscribe((res:any) => {      
-        
+      .subscribe((res:any) => {    
           console.log(res);
           console.log(res.count);
-          this.userCount = res.count;
-        
+          this.userCount = res.count
+          console.log(this.userCount);
+
+          // if(this.userCount == 0){
+          //   this.toastr.error("You have no user to send notification.");
+          // }
       }, err => {
         console.log(err)
       })
+    }else{
+
     }
     
   }
@@ -239,8 +242,11 @@ export class ToolsComponent implements OnInit {
       "locationId": this.locationId,
       "option": this.isChecked
     }
-    console.log(dataObj.option)
+    //dataObj["active"] = (data.active == true) ? 1 : 0;
 
+    if(data.active == 1){
+      dataObj["active"] = 1
+    }
     let body = {
       "title": data.subject,
       "message": data.message
@@ -274,13 +280,19 @@ export class ToolsComponent implements OnInit {
       console.log(':)')
     }
     console.log(dataObj)
+
+
     this.blockUI.start('Loading...');
     this._service.createNoti(dataObj, body)
     .subscribe((res:any) => {
       console.log('~~~', res)
+      console.log('~~~', this.isChecked)
       this.toastr.success('Successfully notified.');
       this.blockUI.stop();
       this.item = {};
+      if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
+        this.userCount = 0;
+      }
     }, err => {
       this.toastr.error('Notify fail');
       console.log(err)

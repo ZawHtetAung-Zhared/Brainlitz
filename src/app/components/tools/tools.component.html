@@ -61,6 +61,7 @@
 							  [ngbTypeahead]="search"
 							  #instance="ngbTypeahead"
 							  (ngModelChange)="valuechange($event, 'category')"
+							  [disabled]="categoryLists == undefined"
 							/>
 						</div>
 						<div *ngIf="isChecked == 'course'" class="form-group">
@@ -77,6 +78,7 @@
 							  [ngbTypeahead]="search"
 							  #instance="ngbTypeahead"
 							  (ngModelChange)="valuechange($event, 'course')"
+							  [disabled]="courseLists == undefined"
 							/>
 						</div>
 						<div *ngIf="isChecked == 'user'" class="form-group">
@@ -93,16 +95,17 @@
 							  [ngbTypeahead]="search"
 							  #instance="ngbTypeahead"
 							  (ngModelChange)="valuechange($event, 'user')"
+							  [disabled]="userLists == undefined"
 							/>
 						</div>
-						<!-- <div class="form-group">
+						<div *ngIf="isChecked != 'user' && isChecked != 'course' " class="form-group">
 							<div class="form-check">
 							    <label class="form-check-label">
-							      <input type="checkbox" class="form-check-input" name="activeUser" [(ngModel)]="item.activeUser" #activeUser="ngModel">
+							      <input type="checkbox" class="form-check-input" name="active" [(ngModel)]="item.active" #active="ngModel">
 							      Only active users
 							    </label>
 							</div>
-						</div> -->
+						</div>
 						<div class="form-group">
 						  <label for="address" class="lable-title">Subject</label>
 						  <input type="text" class="form-control" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" required>
@@ -110,15 +113,30 @@
 						<div class="form-group">
 						  <label for="address" class="lable-title">Message</label>
 						  <textarea class="form-control" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
-						</div>			
+						</div>	
+						<!-- <div class="form-group">
+							<label for="address" class="lable-title">Message Type</label>
+							<div class="d-flex flex-row">
+								<label class="custom-control custom-radio switch">
+									<input id="radio1" name="radio" type="radio" class="">
+									  <span class="custom-control-indicator slider round"></span>
+									  <span class="custom-control-description">Email</span>
+								</label>
+								<label class="custom-control custom-radio switch">
+									<input id="radio2" name="radio" type="radio" class="">
+									  <span class="custom-control-indicator slider round"></span>
+									  <span class="custom-control-description">App notification</span>
+								</label>
+							</div>
+						</div>	 -->	
 						<div>
 							<button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button>
-							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary">Submit</button>
+							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid || userCount === 0">Submit</button>
 						</div>
 					</form>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-					<div class="user-count">
+					<div class="user-count" [ngClass]="userCount == 0 ? 'no-user' : ''">
 						<p>{{userCount}}</p>
 					</div>
 				</div>

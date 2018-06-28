@@ -54,6 +54,10 @@ export class CourseplanComponent implements OnInit {
   pdfName: any[] = [];
   public pdfId: any[] = [];
   public responseChecked: any[] = [];
+  restrictFirstInput: boolean = false;
+  restrictLastInput: boolean = false;
+  restrictFirstLessInput: boolean = false;
+  restrictLastLessInput: boolean = false;
 
 	open(content){
     this.formField = new cPlanField();
@@ -63,6 +67,8 @@ export class CourseplanComponent implements OnInit {
 		this.checked = false;
     this.updateButton = false;
     this.createButton = true;
+    this.restrictFirstInput = false;
+    this.restrictLastInput = false;
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
     this.getAllPdf();
@@ -382,6 +388,83 @@ export class CourseplanComponent implements OnInit {
       console.log(err);
     })
     this.formField = new cPlanField();
+  }
+
+  restrictMinNumberInput(e, minValue, type){
+    let number = [];
+    let minNumber = [];
+    number.push(e.target.value);
+    minNumber.push(minValue.model);
+    if(type == 'age'){
+      if(minNumber[0] != null){
+        if(number[0] <= minNumber[0]){
+          this.restrictLastInput = true;
+        }
+        else {
+          this.restrictLastInput = false;
+        }
+      }
+      else {
+        this.restrictLastInput = false;
+      }
+    }
+    else if(type == 'lesson'){
+      if(minNumber[0] != null){
+        if(number[0] <= minNumber[0]){
+          this.restrictLastLessInput = true;
+        }
+        else {
+          this.restrictLastLessInput = false;
+        }
+      }
+      else {
+        this.restrictLastLessInput = false;
+      }
+
+    }
+    else {
+      console.log('error no type');
+    }
+  }
+
+  restrictMaxNumberInput(e, maxValue, type){
+    console.log('if', e.target.value, maxValue)
+    let number = [];
+    let maxNumber = [];
+    number.push(e.target.value);
+    console.log(maxNumber)
+    if(type == 'age'){
+      if(maxNumber[0] != null){
+        if(number[0] >= maxNumber[0]){
+          this.restrictFirstInput = true;
+        }
+        else {
+          this.restrictFirstInput = false;
+        }
+      }
+      else {
+        this.restrictFirstInput = false;
+        this.restrictLastInput = false;
+      }
+    }
+    else if(type == 'lesson'){
+      if(maxNumber[0] != null){
+        if(number[0] >= maxNumber[0]){
+          this.restrictFirstLessInput = true;
+        }
+        else {
+          this.restrictFirstLessInput = false;
+        }
+      }
+      else {
+        this.restrictLastLessInput = false;
+        this.restrictFirstLessInput = false;
+      }
+    }
+    else {
+      console.log('error no type');
+    }
+
   }
 
 }
