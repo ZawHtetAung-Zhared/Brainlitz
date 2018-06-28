@@ -29,7 +29,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <h4>Are You sure you want to delete?</h4>
+    <p>Are You sure you want to delete?</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
@@ -44,7 +44,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <h4>We are going to delete <span style="color: red;">"{{deleteCourse.name}}"</span></h4>
+    <p>We are going to delete <span style="color: red;">"{{deleteCourse.name}}"</span></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
@@ -87,6 +87,7 @@
     <div>
       <label class="detail-label">End Date:</label> 
       <span>{{detailCourse.endDate}}</span>
+      <span *ngIf="!detailCourse.endDate">-</span>
     </div>
     <div>
       <label class="detail-label">Duration:</label> 
@@ -140,8 +141,11 @@
     <div>
       <label class="detail-label">Quizwerkz:</label> 
       <label *ngFor="let pdf of detailCourse.quizwerkz;let isLast=last" class="repeatday">
-        {{pdf.name}}{{isLast ? '' : ', '}}
+        {{ pdf.name }}{{isLast ? '' : ', '}}
+        <!-- <span *ngIf="pdf?.length > 0">{{ pdf.name }}{{isLast ? '' : ', '}}</span>
+        <span *ngIf="pdf?.length == 0">-</span> -->
       </label>
+      <label *ngIf='detailCourse.quizwerkz.length === 0'> - </label>
     </div>
   </div>
   <div class="modal-footer">

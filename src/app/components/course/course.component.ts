@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-course',
@@ -32,7 +33,9 @@ export class CourseComponent implements OnInit {
   locationName;
   @BlockUI() blockUI: NgBlockUI;
 
-  constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal) { }
+  constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+  }
   public regionId = localStorage.getItem('regionId');
   ngOnInit() {
   	this.getCourseLists();
@@ -126,6 +129,7 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       this.modalReference1.close();
       console.log("Res",res);
+      this.toastr.success('Successfully Deleted.');
       this.getCourseLists();
     })
   }
