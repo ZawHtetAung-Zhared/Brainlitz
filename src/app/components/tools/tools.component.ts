@@ -102,9 +102,13 @@ export class ToolsComponent implements OnInit {
     this._service.userCount(dataObj)
     .subscribe((res:any) => {  
       console.log(res.count);
-      this.userCount = res.count;  
+      this.userCount = res.count;
+      if(this.userCount == 0){
+        this.toastr.error("You have no user to send notification.");
+      }  
     }, err => {
-      console.log(err)
+      console.log(err);
+      this.toastr.error("Error in calling API.");
     })    
   }
 
@@ -129,6 +133,12 @@ export class ToolsComponent implements OnInit {
         console.log(res);
         console.log(res.count);
         this.userCount = res.count;  
+        if(type == 'allcustomer' || type == 'allstaff'){
+          console.log(this.userCount + '... ;P')
+          if(this.userCount == 0){
+            this.toastr.error("You have no user to send notification.");
+          }
+        }
       }
     }, err => {
       console.log(err)
@@ -154,6 +164,7 @@ export class ToolsComponent implements OnInit {
         console.log(err)
       })
     }else if(type == 'user'){
+      console.log(this.userLists)
       this._service.getAllUsers(this.regionID, 'all')
       .subscribe((res:any) => {
         console.log('~~~', res)
@@ -220,7 +231,9 @@ export class ToolsComponent implements OnInit {
           console.log(res);
           console.log(res.count);
           this.userCount = res.count;
-        
+          if(this.userCount == 0){
+            this.toastr.error("You have no user to send notification.");
+          }
       }, err => {
         console.log(err)
       })
@@ -278,9 +291,13 @@ export class ToolsComponent implements OnInit {
     this._service.createNoti(dataObj, body)
     .subscribe((res:any) => {
       console.log('~~~', res)
+      console.log('~~~', this.isChecked)
       this.toastr.success('Successfully notified.');
       this.blockUI.stop();
       this.item = {};
+      if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
+        this.userCount = 0;
+      }
     }, err => {
       this.toastr.error('Notify fail');
       console.log(err)
