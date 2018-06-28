@@ -8,7 +8,7 @@ import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-import * as moment from 'moment';
+import * as moment from "moment-timezone";
 
 @Component({
   selector: 'app-tools',
@@ -59,33 +59,39 @@ export class ToolsComponent implements OnInit {
 
   viewNoti(){
     console.log(this.regionID)
-    this.blockUI.start('Loading...');
-    this._service.viewNoti()
-    .subscribe((res:any) => {  
-      console.log(res);
-      this.blockUI.stop();
-      this.notiLists = res;
-      console.log('haha', this.notiLists)
-      for (var i in this.notiLists) {
-        let year = this.notiLists[i].utc.year;
-        let month = this.notiLists[i].utc.month - 1;
-        let day = this.notiLists[i].utc.day;
-        let hour = this.notiLists[i].utc.hour;
-        let minutes = this.notiLists[i].utc.minutes;
+    var a = moment("2013-11-18 11:55").tz("Asia/Myanmar");
+    var b = moment("2013-11-18 11:55").tz("Asia/Singapore");
 
-        var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
-        this.utcDate = utcTemp.toUTCString();
-        if(this.notiLists[i].utc){
-          this.notiLists[i].utc = this.utcDate;
-        }
-        // this.notiLists[i].push(this.utcDate)
-      }
-      console.log(this.notiLists)
-    }, err => {
-      this.blockUI.stop();
-      this.toastr.error('View sent history fail');
-      console.log(err)
-    })
+
+    console.log(a.format())
+    console.log(b.format())
+    // this.blockUI.start('Loading...');
+    // this._service.viewNoti()
+    // .subscribe((res:any) => {  
+    //   console.log(res);
+    //   this.blockUI.stop();
+    //   this.notiLists = res;
+    //   console.log('haha', this.notiLists)
+    //   for (var i in this.notiLists) {
+    //     let year = this.notiLists[i].utc.year;
+    //     let month = this.notiLists[i].utc.month - 1;
+    //     let day = this.notiLists[i].utc.day;
+    //     let hour = this.notiLists[i].utc.hour;
+    //     let minutes = this.notiLists[i].utc.minutes;
+
+    //     var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
+    //     this.utcDate = utcTemp.toUTCString();
+    //     if(this.notiLists[i].utc){
+    //       this.notiLists[i].utc = this.utcDate;
+    //     }
+    //     // this.notiLists[i].push(this.utcDate)
+    //   }
+    //   console.log(this.notiLists)
+    // }, err => {
+    //   this.blockUI.stop();
+    //   this.toastr.error('View sent history fail');
+    //   console.log(err)
+    // })
   }
 
   setDefaultSelected(){

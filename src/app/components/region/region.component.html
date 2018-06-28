@@ -2,10 +2,14 @@
 	<div class="container h-100">
 	  <div class="row h-100 justify-content-center ">
 	  	<div class="col-12">
-	     	<h3 class="mb-30">Choose Region</h3>	 
-	      	<a routerLink="/dashboard" *ngFor="let region of regionLists; let i = index" [attr.data-index]="i" (click)="setRegionID(region._id)">
-	      	  {{region.name}}
-	      	</a> 
+	     	<h3 class="mb-30">Choose Region</h3>	
+	     	<ul> 
+	     		<li *ngFor="let region of regionLists; let i = index" [attr.data-index]="i">
+			      	<a routerLink="/dashboard" (click)="setRegionID(region._id)">
+			      	  {{region.name}}
+			      	</a> 
+		      	</li>
+	      	</ul>
 	    </div>  	
 	    <block-ui message="Deafult Message"></block-ui>  
 	  </div>  
