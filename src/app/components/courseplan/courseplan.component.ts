@@ -402,10 +402,12 @@ export class CourseplanComponent implements OnInit {
         }
         else {
           this.restrictLastInput = false;
+          this.restrictFirstInput = false;
         }
       }
       else {
         this.restrictLastInput = false;
+        this.restrictFirstInput = false;
       }
     }
     else if(type == 'lesson'){
@@ -414,11 +416,13 @@ export class CourseplanComponent implements OnInit {
           this.restrictLastLessInput = true;
         }
         else {
+          this.restrictFirstLessInput = false;
           this.restrictLastLessInput = false;
         }
       }
       else {
         this.restrictLastLessInput = false;
+        this.restrictFirstLessInput = false;
       }
 
     }
@@ -442,6 +446,9 @@ export class CourseplanComponent implements OnInit {
           this.restrictFirstInput = false;
         }
       }
+      else if(e.target.value >= maxValue.model){
+        this.restrictFirstInput = true;
+      }
       else {
         this.restrictFirstInput = false;
         this.restrictLastInput = false;
@@ -455,6 +462,9 @@ export class CourseplanComponent implements OnInit {
         else {
           this.restrictFirstLessInput = false;
         }
+      }
+      else if(e.target.value >= maxValue.model){
+        this.restrictFirstLessInput = true;
       }
       else {
         this.restrictLastLessInput = false;
