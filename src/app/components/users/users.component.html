@@ -31,16 +31,36 @@
   	    	<span style="color:red" *ngIf="formFields.preferredName?.length >= 15 ">
 			      Display Name cannot be more than 15 characters long.
 			</span>
+			<div *ngIf="preferredName.errors && (preferredName.dirty || preferredName.touched)" class="alert alert-danger">
+		        <div [hidden]="!preferredName.errors.required">
+		          Display name is required!
+		        </div>
+		    </div>
   	  	</div>
   	  	
   	  	<div class="form-group">
   	    	<label for="mail">Email</label> 	
-  	    	<input type="email" class="form-control" placeholder="Enter user name" name="mail" [(ngModel)]="formFields.email" required #mail="ngModel">
+  	    	<input type="email" (keyup)="validateEmail(formFields.email)" class="form-control" placeholder="Enter user name" name="mail" [(ngModel)]="formFields.email" required #mail="ngModel">
+  	    	<div *ngIf="emailAlert" class="alert alert-danger">
+  	    		Please provide a valid email
+  	    	</div>
+  	    	<div *ngIf="!emailAlert">
+  	    		<div *ngIf="mail.errors && (mail.dirty || mail.touched)" class="alert alert-danger">
+			        <div [hidden]="!mail.errors.required">
+			          Email is required!
+			        </div>
+			    </div>
+  	    	</div>
   	  	</div>
   	  	<div class="form-group" *ngIf="notShowEdit">
-			  	<label for="pwd">Password</label>
-			  	<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="formFields.pwd" required #pwd="ngModel">
-				</div>
+		  	<label for="pwd">Password</label>
+		  	<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="formFields.pwd" required #password="ngModel">
+			<div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
+		        <div [hidden]="!password.errors.required">
+		          Password is required!
+		        </div>
+		    </div>
+		</div>
 				<!-- <div class="form-group">
 					<label for="gender">Gender</label><br>
 					<div class="form-check form-check-inline">
@@ -55,8 +75,13 @@
 			<div class="form-group">
 				<label>Permission as</label><br>
 				<div class="form-check form-check-inline" *ngFor="let user of permissionLists; let i = index;" >
-					<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="formFields.permission" [checked]="permissionId.indexOf(user._id) != -1" required>
+					<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="formFields.permission" [checked]="permissionId.indexOf(user._id) != -1" #permis="ngModel" required>
 				  	<label for={{user._id}} class="form-check-label mr-lt">{{user.name}}</label>
+				  	<div *ngIf="permis.errors && (permis.dirty || permis.touched)" class="alert alert-danger">
+				        <div [hidden]="!permis.errors.required">
+				          Permission is required!
+				        </div>
+				    </div>
 				</div>
 			</div>	
 		  	<div class="form-group">
@@ -83,7 +108,7 @@
     	</div>
       	<div class="modal-footer">
 	      	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-	        <button [hidden]="!createButton" type="submit" (click)="createUser(s.value, 'staff', 'create')" class="btn btn-primary" [disabled]="s.invalid">Create</button>
+	        <button [hidden]="!createButton" type="submit" (click)="createUser(s.value, 'staff', 'create')" class="btn btn-primary" [disabled]="s.invalid || emailAlert">Create</button>
 	    <!--     <button [hidden]="!updateButton" type="submit" (click)="createUser(s.value, 'staff', 'update')" class="btn btn-primary" [disabled]="s.invalid">Update</button> -->
       	</div>
 	</form>
@@ -113,14 +138,34 @@
 	  	    	<span style="color:red" *ngIf="formFieldc.preferredName?.length >= 15 ">
 				      Display Name cannot be more than 15 characters long.
 				</span>
+				<div *ngIf="preferredName.errors && (preferredName.dirty || preferredName.touched)" class="alert alert-danger">
+			        <div [hidden]="!preferredName.errors.required">
+			          Display name is required!
+			        </div>
+			    </div>
 	  	  	</div>
 	  	  	<div class="form-group">
 	  	    	<label for="mail">Email</label> 	
-	  	    	<input type="email" class="form-control" placeholder="Enter emai" name="mail" [(ngModel)]="formFieldc.email" required #mail="ngModel">
+	  	    	<input type="email" (keyup)="validateEmail(formFieldc.email)" class="form-control" placeholder="Enter email" name="mail" [(ngModel)]="formFieldc.email" required #mail="ngModel">
+	  	    	<div *ngIf="emailAlert" class="alert alert-danger">
+	  	    		Please provide a valid email
+	  	    	</div>
+	  	    	<div *ngIf="!emailAlert">
+	  	    		<div *ngIf="mail.errors && (mail.dirty || mail.touched)" class="alert alert-danger">
+				        <div [hidden]="!mail.errors.required">
+				          Email is required!
+				        </div>
+				    </div>
+	  	    	</div>
 	  	  	</div>
 		  	<div class="form-group">
 				<label for="pwd">Password</label>
 				<input type="password" class="form-control" placeholder="Enter password" name="pwd" [(ngModel)]="formFieldc.pwd" required #pwd="ngModel">
+				<div *ngIf="pwd.errors && (pwd.dirty || pwd.touched)" class="alert alert-danger">
+			        <div [hidden]="!pwd.errors.required">
+			          Password is required!
+			        </div>
+			    </div>
 			</div>
 			<div class="form-group">
 	  	    	<label for="gmail">Guardian Email</label>
@@ -160,20 +205,13 @@
 		</div>
     	<div class="modal-footer">
        	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-        	<button [hidden]="!createButton" type="submit" (click)="createUser(f.value, 'customer', 'create')" class="btn btn-primary" [disabled]="f.invalid">Submit
+        	<button [hidden]="!createButton" type="submit" (click)="createUser(f.value, 'customer', 'create')" class="btn btn-primary" [disabled]="f.invalid || emailAlert">Submit
 			</button>
 	<!-- 		<button [hidden]="!updateButton" type="submit" (click)="updateUser(f.value, 'customer', 'update')" class="btn btn-primary" [disabled]="f.invalid">Update</button> -->
       	</div>
 	</form>
 </ng-template>
 
-<!-- <div class="overflow">
-	<ul class="list-group-flush">
-		<li class="list-group-item" *ngFor="let user of userLists; let i = index">
-			{{user.preferredName}}
-		</li>
-	</ul>
-</div> -->
 <div class="d-flex flex-row h-100 w-100" style="display: flex;">
 	<div class="col-md-2 noti-sidebar tab-pad">
 		<div class="d-flex flex-column justify-content-center">
