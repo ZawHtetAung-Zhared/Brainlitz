@@ -150,7 +150,7 @@
 					<label for="age">Age</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							From <input type="number" class="form-control" [(ngModel)]="formField.age.min" max="{{formField.age.max-1}}" (keyup)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel" required>
+							From <input type="number" class="form-control" [(ngModel)]="formField.age.min" max="{{formField.age.max-1}}" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel" required>
 							<p *ngIf="restrictFirstInput" class="alert alert-danger">Must be Lower than "To" Age</p>
 							<!-- <p *ngIf="!restrictFirstInput" class="red-text">Age "To" is required.</p> -->
 							<div *ngIf="!restrictFirstInput">
@@ -162,7 +162,7 @@
 							</div>
 						</div>
 					 	<div class="col-md-4">
-					 		to <input type="number" class="form-control" [(ngModel)]="formField.age.max" min="{{formField.age.min+1}}" (keyup)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel" required>
+					 		to <input type="number" class="form-control" [(ngModel)]="formField.age.max" min="{{formField.age.min+1}}" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel" required>
 					 		<p *ngIf="restrictLastInput" class="alert alert-danger">Must be greater than "From" Age</p>
 					 		<div *ngIf="!restrictLastInput">
 						 		<div *ngIf="maxData.errors && (maxData.dirty || maxData.touched)" class="alert alert-danger">
@@ -178,7 +178,7 @@
 					<label for="duration">Lesson</label>
 					<div class="col-md-12  makeup-group">
 						<div class="col-md-4">
-							Min <input type="number" class="form-control" [(ngModel)]="formField.lesson.min" min="1" max="{{formField.lesson.max-1}}" (keyup)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
+							Min <input type="number" class="form-control" [(ngModel)]="formField.lesson.min" min="1" max="{{formField.lesson.max-1}}" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
 							<p *ngIf="restrictFirstLessInput" class="alert alert-danger">Must be Lower than "Max" Age</p>
 							<div *ngIf="!restrictFirstLessInput">
 								<div *ngIf="minLesson.errors && (minLesson.dirty || minLesson.touched)" class="alert alert-danger">
@@ -189,7 +189,7 @@
 							</div>
 						</div> 
 						<div class="col-md-4">
-							Max <input type="number" class="form-control" [(ngModel)]="formField.lesson.max" min="{{formField.lesson.min+1}}" (keyup)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
+							Max <input type="number" class="form-control" [(ngModel)]="formField.lesson.max" min="{{formField.lesson.min+1}}" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
 							<p *ngIf="restrictLastLessInput" class="alert alert-danger">Must be greater than "Min" Age</p>
 							<div *ngIf="!restrictLastLessInput">
 								<div *ngIf="maxLesson.errors && (maxLesson.dirty || maxLesson.touched)" class="alert alert-danger">
@@ -227,7 +227,7 @@
 				</div>
 				<div class="col-md-12 fields-mr">
 					<label>Holiday Calendar</label>
-					<select style="width: 19%;" class="form-control" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" required>
+					<select style="width: 19%;" class="form-control" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId">
 						<option></option>
 						<option *ngFor="let holidayCalendar of holidayCalendarLists" value="{{holidayCalendar._id}}">{{holidayCalendar.name}}</option>
 					</select>					
