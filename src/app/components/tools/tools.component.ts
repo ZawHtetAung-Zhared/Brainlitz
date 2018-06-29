@@ -59,39 +59,49 @@ export class ToolsComponent implements OnInit {
 
   viewNoti(){
     console.log(this.regionID)
-    var a = moment("2013-11-18 11:55").tz("Asia/Myanmar");
-    var b = moment("2013-11-18 11:55").tz("Asia/Singapore");
+    let tzone = localStorage.getItem('timezone');
+    console.log(tzone)
+    var a = moment("2013-11-18 11:55").tz(tzone);
+    var xx = a.format()
+    console.log(xx)
+    var tMin = parseInt(xx.slice(-2));
+    console.log(tMin)
+    var tHour = parseInt(xx.slice(-5, -3));
+    console.log(tHour)
+    this.blockUI.start('Loading...');
+    this._service.viewNoti()
+    .subscribe((res:any) => {  
+      console.log(res);
+      this.blockUI.stop();
+      this.notiLists = res;
+      console.log('haha', this.notiLists)
+      for (var i in this.notiLists) {
+        let year = this.notiLists[i].utc.year;
+        let month = this.notiLists[i].utc.month - 1;
+        let day = this.notiLists[i].utc.day;
+        let hour = this.notiLists[i].utc.hour;
+        let minutes = this.notiLists[i].utc.minutes;
+        console.log('~~', minutes, '_' , tMin)
+        minutes = minutes + tMin
+        console.log(minutes)
+        
 
-
-    console.log(a.format())
-    console.log(b.format())
-    // this.blockUI.start('Loading...');
-    // this._service.viewNoti()
-    // .subscribe((res:any) => {  
-    //   console.log(res);
-    //   this.blockUI.stop();
-    //   this.notiLists = res;
-    //   console.log('haha', this.notiLists)
-    //   for (var i in this.notiLists) {
-    //     let year = this.notiLists[i].utc.year;
-    //     let month = this.notiLists[i].utc.month - 1;
-    //     let day = this.notiLists[i].utc.day;
-    //     let hour = this.notiLists[i].utc.hour;
-    //     let minutes = this.notiLists[i].utc.minutes;
-
-    //     var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
-    //     this.utcDate = utcTemp.toUTCString();
-    //     if(this.notiLists[i].utc){
-    //       this.notiLists[i].utc = this.utcDate;
-    //     }
-    //     // this.notiLists[i].push(this.utcDate)
-    //   }
-    //   console.log(this.notiLists)
-    // }, err => {
-    //   this.blockUI.stop();
-    //   this.toastr.error('View sent history fail');
-    //   console.log(err)
-    // })
+        var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
+        this.utcDate = utcTemp.toUTCString();
+        
+        
+        
+        console.log(this.utcDate)
+        // if(this.notiLists[i].utc){
+        //   this.notiLists[i].utc = this.utcDate;
+        // }
+      }
+      console.log(this.notiLists)
+    }, err => {
+      this.blockUI.stop();
+      this.toastr.error('View sent history fail');
+      console.log(err)
+    })
   }
 
   setDefaultSelected(){
@@ -109,9 +119,9 @@ export class ToolsComponent implements OnInit {
     .subscribe((res:any) => {  
       console.log(res.count);
       this.userCount = res.count;
-      if(this.userCount == 0){
-        this.toastr.error("You have no user to send notification.");
-      }  
+      // if(this.userCount == 0){
+      //   this.toastr.error("You have no user to send notification.");
+      // }  
     }, err => {
       console.log(err);
       this.toastr.error("Error in calling API.");
