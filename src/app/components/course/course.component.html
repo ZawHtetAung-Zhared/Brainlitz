@@ -33,7 +33,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="comfirmDelete(selectCourse,content1)">Delete</button>
+    <button type="submit" class="btn btn-danger" (click)="confirmDelete(selectCourse,content1)">Delete</button>
   </div>
 </ng-template>
 
@@ -71,10 +71,12 @@
     <div>
       <label class="detail-label">Course Code:</label> 
       <span>{{detailCourse.courseCode}}</span>
+      <span *ngIf="!detailCourse.courseCode"> - </span>
     </div>
     <div>
       <label class="detail-label">Description:</label> 
       <label>{{detailCourse.description}}</label>
+      <label *ngIf="!detailCourse.description"> - </label>
     </div>
     <div>
       <label class="detail-label">Location:</label> 
@@ -101,7 +103,7 @@
     </div>
     <div>
       <label class="detail-label">Lesson Count:</label> 
-      <span>{{detailCourse.lessonCount}}</span>
+      <span>{{detailCourse.lessons.length}}</span>
     </div>
     <div>
       <label class="detail-label">Payment Policy</label> 
@@ -129,10 +131,12 @@
     <div>
       <label class="detail-label">Reserved Number of Seat:</label> 
       <span>{{detailCourse.reservedNumberofSeat}}</span>
+      <span *ngIf="!detailCourse.reservedNumberofSeat"> - </span>
     </div>
     <div>
       <label class="detail-label">Room:</label> 
       <span>{{detailCourse.room}}</span>
+      <span *ngIf="!detailCourse.room"> - </span>
     </div>
     <div>
       <label class="detail-label">Teacher Name:</label> 

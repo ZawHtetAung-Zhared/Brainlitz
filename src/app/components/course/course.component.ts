@@ -111,7 +111,7 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  comfirmDelete(course,content1){
+  confirmDelete(course,content1){
     console.log(course);
     this.deleteCourse = course;
     this.modalReference.close();
