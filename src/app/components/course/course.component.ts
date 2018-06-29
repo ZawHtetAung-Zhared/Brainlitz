@@ -94,7 +94,7 @@ export class CourseComponent implements OnInit {
   onclickDelete(course,content){
     this.selectCourse = course;
     console.log("onclickDelete",course);
-    this.modalReference = this.modalService.open(content);
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -111,7 +111,7 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  comfirmDelete(course,content1){
+  confirmDelete(course,content1){
     console.log(course);
     this.deleteCourse = course;
     this.modalReference.close();
@@ -236,7 +236,7 @@ export class CourseComponent implements OnInit {
       console.log(location);
       this.locationName = location.name;
       console.log("location",this.locationName);
-      this.modalReference = this.modalService.open(detail);
+      this.modalReference = this.modalService.open(detail, { backdrop:'static', windowClass: 'animation-wrap'});
       this.modalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {

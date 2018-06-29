@@ -186,3 +186,10 @@
     border-radius: 50%;
     background: #703bc1;
 }
+/*for no courseplan*/
+.center{
+  margin: auto;
+  width: 50%;
+  padding: 30px;
+  text-align: center;
+}
