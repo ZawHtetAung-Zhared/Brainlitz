@@ -59,12 +59,15 @@ export class ToolsComponent implements OnInit {
 
   viewNoti(){
     console.log(this.regionID)
-    var a = moment("2013-11-18 11:55").tz("Asia/Myanmar");
-    var b = moment("2013-11-18 11:55").tz("Asia/Singapore");
-
-
-    console.log(a.format())
-    console.log(b.format())
+    let tzone = localStorage.getItem('timezone');
+    console.log(tzone)
+    var a = moment("2013-11-18 11:55").tz(tzone);
+    var xx = a.format()
+    console.log(xx)
+    var tMin = xx.slice(-2);
+    console.log(tMin)
+    var tHour = xx.slice(-5, -3);
+    console.log(tHour)
     // this.blockUI.start('Loading...');
     // this._service.viewNoti()
     // .subscribe((res:any) => {  
@@ -80,11 +83,15 @@ export class ToolsComponent implements OnInit {
     //     let minutes = this.notiLists[i].utc.minutes;
 
     //     var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
-    //     this.utcDate = utcTemp.toUTCString();
-    //     if(this.notiLists[i].utc){
-    //       this.notiLists[i].utc = this.utcDate;
-    //     }
-    //     // this.notiLists[i].push(this.utcDate)
+    //     // this.utcDate = utcTemp.toUTCString();
+    //     // console.log(year + "-" + month + "-" + day + " " + hour + ":" + minutes)
+    //     let xx = year + "-" + month + "-" + day + " " + hour + ":" + minutes
+    //     console.log(xx)
+    //     this.utcDate = moment("xx").tz(tzone);
+    //     console.log(this.utcDate)
+    //     // if(this.notiLists[i].utc){
+    //     //   this.notiLists[i].utc = this.utcDate;
+    //     // }
     //   }
     //   console.log(this.notiLists)
     // }, err => {

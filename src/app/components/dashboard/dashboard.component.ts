@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
       this.item.timezone = res.timezone;
       this.item.url = res.url
       console.log('~~~', this.item)
+      localStorage.setItem('timezone', this.item.timezone)
     }, err => {
       console.log(err)
     })
@@ -51,6 +52,7 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       this.toastr.success('Successfully Updated.');
       console.log('~~~', res)
+      localStorage.setItem('timezone', this.item.timezone)
     }, err => {
       console.log(err)
     })
