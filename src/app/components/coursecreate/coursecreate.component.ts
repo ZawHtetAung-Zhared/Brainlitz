@@ -116,10 +116,10 @@ export class CoursecreateComponent implements OnInit {
     .subscribe((res:any) => {
       this.coursePlan = res;
       console.log(this.coursePlan);
-      this.blockUI.stop(); // Stop blocking
-      //  setTimeout(() => {
-      //   this.blockUI.stop(); // Stop blocking
-      // }, 80);
+      //this.blockUI.stop(); // Stop blocking
+       setTimeout(() => {
+         this.blockUI.stop(); // Stop blocking
+       }, 300);
     });
   }
 
