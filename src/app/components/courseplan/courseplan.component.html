@@ -115,7 +115,7 @@
 						<div class="col-md-4">
 							Deposit
 							<select class="form-control" name="deposit" [(ngModel)]="formField.paymentPolicy.deposit" required>
-								<option></option>
+								<option value="" disabled="true"></option>
 								<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">{{deposit.amount}}</option>
 							</select>
 						</div>
@@ -229,8 +229,9 @@
 				<div class="col-md-12 fields-mr">
 					<label>Holiday Calendar</label>
 					<select style="width: 19%;" class="form-control" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId">
-						<option></option>
-						<option *ngFor="let holidayCalendar of holidayCalendarLists" value="{{holidayCalendar._id}}">{{holidayCalendar.name}}</option>
+						<!-- <option value="" disabled="true"></option> -->
+						<option disabled="true"></option>
+						<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
 					</select>					
 				</div>
 			</div>

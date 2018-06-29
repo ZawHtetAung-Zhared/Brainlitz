@@ -237,7 +237,10 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.viewCplan = res;
-      if(this.holidayCalendarLists){
+      if(!this.viewCplan.holidayCalendarId){
+        this.holidayCalendarName = "";
+      }
+      else {
         for( var i = 0; i < this.holidayCalendarLists.length; i++){
           if(this.viewCplan.holidayCalendarId == this.holidayCalendarLists[i]._id){
             this.holidayCalendarName = this.holidayCalendarLists[i].name;
@@ -305,6 +308,7 @@ export class CourseplanComponent implements OnInit {
       this._service.getAllHolidaysCalendar(this.regionID)
       .subscribe((res:any) => {
         this.holidayCalendarLists = res;
+        console.log(this.holidayCalendarLists)
         }, err => {
           console.log(err)
         })
@@ -335,6 +339,9 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.formField = res;
+      if(!this.formField.holidayCalendarId){
+        this.formField.holidayCalendarId = "";
+      }
       this.pdfId = this.formField.quizwerkz;     
       this.editId = res._id;
     },err => {
