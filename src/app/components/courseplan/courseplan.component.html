@@ -30,7 +30,7 @@
 		  	</div>
 		  	<div class="modal-footer">
 		    	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-		    	<button type="submit" class="btn btn-primary" [disabled]="!checked" (click)="selectedRadioId(checkedCatId)">Select</button>
+		    	<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!checked" (click)="selectedRadioId(checkedCatId)">Select</button>
 		  	</div>
 		</form>	
 	</div>
@@ -68,7 +68,7 @@
 				</div> 
 				<div class="col-md-12 fields-mr makeup-group">
 					<label for="seat">Seats</label>
-					<input type="number" style="width: 19%;" class="form-control" [(ngModel)]='formField.seats' min="1" name="seats" required #cpSeat="ngModel">
+					<input type="number" style="width: 19%;" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]='formField.seats' min="1" name="seats" required #cpSeat="ngModel">
 					<div class="col-md-9" style="float: right; margin-right: -23px;">
 						<div *ngIf="cpSeat.errors && (cpSeat.dirty || cpSeat.touched)" class="alert alert-danger">
 					        <div [hidden]="!cpSeat.errors.required">
@@ -84,7 +84,7 @@
 							AllowMakeupPass<br /><input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup">
 						</div>
 						<div class="col-md-4">
-							MaxDayPerPass <input type="number" class="form-control" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" required>
+							MaxDayPerPass <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" required>
 							<div *ngIf="makeuppass.errors && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger">
 						        <div [hidden]="!makeuppass.errors.required">
 						          MaxDayPerPass is required!
@@ -92,7 +92,7 @@
 						    </div>
 						</div>
 						<div class="col-md-4">
-							MaxDayPerUser <input type="number" class="form-control" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" #makeupuser="ngModel" required>
+							MaxDayPerUser <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" #makeupuser="ngModel" required>
 							<div *ngIf="makeupuser.errors && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger">
 						        <div [hidden]="!makeupuser.errors.required">
 						          MaxDayPerUser is required!
@@ -120,7 +120,7 @@
 							</select>
 						</div>
 						<div class="col-md-4">
-							CourseFee <input type="number" class="form-control" class="form-control" [(ngModel)]="formField.paymentPolicy.courseFee" min="0" name="courseFee" #courseFee="ngModel" required>
+							CourseFee <input type="number" class="form-control" (keypress)="numberOnly($event)" class="form-control" [(ngModel)]="formField.paymentPolicy.courseFee" min="0" name="courseFee" #courseFee="ngModel" required>
 							<div *ngIf="courseFee.errors && (courseFee.dirty || courseFee.touched)" class="alert alert-danger">
 						        <div [hidden]="!courseFee.errors.required">
 						          CourseFee is required!
@@ -130,7 +130,7 @@
 					</div>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							ProratedLessonFee <input type="number" class="form-control" [(ngModel)]="formField.paymentPolicy.proratedLessonFee" min="0" name="proratedLessonFee" #prorated="ngModel" required>
+							ProratedLessonFee <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]="formField.paymentPolicy.proratedLessonFee" min="0" name="proratedLessonFee" #prorated="ngModel" required>
 							<div *ngIf="prorated.errors && (prorated.dirty || prorated.touched)" class="alert alert-danger">
 						        <div [hidden]="!prorated.errors.required">
 						          ProratedLessonFee is required!
@@ -138,7 +138,7 @@
 						    </div>
 						</div>
 						<div class="col-md-4">
-							MiscFee <input type="number" class="form-control" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel" required>
+							MiscFee <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel" required>
 							<div *ngIf="miscfee.errors && (miscfee.dirty || miscfee.touched)" class="alert alert-danger">
 						        <div [hidden]="!miscfee.errors.required">
 						          MiscFee is required!
@@ -151,7 +151,7 @@
 					<label for="age">Age</label>
 					<div class="col-md-12 makeup-group">
 						<div class="col-md-4">
-							From <input type="number" class="form-control" [(ngModel)]="formField.age.min" max="{{formField.age.max-1}}" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel" required>
+							From <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel" required>
 							<p *ngIf="restrictFirstInput" class="alert alert-danger">Must be Lower than "To" Age</p>
 							<!-- <p *ngIf="!restrictFirstInput" class="red-text">Age "To" is required.</p> -->
 							<div *ngIf="!restrictFirstInput">
@@ -163,7 +163,7 @@
 							</div>
 						</div>
 					 	<div class="col-md-4">
-					 		to <input type="number" class="form-control" [(ngModel)]="formField.age.max" min="{{formField.age.min+1}}" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel" required>
+					 		to <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel" required>
 					 		<p *ngIf="restrictLastInput" class="alert alert-danger">Must be greater than "From" Age</p>
 					 		<div *ngIf="!restrictLastInput">
 						 		<div *ngIf="maxData.errors && (maxData.dirty || maxData.touched)" class="alert alert-danger">
@@ -179,7 +179,7 @@
 					<label for="duration">Lesson</label>
 					<div class="col-md-12  makeup-group">
 						<div class="col-md-4">
-							Min <input type="number" class="form-control" [(ngModel)]="formField.lesson.min" min="1" max="{{formField.lesson.max-1}}" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
+							Min <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
 							<p *ngIf="restrictFirstLessInput" class="alert alert-danger">Must be Lower than "Max" Age</p>
 							<div *ngIf="!restrictFirstLessInput">
 								<div *ngIf="minLesson.errors && (minLesson.dirty || minLesson.touched)" class="alert alert-danger">
@@ -190,7 +190,7 @@
 							</div>
 						</div> 
 						<div class="col-md-4">
-							Max <input type="number" class="form-control" [(ngModel)]="formField.lesson.max" min="{{formField.lesson.min+1}}" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
+							Max <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
 							<p *ngIf="restrictLastLessInput" class="alert alert-danger">Must be greater than "Min" Age</p>
 							<div *ngIf="!restrictLastLessInput">
 								<div *ngIf="maxLesson.errors && (maxLesson.dirty || maxLesson.touched)" class="alert alert-danger">
@@ -201,7 +201,7 @@
 							</div>
 						</div>
 						<div class="col-md-4">
-							Lesson Duration <input type="number" class="form-control" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" #durationLesson="ngModel" required>
+							Lesson Duration <input type="number" class="form-control" (keypress)="numberOnly($event)" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" #durationLesson="ngModel" required>
 							<div *ngIf="durationLesson.errors && (durationLesson.dirty || durationLesson.touched)" class="alert alert-danger">
 						        <div [hidden]="!durationLesson.errors.required">
 						          Lesson Duration is required!
@@ -238,10 +238,10 @@
 			<div class="modal-footer">
 		    	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
 		    	<div [hidden]="!createButton">
-		    		<button type="submit" class="btn btn-primary" [disabled]="!subCatForm.valid || restrictFirstInput || restrictLastInput || restrictFirstLessInput || restrictLastLessInput" (click)="createdPlan(subCatForm.value)">Create</button>
+		    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid || restrictFirstInput || restrictLastInput || restrictFirstLessInput || restrictLastLessInput" (click)="createdPlan(subCatForm.value)">Create</button>
 		    	</div>
 		    	<div [hidden]="!updateButton">
-		    		<button type="submit" class="btn btn-primary" [disabled]="!subCatForm.valid || restrictFirstInput || restrictLastInput || restrictFirstLessInput || restrictLastLessInput" (click)="updatedPlan(subCatForm.value)">Update</button>
+		    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid || restrictFirstInput || restrictLastInput || restrictFirstLessInput || restrictLastLessInput" (click)="updatedPlan(subCatForm.value)">Update</button>
 		    	</div>
 		  	</div>
 		</form>		

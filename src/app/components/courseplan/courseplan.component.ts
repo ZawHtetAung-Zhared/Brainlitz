@@ -398,19 +398,9 @@ export class CourseplanComponent implements OnInit {
   }
 
   restrictMinNumberInput(e, minValue, type){
-    let number = [];
-    let minNumber = [];
-    number.push(e.target.value);
-    minNumber.push(minValue.model);
     if(type == 'age'){
-      if(minNumber[0] != null){
-        if(number[0] <= minNumber[0]){
-          this.restrictLastInput = true;
-        }
-        else {
-          this.restrictLastInput = false;
-          this.restrictFirstInput = false;
-        }
+      if(e.target.value <= minValue.model){
+        this.restrictLastInput = true;
       }
       else {
         this.restrictLastInput = false;
@@ -418,14 +408,8 @@ export class CourseplanComponent implements OnInit {
       }
     }
     else if(type == 'lesson'){
-      if(minNumber[0] != null){
-        if(number[0] <= minNumber[0]){
-          this.restrictLastLessInput = true;
-        }
-        else {
-          this.restrictFirstLessInput = false;
-          this.restrictLastLessInput = false;
-        }
+      if(e.target.value <= minValue.model){
+        this.restrictLastLessInput = true;
       }
       else {
         this.restrictLastLessInput = false;
@@ -439,49 +423,38 @@ export class CourseplanComponent implements OnInit {
   }
 
   restrictMaxNumberInput(e, maxValue, type){
-    console.log('if', e.target.value, maxValue)
-    let number = [];
-    let maxNumber = [];
-    number.push(e.target.value);
-    console.log(maxNumber)
     if(type == 'age'){
-      if(maxNumber[0] != null){
-        if(number[0] >= maxNumber[0]){
+      if(e.target.value >= maxValue.model){
           this.restrictFirstInput = true;
         }
         else {
           this.restrictFirstInput = false;
+          this.restrictLastInput = false;
         }
-      }
-      else if(e.target.value >= maxValue.model){
-        this.restrictFirstInput = true;
-      }
-      else {
-        this.restrictFirstInput = false;
-        this.restrictLastInput = false;
-      }
     }
     else if(type == 'lesson'){
-      if(maxNumber[0] != null){
-        if(number[0] >= maxNumber[0]){
-          this.restrictFirstLessInput = true;
-        }
-        else {
-          this.restrictFirstLessInput = false;
-        }
-      }
-      else if(e.target.value >= maxValue.model){
+      if(e.target.value >= maxValue.model){
         this.restrictFirstLessInput = true;
       }
       else {
-        this.restrictLastLessInput = false;
         this.restrictFirstLessInput = false;
+        this.restrictLastLessInput = false;
       }
     }
     else {
       console.log('error no type');
     }
 
+  }
+
+  numberOnly(event){
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if(event.target.value.search(/^0/) != -1){
+        event.target.value = '';  
+    }
   }
 
 }

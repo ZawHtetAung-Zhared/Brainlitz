@@ -97,3 +97,7 @@ main{
   padding: 9px !important;
   min-width: 155px;
 }
+
+.btn-not-allowed {
+  cursor: not-allowed;
+}
