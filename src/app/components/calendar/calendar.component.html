@@ -18,10 +18,11 @@
 			      <input type="text" class="form-control" [(ngModel)]="formField.name" name="name" required>
 			    </div>
 			    <div class="form-group">
-			    	<label>Holiday Lists</label>
+			    	<label *ngIf="noHoliday">Holiday Lists</label>
+			    	<label *ngIf="!noHoliday" style="color:red;">Firstly, holiday calendar must be created before calendar.</label>
 			    	<div class="height-scroll">
 			    		<div *ngFor="let holidayDate of holidayLists; let i=index;" >
-				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" [checked]="responseChecked.indexOf(holidayDate._id) != -1">
+				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" name="holiday" [checked]="responseChecked.indexOf(holidayDate._id) != -1">
 				    		<label for="{{holidayDate._id}}"> {{holidayDate.name}}</label>
 				    	</div>
 			    	</div>
@@ -33,10 +34,10 @@
 		  	<div class="modal-footer">
 		  	  	<button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
 		  	  	<div [hidden]="!createButton">
-		  	  		<button type="submit" [disabled]="!calendarForm.valid" class="btn btn-primary" (click)="createCalendar(calendarForm.value)" >Create</button>
+		  	  		<button type="submit" [disabled]="!calendarForm.valid || !noHoliday || arrayHoliday.length == 0" class="btn btn-primary" (click)="createCalendar(calendarForm.value)" >Create</button>
 		  		</div>
 		  	  	<div [hidden]="!updateButton">
-		  	  		<button type="submit" class="btn btn-primary" [disabled]="!calendarForm.valid" (click)="updateCalendar(calendarForm.value)" >Update</button>
+		  	  		<button type="submit" class="btn btn-primary" [disabled]="!calendarForm.valid || arrayHoliday.length == 0" (click)="updateCalendar(calendarForm.value)" >Update</button>
 		  	  	</div>
 		  	</div>
 	  	</form>
