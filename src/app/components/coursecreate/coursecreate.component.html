@@ -1,25 +1,29 @@
 <div class="inner-wrapper">
-<!-- <button class="btn btn-lg btn-outline-primary" (click)="showPlanlist()">Course Create</button> -->
-	<div class="list-wrap" *ngIf="!showCourse">
-		<div class="form-group">
-			<h4 class="mb-30">Choose Course Plan</h4>
+	<div *ngIf="!showCourse">
+		<div *ngIf="noPlan" class="center">
+			<h3>There is no course plan</h3>
 		</div>
-		<div class="form-group">
-			<ul class="item-list" style="padding-left: 0;">
-			     <li *ngFor="let plan of coursePlan">
-					<label class="radio-container">
-					  {{plan.name}}
-					  <input type="radio" id="{{plan._id}}" [(ngModel)]="choosePlan" name="cplan" [value]="plan">
-					  <span class="checkmark"></span>
-					</label>
-			     </li>
-			</ul>
-		</div>
-		<block-ui message="Deafult Message">
-		</block-ui>
-		<div class="form-group btn-wrap">
-			<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-		    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)" [disabled]="!choosePlan">Select</button>
+		<div class="list-wrap" *ngIf="!noPlan">
+			<div class="form-group">
+				<h4 class="mb-30">Choose Course Plan</h4>
+			</div>
+			<div class="form-group">
+				<ul class="item-list" style="padding-left: 0;">
+				     <li *ngFor="let plan of coursePlan">
+						<label class="radio-container">
+						  {{plan.name}}
+						  <input type="radio" id="{{plan._id}}" [(ngModel)]="choosePlan" name="cplan" [value]="plan">
+						  <span class="checkmark"></span>
+						</label>
+				     </li>
+				</ul>
+			</div>
+			<block-ui message="Deafult Message">
+			</block-ui>
+			<div class="form-group btn-wrap">
+				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
+			    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)" [disabled]="!choosePlan">Select</button>
+			</div>
 		</div>
 	</div>
 

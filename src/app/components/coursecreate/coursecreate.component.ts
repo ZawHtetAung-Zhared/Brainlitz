@@ -75,7 +75,10 @@ export class CoursecreateComponent implements OnInit {
       this.getLocationsList();
       this.getUserList();
       this.getPdfList();
-      this.editCourse(this.courseId);
+      setTimeout(() => {
+         this.editCourse(this.courseId);
+       }, 300);
+      
     }else if(this.coursePlanId){
       console.log("Create")
       this.showCourse = true;
@@ -361,13 +364,21 @@ export class CoursecreateComponent implements OnInit {
    pdfId = [];
    
   showCoursePlanName(planid){
-    this.getCoursePlanList();
+    // this.getCoursePlanList();
     console.log("course planid ",planid);
     console.log("Course PLans",this.coursePlan)
     let item1 = this.coursePlan.filter(item => item._id === planid)[0];
     console.log(item1.name);
     // this.coursePlanName = item1.name;
     return item1;
+    // this._service.getAllCoursePlan(this.regionID)
+    // .subscribe((res:any) =>{
+    //   console.log(res);
+    //   let allPlan = res;
+    //   let item1 = allPlan.filter(item => item._id === planid)[0];
+    //   console.log(item1);
+    //   return item1;
+    // })
   }
 
   editCourse(cId){

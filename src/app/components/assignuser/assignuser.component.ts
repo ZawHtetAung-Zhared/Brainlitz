@@ -26,6 +26,7 @@ export class AssignuserComponent implements OnInit {
   public assignedUser = [];
   public getAllUsers:any;
   public userType:any;
+  public listType:any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
@@ -39,38 +40,17 @@ export class AssignuserComponent implements OnInit {
     this.userType = 'all';
   }
 
-  openStaff(content) {
-    this.modalReference = this.modalService.open(content, { size: 'lg' });
-    this.getUsers("staff");
-    console.log(this.assignList)
-    let test = this.assignList.indexOf("5b272018f6f5fb1b0d844ba3");
-    console.log("Test",test);
-    if(this.assignList.length > 0){
-      for (var i=0; i < this.assignList.length ; i++) {
-        this.assignedUser.push(this.assignList[i].userId);
-      }
-      console.log(this.checkedUser);
+  openUserModal(modal,type) {
+    console.log(modal,type)
+    this.modalReference = this.modalService.open(modal, { size: 'lg' });
+    // this.getUsers("customer");
+    if(type == "customer"){
+      this.getUsers("customer");
+      this.listType = "Customer List";
+    }else{
+      this.getUsers("staff");
+      this.listType = "Staff List"
     }
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      this.chooseUser = '';
-      this.checkedUser = [];
-      this.checkedName = [];
-      this.checkedUserStr = "";
-      this.assignedUser = [];
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.chooseUser = '';
-      this.checkedUser = [];
-      this.checkedName = [];
-      this.checkedUserStr = "";
-      this.assignedUser = [];
-    });
-  }
-
-  openCustomer(content1) {
-    this.modalReference = this.modalService.open(content1, { size: 'lg' });
-    this.getUsers("customer");
     if(this.assignList.length > 0){
       for (var i=0; i < this.assignList.length ; i++) {
         this.assignedUser.push(this.assignList[i].userId);
