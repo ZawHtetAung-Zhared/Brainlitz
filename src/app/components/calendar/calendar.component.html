@@ -18,8 +18,8 @@
 			      <input type="text" class="form-control" [(ngModel)]="formField.name" name="name" required>
 			    </div>
 			    <div class="form-group">
-			    	<label *ngIf="noHoliday">Holiday Lists</label>
-			    	<label *ngIf="!noHoliday" style="color:red;">Firstly, holiday calendar must be created before calendar.</label>
+			    	<label *ngIf="holidayLists!=0">Holiday Lists</label>
+			    	<label *ngIf="holidayLists==0" style="color:red;">Firstly, holiday calendar must be created before calendar.</label>
 			    	<div class="height-scroll">
 			    		<div *ngFor="let holidayDate of holidayLists; let i=index;" >
 				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" name="holiday" [checked]="responseChecked.indexOf(holidayDate._id) != -1">

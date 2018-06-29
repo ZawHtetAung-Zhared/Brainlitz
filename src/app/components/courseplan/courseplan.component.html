@@ -12,6 +12,7 @@
 			    </button>
 			</div>
 		  	<div class="modal-body" style="padding: 40px 20px;">
+		  		<label *ngIf="courseCategories==0" style="color: red;">Firstly, Category must be created before course plan.</label>
 		    	<ul class="ul-pad">
 				    <li *ngFor="let cate of courseCategories">
 					    <div class="col-md-4 fl-rt">

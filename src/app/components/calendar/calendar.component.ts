@@ -142,18 +142,10 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-  noHoliday: boolean = false;;
-
   getAllHolidays(){
     this._service.getAllHolidays(this.regionID)
     .subscribe((res:any) => {
       this.holidayLists = res;
-      if(this.holidayLists.length == 0){
-        this.noHoliday = false;
-      }
-      else {
-        this.noHoliday = true;
-      }
       console.log(this.holidayLists)
       }, err => {
         console.log(err)
