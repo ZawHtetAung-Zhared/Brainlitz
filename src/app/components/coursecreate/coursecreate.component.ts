@@ -8,9 +8,6 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
-  // host: {
-  //   '(document:click)': 'onClick($event)',
-  // },
   selector: 'app-coursecreate',
   templateUrl: './coursecreate.component.html',
   styleUrls: ['./coursecreate.component.css']
@@ -47,6 +44,7 @@ export class CoursecreateComponent implements OnInit {
   ];
   public selectedPdf = [];
   public cbChecked = [];
+  public testChar:boolean;
   minDate:any;
   maxDate:any;
   courseList: any;
@@ -100,18 +98,6 @@ export class CoursecreateComponent implements OnInit {
       this.showCourse = false;
     }
   }
-
-   // onClick(event) {
-   //  console.log(event);
-   //  var target = event.target || event.srcElement || event.currentTarget;
-   //  var idAttr = target.attributes.id;
-   //  var value = idAttr.nodeValue;
-   //  console.log('target id',value)
-   //  if(value!="startD"){
-   //  }
-   //   // if (this._eref.nativeElement.contains(event.target)) // or some similar check
-   //   // console.log(this._eref.nativeElement.contains(event.target))
-   //  }
 
   getCoursePlanList(){
     this.blockUI.start('Loading...');
@@ -209,7 +195,7 @@ export class CoursecreateComponent implements OnInit {
     }
     localStorage.removeItem('coursePlanId');
   }
-  testChar:boolean;
+
   numberOnly(event):boolean{
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -217,9 +203,11 @@ export class CoursecreateComponent implements OnInit {
       this.testChar = true;
       return false;
     }
+    if(event.target.value.search(/^0/) != -1){
+        event.target.value = '';  
+    }
     this.testChar = false;
     return true;
-    // return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
   public hide: boolean = true;
   onChange(technology) {
@@ -361,24 +349,13 @@ export class CoursecreateComponent implements OnInit {
   // onClickedOutside(e: Event) {
   //   console.log('Clicked outside:', e);
   // }
-   pdfId = [];
    
   showCoursePlanName(planid){
-    // this.getCoursePlanList();
     console.log("course planid ",planid);
     console.log("Course PLans",this.coursePlan)
     let item1 = this.coursePlan.filter(item => item._id === planid)[0];
     console.log(item1.name);
-    // this.coursePlanName = item1.name;
     return item1;
-    // this._service.getAllCoursePlan(this.regionID)
-    // .subscribe((res:any) =>{
-    //   console.log(res);
-    //   let allPlan = res;
-    //   let item1 = allPlan.filter(item => item._id === planid)[0];
-    //   console.log(item1);
-    //   return item1;
-    // })
   }
 
   editCourse(cId){

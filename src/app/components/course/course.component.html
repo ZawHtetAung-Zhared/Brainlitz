@@ -10,8 +10,8 @@
   <block-ui message="Deafult Message"></block-ui>
   <div class="scrollable">
     <ul class="list-group-flush">
-      <li class="list-group-item" *ngFor="let course of courseList">
-        <span style="margin-right: 20px;">{{course.name}}</span>
+      <li class="list-group-item" *ngFor="let course of courseList; let i=index">
+        <span style="margin-right: 20px;">{{i+1}}- {{course.name}}</span>
         <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
         <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="edit(course)">Edit</button>
         <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="assignUser(course)">Assign User</button>

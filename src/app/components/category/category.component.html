@@ -32,8 +32,8 @@
 
   <div class="scrollable container">
     <ul class="list-group-flush">
-      <li class="list-group-item" *ngFor="let category of categoryList">
-        {{category.name}}
+      <li class="list-group-item" *ngFor="let category of categoryList; let i = index">
+        {{i+1}}- {{category.name}}
         <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCategory(category._id, content)">Edit</button>
       </li>
     </ul>
