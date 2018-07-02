@@ -118,17 +118,17 @@
 							<label for="address" class="lable-title">Message Type</label>
 							<div class="d-flex flex-row">
 								<label class="custom-control custom-radio switch">
-									<input id="radio1" name="radio" type="radio" class="">
+									<input id="radio1" name="sendType" value="email" [(ngModel)]="item.sendType" #email="ngModel" type="radio" class="">
 									  <span class="custom-control-indicator slider round"></span>
 									  <span class="custom-control-description">Email</span>
 								</label>
 								<label class="custom-control custom-radio switch">
-									<input id="radio2" name="radio" type="radio" class="">
+									<input id="radio2" name="sendType" value="app" [(ngModel)]="item.sendType" #app="ngModel" type="radio" class="" >
 									  <span class="custom-control-indicator slider round"></span>
 									  <span class="custom-control-description">App notification</span>
 								</label>
 							</div>
-						</div>		
+						</div>
 						<div>
 							<button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button>
 							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid || userCount === 0">Submit</button>

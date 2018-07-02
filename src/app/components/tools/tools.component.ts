@@ -8,7 +8,7 @@ import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-import * as moment from "moment-timezone";
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-tools',
@@ -20,9 +20,9 @@ export class ToolsComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
-	public item:any = {};
+  public item:any = {};
   public regionID = localStorage.getItem('regionId');
-	public locationId:any;
+  public locationId:any;
   public isChecked:any;
   public categoryLists:any;
   public userLists:any;
@@ -46,6 +46,7 @@ export class ToolsComponent implements OnInit {
     this.locationId = localStorage.getItem('locationId');
     this.notiType = 'send';
     this.setDefaultSelected();
+    this.item.sendType = 'app';
   }
 
   clickTab(type){
@@ -59,42 +60,33 @@ export class ToolsComponent implements OnInit {
 
   viewNoti(){
     console.log(this.regionID)
-    let tzone = localStorage.getItem('timezone');
-    console.log(tzone)
-    var a = moment("2013-11-18 11:55").tz(tzone);
-    var xx = a.format()
-    console.log(xx)
-    var tMin = parseInt(xx.slice(-2));
-    console.log(tMin)
-    var tHour = parseInt(xx.slice(-5, -3));
-    console.log(tHour)
+    const zone = localStorage.getItem('timezone');
+    const format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    console.log(zone)
+
     this.blockUI.start('Loading...');
     this._service.viewNoti()
     .subscribe((res:any) => {  
       console.log(res);
       this.blockUI.stop();
       this.notiLists = res;
-      console.log('haha', this.notiLists)
       for (var i in this.notiLists) {
         let year = this.notiLists[i].utc.year;
         let month = this.notiLists[i].utc.month - 1;
         let day = this.notiLists[i].utc.day;
         let hour = this.notiLists[i].utc.hour;
         let minutes = this.notiLists[i].utc.minutes;
-        console.log('~~', minutes, '_' , tMin)
-        minutes = minutes + tMin
-        console.log(minutes)
-        
 
         var utcTemp = new Date(Date.UTC(year, month, day, hour, minutes));
-        this.utcDate = utcTemp.toUTCString();
-        
-        
-        
+        const utcToString = utcTemp.toUTCString();
+        const time = new Date(utcToString)
+        this.utcDate = moment(time, format).tz(zone).format(format)
         console.log(this.utcDate)
-        // if(this.notiLists[i].utc){
-        //   this.notiLists[i].utc = this.utcDate;
-        // }
+        this.utcDate = this.utcDate.slice(0, -5);
+
+        if(this.notiLists[i].utc){
+          this.notiLists[i].utc = this.utcDate;
+        }
       }
       console.log(this.notiLists)
     }, err => {
@@ -173,6 +165,7 @@ export class ToolsComponent implements OnInit {
         console.log('~~~', res)
         this.userLists = res;
         this.dataLists = this.userLists.map(a => a.preferredName);
+        console.log(this.dataLists)
       }, err => {
         console.log(err)
       })
@@ -263,6 +256,9 @@ export class ToolsComponent implements OnInit {
     if(data.active == 1){
       dataObj["active"] = 1
     }
+    if(data.sendType != undefined){
+      dataObj["sendType"] = data.sendType
+    }
     let body = {
       "title": data.subject,
       "message": data.message
@@ -306,6 +302,7 @@ export class ToolsComponent implements OnInit {
       this.toastr.success('Successfully notified.');
       this.blockUI.stop();
       this.item = {};
+      this.item.sendType = 'app';
       if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
         this.userCount = 0;
       }
@@ -318,6 +315,7 @@ export class ToolsComponent implements OnInit {
 
   resetForm(){
     this.item = {};
+    this.item.sendType = 'app';
     this.isChecked = 'allcustomer';
   }
 

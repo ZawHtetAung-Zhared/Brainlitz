@@ -141,14 +141,19 @@ export class appService{
       console.log(obj)     
       console.log(obj.id)     
       console.log(obj.active)     
+      console.log(obj.sendType)     
       this.getLocalstorage();
-      if(obj.id != undefined){
-        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&id=' + obj.id  ;
-      }else{
-        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option   ;
-      }
 
+      var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
+      url = (obj.id != undefined) ? url + '&id=' + obj.id : url
       url = (obj.active != undefined) ? url + '&active=1' : url;
+      
+      // if(obj.id != undefined){
+      //   var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&id=' + obj.id  ;
+      // }else{
+      //   var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option   ;
+      // }
+
 
       console.log(url)
       const httpOptions = {
