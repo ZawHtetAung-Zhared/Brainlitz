@@ -305,22 +305,22 @@ export class ToolsComponent implements OnInit {
     console.log(dataObj)
 
 
-    // this.blockUI.start('Loading...');
-    // this._service.createNoti(dataObj, body)
-    // .subscribe((res:any) => {
-    //   console.log('~~~', res)
-    //   console.log('~~~', this.isChecked)
-    //   this.toastr.success('Successfully notified.');
-    //   this.blockUI.stop();
-    //   this.item = {};
-    //   this.item.sendType = 'app';
-    //   if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
-    //     this.userCount = 0;
-    //   }
-    // }, err => {
-    //   this.toastr.error('Notify fail');
-    //   console.log(err)
-    // })
+    this.blockUI.start('Loading...');
+    this._service.createNoti(dataObj, body)
+    .subscribe((res:any) => {
+      console.log('~~~', res)
+      console.log('~~~', this.isChecked)
+      this.toastr.success('Successfully notified.');
+      this.blockUI.stop();
+      this.item = {};
+      this.item.sendType = 'app';
+      if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
+        this.userCount = 0;
+      }
+    }, err => {
+      this.toastr.error('Notify fail');
+      console.log(err)
+    })
     
   }
 
