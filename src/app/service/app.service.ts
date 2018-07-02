@@ -144,7 +144,13 @@ export class appService{
       console.log(obj.sendType)     
       this.getLocalstorage();
 
-      var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
+      if(obj.sendType == 'email'){
+        var url = this.baseUrl + '/email' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
+      }else{
+        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
+      }
+
+      // var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
       url = (obj.id != undefined) ? url + '&id=' + obj.id : url
       url = (obj.active != undefined) ? url + '&active=1' : url;
       
