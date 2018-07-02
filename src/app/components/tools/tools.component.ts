@@ -164,8 +164,12 @@ export class ToolsComponent implements OnInit {
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.userLists = res;
+        for (var i in this.userLists) {
+          this.userLists[i].preferredName = this.userLists[i].preferredName + " - (" + this.userLists[i].email + ")";
+        }
+
         this.dataLists = this.userLists.map(a => a.preferredName);
-        console.log(this.dataLists)
+        
       }, err => {
         console.log(err)
       })
@@ -220,6 +224,7 @@ export class ToolsComponent implements OnInit {
     
 
     console.log(dataObj)
+
     if(type != 'user'){
       this._service.userCount(dataObj)
       .subscribe((res:any) => {    
@@ -245,6 +250,12 @@ export class ToolsComponent implements OnInit {
     console.log(data)
     console.log(data.type)
     console.log(this.isChecked)
+
+
+    // const n = data.itemID.search(' -');
+    // data.itemID = data.itemID.slice(0,n)
+    // console.log(n)
+    // console.log(data.itemID)
 
     let dataObj = {
       "regionId": this.regionID,
@@ -294,22 +305,22 @@ export class ToolsComponent implements OnInit {
     console.log(dataObj)
 
 
-    this.blockUI.start('Loading...');
-    this._service.createNoti(dataObj, body)
-    .subscribe((res:any) => {
-      console.log('~~~', res)
-      console.log('~~~', this.isChecked)
-      this.toastr.success('Successfully notified.');
-      this.blockUI.stop();
-      this.item = {};
-      this.item.sendType = 'app';
-      if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
-        this.userCount = 0;
-      }
-    }, err => {
-      this.toastr.error('Notify fail');
-      console.log(err)
-    })
+    // this.blockUI.start('Loading...');
+    // this._service.createNoti(dataObj, body)
+    // .subscribe((res:any) => {
+    //   console.log('~~~', res)
+    //   console.log('~~~', this.isChecked)
+    //   this.toastr.success('Successfully notified.');
+    //   this.blockUI.stop();
+    //   this.item = {};
+    //   this.item.sendType = 'app';
+    //   if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
+    //     this.userCount = 0;
+    //   }
+    // }, err => {
+    //   this.toastr.error('Notify fail');
+    //   console.log(err)
+    // })
     
   }
 
