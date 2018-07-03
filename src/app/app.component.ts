@@ -44,20 +44,19 @@ export class AppComponent implements OnInit{
 	      this.showHeader = false;
         this.showSidebar = false;
         //console.log(document.location.href)
-        var slicePath = document.location.href.slice(-5);
-        var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
-
-        console.log(slicePath)
-        if(slicePath == "login"){
-          console.log('right')
-          localStorage.setItem('slicePath', storeLocal);
-          this._service.getPathLocal();
-          this.showHeader = false;
-          this.showSidebar = false;
-          this._router.navigateByUrl('/login', { skipLocationChange: true });
-        }
+       // var slicePath = document.location.href.slice(-5);
+        //var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
      }
     })
+    var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
+    if((document.location.href.slice(-5)) == "login"){
+      localStorage.setItem('slicePath', storeLocal);
+      console.log('right')
+      this._service.getPathLocal();
+      this.showHeader = false;
+      this.showSidebar = false;
+      this._router.navigateByUrl('/login', { skipLocationChange: true });
+    }
 	}
 
   ngOnInit() {
