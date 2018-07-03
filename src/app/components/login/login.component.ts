@@ -17,13 +17,12 @@ export class LoginComponent implements OnInit {
   public slicePathName; any;
   constructor(private _service: appService) {
       this._service.slicePath.subscribe((nextValue) => {
-        this.slicePathName = nextValue.slice(2)
+        this.slicePathName = nextValue;
      })
 
       if(localStorage.getItem('slicePath')){
-        console.log('reload')
         var data = localStorage.getItem('slicePath');
-        this.slicePathName = data.slice(2)
+        this.slicePathName = data;
       }
   }
 
