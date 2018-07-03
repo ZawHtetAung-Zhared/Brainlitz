@@ -19,14 +19,22 @@ export class appService{
     private getLocationID = new Subject<any>(); 
     sendData: Observable<any>;
     private sendParentToChild = new Subject<any>();
-    itemValue = new Subject();
+    itemValue =  new Subject();
+
+    slicePath: Observable<any>;
+    private sendLoginName = new Subject<any>();
 
     constructor( private httpClient: HttpClient, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
       this.sendData = this.sendParentToChild.asObservable();
-      this.locationID = this.getLocationID.asObservable();
+      this.locationID = this.getLocationID.asObservable(); 
+      this.slicePath = this.sendLoginName.asObservable(); 
+     }
+
+    getPathLocal(datGet){
+      this.sendLoginName.next(datGet);
     }
 
     isLoggedIn(): boolean {

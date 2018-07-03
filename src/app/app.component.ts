@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
+import { appService } from './service/app.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit{
   public showSidebar: boolean = true;
   public showHeader: boolean = true;
 
-  constructor(public router:Router, private http: Http, private _router: Router) {      
+  constructor(private http: Http, private _router: Router, private _service: appService) { 
   	if (window.location.hash.indexOf("#") === 0) {
   		var data = {}, pairs, pair, separatorIndex, escapedKey, escapedValue;
         var queryString = window.location.search.substr(1);
@@ -36,19 +37,26 @@ export class AppComponent implements OnInit{
         }
     }
 
-  	router.events.forEach((event) => {
+  	_router.events.forEach((event) => {
 	    if(event instanceof NavigationStart) {
         this.showSidebar = (event.url == "/login" || event.url == "/region" || event.url == "/") ? this.showSidebar = false : this.showSidebar = true; 
         this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/region" ) ? this.showHeader = false : this.showHeader = true; 
-	    }
-	  });
+	      this.showHeader = false;
+        this.showSidebar = false;
+        var slicePath = document.location.hash.substring(document.location.hash.indexOf("/#"), document.location.hash.indexOf("/login"));
+        console.log(document.location.hash.indexOf("/#"))
+        if((slicePath +'/login') == ('#'+event.url)){
+          this._service.getPathLocal(slicePath);
+          this.showHeader = false;
+          this.showSidebar = false;
+          this._router.navigateByUrl('/login', { skipLocationChange: true });
+        }
+     }
+    })
 	}
 
-  ngOnInit() {  
-    // let isToken = localStorage.getItem('token');   
-    // if(isToken == undefined){
-    //   this._router.navigateByUrl('/login');
-    // } 
+  ngOnInit() {
+    this._router.navigateByUrl('');
   }
 
   logoff(){

@@ -103,7 +103,8 @@ export const routes: Routes = [
     },
     {
       path:'**',
-      component:  PagenotfoundComponent
+      component:  PagenotfoundComponent,
+      canActivate: [LoggedInGuard]
     }
 ];
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../../../environments/environment';
+import { appService } from '../../service/app.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,13 @@ export class LoginComponent implements OnInit {
   private clientSecret = environment.clientSecret;
   private redirectUri = environment.redirect_uri;
   private responseType = environment.response_type;
-  constructor() {}
+  public slicePathName; any;
+  constructor(private _service: appService) {
+      this._service.slicePath.subscribe((nextValue) => {
+        this.slicePathName = nextValue.slice(2)
+     })
+
+  }
 
   ngOnInit() {
   }
