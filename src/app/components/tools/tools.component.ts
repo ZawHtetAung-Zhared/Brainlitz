@@ -248,7 +248,7 @@ export class ToolsComponent implements OnInit {
 
   sendNoti(data){
     console.log(data)
-    console.log(data.type)
+    // console.log(data.type)
     console.log(this.isChecked)
 
 
