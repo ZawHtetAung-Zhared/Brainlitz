@@ -43,21 +43,13 @@ export class AppComponent implements OnInit{
         this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/region" ) ? this.showHeader = false : this.showHeader = true; 
 	      this.showHeader = false;
         this.showSidebar = false;
-        console.log(document.location.href)
+        //console.log(document.location.href)
         var slicePath = document.location.href.slice(-5);
         var storeLocal = document.location.href.substring(0, document.location.href.indexOf("."));
-        //var slicePath = document.location.hash.substring(document.location.hash.indexOf("/#"), document.location.hash.indexOf("/login"));
-        //console.log(document.location.hash.indexOf("/#"))
-        //if((slicePath +'/login') == ('#'+ event.url)){
-        //  localStorage.setItem('slicePath', slicePath);
-         // this._service.getPathLocal();
-         // this.showHeader = false;
-         // this.showSidebar = false;
-         // this._router.navigateByUrl('/login', { skipLocationChange: true });
-        // }
+
         console.log(slicePath)
-        console.log(event.url.slice(-5))
-        if(slicePath == (event.url.slice(-5))){
+        if(slicePath == "login"){
+          console.log('right')
           localStorage.setItem('slicePath', storeLocal);
           this._service.getPathLocal();
           this.showHeader = false;
