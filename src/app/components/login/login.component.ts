@@ -20,9 +20,15 @@ export class LoginComponent implements OnInit {
         this.slicePathName = nextValue.slice(2)
      })
 
+      if(localStorage.getItem('slicePath')){
+        console.log('reload')
+        var data = localStorage.getItem('slicePath');
+        this.slicePathName = data.slice(2)
+      }
   }
 
   ngOnInit() {
+
   }
 
   public login() {

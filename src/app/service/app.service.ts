@@ -33,7 +33,8 @@ export class appService{
       this.slicePath = this.sendLoginName.asObservable(); 
      }
 
-    getPathLocal(datGet){
+    getPathLocal(){
+      var datGet = localStorage.getItem('slicePath')
       this.sendLoginName.next(datGet);
     }
 

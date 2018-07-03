@@ -46,7 +46,8 @@ export class AppComponent implements OnInit{
         var slicePath = document.location.hash.substring(document.location.hash.indexOf("/#"), document.location.hash.indexOf("/login"));
         console.log(document.location.hash.indexOf("/#"))
         if((slicePath +'/login') == ('#'+event.url)){
-          this._service.getPathLocal(slicePath);
+          localStorage.setItem('slicePath', slicePath);
+          this._service.getPathLocal();
           this.showHeader = false;
           this.showSidebar = false;
           this._router.navigateByUrl('/login', { skipLocationChange: true });
@@ -56,7 +57,7 @@ export class AppComponent implements OnInit{
 	}
 
   ngOnInit() {
-    this._router.navigateByUrl('');
+    //this._router.navigateByUrl('/login', { skipLocationChange: true });
   }
 
   logoff(){
