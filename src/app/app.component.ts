@@ -43,8 +43,9 @@ export class AppComponent implements OnInit{
         this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/region" ) ? this.showHeader = false : this.showHeader = true; 
 	      this.showHeader = false;
         this.showSidebar = false;
-        var slicePath = document.location.hash.substring(document.location.hash.indexOf("/#"), document.location.hash.indexOf("/login"));
-        console.log(document.location.hash.indexOf("/#"))
+        var slicePath = document.location.hash.substring(0, document.location.hash.indexOf("."));
+        //var slicePath = document.location.hash.substring(document.location.hash.indexOf("/#"), document.location.hash.indexOf("/login"));
+        //console.log(document.location.hash.indexOf("/#"))
         if((slicePath +'/login') == ('#'+event.url)){
           localStorage.setItem('slicePath', slicePath);
           this._service.getPathLocal();
@@ -57,7 +58,6 @@ export class AppComponent implements OnInit{
 	}
 
   ngOnInit() {
-    //this._router.navigateByUrl('/login', { skipLocationChange: true });
   }
 
   logoff(){
