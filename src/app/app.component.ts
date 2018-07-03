@@ -45,7 +45,7 @@ export class AppComponent implements OnInit{
         this.showSidebar = false;
         //console.log(document.location.href)
         var slicePath = document.location.href.slice(-5);
-        var storeLocal = document.location.href.substring(0, document.location.href.indexOf("."));
+        var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
 
         console.log(slicePath)
         if(slicePath == "login"){
