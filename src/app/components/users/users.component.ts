@@ -59,6 +59,12 @@ export class UsersComponent implements OnInit {
 	locationLists: any;
 	public locationID = localStorage.getItem('locationId');
 	emailAlert: boolean = false;
+	guardianAlert : boolean = false;
+	notShowEdit: boolean = true;
+	permissionId: any[] = [];
+	editId: any;
+	public updateButton: boolean = false;
+  	public createButton: boolean = true;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -83,6 +89,7 @@ export class UsersComponent implements OnInit {
 		this.updateButton = false;
     	this.createButton = true;
     	this.emailAlert = false;
+    	this.guardianAlert = false;
 		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.formFields = new staff();	
@@ -100,6 +107,7 @@ export class UsersComponent implements OnInit {
 		this.updateButton = false;
     	this.createButton = true;
     	this.emailAlert = false;
+    	this.guardianAlert = false;
 		this.modalReference = this.modalService.open(customerModal, { backdrop:'static', windowClass:'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.formFieldc = new customer();	
@@ -182,9 +190,12 @@ export class UsersComponent implements OnInit {
 	    return new Blob([ab], { type: mimeString });
 	}
 
+	atLeastOneMail: boolean = false;
+
 	createUser(obj, type, apiState){
 		console.log(obj);
 		console.log(type);
+		this.atLeastOneMail = false;
 		let getImg = document.getElementById("blobUrl");
 		if(getImg != undefined){
 			this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
@@ -206,6 +217,8 @@ export class UsersComponent implements OnInit {
 			objData.append('location', JSON.stringify(locationObj)),
 			objData.append('profilePic', this.img)
 			console.log(objData)
+			this.blockUI.start('Loading...');
+			this.modalReference.close();
 
 		}
 		else if(type == 'customer'){
@@ -213,11 +226,23 @@ export class UsersComponent implements OnInit {
 			if(obj.guardianmail){
 				guardianArray = obj.guardianmail.split(',')
 			}
+			if(!obj.guardianmail && !obj.mail){
+				this.atLeastOneMail = true;
+			}
+			else {
+				this.blockUI.start('Loading...');
+				this.modalReference.close();
+			}
 			objData.append('orgId', this.orgID);
 			objData.append('firstName', obj.fname);
 			objData.append('lastName', obj.lname);
 			objData.append('preferredName', obj.preferredName);
-			objData.append('email', obj.mail);
+			if(obj.mail == undefined){
+				objData.append('email', '')
+			}
+			else{
+				objData.append('email', obj.mail);
+			}
 			objData.append('regionId', this.regionID);
 			objData.append('password', obj.pwd);
 			objData.append('gender', obj.gender);
@@ -229,28 +254,27 @@ export class UsersComponent implements OnInit {
 		else {
 			console.log('error')
 		}
-
-		this.blockUI.start('Loading...');
-		this.modalReference.close();
 		if(apiState == 'create'){
 			console.log('create')
-			this._service.createUser(objData)
-	    	.subscribe((res:any) => {
-	  			console.log(res)
-	  			this.toastr.success('Successfully Created.');
-		  		this.blockUI.stop();
-		  		this.getAllUsers('all');
-		    }, err => {		    	
-		    	this.blockUI.stop();
-		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
-		    		this.toastr.error('Email already exist');
-		    	}
-		    	else {
-		    		this.toastr.error('Create Fail');
-		    	}
-		    	
-		    	console.log(err)
-		    })
+			if(this.atLeastOneMail == false){
+				this._service.createUser(objData)
+		    	.subscribe((res:any) => {
+		  			console.log(res)
+		  			this.toastr.success('Successfully Created.');
+			  		this.blockUI.stop();
+			  		this.getAllUsers('all');
+			    }, err => {		    	
+			    	this.blockUI.stop();
+			    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+			    		this.toastr.error('Email already exist');
+			    	}
+			    	else {
+			    		this.toastr.error('Create Fail');
+			    	}
+			    	
+			    	console.log(err)
+			    })
+			}
 		}
 		else if (apiState == 'update'){
 			console.log('update')
@@ -272,12 +296,6 @@ export class UsersComponent implements OnInit {
 		
     		
 	}
-
-	notShowEdit: boolean = true;
-	permissionId: any[] = [];
-	editId: any;
-	public updateButton: boolean = false;
-  	public createButton: boolean = true;
 
 	edit(id, type, modal){
 		console.log(id)
@@ -404,17 +422,35 @@ export class UsersComponent implements OnInit {
 
 	validateEmail(data){
 		console.log(data)
+		this.atLeastOneMail = false;
 		if( !this.isValidateEmail(data)) { 
 			this.emailAlert = true;
 		}
 		else {
 			this.emailAlert = false;
 		}
+		
+	}
+
+	validateGuarmail(gData){
+		console.log(gData)
+		this.atLeastOneMail = false;
+		if(!this.isValidateEmail(gData)) { 
+			this.guardianAlert = true;
+		}
+		else {
+			this.guardianAlert = false;
+		}	
 	}
 
 	isValidateEmail($email) {
 	  var emailReg = /^([A-Za-z0-9\.\+])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+	  if($email != ''){
 	  	return emailReg.test( $email );
+	  }
+	  else {
+	  	return true;
+	  }	
 	}
 
 
