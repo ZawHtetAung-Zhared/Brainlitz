@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
   private clientSecret = environment.clientSecret;
   private redirectUri = environment.redirect_uri;
   private responseType = environment.response_type;
-  public slicePathName; any;
+  public slicePathName: any;
+  public randomKey: any;
   constructor(private _service: appService) {
       this._service.slicePath.subscribe((nextValue) => {
         this.slicePathName = nextValue;
@@ -27,7 +28,23 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.randomKey = localStorage.getItem('random');
+    if(this.randomKey != undefined){
+      console.log('key exit')
+    }else{
+      console.log('no key')
+      this.generateRandom();
+    }
+  }
 
+  generateRandom(){
+    console.log('random')
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    let bb =  (S4()+S4()+S4()+S4()+S4()+S4());
+    console.log(bb);
+    localStorage.setItem('random', bb)
   }
 
   public login() {
