@@ -22,7 +22,14 @@ export class DashboardComponent implements OnInit {
     url: ''
   };
   public menuType:any = "admin";
-
+  public checkedModule =[];
+  public sampleModules = [
+    {"module":"TestModule1"},
+    {"module":"TestModule2"},
+    {"module":"TestModule3"},
+    {"module":"TestModule4"},
+    {"module":"TestModule5"}
+  ]
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
   }
@@ -59,6 +66,10 @@ export class DashboardComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+
+  selectModule(item,event){
+    console.log("selectModule",item);
   }
 
   clickTab(type){

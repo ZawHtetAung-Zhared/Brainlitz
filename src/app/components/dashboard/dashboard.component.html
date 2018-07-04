@@ -10,6 +10,9 @@
         <div [ngClass]="{'active': menuType == 'apg'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
         </div>
+        <div [ngClass]="{'active': menuType == 'template'}" class="tab-wrap">      
+          <button class="btn noti-tab w-100" (click)="clickTab('template')">Template</button>
+        </div>
       </div>
     </div>
     <div *ngIf="menuType == 'admin'" class="col-md-10 min-scroll">
@@ -44,8 +47,22 @@
         <div class="d-flex flex-column w-100 h-100 inner-wrapper">
           <div class="mb-30">
             <h2>Module</h2>
+            <div class="module-wrap" *ngFor="let item of sampleModules">
+              <label class="module-name">{{item.module}}</label>
+              <label class="switch">
+                <input type="checkbox" (change)="selectModule(item.module)">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div style="display: flex;">
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider-visible round"></span>
+              </label>
+              <label style="padding: 5px;">Visible in App</label>
+            </div>
           </div>
-        </div>   
+        </div>  
     </div>
     <div *ngIf="menuType == 'apg'" class="col-md-10 min-scroll">
         <div class="d-flex flex-column w-100 h-100 inner-wrapper">
@@ -53,5 +70,13 @@
             <app-apg></app-apg>
           </div>
         </div>    
-    </div>  
-  </div>
+
+    </div> 
+    <div *ngIf="menuType == 'template'" class="col-md-10 min-scroll">
+        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
+          <div class="mb-30">
+            <h2>Template</h2>
+          </div>
+        </div>    
+    </div>   
+</div>
