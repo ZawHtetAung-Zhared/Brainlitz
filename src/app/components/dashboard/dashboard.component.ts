@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: ''
   };
+  public menuType:any = "admin";
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -56,5 +57,9 @@ export class DashboardComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+
+  clickTab(type){
+    this.menuType = type;
   }
 }

@@ -1,26 +1,57 @@
-<div class="d-flex flex-column w-100 h-100 inner-wrapper">
-  <div class="mb-30">
-    <h2 class="mb-30">Regional Administrator</h2>
-    <form novalidate #categoryForm="ngForm" style="width: 600px;">
-    	<div class="form-group">
-	      <label for="name">Region Name</label>   
-	      <input type="text" class="form-control" placeholder="organization name" name="name" [(ngModel)]="item.name" required #name="ngModel">
-	    </div>
-    	<div class="form-group">
-	      <label for="name">Timezone</label> 
-	      <ng2-timezone-picker 
-	      	[(timezone)]="item.timezone" 
-	      	showOffset="true">
-	      </ng2-timezone-picker>
-	      <!-- _{{item.timezone}} -->
-	    </div>
-    	<div class="form-group mb-30">
-	      <label for="name">Url</label>   
-	      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" required #url="ngModel" required>
-	    </div>
-	    <div style="margin-top: 50px;">
-  	  		<button type="submit" class="btn btn-primary" (click)="updateRegionalInfo(item)">Update</button>
-  	  	</div>
-    </form>
+<div class="d-flex flex-row h-100 w-100" style="display: flex;">
+    <div class="col-md-2 noti-sidebar">
+      <div class="d-flex flex-column justify-content-center">
+        <div [ngClass]="{'active': menuType == 'admin'}" class="tab-wrap">      
+          <button class="btn noti-tab w-100" (click)="clickTab('admin')">Regional Administrator</button>
+        </div>
+        <div [ngClass]="{'active': menuType == 'module'}" class="tab-wrap">     
+          <button class="btn noti-tab w-100" (click)="clickTab('module')">Module</button>
+        </div>
+        <div [ngClass]="{'active': menuType == 'apg'}" class="tab-wrap">      
+          <button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="menuType == 'admin'" class="col-md-10 min-scroll">
+      <div class="d-flex flex-column w-100 h-100 inner-wrapper">
+        <div class="mb-30">
+          <h2 class="mb-30">Regional Administrator</h2>
+          <form novalidate #categoryForm="ngForm" style="width: 600px;">
+            <div class="form-group">
+              <label for="name">Region Name</label>   
+              <input type="text" class="form-control" placeholder="organization name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="name">Timezone</label> 
+              <ng2-timezone-picker 
+                [(timezone)]="item.timezone" 
+                showOffset="true">
+              </ng2-timezone-picker>
+              <!-- _{{item.timezone}} -->
+            </div>
+            <div class="form-group mb-30">
+              <label for="name">Url</label>   
+              <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" required #url="ngModel" required>
+            </div>
+            <div style="margin-top: 50px;">
+                <button type="submit" class="btn btn-primary" (click)="updateRegionalInfo(item)">Update</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">
+        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
+          <div class="mb-30">
+            <h2>Module</h2>
+          </div>
+        </div>   
+    </div>
+    <div *ngIf="menuType == 'apg'" class="col-md-10 min-scroll">
+        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
+          <div class="mb-30">
+            <h2>APG</h2>
+          </div>
+        </div>    
+    </div>  
   </div>
-</div>
