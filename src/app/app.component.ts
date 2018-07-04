@@ -41,8 +41,6 @@ export class AppComponent implements OnInit{
 	    if(event instanceof NavigationStart) {
         this.showSidebar = (event.url == "/login" || event.url == "/region" || event.url == "/") ? this.showSidebar = false : this.showSidebar = true; 
         this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/region" ) ? this.showHeader = false : this.showHeader = true; 
-	      // this.showHeader = false;
-       //  this.showSidebar = false;
         //console.log(document.location.href)
        // var slicePath = document.location.href.slice(-5);
         //var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
@@ -53,8 +51,6 @@ export class AppComponent implements OnInit{
       localStorage.setItem('slicePath', storeLocal);
       console.log('right')
       this._service.getPathLocal();
-      this.showHeader = false;
-      this.showSidebar = false;
       this._router.navigateByUrl('/login', { skipLocationChange: true });
     }
 	}

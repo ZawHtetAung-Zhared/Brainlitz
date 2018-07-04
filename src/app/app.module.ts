@@ -39,6 +39,7 @@ import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TimepickerModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
+import { ApgComponent } from './components/apg/apg.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ReportComponent } from './components/report/report.component';
     HeaderComponent,
     QuizwerkzComponent,
     ToolsComponent,
-    ReportComponent
+    ReportComponent,
+    ApgComponent
   ],
   imports: [
     BrowserModule,
