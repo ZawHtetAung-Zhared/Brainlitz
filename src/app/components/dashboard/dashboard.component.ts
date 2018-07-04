@@ -3,6 +3,8 @@ import { appService } from '../../service/app.service';
 import { TimezonePickerService, Timezone } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +21,7 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: ''
   };
+  public menuType:any = "admin";
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -56,5 +59,9 @@ export class DashboardComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+
+  clickTab(type){
+    this.menuType = type;
   }
 }
