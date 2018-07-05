@@ -19,6 +19,32 @@
   			<label for="desc">Description</label>   
   			<textarea class="form-control" rows="3" placeholder="Address" name="desc" [(ngModel)]="item.desc" required #desc="ngModel"></textarea>
   		</div>
+      <div class="form-group">
+        <label for="desc">Module</label>  
+        <div> 
+          <div class="form-check form-check-inline" *ngFor="let module of moduleLists; let i = index">
+            <label *ngIf="module._id != null" class="form-check-label">
+              <input class="form-check-input" 
+                type="radio" 
+                name="moduleId" 
+                value="{{module._id}}" 
+                [(ngModel)]="item.moduleId"
+                #moduleId="ngModel"
+                required> {{module.name}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="form-group">
+        <label for="desc">Module</label>  
+        <div>
+            <label class="form-check-label">
+              <input type="radio" value="male" name="gender" [ngModel]="item.gender" > Male
+            </label>
+        </div>
+      </div> -->
+
   		<div class="form-group">
   			<label for="desc">AP lists</label>   
   			<div>
@@ -64,21 +90,12 @@
 
 <div class="scrollable container">
 	<ul class="list-group-flush">
-    <!-- <li class="list-group-item" *ngFor="let category of categoryList; let i = index">
-      {{i+1}}- {{category.name}}
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCategory(category._id, content)">Edit</button>
-    </li> -->
-    <li class="list-group-item">
-    	temp1
+    <li class="list-group-item" *ngFor="let temp of tempLists; let i = index">
+      {{i+1}}- {{temp.name}}
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, 01)">Delete</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCategory(category._id, content)">Edit</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, 01)">Share</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCategory(temp._id, content)">Edit</button>
+      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, temp._id)">Share</button>
     </li>
-    <li class="list-group-item">
-      temp2
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, 01)">Delete</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCategory(category._id, content)">Edit</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, 01)">Share</button>
-    </li>
+   
   </ul>
 </div>

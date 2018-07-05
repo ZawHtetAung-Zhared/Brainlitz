@@ -146,6 +146,62 @@ export class appService{
       })
     }
 
+    mmodule(id){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/region/module';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    appoint(id){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    createTemplate(id, body){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point-template';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    getAllTemplate(id){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point-template';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      })
+    }
+
     createNoti(obj, body): Observable<any>{ 
       console.log(obj)     
       console.log(obj.id)     
