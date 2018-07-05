@@ -40,6 +40,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { TimepickerModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
 import { ApgComponent } from './components/apg/apg.component';
+import { TemplateComponent } from './components/template/template.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ApgComponent } from './components/apg/apg.component';
     QuizwerkzComponent,
     ToolsComponent,
     ReportComponent,
-    ApgComponent
+    ApgComponent,
+    TemplateComponent
   ],
   imports: [
     BrowserModule,
