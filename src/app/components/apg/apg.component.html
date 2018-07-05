@@ -36,7 +36,7 @@
 					    	<label for="newAP"> New AP create</label>
 					    	<div *ngIf="newAPshow" style="margin-left: 20px;">
 					    		<div *ngFor="let newAP of newAPList; let i=index;">
-						    		<input type="checkbox" id="{{newAP._id}}" value="{{newAP._id}}" name="newAP" checked>
+						    		<input type="checkbox" id="{{newAP._id}}" (click)="checkedAP(newAP._id, $event, 'newap')" value="{{newAP._id}}" name="newAP" [checked]="newAP.checked">
 						    		<label for="{{newAP._id}}"> {{newAP.name}}</label>
 						    	</div>
 					    	</div>
@@ -57,7 +57,7 @@
 					    	<label for="existAP">Existing AP</label>
 					    	<div *ngIf="existAP" class="height-scroll" style="margin-left: 20px;">
 				  	  			<div *ngFor="let ap of apList; let i=index;">
-						    		<input type="checkbox" id="{{ap._id}}" value="{{ap._id}}" (click)="checkedAP(ap._id, $event)" name="ap">
+						    		<input type="checkbox" id="{{ap._id}}" value="{{ap._id}}" (click)="checkedAP(ap._id, $event,'existap')" name="ap">
 						    		<label for="{{ap._id}}"> {{ap.name}}</label>
 						    	</div>
 				  	  		</div>
@@ -91,7 +91,7 @@
 	  <button class="btn noti-tab w-100" (click)="clickTab('ap')">View all ap</button>
 	</div>
 </div>
-<div *ngIf="viewType == 'apg'" class="col-md-12" style="margin-top: 30px;">
+<div *ngIf="viewType == 'apg'" class="col-md-12 scroll">
 	<div class="overflow">
 		<ul class="list-group-flush" style="padding-left: 0;">  
 		  <li id="{{apg._id}}" class="list-group-item" *ngFor="let apg of apgList; let i = index" [attr.data-index]="i">
@@ -104,7 +104,7 @@
 		</ul>
 	</div>
 </div>	
-<div *ngIf="viewType == 'ap'" class="col-md-12" style="margin-top: 30px;">
+<div *ngIf="viewType == 'ap'" class="col-md-12 scroll">
 	<div class="overflow">
 		<ul class="list-group-flush" style="padding-left: 0;">  
 		  <li id="{{ap._id}}" class="list-group-item" *ngFor="let ap of apList; let i = index" [attr.data-index]="i">

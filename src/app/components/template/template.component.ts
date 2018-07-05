@@ -28,7 +28,7 @@ export class TemplateComponent implements OnInit {
   }
 
   getAllAp(){
-    this._service.appoint(this.regionID)
+    this._service.getAllAP(this.regionID)
     .subscribe((res:any) => {
        console.log(res)
        this.apLists = res;
@@ -42,7 +42,7 @@ export class TemplateComponent implements OnInit {
   }
 
   getAllModule(){
-    this._service.mmodule(this.regionID)
+    this._service.getAllModule(this.regionID)
     .subscribe((res:any) => {
        console.log(res)
        this.moduleLists = res;

@@ -5,6 +5,7 @@ import { apgField } from './apg';
 import { apField } from './apg';
 import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-apg',
@@ -28,13 +29,17 @@ export class ApgComponent implements OnInit {
   viewType:any = 'apg';
   public regionID = localStorage.getItem('regionId');
   apList: any;
-  moduleList: any;
+  moduleList: any[] = [];
   templateList: any;
+  apgList: any;
+  apArray: any[] = [];
+  @BlockUI() blockUI: NgBlockUI;
 
   ngOnInit() {
   	this.getAllAP();
   	this.getAllTemplate();
   	this.getAllModule();
+  	this.getAllAPG();
   }
 
   	open(content){
@@ -42,6 +47,7 @@ export class ApgComponent implements OnInit {
   		this.templateAPG = false;
   		this.getAllAP();
   		this.apArray = [];
+  		this.newAPList = [];
 	  	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
 	    this.modalReference.result.then((result) => {
 	    	this.apgField = new apgField();
@@ -86,6 +92,7 @@ export class ApgComponent implements OnInit {
   	}
 
   	newAPList: any[] = [];
+  	newAPListId: any[] = [];
   	newAPshow: boolean = false;
   	
   	createAP(formData){
@@ -99,11 +106,11 @@ export class ApgComponent implements OnInit {
 		      	console.log('success post',res);
 		      	this.toastr.success('Successfully AP Created.');
 		      	this.getAllAP();
-		      	this.apList.filter(item => item._id == res._id)
-		      	this.newAPList.push(res)
+		      	res.checked = true;
+		      	this.newAPList.push(res);
+		      	this.newAPListId.push(res._id);
 		      	this.newAPshow = true;
 		      	this.apField = new apField();
-		      	console.log(this.newAPList)
 		      	;
 		    }, err => {
 		        this.toastr.error('Created AP Fail');
@@ -111,38 +118,63 @@ export class ApgComponent implements OnInit {
 		    })	
   	}
 
-  	apArray: any[] = [];
-
-  	checkedAP( id, e){
-  		var cbIdx = this.apArray.indexOf(id);
-  		console.log(e.target.checked)
-  		if(e.target.checked == true){
-  			if(cbIdx < 0 )
-	        this.apArray.push(id);
-	        console.log(this.apArray)
+  	checkedAP( id, e, type){
+  		if(type == 'existap'){
+  			var cbIdx = this.apArray.indexOf(id);
+	  		if(e.target.checked == true){
+	  			if(cbIdx < 0 )
+		        this.apArray.push(id);
+		        console.log(this.apArray)
+	  		}
+	  		else {
+	  			if(cbIdx >= 0 ){
+		         	this.apArray.splice(cbIdx, 1);
+		         	console.log(this.apArray)
+		      	}
+	  		}
   		}
   		else {
-  			if(cbIdx >= 0 ){
-	         	this.apArray.splice(cbIdx, 1);
-	         	console.log(this.apArray)
-	      	}
+  			console.log(e)
+  			console.log(this.newAPListId)
+  			var cbIdx = this.newAPListId.indexOf(id);
+  			if(e.target.checked == true){
+	  			if(cbIdx < 0 )
+		        this.apArray.push(id);
+		        console.log(this.apArray)
+	  		}
+	  		else {
+	  			if(cbIdx >= 0 ){
+		         	this.apArray.splice(cbIdx, 1);
+		         	console.log(this.apArray)
+		      	}
+	  		}
+  			
   		}
   		
   	}
 
   	createAPG(formData){
   		console.log(formData)
+  		if(this.newAPshow == true){
+  			for(var i in this.newAPList){
+  				this.apArray.push(this.newAPList[i]._id);
+  			}
+  		}
   		let data = {
   			'name': formData.name,
   			'description': formData.desc,
   			'moduleId': formData.moduleId,
-  			'accessPoints': this.apArray
+  			'accessPoints': this.apArray	  		
   		}
-
-  		this._service.createAPG(this.regionID,data)
+  		console.log(data)
+  		this.modalReference.close();
+  		this.blockUI.start('Loading...');
+  		this._service.createAPG(this.regionID, data, formData.templateId)
 		    .subscribe((res:any) => {
 		      	console.log('success post',res);
 		      	this.toastr.success('Successfully APG Created.');
+		      	this.getAllAPG();
+		      	this.blockUI.stop();
 		    }, err => {
 		        this.toastr.error('Created APG Fail');
 		        console.log(err)
@@ -174,7 +206,22 @@ export class ApgComponent implements OnInit {
   		this._service.getAllModule(this.regionID)
 	    .subscribe((res:any) => {
 	    	console.log('moduleLists' ,res)
-	    	this.moduleList = res;
+	    	for(var i in res){
+	    		if(res[i]._id != null){
+	    			this.moduleList.push(res[i]);
+	    		}
+	    	}
+
+	      }, err => {
+	        console.log(err)
+	      })
+  	}
+
+  	getAllAPG(){
+  		this._service.getAllAPG(this.regionID)
+	    .subscribe((res:any) => {
+	    	console.log('apgLists' ,res)
+	    	this.apgList = res;
 	      }, err => {
 	        console.log(err)
 	      })
