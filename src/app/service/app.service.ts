@@ -146,34 +146,6 @@ export class appService{
       })
     }
 
-    mmodule(id){
-      this.getLocalstorage();
-      let url = this.baseUrl + '/' + id + '/region/module';
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.get(url, httpOptions)
-        .map((res:Response) => {       
-          return res;
-      }) 
-    }
-
-    appoint(id){
-      this.getLocalstorage();
-      let url = this.baseUrl + '/' + id + '/access-point';
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.get(url, httpOptions)
-        .map((res:Response) => {       
-          return res;
-      }) 
-    }
-
     createTemplate(id, body){
       this.getLocalstorage();
       let url = this.baseUrl + '/' + id + '/access-point-template';
@@ -991,20 +963,6 @@ export class appService{
 
     getAllAP(id: string){
       let apiUrl = this.baseUrl +'/'+ id + '/access-point';
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.get(apiUrl, httpOptions)
-      .map((res:Response) => {
-        let result = res;  
-        return result;
-      })
-    }
-
-    getAllTemplate(id: string){
-      let apiUrl = this.baseUrl +'/'+ id + '/access-point-template';
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
