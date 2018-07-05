@@ -933,6 +933,79 @@ export class appService{
       })
     }
 
+    getAllAP(id: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/access-point';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
+    getAllTemplate(id: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/access-point-template';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
+    getAllModule(id: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/region/module';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
+    createAP(id: string, data: object): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/' + id + '/access-point';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    } 
+     
+    createAPG(id: string, data: object): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/' + id + '/access-point-group';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 }
 
 
