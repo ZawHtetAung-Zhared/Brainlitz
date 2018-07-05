@@ -8,10 +8,68 @@
 			</button>
 		</div>
 		<div class="modal-body">
+			<div class="form-group">
+	  	    	<label for="fname">Name</label> 	
+	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="name" [(ngModel)]="formField.name" #apgName="ngModel" required>
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	    	<label for="fname">Description</label> 	
+	  	    	<input type="text" class="form-control" placeholder="Description" name="desc" [(ngModel)]="formField.desc" #apgDesc="ngModel">
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	  		<label>Choose module</label>
+	  	  		<div class="height-scroll">
+	  	  			<div *ngFor="let module of moduleList; let i=index;">
+			    		<input type="checkbox" id="{{module._id}}" value="{{module._id}}" name="module" required>
+			    		<label for="{{module._id}}"> {{module.name}}</label>
+			    	</div>
+	  	  		</div>
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	  		<label>Create As</label>
+	  	  		<div>
+	  	  			<input type="radio" id="custom" name="type" (click)="radioEvent($event, 'custom')" required>
+			    	<label for="custom">Custom</label>
+			    	<div *ngIf="customAP" class="form-group" style="margin-left: 20px;">
+			  	  		<div>
+			  	  			<input type="radio" id="newAP" name="ap" (click)="radioEvent($event, 'newap')">
+					    	<label for="newAP"> New AP create</label>
+					    	<div *ngIf="newAP">
+					    		<div class="form-group">
+					    			<input type="text" class="form-control" placeholder="Name" [(ngModel)]="aa" name="name"  #apName="ngModel">
+					    		</div>	
+					    		<div class="form-group">
+					    			<input type="text" class="form-control" placeholder="Description" [(ngModel)]="bb" name="name"  #apDesc="ngModel">
+					    		</div>	
+					    	</div>
+			  	  		</div>
+			  	  		<div>
+			  	  			<input type="radio" id="existAP" name="ap" (click)="radioEvent($event, 'existap')">
+					    	<label for="existAP"> Existing AP</label>
+					    	<div *ngIf="existAP" class="height-scroll" style="margin-left: 20px;">
+				  	  			<div *ngFor="let ap of apList; let i=index;">
+						    		<input type="checkbox" id="{{ap._id}}" value="{{ap._id}}" name="ap">
+						    		<label for="{{ap._id}}"> {{ap.name}}</label>
+						    	</div>
+				  	  		</div>
+			  	  		</div>
+			  	  	</div>	
+	  	  		</div>
+	  	  		<div>
+	  	  			<input type="radio" id="template" name="type" (click)="radioEvent($event, 'template')" required>
+			    	<label for="template"> Template</label>
+			    	<div *ngIf="templateAPG" class="height-scroll" style="margin-left: 20px;">
+		  	  			<div *ngFor="let template of templateList; let i=index;">
+				    		<input type="checkbox" id="{{template._id}}" value="{{template._id}}" name="template">
+				    		<label for="{{template._id}}"> {{template.name}}</label>
+				    	</div>
+		  	  		</div>
+	  	  		</div>
+	  	  	</div>	
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-		    <button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="">Select</button>
+		    <button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!apgForm.valid">Select</button>
 		</div>	
 	</form>
 </ng-template>	
