@@ -23,19 +23,16 @@ export class DashboardComponent implements OnInit {
   };
   public menuType:any = "template";
   public checkedModule =[];
-  public sampleModules = [
-    {"module":"TestModule1"},
-    {"module":"TestModule2"},
-    {"module":"TestModule3"},
-    {"module":"TestModule4"},
-    {"module":"TestModule5"}
-  ]
+  public moduleList:any;
+  public visible:any;
+
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
     this.getAdministrator();
+    this.getModuleList();
   }
 
   getAdministrator(){
@@ -51,6 +48,14 @@ export class DashboardComponent implements OnInit {
       localStorage.setItem('timezone', this.item.timezone)
     }, err => {
       console.log(err)
+    })
+  }
+
+  getModuleList(){
+    this._service.getAllModule(this.regionId)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.moduleList = res;
     })
   }
 
@@ -70,6 +75,22 @@ export class DashboardComponent implements OnInit {
 
   selectModule(item,event){
     console.log("selectModule",item);
+    if(item.visible == true){
+      this.visible = false;
+      console.log("this.visible",this.visible)
+    }else{
+      this.visible = true;
+      console.log("this.visible",this.visible)
+    }
+    this._service.visibleModule(item._id,item)
+    .subscribe((res:any) => {
+      console.log(res);
+      if(this.visible == true){
+        this.toastr.success("Visible in App");
+      }else{
+        this.toastr.success("Invisible in App");
+      }
+    })
   }
 
   clickTab(type){
