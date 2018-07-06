@@ -146,6 +146,34 @@ export class appService{
       })
     }
 
+    createTemplate(id, body){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point-template';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    getAllTemplate(id){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point-template';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      })
+    }
+
     createNoti(obj, body): Observable<any>{ 
       console.log(obj)     
       console.log(obj.id)     
@@ -154,7 +182,7 @@ export class appService{
       this.getLocalstorage();
 
       if(obj.sendType == 'email'){
-        var url = this.baseUrl + '/email' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
+        var url = this.baseUrl + '/email' + 'regionI?d=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
       }else{
         var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option;
       }
@@ -933,6 +961,85 @@ export class appService{
       })
     }
 
+    getAllAP(id: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/access-point';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
+    getAllModule(id: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/region/module';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
+    getAllAPG(id: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
+    createAP(id: string, data: object): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/' + id + '/access-point';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    } 
+     
+    createAPG(id: string, data: object, templateId: string): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl;
+      if(templateId != undefined){
+        apiUrl = this.baseUrl + '/' + id + '/access-point-group?templateId=' + templateId;
+      }
+      else {
+        apiUrl = this.baseUrl + '/' + id + '/access-point-group';
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 }
 
 

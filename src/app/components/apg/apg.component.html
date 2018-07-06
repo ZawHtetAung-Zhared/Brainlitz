@@ -8,11 +8,109 @@
 			</button>
 		</div>
 		<div class="modal-body">
+			<div class="form-group">
+	  	    	<label for="fname">Name</label> 	
+	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="name" [(ngModel)]="apgField.name" #apgName="ngModel" required>
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	    	<label for="fname">Description</label> 	
+	  	    	<input type="text" class="form-control" placeholder="Description" name="desc" [(ngModel)]="apgField.desc" #apgDesc="ngModel">
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	  		<label>Choose module</label>
+	  	  		<div class="height-scroll">
+	  	  			<div *ngFor="let module of moduleList; let i=index;">
+			    		<input type="radio" id="{{module._id}}" value="{{module._id}}" name="moduleId" [(ngModel)]="module._id"  required>
+			    		<label for="{{module._id}}"> {{module.name}}</label>
+			    	</div>
+	  	  		</div>
+	  	  	</div>
+	  	  	<div class="form-group">
+	  	  		<label>Create As</label>
+	  	  		<div>
+	  	  			<input type="radio" id="custom" name="type" (click)="radioEvent($event, 'custom')" required>
+			    	<label for="custom">Custom</label>
+			    	<div *ngIf="customAP" class="form-group" style="margin-left: 20px;">
+			  	  		<div>
+			  	  			<input type="radio" id="newAP" name="ap" (click)="radioEvent($event, 'newap')">
+					    	<label for="newAP"> New AP create</label>
+					    	<div *ngIf="newAPshow" style="margin-left: 20px;">
+					    		<div *ngFor="let newAP of newAPList; let i=index;">
+						    		<input type="checkbox" id="{{newAP._id}}" (click)="checkedAP(newAP._id, $event, 'newap')" value="{{newAP._id}}" name="newAP" [checked]="newAP.checked">
+						    		<label for="{{newAP._id}}"> {{newAP.name}}</label>
+						    	</div>
+					    	</div>
+					    	<div *ngIf="newAP" style="margin-left: 20px;">
+					    		<form #apForm="ngForm" novalidate>
+					    			<div class="form-group">
+						    			<input type="text" class="form-control" placeholder="Name" [(ngModel)]="apField.name" name="name"  #apName="ngModel" required>
+						    		</div>	
+						    		<div class="form-group">
+						    			<input type="text" class="form-control" placeholder="Description" [(ngModel)]="apField.desc" name="desc"  #apDesc="ngModel" required>
+						    		</div>
+					    		</form>
+					    		<button class="btn btn-primary btn-not-allowed" [disabled]="!apForm.valid" style="margin-bottom: 20px;" (click)="createAP(apForm.value)">Create AP</button>	
+					    	</div>
+			  	  		</div>
+			  	  		<div>
+			  	  			<input type="radio" id="existAP" name="ap" (click)="radioEvent($event, 'existap')">
+					    	<label for="existAP">Existing AP</label>
+					    	<div *ngIf="existAP" class="height-scroll" style="margin-left: 20px;">
+				  	  			<div *ngFor="let ap of apList; let i=index;">
+						    		<input type="checkbox" id="{{ap._id}}" value="{{ap._id}}" (click)="checkedAP(ap._id, $event,'existap')" name="ap">
+						    		<label for="{{ap._id}}"> {{ap.name}}</label>
+						    	</div>
+				  	  		</div>
+			  	  		</div>
+			  	  	</div>	
+	  	  		</div>
+	  	  		<div>
+	  	  			<input type="radio" id="template" name="type" (click)="radioEvent($event, 'template')" required>
+			    	<label for="template"> Template</label>
+			    	<div *ngIf="templateAPG" class="height-scroll" style="margin-left: 20px;">
+		  	  			<div *ngFor="let template of templateList; let i=index;">
+				    		<input type="radio" id="{{template._id}}" value="{{template._id}}" [(ngModel)]="template._id" name="templateId">
+				    		<label for="{{template._id}}"> {{template.name}}</label>
+				    	</div>
+		  	  		</div>
+	  	  		</div>
+	  	  	</div>	
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-		    <button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="">Select</button>
+		    <button type="submit" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value)" [disabled]="!apgForm.valid">Create</button>
 		</div>	
 	</form>
 </ng-template>	
+
+<div class="d-flex" style="margin-top:40px;">
+	<div [ngClass]="{'active': viewType == 'apg'}" class="tab-wrap">      
+	  <button class="btn noti-tab w-100" (click)="clickTab('apg')">View all apg</button>
+	</div>
+	<div [ngClass]="{'active': viewType == 'ap'}" class="tab-wrap">     
+	  <button class="btn noti-tab w-100" (click)="clickTab('ap')">View all ap</button>
+	</div>
+</div>
+<div *ngIf="viewType == 'apg'" class="col-md-12 scroll">
+	<div class="overflow">
+		<ul class="list-group-flush" style="padding-left: 0;">  
+		  <li id="{{apg._id}}" class="list-group-item" *ngFor="let apg of apgList; let i = index" [attr.data-index]="i">
+			{{i + 1}}-{{ apg.name }} 		
+			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="onclickDelete(apg._id)">Delete</button>
+			<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="editAPG(content, apg._id)">Edit</button>
+			<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="viewAPG(apg._id)">View</button>
+			<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="convertTemplate(apg._id)">Convert Template</button>
+		  </li>
+		</ul>
+	</div>
+</div>	
+<div *ngIf="viewType == 'ap'" class="col-md-12 scroll">
+	<div class="overflow">
+		<ul class="list-group-flush" style="padding-left: 0;">  
+		  <li id="{{ap._id}}" class="list-group-item" *ngFor="let ap of apList; let i = index" [attr.data-index]="i">
+			{{i + 1}}-{{ ap.name }} 		
+		  </li>
+		</ul>
+	</div>
+</div>	
 
