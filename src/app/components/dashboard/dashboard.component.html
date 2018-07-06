@@ -52,8 +52,8 @@
                 <label class="module-name">
                   {{module.name}}
                 </label>
-                <div>
-                  <label style="color: #4794ee;">Visible in App</label>
+                <div class="toggle-wrap">
+                  <label class="visible-label">Visible in App</label>
                   <label class="switch">
                     <input type="checkbox" (change)="selectModule(module,$event)" [checked]="module.visible == true">
                     <span class="slider round"></span>
@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>  
-    </div>
+    </div>  
     <div *ngIf="menuType == 'apg'" class="col-md-10 min-scroll">
         <div class="d-flex flex-column w-100 h-100 inner-wrapper">
           <div class="mb-30">
