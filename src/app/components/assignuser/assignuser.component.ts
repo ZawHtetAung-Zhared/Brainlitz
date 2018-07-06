@@ -17,7 +17,9 @@ export class AssignuserComponent implements OnInit {
   modalReference:any;
   closeResult: any;
   public chooseUser: any;
-  public assignList= [];
+  public assignCustomer = [];
+  public assignStaff = [];
+  public assignTeacher = [];
   public selectedUser: any;
   public deleteUser: any;
   public checkedUser = [];
@@ -25,7 +27,7 @@ export class AssignuserComponent implements OnInit {
   public checkedName = [];
   public assignedUser = [];
   public getAllUsers:any;
-  public userType:any;
+  public userType:any = 'teacher';
   public listType:any;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
@@ -37,13 +39,11 @@ export class AssignuserComponent implements OnInit {
     console.log(this.regionid)
     console.log(this.selectedCourse)
     this.getAssignList();
-    this.userType = 'all';
   }
 
   openUserModal(modal,type) {
     console.log(modal,type)
     this.modalReference = this.modalService.open(modal, { size: 'lg' });
-    // this.getUsers("customer");
     if(type == "customer"){
       this.getUsers("customer");
       this.listType = "Customer List";
@@ -51,12 +51,27 @@ export class AssignuserComponent implements OnInit {
       this.getUsers("staff");
       this.listType = "Staff List"
     }
-    if(this.assignList.length > 0){
-      for (var i=0; i < this.assignList.length ; i++) {
-        this.assignedUser.push(this.assignList[i].userId);
+    if(type == "customer"){
+      if(this.assignCustomer.length > 0){
+        for (var i=0; i < this.assignCustomer.length ; i++) {
+          this.assignedUser.push(this.assignCustomer[i].userId);
+        }
+        console.log(this.checkedUser);
       }
-      console.log(this.checkedUser);
+    }else if(type == "staff"){
+      if(this.assignTeacher.length > 0){
+        for(var i = 0; i < this.assignTeacher.length; i++){
+          this.assignedUser.push(this.assignTeacher[i].userId)
+        }
+      }
+      console.log("Assign Staff Length",this.assignStaff.length)
+      if(this.assignStaff.length > 0){
+        for(var j = 0; j< this.assignStaff.length; j++){
+          this.assignedUser.push(this.assignStaff[j].userId)
+        }
+      }
     }
+    
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.chooseUser = '';
@@ -89,7 +104,7 @@ export class AssignuserComponent implements OnInit {
     this.blockUIList.start('Loading...');
   	this._service.getAllUsers(this.regionid, type)
   	.subscribe((res:any) => {
-  		console.log(res);
+  		console.log("userList",res);
   		this.userList = res;
       this.blockUIList.stop();
   	})
@@ -136,8 +151,10 @@ export class AssignuserComponent implements OnInit {
     this._service.getAssignUser(this.regionid,this.selectedCourse.courseid)
      .subscribe((res:any) => {
        this.blockUIList.stop();
-       console.log("getAssignList",res.TEACHER);
-       this.assignList = res; 
+       console.log("getAssignList",res);
+       this.assignCustomer = res.CUSTOMER;
+       this.assignStaff = res.STAFF;
+       this.assignTeacher = res.TEACHER;
      })
   }
 
@@ -216,6 +233,8 @@ export class AssignuserComponent implements OnInit {
         this.userType = 'customer';
       }else if(type == 'staff'){
         this.userType = 'staff';
+      }else if(type == 'teacher'){
+        this.userType = 'teacher';
       }else{
         this.userType = 'all';
       }

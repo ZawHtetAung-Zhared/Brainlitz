@@ -10,15 +10,53 @@
     <button type="button" class="btn btn-primary" (click)="openUserModal(content,'customer')">+ Add Customer</button>
   </div>
 
-  <div class="scrollable container">
+  <!-- <div class="scrollable container">
     <ul class="list-group-flush">
       <li class="list-group-item" *ngFor="let user of assignList.TEACHER">
         <span style="margin-right: 20px;">{{user.preferredName}}</span>
         <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Delete</button>
       </li>
     </ul>
-  </div>
-  
+  </div> -->
+  <div class="d-flex flex-row h-100 w-100" style="display: flex;">
+    <div class="col-md-2 noti-sidebar" style="padding: 0;">
+      <div class="d-flex flex-column justify-content-center">
+        <div [ngClass]="{'active': userType == 'teacher'}" class="tab-wrap">      
+          <button class="btn noti-tab w-100" (click)="clickTab('teacher')">Teacher</button>
+        </div>
+        <div [ngClass]="{'active': userType == 'staff'}" class="tab-wrap">      
+          <button class="btn noti-tab w-100" (click)="clickTab('staff')">Staffs</button>
+        </div>
+        <div [ngClass]="{'active': userType == 'customer'}" class="tab-wrap">     
+          <button class="btn noti-tab w-100" (click)="clickTab('customer')">Customers</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="userType == 'teacher'" class="col-md-10 min-scroll">
+        <ul class="list-group-flush">
+          <li class="list-group-item" *ngFor="let user of assignTeacher">
+            <span style="margin-right: 20px;">{{user.preferredName}}</span>
+            <button *ngIf="user.userType != 'TEACHER'" type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
+          </li>
+        </ul>  
+    </div>
+    <div *ngIf="userType == 'staff'" class="col-md-10 min-scroll">
+        <ul class="list-group-flush">
+          <li class="list-group-item" *ngFor="let user of assignStaff">
+            <span style="margin-right: 20px;">{{user.preferredName}}</span>
+            <button *ngIf="user.userType != 'TEACHER'" type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
+          </li>
+        </ul>    
+    </div> 
+    <div *ngIf="userType == 'customer'" class="col-md-10 min-scroll">
+        <ul class="list-group-flush">
+          <li class="list-group-item" *ngFor="let user of assignCustomer">
+            <span style="margin-right: 20px;">{{user.preferredName}}</span>
+            <button *ngIf="user.userType != 'TEACHER'" type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(user,comfirm)">Withdraw</button>
+          </li>
+        </ul> 
+    </div> 
+  </div>  
 </div>
 
 <!-- staff and customer list with checkbox-->
