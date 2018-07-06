@@ -47,12 +47,19 @@
         <div class="d-flex flex-column w-100 h-100 inner-wrapper">
           <div class="mb-30">
             <h2>Module</h2>
-            <div class="module-wrap" *ngFor="let item of sampleModules">
-              <label class="module-name">{{item.module}}</label>
-              <label class="switch">
-                <input type="checkbox" (change)="selectModule(item.module,$event)">
-                <span class="slider round"></span>
-              </label>
+            <div *ngFor="let module of moduleList">
+              <div *ngIf="module._id" class="module-wrap">
+                <label class="module-name">
+                  {{module.name}}
+                </label>
+                <div>
+                  <label style="color: #4794ee;">Visible in App</label>
+                  <label class="switch">
+                    <input type="checkbox" (change)="selectModule(module,$event)" [checked]="module.visible == true">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>  

@@ -989,6 +989,23 @@ export class appService{
       })
     }
 
+    visibleModule(moduleid: string, data: object){
+      // console.log('token type',this.tokenType);
+      // console.log('accessToken',this.accessToken);
+      console.log("data",data);
+      let apiUrl = this.baseUrl + '/toggle/visibility/' + moduleid;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
     getAllAPG(id: string){
       let apiUrl = this.baseUrl +'/'+ id + '/access-point-group';
       const httpOptions = {

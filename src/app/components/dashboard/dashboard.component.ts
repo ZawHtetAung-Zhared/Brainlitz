@@ -23,19 +23,18 @@ export class DashboardComponent implements OnInit {
   };
   public menuType:any = "admin";
   public checkedModule =[];
-  public sampleModules = [
-    {"module":"TestModule1"},
-    {"module":"TestModule2"},
-    {"module":"TestModule3"},
-    {"module":"TestModule4"},
-    {"module":"TestModule5"}
-  ]
+  // public sampleModules = [ 
+  // { "_id": "5b3ca2e944bccf35c86706b0", "public": true, "visible": false, "name": "Progress", "type": 1, "updatedDate": "2018-07-04T10:35:21.222Z", "__v": 0 },
+  // { "_id": "5b3defd0851bb5c3e3f4b8c9", "public": true, "visible": false, "name": "Badge", "type": 2, "updatedDate": "2018-07-05T10:15:44.613Z", "__v": 0 } ]
+  public moduleList:any;
+
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
     this.getAdministrator();
+    this.getModuleList();
   }
 
   getAdministrator(){
@@ -54,6 +53,14 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  getModuleList(){
+    this._service.getAllModule(this.regionId)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.moduleList = res;
+    })
+  }
+
   updateRegionalInfo(data){
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
@@ -68,8 +75,27 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  visible:any;
   selectModule(item,event){
     console.log("selectModule",item);
+    if(item.visible == true){
+      this.visible = true;
+      console.log("this.visible",this.visible)
+    }else{
+      this.visible = false;
+      console.log("this.visible",this.visible)
+    }
+    this._service.visibleModule(item._id,item)
+    .subscribe((res:any) => {
+      console.log(res);
+      // this.toastr.success(res.message);
+      console.log("Visible",item.visible)
+      // if(item.visible == true){
+      //   this.toastr.success("Visible in App");
+      // }else{
+      //   this.toastr.success("Invisible in App");
+      // }
+    })
   }
 
   clickTab(type){

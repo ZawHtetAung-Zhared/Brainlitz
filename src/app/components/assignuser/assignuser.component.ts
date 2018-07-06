@@ -136,7 +136,7 @@ export class AssignuserComponent implements OnInit {
     this._service.getAssignUser(this.regionid,this.selectedCourse.courseid)
      .subscribe((res:any) => {
        this.blockUIList.stop();
-       console.log("getAssignList",res);
+       console.log("getAssignList",res.TEACHER);
        this.assignList = res; 
      })
   }
