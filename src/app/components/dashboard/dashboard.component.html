@@ -50,16 +50,9 @@
             <div class="module-wrap" *ngFor="let item of sampleModules">
               <label class="module-name">{{item.module}}</label>
               <label class="switch">
-                <input type="checkbox" (change)="selectModule(item.module)">
+                <input type="checkbox" (change)="selectModule(item.module,$event)">
                 <span class="slider round"></span>
               </label>
-            </div>
-            <div style="display: flex;">
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider-visible round"></span>
-              </label>
-              <label style="padding: 5px;">Visible in App</label>
             </div>
           </div>
         </div>  
