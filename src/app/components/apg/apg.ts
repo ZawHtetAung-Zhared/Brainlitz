@@ -1,7 +1,6 @@
 export class apgField {
 	name: string;
-	desc: string;
-	type: boolean;
+	description: string;
 }
 
 export class apField {

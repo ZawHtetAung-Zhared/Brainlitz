@@ -1020,6 +1020,7 @@ export class appService{
     } 
      
     createAPG(id: string, data: object, templateId: string): Observable<any>{
+      console.log(data)
       this.getLocalstorage();
       let apiUrl;
       if(templateId != undefined){
@@ -1040,6 +1041,54 @@ export class appService{
         return result;
       })
     }
+
+    createConvertAPG(apgID: string): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/apg-to-template/' + apgID;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    deleteAPG(id, apgID){
+      let apiUrl = this.baseUrl + '/' + id  + '/access-point-group/' + apgID;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    getSingleAPG(id:string, apgID:string): Observable<any>{
+      console.log(id);
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/' + id + '/access-point-group/' + apgID;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+
 }
 
 
