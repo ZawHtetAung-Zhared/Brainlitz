@@ -37,10 +37,20 @@
 }
 .module-name{
 	padding: 5px 0px 5px 0px;
-	width: 90%;
+	width: 40%;
 }
 
-/*toggle button*/
+.toggle-wrap{
+  display: flex;
+  margin-left: auto;
+}
+
+.visible-label{
+  color: #4794ee;
+  padding: 5px 10px 0px 0px;
+}
+
+/*==== toggle button ====*/
 .switch {
   position: relative;
   display: inline-block;
@@ -100,57 +110,5 @@ input:checked + .slider:before {
 }
 
 .slider.round:before {
-  border-radius: 50%;
-}
-
-/*visible in App*/
-.slider-visible {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  /*background-color: #ccc;*/
-  background-color: #fff;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider-visible:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
-  bottom: 3px;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider-visible {
-  border: 2px solid #33b73d;
-  background: #33b73d;
-}
-
-input:focus + .slider-visible {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider-visible:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-  background-color: #fff;
-}
-
-/* Rounded sliders */
-.slider-visible.round {
-  border-radius: 34px;
-  border: 2px solid #ccc;
-}
-
-.slider-visible.round:before {
   border-radius: 50%;
 }

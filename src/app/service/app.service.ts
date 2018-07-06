@@ -174,6 +174,50 @@ export class appService{
       })
     }
 
+    deleteTemplate(regionid, tempid){
+      console.log(regionid)
+      console.log(tempid)
+      let apiUrl = this.baseUrl + '/' + regionid  + '/access-point-template/' + tempid;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        return res;
+      })
+    }
+
+    getSingleTemplate(regionId, tempId){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + regionId + '/access-point-template/' + tempId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      })
+    }
+
+    updateSingleTemplate(regionId, body){
+      console.log(body._id)
+      let apiUrl = this.baseUrl + '/' + regionId + '/access-point-template/' + body._id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     createNoti(obj, body): Observable<any>{ 
       console.log(obj)     
       console.log(obj.id)     
@@ -983,6 +1027,23 @@ export class appService{
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
+
+    visibleModule(moduleid: string, data: object){
+      // console.log('token type',this.tokenType);
+      // console.log('accessToken',this.accessToken);
+      console.log("data",data);
+      let apiUrl = this.baseUrl + '/toggle/visibility/' + moduleid;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
       .map((res:Response) => {
         let result = res;  
         return result;
