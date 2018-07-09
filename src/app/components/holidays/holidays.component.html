@@ -14,19 +14,28 @@
 	  	<form novalidate #holidaysForm="ngForm">
 		  	<div class="modal-body">
 			  	<div class="form-group">
-			      <label for="name">Name</label>   
-			      <input type="text" class="form-control" name="name" [(ngModel)]="formField.name" required #name="ngModel">
+			      	<label for="name">Name</label>   
+			      	<input type="text" class="form-control" placeholder="Name" name="name" [(ngModel)]="formField.name" required #name="ngModel">
+			      	<div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+				        <div [hidden]="!name.errors.required">
+				          Name is required!
+				        </div>
+			    	</div>
 			    </div>
-			    <div>
+			    <div class="form-group">
 			    	<label>Date</label>
-			    	<div class="input-group">
-				      <input class="form-control" placeholder="yyyy-mm-dd" name="createdDate" [displayMonths]="displayMonths" [navigation]="navigation" [showWeekNumbers]="showWeekNumbers" [(ngModel)]="formField.createdDate"  ngbDatepicker #d="ngbDatepicker" #createdDate="ngModel" required>
-				      <div class="input-group-append">
-				        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-				          <img src="../assets/img/calendar.png" class="img-width"/>
-				        </button>
-				      </div>
+			    	<div class="input-group" style="clear: both;">
+				      	<input class="form-control" placeholder="yyyy-mm-dd" name="createdDate" [displayMonths]="displayMonths" [navigation]="navigation" [showWeekNumbers]="showWeekNumbers" [(ngModel)]="formField.createdDate"  ngbDatepicker #d="ngbDatepicker" #createdDate="ngModel" required>
+				      	<div class="input-group-append">
+				        	<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+				         		<img src="../assets/img/calendar.png" class="img-width"/>
+				        	</button>
+				      	</div>
 				    </div>
+				    <div *ngIf="createdDate.errors && (createdDate.dirty || createdDate.touched)" class="alert alert-danger">
+			        	<div [hidden]="!createdDate.errors.required">Date is required!</div>
+			        	 <div [hidden]="createdDate.errors.required">Valid date only!</div>
+		    		</div>
 			    </div>
 		  	</div>
 		  	<div class="modal-footer">
