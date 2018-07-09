@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: ''
   };
-  public menuType:any = "template";
+  public menuType:any = "apg";
   public checkedModule =[];
   public moduleList:any;
   public visible:any;

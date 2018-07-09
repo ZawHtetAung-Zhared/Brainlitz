@@ -218,7 +218,7 @@
 					<label>Pdf</label>
 					<div class="height-scroll">
 			    		<div *ngFor="let pdf of pdfList; let i=index;" style="float: left; margin-right: 15px;">
-				    		<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue(pdf._id,$event)" name="pdf" [checked]="pdfId.indexOf(pdf._id) != -1">
+				    		<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue(pdf._id,$event, 'pdf')" name="pdf" [checked]="pdfId.indexOf(pdf._id) != -1">
 				    		<label for="{{pdf._id}}"> {{pdf.name}}</label>
 				    	</div>
 			    	</div>
@@ -233,6 +233,15 @@
 						<option disabled="true"></option>
 						<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
 					</select>					
+				</div>
+				<div class="col-md-12">
+					<label>accessPointGroup</label>
+					<div class="height-scroll">
+			    		<div *ngFor="let apg of apgList; let i=index;" style="float: left; margin-right: 15px;">
+				    		<input type="checkbox" id="{{apg._id}}" value="{{apg._id}}" (click)="ChangeValue(apg._id,$event, 'apg')" name="apg" [checked]="apgId.indexOf(apg._id) != -1">
+				    		<label for="{{apg._id}}"> {{apg.name}}</label>
+				    	</div>
+			    	</div>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -317,6 +326,9 @@
     </div>
     <div>
     	<label>Holiday:</label> <span>{{holidayCalendarName}}</span>
+    </div>
+    <div>
+    	<label>AccessPointGroup:</label> <span>{{apgName}}</span>
     </div>
   </div>
   <div class="modal-footer">

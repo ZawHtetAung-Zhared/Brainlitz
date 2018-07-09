@@ -1149,6 +1149,20 @@ export class appService{
       })
     }
 
+    updateAPG(id:string, apgID:string, body:any, templateId: string){
+      let apiUrl = this.baseUrl + '/' + id + '/access-point-group/' + apgID;
+      const options = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body, options)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
 
 }
 
