@@ -235,8 +235,11 @@
 					<span>
 						Email: <input class="usermail" id="{{user.userId}}" type="text" value="{{user.email}}">
 					</span>
+					<span *ngIf="user.email" class="bt-copy" (click)="copyText(user.userId)">
+						<img style="width: 25px;" src="./assets/img/clipboard.png" placement="top" ngbTooltip="Copy email">
+					</span>
 					<!-- <button class="btn btn-secondary flt-right" (click)="edit(user.userId, 'all', '')">Edit</button> -->
-					<button class="btn btn-info bt-copy" (click)="copyText(user.userId)">Copy</button>
+					<!-- <button class="btn btn-info bt-copy" (click)="copyText(user.userId)">Copy</button> -->
 				</div>
 			</li>
 		</ul>
@@ -251,8 +254,11 @@
 					<span>
 						Email: <input class="usermail" id="{{customer.userId}}" type="text" value="{{customer.email}}">
 					</span>
+					<span *ngIf="customer.email" class="bt-copy" (click)="copyText(customer.userId)">
+						<img style="width: 25px;" src="./assets/img/clipboard.png" placement="top" ngbTooltip="Copy email">
+					</span>
 					<!-- <button class="btn btn-secondary flt-right" (click)="edit(customer.userId, 'customer', customerModal)">Edit</button> -->
-					<button class="btn btn-info bt-copy" (click)="copyText(customer.userId)">Copy</button>
+					<!-- <button class="btn btn-info bt-copy" (click)="copyText(customer.userId)">Copy</button> -->
 				</div>
 			</li>
 		</ul>
@@ -267,8 +273,11 @@
 					<span>
 						Email: <input class="usermail" id="{{staff.userId}}" type="text" value="{{staff.email}}">
 					</span>
+					<span *ngIf="staff.email" class="bt-copy" (click)="copyText(staff.userId)">
+						<img style="width: 25px;" src="./assets/img/clipboard.png" placement="top" ngbTooltip="Copy email">
+					</span>
 					<!-- <button class="btn btn-secondary flt-right" (click)="edit(staff.userId, 'staff', staffModal)">Edit</button> -->
-					<button class="btn btn-info bt-copy" (click)="copyText(staff.userId)">Copy</button>
+					<!-- <button class="btn btn-info bt-copy" (click)="copyText(staff.userId)">Copy</button> -->
 				</div>
 			</li>
 		</ul>

@@ -398,10 +398,10 @@ export class UsersComponent implements OnInit {
 
 	copyText(id){
 		console.log(id)
-		 const inputElement = document.getElementById(id);
-		  (<any>inputElement).select();
-		  document.execCommand('copy');
-		  inputElement.blur();
+		const inputElement = document.getElementById(id);
+		(<any>inputElement).select();
+		document.execCommand('copy');
+		inputElement.blur();
 	}
 
 	getAllpermission(){
