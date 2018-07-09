@@ -96,6 +96,7 @@ export class TemplateComponent implements OnInit {
       this.checkedAP =this.checkedAP.filter(f => !val.includes(f));
     }
     console.log(this.checkedAP)
+    console.log(this.checkedAP.length)
   }
 
   // selectedOptions() { // right now: ['1','3']
