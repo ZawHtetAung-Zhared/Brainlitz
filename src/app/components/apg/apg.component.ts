@@ -101,6 +101,7 @@ export class ApgComponent implements OnInit {
 	  		this.newAP = true;
 	  		this.existAP = false;
 	  		this.newAPshow = false;
+        this.apArray = [];
 	  	}
 	  	else if(type == 'existap'){
 	  		this.newAP = false;
