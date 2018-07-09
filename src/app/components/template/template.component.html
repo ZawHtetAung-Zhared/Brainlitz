@@ -14,10 +14,20 @@
   		<div class="form-group">
   			<label for="name">Name</label>   
   			<input type="text" class="form-control" placeholder="location name" name="name" [(ngModel)]="item.name" required #name="ngModel">
+        <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+          <div [hidden]="!name.errors.required">
+            Name is required!
+          </div>
+        </div>
   		</div>
   		<div class="form-group">
   			<label for="description">Description</label>   
   			<textarea class="form-control" rows="3" placeholder="Address" name="description" [(ngModel)]="item.description" required #description="ngModel"></textarea>
+        <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+          <div [hidden]="!description.errors.required">
+            Description is required!
+          </div>
+        </div>
   		</div>
       <div class="form-group">
         <label for="desc">Module</label>  
@@ -36,8 +46,9 @@
         </div>
       </div>
   		<div class="form-group">
-  			<label for="desc">AP lists</label>   
+  			<label for="desc">Access point lists</label>   
   			<div class="apscroll">
+          <p class="danger" *ngIf="apLists.length == 0">You don't have access point to create template.</p>
   				<div class="form-check form-check-inline" *ngFor="let aplist of apLists; let i = index">
   				  <label class="form-check-label">
                 <input class="form-check-input" 
@@ -54,8 +65,8 @@
   	</div>
   	<div class="modal-footer">
   	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createTemplate(item, false)" [disabled]="!templateForm.valid">Create</button>
-  	  <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createTemplate(item, true, currentId)">Update</button>
+  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createTemplate(item, false)" [disabled]="!templateForm.valid || checkedAP.length == 0">Create</button>
+  	  <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createTemplate(item, true, currentId)" [disabled]="!templateForm.valid || checkedAP.length == 0">Update</button>
   	</div>
   </form>
 </ng-template>
