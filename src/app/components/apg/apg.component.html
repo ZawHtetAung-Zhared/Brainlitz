@@ -11,10 +11,14 @@
 			<div class="form-group">
 	  	    	<label for="fname">Name</label> 	
 	  	    	<input type="text" class="form-control" placeholder="Enter user name" name="name" [(ngModel)]="apgField.name" #apgName="ngModel" required>
+	  	    	<div *ngIf="apgName.errors && (apgName.dirty || apgName.touched)" class="alert alert-danger">
+			        <div [hidden]="!apgName.errors.required">Name is required!</div>
+			    </div>
 	  	  	</div>
 	  	  	<div class="form-group">
 	  	    	<label for="fname">Description</label> 	
-	  	    	<input type="text" class="form-control" placeholder="Description" name="desc" [(ngModel)]="apgField.description" #apgDesc="ngModel">
+	  	    	<textarea class="form-control" rows="4" placeholder="Description" name="desc" [(ngModel)]="apgField.description" #apgDesc="ngModel">  	    		
+	  	    	</textarea>
 	  	  	</div>
 	  	  	<div class="form-group">
 	  	  		<label>Choose module</label>
@@ -28,12 +32,12 @@
 	  	  	<div class="form-group">
 	  	  		<label>Create As</label>
 	  	  		<div>
-	  	  			<div *ngIf="createButton">
+	  	  			<div *ngIf="createButton" class="pd-lft-rht">
 		  	  			<input type="radio" id="custom" name="type" [checked]="customCheck" (click)="radioEvent($event, 'custom')"
 		  	  			>
 				    	<label for="custom">Custom</label>
 			    	</div>
-			    	<div *ngIf="customAP" class="form-group" style="margin-left: 20px;">
+			    	<div *ngIf="customAP" class="form-group" style="margin-left: 40px;">
 			  	  		<div>
 			  	  			<input type="radio" id="newAP" name="ap" (click)="radioEvent($event, 'newap')">
 					    	<label for="newAP"> New AP create</label>
@@ -49,7 +53,8 @@
 						    			<input type="text" class="form-control" placeholder="Name" [(ngModel)]="apField.name" name="name"  #apName="ngModel" required>
 						    		</div>	
 						    		<div class="form-group">
-						    			<input type="text" class="form-control" placeholder="Description" [(ngModel)]="apField.desc" name="desc"  #apDesc="ngModel" required>
+						    			<textarea class="form-control" rows="2" placeholder="Description" [(ngModel)]="apField.desc" name="desc"  #apDesc="ngModel" required>		
+						    			</textarea>
 						    		</div>
 					    		</form>
 					    		<button class="btn btn-primary btn-not-allowed" [disabled]="!apForm.valid" style="margin-bottom: 20px;" (click)="createAP(apForm.value)">Create AP</button>	
@@ -58,7 +63,7 @@
 			  	  		<div>
 			  	  			<input type="radio" id="existAP" name="ap" [checked]="customCheck" (click)="radioEvent($event, 'existap')">
 					    	<label for="existAP">Existing AP</label>
-					    	<div *ngIf="existAP" class="height-scroll" style="margin-left: 20px;">
+					    	<div *ngIf="existAP" class="height-scroll">
 				  	  			<div *ngFor="let ap of apList; let i=index;" style="float: left;margin-right: 15px;">
 						    		<input type="checkbox" id="{{ap._id}}" value="{{ap._id}}" (click)="checkedAP(ap._id, $event)" name="ap" [checked]="checkedAPid.indexOf(ap._id) != -1">
 						    		<label for="{{ap._id}}"> {{ap.name}}</label>
@@ -67,10 +72,10 @@
 			  	  		</div>
 			  	  	</div>	
 	  	  		</div>
-	  	  		<div *ngIf="createButton">
-	  	  			<input type="radio" id="title-1" name="type" (click)="radioEvent($event, 'template')" [checked]="templateChecked" required>
+	  	  		<div *ngIf="createButton" class="pd-lft-rht">
+	  	  			<input type="radio" id="title-1" name="type" (click)="radioEvent($event, 'template')" [checked]="templateChecked">
 			    	<label for="title-1"> Template</label>
-			    	<div *ngIf="templateAPG" class="height-scroll" style="margin-left: 20px;">
+			    	<div *ngIf="templateAPG" class="height-scroll">
 		  	  			<div *ngFor="let template of templateList; let i=index;" style="float: left;margin-right: 15px;">
 			    		<input type="radio" id="{{template._id}}" value="{{template._id}}" name="templateId" [checked]="checkedTemplateID.indexOf(template._id) != -1" ngModel [(ngModel)]="apgField.templateId">
 			    		<label for="{{template._id}}"> {{template.name}}</label>
@@ -81,8 +86,8 @@
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-		    <button type="submit" *ngIf="createButton" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value, 'create')" [disabled]="!apgForm.valid">Create</button>
-		    <button type="submit" *ngIf="updateButton" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value, 'update')">Update</button>
+		    <button type="submit" *ngIf="createButton" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value, 'create')" [disabled]="!apgForm.valid || (apArray.length == 0 && !apgField.templateId)">Create</button>
+		    <button type="submit" [disabled]="!apgForm.valid || apArray.length == 0" *ngIf="updateButton" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value, 'update')">Update</button>
 		</div>	
 	</form>
 </ng-template>	
@@ -124,7 +129,7 @@
     </button>
   </div>
   <div class="modal-body" style="min-height: 100px;">
-    <h4>Are You sure you want to delete?</h4>
+    <h4>Are You sure you want to delete? <span style="color: red;">"{{deleteAPG}}"</span></h4>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
