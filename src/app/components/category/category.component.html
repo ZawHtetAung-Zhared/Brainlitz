@@ -22,7 +22,7 @@
     	</div>
     	<div class="modal-footer">
     	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-    	  <button *ngIf="isEdit == false" type="submit" class="btn btn-primary" (click)="createCategory(item)">Create</button>
+    	  <button *ngIf="isEdit == false" type="submit" class="btn btn-primary" (click)="createCategory(item)" [disabled]="!categoryForm.valid">Create</button>
         <button *ngIf="isEdit == true" type="submit" class="btn btn-primary" (click)="updateCategory(item)">Update</button>
     	</div>
     </form>
@@ -31,6 +31,7 @@
   </ng-template>
 
   <div class="scrollable container">
+    <h2 *ngIf="isempty == true">No category has created yet</h2>
     <ul class="list-group-flush">
       <li class="list-group-item" *ngFor="let category of categoryList; let i = index">
         {{i+1}}- {{category.name}}

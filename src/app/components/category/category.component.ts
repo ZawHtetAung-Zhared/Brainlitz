@@ -22,6 +22,7 @@ export class CategoryComponent implements OnInit {
   closeResult: string;
   public categoryList: any;
   public isEdit:boolean = false;
+  public isempty:boolean = false;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -58,6 +59,7 @@ export class CategoryComponent implements OnInit {
       }, 300);
       console.log(res);
       this.categoryList = res;
+      this.isempty = (res.length === 0) ? true : false;       
     })
   }
 
