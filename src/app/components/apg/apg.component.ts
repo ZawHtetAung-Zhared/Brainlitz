@@ -136,7 +136,7 @@ export class ApgComponent implements OnInit {
 		    }, err => {
 		        this.toastr.error('Created AP Fail');
 		        console.log(err)
-		    })	
+		    })
   	}
 
   	checkedAP( id, e){
@@ -326,15 +326,20 @@ export class ApgComponent implements OnInit {
           }
   				this.customAP = true;
   				this.templateChecked = false;
-  				for(var i in this.apList){
-  					for(var j in res.accessPoints){
-  						if(this.apList[i]._id == res.accessPoints[j]){
-  							this.checkedAPid.push(this.apList[i]._id)
-                this.apArray = this.checkedAPid;
-                console.log(this.apArray)
-  						}
-  					}
-  				}
+  				if(this.newAP == false){
+            for(var i in this.apList){
+              for(var j in res.accessPoints){
+                if(this.apList[i]._id == res.accessPoints[j]){
+                  this.checkedAPid.push(this.apList[i]._id)
+                  this.apArray = this.checkedAPid;
+                  console.log(this.apArray)
+                }
+              }
+            }
+          }
+          else {
+            this.apArray = [];
+          }
   			//}
   			this.apgField = res;
         this.editId = id;
