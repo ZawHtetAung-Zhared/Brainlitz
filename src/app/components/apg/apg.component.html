@@ -20,7 +20,7 @@
 	  	  		<label>Choose module</label>
 	  	  		<div class="height-scroll">
 	  	  			<div *ngFor="let module of moduleList; let i=index;">
-			    		<input type="radio" id="{{module._id}}" value="{{module._id}}" name="moduleId" required [checked]="checkedModuleID.indexOf(module._id) != -1" ngModel>
+			    		<input type="radio" id="{{module._id}}" value="{{module._id}}" name="moduleId" required [checked]="checkedModuleID.indexOf(module._id) != -1" [(ngModel)]="apgField.moduleId" ngModel>
 			    		<label for="{{module._id}}"> {{module.name}}</label>
 			    	</div>
 	  	  		</div>
@@ -28,9 +28,11 @@
 	  	  	<div class="form-group">
 	  	  		<label>Create As</label>
 	  	  		<div>
-	  	  			<input type="radio" id="custom" name="type" [checked]="customCheck" (click)="radioEvent($event, 'custom')"
-	  	  			>
-			    	<label for="custom">Custom</label>
+	  	  			<div *ngIf="createButton">
+		  	  			<input type="radio" id="custom" name="type" [checked]="customCheck" (click)="radioEvent($event, 'custom')"
+		  	  			>
+				    	<label for="custom">Custom</label>
+			    	</div>
 			    	<div *ngIf="customAP" class="form-group" style="margin-left: 20px;">
 			  	  		<div>
 			  	  			<input type="radio" id="newAP" name="ap" (click)="radioEvent($event, 'newap')">
@@ -65,12 +67,12 @@
 			  	  		</div>
 			  	  	</div>	
 	  	  		</div>
-	  	  		<div>
+	  	  		<div *ngIf="createButton">
 	  	  			<input type="radio" id="title-1" name="type" (click)="radioEvent($event, 'template')" [checked]="templateChecked" required>
 			    	<label for="title-1"> Template</label>
 			    	<div *ngIf="templateAPG" class="height-scroll" style="margin-left: 20px;">
 		  	  			<div *ngFor="let template of templateList; let i=index;" style="float: left;margin-right: 15px;">
-			    		<input type="radio" id="{{template._id}}" value="{{template._id}}" name="templateId" [checked]="checkedTemplateID.indexOf(template._id) != -1" ngModel>
+			    		<input type="radio" id="{{template._id}}" value="{{template._id}}" name="templateId" [checked]="checkedTemplateID.indexOf(template._id) != -1" ngModel [(ngModel)]="apgField.templateId">
 			    		<label for="{{template._id}}"> {{template.name}}</label>
 				    	</div>
 		  	  		</div>
@@ -98,9 +100,8 @@
 		<ul class="list-group-flush" style="padding-left: 0;">  
 		  <li id="{{apg._id}}" class="list-group-item" *ngFor="let apg of apgList; let i = index" [attr.data-index]="i">
 			{{i + 1}}-{{ apg.name }} 		
-			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="apgDelete(apg._id)">Delete</button>
+			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
 			<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="editAPG(content, apg._id)">Edit</button>
-			<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="viewAPG(apg._id)">View</button>
 			<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="convertTemplate(apg._id)">Convert Template</button>
 		  </li>
 		</ul>
@@ -115,4 +116,19 @@
 		</ul>
 	</div>
 </div>	
+
+<ng-template #alertDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="min-height: 100px;">
+    <h4>Are You sure you want to delete?</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger" (click)="apgDelete(deleteId)">Delete</button>
+  </div>
+</ng-template>
 

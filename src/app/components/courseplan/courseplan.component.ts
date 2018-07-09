@@ -52,12 +52,15 @@ export class CourseplanComponent implements OnInit {
   depositName: any;
   pdfList: any[] = [];
   pdfName: any[] = [];
+  apgName: any[] = [];
   public pdfId: any[] = [];
+  public apgId: any[] = [];
   public responseChecked: any[] = [];
   restrictFirstInput: boolean = false;
   restrictLastInput: boolean = false;
   restrictFirstLessInput: boolean = false;
   restrictLastLessInput: boolean = false;
+  apgList: any;
 
 	open(content){
     this.formField = new cPlanField();
@@ -72,6 +75,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
     this.getAllPdf();
+    this.getAllAPG();
     this.pdfId = [];
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
@@ -147,7 +151,8 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxage,
       },
       "quizwerkz": this.pdfId,
-      "holidayCalendarId": formData.holidayCalendar
+      "holidayCalendarId": formData.holidayCalendar,
+      "accessPointGroup": this.apgId
     }
 
     this.blockUI.start('Loading...');
@@ -206,24 +211,43 @@ export class CourseplanComponent implements OnInit {
 		})
 	}
   
-  ChangeValue(data, e){
-    var cbIdx = this.pdfId.indexOf(data);
-    if(e.target.checked == true){
-      console.log('true')
-      if(cbIdx < 0 )
-        this.pdfId.push(data);
-        console.log(this.pdfId)
+  ChangeValue(data, e, type){
+    if(type == "pdf"){
+      var cbIdx = this.pdfId.indexOf(data);
+      if(e.target.checked == true){
+        console.log('true')
+        if(cbIdx < 0 )
+          this.pdfId.push(data);
+          console.log(this.pdfId)
+      }
+      else {
+        console.log('false')
+        if(cbIdx >= 0 ){
+          this.pdfId.splice(cbIdx, 1);
+          console.log(this.pdfId)
+        }
+      }
     }
     else {
-      console.log('false')
-      if(cbIdx >= 0 ){
-         this.pdfId.splice(cbIdx, 1);
-         console.log(this.pdfId)
+      var cbIdx = this.apgId.indexOf(data);
+      if(e.target.checked == true){
+        console.log('true')
+        if(cbIdx < 0 )
+          this.apgId.push(data);
+          console.log(this.apgId)
+      }
+      else {
+        console.log('false')
+        if(cbIdx >= 0 ){
+          this.apgId.splice(cbIdx, 1);
+          console.log(this.apgId)
+        }
       }
     }
   }
 
   viewPlan(view, id){
+    this.getAllAPG();
     this.getAllHolidaysCalendar();
     this.getAllDeposit();
     this.getAllPdf();
@@ -260,6 +284,16 @@ export class CourseplanComponent implements OnInit {
           for(var j= 0; j < this.pdfList.length; j++){
             if(this.viewCplan.quizwerkz[i] == this.pdfList[j]._id){
               this.pdfName.push(this.pdfList[j].name);
+            }
+          }
+        }
+      }
+      if(this.apgList){
+        this.apgName = [];
+        for(var i= 0; i < this.viewCplan.accessPointGroup.length; i++){
+          for(var j= 0; j < this.apgList.length; j++){
+            if(this.viewCplan.accessPointGroup[i] == this.apgList[j]._id){
+              this.apgName.push(this.apgList[j].name);
             }
           }
         }
@@ -304,6 +338,20 @@ export class CourseplanComponent implements OnInit {
       })
   }
 
+  getAllAPG(){
+    this.blockUI.start('Loading...');
+    this._service.getAllAPG(this.regionID)
+    .subscribe((res:any) => {
+      console.log('apgLists' ,res)
+      this.apgList = res;
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
+      }, err => {
+        console.log(err)
+      })
+  }
+
   getAllHolidaysCalendar(){
       this._service.getAllHolidaysCalendar(this.regionID)
       .subscribe((res:any) => {
@@ -326,8 +374,10 @@ export class CourseplanComponent implements OnInit {
   editcPlan(content, id){
     console.log(id)
     this.getAllPdf();
+    this.getAllAPG();
     this.responseChecked = [];
     this.pdfId = [];
+    this.apgId = [];
     this.updateButton = true;
     this.createButton = false;
     this.getAllDeposit();
@@ -342,7 +392,8 @@ export class CourseplanComponent implements OnInit {
       if(!this.formField.holidayCalendarId){
         this.formField.holidayCalendarId = "";
       }
-      this.pdfId = this.formField.quizwerkz;     
+      this.pdfId = this.formField.quizwerkz; 
+      this.apgId =  this.formField.accessPointGroup;   
       this.editId = res._id;
     },err => {
       console.log(err);
@@ -380,7 +431,8 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxage,
       },
       "quizwerkz": this.pdfId,
-      "holidayCalendarId": formData.holidayCalendar
+      "holidayCalendarId": formData.holidayCalendar,
+      "accessPointGroup": this.apgId
     }
     this.blockUI.start('Loading...');
     this.modalReference.close();
@@ -456,5 +508,6 @@ export class CourseplanComponent implements OnInit {
         event.target.value = '';  
     }
   }
+
 
 }

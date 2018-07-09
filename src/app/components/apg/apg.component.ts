@@ -39,6 +39,12 @@ export class ApgComponent implements OnInit {
   	newAPshow: boolean = false;
     createButton: boolean = false;
     updateButton: boolean = false;
+    checkedModuleID: any[] = [];
+    customCheck: boolean = false;
+    checkedAPid: any[] = [];
+    checkedTemplateID: any[] = [];
+    templateChecked: boolean = false;
+    editId: any;
 
   	ngOnInit() {
 	  	this.getAllAP();
@@ -59,6 +65,7 @@ export class ApgComponent implements OnInit {
       this.createButton = true;
       this.updateButton = false;
       this.checkedModuleID = [];
+      this.checkedAPid = [];
       this.newAPListId = [];
   		this.apgField = new apgField();
 	  	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
@@ -112,6 +119,8 @@ export class ApgComponent implements OnInit {
       		"name": formData.name,
       		"description": formData.desc,
       	}
+        this.customCheck = false;
+        this.checkedAPid = [];
       	this._service.createAP(this.regionID,data)
 		    .subscribe((res:any) => {
 		      	console.log('success post',res);
@@ -148,8 +157,7 @@ export class ApgComponent implements OnInit {
   	createAPG(formData, type){
   		console.log(formData)
       let data;
-  		if(type == 'create'){
-        if(!formData.templateId){
+      if(!formData.templateId){
           data = {
             'name': formData.name,
             'description': formData.desc,
@@ -157,7 +165,9 @@ export class ApgComponent implements OnInit {
             'accessPoints': this.apArray        
           }
         }
-        console.log(data)
+  		if(type == 'create'){
+        console.log('create',data)
+        this.newAPList = [];
         this.modalReference.close();
         this.blockUI.start('Loading...');
         this._service.createAPG(this.regionID, data, formData.templateId)
@@ -172,7 +182,20 @@ export class ApgComponent implements OnInit {
           })  
       }
       else {
-        console.log('update')
+        console.log('update', data)
+        this.newAPList = [];
+        this.modalReference.close();
+        this.blockUI.start('Loading...');
+        this._service.updateAPG(this.regionID, this.editId, data, formData.templateId)
+          .subscribe((res:any) => {
+              console.log('success update',res);
+              this.toastr.success('Successfully APG Updated.');
+              this.getAllAPG();
+              this.blockUI.stop();
+          }, err => {
+              this.toastr.error('Updated APG Fail');
+              console.log(err)
+          }) 
       }
 	
   	}
@@ -213,45 +236,63 @@ export class ApgComponent implements OnInit {
   	}
 
   	getAllAPG(){
+      this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
 	    	this.apgList = res;
 	      }, err => {
 	        console.log(err)
 	      })
   	}
 
+    deleteId: any;
+
+    onclickDelete(id, alertDelete){
+      this.deleteId = id;
+      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'animation-wrap'});
+      this.modalReference.result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Closed with: ${reason}`;
+      });
+    }
+
   	apgDelete(id){
+      this.modalReference.close();
+      this.blockUI.start('Loading...');
   		this._service.deleteAPG(this.regionID, id)
 	    .subscribe((res:any) => {
 	    	console.log('deleteapg' ,res)
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
 	    	this.toastr.success('Successfully APG deleted.');
 	    	this.getAllAPG();
 	    }, err => {
 	        console.log(err)
-	    })
+	    }) 
   	}
-
-  	checkedModuleID: any[] = [];
-  	customCheck: boolean = false;
-  	checkedAPid: any[] = [];
-    checkedTemplateID: any[] = [];
-  	templateChecked: boolean = false;
 
   	editAPG(content, id){
   		this.getAllTemplate();
   		this.getAllAP();
+      this.apgField = new apgField();
   		this.customAP = false;
   		this.templateAPG = false;
   		this.existAP = false;
 	  	this.newAPshow = false;
+      this.newAP = false;
       this.createButton = false;
       this.updateButton = true;
 	  	this.checkedModuleID = [];
 	  	this.checkedAPid = [];
       this.apArray = [];
-      this.checkedTemplateID = [];
+      //this.checkedTemplateID = [];
+      this.checkedAPid = [];
   		this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
   		this._service.getSingleAPG(this.regionID, id)
   		.subscribe((res:any) => {
@@ -261,24 +302,29 @@ export class ApgComponent implements OnInit {
   					this.checkedModuleID.push(res.moduleId);
   				}
   			}
-  			if(res.templateId){
-  				this.customCheck = false;
-  				this.templateAPG = true;
-          this.customAP = false;
-          this.existAP = false;
-  				this.templateChecked = true;
-          for(var i in this.templateList){
-            if(this.templateList[i]._id == res.templateId){
-              //this.templateList[i].checked = true;
-              this.checkedTemplateID.push(this.templateList[i]._id)
-              console.log('equal template id', this.templateList)
-            }
+  			//if(res.templateId){
+         // this.getAllAP();
+         // this.customAP = true;;
+  			//	this.customCheck = false;
+  				//this.templateAPG = true;
+          //this.existAP = true;
+  				//this.templateChecked = true;
+          //for(var i in this.templateList){
+           // if(this.templateList[i]._id == res.templateId){
+            //  this.checkedTemplateID.push(this.templateList[i]._id)
+            //  console.log('equal template id', this.templateList)
+           // }
+          //}
+  			//}else {
+          if(res.accessPoints == ''){
+            this.customCheck = false;
+            this.existAP = false;
           }
-  			}else {
-  				this.customCheck = true;
+          else {
+            this.customCheck = true;
+            this.existAP = true;
+          }
   				this.customAP = true;
-  				this.existAP = true;
-          this.checkedAPid = [];
   				this.templateChecked = false;
   				for(var i in this.apList){
   					for(var j in res.accessPoints){
@@ -289,18 +335,17 @@ export class ApgComponent implements OnInit {
   						}
   					}
   				}
-  			}
+  			//}
   			this.apgField = res;
+        this.editId = id;
   		}, err => {
 	        console.log(err)
 	    })
   	}
 
-  	viewAPG(id){
-  		
-  	}
 
   	convertTemplate(id){
+      console.log(id)
       this._service.createConvertAPG(id)
       .subscribe((res:any) => {
         console.log('convertapg' ,res)
