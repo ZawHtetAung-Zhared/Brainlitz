@@ -11,19 +11,44 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form novalidate #categoryForm="ngForm">
+      <form novalidate #locationForm="ngForm">
         <div class="modal-body">
           <div class="form-group">
             <label for="name">Name</label>   
             <input type="text" class="form-control" placeholder="location name" name="name" [(ngModel)]="model.name" required #name="ngModel">
+            <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+              <div [hidden]="!name.errors.required">
+                Name is required!
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="address">Address</label>
             <textarea class="form-control" rows="3" placeholder="Address" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
+            <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
+              <div [hidden]="!address.errors.required">
+                Address is required!
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="tel" class="form-control" placeholder="Phone" name="phoneNumber" [(ngModel)]="model.phoneNumber" required #phoneNumber="ngModel">
+            <input type="tel" class="form-control" 
+              placeholder="123-456-7890"
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+              name="phoneNumber" 
+              [(ngModel)]="model.phoneNumber" 
+              #phoneNumber="ngModel"
+              required >
+              <div *ngIf="phoneNumber.errors && (phoneNumber.dirty || phoneNumber.touched)" class="alert alert-danger">
+                <div [hidden]="!phoneNumber.errors.required">
+                  Phone number is required!
+                </div>
+                <div [hidden]="!phoneNumber.errors.pattern">
+                  Must be a valid phone number!
+                </div>
+              </div>
+              <!-- <span class="validity">Phone number is invalid</span> -->
           </div>
           <!-- <div class="form-group">
             <label for="gps">GPS Location</label>
@@ -32,7 +57,7 @@
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-          <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createLocation(model, false)">Create</button>
+          <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
           <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createLocation(model, true, currentID)">Update</button>
         </div>
       </form>
@@ -56,6 +81,7 @@
         </div>
     </ng-template>
     <div class="overflow container">
+      <h2 *ngIf="isempty == true">No location has created yet</h2>
       <ul class="list-group-flush">  
         <li id="{{location._id}}" class="list-group-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
           {{i + 1}}-{{ location.name }} 

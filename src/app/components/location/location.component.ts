@@ -17,11 +17,12 @@ declare var $: any;
 })
 
 export class LocationComponent implements OnInit {	
-	@ViewChild('categoryForm') form: any;
+	// @ViewChild('categoryForm') form: any;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
 	public locationLists: any;
 	public isUpdate: boolean = false;
+	public isempty: boolean = false;
 	public currentID: any;
 	public locationName: any;
 	model: Location = new Location();
@@ -66,6 +67,7 @@ export class LocationComponent implements OnInit {
 		        this.blockUI.stop(); // Stop blocking
 		      }, 300);
     		this.locationLists = res;
+    		this.isempty = (res.length === 0) ? true : false;       
 	    }, err => {
 	    	console.log(err)
 	    })

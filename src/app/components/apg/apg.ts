@@ -1,7 +1,8 @@
 export class apgField {
 	name: string;
-	desc: string;
-	type: boolean;
+	description: string;
+	templateId: string;
+	moduleId: string;
 }
 
 export class apField {

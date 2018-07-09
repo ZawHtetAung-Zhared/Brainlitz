@@ -13,3 +13,11 @@
     margin-left: 20px !important;
 }
 
+input:invalid+span{
+  display: block;
+  color: red;
+}
+
+input:valid+span:after {
+  display: none;
+}

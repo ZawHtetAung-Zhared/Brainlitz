@@ -26,5 +26,6 @@ export class cPlanField {
 	public allowPagewerkzBooks: boolean;
 	public holidayCalendarId: string;
 	public quizwerkz: Array<any> = [];
+	public accessPointGroup: Array<any> = [];
 	
 }
