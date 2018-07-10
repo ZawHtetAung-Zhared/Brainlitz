@@ -241,10 +241,14 @@ export class ApgComponent implements OnInit {
   	}
 
   	getAllAPG(){
+      this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
 	    	this.apgList = res;
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
 	      }, err => {
 	        console.log(err)
 	      })
