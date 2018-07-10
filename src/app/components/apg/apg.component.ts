@@ -357,12 +357,9 @@ export class ApgComponent implements OnInit {
 	    })
   	}
 
-
   	convertTemplate(id){
       console.log(id)
-      this._service.createConvertAPG(id)
-      .subscribe((res:any) => {
-        console.log('convertapg' ,res)
+      this._service.convertApgTemplate(id).subscribe((res:any) => {
         this.toastr.success('Successfully converted from APG to template.');
       }, err => {
           console.log(err)
