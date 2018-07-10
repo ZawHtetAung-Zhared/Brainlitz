@@ -140,8 +140,8 @@
       {{i+1}}- {{temp.name}}
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, temp._id, temp.name)">Delete</button>
       <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editTemplate(temp._id, content)">Edit</button>
-      <button *ngIf="temp.public == false" type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="shareModal(sharemodal, temp._id)">Share</button>
-      <button *ngIf="temp.public == true" type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="shareModal(sharemodal, temp._id)">Unshare</button>
+      <button *ngIf="temp.public == false" type="button" class="btn btn-secondary float-right share-btn btn-sm margin-left" (click)="shareModal(sharemodal, temp._id)">Share</button>
+      <button *ngIf="temp.public == true" type="button" class="btn btn-secondary float-right share-btn btn-sm margin-left" (click)="shareModal(sharemodal, temp._id)">Unshare</button>
     </li>
    
   </ul>
