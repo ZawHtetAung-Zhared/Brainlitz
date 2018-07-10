@@ -23,10 +23,15 @@
 .height-scroll {
 	overflow-y: scroll;
     height: 120px;
+    padding: 0 20px;
 }
 
 .scroll {
 	height: 500px;
     overflow-y: scroll;
     margin-top: 30px;
+}
+
+.pd-lft-rht {
+    padding: 0 20px;
 }
