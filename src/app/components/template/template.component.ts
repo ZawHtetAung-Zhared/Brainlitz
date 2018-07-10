@@ -118,7 +118,7 @@ export class TemplateComponent implements OnInit {
       this.modalReference.close();
       obj["_id"] = id;
       console.log(obj)
-      this.callUpdate(obj)
+      this.callUpdate(obj, 'updated')
     }else{
       this.modalReference.close();
       this.blockUI.start('Loading...');
@@ -232,17 +232,23 @@ export class TemplateComponent implements OnInit {
     this.singleTemplate['public'] = data.public
     console.log(this.singleTemplate)   
     this.modalReference.close(); 
-    this.callUpdate(this.singleTemplate);
+    if(state == true){
+      this.callUpdate(this.singleTemplate, 'shared');
+    }else{
+      this.callUpdate(this.singleTemplate, 'unshared');
+    }
   }
 
-  callUpdate(obj){
+  callUpdate(obj, status){
     this.blockUI.start('Loading...');
     this._service.updateSingleTemplate(this.regionID, obj)
     .subscribe((res:any) => {
         console.log(res)
         this.getAllTemplate();
+        this.toastr.success('Successfully '+ status + '.');
         this.blockUI.stop();
     }, err => {
+        this.toastr.success(status + ' Fail.');
         this.blockUI.stop();
         console.log(err)
     })

@@ -45,6 +45,8 @@ export class ApgComponent implements OnInit {
     checkedTemplateID: any[] = [];
     templateChecked: boolean = false;
     editId: any;
+    deleteId: any;
+    deleteAPG: any;
 
   	ngOnInit() {
 	  	this.getAllAP();
@@ -87,6 +89,7 @@ export class ApgComponent implements OnInit {
 	  		this.templateAPG = false;
 	  		this.existAP = false;
 	  		this.newAPshow = false;
+        this.apgField.templateId = '';
 	  	}
 	  	else if(type == 'template'){
 	  		this.customAP = false;
@@ -98,6 +101,8 @@ export class ApgComponent implements OnInit {
 	  		this.newAP = true;
 	  		this.existAP = false;
 	  		this.newAPshow = false;
+        this.apArray = [];
+        this.checkedAPid = [];
 	  	}
 	  	else if(type == 'existap'){
 	  		this.newAP = false;
@@ -240,19 +245,23 @@ export class ApgComponent implements OnInit {
   		this._service.getAllAPG(this.regionID)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
+	    	this.apgList = res;
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-	    	this.apgList = res;
 	      }, err => {
 	        console.log(err)
 	      })
   	}
 
-    deleteId: any;
-
     onclickDelete(id, alertDelete){
       this.deleteId = id;
+      this.getAllAPG();
+      for(var i in this.apgList){
+        if(this.apgList[i]._id == id){
+          this.deleteAPG = this.apgList[i].name;
+        }
+      }
       this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'animation-wrap'});
       this.modalReference.result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -348,12 +357,9 @@ export class ApgComponent implements OnInit {
 	    })
   	}
 
-
   	convertTemplate(id){
       console.log(id)
-      this._service.createConvertAPG(id)
-      .subscribe((res:any) => {
-        console.log('convertapg' ,res)
+      this._service.convertApgTemplate(id).subscribe((res:any) => {
         this.toastr.success('Successfully converted from APG to template.');
       }, err => {
           console.log(err)

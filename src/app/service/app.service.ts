@@ -24,7 +24,7 @@ export class appService{
     slicePath: Observable<any>;
     private sendLoginName = new Subject<any>();
 
-    constructor( private httpClient: HttpClient, private _router: Router) { 
+    constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
       this.tokenType = localStorage.getItem('tokenType');  
@@ -1103,15 +1103,16 @@ export class appService{
       })
     }
 
-    createConvertAPG(apgID: string): Observable<any>{
+    deleteAPG(id, apgID){
       this.getLocalstorage();
-      let apiUrl = this.baseUrl + '/apg-to-template/' + apgID;
+      let apiUrl = this.baseUrl + '/' + id  + '/access-point-group/' + apgID;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      return this.httpClient.post(apiUrl, httpOptions)
+      console.log(httpOptions)
+      return this.httpClient.delete(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
         console.log(result)
@@ -1119,17 +1120,17 @@ export class appService{
       })
     }
 
-    deleteAPG(id, apgID){
-      let apiUrl = this.baseUrl + '/' + id  + '/access-point-group/' + apgID;
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.delete(apiUrl, httpOptions)
+    convertApgTemplate(apgID:string): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/apg-to-template/' + apgID;
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('authorization', this.tokenType + ' ' + this.accessToken);
+      let options = new RequestOptions({ headers: headers });
+      console.log(options)
+      return this._http.post(apiUrl, '',options)
       .map((res:Response) => {
         let result = res; 
-        console.log(result)
         return result;
       })
     }
@@ -1142,6 +1143,7 @@ export class appService{
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
+      console.log(httpOptions)
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
@@ -1162,6 +1164,9 @@ export class appService{
         return result;
       })
     }
+
+
+
 
 
 }
