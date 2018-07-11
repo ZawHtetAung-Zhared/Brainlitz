@@ -248,28 +248,26 @@ export class ToolsComponent implements OnInit {
 
   sendNoti(data){
     console.log(data)
-    // console.log(data.type)
     console.log(this.isChecked)
-
-
-    // const n = data.itemID.search(' -');
-    // data.itemID = data.itemID.slice(0,n)
-    // console.log(n)
-    // console.log(data.itemID)
 
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
       "option": this.isChecked
     }
-    //dataObj["active"] = (data.active == true) ? 1 : 0;
 
     if(data.active == 1){
       dataObj["active"] = 1
     }
-    if(data.sendType != undefined){
-      dataObj["sendType"] = data.sendType
+
+    if(data.appType == true && data.emailType == true){
+      dataObj["sendType"] = 'both'
+    }else if(data.appType != true){
+      dataObj["sendType"] = 'email'
+    }else{
+      dataObj["sendType"] = 'noti'
     }
+   
     let body = {
       "title": data.subject,
       "message": data.message

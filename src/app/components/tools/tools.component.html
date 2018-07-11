@@ -114,7 +114,7 @@
 						  <label for="address" class="lable-title">Message</label>
 						  <textarea class="form-control" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
 						</div>	
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label for="address" class="lable-title">Message Type</label>
 							<div class="d-flex flex-row">
 								<label class="custom-control custom-radio switch">
@@ -124,6 +124,21 @@
 								</label>
 								<label class="custom-control custom-radio switch">
 									<input id="radio2" name="sendType" value="app" [(ngModel)]="item.sendType" #app="ngModel" type="radio" class="" >
+									  <span class="custom-control-indicator slider round"></span>
+									  <span class="custom-control-description">App notification</span>
+								</label>
+							</div>
+						</div> -->
+						<div class="form-group">
+							<label for="address" class="lable-title">Message Type</label>
+							<div class="d-flex flex-row">
+								<label class="custom-control custom-radio switch">
+									<input id="radio1" name="emailType" value="email" [(ngModel)]="item.emailType" #emailType="ngModel" type="checkbox" class="">
+									  <span class="custom-control-indicator slider round"></span>
+									  <span class="custom-control-description">Email</span>
+								</label>
+								<label class="custom-control custom-radio switch">
+									<input id="radio2" name="appType" value="app" [(ngModel)]="item.appType" #appType="ngModel" type="checkbox" class="" >
 									  <span class="custom-control-indicator slider round"></span>
 									  <span class="custom-control-description">App notification</span>
 								</label>
@@ -155,18 +170,6 @@
 						 {{log.user.preferredName}}
 					</li>
 				</ul>
-				<!-- <p><span>Sent by:</span>--{{noti.logs.sender.preferredName}}</p> -->
-				<!-- <p><span>Sent to:</span>--{{noti.user.preferredName}}</p> -->
-				<!-- <div>
-					<h4>{{noti.date.day}}/{{noti.date.month}}/{{noti.date.year}}</h4>
-					<ul>
-						<li *ngFor="let info of noti.noti; let i = index" id="{{info._id}}">
-							<p><span>Title:</span>--{{info.title}}</p>
-							<p><span>Message:</span>--{{info.message}}</p>
-							<p><span>Date:</span>--{{info.createdDate}}</p>
-						</li>
-					</ul>
-				</div> -->
 			</div>
 		</div>
 	</div>
