@@ -4,6 +4,7 @@ import { TimezonePickerService, Timezone } from 'ng2-timezone-selector/timezone-
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
   public checkedModule =[];
   public moduleList:any;
   public visible:any;
+  @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -75,20 +77,20 @@ export class DashboardComponent implements OnInit {
 
   selectModule(item,event){
     console.log("selectModule",item);
-    if(item.visible == true){
-      this.visible = false;
-      console.log("this.visible",this.visible)
-    }else{
-      this.visible = true;
-      console.log("this.visible",this.visible)
-    }
     this._service.visibleModule(item._id,item)
     .subscribe((res:any) => {
       console.log(res);
-      if(this.visible == true){
-        this.toastr.success("Visible in App");
-      }else{
-        this.toastr.success("Invisible in App");
+      this.getModuleList();
+      if(item.visible == false){
+        console.log("VVVV");
+        setTimeout(() => {
+          this.toastr.success("Visible in App");
+        }, 300); 
+      }else if(item.visible == true){
+        console.log("IIII");
+        setTimeout(() => {
+          this.toastr.success("Invisible in App");
+        }, 300); 
       }
     })
   }
