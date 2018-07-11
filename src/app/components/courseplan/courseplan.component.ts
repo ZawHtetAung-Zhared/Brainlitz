@@ -391,7 +391,7 @@ export class CourseplanComponent implements OnInit {
       console.log(res);
       this.formField = res;
       if(!this.formField.holidayCalendarId){
-        this.formField.holidayCalendarId = "";
+        this.formField.holidayCalendarId = '';
       }
       this.pdfId = this.formField.quizwerkz; 
       this.apgId =  this.formField.accessPointGroup;   
@@ -403,7 +403,7 @@ export class CourseplanComponent implements OnInit {
 
   updatedPlan(formData){
     console.log('updated', formData, this.pdfId)
-    if(formData.holidayCalendar == ""){
+    if(formData.holidayCalendar == ''){
       formData.holidayCalendar = undefined;
     }
     let data = {
