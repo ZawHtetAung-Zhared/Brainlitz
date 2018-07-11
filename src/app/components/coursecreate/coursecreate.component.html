@@ -160,9 +160,18 @@
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Room</label>
+					<div *ngIf="!isEdit" class="new-input">
+						<input type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
+						<!-- <input *ngIf="isEdit" readonly type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room"> -->
+						<div [hidden]="room.valid || room.pristine" class="alert alert-danger">
+							Room is required.
+						</div>
+					</div>
+				</div>
+				<div *ngIf="isEdit" class="form-group form-head">
+					<label class="label-input">Room</label>
 					<div class="new-input">
-						<input *ngIf="!isEdit" type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
-						<input *ngIf="isEdit" readonly type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room">
+						<input readonly type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
 					</div>
 				</div>
 				<div class="form-group form-head">
