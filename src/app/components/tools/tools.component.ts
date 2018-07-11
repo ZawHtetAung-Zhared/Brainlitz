@@ -32,6 +32,11 @@ export class ToolsComponent implements OnInit {
   public notiType:any;
   public notiLists:any;
   public utcDate:any;
+  public notiTypes:any = [
+    {name: 'Email',type: 'email',checked: false},
+    {name: 'App notification',type: 'noti',checked: false}
+  ];
+  public checkedType: any = [];
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -118,6 +123,19 @@ export class ToolsComponent implements OnInit {
       console.log(err);
       this.toastr.error("Error in calling API.");
     })    
+  }
+
+  checkedOptions(option, e){
+    console.log(option)
+    var val = option.type;
+    if(this.checkedType.includes(val) == false){
+      this.checkedType.push(val)
+    }else{
+      val = [val]
+      this.checkedType =this.checkedType.filter(f => !val.includes(f));
+    }
+    console.log(this.checkedType)
+    console.log(this.checkedType.length)
   }
 
   somethingChanged(type){
@@ -253,20 +271,21 @@ export class ToolsComponent implements OnInit {
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
-      "option": this.isChecked
+      "option": this.isChecked,
+      "sendType": this.checkedType
     }
 
     if(data.active == 1){
       dataObj["active"] = 1
     }
 
-    if(data.appType == true && data.emailType == true){
-      dataObj["sendType"] = 'both'
-    }else if(data.appType != true){
-      dataObj["sendType"] = 'email'
-    }else{
-      dataObj["sendType"] = 'noti'
-    }
+    // if(data.appType == true && data.emailType == true){
+    //   dataObj["sendType"] = 'both'
+    // }else if(data.appType != true){
+    //   dataObj["sendType"] = 'email'
+    // }else{
+    //   dataObj["sendType"] = 'noti'
+    // }
    
     let body = {
       "title": data.subject,
@@ -312,6 +331,11 @@ export class ToolsComponent implements OnInit {
       this.blockUI.stop();
       this.item = {};
       this.item.sendType = 'app';
+      this.checkedType = [];
+      this.notiTypes = [
+        {name: 'Email',type: 'email',checked: false},
+        {name: 'App notification',type: 'noti',checked: false}
+      ];
       if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
         this.userCount = 0;
       }
