@@ -24,8 +24,6 @@ export class DashboardComponent implements OnInit {
   };
   public menuType:any = "admin";
   public checkedModule =[];
-  public moduleList:any;
-  public visible:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -34,7 +32,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getAdministrator();
-    this.getModuleList();
   }
 
   getAdministrator(){
@@ -53,14 +50,6 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  getModuleList(){
-    this._service.getAllModule(this.regionId)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.moduleList = res;
-    })
-  }
-
   updateRegionalInfo(data){
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
@@ -72,26 +61,6 @@ export class DashboardComponent implements OnInit {
       localStorage.setItem('timezone', this.item.timezone)
     }, err => {
       console.log(err)
-    })
-  }
-
-  selectModule(item,event){
-    console.log("selectModule",item);
-    this._service.visibleModule(item._id,item)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.getModuleList();
-      if(item.visible == false){
-        console.log("VVVV");
-        setTimeout(() => {
-          this.toastr.success("Visible in App");
-        }, 300); 
-      }else if(item.visible == true){
-        console.log("IIII");
-        setTimeout(() => {
-          this.toastr.success("Invisible in App");
-        }, 300); 
-      }
     })
   }
 

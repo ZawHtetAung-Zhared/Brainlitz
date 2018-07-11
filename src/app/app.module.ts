@@ -41,6 +41,7 @@ import { TimepickerModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
+import { ModuleComponent } from './components/module/module.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { TemplateComponent } from './components/template/template.component';
     ToolsComponent,
     ReportComponent,
     ApgComponent,
-    TemplateComponent
+    TemplateComponent,
+    ModuleComponent
   ],
   imports: [
     BrowserModule,

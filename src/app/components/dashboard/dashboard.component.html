@@ -52,26 +52,7 @@
       </div>
     </div>
     <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">
-    <!-- <block-ui message="Deafult Message"></block-ui> -->
-        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
-          <div class="mb-30">
-            <h2>Module</h2>
-            <div *ngFor="let module of moduleList">
-              <div *ngIf="module._id" class="module-wrap">
-                <label class="module-name">
-                  {{module.name}}
-                </label>
-                <div class="toggle-wrap">
-                  <label class="visible-label">Visible in App</label>
-                  <label class="switch">
-                    <input type="checkbox" (change)="selectModule(module,$event)" [checked]="module.visible == true">
-                    <span class="slider round"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>  
+      <app-module></app-module>
     </div>  
     <div *ngIf="menuType == 'apg'" class="col-md-10 min-scroll">
         <div class="d-flex flex-column w-100 h-100 inner-wrapper">
