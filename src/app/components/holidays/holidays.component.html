@@ -34,7 +34,7 @@
 				    </div>
 				    <div *ngIf="createdDate.errors && (createdDate.dirty || createdDate.touched)" class="alert alert-danger">
 			        	<div [hidden]="!createdDate.errors.required">Date is required!</div>
-			        	 <div [hidden]="createdDate.errors.required">Valid date only!</div>
+			        	 <div [hidden]="createdDate.errors.required">Invalid date!</div>
 		    		</div>
 			    </div>
 		  	</div>
