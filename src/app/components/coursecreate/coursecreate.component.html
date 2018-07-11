@@ -1,8 +1,9 @@
 <div class="inner-wrapper">
 	<div *ngIf="!showCourse">
-		<div *ngIf="noPlan" class="center">
+		<!-- <div *ngIf="noPlan" class="center">
 			<h3>There is no course plan</h3>
-		</div>
+		</div> -->
+		<h3 *ngIf="noPlan">There is no course plan</h3>
 		<div class="list-wrap" *ngIf="!noPlan">
 			<div class="form-group">
 				<h4 class="mb-30">Choose Course Plan</h4>

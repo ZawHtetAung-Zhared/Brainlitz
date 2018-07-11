@@ -54,6 +54,7 @@ export class CoursecreateComponent implements OnInit {
   date = new Date();
   hello = JSON.parse(localStorage.getItem('splan')) ;
   public pdfListLength:any;
+  public noPlan:boolean = false;
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -105,6 +106,11 @@ export class CoursecreateComponent implements OnInit {
     .subscribe((res:any) => {
       this.coursePlan = res;
       console.log(this.coursePlan);
+      if(this.coursePlan.length > 0){
+        this.noPlan = false;
+      }else{
+        this.noPlan = true;
+      }
       //this.blockUI.stop(); // Stop blocking
        setTimeout(() => {
          this.blockUI.stop(); // Stop blocking

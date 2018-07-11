@@ -13,6 +13,9 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 export class ModuleComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
   public moduleList:any;
+  public noModule:boolean =false;
+  @BlockUI() blockUI: NgBlockUI;
+
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
   	this.toastr.setRootViewContainerRef(vcr);
    }
@@ -22,12 +25,24 @@ export class ModuleComponent implements OnInit {
   }
 
   getModuleList(){
+  	this.blockUI.start('Loading...');
     this._service.getAllModule(this.regionId)
     .subscribe((res:any) => {
       console.log(res);
       this.moduleList = res;
+      if(this.moduleList.length > 0){
+        this.noModule = false;
+      }else{
+        this.noModule = true;
+      }
+      setTimeout(() => {
+      	this.blockUI.stop();
+      },300);
+      // this.blockUI.stop();
     })
   }
+
+  // moduleList
 
   selectModule(item,event){
     console.log("selectModule",item);
@@ -40,7 +55,7 @@ export class ModuleComponent implements OnInit {
         setTimeout(() => {
           this.toastr.success("Visible in App");
         }, 300); 
-      }else if(item.visible == true){
+      }else{
         console.log("IIII",item.visible);
         setTimeout(() => {
           this.toastr.success("Invisible in App");

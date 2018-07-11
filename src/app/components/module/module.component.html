@@ -1,6 +1,7 @@
 <div class="d-flex flex-column w-100 h-100 inner-wrapper">
   <div class="mb-30">
     <h2>Module</h2>
+    <h2 *ngIf="noModule">There is no module</h2>
     <div *ngFor="let module of moduleList">
       <div *ngIf="module._id" class="module-wrap">
         <label class="module-name">
