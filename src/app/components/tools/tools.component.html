@@ -132,21 +132,22 @@
 						<div class="form-group">
 							<label for="address" class="lable-title">Message Type</label>
 							<div class="d-flex flex-row">
-								<label class="custom-control custom-radio switch">
-									<input id="radio1" name="emailType" value="email" [(ngModel)]="item.emailType" #emailType="ngModel" type="checkbox" class="">
+								<label class="custom-control custom-radio switch" *ngFor="let notiType of notiTypes; let i = index">
+									<input class="form-check-input" 
+						              type="checkbox" 
+						              name="notiType" 
+						              value="{{notiType.name}}" 
+						              [checked]="notiType.checked"
+						              (change)="checkedOptions(notiType, $event)"
+						              required>
 									  <span class="custom-control-indicator slider round"></span>
-									  <span class="custom-control-description">Email</span>
-								</label>
-								<label class="custom-control custom-radio switch">
-									<input id="radio2" name="appType" value="app" [(ngModel)]="item.appType" #appType="ngModel" type="checkbox" class="" >
-									  <span class="custom-control-indicator slider round"></span>
-									  <span class="custom-control-description">App notification</span>
+									  <span class="custom-control-description">{{notiType.name}}</span>
 								</label>
 							</div>
 						</div>
 						<div>
 							<button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button>
-							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid || userCount === 0">Submit</button>
+							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid || userCount === 0 || checkedType.length == 0">Submit</button>
 						</div>
 					</form>
 				</div>

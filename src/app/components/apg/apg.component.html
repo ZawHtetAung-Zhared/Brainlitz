@@ -102,6 +102,7 @@
 </div>
 
 <div *ngIf="viewType == 'apg'" class="col-md-12 scroll">
+	<h2 *ngIf="emptyAPG" style="text-align: center;">APG has not been created yet.</h2>
 	<div class="overflow">
 		<ul class="list-group-flush" style="padding-left: 0;">  
 		  <li id="{{apg._id}}" class="list-group-item" *ngFor="let apg of apgList; let i = index" [attr.data-index]="i">

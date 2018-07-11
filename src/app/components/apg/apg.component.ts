@@ -47,6 +47,7 @@ export class ApgComponent implements OnInit {
     editId: any;
     deleteId: any;
     deleteAPG: any;
+    emptyAPG: boolean = false;
 
   	ngOnInit() {
 	  	this.getAllAP();
@@ -239,13 +240,16 @@ export class ApgComponent implements OnInit {
 	        console.log(err)
 	      })
   	}
-
+    
   	getAllAPG(){
       this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
 	    	this.apgList = res;
+        if(res.length == 0){
+          this.emptyAPG = true;
+        }   
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
@@ -300,8 +304,6 @@ export class ApgComponent implements OnInit {
 	  	this.checkedModuleID = [];
 	  	this.checkedAPid = [];
       this.apArray = [];
-      //this.checkedTemplateID = [];
-      this.checkedAPid = [];
   		this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
   		this._service.getSingleAPG(this.regionID, id)
   		.subscribe((res:any) => {
@@ -311,20 +313,6 @@ export class ApgComponent implements OnInit {
   					this.checkedModuleID.push(res.moduleId);
   				}
   			}
-  			//if(res.templateId){
-         // this.getAllAP();
-         // this.customAP = true;;
-  			//	this.customCheck = false;
-  				//this.templateAPG = true;
-          //this.existAP = true;
-  				//this.templateChecked = true;
-          //for(var i in this.templateList){
-           // if(this.templateList[i]._id == res.templateId){
-            //  this.checkedTemplateID.push(this.templateList[i]._id)
-            //  console.log('equal template id', this.templateList)
-           // }
-          //}
-  			//}else {
           if(res.accessPoints == ''){
             this.customCheck = false;
             this.existAP = false;
@@ -349,7 +337,6 @@ export class ApgComponent implements OnInit {
           else {
             this.apArray = [];
           }
-  			//}
   			this.apgField = res;
         this.editId = id;
   		}, err => {

@@ -222,13 +222,15 @@ export class appService{
       console.log(obj)     
       console.log(obj.id)     
       console.log(obj.active)     
+      console.log(obj.sendType.length)     
       console.log(obj.sendType)     
+      console.log(obj.sendType[0])     
       this.getLocalstorage();
 
-      if(obj.sendType == 'both'){
-        var url = this.baseUrl + '/email' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&sendType=noti,email' ;
+      if(obj.sendType.length == 2){
+        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&sendType=noti,email' ;
       }else{
-        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&sendType=' + obj.sendType ;
+        var url = this.baseUrl + '/noti' + '?regionId=' + obj.regionId +  '&locationId=' + obj.locationId + '&option=' + obj.option + '&sendType=' + obj.sendType[0] ;
       }
       url = (obj.id != undefined) ? url + '&id=' + obj.id : url
       url = (obj.active != undefined) ? url + '&active=1' : url;
