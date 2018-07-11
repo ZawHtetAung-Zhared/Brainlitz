@@ -77,6 +77,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG();
     this.pdfId = [];
+    this.apgId = [];
 		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
     this.modalReference.result.then((result) => {
     this.formField = new cPlanField();
@@ -402,6 +403,9 @@ export class CourseplanComponent implements OnInit {
 
   updatedPlan(formData){
     console.log('updated', formData, this.pdfId)
+    if(formData.holidayCalendar == ""){
+      formData.holidayCalendar = undefined;
+    }
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
