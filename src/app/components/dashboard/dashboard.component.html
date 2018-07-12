@@ -8,10 +8,10 @@
           <button class="btn noti-tab w-100" (click)="clickTab('module')">Module</button>
         </div>
         <div [ngClass]="{'active': menuType == 'apg'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
+          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
         </div>
         <div [ngClass]="{'active': menuType == 'template'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('template')">Template</button>
+          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('template')">Template</button>
         </div>
       </div>
     </div>
@@ -60,7 +60,6 @@
             <app-apg></app-apg>
           </div>
         </div>    
-
     </div> 
     <div *ngIf="menuType == 'template'" class="col-md-10 min-scroll">
         <div class="d-flex flex-column w-100 h-100 inner-wrapper">

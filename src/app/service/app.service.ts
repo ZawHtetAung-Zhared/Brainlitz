@@ -1011,6 +1011,20 @@ export class appService{
       .map((res:Response) => {
         let result = res;  
         return result;
+      });
+    }
+
+    getAllAPmodule(id: string, moduleId: string){
+      let apiUrl = this.baseUrl +'/'+ id + '/access-point?moduleId=' + moduleId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
       })
     }
 
@@ -1115,15 +1129,14 @@ export class appService{
       })
     }
 
-    convertApgTemplate(apgID:string): Observable<any>{
+    convertApgTemplate(apgID:string, data): Observable<any>{
       this.getLocalstorage();
       let apiUrl = this.baseUrl + '/apg-to-template/' + apgID;
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('authorization', this.tokenType + ' ' + this.accessToken);
       let options = new RequestOptions({ headers: headers });
-      console.log(options)
-      return this._http.post(apiUrl, '',options)
+      return this._http.post(apiUrl,data,options)
       .map((res:Response) => {
         let result = res; 
         return result;

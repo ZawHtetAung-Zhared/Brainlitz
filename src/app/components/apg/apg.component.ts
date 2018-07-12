@@ -48,6 +48,10 @@ export class ApgComponent implements OnInit {
     deleteId: any;
     deleteAPG: any;
     emptyAPG: boolean = false;
+    convertId: any;
+    template: any = {};
+    moduleId: any;
+    moduleAPList: any;
 
   	ngOnInit() {
 	  	this.getAllAP();
@@ -59,7 +63,6 @@ export class ApgComponent implements OnInit {
   	open(content){
   		this.customAP = false;
   		this.templateAPG = false;
-  		this.getAllAP();
   		this.apArray = [];
   		this.newAPList = [];
   		this.customCheck = false;
@@ -97,6 +100,7 @@ export class ApgComponent implements OnInit {
 	  		this.templateAPG = true;
         this.customCheck = false;
         this.existAP = false;
+        this.apgField.moduleId = '';
 	  	}
 	  	else if(type == 'newap'){
 	  		this.newAP = true;
@@ -115,7 +119,7 @@ export class ApgComponent implements OnInit {
 	  	}
 	}
 
-	clickTab(type){
+	  clickTab(type){
     	this.viewType = type;
   	}
   	
@@ -124,6 +128,7 @@ export class ApgComponent implements OnInit {
   		let data = {
       		"name": formData.name,
       		"description": formData.desc,
+          "moduleId": this.moduleId
       	}
         this.customCheck = false;
         this.checkedAPid = [];
@@ -131,7 +136,7 @@ export class ApgComponent implements OnInit {
 		    .subscribe((res:any) => {
 		      	console.log('success post',res);
 		      	this.toastr.success('Successfully AP Created.');
-		      	this.getAllAP();
+		      	this.getAPofModule(this.moduleId);
 		      	res.checked = true;
 		      	this.newAPList.push(res);
 		      	this.newAPListId.push(res._id);
@@ -140,10 +145,20 @@ export class ApgComponent implements OnInit {
 		      	this.apField = new apField();
 		      	;
 		    }, err => {
-		        this.toastr.error('Created AP Fail');
+            if(this.moduleId == ''){
+              this.toastr.warning('Firstly, must choose module.');
+            }else{
+              this.toastr.error('Created AP Fail');
+            }
 		        console.log(err)
 		    })
   	}
+
+    moduleAP(id){
+      console.log(id);
+      this.getAPofModule(id);
+      this.moduleId = id;
+    }
 
   	checkedAP( id, e){
 			var cbIdx = this.apArray.indexOf(id);
@@ -206,6 +221,16 @@ export class ApgComponent implements OnInit {
 	
   	}
 
+    getAPofModule(moduleId){
+      this._service.getAllAPmodule(this.regionID, moduleId)
+      .subscribe((res:any) => {
+        console.log('moduleAPLists' ,res)
+        this.moduleAPList = res;
+        }, err => {
+          console.log(err)
+        })
+    }
+
   	getAllAP(){
   		this._service.getAllAP(this.regionID)
 	    .subscribe((res:any) => {
@@ -267,11 +292,6 @@ export class ApgComponent implements OnInit {
         }
       }
       this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'animation-wrap'});
-      this.modalReference.result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Closed with: ${reason}`;
-      });
     }
 
   	apgDelete(id){
@@ -290,9 +310,8 @@ export class ApgComponent implements OnInit {
 	    }) 
   	}
 
-  	editAPG(content, id){
+  	editAPG(id, content){
   		this.getAllTemplate();
-  		this.getAllAP();
       this.apgField = new apgField();
   		this.customAP = false;
   		this.templateAPG = false;
@@ -308,6 +327,9 @@ export class ApgComponent implements OnInit {
   		this._service.getSingleAPG(this.regionID, id)
   		.subscribe((res:any) => {
   			console.log('editapg' ,res)
+
+        this.getAPofModule(res.moduleId);
+
   			for(var i in this.moduleList){
   				if(this.moduleList[i]._id == res.moduleId){
   					this.checkedModuleID.push(res.moduleId);
@@ -344,9 +366,21 @@ export class ApgComponent implements OnInit {
 	    })
   	}
 
-  	convertTemplate(id){
-      console.log(id)
-      this._service.convertApgTemplate(id).subscribe((res:any) => {
+    clickConvert(id, cTemplate){
+      this.convertId = id;
+      this.modalReference = this.modalService.open(cTemplate, { backdrop:'static', windowClass: 'animation-wrap'});
+    }
+    
+  	convertTemplate(id, formData){
+      console.log(formData.name)
+      let data = {
+          'name': formData.name,     
+      }
+      this.modalReference.close();
+      this.blockUI.start('Loading...');
+      this._service.convertApgTemplate(id, data).subscribe((res:any) => {
+        console.log(res);
+        this.blockUI.stop();
         this.toastr.success('Successfully converted from APG to template.');
       }, err => {
           console.log(err)
