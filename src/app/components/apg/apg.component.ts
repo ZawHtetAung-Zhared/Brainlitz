@@ -73,6 +73,7 @@ export class ApgComponent implements OnInit {
       this.checkedModuleID = [];
       this.checkedAPid = [];
       this.newAPListId = [];
+      this.moduleAPList = [];
   		this.apgField = new apgField();
 	  	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
 	    this.modalReference.result.then((result) => {
@@ -155,9 +156,9 @@ export class ApgComponent implements OnInit {
   	}
 
     moduleAP(id){
-      console.log(id);
       this.getAPofModule(id);
       this.moduleId = id;
+
     }
 
   	checkedAP( id, e){
