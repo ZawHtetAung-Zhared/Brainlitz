@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   };
   public menuType:any = "admin";
   public checkedModule =[];
+  public allModule;
+  public emptyModule:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -32,6 +34,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getAdministrator();
+    this.isModuleList();
   }
 
   getAdministrator(){
@@ -47,6 +50,18 @@ export class DashboardComponent implements OnInit {
       localStorage.setItem('timezone', this.item.timezone)
     }, err => {
       console.log(err)
+    })
+  }
+
+  isModuleList(){
+    this._service.getAllModule(this.regionId)
+    .subscribe((res:any) => {
+      this.allModule = res;
+      if(this.allModule.length > 0){
+        this.emptyModule = false;
+      }else{
+        this.emptyModule = true;
+      }
     })
   }
 
