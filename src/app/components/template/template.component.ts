@@ -19,6 +19,7 @@ export class TemplateComponent implements OnInit {
 	private modalReference: NgbModalRef;
 	closeResult: string;
   public item:any = {};
+  public apmodel:any = {};
   public moduleLists:any;
   public apLists:any;
 	public tempLists:any;
@@ -28,6 +29,8 @@ export class TemplateComponent implements OnInit {
   public singleTemplateName: any;
   public singleTemplateDesc: any;
   public checkedAP: any = [];
+  public isAP: any;
+  public newAPs: any = [];
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
@@ -37,10 +40,10 @@ export class TemplateComponent implements OnInit {
   ngOnInit() {
     this.getAllTemplate();
     this.getAllModule();
-    this.getAllAp();
+    // this.getAllAp();
   }
 
-  getAllAp(){
+  getAllAp(module){
     this._service.getAllAP(this.regionID)
     .subscribe((res:any) => {
       console.log(res)
@@ -64,9 +67,29 @@ export class TemplateComponent implements OnInit {
     })
   }
 
+  chooseAPType(type, moduleId){
+    this.isAP = type;
+    this.getAllAp(moduleId);
+  }
+
+  createAP(obj, moduleID){
+    console.log(moduleID)
+    obj["moduleId"] = moduleID;
+    console.log(obj)
+    this._service.createAP(this.regionID, obj)
+    .subscribe((res:any) => {
+       console.log(res)  
+       this.apmodel = {}  
+       this.newAPs.push(res);   
+    }, err => {
+        console.log(err)
+    })
+  }
+
   open(content) {
     console.log('open create modal')
-    this.getAllAp();
+    // this.getAllAp();
+    this.isAP = ''
     console.log(this.apLists)
   	this.item = {};
     this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});
@@ -194,6 +217,7 @@ export class TemplateComponent implements OnInit {
             return ap._id == accessPoints[i]
           })
           // this.isAvailable = true;
+          console.log(hello[0])
           hello[0].checked = true;
           console.log(hello)
         }
@@ -257,6 +281,7 @@ export class TemplateComponent implements OnInit {
   editTemplate(id, content){
     console.log('edit template')
     this.isUpdate = true;
+    this.isAP = 'existing';
     this.currentId = id;
     // console.log(this.apLists)
     this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});
