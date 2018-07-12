@@ -162,7 +162,7 @@ export class appService{
 
     getAllTemplate(id){
       this.getLocalstorage();
-      let url = this.baseUrl + '/' + id + '/access-point-template';
+      let url = this.baseUrl + '/' + id + '/access-point-template?all=1';
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
