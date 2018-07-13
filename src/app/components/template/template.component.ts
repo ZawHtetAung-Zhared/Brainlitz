@@ -31,6 +31,7 @@ export class TemplateComponent implements OnInit {
   public checkedAP: any = [];
   public isAP: any;
   public newAPs: any = [];
+  public newApCount: any = [];
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
@@ -44,7 +45,7 @@ export class TemplateComponent implements OnInit {
   }
 
   getAllAp(module){
-    this._service.getAllAP(this.regionID)
+    this._service.getAllAPmodule(this.regionID, module)
     .subscribe((res:any) => {
       console.log(res)
       this.apLists = res;
@@ -68,8 +69,12 @@ export class TemplateComponent implements OnInit {
   }
 
   chooseAPType(type, moduleId){
+    this.newAPs = [];
+    this.checkedAP = [];
     this.isAP = type;
-    this.getAllAp(moduleId);
+    if(moduleId != undefined){
+      this.getAllAp(moduleId);
+    }
   }
 
   createAP(obj, moduleID){
@@ -80,7 +85,7 @@ export class TemplateComponent implements OnInit {
     .subscribe((res:any) => {
        console.log(res)  
        this.apmodel = {}  
-       this.newAPs.push(res);   
+       this.newAPs.push(res); 
     }, err => {
         console.log(err)
     })
@@ -111,13 +116,44 @@ export class TemplateComponent implements OnInit {
   }
 
   checkedOptions(option, e){
+    console.log(option)
+    console.log(this.checkedAP)
+
     var val = option._id;
+
     if(this.checkedAP.includes(val) == false){
       this.checkedAP.push(val)
     }else{
       val = [val]
       this.checkedAP =this.checkedAP.filter(f => !val.includes(f));
     }
+    console.log(this.checkedAP)
+    console.log(this.checkedAP.length)
+  }
+
+  checkedaps(option, e){
+    console.log(option)
+    console.log('++++' , this.checkedAP)
+
+    var val = option._id;    
+    
+    if(this.newApCount.length == 0){
+      for(let i = 0; i< this.newAPs.length; i++){
+         this.checkedAP.push(this.newAPs[i]._id);
+      }
+    }
+    
+    console.log(this.checkedAP) 
+
+    if(this.checkedAP.includes(val) == false){
+      console.log('OOO')
+      this.checkedAP.push(val)
+    }else{
+      console.log('O_O')
+      val = [val]
+      this.checkedAP = this.checkedAP.filter(f => !val.includes(f));
+    }
+    this.newApCount = this.checkedAP.length;
     console.log(this.checkedAP)
     console.log(this.checkedAP.length)
   }

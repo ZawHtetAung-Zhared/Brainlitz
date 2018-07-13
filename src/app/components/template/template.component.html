@@ -35,12 +35,14 @@
                 value="{{module._id}}" 
                 [(ngModel)]="item.moduleId"
                 #moduleId="ngModel"
+                (click)="getAllAp(module._id)"
                 required> {{module.name}}
             </label>
           </div>
         </div>
       </div>
       <div class="form-group">
+        <label for="desc">Access point lists</label>   
         <div class="form-check">
           <label class="form-check-label">
             <input class="form-check-input" 
@@ -59,7 +61,7 @@
                 name="AP" 
                 value="{{newAP.name}}" 
                 [checked]= true 
-                (change)="checkedOptions(newAP, $event)"
+                (change)="checkedaps(newAP, $event)"
                 required> {{newAP.name}}
             </label>
           </div>
@@ -82,6 +84,7 @@
                 </div>
               </div>
             </div>
+            <p class="danger" *ngIf="!item.moduleId">Inorder to create new AP, you must choose a module.</p>
             <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createAP(apmodel, item.moduleId)" [disabled]="!apForm.valid || !item.moduleId">Create AP</button>
           </form>
         </div>
@@ -96,10 +99,9 @@
         </div>
       </div>
   		<div class="form-group" *ngIf="isAP == 'existing'">
-  			<label for="desc">Access point lists</label>   
-        <p class="danger" *ngIf="!item.moduleId">You have to choose module first.</p>
+        <p class="danger" *ngIf="!item.moduleId">You have to choose a module first to get access point lists.</p>
         <div class="apscroll" *ngIf="item.moduleId">
-          <p class="danger" *ngIf="apLists.length == 0">You don't have access point to create template.</p>
+          <!-- <p class="danger" *ngIf="apLists.length == 0">You don't have access point to create template.</p> -->
   				<div class="form-check form-check-inline" *ngFor="let aplist of apLists; let i = index">
   				  <label class="form-check-label">
                 <input class="form-check-input" 
