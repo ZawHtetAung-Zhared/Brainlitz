@@ -83,7 +83,7 @@
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-		    <button type="submit" *ngIf="createButton" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value, 'create')" [disabled]="!apgForm.valid || apArray.length == 0">Create</button>
+		    <button type="submit" *ngIf="createButton" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value, 'create')" [disabled]="!apgForm.valid || (apArray.length == 0 && !apgField.templateId)">Create</button>
 		    <button type="submit" [disabled]="!apgForm.valid || apArray.length == 0" *ngIf="updateButton" class="btn btn-primary btn-not-allowed" (click)="createAPG(apgForm.value, 'update')">Update</button>
 		</div>	
 	</form>

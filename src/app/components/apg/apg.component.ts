@@ -268,7 +268,6 @@ export class ApgComponent implements OnInit {
                   }else{
                     this.apArray = [];
                   }
-
                 }
               }
               else {
