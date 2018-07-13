@@ -13,6 +13,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 export class TemplateComponent implements OnInit {
 
   public regionID = localStorage.getItem('regionId')
+  public isready: boolean = false;
   public isUpdate: boolean = false;
   public isempty: boolean = false;
 	public ispublic: boolean = false;
@@ -32,6 +33,10 @@ export class TemplateComponent implements OnInit {
   public isAP: any;
   public newAPs: any = [];
   public newApCount: any = [];
+  public tempApCount: any = [];
+  public demoApCount: any = [];
+  public singleEditTemp: any = [];
+  public aplength: any = [];
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
@@ -44,15 +49,16 @@ export class TemplateComponent implements OnInit {
     // this.getAllAp();
   }
 
-  getAllAp(module){
-    this._service.getAllAPmodule(this.regionID, module)
+  getAllAp(id){
+    this._service.getAllAPmodule(this.regionID, id)
     .subscribe((res:any) => {
-      console.log(res)
+      this.blockUI.stop();
+      console.log('all ap => ', res)
       this.apLists = res;
+      this.isready = true;
       for(let i = 0; i < this.apLists.length; i++){
         this.apLists[i]["checked"] = (this.apLists[i].checked == undefined) ? false : true; 
       }
-       console.log(this.apLists)
     }, err => {
        console.log(err)
     })
@@ -68,12 +74,12 @@ export class TemplateComponent implements OnInit {
     })
   }
 
-  chooseAPType(type, moduleId){
+  chooseAPType(type, id){
     this.newAPs = [];
     this.checkedAP = [];
     this.isAP = type;
-    if(moduleId != undefined){
-      this.getAllAp(moduleId);
+    if(id != undefined){
+      this.getAllAp(id);
     }
   }
 
@@ -84,8 +90,14 @@ export class TemplateComponent implements OnInit {
     this._service.createAP(this.regionID, obj)
     .subscribe((res:any) => {
        console.log(res)  
+       this.toastr.success('Successfully Created.');
        this.apmodel = {}  
        this.newAPs.push(res); 
+       // for(let i = 0; i< this.newAPs.length; i++){
+       //   this.checkedAP = this.newAPs[i]._id;
+       // }
+       this.checkedAP.push(res._id)
+       console.log(this.checkedAP)
     }, err => {
         console.log(err)
     })
@@ -133,29 +145,44 @@ export class TemplateComponent implements OnInit {
 
   checkedaps(option, e){
     console.log(option)
-    console.log('++++' , this.checkedAP)
+    option.checked = false;
+    var val = option._id; 
 
-    var val = option._id;    
-    
-    if(this.newApCount.length == 0){
-      for(let i = 0; i< this.newAPs.length; i++){
-         this.checkedAP.push(this.newAPs[i]._id);
+    if(this.newAPs.length == this.newApCount.length){
+      console.log('same')
+    }else{
+      console.log('not same')
+      this.newApCount = [];
+      for(let i=0; i<this.newAPs.length; i++){
+        this.newApCount.push(this.newAPs[i]._id)
       }
     }
     
-    console.log(this.checkedAP) 
+    
+    console.log(this.newApCount)    
+    this.tempApCount = this.newApCount;    
+    console.log('tempApCount => ', this.tempApCount)
+    console.log('demoApCount => ', this.demoApCount)
+    // console.log(this.tempApCount.includes(val))
 
-    if(this.checkedAP.includes(val) == false){
-      console.log('OOO')
-      this.checkedAP.push(val)
+
+    this.tempApCount = this.tempApCount.filter(f => !this.demoApCount.includes(f));
+    
+    console.log('tempApCount => ', this.tempApCount)
+    if(this.tempApCount.includes(val) == false){
+      this.checkedAP.push(val);
+      this.demoApCount = this.demoApCount.filter(f => !val.includes(f));
+      console.log('in the if')
     }else{
-      console.log('O_O')
+      console.log('in the else')
+      this.demoApCount.push(val);
       val = [val]
-      this.checkedAP = this.checkedAP.filter(f => !val.includes(f));
+      this.checkedAP = this.tempApCount.filter(f => !val.includes(f));
+      // this.demoApCount =this.demoApCount.filter(f => !val.includes(f));
     }
-    this.newApCount = this.checkedAP.length;
-    console.log(this.checkedAP)
-    console.log(this.checkedAP.length)
+    console.log(this.checkedAP);
+
+    this.aplength = 1;
   }
 
   // selectedOptions() { // right now: ['1','3']
@@ -233,17 +260,12 @@ export class TemplateComponent implements OnInit {
     })
   }
 
-  getsingleTemplate(id){
-    this.blockUI.start('Loading...');
-    // this.getAllAp();
-    for(let i = 0; i < this.apLists.length; i++){
-      this.apLists[i].checked = false ; 
-    }
-    console.log(this.apLists)
+  getsingleTemplate(id){  
     this._service.getSingleTemplate(this.regionID, id)
     .subscribe((res:any) => {
         this.item = res;
-        console.log(this.singleTemplate)
+        console.log(this.item)
+        this.singleEditTemp = res;
         const accessPoints = res.accessPoints;
         this.checkedAP = res.accessPoints;
         console.log(accessPoints)
@@ -314,13 +336,20 @@ export class TemplateComponent implements OnInit {
     })
   }
 
-  editTemplate(id, content){
-    console.log('edit template')
+  editTemplate(id, module, content){
+    console.log('edit template', module)
+    this.getAllAp(module);
     this.isUpdate = true;
     this.isAP = 'existing';
     this.currentId = id;
     // console.log(this.apLists)
-    this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});
-    this.getsingleTemplate(id); 
+    setTimeout(()=>{
+      this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});
+      this.getsingleTemplate(id);
+    },200)
+
+
+    
+    
   }
 }
