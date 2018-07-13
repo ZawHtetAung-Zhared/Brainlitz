@@ -53,6 +53,7 @@ export class ApgComponent implements OnInit {
     moduleId: any;
     moduleAPList: any;
     getAccessPoint: any;
+    tempModuleId: any;
 
   	ngOnInit() {
 	  	this.getAllAP();
@@ -138,7 +139,7 @@ export class ApgComponent implements OnInit {
 	  clickTab(type){
     	this.viewType = type;
   	}
-  	
+  	responseAP: any;
   	createAP(formData){
   		console.log(formData);
   		let data = {
@@ -151,6 +152,7 @@ export class ApgComponent implements OnInit {
       	this._service.createAP(this.regionID,data)
 		    .subscribe((res:any) => {
 		      	console.log('success post',res);
+            this.responseAP = res;
 		      	this.toastr.success('Successfully AP Created.');
 		      	this.getAPofModule(this.moduleId);
 		      	res.checked = true;
@@ -212,7 +214,7 @@ export class ApgComponent implements OnInit {
           .subscribe((res:any) => {
               console.log('success post',res);
               this.toastr.success('Successfully APG Created.');
-              //this.getAPofModule(formData.moduleId);
+              this.apArray = [];
               this.getAllAPG();
               this.blockUI.stop();
           }, err => {
@@ -229,7 +231,6 @@ export class ApgComponent implements OnInit {
           .subscribe((res:any) => {
               console.log('success update',res);
               this.toastr.success('Successfully APG Updated.');
-              //this.getAPofModule(this.moduleId);
               this.getAllAPG();
               this.blockUI.stop();
           }, err => {
@@ -239,7 +240,7 @@ export class ApgComponent implements OnInit {
       }
 	
   	}
-    tempModuleId: any;
+    
     getAPofModule(moduleId){
       this._service.getAllAPmodule(this.regionID, moduleId)
       .subscribe((res:any) => {
@@ -250,19 +251,34 @@ export class ApgComponent implements OnInit {
               for(var j in this.getAccessPoint){
                 this.checkedAPid.push(this.getAccessPoint[j])
                 this.apArray = this.checkedAPid;
-                console.log('heeee2', this.apArray)
+                console.log(this.apArray)
               }
               if(this.tempModuleId != moduleId){
                 this.apArray = [];
               }
             }
             else {
-              for(var j in this.getAccessPoint){
-                if(this.apArray.indexOf(this.getAccessPoint[j]) < 0){
-                  this.apArray.push(this.getAccessPoint[j])
-                }               
+              if(this.tempModuleId){
+                if(this.tempModuleId != this.apgField.moduleId){
+                  console.log('notequal')
+                  if(this.responseAP){
+                    if(this.responseAP.moduleId != this.apgField.moduleId){
+                      this.apArray = [];
+                    }
+                  }else{
+                    this.apArray = [];
+                  }
+
+                }
               }
-              console.log('heeee1', this.apArray)
+              else {
+                for(var j in this.getAccessPoint){
+                  if(this.apArray.indexOf(this.getAccessPoint[j]) < 0){
+                    this.apArray.push(this.getAccessPoint[j])
+                  }               
+                }
+              }
+              console.log(this.apArray)
               this.checkedAPid = this.getAccessPoint;
             }
           }
