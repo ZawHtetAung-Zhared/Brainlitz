@@ -137,7 +137,7 @@ export class TemplateComponent implements OnInit {
       this.checkedAP =this.checkedAP.filter(f => !val.includes(f));
     }
     console.log(this.checkedAP)
-    
+
     localStorage.setItem('checkedAP',JSON.stringify(this.checkedAP))
     console.log(this.checkedAP.length)
   }
@@ -229,8 +229,9 @@ export class TemplateComponent implements OnInit {
       console.log('update')
       this.modalReference.close();
       
-      const bb = JSON.parse(localStorage.getItem("checkedAP"))
-      if(bb == ''){
+      var bb = JSON.parse(localStorage.getItem("checkedAP"))
+      console.log(bb.length)
+      if(bb.length == 0){
         bb = this.singleAP
       }
       // this.singleAP = this.singleAP.filter(f => !bb.includes(f));
@@ -302,7 +303,7 @@ export class TemplateComponent implements OnInit {
     .subscribe((res:any) => {
         this.item = res;
         console.log(this.item)
-        this.singleEditTemp = res;
+        // this.singleEditTemp = res;
         const accessPoints = res.accessPoints;
         this.checkedAP = res.accessPoints;
         console.log(accessPoints)
@@ -375,7 +376,8 @@ export class TemplateComponent implements OnInit {
 
   editTemplate(id, module, content){
     console.log('edit template', module)
-    localStorage.setItem('checkedAP',[])
+    this.checkedAP = [];
+    localStorage.setItem('checkedAP',JSON.stringify(this.checkedAP))
     this.newcheckedAP = []
     this.lol = module;
     this.getAllAp(module);
