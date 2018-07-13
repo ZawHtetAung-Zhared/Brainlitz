@@ -85,7 +85,7 @@
               </div>
             </div>
             <p class="danger" *ngIf="!item.moduleId">Inorder to create new AP, you must choose a module.</p>
-            <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createAP(apmodel, item.moduleId)" [disabled]="!apForm.valid || !item.moduleId">Create AP</button>
+            <button type="submit" class="btn btn-primary" (click)="createAP(apmodel, item.moduleId)" [disabled]="!apForm.valid || !item.moduleId">Create AP</button>
           </form>
         </div>
         <div class="form-check">
@@ -118,8 +118,8 @@
   	</div>
   	<div class="modal-footer">
   	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createTemplate(item, false)" [disabled]="!templateForm.valid || checkedAP.length == 0">Create</button>
-  	  <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createTemplate(item, true, currentId)" [disabled]="!templateForm.valid || checkedAP.length == 0">Update</button>
+  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createTemplate(item, false)" [disabled]="!templateForm.valid || checkedAP.length == 0 ">Create</button>
+  	  <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createTemplate(item, true, currentId)" [disabled]="!templateForm.valid || newcheckedAP.length == 0">Update</button>
   	</div>
   </form>
 </ng-template>
