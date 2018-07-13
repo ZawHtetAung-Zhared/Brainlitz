@@ -31,7 +31,7 @@
 			  	  		<label>Choose module</label>
 			  	  		<div class="height-scroll">
 			  	  			<div *ngFor="let module of moduleList; let i=index;">
-					    		<input type="radio" id="{{module._id}}" value="{{module._id}}" name="moduleId" required [checked]="checkedModuleID.indexOf(module._id) != -1" [(ngModel)]="apgField.moduleId" (click)="moduleAP(module._id)" ngModel>
+					    		<input type="radio" id="{{module._id}}" value="{{module._id}}" name="moduleId" [checked]="checkedModuleID.indexOf(module._id) != -1" [(ngModel)]="apgField.moduleId" (click)="moduleAP(module._id)" ngModel>
 					    		<label for="{{module._id}}"> {{module.name}}</label>
 					    	</div>
 			  	  		</div>

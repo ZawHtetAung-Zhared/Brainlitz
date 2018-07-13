@@ -1089,7 +1089,7 @@ export class appService{
       })
     } 
      
-    createAPG(id: string, data: object, templateId: string): Observable<any>{
+    createAPG(id: string, data: object, templateId: string, moduleId: string): Observable<any>{
       console.log(data)
       this.getLocalstorage();
       let apiUrl;
@@ -1097,7 +1097,7 @@ export class appService{
         apiUrl = this.baseUrl + '/' + id + '/access-point-group?templateId=' + templateId;
       }
       else {
-        apiUrl = this.baseUrl + '/' + id + '/access-point-group';
+        apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId;
       }
       const httpOptions = {
           headers: new HttpHeaders({ 
