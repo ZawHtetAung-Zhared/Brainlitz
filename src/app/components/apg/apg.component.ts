@@ -182,9 +182,9 @@ export class ApgComponent implements OnInit {
 
     moduleAP(id){
       this.moduleId = id;
-      this.getAPofModule(id);
       this.checkedAPid = [];
       this.apArray = [];
+      this.getAPofModule(id);
     }
 
   	checkedAP( id, e){
