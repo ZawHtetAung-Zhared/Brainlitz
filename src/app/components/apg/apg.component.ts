@@ -183,6 +183,7 @@ export class ApgComponent implements OnInit {
   	}
 
     moduleAP(id){
+      this.newAPList = [];
       this.moduleId = id;
       this.checkedAPid = [];
       this.apArray = [];
@@ -274,6 +275,8 @@ export class ApgComponent implements OnInit {
                     if(this.responseAP.moduleId != this.apgField.moduleId){
                       this.apArray = [];
                     }
+                  }else{
+                    this.apArray = [];
                   }
                 }
               }
