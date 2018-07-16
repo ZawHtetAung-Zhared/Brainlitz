@@ -109,6 +109,7 @@ export class TemplateComponent implements OnInit {
   }
 
   chooseAPType(type, id){
+    this.Template = new Template();
     console.log(this.checkedAP)    
     console.log(this.currentId)    
     console.log(id)    
