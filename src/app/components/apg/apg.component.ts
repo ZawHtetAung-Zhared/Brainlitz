@@ -279,6 +279,9 @@ export class ApgComponent implements OnInit {
                     this.apArray = [];
                   }
                 }
+                else {
+                  this.apArray = this.getAccessPoint;
+                }
               }
               else {
                 for(var j in this.getAccessPoint){
@@ -287,6 +290,7 @@ export class ApgComponent implements OnInit {
                   }               
                 }
               }
+              
               console.log(this.apArray)
               this.checkedAPid = this.getAccessPoint;
             }
