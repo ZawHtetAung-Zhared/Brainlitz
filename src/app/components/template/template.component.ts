@@ -226,7 +226,7 @@ export class TemplateComponent implements OnInit {
     console.log(this.newcheckedAP)  
     // this.checkedAP = this.newcheckedAP;  
     
-    console.log(obj)
+    // console.log(obj)
     if(update == true){
       let obj={
         "name": data.name,
