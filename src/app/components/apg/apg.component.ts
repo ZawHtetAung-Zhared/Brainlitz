@@ -115,14 +115,13 @@ export class ApgComponent implements OnInit {
 	  		this.existAP = false;
 	  		this.newAPshow = false;
         this.checkedAPid = [];
+        this.apField = new apField();
         if(this.createButton == true && !this.apgField.moduleId){
           this.moduleId = '';
         }else {
           this.getAPofModule(this.moduleId);
         }
-        if(this.createButton == true){
-          this.apArray = [];
-        }
+
 	  	}
 	  	else if(type == 'existap'){
 	  		this.newAP = false;
