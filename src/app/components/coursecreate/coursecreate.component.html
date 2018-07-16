@@ -62,6 +62,9 @@
 								Course Name is required.
 							</div>
 						</div>
+						<!-- <div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
+							Course Name is required.
+						</div> -->
 					</div>
 				</div>
 				<div class="form-group form-head">
@@ -75,8 +78,14 @@
 					<label class="label-input">Start Time</label>
 					<div>
 						<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
-						<div [hidden]="starttime.valid || starttime.pristine" class="alert alert-danger">
+						<!-- <div [hidden]="starttime.valid || starttime.pristine" class="alert alert-danger">
 						  Start Time is required;
+						</div> -->
+						<div *ngIf="starttime.invalid && (starttime.dirty || starttime.touched)"
+						class="alert alert-danger">
+							<div *ngIf="starttime.errors.required">
+								Start Time is required.
+							</div>
 						</div>
 					</div>
 				</div>
@@ -100,13 +109,13 @@
 					<label class="label-input">Repeat Days</label>
 					<div>
 						<div>
-						<label class="day" *ngFor="let d of days;let i=index;" >
-			                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit"> {{d.day}}
-			            </label>
-					</div>
-					<div *ngIf="toggleBool && clickInit" class="alert alert-danger">
-					  At least one day should be selected
-					</div>
+							<label class="day" *ngFor="let d of days;let i=index;" >
+				                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit"> {{d.day}}
+				            </label>
+						</div>
+						<div *ngIf="toggleBool && clickInit" class="alert alert-danger">
+						  At least one day should be selected
+						</div>
 					</div>
 				</div>
 				<div class="form-group form-head">
@@ -156,8 +165,11 @@
 					<label class="label-input">Course Code</label>
 					<div *ngIf="!isEdit" class="new-input">
 						<input type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" required name="courseCode" #code="ngModel">
-						<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
-						  Course Code is required
+						<div *ngIf="code.invalid && (code.dirty || code.touched)"
+						class="alert alert-danger">
+							<div *ngIf="code.errors.required">
+								Course Code is required.
+							</div>
 						</div>
 					</div>
 					<div *ngIf="isEdit">
@@ -169,8 +181,11 @@
 					<div *ngIf="!isEdit" class="new-input">
 						<input type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
 						<!-- <input *ngIf="isEdit" readonly type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room"> -->
-						<div [hidden]="room.valid || room.pristine" class="alert alert-danger">
-							Room is required.
+						<div *ngIf="room.invalid && (room.dirty || room.touched)"
+						class="alert alert-danger">
+							<div *ngIf="room.errors.required">
+								Room is required.
+							</div>
 						</div>
 					</div>
 				</div>
@@ -194,8 +209,11 @@
 					<label class="label-input">Description</label>
 					<div class="new-input">
 						<textarea row="7" col="50" class="form-control" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel"></textarea>
-						<div [hidden]="description.valid || description.pristine" class="alert alert-danger">
-							Description is required.
+						<div *ngIf="description.invalid && (description.dirty || description.touched)"
+						class="alert alert-danger">
+							<div *ngIf="description.errors.required">
+								Description is required.
+							</div>
 						</div>
 					</div>
 				</div>
