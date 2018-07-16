@@ -56,8 +56,11 @@
 					<label class="label-input">Course Name</label>
 					<div class="new-input">
 						<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.name" name="courseName" #courseName="ngModel">
-						<div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
-						  Course Name is required
+						<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)"
+						class="alert alert-danger">
+							<div *ngIf="courseName.errors.required">
+								Course Name is required.
+							</div>
 						</div>
 					</div>
 				</div>

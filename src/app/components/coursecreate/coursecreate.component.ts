@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef } from '@angular/core';
+import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
