@@ -151,12 +151,14 @@
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Course Code</label>
-					<div class="new-input">
-						<input *ngIf="!isEdit" type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
-						<input *ngIf="isEdit" readonly type="text" class="form-control" id="courseCode" required [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
-						<!-- <div [hidden]="code.valid || code.pristine" class="alert alert-danger">
+					<div *ngIf="!isEdit" class="new-input">
+						<input type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" required name="courseCode" #code="ngModel">
+						<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
 						  Course Code is required
-						</div> -->
+						</div>
+					</div>
+					<div *ngIf="isEdit">
+						<input readonly type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
 					</div>
 				</div>
 				<div class="form-group form-head">
@@ -188,7 +190,10 @@
 				<div class="form-group form-head">
 					<label class="label-input">Description</label>
 					<div class="new-input">
-						<textarea row="7" col="50" class="form-control" id="description" [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
+						<textarea row="7" col="50" class="form-control" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel"></textarea>
+						<div [hidden]="description.valid || description.pristine" class="alert alert-danger">
+							Description is required.
+						</div>
 					</div>
 				</div>
 				<div class="form-group" style="float: right;">

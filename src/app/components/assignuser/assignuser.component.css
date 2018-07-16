@@ -66,3 +66,7 @@
     overflow: scroll;
     border-left: 1px solid #dedede; 
 }
+
+.emptyMsg{
+	padding: 10px 0px 0px 40px;
+}

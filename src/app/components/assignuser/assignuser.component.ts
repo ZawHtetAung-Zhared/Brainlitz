@@ -29,6 +29,8 @@ export class AssignuserComponent implements OnInit {
   public getAllUsers:any;
   public userType:any = 'teacher';
   public listType:any;
+  public emptyAssignStaff:boolean = false;
+  public emptyAssignCustomer:boolean = false;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
@@ -155,6 +157,16 @@ export class AssignuserComponent implements OnInit {
        this.assignCustomer = res.CUSTOMER;
        this.assignStaff = res.STAFF;
        this.assignTeacher = res.TEACHER;
+       if(this.assignStaff.length>0){
+         this.emptyAssignStaff = false;
+       }else{
+         this.emptyAssignStaff= true;
+       }
+       if(this.assignCustomer.length>0){
+         this.emptyAssignCustomer = false;
+       }else{
+         this.emptyAssignCustomer = true;
+       }
      })
   }
 
