@@ -14,7 +14,7 @@
 	  	  			>
 			    	<label for="custom">Create as AP</label>
 		    	</div>
-		    	<div *ngIf="customAP" class="form-group" style="margin-left: 20px;">
+		    	<div *ngIf="customAP" class="form-group" [ngClass]="{'mr-lft-20': createButton == true}">
 		    		<div class="form-group">
 			  	    	<label for="fname">Name</label> 	
 			  	    	<input type="text" class="form-control" placeholder="Enter name" name="name" [(ngModel)]="apgField.name" #apgName="ngModel" required>
@@ -112,6 +112,7 @@
 	</div>
 </div>	
 <div *ngIf="viewType == 'ap'" class="col-md-12 scroll">
+	<h2 *ngIf="emptyAP" style="text-align: center;">AP has not been created yet.</h2>
 	<div class="overflow">
 		<ul class="list-group-flush" style="padding-left: 0;">  
 		  <li class="list-group-item" *ngFor="let ap of apList; let i = index" [attr.data-index]="i">
@@ -131,7 +132,7 @@
 	  	<div class="modal-body" style="min-height: 100px;">
 		    <div class="form-group">
 		    	<label for="fname">Name</label> 	
-		    	<input type="text" class="form-control" placeholder="Enter name" name="name" [(ngModel)]="template.name" #templateName="ngModel" required>
+		    	<input type="text" class="form-control" placeholder="Enter name" name="name" [(ngModel)]="convertField.name" #templateName="ngModel" required>
 		    	<div *ngIf="templateName.errors && (templateName.dirty || templateName.touched)" class="alert alert-danger">
 		        	<div [hidden]="!templateName.errors.required">Name is required!</div>
 		    	</div>
