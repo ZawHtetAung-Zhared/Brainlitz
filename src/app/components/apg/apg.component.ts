@@ -112,10 +112,11 @@ export class ApgComponent implements OnInit {
 	  		this.newAP = true;
 	  		this.existAP = false;
 	  		this.newAPshow = false;
-        this.getAPofModule(this.moduleId);
         this.checkedAPid = [];
         if(this.createButton == true && !this.apgField.moduleId){
           this.moduleId = '';
+        }else {
+          this.getAPofModule(this.moduleId);
         }
         if(this.createButton == true){
           this.apArray = [];
@@ -170,7 +171,7 @@ export class ApgComponent implements OnInit {
 		      	;
 		    }, err => {
             if(this.moduleId == ''){
-              this.toastr.warning('Firstly, must choose module.');
+              this.toastr.warning('Firstly, you must choose a module.');
             }else{
               this.toastr.error('Created AP Fail');
             }
