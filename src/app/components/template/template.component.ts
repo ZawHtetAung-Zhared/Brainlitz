@@ -55,6 +55,7 @@ export class TemplateComponent implements OnInit {
   getAllAp(id){
     console.log(this.lol)
     console.log(this.item.accessPoints)
+    this.newAPs = [];
     this._service.getAllAPmodule(this.regionID, id)
     .subscribe((res:any) => {
       this.blockUI.stop();
@@ -109,6 +110,7 @@ export class TemplateComponent implements OnInit {
   }
 
   chooseAPType(type, id){
+    this.Template = new Template();
     console.log(this.checkedAP)    
     console.log(this.currentId)    
     console.log(id)    

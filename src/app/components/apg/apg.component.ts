@@ -89,6 +89,7 @@ export class ApgComponent implements OnInit {
 	  	}, (reason) => {
 	  		this.apgField = new apgField();
 	  		this.apField = new apField();
+
 	  	  this.closeResult = `Closed with: ${reason}`;
 	  	});
   	}
@@ -129,6 +130,7 @@ export class ApgComponent implements OnInit {
 	  		this.newAPshow = false;
         this.checkedAPid = [];
         this.apField = new apField();
+        this.newAPList = [];
         this.apArray = [];
         if(this.createButton == true && !this.apgField.moduleId){
           this.moduleAPList = [];
@@ -181,10 +183,11 @@ export class ApgComponent implements OnInit {
   	}
 
     moduleAP(id){
+      this.newAPList = [];
       this.moduleId = id;
-      this.getAPofModule(id);
       this.checkedAPid = [];
       this.apArray = [];
+      this.getAPofModule(id);
     }
 
   	checkedAP( id, e){
@@ -276,6 +279,9 @@ export class ApgComponent implements OnInit {
                     this.apArray = [];
                   }
                 }
+                else {
+                  this.apArray = this.getAccessPoint;
+                }
               }
               else {
                 for(var j in this.getAccessPoint){
@@ -284,6 +290,7 @@ export class ApgComponent implements OnInit {
                   }               
                 }
               }
+              
               console.log(this.apArray)
               this.checkedAPid = this.getAccessPoint;
             }
@@ -389,6 +396,7 @@ export class ApgComponent implements OnInit {
       this.newAP = false;
       this.createButton = false;
       this.updateButton = true;
+      this.newAPList = [];
 	  	this.checkedModuleID = [];
 	  	this.checkedAPid = [];
       this.apArray = [];

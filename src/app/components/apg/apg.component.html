@@ -46,25 +46,16 @@
 					    	</div>
 				    	</div>
 				    	<div *ngIf="newAP" style="margin-left: 20px;">
-				    		<p *ngIf="!apgField.moduleId" style="text-align: center; color: red;">If you want to create new AP, you must choose a module.</p>
+				    		<p *ngIf="!apgField.moduleId" style=" color: red;">If you want to create new AP, you must choose a module.</p>
 				    		<form #apForm="ngForm" novalidate>
 				    			<div class="form-group">
+				    				<label class="required">Name</label>
 					    			<input type="text" class="form-control" placeholder="Name" [(ngModel)]="apField.name" name="name"  #apName="ngModel" required>
-					    			<div *ngIf="!newAPshow" >
-					    				<div *ngIf="apName.errors && (apName.dirty || apName.touched)" class="alert alert-danger">
-								        	<div [hidden]="!apName.errors.required">Name is required!</div>
-								       
-								    	</div>
-								    </div>	
 					    		</div>	
 					    		<div class="form-group">
+					    			<label class="required">Description</label>
 					    			<textarea class="form-control" rows="2" placeholder="Description" [(ngModel)]="apField.desc" name="desc"  #apDesc="ngModel" required>		
 					    			</textarea>
-					    			<div *ngIf="!newAPshow" >
-					    				<div *ngIf="apDesc.errors && (apDesc.dirty || apDesc.touched)" class="alert alert-danger">
-								        	<div [hidden]="!apDesc.errors.required">Description is required!</div>
-								        </div>
-								    </div>
 					    		</div>
 				    		</form>
 				    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!apForm.valid" style="margin-bottom: 20px;" (click)="createAP(apForm.value)">Create AP</button>	
@@ -74,7 +65,7 @@
 		  	  			<input type="radio" id="existAP" name="ap" [checked]="customCheck" (click)="radioEvent($event, 'existap')">
 				    	<label for="existAP">Existing AP</label>
 				    	<div *ngIf="existAP" class="height-scroll">
-				    		<p *ngIf="!apgField.moduleId" style="text-align: center; color: red;">You have to choose a module first to get access point lists.</p>
+				    		<p *ngIf="!apgField.moduleId" style="color: red;">You have to choose a module first to get access point lists.</p>
 			  	  			<div *ngFor="let ap of moduleAPList; let i=index;" style="float: left;margin-right: 15px;">
 					    		<input type="checkbox" id="{{ap._id}}" value="{{ap._id}}" (click)="checkedAP(ap._id, $event)" name="ap" [checked]="checkedAPid.indexOf(ap._id) != -1">
 					    		<label for="{{ap._id}}"> {{ap.name}}</label>
