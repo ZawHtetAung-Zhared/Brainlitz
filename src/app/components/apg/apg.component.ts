@@ -114,6 +114,9 @@ export class ApgComponent implements OnInit {
         if(this.createButton == true && !this.apgField.moduleId){
           this.moduleId = '';
         }
+        if(this.createButton == true){
+          this.apArray = [];
+        }
 	  	}
 	  	else if(type == 'existap'){
 	  		this.newAP = false;
@@ -260,7 +263,6 @@ export class ApgComponent implements OnInit {
             else {
               if(this.tempModuleId){
                 if(this.tempModuleId != this.apgField.moduleId){
-                  console.log('notequal')
                   if(this.responseAP){
                     if(this.responseAP.moduleId != this.apgField.moduleId){
                       this.apArray = [];
