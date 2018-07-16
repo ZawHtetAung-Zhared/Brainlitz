@@ -65,7 +65,7 @@
                 required> {{newAP.name}}
             </label>
           </div>
-          <form novalidate #apForm="ngForm" style="padding: 20px;">
+          <form novalidate #apForm="ngForm" style="padding: 20px;" (ngSubmit)="createAP(apmodel, item.moduleId)">
             <div class="form-group">
               <label for="name">Name</label>   
               <input type="text" class="form-control" placeholder="Enter AP name" name="name" [(ngModel)]="apmodel.name" required #name="ngModel">
@@ -85,7 +85,7 @@
               </div>
             </div>
             <p class="danger" *ngIf="!item.moduleId">Inorder to create new AP, you must choose a module.</p>
-            <button type="submit" class="btn btn-primary" (click)="createAP(apmodel, item.moduleId)" [disabled]="!apForm.valid || !item.moduleId">Create AP</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!apForm.valid || !item.moduleId">Create AP</button>
           </form>
         </div>
         <div class="form-check">
