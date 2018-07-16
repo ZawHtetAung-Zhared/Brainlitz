@@ -94,6 +94,7 @@
               type="radio" 
               name="isAP" 
               value="existing" 
+              [checked]= "isUpdate"
               (click)="chooseAPType('existing', item.moduleId)"> Choose existing AP
           </label>
         </div>
