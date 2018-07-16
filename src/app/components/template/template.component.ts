@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -72,7 +72,7 @@ export class TemplateComponent implements OnInit {
         console.log('not same module', this.checkedAP)
       }else{
         console.log('not same module')
-        this.checkedAP = this.item.accessPoints;
+        this.checkedAP = [];
       }
     }, err => {
        console.log(err)
@@ -193,10 +193,7 @@ export class TemplateComponent implements OnInit {
     .subscribe((res:any) => {
        console.log(res)  
        this.toastr.success('Successfully Created.');
-       this.apmodel = {
-         name: '',
-         description:''
-       }  
+       this.apmodel = {}  
        this.newAPs.push(res); 
        // for(let i = 0; i< this.newAPs.length; i++){
        //   this.checkedAP = this.newAPs[i]._id;
