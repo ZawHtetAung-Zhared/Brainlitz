@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, FormGroup, FormControl } from '@angular/forms';
+import { NgModel, FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { Template } from './template';
 
 @Component({
   selector: 'app-template',
@@ -11,16 +12,18 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
   styleUrls: ['./template.component.css']
 })
 export class TemplateComponent implements OnInit {
-
+  @ViewChild('apForm') yourForm: NgModel;
   public regionID = localStorage.getItem('regionId');
-  public ishasLength: boolean = false;
   public isUpdate: boolean = false;
   public isempty: boolean = false;
 	public ispublic: boolean = false;
 	private modalReference: NgbModalRef;
 	closeResult: string;
   public item:any = {};
-  public apmodel:any = {};
+  public apmodel = {
+    name: '',
+    description: ''
+  };
   public moduleLists:any;
   public apLists:any;
 	public tempLists:any;
@@ -185,6 +188,7 @@ export class TemplateComponent implements OnInit {
   }
 
   createAP(obj, moduleID){
+    
     console.log(this.checkedAP)
     console.log(moduleID)
     obj["moduleId"] = moduleID;
@@ -193,18 +197,9 @@ export class TemplateComponent implements OnInit {
     .subscribe((res:any) => {
        console.log(res)  
        this.toastr.success('Successfully Created.');
-       this.apmodel = {}  
+       // this.apmodel = new apmodel();
        this.newAPs.push(res); 
-       // for(let i = 0; i< this.newAPs.length; i++){
-       //   this.checkedAP = this.newAPs[i]._id;
-       // }
        this.newcheckedAP.push(res._id)
-       this.ishasLength = true;
-       var iii = this.newcheckedAP;
-       console.log(iii)
-       console.log(typeof this.newcheckedAP.length)
-       // this.checkedAP= iii
-       console.log(this.checkedAP)
     }, err => {
         console.log(err)
     })
@@ -220,10 +215,9 @@ export class TemplateComponent implements OnInit {
     console.log(data)    
     console.log('___',localStorage.getItem('checkedAP'))    
     console.log(this.newcheckedAP)  
-    // this.checkedAP = this.newcheckedAP;  
-    
-    // console.log(obj)
+    console.log(this.checkedAP)  
     if(update == true){
+      // this.checkedAP = this.newcheckedAP;
       let obj={
         "name": data.name,
         "description": data.description,
@@ -248,13 +242,14 @@ export class TemplateComponent implements OnInit {
       
       this.callUpdate(obj, 'updated')
     }else{
-      this.checkedAP = this.newcheckedAP;  
+        
       let obj={
         "name": data.name,
         "description": data.description,
         "moduleId": data.moduleId,
         "accessPoints": this.checkedAP
       }
+      console.log(obj)
       this.modalReference.close();
       this.blockUI.start('Loading...');
       this._service.createTemplate(this.regionID, obj)
