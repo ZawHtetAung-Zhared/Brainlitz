@@ -122,7 +122,9 @@ export class ApgComponent implements OnInit {
         }else {
           this.getAPofModule(this.moduleId);
         }
-
+        if(this.createButton == true){
+          this.apArray = [];
+        }
 	  	}
 	  	else if(type == 'existap'){
 	  		this.newAP = false;
@@ -185,9 +187,9 @@ export class ApgComponent implements OnInit {
     moduleAP(id){
       this.newAPList = [];
       this.moduleId = id;
+      this.getAPofModule(id);
       this.checkedAPid = [];
       this.apArray = [];
-      this.getAPofModule(id);
     }
 
   	checkedAP( id, e){
