@@ -118,7 +118,7 @@
   	</div>
   	<div class="modal-footer">
   	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createTemplate(item, false)" [disabled]="!templateForm.valid || checkedAP.length == 0 ">Create</button>
+  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createTemplate(item, false)" [disabled]="checkedAP.length == 0 && newcheckedAP.length == 0">Create</button>
   	  <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createTemplate(item, true, currentId)" [disabled]="!templateForm.valid || newcheckedAP.length == 0">Update</button>
   	</div>
   </form>
