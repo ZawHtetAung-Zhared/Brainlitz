@@ -130,6 +130,7 @@ export class ApgComponent implements OnInit {
 	  		this.newAPshow = false;
         this.checkedAPid = [];
         this.apField = new apField();
+        this.newAPList = [];
         this.apArray = [];
         if(this.createButton == true && !this.apgField.moduleId){
           this.moduleAPList = [];
@@ -273,8 +274,6 @@ export class ApgComponent implements OnInit {
                     if(this.responseAP.moduleId != this.apgField.moduleId){
                       this.apArray = [];
                     }
-                  }else{
-                    this.apArray = [];
                   }
                 }
               }
