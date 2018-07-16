@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Template } from './template';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NgModel, FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -16,14 +17,13 @@ export class TemplateComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public isUpdate: boolean = false;
   public isempty: boolean = false;
-	public ispublic: boolean = false;
+  public ispublic: boolean = false;
+	public iscreated: boolean = false;
 	private modalReference: NgbModalRef;
 	closeResult: string;
   public item:any = {};
-  public apmodel = {
-    name: '',
-    description: ''
-  };
+  // apField: apField = new apField();
+  Template: Template = new Template();
   public moduleLists:any;
   public apLists:any;
 	public tempLists:any;
@@ -65,14 +65,30 @@ export class TemplateComponent implements OnInit {
       }
       if(this.lol == id){
         let returnAP = JSON.parse(localStorage.getItem("returnAP"))
-        for(let i = 0; i < returnAP.length; i++){
-          var hello = this.apLists.filter(function(ap){
-            return ap._id == returnAP[i]
-          })
-          this.apLists[i].checked = true;
+        // for(let i = 0; i < returnAP.length; i++){
+        //   console.log('===> ', returnAP[i])
+        //   console.log('===> ', this.apLists)
+
+        //   var selectedAP = this.apLists.filter(function(ap){
+        //     console.log(':P')
+        //     return ap._id == returnAP[i]
+        //   })
+        //   selectedAP.checked = true;
+        //   console.log(selectedAP)
+        // }
+        // this.checkedAP = returnAP;
+        // console.log('same module', this.apLists)
+
+        for(let k = 0; k < returnAP.length; k++){
+          for (var i in this.apLists) {
+            if (this.apLists[i]._id == returnAP[k]) {
+              console.log('....', this.apLists[i]);
+              this.apLists[i]["checked"] = true;
+            }
+          }
         }
-        this.checkedAP = returnAP;
-        console.log('not same module', this.checkedAP)
+        console.log('same module', this.apLists)
+        this.checkedAP = returnAP
       }else{
         console.log('not same module')
         this.checkedAP = [];
@@ -93,7 +109,7 @@ export class TemplateComponent implements OnInit {
   }
 
   chooseAPType(type, id){
-    console.log(this.checkedAP)
+    console.log(this.checkedAP)    
     this.newAPs = [];
     this.checkedAP = [];
     this.newcheckedAP = [];
@@ -131,12 +147,16 @@ export class TemplateComponent implements OnInit {
   checkedOptions(option, e){
     console.log(option)
     console.log(this.checkedAP)
+    // this.checkedAP = JSON.parse(localStorage.getItem("returnAP"))
 
     var val = option._id;
-
+    console.log(val)
+    console.log(this.checkedAP.includes(val))
     if(this.checkedAP.includes(val) == false){
+      console.log('in the if')
       this.checkedAP.push(val)
     }else{
+      console.log('in the else')
       val = [val]
       this.checkedAP =this.checkedAP.filter(f => !val.includes(f));
     }
@@ -197,7 +217,8 @@ export class TemplateComponent implements OnInit {
     .subscribe((res:any) => {
        console.log(res)  
        this.toastr.success('Successfully Created.');
-       // this.apmodel = new apmodel();
+       this.Template = new Template();
+       this.iscreated = true;
        this.newAPs.push(res); 
        this.newcheckedAP.push(res._id)
     }, err => {
