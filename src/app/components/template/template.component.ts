@@ -110,8 +110,16 @@ export class TemplateComponent implements OnInit {
 
   chooseAPType(type, id){
     console.log(this.checkedAP)    
+    console.log(this.currentId)    
+    console.log(id)    
     this.newAPs = [];
-    this.checkedAP = [];
+    if(this.currentId != ''){
+      console.log('exit')
+      // this.checkedAP = [];  
+    }else{
+      console.log('not exit')
+      this.checkedAP = []; 
+    }
     this.newcheckedAP = [];
     this.isAP = type;
     if(id != undefined){
@@ -123,7 +131,9 @@ export class TemplateComponent implements OnInit {
     console.log('open create modal')
     this.isAP = ''
     this.lol = '';
+    this.currentId = '';
     this.isUpdate = false;
+    localStorage.removeItem('checkedAP');
     console.log(this.apLists)
   	this.item = {};
     this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});
@@ -263,7 +273,9 @@ export class TemplateComponent implements OnInit {
       
       this.callUpdate(obj, 'updated')
     }else{
-        
+      if(this.newcheckedAP != 0){
+        this.checkedAP = this.newcheckedAP;
+      }
       let obj={
         "name": data.name,
         "description": data.description,
