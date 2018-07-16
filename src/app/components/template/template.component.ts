@@ -12,8 +12,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 })
 export class TemplateComponent implements OnInit {
 
-  public regionID = localStorage.getItem('regionId')
-  public isready: boolean = false;
+  public regionID = localStorage.getItem('regionId');
   public ishasLength: boolean = false;
   public isUpdate: boolean = false;
   public isempty: boolean = false;
@@ -54,18 +53,20 @@ export class TemplateComponent implements OnInit {
 
   getAllAp(id){
     console.log(this.lol)
+    this.checkedAP = [];
     this._service.getAllAPmodule(this.regionID, id)
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log('all ap => ', res)
       this.apLists = res;
-      this.isready = true;
       for(let i = 0; i < this.apLists.length; i++){
         this.apLists[i]["checked"] = (this.apLists[i].checked == undefined) ? false : true; 
       }
 
       if(this.lol == id){
-        console.log('same module')
+        console.log('same module', this.item.accessPoints)
+        console.log(this.singleAP)
+
         var xxx = this.item.accessPoints;
         for(let i = 0; i < xxx.length; i++){
           var hello = this.apLists.filter(function(ap){
@@ -93,6 +94,7 @@ export class TemplateComponent implements OnInit {
   }
 
   chooseAPType(type, id){
+    console.log(this.checkedAP)
     this.newAPs = [];
     this.checkedAP = [];
     this.newcheckedAP = [];
@@ -221,15 +223,17 @@ export class TemplateComponent implements OnInit {
   createTemplate(data, update, id){
     console.log(data)    
     console.log('___',localStorage.getItem('checkedAP'))    
-    console.log(this.newcheckedAP)    
-    let obj={
-      "name": data.name,
-      "description": data.description,
-      "moduleId": data.moduleId,
-      "accessPoints": this.checkedAP
-    }
+    console.log(this.newcheckedAP)  
+    // this.checkedAP = this.newcheckedAP;  
+    
     console.log(obj)
     if(update == true){
+      let obj={
+        "name": data.name,
+        "description": data.description,
+        "moduleId": data.moduleId,
+        "accessPoints": this.checkedAP
+      }
       console.log('update')
       this.modalReference.close();
       
@@ -246,8 +250,15 @@ export class TemplateComponent implements OnInit {
       obj["_id"] = id;
       console.log(obj)
       
-      // this.callUpdate(obj, 'updated')
+      this.callUpdate(obj, 'updated')
     }else{
+      this.checkedAP = this.newcheckedAP;  
+      let obj={
+        "name": data.name,
+        "description": data.description,
+        "moduleId": data.moduleId,
+        "accessPoints": this.checkedAP
+      }
       this.modalReference.close();
       this.blockUI.start('Loading...');
       this._service.createTemplate(this.regionID, obj)
@@ -384,7 +395,7 @@ export class TemplateComponent implements OnInit {
     localStorage.setItem('checkedAP',JSON.stringify(this.checkedAP))
     this.newcheckedAP = []
     this.lol = module;
-    this.getAllAp(module);
+    
     this.isUpdate = true;
     this.isAP = 'existing';
     this.currentId = id;
@@ -398,18 +409,26 @@ export class TemplateComponent implements OnInit {
         console.log(this.item)
         const accessPoints = res.accessPoints;
         this.singleAP = res.accessPoints;
-        this.checkedAP = res.accessPoints;
+        this.getAllAp(module);
+        this.checkedAP = [];
+        console.log(this.checkedAP)
         console.log(accessPoints)
         console.log(this.apLists)
-        for(let i = 0; i < accessPoints.length; i++){
-          var hello = this.apLists.filter(function(ap){
-            return ap._id == accessPoints[i]
-          })
-          // this.isAvailable = true;
-          console.log(hello[0])
-          hello[0].checked = true;
-          console.log(hello)
-        }
+        setTimeout(() => {
+          this.checkedAP = res.accessPoints;
+          for(let i = 0; i < accessPoints.length; i++){
+            var hello = this.apLists.filter(function(ap){
+              return ap._id == accessPoints[i]
+            })
+            // this.isAvailable = true;
+            console.log(hello[0])
+            hello[0].checked = true;
+            console.log(hello)
+          }
+        }, 500);
+        
+
+        
 
         this.blockUI.stop();
     }, err => {
