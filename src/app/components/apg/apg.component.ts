@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
 import { apField } from './apg';
+import { convertField } from './apg';
 import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -22,6 +23,7 @@ export class ApgComponent implements OnInit {
   	public closeResult: any;
   	apgField: apgField = new apgField();
   	apField: apField = new apField();
+    convertField: convertField = new convertField();
   	customAP: boolean = false;
   	newAP: boolean = false;
   	existAP: boolean = false;
@@ -54,6 +56,7 @@ export class ApgComponent implements OnInit {
     moduleAPList: any;
     getAccessPoint: any;
     tempModuleId: any;
+    emptyAP: boolean = false;
 
   	ngOnInit() {
 	  	this.getAllAP();
@@ -293,6 +296,11 @@ export class ApgComponent implements OnInit {
 	    .subscribe((res:any) => {
 	    	console.log('APLists' ,res)
 	    	this.apList = res;
+        if(res.length == 0){
+          this.emptyAP = true;
+        } else {
+          this.emptyAP = false;
+        } 
 	      }, err => {
 	        console.log(err)
 	      })
@@ -328,10 +336,12 @@ export class ApgComponent implements OnInit {
   		this._service.getAllAPG(this.regionID)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
-	    	this.apgList = res;
+        this.apgList = res;
         if(res.length == 0){
           this.emptyAPG = true;
-        }   
+        } else {
+          this.emptyAPG = false;
+        }  
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
@@ -411,6 +421,7 @@ export class ApgComponent implements OnInit {
   	}
 
     clickConvert(id, cTemplate){
+      this.convertField = new convertField();
       this.convertId = id;
       this.modalReference = this.modalService.open(cTemplate, { backdrop:'static', windowClass: 'animation-wrap'});
     }
