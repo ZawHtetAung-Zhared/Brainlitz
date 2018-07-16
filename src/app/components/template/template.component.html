@@ -65,24 +65,28 @@
                 required> {{newAP.name}}
             </label>
           </div>
-          <form novalidate #apForm="ngForm" style="padding: 20px;" (ngSubmit)="createAP(apmodel, item.moduleId)">
+          <form novalidate #apForm="ngForm" style="padding: 20px;" (ngSubmit)="createAP(Template, item.moduleId)">
             <div class="form-group">
               <label for="name">Name</label>   
-              <input type="text" class="form-control" placeholder="Enter AP name" name="name" [(ngModel)]="apmodel.name" required #name="ngModel">
-              <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
-                <div [hidden]="!name.errors.required">
-                  Name is required!
+              <input type="text" class="form-control" placeholder="Enter AP name" name="name" [(ngModel)]="Template.name" required #name="ngModel">
+              
+                <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+                  <div [hidden]="!name.errors.required">
+                    Name is required!
+                  </div>
                 </div>
               </div>
-            </div>
+            
             <div class="form-group">
               <label for="description">Description</label>   
-              <textarea class="form-control" rows="3" placeholder="Enter AP description" name="description" [(ngModel)]="apmodel.description" #description="ngModel" required></textarea>
-              <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
-                <div [hidden]="!description.errors.required">
-                  Description is required!
+              <textarea class="form-control" rows="3" placeholder="Enter AP description" name="description" [(ngModel)]="Template.description" #description="ngModel" required></textarea>
+              
+                <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+                  <div [hidden]="!description.errors.required">
+                    Description is required!
+                  </div>
                 </div>
-              </div>
+              
             </div>
             <p class="danger" *ngIf="!item.moduleId">Inorder to create new AP, you must choose a module.</p>
             <button type="submit" class="btn btn-primary" [disabled]="!apForm.valid || !item.moduleId">Create AP</button>
