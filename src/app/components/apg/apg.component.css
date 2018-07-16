@@ -26,6 +26,12 @@
     padding: 0 20px;
 }
 
+.height-scroll-template {
+    overflow-y: scroll;
+    height: 492px;
+    padding: 0 20px;
+}
+
 .scroll {
 	height: 500px;
     overflow-y: scroll;
@@ -34,4 +40,8 @@
 
 .pd-lft-rht {
     padding: 0 20px;
+}
+
+.mr-lft-20 {
+    margin-left: 20px;
 }

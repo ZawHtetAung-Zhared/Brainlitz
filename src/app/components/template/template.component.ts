@@ -12,13 +12,15 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 })
 export class TemplateComponent implements OnInit {
 
-  public regionID = localStorage.getItem('regionId')
+  public regionID = localStorage.getItem('regionId');
+  public ishasLength: boolean = false;
   public isUpdate: boolean = false;
   public isempty: boolean = false;
 	public ispublic: boolean = false;
 	private modalReference: NgbModalRef;
 	closeResult: string;
   public item:any = {};
+  public apmodel:any = {};
   public moduleLists:any;
   public apLists:any;
 	public tempLists:any;
@@ -28,6 +30,15 @@ export class TemplateComponent implements OnInit {
   public singleTemplateName: any;
   public singleTemplateDesc: any;
   public checkedAP: any = [];
+  public newcheckedAP: any = [];
+  public isAP: any;
+  public newAPs: any = [];
+  public newApCount: any = [];
+  public tempApCount: any = [];
+  public demoApCount: any = [];
+  public singleAP: any = [];
+  public aplength: any = [];
+  public lol: any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
@@ -37,18 +48,36 @@ export class TemplateComponent implements OnInit {
   ngOnInit() {
     this.getAllTemplate();
     this.getAllModule();
-    this.getAllAp();
+    // this.getAllAp();
   }
 
-  getAllAp(){
-    this._service.getAllAP(this.regionID)
+  getAllAp(id){
+    console.log(this.lol)
+    this.checkedAP = [];
+    this._service.getAllAPmodule(this.regionID, id)
     .subscribe((res:any) => {
-      console.log(res)
+      this.blockUI.stop();
+      console.log('all ap => ', res)
       this.apLists = res;
       for(let i = 0; i < this.apLists.length; i++){
         this.apLists[i]["checked"] = (this.apLists[i].checked == undefined) ? false : true; 
       }
-       console.log(this.apLists)
+
+      if(this.lol == id){
+        console.log('same module', this.item.accessPoints)
+        console.log(this.singleAP)
+
+        var xxx = this.item.accessPoints;
+        for(let i = 0; i < xxx.length; i++){
+          var hello = this.apLists.filter(function(ap){
+            return ap._id == xxx[i]
+          })
+          hello[0].checked = true;
+          console.log(hello)
+        }
+      }else{
+        console.log('not same module')
+      }
     }, err => {
        console.log(err)
     })
@@ -64,9 +93,21 @@ export class TemplateComponent implements OnInit {
     })
   }
 
+  chooseAPType(type, id){
+    console.log(this.checkedAP)
+    this.newAPs = [];
+    this.checkedAP = [];
+    this.newcheckedAP = [];
+    this.isAP = type;
+    if(id != undefined){
+      this.getAllAp(id);
+    }
+  }
+
   open(content) {
     console.log('open create modal')
-    this.getAllAp();
+    this.isAP = ''
+    this.lol = '';
     console.log(this.apLists)
   	this.item = {};
     this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});
@@ -88,7 +129,11 @@ export class TemplateComponent implements OnInit {
   }
 
   checkedOptions(option, e){
+    console.log(option)
+    console.log(this.checkedAP)
+
     var val = option._id;
+
     if(this.checkedAP.includes(val) == false){
       this.checkedAP.push(val)
     }else{
@@ -96,7 +141,77 @@ export class TemplateComponent implements OnInit {
       this.checkedAP =this.checkedAP.filter(f => !val.includes(f));
     }
     console.log(this.checkedAP)
-    console.log(this.checkedAP.length)
+
+    localStorage.setItem('checkedAP',JSON.stringify(this.checkedAP))
+    console.log(typeof this.checkedAP.length)
+  }
+
+  checkedaps(option, e){
+    console.log(option)
+    option.checked = false;
+    var val = option._id; 
+
+    if(this.newAPs.length == this.newApCount.length){
+      console.log('same')
+    }else{
+      console.log('not same')
+      this.newApCount = [];
+      for(let i=0; i<this.newAPs.length; i++){
+        this.newApCount.push(this.newAPs[i]._id)
+      }
+    }
+    
+    
+    console.log(this.newApCount)    
+    this.tempApCount = this.newApCount;    
+    console.log('tempApCount => ', this.tempApCount)
+    console.log('demoApCount => ', this.demoApCount)
+    // console.log(this.tempApCount.includes(val))
+
+
+    this.tempApCount = this.tempApCount.filter(f => !this.demoApCount.includes(f));
+    
+    console.log('tempApCount => ', this.tempApCount)
+    if(this.tempApCount.includes(val) == false){
+      this.newcheckedAP.push(val);
+      this.demoApCount = this.demoApCount.filter(f => !val.includes(f));
+      console.log('in the if')
+    }else{
+      console.log('in the else')
+      this.demoApCount.push(val);
+      val = [val]
+      this.newcheckedAP = this.tempApCount.filter(f => !val.includes(f));
+      // this.demoApCount =this.demoApCount.filter(f => !val.includes(f));
+    }
+    console.log(this.newcheckedAP);
+
+    this.aplength = 1;
+  }
+
+  createAP(obj, moduleID){
+    console.log(this.checkedAP)
+    console.log(moduleID)
+    obj["moduleId"] = moduleID;
+    console.log(obj)
+    this._service.createAP(this.regionID, obj)
+    .subscribe((res:any) => {
+       console.log(res)  
+       this.toastr.success('Successfully Created.');
+       this.apmodel = {}  
+       this.newAPs.push(res); 
+       // for(let i = 0; i< this.newAPs.length; i++){
+       //   this.checkedAP = this.newAPs[i]._id;
+       // }
+       this.newcheckedAP.push(res._id)
+       this.ishasLength = true;
+       var iii = this.newcheckedAP;
+       console.log(iii)
+       console.log(typeof this.newcheckedAP.length)
+       // this.checkedAP= iii
+       console.log(this.checkedAP)
+    }, err => {
+        console.log(err)
+    })
   }
 
   // selectedOptions() { // right now: ['1','3']
@@ -107,19 +222,43 @@ export class TemplateComponent implements OnInit {
 
   createTemplate(data, update, id){
     console.log(data)    
-    let obj={
-      "name": data.name,
-      "description": data.description,
-      "moduleId": data.moduleId,
-      "accessPoints": this.checkedAP
-    }
-    console.log(obj)
+    console.log('___',localStorage.getItem('checkedAP'))    
+    console.log(this.newcheckedAP)  
+    // this.checkedAP = this.newcheckedAP;  
+    
+    // console.log(obj)
     if(update == true){
+      let obj={
+        "name": data.name,
+        "description": data.description,
+        "moduleId": data.moduleId,
+        "accessPoints": this.checkedAP
+      }
+      console.log('update')
       this.modalReference.close();
+      
+      var bb = JSON.parse(localStorage.getItem("checkedAP"))
+      console.log(bb.length)
+      if(bb.length == 0){
+        bb = this.singleAP
+      }
+      // this.singleAP = this.singleAP.filter(f => !bb.includes(f));
+
+      if(this.newcheckedAP.length != 0){
+        obj.accessPoints = this.newcheckedAP.concat(bb)
+      }
       obj["_id"] = id;
       console.log(obj)
+      
       this.callUpdate(obj, 'updated')
     }else{
+      this.checkedAP = this.newcheckedAP;  
+      let obj={
+        "name": data.name,
+        "description": data.description,
+        "moduleId": data.moduleId,
+        "accessPoints": this.checkedAP
+      }
       this.modalReference.close();
       this.blockUI.start('Loading...');
       this._service.createTemplate(this.regionID, obj)
@@ -174,17 +313,12 @@ export class TemplateComponent implements OnInit {
     })
   }
 
-  getsingleTemplate(id){
-    this.blockUI.start('Loading...');
-    // this.getAllAp();
-    for(let i = 0; i < this.apLists.length; i++){
-      this.apLists[i].checked = false ; 
-    }
-    console.log(this.apLists)
+  getsingleTemplate(id){  
     this._service.getSingleTemplate(this.regionID, id)
     .subscribe((res:any) => {
         this.item = res;
-        console.log(this.singleTemplate)
+        console.log(this.item)
+        // this.singleEditTemp = res;
         const accessPoints = res.accessPoints;
         this.checkedAP = res.accessPoints;
         console.log(accessPoints)
@@ -194,6 +328,7 @@ export class TemplateComponent implements OnInit {
             return ap._id == accessPoints[i]
           })
           // this.isAvailable = true;
+          console.log(hello[0])
           hello[0].checked = true;
           console.log(hello)
         }
@@ -254,12 +389,53 @@ export class TemplateComponent implements OnInit {
     })
   }
 
-  editTemplate(id, content){
-    console.log('edit template')
+  editTemplate(id, module, content){
+    console.log('edit template', module)
+    this.checkedAP = [];
+    localStorage.setItem('checkedAP',JSON.stringify(this.checkedAP))
+    this.newcheckedAP = []
+    this.lol = module;
+    
     this.isUpdate = true;
+    this.isAP = 'existing';
     this.currentId = id;
     // console.log(this.apLists)
-    this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});
-    this.getsingleTemplate(id); 
+    
+    this.modalReference = this.modalService.open(content, {backdrop:'static', windowClass:'animation-wrap'});    
+    
+    this._service.getSingleTemplate(this.regionID, id)
+    .subscribe((res:any) => {
+        this.item = res;
+        console.log(this.item)
+        const accessPoints = res.accessPoints;
+        this.singleAP = res.accessPoints;
+        this.getAllAp(module);
+        this.checkedAP = [];
+        console.log(this.checkedAP)
+        console.log(accessPoints)
+        console.log(this.apLists)
+        setTimeout(() => {
+          this.checkedAP = res.accessPoints;
+          for(let i = 0; i < accessPoints.length; i++){
+            var hello = this.apLists.filter(function(ap){
+              return ap._id == accessPoints[i]
+            })
+            // this.isAvailable = true;
+            console.log(hello[0])
+            hello[0].checked = true;
+            console.log(hello)
+          }
+        }, 500);
+        
+
+        
+
+        this.blockUI.stop();
+    }, err => {
+        console.log(err)
+    })
+
+    
+    
   }
 }

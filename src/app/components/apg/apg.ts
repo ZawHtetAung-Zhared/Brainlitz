@@ -9,3 +9,7 @@ export class apField {
 	name: string;
 	desc: string;
 }
+
+export class convertField {
+	name: string;
+}
