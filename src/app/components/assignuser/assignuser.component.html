@@ -41,6 +41,7 @@
         </ul>  
     </div>
     <div *ngIf="userType == 'staff'" class="col-md-10 min-scroll">
+        <h2 class="emptyMsg" *ngIf="emptyAssignStaff">Staff has not been assigned for this course!</h2>
         <ul class="list-group-flush">
           <li class="list-group-item" *ngFor="let user of assignStaff">
             <span style="margin-right: 20px;">{{user.preferredName}}</span>
@@ -49,6 +50,7 @@
         </ul>    
     </div> 
     <div *ngIf="userType == 'customer'" class="col-md-10 min-scroll">
+        <h2 class="emptyMsg" *ngIf="emptyAssignCustomer">Customer has not been assigned for this course!</h2>
         <ul class="list-group-flush">
           <li class="list-group-item" *ngFor="let user of assignCustomer">
             <span style="margin-right: 20px;">{{user.preferredName}}</span>

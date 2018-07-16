@@ -6,6 +6,7 @@ import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-coursecreate',
@@ -275,15 +276,10 @@ export class CoursecreateComponent implements OnInit {
     console.log("createCourse work",this.model);
     console.log(this.model.optionsSelected)
     console.log(this.model.opt)
-    // if(this.model.prop == 'A'){
-    //   this.model.end = null;
-    // }else if(this.model.prop == 'B'){
-    //   this.model.lessonCount == null;
-    // }
     this.courseObj = {
       "coursePlanId": this.model.coursePlanId,
       "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,"00:00"),
+      "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
       "teacherId": this.model.teacherId,
       "courseCode": this.model.courseCode,
       "locationId": this.model.locationId,
@@ -302,7 +298,6 @@ export class CoursecreateComponent implements OnInit {
       setTimeout(() => {
         this.toastr.success('Successfully Created.');
       }, 300); 
-      // this.toastr.success('Successfully Created.');
       localStorage.removeItem('coursePlanId');
       localStorage.removeItem('splan');
       this.router.navigate(['course/']); 
@@ -326,6 +321,7 @@ export class CoursecreateComponent implements OnInit {
         console.log('null',date)
         return ""
       }else{
+        console.log("Time",time)
         let sdate = date.year+ '-' +date.month+ '-' +date.day;
         let dateParts = sdate.split('-');
         console.log("dateParts",dateParts)
@@ -352,9 +348,6 @@ export class CoursecreateComponent implements OnInit {
     this.router.navigate(['course/']); 
     this.isEdit = true;
   }
-  // onClickedOutside(e: Event) {
-  //   console.log('Clicked outside:', e);
-  // }
    
   showCoursePlanName(planid){
     console.log("course planid ",planid);
@@ -373,8 +366,7 @@ export class CoursecreateComponent implements OnInit {
       console.log('Edit Course',this.model); 
       let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
       this.model.coursePlanName = coursePlan.name;
-      console.log("coursePlanName",this.coursePlanName)
-      // this.model.teacherid = this.model.teacher.userId;
+      console.log("coursePlanName",this.coursePlanName);
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
       console.log(this.model.start);
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
