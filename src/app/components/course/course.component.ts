@@ -31,6 +31,7 @@ export class CourseComponent implements OnInit {
   allPdf;
   allLocation;
   locationName;
+  emptyCourse:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
@@ -66,6 +67,11 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.courseList = res;
+      if(this.courseList.length > 0 ){
+        this.emptyCourse = false;
+      }else{
+        this.emptyCourse = true;
+      }
        setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
       }, 500);

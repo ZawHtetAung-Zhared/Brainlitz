@@ -9,6 +9,7 @@
   <pre>Selected time: {{time | json}}</pre> -->
   <block-ui message="Deafult Message"></block-ui>
   <div class="scrollable">
+    <h2 *ngIf="emptyCourse">There is no course</h2>
     <ul class="list-group-flush">
       <li class="list-group-item" *ngFor="let course of courseList; let i=index">
         <span style="margin-right: 20px;">{{i+1}}- {{course.name}}</span>
