@@ -14,6 +14,7 @@ export class TemplateComponent implements OnInit {
 
   public regionID = localStorage.getItem('regionId')
   public isready: boolean = false;
+  public ishasLength: boolean = false;
   public isUpdate: boolean = false;
   public isempty: boolean = false;
 	public ispublic: boolean = false;
@@ -94,6 +95,7 @@ export class TemplateComponent implements OnInit {
   chooseAPType(type, id){
     this.newAPs = [];
     this.checkedAP = [];
+    this.newcheckedAP = [];
     this.isAP = type;
     if(id != undefined){
       this.getAllAp(id);
@@ -139,7 +141,7 @@ export class TemplateComponent implements OnInit {
     console.log(this.checkedAP)
 
     localStorage.setItem('checkedAP',JSON.stringify(this.checkedAP))
-    console.log(this.checkedAP.length)
+    console.log(typeof this.checkedAP.length)
   }
 
   checkedaps(option, e){
@@ -199,8 +201,10 @@ export class TemplateComponent implements OnInit {
        //   this.checkedAP = this.newAPs[i]._id;
        // }
        this.newcheckedAP.push(res._id)
+       this.ishasLength = true;
        var iii = this.newcheckedAP;
        console.log(iii)
+       console.log(typeof this.newcheckedAP.length)
        // this.checkedAP= iii
        console.log(this.checkedAP)
     }, err => {
