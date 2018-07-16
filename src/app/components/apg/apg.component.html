@@ -50,13 +50,24 @@
 				    		<form #apForm="ngForm" novalidate>
 				    			<div class="form-group">
 					    			<input type="text" class="form-control" placeholder="Name" [(ngModel)]="apField.name" name="name"  #apName="ngModel" required>
+					    			<div *ngIf="!newAPshow" >
+					    				<div *ngIf="apName.errors && (apName.dirty || apName.touched)" class="alert alert-danger">
+								        	<div [hidden]="!apName.errors.required">Name is required!</div>
+								       
+								    	</div>
+								    </div>	
 					    		</div>	
 					    		<div class="form-group">
 					    			<textarea class="form-control" rows="2" placeholder="Description" [(ngModel)]="apField.desc" name="desc"  #apDesc="ngModel" required>		
 					    			</textarea>
+					    			<div *ngIf="!newAPshow" >
+					    				<div *ngIf="apDesc.errors && (apDesc.dirty || apDesc.touched)" class="alert alert-danger">
+								        	<div [hidden]="!apDesc.errors.required">Description is required!</div>
+								        </div>
+								    </div>
 					    		</div>
 				    		</form>
-				    		<button class="btn btn-primary btn-not-allowed" [disabled]="!apForm.valid" style="margin-bottom: 20px;" (click)="createAP(apForm.value)">Create AP</button>	
+				    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!apForm.valid" style="margin-bottom: 20px;" (click)="createAP(apForm.value)">Create AP</button>	
 				    	</div>
 		  	  		</div>
 		  	  		<div>

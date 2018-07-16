@@ -57,6 +57,7 @@ export class ApgComponent implements OnInit {
     getAccessPoint: any;
     tempModuleId: any;
     emptyAP: boolean = false;
+    responseAP: any;
 
   	ngOnInit() {
 	  	this.getAllAP();
@@ -107,6 +108,7 @@ export class ApgComponent implements OnInit {
         this.customCheck = false;
         this.existAP = false;
         this.apgField.moduleId = '';
+        this.apgField = new apgField();
 	  	}
 	  	else if(type == 'newap'){
 	  		this.newAP = true;
@@ -146,7 +148,7 @@ export class ApgComponent implements OnInit {
 	  clickTab(type){
     	this.viewType = type;
   	}
-  	responseAP: any;
+  	
   	createAP(formData){
   		console.log(formData);
   		let data = {
@@ -167,7 +169,7 @@ export class ApgComponent implements OnInit {
             this.apArray.push(res._id);
             console.log(this.apArray)
 		      	this.newAPshow = true;
-		      	this.apField = new apField();
+            this.apField = new apField();
 		      	;
 		    }, err => {
             if(this.moduleId == ''){
