@@ -89,6 +89,7 @@ export class ApgComponent implements OnInit {
 	  	}, (reason) => {
 	  		this.apgField = new apgField();
 	  		this.apField = new apField();
+
 	  	  this.closeResult = `Closed with: ${reason}`;
 	  	});
   	}
@@ -389,6 +390,7 @@ export class ApgComponent implements OnInit {
       this.newAP = false;
       this.createButton = false;
       this.updateButton = true;
+      this.newAPList = [];
 	  	this.checkedModuleID = [];
 	  	this.checkedAPid = [];
       this.apArray = [];
