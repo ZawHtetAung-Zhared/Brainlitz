@@ -21,7 +21,26 @@ export class CourseplanComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllCoursePlan();
+    //this.getAllCoursePlan();
+
+    this.formField = new cPlanField();
+    this.showModal = true;
+    this.showsubModal = false;
+    this.showLoading = true;
+    this.checked = false;
+    this.updateButton = false;
+    this.createButton = true;
+    this.restrictFirstInput = false;
+    this.restrictLastInput = false;
+    this.getAllDeposit();
+    this.getAllHolidaysCalendar();
+    this.getAllPdf();
+    this.getAllAPG();
+    this.pdfId = [];
+    this.formField = new cPlanField();
+    this.formField.holidayCalendarId = 'disabledHoliday';
+    //this.formField.paymentPolicy.deposit = 'disabledDeposit';
+
   }
 
 	public showModal: boolean = false;
@@ -61,6 +80,7 @@ export class CourseplanComponent implements OnInit {
   restrictFirstLessInput: boolean = false;
   restrictLastLessInput: boolean = false;
   apgList: any;
+
 
 	open(content){
     this.formField = new cPlanField();
@@ -366,6 +386,7 @@ export class CourseplanComponent implements OnInit {
   getAllPdf(){
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
+      console.log(res)
       this.pdfList = res;
     }, err => {
       console.log(err)
@@ -511,6 +532,11 @@ export class CourseplanComponent implements OnInit {
     if(event.target.value.search(/^0/) != -1){
         event.target.value = '';  
     }
+  }
+
+  cplan() {
+    this.showModal = false;
+    this.showsubModal = true;
   }
 
 
