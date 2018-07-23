@@ -22,7 +22,12 @@ export class CategoryComponent implements OnInit {
   closeResult: string;
   public categoryList: any;
   public isEdit:boolean = false;
+  public isEditComplete:boolean = false;
+  public editValue:any;
   public isempty:boolean = false;
+  public isfocus:boolean = false;
+  public iseditfocus:boolean = false;
+  public ischecked:any;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -33,9 +38,10 @@ export class CategoryComponent implements OnInit {
   }
 
   createCategory(item) {
+    this.isfocus = !this.isfocus;
   	console.log(item);
       this.blockUI.start('Loading...');
-      this.modalReference.close();
+      // this.modalReference.close();
       this._service.createCategory(item, this.regionID)
       .subscribe((res:any) => {
         console.log(res);
@@ -49,6 +55,31 @@ export class CategoryComponent implements OnInit {
       })
       this.item = {};
 	}
+
+  edit(){
+    this.isEditComplete = true;
+  }
+  editComplete(){
+    this.isEditComplete = !this.isEditComplete;
+  }
+  editfocusFunction(val){
+    console.log(val)
+    this.iseditfocus = true;
+    this.editValue = val;
+  }
+  somethingChanged(val){
+    console.log('hi', val)
+    this.ischecked = val;
+  }
+
+  focusFunction(){
+    this.isfocus = true;
+  }
+
+  close(){
+    this.isfocus = !this.isfocus;
+    this.item = {}
+  }
 
   getAllCategories(){
     this.blockUI.start('Loading...');

@@ -1,7 +1,87 @@
 <div class="inner-wrapper">
-  <div class="mb-30">
-  	<button type="button" class="btn btn-primary" (click)="open(content, isEdit=false)">+ create Category</button>
+  <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
+  <header class="d-flex">
+    <div class="mr-auto p-2 pl-0">
+      <a class="back-to">< Courses</a>
+    </div> 
+    <div class="p-2">
+      <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
+      <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
+    </div>
+  </header>
+  <div>
+    <h3 class="category-h3">Pick category</h3>
+    <div class="row justify-content-start">
+      <div class="col-md-4 category-btn">
+        <!-- <input> + Create new category -->
+        <form novalidate #categoryForm="ngForm">
+          <input 
+            type="text" 
+            [ngClass]="{'onfocus': isfocus == true}"
+            class="form-control" 
+            placeholder="+ Create new category" 
+            name="name" 
+            [(ngModel)]="item.name" 
+            required 
+            #name="ngModel"
+            (focus)="focusFunction()" 
+            >
+          <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': isfocus == true}"> 
+            <button type="submit" class="btn" (click)="close()">X</button>
+            <button *ngIf="isEdit == false" type="submit" class="btn" (click)="createCategory(item)" [disabled]="!categoryForm.valid">O</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-4 cagetory-item" *ngFor="let category of categoryList; let i = index" [ngClass]="{'blury': isfocus == true}">
+        <div *ngIf="isEditComplete == false" class="form-check">
+          <label class="form-check-label" [ngClass]="{'selected': ischecked == category.name + '_' + i}">
+            <div class="label-checked"></div>
+            <input class="form-check-input"
+              type="radio" 
+              name="inlineRadioOptions" 
+              id="category._id" 
+              (click)="somethingChanged(category.name + '_' + i)"
+              value="{{category.name}}"> {{category.name}}
+          </label>
+        </div>
+        <div *ngIf="isEditComplete == true" class="editcagetory-item">
+          <input 
+            type="text" 
+            class="form-control" 
+            [ngClass]="{'onfocus': editValue == category.name + '_' + i}"
+            placeholder="{{category.name}}"  
+            name="name" 
+            [(ngModel)]="item.name" 
+            required 
+            #name="ngModel"
+            (focus)="editfocusFunction(category.name + '_' + i)">
+          <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == category.name + '_' + i}"> 
+            <button type="submit" class="btn" (click)="close()">X</button>
+            <button *ngIf="isEdit == false" type="submit" class="btn" (click)="createCategory(item)" [disabled]="!categoryForm.valid">O</button>
+          </div>
+        </div>
+      </div>
+     <!--  <div class="col-md-4 cagetory-item">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+            <span class="bb"></span>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-4 cagetory-item">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option2"> 1
+            <span class="bb"></span>
+          </label>
+        </div>
+      </div> -->
+    </div>
   </div>
+  <!-- <div class="mb-30">
+  	<button type="button" class="btn btn-primary" (click)="open(content, isEdit=false)">+ create Category</button>
+  </div> -->
 
 
   <ng-template #content let-c="close" let-d="dismiss">
@@ -35,7 +115,7 @@
     </div>
   </ng-template>
 
-  <div class="scrollable container">
+  <!-- <div class="scrollable container">
     <h2 *ngIf="isempty == true">No category has created yet</h2>
     <ul class="list-group-flush">
       <li class="list-group-item" *ngFor="let category of categoryList; let i = index">
@@ -43,7 +123,7 @@
         <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCategory(category._id, content)">Edit</button>
       </li>
     </ul>
-  </div>
+  </div> -->
   <block-ui message="Deafult Message">
     <!-- Your markup here -->
   </block-ui>
