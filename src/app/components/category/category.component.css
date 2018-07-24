@@ -1,3 +1,23 @@
+.inner-wrapper{
+	overflow-y: scroll;
+}
+.sticky-menu{
+	position: fixed;
+	width: 100%;
+	z-index: 15;
+	padding: 0 30px;
+	left: 0;
+	right: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+	top: -50px;
+}
+
+.sticky-menu.sticky {
+    top: 0;
+}
+
 .overlay {
     background: rgba(217, 217, 217, 0.9);
     position: absolute;
