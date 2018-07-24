@@ -14,6 +14,12 @@ li button{
  .margin-left{
     margin-left: 20px !important;
 }
+.btn-large{
+  width: 100%;
+  height: 55px;
+  background: #f2f4f5;
+  color: #788795;
+}
 .btn-cancel{
 	background: #a9a9a9;
 }
@@ -31,4 +37,60 @@ li button{
 	min-height: 600px;
     max-height: 600px;
     overflow-y: auto;
+}
+
+.card-columns {
+    -webkit-column-count:3;
+    -moz-column-count:3;
+    column-count:2;
+}
+.card-body{
+  padding: 1.05rem;
+}
+.header{
+  color: #f8f8f9;
+  padding: 1.05rem;
+  background: #64707c;
+  min-height: 110px;
+  height: 110px;
+  border-radius: 8px 8px 0px 0px;
+  font-size: 14px;
+}
+
+.card-wrap{
+  border-radius: 9px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+}
+.header span{
+  padding-left: 20px;
+}
+.header h5{
+  margin-bottom: .7rem;
+}
+.category{
+  margin-bottom: .1rem;
+}
+.header-info{
+  font-size: 16px;
+  display: flex;
+}
+.course-wrap{
+  display: flex;
+  height: 150px;
+  padding: 1.05rem;
+  border-bottom: 1px solid #f0f2f3;
+  color: #8a939d;
+}
+.date-wrap{
+  width: 20%;
+  border-right: 2px solid #f4f5f6;
+}
+.course-info{
+  width: 100%;
+  padding-left: 1rem;
+}
+.course-label{
+  color: #354351;
+  font-weight: 900;
 }
