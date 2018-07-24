@@ -2,15 +2,15 @@
 	padding: 0;
 }
 
-.modal-header.hideFlex {
+/*.hideFlex {
 	display: block;
-}
+}*/
 
 .modal-body {
-	min-height: 600px;
+/*	min-height: 600px;
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 600px;
+    max-height: 600px;*/
 }
 
 .modal-body ul li {
@@ -52,7 +52,7 @@
 	padding: 3px 0px;
 	background: transparent;
 	border: none;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	font-size: 13px;
 }
 
@@ -149,4 +149,106 @@ input:checked ~ .checkmark:after {
 	font-size: 14px;
 }
 
+.br-bshadow-none {
+	border: none; 
+	box-shadow: none;
+	padding: 0;
+}
 
+.all-box-lt {
+	margin-top: 40px;
+}
+
+.all-box-lt .col-md-6, .all-box-lt .col-md-4, .all-box-lt .col-md-3 {
+	padding: 0;
+}
+
+.title-mr p {
+	margin-bottom: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button, select { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.switch {
+  	position: relative;
+  	display: inline-block;
+  	/*width: 60px;
+  	height: 34px;*/
+  	width: 27px;
+    height: 12px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  	position: absolute;
+  	cursor: pointer;
+  	top: 0;
+  	left: 0;
+  	right: 0;
+  	bottom: 0;
+  	/*background-color: #ccc;*/
+  	background-color: #fff;
+  	-webkit-transition: .4s;
+  	transition: .4s;
+}
+
+.slider:before {
+  	position: absolute;
+  	/*content: "";*/
+  	height: 16px;
+	width: 16px;
+	left: -15px;
+	bottom: -4px;
+	background-color: #64707d;
+	-webkit-transition: .4s;
+	transition: .4s;
+	content: '';
+	/*color: #fff;*/
+}
+
+input:checked + .slider {
+  	/*border: 2px solid #2196F3;*/
+  	background: #b7cfe6;
+}
+
+input:focus + .slider {
+  	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  	-webkit-transform: translateX(26px);
+  	-ms-transform: translateX(26px);
+  	transform: translateX(26px);
+  	background-color: #2196F3;
+}
+
+/* Rounded sliders */
+.slider.round {
+  	border-radius: 34px;
+  	border: 2px solid #b7cfe6;
+}
+
+.slider.round:before {
+  	border-radius: 50%;
+}	
+
+.bookcover-wrap{
+	clip: rect(0px, 150px, 200px, 0px);
+    display: block;
+    max-width: 100%;
+/*	position: absolute;
+    clip: rect(0px, 290px, 274px, 0px);
+    z-index: 999;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    -webkit-transition: opacity .2s ease;
+    transition: opacity .2s ease;*/
+}
