@@ -30,6 +30,7 @@ export class CourseComponent implements OnInit {
   allUsers:any;
   allPdf;
   allLocation;
+  allCategories;
   locationName;
   emptyCourse:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
@@ -42,14 +43,16 @@ export class CourseComponent implements OnInit {
   	this.getCourseLists();
     this.getCoursePlans();
     this.getLocationList();
+    this.getCategoryList();
   }
 
   changeRoute(){
-    console.log("Change Route")
-    localStorage.removeItem('coursePlanId');
-    localStorage.removeItem('courseId');
-    localStorage.removeItem('splan');
-    this.router.navigate(['/courseCreate']);
+    // console.log("Change Route")
+    // localStorage.removeItem('coursePlanId');
+    // localStorage.removeItem('courseId');
+    // localStorage.removeItem('splan');
+    // this.router.navigate(['/courseCreate']);
+    this.router.navigate(['courseplan']);
   }
 
   edit(course){
@@ -164,6 +167,14 @@ export class CourseComponent implements OnInit {
     })
   }
 
+  getCategoryList(){
+    this._service.getCategory(this.regionId)
+    .subscribe((res:any) => {
+      this.allCategories = res;
+      console.log("All Categories",this.allCategories)
+    })
+  }
+
   showItemName(itemid,type){
     if(type == "plan"){
       console.log("itemid",itemid);
@@ -173,6 +184,10 @@ export class CourseComponent implements OnInit {
     }else if(type == "location"){
       console.log("location id",itemid);
       let item = this.allLocation.filter(item => item._id === itemid)[0];
+      console.log(item);
+      return item;
+    }else if(type == "category"){
+      let item = this.allCategories.filter(item => item._id === itemid)[0];
       console.log(item);
       return item;
     }
@@ -201,10 +216,10 @@ export class CourseComponent implements OnInit {
       switch (arr[i]) {
         case 0:
         this.day = "Sunday";
-        break;
+          break;
         case 1:
         this.day = "Monday";
-            break;
+          break;
         case 2:
         this.day = "Tuesday";
             break;

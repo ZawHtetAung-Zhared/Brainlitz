@@ -42,6 +42,8 @@ import { ReportComponent } from './components/report/report.component';
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
+import { MinuteSecondsPipe } from './service/time.pipe';
+
 
 @NgModule({
   declarations: [
@@ -66,7 +68,8 @@ import { ModuleComponent } from './components/module/module.component';
     ReportComponent,
     ApgComponent,
     TemplateComponent,
-    ModuleComponent
+    ModuleComponent,
+    MinuteSecondsPipe
   ],
   imports: [
     BrowserModule,
