@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit,  ViewChild, ViewContainerRef, ElementRef, Renderer, HostListener,  Directive } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+declare var $: any;
 
 @Component({
   selector: 'app-category',
@@ -14,28 +15,55 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 export class CategoryComponent implements OnInit {
 	@ViewChild('categoryForm') form: any;
   @BlockUI() blockUI: NgBlockUI;
-   @BlockUI('contact-list') blockUIList: NgBlockUI;
-	// public item:any = {name: ''};
+  @BlockUI('contact-list') blockUIList: NgBlockUI;
+	
   public item:any = {};
 	public regionID = localStorage.getItem('regionId');
-  private modalReference: NgbModalRef;
-  closeResult: string;
   public categoryList: any;
-  public isEdit:boolean = false;
   public isEditComplete:boolean = false;
   public editValue:any;
   public isempty:boolean = false;
   public isfocus:boolean = false;
   public iseditfocus:boolean = false;
   public ischecked:any;
+  public navIsFixed: boolean = false;
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+  constructor( 
+    private _service: appService, 
+    public toastr: ToastsManager, 
+    vcr: ViewContainerRef, 
+    private el: ElementRef,
+    private renderer: Renderer) { 
     this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
     this.getAllCategories();
+    window.addEventListener('scroll', this.scroll, true);
   }
+
+  ngOnDestroy() {
+      window.removeEventListener('scroll', this.scroll, true);
+  }
+
+  scroll = (e): void => {
+    // console.log(e)
+    // console.log(e.target)
+    // console.log(e.pageYOffset)
+  };
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    // console.log($event);
+    // console.log("scrolling");
+    // console.log(window.pageYOffset)
+    if(window.pageYOffset > 90){
+      console.log('greater than 100')
+      this.navIsFixed = true;
+    }else{
+      console.log('less than 100')
+      this.navIsFixed = false;
+    }
+  } 
 
   createCategory(item) {
     this.isfocus = !this.isfocus;
@@ -62,22 +90,33 @@ export class CategoryComponent implements OnInit {
   editComplete(){
     this.isEditComplete = !this.isEditComplete;
   }
-  editfocusFunction(val){
-    console.log(val)
-    this.iseditfocus = true;
-    this.editValue = val;
-  }
+
   somethingChanged(val){
     console.log('hi', val)
     this.ischecked = val;
   }
 
-  focusFunction(){
-    this.isfocus = true;
+  focusFunction(status, val){
+    if(status == 'create'){
+      this.isfocus = true;
+    }else{
+      this.iseditfocus = true;
+      this.editValue = val;
+      this._service.getSingleCategory(val, this.regionID)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.item = res;
+      })
+    }
   }
 
-  close(){
-    this.isfocus = !this.isfocus;
+  close(status){
+    if(status == 'create'){
+      this.isfocus = !this.isfocus;
+    }else{
+      this.iseditfocus = !this.iseditfocus;
+      this.editValue = ''
+    }
     this.item = {}
   }
 
@@ -94,55 +133,23 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-  open(content,edit) {
-    if(edit == false){
-      this.item = {};
+  updateCategory(data, name){
+    console.log("Update Category",data, name);
+    let obj = {
+      'name': name,
+      'regionId': data.regionId,
+      '_id': data._id
     }
-    console.log(edit)
-    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      console.log(result)
-      this.item = {};
-      this.isEdit = false;
-    }, (reason) => {
-      console.log(reason)
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.item = {};
-      this.isEdit = false;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-  editCategory(id,content){
-    this.isEdit = true; 
-    console.log("Edit Category", id)
-    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
-    this._service.getSingleCategory(id, this.regionID)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.item = res;
-    })
-  }
-
-  updateCategory(data){
-    console.log("Update Category",data);
-    this._service.updateCategory(data._id,data)
+    console.log(obj)
+    this._service.updateCategory(obj._id,obj)
     .subscribe((res:any) => {
       console.log(res);
       this.toastr.success('Successfully Updated.');
-      this.modalReference.close();
       this.getAllCategories();
-      this.isEdit = false;
+      this.iseditfocus = false;
+      this.isEditComplete = false;
+      this.item = {}
+      this.editValue = ''
     })
   }
 }

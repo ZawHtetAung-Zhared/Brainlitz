@@ -24,14 +24,15 @@ body{
 }
 .inner-wrapper{
   padding: 30px;
+  overflow-y: scroll;
 }
 main{
     height: 100%;
 }
-.overflow{
-	overflow-y: auto; 
-	min-height: 0px;
-}
+/*.overflow{*/
+	/*overflow-y: auto; */
+	/*min-height: 0px;*/
+/*}*/
 .btn-primary{
 	color: #5e5e5e !important;
 	background-color: transparent !important;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -16,7 +16,7 @@ declare var $: any;
 })
 export class CourseplanComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef) { 
     this.toastr.setRootViewContainerRef(vcr);
   }
 
@@ -39,6 +39,8 @@ export class CourseplanComponent implements OnInit {
     this.pdfId = [];
     this.formField = new cPlanField();
     this.formField.holidayCalendarId = 'disabledHoliday';
+    this.rangeHr = '0';
+    this.rangeMin = '0';
     //this.formField.paymentPolicy.deposit = 'disabledDeposit';
 
   }
@@ -80,6 +82,9 @@ export class CourseplanComponent implements OnInit {
   restrictFirstLessInput: boolean = false;
   restrictLastLessInput: boolean = false;
   apgList: any;
+  progressSlider: boolean = false;
+  rangeHr: any;
+  rangeMin: any;
 
 
 	open(content){
@@ -524,7 +529,33 @@ export class CourseplanComponent implements OnInit {
 
   }
 
-  numberOnly(event){
+  durationProgress($event){
+    this.progressSlider = true;
+  }
+
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+        console.log('okk', event)
+        if(this.progressSlider != true){
+          console.log('outside')
+           $('.bg-box').css({ 'display': "none" });   
+        }
+        else {
+           console.log('click inside', event.target.value)
+            $('.bg-box').css({ 'display': "block" }); 
+            $('#hrDuration').click(function(event){
+                event.stopPropagation();
+            });
+            $('#minDuration').click(function(event){
+                event.stopPropagation();
+            });
+            this.progressSlider = false;
+
+        }
+  }
+
+
+  numberOnly(event, type){
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -538,6 +569,14 @@ export class CourseplanComponent implements OnInit {
     this.showModal = false;
     this.showsubModal = true;
   }
+  //countOfmin: any;
+  //slideProgress(event){
+   // this.countOfmin = event.target.value;
+   // console.log('aa', event.target.value)
+   // if(event.target.value > 0){
+  //    console.log('colorhas')
+   // }
+ // }
 
 
 }
