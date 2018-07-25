@@ -66,7 +66,7 @@ import { ModuleComponent } from './components/module/module.component';
     ReportComponent,
     ApgComponent,
     TemplateComponent,
-    ModuleComponent
+    ModuleComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +80,7 @@ import { ModuleComponent } from './components/module/module.component';
     BrowserAnimationsModule,
     ToastModule.forRoot(),
     ClickOutsideModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),

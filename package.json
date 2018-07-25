@@ -40,6 +40,7 @@
     "ng-click-outside": "^4.0.0",
     "ng2-cookies": "^1.0.12",
     "ng2-img-cropper": "^0.9.0",
+    "ng2-ion-range-slider": "^2.0.0",
     "ng2-timezone-selector": "^0.2.4",
     "ng5-toastr": "^4.1.5",
     "ngclipboard": "^2.0.0",
