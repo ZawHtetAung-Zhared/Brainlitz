@@ -1,17 +1,31 @@
-<div class="inner-wrapper">
+<div class="inner-wrapper" (scroll)="onScroll($event)">
   <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
   
-  <header class="d-flex" [ngClass]="{'blury': isfocus == true || iseditfocus == true}">
-    <div class="mr-auto p-2 pl-0">
-      <a class="back-to">< Courses</a>
-    </div> 
-    <div>
-      <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
-      <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
+  <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}">
+    <div class="d-flex">
+      <div class="mr-auto p-2 pl-0">
+        <a class="back-to">< Courses</a>
+      </div> 
+      <div>
+        <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
+        <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
+      </div>
     </div>
+    <h3 class="category-h3">Pick category</h3>
   </header>
+  <div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
+    <div class="d-flex">
+      <div class="mr-auto p-2 pl-0">
+        <a class="back-to">< Courses</a>
+      </div> 
+      <div>
+        <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
+        <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
+      </div>
+    </div>
+  </div>
+  
   <div>
-    <h3 class="category-h3" [ngClass]="{'blury': isfocus == true || iseditfocus == true}">Pick category</h3>
     <!-- <p class="card-text" [style.display]="'none'">hola</p> -->
     <div class="row justify-content-start">
       <div class="col-md-4 category-btn">

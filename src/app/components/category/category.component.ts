@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit,  ViewChild, ViewContainerRef, ElementRef, Renderer, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit,  ViewChild, ViewContainerRef, ElementRef, Renderer, HostListener,  Directive } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -39,7 +39,31 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCategories();
+    window.addEventListener('scroll', this.scroll, true);
   }
+
+  ngOnDestroy() {
+      window.removeEventListener('scroll', this.scroll, true);
+  }
+
+  scroll = (e): void => {
+    // console.log(e)
+    // console.log(e.target)
+    // console.log(e.pageYOffset)
+  };
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    // console.log($event);
+    // console.log("scrolling");
+    // console.log(window.pageYOffset)
+    if(window.pageYOffset > 90){
+      console.log('greater than 100')
+      this.navIsFixed = true;
+    }else{
+      console.log('less than 100')
+      this.navIsFixed = false;
+    }
+  } 
 
   createCategory(item) {
     this.isfocus = !this.isfocus;
