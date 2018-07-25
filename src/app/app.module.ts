@@ -83,7 +83,7 @@ import { MinuteSecondsPipe } from './service/time.pipe';
     BrowserAnimationsModule,
     ToastModule.forRoot(),
     ClickOutsideModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),

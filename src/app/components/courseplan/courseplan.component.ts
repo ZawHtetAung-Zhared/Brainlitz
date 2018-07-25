@@ -80,6 +80,7 @@ export class CourseplanComponent implements OnInit {
   restrictFirstLessInput: boolean = false;
   restrictLastLessInput: boolean = false;
   apgList: any;
+  progressSlider: boolean = false;
 
 
 	open(content){
@@ -524,7 +525,11 @@ export class CourseplanComponent implements OnInit {
 
   }
 
-  numberOnly(event){
+  durationProgress(){
+    this.progressSlider = true;    
+  }
+
+  numberOnly(event, type){
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -537,6 +542,13 @@ export class CourseplanComponent implements OnInit {
   cplan() {
     this.showModal = false;
     this.showsubModal = true;
+  }
+
+  slideProgress(event){
+    console.log('aa', event.target.value)
+    if(event.target.value > 0){
+      console.log('colorhas')
+    }
   }
 
 
