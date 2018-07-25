@@ -221,21 +221,24 @@
 							    </div>
 							</div> -->
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-3 duration-progress">
 							Duration 
-							<input type="number" placeholder="0 min" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'duration')" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" #durationLesson="ngModel" (click)="durationProgress()" required>
-							<div *ngIf="progressSlider" style="background: #1A000000; box-shadow: -13px -3px 94px -12px rgba(0,0,0,0.33); width: 362px;">
+							<input type="number" placeholder="0 min" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'duration')" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" #durationLesson="ngModel" (click)="durationProgress($event)" required>
+							<div class="bg-box">
 								<div id="rectangle"></div>
-								<div style="margin-top: 10px; padding: 30px 30px 20px 30px;">
-									<label>Oh
-										<input style="margin-left: 45px; width: 220px; " type="range" id="hrDuration" name="pointsHr" min="0">
+								<div style="margin-top: 10px; padding: 15px 0;">
+									<label>
+										<div class="col-md-4" style="position: absolute; left: 30px;">{{rangeHr}} hr</div>
+										<input style="position: absolute; bottom: 52px; left: 100px;" type="range" id="hrDuration" name="pointsHr" min="0" max="24" [(ngModel)]="rangeHr">
 									</label>
 								</div>
-								<div style="padding: 0 30px 30px;">
-									<label>30min
-										<input style="margin-left: 20px;width: 220px;" type="range" id='minDuration' name="pointsMin" min="0" max="60" [(ngModel)]="rangeData" (change)="slideProgress($event)">
+								<div style="margin-top: 10px; padding: 15px 0;">
+									<label>
+										<div class="col-md-4" style="position: absolute; left: 30px; bottom: 20px;">{{rangeMin}} min</div>
+										<input [ngClass]="{'aa': rangeMin > 0}" style="position: absolute; bottom: 3px; left: 100px;" type="range" id='minDuration' name="pointsMin" min="0" max="60" step="1" [(ngModel)]="rangeMin">						
 									</label>
 								</div>
+
 							</div>
 							<!-- <div *ngIf="durationLesson.errors && (durationLesson.dirty || durationLesson.touched)" class="alert alert-danger">
 						        <div [hidden]="!durationLesson.errors.required">
