@@ -175,6 +175,12 @@ export class CourseComponent implements OnInit {
     })
   }
 
+  myMethod(days){
+    console.log('Days',days)
+  }
+
+  
+
   showItemName(itemid,type){
     if(type == "plan"){
       console.log("itemid",itemid);

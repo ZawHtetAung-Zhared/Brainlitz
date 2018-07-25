@@ -9,9 +9,10 @@
   <pre>Selected time: {{time | json}}</pre> -->
   <block-ui message="Deafult Message"></block-ui>
   <div class="scrollable">
+    <div class="title"><h3 class="header-font">Courses</h3></div>
     <div class="card-columns">
-      <div class="card">
-        <button class="btn btn-large" (click)="changeRoute()"><span>+</span> Add new course plan</button>
+      <div class="card btn-card">
+        <button class="btn btn-large" (click)="changeRoute()"><span>+</span> <span>Add new course plan</span></button>
       </div>
       <div class="card card-wrap" *ngFor="let coursePlan of allCoursePlan">
         <div class="header">
@@ -31,25 +32,45 @@
             <div class="course-wrap" *ngIf="coursePlan._id == course.coursePlanId">
               <div class="date-wrap">
                 <div>
-                  From
+                  <span class="date-label">From</span>
                   <div>{{course.startDate | date}}</div>
                 </div>
                 <div>
-                  To
+                  <span class="date-label">To</span>
                   <div>{{course.endDate | date}}</div>
                 </div>
               </div>
               <div class="course-info">
-                <div *ngFor="let location of allLocation">
-                  <label *ngIf="location._id == course.locationId">{{ location.name}}</label>
+                <div class="course-detail">
+                  <div *ngFor="let location of allLocation">
+                    <label class="category" *ngIf="location._id == course.locationId">
+                    <i class="fas fa-map-marker-alt"></i>{{ location.name}}</label>
+                  </div>
+                  <h5 class="course-label">{{course.name}}</h5>
+                  by <span>{{course.teacher.preferredName}}</span>
                 </div>
-                <h5 class="course-label">{{course.name}}</h5>
+                <div class="second-info">
+                  <div class="time-wrap">
+                    <span *ngFor="let day of course.repeatDays | weekDays">
+                      {{ day }}
+                    </span>
+                    <div>
+                      10:00 AM - 11:00 AM
+                    </div>
+                  </div>
+                  <div class="btnCustomer-wrap">
+                    <button class="btn-addC" (click)="assignUser(course)"><span class="btn-plusicon"> + </span> <span>Add Customer</span></button>
+                    <!-- <div class="btn-customer">
+                      <span class="btn-plusicon"> + </span> <div class="btn-label">Add Customer</div>
+                    </div> -->
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div>
-          <a [routerLink]="['/courseCreate']">Add new course</a>
+        <div class="link-wrap">
+          <a class="link-btn" [routerLink]="['/courseCreate']">Add new course</a>
         </div>
       </div>
     </div>
