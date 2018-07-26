@@ -1,4 +1,4 @@
-<div class="inner-wrapper">
+<div class="inner-wrapper" (scroll)="onScroll($event)">
 <!-- <div class="mb-30">
 <button class="btn btn-lg btn-outline-primary bt-color" (click)="cplan()">+ Course Plan</button>
 </div> -->
@@ -32,18 +32,39 @@
 	</div> -->
 	<div> 
 		<form #subCatForm="ngForm" novalidate>
+			<div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
+			    <div class="display-style" style="padding-top: 15px;">
+					<div class="col-md-4 ul-pad">
+						<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
+					</div>	
+					<div class="col-md-4 title-mr display-style">
+			    		<p>#piano{{checkedName}}
+			    			<!-- <span style="font-size: 16px;">&#183;</span></p>  -->
+			    		<h5>Course plan</h5>
+			    	</div>
+			    	<div class="col-md-4">
+				    	<div [hidden]="!createButton">
+				    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed" (click)="createdPlan(subCatForm.value)">Create</button>
+				    	</div>
+				    	<div [hidden]="!updateButton">
+				    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
+				    	</div>
+				    	<button type="button" style="float: right" class="btn" (click)="cancel()">Cancel</button>
+			    	</div>
+			  	</div>
+			</div>
 			<div class="display-style">
 				<div class="col-md-6 ul-pad">
 					<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 				</div>	
 		    	<div class="col-md-6">
 			    	<div [hidden]="!createButton">
-			    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed" [disabled]="!subCatForm.valid || restrictFirstInput || restrictLastInput || restrictFirstLessInput || restrictLastLessInput" (click)="createdPlan(subCatForm.value)">Create</button>
+			    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)">Create</button>
 			    	</div>
 			    	<div [hidden]="!updateButton">
-			    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid || restrictFirstInput || restrictLastInput || restrictFirstLessInput || restrictLastLessInput" (click)="updatedPlan(subCatForm.value)">Update</button>
+			    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
 			    	</div>
-			    	<button type="button" style="float: right" class="btn" (click)="c('Close click')">Cancel</button>
+			    	<button type="button" style="float: right" class="btn" (click)="cancel()">Cancel</button>
 		    	</div>
 		  	</div>
 		    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -122,7 +143,7 @@
 					<div class="display-style">
 						<div class="col-md-3">
 							Deposit
-							<select class="form-control br-bshadow-none" name="deposit" [(ngModel)]="formField.paymentPolicy.deposit" required>
+							<select class="form-control br-bshadow-none" name="deposit" [(ngModel)]="depositModel" required>
 								<option [value]="'disabledDeposit'" disabled="true">S$ 0</option>
 								<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">{{deposit.amount}}</option>
 							</select>
@@ -174,7 +195,7 @@
 					<div class="display-style">
 						<div class="col-md-6">
 							From <input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel" required>
-							<p *ngIf="restrictFirstInput" class="alert alert-danger">Must be Lower than "To" Age</p>
+							<!-- <p *ngIf="restrictFirstInput" class="alert alert-danger">Must be Lower than "To" Age</p> -->
 							<!-- <div *ngIf="!restrictFirstInput">
 								<div *ngIf="minData.errors && (minData.dirty || minData.touched)" class="alert alert-danger">
 							        <div [hidden]="!minData.errors.required">
@@ -185,7 +206,7 @@
 						</div>
 					 	<div class="col-md-6">
 					 		to <input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel" required>
-					 		<p *ngIf="restrictLastInput" class="alert alert-danger">Must be greater than "From" Age</p>
+					 		<!-- <p *ngIf="restrictLastInput" class="alert alert-danger">Must be greater than "From" Age</p> -->
 					 		<!-- <div *ngIf="!restrictLastInput">
 						 		<div *ngIf="maxData.errors && (maxData.dirty || maxData.touched)" class="alert alert-danger">
 							        <div [hidden]="!maxData.errors.required">
@@ -221,21 +242,22 @@
 							    </div>
 							</div> -->
 						</div>
-						<div class="col-md-3 duration-progress">
+						<div class="col-md-3">
 							Duration 
-							<input type="number" placeholder="0 min" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'duration')" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" #durationLesson="ngModel" (click)="durationProgress($event)" required>
-							<div class="bg-box">
+							<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
+							<div class="bg-box duration-progress">
 								<div id="rectangle"></div>
-								<div style="margin-top: 10px; padding: 15px 0;">
+								<div class="gap-box">
 									<label>
-										<div class="col-md-4" style="position: absolute; left: 30px;">{{rangeHr}} hr</div>
-										<input style="position: absolute; bottom: 52px; left: 100px;" type="range" id="hrDuration" name="pointsHr" min="0" max="24" [(ngModel)]="rangeHr">
+										<div class="col-md-4 max-range">{{rangeHr}} hr</div>
+										<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="24" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
 									</label>
 								</div>
-								<div style="margin-top: 10px; padding: 15px 0;">
+								<div class="gap-range-min">
 									<label>
-										<div class="col-md-4" style="position: absolute; left: 30px; bottom: 20px;">{{rangeMin}} min</div>
-										<input [ngClass]="{'aa': rangeMin > 0}" style="position: absolute; bottom: 3px; left: 100px;" type="range" id='minDuration' name="pointsMin" min="0" max="60" step="1" [(ngModel)]="rangeMin">						
+										<div class="col-md-4 min-range">{{rangeMin}} min</div>
+										<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="60" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin" [disabled]="overDurationHr">	
+										 <p *ngIf="overDurationHr" class="alert-duration">Lesson Duration has only 24 hr, so can not choose minute. </p>				
 									</label>
 								</div>
 
@@ -257,15 +279,24 @@
 						</label>
 					</div>	
 
-					<div class="height-scroll">
-			    		<div *ngFor="let pdf of pdfList; let i=index;" style="float: left; margin-right: 15px;">
+					<!-- <div class="height-scroll"> -->
+			    		<!-- <div *ngFor="let pdf of pdfList; let i=index;" style="float: left; margin-right: 15px;">
 				    		<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue(pdf._id,$event, 'pdf')" name="pdf" [checked]="pdfId.indexOf(pdf._id) != -1">
-				    		{{pdf.name}}
+				    		{{pdf.name}} -->
 				    		<!-- <div >
 						        <img src="{{pdf.cover}}" class="bookcover-wrap">
 						    </div> -->
-				    	</div>
-			    	</div>
+				    	<!-- </div> -->
+				    	<drag-scroll class="drag-wrapper">
+				    		<div *ngFor="let pdf of pdfList; let i=index;" class="book-range">
+				    			<label for="{{pdf._id}}" class="book-label" [ngClass]="{'drag-active-bg': pdfId.indexOf(pdf._id) != -1}">
+									<img drag-scroll-item src="{{pdf.cover}}" width="150" height="200" style="margin-bottom: 10px;">
+									<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue(pdf._id,$event, 'pdf')" name="pdf" [checked]="pdfId.indexOf(pdf._id) != -1">
+					    			<div class="book-name">{{pdf.name}}</div>
+								</label>
+					    	</div>
+						</drag-scroll>
+			    	<!-- </div> -->
 					<!-- <select style="width: 19%;" class="form-control" name="pdf" [(ngModel)]="formField.quizwerkz" required multiple>
 						<option *ngFor="let pdf of pdfList; let i = index" value="{{pdf._id}}">{{pdf.name}}</option>
 					</select> -->					

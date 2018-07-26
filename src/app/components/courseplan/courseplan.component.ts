@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { cPlanField } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 
 declare var $: any;
 
@@ -16,14 +17,13 @@ declare var $: any;
 })
 export class CourseplanComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef) { 
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef, private _router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
     //this.getAllCoursePlan();
 
-    this.formField = new cPlanField();
     this.showModal = true;
     this.showsubModal = false;
     this.showLoading = true;
@@ -37,11 +37,18 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG();
     this.pdfId = [];
-    this.formField = new cPlanField();
+   // this.formField = new cPlanField();
     this.formField.holidayCalendarId = 'disabledHoliday';
+    this.depositModel = 'disabledDeposit';
     this.rangeHr = '0';
     this.rangeMin = '0';
-    //this.formField.paymentPolicy.deposit = 'disabledDeposit';
+    this.readyOnlyRange = '0 min';
+
+    window.addEventListener('scroll', this.scroll, true);
+
+    setTimeout(function(){
+      $('.drag-wrapper .drag-scroll-content').css({'display':'flex', 'width': '100%'})
+    }, 200)
 
   }
 
@@ -85,40 +92,41 @@ export class CourseplanComponent implements OnInit {
   progressSlider: boolean = false;
   rangeHr: any;
   rangeMin: any;
+  public navIsFixed: boolean = false;
+  public depositModel: any;
 
-
-	open(content){
-    this.formField = new cPlanField();
-		this.showModal = true;
-		this.showsubModal = false;
-    this.showLoading = true;
-		this.checked = false;
-    this.updateButton = false;
-    this.createButton = true;
-    this.restrictFirstInput = false;
-    this.restrictLastInput = false;
-    this.getAllDeposit();
-    this.getAllHolidaysCalendar();
-    this.getAllPdf();
-    this.getAllAPG();
-    this.pdfId = [];
-    this.apgId = [];
-		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
-    this.modalReference.result.then((result) => {
-    this.formField = new cPlanField();
-	  this.closeResult = `Closed with: ${result}`
-  	}, (reason) => {
-      this.formField = new cPlanField();
-  	  this.closeResult = `Closed with: ${reason}`;
-  	});
-    this._service.getCategory(this.regionID)
-    .subscribe((res:any) => {
-      console.log('success',res)
-      this.courseCategories = res;
-      }, err => {
-        console.log(err)
-      });
-	}
+	//open(content){
+   // this.formField = new cPlanField();
+		//this.showModal = true;
+	// 	this.showsubModal = false;
+ //    this.showLoading = true;
+	// 	this.checked = false;
+ //    this.updateButton = false;
+ //    this.createButton = true;
+ //    this.restrictFirstInput = false;
+ //    this.restrictLastInput = false;
+ //    this.getAllDeposit();
+ //    this.getAllHolidaysCalendar();
+ //    this.getAllPdf();
+ //    this.getAllAPG();
+ //    this.pdfId = [];
+ //    this.apgId = [];
+	// 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
+ //    this.modalReference.result.then((result) => {
+ //    this.formField = new cPlanField();
+	//   this.closeResult = `Closed with: ${result}`
+ //  	}, (reason) => {
+ //      this.formField = new cPlanField();
+ //  	  this.closeResult = `Closed with: ${reason}`;
+ //  	});
+ //    this._service.getCategory(this.regionID)
+ //    .subscribe((res:any) => {
+ //      console.log('success',res)
+ //      this.courseCategories = res;
+ //      }, err => {
+ //        console.log(err)
+ //      });
+	// }
 
 	selectedRadioId(id){
     console.log(id)
@@ -147,7 +155,9 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-		console.log('created', formData)
+		console.log('form', formData)
+    var day = formData.lesson_duration;
+    console.log('this.timeInminutes', this.timeInminutes)
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -169,7 +179,7 @@ export class CourseplanComponent implements OnInit {
       "lesson": {
         "min": formData.minDuration,
         "max": formData.maxDuration,
-        "duration": formData.lesson_duration
+        "duration": this.timeInminutes
       },
       "seats": formData.seats,
       "age": {
@@ -181,21 +191,21 @@ export class CourseplanComponent implements OnInit {
       "accessPointGroup": this.apgId
     }
 
-    this.blockUI.start('Loading...');
-    this.modalReference.close();
-    this._service.createCoursePlan(this.regionID,data)
-    .subscribe((res:any) => {
-      console.log('success post',res);
-      this.toastr.success('Successfully Created.');
-      this.blockUI.stop();
-      this.getAllCoursePlan();
-      }, err => {
-        this.toastr.error('Create Fail');
-        this.blockUI.stop();
-        console.log(err)
-      })
-      this.pdfName = [];
-      this.pdfId = [];
+    //this.blockUI.start('Loading...');
+    //this.modalReference.close();
+    //this._service.createCoursePlan(this.regionID,data)
+    //.subscribe((res:any) => {
+    //  console.log('success post',res);
+   //   this.toastr.success('Successfully Created.');
+   //   this.blockUI.stop();
+      // this.getAllCoursePlan();
+      // }, err => {
+      //   this.toastr.error('Create Fail');
+      //   this.blockUI.stop();
+      //   console.log(err)
+      // })
+      // this.pdfName = [];
+      // this.pdfId = [];
   }
 
   onclickDelete(cplan, confirmDelete1){
@@ -391,7 +401,7 @@ export class CourseplanComponent implements OnInit {
   getAllPdf(){
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
-      console.log(res)
+      console.log('pdflists',res)
       this.pdfList = res;
     }, err => {
       console.log(err)
@@ -535,18 +545,12 @@ export class CourseplanComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
-        console.log('okk', event)
         if(this.progressSlider != true){
-          console.log('outside')
            $('.bg-box').css({ 'display': "none" });   
         }
         else {
-           console.log('click inside', event.target.value)
             $('.bg-box').css({ 'display': "block" }); 
-            $('#hrDuration').click(function(event){
-                event.stopPropagation();
-            });
-            $('#minDuration').click(function(event){
+            $('.bg-box').click(function(event){
                 event.stopPropagation();
             });
             this.progressSlider = false;
@@ -554,6 +558,44 @@ export class CourseplanComponent implements OnInit {
         }
   }
 
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public readyOnlyRange: any;
+  public timeInminutes: any;
+
+  ChangedRangeValue(e, type) {
+    if(type == 'hr'){
+      this.selectedHrRange = e;
+      this.overDurationHr = false;
+      if(this.selectedHrRange == 24){
+        this.overDurationHr = true;
+        this.rangeMin = 0;
+        this.selectedMinRange = 0;
+      }
+    }
+    if(type == 'min'){
+      this.selectedMinRange = e;
+    }
+
+    if(this.selectedHrRange && this.selectedMinRange){
+      this.timeInminutes = (parseInt(this.selectedHrRange) * 60) +  parseInt(this.selectedMinRange);
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) +'hr'+ +  parseInt(this.selectedMinRange) +'min';
+    }
+    else if(this.selectedHrRange){
+      this.timeInminutes = (parseInt(this.selectedHrRange) * 60);
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + 'hr';
+    }
+    else if(this.selectedMinRange){
+      this.timeInminutes = parseInt(this.selectedMinRange);
+      this.readyOnlyRange = parseInt(this.selectedMinRange) + 'min';
+    }
+    else {
+      console.log('error')
+    }
+    console.log('durationMinutes',this.timeInminutes)
+      
+  }
 
   numberOnly(event, type){
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -569,14 +611,25 @@ export class CourseplanComponent implements OnInit {
     this.showModal = false;
     this.showsubModal = true;
   }
-  //countOfmin: any;
-  //slideProgress(event){
-   // this.countOfmin = event.target.value;
-   // console.log('aa', event.target.value)
-   // if(event.target.value > 0){
-  //    console.log('colorhas')
-   // }
- // }
+
+  scroll = (e): void => {
+  };
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    if(window.pageYOffset > 90){
+      this.navIsFixed = true;
+    }else{
+      this.navIsFixed = false;
+    }
+  } 
+
+  ngOnDestroy() {
+      window.removeEventListener('scroll', this.scroll, true);
+  }
+
+  cancel(){
+    this._router.navigate(['/course']);
+  }
 
 
 }

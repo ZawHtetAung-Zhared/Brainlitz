@@ -39,8 +39,8 @@ export class AppComponent implements OnInit{
 
   	_router.events.forEach((event) => {
 	    if(event instanceof NavigationStart) {
-        this.showSidebar = (event.url == "/login" || event.url == "/region" || event.url == "/" || event.url == "/category") ? this.showSidebar = false : this.showSidebar = true; 
-        this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/category" ) ? this.showHeader = false : this.showHeader = true; 
+        this.showSidebar = (event.url == "/login" || event.url == "/region" || event.url == "/" || event.url == "/category" || event.url == "/courseplan") ? this.showSidebar = false : this.showSidebar = true; 
+        this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/category" || event.url == "/courseplan" ) ? this.showHeader = false : this.showHeader = true; 
         //console.log(document.location.href)
        // var slicePath = document.location.href.slice(-5);
         //var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));

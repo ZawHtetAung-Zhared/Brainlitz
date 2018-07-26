@@ -43,7 +43,7 @@ import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/time.pipe';
-
+import { DragScrollModule } from 'ngx-drag-scroll';
 
 @NgModule({
   declarations: [
@@ -87,6 +87,7 @@ import { MinuteSecondsPipe } from './service/time.pipe';
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),
+    DragScrollModule
   ],
   providers: [
     appService,
