@@ -44,6 +44,7 @@ import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { WeekDaysPipe } from './service/weekday.pipe';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
     ApgComponent,
     TemplateComponent,
     ModuleComponent,
-    MinuteSecondsPipe
+    MinuteSecondsPipe,
+    WeekDaysPipe
   ],
   imports: [
     BrowserModule,

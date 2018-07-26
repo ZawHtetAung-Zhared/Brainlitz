@@ -3,6 +3,7 @@
 
 @import '../node_modules/croppie/croppie.css';
 @import '../node_modules/ng5-toastr/bundles/ng5-toastr.min.css';
+@import '~font-awesome/css/font-awesome.css';
 
 @font-face {
   font-family: 'Montserrat-Light';
