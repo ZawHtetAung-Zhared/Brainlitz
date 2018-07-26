@@ -27,6 +27,10 @@ li button{
   background: #f2f4f5;
   color: #788795;
 }
+.btn-large span{
+  font-family: Montserrat-Regular;
+  font-size: 18px;
+}
 .btn-cancel{
 	background: #a9a9a9;
 }
@@ -64,11 +68,21 @@ li button{
   font-size: 14px;
 }
 
-.card-wrap{
+/*.card-wrap{
   font-size: 14px;
   border-radius: 9px;
   border: 1px solid #f0f0f0;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1),0 2px 0px 0 rgba(0,0,0,0)!important;
+}*/
+.card-wrap{
+  font-size: 14px;
+  border-radius: 9px;
+  border: 1px solid #f0f0f0;
+  margin: 10px 0px 10px 0px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1),0 2px 0px 0 rgba(0,0,0,0)!important;
+  /*box-shadow: 0px 1px 5px #888;*/
+  /*box-shadow: -5px 0px 5px -3px #F2F2F2;*/
 }
 .header span{
   padding-left: 20px;
@@ -82,6 +96,7 @@ li button{
 .header-info{
   font-size: 16px;
   display: flex;
+  color: #d4d8db;
 }
 .course-wrap{
   display: flex;
@@ -89,15 +104,47 @@ li button{
   padding: 1.05rem;
   border-bottom: 1px solid #f0f2f3;
   color: #8a939d;
+  position: relative;
+}
+.absolute {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  padding: 0px 4px 0px 4px;
+  height: 20px;
+  background: #1683fb;
+  color: #f4f9ff;
+  text-align: center;
+  font-size: 0.8rem;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.no-seat{
+  position: absolute;
+  top: 10px;
+  right: 0;
+  padding: 0px 4px 0px 4px;
+  height: 20px;
+  background: #f2f4f5;
+  color: #8b949e;
+  text-align: center;
+  font-size: 0.8rem;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 .date-wrap{
   width: 30%;
   border-right: 2px solid #f4f5f6;
-  font-family: Montserrat-Regular;
   color: #7a848f;
 }
-.date-label{
+.light-font{
   font-family: Montserrat-Light;
+}
+.medium-font{
+  font-family: Montserrat-Medium;
+}
+.regular-font{
+  font-family: Montserrat-Regular;
 }
 .course-info{
   width: 100%;
@@ -106,9 +153,11 @@ li button{
 .course-label{
   color: #354351;
   font-weight: 900;
+  font-family: Montserrat-Regular;
 }
 .btn-card{
   border: 0;
+  margin: 10px 0px 10px 0px;
 }
 .course-detail{
   border-bottom: 1.5px dashed #ecedee;
@@ -132,6 +181,8 @@ li button{
   border: 0;
   width: 100%;
   border-radius: 4px;
+  font-family: Montserrat-Medium;
+  color: #525e6b;
 }
 .btn-plusicon{
   font-size: 22px;
@@ -148,5 +199,41 @@ li button{
 }
 .link-btn{
   text-decoration: none;
-  color: #9099a2;
+  color: #87909a;
+  /*color: #9099a2;*/
 }
+.time-color{
+  color: #97a0a8;
+}
+.staff-info{
+  display: flex;
+  height: 25px;
+}
+
+.btn-assign{
+  background: #f2f4f5;
+  position: relative;
+  height: 40px;
+  width: 100%;
+  font-size: 14px;
+  color: #415567;
+  font-family: Montserrat-Regular;
+}
+.plusicon{
+  position: absolute;
+  left: 7px;
+  top: 0px;
+  font-size: 24px;
+  font-family: Montserrat-Light;
+}
+.toggle {
+  color: #415567;
+  background: #f2f4f5;
+  width: 100%;
+  height: 40px;
+  border: 0;
+  font-size: 1em;
+  -webkit-transition: all .75s ease-in-out;
+  transition: all .75s ease-in-out;
+}
+

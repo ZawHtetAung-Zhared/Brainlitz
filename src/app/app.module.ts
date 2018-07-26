@@ -43,7 +43,7 @@ import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/time.pipe';
-import { WeekDaysPipe } from './service/weekday.pipe'
+import { WeekDaysPipe } from './service/weekday.pipe';
 
 
 @NgModule({
