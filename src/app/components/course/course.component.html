@@ -14,66 +14,75 @@
       <div class="card btn-card">
         <button class="btn btn-large" (click)="changeRoute()"><span style="font-size: 25px;font-family: Montserrat-Light;">+</span> <span>Add new course plan</span></button>
       </div>
-      <div class="card card-wrap" *ngFor="let coursePlan of allCoursePlan">
-        <div class="header light-font">
-          <div *ngFor="let category of allCategories">
-            <label class="category regular-font" *ngIf="category._id == coursePlan.categoryId">
-              #{{ category.name }}
-            </label>
-          </div>
-          <h5>{{coursePlan.name}}</h5>
-          <div class="header-info light-font">
-            {{coursePlan.seats}} seats
-            <ul><li>{{ coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
-          </div>
-        </div>
-        <div>
-          <div *ngFor="let course of courseList">
-            <div class="course-wrap" *ngIf="coursePlan._id == course.coursePlanId">
-            <div [ngClass]="{'no-seat': course.name=='piano'}" class="absolute">
-              All seats taken
+      <div *ngFor="let coursePlan of allCoursePlan">
+        <div class="card card-wrap">
+          <div class="header light-font">
+            <div *ngFor="let category of allCategories">
+              <label class="category regular-font" *ngIf="category._id == coursePlan.categoryId">
+                #{{ category.name }}
+              </label>
             </div>
-              <div class="date-wrap">
-                <div>
-                  <span class="regular-font">From</span>
-                  <div class="medium-font">{{course.startDate | date}}</div>
+            <h5>{{coursePlan.name}}</h5>
+            <div class="header-info light-font">
+              {{coursePlan.seats}} seats
+              <ul><li>{{ coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
+            </div>
+          </div>
+          <div>
+            <div *ngFor="let course of courseList">
+              <div class="course-wrap" *ngIf="coursePlan._id == course.coursePlanId">
+                <div *ngIf="course.name=='piano'" class="absolute">
+                  5 seats left
                 </div>
-                <div>
-                  <span class="regular-font">To</span>
-                  <div class="medium-font">{{course.endDate | date}}</div>
+                <div *ngIf="course.name!='piano'" class="no-seat">
+                  All seats taken
                 </div>
-              </div>
-              <div class="course-info">
-                <div class="course-detail">
-                  <div *ngFor="let location of allLocation">
-                    <label class="category medium-font" *ngIf="location._id == course.locationId">
-                      <i class="fa fa-map-marker" style="font-size:15px"></i>
-                      <span>{{ location.name}}</span>
-                    </label>
+                <div class="date-wrap">
+                  <div class="startDate-wrap">
+                    <span class="regular-font">From</span>
+                    <div class="medium-font">{{course.startDate | date}}</div>
                   </div>
-                  <h5 class="course-label">{{course.name}}</h5>
-                  <span class="staff-info regular-font">by {{course.teacher.preferredName}} 
-                  <ul><li>0 staff</li></ul></span>
+                  <div *ngIf = "course.endDate">
+                    <span class="regular-font">To</span>
+                    <div class="medium-font">{{course.endDate | date}}</div>
+                  </div>
+                  <div *ngIf = "course.lessonCount">
+                    <span class="medium-font">{{course.lessonCount}}</span>
+                    <div class="regular-font">Lessons</div>
+                  </div>
                 </div>
-                <div class="second-info">
-                  <div class="time-wrap">
-                    <span class="medium-font" *ngFor="let day of course.repeatDays | weekDays">
-                      {{ day }}
-                    </span>
-                    <div class="regular-font time-color">
-                      10:00 AM - 11:00 AM
+                <div class="course-info">
+                  <div class="course-detail">
+                    <div *ngFor="let location of allLocation">
+                      <label class="category medium-font" *ngIf="location._id == course.locationId">
+                        <i class="fa fa-map-marker" style="font-size:15px"></i>
+                        <span>{{ location.name}}</span>
+                      </label>
+                    </div>
+                    <h5 class="course-label">{{course.name}}</h5>
+                    <span class="staff-info regular-font">by {{course.teacher.preferredName}} 
+                    <ul><li>0 staff</li></ul></span>
+                  </div>
+                  <div class="second-info">
+                    <div class="time-wrap">
+                      <span class="medium-font" *ngFor="let day of course.repeatDays | weekDays">
+                        {{ day }}
+                      </span>
+                      <div class="regular-font time-color">
+                        10:00 AM - 11:00 AM
+                      </div>
+                    </div>
+                    <div class="btnCustomer-wrap">
+                      <button class="btn-addC" (click)="assignUser(course)"><span class="btn-plusicon"> + </span> Add customer</button>
                     </div>
                   </div>
-                  <div class="btnCustomer-wrap">
-                    <button class="btn-addC" (click)="assignUser(course)"><span class="btn-plusicon"> + </span> Add customer</button>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="link-wrap">
-          <a class="link-btn" [routerLink]="['/courseCreate']">Add new course</a>
+          <div class="link-wrap">
+            <a class="link-btn" [routerLink]="['/courseCreate']">Add new course</a>
+          </div>
         </div>
       </div>
     </div>
