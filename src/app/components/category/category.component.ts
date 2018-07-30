@@ -100,10 +100,11 @@ export class CategoryComponent implements OnInit {
     this.isEditComplete = !this.isEditComplete;
   }
 
-  somethingChanged(val){
+  somethingChanged(val, name){
     console.log('hi', val)
     this.ischecked = val;
     localStorage.setItem('categoryID', val);
+    localStorage.setItem('categoryName', name);
     this._service.gotoplan();
   }
 

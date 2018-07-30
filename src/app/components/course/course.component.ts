@@ -57,6 +57,8 @@ export class CourseComponent implements OnInit {
     this.getCoursePlans();
     this.getLocationList();
     this.getCategoryList();
+    localStorage.removeItem('categoryID');
+    localStorage.removeItem('categoryName');
   }
 
   changeRoute(){
