@@ -51,10 +51,14 @@ export class appService{
       this.previous.next(false)
     }
 
+    back1(){
+      this.previous.next(false)
+    }
+
     gotoplan(){
       var val = localStorage.getItem('categoryID')
-      this.plan.next(val)
       console.log('gotoplan ',val)
+      this.plan.next(val)
     }
 
     isLoggedIn(): boolean {

@@ -22,7 +22,7 @@
         <h5 class="category-h5">Pick category</h5>
       </div> 
       <div>
-        <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
+        <button *ngIf="isEditComplete == false" class="btn category-edit1" (click)="edit()">Edit</button>
         <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
       </div>
     </div>
@@ -56,8 +56,18 @@
             disabled 
             >
           <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': isfocus == true}"> 
-            <button type="submit" class="btn" (click)="close('create')">X</button>
-            <button type="submit" class="btn" (click)="createCategory(item)" [disabled]="!categoryForm.valid">O</button>
+            <button type="submit" class="btn" (click)="close('create')">
+              <span class="closemark">
+                  <div class="closemark_stem"></div>
+                  <div class="closemark_kick"></div>
+              </span>
+            </button>
+            <button type="submit" class="btn" (click)="createCategory(item)" [disabled]="!categoryForm.valid">
+              <span class="checkmark">
+                  <div class="checkmark_stem"></div>
+                  <div class="checkmark_kick"></div>
+              </span>
+            </button>
           </div>
         </form>
       </div>
@@ -69,7 +79,7 @@
               type="radio" 
               name="inlineRadioOptions" 
               id="category._id" 
-              (click)="somethingChanged(category._id)"
+              (click)="somethingChanged(category._id, category.name)"
               value="{{category.name}}"> {{category.name}}
           </label>
         </div>
@@ -84,8 +94,18 @@
             #name="ngModel"
             (focus)="focusFunction('edit',category._id)">
           <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == category._id}"> 
-            <button type="submit" class="btn" (click)="close('edit')">X</button>
-            <button type="submit" class="btn" (click)="updateCategory(item, category.name)" [disabled]="!categoryForm.valid">O</button>
+            <button type="submit" class="btn" (click)="close('edit')">
+              <span class="closemark">
+                  <div class="closemark_stem"></div>
+                  <div class="closemark_kick"></div>
+              </span>
+            </button>
+            <button type="submit" class="btn" (click)="updateCategory(item, category.name)" [disabled]="!categoryForm.valid">
+              <span class="checkmark">
+                  <div class="checkmark_stem"></div>
+                  <div class="checkmark_kick"></div>
+              </span>
+            </button>
           </div>
         </div>
       </div>

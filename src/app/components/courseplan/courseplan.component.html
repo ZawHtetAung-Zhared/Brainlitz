@@ -38,13 +38,12 @@
 						<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 					</div>	
 					<div class="col-md-4 title-mr display-style">
-			    		<p>#piano{{checkedName}}
-			    			<!-- <span style="font-size: 16px;">&#183;</span></p>  -->
-			    		<h5>Course plan</h5>
+						<p>#{{checkedName}}</p><span>&#183;</span>		
+			    		<h5 style="position: absolute;left: 90px;">Course plan</h5>
 			    	</div>
 			    	<div class="col-md-4">
 				    	<div [hidden]="!createButton">
-				    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed" (click)="createdPlan(subCatForm.value)">Create</button>
+				    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
 				    	</div>
 				    	<div [hidden]="!updateButton">
 				    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
@@ -59,7 +58,7 @@
 				</div>	
 		    	<div class="col-md-6">
 			    	<div [hidden]="!createButton">
-			    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)">Create</button>
+			    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
 			    	</div>
 			    	<div [hidden]="!updateButton">
 			    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
@@ -71,7 +70,7 @@
 		      <span aria-hidden="true">&times;</span>
 		    </button> -->
 	    	<div class="title-mr">
-	    		<p>#piano{{checkedName}}</p>
+	    		<p>#{{checkedName}}</p>
 	    		<h5>Course plan</h5>
 	    	</div>
 			<div class="all-box-lt">
@@ -116,12 +115,18 @@
 							<label class="switch">
 								<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup">
 								<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
+								<div *ngIf="formField.makeupPolicy.allowMakeupPass == true" >
+									<span class="checkmark-custom">
+									    <div class="checkmark_stem"></div>
+										<div class="checkmark_kick"></div>
+									</span>
+								</div>
 							</label>
 						</div>	
 						<div class="display-style">
 							<div class="col-md-6">
 								<label> Validation duration after class </label>
-								<input type="number" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0day" required>
+								<input type="number" class="form-control day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0" required><span class="sign-day-pos">day</span>
 								<!-- <div *ngIf="makeuppass.errors && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger">
 							        <div [hidden]="!makeuppass.errors.required">
 							          MaxDayPerPass is required!
@@ -129,7 +134,8 @@
 							    </div> -->
 							</div>
 							<div class="col-md-6">
-								MaxDayPerUser <input type="number" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0day" #makeupuser="ngModel" placeholder="0day" required>
+								<label> MaxDayPerUser </label>
+								<input type="number" class="form-control day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0" #makeupuser="ngModel" required><span class="sign-day-pos">day</span>
 								<!-- <div *ngIf="makeupuser.errors && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger">
 							        <div [hidden]="!makeupuser.errors.required">
 							          MaxDayPerUser is required!
@@ -143,14 +149,15 @@
 					<div class="display-style">
 						<div class="col-md-3">
 							Deposit
-							<select class="form-control br-bshadow-none" name="deposit" [(ngModel)]="depositModel" required>
-								<option [value]="'disabledDeposit'" disabled="true">S$ 0</option>
+							<span class="sign-depo-dollar">S$</span>
+							<select style="margin-left: 30px;" class="form-control br-bshadow-none" name="deposit" [(ngModel)]="depositModel" required>
+								<option [value]="'disabledDeposit'" disabled="true">0</option>
 								<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">{{deposit.amount}}</option>
 							</select>
 						</div>
 						<div class="col-md-3">
-							Course fee 
-							<input type="number" placeholder="S$ 0" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'courseFee')" [(ngModel)]="formField.paymentPolicy.courseFee" min="0" name="courseFee" #courseFee="ngModel" required>
+							<label> Course fee </label>
+							<span class="sign-dollar-pos">S$</span><input type="number" placeholder="0" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'courseFee')" [(ngModel)]="formField.paymentPolicy.courseFee" min="0" style="padding-left: 30px;" name="courseFee" #courseFee="ngModel" required>
 							<!-- <div *ngIf="courseFee.errors && (courseFee.dirty || courseFee.touched)" class="alert alert-danger">
 						        <div [hidden]="!courseFee.errors.required">
 						          CourseFee is required!
@@ -167,7 +174,8 @@
 					    </div>
 					</div> -->
 						<div class="col-md-3">
-							Miscellaneous fee <input type="number" placeholder="S$ 0" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'miscelFee')" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel" required>
+							<label> Miscellaneous fee </label>
+							<span class="sign-dollar-pos">S$</span><input type="number" placeholder="0" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'miscelFee')" style="padding-left: 30px;" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel" required>
 							<!-- <div *ngIf="miscfee.errors && (miscfee.dirty || miscfee.touched)" class="alert alert-danger">
 						        <div [hidden]="!miscfee.errors.required">
 						          MiscFee is required!
@@ -180,6 +188,12 @@
 								<label class="switch">
 									<input type="checkbox" [(ngModel)]="formField.paymentPolicy.allowProrated" min="0" name="allowProrated" #allow="ngModel">
 									<span class="slider round" [ngClass]="{'activeRadio': formField.paymentPolicy.allowProrated == true}"></span>
+									<div *ngIf="formField.paymentPolicy.allowProrated == true" >
+										<span class="checkmark-custom">
+										    <div class="checkmark_stem"></div>
+											<div class="checkmark_kick"></div>
+										</span>
+									</div>
 								</label>
 							</div>	
 							<!-- <div *ngIf="allow.errors && (allow.dirty || allow.touched)" class="alert alert-danger">
@@ -191,10 +205,11 @@
 					</div>
 				</div>
 				<div class="col-md-12 mr-top">
-					<label for="age" class="title-color">Age <span style="color: #64707d; font-size: 14px;">.Optional</span></label>
+					<label for="age" class="title-color">Age <span class="optional-dot">&#183;</span><span class="optional-pos">Optional</span></label>
 					<div class="display-style">
 						<div class="col-md-6">
-							From <input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel" required>
+							<label> From </label>
+							<input type="number" placeholder="0" class="form-control age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel"><span class="sign-year-pos">year</span>
 							<!-- <p *ngIf="restrictFirstInput" class="alert alert-danger">Must be Lower than "To" Age</p> -->
 							<!-- <div *ngIf="!restrictFirstInput">
 								<div *ngIf="minData.errors && (minData.dirty || minData.touched)" class="alert alert-danger">
@@ -205,7 +220,9 @@
 							</div> -->
 						</div>
 					 	<div class="col-md-6">
-					 		to <input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel" required>
+					 		<label> to </label>
+					 		<input type="number" placeholder="0" class="form-control age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
+					 		<span class="sign-year-pos">year</span>
 					 		<!-- <p *ngIf="restrictLastInput" class="alert alert-danger">Must be greater than "From" Age</p> -->
 					 		<!-- <div *ngIf="!restrictLastInput">
 						 		<div *ngIf="maxData.errors && (maxData.dirty || maxData.touched)" class="alert alert-danger">
@@ -221,7 +238,8 @@
 					<label for="duration" class="title-color">Lesson</label>
 					<div class="display-style">
 						<div class="col-md-3">
-							Minimum <input type="number" placeholder="0 lesson" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
+							<label> Minimum </label>
+							<input type="number" placeholder="0" class="form-control lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
 							<!-- <p *ngIf="restrictFirstLessInput" class="alert alert-danger">Must be Lower than "Max" Age</p> -->
 							<!-- <div *ngIf="!restrictFirstLessInput">
 								<div *ngIf="minLesson.errors && (minLesson.dirty || minLesson.touched)" class="alert alert-danger">
@@ -231,8 +249,9 @@
 							    </div>
 							</div> -->
 						</div> 
-						<div class="col-md-3">
-							Maximum <input type="number" placeholder="0 lesson" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
+						<div class="col-md-3">	
+							<label> Maximum </label>
+							<input type="number" placeholder="0" class="form-control lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
 							<!-- <p *ngIf="restrictLastLessInput" class="alert alert-danger">Must be greater than "Min" Age</p> -->
 							<!-- <div *ngIf="!restrictLastLessInput">
 								<div *ngIf="maxLesson.errors && (maxLesson.dirty || maxLesson.touched)" class="alert alert-danger">
@@ -243,7 +262,7 @@
 							</div> -->
 						</div>
 						<div class="col-md-3">
-							Duration 
+							<label> Duration </label>
 							<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
 							<div class="bg-box duration-progress">
 								<div id="rectangle"></div>
@@ -272,10 +291,16 @@
 				</div>
 				<div class="col-md-12 mr-top">
 					<label for="allowpw" class="title-color">Pagewerkz Books</label>
-					<div class="radio-pos">
+					<div class="radio-pos left-gap">
 						<label class="switch">
 							<input type="checkbox" [(ngModel)]='formField.allowPagewerkzBooks' id="allowpw" name="allowpagewerkz">
 							<span class="slider round" [ngClass]="{'activeRadio': formField.allowPagewerkzBooks == true}"></span>
+							<div *ngIf="formField.allowPagewerkzBooks == true" >
+								<span class="checkmark-custom">
+								    <div class="checkmark_stem"></div>
+									<div class="checkmark_kick"></div>
+								</span>
+							</div>
 						</label>
 					</div>	
 
