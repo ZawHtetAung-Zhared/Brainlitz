@@ -21,37 +21,6 @@ export class CourseplanComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
-  ngOnInit() {
-    //this.getAllCoursePlan();
-
-    this.showModal = true;
-    this.showsubModal = false;
-    this.showLoading = true;
-    this.checked = false;
-    this.updateButton = false;
-    this.createButton = true;
-    this.restrictFirstInput = false;
-    this.restrictLastInput = false;
-    this.getAllDeposit();
-    this.getAllHolidaysCalendar();
-    this.getAllPdf();
-    this.getAllAPG();
-    this.pdfId = [];
-   // this.formField = new cPlanField();
-    this.formField.holidayCalendarId = 'disabledHoliday';
-    this.depositModel = 'disabledDeposit';
-    this.rangeHr = '0';
-    this.rangeMin = '0';
-    this.readyOnlyRange = '0  min';
-
-    window.addEventListener('scroll', this.scroll, true);
-
-    setTimeout(function(){
-      $('.drag-wrapper .drag-scroll-content').css({'display':'flex', 'width': '100%'})
-    }, 200)
-
-  }
-
 	public showModal: boolean = false;
 	public showsubModal: boolean = true;
 	public checked: boolean = false;
@@ -100,6 +69,38 @@ export class CourseplanComponent implements OnInit {
   public readyOnlyRange: any;
   public timeInminutes: any;
 
+  ngOnInit() {
+    //this.getAllCoursePlan();
+
+    this.showModal = true;
+    this.showsubModal = false;
+    this.showLoading = true;
+    this.checked = false;
+    this.updateButton = false;
+    this.createButton = true;
+    this.restrictFirstInput = false;
+    this.restrictLastInput = false;
+    this.getAllDeposit();
+    this.getAllHolidaysCalendar();
+    this.getAllPdf();
+    this.getAllAPG();
+    this.pdfId = [];
+   // this.formField = new cPlanField();
+    this.formField.holidayCalendarId = 'disabledHoliday';
+    this.depositModel = 'disabledDeposit';
+    this.rangeHr = '0';
+    this.rangeMin = '0';
+    this.readyOnlyRange = '0  min';
+    //this.checkedName = ''
+
+    window.addEventListener('scroll', this.scroll, true);
+
+    setTimeout(function(){
+      $('.drag-wrapper .drag-scroll-content').css({'display':'flex', 'width': '100%'})
+    }, 200)
+
+  }
+
 	//open(content){
    // this.formField = new cPlanField();
 		//this.showModal = true;
@@ -133,15 +134,15 @@ export class CourseplanComponent implements OnInit {
  //      });
 	// }
 
-	selectedRadioId(id){
-    console.log(id)
-		this.showModal = false;
-		this.showsubModal = true;
-    this.categoryId = id;
-    this.allowchecked = false;
-    this.allowMakeup = false;
-    this.checkedName = this.checked;
-	}
+	//selectedRadioId(id){
+    //console.log(id)
+		//this.showModal = false;
+		//this.showsubModal = true;
+   // this.categoryId = id;
+   // this.allowchecked = false;
+   // this.allowMakeup = false;
+   // this.checkedName = this.checked;
+	//}
 
 	back(){
 		this.showModal = true;
