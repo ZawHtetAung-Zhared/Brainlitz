@@ -8,11 +8,11 @@
   <hr>
   <pre>Selected time: {{time | json}}</pre> -->
   <block-ui message="Deafult Message"></block-ui>
-  <div class="scrollable">
+  <div class="card-container">
     <div class="title"><h3 class="header-font">Courses</h3></div>
     <div class="card-columns">
       <div class="card btn-card">
-        <button class="btn btn-large" (click)="changeRoute()"><span style="font-size: 25px;font-family: Montserrat-Light;">+</span> <span>Add new course plan</span></button>
+        <button class="btn btn-large" (click)="changeRoute()"><span class="addCourseBtn">+</span> <span class="btn-largeLabel">Add new course plan</span></button>
       </div>
       <div *ngFor="let coursePlan of allCoursePlan">
         <div class="card card-wrap">
