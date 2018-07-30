@@ -13,6 +13,7 @@ export class appService{
     private baseUrl = environment.apiurl + '/api/v1';
     public temp: any;    
     public tempToken: any;    
+    public isback: boolean = false;    
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType');   
     locationID: Observable<any>;
@@ -24,6 +25,12 @@ export class appService{
     slicePath: Observable<any>;
     private sendLoginName = new Subject<any>();
 
+    goback: Observable<any>;
+    private previous = new Subject<any>();
+
+    goplan: Observable<any>;
+    private plan = new Subject<any>(); 
+
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
@@ -31,11 +38,23 @@ export class appService{
       this.sendData = this.sendParentToChild.asObservable();
       this.locationID = this.getLocationID.asObservable(); 
       this.slicePath = this.sendLoginName.asObservable(); 
+      this.goback = this.previous.asObservable(); 
+      this.goplan = this.plan.asObservable(); 
      }
 
     getPathLocal(){
       var datGet = localStorage.getItem('slicePath')
       this.sendLoginName.next(datGet);
+    }
+
+    back(){
+      this.previous.next(false)
+    }
+
+    gotoplan(){
+      var val = localStorage.getItem('categoryID')
+      this.plan.next(val)
+      console.log('gotoplan ',val)
     }
 
     isLoggedIn(): boolean {

@@ -33,10 +33,23 @@ export class CourseComponent implements OnInit {
   allCategories;
   locationName;
   emptyCourse:boolean = false;
+  isCategory:boolean = false;
+  isPlan:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.goback.subscribe(() => {   
+      console.log('goooo') 
+      this.isCategory = false;
+    });
+   
+   this._service.goplan.subscribe(() => {
+     console.log('muuuu')
+     this.isCategory = false;
+      this.isPlan = true;
+   })
+    
   }
   public regionId = localStorage.getItem('regionId');
   ngOnInit() {
@@ -47,12 +60,13 @@ export class CourseComponent implements OnInit {
   }
 
   changeRoute(){
+    this.isCategory = true;
     // console.log("Change Route")
     // localStorage.removeItem('coursePlanId');
     // localStorage.removeItem('courseId');
     // localStorage.removeItem('splan');
     // this.router.navigate(['/courseCreate']);
-    this.router.navigate(['courseplan']);
+    // this.router.navigate(['courseplan']);
   }
 
   edit(course){

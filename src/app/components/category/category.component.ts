@@ -22,9 +22,11 @@ export class CategoryComponent implements OnInit {
   public categoryList: any;
   public isEditComplete:boolean = false;
   public editValue:any;
+  public isCategory:boolean = false;
   public isempty:boolean = false;
   public isfocus:boolean = false;
   public iseditfocus:boolean = false;
+  public otherfocus:boolean = false;
   public ischecked:any;
   public navIsFixed: boolean = false;
 
@@ -65,6 +67,13 @@ export class CategoryComponent implements OnInit {
     }
   } 
 
+  backtoCourses(){
+    console.log('hi')
+    this.isCategory = false;
+    var data = localStorage.removeItem("categoryID");
+    this._service.back();
+  }
+
   createCategory(item) {
     this.isfocus = !this.isfocus;
   	console.log(item);
@@ -94,6 +103,8 @@ export class CategoryComponent implements OnInit {
   somethingChanged(val){
     console.log('hi', val)
     this.ischecked = val;
+    localStorage.setItem('categoryID', val);
+    this._service.gotoplan();
   }
 
   focusFunction(status, val){
@@ -101,6 +112,7 @@ export class CategoryComponent implements OnInit {
       this.isfocus = true;
     }else{
       this.iseditfocus = true;
+      this.otherfocus = true;
       this.editValue = val;
       this._service.getSingleCategory(val, this.regionID)
       .subscribe((res:any) => {
