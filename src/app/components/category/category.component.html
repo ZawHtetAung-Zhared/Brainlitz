@@ -1,8 +1,8 @@
 <div class="inner-wrapper" (scroll)="onScroll($event)">
   <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
   
-  <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}">
-    <div class="d-flex">
+  <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}" style="height: 100px;">
+    <div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
       <div class="mr-auto p-2 pl-0">
         <a class="back-to">< Courses</a>
       </div> 
@@ -11,12 +11,15 @@
         <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
       </div>
     </div>
-    <h3 class="category-h3">Pick category</h3>
+    <h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Pick category</h3>
   </header>
   <div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
     <div class="d-flex">
       <div class="mr-auto p-2 pl-0">
         <a class="back-to">< Courses</a>
+      </div> 
+      <div class="mr-auto p-2">
+        <h5 class="category-h5">Pick category</h5>
       </div> 
       <div>
         <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
@@ -44,7 +47,7 @@
             >
             <input 
             type="text" 
-            [ngClass]="{'onfocus': isfocus == true}"
+            [ngClass]="{'onfocus': isfocus == true, 'blury': iseditfocus == true}"
             class="form-control" 
             placeholder="+ Create new category" 
             name="name" 
@@ -58,7 +61,7 @@
           </div>
         </form>
       </div>
-      <div class="col-md-4 cagetory-item" *ngFor="let category of categoryList; let i = index" [ngClass]="{'blury': isfocus == true}">
+      <div class="col-md-4 cagetory-item" *ngFor="let category of categoryList; let i = index">
         <div *ngIf="isEditComplete == false" class="form-check">
           <label class="form-check-label" [ngClass]="{'selected': ischecked == category._id}">
             <div class="label-checked"></div>
@@ -70,11 +73,11 @@
               value="{{category.name}}"> {{category.name}}
           </label>
         </div>
-        <div *ngIf="isEditComplete == true" class="editcagetory-item">
-          <input 
+        <div *ngIf="isEditComplete == true" class="editcategory-item">          
+          <input
             type="text" 
             class="form-control" 
-            [ngClass]="{'onfocus': editValue == category._id}"            
+            [ngClass]="{'onfocus': editValue == category._id, 'blury': (iseditfocus == true && editValue != category._id)}"            
             name="name" 
             [(ngModel)]="category.name" 
             required 
