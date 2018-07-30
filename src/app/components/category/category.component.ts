@@ -25,6 +25,7 @@ export class CategoryComponent implements OnInit {
   public isempty:boolean = false;
   public isfocus:boolean = false;
   public iseditfocus:boolean = false;
+  public otherfocus:boolean = false;
   public ischecked:any;
   public navIsFixed: boolean = false;
 
@@ -101,6 +102,7 @@ export class CategoryComponent implements OnInit {
       this.isfocus = true;
     }else{
       this.iseditfocus = true;
+      this.otherfocus = true;
       this.editValue = val;
       this._service.getSingleCategory(val, this.regionID)
       .subscribe((res:any) => {
