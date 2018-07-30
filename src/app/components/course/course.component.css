@@ -1,6 +1,18 @@
-body {
-    position: relative; 
+@keyframes slideInFromLeft {
+  100% {
+    transform: translateX(0);
+  }
+  0% {
+    transform: translateX(100%);
+  }
 }
+.category-content{
+  animation: 0.6s ease-in 0s 1 slideInFromLeft;
+}
+
+/*body {
+    position: relative; 
+}*/
 li button{
     margin-left: 20px !important;
 }
@@ -89,6 +101,7 @@ li button{
 }
 .header h5{
   margin-bottom: .7rem;
+  font-size: 1.1rem;
 }
 .category{
   margin-bottom: .1rem;

@@ -4,7 +4,7 @@
   <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}" style="height: 100px;">
     <div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
       <div class="mr-auto p-2 pl-0">
-        <a class="back-to">< Courses</a>
+        <a class="back-to" (click)="backtoCourses()">< Courses</a>
       </div> 
       <div>
         <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>

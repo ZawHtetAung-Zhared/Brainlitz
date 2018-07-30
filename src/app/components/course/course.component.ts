@@ -33,6 +33,7 @@ export class CourseComponent implements OnInit {
   allCategories;
   locationName;
   emptyCourse:boolean = false;
+  isCategory:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
@@ -47,12 +48,13 @@ export class CourseComponent implements OnInit {
   }
 
   changeRoute(){
+    this.isCategory = true;
     // console.log("Change Route")
     // localStorage.removeItem('coursePlanId');
     // localStorage.removeItem('courseId');
     // localStorage.removeItem('splan');
     // this.router.navigate(['/courseCreate']);
-    this.router.navigate(['courseplan']);
+    // this.router.navigate(['courseplan']);
   }
 
   edit(course){

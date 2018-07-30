@@ -22,6 +22,7 @@ export class CategoryComponent implements OnInit {
   public categoryList: any;
   public isEditComplete:boolean = false;
   public editValue:any;
+  public isCategory:boolean = false;
   public isempty:boolean = false;
   public isfocus:boolean = false;
   public iseditfocus:boolean = false;
@@ -66,6 +67,11 @@ export class CategoryComponent implements OnInit {
     }
   } 
 
+  backtoCourses(){
+    console.log('hi')
+    this.isCategory = false;
+  }
+
   createCategory(item) {
     this.isfocus = !this.isfocus;
   	console.log(item);
@@ -95,6 +101,7 @@ export class CategoryComponent implements OnInit {
   somethingChanged(val){
     console.log('hi', val)
     this.ischecked = val;
+    localStorage.setItem('categoryID', val);
   }
 
   focusFunction(status, val){
