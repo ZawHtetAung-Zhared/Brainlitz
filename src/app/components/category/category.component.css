@@ -135,6 +135,7 @@ h3.category-h3{
 	font-family: 'Montserrat-Medium', Arial,sans-serif;
 	color: #6a7279;
 	padding-left: 0 !important;
+	cursor: pointer;
 }
 .pl-0{
 	padding-left: 0 !important;

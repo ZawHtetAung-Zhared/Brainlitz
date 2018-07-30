@@ -70,6 +70,8 @@ export class CategoryComponent implements OnInit {
   backtoCourses(){
     console.log('hi')
     this.isCategory = false;
+    var data = localStorage.removeItem("categoryID");
+    this._service.back();
   }
 
   createCategory(item) {

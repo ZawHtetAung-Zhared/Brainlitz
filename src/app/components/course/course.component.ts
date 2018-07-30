@@ -38,6 +38,9 @@ export class CourseComponent implements OnInit {
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.goback.subscribe(() => {    
+      this.isCategory = false;
+    });
   }
   public regionId = localStorage.getItem('regionId');
   ngOnInit() {
