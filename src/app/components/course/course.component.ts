@@ -34,13 +34,22 @@ export class CourseComponent implements OnInit {
   locationName;
   emptyCourse:boolean = false;
   isCategory:boolean = false;
+  isPlan:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
-    this._service.goback.subscribe(() => {    
+    this._service.goback.subscribe(() => {   
+      console.log('goooo') 
       this.isCategory = false;
     });
+   
+   this._service.goplan.subscribe(() => {
+     console.log('muuuu')
+     this.isCategory = false;
+      this.isPlan = true;
+   })
+    
   }
   public regionId = localStorage.getItem('regionId');
   ngOnInit() {

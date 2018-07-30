@@ -26,7 +26,10 @@ export class appService{
     private sendLoginName = new Subject<any>();
 
     goback: Observable<any>;
-    private previous = new Subject<any>(); 
+    private previous = new Subject<any>();
+
+    goplan: Observable<any>;
+    private plan = new Subject<any>(); 
 
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
@@ -36,6 +39,7 @@ export class appService{
       this.locationID = this.getLocationID.asObservable(); 
       this.slicePath = this.sendLoginName.asObservable(); 
       this.goback = this.previous.asObservable(); 
+      this.goplan = this.plan.asObservable(); 
      }
 
     getPathLocal(){
@@ -45,6 +49,12 @@ export class appService{
 
     back(){
       this.previous.next(false)
+    }
+
+    gotoplan(){
+      var val = localStorage.getItem('categoryID')
+      this.plan.next(val)
+      console.log('gotoplan ',val)
     }
 
     isLoggedIn(): boolean {

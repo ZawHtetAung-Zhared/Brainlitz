@@ -104,6 +104,7 @@ export class CategoryComponent implements OnInit {
     console.log('hi', val)
     this.ischecked = val;
     localStorage.setItem('categoryID', val);
+    this._service.gotoplan();
   }
 
   focusFunction(status, val){
