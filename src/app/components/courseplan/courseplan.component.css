@@ -100,24 +100,24 @@
 
 .checkmark {
 	position: absolute;
-    top: 3px;
-    left: 0;
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 1px solid #703bc1;
-    cursor: pointer;
+  top: 3px;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #703bc1;
+  cursor: pointer;
 }
 
 .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    top: 2px;
-    left: 2px;
-    width: 12px;
-    height: 12px;
+  content: "";
+  position: absolute;
+  display: none;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
 	border-radius: 50%;
 	background: #703bc1;
 }
@@ -211,12 +211,17 @@ input[type=number]::-webkit-outer-spin-button, select {
 	background-color: #64707d;
 	-webkit-transition: .4s;
 	transition: .4s;
-	content: '-';
-  font-size: 33px;
-  text-align: center;
+	content: '\2012';
+  /*font-size: 33px;*/
+  /*text-align: center;
   vertical-align: middle;
   line-height: 0.36;
+  color: #fff;*/
   color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 12px;
+  line-height: 1.3;
 }
 
 .activeRadio.slider:before {
@@ -236,12 +241,40 @@ input:checked + .slider:before {
   	-ms-transform: translateX(26px);
   	transform: translateX(26px);
   	background-color: #2196F3;
-    content: '\2713';
+    content: '';
     color: #fff;
     text-align: center;
     vertical-align: middle;
     font-size: 12px;
     line-height: 1.3;
+}
+
+.checkmark-custom {
+    display:inline-block;
+    cursor: pointer;
+    width: 22px;
+    height:22px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+  position: absolute;
+  width: 2px;
+  height: 9px;
+  background-color: #fff;
+  left: 14px;
+  top: -5px;
+}
+
+.checkmark_kick {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: #fff;
+  left: 12px;
+  top: 2px;
 }
 
 
@@ -267,8 +300,8 @@ input:-webkit-input-placeholder {
 
 .radio-pos {
 	position: absolute;
-    left: 170px;
-    top: 7px;
+  left: 170px;
+  top: 5px;
 }
 
 .title-color {
@@ -282,6 +315,17 @@ input:-webkit-input-placeholder {
 
 .display-style {
 	display: flex;
+}
+.display-style p {
+  color: #64707d;
+}
+
+.title-mr span{
+  font-size: 35px;
+  position: absolute;
+  top: -16px;
+  left: 76px;
+  color: #64707d
 }
 
 #rectangle::after{
@@ -440,12 +484,84 @@ drag-scroll {
   font-size: 14px;
 }
 
+select, ::-webkit-input-placeholder {
+  color: #788796 !important;
+}
 
 
+textarea {
+  resize: none;
+}
 
+.left-gap {
+  left: 200px !important;
+}
 
+.sign-dollar-pos{
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  color: #788796;
+}
 
+.sign-day-pos {
+  position: absolute;
+  bottom: 1px;
+  left: 31px;
+  color: #788796;
+}
 
+.sign-year-pos {
+  position: absolute;
+  bottom: 1px;
+  left: 38px;
+  color: #788796;
+}
 
+.sign-lesson-pos {
+  position: absolute;
+  bottom: 1px;
+  left: 37px;
+  color: #788796;
+}
 
+.sign-depo-dollar {
+  position: absolute; 
+  top: 31px; 
+  left: 0;
+  color: #788796;
+}
 
+.age-sign {
+  width: 9%; 
+  text-align: left; 
+  padding-right: 25px;
+}
+
+.lesson-sign {
+  width: 10%; 
+  padding-right: 0px;
+}
+
+.day-sign {
+  width: 9%; 
+  text-align: left; 
+  padding-right: 27px;
+}
+
+.optional-dot {
+  color: #64707d;
+  font-size: 28px;
+  position: absolute;
+  bottom: 56px;
+  left: 37px;
+}
+
+.optional-pos {
+  color: #64707d;
+  position: absolute;
+  bottom: 65px;
+  left: 50px;
+  font-weight: bold;
+  font-size: 12px;
+}

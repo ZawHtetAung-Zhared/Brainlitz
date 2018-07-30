@@ -42,7 +42,7 @@ export class CourseplanComponent implements OnInit {
     this.depositModel = 'disabledDeposit';
     this.rangeHr = '0';
     this.rangeMin = '0';
-    this.readyOnlyRange = '0 min';
+    this.readyOnlyRange = '0  min';
 
     window.addEventListener('scroll', this.scroll, true);
 
@@ -94,6 +94,11 @@ export class CourseplanComponent implements OnInit {
   rangeMin: any;
   public navIsFixed: boolean = false;
   public depositModel: any;
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public readyOnlyRange: any;
+  public timeInminutes: any;
 
 	//open(content){
    // this.formField = new cPlanField();
@@ -558,12 +563,6 @@ export class CourseplanComponent implements OnInit {
         }
   }
 
-  public selectedHrRange: any;
-  public selectedMinRange: any;
-  public overDurationHr: boolean = false;
-  public readyOnlyRange: any;
-  public timeInminutes: any;
-
   ChangedRangeValue(e, type) {
     if(type == 'hr'){
       this.selectedHrRange = e;
@@ -580,15 +579,15 @@ export class CourseplanComponent implements OnInit {
 
     if(this.selectedHrRange && this.selectedMinRange){
       this.timeInminutes = (parseInt(this.selectedHrRange) * 60) +  parseInt(this.selectedMinRange);
-      this.readyOnlyRange = (parseInt(this.selectedHrRange)) +'hr'+ +  parseInt(this.selectedMinRange) +'min';
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr' + ' ' +  parseInt(this.selectedMinRange) + ' ' + 'min';
     }
     else if(this.selectedHrRange){
       this.timeInminutes = (parseInt(this.selectedHrRange) * 60);
-      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + 'hr';
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr';
     }
     else if(this.selectedMinRange){
       this.timeInminutes = parseInt(this.selectedMinRange);
-      this.readyOnlyRange = parseInt(this.selectedMinRange) + 'min';
+      this.readyOnlyRange = parseInt(this.selectedMinRange) + ' ' + 'min';
     }
     else {
       console.log('error')
