@@ -13,5 +13,5 @@ export const environment = {
   //apiurl: 'https://staging-brainlitz.pagewerkz.com',  
   client_id: '',  
   clientSecret: '',  
-  redirect_uri: '',
+  redirect_uri: ''
 };

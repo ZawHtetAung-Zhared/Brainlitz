@@ -1,7 +1,241 @@
-.scrollable
+.pb-0{
+	padding-bottom: 0 !important;
+}
+.closemark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+	position: absolute;
+	width: 2px;
+	height: 13px;
+	background-color: #425568;
+	left: 5px;
+	top: 3px;
+}
+
+.closemark_kick {
+    transform: rotate(90deg);
+}
+
+.checkmark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background-color: #425568;
+    left: 6px;
+    top: 1px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: #425568;
+    left: 2px;
+    top: 12px;
+}
+header{
+	position: relative;
+}
+
+.overflow{
+	overflow-y: none !important;
+}
+.inner-wrapper{
+	overflow-y: scroll;
+}
+.sticky-menu{
+	position: fixed;
+	width: 100%;
+	z-index: 999 !important;
+	padding: 10px 30px;
+	left: 0;
+	right: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+	top: -80px;
+	background: #fff;
+	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
+.sticky-menu.sticky {
+    top: 0;
+}
+
+.overlay {
+    background: rgba(217, 217, 217, 0.7);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+}
+.blury{
+	filter: blur(9px);
+}
+
+h3.category-h3,
+.category-h5{
+	font-family: 'Montserrat-Medium', Arial,sans-serif;	
+	color: #2f3d4c;
+}
+.d-wrapper {   
+	top: 0; 
+    width: 100%;
+    -webkit-transition: all 0.8s ease-in-out;
+	-ms-transition: all 0.8s ease-in-out;
+	transition: all 0.8s ease-in-out;
+}
+h3.category-h3{
+	top: 43px;
+	margin-bottom: 1.3em;
+	-webkit-transition: all 0.75s ease-in-out;
+	-ms-transition: all 0.75s ease-in-out;
+	transition: all 0.75s ease-in-out;	
+}
+.d-wrapper,
+h3.category-h3{
+	position: absolute;
+	
+}
+.stickywrap{
+	top: -60px !important;
+}
+.category-h5{
+	font-size: 1.1rem;
+}
+.category-btn input{
+	background: #f2f4f5;    
+}
+
+.editcategory-item input{
+	position: relative;
+}
+
+.category-btn input,
+.cagetory-item label,
+.editcategory-item input{
+	width: 100%;
+	border: none;
+	padding: 15px 20px;
+	text-align: left;
+	font-size: 18px;
+	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+	margin-bottom: 1.7em;
+	border-radius: 3px;
+}
+.cagetory-item label{
+	padding-left: 0.8em;
+	cursor: pointer;
+}
+.cagetory-item input[type="radio"]{
+	display: none;
+}
+.cagetory-item .label-checked{
+	background: #fff;
+	border: 2px solid #2f3d4c;
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 19px;
+    height: 19px;
+    margin-top: 3px;
+    float: left;
+}
+.cagetory-item label.selected{
+	background: #1683FB;
+	color: #fff;
+	box-shadow: 0 1px 5px 1px rgb(22, 131, 251);
+}
+
+.cagetory-item label.selected .label-checked{
+	border: 2px solid #fff;
+	box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+}
+.cagetory-item .form-check{
+	padding: 0;
+}
+
+/*.scrollable
 {
     overflow-y: scroll;
 }
  .margin-left{
     margin-left: 20px !important;
+}*/
+
+
+.back-to{
+	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	color: #6a7279;
+	padding-left: 0 !important;
+	cursor: pointer;
+}
+.pl-0{
+	padding-left: 0 !important;
+}
+.category-edit,
+.category-edit1,
+.category-done {
+    padding: 7px 30px;
+    width: 105px;
+}
+.category-edit1{
+	background: #f2f4f5;
+}
+.category-edit{
+	background: #fff;
+}
+.category-done{
+	background: #1682fb;
+	color: #fff;
+}
+.category-btn-group{
+	display: none !important;
+	position: absolute;
+	right: 15px;
+	top: 65px;
+}
+.category-btn-group .btn{
+	background: #fff;
+	z-index: 999;
+	border-radius: 0;
+	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+	padding: 5px 12px;
+}
+.category-btn-group .btn:first-child{
+	margin-right: 13px;
+}
+.category-btn input.onfocus,
+.editcategory-item input.onfocus{
+	z-index: 99 !important;
+	position: relative;
+	background: #fff;
+	box-shadow: 0 1px 5px 1px rgba(195, 195, 195, 0.6);
+}
+.showbtns{
+	display: block !important;
+	z-index: 99 !important;
+}
+.category-btn input:focus .category-btn-group{
+	display: block !important;
+	z-index: 99 !important;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { cPlanField } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 
 declare var $: any;
 
@@ -16,12 +17,8 @@ declare var $: any;
 })
 export class CourseplanComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef, private _router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
-  }
-
-  ngOnInit() {
-    this.getAllCoursePlan();
   }
 
 	public showModal: boolean = false;
@@ -61,13 +58,25 @@ export class CourseplanComponent implements OnInit {
   restrictFirstLessInput: boolean = false;
   restrictLastLessInput: boolean = false;
   apgList: any;
+  progressSlider: boolean = false;
+  rangeHr: any;
+  rangeMin: any;
+  public navIsFixed: boolean = false;
+  public depositModel: any;
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public readyOnlyRange: any;
+  public timeInminutes: any;
+  public goBackCat: boolean = false;
 
-	open(content){
-    this.formField = new cPlanField();
-		this.showModal = true;
-		this.showsubModal = false;
+  ngOnInit() {
+    //this.getAllCoursePlan();
+
+    this.showModal = true;
+    this.showsubModal = false;
     this.showLoading = true;
-		this.checked = false;
+    this.checked = false;
     this.updateButton = false;
     this.createButton = true;
     this.restrictFirstInput = false;
@@ -77,38 +86,78 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG();
     this.pdfId = [];
-    this.apgId = [];
-		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
-    this.modalReference.result.then((result) => {
-    this.formField = new cPlanField();
-	  this.closeResult = `Closed with: ${result}`
-  	}, (reason) => {
-      this.formField = new cPlanField();
-  	  this.closeResult = `Closed with: ${reason}`;
-  	});
-    this._service.getCategory(this.regionID)
-    .subscribe((res:any) => {
-      console.log('success',res)
-      this.courseCategories = res;
-      }, err => {
-        console.log(err)
-      });
-	}
+   // this.formField = new cPlanField();
+    this.formField.holidayCalendarId = 'disabledHoliday';
+    this.depositModel = 'disabledDeposit';
+    this.rangeHr = '0';
+    this.rangeMin = '0';
+    this.readyOnlyRange = '0  min';
+    this.checkedName = localStorage.getItem('categoryName')
+    this.goBackCat = true;
+    window.addEventListener('scroll', this.scroll, true);
 
-	selectedRadioId(id){
-    console.log(id)
-		this.showModal = false;
-		this.showsubModal = true;
-    this.categoryId = id;
-    this.allowchecked = false;
-    this.allowMakeup = false;
-    this.checkedName = this.checked;
-	}
+    setTimeout(function(){
+      $('.drag-wrapper .drag-scroll-content').css({'display':'flex', 'width': '100%'})
+    }, 200)
+
+  }
+
+	//open(content){
+   // this.formField = new cPlanField();
+		//this.showModal = true;
+	// 	this.showsubModal = false;
+ //    this.showLoading = true;
+	// 	this.checked = false;
+ //    this.updateButton = false;
+ //    this.createButton = true;
+ //    this.restrictFirstInput = false;
+ //    this.restrictLastInput = false;
+ //    this.getAllDeposit();
+ //    this.getAllHolidaysCalendar();
+ //    this.getAllPdf();
+ //    this.getAllAPG();
+ //    this.pdfId = [];
+ //    this.apgId = [];
+	// 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
+ //    this.modalReference.result.then((result) => {
+ //    this.formField = new cPlanField();
+	//   this.closeResult = `Closed with: ${result}`
+ //  	}, (reason) => {
+ //      this.formField = new cPlanField();
+ //  	  this.closeResult = `Closed with: ${reason}`;
+ //  	});
+ //    this._service.getCategory(this.regionID)
+ //    .subscribe((res:any) => {
+ //      console.log('success',res)
+ //      this.courseCategories = res;
+ //      }, err => {
+ //        console.log(err)
+ //      });
+	// }
+
+	//selectedRadioId(id){
+    //console.log(id)
+		//this.showModal = false;
+		//this.showsubModal = true;
+   // this.categoryId = id;
+   // this.allowchecked = false;
+   // this.allowMakeup = false;
+   // this.checkedName = this.checked;
+	//}
 
 	back(){
-		this.showModal = true;
-		this.showsubModal = false;
+		//this.showModal = true;
+		//this.showsubModal = false;
+    this.goBackCat = false;
+    var data = localStorage.removeItem("categoryName");
+    this._service.backCat();
 	}
+
+  cancel(){
+    this.goBackCat = false;
+    var data = localStorage.removeItem("categoryName");
+    this._service.backCourse();
+  }
 
 	checkedData(id){
       this.checkedCatId = id;
@@ -122,7 +171,9 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-		console.log('created', formData)
+		console.log('form', formData)
+    var day = formData.lesson_duration;
+    console.log('this.timeInminutes', this.timeInminutes)
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -144,7 +195,7 @@ export class CourseplanComponent implements OnInit {
       "lesson": {
         "min": formData.minDuration,
         "max": formData.maxDuration,
-        "duration": formData.lesson_duration
+        "duration": this.timeInminutes
       },
       "seats": formData.seats,
       "age": {
@@ -156,21 +207,21 @@ export class CourseplanComponent implements OnInit {
       "accessPointGroup": this.apgId
     }
 
-    this.blockUI.start('Loading...');
-    this.modalReference.close();
-    this._service.createCoursePlan(this.regionID,data)
-    .subscribe((res:any) => {
-      console.log('success post',res);
-      this.toastr.success('Successfully Created.');
-      this.blockUI.stop();
-      this.getAllCoursePlan();
-      }, err => {
-        this.toastr.error('Create Fail');
-        this.blockUI.stop();
-        console.log(err)
-      })
-      this.pdfName = [];
-      this.pdfId = [];
+    //this.blockUI.start('Loading...');
+    //this.modalReference.close();
+    //this._service.createCoursePlan(this.regionID,data)
+    //.subscribe((res:any) => {
+    //  console.log('success post',res);
+   //   this.toastr.success('Successfully Created.');
+   //   this.blockUI.stop();
+      // this.getAllCoursePlan();
+      // }, err => {
+      //   this.toastr.error('Create Fail');
+      //   this.blockUI.stop();
+      //   console.log(err)
+      // })
+      // this.pdfName = [];
+      // this.pdfId = [];
   }
 
   onclickDelete(cplan, confirmDelete1){
@@ -366,6 +417,7 @@ export class CourseplanComponent implements OnInit {
   getAllPdf(){
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
+      console.log('pdflists',res)
       this.pdfList = res;
     }, err => {
       console.log(err)
@@ -503,7 +555,59 @@ export class CourseplanComponent implements OnInit {
 
   }
 
-  numberOnly(event){
+  durationProgress($event){
+    this.progressSlider = true;
+  }
+
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+        if(this.progressSlider != true){
+           $('.bg-box').css({ 'display': "none" });   
+        }
+        else {
+            $('.bg-box').css({ 'display': "block" }); 
+            $('.bg-box').click(function(event){
+                event.stopPropagation();
+            });
+            this.progressSlider = false;
+
+        }
+  }
+
+  ChangedRangeValue(e, type) {
+    if(type == 'hr'){
+      this.selectedHrRange = e;
+      this.overDurationHr = false;
+      if(this.selectedHrRange == 24){
+        this.overDurationHr = true;
+        this.rangeMin = 0;
+        this.selectedMinRange = 0;
+      }
+    }
+    if(type == 'min'){
+      this.selectedMinRange = e;
+    }
+
+    if(this.selectedHrRange && this.selectedMinRange){
+      this.timeInminutes = (parseInt(this.selectedHrRange) * 60) +  parseInt(this.selectedMinRange);
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr' + ' ' +  parseInt(this.selectedMinRange) + ' ' + 'min';
+    }
+    else if(this.selectedHrRange){
+      this.timeInminutes = (parseInt(this.selectedHrRange) * 60);
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr';
+    }
+    else if(this.selectedMinRange){
+      this.timeInminutes = parseInt(this.selectedMinRange);
+      this.readyOnlyRange = parseInt(this.selectedMinRange) + ' ' + 'min';
+    }
+    else {
+      console.log('error')
+    }
+    console.log('durationMinutes',this.timeInminutes)
+      
+  }
+
+  numberOnly(event, type){
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -512,6 +616,27 @@ export class CourseplanComponent implements OnInit {
         event.target.value = '';  
     }
   }
+
+  cplan() {
+    this.showModal = false;
+    this.showsubModal = true;
+  }
+
+  scroll = (e): void => {
+  };
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    if(window.pageYOffset > 90){
+      this.navIsFixed = true;
+    }else{
+      this.navIsFixed = false;
+    }
+  } 
+
+  ngOnDestroy() {
+      window.removeEventListener('scroll', this.scroll, true);
+  }
+
 
 
 }

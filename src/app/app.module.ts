@@ -42,6 +42,9 @@ import { ReportComponent } from './components/report/report.component';
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
+import { MinuteSecondsPipe } from './service/time.pipe';
+import { DragScrollModule } from 'ngx-drag-scroll';
+import { WeekDaysPipe } from './service/weekday.pipe';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,9 @@ import { ModuleComponent } from './components/module/module.component';
     ReportComponent,
     ApgComponent,
     TemplateComponent,
-    ModuleComponent
+    ModuleComponent,
+    MinuteSecondsPipe,
+    WeekDaysPipe
   ],
   imports: [
     BrowserModule,
@@ -80,10 +85,11 @@ import { ModuleComponent } from './components/module/module.component';
     BrowserAnimationsModule,
     ToastModule.forRoot(),
     ClickOutsideModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),
+    DragScrollModule
   ],
   providers: [
     appService,

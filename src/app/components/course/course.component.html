@@ -1,28 +1,96 @@
 <!-- <app-coursecreate></app-coursecreate> -->
-
-<div class="inner-wrapper">
-  <div class="mb-30">
-    <button class="btn btn-primary" (click)="changeRoute()">+ Course Create</button>
-  </div>
+<app-header *ngIf="!isCategory && !isPlan" class="d-flex header-top top-header"></app-header>
+<div class="inner-wrapper" *ngIf="!isCategory && !isPlan" style="margin-top: 120px;">
+  <!-- <div class="mb-30">
+    <button class="btn btn-lg btn-outline-primary bt-color" (click)="open(content)">+ Add new course plan</button>
+  </div> -->
   <!-- <ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
   <hr>
   <pre>Selected time: {{time | json}}</pre> -->
   <block-ui message="Deafult Message"></block-ui>
-  <div class="scrollable">
-    <h2 *ngIf="emptyCourse">There is no course</h2>
-    <ul class="list-group-flush">
-      <li class="list-group-item" *ngFor="let course of courseList; let i=index">
-        <span style="margin-right: 20px;">{{i+1}}- {{course.name}}</span>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="edit(course)">Edit</button>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="assignUser(course)">Assign User</button>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course,detail)">View</button>
-      </li>
-    </ul>
+  <div class="card-container">
+    <div class="title"><h3 class="header-font">Courses</h3></div>
+    <div class="card-columns">
+      <div class="card btn-card">
+        <button class="btn btn-large" (click)="changeRoute()"><span class="addCourseBtn">+</span> <span class="btn-largeLabel">Add new course plan</span></button>
+      </div>
+      <div *ngFor="let coursePlan of allCoursePlan">
+        <div class="card card-wrap">
+          <div class="header light-font">
+            <div *ngFor="let category of allCategories">
+              <label class="category regular-font" *ngIf="category._id == coursePlan.categoryId">
+                #{{ category.name }}
+              </label>
+            </div>
+            <h5>{{coursePlan.name}}</h5>
+            <div class="header-info light-font">
+              {{coursePlan.seats}} seats
+              <ul><li>{{ coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
+            </div>
+          </div>
+          <div>
+            <div *ngFor="let course of courseList">
+              <div class="course-wrap" *ngIf="coursePlan._id == course.coursePlanId">
+                <div *ngIf="course.name=='piano'" class="absolute">
+                  5 seats left
+                </div>
+                <div *ngIf="course.name!='piano'" class="no-seat">
+                  All seats taken
+                </div>
+                <div class="date-wrap">
+                  <div class="startDate-wrap">
+                    <span class="regular-font">From</span>
+                    <div class="medium-font">{{course.startDate | date}}</div>
+                  </div>
+                  <div *ngIf = "course.endDate">
+                    <span class="regular-font">To</span>
+                    <div class="medium-font">{{course.endDate | date}}</div>
+                  </div>
+                  <div *ngIf = "course.lessonCount">
+                    <span class="medium-font">{{course.lessonCount}}</span>
+                    <div class="regular-font">Lessons</div>
+                  </div>
+                </div>
+                <div class="course-info">
+                  <div class="course-detail">
+                    <div *ngFor="let location of allLocation">
+                      <label class="category medium-font" *ngIf="location._id == course.locationId">
+                        <i class="fa fa-map-marker" style="font-size:15px"></i>
+                        <span>{{ location.name}}</span>
+                      </label>
+                    </div>
+                    <h5 class="course-label">{{course.name}}</h5>
+                    <span class="staff-info regular-font">by {{course.teacher.preferredName}} 
+                    <ul><li>0 staff</li></ul></span>
+                  </div>
+                  <div class="second-info">
+                    <div class="time-wrap">
+                      <span class="medium-font" *ngFor="let day of course.repeatDays | weekDays">
+                        {{ day }}
+                      </span>
+                      <div class="regular-font time-color">
+                        10:00 AM - 11:00 AM
+                      </div>
+                    </div>
+                    <div class="btnCustomer-wrap">
+                      <button class="btn-addC" (click)="assignUser(course)"><span class="btn-plusicon"> + </span> Add customer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="link-wrap">
+            <a class="link-btn" [routerLink]="['/courseCreate']">Add new course</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div> 
 
-
+<app-category class="category-content" *ngIf="isCategory == true"></app-category>
+<app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
