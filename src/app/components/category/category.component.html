@@ -73,7 +73,7 @@
       </div>
       <div class="col-md-4 cagetory-item" *ngFor="let category of categoryList; let i = index">
         <div *ngIf="isEditComplete == false" class="form-check">
-          <label class="form-check-label" [ngClass]="{'selected': ischecked == category._id}">
+          <label class="form-check-label" [ngClass]="{'selected': ischecked == category._id, 'blury': isfocus == true}">
             <div class="label-checked"></div>
             <input class="form-check-input"
               type="radio" 

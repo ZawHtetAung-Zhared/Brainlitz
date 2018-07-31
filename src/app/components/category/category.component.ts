@@ -96,6 +96,8 @@ export class CategoryComponent implements OnInit {
 
   edit(){
     this.isEditComplete = true;
+    this.isfocus = false;
+    this.iseditfocus = false;
   }
   editComplete(){
     this.isEditComplete = !this.isEditComplete;

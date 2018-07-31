@@ -145,6 +145,7 @@ h3.category-h3{
 }
 .cagetory-item label{
 	padding-left: 0.8em;
+	cursor: pointer;
 }
 .cagetory-item input[type="radio"]{
 	display: none;
