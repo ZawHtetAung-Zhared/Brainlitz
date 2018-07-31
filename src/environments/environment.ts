@@ -11,7 +11,7 @@ export const environment = {
   orgID: '5b063e2636f2e0f83cdbac88',  
   apiurl: 'https://staging-brainlitz.pagewerkz.com',
   //apiurl: 'https://staging-brainlitz.pagewerkz.com',  
-  client_id: 'web-stg',  
-  clientSecret: 'web-stg',  
+  client_id: 'webstg',  
+  clientSecret: 'webstg',  
   redirect_uri: 'https://staging-brainlitz-web.pagewerkz.com/#/'
 };
