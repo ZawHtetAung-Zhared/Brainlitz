@@ -416,6 +416,7 @@ drag-scroll {
 .drag-active-bg {
   background: #cce6ff;
   color: #0080ff;
+  border-radius: 4px;
 }
 
 .disabled-cursor {
@@ -431,7 +432,6 @@ drag-scroll {
 }
 
 .book-name {
-  width: 150px; 
   white-space: pre-wrap;
 }
 
@@ -500,14 +500,14 @@ textarea {
 .sign-day-pos {
   position: absolute;
   bottom: 1px;
-  left: 31px;
+  left: 33px;
   color: #788796;
 }
 
 .sign-year-pos {
   position: absolute;
   bottom: 1px;
-  left: 38px;
+  left: 33px;
   color: #788796;
 }
 
@@ -526,20 +526,24 @@ textarea {
 }
 
 .age-sign {
-  width: 9%; 
+  width: 50px; 
   text-align: left; 
-  padding-right: 25px;
+  padding-right: 22px;
+}
+
+input:focus {
+  outline: none;
 }
 
 .lesson-sign {
-  width: 10%; 
-  padding-right: 0px;
+  width: 50px; 
+  padding-right: 22px;
 }
 
 .day-sign {
-  width: 9%; 
+  width: 50px; 
   text-align: left; 
-  padding-right: 27px;
+  padding-right: 22px;
 }
 
 .optional-dot {

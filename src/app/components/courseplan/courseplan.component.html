@@ -140,7 +140,9 @@
 						<div class="display-style">
 							<div class="col-md-6">
 								<label> Validation duration after class </label>
-								<input type="number" class="form-control day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0" required><span class="sign-day-pos">day</span>
+								<div>
+									<input type="number" class="day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0" required><span class="sign-day-pos">day</span>
+								</div>
 								<!-- <div *ngIf="makeuppass.errors && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger">
 							        <div [hidden]="!makeuppass.errors.required">
 							          MaxDayPerPass is required!
@@ -149,7 +151,9 @@
 							</div>
 							<div class="col-md-6">
 								<label> MaxDayPerUser </label>
-								<input type="number" class="form-control day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0" #makeupuser="ngModel" required><span class="sign-day-pos">day</span>
+								<div>
+									<input type="number" class="day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0" #makeupuser="ngModel" required><span class="sign-day-pos">day</span>
+								</div>
 								<!-- <div *ngIf="makeupuser.errors && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger">
 							        <div [hidden]="!makeupuser.errors.required">
 							          MaxDayPerUser is required!
@@ -223,7 +227,9 @@
 					<div class="display-style">
 						<div class="col-md-6">
 							<label> From </label>
-							<input type="number" placeholder="0" class="form-control age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel"><span class="sign-year-pos">year</span>
+							<div>
+								<input type="number" placeholder="0" class="age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel"><span class="sign-year-pos">year</span>
+							</div>
 							<!-- <p *ngIf="restrictFirstInput" class="alert alert-danger">Must be Lower than "To" Age</p> -->
 							<!-- <div *ngIf="!restrictFirstInput">
 								<div *ngIf="minData.errors && (minData.dirty || minData.touched)" class="alert alert-danger">
@@ -235,8 +241,10 @@
 						</div>
 					 	<div class="col-md-6">
 					 		<label> to </label>
-					 		<input type="number" placeholder="0" class="form-control age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
-					 		<span class="sign-year-pos">year</span>
+					 		<div>
+					 			<input type="number" placeholder="0" class="age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
+					 			<span class="sign-year-pos">year</span>
+					 		</div>
 					 		<!-- <p *ngIf="restrictLastInput" class="alert alert-danger">Must be greater than "From" Age</p> -->
 					 		<!-- <div *ngIf="!restrictLastInput">
 						 		<div *ngIf="maxData.errors && (maxData.dirty || maxData.touched)" class="alert alert-danger">
@@ -253,7 +261,9 @@
 					<div class="display-style">
 						<div class="col-md-3">
 							<label> Minimum </label>
-							<input type="number" placeholder="0" class="form-control lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
+							<div>
+								<input type="number" placeholder="0" class="lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
+							</div>
 							<!-- <p *ngIf="restrictFirstLessInput" class="alert alert-danger">Must be Lower than "Max" Age</p> -->
 							<!-- <div *ngIf="!restrictFirstLessInput">
 								<div *ngIf="minLesson.errors && (minLesson.dirty || minLesson.touched)" class="alert alert-danger">
@@ -265,7 +275,9 @@
 						</div> 
 						<div class="col-md-3">	
 							<label> Maximum </label>
-							<input type="number" placeholder="0" class="form-control lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
+							<div>
+								<input type="number" placeholder="0" class="lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
+							</div>
 							<!-- <p *ngIf="restrictLastLessInput" class="alert alert-danger">Must be greater than "Min" Age</p> -->
 							<!-- <div *ngIf="!restrictLastLessInput">
 								<div *ngIf="maxLesson.errors && (maxLesson.dirty || maxLesson.touched)" class="alert alert-danger">
