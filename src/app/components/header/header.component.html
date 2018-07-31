@@ -1,9 +1,9 @@
 <header id="header">
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between first-row">
     <div class="mr-auto">
     	<form  novalidate #chooseLocationForm="ngForm">
     		<div class="form-group">
-    		  <label for="inputState">Location</label>
+    		  <label for="inputState" class="location-label">Location</label>
     		  <i class="down-arrow"></i>
     		  <select id="inputState" class="form-control" name="location" (change)="selectLocation($event)">
     		    <option [selected]="location.selected" *ngFor="let location of locationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
@@ -18,7 +18,9 @@
       </button> 
     </div>
   </div>
-  <app-sidebar class="d-flex"></app-sidebar>      
+  <div class="sidebar-wrap">
+    <app-sidebar class="d-flex"></app-sidebar>
+  </div>      
 </header>
 
 

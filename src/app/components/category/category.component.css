@@ -1,3 +1,51 @@
+.closemark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+	position: absolute;
+	width: 2px;
+	height: 13px;
+	background-color: #425568;
+	left: 5px;
+	top: 3px;
+}
+
+.closemark_kick {
+    transform: rotate(90deg);
+}
+
+.checkmark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background-color: #425568;
+    left: 6px;
+    top: 1px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: #425568;
+    left: 2px;
+    top: 12px;
+}
 header{
 	position: relative;
 }
@@ -141,9 +189,16 @@ h3.category-h3{
 	padding-left: 0 !important;
 }
 .category-edit,
+.category-edit1,
 .category-done {
     padding: 7px 30px;
     width: 105px;
+}
+.category-edit1{
+	background: #f2f4f5;
+}
+.category-edit{
+	background: #fff;
 }
 .category-done{
 	background: #1682fb;
