@@ -6,7 +6,7 @@
 		        <a class="back-to" (click)="back()">< Pick category</a>
 		      </div> 
 		      	<div>
-		      		<button type="button" style="background: #fff;" class="btn" (click)="cancel()">Cancel</button>
+		      		<button type="button" class="btn slide-cancel" (click)="cancel()">Cancel</button>
 		      	</div>
 		      	<div [hidden]="!createButton">
 		    		<button type="submit" style="color: #0080F9; background: #fff;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
@@ -92,7 +92,7 @@
 			<div class="all-box-lt">
 				<div class="display-style">
 					<div class="col-md-6">
-						<label for="course_name">Plan Name</label>
+						<label for="course_name" class="all-title-font">Plan name</label>
 						<input class="form-control br-bshadow-none" type="text" [(ngModel)]='formField.name' name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
 						<!-- <div class="col-md-9" style="float: right; margin-right: -23px;">
 							<div *ngIf="cpName.errors && (cpName.dirty || cpName.touched)" class="alert alert-danger">
@@ -102,7 +102,7 @@
 						    </div>
 						</div> -->
 						<div class="mr-top">
-							<label for="seat">Seats</label>
+							<label for="seat" class="all-title-font">Seats</label>
 							<input type="number" placeholder="0" style="width: 19%;" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel">
 							<!-- <div class="col-md-9" style="float: right; margin-right: -23px;">
 								<div *ngIf="cpSeat.errors && (cpSeat.dirty || cpSeat.touched)" class="alert alert-danger">
@@ -114,7 +114,7 @@
 						</div> 
 					</div>
 					<div class="col-md-6">
-						<label for="desc">Description</label>
+						<label for="desc" class="all-title-font">Description</label>
 						<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' name="description" #cpDesc="ngModel" placeholder="Type message here" required></textarea>
 						<!-- <div class="col-md-9" style="float: right; margin-right: -23px;">
 							<div *ngIf="cpDesc.errors && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
@@ -126,7 +126,7 @@
 					</div> 
 				</div>
 				<div class="col-md-12 mr-top">
-					<label for="makeup_policy" class="title-color">MakeupPolicy</label>
+					<label for="makeup_policy" class="title-color">Makeup policy</label>
 						<div class="radio-pos">
 							<label class="switch">
 								<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup">
@@ -141,7 +141,7 @@
 						</div>	
 						<div class="display-style">
 							<div class="col-md-6">
-								<label> Validation duration after class </label>
+								<label class="all-title-font"> Validation duration after class </label>
 								<div>
 									<input type="number" class="day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0" required><span class="sign-day-pos">day</span>
 								</div>
@@ -152,7 +152,7 @@
 							    </div> -->
 							</div>
 							<div class="col-md-6">
-								<label> MaxDayPerUser </label>
+								<label class="all-title-font"> MaxDayPerUser </label>
 								<div>
 									<input type="number" class="day-sign br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0" #makeupuser="ngModel" required><span class="sign-day-pos">day</span>
 								</div>
@@ -165,18 +165,18 @@
 						</div>
 				</div>
 				<div class="col-md-12 mr-top">
-					<label for="payment_policy" class="title-color">PaymentPolicy</label>
+					<label for="payment_policy" class="title-color">Payment policy</label>
 					<div class="display-style">
 						<div class="col-md-3">
-							Deposit
+							<label class="all-title-font">Deposit</label>
 							<span class="sign-depo-dollar">S$</span>
-							<select style="margin-left: 30px;" class="form-control br-bshadow-none" name="deposit" [(ngModel)]="depositModel" required>
+							<select style="margin-left: 30px; margin-top: -7px;" class="form-control br-bshadow-none" name="deposit" [(ngModel)]="depositModel" required>
 								<option [value]="'disabledDeposit'" disabled="true">0</option>
 								<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">{{deposit.amount}}</option>
 							</select>
 						</div>
 						<div class="col-md-3">
-							<label> Course fee </label>
+							<label class="all-title-font"> Course fee </label>
 							<span class="sign-dollar-pos">S$</span><input type="number" placeholder="0" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'courseFee')" [(ngModel)]="formField.paymentPolicy.courseFee" min="0" style="padding-left: 30px;" name="courseFee" #courseFee="ngModel" required>
 							<!-- <div *ngIf="courseFee.errors && (courseFee.dirty || courseFee.touched)" class="alert alert-danger">
 						        <div [hidden]="!courseFee.errors.required">
@@ -194,7 +194,7 @@
 					    </div>
 					</div> -->
 						<div class="col-md-3">
-							<label> Miscellaneous fee </label>
+							<label class="all-title-font"> Miscellaneous fee </label>
 							<span class="sign-dollar-pos">S$</span><input type="number" placeholder="0" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'miscelFee')" style="padding-left: 30px;" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel" required>
 							<!-- <div *ngIf="miscfee.errors && (miscfee.dirty || miscfee.touched)" class="alert alert-danger">
 						        <div [hidden]="!miscfee.errors.required">
@@ -203,7 +203,7 @@
 						    </div> -->
 						</div>
 						<div class="col-md-3">
-							Prorate class fee <br />
+							<label class="all-title-font">Prorate class fee</label> <br />
 							<div class="radio-pos">
 								<label class="switch">
 									<input type="checkbox" [(ngModel)]="formField.paymentPolicy.allowProrated" min="0" name="allowProrated" #allow="ngModel">
@@ -228,7 +228,7 @@
 					<label for="age" class="title-color">Age <span class="optional-dot">&#183;</span><span class="optional-pos">Optional</span></label>
 					<div class="display-style">
 						<div class="col-md-6">
-							<label> From </label>
+							<label class="all-title-font"> From </label>
 							<div>
 								<input type="number" placeholder="0" class="age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel"><span class="sign-year-pos">year</span>
 							</div>
@@ -242,7 +242,7 @@
 							</div> -->
 						</div>
 					 	<div class="col-md-6">
-					 		<label> to </label>
+					 		<label class="all-title-font"> to </label>
 					 		<div>
 					 			<input type="number" placeholder="0" class="age-sign br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
 					 			<span class="sign-year-pos">year</span>
@@ -262,7 +262,7 @@
 					<label for="duration" class="title-color">Lesson</label>
 					<div class="display-style">
 						<div class="col-md-3">
-							<label> Minimum </label>
+							<label class="all-title-font"> Minimum </label>
 							<div>
 								<input type="number" placeholder="0" class="lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
 							</div>
@@ -276,7 +276,7 @@
 							</div> -->
 						</div> 
 						<div class="col-md-3">	
-							<label> Maximum </label>
+							<label class="all-title-font"> Maximum </label>
 							<div>
 								<input type="number" placeholder="0" class="lesson-sign br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required><span class="sign-lesson-pos">lesson</span>
 							</div>
@@ -290,7 +290,7 @@
 							</div> -->
 						</div>
 						<div class="col-md-3">
-							<label> Duration </label>
+							<label class="all-title-font"> Duration </label>
 							<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
 							<div class="bg-box duration-progress">
 								<div id="rectangle"></div>
@@ -318,7 +318,7 @@
 					</div>
 				</div>
 				<div class="col-md-12 mr-top">
-					<label for="allowpw" class="title-color">Pagewerkz Books</label>
+					<label for="allowpw" class="title-color">Pagewerkz book</label>
 					<div class="radio-pos left-gap">
 						<label class="switch">
 							<input type="checkbox" [(ngModel)]='formField.allowPagewerkzBooks' id="allowpw" name="allowpagewerkz">
@@ -355,7 +355,7 @@
 					</select> -->					
 				</div> 
 				<div class="col-md-12 mr-top">
-					<label class="title-color">Holiday Calendar</label>
+					<label class="all-title-font">Holiday Calendar</label>
 					<select style="width: 19%;" class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId">
 						<option disabled="true" [value]="'disabledHoliday'">None</option>
 						<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
