@@ -125,14 +125,17 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  close(status){
+  close(status, id){
     if(status == 'create'){
       this.isfocus = !this.isfocus;
+      this.item = {}
     }else{
+      console.log('edit', id)
       this.iseditfocus = !this.iseditfocus;
       this.editValue = ''
+      this.getAllCategories();
     }
-    this.item = {}
+    
   }
 
   getAllCategories(){
@@ -162,7 +165,7 @@ export class CategoryComponent implements OnInit {
       this.toastr.success('Successfully Updated.');
       this.getAllCategories();
       this.iseditfocus = false;
-      this.isEditComplete = false;
+      // this.isEditComplete = false;
       this.item = {}
       this.editValue = ''
     })
