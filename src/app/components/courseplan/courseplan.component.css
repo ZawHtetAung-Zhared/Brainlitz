@@ -300,7 +300,7 @@ input:-webkit-input-placeholder {
 
 .radio-pos {
 	position: absolute;
-  left: 170px;
+  left: 146px;
   top: 5px;
 }
 
@@ -410,7 +410,7 @@ input:-webkit-input-placeholder {
 }
 
 drag-scroll {
-  height: 250px;
+  height: 300px;
 }
 
 .drag-active-bg {
@@ -628,7 +628,6 @@ h3.category-h3, .category-name, .d-wrapper {
   -webkit-transition: all 0.8s ease-in-out;
   -ms-transition: all 0.8s ease-in-out;
   transition: all 0.8s ease-in-out;
-  padding-right: 70px;
 }
 
 .inner-wrapper {

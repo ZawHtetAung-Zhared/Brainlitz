@@ -1,4 +1,22 @@
 <div *ngIf="goBackCat"  class="inner-wrapper" (scroll)="onScroll($event)">
+	<header>
+	    <div style="position: relative;">
+	    	<div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
+		      <div class="mr-auto p-2 pl-0">
+		        <a class="back-to" (click)="back()">< Pick category</a>
+		      </div> 
+		      	<div>
+		      		<button type="button" style="background: #fff;" class="btn" (click)="cancel()">Cancel</button>
+		      	</div>
+		      	<div [hidden]="!createButton">
+		    		<button type="submit" style="color: #0080F9; background: #fff;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
+		    	</div>
+		    </div>
+
+		    <p class="category-name" [ngClass]="{'stickywrap' : navIsFixed == true}">#{{checkedName}}</p>
+			<h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Course plan</h3>
+	    </div>
+	</header>
 <!-- <div class="mb-30">
 <button class="btn btn-lg btn-outline-primary bt-color" (click)="cplan()">+ Course Plan</button>
 </div> -->
@@ -53,22 +71,6 @@
 			    	</div>
 			  	</div>
 			</div>
-			<header>
-			    <div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
-			      <div class="mr-auto p-2 pl-0">
-			        <a class="back-to" (click)="back()">< Pick category</a>
-			      </div> 
-			      	<div>
-			      		<button type="button" style="background: #fff;" class="btn" (click)="cancel()">Cancel</button>
-			      	</div>
-			      	<div [hidden]="!createButton">
-			    		<button type="submit" style="color: #0080F9; background: #fff;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
-			    	</div>
-			    </div>
-
-			    <p class="category-name" [ngClass]="{'stickywrap' : navIsFixed == true}">#{{checkedName}}</p>
-	    		<h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Course plan</h3>
-			</header>
 			<!-- <div class="display-style">
 				<div class="col-md-6 ul-pad">
 					<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
