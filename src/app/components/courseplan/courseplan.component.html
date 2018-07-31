@@ -33,7 +33,7 @@
 	<div> 
 		<form #subCatForm="ngForm" novalidate>
 			<div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
-			    <div class="display-style" style="padding-top: 15px;">
+			    <div class="display-style">
 					<div class="col-md-4 ul-pad">
 						<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 					</div>	
@@ -46,9 +46,9 @@
 				    	<div [hidden]="!createButton">
 				    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
 				    	</div>
-				    	<div [hidden]="!updateButton">
+				    <!-- 	<div [hidden]="!updateButton">
 				    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
-				    	</div>
+				    	</div> -->
 				    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
 			    	</div>
 			  	</div>
@@ -58,7 +58,9 @@
 			      <div class="mr-auto p-2 pl-0">
 			        <a class="back-to" (click)="back()">< Pick category</a>
 			      </div> 
-			      	<button type="button" style="float: right; background: #fff;" class="btn" (click)="cancel()">Cancel</button>
+			      	<div>
+			      		<button type="button" style="background: #fff;" class="btn" (click)="cancel()">Cancel</button>
+			      	</div>
 			      	<div [hidden]="!createButton">
 			    		<button type="submit" style="color: #0080F9; background: #fff;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
 			    	</div>
