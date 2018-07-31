@@ -29,6 +29,7 @@ export class CategoryComponent implements OnInit {
   public otherfocus:boolean = false;
   public ischecked:any;
   public navIsFixed: boolean = false;
+  public goBackCat: boolean = false;
 
   constructor( 
     private _service: appService, 
@@ -106,6 +107,7 @@ export class CategoryComponent implements OnInit {
     localStorage.setItem('categoryID', val);
     localStorage.setItem('categoryName', name);
     this._service.gotoplan();
+    this.goBackCat = true;
   }
 
   focusFunction(status, val){

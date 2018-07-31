@@ -1,4 +1,4 @@
-<div class="inner-wrapper" (scroll)="onScroll($event)">
+<div class="inner-wrapper" *ngIf="!goBackCat" (scroll)="onScroll($event)">
   <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
   
   <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}" style="height: 100px;">

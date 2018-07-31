@@ -68,6 +68,7 @@ export class CourseplanComponent implements OnInit {
   public overDurationHr: boolean = false;
   public readyOnlyRange: any;
   public timeInminutes: any;
+  public goBackCat: boolean = false;
 
   ngOnInit() {
     //this.getAllCoursePlan();
@@ -91,8 +92,8 @@ export class CourseplanComponent implements OnInit {
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.readyOnlyRange = '0  min';
-    //this.checkedName = ''
-
+    this.checkedName = localStorage.getItem('categoryName')
+    this.goBackCat = true;
     window.addEventListener('scroll', this.scroll, true);
 
     setTimeout(function(){
@@ -145,9 +146,18 @@ export class CourseplanComponent implements OnInit {
 	//}
 
 	back(){
-		this.showModal = true;
-		this.showsubModal = false;
+		//this.showModal = true;
+		//this.showsubModal = false;
+    this.goBackCat = false;
+    var data = localStorage.removeItem("categoryName");
+    this._service.backCat();
 	}
+
+  cancel(){
+    this.goBackCat = false;
+    var data = localStorage.removeItem("categoryName");
+    this._service.backCourse();
+  }
 
 	checkedData(id){
       this.checkedCatId = id;
@@ -627,9 +637,6 @@ export class CourseplanComponent implements OnInit {
       window.removeEventListener('scroll', this.scroll, true);
   }
 
-  cancel(){
-    this._router.navigate(['/course']);
-  }
 
 
 }

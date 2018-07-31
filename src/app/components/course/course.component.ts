@@ -36,6 +36,7 @@ export class CourseComponent implements OnInit {
   isCategory:boolean = false;
   isPlan:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
+  public goBackCat: boolean = false;
 
   constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -48,7 +49,23 @@ export class CourseComponent implements OnInit {
      console.log('muuuu')
      this.isCategory = false;
       this.isPlan = true;
+      this.goBackCat = true;
    })
+
+   this._service.goCat.subscribe(() => {   
+      console.log('goback22', this.goBackCat) 
+      this.goBackCat = false;
+      this.isCategory = true;
+      this.isPlan = false;
+    });
+
+   this._service.goCourse.subscribe(() => {   
+      console.log('goback33') 
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+    });
+
     
   }
   public regionId = localStorage.getItem('regionId');
@@ -63,6 +80,7 @@ export class CourseComponent implements OnInit {
 
   changeRoute(){
     this.isCategory = true;
+    this.goBackCat = false;
     // console.log("Change Route")
     // localStorage.removeItem('coursePlanId');
     // localStorage.removeItem('courseId');

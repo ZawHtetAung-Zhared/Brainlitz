@@ -161,7 +161,7 @@ input:checked ~ .checkmark:after {
 }
 
 .all-box-lt {
-	margin-top: 40px;
+	margin-top: 90px;
 }
 
 .title-mr p {
@@ -320,14 +320,6 @@ input:-webkit-input-placeholder {
   color: #64707d;
 }
 
-.title-mr span{
-  font-size: 35px;
-  position: absolute;
-  top: -16px;
-  left: 76px;
-  color: #64707d
-}
-
 #rectangle::after{
 	  content: "";
     position: absolute;
@@ -398,12 +390,13 @@ input:-webkit-input-placeholder {
   width: 100%;
   z-index: 15;
   padding: 0 30px;
+  padding: 10px 30px;
   left: 0;
   right: 0;
   -webkit-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
-  top: -50px;
+  top: -100px;
   background: #fff;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 }
@@ -564,4 +557,74 @@ textarea {
   left: 50px;
   font-weight: bold;
   font-size: 12px;
+}
+
+h3.category-h3{
+  top: 70px;
+  margin-bottom: 1.3em;
+  -webkit-transition: all 0.75s ease-in-out;
+  transition: all 0.75s ease-in-out;
+}
+
+h3.category-h3{
+  font-family: 'Montserrat-Medium', Arial,sans-serif; 
+  color: #2f3d4c;
+}
+
+h3.category-h3, .category-name, .d-wrapper {
+  position: absolute;
+  
+}
+
+.category-name{
+  top: 48px;
+  margin-bottom: 1.3em;
+  -webkit-transition: all 0.75s ease-in-out;
+  transition: all 0.75s ease-in-out;
+}
+
+.sticky-dot {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #788796;
+  font-size: 30px;
+  margin-top: -13px;
+}
+
+.stickywrap{
+  top: -60px !important;
+}
+
+.sticky-cancel {
+  float: right; 
+  background: #f2f4f5; 
+  margin-right: 20px;
+  border-radius: 0;
+}
+
+.sticky-create {
+  float: right; 
+  color: #ffffff; 
+  background: #007fff;
+  border-radius: 0;
+}
+
+.back-to{
+  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  color: #6a7279;
+  padding-left: 0 !important;
+  cursor: pointer;
+}
+.pl-0{
+  padding-left: 0 !important;
+}
+
+.d-wrapper {   
+  top: 10px; 
+  width: 100%;
+  -webkit-transition: all 0.8s ease-in-out;
+  -ms-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
+  padding-right: 70px;
 }

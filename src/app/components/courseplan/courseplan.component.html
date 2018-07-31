@@ -1,4 +1,4 @@
-<div class="inner-wrapper" (scroll)="onScroll($event)">
+<div *ngIf="goBackCat"  class="inner-wrapper" (scroll)="onScroll($event)">
 <!-- <div class="mb-30">
 <button class="btn btn-lg btn-outline-primary bt-color" (click)="cplan()">+ Course Plan</button>
 </div> -->
@@ -38,41 +38,53 @@
 						<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 					</div>	
 					<div class="col-md-4 title-mr display-style">
-						<p>#{{checkedName}}</p><span>&#183;</span>		
-			    		<h5 style="position: absolute;left: 90px;">Course plan</h5>
+						<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
+						<h5>Course plan</h5>
+			    		<!-- <h5 style="position: absolute;left: 90px;">Course plan</h5> -->
 			    	</div>
 			    	<div class="col-md-4">
 				    	<div [hidden]="!createButton">
-				    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
+				    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
 				    	</div>
 				    	<div [hidden]="!updateButton">
 				    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
 				    	</div>
-				    	<button type="button" style="float: right" class="btn" (click)="cancel()">Cancel</button>
+				    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
 			    	</div>
 			  	</div>
 			</div>
-			<div class="display-style">
+			<header>
+			    <div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
+			      <div class="mr-auto p-2 pl-0">
+			        <a class="back-to" (click)="back()">< Pick category</a>
+			      </div> 
+			      	<button type="button" style="float: right; background: #fff;" class="btn" (click)="cancel()">Cancel</button>
+			      	<div [hidden]="!createButton">
+			    		<button type="submit" style="color: #0080F9; background: #fff;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
+			    	</div>
+			    </div>
+
+			    <p class="category-name" [ngClass]="{'stickywrap' : navIsFixed == true}">#{{checkedName}}</p>
+	    		<h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Course plan</h3>
+			</header>
+			<!-- <div class="display-style">
 				<div class="col-md-6 ul-pad">
 					<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 				</div>	
 		    	<div class="col-md-6">
 			    	<div [hidden]="!createButton">
-			    		<button type="submit" style="float: right; color: #0080F9;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
+			    		<button type="submit" style="float: right; color: #0080F9; background: #fff;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
 			    	</div>
 			    	<div [hidden]="!updateButton">
 			    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
 			    	</div>
-			    	<button type="button" style="float: right" class="btn" (click)="cancel()">Cancel</button>
+			    	<button type="button" style="float: right; background: #fff;" class="btn" (click)="cancel()">Cancel</button>
 		    	</div>
 		  	</div>
-		    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-		      <span aria-hidden="true">&times;</span>
-		    </button> -->
-	    	<div class="title-mr">
+	    	<div class="title-mr" [ngClass]="{'stickywrap' : navIsFixed == true}">
 	    		<p>#{{checkedName}}</p>
-	    		<h5>Course plan</h5>
-	    	</div>
+	    		<h3 class="category-h3">Course plan</h3>
+	    	</div> -->
 			<div class="all-box-lt">
 				<div class="display-style">
 					<div class="col-md-6">

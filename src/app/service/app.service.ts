@@ -31,6 +31,12 @@ export class appService{
     goplan: Observable<any>;
     private plan = new Subject<any>(); 
 
+    goCat: Observable<any>;
+    private preCat = new Subject<any>();
+
+    goCourse: Observable<any>;
+    private backCo = new Subject<any>();
+
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
@@ -40,11 +46,21 @@ export class appService{
       this.slicePath = this.sendLoginName.asObservable(); 
       this.goback = this.previous.asObservable(); 
       this.goplan = this.plan.asObservable(); 
+      this.goCat = this.preCat.asObservable();
+      this.goCourse = this.backCo.asObservable();
      }
 
     getPathLocal(){
       var datGet = localStorage.getItem('slicePath')
       this.sendLoginName.next(datGet);
+    }
+
+    backCat(){
+      this.preCat.next(false)
+    }
+
+    backCourse(){
+      this.backCo.next(false)
     }
 
     back(){
