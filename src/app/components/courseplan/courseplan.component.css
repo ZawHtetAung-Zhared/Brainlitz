@@ -161,7 +161,7 @@ input:checked ~ .checkmark:after {
 }
 
 .all-box-lt {
-	margin-top: 90px;
+	margin-top: 110px;
 }
 
 .title-mr p {
@@ -560,7 +560,7 @@ textarea {
 }
 
 h3.category-h3{
-  top: 70px;
+  top: 90px;
   margin-bottom: 1.3em;
   -webkit-transition: all 0.75s ease-in-out;
   transition: all 0.75s ease-in-out;
@@ -577,7 +577,7 @@ h3.category-h3, .category-name, .d-wrapper {
 }
 
 .category-name{
-  top: 48px;
+  top: 70px;
   margin-bottom: 1.3em;
   -webkit-transition: all 0.75s ease-in-out;
   transition: all 0.75s ease-in-out;
@@ -621,7 +621,7 @@ h3.category-h3, .category-name, .d-wrapper {
 }
 
 .d-wrapper {   
-  top: 10px; 
+  top: 30px; 
   width: 100%;
   -webkit-transition: all 0.8s ease-in-out;
   -ms-transition: all 0.8s ease-in-out;
