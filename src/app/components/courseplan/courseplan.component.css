@@ -1,4 +1,4 @@
-.ul-pad, .all-box-lt .col-md-6, .all-box-lt .col-md-4, .all-box-lt .col-md-3 {
+.ul-pad {
 	padding: 0;
 }
 
@@ -42,10 +42,6 @@
 	font-weight: bold;
 } 
 
-.form-control {
-	width: 70%;
-}
-
 .back-modal {
 	cursor: pointer;
 	outline: none;
@@ -74,7 +70,6 @@
 
 .all-box-lt .col-md-12 {
 	float: right;
-	padding: 0;
 }
 
 .all-box-lt .col-md-12:last-child {
@@ -83,7 +78,7 @@
 
 .loading-align {
 	margin: 150px auto;
-    width: 50px;
+  width: 50px;
 }
 
 .bt-color {
@@ -157,11 +152,13 @@ input:checked ~ .checkmark:after {
 .br-bshadow-none {
 	border: none; 
 	box-shadow: none;
-	padding: 0;
+	margin-left: -10px;
 }
 
 .all-box-lt {
 	margin-top: 110px;
+  margin-left: -15px;
+  margin-right: -15px;
 }
 
 .title-mr p {
@@ -222,6 +219,7 @@ input[type=number]::-webkit-outer-spin-button, select {
   vertical-align: middle;
   font-size: 12px;
   line-height: 1.3;
+  background-position: center;
 }
 
 .activeRadio.slider:before {
@@ -237,29 +235,33 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  	-webkit-transform: translateX(26px);
-  	-ms-transform: translateX(26px);
-  	transform: translateX(26px);
-  	background-color: #2196F3;
-    content: '';
-    color: #fff;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 12px;
-    line-height: 1.3;
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+	background-color: #2196F3;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 12px;
+  line-height: 1.3;
+  content: '';
+  background-image: url('assets/img/tick.png');
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
 }
 
-.checkmark-custom {
-    display:inline-block;
-    cursor: pointer;
-    width: 22px;
-    height:22px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
-}
+/*.checkmark-custom {
+  display: inline-block;
+  cursor: pointer;
+  width: 22px;
+  height:22px;
+  -ms-transform: rotate(45deg); 
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}*/
 
-.checkmark_stem {
+/*.checkmark_stem {
   position: absolute;
   width: 2px;
   height: 9px;
@@ -275,8 +277,7 @@ input:checked + .slider:before {
   background-color: #fff;
   left: 12px;
   top: 2px;
-}
-
+}*/
 
 input:-webkit-input-placeholder {
     font-size: 10px !important;
@@ -304,6 +305,13 @@ input:-webkit-input-placeholder {
   top: 5px;
 }
 
+.radio-pos-payment {
+  position: absolute; 
+  top: 5px; 
+  margin-right: 15px; 
+  right: 0;
+}
+
 .title-color {
 	color: #0080ff; 
 /*font-weight: bold;*/
@@ -322,15 +330,15 @@ input:-webkit-input-placeholder {
 }
 
 #rectangle::after{
-	  content: "";
-    position: absolute;
-     -webkit-transform: translate(30px, 20px) rotate(180deg); 
-    transform: translate(30px, 20px) rotate(180deg);
-    top: -40px;
-    left: 130px;
-    border-width: 10px;
-    border-style: solid;
-    border-color: #fff transparent transparent transparent;
+  content: "";
+  position: absolute;
+   -webkit-transform: translate(30px, 20px) rotate(180deg); 
+  transform: translate(30px, 20px) rotate(180deg);
+  top: -40px;
+  left: 130px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
 }
 
 .duration-progress input {
@@ -377,12 +385,13 @@ input:-webkit-input-placeholder {
 
 .bg-box {
   background: #fff; 
-  box-shadow: -13px -3px 94px -12px rgba(0,0,0,0.33); 
+  /*box-shadow: -13px -3px 94px -12px rgba(0,0,0,0.33); */
+  box-shadow: 0px 4px 31px 1px rgba(1,0,0,0.3);
   width: 362px;
   display: none;
   position: absolute;
   right: 15%;
-  bottom: -130px;
+  bottom: -122px;
   z-index: 9;
 }
 
@@ -494,7 +503,7 @@ textarea {
   left: 200px !important;
 }
 
-.sign-dollar-pos{
+/*.sign-dollar-pos{
   position: absolute;
   bottom: 7px;
   left: 0;
@@ -533,13 +542,13 @@ textarea {
   width: 50px; 
   text-align: left; 
   padding-right: 22px;
-}
+}*/
 
 input:focus {
   outline: none;
 }
 
-.lesson-sign {
+/*.lesson-sign {
   width: 50px; 
   padding-right: 22px;
 }
@@ -548,21 +557,21 @@ input:focus {
   width: 50px; 
   text-align: left; 
   padding-right: 22px;
-}
+}*/
 
 .optional-dot {
   color: #64707d;
   font-size: 28px;
   position: absolute;
-  bottom: 56px;
-  left: 37px;
+  bottom: 80px;
+  left: 50px;
 }
 
 .optional-pos {
   color: #64707d;
   position: absolute;
-  bottom: 65px;
-  left: 50px;
+  bottom: 90px;
+  left: 61px;
   font-weight: bold;
   font-size: 12px;
 }
@@ -617,6 +626,7 @@ h3.category-h3, .category-name, .d-wrapper {
   float: right; 
   color: #ffffff; 
   background: #007fff;
+  margin-right: -5px;
 }
 
 .back-to{
@@ -658,4 +668,80 @@ textarea, input, select {
 
 .slide-cancel:focus {
   box-shadow: none;
+}
+
+.input-group {
+  width: 85%;
+}
+
+#inlineFormInputGroupcourseFee, #inlineFormInputGroupmisFee {
+  border-color: #fff;
+}
+
+.input-group-text {
+  background: #fff;
+  border-color: #fff;
+}
+
+.input-group:hover:not(:focus) .form-control, input:hover, textarea:hover, input:read-only:hover, select:hover ,#inlineFormInputGroupcourseFee:hover, #inlineFormInputGroupmisFee:hover {
+  background: #f7f9fa;
+}
+
+.input-group:hover .input-group-text {
+  background: #edeff0;
+}
+
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+  background: #1A000000;
+}
+
+.input-group .form-control:focus {
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+  background: #1A000000 !important;
+}
+
+.hoverReadonly:hover {
+  background: #f7f9fa !important;
+}
+
+.hoverReadonly:focus {
+  background: #1A000000 !important;
+}
+
+.focus-bg {
+    background: #788796 !important;
+    color: #fff !important;
+}
+
+select:hover + .down-arrow2, select:focus + .down-arrow2, select:hover + .down-arrow1, select:focus + .down-arrow1 {
+  color: #788796;
+}
+
+.down-arrow1 {
+  position: absolute;
+  right: 40px;
+  bottom: 27px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.down-arrow2 {
+  position: absolute;
+  right: 40px;
+  bottom: 12px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.inner-div-pad{
+  padding: 6px 15px 6px 0px;
+}
+.inner-divleft-pad {
+  padding: 6px 0px 6px 15px;
+}
+
+.header-wrap {
+  position: relative; 
+  margin-top: -20px;
 }
