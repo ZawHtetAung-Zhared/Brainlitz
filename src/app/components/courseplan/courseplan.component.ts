@@ -69,6 +69,9 @@ export class CourseplanComponent implements OnInit {
   public readyOnlyRange: any;
   public timeInminutes: any;
   public goBackCat: boolean = false;
+  public focusCfee: boolean = false;
+  public focusMisfee: boolean = false;
+
 
   ngOnInit() {
     //this.getAllCoursePlan();
@@ -572,6 +575,22 @@ export class CourseplanComponent implements OnInit {
             this.progressSlider = false;
 
         }
+
+        if(this.focusCfee == true){
+          $('.cfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.cfee-bg').removeClass("focus-bg");
+        }
+        this.focusCfee = false;
+
+        if(this.focusMisfee == true){
+          $('.misfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.misfee-bg').removeClass("focus-bg");
+        }
+        this.focusMisfee = false;
   }
 
   ChangedRangeValue(e, type) {
@@ -635,6 +654,17 @@ export class CourseplanComponent implements OnInit {
 
   ngOnDestroy() {
       window.removeEventListener('scroll', this.scroll, true);
+  }
+
+  toKnowFocus(type){
+    if(type == 'cFee'){
+      this.focusCfee = true;
+      $('.cfee-bg').addClass("focus-bg");
+    }
+    if(type == 'misFee'){
+      this.focusMisfee = true;
+      $('.misfee-bg').addClass("focus-bg");
+    }
   }
 
 
