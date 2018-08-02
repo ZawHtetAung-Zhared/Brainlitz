@@ -18,6 +18,11 @@
   src:  url('assets/fonts/Montserrat-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Montserrat-Semibold';
+  src:  url('assets/fonts/Montserrat-Semibold.ttf') format('truetype');
+}
+
 html,
 body{
     height: 100%;
