@@ -23,6 +23,7 @@ export class LocationComponent implements OnInit {
 	public locationLists: any;
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
+	public iscreate: boolean = false;
 	public currentID: any;
 	public locationName: any;
 	model: Location = new Location();
@@ -71,6 +72,10 @@ export class LocationComponent implements OnInit {
 	    }, err => {
 	    	console.log(err)
 	    })
+	}
+
+	create(){
+		console.log('i')
 	}
 
 	createLocation(obj, update, locationID) {
