@@ -112,7 +112,8 @@ app-dashboard,
 app-course,
 app-tools,
 app-dashboard,
-app-report{
+app-report,
+app-users{
   display: flex;
   flex-direction: column;
   height: 100%;
