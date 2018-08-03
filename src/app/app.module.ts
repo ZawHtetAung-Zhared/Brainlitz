@@ -45,6 +45,8 @@ import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/weekday.pipe';
+import { GroupByPipe } from './service/groupby.pipe';
+//import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,8 @@ import { WeekDaysPipe } from './service/weekday.pipe';
     TemplateComponent,
     ModuleComponent,
     MinuteSecondsPipe,
-    WeekDaysPipe
+    WeekDaysPipe,
+    GroupByPipe
   ],
   imports: [
     BrowserModule,

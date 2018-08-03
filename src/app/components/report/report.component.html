@@ -4,9 +4,9 @@
 		<div *ngIf="noData" class="txt-color-center">
 			<h3>Don't have staff for this location.</h3>
 		</div>
-		<div *ngIf="!noData">			
-			<h5>Average Rating</h5>
-			<ul style="padding: 20px;">
+		<div *ngIf="!noData" class="h3font">			
+			<h3>Average ratings</h3>
+			<!-- <ul style="padding: 20px;">
 				<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 					<div class="count-pos">{{i+1}}- </div>
 					<div>
@@ -15,10 +15,58 @@
 						<button class="btn btn-secondary btn-style" (click)="getFeedBack(staffRating.teacherId)">Detail</button>
 					</div>
 				</li>	
-			</ul>
+			</ul> -->
+			<div class="box-container">
+				<div class="col-md-3 " *ngFor="let staffRating of ratingLists; let i = index;">
+					<div class="rating-box">
+						<div class="circular-image">
+							<img src="{{profilePic}}">
+						</div>	
+						<div>Senior teacher</div>
+						<h4>{{staffRating.preferredName}}</h4>
+						<div style="margin-top: 20px;">
+							<h2>2.8</h2>
+							<!-- <span class="fa fa-star"></span>
+							<span class="fa fa-star"></span>
+							<span class="fa fa-star"></span>
+							<span class="fa fa-star"></span>
+							<span class="fa fa-star"></span> -->
+							<!-- <star-rating-comp class="rating-container"></star-rating-comp> -->
+
+							<div>ratings</div>
+						</div>
+						<div>
+							<button type="button" class="detail-bg" (click)="getFeedBack(staffRating.teacherId)">Detail</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 ">
+					<div class="rating-box">
+						<div class="circular-image">
+							<img src="./assets/img/images.jpeg">
+						</div>
+						<div>testing teacher</div>
+						<h4>Arron Wamsley</h4>
+						<div style="margin-top: 20px;">
+							<h2>3.8</h2>
+							<div>
+								<!-- <span class="fa fa-star"></span>
+								<span class="fa fa-star"></span>
+								<span class="fa fa-star"></span>
+								<span class="fa fa-star"></span>
+								<span class="fa fa-star"></span> -->
+								<div>ratings</div>
+							</div>
+						</div>
+						<div>
+							<button type="button" class="detail-bg">Detail</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="form-container col-md-12" *ngIf="showDetail">
+	<div class="col-md-12" *ngIf="showDetail">
 		<div>
 			<button class="btn btn-info" (click)="back()">Back</button>
 		</div>
