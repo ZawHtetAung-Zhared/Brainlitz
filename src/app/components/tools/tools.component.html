@@ -160,11 +160,11 @@
 			</div>
 		</div>
 		<div *ngIf="notiType == 'view'">
-			<div *ngFor="let noti of notiLists; let i = index" class="single-noti">
+			<!-- <div *ngFor="let noti of notiLists; let i = index" class="single-noti">
 				<p><span>Title:</span> {{noti.title}}</p>
 				<p><span>Message:</span> {{noti.message}}</p>
 				<p><span>Sent by:</span> {{noti.sender.preferredName}}</p>
-				<!-- <p><span>Date:</span>--{{noti.utc.day}}/{{noti.utc.month}}/{{noti.utc.year}}</p> -->
+				<p><span>Date:</span>--{{noti.utc.day}}/{{noti.utc.month}}/{{noti.utc.year}}</p>
 				<p><span>Date:</span> {{noti.utc}}</p>
 				<span>Sent to:</span>
 				<ul>
@@ -172,7 +172,39 @@
 						 {{log.user.preferredName}}
 					</li>
 				</ul>
-			</div>
+			</div> -->
+			<h2>Sent history</h2>
+			<div *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
+				<h4>{{ notiGroup.key }}</h4>
+				<div *ngFor="let noti of notiGroup.value">
+					<div class="flex-wrap">
+						<div class="col-sm-2" style="padding: 0;">
+							<label>{{ noti.senttime }}</label>
+						</div>
+						<div class="col-sm-10 noti-info">
+							<div class="user-info">
+								<span>All staff</span> <span class="count-wrap">20 users</span>
+							</div>
+							<div class="subject-wrap">
+								<div class="noti-subject">
+									<div class="noti-title">
+										{{ noti.title }}
+									</div>
+									<div>
+										This is message: {{ noti.message }}.This is UI testing for view sent history."Read more" will show for over 175 word count.
+									</div>
+								</div>
+							</div>
+							<div class="sender-info">
+								<span>sent by</span> 
+								<ul>
+									<li>{{ noti.sender.preferredName}}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
 		</div>
 	</div>
 </div>

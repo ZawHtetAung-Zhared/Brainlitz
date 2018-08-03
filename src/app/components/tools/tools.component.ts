@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , ViewContainerRef} from '@angular/core';
+import { Component, OnInit, ViewChild , ViewContainerRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -37,6 +37,30 @@ export class ToolsComponent implements OnInit {
     {name: 'App notification',type: 'noti',checked: false}
   ];
   public checkedType: any = [];
+
+  // test
+  public myArray = [
+      {
+          name: "Apple",
+          color: "Green"
+      },
+      {
+          name: "Banana",
+          color: "Yellow"
+      },
+      {
+          name: "Grape",
+          color: "Green"
+      },
+      {
+          name: "Melon",
+          color: "Yellow"
+      },
+      {
+          name: "Orange",
+          color: "Orange"
+      }
+  ];
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -86,14 +110,21 @@ export class ToolsComponent implements OnInit {
         const utcToString = utcTemp.toUTCString();
         const time = new Date(utcToString)
         this.utcDate = moment(time, format).tz(zone).format(format)
-        console.log(this.utcDate)
+        // console.log(this.utcDate)
         this.utcDate = this.utcDate.slice(0, -5);
-
+        //for testing Confirm UI===
+        let utcDate = this.utcDate;
+        let onlyDate = utcDate.substring(0, 10);
+        let onlyTime = utcDate.substring(10, 19)
+        console.log(onlyDate)
+        /*===end Testing===*/
         if(this.notiLists[i].utc){
           this.notiLists[i].utc = this.utcDate;
+          this.notiLists[i].sentdate = onlyDate;
+          this.notiLists[i].senttime = onlyTime;
         }
       }
-      console.log(this.notiLists)
+      console.log('Noti List',this.notiLists)
     }, err => {
       this.blockUI.stop();
       this.toastr.error('View sent history fail');

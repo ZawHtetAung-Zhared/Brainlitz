@@ -14,7 +14,8 @@
     color: #060606;
 }
 .noti-wrapper{
-	padding-top: 40px;
+	/*padding-top: 40px;*/
+	padding: 60px 30px 40px 30px;
 }
 .tool-checked{	
 	margin-right: 0;
@@ -209,3 +210,41 @@
 	}
 }
 
+/*For confirm UI*/
+.flex-wrap{
+	display: flex;
+}
+.noti-info{
+	border-bottom: 1px solid #ebeff4;
+    padding: 0;   
+}
+.user-info{
+	margin-bottom: 15px;
+}
+.count-wrap{
+	background: #f2f4f5;
+    padding: 4px;
+    font-size: 12px;
+}
+.subject-wrap{
+	background: #f2f4f5;
+    color: #7f8993;
+    font-size: 14px;
+    font-family: 'Montserrat-Regular';
+    border-radius: 8px;
+}
+.noti-subject{
+	padding: 10px;
+}
+.noti-title{
+	color: #525e6a;
+    font-family: 'Montserrat-Medium';
+    font-size: 16px;
+    margin-bottom: 1rem;
+}
+.sender-info{
+	display: flex;
+    float: right;
+    padding-top: 5px;
+    font-size: 14px;
+}
