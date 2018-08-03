@@ -88,13 +88,13 @@ export class LocationComponent implements OnInit {
 		if(update == true){
 			console.log(update)
 			this.blockUI.start('Loading...');
-    		this.modalReference.close();
 			this._service.updateLocation(locationID, data)
 			 .subscribe((res:any) => {
 	     		console.log(res)
 	     		this.model = new Location();
 	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
+	     		this.iscreate = false;
 	     		this.getAllLocation();
 	     	}, err => {
 	     		this.toastr.error('Update fail');
@@ -103,13 +103,14 @@ export class LocationComponent implements OnInit {
 		}else{
     	console.log("Form Submitted!", this.regionID);
     	this.blockUI.start('Loading...');
-    	this.modalReference.close();
+    	// this.modalReference.close();
     	this._service.createLocation(this.regionID, obj)
       	.subscribe((res:any) => {
     		console.log(res);
     		this.model = new Location();
     		this.toastr.success('Successfully Created.');
     		this.blockUI.stop();
+    		this.iscreate = false;
     		this.getAllLocation();
 	    }, err => {
 	    	this.toastr.error('Create Fail.');
@@ -135,10 +136,10 @@ export class LocationComponent implements OnInit {
 		})
 	}
 
-	getSingleLocation(id,locationModal){
+	getSingleLocation(id){
+		this.iscreate = true;
 		console.log(this.model)
-		this.isUpdate = true;
-		this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
+		this.isUpdate = true;		
 		this.singleLocation(id);
 	}
 
