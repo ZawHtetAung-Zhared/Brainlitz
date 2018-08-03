@@ -108,3 +108,12 @@ main{
 .btn-not-allowed {
   cursor: not-allowed;
 }
+app-dashboard,
+app-course,
+app-tools,
+app-dashboard,
+app-report{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

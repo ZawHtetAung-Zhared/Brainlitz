@@ -15,6 +15,7 @@
 }
 .noti-wrapper{
 	padding-top: 40px;
+	overflow-y: auto;
 }
 .tool-checked{	
 	margin-right: 0;
