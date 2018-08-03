@@ -152,7 +152,7 @@ input:checked ~ .checkmark:after {
 .br-bshadow-none {
 	border: none; 
 	box-shadow: none;
-	margin-left: -10px;
+	/*margin-left: -10px;*/
 }
 
 .all-box-lt {
@@ -308,7 +308,6 @@ input:-webkit-input-placeholder {
 .radio-pos-payment {
   position: absolute; 
   top: 5px; 
-  margin-right: 15px; 
   right: 0;
 }
 
@@ -563,15 +562,15 @@ input:focus {
   color: #64707d;
   font-size: 28px;
   position: absolute;
-  bottom: 80px;
-  left: 50px;
+  bottom: 68px;
+  left: 52px;
 }
 
 .optional-pos {
   color: #64707d;
   position: absolute;
-  bottom: 90px;
-  left: 61px;
+  bottom: 78px;
+  left: 69px;
   font-weight: bold;
   font-size: 12px;
 }
@@ -671,7 +670,7 @@ textarea, input, select {
 }
 
 .input-group {
-  width: 85%;
+  width: 100%;
 }
 
 #inlineFormInputGroupcourseFee, #inlineFormInputGroupmisFee {
@@ -718,10 +717,14 @@ select:hover + .down-arrow2, select:focus + .down-arrow2, select:hover + .down-a
   color: #788796;
 }
 
+.all-left-box-10 {
+  margin-left: -10px;
+}
+
 .down-arrow1 {
   position: absolute;
-  right: 40px;
-  bottom: 27px;
+  right: 46px;
+  bottom: 21px;
   font-size: 12px;
   color: #fff;
 }
@@ -735,13 +738,21 @@ select:hover + .down-arrow2, select:focus + .down-arrow2, select:hover + .down-a
 }
 
 .inner-div-pad{
-  padding: 6px 15px 6px 0px;
+  /*padding: 6px 15px 6px 0px;*/
+  padding-right: 18px;
 }
 .inner-divleft-pad {
-  padding: 6px 0px 6px 15px;
+  /*padding: 6px 0px 6px 10px;*/
+  padding-right: 10px;
 }
 
 .header-wrap {
   position: relative; 
   margin-top: -20px;
+}
+
+@media only screen and (max-width: 768px){
+  .down-arrow1 {
+    bottom: 45px;
+  }
 }

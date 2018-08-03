@@ -6,10 +6,10 @@
 		        <a class="back-to" (click)="back()">< Pick category</a>
 		      </div> 
 		      	<div>
-		      		<button type="button" class="btn slide-cancel" (click)="cancel()">Cancel</button>
+		      		<button type="button" style="padding: 12px;" class="btn slide-cancel" (click)="cancel()">Cancel</button>
 		      	</div>
 		      	<div [hidden]="!createButton">
-		    		<button type="submit" style="color: #0080F9; background: #fff;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
+		    		<button type="submit" style="color: #0080F9; background: #fff; padding: 12px 0;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
 		    	</div>
 		    </div>
 
@@ -60,7 +60,7 @@
 						<h5>Course plan</h5>
 			    		<!-- <h5 style="position: absolute;left: 90px;">Course plan</h5> -->
 			    	</div>
-			    	<div class="col-md-4">
+			    	<div class="col-md-4" style="padding: 0;">
 				    	<div [hidden]="!createButton">
 				    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
 				    	</div>
@@ -75,14 +75,14 @@
 				<div class="display-style">
 					<div class="col-md-6">
 						<label for="course_name" class="all-title-font">Plan name</label>
-						<input class="form-control br-bshadow-none" type="text" [(ngModel)]='formField.name' name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
+						<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
 						<div class="mr-top">
 							<label for="seat" class="all-title-font">Seats</label>
-							<input type="number" placeholder="0" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel"> 
+							<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel"> 
 						</div> 
 					</div>
 					<div class="col-md-6">
-						<label for="desc" class="all-title-font">Description</label>
+						<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
 						<textarea class="form-control br-bshadow-none" rows="7" [(ngModel)]='formField.description' name="description" #cpDesc="ngModel" placeholder="Type message here" required></textarea>
 					</div> 
 				</div>
@@ -98,12 +98,12 @@
 							<div class="col-md-6" style="padding: 0;">
 								<label class="all-title-font"> Validation duration after class </label>
 								<div class="inner-div-pad">
-									<input type="number" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day" required>
+									<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day" required>
 								</div>
 							</div>
-							<div class="col-md-6" style="padding: 0;">
-								<label class="all-title-font" style="padding-left: 15px;"> MaxDayPerUser </label>
-								<div class="inner-divleft-pad">
+							<div class="col-md-6" style="padding-right: 0;">
+								<label class="all-title-font" style="padding-left: 10px;"> Number of days per user </label>
+								<div>
 									<input type="number" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" required>
 								</div>
 							</div>
@@ -115,15 +115,15 @@
 						<div class="col-md-3" style="padding: 0;">
 							<label class="all-title-font">Deposit</label>
 							<div class="inner-div-pad">
-								<select class="form-control br-bshadow-none" name="deposit" [(ngModel)]="depositModel" required>
+								<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel" required>
 									<option [value]="'disabledDeposit'" disabled="true">S$ 0</option>
 									<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
 								</select>
 								<i class="fa fa-chevron-down down-arrow1"></i>
 							</div>
 						</div>
-						<div class="col-md-3" style="padding: 0;">
-							<label class="all-title-font" style="padding-left: 15px;"> Course fee </label>
+						<div class="col-md-3">
+							<label class="all-title-font" style="padding-left: 10px;"> Course fee </label>
 							<div class="inner-divleft-pad">
 								<label class="sr-only" for="inlineFormInputGroupcourseFee">0</label>
 								<div class="input-group mb-2 mr-sm-2">
@@ -135,8 +135,8 @@
 							</div>
 						</div>
 					
-						<div class="col-md-3" style="padding: 0;">
-							<label class="all-title-font" style="padding-left: 15px;"> Miscellaneous fee </label>
+						<div class="col-md-3">
+							<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
 						    <div class="inner-divleft-pad">
 						    	<label class="sr-only" for="inlineFormInputGroupmisFee">0</label>
 								<div class="input-group mb-2 mr-sm-2">
@@ -164,12 +164,12 @@
 						<div class="col-md-6" style="padding: 0;">
 							<label class="all-title-font"> From </label>
 							<div class="inner-div-pad">
-								<input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel">
+								<input type="number" placeholder="0 year" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel">
 							</div>
 						</div>
-					 	<div class="col-md-6" style="padding: 0;">
-					 		<label class="all-title-font" style="padding-left: 15px;"> to </label>
-					 		<div class="inner-divleft-pad">
+					 	<div class="col-md-6" style="padding-right: 0;">
+					 		<label class="all-title-font" style="padding-left: 10px;"> to </label>
+					 		<div>
 					 			<input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
 					 		</div>
 					 	</div>
@@ -181,17 +181,17 @@
 						<div class="col-md-3" style="padding: 0;">
 							<label class="all-title-font"> Minimum </label>
 							<div class="inner-div-pad">
-								<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
+								<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
 							</div>
 						</div> 
-						<div class="col-md-3" style="padding: 0;">	
-							<label class="all-title-font" style="padding-left: 15px;"> Maximum </label>
+						<div class="col-md-3">	
+							<label class="all-title-font" style="padding-left: 10px;"> Maximum </label>
 							<div class="inner-divleft-pad">
 								<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
 							</div>
 						</div>
 						<div class="col-md-3">
-							<label class="all-title-font"> Duration </label>
+							<label class="all-title-font" style="padding-left: 10px;"> Duration </label>
 							<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none hoverReadonly" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
 							<div class="bg-box duration-progress">
 								<div id="rectangle"></div>
@@ -233,7 +233,7 @@
 				</div> 
 				<div class="col-md-6" style="clear: both; padding-top: 25px;">
 					<label class="all-title-font">Holiday Calendar</label>
-					<select class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px;">
+					<select class="form-control br-bshadow-none all-left-box-10" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px;">
 						<option disabled="true" [value]="'disabledHoliday'">None</option>
 						<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
 					</select>	

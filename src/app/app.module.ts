@@ -45,6 +45,7 @@ import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/weekday.pipe';
+//import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
