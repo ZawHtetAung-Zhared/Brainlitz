@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: ''
   };
-  public menuType:any = "admin";
+  public menuType:any = "location";
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;

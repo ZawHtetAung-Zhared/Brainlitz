@@ -1,96 +1,96 @@
-<app-header class="d-flex header-top top-header"></app-header>
-<div class="d-flex flex-column w-100 h-100 inner-wrapper" style="margin-top: 120px;">
-    <div class="mb-30">
-      <button type="button" class="btn btn-primary" (click)="open(locationModal)">+ create Location</button>
+<div class="content-wrapper" *ngIf="iscreate == false">
+  <div class="d-flex justify-content-between">
+    <div class="mr-auto p-2 pl-0">
+      <h3 class="location-h3">Locations</h3>
     </div>
-    <!-- Location Modal -->
-    <ng-template #locationModal let-c="close" let-d="dismiss">  
-      <div class="modal-header">
-        <h4 *ngIf="isUpdate == false" class="modal-title">Create Location</h4>
-        <h4 *ngIf="isUpdate == true" class="modal-title">Update Location</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <button type="button" class="btn btn-create" (click)="this.iscreate = true">Create location</button>  
+  </div>
+  <div>
+    <div class="single-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
+      <div class="row">
+        <h5 class="h5-title col-md-9">{{ location.name }}</h5>
+        <div class="col-md-3 d-flex justify-content-end">
+          <button class="btn edit-btn" (click)="getSingleLocation(location._id)">Edit</button> <span class="sperator">|</span> <button (click)="deleteModal(deletemodal, location._id)" class="btn delete-btn">Delete</button>
+        </div>
       </div>
-      <form novalidate #locationForm="ngForm">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="name">Name</label>   
-            <input type="text" class="form-control" placeholder="location name" name="name" [(ngModel)]="model.name" required #name="ngModel">
-            <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
-              <div [hidden]="!name.errors.required">
-                Name is required!
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="address">Address</label>
-            <textarea class="form-control" rows="3" placeholder="Address" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
-            <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
-              <div [hidden]="!address.errors.required">
-                Address is required!
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="tel" class="form-control" 
-              placeholder="123-456-7890"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
-              name="phoneNumber" 
-              [(ngModel)]="model.phoneNumber" 
-              #phoneNumber="ngModel"
-              required >
-              <div *ngIf="phoneNumber.errors && (phoneNumber.dirty || phoneNumber.touched)" class="alert alert-danger">
-                <div [hidden]="!phoneNumber.errors.required">
-                  Phone number is required!
-                </div>
-                <div [hidden]="!phoneNumber.errors.pattern">
-                  Must be a valid phone number!
-                </div>
-              </div>
-              <!-- <span class="validity">Phone number is invalid</span> -->
-          </div>
-          <!-- <div class="form-group">
-            <label for="gps">GPS Location</label>
-            <textarea class="form-control" rows="3" placeholder="GPS Location" name="gps" [(ngModel)]="model.gps" #gps="ngModel"></textarea>
-          </div> -->
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-          <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
-          <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createLocation(model, true, currentID)">Update</button>
-        </div>
-      </form>
-    </ng-template>    
-    <block-ui message="Deafult Message"></block-ui>
-
-    <!-- Delete Modal -->
-    <ng-template #deletemodal let-c="close" let-d="dismiss">
-        <div class="modal-header">
-          <h4 class="modal-title">Delete Holiday</h4>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure you want to delete <span class="bold-text">"{{locationName}}"</span></p>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-          <button type="submit" class="btn btn-primary" (click)="deleteLocation(currentID)" >Delete</button>
-        </div>
-    </ng-template>
-    <div class="overflow container">
-      <h2 *ngIf="isempty == true">No location has created yet</h2>
-      <ul class="list-group-flush">  
-        <li id="{{location._id}}" class="list-group-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
-          {{i + 1}}-{{ location.name }} 
-          <button type="submit" class="btn btn-secondary float-right btn-sm margin-left" (click)="getSingleLocation(location._id, locationModal)">Edit</button>
-          <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, location._id)">Delete</button>
-        </li>
-      </ul>
+      <div class="d-flex">
+        <div class="col-md-6 pl-0 address-text">{{location.address}}</div>
+        <div class="col-md-6 pl-0 h5-title">{{location.phoneNumber}}</div>
+      </div>
     </div>
+  </div>
 </div>
+
+<div class="content-wrapper" *ngIf="iscreate == true">
+  <div class="d-flex back-wrap">
+    <a class="back-to" (click)="iscreate = false">< Location</a>
+  </div>
+  <h3 class="location-h3">Create Location</h3>
+  <form novalidate #locationForm="ngForm" class="form-wrap">
+    <div class="form-group form-divider">
+      <label class="form-title" for="name">Location name</label>   
+      <input type="text" class="form-control" placeholder="Type location name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
+      <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+        <div [hidden]="!name.errors.required">
+          Name is required!
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-7">
+        <label class="form-title" for="address">Address</label>
+        <textarea class="form-control" rows="3" placeholder="Type address here" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
+        <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
+          <div [hidden]="!address.errors.required">
+            Address is required!
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-5">
+        <label class="form-title" for="phone">Telephone</label>
+        <input type="tel" class="form-control" 
+          placeholder="123-456-7890"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+          name="phoneNumber" 
+          [(ngModel)]="model.phoneNumber" 
+          #phoneNumber="ngModel"
+          required >
+          <div *ngIf="phoneNumber.errors && (phoneNumber.dirty || phoneNumber.touched)" class="alert alert-danger">
+            <div [hidden]="!phoneNumber.errors.required">
+              Phone number is required!
+            </div>
+            <div [hidden]="!phoneNumber.errors.pattern">
+              Must be a valid phone number!
+            </div>
+          </div>
+          <!-- <span class="validity">Phone number is invalid</span> -->
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-cancel" (click)="this.iscreate = false">Cancel</button>
+      <button *ngIf="isUpdate == false" type="submit" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
+      <button *ngIf="isUpdate == true" type="submit" class="btn btn-submit" (click)="createLocation(model, true, currentID)">Update</button>
+    </div>
+  </form>
+</div>
+
+<!-- Delete Modal -->
+<ng-template #deletemodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Delete Holiday</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to delete <span class="bold-text">"{{locationName}}"</span></p>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn btn-primary" (click)="deleteLocation(currentID)" >Delete</button>
+    </div>
+</ng-template>
+
+
    
  
