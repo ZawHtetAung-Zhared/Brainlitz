@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -18,6 +18,7 @@ import * as moment from 'moment-timezone';
 export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
   @BlockUI() blockUI: NgBlockUI;
+  @ViewChild('mainScreen') elementView: ElementRef;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public item:any = {};
@@ -39,28 +40,7 @@ export class ToolsComponent implements OnInit {
   public checkedType: any = [];
 
   // test
-  public myArray = [
-      {
-          name: "Apple",
-          color: "Green"
-      },
-      {
-          name: "Banana",
-          color: "Yellow"
-      },
-      {
-          name: "Grape",
-          color: "Green"
-      },
-      {
-          name: "Melon",
-          color: "Yellow"
-      },
-      {
-          name: "Orange",
-          color: "Orange"
-      }
-  ];
+  public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -382,5 +362,10 @@ export class ToolsComponent implements OnInit {
     this.item.sendType = 'app';
     this.isChecked = 'allcustomer';
   }
+  viewHeight:any;
+  clickMe(){
+        this.viewHeight = this.elementView.nativeElement.offsetHeight;
+        console.log("Height",this.viewHeight);
+      }
 
 }

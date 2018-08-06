@@ -216,7 +216,7 @@
 }
 .noti-info{
 	border-bottom: 1px solid #ebeff4;
-    padding: 0;   
+    padding: 0; 
 }
 .user-info{
 	margin-bottom: 15px;
@@ -225,6 +225,10 @@
 	background: #f2f4f5;
     padding: 4px;
     font-size: 12px;
+    margin-left: 10px;
+    color: #717c87;
+    font-family: Montserrat-Regular;
+    border-radius: 4px;
 }
 .subject-wrap{
 	background: #f2f4f5;
@@ -248,3 +252,63 @@
     padding-top: 5px;
     font-size: 14px;
 }
+/*testing timeline*/
+.wrapper {
+    position: relative;
+    width: 250px;
+    height: 300px;
+    border: 1px dashed #ccc;
+    margin: 10px;
+}
+
+.line {
+    position: absolute;
+    left: 49%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #ccc;
+    z-index: 1;
+}
+
+.wordwrapper {
+    text-align: center;
+    height: 12px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin-top: -12px;
+    z-index: 2;
+}
+
+.word {
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px;
+    font: bold 12px arial,sans-serif;
+    background: #fff;
+}
+/*testing timeline*/
+.vl{
+	width: 20%;
+}
+.vline {
+    border-left: 2px solid #edeff0;
+    height: 150px;
+}
+
+.line-in-middle {
+    /*width:400px;*/
+    width: 70px;
+    height:200px;
+	  background: linear-gradient(to right, 
+	                              transparent 0%, 
+	                              transparent calc(50% - 0.81px), 
+	                              #f1f2f3 calc(50% - 0.8px), 
+	                              #f1f2f3 calc(50% + 0.8px), 
+	                              transparent calc(50% + 0.81px), 
+	                              transparent 100%); 
+	}
+	
