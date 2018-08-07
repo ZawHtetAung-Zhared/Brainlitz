@@ -26,6 +26,7 @@ export class LocationComponent implements OnInit {
 	public iscreate: boolean = false;
 	public currentID: any;
 	public locationName: any;
+	public countrycode: any;
 	model: Location = new Location();
 	private modalReference: NgbModalRef;
 	closeResult: string;
@@ -40,6 +41,37 @@ export class LocationComponent implements OnInit {
 		this.getAllLocation();
 	}
 
+	telInputObject(obj) {
+	    console.log(obj);
+	    console.log(obj[0].placeholder);
+	    console.log(obj[0].placeholder.length);
+	    if(this.isUpdate != true){
+	    	console.log('create')
+	    	obj.intlTelInput('setCountry', 'in');
+	    }else{
+	    	console.log('update')
+	    	obj.intlTelInput('setCountry', 'mm');
+	    }
+  	}
+  	onCountryChange(e){
+  		console.log(e)
+  		this.countrycode = e.dialCode;
+  	}
+  	getNumber(e){
+  		console.log('hi')
+  		console.log(e)
+  	}
+  	hasError(e){
+  		console.log(e)
+  	}
+  	creatnew(){
+  		this.iscreate = true;
+  		this.model = new Location();
+  	}
+  	back(){
+  		this.iscreate = false
+  		this.isUpdate = false
+  	}
 	open(locationModal) {
 		this.model = new Location();
 	  this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});

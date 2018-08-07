@@ -8,7 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
+import {Ng2TelInputModule} from 'ng2-tel-input';
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -46,7 +46,12 @@ import { MinuteSecondsPipe } from './service/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/weekday.pipe';
 import { GroupByPipe } from './service/groupby.pipe';
+<<<<<<< HEAD
 import { StarRatingModule } from 'angular-star-rating';
+=======
+import { ReadmoreComponent } from './components/readmore/readmore.component';
+//import { StarRatingModule } from 'angular-star-rating';
+>>>>>>> 28c9413778b1bf6de1c0e2843884408f0267855e
 
 @NgModule({
   declarations: [
@@ -74,7 +79,8 @@ import { StarRatingModule } from 'angular-star-rating';
     ModuleComponent,
     MinuteSecondsPipe,
     WeekDaysPipe,
-    GroupByPipe
+    GroupByPipe,
+    ReadmoreComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +100,7 @@ import { StarRatingModule } from 'angular-star-rating';
     //}),
     DragScrollModule,
     StarRatingModule
+    Ng2TelInputModule
   ],
   providers: [
     appService,

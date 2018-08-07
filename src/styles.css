@@ -4,7 +4,7 @@
 @import '../node_modules/croppie/croppie.css';
 @import '../node_modules/ng5-toastr/bundles/ng5-toastr.min.css';
 @import '~font-awesome/css/font-awesome.css';
-
+@import 'intl-tel-input/build/css/intlTelInput.css';
 @font-face {
   font-family: 'Montserrat-Light';
   src:  url('assets/fonts/Montserrat-Light.ttf') format('truetype');
@@ -136,3 +136,17 @@ svg.star-filled.default-star-filled-icon {
   fill: #888 !important;
 }
 
+.iti-arrow{
+  left: 87px;
+  margin-top: -4px !important;
+}
+.intl-tel-input .selected-flag{
+  position: absolute;
+  width: 90px !important;
+}
+.intl-tel-input .country-list{
+  top: 35px;
+}
+.intl-tel-input .selected-flag .iti-flag{
+  top: -5px;
+}
