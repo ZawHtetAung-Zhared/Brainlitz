@@ -3,7 +3,7 @@
     <div class="mr-auto p-2 pl-0">
       <h3 class="location-h3">Locations</h3>
     </div>
-    <button type="button" class="btn btn-create" (click)="this.iscreate = true">Create location</button>  
+    <button type="button" class="btn btn-create" (click)="creatnew()">Create location</button>  
   </div>
   <div>
     <div class="single-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
@@ -47,6 +47,37 @@
         </div>
       </div>
       <div class="form-group col-md-5">
+        <div class="coun-code">+{{countrycode}}</div>
+        <input 
+        *ngIf="isUpdate == false"
+        style="margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" 
+        type="tel" 
+        class="form-control"
+        name="phoneNumber" 
+        [(ngModel)]="model.phoneNumber" 
+        #phoneNumber="ngModel"
+        ng2TelInput
+        (intlTelInputObject)="telInputObject($event)"
+        (hasError)="hasError($event)"
+        [ng2TelInputOptions]="{initialCountry: 'sg'}"
+        (countryChange)="onCountryChange($event)"
+        (ng2TelOutput)="getNumber($event)"
+         />
+         <input 
+        *ngIf="isUpdate == true"
+        style="margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" 
+        type="tel" 
+        class="form-control"
+        name="phoneNumber" 
+        [(ngModel)]="model.phoneNumber" 
+        #phoneNumber="ngModel"
+        ng2TelInput
+        (intlTelInputObject)="telInputObject($event)"
+        (hasError)="hasError($event)"
+        (countryChange)="onCountryChange($event)"
+        (ng2TelOutput)="getNumber($event)"
+         />
+      <!-- <div class="form-group col-md-5">
         <label class="form-title" for="phone">Telephone</label>
         <input type="tel" class="form-control" 
           placeholder="123-456-7890"
@@ -67,7 +98,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-cancel" (click)="this.iscreate = false">Cancel</button>
+      <button type="submit" class="btn btn-cancel" (click)="back()">Cancel</button>
       <button *ngIf="isUpdate == false" type="submit" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
       <button *ngIf="isUpdate == true" type="submit" class="btn btn-submit" (click)="createLocation(model, true, currentID)">Update</button>
     </div>
