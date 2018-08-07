@@ -1,3 +1,17 @@
+.tel-input input{
+	margin-left: 95px;
+	border-left: 1px solid #ddd;
+	border-radius: 0;
+	padding-left: 8px;
+}
+.coun-code{
+	width: 50px;
+    /*border: 1px solid;*/
+    text-align: center;
+    position: absolute;
+    left: 50px;
+    top: 6px;
+}
 .content-wrapper{
 	padding: 15px;
 }

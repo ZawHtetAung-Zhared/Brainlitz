@@ -8,7 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
+import {Ng2TelInputModule} from 'ng2-tel-input';
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -92,7 +92,8 @@ import { GroupByPipe } from './service/groupby.pipe';
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),
-    DragScrollModule
+    DragScrollModule,
+    Ng2TelInputModule
   ],
   providers: [
     appService,
