@@ -99,7 +99,7 @@ import { ReadmoreComponent } from './components/readmore/readmore.component';
      // confirmButtonType: 'danger' // set defaults here
     //}),
     DragScrollModule,
-    StarRatingModule
+    StarRatingModule,
     Ng2TelInputModule
   ],
   providers: [
