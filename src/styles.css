@@ -118,3 +118,21 @@ app-users{
   flex-direction: column;
   height: 100%;
 }
+
+.rating {
+  justify-content: left !important;
+}
+
+.info-group .rating {
+  margin-left: -6px;
+}
+
+svg.star-filled.default-star-filled-icon {
+  fill: #888 !important;
+  border-radius: #ddd !important;
+}
+
+.star svg{
+  fill: #888 !important;
+}
+

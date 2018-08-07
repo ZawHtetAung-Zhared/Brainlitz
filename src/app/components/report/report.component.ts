@@ -27,12 +27,14 @@ export class ReportComponent implements OnInit {
 	noData: boolean = true;
 	utcStartDate: any;
   	utcEndDate: any;
+  	teacherName: any;
 
   	ngOnInit() {
   		this.getStaffRating();
   	}
 
-  	getFeedBack(teacherId){
+  	getFeedBack(teacherId, tName){
+  		this.teacherName = tName;
   		this.showDetail = true;
 		this._service.getFeedBackList(this.regionID, teacherId)
 		.subscribe((res:any) => {

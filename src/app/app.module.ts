@@ -46,7 +46,7 @@ import { MinuteSecondsPipe } from './service/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/weekday.pipe';
 import { GroupByPipe } from './service/groupby.pipe';
-//import { StarRatingModule } from 'angular-star-rating';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
@@ -92,7 +92,8 @@ import { GroupByPipe } from './service/groupby.pipe';
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),
-    DragScrollModule
+    DragScrollModule,
+    StarRatingModule
   ],
   providers: [
     appService,
