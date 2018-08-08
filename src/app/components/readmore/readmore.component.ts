@@ -25,7 +25,7 @@ export class ReadmoreComponent implements OnInit {
   }
 
   determineView() {
-  	console.log("text length",this.text.length)
+  	// console.log("text length",this.text.length)
     if (this.text.length <= 170) {
         this.currentText = this.text;
         this.isCollapsed = false;

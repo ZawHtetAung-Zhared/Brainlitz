@@ -176,25 +176,36 @@
 			<h2>Sent history</h2>
 			<div *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
 				<h4>{{ notiGroup.key }}</h4>
-				<div *ngFor="let noti of notiGroup.value">
+				<div *ngFor="let noti of notiGroup.value;let isLast=last">
 					<div class="flex-wrap">
-						<div class="col-sm-2" style="padding: 0;">
-							<label>12:00 AM</label>
-							<!-- <div style="display: flex;">
-								<div class="vl"></div>
-								<div class="vline"></div>
-							</div> -->
-							<div class="line-in-middle"></div>
+						<div class="col-sm-2">
+							<div class="same-label"></div>
+							<label>{{noti.senttime}}</label>
+							<!-- <div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div> -->
 						</div>
-						<div class="col-sm-10 noti-info" #mainScreen (click)="clickMe()">
-							<div class="user-info">
-								<span>All staff</span> <span class="count-wrap">20 users</span>
+						<div class="col-sm-10 noti-info">
+							<div class="same-label">
+								Sent to
 							</div>
-							<div class="subject-wrap">
+							<div class="user-info">
+								<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">20 users</span>
+							</div>
+							<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast}" class="subject-wrap">
 								<div class="noti-subject">
 									<div class="noti-title">
 										{{ noti.title }}
 									</div>
+									<!-- <span>
+									{{ (noti.message.length>170)? (noti.message | slice:0:140)+'..':(noti.message) }}
+									</span>
+									<span *ngIf="noti.message.length > 170">
+										<a class="link" (click)="toggleView()">read more</a>
+									</span> -->
+									<!-- 00 {{ noti.message }}
+									00  {{ noti.message.length }} -->
+									<!-- <span>
+										{{ noti.message }}
+									</span> -->
 									<read-more [text]=noti.message></read-more>
 								</div>
 							</div>

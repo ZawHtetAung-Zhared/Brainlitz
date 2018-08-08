@@ -20,8 +20,8 @@
 .fl-rt{
 	float: left;
 	overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .fl-rt input, .fl-rt label {
@@ -749,6 +749,11 @@ select:hover + .down-arrow2, select:focus + .down-arrow2, select:hover + .down-a
 .header-wrap {
   position: relative; 
   margin-top: -20px;
+}
+
+.fa.right-arrow {
+  font-size: 31px !important;
+  color: #888 !important;
 }
 
 @media only screen and (max-width: 768px){

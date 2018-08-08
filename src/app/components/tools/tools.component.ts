@@ -19,6 +19,7 @@ export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('mainScreen') elementView: ElementRef;
+
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public item:any = {};
@@ -42,7 +43,7 @@ export class ToolsComponent implements OnInit {
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
 
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
         this.locationId = data;
@@ -368,4 +369,11 @@ export class ToolsComponent implements OnInit {
         console.log("Height",this.viewHeight);
       }
 
+
+// testing
+// isCollapsed:boolean = true;
+  toggleView(){
+    // this.isCollapsed = false;
+  }
+// testing
 }
