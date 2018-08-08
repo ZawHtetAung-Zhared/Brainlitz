@@ -5,6 +5,9 @@
     </div>
     <button type="button" class="btn btn-create" (click)="creatnew()">Create location</button>  
   </div>
+  <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+    ss
+  </div>
   <div>
     <div class="single-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
       <div class="row">
@@ -108,7 +111,7 @@
 <!-- Delete Modal -->
 <ng-template #deletemodal let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h4 class="modal-title">Delete Holiday</h4>
+      <h4 class="modal-title">Delete Holiday </h4>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>

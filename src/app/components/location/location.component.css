@@ -1,3 +1,18 @@
+.sticky-menu{
+	position: fixed;
+    width: 100%;
+    z-index: 1;
+    padding: 15px 30px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    top: 0px;
+    background: #fff;
+    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+.stickywrap{
+	top: 48px;
+}
 .tel-input input{
 	margin-left: 95px;
 	border-left: 1px solid #ddd;
@@ -13,7 +28,8 @@
     top: 6px;
 }
 .content-wrapper{
-	padding: 15px;
+	/*padding: 15px;*/
+	position: relative;
 }
 .btn-submit,
 .btn-cancel{

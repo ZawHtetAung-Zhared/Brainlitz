@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef, HostListener } from '@angular/core';
 import { Location } from './location';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
@@ -24,6 +24,7 @@ export class LocationComponent implements OnInit {
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
 	public iscreate: boolean = false;
+	public navIsFixed: boolean = false;
 	public currentID: any;
 	public locationName: any;
 	public countrycode: any;
@@ -38,8 +39,36 @@ export class LocationComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		window.addEventListener('scroll', this.scroll, true);
 		this.getAllLocation();
 	}
+
+	ngOnDestroy() {
+        window.removeEventListener('scroll', this.scroll, true);
+    }
+
+    scroll = (): void => {
+    	// var el = document.getElementsByClassName("content-wrapper");
+    	// console.log(el)
+    	// console.log('..', window)
+    	// console.log('..', window.pageYOffset)
+      //handle your scroll here
+      //notice the 'odd' function assignment to a class field
+      //this is used to be able to remove the event listener
+    };
+
+    @HostListener('window:scroll', ['$event']) onScroll($event){
+	    // console.log($event);
+	    // console.log("scrolling");
+	    // console.log(window.pageYOffset)
+	    if(window.pageYOffset > 90){
+	      console.log('greater than 100')
+	      this.navIsFixed = true;
+	    }else{
+	      console.log('less than 100')
+	      this.navIsFixed = false;
+	    }
+	  } 
 
 	telInputObject(obj) {
 	    console.log(obj);
@@ -53,6 +82,7 @@ export class LocationComponent implements OnInit {
 	    	obj.intlTelInput('setCountry', 'mm');
 	    }
   	}
+
   	onCountryChange(e){
   		console.log(e)
   		this.countrycode = e.dialCode;

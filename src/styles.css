@@ -111,7 +111,6 @@ main{
 app-dashboard,
 app-course,
 app-tools,
-app-dashboard,
 app-report,
 app-users{
   display: flex;
@@ -150,3 +149,13 @@ svg.star-filled.default-star-filled-icon {
 .intl-tel-input .selected-flag .iti-flag{
   top: -5px;
 }
+.stickywrap .first-row {
+  display: none !important;
+}
+/*.stickywrap .sidebar-wrap {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    background: #fff;
+    top: 0;
+}*/
