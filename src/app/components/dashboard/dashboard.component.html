@@ -1,7 +1,10 @@
-<app-header></app-header>
-<div class="d-flex flex-row h-100 w-100">
-    <div class="col-md-2 noti-sidebar">
-      <div class="d-flex flex-column justify-content-center">
+<app-header [ngClass]="{'stickywrap' : navIsFixed == true}" style="position: fixed; width: 100%; background: #fff; z-index: 99;"></app-header>
+<div class="d-flex flex-row h-100 w-100" style="margin-top: 150px;">
+    <div class="col-md-2 noti-sidebar h-100"  style="width: 16.666667%">
+      <div style="position: fixed;
+        width: inherit;
+        height: 100%;
+        border-right: 1px solid #dedede;">
         <div [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('location')">Locations</button>
         </div>
@@ -19,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="menuType == 'admin'" class="col-md-10 min-scroll">
+    <div *ngIf="menuType == 'admin'" class="col-md-10" >
       <div class="d-flex flex-column w-100 h-100 inner-wrapper">
         <div class="mb-30">
           <h2 class="mb-30">Regional Administrator</h2>
@@ -55,7 +58,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="menuType == 'location'" class="col-md-10 min-scroll">
+    <div *ngIf="menuType == 'location'" class="col-md-10">
       <app-location></app-location>
     </div> 
     <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">

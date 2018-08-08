@@ -5,6 +5,9 @@
     </div>
     <button type="button" class="btn btn-create" (click)="creatnew()">Create location</button>  
   </div>
+  <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+    ss
+  </div>
   <div>
     <div class="single-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
       <div class="row">
