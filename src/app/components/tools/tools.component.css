@@ -212,9 +212,9 @@
 }
 
 /*For confirm UI*/
-/*.flex-wrap{
+.flex-wrap{
 	display: flex;
-}*/
+}
 .noti-info{
 	border-bottom: 1px solid #ebeff4;
     /*padding: 0; */
@@ -358,7 +358,7 @@ width: 50%;
 .link{
 	color: #1e88fb!important;
 }
-.subject-wrap::after{
+.borderOne::after{
 	content: '';
     border-right: 2px solid red;
     position: absolute;
@@ -366,3 +366,19 @@ width: 50%;
     top: 45px;
     height: 85%;
 }
+.borderTwo::after{
+	content: '';
+    border-right: 2px solid #d3d3d3;
+    position: absolute;
+    left: -15%;
+    top: 45px;
+    height: 70%;
+}
+/*.subject-wrapOne::after{
+	content: '';
+    border-right: 2px solid red;
+    position: absolute;
+    left: -15%;
+    top: 45px;
+    height: 85%;
+}*/

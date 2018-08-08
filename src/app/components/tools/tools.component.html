@@ -177,11 +177,11 @@
 			<div *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
 				<h4>{{ notiGroup.key }}</h4>
 				<div *ngFor="let noti of notiGroup.value;let isLast=last">
-					<div id="a">
-						<div id="b" class="col-sm-2">
+					<div class="flex-wrap">
+						<div class="col-sm-2">
 							<div class="same-label"></div>
 							<label>{{noti.senttime}}</label>
-							<div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div>
+							<!-- <div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div> -->
 						</div>
 						<div class="col-sm-10 noti-info">
 							<div class="same-label">
@@ -190,7 +190,7 @@
 							<div class="user-info">
 								<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">20 users</span>
 							</div>
-							<div class="subject-wrap">
+							<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast}" class="subject-wrap">
 								<div class="noti-subject">
 									<div class="noti-title">
 										{{ noti.title }}
