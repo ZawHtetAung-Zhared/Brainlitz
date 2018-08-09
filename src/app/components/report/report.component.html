@@ -1,5 +1,5 @@
-<app-header></app-header>
-<div class="inner-wrapper">
+<app-header [ngClass]="{'stick': isSticky == true}"></app-header>
+<div class="inner-wrapper" [ngClass]="{'active': isSticky == true}">
 	<div *ngIf="!showDetail">
 		<div *ngIf="noData" class="txt-color-center">
 			<h3>Don't have staff for this location.</h3>

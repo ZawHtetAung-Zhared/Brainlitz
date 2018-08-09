@@ -1,7 +1,17 @@
+.stick #header{
+  -ms-transform: translateY(-95);
+  transform: translateY(-95);
+}
 #header{
   width: 100%;
   background: #fff;
   font-family: Montserrat-Regular;
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  transition: height 300ms linear, transform 300ms linear;
+  -ms-transform: translateY(0);
+  transform: translateY(0);
 }
 #inputState {
 	border: none;
