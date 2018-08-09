@@ -1,14 +1,19 @@
 <div class="content-wrapper" *ngIf="iscreate == false">
   <div class="d-flex justify-content-between">
-    <div class="mr-auto p-2 pl-0">
+    <div class="mr-auto p-2 pl-15">
       <h3 class="location-h3">Locations</h3>
     </div>
-    <button type="button" class="btn btn-create" (click)="creatnew()">Create location</button>  
+    <button type="button" class="btn btn-create mr-15" (click)="creatnew()">Create location</button>  
   </div>
   <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
-    ss
+    <div class="d-flex justify-content-between">
+      <div class="mr-auto p-2 pl-15">
+        <h3 class="location-h3">Locations</h3>
+      </div>
+      <button type="button" class="btn btn-create mr-15" (click)="creatnew()">Create location</button> 
+    </div>
   </div>
-  <div>
+  <div class="location-group">
     <div class="single-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
       <div class="row">
         <h5 class="h5-title col-md-9">{{ location.name }}</h5>
@@ -28,84 +33,86 @@
   <div class="d-flex back-wrap">
     <a class="back-to" (click)="iscreate = false">< Location</a>
   </div>
-  <h3 class="location-h3">Create Location</h3>
-  <form novalidate #locationForm="ngForm" class="form-wrap">
-    <div class="form-group form-divider">
-      <label class="form-title" for="name">Location name</label>   
-      <input type="text" class="form-control" placeholder="Type location name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
-      <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
-        <div [hidden]="!name.errors.required">
-          Name is required!
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-md-7">
-        <label class="form-title" for="address">Address</label>
-        <textarea class="form-control" rows="3" placeholder="Type address here" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
-        <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
-          <div [hidden]="!address.errors.required">
-            Address is required!
+  <div class="location-group">
+    <h3 class="location-h3">Create Location</h3>
+    <form novalidate #locationForm="ngForm" class="form-wrap">
+      <div class="form-group form-divider">
+        <label class="form-title" for="name">Location name</label>   
+        <input type="text" class="form-control" placeholder="Type location name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
+        <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+          <div [hidden]="!name.errors.required">
+            Name is required!
           </div>
         </div>
       </div>
-      <div class="form-group col-md-5">
-        <div class="coun-code">+{{countrycode}}</div>
-        <input 
-        *ngIf="isUpdate == false"
-        style="margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" 
-        type="tel" 
-        class="form-control"
-        name="phoneNumber" 
-        [(ngModel)]="model.phoneNumber" 
-        #phoneNumber="ngModel"
-        ng2TelInput
-        (intlTelInputObject)="telInputObject($event)"
-        (hasError)="hasError($event)"
-        [ng2TelInputOptions]="{initialCountry: 'sg'}"
-        (countryChange)="onCountryChange($event)"
-        (ng2TelOutput)="getNumber($event)"
-         />
-         <input 
-        *ngIf="isUpdate == true"
-        style="margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" 
-        type="tel" 
-        class="form-control"
-        name="phoneNumber" 
-        [(ngModel)]="model.phoneNumber" 
-        #phoneNumber="ngModel"
-        ng2TelInput
-        (intlTelInputObject)="telInputObject($event)"
-        (hasError)="hasError($event)"
-        (countryChange)="onCountryChange($event)"
-        (ng2TelOutput)="getNumber($event)"
-         />
-      <!-- <div class="form-group col-md-5">
-        <label class="form-title" for="phone">Telephone</label>
-        <input type="tel" class="form-control" 
-          placeholder="123-456-7890"
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+      <div class="row">
+        <div class="form-group col-md-7">
+          <label class="form-title" for="address">Address</label>
+          <textarea class="form-control" rows="3" placeholder="Type address here" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
+          <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
+            <div [hidden]="!address.errors.required">
+              Address is required!
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-5">
+          <div class="coun-code">+{{countrycode}}</div>
+          <input 
+          *ngIf="isUpdate == false"
+          style="margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" 
+          type="tel" 
+          class="form-control"
           name="phoneNumber" 
           [(ngModel)]="model.phoneNumber" 
           #phoneNumber="ngModel"
-          required >
-          <div *ngIf="phoneNumber.errors && (phoneNumber.dirty || phoneNumber.touched)" class="alert alert-danger">
-            <div [hidden]="!phoneNumber.errors.required">
-              Phone number is required!
+          ng2TelInput
+          (intlTelInputObject)="telInputObject($event)"
+          (hasError)="hasError($event)"
+          [ng2TelInputOptions]="{initialCountry: 'sg'}"
+          (countryChange)="onCountryChange($event)"
+          (ng2TelOutput)="getNumber($event)"
+           />
+           <input 
+          *ngIf="isUpdate == true"
+          style="margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" 
+          type="tel" 
+          class="form-control"
+          name="phoneNumber" 
+          [(ngModel)]="model.phoneNumber" 
+          #phoneNumber="ngModel"
+          ng2TelInput
+          (intlTelInputObject)="telInputObject($event)"
+          (hasError)="hasError($event)"
+          (countryChange)="onCountryChange($event)"
+          (ng2TelOutput)="getNumber($event)"
+           />
+        <!-- <div class="form-group col-md-5">
+          <label class="form-title" for="phone">Telephone</label>
+          <input type="tel" class="form-control" 
+            placeholder="123-456-7890"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+            name="phoneNumber" 
+            [(ngModel)]="model.phoneNumber" 
+            #phoneNumber="ngModel"
+            required >
+            <div *ngIf="phoneNumber.errors && (phoneNumber.dirty || phoneNumber.touched)" class="alert alert-danger">
+              <div [hidden]="!phoneNumber.errors.required">
+                Phone number is required!
+              </div>
+              <div [hidden]="!phoneNumber.errors.pattern">
+                Must be a valid phone number!
+              </div>
             </div>
-            <div [hidden]="!phoneNumber.errors.pattern">
-              Must be a valid phone number!
-            </div>
-          </div>
-          <!-- <span class="validity">Phone number is invalid</span> -->
+            <!-- <span class="validity">Phone number is invalid</span> -->
+        </div>
       </div>
-    </div>
-    <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-cancel" (click)="back()">Cancel</button>
-      <button *ngIf="isUpdate == false" type="submit" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
-      <button *ngIf="isUpdate == true" type="submit" class="btn btn-submit" (click)="createLocation(model, true, currentID)">Update</button>
-    </div>
-  </form>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-cancel" (click)="back()">Cancel</button>
+        <button *ngIf="isUpdate == false" type="submit" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
+        <button *ngIf="isUpdate == true" type="submit" class="btn btn-submit" (click)="createLocation(model, true, currentID)">Update</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- Delete Modal -->

@@ -1,8 +1,17 @@
+.pl-15{
+	padding-left: 15px !important;
+}
+.mr-15{
+	margin-right: 15px !important;
+}
+.location-group{
+	padding: 0 15px;
+}
 .sticky-menu{
 	position: fixed;
-    width: 100%;
+    width: 83.333333%;
     z-index: 1;
-    padding: 15px 30px;
+    padding: 15px 0;
     -webkit-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
@@ -11,7 +20,7 @@
     box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 }
 .stickywrap{
-	top: 48px;
+	top: 63px;
 }
 .tel-input input{
 	margin-left: 95px;
@@ -92,6 +101,7 @@
 }
 .back-wrap{
 	margin-bottom: 20px;
+	padding: 15px;
 }
 .back-to{
 	font-family: 'Montserrat-Regular', Arial,sans-serif;

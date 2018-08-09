@@ -109,9 +109,7 @@ main{
   cursor: not-allowed;
 }
 app-dashboard,
-app-course,
 app-tools,
-app-report,
 app-users{
   display: flex;
   flex-direction: column;
@@ -149,9 +147,9 @@ svg.star-filled.default-star-filled-icon {
 .intl-tel-input .selected-flag .iti-flag{
   top: -5px;
 }
-.stickywrap .first-row {
+/*.stickywrap .first-row {
   display: none !important;
-}
+}*/
 /*.stickywrap .sidebar-wrap {
     position: fixed;
     z-index: 99;
@@ -159,3 +157,19 @@ svg.star-filled.default-star-filled-icon {
     background: #fff;
     top: 0;
 }*/
+.stick #header{
+  -ms-transform: translateY(-85px) !important;
+  transform: translateY(-85px) !important;
+}
+.stick .sidebar-wrap{
+  -moz-box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
+  -ms-box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
+  box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
+}
+.side-bar-wrap{
+  position: fixed;
+  width: inherit;
+  height: 100%;
+  border-right: 1px solid #dedede;
+  transition: height 300ms linear, transform 300ms linear;
+}

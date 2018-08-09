@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import * as moment from 'moment'; //
@@ -22,6 +22,7 @@ export class ReportComponent implements OnInit {
 	ratingLists: any;
 	showFeedback: any;
 	showDetail: boolean = false;
+	isSticky: boolean = false;
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
@@ -32,6 +33,16 @@ export class ReportComponent implements OnInit {
   	ngOnInit() {
   		this.getStaffRating();
   	}
+
+  	@HostListener('window:scroll', ['$event']) onScroll($event){    
+	    if(window.pageYOffset > 10){
+	      console.log('greater than 30')
+	      this.isSticky = true;
+	    }else{
+	      console.log('less than 30')
+	      this.isSticky = false;
+	    }
+	  }
 
   	getFeedBack(teacherId, tName){
   		this.teacherName = tName;

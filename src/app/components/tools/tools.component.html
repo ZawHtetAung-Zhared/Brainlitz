@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="d-flex flex-row h-100 w-100">
+<div style="padding-top: 150px;" class="d-flex flex-row h-100 w-100">
 	<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 noti-sidebar">
 		<div class="d-flex flex-column justify-content-center">
 			<div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
@@ -173,24 +173,32 @@
 					</li>
 				</ul>
 			</div> -->
-			<h2>Sent history</h2>
-			<div *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
-				<h4>{{ notiGroup.key }}</h4>
+			<h3 class="title-padding">Sent history</h3>
+			<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
+				<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
+				<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
+				<h5 *ngIf="notiGroup.key != today && notiGroup.key != yesterday" class="title-padding">{{notiGroup | getDay}}, {{ notiGroup.key | date }}</h5>
 				<div *ngFor="let noti of notiGroup.value;let isLast=last">
 					<div class="flex-wrap">
 						<div class="col-sm-2">
 							<div class="same-label"></div>
-							<label>{{noti.senttime}}</label>
+							<label class="sentTime">{{noti.senttime | convertTimeFormat}}</label>
 							<!-- <div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div> -->
 						</div>
-						<div class="col-sm-10 noti-info">
+						<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast,'horizontal-line': isLast}" class="col-sm-10 noti-info">
 							<div class="same-label">
 								Sent to
 							</div>
 							<div class="user-info">
-								<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">20 users</span>
+								<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">{{ noti.count }} users</span>
+								<span class="social-links">
+									<a href="#"><i id="mobile" class="fa fa-mobile" aria-hidden="true"></i></a>
+								</span>
+								<span class="social-links">
+									<a href="#"><i id="envelope" class="fa fa-envelope-o"></i></a>
+								</span>
 							</div>
-							<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast}" class="subject-wrap">
+							<div class="subject-wrap">
 								<div class="noti-subject">
 									<div class="noti-title">
 										{{ noti.title }}
@@ -210,9 +218,9 @@
 								</div>
 							</div>
 							<div class="sender-info">
-								<span>sent by</span> 
+								<span>Sent by</span> 
 								<ul>
-									<li>{{ noti.sender.preferredName}}</li>
+									<li><span id="senderName">{{ noti.sender.preferredName}}</span></li>
 								</ul>
 							</div>
 						</div>

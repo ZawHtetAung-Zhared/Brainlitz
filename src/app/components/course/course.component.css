@@ -1,3 +1,11 @@
+.inner-wrapper.active{
+  padding-top: 90px;
+}
+.inner-wrapper{
+  padding-top: 150px;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
 @keyframes slideInFromLeft {
   100% {
     transform: translateX(0);

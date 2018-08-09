@@ -61,7 +61,7 @@ export class LocationComponent implements OnInit {
 	    // console.log($event);
 	    // console.log("scrolling");
 	    // console.log(window.pageYOffset)
-	    if(window.pageYOffset > 90){
+	    if(window.pageYOffset > 40){
 	      console.log('greater than 100')
 	      this.navIsFixed = true;
 	    }else{
