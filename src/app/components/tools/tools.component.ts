@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -13,7 +14,8 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
-  styleUrls: ['./tools.component.css']
+  styleUrls: ['./tools.component.css'],
+  providers: [DatePipe]
 })
 export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
@@ -39,11 +41,13 @@ export class ToolsComponent implements OnInit {
     {name: 'App notification',type: 'noti',checked: false}
   ];
   public checkedType: any = [];
+  public today;
+  public yesterday;
 
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
 
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef) { 
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef, private datePipe: DatePipe ) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
         this.locationId = data;
@@ -63,6 +67,15 @@ export class ToolsComponent implements OnInit {
     this.notiType = type;
     if(type == 'view'){
       this.viewNoti();
+      var date = new Date();
+      var dFormat = this.datePipe.transform(date,"yyyy-MM-dd");
+      console.log(dFormat); //output : 2018-02-13
+      this.today = dFormat.replace(/-/g, "/");
+      console.log(this.today);
+      var ydate = new Date(date.setDate(date.getDate() - 1));
+      var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
+      this.yesterday = yFormat.replace(/-/g, "/");
+      console.log("Yesterday",this.yesterday);
     }else{
       this.setDefaultSelected();
     }
@@ -93,11 +106,11 @@ export class ToolsComponent implements OnInit {
         this.utcDate = moment(time, format).tz(zone).format(format)
         // console.log(this.utcDate)
         this.utcDate = this.utcDate.slice(0, -5);
-        //for testing Confirm UI===
+        /*===for testing Confirm UI===*/
         let utcDate = this.utcDate;
         let onlyDate = utcDate.substring(0, 10);
-        let onlyTime = utcDate.substring(10, 19)
-        console.log(onlyDate)
+        let onlyTime = utcDate.substring(11, 19)
+        // console.log(onlyDate)
         /*===end Testing===*/
         if(this.notiLists[i].utc){
           this.notiLists[i].utc = this.utcDate;
@@ -105,7 +118,7 @@ export class ToolsComponent implements OnInit {
           this.notiLists[i].senttime = onlyTime;
         }
       }
-      console.log('Noti List',this.notiLists)
+      console.log('Noti List',this.notiLists);
     }, err => {
       this.blockUI.stop();
       this.toastr.error('View sent history fail');

@@ -42,10 +42,12 @@ import { ReportComponent } from './components/report/report.component';
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
-import { MinuteSecondsPipe } from './service/time.pipe';
+import { MinuteSecondsPipe } from './service/pipe/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
-import { WeekDaysPipe } from './service/weekday.pipe';
-import { GroupByPipe } from './service/groupby.pipe';
+import { WeekDaysPipe } from './service/pipe/weekday.pipe';
+import { GroupByPipe } from './service/pipe/groupby.pipe';
+import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
+import { GetDayPipe } from './service/pipe/day.pipe';
 import { StarRatingModule } from 'angular-star-rating';
 import { ReadmoreComponent } from './components/readmore/readmore.component';
 
@@ -76,6 +78,8 @@ import { ReadmoreComponent } from './components/readmore/readmore.component';
     MinuteSecondsPipe,
     WeekDaysPipe,
     GroupByPipe,
+    ConvertTimeFormatPipe,
+    GetDayPipe,
     ReadmoreComponent
   ],
   imports: [
