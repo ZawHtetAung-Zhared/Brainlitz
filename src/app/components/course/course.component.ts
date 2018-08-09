@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
@@ -35,6 +35,7 @@ export class CourseComponent implements OnInit {
   emptyCourse:boolean = false;
   isCategory:boolean = false;
   isPlan:boolean = false;
+  isSticky:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
 
@@ -76,6 +77,16 @@ export class CourseComponent implements OnInit {
     this.getCategoryList();
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){    
+    if(window.pageYOffset > 10){
+      console.log('greater than 30')
+      this.isSticky = true;
+    }else{
+      console.log('less than 30')
+      this.isSticky = false;
+    }
   }
 
   changeRoute(){
