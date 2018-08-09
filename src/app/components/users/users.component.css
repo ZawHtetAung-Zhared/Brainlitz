@@ -5,7 +5,7 @@
     width: 100%;
 }
 
-.scrollable
+/*.scrollable
 {
       overflow-y: scroll;
       height: 100vh;
@@ -116,7 +116,6 @@
 
 .bt-copy {
     float: right;
-    /*margin-right: 10px;*/
 }
 
 .flt-right {
@@ -137,4 +136,150 @@
 
 .bt-mr {
     margin-bottom: 5px;
+}*/
+
+
+h3, h5 {
+    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+    color: #2e3d4d;
+    word-wrap: break-word;
 }
+
+.create-button-pos {
+    font-family: 'Montserrat-Regular', Arial,sans-serif;
+    color: #2e3d4d;
+    word-wrap: break-word;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.display-block {
+    display: block;
+}
+
+.pos-relative {
+    position: relative;
+}
+
+.create-button-pos {
+    float: right;
+    background: #007fff !important;
+    color: #fff !important;
+    padding: 9px 13px !important;
+    font-weight: unset;
+    letter-spacing: 0.5px;
+}
+
+.pad-0 {
+    padding: 0;
+}
+
+.btn-design {
+    padding: 12px;
+    background: #f2f4f5;
+    border: none;
+}
+
+.input-search-bg, .btn-outline-secondary {
+    border-radius: 4px !important;
+}
+
+.input-search-bg {
+    padding: 12px 0 12px 12px !important;
+    background: #f2f4f5;
+    border: none;
+}
+
+.btn-design.btn-outline-secondary, .btn-design.btn-outline-secondary:hover {
+    color: #788796;
+    cursor: pointer;
+}
+ 
+.btn-design:focus, .btn-design.btn-outline-secondary:focus, .btn-design.btn-outline-secondary:active {
+    outline: none;
+    box-shadow: none;
+    background: #f2f4f5;
+}
+
+.input-search-bg:focus, .create-button-pos:focus {
+    box-shadow: none;
+}
+
+
+.box-design {
+    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+    padding: 20px 15px;
+    min-height: 120px;
+}
+
+.mr-box {
+    margin-top: 20px;
+}
+
+.circular-image {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+.circular-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.info-mail {
+    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    color: #64707d;
+    font-size: 14px;
+    word-wrap: break-word;
+    padding: 0 20px 0 0;
+}
+
+.info-side {
+    display: block; 
+    word-break: break-all; 
+    padding: 0 15px;
+}
+
+.right-arrow {
+    position: absolute;
+    right: 30px;
+    bottom: 40%;
+    font-size: 26px;
+    color: #d4d5d6;
+    cursor: pointer;
+}
+
+.text-vertical {
+    margin: 15px auto 5px;
+    vertical-align: middle;
+    padding: 0 15px 0 0;
+}
+
+.input-search-bg::-webkit-input-placeholder {
+  color: #788796!important;
+}
+
+.no-line-height {
+    line-height: 0;
+}
+
+.search-size {
+    font-size: 20px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+@media only screen and (max-width: 768px){
+    .right-arrow {
+        right: 20px;
+    }
+}
+
