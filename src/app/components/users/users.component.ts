@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { Staff } from './staff';
 import { Customer } from './customer';
@@ -47,6 +47,7 @@ export class UsersComponent implements OnInit {
 	uploadCrop: any;
 	blankCrop: boolean = false;
 	cropButton: boolean = true;
+	isSticky: boolean = false;
 	modalReference: any;
 	closeResult: any;
 	imageUrl: any;
@@ -77,8 +78,18 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getAllUsers('');
+		this.getAllUsers('customer');
 	}
+
+	@HostListener('window:scroll', ['$event']) onScroll($event){    
+	    if(window.pageYOffset > 10){
+	      console.log('greater than 30')
+	      this.isSticky = true;
+	    }else{
+	      console.log('less than 30')
+	      this.isSticky = false;
+	    }
+	  }
 
 	open1(staffModal){
 		this.blankCrop = false; 
