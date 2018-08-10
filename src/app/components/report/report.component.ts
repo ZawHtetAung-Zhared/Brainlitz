@@ -35,11 +35,12 @@ export class ReportComponent implements OnInit {
   	}
 
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
-	    if(window.pageYOffset > 10){
-	      console.log('greater than 30')
+	    console.log(window.pageYOffset)
+	    if(window.pageYOffset >= 40){
+	      // console.log('greater than 30')
 	      this.isSticky = true;
 	    }else{
-	      console.log('less than 30')
+	      // console.log('less than 30')
 	      this.isSticky = false;
 	    }
 	  }

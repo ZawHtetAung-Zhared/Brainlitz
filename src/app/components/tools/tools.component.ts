@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
@@ -24,6 +24,7 @@ export class ToolsComponent implements OnInit {
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
+  public isSticky:boolean = false;
   public item:any = {};
   public regionID = localStorage.getItem('regionId');
   public locationId:any;
@@ -63,6 +64,16 @@ export class ToolsComponent implements OnInit {
     this.item.sendType = 'app';
   }
 
+  @HostListener('window:scroll', ['$event']) onScroll($event){    
+    if(window.pageYOffset > 10){
+      console.log('greater than 30')
+      this.isSticky = true;
+    }else{
+      console.log('less than 30')
+      this.isSticky = false;
+    }
+  }
+  
   clickTab(type){
     this.notiType = type;
     if(type == 'view'){

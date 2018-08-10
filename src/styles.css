@@ -109,8 +109,7 @@ main{
   cursor: not-allowed;
 }
 app-dashboard,
-app-tools,
-app-users{
+app-tools{
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -137,12 +136,17 @@ svg.star-filled.default-star-filled-icon {
   left: 87px;
   margin-top: -4px !important;
 }
+.intl-tel-input{
+  display: block;
+  /*padding: 0 100px;*/
+}
 .intl-tel-input .selected-flag{
   position: absolute;
   width: 90px !important;
 }
 .intl-tel-input .country-list{
   top: 35px;
+  width: 250px;
 }
 .intl-tel-input .selected-flag .iti-flag{
   top: -5px;
