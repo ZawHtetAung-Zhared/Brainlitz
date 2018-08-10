@@ -37,9 +37,13 @@ li button{
 .title{
   margin: 20px 0px 35px 0px;
 }
+.back-wrap{
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
 .header-font{
-  font-family: Montserrat-Medium;
-  color: #2f3d4c;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  color: #2e3e4d;
 }
 .btn-large{
   width: 100%;

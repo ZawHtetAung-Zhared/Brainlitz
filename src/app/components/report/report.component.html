@@ -1,10 +1,10 @@
 <app-header [ngClass]="{'stick': isSticky == true}"></app-header>
-<div class="inner-wrapper" [ngClass]="{'active': isSticky == true}">
+<div class="inner-wrapper" >
 	<div *ngIf="!showDetail">
 		<div *ngIf="noData" class="txt-color-center">
 			<h3>Don't have staff for this location.</h3>
 		</div>
-		<div *ngIf="!noData" class="h3font">			
+		<div *ngIf="!noData" class="h3font">			  
 			<h3>Average ratings</h3>
 			<!-- <ul style="padding: 20px;">
 				<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;" style="border-bottom: 1px solid rgba(0,0,0,.125);">
@@ -76,7 +76,7 @@
 		</div>
 	</div>
 	<div class="form-container" *ngIf="showDetail">
-		<div class="col-md-12" style="margin-bottom: 10px;">
+		<div class="col-md-12 back-wrap" style="margin-top: 20px; margin-bottom: 10px;">
 			<i class="fa fa-angle-left back-average-arrow"></i>
 			<button class="btn back" (click)="back()"> Average ratings</button>
 		</div>
@@ -141,11 +141,17 @@
 							</div>	
 						</div>	
 						<div class="col-md-10 info-group pad-0">
-							<p style="margin: 0;">{{detail.preferredName}}</p>
-							<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detail.rating"></star-rating-comp>
+							<div class="d-flex justify-content-between">
+								<div>
+									<p style="margin: 0;">{{detail.preferredName}}</p>
+									<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detail.rating"></star-rating-comp>
+								</div>
+								<p class="detail-show-date">20 Aug 18</p>
+							</div>
+							
 							<p class="detail-message">{{detail.message}}</p>
 						</div>
-						<p class="detail-show-date">20 Aug 18</p>
+						
 					</div>
 				</div>	
 			</div>
