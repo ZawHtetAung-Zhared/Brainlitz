@@ -91,6 +91,7 @@ export class ReportComponent implements OnInit {
 	}
 
 	back(){
+		console.log('hh')
 		this.showDetail = false;
 	}
 }

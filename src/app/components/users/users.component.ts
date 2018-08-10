@@ -65,6 +65,7 @@ export class UsersComponent implements OnInit {
 	editId: any;
 	public updateButton: boolean = false;
   	public createButton: boolean = true;
+  	showFormCreate: boolean = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -451,6 +452,16 @@ export class UsersComponent implements OnInit {
 	  else {
 	  	return true;
 	  }	
+	}
+
+	goCreateForm(){
+		this.showFormCreate = true;
+		console.log('create')
+	}
+
+	back(){
+		console.log('back')
+		this.showFormCreate = false;
 	}
 
 
