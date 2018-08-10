@@ -1,4 +1,4 @@
-<app-header></app-header>
+<!-- <app-header></app-header>
 <div style="padding: 30px 50px;">
 	<button type="button" class="btn btn-primary" data-toggle="modal" (click)="open1(staffModal)">
 		+ Create Staff
@@ -6,10 +6,10 @@
 	<button type="button" class="btn btn-primary" data-toggle="modal" (click)="open2(customerModal)">
 		+ Create Customer
 	</button>
-</div>
+</div> -->
 
 <!-- Staff Modal -->
-<ng-template #staffModal let-c="close" let-d="dismiss">
+<!-- <ng-template #staffModal let-c="close" let-d="dismiss">
     <div class="modal-header">
       <h4 class="modal-title">Create Staff</h4>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -62,17 +62,6 @@
 		        </div>
 		    </div>
 		</div>
-				<!-- <div class="form-group">
-					<label for="gender">Gender</label><br>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" value="male" name="gender" id="gender-male" [(ngModel)]="stuffs.gender" #male="ngModel">
-					  <label class="form-check-label" for="gender-male">Male</label>
-					</div>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" value="female" name="gender" id="gender-female" [(ngModel)]="stuffs.gender" #female="ngModel">
-					  <label class="form-check-label" for="gender-female">Female</label>
-					</div>
-				</div> -->
 			<div class="form-group">
 				<label>Permission as</label><br>
 				<div class="form-check form-check-inline" *ngFor="let user of permissionLists; let i = index;" >
@@ -110,13 +99,13 @@
       	<div class="modal-footer">
 	      	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
 	        <button [hidden]="!createButton" type="submit" (click)="createUser(s.value, 'staff', 'create')" class="btn btn-primary" [disabled]="s.invalid || emailAlert">Create</button>
-	    <!--     <button [hidden]="!updateButton" type="submit" (click)="createUser(s.value, 'staff', 'update')" class="btn btn-primary" [disabled]="s.invalid">Update</button> -->
+	        <button [hidden]="!updateButton" type="submit" (click)="createUser(s.value, 'staff', 'update')" class="btn btn-primary" [disabled]="s.invalid">Update</button>
       	</div>
 	</form>
 </ng-template>
-<block-ui message="Deafult Message"></block-ui>
+<block-ui message="Deafult Message"></block-ui> -->
 <!-- Customer Modal -->
-<ng-template #customerModal let-c="close" let-d="dismiss">
+<!-- <ng-template #customerModal let-c="close" let-d="dismiss">
 		<div class="modal-header">
       	<h4 class="modal-title">Create Customer</h4>
       	<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -171,17 +160,6 @@
 	  	  	<div *ngIf="atLeastOneMail" class="alert alert-danger" style="margin-top:10px;">
   	    		Email or Guardian Email is required!
   	    	</div>
-	  	  <!-- 	<div class="form-group">
-				<label for="gender">Gender</label><br>
-				<div class="form-check form-check-inline">
-				   <input class="form-check-input" type="radio" value="male" name="gender" id="custom-male" [(ngModel)]="formFieldc.gender" #male="ngModel">
-				   <label class="form-check-label" for="custom-male">Male</label>
-				</div>
-				<div class="form-check form-check-inline">
-				   <input class="form-check-input" type="radio" value="female" name="gender" id="custom-female" [(ngModel)]="formFieldc.gender" #female="ngModel">
-				   <label class="form-check-label" for="custom-female">Female</label>
-				</div>
-			</div> -->
 			<div class="form-group">
 				<label for="exampleInputFile">Upload Profile</label>
 				<div class="demo-wrap upload-demo">
@@ -207,11 +185,10 @@
        	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
         	<button [hidden]="!createButton" type="submit" (click)="createUser(f.value, 'customer', 'create')" class="btn btn-primary" [disabled]="f.invalid">Submit
 			</button>
-	<!-- 		<button [hidden]="!updateButton" type="submit" (click)="updateUser(f.value, 'customer', 'update')" class="btn btn-primary" [disabled]="f.invalid">Update</button> -->
       	</div>
 	</form>
-</ng-template>
-
+</ng-template> -->
+<!-- 
 <div class="d-flex flex-row h-100 w-100" style="display: flex;">
 	<div class="col-md-2 noti-sidebar tab-pad">
 		<div class="d-flex flex-column justify-content-center">
@@ -239,8 +216,6 @@
 					<span *ngIf="user.email" class="bt-copy" (click)="copyText(user.userId)">
 						<img style="width: 25px;" src="./assets/img/clipboard.png" placement="top" ngbTooltip="Copy email">
 					</span>
-					<!-- <button class="btn btn-secondary flt-right" (click)="edit(user.userId, 'all', '')">Edit</button> -->
-					<!-- <button class="btn btn-info bt-copy" (click)="copyText(user.userId)">Copy</button> -->
 				</div>
 			</li>
 		</ul>
@@ -258,8 +233,6 @@
 					<span *ngIf="customer.email" class="bt-copy" (click)="copyText(customer.userId)">
 						<img style="width: 25px;" src="./assets/img/clipboard.png" placement="top" ngbTooltip="Copy email">
 					</span>
-					<!-- <button class="btn btn-secondary flt-right" (click)="edit(customer.userId, 'customer', customerModal)">Edit</button> -->
-					<!-- <button class="btn btn-info bt-copy" (click)="copyText(customer.userId)">Copy</button> -->
 				</div>
 			</li>
 		</ul>
@@ -277,15 +250,51 @@
 					<span *ngIf="staff.email" class="bt-copy" (click)="copyText(staff.userId)">
 						<img style="width: 25px;" src="./assets/img/clipboard.png" placement="top" ngbTooltip="Copy email">
 					</span>
-					<!-- <button class="btn btn-secondary flt-right" (click)="edit(staff.userId, 'staff', staffModal)">Edit</button> -->
-					<!-- <button class="btn btn-info bt-copy" (click)="copyText(staff.userId)">Copy</button> -->
 				</div>
 			</li>
 		</ul>
 	</div>	
+</div> -->
+
+
+<app-header></app-header>
+<div class="inner-wrapper" >
+	<div class="display-flex">
+		<div class="col-md-4 pad-0">
+			<h3>Customers</h3>
+		</div>
+		<div class="col-md-8 pad-0">
+			<button type="button" class="btn btn-primary create-button-pos" (click)="open2(customerModal)">Add new customer</button>
+		</div>
+	</div>
+	<div class="col-md-12 pad-0" style="margin-top: 35px;">
+		<div class="input-group col-md-12 pad-0">
+		    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search customer here" id="example-search-input">
+		    <span class="input-group-append">
+		        <button class="bt btn-design btn-outline-secondary" type="button">
+		            <i class="fa fa-search search-size"></i>
+		        </button>
+		     </span>
+		</div>
+	</div>
+	<div class="row display-flex">
+		<div class="col-md-6 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
+			<div class="box-design display-flex pos-relative">
+				<div class="no-line-height">
+					<div class="circular-image">
+						<img src="{{customer.profilePic}}">
+					</div>
+				</div>
+				<div class="info-side">
+					<h5 class="text-vertical">{{customer.preferredName}}</h5>
+					<p class="info-mail">{{customer.email}}</p>
+				</div>
+				<div>
+					<i class="fa fa-angle-right right-arrow"></i>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-
-
 
 

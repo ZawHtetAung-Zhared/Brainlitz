@@ -77,7 +77,7 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getAllUsers('');
+		this.getAllUsers('customer');
 	}
 
 	open1(staffModal){
