@@ -1,7 +1,7 @@
-<app-header></app-header>
-<div style="padding-top: 150px;" class="d-flex flex-row h-100 w-100">
-	<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 noti-sidebar">
-		<div class="d-flex flex-column justify-content-center">
+<app-header [ngClass]="{'stick' : isSticky == true}"></app-header>
+<div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : isSticky == true}">
+	<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 noti-sidebar h-100" style="width: 16.666667%">
+		<div class="side-bar-wrap">
 			<div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('send')">Send notification</button>
 			</div>
@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<block-ui message="Deafult Message"></block-ui>
-	<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 w-100 overflow noti-wrapper">	
+	<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 w-100">	
 		<div class="mb-2em" *ngIf="notiType == 'send'">
 			<h2 class="title-heading">Send notification</h2>
 			<div class="d-flex flex-row">

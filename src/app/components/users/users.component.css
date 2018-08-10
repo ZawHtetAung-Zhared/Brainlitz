@@ -1,9 +1,9 @@
-.body
+/*.body
 {
     position: fixed; 
     overflow-y: hidden;
     width: 100%;
-}
+}*/
 
 /*.scrollable
 {
@@ -137,7 +137,17 @@
 .bt-mr {
     margin-bottom: 5px;
 }*/
-
+.title{
+  margin: 20px 0px 35px 0px;
+}
+.inner-wrapper.pdactive{
+  padding-top: 90px;
+}
+.inner-wrapper{
+  padding-top: 150px;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
 
 h3, h5 {
     font-family: 'Montserrat-Semibold', Arial,sans-serif;

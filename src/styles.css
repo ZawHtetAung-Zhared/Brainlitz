@@ -109,8 +109,7 @@ main{
   cursor: not-allowed;
 }
 app-dashboard,
-app-tools,
-app-users{
+app-tools{
   display: flex;
   flex-direction: column;
   height: 100%;
