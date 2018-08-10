@@ -431,6 +431,10 @@ h3, h5 {
     padding-bottom: 60px;
 }
 
+.mr-bt-40 {
+    margin-bottom: 40px;
+}
+
 @media only screen and (max-width: 768px){
     .right-arrow {
         right: 20px;
