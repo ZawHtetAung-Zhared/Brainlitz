@@ -77,6 +77,7 @@ export class CourseComponent implements OnInit {
     this.getCategoryList();
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
+    // this.calculateTime(this.courseList)
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -113,10 +114,25 @@ export class CourseComponent implements OnInit {
     this.blockUI.start('Loading...'); 
     this._service.getAllCourse(this.regionId)
     .subscribe((res:any) => {
-      console.log(res);
+      console.log('Course List',res);
       this.courseList = res;
       if(this.courseList.length > 0 ){
         this.emptyCourse = false;
+        for (var i in this.courseList) {
+          let duration = this.courseList[i].coursePlan.lesson.duration;
+          // console.log(duration);
+          for(var j in this.courseList[i].courses){
+            let date = this.courseList[i].courses[j].startDate;
+            let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
+            // console.log(date);
+            console.log('starttime',starttime);
+            let piece = starttime.split(':');
+            let mins = piece[0]*60 + +piece[1] + +duration;
+            let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+            console.log('endtime',endtime)
+            this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
+          }
+        }
       }else{
         this.emptyCourse = true;
       }
@@ -125,6 +141,7 @@ export class CourseComponent implements OnInit {
       }, 500);
     })
   }
+  D(data){ return (data<10? '0':'') + data};
 
   getLocationList(){
     this._service.getLocations(this.regionId)
@@ -220,9 +237,22 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  myMethod(days){
-    console.log('Days',days)
-  }
+  // calculateTime(list){
+  //   let arrLength = list.length;
+  //   for(var i=0; i< arrLength;i++ ){
+  //     let duration = list[i].coursePlan.duration;
+  //     let arrayL = list[i].course.length;
+  //     console.log(arrayL)
+  //     // for (var j=0; j< arrayL; j++) {
+  //     //   let time = list[0].course[j].startDate;
+  //     //   console.log(duration,time);
+  //     // }
+  //   }
+  // }
+
+  // myMethod(days){
+  //   console.log('Days',days)
+  // }
 
   
 
