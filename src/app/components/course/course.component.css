@@ -268,8 +268,6 @@ li button{
 /*For 1024px*/
 @media (max-width: 575px) { 
   .card-columns {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
     column-count: 2;
   }
 }
@@ -277,8 +275,6 @@ li button{
 /*Large devices (1025px t0 1999px)*/
 @media (min-width: 1025px) and (max-width: 1999px) { 
   .card-columns {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
     column-count: 3;
   }
 }
@@ -286,12 +282,11 @@ li button{
 /*Extra large devices (large desktops, 2000px and up)*/
 @media (min-width: 2000px) { 
   .card-columns {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
     column-count: 3;
   }
   .inner-wrapper{
-    padding: 30px 100px 30px 100px;
+    width: 1900px;
+    margin: 0 auto;
   }
 }
 
