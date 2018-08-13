@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
 import { Bounds } from 'ng2-img-cropper/src/model/bounds';
+declare var $: any;
 
 @Component({
   selector: 'app-user-staff',
@@ -23,6 +24,7 @@ export class UserStaffComponent implements OnInit {
 	uploadCrop: any;
 	blankCrop: boolean = false;
 	cropButton: boolean = true;
+	isSticky: boolean = false;
 
 	constructor(private _service: appService) {
   		this.cropperSettings1 = new CropperSettings();
@@ -65,6 +67,27 @@ export class UserStaffComponent implements OnInit {
 			this.permissionLists = res;
 			console.log('this.permissionLists', this.permissionLists)
 		})
+	}
+
+	permissionId: any;
+
+	checkUser(id, e){
+		console.log(e.target.checked)
+	    $("input:radio").click(function(){
+	       if ($(this).is(":checked")){
+	       	$("label .permission-box").css({"background-color":"#fff"}) && $(this).closest("label .permission-box").css({"background-color":"#007fff"});
+	       }
+	    });
+	}
+
+	@HostListener('window:scroll', ['$event']) onScroll($event){    
+	    if(window.pageYOffset > 10){
+	      console.log('greater than 30')
+	      this.isSticky = true;
+	    }else{
+	      console.log('less than 30')
+	      this.isSticky = false;
+	    }
 	}
 
 }

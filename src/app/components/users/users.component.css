@@ -148,6 +148,9 @@
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
+.inner-wrapper-detail {
+    padding: 30px;
+}
 
 h3, h5 {
     font-family: 'Montserrat-Semibold', Arial,sans-serif;
@@ -161,7 +164,7 @@ h3, h5 {
     word-wrap: break-word;
 }
 
-.display-flex {
+.mr {
     display: flex;
 }
 
@@ -300,6 +303,11 @@ h3, h5 {
 
 .left-arrow {
     font-size: 25px;
+    float: left;
+}
+
+.fl-txt-rt {
+    float: right;
 }
 
 .back-staff-txt {
@@ -435,10 +443,15 @@ h3, h5 {
     margin-bottom: 40px;
 }
 
-.addnew-btn {
-    float: right;
-    position: relative;
-    z-index: 999;
+.mr-top-menu{
+    margin-top: 35px;
+}
+
+.add-new-btn {
+    position: absolute;
+    right: 30px;
+    margin-bottom: 35px;
+    z-index: 9;
 }
 
 @media only screen and (max-width: 768px){

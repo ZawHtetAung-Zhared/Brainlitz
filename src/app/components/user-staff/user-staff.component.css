@@ -77,6 +77,10 @@ h3, h5 {
     margin-top: 20px;
 }
 
+.mr-top-menu{
+    margin-top: 35px;
+}
+
 .circular-image {
     display: inline-block;
     position: relative;
@@ -283,6 +287,19 @@ h3, h5 {
 
 .pad-bottom {
     padding-bottom: 60px;
+}
+
+.inner-wrapper.pdactive{
+  padding-top: 90px;
+}
+.inner-wrapper{
+  padding-top: 150px;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
+
+.inner-wrapper-detail {
+    padding: 30px;
 }
 
 @media only screen and (max-width: 768px){

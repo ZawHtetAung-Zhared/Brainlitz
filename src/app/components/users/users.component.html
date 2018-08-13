@@ -257,14 +257,22 @@
 </div> -->
 
 
-<app-header [ngClass]="{'stick': isSticky == true}"></app-header>
-<div class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
-	<div *ngIf="!showFormCreate" class="title">
-		<div class="col-md-4 pad-0 mr-bt-40" style="float: left;">
+<app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<div *ngIf="!showFormCreate" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+	<!-- <div class="title"> -->
+		<!-- <div class="col-md-4 pad-0 mr-bt-40" style="float: left;">
 			<h3>Customers</h3>
 		</div>
-		<div class="col-md-8 pad-0 mr-bt-40 addnew-btn">
+		<div class="col-md-8 pad-0 mr-bt-40">
 			<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new customer</button>
+		</div> -->
+		<div class="display-flex mr-top-menu">
+			<div class="col-md-4 pad-0" style="float:left; margin-bottom: 35px;">
+				<h3>Customers</h3>
+			</div>
+			<div class="col-md-8 pad-0 add-new-btn">
+				<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new customer</button>
+			</div>
 		</div>
 		<div class="col-md-12 pad-0" style="margin-top: 35px;">
 			<div class="input-group col-md-12 pad-0">
@@ -294,76 +302,76 @@
 				</div>
 			</div>
 		</div>
+<!-- 	</div> -->
+</div>
+<div class="inner-wrapper-detail" *ngIf="showFormCreate">
+	<button type="button" class="back-button display-flex" (click)="back()">
+		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt fl-txt-rt">Customers</p>
+	</button>
+	<div class="col-md-12 pad-0 mr-bt-top">
+		<h3>Create Customers account</h3>
 	</div>
-	<div *ngIf="showFormCreate">
-		<button type="button" class="back-button display-flex" (click)="back()">
-			<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt">Customers</p>
-		</button>
-		<div class="col-md-12 pad-0 mr-bt-top">
-			<h3>Create customer account</h3>
-		</div>
-		<form novalidate #f="ngForm">
-			<div class="row display-flex">
-				<div class="col-md-7 pad-bottom">
-					<div class="form-group">
-			  	    	<label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 	
-			  	    	<input type="text" class="form-control bt-line" placeholder="Type preferred name here" name="preferredname" [(ngModel)]="prename" #preferredname="ngModel">
-			  	  	</div>
-			  	  	<div class="form-group">
-			  	    	<label for="fullname" class="label-txt">Full name</label> 	
-			  	    	<input type="text" class="form-control bt-line" placeholder="Type full name here" name="fullname" [(ngModel)]="name" #fullname="ngModel">
-			  	  	</div>
-			  	  	<div class="form-group">
-			  	    	<label for="email" class="label-txt">Email address</label> 	
-			  	    	<input type="email" class="form-control bt-line" placeholder="Type email address here" name="email" [(ngModel)]="emailaddress" #email="ngModel">
-			  	  	</div>
-			  	  	<div class="form-group">
-			  	    	<label for="pass" class="label-txt">Password</label> 	
-			  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="pass" #password="ngModel">
-			  	  	</div>
-			  	  	<div class="form-group">
-			  	    	<label for="guardmail" class="label-txt">Guardian email</label> 	
-			  	    	<input type="email" class="form-control bt-line" placeholder="Type guardian email here" name="password" [(ngModel)]="guardianmail" #password="ngModel">
-			  	  	</div>
-				</div>
-				<div class="col-md-5">
-					<label for="upload">
-						<div class="profile-box label-txt">
-							<div class="form-group">
-								<label for="upload" class="profile-label">Profile</label><br>
-								<div class="circular-profile">
-									<img src="assets/img/user.svg">
-								</div>	
-								<div class="demo-wrap upload-demo">
-						          	<div class="container">
-							            <div class="grid">
-						              	<div class="col-1-2">
-						                	<div class="actions">
-						                		<a class="btn file-btn">
-						                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
-						                		</a>
-						                		<button *ngIf="blankCrop"class="upload-result result-color" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
-						                	</div>
-						              	</div><br />
-								            <div class="upload-demo-wrap">
-								              <div id="upload-demo"></div>
-								            </div>
+	<form novalidate #f="ngForm">
+		<div class="row display-flex">
+			<div class="col-md-7 pad-bottom">
+				<div class="form-group">
+		  	    	<label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 	
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type preferred name here" name="preferredname" [(ngModel)]="prename" #preferredname="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="fullname" class="label-txt">Full name</label> 	
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type full name here" name="fullname" [(ngModel)]="name" #fullname="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="email" class="label-txt">Email address</label> 	
+		  	    	<input type="email" class="form-control bt-line" placeholder="Type email address here" name="email" [(ngModel)]="emailaddress" #email="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="pass" class="label-txt">Password</label> 	
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="pass" #password="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="guardmail" class="label-txt">Guardian email</label> 	
+		  	    	<input type="email" class="form-control bt-line" placeholder="Type guardian email here" name="password" [(ngModel)]="guardianmail" #password="ngModel">
+		  	  	</div>
+			</div>
+			<div class="col-md-5">
+				<label for="upload">
+					<div class="profile-box label-txt">
+						<div class="form-group">
+							<label for="upload" class="profile-label">Profile</label><br>
+							<div class="circular-profile">
+								<img src="assets/img/user.svg">
+							</div>	
+							<div class="demo-wrap upload-demo">
+					          	<div class="container">
+						            <div class="grid">
+					              	<div class="col-1-2">
+					                	<div class="actions">
+					                		<a class="btn file-btn">
+					                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
+					                		</a>
+					                		<button *ngIf="blankCrop"class="upload-result result-color" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
+					                	</div>
+					              	</div><br />
+							            <div class="upload-demo-wrap">
+							              <div id="upload-demo"></div>
 							            </div>
-						       		</div>
-							    </div>
-							    <p>Update photo</p>							
-							</div>
+						            </div>
+					       		</div>
+						    </div>
+						    <p>Update photo</p>							
 						</div>
-					</label>
-					<div class="button-group">
-						<button type="button" class="bt cancel-button">Cancel</button>
-			        	<button type="submit" (click)="createUser()" class="btn create-button" >Create
-						</button>
 					</div>
+				</label>
+				<div class="button-group">
+					<button type="button" class="bt cancel-button">Cancel</button>
+		        	<button type="submit" (click)="createUser()" class="btn create-button" >Create
+					</button>
 				</div>
 			</div>
-		</form>
-	</div>
+		</div>
+	</form>
 </div>
 
 
