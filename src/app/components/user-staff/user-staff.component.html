@@ -44,7 +44,7 @@
 	<div class="col-md-12 pad-0 mr-bt-top">
 		<h3>Create staff account</h3>
 	</div>
-	<form novalidate #f="ngForm">
+	<form novalidate #createForm="ngForm">
 		<div class="row display-flex">
 			<div class="col-md-7">
 				<div class="form-group">
@@ -96,13 +96,14 @@
 			</div>
 			<div class="col-md-12 pad-bottom">
 				<div class="form-group" style="border-bottom: 1px solid #e3e4e6;" ngFor="let user of permissionLists">
-		  	    	<label class="label-txt">Permission as</label> 	
+		  	    	<label class="label-txt radio">Permission as</label> 	
 		  	    	<div class="display-flex">
 		  	    		<div class="permission-width" *ngFor="let user of permissionLists; let i = index;" >
-		  	    			<label for={{user._id}} style="cursor: pointer;">
+		  	    			<label for={{user._id}} style="cursor: pointer; position: relative;">
 			  	    			<div class="permission-box permission-name">
-									<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="permissionUser" class="click" #permission="ngModel" (click)="checkUser(user._id, $event)"><br>
-								  	{{user.name}}
+									<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="permissionUser" #permission="ngModel" (click)="checkUser(user._id, $event)"><br>
+								  	<span class="capitalize">{{user.name|lowercase}}</span>
+								  	<span class="check"></span>
 								</div>
 							</label>	
 						</div>
