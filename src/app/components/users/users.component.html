@@ -258,18 +258,18 @@
 
 
 <app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
-<!-- <div class="row" *ngIf="!showFormCreate" style="margin: 0;">
+<div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
 		<div class="display-flex mr-top-menu">
-			<div class="col-md-4">
+			<div class="col-md-4 pad-0">
 				<h3>Customers</h3>
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-8 pad-0">
 				<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new customer</button>
 			</div>
 		</div>
 	</div>
-</div>	 -->
+</div>	
 <div *ngIf="!showFormCreate" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 	<div class="display-flex mr-top-menu">
 		<div class="col-md-4 pad-0">

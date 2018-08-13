@@ -368,6 +368,27 @@ input[type=radio]:checked ~ label{
   color: #fff;
 }
 
+.full-width {
+    width: 100%;
+}
+
+.sticky-menu{
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    padding: 20px 30px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    top: 0px;
+    background: #fff;
+    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
+.stickywrap{
+    top: 30px;
+}
+
 @media only screen and (max-width: 768px){
     .right-arrow {
         right: 20px;

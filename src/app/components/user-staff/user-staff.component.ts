@@ -25,6 +25,7 @@ export class UserStaffComponent implements OnInit {
 	blankCrop: boolean = false;
 	cropButton: boolean = true;
 	isSticky: boolean = false;
+	public navIsFixed: boolean = false;
 
 	constructor(private _service: appService) {
   		this.cropperSettings1 = new CropperSettings();
@@ -83,11 +84,15 @@ export class UserStaffComponent implements OnInit {
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    if(window.pageYOffset > 10){
-	      console.log('greater than 30')
 	      this.isSticky = true;
 	    }else{
-	      console.log('less than 30')
 	      this.isSticky = false;
+	    }
+
+	    if(window.pageYOffset > 40){
+	      this.navIsFixed = true;
+	    }else{
+	      this.navIsFixed = false;
 	    }
 	}
 

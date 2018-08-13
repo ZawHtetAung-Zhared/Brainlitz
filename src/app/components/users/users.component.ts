@@ -85,18 +85,14 @@ export class UsersComponent implements OnInit {
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    if(window.pageYOffset > 10){
-	      console.log('greater than 30')
 	      this.isSticky = true;
 	    }else{
-	      console.log('less than 30')
 	      this.isSticky = false;
 	    }
 
 	    if(window.pageYOffset > 40){
-	      console.log('greater than 100')
 	      this.navIsFixed = true;
 	    }else{
-	      console.log('less than 100')
 	      this.navIsFixed = false;
 	    }
 	}
