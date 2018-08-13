@@ -26,6 +26,7 @@ export class UserStaffComponent implements OnInit {
 	cropButton: boolean = true;
 	isSticky: boolean = false;
 	public navIsFixed: boolean = false;
+	public isCreateFix: boolean = false;
 
 	constructor(private _service: appService) {
   		this.cropperSettings1 = new CropperSettings();
@@ -91,8 +92,11 @@ export class UserStaffComponent implements OnInit {
 
 	    if(window.pageYOffset > 40){
 	      this.navIsFixed = true;
+	      this.isCreateFix = true;
+
 	    }else{
 	      this.navIsFixed = false;
+	      this.isCreateFix = false;
 	    }
 	}
 

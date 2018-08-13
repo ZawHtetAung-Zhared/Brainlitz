@@ -90,11 +90,12 @@ export class UsersComponent implements OnInit {
 	    }else{
 	      this.isSticky = false;
 	    }
-
 	    if(window.pageYOffset > 40){
 	      this.navIsFixed = true;
+	      this.isCreateFix = true;
 	    }else{
 	      this.navIsFixed = false;
+	      this.isCreateFix = false;
 	    }
 
 	}
