@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120px" height="120px" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>user</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="60" cy="60" r="60"></circle>
+    </defs>
+    <g id="route" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="customer-form" transform="translate(-776.000000, -212.000000)">
+            <g id="profile-update" transform="translate(732.000000, 126.000000)">
+                <g id="pic" transform="translate(24.000000, 66.000000)">
+                    <g id="user" transform="translate(20.000000, 20.000000)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="circle" fill="#EDEFF0" xlink:href="#path-1"></use>
+                        <rect id="face" fill="#D4D5D6" mask="url(#mask-2)" x="36" y="24" width="48" height="60" rx="24"></rect>
+                        <circle id="body" fill="#D4D5D6" mask="url(#mask-2)" cx="60" cy="130" r="50"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

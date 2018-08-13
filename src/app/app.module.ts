@@ -50,6 +50,7 @@ import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
 import { StarRatingModule } from 'angular-star-rating';
 import { ReadmoreComponent } from './components/readmore/readmore.component';
+import { UserStaffComponent } from './components/user-staff/user-staff.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { ReadmoreComponent } from './components/readmore/readmore.component';
     GroupByPipe,
     ConvertTimeFormatPipe,
     GetDayPipe,
-    ReadmoreComponent
+    ReadmoreComponent,
+    UserStaffComponent
   ],
   imports: [
     BrowserModule,
