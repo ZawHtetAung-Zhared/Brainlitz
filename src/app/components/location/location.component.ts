@@ -23,6 +23,7 @@ export class LocationComponent implements OnInit {
 	public locationLists: any;
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
+	public isrequired: boolean = true;
 	public iscreate: boolean = false;
 	public navIsFixed: boolean = false;
 	public currentID: any;
@@ -93,14 +94,23 @@ export class LocationComponent implements OnInit {
   	}
   	hasError(e){
   		console.log(e)
+  		this.isrequired = e;
   	}
   	creatnew(){
   		this.iscreate = true;
+  		this.isUpdate = false;
+  		this.isrequired = true;
   		this.model = new Location();
   	}
   	back(){
-  		this.iscreate = false
-  		this.isUpdate = false
+	    this.iscreate = false
+	    this.isUpdate = false 	
+  	}
+  	keyDownFunction(e){
+  		if(e.keyCode == 13) {
+  		    console.log('you just clicked enter');
+  		    // rest of your code
+  		  }
   	}
 	open(locationModal) {
 		this.model = new Location();

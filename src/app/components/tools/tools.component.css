@@ -487,6 +487,7 @@ width: 50%;
 	border-radius: 100%;
 	margin-right: 7px; /*space between*/
 	background: #f2f4f5;
+  margin: -10px 0px 40px 15px;
 } 
 .social-links a i{
     line-height: 35px;
@@ -523,63 +524,32 @@ width: 50%;
   border-bottom: 2px solid #d3d3d3;
 }
 
-/*For 1024px*/
-@media (min-width: 575px) and (max-width: 1024px)  { 
-  /*.borderOne::after{
-	    left: -13%;
-	}
-	.borderTwo::after{
-	    left: -13%;
-	}
-	.horizontal-line::before{
-		left: -13.8%;
-	}*/
-}
+/*//Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767px) { 
+  
+ }
 
-/*Large devices (1025px t0 1999px)*/
-@media (min-width: 1025px) and (max-width: 1999px) { 
-  /*.borderOne::after{
-	    left: -16%;
-	}
-	.borderTwo::after{
-	    left: -16%;
-	}
-	.horizontal-line::before{
-		left: -16.5%;
-	}*/
-}
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991px) { 
+  .xxx{
+    left: -14%;
+  }
+ }
 
-/*Extra large devices (large desktops, 2000px and up)*/
-@media (min-width: 2000px) and (max-width: 2499px){ 
-  /*.borderOne::after{
-	    left: 18%;
-	}
-	.borderTwo::after{
-	    left: -18%;
-	}	
-	.horizontal-line::before{
-		left: -14.8%;
-	}*/
-}
-@media (min-width: 2500px) and (max-width: 3000px) {
-	/*.borderOne::after{
-	    left: -19%;
-	}
-	.borderTwo::after{
-	    left: -19%;
-	}
-	.horizontal-line::before{
-		left: -14.8%;
-	}*/	
-}
-@media (min-width: 3001px){
-	/*.borderOne::after{
-	    left: -19%;
-	}
-	.borderTwo::after{
-	    left: -19%;
-	}	
-	.horizontal-line::before{
-		left: -14.8%;
-	}*/
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199px) { 
+  .xxx{
+    left: -14%;
+  }
+ }
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) and (max-width: 1999px) { 
+  .xxx{
+    left: -16%;
+  }
+ }
+
+@media (min-width: 2000px){
+  
 }
