@@ -173,14 +173,14 @@
 					</li>
 				</ul>
 			</div> -->
-			<h3 class="title-padding">Sent history</h3>
+			<h3 class="title-heading">Sent history</h3>
 			<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
 				<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
 				<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
 				<h5 *ngIf="notiGroup.key != today && notiGroup.key != yesterday" class="title-padding">{{notiGroup | getDay}}, {{ notiGroup.key | date }}</h5>
-				<div *ngFor="let noti of notiGroup.value;let isLast=last">
+				<div class="history-wrap" *ngFor="let noti of notiGroup.value;let isLast=last">
 					<div class="flex-wrap">
-						<div class="col-sm-2">
+						<div class="col-sm-2 oo" [ngClass]="{'notlast':!isLast}">
 							<div class="same-label"></div>
 							<label class="sentTime">{{noti.senttime | convertTimeFormat}}</label>
 							<!-- <div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div> -->
@@ -199,6 +199,10 @@
 								</span>
 							</div>
 							<div class="subject-wrap">
+								<div class="xxx" [ngClass]="{'notlast':!isLast}">
+									<div class="xx1" [ngClass]="{'line1':isLast}"></div>
+									<div class="xx2" [ngClass]="{'line1':isLast}"></div>
+								</div>
 								<div class="noti-subject">
 									<div class="noti-title">
 										{{ noti.title }}
