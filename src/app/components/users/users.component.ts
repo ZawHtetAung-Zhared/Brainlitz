@@ -67,6 +67,7 @@ export class UsersComponent implements OnInit {
 	public updateButton: boolean = false;
   	public createButton: boolean = true;
   	showFormCreate: boolean = false;
+  	public navIsFixed: boolean = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -90,7 +91,15 @@ export class UsersComponent implements OnInit {
 	      console.log('less than 30')
 	      this.isSticky = false;
 	    }
-	  }
+
+	    if(window.pageYOffset > 40){
+	      console.log('greater than 100')
+	      this.navIsFixed = true;
+	    }else{
+	      console.log('less than 100')
+	      this.navIsFixed = false;
+	    }
+	}
 
 	open1(staffModal){
 		this.blankCrop = false; 
