@@ -57,6 +57,7 @@
   padding: 7px 12px;
   border-radius: 0;
   outline: none;
+  background: #fff;
   border-left: 3px solid transparent;
   font-family: 'Montserrat-Medium','Arial', sans-serif !important;
 }
