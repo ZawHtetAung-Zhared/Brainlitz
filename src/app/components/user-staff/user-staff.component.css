@@ -176,6 +176,7 @@ h3, h5 {
 
 .permission-width label {
     color: #2e3d4d;
+    border-radius: 3px;
 }
 
 .permission-name {
