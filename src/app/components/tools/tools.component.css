@@ -252,6 +252,16 @@
     position: relative;
     z-index: 9;
 }
+.oo.notlast::before {
+    top: 13px;
+    height: 30px;
+}
+.oo.notlast::after {
+    height: 0;
+}
+.xxx.notlast {
+    top: 18px;
+}
 .oo::before,
 .oo::after {
   content: '';
