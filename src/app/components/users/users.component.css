@@ -435,6 +435,12 @@ h3, h5 {
     margin-bottom: 40px;
 }
 
+.addnew-btn {
+    float: right;
+    position: relative;
+    z-index: 999;
+}
+
 @media only screen and (max-width: 768px){
     .right-arrow {
         right: 20px;
