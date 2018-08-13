@@ -49,6 +49,12 @@
 			</div>
 		</div>
 </div>
+
+<div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isSticky == true}">
+	<button type="button" class="back-button display-flex" (click)="back()">
+		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt">Staffs</p>
+	</button>
+</div>
 <div class="inner-wrapper-detail" *ngIf="showFormCreate">
 	<button type="button" class="back-button display-flex" (click)="back()">
 		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt">Staffs</p>
