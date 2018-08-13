@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, Pipe, PipeTransform } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
@@ -73,11 +73,12 @@ export class UserStaffComponent implements OnInit {
 
 	checkUser(id, e){
 		console.log(e.target.checked)
-	    $("input:radio").click(function(){
-	       if ($(this).is(":checked")){
-	       	$("label .permission-box").css({"background-color":"#fff"}) && $(this).closest("label .permission-box").css({"background-color":"#007fff"});
-	       }
-	    });
+	    $("label").on("click",function() {
+   			if($(this).find('input[type="radio"]').is(':checked')) { 
+          	$('label').removeClass('radio-bg-active');
+          	$(this).addClass('radio-bg-active');
+        }
+    });
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
