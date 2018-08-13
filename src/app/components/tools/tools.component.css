@@ -487,6 +487,7 @@ width: 50%;
 	border-radius: 100%;
 	margin-right: 7px; /*space between*/
 	background: #f2f4f5;
+  margin: -10px 0px 40px 15px;
 } 
 .social-links a i{
     line-height: 35px;
