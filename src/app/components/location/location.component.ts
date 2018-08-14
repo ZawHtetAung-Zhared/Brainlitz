@@ -95,6 +95,7 @@ export class LocationComponent implements OnInit {
   	hasError(e){
   		console.log(e)
   		this.isrequired = e;
+  		console.log(this.isrequired)
   	}
   	creatnew(){
   		this.iscreate = true;
