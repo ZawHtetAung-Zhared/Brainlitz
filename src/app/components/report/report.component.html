@@ -37,7 +37,7 @@
 									<!-- <div style="position: absolute;left: 80px;top: 25px;">{{staffRating.rating}} ratings</div> -->
 								</div>
 								<div class="col-md-2 col-12 col-sm-12">
-									<button class="detail-bg" type="button" (click)="getFeedBack(staffRating.teacherId, staffRating.preferredName)"><i class="fa fa-angle-right right-arrow"></i>	</button>
+									<button class="detail-bg" type="button" (click)="getFeedBack(staffRating.teacherId, staffRating)"><i class="fa fa-angle-right right-arrow"></i></button>
 								</div>
 							</div>
 						</div>
@@ -54,22 +54,21 @@
 			<i class="fa fa-angle-left back-average-arrow"></i>
 			<button class="btn back" (click)="back()"> Average ratings</button>
 		</div>
-		<!-- <div *ngFor="let feedbackList of feedbackLists; let i = index;"> -->
 		<div class="col-md-12 flex-show">
 			<div class="col-md-5 flex-show left-side">
 				<div class="circular-image" style="margin-top: 5px;margin-right: 15px;">
-					<img src="./assets/img/images.jpeg">
+					<img src="{{teacherProfile}}">
 				</div>	
 				<div style="display: block; margin-top: 15px;">
 					<div class="teacher-detail-font">Senior teacher</div>
-					<h4>{{teacherName}}</h4>
+					<h4>{{teacherPreferredName}}</h4>
 				</div>
 			</div>
 			<div class="col-md-7 right-side">
-				<h3 class="head-rating-count">4.2</h3>
+				<h3 class="head-rating-count">{{teacherRating}}</h3>
 				<div style="display: block;">
-					<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="4.2"></star-rating-comp>
-					<div style="padding-left: 10px;">27 ratings</div>
+					<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="teacherRating"></star-rating-comp>
+					<div style="padding-left: 10px;">{{teacherVote}} ratings</div>
 				</div>
 			</div>
 		</div>
@@ -108,22 +107,22 @@
 							Room <span class="room-dot">&#183;</span> {{detail.course.room}}
 						</div>
 					</div>
-					<div class="flex-show pos-gray-content">
+					<div class="flex-show pos-gray-content" *ngFor="let detailVote of detail.feedbacks; let i = index;">
 						<div class="col-md-2 pad-0">
 							<div class="circular-detail-image">
-								<img src="{{detail.profilePic}}">
+								<img src="{{detailVote.profilePic}}">
 							</div>	
 						</div>	
 						<div class="col-md-10 info-group pad-0">
 							<div class="d-flex justify-content-between">
 								<div>
-									<p style="margin: 0;">{{detail.preferredName}}</p>
-									<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detail.rating"></star-rating-comp>
+									<p style="margin: 0;">{{detailVote.preferredName}}</p>
+									<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detailVote.rating"></star-rating-comp>
 								</div>
 								<p class="detail-show-date">20 Aug 18</p>
 							</div>
 							
-							<p class="detail-message">{{detail.message}}</p>
+							<p class="detail-message">{{detailVote.message}}</p>
 						</div>
 						
 					</div>
