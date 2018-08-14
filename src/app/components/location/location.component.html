@@ -73,6 +73,7 @@
           [ng2TelInputOptions]="{initialCountry: 'sg'}"
           (countryChange)="onCountryChange($event)"
           (ng2TelOutput)="getNumber($event)"
+          (input)="onSearchChange($event.target.value)"
           required
            />          
           <input 
@@ -90,9 +91,15 @@
           (ng2TelOutput)="getNumber($event)"
           required
            />
+           <!-- {{isrequired}} -->
           <div [hidden]="isrequired == true" class="alert alert-danger">
             <div>
               Phone number is required!
+            </div>
+          </div>
+          <div [hidden]="isequal == true" class="alert alert-danger">
+            <div>
+              Phone number length is wrong!
             </div>
           </div>
         </div>
