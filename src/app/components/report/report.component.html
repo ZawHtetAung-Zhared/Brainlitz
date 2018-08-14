@@ -1,12 +1,12 @@
-<app-header class="d-flex header-top top-header"></app-header>
-<div class="inner-wrapper" style="margin-top: 120px;">
+<app-header [ngClass]="{'stick': isSticky == true}"></app-header>
+<div class="inner-wrapper" >
 	<div *ngIf="!showDetail">
 		<div *ngIf="noData" class="txt-color-center">
 			<h3>Don't have staff for this location.</h3>
 		</div>
-		<div *ngIf="!noData">			
-			<h5>Average Rating</h5>
-			<ul style="padding: 20px;">
+		<div *ngIf="!noData" class="h3font">			  
+			<h3>Average ratings</h3>
+			<!-- <ul style="padding: 20px;">
 				<li class="form-group" *ngFor="let staffRating of ratingLists; let i = index;" style="border-bottom: 1px solid rgba(0,0,0,.125);">
 					<div class="count-pos">{{i+1}}- </div>
 					<div>
@@ -15,21 +15,72 @@
 						<button class="btn btn-secondary btn-style" (click)="getFeedBack(staffRating.teacherId)">Detail</button>
 					</div>
 				</li>	
-			</ul>
+			</ul> -->
+			<div class="row">
+				<div class="box-width" *ngFor="let staffRating of ratingLists; let i = index;">
+					<div class="rating-box">
+						<div style="word-wrap: break-word;">
+							<div class="circular-image">
+								<img src="{{staffRating.profilePic}}">
+							</div>	
+							<div class="teacher-average-font">Senior teacher</div>
+							<h5 style="letter-spacing: 0.5px;">{{staffRating.preferredName}}</h5>
+							<div class="wrap-rating">
+								<div class="col-md-10" style="padding: 0;">
+									<div class="flex-show">
+										<h2 style="margin-right: 10px;">{{staffRating.rating}}</h2>
+										<div style="display: block;">
+											<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="staffRating.rating"></star-rating-comp>
+											<div class="average-rating-font">{{staffRating.rating}} ratings</div>
+										</div>
+									</div>
+									<!-- <div style="position: absolute;left: 80px;top: 25px;">{{staffRating.rating}} ratings</div> -->
+								</div>
+								<div class="col-md-2 col-12 col-sm-12">
+									<button class="detail-bg" type="button" (click)="getFeedBack(staffRating.teacherId, staffRating.preferredName)"><i class="fa fa-angle-right right-arrow"></i>	</button>
+								</div>
+							</div>
+						</div>
+						<!-- <div>
+							<button type="button" (click)="getFeedBack(staffRating.teacherId, staffRating.preferredName)">></button>
+						</div> -->
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="form-container col-md-12" *ngIf="showDetail">
-		<div>
-			<button class="btn btn-info" (click)="back()">Back</button>
+	<div class="form-container" *ngIf="showDetail">
+		<div class="col-md-12 back-wrap" style="margin-top: 20px; margin-bottom: 10px;">
+			<i class="fa fa-angle-left back-average-arrow"></i>
+			<button class="btn back" (click)="back()"> Average ratings</button>
 		</div>
-		<form #reportForm="ngForm">
+		<!-- <div *ngFor="let feedbackList of feedbackLists; let i = index;"> -->
+		<div class="col-md-12 flex-show">
+			<div class="col-md-5 flex-show left-side">
+				<div class="circular-image" style="margin-top: 5px;margin-right: 15px;">
+					<img src="./assets/img/images.jpeg">
+				</div>	
+				<div style="display: block; margin-top: 15px;">
+					<div class="teacher-detail-font">Senior teacher</div>
+					<h4>{{teacherName}}</h4>
+				</div>
+			</div>
+			<div class="col-md-7 right-side">
+				<h3 class="head-rating-count">4.2</h3>
+				<div style="display: block;">
+					<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="4.2"></star-rating-comp>
+					<div style="padding-left: 10px;">27 ratings</div>
+				</div>
+			</div>
+		</div>
+		<!-- </div> -->
+		<!-- <form #reportForm="ngForm">
 			<ul style="padding: 15px;">
 				<li *ngFor="let detail of feedbackLists; let i = index;" class="divide-line">
-					<div class="d-flex flex-row">
+					<div>
 						<div class="count-pos col-md-1">{{i+1}}- </div>
 						<div class="form-group col-md-11">
 							<label>Name:</label><span>{{detail.preferredName}}</span><br>
-							<!-- <label>Title:</label><span>{{detail.title}}</span><br> -->
 							<label>Message:</label><span>{{detail.message}}</span><br>
 							<label>rating:</label><span>{{detail.rating}}</span>
 							<div><label>Course</label>
@@ -46,6 +97,38 @@
 					</div>
 				</li>
 			</ul>
-		</form>
+		</form> -->
+
+		<div class="col-md-12 card-columns" style="margin-top: 25px;">
+			<div *ngFor="let detail of feedbackLists; let i = index;">
+				<div class="card card-wrap">
+					<div class="header">
+						<h5>{{detail.course.name}}</h5>
+						<div style="font-size: 16px;">
+							Room <span class="room-dot">&#183;</span> {{detail.course.room}}
+						</div>
+					</div>
+					<div class="flex-show pos-gray-content">
+						<div class="col-md-2 pad-0">
+							<div class="circular-detail-image">
+								<img src="{{detail.profilePic}}">
+							</div>	
+						</div>	
+						<div class="col-md-10 info-group pad-0">
+							<div class="d-flex justify-content-between">
+								<div>
+									<p style="margin: 0;">{{detail.preferredName}}</p>
+									<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detail.rating"></star-rating-comp>
+								</div>
+								<p class="detail-show-date">20 Aug 18</p>
+							</div>
+							
+							<p class="detail-message">{{detail.message}}</p>
+						</div>
+						
+					</div>
+				</div>	
+			</div>
+		</div>	
 	</div>	
 </div>

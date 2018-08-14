@@ -1,4 +1,4 @@
-<div class="inner-wrapper">
+<!-- <div class="inner-wrapper">
 	<div class="container h-100">
 	  <div class="row h-100 justify-content-center ">
 	  	<div class="col-12">
@@ -13,5 +13,25 @@
 	    </div>  	
 	    <block-ui message="Deafult Message"></block-ui>  
 	  </div>  
+	</div>
+</div> -->
+
+<div class="inner-wrapper">
+	<header>
+		<div class="d-wrapper" [ngClass]="{'sticky' : navIsFixed == true}">			
+			<h3 class="region-h3">Pick region</h3>
+		</div>
+	</header>
+	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">			
+		<h3 class="region-h3">Pick region</h3>
+	</div>
+	<div class="row justify-content-start">
+		<div class="col-md-4 col-xl-2" *ngFor="let region of regionLists; let i = index" [attr.data-index]="i">
+			<div class="region-item">
+				<a routerLink="/dashboard" (click)="setRegionID(region._id)">
+		      	  {{region.name}}
+		      	</a> 
+	      	</div>
+		</div>
 	</div>
 </div>

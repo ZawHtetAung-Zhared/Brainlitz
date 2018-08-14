@@ -4,7 +4,7 @@
 @import '../node_modules/croppie/croppie.css';
 @import '../node_modules/ng5-toastr/bundles/ng5-toastr.min.css';
 @import '~font-awesome/css/font-awesome.css';
-
+@import 'intl-tel-input/build/css/intlTelInput.css';
 @font-face {
   font-family: 'Montserrat-Light';
   src:  url('assets/fonts/Montserrat-Light.ttf') format('truetype');
@@ -107,4 +107,73 @@ main{
 
 .btn-not-allowed {
   cursor: not-allowed;
+}
+app-dashboard,
+app-tools{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.rating {
+  justify-content: left !important;
+}
+
+.info-group .rating {
+  margin-left: -6px;
+}
+
+svg.star-filled.default-star-filled-icon {
+  fill: #788796 !important;
+  border-radius: #ddd !important;
+}
+
+.star svg{
+  fill: #788796 !important;
+}
+
+.iti-arrow{
+  left: 87px;
+  margin-top: -4px !important;
+}
+.intl-tel-input{
+  display: block;
+  /*padding: 0 100px;*/
+}
+.intl-tel-input .selected-flag{
+  position: absolute;
+  width: 90px !important;
+}
+.intl-tel-input .country-list{
+  top: 35px;
+  width: 250px;
+}
+.intl-tel-input .selected-flag .iti-flag{
+  top: -5px;
+}
+/*.stickywrap .first-row {
+  display: none !important;
+}*/
+/*.stickywrap .sidebar-wrap {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    background: #fff;
+    top: 0;
+}*/
+.stick #header{
+  -ms-transform: translateY(-85px) !important;
+  transform: translateY(-85px) !important;
+}
+.stick .sidebar-wrap{
+  -moz-box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
+  -ms-box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
+  box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
+}
+.side-bar-wrap{
+  position: fixed;
+  width: inherit;
+  height: 100%;
+  border-right: 1px solid #dedede;
+  transition: height 300ms linear, transform 300ms linear;
 }

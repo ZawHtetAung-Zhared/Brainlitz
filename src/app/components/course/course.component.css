@@ -1,3 +1,11 @@
+.inner-wrapper.active{
+  padding-top: 90px;
+}
+.inner-wrapper{
+  padding-top: 150px;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
 @keyframes slideInFromLeft {
   100% {
     transform: translateX(0);
@@ -29,9 +37,13 @@ li button{
 .title{
   margin: 20px 0px 35px 0px;
 }
+.back-wrap{
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
 .header-font{
-  font-family: Montserrat-Medium;
-  color: #2f3d4c;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  color: #2e3e4d;
 }
 .btn-large{
   width: 100%;
@@ -96,6 +108,9 @@ li button{
 }
 .category{
   margin-bottom: .1rem;
+}
+.item-width{
+  width: 65%;
 }
 .header-info{
   font-size: 16px;
@@ -195,6 +210,7 @@ li button{
   border-radius: 4px;
   font-family: Montserrat-Medium;
   color: #525e6b;
+  cursor: pointer;
 }
 .btn-plusicon{
   font-size: 22px;
@@ -247,5 +263,31 @@ li button{
   font-size: 1em;
   -webkit-transition: all .75s ease-in-out;
   transition: all .75s ease-in-out;
+}
+
+
+/*For 1024px*/
+@media (max-width: 575px) { 
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+/*Large devices (1025px t0 1999px)*/
+@media (min-width: 1025px) and (max-width: 1999px) { 
+  .card-columns {
+    column-count: 3;
+  }
+}
+
+/*Extra large devices (large desktops, 2000px and up)*/
+@media (min-width: 2000px) { 
+  .card-columns {
+    column-count: 3;
+  }
+  .inner-wrapper{
+    width: 1900px;
+    margin: 0 auto;
+  }
 }
 

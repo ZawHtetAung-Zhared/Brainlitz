@@ -1,7 +1,10 @@
-<app-header class="d-flex header-top top-header"></app-header>
-<div class="d-flex flex-row h-100 w-100" style="display: flex; margin-top: 120px;">
-    <div class="col-md-2 noti-sidebar">
-      <div class="d-flex flex-column justify-content-center">
+<app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
+<div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
+    <div class="col-md-2 noti-sidebar h-100"  style="width: 16.666667%">
+      <div class="side-bar-wrap">
+        <div [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
+          <button class="btn noti-tab w-100" (click)="clickTab('location')">Locations</button>
+        </div>
         <div [ngClass]="{'active': menuType == 'admin'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('admin')">Administrator</button>
         </div>
@@ -16,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="menuType == 'admin'" class="col-md-10 min-scroll">
+    <div *ngIf="menuType == 'admin'" class="col-md-10" >
       <div class="d-flex flex-column w-100 h-100 inner-wrapper">
         <div class="mb-30">
           <h2 class="mb-30">Regional Administrator</h2>
@@ -52,6 +55,9 @@
         </div>
       </div>
     </div>
+    <div *ngIf="menuType == 'location'" class="col-md-10 pl-zero">
+      <app-location></app-location>
+    </div> 
     <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">
       <app-module></app-module>
     </div>  
