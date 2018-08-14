@@ -28,7 +28,11 @@ export class ReportComponent implements OnInit {
 	noData: boolean = true;
 	utcStartDate: any;
   	utcEndDate: any;
-  	teacherName: any;
+  	teacherProfile: any;
+  	teacherPreferredName: any;
+  	teacherRating: any;
+  	teacherVote: any;
+  	feedBackUserGroup: any[] = [];
 
   	ngOnInit() {
   		this.getStaffRating();
@@ -37,33 +41,37 @@ export class ReportComponent implements OnInit {
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    console.log(window.pageYOffset)
 	    if(window.pageYOffset >= 40){
-	      // console.log('greater than 30')
 	      this.isSticky = true;
 	    }else{
-	      // console.log('less than 30')
 	      this.isSticky = false;
 	    }
 	  }
 
-  	getFeedBack(teacherId, tName){
-  		this.teacherName = tName;
+  	getFeedBack(teacherId, data){
+  		console.log(data)
+  		this.teacherProfile = data.profilePic;
+  		this.teacherPreferredName = data.preferredName;
+  		this.teacherRating = data.rating;
+  		this.teacherVote = data.voter;
   		this.showDetail = true;
 		this._service.getFeedBackList(this.regionID, teacherId)
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
 			console.log('this.feedbackLists', this.feedbackLists)
-			for (var i in this.feedbackLists) {
-			    if(this.feedbackLists[i].course.startDate){
-			    	let startDateGet = this.feedbackLists[i].course.startDate;
-		       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
-		          	this.feedbackLists[i].course.startDate = this.utcStartDate;
-		        }
-		        if(this.feedbackLists[i].course.endDate){
-		        	let endDateGet = this.feedbackLists[i].course.endDate;
-		        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
-		        	this.feedbackLists[i].course.endDate = this.utcEndDate;
-		        }
-		      }
+			// for (var i in this.feedbackLists) {
+			//     if(this.feedbackLists[i].course.startDate){
+			//     	let startDateGet = this.feedbackLists[i].course.startDate;
+		 //       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
+		 //          	this.feedbackLists[i].course.startDate = this.utcStartDate;
+		 //        }
+		 //        if(this.feedbackLists[i].course.endDate){
+		 //        	let endDateGet = this.feedbackLists[i].course.endDate;
+		 //        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
+		 //        	this.feedbackLists[i].course.endDate = this.utcEndDate;
+		 //        }
+		 //      }
+
+
 	    }, err => {
 	    	console.log(err)
 	    })
