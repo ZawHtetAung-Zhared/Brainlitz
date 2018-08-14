@@ -95,7 +95,7 @@ header{
 
 h3.category-h3,
 .category-h5{
-	font-family: 'Montserrat-Medium', Arial,sans-serif;	
+	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
 	color: #2f3d4c;
 }
 .d-wrapper {   
@@ -184,7 +184,7 @@ h3.category-h3{
 
 
 .back-to{
-	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-family: 'Montserrat-Regular', Arial,sans-serif;
 	color: #6a7279;
 	padding-left: 0 !important;
 	cursor: pointer;

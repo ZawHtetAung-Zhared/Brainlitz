@@ -1,3 +1,15 @@
+.pl-zero{
+  padding-left: 0;
+  padding-right: 0;
+}
+.content-wrapper.p-top{
+  padding-top: 63px;
+}
+.content-wrapper{
+  padding-top: 150px;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
 .select2-container .select2-selection--single{
 	height: 38px !important;
 }
@@ -45,6 +57,7 @@
   padding: 7px 12px;
   border-radius: 0;
   outline: none;
+  background: #fff;
   border-left: 3px solid transparent;
   font-family: 'Montserrat-Medium','Arial', sans-serif !important;
 }

@@ -1,0 +1,140 @@
+<app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<div *ngIf="!showFormCreate" class="full-width">
+	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+		<div class="display-flex mr-top-menu">
+			<div class="col-md-4 pad-0">
+				<h3>Staffs</h3>
+			</div>
+			<div class="col-md-8 pad-0">
+				<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
+			</div>
+		</div>
+	</div>
+</div>	
+<div *ngIf="!showFormCreate" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+		<div class="display-flex mr-top-menu">
+			<div class="col-md-4 pad-0">
+				<h3>Staffs</h3>
+			</div>
+			<div class="col-md-8 pad-0">
+				<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
+			</div>
+		</div>
+		<div class="col-md-12 pad-0" style="margin-top: 35px;">
+			<div class="input-group col-md-12 pad-0">
+			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search staff here" id="example-search-input">
+			    <span class="input-group-append">
+			        <button class="bt btn-design btn-outline-secondary" type="button">
+			            <i class="fa fa-search search-size"></i>
+			        </button>
+			     </span>
+			</div>
+		</div>
+		<div class="row display-flex">
+			<div class="col-md-6 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
+				<div class="box-design display-flex pos-relative">
+					<div class="no-line-height">
+						<div class="circular-image">
+							<img src="{{staff.profilePic}}">
+						</div>
+					</div>
+					<div class="info-side">
+						<h5 class="text-vertical">{{staff.preferredName}}</h5>
+						<p class="info-mail">{{staff.email}}</p>
+					</div>
+					<div>
+						<i class="fa fa-angle-right right-arrow"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+<div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
+	<button type="button" class="back-button display-flex" (click)="back()">
+		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt">Staffs</p>
+	</button>
+</div>
+<div class="inner-wrapper-detail" *ngIf="showFormCreate">
+	<button type="button" class="back-button display-flex" (click)="back()">
+		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt">Staffs</p>
+	</button>
+	<div class="col-md-12 pad-0 mr-bt-top">
+		<h3>Create staff account</h3>
+	</div>
+	<form novalidate #createForm="ngForm">
+		<div class="row display-flex">
+			<div class="col-md-7">
+				<div class="form-group">
+		  	    	<label for="" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 	
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type preferred name here" name="preferredname" [(ngModel)]="prename" #preferredname="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="" class="label-txt">Full name</label> 	
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type full name here" name="fullname" [(ngModel)]="name" #fullname="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="" class="label-txt">Email address</label> 	
+		  	    	<input type="email" class="form-control bt-line" placeholder="Type email address here" name="email" [(ngModel)]="emailaddress" #email="ngModel">
+		  	  	</div>
+		  	  	<div class="form-group">
+		  	    	<label for="" class="label-txt">Password</label> 	
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="pass" #password="ngModel">
+		  	  	</div>
+			</div>
+			<div class="col-md-5">
+				<label for="upload">
+					<div class="profile-box label-txt">
+						<div class="form-group">
+							<label for="upload" class="profile-label">Profile</label><br>
+							<div class="circular-profile">
+								<img src="assets/img/user.svg">
+							</div>	
+							<div class="demo-wrap upload-demo">
+					          	<div class="container">
+						            <div class="grid">
+					              	<div class="col-1-2">
+					                	<div class="actions">
+					                		<a class="btn file-btn">
+					                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
+					                		</a>
+					                		<button *ngIf="blankCrop"class="upload-result result-color" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
+					                	</div>
+					              	</div><br />
+							            <div class="upload-demo-wrap">
+							              <div id="upload-demo"></div>
+							            </div>
+						            </div>
+					       		</div>
+						    </div>
+						    <p>Update photo</p>							
+						</div>
+					</div>
+				</label>
+			</div>
+			<div class="col-md-12 pad-bottom">
+				<div class="form-group" style="border-bottom: 1px solid #e3e4e6;" ngFor="let user of permissionLists">
+		  	    	<label class="label-txt radio">Permission as</label> 	
+		  	    	<div class="display-flex">
+		  	    		<div class="permission-width" *ngFor="let user of permissionLists; let i = index;" >
+		  	    			<label for={{user._id}} style="cursor: pointer; position: relative;">
+			  	    			<div class="permission-box permission-name">
+									<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="permissionUser" #permission="ngModel" (click)="checkUser(user._id, $event)"><br>
+								  	<span class="capitalize">{{user.name|lowercase}}</span>
+								  	<span class="check"></span>
+								</div>
+							</label>	
+						</div>
+		  	    	</div>
+		  	  	</div>
+			</div>
+			<div class="col-md-12">
+				<div class="button-group">
+					<button type="button" class="bt cancel-button">Cancel</button>
+		        	<button type="submit" (click)="createUser()" class="btn create-button">Create
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>	
+</div>

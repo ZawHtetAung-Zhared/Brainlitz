@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import * as moment from 'moment'; //
@@ -22,34 +22,56 @@ export class ReportComponent implements OnInit {
 	ratingLists: any;
 	showFeedback: any;
 	showDetail: boolean = false;
+	isSticky: boolean = false;
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
 	utcStartDate: any;
   	utcEndDate: any;
+  	teacherProfile: any;
+  	teacherPreferredName: any;
+  	teacherRating: any;
+  	teacherVote: any;
+  	feedBackUserGroup: any[] = [];
 
   	ngOnInit() {
   		this.getStaffRating();
   	}
 
-  	getFeedBack(teacherId){
+  	@HostListener('window:scroll', ['$event']) onScroll($event){    
+	    console.log(window.pageYOffset)
+	    if(window.pageYOffset >= 40){
+	      this.isSticky = true;
+	    }else{
+	      this.isSticky = false;
+	    }
+	  }
+
+  	getFeedBack(teacherId, data){
+  		console.log(data)
+  		this.teacherProfile = data.profilePic;
+  		this.teacherPreferredName = data.preferredName;
+  		this.teacherRating = data.rating;
+  		this.teacherVote = data.voter;
   		this.showDetail = true;
 		this._service.getFeedBackList(this.regionID, teacherId)
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
 			console.log('this.feedbackLists', this.feedbackLists)
-			for (var i in this.feedbackLists) {
-			    if(this.feedbackLists[i].course.startDate){
-			    	let startDateGet = this.feedbackLists[i].course.startDate;
-		       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
-		          	this.feedbackLists[i].course.startDate = this.utcStartDate;
-		        }
-		        if(this.feedbackLists[i].course.endDate){
-		        	let endDateGet = this.feedbackLists[i].course.endDate;
-		        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
-		        	this.feedbackLists[i].course.endDate = this.utcEndDate;
-		        }
-		      }
+			// for (var i in this.feedbackLists) {
+			//     if(this.feedbackLists[i].course.startDate){
+			//     	let startDateGet = this.feedbackLists[i].course.startDate;
+		 //       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
+		 //          	this.feedbackLists[i].course.startDate = this.utcStartDate;
+		 //        }
+		 //        if(this.feedbackLists[i].course.endDate){
+		 //        	let endDateGet = this.feedbackLists[i].course.endDate;
+		 //        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
+		 //        	this.feedbackLists[i].course.endDate = this.utcEndDate;
+		 //        }
+		 //      }
+
+
 	    }, err => {
 	    	console.log(err)
 	    })
@@ -78,6 +100,7 @@ export class ReportComponent implements OnInit {
 	}
 
 	back(){
+		console.log('hh')
 		this.showDetail = false;
 	}
 }

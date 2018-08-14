@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
 import { Staff } from './staff';
 import { Customer } from './customer';
@@ -47,6 +47,7 @@ export class UsersComponent implements OnInit {
 	uploadCrop: any;
 	blankCrop: boolean = false;
 	cropButton: boolean = true;
+	isSticky: boolean = false;
 	modalReference: any;
 	closeResult: any;
 	imageUrl: any;
@@ -65,6 +66,9 @@ export class UsersComponent implements OnInit {
 	editId: any;
 	public updateButton: boolean = false;
   	public createButton: boolean = true;
+  	showFormCreate: boolean = false;
+  	public navIsFixed: boolean = false;
+  	public isCreateFix: boolean = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
 	    this.cropperSettings1 = new CropperSettings();
@@ -77,7 +81,23 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.getAllUsers('');
+		this.getAllUsers('customer');
+	}
+
+	@HostListener('window:scroll', ['$event']) onScroll($event){    
+	    if(window.pageYOffset > 10){
+	      this.isSticky = true;
+	    }else{
+	      this.isSticky = false;
+	    }
+	    if(window.pageYOffset > 40){
+	      this.navIsFixed = true;
+	      this.isCreateFix = true;
+	    }else{
+	      this.navIsFixed = false;
+	      this.isCreateFix = false;
+	    }
+
 	}
 
 	open1(staffModal){
@@ -451,6 +471,16 @@ export class UsersComponent implements OnInit {
 	  else {
 	  	return true;
 	  }	
+	}
+
+	goCreateForm(){
+		this.showFormCreate = true;
+		console.log('create')
+	}
+
+	back(){
+		console.log('back')
+		this.showFormCreate = false;
 	}
 
 

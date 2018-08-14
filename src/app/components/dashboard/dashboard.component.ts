@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { TimezonePickerService, Timezone } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
@@ -17,12 +17,13 @@ export class DashboardComponent implements OnInit {
   public token: any;
   public type: any;
   public admin: any;
+  public navIsFixed: boolean = false;
   public item:any = {
     name: '',
     timezone: '',
     url: ''
   };
-  public menuType:any = "admin";
+  public menuType:any = "location";
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;
@@ -35,6 +36,16 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getAdministrator();
     this.isModuleList();
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    if(window.pageYOffset > 10){
+      console.log('greater than 30')
+      this.navIsFixed = true;
+    }else{
+      console.log('less than 30')
+      this.navIsFixed = false;
+    }
   }
 
   getAdministrator(){

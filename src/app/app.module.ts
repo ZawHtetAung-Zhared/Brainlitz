@@ -8,7 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
+import {Ng2TelInputModule} from 'ng2-tel-input';
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -42,9 +42,15 @@ import { ReportComponent } from './components/report/report.component';
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
-import { MinuteSecondsPipe } from './service/time.pipe';
+import { MinuteSecondsPipe } from './service/pipe/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
-import { WeekDaysPipe } from './service/weekday.pipe';
+import { WeekDaysPipe } from './service/pipe/weekday.pipe';
+import { GroupByPipe } from './service/pipe/groupby.pipe';
+import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
+import { GetDayPipe } from './service/pipe/day.pipe';
+import { StarRatingModule } from 'angular-star-rating';
+import { ReadmoreComponent } from './components/readmore/readmore.component';
+import { UserStaffComponent } from './components/user-staff/user-staff.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +77,12 @@ import { WeekDaysPipe } from './service/weekday.pipe';
     TemplateComponent,
     ModuleComponent,
     MinuteSecondsPipe,
-    WeekDaysPipe
+    WeekDaysPipe,
+    GroupByPipe,
+    ConvertTimeFormatPipe,
+    GetDayPipe,
+    ReadmoreComponent,
+    UserStaffComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +100,9 @@ import { WeekDaysPipe } from './service/weekday.pipe';
     //ConfirmationPopoverModule.forRoot({
      // confirmButtonType: 'danger' // set defaults here
     //}),
-    DragScrollModule
+    DragScrollModule,
+    StarRatingModule,
+    Ng2TelInputModule
   ],
   providers: [
     appService,
