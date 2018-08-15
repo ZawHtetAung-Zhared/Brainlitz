@@ -26,9 +26,12 @@ export class ReportComponent implements OnInit {
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
-	utcStartDate: any;
-  	utcEndDate: any;
-  	teacherName: any;
+	CreatedDate: any;
+  	teacherProfile: any;
+  	teacherPreferredName: any;
+  	teacherRating: any;
+  	teacherVote: any;
+  	feedBackUserGroup: any[] = [];
 
   	ngOnInit() {
   		this.getStaffRating();
@@ -37,33 +40,49 @@ export class ReportComponent implements OnInit {
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    console.log(window.pageYOffset)
 	    if(window.pageYOffset >= 40){
-	      // console.log('greater than 30')
 	      this.isSticky = true;
 	    }else{
-	      // console.log('less than 30')
 	      this.isSticky = false;
 	    }
 	  }
 
-  	getFeedBack(teacherId, tName){
-  		this.teacherName = tName;
+  	getFeedBack(teacherId, data){
+  		console.log(data)
+  		this.teacherProfile = data.profilePic;
+  		this.teacherPreferredName = data.preferredName;
+  		this.teacherRating = data.rating;
+  		this.teacherVote = data.voter;
   		this.showDetail = true;
 		this._service.getFeedBackList(this.regionID, teacherId)
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
 			console.log('this.feedbackLists', this.feedbackLists)
-			for (var i in this.feedbackLists) {
-			    if(this.feedbackLists[i].course.startDate){
-			    	let startDateGet = this.feedbackLists[i].course.startDate;
-		       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
-		          	this.feedbackLists[i].course.startDate = this.utcStartDate;
-		        }
-		        if(this.feedbackLists[i].course.endDate){
-		        	let endDateGet = this.feedbackLists[i].course.endDate;
-		        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
-		        	this.feedbackLists[i].course.endDate = this.utcEndDate;
-		        }
-		      }
+			for (var i = 0; i < this.feedbackLists.length; i++) {				
+				for (var j = 0; j < this.feedbackLists[i].feedbacks.length; j++) {
+					console.log(this.feedbackLists[i].feedbacks[j])
+					var tempData = this.feedbackLists[i].feedbacks[j].createdDate;
+					var date = new Date(tempData);
+					var tempDay = date.getUTCDate() ;
+					var tempMonth = moment().month(date.getUTCMonth()).format("MMM");
+					var tempYear = date.getUTCFullYear();
+					this.CreatedDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
+					console.log(this.CreatedDate)
+				}
+			}
+			// for (var i in this.feedbackLists) {
+			//     if(this.feedbackLists[i].course.startDate){
+			//     	let startDateGet = this.feedbackLists[i].course.startDate;
+		 //       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
+		 //          	this.feedbackLists[i].course.startDate = this.utcStartDate;
+		 //        }
+		 //        if(this.feedbackLists[i].course.endDate){
+		 //        	let endDateGet = this.feedbackLists[i].course.endDate;
+		 //        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
+		 //        	this.feedbackLists[i].course.endDate = this.utcEndDate;
+		 //        }
+		 //      }
+
+
 	    }, err => {
 	    	console.log(err)
 	    })
@@ -92,7 +111,6 @@ export class ReportComponent implements OnInit {
 	}
 
 	back(){
-		console.log('hh')
 		this.showDetail = false;
 	}
 }

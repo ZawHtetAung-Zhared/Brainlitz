@@ -24,6 +24,7 @@ export class LocationComponent implements OnInit {
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
 	public isrequired: boolean = true;
+	public isequal: boolean = true;
 	public iscreate: boolean = false;
 	public navIsFixed: boolean = false;
 	public currentID: any;
@@ -92,10 +93,27 @@ export class LocationComponent implements OnInit {
   		console.log('hi')
   		console.log(e)
   	}
+ //  	onSearchChange(searchValue : string ) {  
+	//   	console.log(searchValue);
+	//   	let intel = $('.intl-tel-input input');
+	// 	var str = intel[0].placeholder;
+	// 	var str = str.replace(/\s/g, '');
+		
+	// 	this.isrequired = true;
+	// 	this.isequal = (searchValue.length < str.length) ? false : true;
+	// 	console.log(this.isequal)
+	// }
   	hasError(e){
   		console.log(e)
+  		// let intel = $('.intl-tel-input input');
+  		// console.log(intel[0].placeholder)
+  		// var str = intel[0].placeholder;
+  		// console.log( str.replace(/\s/g, '') );
+  		// var str = str.replace(/\s/g, '');
+  		// console.log( str.length );
   		this.isrequired = e;
   		console.log(this.isrequired)
+  		this.isequal = (this.isrequired == false) ? true : false;
   	}
   	creatnew(){
   		this.iscreate = true;
@@ -186,9 +204,14 @@ export class LocationComponent implements OnInit {
     		this.iscreate = false;
     		this.getAllLocation();
 	    }, err => {
-	    	this.toastr.error('Create Fail.');
-	    	this.blockUI.stop();
+	    	
 	    	console.log(err)
+	    	if(err.error == "Location name already exists."){
+	    		this.toastr.error(err.error);
+	    	}else{
+	    		this.toastr.error('Create Fail.');
+	    	}
+	    	this.blockUI.stop();
 	    })
 		  
 		}

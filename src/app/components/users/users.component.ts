@@ -69,14 +69,9 @@ export class UsersComponent implements OnInit {
   	showFormCreate: boolean = false;
   	public navIsFixed: boolean = false;
   	public isCreateFix: boolean = false;
+  	atLeastOneMail: boolean = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
-	    this.cropperSettings1 = new CropperSettings();
-	    this.cropperSettings1.rounded = true;
-	    this.cropperSettings1.noFileInput = true;
-	    this.cropperSettings1.cropperDrawSettings.strokeColor = "rgba(255,0,0,1)";
-	    this.cropperSettings1.cropperDrawSettings.strokeWidth = 2;
-	    this.toastr.setRootViewContainerRef(vcr);
 	}
 
 
@@ -138,80 +133,6 @@ export class UsersComponent implements OnInit {
 	  	});
 	}
 
-  	uploadCropImg($event: any) {
-	    this.blankCrop = true; 
-	    this.cropButton = false;
-	    $("#upload-demo img:first").remove();
-	    this.input = $event.target.files[0];
-	    if (this.input) {
-	      	if (this.input && this.uploadCrop) {
-	        	this.uploadCrop.destroy();
-	      	}
-      	var reader = new FileReader();
-        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
-	        viewport: {
-	            width: 150,
-	            height: 150,
-	            type: 'circle'
-	          },
-	        boundary: {
-	            width: 300,
-	            height: 300
-	        },
-          	enableExif: true
-        });
-	      	var $uploadCrop = this.uploadCrop;
-	      	reader.onload = function(e: any) {
-	        $uploadCrop.bind({
-	            url: e.target.result
-	          })
-	          .then(function(e: any) {});
-	      };
-	      reader.readAsDataURL($event.target.files[0]);
-	    }
-  	}
-
-  	cropResult(modal) {
-	    let self = this;
-	    this.blankCrop = true;
-	    setTimeout(function() {
-	      $("#upload-demo img:last-child").attr("id", "blobUrl");
-	    }, 200);
-	    this.uploadCrop
-	      .result({
-	      	circle: false,
-	        type: "canvas",
-	        size: {
-				width: 800,
-				height: 800
-			},
-			quality:1 
-	      })
-	      .then(function(resp: any) {
-	      	$("#upload-demo img:last-child").remove();
-	        if (resp) {
-	          $("#upload-demo").append('<img src="' + resp + '" width="100%" />');
-	          $(".modal-backdrop.fade").css('opacity', '0.5');
-	        }
-	    });
-  	}
-
-  	dataURItoBlob(dataURI: any) {
-	    var byteString = atob(dataURI.split(",")[1]);
-	    var mimeString = dataURI
-	      .split(",")[0]
-	      .split(":")[1]
-	      .split(";")[0];
-	    var ab = new ArrayBuffer(byteString.length);
-	    var ia = new Uint8Array(ab);
-	    for (var i = 0; i < byteString.length; i++) {
-	      ia[i] = byteString.charCodeAt(i);
-	    }
-	    return new Blob([ab], { type: mimeString });
-	}
-
-	atLeastOneMail: boolean = false;
-
 	createUser(obj, type, apiState){
 		console.log(obj);
 		console.log(type);
@@ -219,7 +140,7 @@ export class UsersComponent implements OnInit {
 		let getImg = document.getElementById("blobUrl");
 		if(getImg != undefined){
 			this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
-			this.img = this.dataURItoBlob(this.imageUrl);
+			//this.img = this.dataURItoBlob(this.imageUrl);
 		}else{
 			this.img = '';
 		}

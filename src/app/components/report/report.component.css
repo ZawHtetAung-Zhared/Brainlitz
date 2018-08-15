@@ -264,7 +264,12 @@ h3.head-rating-count {
 
 .pos-gray-content {
 	position: relative !important; 
-	padding: 0 15px;
+	margin: 0 15px;
+  border-bottom: 1px solid #d4d5d6;
+}
+
+.pos-gray-content:last-child {
+  border: none;
 }
 
 .right-arrow {

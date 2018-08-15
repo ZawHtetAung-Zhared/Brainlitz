@@ -298,7 +298,7 @@ h3, h5 {
     padding: 0;
 }
 
-.back-button:focus {
+.back-button:focus, .cancel-button:focus {
     outline: none!important;
 }
 

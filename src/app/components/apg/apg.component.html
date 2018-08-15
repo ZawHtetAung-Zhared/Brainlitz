@@ -1,4 +1,42 @@
-<button type="button" class="btn btn-primary" (click)="open(content)">Create APG</button>
+<div class="d-flex justify-content-between heading-margin">
+	<div class="mr-auto">
+		<div class="d-flex flex-row">
+			<h2 class="title-heading">APG</h2>
+			<span class="apg-longterm">Access Point Group</span>
+		</div>
+	</div>
+	<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button>
+</div>
+<div class="input-group col-md-12 mt-30">
+    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+    <span class="input-group-append">
+        <button class="bt btn-design btn-outline-secondary" type="button">
+            <i class="fa fa-search search-size"></i>
+        </button>
+     </span>
+</div>
+<div class="apg-wrapper">
+	<div *ngFor="let apg of apgList; let i = index">
+		<div class="single-apg">
+			<div class="info-section">
+				<p class="apg-type">Progress</p>
+				<h4>{{apg.name}}</h4>
+				<div class="apg-scroll">
+					<p class="apg-desc">{{apg.description}}</p>
+				</div>
+			</div>
+			<div class="d-flex justify-content-between btn-section">
+				<button class="apg-share">Share</button>
+				<div>
+					<button class="btn-action">Edit</button> | <button class="btn-action">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- <button type="button" class="btn btn-primary" (click)="open(content)">Create APG</button> -->
 <ng-template #content let-c="close" let-d="dismiss">
 	<form #apgForm="ngForm" novalidate>
 		<div class="modal-header">
