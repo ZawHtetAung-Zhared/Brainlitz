@@ -8,12 +8,15 @@
 			<div [ngClass]="{'active': notiType == 'view'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('view')">View sent history</button>
 			</div>
+			<div [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
+				<button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
+			</div>
 		</div>
 	</div>
 	<block-ui message="Deafult Message"></block-ui>
 	<div [ngClass]="{'p-top' : isSticky == true}" class="col-xs-12 col-sm-12 col-md-10 col-lg-10 w-100 noti-content">	
 		<div class="mb-2em" *ngIf="notiType == 'send'">
-			<h2 class="title-heading">Send notification</h2>
+			<h2 class="title-heading heading-margin">Send notification</h2>
 			<div class="d-flex flex-row">
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 					<form novalidate #notiForm="ngForm" class="notif">
@@ -173,7 +176,7 @@
 					</li>
 				</ul>
 			</div> -->
-			<h3 class="title-heading">Sent history</h3>
+			<h3 class="title-heading heading-margin">Sent history</h3>
 			<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
 				<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
 				<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
@@ -231,6 +234,32 @@
 					</div>
 				</div>
 			</div>	
+		</div>
+		<div *ngIf="notiType == 'apg'" class="heading-margin">
+			<!-- <div class="d-flex justify-content-between heading-margin">
+				<div class="mr-auto">
+					<div class="d-flex flex-row">
+						<h2 class="title-heading">APG</h2>
+						<span>Access Point Group</span>
+					</div>
+				</div>
+				<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button>
+			</div>
+			<div>
+				<div class="input-group col-md-12 pad-0">
+				    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+				    <span class="input-group-append">
+				        <button class="bt btn-design btn-outline-secondary" type="button">
+				            <i class="fa fa-search search-size"></i>
+				        </button>
+				     </span>
+				</div>
+			</div> -->
+			<div class="card-columns">
+				<div>a</div>
+				<div>b</div>
+			</div>
+			<app-apg></app-apg>
 		</div>
 	</div>
 </div>
