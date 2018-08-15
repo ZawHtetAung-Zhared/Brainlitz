@@ -1,4 +1,4 @@
-<div class="d-flex flex-column w-100 h-100 inner-wrapper">
+<!-- <div class="d-flex flex-column w-100 h-100 inner-wrapper">
   <div class="mb-30">
     <h2>Module</h2>
     <h2 *ngIf="noModule">There is no module</h2>
@@ -17,4 +17,48 @@
       </div>
     </div>
   </div>
-</div>  
+</div>   -->
+<div class="card-columns">
+            <div class="card card-wrap">
+              <div class="title">
+                Regional Settings
+              </div>
+              <div class="region-info">
+                <div>
+                  <div>
+                    <span class="social-links">
+                      <a><i class="fa fa-globe"></i></a>
+                    </span>
+                    <label class="labelTitle">Region name</label>
+                  </div>
+                  <!-- <label class="labelName">{{admin.name}}</label> -->
+                </div>
+                <div class="timezone-wrap">
+                  <div>
+                    <span class="social-links">
+                      <a><i class="fa fa-globe"></i></a>
+                    </span>
+                    <label class="labelTitle">Time zone</label>
+                  </div>
+                  <div>
+                  <!-- <label class="labelName">{{admin.timezone}}</label> -->
+                  <!-- <ng2-timezone-picker 
+                [(timezone)]="item.timezone" 
+                showOffset="true">
+              </ng2-timezone-picker> -->
+                  </div>
+                </div>
+              </div>
+              <div>
+                <a class="link-btn" (click)="editRegion()">Edit</a>
+              </div>
+            </div>  
+            <div class="card card-wrap">
+              <div class="title">
+                App Settings
+              </div>
+              <div class="card-info">
+              Testing
+              </div>
+            </div> 
+          </div>

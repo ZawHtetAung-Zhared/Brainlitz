@@ -6,6 +6,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit {
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;
+  public isEdit:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -59,6 +61,8 @@ export class DashboardComponent implements OnInit {
       this.item.url = res.url
       console.log('~~~', this.item)
       localStorage.setItem('timezone', this.item.timezone)
+      let test=moment().tz("Singapore").format();
+      console.log(test)
     }, err => {
       console.log(err)
     })
@@ -76,6 +80,13 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  editRegion(){
+    this.isEdit = true;
+  }
+  back(){
+    this.isEdit = false;
+  }
+
   updateRegionalInfo(data){
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
@@ -85,6 +96,7 @@ export class DashboardComponent implements OnInit {
       this.toastr.success('Successfully Updated.');
       console.log('~~~', res)
       localStorage.setItem('timezone', this.item.timezone)
+      this.isEdit = false;
     }, err => {
       console.log(err)
     })

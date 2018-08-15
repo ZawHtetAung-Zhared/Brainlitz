@@ -71,3 +71,61 @@
     overflow: scroll;
     border-left: 1px solid #dedede; 
 }
+
+/*comfirm UI*/
+.card-columns{
+  column-count: 2;
+}
+.card-wrap{
+  font-size: 14px;
+  border-radius: 9px;
+  margin: 10px 0px 10px 0px;    
+  border: 1px solid #F0F0F0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.title{
+  color: #f8f8f9;
+  padding: 1rem;
+  background: #64707c;
+  border-radius: 8px 8px 0px 0px;
+  font-size: 1.15rem;
+  font-family: Montserrat-Regular;
+}
+.region-info{
+  border-bottom: 1px solid #edeff0;
+  padding: 1rem;
+}
+.link-btn{
+  color: #1683fb!important;
+  font-family: Montserrat-Regular;
+  padding: 0.8rem;
+  float: right;
+}
+.labelTitle{
+  color: #64707c;
+  font-family: Montserrat-Medium;
+  padding-top: 6px;
+}
+.labelName{
+  color: #2f3e4c;
+  font-family: Montserrat-Medium;
+  font-size: 16px;
+  margin-left: 42px;
+  margin-bottom: 0;
+}
+.timezone-wrap{
+  padding-top: 1.5rem;
+}
+.social-links a{
+  float: left;
+  text-align: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 100%;
+  margin-right: 7px; /*space between*/
+  background: #f2f4f5;
+} 
+.social-links a i{
+    line-height: 35px;
+  color: #64707c;
+}
