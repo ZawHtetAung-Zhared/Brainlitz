@@ -69,18 +69,6 @@ export class ReportComponent implements OnInit {
 					console.log(this.CreatedDate)
 				}
 			}
-			// for (var i in this.feedbackLists) {
-			//     if(this.feedbackLists[i].course.startDate){
-			//     	let startDateGet = this.feedbackLists[i].course.startDate;
-		 //       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
-		 //          	this.feedbackLists[i].course.startDate = this.utcStartDate;
-		 //        }
-		 //        if(this.feedbackLists[i].course.endDate){
-		 //        	let endDateGet = this.feedbackLists[i].course.endDate;
-		 //        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
-		 //        	this.feedbackLists[i].course.endDate = this.utcEndDate;
-		 //        }
-		 //      }
 
 
 	    }, err => {
