@@ -89,7 +89,7 @@
   background: #64707c;
   border-radius: 8px 8px 0px 0px;
   font-size: 1.15rem;
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat-Regular','Arial', sans-serif;
 }
 .region-info{
   border-bottom: 1px solid #edeff0;
@@ -97,21 +97,23 @@
 }
 .link-btn{
   color: #1683fb!important;
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat-Regular','Arial', sans-serif;
   padding: 0.8rem;
   float: right;
 }
 .labelTitle{
   color: #64707c;
-  font-family: Montserrat-Medium;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
   padding-top: 6px;
 }
 .labelName{
   color: #2f3e4c;
-  font-family: Montserrat-Medium;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  /*font-family: 'Montserrat-SemiBold', 'Arial',sans-serif;*/
   font-size: 16px;
   margin-left: 42px;
   margin-bottom: 0;
+  font-weight: 900;
 }
 .timezone-wrap{
   padding-top: 1.5rem;
@@ -128,4 +130,56 @@
 .social-links a i{
     line-height: 35px;
   color: #64707c;
+}
+.picker-wrap{
+  pointer-events: none;
+  margin-left: 40px;
+}
+.test .hellop {
+    color: #2f3e4c;
+    font-family: 'Montserrat-Medium','Arial', sans-serif;
+    font-size: 16px;;
+}
+/*.rewrite .select2-container--default .selection .select2-selection--single .select2-selection__arrow b {
+  border-style: none!important;
+}*/
+/*.newpick .select2-container--default .selection .select2-selection--single{
+  pointer-events: none;
+}*/
+ng2-timezone-picker.newpick .select2-container > .selection > .select2-selection--single{
+  border: 0!important;
+  border-color: transparent!important;
+}
+ng2-timezone-picker.newpick > .select2-container > .select2-container--default > .select2-selection--single > .select2-selection__arrow{
+  display:none!important;
+}
+/*.picker-wrap::before{
+  content: '';
+    border-right: 12px solid #fff;
+    position: absolute;
+    width: 60px;
+    height: 30px;
+    right: 4%;
+    top: 67%;
+    z-index: 9;
+}*/
+/*#fixedContainer
+{
+    background-color:#ddd;
+  position: fixed;
+  width: 200px;
+  height: 50px;
+}*/
+/*===App info setting===*/
+.setting-info{
+  padding: 1rem;
+}
+.link-wrap{
+  /*border-bottom: 1px dashed #eaeaeb;*/
+  border-bottom: 1.5px dashed #ecedee;
+  border-bottom: 1.5px dashed #ecedee;
+  padding-bottom: 20px;
+}
+.module-container{
+  margin-left: 40px;
 }
