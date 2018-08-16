@@ -1,53 +1,27 @@
-<div *ngIf="goBackCat"  class="inner-wrapper" (scroll)="onScroll($event)">
-	<header>
-	    <div class="header-wrap">
-	    	<div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
-		      <div class="mr-auto p-2 pl-0">
-		        <a class="back-to" (click)="back()">< Pick category</a>
-		      </div> 
-		      	<div>
-		      		<button type="button" style="padding: 12px;" class="btn slide-cancel" (click)="cancel()">Cancel</button>
-		      	</div>
-		      	<div [hidden]="!createButton">
-		    		<button type="submit" style="color: #0080F9; background: #fff; padding: 12px 0;" class="btn btn-not-allowed"  (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0" >Create</button>
-		    	</div>
+<div *ngIf="goBackCat" (scroll)="onScroll($event)">
+	<div class="inner-wrapper">
+		<header>
+		    <div class="header-wrap">
+				<div [ngClass]="{'stickywrap' : navIsFixed == true}">
+				    <div class="display-style">
+						<div class="col-md-4 ul-pad">
+							<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
+						</div>	
+						<div class="col-md-4 title-mr display-style">
+							<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
+							<h5>Course plan</h5>
+				    	</div>
+				    	<div class="col-md-4" style="padding: 0;">
+					    	<!-- <div [hidden]="!createButton">
+					    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
+					    	</div> -->
+					    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
+				    	</div>
+				  	</div>
+				</div>
 		    </div>
-
-		    <p class="category-name" [ngClass]="{'stickywrap' : navIsFixed == true}">#{{checkedName}}</p>
-			<h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Course plan</h3>
-	    </div>
-	</header>
-<!-- <div class="mb-30">
-<button class="btn btn-lg btn-outline-primary bt-color" (click)="cplan()">+ Course Plan</button>
-</div> -->
-	<!-- <div *ngIf="showModal == true">
-		<form #mainCatForm="ngForm" novalidate>
-			<div class="modal-header">
-			    <h4 class="modal-title">Choose Category</h4>
-			    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-			      <span aria-hidden="true">&times;</span>
-			    </button>
-			</div>
-		  	<div class="modal-body" style="padding: 40px 20px;">
-		  		<label *ngIf="courseCategories==0" style="color: red;">Firstly, Category must be created before course plan.</label>
-		    	<ul class="ul-pad">
-				    <li *ngFor="let cate of courseCategories">
-					    <div class="col-md-4 fl-rt">
-						    <input type="radio" id="{{cate._id}}" [(ngModel)]='checked' (click)="checkedData(cate._id)" name="cate" value="{{cate.name}}">
-						    <label for="{{cate._id}}" class="limit-text">	
-						    	{{cate.name}}
-					    	</label>
-					    	<span class="checkmark"></span>
-					    </div>
-					</li>
-				</ul>
-		  	</div>
-		  	<div class="modal-footer">
-		    	<button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-		    	<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!checked" (click)="selectedRadioId(checkedCatId)">Select</button>
-		  	</div>
-		</form>	
-	</div> -->
+		</header>
+	</div>
 	<div> 
 		<form #subCatForm="ngForm" novalidate>
 			<div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
@@ -58,20 +32,62 @@
 					<div class="col-md-4 title-mr display-style">
 						<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
 						<h5>Course plan</h5>
-			    		<!-- <h5 style="position: absolute;left: 90px;">Course plan</h5> -->
 			    	</div>
 			    	<div class="col-md-4" style="padding: 0;">
 				    	<div [hidden]="!createButton">
 				    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
 				    	</div>
-				    <!-- 	<div [hidden]="!updateButton">
-				    		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!subCatForm.valid" (click)="updatedPlan(subCatForm.value)">Update</button>
-				    	</div> -->
 				    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
 			    	</div>
 			  	</div>
 			</div>
-			<div class="all-box-lt">
+			<div>
+				<div class="col-md-12 progress-box-wrap" style="padding: 30px;">
+					<ol class="progress" data-steps="8">
+					    <li class="active">
+					        <span class="step">
+					        	<span>1</span>
+					        </span>
+					    </li>
+					    <li>
+					        <span class="step">
+					        	<span>2</span>
+					        </span>
+					    </li>
+					    <li>
+					        <span class="step">
+					        	<span>3</span>
+					        </span>
+					    </li>
+					    <li>
+					        <span class="step">
+					        	<span>4</span>
+					        </span>
+					    </li>
+					    <li>
+					        <span class="step">
+					        	<span>5</span>
+					        </span>
+					    </li>
+					    <li>
+					        <span class="step">
+					        	<span>6</span>
+					        </span>
+					    </li>
+					    <li>
+					        <span class="step">
+					        	<span>7</span>
+					        </span>
+					    </li>
+					</ol>
+				</div>
+				<div class="inner-wrapper">
+					<div class="col-md-12 ">
+						<h5 class="all-title-font">Plan information</h5>
+					</div>
+				</div>
+			</div>
+		<!-- 	<div class="all-box-lt">
 				<div class="display-style">
 					<div class="col-md-6">
 						<label for="course_name" class="all-title-font">Plan name</label>
@@ -239,116 +255,9 @@
 					</select>	
 					 <i class="fa fa-chevron-down down-arrow2"></i>			
 				</div>
-			</div>
+			</div> -->
 		</form>		
 	</div>
 <block-ui message="Deafult Message"></block-ui>
 
-<!-- <div class="overflow">
-	<ul class="list-group-flush">  
-	  <li id="{{courseplan._id}}" class="list-group-item" *ngFor="let courseplan of courseplanLists; let i = index" [attr.data-index]="i">
-		{{i + 1}}-{{ courseplan.name }} 		
-		<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="onclickDelete(courseplan,confirmDelete1)">Delete</button>
-		<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="editcPlan(content, courseplan._id)">Edit</button>
-		<button type="button" style="margin-right: 10px;" class="btn btn-secondary float-right btn-sm margin-left" (click)="viewPlan(view, courseplan._id)">View</button>
-	  </li>
-	</ul>
-</div> -->
-
-<!-- <ng-template #view let-c="close" let-d="dismiss">
-  <div class="modal-header">
-  	<h4 class="modal-title">Course Plan View</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body view" *ngIf="viewCplan">
-  	<div><label>Category Name:</label> <span>{{checkedName}}</span></div>
-    <div><label>Course Name:</label> <span>{{viewCplan.name}}</span> </div>
-    <div><label>Description:</label> <span>{{viewCplan.description}}</span></div>
-    <div><label>Seats:</label> <span>{{viewCplan.seats}}</span></div>
-    <div><label>MakeupPolicy</label> 
-    	<div>
-    		<span>AllowMakeupPass: {{viewCplan.makeupPolicy.allowMakeupPass}}</span>
-    	</div>
-    	<div>
-    		<span>MaxDayPerPass: {{viewCplan.makeupPolicy.maxDayPerPass}}</span>
-    	</div>
-    	<div>
-    		<span>MaxPassPerUser: {{viewCplan.makeupPolicy.maxPassPerUser}}</span>
-    	</div>
-    </div>
-    <div><label>PaymentPolicy</label> 
-    	<div>
-    		<span>AllowProrated: {{viewCplan.paymentPolicy.allowProrated}}</span>
-    	</div>
-    	<div>
-    		<span>Deposit: {{depositName}}</span>
-    	</div>
-    	<div>
-    		<span>CourseFee: {{viewCplan.paymentPolicy.courseFee}}</span>
-    	</div>
-    	<div>
-    		<span>ProratedLessonFee: {{viewCplan.paymentPolicy.proratedLessonFee}}</span>
-    	</div>
-    	<div>
-    		<span>MiscFee: {{viewCplan.paymentPolicy.miscFee}}</span>
-    	</div>
-    </div>
-    <div><label>Age</label>
-    	<div><span>From: {{viewCplan.age.min}}</span></div>
-    	<div><span>To: {{viewCplan.age.max}}</span></div>
-    </div>
-    <div><label>Lesson</label>
-    	<div><span>Min: {{viewCplan.lesson.min}}</span></div>
-    	<div><span>Max: {{viewCplan.lesson.max}}</span></div>
-    	<div><span>Duration: {{viewCplan.lesson.duration}}</span></div>
-    </div>
-    <div>
-    	<label>AllowPagewerkzBooks:</label> <span>{{viewCplan.allowPagewerkzBooks}}</span>
-    </div>
-    <div>
-    	<label>Pdf:</label> <span>{{pdfName}}</span>
-    </div>
-    <div>
-    	<label>Holiday:</label> <span>{{holidayCalendarName}}</span>
-    </div>
-    <div>
-    	<label>AccessPointGroup:</label> <span>{{apgName}}</span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-  </div>
-</ng-template> -->
-<!-- 
-<ng-template #confirmDelete1 let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" style="min-height: 100px;">
-    <h4>Are You sure you want to delete?</h4>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="confirmDelete(selectcPlan,confirmDelete2)">Delete</button>
-  </div>
-</ng-template>
-
-<ng-template #confirmDelete2 let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" style="min-height: 100px;">
-    <h4>We are going to delete <span style="color: red;">"{{selectcPlan.name}}"</span></h4>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="deleteCoursePlan(selectcPlan._id)">Confirm</button>
-  </div>
-</ng-template> -->
 </div>
