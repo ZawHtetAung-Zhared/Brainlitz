@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   public allModule;
   public emptyModule:boolean = false;
   public isEdit:boolean = false;
+  public isUrlEdit:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -61,8 +62,10 @@ export class DashboardComponent implements OnInit {
       this.item.url = res.url
       console.log('~~~', this.item)
       localStorage.setItem('timezone', this.item.timezone)
-      let test=moment().tz("Singapore").format();
-      console.log(test)
+      // let test=moment().tz("Singapore").format();
+      // console.log(test)
+      const offset = moment.tz("Asia/Singapore").utcOffset();
+      console.log(offset)
     }, err => {
       console.log(err)
     })
@@ -83,11 +86,16 @@ export class DashboardComponent implements OnInit {
   editRegion(){
     this.isEdit = true;
   }
+  editUrl(){
+    this.isUrlEdit = true;
+  }
   back(){
     this.isEdit = false;
+    this.isUrlEdit = false;
   }
 
-  updateRegionalInfo(data){
+  updateRegionalInfo(data,type){
+    console.log(type);
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
     console.log(data)
@@ -96,7 +104,12 @@ export class DashboardComponent implements OnInit {
       this.toastr.success('Successfully Updated.');
       console.log('~~~', res)
       localStorage.setItem('timezone', this.item.timezone)
-      this.isEdit = false;
+      this.getAdministrator();
+      if(type=="timezone"){
+        this.isEdit = false;
+      }else if(type=="url"){
+        this.isUrlEdit = false;
+      }
     }, err => {
       console.log(err)
     })

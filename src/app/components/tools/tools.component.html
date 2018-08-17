@@ -1,7 +1,7 @@
-<app-header [ngClass]="{'stick' : isSticky == true}"></app-header>
-<div class="d-flex flex-row h-100 w-100">
-	<div [ngClass]="{'p-top' : isSticky == true}" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 noti-sidebar h-100" style="width: 16.666667%">
-		<div class="side-bar-wrap">
+<app-header></app-header>
+<div class="d-flex flex-row h-100 w-100 content-wrapper" >
+    <div class="col-md-2 noti-sidebar h-100"  style="width: 16.666667%">
+	    <div class="side-bar-wrap">
 			<div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('send')">Send notification</button>
 			</div>
@@ -12,11 +12,10 @@
 				<button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
 			</div>
 		</div>
-	</div>
-	<block-ui message="Deafult Message"></block-ui>
-	<div [ngClass]="{'p-top' : isSticky == true}" class="col-xs-12 col-sm-12 col-md-10 col-lg-10 w-100 noti-content">	
-		<div class="mb-2em" *ngIf="notiType == 'send'">
-			<h2 class="title-heading heading-margin">Send notification</h2>
+    </div>
+    <div class="col-md-10 min-scroll heading-margin">
+    	<div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'send'">
+			<h2 class="title-heading">Send notification</h2>
 			<div class="d-flex flex-row">
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 					<form novalidate #notiForm="ngForm" class="notif">
@@ -161,105 +160,83 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div *ngIf="notiType == 'view'">
-			<!-- <div *ngFor="let noti of notiLists; let i = index" class="single-noti">
-				<p><span>Title:</span> {{noti.title}}</p>
-				<p><span>Message:</span> {{noti.message}}</p>
-				<p><span>Sent by:</span> {{noti.sender.preferredName}}</p>
-				<p><span>Date:</span>--{{noti.utc.day}}/{{noti.utc.month}}/{{noti.utc.year}}</p>
-				<p><span>Date:</span> {{noti.utc}}</p>
-				<span>Sent to:</span>
-				<ul>
-					<li *ngFor="let log of noti.logs; let i = index" id="{{log.notiId}}">
-						 {{log.user.preferredName}}
-					</li>
-				</ul>
-			</div> -->
-			<h3 class="title-heading heading-margin">Sent history</h3>
-			<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
-				<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
-				<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
-				<h5 *ngIf="notiGroup.key != today && notiGroup.key != yesterday" class="title-padding">{{notiGroup | getDay}}, {{ notiGroup.key | date }}</h5>
-				<div class="history-wrap" *ngFor="let noti of notiGroup.value;let isLast=last">
-					<div class="flex-wrap">
-						<div class="col-sm-2 oo" [ngClass]="{'notlast':!isLast}">
-							<div class="same-label"></div>
-							<label class="sentTime">{{noti.senttime | convertTimeFormat}}</label>
-							<!-- <div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div> -->
-						</div>
-						<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast,'horizontal-line': isLast}" class="col-sm-10 noti-info">
-							<div class="same-label">
-								Sent to
-							</div>
-							<div class="user-info">
-								<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">{{ noti.count }} users</span>
-								<span class="social-links">
-									<a><i id="mobile" class="fa fa-mobile" aria-hidden="true"></i></a>
-								</span>
-								<span class="social-links">
-									<a><i id="envelope" class="fa fa-envelope-o"></i></a>
-								</span>
-							</div>
-							<div class="subject-wrap">
-								<div class="xxx" [ngClass]="{'notlast':!isLast}">
-									<div class="xx1" [ngClass]="{'line1':isLast}"></div>
-									<div class="xx2" [ngClass]="{'line1':isLast}"></div>
-								</div>
-								<div class="noti-subject">
-									<div class="noti-title">
-										{{ noti.title }}
-									</div>
-									<!-- <span>
-									{{ (noti.message.length>170)? (noti.message | slice:0:140)+'..':(noti.message) }}
-									</span>
-									<span *ngIf="noti.message.length > 170">
-										<a class="link" (click)="toggleView()">read more</a>
-									</span> -->
-									<!-- 00 {{ noti.message }}
-									00  {{ noti.message.length }} -->
-									<!-- <span>
-										{{ noti.message }}
-									</span> -->
-									<read-more [text]=noti.message></read-more>
-								</div>
-							</div>
-							<div class="sender-info">
-								<span>Sent by</span> 
-								<ul>
-									<li><span id="senderName">{{ noti.sender.preferredName}}</span></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>	
-		</div>
-		<div *ngIf="notiType == 'apg'" class="heading-margin">
-			<!-- <div class="d-flex justify-content-between heading-margin">
-				<div class="mr-auto">
-					<div class="d-flex flex-row">
-						<h2 class="title-heading">APG</h2>
-						<span>Access Point Group</span>
-					</div>
-				</div>
-				<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button>
-			</div>
-			<div>
-				<div class="input-group col-md-12 pad-0">
-				    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
-				    <span class="input-group-append">
-				        <button class="bt btn-design btn-outline-secondary" type="button">
-				            <i class="fa fa-search search-size"></i>
-				        </button>
-				     </span>
-				</div>
-			</div> -->
-			<div class="card-columns">
-				<div>a</div>
-				<div>b</div>
-			</div>
-			<app-apg></app-apg>
-		</div>
-	</div>
+    	</div>
+    	<div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'view'">
+    		<!-- <div *ngFor="let noti of notiLists; let i = index" class="single-noti">
+    			<p><span>Title:</span> {{noti.title}}</p>
+    			<p><span>Message:</span> {{noti.message}}</p>
+    			<p><span>Sent by:</span> {{noti.sender.preferredName}}</p>
+    			<p><span>Date:</span>--{{noti.utc.day}}/{{noti.utc.month}}/{{noti.utc.year}}</p>
+    			<p><span>Date:</span> {{noti.utc}}</p>
+    			<span>Sent to:</span>
+    			<ul>
+    				<li *ngFor="let log of noti.logs; let i = index" id="{{log.notiId}}">
+    					 {{log.user.preferredName}}
+    				</li>
+    			</ul>
+    		</div> -->
+    		<h3 class="title-heading">Sent history</h3>
+    		<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
+    			<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
+    			<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
+    			<h5 *ngIf="notiGroup.key != today && notiGroup.key != yesterday" class="title-padding">{{notiGroup | getDay}}, {{ notiGroup.key | date }}</h5>
+    			<div class="history-wrap" *ngFor="let noti of notiGroup.value;let isLast=last">
+    				<div class="flex-wrap">
+    					<div class="col-sm-2 oo" [ngClass]="{'notlast':!isLast}">
+    						<div class="same-label"></div>
+    						<label class="sentTime">{{noti.senttime | convertTimeFormat}}</label>
+    						<!-- <div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div> -->
+    					</div>
+    					<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast,'horizontal-line': isLast}" class="col-sm-10 noti-info">
+    						<div class="same-label">
+    							Sent to
+    						</div>
+    						<div class="user-info">
+    							<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">{{ noti.count }} users</span>
+    							<span class="social-links">
+    								<a><i id="mobile" class="fa fa-mobile" aria-hidden="true"></i></a>
+    							</span>
+    							<span class="social-links">
+    								<a><i id="envelope" class="fa fa-envelope-o"></i></a>
+    							</span>
+    						</div>
+    						<div class="subject-wrap">
+    							<div class="xxx" [ngClass]="{'notlast':!isLast}">
+    								<div class="xx1" [ngClass]="{'line1':isLast}"></div>
+    								<div class="xx2" [ngClass]="{'line1':isLast}"></div>
+    							</div>
+    							<div class="noti-subject">
+    								<div class="noti-title">
+    									{{ noti.title }}
+    								</div>
+    								<!-- <span>
+    								{{ (noti.message.length>170)? (noti.message | slice:0:140)+'..':(noti.message) }}
+    								</span>
+    								<span *ngIf="noti.message.length > 170">
+    									<a class="link" (click)="toggleView()">read more</a>
+    								</span> -->
+    								<!-- 00 {{ noti.message }}
+    								00  {{ noti.message.length }} -->
+    								<!-- <span>
+    									{{ noti.message }}
+    								</span> -->
+    								<read-more [text]=noti.message></read-more>
+    							</div>
+    						</div>
+    						<div class="sender-info">
+    							<span>Sent by</span> 
+    							<ul>
+    								<li><span id="senderName">{{ noti.sender.preferredName}}</span></li>
+    							</ul>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+        <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'apg'">          
+            <app-apg></app-apg>          
+        </div>    
+    </div> 
 </div>
+<block-ui message="Deafult Message"></block-ui>

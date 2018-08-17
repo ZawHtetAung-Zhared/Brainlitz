@@ -100,7 +100,6 @@
 	color: red;
 }
 .back-wrap{
-	margin-bottom: 20px;
 	padding: 15px;
 }
 .back-to{
@@ -108,6 +107,7 @@
 	color: #6a7279;
 	padding-left: 0 !important;
 	cursor: pointer;
+	font-size: 16px;
 }
 .location-h3{
 	font-family: 'Montserrat-Semibold', Arial,sans-serif;	

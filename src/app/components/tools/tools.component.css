@@ -70,7 +70,8 @@
 }
 .heading-margin{
   margin-bottom: 20px;
-  margin-top: 30px;
+  /*margin-top: 10px;*/
+  padding-top: 150px;
 }
 .title-heading{
 	font-size: 27px;
@@ -529,6 +530,10 @@ width: 50%;
 
 
 /* APG */
+.min-scroll {
+    min-height: 350px; 
+    overflow: scroll;
+}
 .btn-create{
   color: #fff;
   background-color: #1682fb;

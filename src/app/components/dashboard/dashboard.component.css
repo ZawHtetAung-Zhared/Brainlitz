@@ -89,7 +89,7 @@
   background: #64707c;
   border-radius: 8px 8px 0px 0px;
   font-size: 1.15rem;
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat-Regular','Arial', sans-serif;
 }
 .region-info{
   border-bottom: 1px solid #edeff0;
@@ -97,21 +97,24 @@
 }
 .link-btn{
   color: #1683fb!important;
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat-Regular','Arial', sans-serif;
   padding: 0.8rem;
   float: right;
 }
 .labelTitle{
   color: #64707c;
-  font-family: Montserrat-Medium;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  font-size: 15px;
   padding-top: 6px;
 }
 .labelName{
   color: #2f3e4c;
-  font-family: Montserrat-Medium;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  /*font-family: 'Montserrat-SemiBold', 'Arial',sans-serif;*/
   font-size: 16px;
-  margin-left: 42px;
+  margin-left: 47px;
   margin-bottom: 0;
+  font-weight: 900;
 }
 .timezone-wrap{
   padding-top: 1.5rem;
@@ -122,10 +125,33 @@
   width: 34px;
   height: 34px;
   border-radius: 100%;
-  margin-right: 7px; /*space between*/
+  margin-right: 12px; /*space between*/
   background: #f2f4f5;
 } 
-.social-links a i{
-    line-height: 35px;
-  color: #64707c;
+.social-links a img{
+    margin-top: 8px;
+}
+.picker-wrap{
+  pointer-events: none;
+  margin-left: 40px;
+}
+
+.urlEdit{
+  float: right;
+  padding-top: 6px;
+  color: #1683fb!important;
+  font-family: 'Montserrat-Regular','Arial', sans-serif;
+}
+/*===App info setting===*/
+.setting-info{
+  padding: 1rem;
+}
+.link-wrap{
+  /*border-bottom: 1px dashed #eaeaeb;*/
+  border-bottom: 1.5px dashed #ecedee;
+  border-bottom: 1.5px dashed #ecedee;
+  padding-bottom: 20px;
+}
+.module-container{
+  margin-left: 40px;
 }
