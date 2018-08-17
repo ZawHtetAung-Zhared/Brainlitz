@@ -1,6 +1,7 @@
 .apg-type,
 .single-apg h4,
-.apg-longterm{
+.apg-longterm,
+.module-input label{
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .apg-share,
@@ -108,6 +109,63 @@
     font-size: 14px;
     color: #64707d;
 }
+.heading-margin{
+    margin-top: 10px;
+}
+.back-wrap{
+    padding: 15px;
+}
+.back-to{
+    font-family: 'Montserrat-Regular', Arial,sans-serif;
+    color: #6a7279;
+    padding-left: 0 !important;
+    cursor: pointer;
+    font-size: 16px;
+}
+.apg-form{
+    padding: 20px 15px;
+}
+.module-input label{
+    width: 100%;
+    border: none;
+    padding: 16px 22px;
+    text-align: left;
+    font-size: 18px;
+    -webkit-box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.5);
+    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.5);
+    margin-bottom: 1.7em;
+    border-radius: 3px;
+}
+.module-input input[type="radio"]{
+    display: none;
+}
+.module-input .label-checked{
+    background: #fff;
+    border: 2px solid #3d5266;
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 16px;
+    right: 22px;
+}
+.module-img {
+    display: block;
+    padding: 20px;
+}
+.module-input label.selected{
+    background: #1683FB;
+    color: #fff;
+    box-shadow: 0 1px 5px 1px rgb(22, 131, 251);
+}
+
+.module-input label.selected .label-checked{
+    border: 2px solid #fff;
+    box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+}
+
+
 
 
 .tab-wrap {

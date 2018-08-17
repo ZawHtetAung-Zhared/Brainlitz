@@ -1,38 +1,70 @@
-<div class="d-flex justify-content-between heading-margin">
-	<div class="mr-auto">
-		<div class="d-flex flex-row">
-			<h2 class="title-heading">APG</h2>
-			<span class="apg-longterm">Access Point Group</span>
-		</div>
-	</div>
-	<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button>
-</div>
-<div class="input-group col-md-12 mt-30">
-    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
-    <span class="input-group-append">
-        <button class="bt btn-design btn-outline-secondary" type="button">
-            <i class="fa fa-search search-size"></i>
-        </button>
-     </span>
-</div>
-<div class="apg-wrapper" style="column-count: 2;">
-	<div *ngFor="let apg of apgList; let i = index">
-		<div class="single-apg">
-			<div class="info-section">
-				<p class="apg-type">Progress</p>
-				<h4>{{apg.name}}</h4>
-				<div class="apg-scroll">
-					<p class="apg-desc">{{apg.description}}</p>
-				</div>
-			</div>
-			<div class="d-flex justify-content-between btn-section">
-				<button class="apg-share">Share</button>
-				<div>
-					<button class="btn-action">Edit</button> | <button class="btn-action">Delete</button>
-				</div>
+<div *ngIf="ismodule == false && iscreate == false">
+	<div class="d-flex justify-content-between heading-margin">
+		<div class="mr-auto">
+			<div class="d-flex flex-row">
+				<h2 class="title-heading">APG</h2>
+				<span class="apg-longterm">Access Point Group</span>
 			</div>
 		</div>
+		<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button>
 	</div>
+	<div class="input-group col-md-12 mt-30">
+	    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+	    <span class="input-group-append">
+	        <button class="bt btn-design btn-outline-secondary" type="button">
+	            <i class="fa fa-search search-size"></i>
+	        </button>
+	     </span>
+	</div>
+	<div class="apg-wrapper" style="column-count: 2;">
+		<div *ngFor="let apg of apgList; let i = index">
+			<div class="single-apg">
+				<div class="info-section">
+					<p class="apg-type">Progress</p>
+					<h4>{{apg.name}}</h4>
+					<div class="apg-scroll">
+						<p class="apg-desc">{{apg.description}}</p>
+					</div>
+				</div>
+				<div class="d-flex justify-content-between btn-section">
+					<button class="apg-share">Share</button>
+					<div>
+						<button class="btn-action">Edit</button> | <button class="btn-action">Delete</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-wrapper" *ngIf="ismodule == true || iscreate == true">
+  <div class="back-wrap">
+    <a class="back-to" *ngIf="ismodule == true" (click)="goToBack('type')">< APG</a>
+    <a class="back-to" *ngIf="iscreate == true" (click)="goToBack('create')">< Pick APG type</a>
+  </div>
+  <div class="location-group">
+  	<h3 *ngIf="ismodule == true" class="title-heading">Pick APG type</h3>
+  	<h3 *ngIf="iscreate == true" class="title-heading">Create APG</h3>
+  </div>
+  <div class="apg-form">
+  	<form novalidate #createapgForm="ngForm">
+  		<div class="row">
+	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
+	  				<div class="module-img"></div>
+	  			  <div class="label-checked"></div>
+	  			  <input class="form-check-input"
+	  			    type="radio" 
+	  			    name="inlineRadioOptions" 
+	  			    id="module._id"
+	  			    value="{{module.name}}"
+	  			    (click)="chooseModuleType(module._id, module.name)"> {{module.name}}
+	  			</label>
+	  		</div>
+  		</div>
+  	</form>
+  </div>
+	
 </div>
 
 
@@ -131,7 +163,7 @@
 	</form>
 </ng-template>	
 
-<div class="d-flex" style="margin-top:40px;">
+<!-- <div class="d-flex" style="margin-top:40px;">
 	<div [ngClass]="{'active': viewType == 'apg'}" class="tab-wrap">      
 	  <button class="btn noti-tab w-100" (click)="clickTab('apg')">View all apg</button>
 	</div>
@@ -162,7 +194,7 @@
 		  </li>
 		</ul>
 	</div>
-</div>	
+</div> -->	
 
 <ng-template #cTemplate let-c="close" let-d="dismiss">
 	<form #convertForm="ngForm" novalidate>

@@ -57,14 +57,41 @@ export class ApgComponent implements OnInit {
     getAccessPoint: any;
     tempModuleId: any;
     emptyAP: boolean = false;
+    public ismodule: boolean = false;
+    public iscreate: boolean = false;
+    public ischecked: boolean = false;
     responseAP: any;
 
   	ngOnInit() {
-	  	this.getAllAP();
-	  	this.getAllTemplate();
+	  	// this.getAllAP();
+	  	// this.getAllTemplate();
 	  	this.getAllModule();
 	  	this.getAllAPG();
   	}
+
+    goToBack(status){
+      if(status == 'type'){
+        this.ismodule = false
+      }else{        
+        this.iscreate = false
+      }
+    }
+
+    creatnew(){
+      this.ismodule = true;
+    }
+
+    chooseModuleType(val, name){
+      this.ischecked = val;
+      localStorage.setItem('categoryID', val);
+      localStorage.setItem('categoryName', name);
+      setTimeout(() => {
+        this.ismodule = false;
+        this.iscreate = true;
+        console.log('...')
+      }, 300);
+    }
+
 
   	open(content){
   		this.customAP = false;
