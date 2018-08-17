@@ -75,7 +75,6 @@ export class CourseplanComponent implements OnInit {
 
   ngOnInit() {
     //this.getAllCoursePlan();
-
     this.showModal = true;
     this.showsubModal = false;
     this.showLoading = true;
@@ -100,57 +99,13 @@ export class CourseplanComponent implements OnInit {
     window.addEventListener('scroll', this.scroll, true);
 
     setTimeout(function(){
-      $('.drag-wrapper .drag-scroll-content').css({'display':'flex', 'width': '100%'})
+      $("#step1").addClass('active');
     }, 200)
 
+    this.step1 = true;
   }
 
-	//open(content){
-   // this.formField = new cPlanField();
-		//this.showModal = true;
-	// 	this.showsubModal = false;
- //    this.showLoading = true;
-	// 	this.checked = false;
- //    this.updateButton = false;
- //    this.createButton = true;
- //    this.restrictFirstInput = false;
- //    this.restrictLastInput = false;
- //    this.getAllDeposit();
- //    this.getAllHolidaysCalendar();
- //    this.getAllPdf();
- //    this.getAllAPG();
- //    this.pdfId = [];
- //    this.apgId = [];
-	// 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
- //    this.modalReference.result.then((result) => {
- //    this.formField = new cPlanField();
-	//   this.closeResult = `Closed with: ${result}`
- //  	}, (reason) => {
- //      this.formField = new cPlanField();
- //  	  this.closeResult = `Closed with: ${reason}`;
- //  	});
- //    this._service.getCategory(this.regionID)
- //    .subscribe((res:any) => {
- //      console.log('success',res)
- //      this.courseCategories = res;
- //      }, err => {
- //        console.log(err)
- //      });
-	// }
-
-	//selectedRadioId(id){
-    //console.log(id)
-		//this.showModal = false;
-		//this.showsubModal = true;
-   // this.categoryId = id;
-   // this.allowchecked = false;
-   // this.allowMakeup = false;
-   // this.checkedName = this.checked;
-	//}
-
 	back(){
-		//this.showModal = true;
-		//this.showsubModal = false;
     this.goBackCat = false;
     var data = localStorage.removeItem("categoryName");
     this._service.backCat();
@@ -645,7 +600,7 @@ export class CourseplanComponent implements OnInit {
   };
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
-    if(window.pageYOffset > 90){
+    if(window.pageYOffset > 40){
       this.navIsFixed = true;
     }else{
       this.navIsFixed = false;
@@ -664,6 +619,192 @@ export class CourseplanComponent implements OnInit {
     if(type == 'misFee'){
       this.focusMisfee = true;
       $('.misfee-bg').addClass("focus-bg");
+    }
+  }
+
+  enterHover(e){
+    console.log('mouse enter')
+    $('.input-group-text').css('background', '#f7f9fa');
+    $('.input[type="number"]').css('background', '#f7f9fa');
+  }
+
+  leaveHover(e){
+    console.log('mouse out')
+    $('.input-group-text').css('background', '#fff');
+  }
+
+  step1: boolean = false;
+  step2: boolean = false;
+  step3: boolean = false;
+  step4: boolean = false;
+  step5: boolean = false;
+  step6: boolean = false;
+  step7: boolean = false;
+
+  backStep(type){
+    if(type == 'step2'){
+      this.step2 = false;
+      this.step1 = true;
+      if(this.step1 == true){
+        $("#step2").removeClass('active');
+        $("#step1").removeClass('done');
+        $("#step1").addClass('active');
+      }
+    }
+    if(type == 'step3'){
+      this.step1 = false;
+      this.step2 = true;
+      this.step3 = false;
+      if(this.step2 == true){
+        $("#step3").removeClass('active');
+        $("#step2").removeClass('done');
+        $("#step1").addClass('done');
+        $("#step2").addClass('active');
+      }
+    }
+    if(type == 'step4'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = true;
+      this.step4 = false;
+      if(this.step3 == true){
+        $("#step4").removeClass('active');
+        $("#step3").removeClass('done');
+        $("#step1, #step2").addClass('done');
+        $("#step3").addClass('active');
+      }
+    }
+    if(type == 'step5'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = true;
+      this.step5 = false;
+      if(this.step4 == true){
+        $("#step5").removeClass('active');
+        $("#step4").removeClass('done');
+        $("#step1, #step2, #step3").addClass('done');
+        $("#step4").addClass('active');
+      }
+    }
+    if(type == 'step7'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = true;
+      this.step6 = true;
+      this.step7 = false;
+      if(this.step5 == true){
+        $("#step7").removeClass('active');
+        $("#step5").removeClass('done');
+        $("#step1, #step2, #step3, #step4").addClass('done');
+        $("#step5").addClass('active');
+      }
+    }
+  }
+
+  continueStep(type){
+    if(type == 'step1'){
+      this.step1 = false;
+      if(this.step1 == false){
+        $("#step1").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('active');
+        this.step2 = true;
+      }
+    }
+    if(type == 'step2'){
+      this.step1 = false;
+      this.step2 = false;
+      if(this.step2 == false){
+        $("#step2").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('active');
+        this.step3 = true;
+      }
+    }
+    if(type == 'step3'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      if(this.step3 == false){
+        $("#step3").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('active');
+        this.step4 = true;
+      }
+    }
+    if(type == 'step4'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      if(this.step4 == false){
+        $("#step4").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('active');
+        this.step5 = true;
+      }
+    }
+    if(type == 'step5'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      if(this.step5 == false){
+        $("#step5").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step7").addClass('active');
+        this.step7 = true;
+      }
+    }
+    if(type == 'step6'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step6 = false;
+      if(this.step6 == false){
+        $("#step5").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('active');
+        this.step7 = true;
+      }
+    }
+    if(type == 'step7'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step7 = false;
+      if(this.step7 == false){
+        $("#step5").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('done');
+        $("#step7").addClass('active');
+      }
     }
   }
 

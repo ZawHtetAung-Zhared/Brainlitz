@@ -3,7 +3,7 @@
 		<header>
 		    <div class="header-wrap">
 				<div [ngClass]="{'stickywrap' : navIsFixed == true}">
-				    <div class="display-style">
+				    <!-- <div class="display-style">
 						<div class="col-md-4 ul-pad">
 							<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 						</div>	
@@ -12,9 +12,21 @@
 							<h5>Course plan</h5>
 				    	</div>
 				    	<div class="col-md-4" style="padding: 0;">
-					    	<!-- <div [hidden]="!createButton">
+					    	<div [hidden]="!createButton">
 					    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
-					    	</div> -->
+					    	</div>
+					    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
+				    	</div>
+				  	</div> -->
+				  	<div class="display-style">
+						<div class="col-md-4 ul-pad">
+							<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
+						</div>	
+						<div class="col-md-4 title-mr display-style">
+							<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
+							<h5>Course plan</h5>
+				    	</div>
+				    	<div class="col-md-4" style="padding: 0;">
 					    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
 				    	</div>
 				  	</div>
@@ -22,193 +34,179 @@
 		    </div>
 		</header>
 	</div>
-	<div> 
-		<form #subCatForm="ngForm" novalidate>
-			<div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
-			    <div class="display-style">
-					<div class="col-md-4 ul-pad">
-						<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
-					</div>	
-					<div class="col-md-4 title-mr display-style">
-						<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
-						<h5>Course plan</h5>
-			    	</div>
-			    	<div class="col-md-4" style="padding: 0;">
-				    	<div [hidden]="!createButton">
-				    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
-				    	</div>
-				    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
-			    	</div>
-			  	</div>
-			</div>
-			<div>
-				<div class="col-md-12 progress-box-wrap" style="padding: 30px;">
-					<ol class="progress" data-steps="8">
-					    <li class="active">
-					        <span class="step">
-					        	<span>1</span>
-					        </span>
-					    </li>
-					    <li>
-					        <span class="step">
-					        	<span>2</span>
-					        </span>
-					    </li>
-					    <li>
-					        <span class="step">
-					        	<span>3</span>
-					        </span>
-					    </li>
-					    <li>
-					        <span class="step">
-					        	<span>4</span>
-					        </span>
-					    </li>
-					    <li>
-					        <span class="step">
-					        	<span>5</span>
-					        </span>
-					    </li>
-					    <li>
-					        <span class="step">
-					        	<span>6</span>
-					        </span>
-					    </li>
-					    <li>
-					        <span class="step">
-					        	<span>7</span>
-					        </span>
-					    </li>
-					</ol>
-				</div>
-				<div class="inner-wrapper">
-					<div class="col-md-12 ">
-						<h5 class="all-title-font">Plan information</h5>
+	<form #parentForm="ngForm" novalidate>
+		<div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
+		    <div class="display-style">
+				<div class="col-md-4 ul-pad">
+					<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
+				</div>	
+				<div class="col-md-4 title-mr display-style">
+					<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
+					<h5>Course plan</h5>
+		    	</div>
+		    	<div class="col-md-4" style="padding: 0;">
+			    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
+		    	</div>
+		  	</div>
+		</div>
+		<div class="progress-box-wrap">
+			<ol class="progress" data-steps="8">
+			    <li id="step1">
+			        <span class="step">
+			        	<span>1</span>
+			        </span>
+			    </li>
+			    <li id="step2">
+			        <span class="step">
+			        	<span>2</span>
+			        </span>
+			    </li>
+			    <li id="step3">
+			        <span class="step">
+			        	<span>3</span>
+			        </span>
+			    </li>
+			    <li id="step4">
+			        <span class="step">
+			        	<span>4</span>
+			        </span>
+			    </li>
+			    <li id="step5">
+			        <span class="step">
+			        	<span>5</span>
+			        </span>
+			    </li>
+			    <li id="step6">
+			        <span class="step">
+			        	<span>6</span>
+			        </span>
+			    </li>
+			    <li id="step7">
+			        <span class="step">
+			        	<span>7</span>
+			        </span>
+			    </li>
+			</ol>
+		</div>
+		<div *ngIf="step1">
+			<form #childForm1="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 1</p>
+						<h5 class="all-title-font title-br-rt">Plan information</h5>
 					</div>
-				</div>
-			</div>
-		<!-- 	<div class="all-box-lt">
-				<div class="display-style">
-					<div class="col-md-6">
-						<label for="course_name" class="all-title-font">Plan name</label>
-						<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
-						<div class="mr-top">
-							<label for="seat" class="all-title-font">Seats</label>
-							<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel"> 
+					<div class="display-style" style="padding-top: 40px;">
+						<div class="col-md-6">
+							<div>
+								<label for="course_name" class="all-title-font">Plan name</label>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' name="coursename" placeholder="Type plan name here" #cpName="ngModel" required><hr class="limit-hr-length">
+							</div>
+							<div class="mr-top">
+								<label for="seat" class="all-title-font">Seats</label>
+								<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel"> 
+								<hr class="limit-hr-length">
+							</div> 
+						</div>
+						<div class="col-md-6">
+							<div>
+								<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
+								<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' name="description" #cpDesc="ngModel" placeholder="Type message here" required></textarea>
+								<hr class="limit-hr-length">
+							</div>
 						</div> 
 					</div>
-					<div class="col-md-6">
-						<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
-						<textarea class="form-control br-bshadow-none" rows="7" [(ngModel)]='formField.description' name="description" #cpDesc="ngModel" placeholder="Type message here" required></textarea>
-					</div> 
 				</div>
-				<div class="col-md-12">
-					<label for="makeup_policy" class="title-color">Makeup policy</label>
-						<div class="radio-pos" style="left: 230px;">
-							<label class="switch">
-								<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel" >
-								<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
-							</label>
-						</div>	
+				<div class="button-wrapper">
+					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="!childForm1.valid" (click)="continueStep('step1')">Continue</button>
+					<button type="button" [hidden]="step1" class="back-modal back-to" (click)="backStep()"> < Back</button>
+				</div>
+			</form>
+		</div>
+		<div *ngIf="step2">
+			<form #childForm2="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 2</p>
 						<div class="display-style">
-							<div class="col-md-6" style="padding: 0;">
-								<label class="all-title-font"> Validation duration after class </label>
-								<div class="inner-div-pad">
-									<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day" required>
-								</div>
-							</div>
-							<div class="col-md-6" style="padding-right: 0;">
-								<label class="all-title-font" style="padding-left: 10px;"> Number of days per user </label>
-								<div>
-									<input type="number" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" required>
-								</div>
-							</div>
-						</div>
-				</div>
-				<div class="col-md-12 mr-top">
-					<label for="payment_policy" class="title-color">Payment policy</label>
-					<div class="display-style">
-						<div class="col-md-3" style="padding: 0;">
-							<label class="all-title-font">Deposit</label>
-							<div class="inner-div-pad">
-								<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel" required>
-									<option [value]="'disabledDeposit'" disabled="true">S$ 0</option>
-									<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
-								</select>
-								<i class="fa fa-chevron-down down-arrow1"></i>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<label class="all-title-font" style="padding-left: 10px;"> Course fee </label>
-							<div class="inner-divleft-pad">
-								<label class="sr-only" for="inlineFormInputGroupcourseFee">0</label>
-								<div class="input-group mb-2 mr-sm-2">
-								    <div class="input-group-prepend">
-								      <div class="input-group-text cfee-bg">S$</div>
-								    </div>
-								    <input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" required>
-								</div>
-							</div>
-						</div>
-					
-						<div class="col-md-3">
-							<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
-						    <div class="inner-divleft-pad">
-						    	<label class="sr-only" for="inlineFormInputGroupmisFee">0</label>
-								<div class="input-group mb-2 mr-sm-2">
-								    <div class="input-group-prepend">
-								      <div class="input-group-text misfee-bg">S$</div>
-								    </div>
-								    <input type="number" class="form-control" id="inlineFormInputGroupmisFee" (click)='toKnowFocus("misFee")' (keypress)="numberOnly($event, 'miscelFee')" placeholder="0" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel" required>
-								</div>
-						    </div>
-						</div>
-						<div class="col-md-3">
-							<label class="all-title-font">Prorate class fee</label> <br />
-							<div class="radio-pos-payment">
+							<h5 class="all-title-font title-br-rt">Makeup policy</h5>
+							<div class="radio-pos">
 								<label class="switch">
-									<input type="checkbox" [(ngModel)]="formField.paymentPolicy.allowProrated" min="0" name="allowProrated" #allow="ngModel">
-									<span class="slider round" [ngClass]="{'activeRadio': formField.paymentPolicy.allowProrated == true}"></span>
+									<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel" required>
+									<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
 								</label>
-							</div>	
+							</div>
+						</div>
+						<div *ngIf="formField.makeupPolicy.allowMakeupPass != true" style="padding-top: 40px;">
+							<p class="option-text">Switch <span>on</span><br>to add Makeup class.</p>
+						</div>
+						<div *ngIf="formField.makeupPolicy.allowMakeupPass == true">
+							<div class="display-style" style="padding-top: 40px;">
+								<div class="col-md-6" style="padding: 0;">
+									<div>
+										<label class="all-title-font"> Validation duration after class </label>
+										<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day" required>
+										<hr class="limit-hr-length">
+									</div>
+								</div>
+								<div class="col-md-6" style="padding-right: 0;">
+									<div>
+										<label class="all-title-font" style="padding-left: 10px;"> Number of days per user </label>
+										<input type="number" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" required>
+										<hr class="limit-hr-length">
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12 mr-top">
-					<label for="age" class="title-color">Age <span class="optional-dot">&#183;</span><span class="optional-pos">Optional</span></label>
-					<div class="display-style">
-						<div class="col-md-6" style="padding: 0;">
-							<label class="all-title-font"> From </label>
-							<div class="inner-div-pad">
-								<input type="number" placeholder="0 year" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel">
+				<div class="button-wrapper">
+					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="!childForm2.valid" (click)="continueStep('step2')">Continue</button>
+					<button type="button" [hidden]="!step2" class="back-modal back-to" (click)="backStep('step2')"> < Back</button>
+				</div>
+			</form>
+		</div>	
+		<div *ngIf="step3">
+			<form #childForm3="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 3</p>
+						<h5 class="all-title-font title-br-rt">Payment policy</h5>
+					</div>
+					<div class="display-style" style="padding-top: 40px;">
+						<div class="col-md-6">
+							<div>
+								<label class="all-title-font"> Course fee </label>
+								<div style="margin-left: -10px;">
+									<label class="sr-only" for="inlineFormInputGroupcourseFee">0</label>
+									<div class="input-group mb-2 mr-sm-2">
+									    <div class="input-group-prepend">
+									      <div class="input-group-text cfee-bg">S$</div>
+									    </div>
+									    <input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" required>						    
+									</div>
+								</div>
+								<hr class="limit-hr-100">
 							</div>
 						</div>
-					 	<div class="col-md-6" style="padding-right: 0;">
-					 		<label class="all-title-font" style="padding-left: 10px;"> to </label>
-					 		<div>
-					 			<input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
-					 		</div>
-					 	</div>
 					</div>
 				</div>
-				<div class="col-md-12 mr-top">
-					<label for="duration" class="title-color">Lesson</label>
-					<div class="display-style">
-						<div class="col-md-3" style="padding: 0;">
-							<label class="all-title-font"> Minimum </label>
-							<div class="inner-div-pad">
-								<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
-							</div>
-						</div> 
-						<div class="col-md-3">	
-							<label class="all-title-font" style="padding-left: 10px;"> Maximum </label>
-							<div class="inner-divleft-pad">
-								<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<label class="all-title-font" style="padding-left: 10px;"> Duration </label>
-							<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none hoverReadonly" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
+				<div class="button-wrapper">
+					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3')">Continue</button>
+					<button type="button" [hidden]="!step3" class="back-modal back-to" (click)="backStep('step3')"> < Back</button>
+				</div>
+			</form>
+		</div>
+		<div *ngIf="step4">
+			<form #childForm4="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 4</p>
+						<h5 class="all-title-font title-br-rt">Lesson</h5>
+					</div>
+					<div class="display-style" style="padding-top: 40px;">
+						<div class="col-md-6">
+							<label class="all-title-font"> Duration </label>
+							<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
 							<div class="bg-box duration-progress">
 								<div id="rectangle"></div>
 								<div class="gap-box">
@@ -224,40 +222,319 @@
 										 <p *ngIf="overDurationHr" class="alert-duration">Lesson Duration has only 24 hr, so can not choose minute. </p>				
 									</label>
 								</div>
-
 							</div>
-						</div>	
+							<hr class="limit-hr-length">	
+						</div>
+						<div class="col-md-6" style="padding-right: 0;">
+							<div>
+								<label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
+								<select class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px; height: auto;">
+									<option disabled="true" [value]="'disabledHoliday'">None</option>
+									<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
+								</select>	
+								 <i class="fa fa-chevron-down down-arrow2"></i>	
+							 	<hr class="limit-hr-length">	
+							</div> 		
+						</div>
 					</div>
 				</div>
-				<div class="col-md-12 mr-top">
-					<label for="allowpw" class="title-color">Pagewerkz book</label>
-					<div class="radio-pos left-gap">
-						<label class="switch">
-							<input type="checkbox" [(ngModel)]='formField.allowPagewerkzBooks' id="allowpw" name="allowpagewerkz">
-							<span class="slider round" [ngClass]="{'activeRadio': formField.allowPagewerkzBooks == true}"></span>
-						</label>
-					</div>	
-				    	<drag-scroll class="drag-wrapper">
+				<div class="button-wrapper">
+					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 || formField.holidayCalendarId == 'disabledHoliday'" (click)="continueStep('step4')">Continue</button>
+					<button type="button" [hidden]="!step4" class="back-modal back-to" (click)="backStep('step4')"> < Back</button>
+				</div>
+			</form>
+		</div>	
+		<div *ngIf="step5">
+			<form #childForm5="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 5</p>
+						<div class="display-style">
+							<h5 class="all-title-font title-br-rt">QuizWerkz Book</h5>
+							<div class="radio-pos-book">
+								<label class="switch">
+									<input type="checkbox" [(ngModel)]='allowPagewerkzBooks' name="allowmakeup" #makeupcheck="ngModel" >
+									<span class="slider round" [ngClass]="{'activeRadio': allowPagewerkzBooks == true}"></span>
+								</label>
+							</div>
+						</div>
+						<div *ngIf="allowPagewerkzBooks != true" style="padding-top: 40px;">
+							<p class="option-text">Switch <span>on</span><br>to add QuizWerkz book.</p>
+						</div>
+					</div>
+					<div class="col-md-12" *ngIf="allowPagewerkzBooks == true" style="padding-top: 40px;padding-left: 6px;">
+						<drag-scroll class="drag-wrapper">
 				    		<div *ngFor="let pdf of pdfList; let i=index;" class="book-range">
 				    			<label for="{{pdf._id}}" class="book-label" [ngClass]="{'drag-active-bg': pdfId.indexOf(pdf._id) != -1}">
-									<img drag-scroll-item src="{{pdf.cover}}" width="150" height="200" style="margin-bottom: 10px;">
+									<img drag-scroll-item src="{{pdf.cover}}" width="125" height="180" style="margin-bottom: 10px;">
 									<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue(pdf._id,$event, 'pdf')" name="pdf" [checked]="pdfId.indexOf(pdf._id) != -1">
 					    			<div class="book-name">{{pdf.name}}</div>
 								</label>
 					    	</div>
-						</drag-scroll>				
-				</div> 
-				<div class="col-md-6" style="clear: both; padding-top: 25px;">
-					<label class="all-title-font">Holiday Calendar</label>
-					<select class="form-control br-bshadow-none all-left-box-10" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px;">
-						<option disabled="true" [value]="'disabledHoliday'">None</option>
-						<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
-					</select>	
-					 <i class="fa fa-chevron-down down-arrow2"></i>			
+						</drag-scroll>	
+					</div>
 				</div>
-			</div> -->
-		</form>		
-	</div>
-<block-ui message="Deafult Message"></block-ui>
+				<hr class="limit-hr-100 mr-top-20">
+				<div class="button-wrapper">
+					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="pdfId == 0 || allowPagewerkzBooks != true" (click)="continueStep('step5')">Continue</button>
+					<button type="button" [hidden]="!step5" class="back-modal back-to" (click)="backStep('step5')"> < Back</button>
+					<span class="show-count">{{pdfId.length}} books picked</span>
+				</div>
+			</form>
+		</div>
+		<div *ngIf="step7">
+			<form #childForm7="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 7</p>
+						<h5 class="all-title-font title-br-rt">Optional fields</h5>
+					</div>
+					<div class="col-md-12" style="padding-top: 40px;">
+						<label for="age" class="all-title-font parent-box-name">Age</label>
+						<div class="display-style">
+							<div class="col-md-6" style="padding-left: 0;">
+								<label class="all-title-font"> From </label>
+								<input type="number" placeholder="0 year" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel">
+							</div>
+						 	<div class="col-md-6" style="padding-right: 0;">
+						 		<label class="all-title-font" style="padding-left: 10px;"> To </label>
+						 		<input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
+						 	</div>
+						</div>
+						<hr class="limit-hr-100">
+					</div>
+					<div class="col-md-12" style="padding-top: 40px;">
+						<label for="age" class="all-title-font parent-box-name">Payment policy</label>
+						<div class="display-style">
+							<div class="col-md-4" style="padding: 0;">
+								<label class="all-title-font">Deposit</label>
+								<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel">
+									<option [value]="'disabledDeposit'" disabled="true">S$ 0</option>
+									<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
+								</select>
+								<i class="fa fa-chevron-down down-arrow1"></i>
+							</div>
+							<div class="col-md-4">
+								<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
+							    <div class="inner-divleft-pad">
+							    	<label class="sr-only" for="inlineFormInputGroupmisFee">0</label>
+									<div class="input-group mb-2 mr-sm-2">
+									    <div class="input-group-prepend">
+									      <div class="input-group-text misfee-bg">S$</div>
+									    </div>
+									    <input type="number" class="form-control" id="inlineFormInputGroupmisFee" (click)='toKnowFocus("misFee")' (keypress)="numberOnly($event, 'miscelFee')" placeholder="0" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel">
+									</div>
+							    </div>
+							</div>
+							<div class="col-md-4">
+								<div class="display-style">
+									<label class="all-title-font">Prorate class fee</label> <br />
+									<div class="radio-pos-payment">
+										<label class="switch">
+											<input type="checkbox" [(ngModel)]="formField.paymentPolicy.allowProrated" min="0" name="allowProrated" #allow="ngModel">
+											<span class="slider round" [ngClass]="{'activeRadio': formField.paymentPolicy.allowProrated == true}"></span>
+										</label>
+									</div>	
+								</div>
+							</div>
+						</div>
+						<hr class="limit-hr-100">
+					</div>
+					<div class="col-md-12" style="padding-top: 40px;">
+						<label for="duration" class="all-title-font parent-box-name">Lesson</label>
+						<div class="display-style">
+							<div class="col-md-6" style="padding: 0;">
+								<label class="all-title-font"> Minimum </label>
+								<div class="inner-div-pad">
+									<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel">
+								</div>
+							</div> 
+							<div class="col-md-6">	
+								<label class="all-title-font" style="padding-left: 10px;"> Maximum </label>
+								<div class="inner-divleft-pad">
+									<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr class="limit-hr-100 mr-top-20">
+				<div class="button-wrapper">
+					<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(parentForm.value)" [disabled]="!parentForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
+					<button type="button" [hidden]="!step7" class="back-modal back-to" (click)="backStep('step7')"> < Back</button>
+				</div>
+			</form>
+		</div>
+		
+	<!-- 	<div class="all-box-lt">
+			<div class="display-style">
+				<div class="col-md-6">
+					<label for="course_name" class="all-title-font">Plan name</label>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
+					<div class="mr-top">
+						<label for="seat" class="all-title-font">Seats</label>
+						<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel"> 
+					</div> 
+				</div>
+				<div class="col-md-6">
+					<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
+					<textarea class="form-control br-bshadow-none" rows="7" [(ngModel)]='formField.description' name="description" #cpDesc="ngModel" placeholder="Type message here" required></textarea>
+				</div> 
+			</div>
+			<div class="col-md-12">
+				<label for="makeup_policy" class="title-color">Makeup policy</label>
+					<div class="radio-pos" style="left: 230px;">
+						<label class="switch">
+							<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel" >
+							<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
+						</label>
+					</div>	
+					<div class="display-style">
+						<div class="col-md-6" style="padding: 0;">
+							<label class="all-title-font"> Validation duration after class </label>
+							<div class="inner-div-pad">
+								<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day" required>
+							</div>
+						</div>
+						<div class="col-md-6" style="padding-right: 0;">
+							<label class="all-title-font" style="padding-left: 10px;"> Number of days per user </label>
+							<div>
+								<input type="number" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" required>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div class="col-md-12 mr-top">
+				<label for="payment_policy" class="title-color">Payment policy</label>
+				<div class="display-style">
+					<div class="col-md-3" style="padding: 0;">
+						<label class="all-title-font">Deposit</label>
+						<div class="inner-div-pad">
+							<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel" required>
+								<option [value]="'disabledDeposit'" disabled="true">S$ 0</option>
+								<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
+							</select>
+							<i class="fa fa-chevron-down down-arrow1"></i>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="all-title-font" style="padding-left: 10px;"> Course fee </label>
+						<div class="inner-divleft-pad">
+							<label class="sr-only" for="inlineFormInputGroupcourseFee">0</label>
+							<div class="input-group mb-2 mr-sm-2">
+							    <div class="input-group-prepend">
+							      <div class="input-group-text cfee-bg">S$</div>
+							    </div>
+							    <input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" required>
+							</div>
+						</div>
+					</div>
+				
+					<div class="col-md-3">
+						<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
+					    <div class="inner-divleft-pad">
+					    	<label class="sr-only" for="inlineFormInputGroupmisFee">0</label>
+							<div class="input-group mb-2 mr-sm-2">
+							    <div class="input-group-prepend">
+							      <div class="input-group-text misfee-bg">S$</div>
+							    </div>
+							    <input type="number" class="form-control" id="inlineFormInputGroupmisFee" (click)='toKnowFocus("misFee")' (keypress)="numberOnly($event, 'miscelFee')" placeholder="0" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel" required>
+							</div>
+					    </div>
+					</div>
+					<div class="col-md-3">
+						<label class="all-title-font">Prorate class fee</label> <br />
+						<div class="radio-pos-payment">
+							<label class="switch">
+								<input type="checkbox" [(ngModel)]="formField.paymentPolicy.allowProrated" min="0" name="allowProrated" #allow="ngModel">
+								<span class="slider round" [ngClass]="{'activeRadio': formField.paymentPolicy.allowProrated == true}"></span>
+							</label>
+						</div>	
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 mr-top">
+				<label for="age" class="title-color">Age <span class="optional-dot">&#183;</span><span class="optional-pos">Optional</span></label>
+				<div class="display-style">
+					<div class="col-md-6" style="padding: 0;">
+						<label class="all-title-font"> From </label>
+						<div class="inner-div-pad">
+							<input type="number" placeholder="0 year" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'ageFrom')" [(ngModel)]="formField.age.min" (input)="restrictMaxNumberInput($event, maxData, 'age')" min="1" id="age" name="minage" #minData="ngModel">
+						</div>
+					</div>
+				 	<div class="col-md-6" style="padding-right: 0;">
+				 		<label class="all-title-font" style="padding-left: 10px;"> to </label>
+				 		<div>
+				 			<input type="number" placeholder="0 year" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'ageTo')" [(ngModel)]="formField.age.max" min="1" (input)="restrictMinNumberInput($event, minData, 'age')" id="age" name="maxage" #maxData="ngModel">
+				 		</div>
+				 	</div>
+				</div>
+			</div>
+			<div class="col-md-12 mr-top">
+				<label for="duration" class="title-color">Lesson</label>
+				<div class="display-style">
+					<div class="col-md-3" style="padding: 0;">
+						<label class="all-title-font"> Minimum </label>
+						<div class="inner-div-pad">
+							<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'lessmin')" [(ngModel)]="formField.lesson.min" min="1" (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')" name="minDuration" #minLesson="ngModel" required>
+						</div>
+					</div> 
+					<div class="col-md-3">	
+						<label class="all-title-font" style="padding-left: 10px;"> Maximum </label>
+						<div class="inner-divleft-pad">
+							<input type="number" placeholder="0 lesson" class="form-control br-bshadow-none" (keypress)="numberOnly($event, 'lessmax')" [(ngModel)]="formField.lesson.max" min="1" (input)="restrictMinNumberInput($event, minLesson, 'lesson')" name="maxDuration" #maxLesson="ngModel" required>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label class="all-title-font" style="padding-left: 10px;"> Duration </label>
+						<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none hoverReadonly" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
+						<div class="bg-box duration-progress">
+							<div id="rectangle"></div>
+							<div class="gap-box">
+								<label>
+									<div class="col-md-4 max-range">{{rangeHr}} hr</div>
+									<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="24" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
+								</label>
+							</div>
+							<div class="gap-range-min">
+								<label>
+									<div class="col-md-4 min-range">{{rangeMin}} min</div>
+									<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="60" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin" [disabled]="overDurationHr">	
+									 <p *ngIf="overDurationHr" class="alert-duration">Lesson Duration has only 24 hr, so can not choose minute. </p>				
+								</label>
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+			<div class="col-md-12 mr-top">
+				<label for="allowpw" class="title-color">Pagewerkz book</label>
+				<div class="radio-pos left-gap">
+					<label class="switch">
+						<input type="checkbox" [(ngModel)]='formField.allowPagewerkzBooks' id="allowpw" name="allowpagewerkz">
+						<span class="slider round" [ngClass]="{'activeRadio': formField.allowPagewerkzBooks == true}"></span>
+					</label>
+				</div>	
+			    	<drag-scroll class="drag-wrapper">
+			    		<div *ngFor="let pdf of pdfList; let i=index;" class="book-range">
+			    			<label for="{{pdf._id}}" class="book-label" [ngClass]="{'drag-active-bg': pdfId.indexOf(pdf._id) != -1}">
+								<img drag-scroll-item src="{{pdf.cover}}" width="150" height="200" style="margin-bottom: 10px;">
+								<input type="checkbox" id="{{pdf._id}}" value="{{pdf._id}}" (click)="ChangeValue(pdf._id,$event, 'pdf')" name="pdf" [checked]="pdfId.indexOf(pdf._id) != -1">
+				    			<div class="book-name">{{pdf.name}}</div>
+							</label>
+				    	</div>
+					</drag-scroll>				
+			</div> 
+			<div class="col-md-6" style="clear: both; padding-top: 25px;">
+				<label class="all-title-font">Holiday Calendar</label>
+				<select class="form-control br-bshadow-none all-left-box-10" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px;">
+					<option disabled="true" [value]="'disabledHoliday'">None</option>
+					<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
+				</select>	
+				 <i class="fa fa-chevron-down down-arrow2"></i>			
+			</div>
+		</div> -->
+	</form>		
+	<block-ui message="Deafult Message"></block-ui>
 
 </div>
