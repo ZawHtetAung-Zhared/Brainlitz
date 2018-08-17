@@ -8,9 +8,9 @@
         <div [ngClass]="{'active': menuType == 'admin'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('admin')">General</button>
         </div>
-        <div [ngClass]="{'active': menuType == 'module'}" class="tab-wrap">     
+        <!-- <div [ngClass]="{'active': menuType == 'module'}" class="tab-wrap">     
           <button class="btn noti-tab w-100" (click)="clickTab('module')">Module</button>
-        </div>
+        </div> -->
         <div [ngClass]="{'active': menuType == 'apg'}" class="tab-wrap">      
           <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
         </div>
@@ -45,12 +45,14 @@
                     </span>
                     <label class="labelTitle">Time zone</label>
                   </div>
-                  <div>
-                  <!-- <label class="labelName">{{admin.timezone}}</label> -->
-                  <ng2-timezone-picker 
-                [(timezone)]="item.timezone" 
-                showOffset="true">
-              </ng2-timezone-picker>
+                  <div class="picker-wrap">
+                    <ng2-timezone-picker class="newpick"
+                    [(timezone)]="item.timezone" 
+                    showOffset="true">
+                    </ng2-timezone-picker>
+                  </div>
+                  <div class="test">
+                    <p class="hellop">Hello</p>
                   </div>
                 </div>
               </div>
@@ -62,8 +64,28 @@
               <div class="title">
                 App Settings
               </div>
-              <div class="card-info">
-              Testing
+              <div class="setting-info">
+                <div class="link-wrap">
+                  <div>
+                    <span class="social-links">
+                      <a><i class="fa fa-globe"></i></a>
+                    </span>
+                    <label class="labelTitle">Home page URL</label>
+                    <span class="urlEdit"><a>Edit</a></span>
+                  </div>
+                  <label class="labelName">{{admin.url}}</label>
+                </div>
+                <div class="timezone-wrap">
+                  <div>
+                    <span class="social-links">
+                      <a><i class="fa fa-globe"></i></a>
+                    </span>
+                    <label class="labelTitle">Widget type visibility</label>
+                  </div>
+                  <div class="module-container">
+                    <app-module></app-module>
+                  </div>
+                </div>
               </div>
             </div> 
           </div>
@@ -105,9 +127,9 @@
     <div *ngIf="menuType == 'location'" class="col-md-10 pl-zero">
       <app-location></app-location>
     </div> 
-    <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">
+    <!-- <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">
       <app-module></app-module>
-    </div>  
+    </div>   -->
     <div *ngIf="menuType == 'apg'" class="col-md-10 min-scroll">
         <div class="d-flex flex-column w-100 h-100 inner-wrapper">
           <div class="mb-30">

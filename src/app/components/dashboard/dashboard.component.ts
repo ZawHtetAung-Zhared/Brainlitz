@@ -61,8 +61,10 @@ export class DashboardComponent implements OnInit {
       this.item.url = res.url
       console.log('~~~', this.item)
       localStorage.setItem('timezone', this.item.timezone)
-      let test=moment().tz("Singapore").format();
-      console.log(test)
+      // let test=moment().tz("Singapore").format();
+      // console.log(test)
+      const offset = moment.tz("Asia/Singapore").utcOffset();
+      console.log(offset)
     }, err => {
       console.log(err)
     })
