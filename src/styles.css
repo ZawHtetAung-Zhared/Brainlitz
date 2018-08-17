@@ -178,6 +178,10 @@ svg.star-filled.default-star-filled-icon {
   transition: height 300ms linear, transform 300ms linear;
 }
 
+.drag-wrapper .drag-scroll-content {
+  width: 100% !important;
+}
+
 ng2-timezone-picker.newpick .select2-selection__arrow{
   display:none!important;
 }
