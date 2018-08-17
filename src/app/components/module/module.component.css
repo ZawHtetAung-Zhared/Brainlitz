@@ -34,8 +34,10 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 35px;
-  height: 22px;
+  /*width: 35px;
+  height: 22px;*/
+  width: 33px;
+  height: 20px;
   margin-top: 8px;
 }
 
@@ -69,16 +71,17 @@
     color: #d8dbde;
     height: 14px;
     width: 14px;
-    left: 2px;
-    top: 2px;
+    left: 1px;
+    top: 1px;
     background-color: #64707d;
     -webkit-transition: .4s;
      transition: .4s; 
     text-align: center;
     vertical-align: middle;
     background-position: center;
-    line-height: 1.2;
-    font-size: 12px;
+    line-height: 1;
+    font-size: 14px;
+    font-weight: 900;
 }
 
 input:checked + .slider {

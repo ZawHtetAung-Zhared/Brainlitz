@@ -72,7 +72,11 @@
     border-left: 1px solid #dedede; 
 }
 
-/*comfirm UI*/
+/*===comfirm UI===*/
+.general{
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  color: #2f3d4c;
+}
 .card-columns{
   column-count: 2;
 }

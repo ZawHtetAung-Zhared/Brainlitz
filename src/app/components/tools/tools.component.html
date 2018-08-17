@@ -185,7 +185,6 @@
     					<div class="col-sm-2 oo" [ngClass]="{'notlast':!isLast}">
     						<div class="same-label"></div>
     						<label class="sentTime">{{noti.senttime | convertTimeFormat}}</label>
-    						<!-- <div [ngClass]="{'linecolor': isLast}" class="line-in-middle"></div> -->
     					</div>
     					<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast,'horizontal-line': isLast}" class="col-sm-10 noti-info">
     						<div class="same-label">
@@ -209,17 +208,6 @@
     								<div class="noti-title">
     									{{ noti.title }}
     								</div>
-    								<!-- <span>
-    								{{ (noti.message.length>170)? (noti.message | slice:0:140)+'..':(noti.message) }}
-    								</span>
-    								<span *ngIf="noti.message.length > 170">
-    									<a class="link" (click)="toggleView()">read more</a>
-    								</span> -->
-    								<!-- 00 {{ noti.message }}
-    								00  {{ noti.message.length }} -->
-    								<!-- <span>
-    									{{ noti.message }}
-    								</span> -->
     								<read-more [text]=noti.message></read-more>
     							</div>
     						</div>
