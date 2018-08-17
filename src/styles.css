@@ -177,3 +177,17 @@ svg.star-filled.default-star-filled-icon {
   border-right: 1px solid #dedede;
   transition: height 300ms linear, transform 300ms linear;
 }
+
+ng2-timezone-picker.newpick .select2-selection__arrow{
+  display:none!important;
+}
+.newpick .select2-selection--single{
+  border: 0!important;
+  border-color: transparent!important;
+}
+.newpick .select2-selection__rendered{
+  color: #2f3e4c;
+  font-size: 16px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  font-weight: 900;
+}

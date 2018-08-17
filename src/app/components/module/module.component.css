@@ -30,12 +30,6 @@
 .hideBorder{
   border: 0;
 }
-.urlEdit{
-  float: right;
-  padding-top: 6px;
-  color: #1683fb!important;
-  font-family: 'Montserrat-Regular','Arial', sans-serif;
-}
 /*==== toggle button ====*/
 .switch {
   position: relative;

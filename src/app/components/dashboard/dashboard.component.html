@@ -21,7 +21,7 @@
     </div>
     <div *ngIf="menuType == 'admin'" class="col-md-10" >
       <div class="d-flex flex-column w-100 h-100 inner-wrapper">
-        <div *ngIf="!isEdit">
+        <div *ngIf="!isEdit && !isUrlEdit">
           <h3>General</h3>
           <div class="card-columns">
             <div class="card card-wrap">
@@ -32,8 +32,13 @@
                 <div>
                   <div>
                     <span class="social-links">
-                      <a><i class="fa fa-globe"></i></a>
+                      <a>
+                        <img src="./assets/images/map.png">
+                      </a>
                     </span>
+                    <!-- <span class="social-links">
+                      <a><img src="./assets/images/map.png"></a>
+                    </span> -->
                     <label class="labelTitle">Region name</label>
                   </div>
                   <label class="labelName">{{admin.name}}</label>
@@ -41,7 +46,9 @@
                 <div class="timezone-wrap">
                   <div>
                     <span class="social-links">
-                      <a><i class="fa fa-globe"></i></a>
+                      <a>
+                        <img src="./assets/images/time_zone.png">
+                      </a>
                     </span>
                     <label class="labelTitle">Time zone</label>
                   </div>
@@ -50,9 +57,6 @@
                     [(timezone)]="item.timezone" 
                     showOffset="true">
                     </ng2-timezone-picker>
-                  </div>
-                  <div class="test">
-                    <p class="hellop">Hello</p>
                   </div>
                 </div>
               </div>
@@ -68,17 +72,21 @@
                 <div class="link-wrap">
                   <div>
                     <span class="social-links">
-                      <a><i class="fa fa-globe"></i></a>
+                      <a>
+                        <img src="./assets/images/home.png">
+                      </a>
                     </span>
                     <label class="labelTitle">Home page URL</label>
-                    <span class="urlEdit"><a>Edit</a></span>
+                    <span class="urlEdit"><a (click)="editUrl()">Edit</a></span>
                   </div>
                   <label class="labelName">{{admin.url}}</label>
                 </div>
                 <div class="timezone-wrap">
                   <div>
                     <span class="social-links">
-                      <a><i class="fa fa-globe"></i></a>
+                      <a>
+                        <img src="./assets/images/filter.png">
+                      </a>
                     </span>
                     <label class="labelTitle">Widget type visibility</label>
                   </div>
@@ -105,6 +113,30 @@
               </ng2-timezone-picker>
               <!-- _{{item.timezone}} -->
             </div>
+            <!-- <div class="form-group mb-30">
+              <label for="name">Url</label>   
+              <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" #url="ngModel" required pattern="https?://.+">
+              <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
+                <div [hidden]="!url.errors.required">
+                  URL is required!
+                </div>
+                <div [hidden]="!url.errors.pattern">
+                  Must be a valid URL!
+                </div>
+              </div>
+            </div> -->
+            <div style="margin-top: 50px;">
+                <button type="submit" class="btn btn-primary" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid">Update</button>
+              </div>
+          </form>
+        </div>
+        <div *ngIf="isUrlEdit">
+          <a (click)="back()"> < back </a>
+          <form novalidate #dashboradForm="ngForm" style="width: 600px;">
+            <div class="form-group">
+              <label for="name">Region Name</label>   
+              <input type="text" class="form-control" placeholder="organization name" name="name" [(ngModel)]="item.name" #name="ngModel" readonly>
+            </div>
             <div class="form-group mb-30">
               <label for="name">Url</label>   
               <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" #url="ngModel" required pattern="https?://.+">
@@ -118,7 +150,7 @@
               </div>
             </div>
             <div style="margin-top: 50px;">
-                <button type="submit" class="btn btn-primary" (click)="updateRegionalInfo(item)" [disabled]="!dashboradForm.valid">Update</button>
+                <button type="submit" class="btn btn-primary" (click)="updateRegionalInfo(item,'url')" [disabled]="!dashboradForm.valid">Update</button>
               </div>
           </form>
         </div>
