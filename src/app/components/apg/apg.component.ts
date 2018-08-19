@@ -19,6 +19,7 @@ export class ApgComponent implements OnInit {
   		this.toastr.setRootViewContainerRef(vcr);
   	}
 
+    public model:any = {};
   	public modalReference: any;
   	public closeResult: any;
   	apgField: apgField = new apgField();
@@ -59,7 +60,8 @@ export class ApgComponent implements OnInit {
     emptyAP: boolean = false;
     public ismodule: boolean = false;
     public iscreate: boolean = false;
-    public ischecked: boolean = false;
+    public ischecked: any;
+    public isUpdate: boolean = false;
     responseAP: any;
 
   	ngOnInit() {
@@ -69,15 +71,26 @@ export class ApgComponent implements OnInit {
 	  	this.getAllAPG();
   	}
 
+    cancelapg(){
+      this.model = {};
+      this.iscreate = false;
+      this.ismodule = false;
+    }
+
     goToBack(status){
       if(status == 'type'){
-        this.ismodule = false
+        this.ismodule = false;
+        this.model = {};
       }else{        
-        this.iscreate = false
+        this.iscreate = false;
+        this.ismodule = true;
+        this.model = {};
       }
     }
 
     creatnew(){
+      this.ischecked = '';
+      this.model = {};
       this.ismodule = true;
     }
 
@@ -90,6 +103,15 @@ export class ApgComponent implements OnInit {
         this.iscreate = true;
         console.log('...')
       }, 300);
+    }
+
+    createapgs(data, update){
+      console.log(data)
+      if(update == false){
+
+      }else{
+
+      }
     }
 
 
