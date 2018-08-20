@@ -5,7 +5,10 @@
 	margin-right: 15px !important;
 }
 .location-group{
-	padding: 0 15px;
+	padding: 0 30px;
+}
+.header-wrap{
+	padding: 23px 15px 0;
 }
 .sticky-menu{
 	position: fixed;
@@ -59,8 +62,7 @@
 	color: #fff;
 	background-color: #1682fb;
 	border: none;
-	height: 45px;
-	margin-top: 6px;
+	height: 44px;
 	border-radius: 3px;
 }
 
@@ -100,7 +102,7 @@
 	color: red;
 }
 .back-wrap{
-	padding: 15px;
+	padding: 23px 30px 15px;
 }
 .back-to{
 	font-family: 'Montserrat-Regular', Arial,sans-serif;

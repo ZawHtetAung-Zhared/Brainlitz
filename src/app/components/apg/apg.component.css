@@ -137,10 +137,10 @@
     color: red;
 }
 .heading-margin{
-    margin-top: 10px;
+    margin-top: 23px;
 }
 .back-wrap{
-    padding: 15px;
+    padding: 23px 15px 15px;
 }
 .back-to{
     font-family: 'Montserrat-Regular', Arial,sans-serif;
@@ -218,7 +218,6 @@
     background-color: #1682fb;
     border: none;
     height: 45px;
-    margin-top: 6px;
     border-radius: 3px;
 }
 .modal-title{
