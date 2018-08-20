@@ -16,8 +16,8 @@
 	        </button>
 	     </span>
 	</div>
-	<div class="apg-wrapper" style="column-count: 2;">
-		<div *ngFor="let apg of apgList; let i = index">
+	<div class="apg-wrapper card-columns">
+		<div class="card" *ngFor="let apg of apgList; let i = index">
 			<div class="single-apg">
 				<div class="info-section">
 					<p class="apg-type">Progress</p>
@@ -29,7 +29,7 @@
 				<div class="d-flex justify-content-between btn-section">
 					<button class="apg-share">Share</button>
 					<div>
-						<button class="btn-action">Edit</button> | <button class="btn-action">Delete</button>
+						<button class="btn-action">Edit</button> | <button class="btn-action" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
 					</div>
 				</div>
 			</div>
@@ -70,7 +70,7 @@
   			</div>
   			<div class="form-group">
   				<label class="form-title input-label" for="address">Address</label>
-          		<textarea class="form-control create-input" rows="3" placeholder="Type description here" name="desc" [(ngModel)]="model.desc" required #desc="ngModel"></textarea>
+          		<textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" required #description="ngModel"></textarea>
   			</div>
   			<div class="d-flex justify-content-end">
   			  <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
@@ -84,3 +84,17 @@
 </div>
 
 
+<ng-template #alertDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="min-height: 100px;">
+    <h4>Are You sure you want to delete? <span style="color: red;">"{{deleteAPG}}"</span></h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger" (click)="apgDelete(deleteId)">Delete</button>
+  </div>
+</ng-template>
