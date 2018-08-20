@@ -19,6 +19,7 @@ export class ApgComponent implements OnInit {
   		this.toastr.setRootViewContainerRef(vcr);
   	}
 
+    public model:any = {};
   	public modalReference: any;
   	public closeResult: any;
   	apgField: apgField = new apgField();
@@ -59,7 +60,8 @@ export class ApgComponent implements OnInit {
     emptyAP: boolean = false;
     public ismodule: boolean = false;
     public iscreate: boolean = false;
-    public ischecked: boolean = false;
+    public ischecked: any;
+    public isUpdate: boolean = false;
     responseAP: any;
 
   	ngOnInit() {
@@ -69,27 +71,69 @@ export class ApgComponent implements OnInit {
 	  	this.getAllAPG();
   	}
 
+    cancelapg(){
+      this.model = {};
+      this.iscreate = false;
+      this.ismodule = false;
+    }
+
     goToBack(status){
       if(status == 'type'){
-        this.ismodule = false
+        this.ismodule = false;
+        this.model = {};
       }else{        
-        this.iscreate = false
+        this.iscreate = false;
+        this.ismodule = true;
+        this.model = {};
       }
     }
 
     creatnew(){
+      this.ischecked = '';
+      this.model = {};
       this.ismodule = true;
     }
 
     chooseModuleType(val, name){
       this.ischecked = val;
-      localStorage.setItem('categoryID', val);
-      localStorage.setItem('categoryName', name);
+      localStorage.setItem('moduleID', val);
+      localStorage.setItem('moduleName', name);
       setTimeout(() => {
         this.ismodule = false;
         this.iscreate = true;
         console.log('...')
       }, 300);
+    }
+
+    createapgs(data, update){
+      console.log(update)
+      var templateID;
+      var moduleId = localStorage.getItem('moduleID')
+      data["moduleId"] = moduleId;
+      console.log(data)
+      if(update == false){
+        this._service.createAP(this.regionID,data)
+        .subscribe((res:any) => {
+          this.toastr.success('Successfully AP Created.');
+          data["accessPoints"] = [res._id]
+          console.log(data)
+          this._service.createAPG(this.regionID,data, templateID, moduleId)
+          .subscribe((res:any) => {
+            this.toastr.success('Successfully APG Created.');
+            console.log(res)
+            this.cancelapg();
+            this.getAllAPG();
+          }, err => {
+            this.toastr.error('Created APG Fail');
+            console.log(err)
+          }
+        }, err => {
+          this.toastr.error('Created AP Fail');
+          console.log(err)
+        }
+      }else{
+
+      }
     }
 
 

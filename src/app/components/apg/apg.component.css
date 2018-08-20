@@ -1,14 +1,28 @@
 .apg-type,
 .single-apg h4,
 .apg-longterm,
-.module-input label{
+.module-input label,
+.input-label,
+.input-recommend{
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+}
+.create-input{
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #edeff0;
+    padding-left: 0;
+    padding-bottom: 20px;
 }
 .apg-share,
 .btn-action{
     font-family: 'Montserrat-Regular',Arial,sans-serif;
     background: transparent;
     border: none;
+    cursor: pointer;
 }
 .card-columns{
     column-count: 2;
@@ -66,12 +80,17 @@
     margin-left: 15px;
     margin-top: 20px;
 }
+.apg-wrapper .card{
+    border: none;
+    margin-bottom: 0;
+}
 .single-apg{
     -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     -ms-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     border-radius: 4px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    margin-top: 5px;
 }
 .apg-type{
     margin-bottom: 0;
@@ -80,7 +99,6 @@
 }
 .single-apg h4{
     color: #2e3e4d;
-    font-size: 18px;
     margin-bottom: 6px;
 }
 .single-apg .apg-desc{
@@ -125,12 +143,19 @@
 .apg-form{
     padding: 20px 15px;
 }
+.single-apg h4,
+.module-input label,
+.input-label{    
+    font-size: 18px;
+}
+.input-label{
+    margin-bottom: 0;
+}
 .module-input label{
     width: 100%;
     border: none;
     padding: 16px 22px;
     text-align: left;
-    font-size: 18px;
     -webkit-box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.5);
     box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.5);
     margin-bottom: 1.7em;
@@ -164,6 +189,31 @@
     border: 2px solid #fff;
     box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
 }
+.btn-submit,
+.btn-cancel{
+    border: none;
+    height: 45px;
+    border-radius: 3px;
+    width: 100px;
+}
+.btn-submit{
+    color: #fff;
+    background-color: #1682fb;
+    margin-left: 15px;
+}
+.btn-cancel{
+    background-color: #f2f4f5;
+}
+.btn-create{
+    color: #fff;
+    background-color: #1682fb;
+    border: none;
+    height: 45px;
+    margin-top: 6px;
+    border-radius: 3px;
+}
+
+
 
 
 
