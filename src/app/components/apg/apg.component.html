@@ -29,7 +29,7 @@
 				<div class="d-flex justify-content-between btn-section">
 					<button class="apg-share">Share</button>
 					<div>
-						<button class="btn-action">Edit</button> | <button class="btn-action" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
+						<button class="btn-action" (click)="onclickUpdate(apg._id)">Edit</button> | <button class="btn-action" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
 					</div>
 				</div>
 			</div>
@@ -85,16 +85,19 @@
 
 
 <ng-template #alertDelete let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" style="min-height: 100px;">
-    <h4>Are You sure you want to delete? <span style="color: red;">"{{deleteAPG}}"</span></h4>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="apgDelete(deleteId)">Delete</button>
-  </div>
+  	<div class="modal-header">
+  		<h3 class="modal-title">Confirm delete?</h3>
+    	<!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      	<span aria-hidden="true">&times;</span>
+    	</button> -->
+  	</div>
+  	<div class="modal-body apg-confirm">
+	    <p>Are You sure you want to delete <span class="target">"{{deleteAPG}}"</span>? You won't back it return.
+	    	<!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+	    </p>
+	</div>
+	<div class="modal-footer">
+	    <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+	    <button type="submit" class="btn modal-delete-btn" (click)="apgDelete(deleteId)">Delete</button>
+	</div>
 </ng-template>

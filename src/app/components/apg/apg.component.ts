@@ -78,6 +78,7 @@ export class ApgComponent implements OnInit {
     }
 
     goToBack(status){
+      localStorage.removeItem('moduleID');
       if(status == 'type'){
         this.ismodule = false;
         this.model = {};
@@ -89,6 +90,7 @@ export class ApgComponent implements OnInit {
     }
 
     creatnew(){
+      localStorage.removeItem('moduleID');      
       this.ischecked = '';
       this.model = {};
       this.ismodule = true;
@@ -97,7 +99,7 @@ export class ApgComponent implements OnInit {
     chooseModuleType(val, name){
       this.ischecked = val;
       localStorage.setItem('moduleID', val);
-      localStorage.setItem('moduleName', name);
+      // localStorage.setItem('moduleName', name);
       setTimeout(() => {
         this.ismodule = false;
         this.iscreate = true;
@@ -112,12 +114,12 @@ export class ApgComponent implements OnInit {
       data["moduleId"] = moduleId;
       console.log(data)
       if(update == false){
-        this._service.createAP(this.regionID,data)
-        .subscribe((res:any) => {
-          this.toastr.success('Successfully AP Created.');
-          data["accessPoints"] = [res._id]
-          console.log(data)
-          this._service.createAPG(this.regionID,data, templateID, moduleId)
+         this._service.createAP(this.regionID,data)
+         .subscribe((res:any) => {
+           this.toastr.success('Successfully AP Created.');
+           data["accessPoints"] = [res._id]
+           console.log(data)
+           this._service.createAPG(this.regionID,data, templateID, moduleId)
           .subscribe((res:any) => {
             this.toastr.success('Successfully APG Created.');
             console.log(res)
@@ -126,16 +128,32 @@ export class ApgComponent implements OnInit {
           }, err => {
             this.toastr.error('Created APG Fail');
             console.log(err)
-          }
-        }, err => {
-          this.toastr.error('Created AP Fail');
-          console.log(err)
-        }
+          });
+         }, err => {
+           this.toastr.error('Created AP Fail');
+           console.log(err)
+         });
+
       }else{
 
       }
     }
 
+    onclickUpdate(id){
+      console.log(id)
+      this.singleAPG(id);
+      this.iscreate = true;
+    }
+
+    singleAPG(id){
+      this._service.getSingleAPG(this.regionID, id)
+      .subscribe((res:any) => {
+        console.log('editapg' ,res)
+        this.model = res;
+      }, err => {
+         console.log(err)
+      })
+    }
 
   	open(content){
   		this.customAP = false;
