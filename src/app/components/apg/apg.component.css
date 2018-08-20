@@ -3,7 +3,9 @@
 .apg-longterm,
 .module-input label,
 .input-label,
-.input-recommend{
+.input-recommend,
+.modal-title,
+.target{
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .input-recommend{
@@ -105,12 +107,16 @@
     color: #64707d;
     font-family: 'Montserrat-Regular',Arial,sans-serif;
     font-size: 14px;
+    text-align: justify;
 }
 .apg-scroll{
+    max-height: 75px;
+    overflow: auto;
+    /*color: #64707d;
     display: block;
     max-height: 75px;
     overflow-y: scroll;
-    text-align: justify;
+    text-align: justify;*/
 }
 .info-section{
     padding: 20px 20px 0;
@@ -123,9 +129,12 @@
     color: #0080ff;    
     font-size: 14px;
 }
+.btn-action:first-child{
+    color: orange;
+}
 .btn-action{
     font-size: 14px;
-    color: #64707d;
+    color: red;
 }
 .heading-margin{
     margin-top: 10px;
@@ -212,9 +221,40 @@
     margin-top: 6px;
     border-radius: 3px;
 }
-
-
-
+.modal-title{
+    font-size: 20px;
+    color: #2e3d4d;
+}
+.apg-confirm p{
+    color: #64707d;
+}
+.modal-cancel-btn,
+.modal-delete-btn{
+    font-size: 16px;
+    font-family: 'Montserrat-Regular',Arial,sans-serif;
+    border-radius: 3px;
+    height: 44px;
+    min-width: 90px;
+}
+.modal-delete-btn{
+    background: #ff3d33;
+    color: #fff;
+}
+.modal-cancel-btn{
+    color: #2e3d4d;
+}
+.modal-header{
+  border-bottom: none;
+  padding-bottom: 0;
+  padding-top: 24px;
+}
+.modal-footer{
+  border-top: none;
+  padding-top: 0;
+}
+.target{
+    color: #ff3d33;
+}
 
 
 
