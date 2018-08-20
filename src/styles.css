@@ -181,7 +181,7 @@ svg.star-filled.default-star-filled-icon {
 .drag-wrapper .drag-scroll-content {
   width: 100% !important;
 }
-
+/*===timezone picker===*/
 ng2-timezone-picker.newpick .select2-selection__arrow{
   display:none!important;
 }
@@ -190,10 +190,38 @@ ng2-timezone-picker.newpick .select2-selection__arrow{
   border-color: transparent!important;
 }
 .newpick .select2-selection__rendered{
-  color: #2f3e4c;
+  color: #2e3e4d;
+  font-size: 16px;
+  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+  font-weight: 900;
+}
+
+/*===timezone picker Edit===*/
+ng2-timezone-picker.editTimezone .select2-selection--single{
+  background-color: #f2f4f5!important;
+  outline: none;
+}
+ng2-timezone-picker.editTimezone .select2-selection__rendered{
+  color: #2e3d4d;
   font-size: 16px;
   font-family: 'Montserrat-Medium','Arial', sans-serif;
-  font-weight: 900;
+}
+ng2-timezone-picker.editTimezone .select2-selection__arrow b{
+  display: none;
+}
+ng2-timezone-picker.editTimezone .select2-selection__arrow::before{
+  border-style: solid;
+  border-width: 0.15em 0.15em 0 0;
+  content: '';
+  display: inline-block;
+  height: 0.55em;
+  right: 0.15em;
+  position: relative;
+  top: 7px;
+  transform: rotate(135deg);
+  vertical-align: top;
+  width: 0.55em;
+  color: #3d5266;
 }
 
 /*===back to top button===*/

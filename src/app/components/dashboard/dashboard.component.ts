@@ -24,7 +24,8 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: ''
   };
-  public menuType:any = "location";
+  // public menuType:any = "location";
+  public menuType:any = "admin";
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;
@@ -113,6 +114,10 @@ export class DashboardComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+
+  cancelUpdate(){
+    this.isEdit = false;
   }
 
   clickTab(type){
