@@ -266,13 +266,10 @@ li button{
 }
 
 /*===back to top button===*/
-a.scrollup{
-  /*width: 56px;
-  height: 56px;*/
+/*a.scrollup{
   width: 46px;
   height: 46px;
   line-height: 46px;
-  /*line-height: 56px;*/
   font-size: 24px;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -291,13 +288,10 @@ a.scrollup{
 a.scrollup.show{
   opacity: 1;
   bottom: 60px;
-  /*color: #fff;*/
 }
 
 a.scrollup:before {
     content: '';
-    /*width: 74px;
-    height: 74px;*/
     width: 64px;
     height: 64px;
     -webkit-border-radius: 50%;
@@ -318,7 +312,7 @@ a.scrollup:before {
 
 a.scrollup.show:hover:before {
     transform: scale(1);
-}
+}*/
 
 /*For 1024px*/
 @media (max-width: 575px) { 
