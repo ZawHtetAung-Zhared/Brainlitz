@@ -114,12 +114,12 @@ export class ApgComponent implements OnInit {
       data["moduleId"] = moduleId;
       console.log(data)
       if(update == false){
-        this._service.createAP(this.regionID,data)
-        .subscribe((res:any) => {
-          this.toastr.success('Successfully AP Created.');
-          data["accessPoints"] = [res._id]
-          console.log(data)
-          this._service.createAPG(this.regionID,data, templateID, moduleId)
+         this._service.createAP(this.regionID,data)
+         .subscribe((res:any) => {
+           this.toastr.success('Successfully AP Created.');
+           data["accessPoints"] = [res._id]
+           console.log(data)
+           this._service.createAPG(this.regionID,data, templateID, moduleId)
           .subscribe((res:any) => {
             this.toastr.success('Successfully APG Created.');
             console.log(res)
@@ -128,11 +128,12 @@ export class ApgComponent implements OnInit {
           }, err => {
             this.toastr.error('Created APG Fail');
             console.log(err)
-          }
-        }, err => {
-          this.toastr.error('Created AP Fail');
-          console.log(err)
-        }
+          });
+         }, err => {
+           this.toastr.error('Created AP Fail');
+           console.log(err)
+         });
+
       }else{
 
       }
