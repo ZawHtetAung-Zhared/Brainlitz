@@ -265,6 +265,60 @@ li button{
   transition: all .75s ease-in-out;
 }
 
+/*===back to top button===*/
+a.scrollup{
+  /*width: 56px;
+  height: 56px;*/
+  width: 46px;
+  height: 46px;
+  line-height: 46px;
+  /*line-height: 56px;*/
+  font-size: 24px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  background-color: #0080ff;
+  position: fixed;
+  right: 60px;
+  cursor: pointer;
+  opacity: 0;
+  bottom: 0;
+  transition: all 0.75s ease-in-out;
+}
+
+a.scrollup.show{
+  opacity: 1;
+  bottom: 60px;
+  /*color: #fff;*/
+}
+
+a.scrollup:before {
+    content: '';
+    /*width: 74px;
+    height: 74px;*/
+    width: 64px;
+    height: 64px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #0080ff;
+    opacity: .3;
+    position: absolute;
+    top: -9px;
+    left: -9px;
+    transform: scale(0.5);
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+a.scrollup.show:hover:before {
+    transform: scale(1);
+}
 
 /*For 1024px*/
 @media (max-width: 575px) { 

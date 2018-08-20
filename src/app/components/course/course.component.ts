@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, Inject } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { DOCUMENT } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-course',
@@ -36,10 +37,11 @@ export class CourseComponent implements OnInit {
   isCategory:boolean = false;
   isPlan:boolean = false;
   isSticky:boolean = false;
+  showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
 
-  constructor(private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
+  constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {   
       console.log('goooo') 
@@ -84,9 +86,11 @@ export class CourseComponent implements OnInit {
     if(window.pageYOffset > 10){
       console.log('greater than 30')
       this.isSticky = true;
+      this.showBtn = true
     }else{
       console.log('less than 30')
       this.isSticky = false;
+      this.showBtn = false;
     }
   }
 
@@ -99,6 +103,11 @@ export class CourseComponent implements OnInit {
     // localStorage.removeItem('splan');
     // this.router.navigate(['/courseCreate']);
     // this.router.navigate(['courseplan']);
+  }
+
+  scrollTop(){
+    console.log("scrollTop")
+    this.doc.documentElement.scrollTop = 0;
   }
 
   edit(course){
