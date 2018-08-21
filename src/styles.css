@@ -239,7 +239,7 @@ ng2-timezone-picker.editTimezone .select2-selection__arrow::before{
 }
 
 /*===back to top button===*/
-a.scrollup{
+span.scrollup{
   width: 46px;
   height: 46px;
   line-height: 46px;
@@ -258,12 +258,12 @@ a.scrollup{
   transition: all 0.75s ease-in-out;
 }
 
-a.scrollup.show{
+span.scrollup.show{
   opacity: 1;
   bottom: 60px;
 }
 
-a.scrollup:before {
+span.scrollup:before {
     content: '';
     width: 64px;
     height: 64px;
@@ -282,7 +282,7 @@ a.scrollup:before {
     -o-transition: all .5s;
     transition: all .5s;
 }
-a.scrollup.show:hover:before {
+span.scrollup.show:hover:before {
     transform: scale(1);
 }
 

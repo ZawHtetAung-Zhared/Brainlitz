@@ -98,6 +98,7 @@
 .region-info{
   border-bottom: 1px solid #edeff0;
   padding: 1rem;
+  height: 195px;
 }
 .link-btn{
   color: #0080ff!important;
@@ -123,18 +124,34 @@
 .timezone-wrap{
   padding-top: 1.5rem;
 }
-.social-links a{
+/*.social-links{
   float: left;
   text-align: center;
   width: 34px;
   height: 34px;
   border-radius: 100%;
-  margin-right: 12px; /*space between*/
+  margin-right: 12px; 
   background: #f2f4f5;
 } 
 .social-links a img{
     margin-top: 8px;
+}*/
+.title-wrap{
+  display: flex;
 }
+#parent{
+  line-height: 28px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  background: #edeff0;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+#parent img{
+  vertical-align: middle;
+}
+
 .picker-wrap{
   pointer-events: none;
   margin-left: 40px;
@@ -145,6 +162,7 @@
   padding-top: 6px;
   color: #0080ff!important;
   font-family: 'Montserrat-Medium','Arial', sans-serif;
+  margin-left: auto;
 }
 .editBtns{
   padding: 1rem;
@@ -158,10 +176,11 @@
   padding: 0px 15px 0px 4px;
   color: #2e3d4d!important;
 }
-
 /*===App info setting===*/
 .setting-info{
   padding: 1rem;
+  position: relative;
+  /*transition: all 0.3s ease-in-out;*/
 }
 .link-wrap{
   /*border-bottom: 1px dashed #eaeaeb;*/
@@ -171,4 +190,93 @@
 }
 .module-container{
   margin-left: 40px;
+}
+
+/*Overlay Testing*/
+.container {
+  position: relative;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ease{
+  transition: all 0.3s ease-in-out;
+}
+.overlay {
+  background: rgba(217, 217, 217, 0.7);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  width: 100%;
+  padding: 1rem;
+}
+.blur{
+  filter: blur(8px);
+}
+.overlayBtns{
+  float: right;
+}
+.closemark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: #425568;
+  left: 5px;
+  top: 3px;
+}
+
+.closemark_kick {
+    transform: rotate(90deg);
+}
+.checkmark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background-color: #425568;
+    left: 6px;
+    top: 1px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: #425568;
+    left: 2px;
+    top: 12px;
+}
+.colorD{
+  background-color: #c5cacf;
 }
