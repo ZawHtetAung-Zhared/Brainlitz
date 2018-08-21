@@ -349,7 +349,7 @@ input:-webkit-input-placeholder {
   display: none;
   position: absolute;
   right: 30%;
-  bottom: -122px;
+  bottom: -95px;
   z-index: 9;
 }
 
@@ -430,6 +430,11 @@ drag-scroll {
   left: 100px;
 }
 
+.max-range-box:hover, .min-range-box:hover {
+  background: none;
+}
+
+
 .max-range {
   position: absolute; 
   left: 30px;
@@ -472,23 +477,6 @@ input:focus, .sticky-cancel:focus {
   outline: none;
   box-shadow: none;
 }
-
-/*.optional-dot {
-  color: #64707d;
-  font-size: 28px;
-  position: absolute;
-  bottom: 68px;
-  left: 52px;
-}
-
-.optional-pos {
-  color: #64707d;
-  position: absolute;
-  bottom: 78px;
-  left: 69px;
-  font-weight: bold;
-  font-size: 12px;
-}*/
 
 h3.category-h3{
   top: 70px;
@@ -550,6 +538,7 @@ h3.category-h3, .category-name, .d-wrapper {
   float: right; 
   color: #ffffff; 
   background: #007fff;
+  cursor: pointer;
 }
 
 .back-to{
@@ -609,6 +598,12 @@ textarea, input, select {
 .input-group-text {
   background: #fff;
   border-color: #fff;
+  padding: 6px 12px;
+  border-radius: 2px;
+}
+
+.input-group-prepend {
+  margin-top: 1px;
 }
 
 .input-group:hover:not(:focus) .form-control,input:hover, textarea:hover, input:hover:read-only, select:hover ,#inlineFormInputGroupcourseFee:hover, #inlineFormInputGroupmisFee:hover {
@@ -858,6 +853,10 @@ label.pd-lt-10 {
 
 .button-wrapper{
   padding: 10px 30px;
+}
+
+.title-align {
+  justify-content: center;
 }
 
 @media only screen and (max-width: 768px){

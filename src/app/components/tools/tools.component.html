@@ -11,6 +11,9 @@
 			<div [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
 			</div>
+			<div [ngClass]="{'active': notiType == 'pagewerkz'}" class="tab-wrap">			
+				<button class="btn noti-tab w-100" (click)="clickTab('quizwerkz')">Quizwerkz</button>
+			</div>
 		</div>
     </div>
     <div class="col-md-10 min-scroll heading-margin">
@@ -224,6 +227,9 @@
     	</div>
         <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'apg'">          
             <app-apg></app-apg>          
+        </div>
+        <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'quizwerkz'">          
+            <app-quizwerkz></app-quizwerkz>          
         </div>    
     </div> 
 </div>

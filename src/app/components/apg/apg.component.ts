@@ -75,13 +75,14 @@ export class ApgComponent implements OnInit {
       this.model = {};
       this.iscreate = false;
       this.ismodule = false;
+      this.isUpdate = false;
     }
 
     goToBack(status){
       localStorage.removeItem('moduleID');
       if(status == 'type'){
-        this.ismodule = false;
-        this.model = {};
+        console.log('type')
+        this.cancelapg();
       }else{        
         this.iscreate = false;
         this.ismodule = true;
@@ -94,6 +95,7 @@ export class ApgComponent implements OnInit {
       this.ischecked = '';
       this.model = {};
       this.ismodule = true;
+      this.isUpdate = false;
     }
 
     chooseModuleType(val, name){
@@ -110,10 +112,11 @@ export class ApgComponent implements OnInit {
     createapgs(data, update){
       console.log(update)
       var templateID;
-      var moduleId = localStorage.getItem('moduleID')
-      data["moduleId"] = moduleId;
       console.log(data)
       if(update == false){
+        console.log('create')
+        var moduleId = localStorage.getItem('moduleID')
+        data["moduleId"] = moduleId;
          this._service.createAP(this.regionID,data)
          .subscribe((res:any) => {
            this.toastr.success('Successfully AP Created.');
@@ -135,7 +138,19 @@ export class ApgComponent implements OnInit {
          });
 
       }else{
-
+        console.log('update')
+        this.blockUI.start('Loading...');
+        this._service.updateAPG(this.regionID, data._id , data, templateID)
+          .subscribe((res:any) => {
+              console.log('success update',res);
+              this.toastr.success('Successfully APG Updated.');
+              this.cancelapg();
+              this.getAllAPG();
+              this.blockUI.stop();
+          }, err => {
+              this.toastr.error('Updated APG Fail');
+              console.log(err)
+          })
       }
     }
 
@@ -143,6 +158,7 @@ export class ApgComponent implements OnInit {
       console.log(id)
       this.singleAPG(id);
       this.iscreate = true;
+      this.isUpdate = true;
     }
 
     singleAPG(id){

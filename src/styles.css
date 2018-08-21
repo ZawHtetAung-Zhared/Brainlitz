@@ -105,8 +105,8 @@ main{
   min-width: 155px;
 }
 
-.btn-not-allowed {
-  cursor: not-allowed;
+.btn:disabled {
+  cursor: not-allowed !important;
 }
 app-dashboard,
 app-tools{
@@ -194,6 +194,14 @@ ng2-timezone-picker.newpick .select2-selection__arrow{
   font-size: 16px;
   font-family: 'Montserrat-SemiBold','Arial', sans-serif;
   font-weight: 900;
+}
+
+.custom-dropdown .dropdown-menu {
+  right: 0;
+  left: unset !important;
+  top: 138% !important;
+  padding: 0 15px;
+  color: #2e3d4d !important;
 }
 
 /*===timezone picker Edit===*/
