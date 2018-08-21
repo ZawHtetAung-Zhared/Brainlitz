@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import * as moment from 'moment'; //
+import * as moment from 'moment'; 
+declare var $: any;
 
 @Component({
   selector: 'app-report',
@@ -32,17 +33,24 @@ export class ReportComponent implements OnInit {
   	teacherRating: any;
   	teacherVote: any;
   	feedBackUserGroup: any[] = [];
+  	reportType: any;
 
   	ngOnInit() {
+  		this.reportType = 'averageRating';
   		this.getStaffRating();
+  		window.addEventListener('scroll', this.scroll, true);
+  		this.dropDownShow = false;
   	}
+
+  	scroll = (e): void => {
+  	};
 
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    console.log(window.pageYOffset)
-	    if(window.pageYOffset >= 40){
-	      this.isSticky = true;
+	    if(window.pageYOffset >= 20){
+	      	this.isSticky = true;
 	    }else{
-	      this.isSticky = false;
+	      	this.isSticky = false;
 	    }
 	  }
 
@@ -53,6 +61,7 @@ export class ReportComponent implements OnInit {
   		this.teacherRating = data.rating;
   		this.teacherVote = data.voter;
   		this.showDetail = true;
+  		this.dropDownShow = false;
 		this._service.getFeedBackList(this.regionID, teacherId)
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
@@ -101,4 +110,32 @@ export class ReportComponent implements OnInit {
 	back(){
 		this.showDetail = false;
 	}
+
+	dropDownShow: boolean = false;
+
+	@HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+        if(this.dropDownShow == false){
+           $('.dropdown-menu').css('display', 'none');
+           $('.bg-box').css('display', 'none');  
+        }
+        else {
+            $('.dropdown-menu').css('display', 'block');
+            $('.bg-box').css('display', 'block');
+            this.dropDownShow = false;
+
+        }
+    }
+  	
+	dropDown(){
+        var x = document.getElementsByClassName('dropdown-menu');
+        if( (x[0]as HTMLElement).style.display == 'block'){
+        	(x[0]as HTMLElement).style.display = 'none';
+        }
+        else {
+        	 (x[0]as HTMLElement).style.display = 'block';
+        	 this.dropDownShow = true;
+        }
+	}
+
 }

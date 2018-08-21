@@ -3,26 +3,11 @@
 		<header>
 		    <div class="header-wrap">
 				<div [ngClass]="{'stickywrap' : navIsFixed == true}">
-				    <!-- <div class="display-style">
-						<div class="col-md-4 ul-pad">
-							<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
-						</div>	
-						<div class="col-md-4 title-mr display-style">
-							<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
-							<h5>Course plan</h5>
-				    	</div>
-				    	<div class="col-md-4" style="padding: 0;">
-					    	<div [hidden]="!createButton">
-					    		<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(subCatForm.value)" [disabled]="!subCatForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
-					    	</div>
-					    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
-				    	</div>
-				  	</div> -->
 				  	<div class="display-style">
 						<div class="col-md-4 ul-pad">
 							<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 						</div>	
-						<div class="col-md-4 title-mr display-style">
+						<div class="col-md-4 title-align display-style">
 							<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
 							<h5>Course plan</h5>
 				    	</div>
@@ -40,7 +25,7 @@
 				<div class="col-md-4 ul-pad">
 					<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
 				</div>	
-				<div class="col-md-4 title-mr display-style">
+				<div class="col-md-4 title-align display-style">
 					<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
 					<h5>Course plan</h5>
 		    	</div>
@@ -117,7 +102,7 @@
 					</div>
 				</div>
 				<div class="button-wrapper">
-					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="!childForm1.valid" (click)="continueStep('step1')">Continue</button>
+					<button type="button" class="btn sticky-create" [disabled]="!childForm1.valid" (click)="continueStep('step1', childForm1.value)">Continue</button>
 					<button type="button" [hidden]="step1" class="back-modal back-to" (click)="backStep()"> < Back</button>
 				</div>
 			</form>
@@ -160,7 +145,7 @@
 					</div>
 				</div>
 				<div class="button-wrapper">
-					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="!childForm2.valid" (click)="continueStep('step2')">Continue</button>
+					<button type="button" class="btn sticky-create" [disabled]="!childForm2.valid" (click)="continueStep('step2',childForm2.value)">Continue</button>
 					<button type="button" [hidden]="!step2" class="back-modal back-to" (click)="backStep('step2')"> < Back</button>
 				</div>
 			</form>
@@ -191,7 +176,7 @@
 					</div>
 				</div>
 				<div class="button-wrapper">
-					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3')">Continue</button>
+					<button type="button" class="btn sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3',childForm3.value)">Continue</button>
 					<button type="button" [hidden]="!step3" class="back-modal back-to" (click)="backStep('step3')"> < Back</button>
 				</div>
 			</form>
@@ -239,7 +224,7 @@
 					</div>
 				</div>
 				<div class="button-wrapper">
-					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 || formField.holidayCalendarId == 'disabledHoliday'" (click)="continueStep('step4')">Continue</button>
+					<button type="button" class="btn sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 || formField.holidayCalendarId == 'disabledHoliday'" (click)="continueStep('step4', childForm4.value)">Continue</button>
 					<button type="button" [hidden]="!step4" class="back-modal back-to" (click)="backStep('step4')"> < Back</button>
 				</div>
 			</form>
@@ -253,7 +238,7 @@
 							<h5 class="all-title-font title-br-rt">QuizWerkz Book</h5>
 							<div class="radio-pos-book">
 								<label class="switch">
-									<input type="checkbox" [(ngModel)]='allowPagewerkzBooks' name="allowmakeup" #makeupcheck="ngModel" >
+									<input type="checkbox" [(ngModel)]='allowPagewerkzBooks' name="allowpagewerkz" #makeupcheck="ngModel" >
 									<span class="slider round" [ngClass]="{'activeRadio': allowPagewerkzBooks == true}"></span>
 								</label>
 							</div>
@@ -276,14 +261,14 @@
 				</div>
 				<hr class="limit-hr-100 mr-top-20">
 				<div class="button-wrapper">
-					<button type="button" class="btn btn-not-allowed sticky-create" [disabled]="pdfId == 0 || allowPagewerkzBooks != true" (click)="continueStep('step5')">Continue</button>
+					<button type="button" class="btn sticky-create" [disabled]="pdfId == 0 || allowPagewerkzBooks != true" (click)="continueStep('step5', childForm5.value)">Continue</button>
 					<button type="button" [hidden]="!step5" class="back-modal back-to" (click)="backStep('step5')"> < Back</button>
 					<span class="show-count">{{pdfId.length}} books picked</span>
 				</div>
 			</form>
 		</div>
 		<div *ngIf="step7">
-			<form #childForm7="ngForm" novalidate>
+			<!-- <form #childForm7="ngForm" novalidate> -->
 				<div class="inside-data-wrapper">
 					<div class="col-md-12">
 						<p class="step-font">Step 7</p>
@@ -309,7 +294,7 @@
 							<div class="col-md-4" style="padding: 0;">
 								<label class="all-title-font">Deposit</label>
 								<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel">
-									<option [value]="'disabledDeposit'" disabled="true">S$ 0</option>
+									<option [value]="" disabled="true" selected>S$ 0</option>
 									<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
 								</select>
 								<i class="fa fa-chevron-down down-arrow1"></i>
@@ -360,10 +345,9 @@
 				</div>
 				<hr class="limit-hr-100 mr-top-20">
 				<div class="button-wrapper">
-					<button type="submit" class="btn btn-not-allowed sticky-create" (click)="createdPlan(parentForm.value)" [disabled]="!parentForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
+					<button type="submit" class="btn sticky-create" (click)="createdPlan(parentForm.value)" [disabled]="!parentForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
 					<button type="button" [hidden]="!step7" class="back-modal back-to" (click)="backStep('step7')"> < Back</button>
 				</div>
-			</form>
 		</div>
 		
 	<!-- 	<div class="all-box-lt">

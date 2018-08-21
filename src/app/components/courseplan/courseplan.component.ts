@@ -74,7 +74,6 @@ export class CourseplanComponent implements OnInit {
 
 
   ngOnInit() {
-    //this.getAllCoursePlan();
     this.showModal = true;
     this.showsubModal = false;
     this.showLoading = true;
@@ -88,13 +87,13 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG();
     this.pdfId = [];
-   // this.formField = new cPlanField();
     this.formField.holidayCalendarId = 'disabledHoliday';
-    this.depositModel = 'disabledDeposit';
+    this.depositModel = '';
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.readyOnlyRange = '0  min';
-    this.checkedName = localStorage.getItem('categoryName')
+    this.categoryId  = localStorage.getItem('categoryID');
+    this.checkedName = localStorage.getItem('categoryName');
     this.goBackCat = true;
     window.addEventListener('scroll', this.scroll, true);
 
@@ -129,25 +128,22 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-		console.log('form', formData)
-    var day = formData.lesson_duration;
-    console.log('this.timeInminutes', this.timeInminutes)
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
-      "name": formData.coursename,
-      "description": formData.description,
+      "name": this.step1FormaData.coursename,
+      "description": this.step1FormaData.description,
+      "seats": this.step1FormaData.seats,
       "makeupPolicy": {
-        "allowMakeupPass": formData.allowmakeup,
-        "maxPassPerUser":  formData.makeupuser,
-        "maxDayPerPass": formData.makeuppass
+        "allowMakeupPass": this.step2FormaData.allowmakeup,
+        "maxPassPerUser":  this.step2FormaData.makeupuser,
+        "maxDayPerPass": this.step2FormaData.makeuppass
       },
-      "allowPagewerkzBooks": formData.allowpagewerkz,
       "paymentPolicy": {
         "deposit": formData.deposit,
-        "courseFee": formData.courseFee,
-        "allowProrated": formData.allowProrated,
-        "proratedLessonFee": formData.proratedLessonFee,
+        "courseFee": this.step3FormaData.courseFee,
+//        "allowProrated": formData.allowProrated,
+        "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee
       },
       "lesson": {
@@ -155,15 +151,17 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxDuration,
         "duration": this.timeInminutes
       },
-      "seats": formData.seats,
+      "allowPagewerkzBooks": this.step5FormaData.allowpagewerkz,
       "age": {
         "min": formData.minage,
         "max": formData.maxage,
       },
       "quizwerkz": this.pdfId,
-      "holidayCalendarId": formData.holidayCalendar,
+      "holidayCalendarId": this.step4FormaData.holidayCalendar,
       "accessPointGroup": this.apgId
     }
+
+    console.log(data)
 
     //this.blockUI.start('Loading...');
     //this.modalReference.close();
@@ -704,8 +702,17 @@ export class CourseplanComponent implements OnInit {
     }
   }
 
-  continueStep(type){
+  step1FormaData: any;
+  step2FormaData: any;
+  step3FormaData: any;
+  step4FormaData: any;
+  step5FormaData: any;
+  step6FormaData: any;
+
+  continueStep(type, data){
     if(type == 'step1'){
+      this.step1FormaData = data;
+      console.log(this.step1FormaData)
       this.step1 = false;
       if(this.step1 == false){
         $("#step1").removeClass('active');
@@ -715,6 +722,8 @@ export class CourseplanComponent implements OnInit {
       }
     }
     if(type == 'step2'){
+      this.step2FormaData = data;
+      console.log(this.step2FormaData)
       this.step1 = false;
       this.step2 = false;
       if(this.step2 == false){
@@ -726,6 +735,8 @@ export class CourseplanComponent implements OnInit {
       }
     }
     if(type == 'step3'){
+      this.step3FormaData = data;
+      console.log(this.step3FormaData)
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
@@ -739,6 +750,8 @@ export class CourseplanComponent implements OnInit {
       }
     }
     if(type == 'step4'){
+      this.step4FormaData = data;
+      console.log(this.step4FormaData)
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
@@ -754,6 +767,8 @@ export class CourseplanComponent implements OnInit {
       }
     }
     if(type == 'step5'){
+      this.step5FormaData = data;
+      console.log(this.step5FormaData)
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
@@ -771,6 +786,8 @@ export class CourseplanComponent implements OnInit {
       }
     }
     if(type == 'step6'){
+      this.step6FormaData = data;
+      console.log(this.step6FormaData)
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
