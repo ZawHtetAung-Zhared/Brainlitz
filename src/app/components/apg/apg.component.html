@@ -39,12 +39,13 @@
 
 <div class="content-wrapper" *ngIf="ismodule == true || iscreate == true">
   <div class="back-wrap">
-    <a class="back-to" *ngIf="ismodule == true" (click)="goToBack('type')">< APG</a>
-    <a class="back-to" *ngIf="iscreate == true" (click)="goToBack('create')">< Pick APG type</a>
+    <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a>
+    <a class="back-to" *ngIf="iscreate == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>
   </div>
   <div class="location-group">
   	<h3 *ngIf="ismodule == true" class="title-heading">Pick APG type</h3>
-  	<h3 *ngIf="iscreate == true" class="title-heading">Create APG</h3>
+  	<h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
+  	<h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>
   </div>
   <div class="apg-form">
   	<form novalidate #createapgForm="ngForm">
@@ -69,13 +70,13 @@
           		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
   			</div>
   			<div class="form-group">
-  				<label class="form-title input-label" for="address">Address</label>
+  				<label class="form-title input-label" for="address">Description</label>
           		<textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" required #description="ngModel"></textarea>
   			</div>
   			<div class="d-flex justify-content-end">
   			  <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
   			  <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
-  			  <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="createapgs(model, true, currentID)">Update</button>
+  			  <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid" (click)="createapgs(model, true, currentID)">Update</button>
   			</div>
   		</div>
   	</form>
