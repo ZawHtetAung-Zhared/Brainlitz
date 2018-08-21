@@ -24,12 +24,14 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: ''
   };
-  public menuType:any = "location";
+  // public menuType:any = "location";
+  public menuType:any = "admin";
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;
   public isEdit:boolean = false;
   public isUrlEdit:boolean = false;
+  public temp:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -85,13 +87,11 @@ export class DashboardComponent implements OnInit {
 
   editRegion(){
     this.isEdit = true;
+    this.temp = this.item.timezone;
+    console.log(this.temp);
   }
   editUrl(){
     this.isUrlEdit = true;
-  }
-  back(){
-    this.isEdit = false;
-    this.isUrlEdit = false;
   }
 
   updateRegionalInfo(data,type){
@@ -113,6 +113,14 @@ export class DashboardComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+
+  cancelUpdate(){
+    this.isEdit = false;
+    this.item.timezone = this.temp;
+  }
+  closeEdit(){
+    this.isUrlEdit = false;
   }
 
   clickTab(type){

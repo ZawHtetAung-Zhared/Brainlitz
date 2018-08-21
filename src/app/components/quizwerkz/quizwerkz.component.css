@@ -1,3 +1,123 @@
+.title-heading,
+.single-quizwerkz h4,
+.input-label{
+	font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+.title-heading{
+    font-size: 27px;
+    padding-left: 15px;
+    color: #2e3e4d;
+}
+.heading-margin{
+    margin-top: 23px;
+}
+.btn-create{
+  color: #fff;
+  background-color: #1682fb;
+  border: none;
+  height: 45px;
+  margin-right: 15px;
+  border-radius: 3px;
+}
+.single-quizwerkz{
+	-ms-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+	-webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+	box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+	border-radius: 4px;
+	margin-bottom: 20px;
+	margin-top: 5px;
+	padding: 16px 0 16px 16px;
+	margin-left: 0;
+	margin-right: 0;
+}
+.single-quizwerkz h4{
+	color: #2e3e4d;
+	font-size: 18px;
+	padding-right: 20px;
+}
+.quizwerkz-group{
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 20px;
+}
+.coverq {
+    width: 120px;
+    height: 180px;
+    padding: 0;
+    margin-right: 12px;
+}
+.btn-action:first-child{
+    color: orange;
+}
+.btn-action{
+    font-size: 14px;
+    color: red;
+    font-family: 'Montserrat-Regular',Arial,sans-serif;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.m-zero{
+	margin: 0;
+}
+.book-cover-img{
+	max-width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+.btn-section{
+	border-top: 1px solid #edeff0;
+	padding: 16px 0 0;
+}
+.book-title {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0px;
+}
+.back-wrap{
+    padding: 23px 15px 15px;
+}
+.back-to{
+    font-family: 'Montserrat-Regular', Arial,sans-serif;
+    color: #6a7279;
+    padding-left: 0 !important;
+    cursor: pointer;
+    font-size: 16px;
+}
+.quizwerkz-form{
+    padding: 20px 15px;
+}
+.btn-submit,
+.btn-cancel{
+    border: none;
+    height: 45px;
+    border-radius: 3px;
+    width: 100px;
+}
+.btn-submit{
+    color: #fff;
+    background-color: #1682fb;
+    margin-left: 15px;
+}
+.btn-cancel{
+    background-color: #f2f4f5;
+}
+.create-input{
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #edeff0;
+    padding-left: 0;
+    padding-bottom: 20px;
+}
+.input-label{    
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+
+
+
+
 .book-li{
 	display: -webkit-flex;
 	display: -ms-flexbox;

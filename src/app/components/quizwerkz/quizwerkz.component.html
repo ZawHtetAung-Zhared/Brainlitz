@@ -1,118 +1,76 @@
-<div class="inner-wrapper">
-<div class="mb-30">
-  <button type="button" class="btn btn-primary" (click)="open(content)">+ Create Quizwerkz</button>
-</div>
-<block-ui message="Deafult Message"></block-ui>
-<div class="scrollable container">  
-  <!-- <ul class="qwbook-lists d-flex flex-row flex-wrap"> -->
-  <ul class="qwbook-lists">
-    <li class="book-li" *ngFor="let pdf of pdfList">
-      <div class="bookcover-wrap">
-        <img src="{{pdf.cover}}">
-      </div>
-      <div class="book-info">
-        <p>{{pdf.name}}</p><!-- {{course.name}} -->
-        <!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course)">Create</button> -->
-        <div>
-          <button type="button" class="btn btn-secondary btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onClickDelete(pdf,confirm)">Delete</button>
-          <button type="button" class="btn btn-secondary btn-sm" style="margin-right: 5px;" (click)="editQuizWerkz(pdf._id, content)">Edit</button>
-          <button type="button" class="btn btn-secondary btn-sm" style="margin-right: 5px;" (click)="viewQuizWerkz(pdf._id,view)">View</button>
+<div class="min-scroll">
+  <div *ngIf="iscreate == false">
+    <div class="d-flex justify-content-between heading-margin">
+      <div class="mr-auto">
+        <div class="d-flex flex-row">
+          <h2 class="title-heading">QuizWerkz</h2>
         </div>
       </div>
-    </li>
-  </ul>
-</div>
-
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Create Quizwerkz</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <form novalidate #pdfForm="ngForm">
-    <div class="modal-body">
-      <div class="form-group">
-        <label for="name">Name</label>   
-        <input type="text" class="form-control" placeholder="quizwerkz name" name="name" [(ngModel)]="formField.name" required #name="ngModel">
-      </div>
-      <div class="form-group">
-        <label for="name">Book Url</label>   
-        <input type="url" class="form-control" placeholder="https://bookurl.jpg" pattern="https?://.+" name="url" [(ngModel)]="formField.url" required #url="ngModel" required>
-        <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
-          <div [hidden]="!url.errors.required">
-            URL is required!
-          </div>
-          <div [hidden]="!url.errors.pattern">
-            Must be a valid URL!
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="name">Book Cover Url</label>   
-        <input type="url" class="form-control" placeholder="enter cover URl link" name="cover" [(ngModel)]="formField.cover" required #cover="ngModel" required placeholder="https://bookcover.jpg" pattern="https?://.+" >
-        <div *ngIf="cover.errors && (cover.dirty || cover.touched)" class="alert alert-danger">
-          <div [hidden]="!cover.errors.required">
-            URL is required!
-          </div>
-          <div [hidden]="!cover.errors.pattern">
-            Must be a valid URL!
-          </div>
+      <button type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
+    </div>  
+    <div class="row quizwerkz-group">
+      <div class="col-sm-6 col-md-6 col-lg-6" *ngFor="let pdf of pdfList">
+        <div class="d-flex single-quizwerkz">
+            <div class="coverq">
+              <img src="{{pdf.cover}}" class="book-cover-img">
+            </div>
+            <div style="flex: 1;">
+              <div class="d-flex flex-column h-100">
+                  <div class="book-title">              
+                    <h4>{{pdf.name}}</h4>
+                  </div>
+                  <div class="btn-section d-flex justify-content-end">
+                    <button class="btn-action" (click)="onclickUpdate(pdf._id)">Edit</button> | <button class="btn-action" (click)="onclickDelete(pdf._id)">Delete</button>
+                  </div>
+                </div>
+            </div>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-      <button *ngIf="!isEdit" type="submit" [disabled]="!pdfForm.valid" class="btn btn-primary" (click)="createQuizWerkz(formField, isEdit)">Create</button>
-      <button *ngIf="isEdit" type="submit" [disabled]="!pdfForm.valid" class="btn btn-primary" (click)="updateQuizWerkz(formField)">Update</button>
+  </div>
+  <div *ngIf="iscreate == true">
+    <div class="back-wrap">
+      <a class="back-to" (click)="cancel()">< QuizWerkz</a>
     </div>
-  </form>
-</ng-template>
-
-<ng-template #view let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Quizwerkz View</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <div class="quizwerkz-form-wrap">
+      <h3 class="title-heading">Create QuizWerkz</h3>
+      <div class="quizwerkz-form">
+        <form novalidate #createqwForm="ngForm">
+          <div class="form-group">
+            <label class="input-label" for="name">Name</label>   
+            <input type="text" class="form-control create-input" placeholder="quizwerkz name" name="name" [(ngModel)]="formField.name" required #name="ngModel">
+          </div>
+          <div class="form-group">
+            <label class="input-label" for="name">Book Url</label>   
+            <input type="url" class="form-control create-input" placeholder="https://bookurl.jpg" pattern="https?://.+" name="url" [(ngModel)]="formField.url" required #url="ngModel" required>
+            <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
+              <div [hidden]="!url.errors.required">
+                URL is required!
+              </div>
+              <div [hidden]="!url.errors.pattern">
+                Must be a valid URL!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="input-label" for="name">Book Cover Url</label>   
+            <input type="url" class="form-control create-input" placeholder="enter cover URl link" name="cover" [(ngModel)]="formField.cover" required #cover="ngModel" required placeholder="https://bookcover.jpg" pattern="https?://.+" >
+            <div *ngIf="cover.errors && (cover.dirty || cover.touched)" class="alert alert-danger">
+              <div [hidden]="!cover.errors.required">
+                URL is required!
+              </div>
+              <div [hidden]="!cover.errors.pattern">
+                Must be a valid URL!
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-cancel" (click)="cancel()">Close</button>
+            <button *ngIf="!isEdit" type="submit" [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="createQuizWerkz(formField, isEdit)">Create</button>
+            <button *ngIf="isEdit" type="submit" [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="updateQuizWerkz(formField)">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="modal-body view" *ngIf="viewQuiz">
-    <div><label class="info_title">Name:</label> <span class="view_info">{{viewQuiz.name}}</span></div>
-    <div><label class="info_title">Book Url:</label> <span class="view_info">{{viewQuiz.url}}</span> </div>
-    <div><label class="info_title">Book Cover Url:</label> <span class="view_info">{{viewQuiz.cover}}</span> </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-  </div>
-</ng-template> 
-
-<ng-template #confirm let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <h4>Are You sure you want to delete?</h4>
-  </div>
-  <div class="modal-footer">
-    <button type="submit" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-primary" (click)="confirmDelete(selectQw,content1)">Delete</button>
-  </div>
-</ng-template>
-
-<ng-template #content1 let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <h4>We are going to delete <span style="color: red">"{{deleteQw.name}}"</span></h4>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="quizwerkzDelete(deleteQw._id)">Confirm</button>
-  </div>
-</ng-template>
 </div>

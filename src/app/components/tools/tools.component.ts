@@ -59,7 +59,7 @@ export class ToolsComponent implements OnInit {
 
   ngOnInit() {
     this.locationId = localStorage.getItem('locationId');
-    this.notiType = 'apg';
+    this.notiType = 'quizwerkz';
     this.setDefaultSelected();
     this.item.sendType = 'app';
   }
