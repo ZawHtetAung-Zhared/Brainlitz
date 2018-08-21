@@ -75,7 +75,7 @@
 /*===comfirm UI===*/
 .general{
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
-  color: #2f3d4c;
+  color: #2e3d4d;
 }
 .card-columns{
   column-count: 2;
@@ -88,9 +88,9 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .title{
-  color: #f8f8f9;
+  color: #ffffff;
   padding: 1rem;
-  background: #64707c;
+  background: #64707d;
   border-radius: 8px 8px 0px 0px;
   font-size: 1.15rem;
   font-family: 'Montserrat-Regular','Arial', sans-serif;

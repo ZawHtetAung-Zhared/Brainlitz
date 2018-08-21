@@ -10,13 +10,13 @@
       </div>
       <div *ngFor="let courseGroup of courseList">
         <div class="card card-wrap">
-          <div class="header light-font">
+          <div class="header">
             <div>
-              <label class="category regular-font">
+              <label class="category semibold">
                 #{{ courseGroup.coursePlan.category.name }}
               </label>
             </div>
-            <h5>{{ courseGroup.coursePlan.name }}</h5>
+            <h5 class="medium-font">{{ courseGroup.coursePlan.name }}</h5>
             <div class="header-info light-font">
               {{ courseGroup.coursePlan.seats }} seats
               <ul><li>{{ courseGroup.coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
