@@ -20,7 +20,8 @@ export class QuizwerkzComponent implements OnInit {
 	private modalReference: NgbModalRef;
 	closeResult: string;
 	public pdfList: any;
-	public isEdit:boolean = false;
+  public isEdit:boolean = false;
+	public iscreate:boolean = false;
 	public currentID:any;
   public selectQw:any;
   public deleteQw:any;
@@ -35,6 +36,17 @@ export class QuizwerkzComponent implements OnInit {
   ngOnInit() {
   	this.getAllPdf();
   }
+
+  cancel(){
+    this.iscreate = false;
+    this.formField = new quizWerkzForm();
+  }
+
+  creatnew(){
+    this.iscreate = true;
+  }
+
+
 
   open(content) {
     this.isEdit = false;
