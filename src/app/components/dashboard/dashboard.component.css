@@ -100,20 +100,20 @@
   padding: 1rem;
 }
 .link-btn{
-  color: #1683fb!important;
-  font-family: 'Montserrat-Regular','Arial', sans-serif;
+  color: #0080ff!important;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
   padding: 0.8rem;
   float: right;
 }
 .labelTitle{
-  color: #64707c;
+  color: #64707d;
   font-family: 'Montserrat-Medium','Arial', sans-serif;
   font-size: 15px;
   padding-top: 6px;
 }
 .labelName{
-  color: #2f3e4c;
-  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  color: #2e3e4d;
+  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
   /*font-family: 'Montserrat-SemiBold', 'Arial',sans-serif;*/
   font-size: 16px;
   margin-left: 47px;
@@ -143,9 +143,22 @@
 .urlEdit{
   float: right;
   padding-top: 6px;
-  color: #1683fb!important;
-  font-family: 'Montserrat-Regular','Arial', sans-serif;
+  color: #0080ff!important;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
 }
+.editBtns{
+  padding: 1rem;
+  float: right;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+}
+.editBtns a:nth-child(2){
+  color: #0080ff!important;
+}
+.cancel{
+  padding: 0px 15px 0px 4px;
+  color: #2e3d4d!important;
+}
+
 /*===App info setting===*/
 .setting-info{
   padding: 1rem;

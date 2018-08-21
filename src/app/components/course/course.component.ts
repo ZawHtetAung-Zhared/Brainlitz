@@ -106,8 +106,9 @@ export class CourseComponent implements OnInit {
   }
 
   scrollTop(){
-    console.log("scrollTop")
-    this.doc.documentElement.scrollTop = 0;
+    console.log("scrollTop");
+    window.scrollTo(5, 0)
+    // this.doc.documentElement.scrollTop = 0;
   }
 
   edit(course){
