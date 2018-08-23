@@ -6,6 +6,9 @@
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
+.main-wrapper{
+  padding: 0px 15px;
+}
 
 @keyframes slideInFromLeft {
   100% {

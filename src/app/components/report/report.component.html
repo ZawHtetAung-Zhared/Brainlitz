@@ -1,13 +1,13 @@
 <app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
 <div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
-	<div class="col-md-3 noti-sidebar h-100"  style="width: 25%">
+	<div class="noti-sidebar h-100">
 		<div class="side-bar-wrap">
 			<div [ngClass]="{'active': reportType == 'averageRating'}" class="tab-wrap">
 				<button class="btn noti-tab w-100">Average ratings</button>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-9 heading-margin no-padding">
+	<div class="heading-margin no-padding large-col">
 		<div class="d-flex flex-column w-100 h-100 main-wrapper">
 			<div *ngIf="!showDetail" class="w-100">
 				<div *ngIf="noData" class="txt-color-center">
