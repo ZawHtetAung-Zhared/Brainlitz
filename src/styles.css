@@ -108,6 +108,7 @@ main{
 .btn:disabled {
   cursor: not-allowed !important;
 }
+app-login,
 app-dashboard,
 app-tools{
   display: flex;
