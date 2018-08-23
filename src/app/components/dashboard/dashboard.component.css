@@ -24,7 +24,13 @@
     /*padding-top: 20px;*/
     padding-right: 0;
     padding-left: 0;
-    border-right: 1px solid #dedede;
+    /*border-right: 1px solid #dedede;*/
+    -ms-transition: padding-top 300ms linear;
+    transition: padding-top 300ms linear;
+    width: 25%;
+}
+.large-col{
+  width: 75%;
 }
 
 /*.active .noti-tab::after,
@@ -142,6 +148,7 @@
   margin-left: 47px;
   margin-bottom: 0;
   font-weight: 900;
+  word-break: break-all;
 }
 .timezone-wrap{
   padding-top: 1.5rem;
@@ -301,4 +308,53 @@
 }
 .colorD{
   background-color: #c5cacf;
+}
+
+/*//Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767px) { 
+  
+ }
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991px) { 
+  .xxx{
+    left: -14%;
+  }
+  .noti-tab{
+    padding: 15px 2px;
+  }
+ }
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199px) { 
+  .xxx{
+    left: -14%;
+  }
+  .noti-sidebar{
+    width: 25%
+  }
+  .large-col{
+    width: 75%
+  }
+ }
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) and (max-width: 1999px) { 
+  .xxx{
+    left: -16%;
+  }
+  .noti-sidebar{
+    width: 18%
+  }
+  .large-col{
+    width: 82%
+  }
+}
+@media (min-width: 2000px){
+  .noti-sidebar{
+    width: 15%
+  }
+  .large-col{
+    width: 85%
+  }
 }

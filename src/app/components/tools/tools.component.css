@@ -148,6 +148,10 @@ img.setting-icon {
     /*border-right: 1px solid #dedede;*/
     -ms-transition: padding-top 300ms linear;
   	transition: padding-top 300ms linear;
+    width: 25%;
+}
+.large-col{
+  width: 75%;
 }
 .tab-wrap{
 	/*padding: 9px 0px;*/
@@ -601,12 +605,21 @@ width: 50%;
   .xxx{
     left: -14%;
   }
+  .noti-tab{
+    padding: 15px 2px;
+  }
  }
 
 /*Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) and (max-width: 1199px) { 
   .xxx{
     left: -14%;
+  }
+  .noti-sidebar{
+    width: 25%
+  }
+  .large-col{
+    width: 75%
   }
  }
 
@@ -615,8 +628,18 @@ width: 50%;
   .xxx{
     left: -16%;
   }
- }
-
+  .noti-sidebar{
+    width: 18%
+  }
+  .large-col{
+    width: 82%
+  }
+}
 @media (min-width: 2000px){
-  
+  .noti-sidebar{
+    width: 15%
+  }
+  .large-col{
+    width: 85%
+  }
 }
