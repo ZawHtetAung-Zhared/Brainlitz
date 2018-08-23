@@ -24,9 +24,11 @@ export class ReportComponent implements OnInit {
 	showFeedback: any;
 	showDetail: boolean = false;
 	isSticky: boolean = false;
+	isdropdown: boolean = false;
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
+	public navIsFixed: boolean = false;
 	CreatedDate: any;
   	teacherProfile: any;
   	teacherPreferredName: any;
@@ -48,9 +50,11 @@ export class ReportComponent implements OnInit {
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    console.log(window.pageYOffset)
 	    if(window.pageYOffset >= 20){
-	      	this.isSticky = true;
+	    	console.log('true')
+	      	this.navIsFixed = true;
 	    }else{
-	      	this.isSticky = false;
+	    	console.log('false')
+	      	this.navIsFixed = false;
 	    }
 	  }
 
