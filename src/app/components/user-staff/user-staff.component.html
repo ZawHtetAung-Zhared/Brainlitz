@@ -82,35 +82,46 @@
 		  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="pass" #password="ngModel">
 		  	  	</div>
 			</div>
-			<div class="col-md-5">
+			<div class="col-md-5" style="display: block;">
 				<label for="upload">
-					<div class="profile-box label-txt">
+					<div *ngIf="!imgDemoSlider" class="profile-box label-txt">
 						<div class="form-group">
 							<label for="upload" class="profile-label">Profile</label><br>
 							<div class="circular-profile">
 								<img src="assets/img/user.svg">
 							</div>	
-							<div class="demo-wrap upload-demo">
-					          	<div class="container">
-						            <div class="grid">
-					              	<div class="col-1-2">
-					                	<div class="actions">
-					                		<a class="btn file-btn">
-					                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
-					                		</a>
-					                		<button *ngIf="blankCrop"class="upload-result result-color" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
-					                	</div>
-					              	</div><br />
-							            <div class="upload-demo-wrap">
-							              <div id="upload-demo"></div>
-							            </div>
-						            </div>
-					       		</div>
-						    </div>
 						    <p>Update photo</p>							
 						</div>
+						<div class="demo-wrap upload-demo">
+				          	<div class="container">
+					            <div class="grid">
+				              	<div class="col-1-2">
+				                	<div class="actions">
+				                		<a class="btn file-btn">
+				                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
+				                		</a>
+				                	</div>
+				              	</div><br />
+					            </div>
+				       		</div>
+					    </div>
 					</div>
 				</label>
+				<div class="frame-upload">
+					<div class="upload-demo-wrap">
+		              	<div id="upload-demo"></div>
+		            </div>
+		            <div class="row mr-button">
+		            	<div class="col-md-6 crop-box" style="border-bottom-left-radius: 10px;">
+			            	<div class="br-right">
+			            		<button *ngIf="blankCrop" class="upload-result btn1" (click)="backToUpload()" >Cancel</button>
+			            	</div>
+			            </div>
+		            	<div class="col-md-6 crop-box" style="border-bottom-right-radius: 10px;">
+			            	<button *ngIf="blankCrop" class="upload-result btn2" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
+			            </div>
+		            </div>
+				</div>
 			</div>
 			<div class="col-md-12 pad-bottom">
 				<div class="form-group" style="border-bottom: 1px solid #e3e4e6;" ngFor="let user of permissionLists">
@@ -127,10 +138,10 @@
 						</div>
 		  	    	</div>
 		  	  	</div>
-			</div>
+			</div>			
 			<div class="col-md-12">
 				<div class="button-group">
-					<button type="button" class="bt cancel-button">Cancel</button>
+					<button type="button" class="bt cancel-button" (click)="back()">Cancel</button>
 		        	<button type="submit" (click)="createUser()" class="btn create-button">Create
 					</button>
 				</div>

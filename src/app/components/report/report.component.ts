@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import * as moment from 'moment'; //
+import * as moment from 'moment'; 
+declare var $: any;
 
 @Component({
   selector: 'app-report',
@@ -23,27 +24,37 @@ export class ReportComponent implements OnInit {
 	showFeedback: any;
 	showDetail: boolean = false;
 	isSticky: boolean = false;
+	isdropdown: boolean = false;
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
-	utcStartDate: any;
-  	utcEndDate: any;
+	public navIsFixed: boolean = false;
+	CreatedDate: any;
   	teacherProfile: any;
   	teacherPreferredName: any;
   	teacherRating: any;
   	teacherVote: any;
   	feedBackUserGroup: any[] = [];
+  	reportType: any;
 
   	ngOnInit() {
+  		this.reportType = 'averageRating';
   		this.getStaffRating();
+  		window.addEventListener('scroll', this.scroll, true);
+  		this.dropDownShow = false;
   	}
+
+  	scroll = (e): void => {
+  	};
 
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    console.log(window.pageYOffset)
-	    if(window.pageYOffset >= 40){
-	      this.isSticky = true;
+	    if(window.pageYOffset >= 20){
+	    	console.log('true')
+	      	this.navIsFixed = true;
 	    }else{
-	      this.isSticky = false;
+	    	console.log('false')
+	      	this.navIsFixed = false;
 	    }
 	  }
 
@@ -54,22 +65,23 @@ export class ReportComponent implements OnInit {
   		this.teacherRating = data.rating;
   		this.teacherVote = data.voter;
   		this.showDetail = true;
+  		this.dropDownShow = false;
 		this._service.getFeedBackList(this.regionID, teacherId)
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
 			console.log('this.feedbackLists', this.feedbackLists)
-			// for (var i in this.feedbackLists) {
-			//     if(this.feedbackLists[i].course.startDate){
-			//     	let startDateGet = this.feedbackLists[i].course.startDate;
-		 //       		this.utcStartDate = moment.utc(startDateGet).toDate().toUTCString();
-		 //          	this.feedbackLists[i].course.startDate = this.utcStartDate;
-		 //        }
-		 //        if(this.feedbackLists[i].course.endDate){
-		 //        	let endDateGet = this.feedbackLists[i].course.endDate;
-		 //        	this.utcEndDate = moment.utc(endDateGet).toDate().toUTCString();
-		 //        	this.feedbackLists[i].course.endDate = this.utcEndDate;
-		 //        }
-		 //      }
+			for (var i = 0; i < this.feedbackLists.length; i++) {				
+				for (var j = 0; j < this.feedbackLists[i].feedbacks.length; j++) {
+					console.log(this.feedbackLists[i].feedbacks[j])
+					var tempData = this.feedbackLists[i].feedbacks[j].createdDate;
+					var date = new Date(tempData);
+					var tempDay = date.getUTCDate() ;
+					var tempMonth = moment().month(date.getUTCMonth()).format("MMM");
+					var tempYear = date.getUTCFullYear();
+					this.CreatedDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
+					console.log(this.CreatedDate)
+				}
+			}
 
 
 	    }, err => {
@@ -100,7 +112,34 @@ export class ReportComponent implements OnInit {
 	}
 
 	back(){
-		console.log('hh')
 		this.showDetail = false;
 	}
+
+	dropDownShow: boolean = false;
+
+	@HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+        if(this.dropDownShow == false){
+           $('.dropdown-menu').css('display', 'none');
+           $('.bg-box').css('display', 'none');  
+        }
+        else {
+            $('.dropdown-menu').css('display', 'block');
+            $('.bg-box').css('display', 'block');
+            this.dropDownShow = false;
+
+        }
+    }
+  	
+	dropDown(){
+        var x = document.getElementsByClassName('dropdown-menu');
+        if( (x[0]as HTMLElement).style.display == 'block'){
+        	(x[0]as HTMLElement).style.display = 'none';
+        }
+        else {
+        	 (x[0]as HTMLElement).style.display = 'block';
+        	 this.dropDownShow = true;
+        }
+	}
+
 }

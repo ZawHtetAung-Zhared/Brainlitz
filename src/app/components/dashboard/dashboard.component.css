@@ -6,7 +6,7 @@
   padding-top: 63px;
 }
 .content-wrapper{
-  padding-top: 150px;
+  padding-top: 149px;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -21,13 +21,19 @@
 }
 
 .noti-sidebar {
-    padding-top: 20px;
+    /*padding-top: 20px;*/
     padding-right: 0;
     padding-left: 0;
-    border-right: 1px solid #dedede;
+    /*border-right: 1px solid #dedede;*/
+    -ms-transition: padding-top 300ms linear;
+    transition: padding-top 300ms linear;
+    width: 25%;
+}
+.large-col{
+  width: 75%;
 }
 
-.active .noti-tab::after,
+/*.active .noti-tab::after,
 .active .noti-tab::before {
   content: '';
   position: absolute;
@@ -48,18 +54,21 @@
 .active{
   background: #e6ecf2;
 }
+*/
 .active .noti-tab{
-  background: #e6ecf2;
+  /*background: #e6ecf2;*/
   color: #4292f1;
-  border-left: 3px solid #4292f1;
+  /*border-left: 3px solid #4292f1;*/
 }
 .noti-tab{
-  padding: 7px 12px;
+  padding: 7px 20px;
   border-radius: 0;
   outline: none;
-  background: #fff;
-  border-left: 3px solid transparent;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  background: transparent;
+  /*border-left: 3px solid transparent;*/  
+  font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+  color: #2e3e4d;
+  font-size: 16px;
 }
 .noti-tab:focus{
   outline: none;
@@ -70,4 +79,282 @@
     min-height: 350px; 
     overflow: scroll;
     border-left: 1px solid #dedede; 
+}
+
+/*===comfirm UI===*/
+.setting-icon{
+  width: 25px;
+}
+.btnSpan{
+  float: left;
+  /*margin-left: 10px;*/
+}
+.btnSpan span{
+  margin-left: 5px;
+}
+.setting-wrapper{
+  padding: 23px 30px 0px 30px;
+}
+.header-wrap{
+  margin-bottom: 30px;
+}
+.general{
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  color: #2e3d4d;
+}
+.card-columns{
+  column-count: 2;
+}
+.card-wrap{
+  font-size: 14px;
+  border-radius: 9px;
+  margin: 10px 0px 10px 0px;    
+  border: 1px solid #F0F0F0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.region-wrap{
+  height: 309px;
+}
+.title{
+  color: #ffffff;
+  padding: 1rem;
+  background: #64707d;
+  border-radius: 8px 8px 0px 0px;
+  font-size: 1.15rem;
+  font-family: 'Montserrat-Regular','Arial', sans-serif;
+}
+.region-info{
+  border-bottom: 1px solid #edeff0;
+  padding: 1rem;
+  height: 195px;
+}
+.link-btn{
+  color: #0080ff!important;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  padding: 0.8rem;
+  float: right;
+}
+.labelTitle{
+  color: #64707d;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  font-size: 15px;
+  padding-top: 6px;
+}
+.labelName{
+  color: #2e3e4d;
+  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+  /*font-family: 'Montserrat-SemiBold', 'Arial',sans-serif;*/
+  font-size: 16px;
+  margin-left: 47px;
+  margin-bottom: 0;
+  font-weight: 900;
+  word-break: break-all;
+}
+.timezone-wrap{
+  padding-top: 1.5rem;
+}
+/*.social-links{
+  float: left;
+  text-align: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 100%;
+  margin-right: 12px; 
+  background: #f2f4f5;
+} 
+.social-links a img{
+    margin-top: 8px;
+}*/
+.title-wrap{
+  display: flex;
+}
+#parent{
+  line-height: 28px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  background: #edeff0;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+#parent img{
+  vertical-align: middle;
+}
+
+.picker-wrap{
+  pointer-events: none;
+  margin-left: 40px;
+}
+
+.urlEdit{
+  float: right;
+  padding-top: 6px;
+  color: #0080ff!important;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  margin-left: auto;
+}
+.editBtns{
+  padding: 1rem;
+  float: right;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+}
+.editBtns a:nth-child(2){
+  color: #0080ff!important;
+}
+.cancel{
+  padding: 0px 15px 0px 4px;
+  color: #2e3d4d!important;
+}
+/*===App info setting===*/
+.setting-info{
+  padding: 1rem;
+  position: relative;
+  /*transition: all 0.3s ease-in-out;*/
+}
+.link-wrap{
+  /*border-bottom: 1px dashed #eaeaeb;*/
+  border-bottom: 1.5px dashed #ecedee;
+  border-bottom: 1.5px dashed #ecedee;
+  padding-bottom: 20px;
+}
+.module-container{
+  margin-left: 40px;
+}
+
+/*Overlay Testing*/
+.setting-container {
+  position: relative;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ease{
+  transition: all 0.3s ease-in-out;
+}
+.overlay {
+  background: rgba(217, 217, 217, 0.7);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  width: 100%;
+  padding: 1rem;
+}
+.blur{
+  filter: blur(8px);
+}
+.overlayBtns{
+  float: right;
+}
+.closemark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: #425568;
+  left: 5px;
+  top: 3px;
+}
+
+.closemark_kick {
+    transform: rotate(90deg);
+}
+.checkmark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background-color: #425568;
+    left: 6px;
+    top: 1px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: #425568;
+    left: 2px;
+    top: 12px;
+}
+.colorD{
+  background-color: #c5cacf;
+}
+
+/*//Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767px) { 
+  
+ }
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991px) { 
+  .xxx{
+    left: -14%;
+  }
+  .noti-tab{
+    padding: 15px 2px;
+  }
+ }
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199px) { 
+  .xxx{
+    left: -14%;
+  }
+  .noti-sidebar{
+    width: 25%
+  }
+  .large-col{
+    width: 75%
+  }
+ }
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) and (max-width: 1999px) { 
+  .xxx{
+    left: -16%;
+  }
+  .noti-sidebar{
+    width: 18%
+  }
+  .large-col{
+    width: 82%
+  }
+}
+@media (min-width: 2000px){
+  .noti-sidebar{
+    width: 15%
+  }
+  .large-col{
+    width: 85%
+  }
 }

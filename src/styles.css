@@ -105,8 +105,8 @@ main{
   min-width: 155px;
 }
 
-.btn-not-allowed {
-  cursor: not-allowed;
+.btn:disabled {
+  cursor: not-allowed !important;
 }
 app-dashboard,
 app-tools{
@@ -171,9 +171,126 @@ svg.star-filled.default-star-filled-icon {
   box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
 }
 .side-bar-wrap{
+  background: #f2f4f5;
   position: fixed;
   width: inherit;
   height: 100%;
-  border-right: 1px solid #dedede;
+  /*border-right: 1px solid #dedede;*/
   transition: height 300ms linear, transform 300ms linear;
+}
+
+.drag-wrapper .drag-scroll-content {
+  width: 100% !important;
+}
+/*===timezone picker===*/
+ng2-timezone-picker.newpick .select2-selection__arrow{
+  display:none!important;
+}
+.newpick .select2-selection--single{
+  border: 0!important;
+  border-color: transparent!important;
+}
+.newpick .select2-selection__rendered{
+  color: #2e3e4d;
+  font-size: 16px;
+  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+  font-weight: 900;
+}
+
+.custom-dropdown .dropdown-menu {
+  right: 0;
+  left: unset !important;
+  top: 138% !important;
+  padding: 0 15px;
+  color: #2e3d4d !important;
+}
+
+/*===timezone picker Edit===*/
+ng2-timezone-picker.editTimezone .select2-selection--single{
+  background-color: #f2f4f5!important;
+  outline: none;
+}
+ng2-timezone-picker.editTimezone .select2-selection__rendered{
+  color: #2e3d4d;
+  font-size: 16px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+}
+ng2-timezone-picker.editTimezone .select2-selection__arrow b{
+  display: none;
+}
+ng2-timezone-picker.editTimezone .select2-selection__arrow::before{
+  border-style: solid;
+  border-width: 0.15em 0.15em 0 0;
+  content: '';
+  display: inline-block;
+  height: 0.55em;
+  right: 0.15em;
+  position: relative;
+  top: 7px;
+  transform: rotate(135deg);
+  vertical-align: top;
+  width: 0.55em;
+  color: #3d5266;
+}
+
+/*.modal-dialog{
+    width: 320px !important;
+    top: 30%;
+}*/
+
+@media (min-width: 576px){
+   .modal-dialog {
+       /*max-width: 500px;*/
+       max-width: 320px !important;
+       margin: 0 auto !important;
+       top: 30%;
+   } 
+}
+
+/*===back to top button===*/
+span.scrollup{
+  width: 46px;
+  height: 46px;
+  line-height: 46px;
+  font-size: 24px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  background-color: #0080ff;
+  position: fixed;
+  right: 60px;
+  cursor: pointer;
+  opacity: 0;
+  bottom: 0;
+  transition: all 0.75s ease-in-out;
+}
+
+span.scrollup.show{
+  opacity: 1;
+  bottom: 60px;
+}
+
+span.scrollup:before {
+    content: '';
+    width: 64px;
+    height: 64px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #0080ff;
+    opacity: .3;
+    position: absolute;
+    top: -9px;
+    left: -9px;
+    transform: scale(0.5);
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+span.scrollup.show:hover:before {
+    transform: scale(1);
 }

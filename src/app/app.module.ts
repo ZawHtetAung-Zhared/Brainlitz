@@ -51,6 +51,7 @@ import { GetDayPipe } from './service/pipe/day.pipe';
 import { StarRatingModule } from 'angular-star-rating';
 import { ReadmoreComponent } from './components/readmore/readmore.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { UserStaffComponent } from './components/user-staff/user-staff.component
     ConvertTimeFormatPipe,
     GetDayPipe,
     ReadmoreComponent,
-    UserStaffComponent
+    UserStaffComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

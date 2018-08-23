@@ -1,14 +1,13 @@
-<div class="d-flex flex-column w-100 h-100 inner-wrapper">
-  <div class="mb-30">
-    <h2>Module</h2>
+<div>
+  <div>
     <h2 *ngIf="noModule">There is no module</h2>
-    <div *ngFor="let module of moduleList">
-      <div *ngIf="module._id" class="module-wrap">
-        <label class="module-name">
+    <div *ngFor="let module of moduleList; let isLast=last;">
+      <div *ngIf="module._id" class="module-wrap" [ngClass]="{'hideBorder':isLast}">
+        <label class="module-name" [ngClass]="{'checkedLabel': module.visible}">
           {{module.name}}
         </label>
         <div class="toggle-wrap">
-          <label class="visible-label">Visible in App</label>
+          <!-- <label class="visible-label">Visible in App</label> -->
           <label class="switch">
             <input type="checkbox" (change)="selectModule(module,$event)" [checked]="module.visible == true">
             <span class="slider round"></span>
