@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -21,7 +21,8 @@ export class QuizwerkzComponent implements OnInit {
 	closeResult: string;
 	public pdfList: any;
   public isEdit:boolean = false;
-	public iscreate:boolean = false;
+  public iscreate:boolean = false;
+	public navIsFixed:boolean = false;
 	public currentID:any;
   public selectQw:any;
   public deleteQw:any;
@@ -37,6 +38,19 @@ export class QuizwerkzComponent implements OnInit {
   	this.getAllPdf();
   }
 
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    // console.log($event);
+    // console.log("scrolling");
+    // console.log(window.pageYOffset)
+    if(window.pageYOffset > 40){
+      console.log('greater than 100')
+      this.navIsFixed = true;
+    }else{
+      console.log('less than 100')
+      this.navIsFixed = false;
+    }
+  } 
+  
   cancel(){
     this.iscreate = false;
     this.formField = new quizWerkzForm();

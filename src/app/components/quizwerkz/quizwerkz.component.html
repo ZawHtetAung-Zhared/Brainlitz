@@ -1,4 +1,14 @@
-<div class="min-scroll">
+<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+  <div class="d-flex justify-content-between">
+    <div class="mr-auto">
+      <div class="d-flex flex-row">
+        <h2 class="title-heading">QuizWerkz</h2>
+      </div>
+    </div>
+    <button type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
+  </div>
+</div>
+<div class="min-scroll main-wrapper">
   <div *ngIf="iscreate == false">
     <div class="d-flex justify-content-between heading-margin">
       <div class="mr-auto">
