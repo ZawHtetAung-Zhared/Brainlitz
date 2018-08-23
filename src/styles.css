@@ -293,5 +293,3 @@ span.scrollup:before {
 span.scrollup.show:hover:before {
     transform: scale(1);
 }
-
-
