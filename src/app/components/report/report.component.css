@@ -10,6 +10,7 @@
   transition: padding-top 300ms linear;
 }
 .main-wrapper{
+  /*display: block;*/
   padding: 0px 15px;
 }
 
