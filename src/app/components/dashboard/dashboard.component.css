@@ -1,3 +1,6 @@
+.tab-wrap:first-child{
+  margin-top: 14px;
+}
 .pl-zero{
   padding-left: 0;
   padding-right: 0;
@@ -15,7 +18,7 @@
 }
 
 .tab-wrap{
-    padding: 9px 0px;
+    /*padding: 9px 0px;*/
     position: relative;
     outline: none;
 }
@@ -61,7 +64,7 @@
   /*border-left: 3px solid #4292f1;*/
 }
 .noti-tab{
-  padding: 7px 20px;
+  padding: 15px 26px;
   border-radius: 0;
   outline: none;
   background: transparent;

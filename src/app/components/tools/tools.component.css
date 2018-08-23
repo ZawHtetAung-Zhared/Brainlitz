@@ -1,6 +1,13 @@
 img.setting-icon {
     width: 25px;
 }
+.btnSpan{
+  float: left;
+  /*margin-left: 10px;*/
+}
+.btnSpan span{
+  margin-left: 5px;
+}
 .main-wrapper{
     padding: 0 15px;
 }
@@ -306,7 +313,7 @@ img.setting-icon {
 .oo::before,
 .oo::after {
   content: '';
-  width: 100px;
+  width: 85px;
   background: white;
   position: absolute;
   z-index: 9;
