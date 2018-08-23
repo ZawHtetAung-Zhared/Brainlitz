@@ -87,11 +87,14 @@ export class QuizwerkzComponent implements OnInit {
   }
 
   getAllPdf(){
+    this.blockUI.start('Loading...');
   	this._service.getAllPdf(this.regionID)
 		.subscribe((res:any) => {
+      this.blockUI.stop();
       this.pdfList = res;
       console.log("pdflist",this.pdfList);
     }, err => {
+      this.blockUI.stop();
     	console.log(err)
     })
   }

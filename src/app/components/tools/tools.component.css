@@ -1,3 +1,6 @@
+img.setting-icon {
+    width: 25px;
+}
 .main-wrapper{
     padding: 0 15px;
 }
@@ -149,6 +152,7 @@
 .tab-wrap{
 	/*padding: 9px 0px;*/
 	position: relative;
+  overflow-x: hidden;
 }
 /*.active .noti-tab::after,
 .active .noti-tab::before {
@@ -180,8 +184,9 @@
   margin-top: 14px;
 }
 .noti-tab{
+  text-align: left;
   background: transparent;
-	padding: 14px 12px;
+	padding: 15px 26px;
 	border-radius: 0;
 	outline: none;
 	border-left: 3px solid transparent;
