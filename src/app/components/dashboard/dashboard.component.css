@@ -87,6 +87,9 @@
   border: 1px solid #F0F0F0;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+.region-wrap{
+  height: 309px;
+}
 .title{
   color: #ffffff;
   padding: 1rem;

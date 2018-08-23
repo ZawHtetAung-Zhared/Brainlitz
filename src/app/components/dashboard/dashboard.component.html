@@ -2,21 +2,15 @@
 <div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
     <div class="col-md-2 noti-sidebar h-100"  style="width: 16.666667%">
       <div class="side-bar-wrap">
+        <div [ngClass]="{'active': menuType == 'admin'}" class="tab-wrap">     
+          <button class="btn noti-tab w-100" (click)="clickTab('admin')">General</button>
+        </div>
         <div [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('location')">Locations</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'admin'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('admin')">General</button>
         </div>
         <!-- <div [ngClass]="{'active': menuType == 'module'}" class="tab-wrap">     
           <button class="btn noti-tab w-100" (click)="clickTab('module')">Module</button>
         </div> -->
-        <div [ngClass]="{'active': menuType == 'apg'}" class="tab-wrap">      
-          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'template'}" class="tab-wrap">      
-          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('template')">Template</button>
-        </div>
       </div>
     </div>
     <div *ngIf="menuType == 'admin'" class="col-md-10" >
@@ -24,7 +18,7 @@
         <div>
           <h3 class="general">General</h3>
           <div class="card-columns">
-            <div class="card card-wrap">
+            <div class="card card-wrap region-wrap">
               <div class="title">
                 Regional Settings
               </div>
