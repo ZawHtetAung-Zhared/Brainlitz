@@ -46,7 +46,6 @@ export class UsersComponent implements OnInit {
 	input: any;
 	uploadCrop: any;
 	blankCrop: boolean = false;
-	cropButton: boolean = true;
 	isSticky: boolean = false;
 	modalReference: any;
 	closeResult: any;
@@ -70,12 +69,14 @@ export class UsersComponent implements OnInit {
   	public navIsFixed: boolean = false;
   	public isCreateFix: boolean = false;
   	atLeastOneMail: boolean = false;
+  	imgDemoSlider: boolean = false;
 
-	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
 
 
 	ngOnInit() {
+		this.blankCrop = false; 
 		this.getAllUsers('customer');
 	}
 
@@ -397,11 +398,96 @@ export class UsersComponent implements OnInit {
 	goCreateForm(){
 		this.showFormCreate = true;
 		console.log('create')
+		setTimeout(function() {
+	      $(".frame-upload").css('display', 'none');
+	    }, 10);
 	}
 
 	back(){
 		console.log('back')
 		this.showFormCreate = false;
+		this.blankCrop = false;
+	}
+
+	uploadCropImg($event: any) {
+	    this.blankCrop = true; 
+	    $(".frame-upload").css('display', 'block');
+	    this.imgDemoSlider = true;
+	    $("#upload-demo img:first").remove();
+	    this.input = $event.target.files[0];
+	    if (this.input) {
+	      	if (this.input && this.uploadCrop) {
+	        	this.uploadCrop.destroy();
+	      	}
+      	var reader = new FileReader();
+        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
+	        viewport: {
+	            width: 150,
+	            height: 150,
+	            type: 'circle'
+	          },
+	        boundary: {
+	            width: 300,
+	            height: 300
+	        },
+          	enableExif: true
+        });
+	      	var $uploadCrop = this.uploadCrop;
+	      	reader.onload = function(e: any) {
+	        $uploadCrop.bind({
+	            url: e.target.result
+	          })
+	          .then(function(e: any) {});
+	      };
+	      reader.readAsDataURL($event.target.files[0]);
+	    }
+  	}
+
+  	cropResult(modal) {
+	    let self = this;
+	    this.imgDemoSlider = false;
+	    setTimeout(function() {
+	      $("#upload-demo img:last-child").attr("id", "blobUrl");
+	      $(".frame-upload").css('display', 'none');
+	      this.blankCrop = false;
+	    }, 200);
+	    this.uploadCrop
+	      .result({
+	      	circle: false,
+	        type: "canvas",
+	        size: {
+				width: 800,
+				height: 800
+			},
+			quality:1 
+	      })
+	      .then(function(resp: any) {
+	        if (resp) {
+	        	setTimeout(function() {
+	        		$(".circular-profile img").remove();
+	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
+	           	}, 200);
+	        }
+	    });
+  	}
+
+  	dataURItoBlob(dataURI: any) {
+	    var byteString = atob(dataURI.split(",")[1]);
+	    var mimeString = dataURI
+	      .split(",")[0]
+	      .split(":")[1]
+	      .split(";")[0];
+	    var ab = new ArrayBuffer(byteString.length);
+	    var ia = new Uint8Array(ab);
+	    for (var i = 0; i < byteString.length; i++) {
+	      ia[i] = byteString.charCodeAt(i);
+	    }
+	    return new Blob([ab], { type: mimeString });
+	}
+
+	backToUpload(){
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 
 
