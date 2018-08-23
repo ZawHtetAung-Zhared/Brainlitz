@@ -1,30 +1,35 @@
 <app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
 <div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
-    <div class="col-md-2 noti-sidebar h-100"  style="width: 16.666667%">
+    <div class="noti-sidebar h-100">
       <div class="side-bar-wrap">
+        <div [ngClass]="{'active': menuType == 'general'}" class="tab-wrap">     
+          <button class="btn noti-tab w-100" (click)="clickTab('general')">
+            <span class="btnSpan">
+              <img *ngIf="menuType == 'general'" class="setting-icon" src="./assets/images/sidebar-general_a@2x.png">
+              <img *ngIf="menuType != 'general'" class="setting-icon" src="./assets/images/sidebar-general@2x.png">
+              <span>General</span>
+            </span>
+          </button>
+        </div>
         <div [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('location')">Locations</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'admin'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('admin')">General</button>
-        </div>
-        <!-- <div [ngClass]="{'active': menuType == 'module'}" class="tab-wrap">     
-          <button class="btn noti-tab w-100" (click)="clickTab('module')">Module</button>
-        </div> -->
-        <div [ngClass]="{'active': menuType == 'apg'}" class="tab-wrap">      
-          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'template'}" class="tab-wrap">      
-          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('template')">Template</button>
+          <button class="btn noti-tab w-100" (click)="clickTab('location')">
+            <span class="btnSpan">
+              <img *ngIf="menuType == 'location'" class="setting-icon" src="./assets/images/sidebar-location_a@2x.png">
+              <img *ngIf="menuType != 'location'" class="setting-icon" src="./assets/images/sidebar-location@2x.png">
+              <span>Locations</span>
+            </span>
+          </button>
         </div>
       </div>
     </div>
-    <div *ngIf="menuType == 'admin'" class="col-md-10" >
-      <div class="d-flex flex-column w-100 h-100 inner-wrapper">
+    <div *ngIf="menuType == 'general'" class="pl-zero large-col" >
+      <div class="d-flex flex-column w-100 h-100 setting-wrapper">
         <div>
-          <h3 class="general">General</h3>
+          <div class="header-wrap">
+            <h3 class="general">General</h3>
+          </div>
           <div class="card-columns">
-            <div class="card card-wrap">
+            <div class="card card-wrap region-wrap">
               <div class="title">
                 Regional Settings
               </div>
@@ -142,26 +147,8 @@
         </div>
       </div>
     </div>
-    <div *ngIf="menuType == 'location'" class="col-md-10 pl-zero">
+    <div *ngIf="menuType == 'location'" class="col-md-9 pl-zero">
       <app-location></app-location>
-    </div> 
-    <!-- <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">
-      <app-module></app-module>
-    </div>   -->
-    <div *ngIf="menuType == 'apg'" class="col-md-10 min-scroll">
-        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
-          <div class="mb-30">
-            <app-apg></app-apg>
-          </div>
-        </div>    
-    </div> 
-    <div *ngIf="menuType == 'template'" class="col-md-10 min-scroll">
-        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
-          <div class="mb-30">
-            <h2>Template</h2>
-            <app-template></app-template>            
-          </div>
-        </div>    
-    </div>   
+    </div>  
 </div>
 <block-ui message="Deafult Message"></block-ui>

@@ -35,7 +35,7 @@ li button{
     margin-left: 20px !important;
 }
 .title{
-  margin: 20px 0px 35px 0px;
+  margin: 35px 0px 35px 0px;
 }
 .back-wrap{
   margin-bottom: 10px;
@@ -120,12 +120,11 @@ li button{
 }
 .addCourseBtn{
   font-size: 25px;
-  font-family: Montserrat-Light;
+  font-family: 'Montserrat-Light',Arial,sans-serif;
   padding: 0px 10px 0px 10px;
 }
 .course-wrap{
   display: flex;
-  /*height: 150px;*/
   padding: 1.05rem;
   border-bottom: 1px solid #f0f2f3;
   color: #8a939d;
@@ -137,12 +136,13 @@ li button{
   right: 0;
   padding: 0px 4px 0px 4px;
   height: 20px;
-  background: #1683fb;
-  color: #f4f9ff;
+  background: #007fff;
+  color: #ffffff;
   text-align: center;
   font-size: 0.8rem;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 .no-seat{
   position: absolute;
@@ -166,25 +166,24 @@ li button{
   margin-bottom: 20px;
 }
 .light-font{
-  font-family: Montserrat-Light;
+  font-family: 'Montserrat-Light',Arial,sans-serif;
 }
 .medium-font{
-  font-family: Montserrat-Medium;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 .regular-font{
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
 }
 .semibold{
-  font-family: Montserrat-SemiBold;
+  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
 }
 .course-info{
   width: 100%;
   padding-left: 1rem;
 }
 .course-label{
-  color: #354351;
-  font-weight: 900;
-  font-family: Montserrat-Regular;
+  color: #2e3e4d;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .btn-card{
   border: 0;
@@ -212,27 +211,26 @@ li button{
   border: 0;
   width: 100%;
   border-radius: 4px;
-  font-family: Montserrat-Medium;
-  color: #525e6b;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  color: #2e3d4d;
   cursor: pointer;
 }
 .btn-plusicon{
   font-size: 22px;
-  font-family: Montserrat-light;
+  font-family: 'Montserrat-light',Arial,sans-serif;
 }
 .btn-label{
   font-size: 15px;
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
 }
 .link-wrap{
   text-align: center;
   padding: 15px;
-  font-family: Montserrat-Regular;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 .link-btn{
   text-decoration: none;
-  color: #87909a;
-  /*color: #9099a2;*/
+  color: #64707d;
 }
 .time-color{
   color: #97a0a8;

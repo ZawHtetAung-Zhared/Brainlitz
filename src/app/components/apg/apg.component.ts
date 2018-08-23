@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef } from '@angular/core';
+import { Component, OnInit,ViewContainerRef, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -62,6 +62,7 @@ export class ApgComponent implements OnInit {
     public iscreate: boolean = false;
     public ischecked: any;
     public isUpdate: boolean = false;
+    public navIsFixed: boolean = false;
     responseAP: any;
 
   	ngOnInit() {
@@ -70,6 +71,19 @@ export class ApgComponent implements OnInit {
 	  	this.getAllModule();
 	  	this.getAllAPG();
   	}
+
+    @HostListener('window:scroll', ['$event']) onScroll($event){
+      // console.log($event);
+      // console.log("scrolling");
+      // console.log(window.pageYOffset)
+      if(window.pageYOffset > 40){
+        console.log('greater than 100')
+        this.navIsFixed = true;
+      }else{
+        console.log('less than 100')
+        this.navIsFixed = false;
+      }
+    } 
 
     cancelapg(){
       this.model = {};

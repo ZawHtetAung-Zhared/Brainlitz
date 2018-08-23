@@ -171,10 +171,11 @@ svg.star-filled.default-star-filled-icon {
   box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
 }
 .side-bar-wrap{
+  background: #f2f4f5;
   position: fixed;
   width: inherit;
   height: 100%;
-  border-right: 1px solid #dedede;
+  /*border-right: 1px solid #dedede;*/
   transition: height 300ms linear, transform 300ms linear;
 }
 

@@ -1,4 +1,14 @@
-<div class="min-scroll">
+<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+  <div class="d-flex justify-content-between">
+    <div class="mr-auto">
+      <div class="d-flex flex-row">
+        <h2 class="title-heading">QuizWerkz</h2>
+      </div>
+    </div>
+    <button type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
+  </div>
+</div>
+<div class="min-scroll main-wrapper">
   <div *ngIf="iscreate == false">
     <div class="d-flex justify-content-between heading-margin">
       <div class="mr-auto">
@@ -20,7 +30,7 @@
                     <h4>{{pdf.name}}</h4>
                   </div>
                   <div class="btn-section d-flex justify-content-end">
-                    <button class="btn-action" (click)="onclickUpdate(pdf._id)">Edit</button> | <button class="btn-action" (click)="onclickDelete(pdf._id)">Delete</button>
+                    <button class="btn-action" (click)="onclickUpdate(pdf._id)">Edit</button> | <button class="btn-action" (click)="onClickDelete(pdf._id, deletemodal)">Delete</button>
                   </div>
                 </div>
             </div>
@@ -74,3 +84,19 @@
     </div>
   </div>
 </div>
+
+<ng-template #deletemodal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Confirm delete?</h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body pdf-confirm">
+    <p>Are You sure you want to delete <span class="target">"{{selectQw}}"</span>?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn modal-delete-btn" (click)="quizwerkzDelete(currentID)">Delete</button>
+  </div>
+</ng-template>

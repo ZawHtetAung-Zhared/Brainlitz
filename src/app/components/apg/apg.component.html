@@ -1,4 +1,15 @@
-<div *ngIf="ismodule == false && iscreate == false">
+<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+  <div class="d-flex justify-content-between">
+    <div class="mr-auto">
+		<div class="d-flex flex-row">
+			<h2 class="title-heading">APG</h2>
+			<span class="apg-longterm">Access Point Group</span>
+		</div>
+	</div>
+	<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button> 
+  </div>
+</div>
+<div class="main-wrapper" *ngIf="ismodule == false && iscreate == false">
 	<div class="d-flex justify-content-between heading-margin">
 		<div class="mr-auto">
 			<div class="d-flex flex-row">
@@ -37,7 +48,7 @@
 	</div>
 </div>
 
-<div class="content-wrapper" *ngIf="ismodule == true || iscreate == true">
+<div class="main-wrapper" *ngIf="ismodule == true || iscreate == true">
   <div class="back-wrap">
     <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a>
     <a class="back-to" *ngIf="iscreate == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>

@@ -33,37 +33,37 @@
                 </div>
                 <div class="date-wrap">
                   <div class="startDate-wrap">
-                    <span class="regular-font">From</span>
-                    <div class="medium-font">{{course.startDate | date}}</div>
+                    <span class="medium-font">From</span>
+                    <div class="semibold">{{course.startDate | date}}</div>
                   </div>
                   <div *ngIf = "course.endDate">
-                    <span class="regular-font">To</span>
-                    <div class="medium-font">{{course.endDate | date}}</div>
+                    <span class="medium-font">To</span>
+                    <div class="semibold">{{course.endDate | date}}</div>
                   </div>
                   <div *ngIf = "course.lessonCount">
-                    <span class="medium-font">{{ course.lessonCount }}</span>
-                    <div class="regular-font">Lessons</div>
+                    <span class="semibold">{{ course.lessonCount }}</span>
+                    <div class="medium-font">Lessons</div>
                   </div>
                 </div>
                 <div class="course-info">
                   <div class="course-detail">
                     <div>
-                      <label class="category item-width medium-font">
+                      <label class="category item-width semibold">
                         <i class="fa fa-map-marker" style="font-size:15px"></i>
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
                     <h5 class="course-label">{{ course.name }}</h5>
-                    <span class="staff-info regular-font">by {{ course.teacher.preferredName }} 
+                    <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     <!-- <ul><li>0 staff</li></ul> -->
                     </span>
                   </div>
                   <div class="second-info">
                     <div class="time-wrap">
-                      <span class="medium-font" *ngFor="let day of course.repeatDays | weekDays">
+                      <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                         {{ day }}
                       </span>
-                      <div class="regular-font time-color">
+                      <div class="medium-font time-color">
                         {{ course.courseDuration.starttime | convertTimeFormat }} - {{ course.courseDuration.endtime | convertTimeFormat }}
                       </div>
                     </div>
@@ -82,7 +82,7 @@
       </div>
     </div>
   </div>
-  <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span>
+  <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
 <app-category class="category-content" *ngIf="isCategory == true"></app-category>

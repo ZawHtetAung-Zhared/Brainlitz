@@ -1,184 +1,196 @@
-<app-header></app-header>
-<div class="d-flex flex-row h-100 w-100 content-wrapper" >
-    <div class="col-md-2 noti-sidebar h-100"  style="width: 16.666667%">
+<app-header [ngClass]="{'stick' : isSticky == true}"></app-header>
+<div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : isSticky == true}">
+    <div class="noti-sidebar h-100">
 	    <div class="side-bar-wrap">
 			<div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('send')">Send notification</button>
+				<button class="btn noti-tab w-100" (click)="clickTab('send')">
+					<span class="btnSpan">
+            	<img *ngIf="notiType == 'send'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
+            	<img *ngIf="notiType != 'send'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
+						<span>Send notification</span>
+					</span>
+				</button>
 			</div>
 			<div [ngClass]="{'active': notiType == 'view'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('view')">View sent history</button>
+				<button class="btn noti-tab w-100" (click)="clickTab('view')">
+					<span class="btnSpan">
+            	<img *ngIf="notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
+            	<img *ngIf="notiType != 'view'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
+						<span>View sent history</span>
+					</span>
+				</button>
 			</div>
 			<div [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
+				<button class="btn noti-tab w-100" (click)="clickTab('apg')">
+					<span class="btnSpan">
+            	<img *ngIf="notiType == 'apg'" class="setting-icon" src="./assets/images/sidebar-APG_a@2x.png">
+            	<img *ngIf="notiType != 'apg'" class="setting-icon" src="./assets/images/sidebar-APG@2x.png">
+						<span>APG</span>
+					</span>
+				</button>
 			</div>
-			<div [ngClass]="{'active': notiType == 'pagewerkz'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('quizwerkz')">Quizwerkz</button>
+			<div [ngClass]="{'active': notiType == 'quizwerkz'}" class="tab-wrap">			
+				<button class="btn noti-tab w-100" (click)="clickTab('quizwerkz')">
+					<span class="btnSpan">
+            	<img *ngIf="notiType == 'quizwerkz'" class="setting-icon" src="./assets/images/sidebar-quizwerkz_a@2x.png">
+            	<img *ngIf="notiType != 'quizwerkz'" class="setting-icon" src="./assets/images/sidebar-quizwerkz@2x.png">
+						<span>Quizwerkz</span>
+					</span>
+				</button>
 			</div>
 		</div>
     </div>
-    <div class="col-md-10 min-scroll heading-margin">
-    	<div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'send'">
-			<h2 class="title-heading">Send notification</h2>
-			<div class="d-flex flex-row">
-				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-					<form novalidate #notiForm="ngForm" class="notif">
-						<div class="form-group">
-						  	<label for="address">Send to</label>
-						  	<div class="d-flex">
-								<div class="form-check form-check-inline tool-checked">
-								  <label [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check-label">
-								    <input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> All customers
-								  </label>
-								</div>
-								<div [ngClass]="{'selected': isChecked == 'allstaff'}" class="form-check form-check-inline tool-checked">
-								  <label class="form-check-label">
-								    <input class="form-check-input" type="radio" name="type" id="type2" value="allstaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allstaff')"> All staffs
-								  </label>
-								</div>
-								<div [ngClass]="{'selected': isChecked == 'category'}" class="form-check form-check-inline tool-checked">
-								  <label class="form-check-label">
-								    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('category')"> Category
-								  </label>
-								</div>
-								<div [ngClass]="{'selected': isChecked == 'course'}" class="form-check form-check-inline tool-checked">
-								  <label class="form-check-label">
-								    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('course')"> Selected course
-								  </label>
-								</div>
-								<div class="form-check form-check-inline tool-checked">
-								  <label [ngClass]="{'selected': isChecked == 'user'}" class="form-check-label">
-								    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('user')"> Selected user
-								  </label>
+    <div class="heading-margin no-padding large-col">
+    	<div class="d-flex flex-column w-100 h-100 main-wrapper" *ngIf="notiType == 'send'">
+				<h2 class="title-heading margin-heading">Send notification</h2>
+				<div class="d-flex flex-row">
+					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" >
+						<form novalidate #notiForm="ngForm" class="notif">
+							<div class="form-group">
+							  	<label for="address">Send to</label>
+							  	<div class="d-flex tool-box">
+									<div class="form-check form-check-inline tool-checked">
+									  <label [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check-label">
+									    <input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> All customers
+									  </label>
+									</div>
+									<div [ngClass]="{'selected': isChecked == 'allstaff'}" class="form-check form-check-inline tool-checked">
+									  <label class="form-check-label">
+									    <input class="form-check-input" type="radio" name="type" id="type2" value="allstaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allstaff')"> All staffs
+									  </label>
+									</div>
+									<div [ngClass]="{'selected': isChecked == 'category'}" class="form-check form-check-inline tool-checked">
+									  <label class="form-check-label">
+									    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('category')"> Category
+									  </label>
+									</div>
+									<div [ngClass]="{'selected': isChecked == 'course'}" class="form-check form-check-inline tool-checked">
+									  <label class="form-check-label">
+									    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('course')"> Selected course
+									  </label>
+									</div>
+									<div class="form-check form-check-inline tool-checked">
+									  <label [ngClass]="{'selected': isChecked == 'user'}" class="form-check-label">
+									    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('user')"> Selected user
+									  </label>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div *ngIf="isChecked == 'category'" class="form-group choose-cat">
-							<label for="typeahead-focus">Search for a category:</label>	
-							<input
-							  id="typeahead-focus"
-							  type="text"
-							  class="form-control"
-							  name="itemID"
-							  [(ngModel)]="item.itemID"
-							  #itemID="ngModel"
-							  (focus)="focus$.next($event.target.value)"
-							  (click)="click$.next($event.target.value)"
-							  [ngbTypeahead]="search"
-							  #instance="ngbTypeahead"
-							  (ngModelChange)="valuechange($event, 'category')"
-							  [disabled]="categoryLists == undefined"
-							/>
-						</div>
-						<div *ngIf="isChecked == 'course'" class="form-group">
-							<label for="typeahead-focus">Search for a course:</label>	
-							<input
-							  id="typeahead-focus"
-							  type="text"
-							  class="form-control"
-							  name="itemID"
-							  [(ngModel)]="item.itemID"
-							  #itemID="ngModel"
-							  (focus)="focus$.next($event.target.value)"
-							  (click)="click$.next($event.target.value)"
-							  [ngbTypeahead]="search"
-							  #instance="ngbTypeahead"
-							  (ngModelChange)="valuechange($event, 'course')"
-							  [disabled]="courseLists == undefined"
-							/>
-						</div>
-						<div *ngIf="isChecked == 'user'" class="form-group">
-							<label for="typeahead-focus">Search for a user:</label>	
-							<input
-							  id="typeahead-focus"
-							  type="text"
-							  class="form-control"
-							  name="itemID"
-							  [(ngModel)]="item.itemID"
-							  #itemID="ngModel"
-							  (focus)="focus$.next($event.target.value)"
-							  (click)="click$.next($event.target.value)"
-							  [ngbTypeahead]="search"
-							  #instance="ngbTypeahead"
-							  (ngModelChange)="valuechange($event, 'user')"
-							  [disabled]="userLists == undefined"
-							/>
-						</div>
-						<div *ngIf="isChecked != 'user' && isChecked != 'course' " class="form-group">
-							<div class="form-check">
-							    <label class="form-check-label">
-							      <input type="checkbox" class="form-check-input" name="active" [(ngModel)]="item.active" #active="ngModel">
-							      Only active users
-							    </label>
+							<div *ngIf="isChecked == 'category'" class="form-group choose-cat">
+								<label for="typeahead-focus">Search for a category:</label>	
+								<input
+								  id="typeahead-focus"
+								  type="text"
+								  class="form-control"
+								  name="itemID"
+								  [(ngModel)]="item.itemID"
+								  #itemID="ngModel"
+								  (focus)="focus$.next($event.target.value)"
+								  (click)="click$.next($event.target.value)"
+								  [ngbTypeahead]="search"
+								  #instance="ngbTypeahead"
+								  (ngModelChange)="valuechange($event, 'category')"
+								  [disabled]="categoryLists == undefined"
+								/>
 							</div>
-						</div>
-						<div class="form-group">
-						  <label for="address" class="lable-title">Subject</label>
-						  <input type="text" class="form-control" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" required>
-						</div>
-						<div class="form-group">
-						  <label for="address" class="lable-title">Message</label>
-						  <textarea class="form-control" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
-						</div>	
-						<!-- <div class="form-group">
-							<label for="address" class="lable-title">Message Type</label>
-							<div class="d-flex flex-row">
-								<label class="custom-control custom-radio switch">
-									<input id="radio1" name="sendType" value="email" [(ngModel)]="item.sendType" #email="ngModel" type="radio" class="">
-									  <span class="custom-control-indicator slider round"></span>
-									  <span class="custom-control-description">Email</span>
-								</label>
-								<label class="custom-control custom-radio switch">
-									<input id="radio2" name="sendType" value="app" [(ngModel)]="item.sendType" #app="ngModel" type="radio" class="" >
-									  <span class="custom-control-indicator slider round"></span>
-									  <span class="custom-control-description">App notification</span>
-								</label>
+							<div *ngIf="isChecked == 'course'" class="form-group">
+								<label for="typeahead-focus">Search for a course:</label>	
+								<input
+								  id="typeahead-focus"
+								  type="text"
+								  class="form-control"
+								  name="itemID"
+								  [(ngModel)]="item.itemID"
+								  #itemID="ngModel"
+								  (focus)="focus$.next($event.target.value)"
+								  (click)="click$.next($event.target.value)"
+								  [ngbTypeahead]="search"
+								  #instance="ngbTypeahead"
+								  (ngModelChange)="valuechange($event, 'course')"
+								  [disabled]="courseLists == undefined"
+								/>
 							</div>
-						</div> -->
-						<div class="form-group">
-							<label for="address" class="lable-title">Message Type</label>
-							<div class="d-flex flex-row">
-								<label class="custom-control custom-radio switch" *ngFor="let notiType of notiTypes; let i = index">
-									<input class="form-check-input" 
-						              type="checkbox" 
-						              name="notiType" 
-						              value="{{notiType.name}}" 
-						              [checked]="notiType.checked"
-						              (change)="checkedOptions(notiType, $event)"
-						              required>
-									  <span class="custom-control-indicator slider round"></span>
-									  <span class="custom-control-description">{{notiType.name}}</span>
-								</label>
+							<div *ngIf="isChecked == 'user'" class="form-group">
+								<label for="typeahead-focus">Search for a user:</label>	
+								<input
+								  id="typeahead-focus"
+								  type="text"
+								  class="form-control"
+								  name="itemID"
+								  [(ngModel)]="item.itemID"
+								  #itemID="ngModel"
+								  (focus)="focus$.next($event.target.value)"
+								  (click)="click$.next($event.target.value)"
+								  [ngbTypeahead]="search"
+								  #instance="ngbTypeahead"
+								  (ngModelChange)="valuechange($event, 'user')"
+								  [disabled]="userLists == undefined"
+								/>
 							</div>
+							<div *ngIf="isChecked != 'user' && isChecked != 'course' " class="form-group">
+								<div class="form-check">
+								    <label class="form-check-label">
+								      <input type="checkbox" class="form-check-input" name="active" [(ngModel)]="item.active" #active="ngModel">
+								      Only active users
+								    </label>
+								</div>
+							</div>
+							<div class="form-group">
+							  <label for="address" class="lable-title">Subject</label>
+							  <input type="text" class="form-control" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" required>
+							</div>
+							<div class="form-group">
+							  <label for="address" class="lable-title">Message</label>
+							  <textarea class="form-control" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
+							</div>	
+							<!-- <div class="form-group">
+								<label for="address" class="lable-title">Message Type</label>
+								<div class="d-flex flex-row">
+									<label class="custom-control custom-radio switch">
+										<input id="radio1" name="sendType" value="email" [(ngModel)]="item.sendType" #email="ngModel" type="radio" class="">
+										  <span class="custom-control-indicator slider round"></span>
+										  <span class="custom-control-description">Email</span>
+									</label>
+									<label class="custom-control custom-radio switch">
+										<input id="radio2" name="sendType" value="app" [(ngModel)]="item.sendType" #app="ngModel" type="radio" class="" >
+										  <span class="custom-control-indicator slider round"></span>
+										  <span class="custom-control-description">App notification</span>
+									</label>
+								</div>
+							</div> -->
+							<div class="form-group">
+								<label for="address" class="lable-title">Message Type</label>
+								<div class="d-flex flex-row">
+									<label class="custom-control custom-radio switch" *ngFor="let notiType of notiTypes; let i = index">
+										<input class="form-check-input" 
+							              type="checkbox" 
+							              name="notiType" 
+							              value="{{notiType.name}}" 
+							              [checked]="notiType.checked"
+							              (change)="checkedOptions(notiType, $event)"
+							              required>
+										  <span class="custom-control-indicator slider round"></span>
+										  <span class="custom-control-description">{{notiType.name}}</span>
+									</label>
+								</div>
+							</div>
+							<div>
+								<button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button>
+								<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid || userCount === 0 || checkedType.length == 0">Submit</button>
+							</div>
+						</form>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+						<div class="user-count" [ngClass]="userCount == 0 ? 'no-user' : ''">
+							<p>{{userCount}}</p>
 						</div>
-						<div>
-							<button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button>
-							<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid || userCount === 0 || checkedType.length == 0">Submit</button>
-						</div>
-					</form>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-					<div class="user-count" [ngClass]="userCount == 0 ? 'no-user' : ''">
-						<p>{{userCount}}</p>
 					</div>
 				</div>
-			</div>
     	</div>
-    	<div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'view'">
-    		<!-- <div *ngFor="let noti of notiLists; let i = index" class="single-noti">
-    			<p><span>Title:</span> {{noti.title}}</p>
-    			<p><span>Message:</span> {{noti.message}}</p>
-    			<p><span>Sent by:</span> {{noti.sender.preferredName}}</p>
-    			<p><span>Date:</span>--{{noti.utc.day}}/{{noti.utc.month}}/{{noti.utc.year}}</p>
-    			<p><span>Date:</span> {{noti.utc}}</p>
-    			<span>Sent to:</span>
-    			<ul>
-    				<li *ngFor="let log of noti.logs; let i = index" id="{{log.notiId}}">
-    					 {{log.user.preferredName}}
-    				</li>
-    			</ul>
-    		</div> -->
-    		<h3 class="title-heading">Sent history</h3>
+    	<div class="d-flex flex-column w-100 h-100 main-wrapper"  *ngIf="notiType == 'view'">
+    		<h3 class="title-heading margin-heading">Sent history</h3>
+
     		<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
     			<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
     			<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
@@ -225,12 +237,12 @@
     			</div>
     		</div>
     	</div>
-        <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'apg'">          
-            <app-apg></app-apg>          
-        </div>
-        <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'quizwerkz'">          
-            <app-quizwerkz></app-quizwerkz>          
-        </div>    
+      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'apg'">          
+          <app-apg></app-apg>          
+      </div>
+      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'quizwerkz'">          
+          <app-quizwerkz></app-quizwerkz>          
+      </div>    
     </div> 
 </div>
 <block-ui message="Deafult Message"></block-ui>

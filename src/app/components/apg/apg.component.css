@@ -1,3 +1,23 @@
+
+.main-wrapper{
+    padding: 0 15px;
+}
+
+.sticky-menu{
+    position: fixed;
+    width: 74.9%;
+    z-index: 1;
+    padding: 15px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    top: 0px;
+    background: #fff;
+    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+.stickywrap{
+    top: 63px;
+}
 .apg-type,
 .single-apg h4,
 .apg-longterm,

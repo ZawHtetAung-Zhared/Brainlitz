@@ -25,13 +25,14 @@ export class DashboardComponent implements OnInit {
     url: ''
   };
   // public menuType:any = "location";
-  public menuType:any = "admin";
+  public menuType:any = "general";
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;
   public isEdit:boolean = false;
   public isUrlEdit:boolean = false;
   public temp:any;
+  public urlTemp:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -92,6 +93,7 @@ export class DashboardComponent implements OnInit {
   }
   editUrl(){
     this.isUrlEdit = true;
+    this.urlTemp = this.item.url;
   }
 
   updateRegionalInfo(data,type){
@@ -121,6 +123,7 @@ export class DashboardComponent implements OnInit {
   }
   closeEdit(){
     this.isUrlEdit = false;
+    this.item.url = this.urlTemp
   }
 
   clickTab(type){
