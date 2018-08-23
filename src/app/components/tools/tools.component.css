@@ -68,6 +68,9 @@
 .notif .form-group{
 	margin-bottom: 30px;
 }
+.margin-heading{
+    margin-top: 23px;
+}
 .heading-margin{
   margin-bottom: 20px;
   /*margin-top: 10px;*/
@@ -111,10 +114,10 @@
 	padding-top: 70px;
 }
 .noti-sidebar{
-	padding-top: 160px;
+	padding-top: 149px;
     padding-right: 0;
     padding-left: 0;
-    border-right: 1px solid #dedede;
+    /*border-right: 1px solid #dedede;*/
     -ms-transition: padding-top 300ms linear;
   	transition: padding-top 300ms linear;
 }
@@ -122,7 +125,7 @@
 	padding: 9px 0px;
 	position: relative;
 }
-.active .noti-tab::after,
+/*.active .noti-tab::after,
 .active .noti-tab::before {
 	content: '';
 	position: absolute;
@@ -142,19 +145,21 @@
 }
 .active{
 	background: #e6ecf2;
-}
+}*/
 .active .noti-tab{
-	background: #e6ecf2;
+	/*background: #e6ecf2;*/
 	color: #4292f1;
-	border-left: 3px solid #4292f1;
+	/*border-left: 3px solid #4292f1;*/
 }
 .noti-tab{
-  background: #fff;
+  background: transparent;
 	padding: 7px 12px;
 	border-radius: 0;
 	outline: none;
 	border-left: 3px solid transparent;
-	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+	font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+  color: #2e3e4d;
+  font-size: 16px;
 }
 .noti-tab:focus{
 	outline: none;

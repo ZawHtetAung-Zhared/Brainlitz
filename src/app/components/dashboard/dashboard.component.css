@@ -21,13 +21,13 @@
 }
 
 .noti-sidebar {
-    padding-top: 20px;
+    /*padding-top: 20px;*/
     padding-right: 0;
     padding-left: 0;
     border-right: 1px solid #dedede;
 }
 
-.active .noti-tab::after,
+/*.active .noti-tab::after,
 .active .noti-tab::before {
   content: '';
   position: absolute;
@@ -48,18 +48,21 @@
 .active{
   background: #e6ecf2;
 }
+*/
 .active .noti-tab{
-  background: #e6ecf2;
+  /*background: #e6ecf2;*/
   color: #4292f1;
-  border-left: 3px solid #4292f1;
+  /*border-left: 3px solid #4292f1;*/
 }
 .noti-tab{
   padding: 7px 12px;
   border-radius: 0;
   outline: none;
-  background: #fff;
-  border-left: 3px solid transparent;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  background: transparent;
+  /*border-left: 3px solid transparent;*/  
+  font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+  color: #2e3e4d;
+  font-size: 16px;
 }
 .noti-tab:focus{
   outline: none;

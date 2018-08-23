@@ -11,14 +11,14 @@
 			<div [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
 			</div>
-			<div [ngClass]="{'active': notiType == 'pagewerkz'}" class="tab-wrap">			
+			<div [ngClass]="{'active': notiType == 'quizwerkz'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('quizwerkz')">Quizwerkz</button>
 			</div>
 		</div>
     </div>
     <div class="col-md-10 min-scroll heading-margin">
     	<div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'send'">
-			<h2 class="title-heading">Send notification</h2>
+			<h2 class="title-heading margin-heading">Send notification</h2>
 			<div class="d-flex flex-row">
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 					<form novalidate #notiForm="ngForm" class="notif">
@@ -178,7 +178,7 @@
     				</li>
     			</ul>
     		</div> -->
-    		<h3 class="title-heading">Sent history</h3>
+    		<h3 class="title-heading margin-heading">Sent history</h3>
     		<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
     			<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
     			<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
