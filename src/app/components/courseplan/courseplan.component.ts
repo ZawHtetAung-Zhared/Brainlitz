@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -7,6 +7,8 @@ import { cPlanField } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import {debounceTime, map} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -71,11 +73,16 @@ export class CourseplanComponent implements OnInit {
   public goBackCat: boolean = false;
   public focusCfee: boolean = false;
   public focusMisfee: boolean = false;
+  step1FormaData: any;
+  step2FormaData: any;
+  step3FormaData: any;
+  step4FormaData: any;
+  step5FormaData: any;
+  step6FormaData: any;
+  model: any;
 
 
   ngOnInit() {
-    //this.getAllCoursePlan();
-
     this.showModal = true;
     this.showsubModal = false;
     this.showLoading = true;
@@ -89,68 +96,36 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG();
     this.pdfId = [];
-   // this.formField = new cPlanField();
     this.formField.holidayCalendarId = 'disabledHoliday';
-    this.depositModel = 'disabledDeposit';
+    this.depositModel = 'deposit';
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.readyOnlyRange = '0  min';
-    this.checkedName = localStorage.getItem('categoryName')
+    this.categoryId  = localStorage.getItem('categoryID');
+    this.checkedName = localStorage.getItem('categoryName');
     this.goBackCat = true;
     window.addEventListener('scroll', this.scroll, true);
 
     setTimeout(function(){
-      $('.drag-wrapper .drag-scroll-content').css({'display':'flex', 'width': '100%'})
+      $("#step1").addClass('active');
     }, 200)
 
+    this.step6 = true;
   }
 
-	//open(content){
-   // this.formField = new cPlanField();
-		//this.showModal = true;
-	// 	this.showsubModal = false;
- //    this.showLoading = true;
-	// 	this.checked = false;
- //    this.updateButton = false;
- //    this.createButton = true;
- //    this.restrictFirstInput = false;
- //    this.restrictLastInput = false;
- //    this.getAllDeposit();
- //    this.getAllHolidaysCalendar();
- //    this.getAllPdf();
- //    this.getAllAPG();
- //    this.pdfId = [];
- //    this.apgId = [];
-	// 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
- //    this.modalReference.result.then((result) => {
- //    this.formField = new cPlanField();
-	//   this.closeResult = `Closed with: ${result}`
- //  	}, (reason) => {
- //      this.formField = new cPlanField();
- //  	  this.closeResult = `Closed with: ${reason}`;
- //  	});
- //    this._service.getCategory(this.regionID)
- //    .subscribe((res:any) => {
- //      console.log('success',res)
- //      this.courseCategories = res;
- //      }, err => {
- //        console.log(err)
- //      });
-	// }
+  @ViewChild('parentForm') mainForm;
+  
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.apgList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
 
-	//selectedRadioId(id){
-    //console.log(id)
-		//this.showModal = false;
-		//this.showsubModal = true;
-   // this.categoryId = id;
-   // this.allowchecked = false;
-   // this.allowMakeup = false;
-   // this.checkedName = this.checked;
-	//}
+  formatter = (x: {name: string}) => x.name;
+  
 
 	back(){
-		//this.showModal = true;
-		//this.showsubModal = false;
     this.goBackCat = false;
     var data = localStorage.removeItem("categoryName");
     this._service.backCat();
@@ -174,25 +149,25 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-		console.log('form', formData)
-    var day = formData.lesson_duration;
-    console.log('this.timeInminutes', this.timeInminutes)
+    if(formData.deposit == 'deposit'){
+      console.log(formData.deposit)
+      formData.deposit = '';
+    }
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
-      "name": formData.coursename,
-      "description": formData.description,
+      "name": this.step1FormaData.coursename,
+      "description": this.step1FormaData.description,
+      "seats": this.step1FormaData.seats,
       "makeupPolicy": {
-        "allowMakeupPass": formData.allowmakeup,
-        "maxPassPerUser":  formData.makeupuser,
-        "maxDayPerPass": formData.makeuppass
+        "allowMakeupPass": this.step2FormaData.allowmakeup,
+        "maxPassPerUser":  this.step2FormaData.makeupuser,
+        "maxDayPerPass": this.step2FormaData.makeuppass
       },
-      "allowPagewerkzBooks": formData.allowpagewerkz,
       "paymentPolicy": {
         "deposit": formData.deposit,
-        "courseFee": formData.courseFee,
-        "allowProrated": formData.allowProrated,
-        "proratedLessonFee": formData.proratedLessonFee,
+        "courseFee": this.step3FormaData.courseFee,
+        "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee
       },
       "lesson": {
@@ -200,15 +175,21 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxDuration,
         "duration": this.timeInminutes
       },
-      "seats": formData.seats,
+      "allowPagewerkz": this.step5FormaData.allowpagewerkz,
       "age": {
         "min": formData.minage,
         "max": formData.maxage,
       },
       "quizwerkz": this.pdfId,
-      "holidayCalendarId": formData.holidayCalendar,
+      "holidayCalendarId": this.step4FormaData.holidayCalendar,
       "accessPointGroup": this.apgId
     }
+    this.mainForm.reset();
+    this.formField = new cPlanField();
+    this.pdfId = [];
+    this.timeInminutes = "";
+
+    console.log(data)
 
     //this.blockUI.start('Loading...');
     //this.modalReference.close();
@@ -645,7 +626,7 @@ export class CourseplanComponent implements OnInit {
   };
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
-    if(window.pageYOffset > 90){
+    if(window.pageYOffset > 40){
       this.navIsFixed = true;
     }else{
       this.navIsFixed = false;
@@ -667,6 +648,202 @@ export class CourseplanComponent implements OnInit {
     }
   }
 
+  enterHover(e){
+    console.log('mouse enter')
+    $('.input-group-text').css('background', '#f7f9fa');
+    $('.input[type="number"]').css('background', '#f7f9fa');
+  }
 
+  leaveHover(e){
+    console.log('mouse out')
+    $('.input-group-text').css('background', '#fff');
+  }
+
+  step1: boolean = false;
+  step2: boolean = false;
+  step3: boolean = false;
+  step4: boolean = false;
+  step5: boolean = false;
+  step6: boolean = false;
+  step7: boolean = false;
+
+  backStep(type){
+    if(type == 'step2'){
+      this.step2 = false;
+      this.step1 = true;
+      if(this.step1 == true){
+        $("#step2").removeClass('active');
+        $("#step1").removeClass('done');
+        $("#step1").addClass('active');
+      }
+    }
+    if(type == 'step3'){
+      this.step1 = false;
+      this.step2 = true;
+      this.step3 = false;
+      if(this.step2 == true){
+        $("#step3").removeClass('active');
+        $("#step2").removeClass('done');
+        $("#step1").addClass('done');
+        $("#step2").addClass('active');
+      }
+    }
+    if(type == 'step4'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = true;
+      this.step4 = false;
+      if(this.step3 == true){
+        $("#step4").removeClass('active');
+        $("#step3").removeClass('done');
+        $("#step1, #step2").addClass('done');
+        $("#step3").addClass('active');
+      }
+    }
+    if(type == 'step5'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = true;
+      this.step5 = false;
+      if(this.step4 == true){
+        $("#step5").removeClass('active');
+        $("#step4").removeClass('done');
+        $("#step1, #step2, #step3").addClass('done');
+        $("#step4").addClass('active');
+      }
+    }
+    if(type == 'step7'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = true;
+      this.step6 = true;
+      this.step7 = false;
+      if(this.step5 == true){
+        $("#step7").removeClass('active');
+        $("#step5").removeClass('done');
+        $("#step1, #step2, #step3, #step4").addClass('done');
+        $("#step5").addClass('active');
+      }
+    }
+  }
+
+  continueStep(type, data){
+    if(type == 'step1'){
+      this.step1FormaData = data;
+      console.log(this.step1FormaData)
+      this.step1 = false;
+      if(this.step1 == false){
+        $("#step1").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('active');
+        this.step2 = true;
+      }
+    }
+    if(type == 'step2'){
+      this.step2FormaData = data;
+      console.log(this.step2FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      if(this.step2 == false){
+        $("#step2").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('active');
+        this.step3 = true;
+      }
+    }
+    if(type == 'step3'){
+      this.step3FormaData = data;
+      console.log(this.step3FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      if(this.step3 == false){
+        $("#step3").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('active');
+        this.step4 = true;
+      }
+    }
+    if(type == 'step4'){
+      this.step4FormaData = data;
+      console.log(this.step4FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      if(this.step4 == false){
+        $("#step4").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('active');
+        this.step5 = true;
+      }
+    }
+    if(type == 'step5'){
+      this.step5FormaData = data;
+      console.log(this.step5FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      if(this.step5 == false){
+        $("#step5").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step7").addClass('active');
+        this.step7 = true;
+      }
+    }
+    if(type == 'step6'){
+      this.step6FormaData = data;
+      console.log(this.step6FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step6 = false;
+      if(this.step6 == false){
+        $("#step5").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('active');
+        this.step7 = true;
+      }
+    }
+    if(type == 'step7'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step7 = false;
+      if(this.step7 == false){
+        $("#step5").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('done');
+        $("#step7").addClass('active');
+      }
+    }
+  }
 
 }

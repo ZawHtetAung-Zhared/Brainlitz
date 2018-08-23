@@ -6,6 +6,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,10 +24,15 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: ''
   };
-  public menuType:any = "location";
+  // public menuType:any = "location";
+  public menuType:any = "general";
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;
+  public isEdit:boolean = false;
+  public isUrlEdit:boolean = false;
+  public temp:any;
+  public urlTemp:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -59,6 +65,10 @@ export class DashboardComponent implements OnInit {
       this.item.url = res.url
       console.log('~~~', this.item)
       localStorage.setItem('timezone', this.item.timezone)
+      // let test=moment().tz("Singapore").format();
+      // console.log(test)
+      const offset = moment.tz("Asia/Singapore").utcOffset();
+      console.log(offset)
     }, err => {
       console.log(err)
     })
@@ -76,7 +86,18 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  updateRegionalInfo(data){
+  editRegion(){
+    this.isEdit = true;
+    this.temp = this.item.timezone;
+    console.log(this.temp);
+  }
+  editUrl(){
+    this.isUrlEdit = true;
+    this.urlTemp = this.item.url;
+  }
+
+  updateRegionalInfo(data,type){
+    console.log(type);
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
     console.log(data)
@@ -85,9 +106,24 @@ export class DashboardComponent implements OnInit {
       this.toastr.success('Successfully Updated.');
       console.log('~~~', res)
       localStorage.setItem('timezone', this.item.timezone)
+      this.getAdministrator();
+      if(type=="timezone"){
+        this.isEdit = false;
+      }else if(type=="url"){
+        this.isUrlEdit = false;
+      }
     }, err => {
       console.log(err)
     })
+  }
+
+  cancelUpdate(){
+    this.isEdit = false;
+    this.item.timezone = this.temp;
+  }
+  closeEdit(){
+    this.isUrlEdit = false;
+    this.item.url = this.urlTemp
   }
 
   clickTab(type){

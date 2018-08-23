@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef } from '@angular/core';
+import { Component, OnInit,ViewContainerRef, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -19,6 +19,7 @@ export class ApgComponent implements OnInit {
   		this.toastr.setRootViewContainerRef(vcr);
   	}
 
+    public model:any = {};
   	public modalReference: any;
   	public closeResult: any;
   	apgField: apgField = new apgField();
@@ -57,14 +58,132 @@ export class ApgComponent implements OnInit {
     getAccessPoint: any;
     tempModuleId: any;
     emptyAP: boolean = false;
+    public ismodule: boolean = false;
+    public iscreate: boolean = false;
+    public ischecked: any;
+    public isUpdate: boolean = false;
+    public navIsFixed: boolean = false;
     responseAP: any;
 
   	ngOnInit() {
-	  	this.getAllAP();
-	  	this.getAllTemplate();
+	  	// this.getAllAP();
+	  	// this.getAllTemplate();
 	  	this.getAllModule();
 	  	this.getAllAPG();
   	}
+
+    @HostListener('window:scroll', ['$event']) onScroll($event){
+      // console.log($event);
+      // console.log("scrolling");
+      // console.log(window.pageYOffset)
+      if(window.pageYOffset > 40){
+        console.log('greater than 100')
+        this.navIsFixed = true;
+      }else{
+        console.log('less than 100')
+        this.navIsFixed = false;
+      }
+    } 
+
+    cancelapg(){
+      this.model = {};
+      this.iscreate = false;
+      this.ismodule = false;
+      this.isUpdate = false;
+    }
+
+    goToBack(status){
+      localStorage.removeItem('moduleID');
+      if(status == 'type'){
+        console.log('type')
+        this.cancelapg();
+      }else{        
+        this.iscreate = false;
+        this.ismodule = true;
+        this.model = {};
+      }
+    }
+
+    creatnew(){
+      localStorage.removeItem('moduleID');      
+      this.ischecked = '';
+      this.model = {};
+      this.ismodule = true;
+      this.isUpdate = false;
+    }
+
+    chooseModuleType(val, name){
+      this.ischecked = val;
+      localStorage.setItem('moduleID', val);
+      // localStorage.setItem('moduleName', name);
+      setTimeout(() => {
+        this.ismodule = false;
+        this.iscreate = true;
+        console.log('...')
+      }, 300);
+    }
+
+    createapgs(data, update){
+      console.log(update)
+      var templateID;
+      console.log(data)
+      if(update == false){
+        console.log('create')
+        var moduleId = localStorage.getItem('moduleID')
+        data["moduleId"] = moduleId;
+         this._service.createAP(this.regionID,data)
+         .subscribe((res:any) => {
+           this.toastr.success('Successfully AP Created.');
+           data["accessPoints"] = [res._id]
+           console.log(data)
+           this._service.createAPG(this.regionID,data, templateID, moduleId)
+          .subscribe((res:any) => {
+            this.toastr.success('Successfully APG Created.');
+            console.log(res)
+            this.cancelapg();
+            this.getAllAPG();
+          }, err => {
+            this.toastr.error('Created APG Fail');
+            console.log(err)
+          });
+         }, err => {
+           this.toastr.error('Created AP Fail');
+           console.log(err)
+         });
+
+      }else{
+        console.log('update')
+        this.blockUI.start('Loading...');
+        this._service.updateAPG(this.regionID, data._id , data, templateID)
+          .subscribe((res:any) => {
+              console.log('success update',res);
+              this.toastr.success('Successfully APG Updated.');
+              this.cancelapg();
+              this.getAllAPG();
+              this.blockUI.stop();
+          }, err => {
+              this.toastr.error('Updated APG Fail');
+              console.log(err)
+          })
+      }
+    }
+
+    onclickUpdate(id){
+      console.log(id)
+      this.singleAPG(id);
+      this.iscreate = true;
+      this.isUpdate = true;
+    }
+
+    singleAPG(id){
+      this._service.getSingleAPG(this.regionID, id)
+      .subscribe((res:any) => {
+        console.log('editapg' ,res)
+        this.model = res;
+      }, err => {
+         console.log(err)
+      })
+    }
 
   	open(content){
   		this.customAP = false;

@@ -20,6 +20,7 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { ReportComponent } from './components/report/report.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
+import { HomeComponent } from './components/home/home.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
 
@@ -28,6 +29,11 @@ export const routes: Routes = [
     { path: '',   
       redirectTo: '/region', 
       pathMatch: 'full' 
+    },
+    {
+      path: 'home',
+      component: HomeComponent,
+      canActivate: [LoggedInGuard]
     },
     {
        path: 'region',

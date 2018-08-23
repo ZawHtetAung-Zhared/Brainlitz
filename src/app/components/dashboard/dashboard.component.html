@@ -1,80 +1,154 @@
 <app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
 <div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
-    <div class="col-md-2 noti-sidebar h-100"  style="width: 16.666667%">
+    <div class="noti-sidebar h-100">
       <div class="side-bar-wrap">
+        <div [ngClass]="{'active': menuType == 'general'}" class="tab-wrap">     
+          <button class="btn noti-tab w-100" (click)="clickTab('general')">
+            <span class="btnSpan">
+              <img *ngIf="menuType == 'general'" class="setting-icon" src="./assets/images/sidebar-general_a@2x.png">
+              <img *ngIf="menuType != 'general'" class="setting-icon" src="./assets/images/sidebar-general@2x.png">
+              <span>General</span>
+            </span>
+          </button>
+        </div>
         <div [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('location')">Locations</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'admin'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('admin')">Administrator</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'module'}" class="tab-wrap">     
-          <button class="btn noti-tab w-100" (click)="clickTab('module')">Module</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'apg'}" class="tab-wrap">      
-          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('apg')">APG</button>
-        </div>
-        <div [ngClass]="{'active': menuType == 'template'}" class="tab-wrap">      
-          <button [disabled]="emptyModule" class="btn noti-tab w-100" (click)="clickTab('template')">Template</button>
+          <button class="btn noti-tab w-100" (click)="clickTab('location')">
+            <span class="btnSpan">
+              <img *ngIf="menuType == 'location'" class="setting-icon" src="./assets/images/sidebar-location_a@2x.png">
+              <img *ngIf="menuType != 'location'" class="setting-icon" src="./assets/images/sidebar-location@2x.png">
+              <span>Locations</span>
+            </span>
+          </button>
         </div>
       </div>
     </div>
-    <div *ngIf="menuType == 'admin'" class="col-md-10" >
-      <div class="d-flex flex-column w-100 h-100 inner-wrapper">
-        <div class="mb-30">
-          <h2 class="mb-30">Regional Administrator</h2>
-          <form novalidate #dashboradForm="ngForm" style="width: 600px;">
-            <div class="form-group">
-              <label for="name">Region Name</label>   
-              <input type="text" class="form-control" placeholder="organization name" name="name" [(ngModel)]="item.name" #name="ngModel" readonly>
-            </div>
-            <div class="form-group">
-              <label for="name">Timezone</label> 
-              <ng2-timezone-picker 
-                [(timezone)]="item.timezone" 
-                showOffset="true">
-              </ng2-timezone-picker>
-              <!-- _{{item.timezone}} -->
-            </div>
-            <div class="form-group mb-30">
-              <label for="name">Url</label>   
-              <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" #url="ngModel" required pattern="https?://.+">
-              <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
-                <div [hidden]="!url.errors.required">
-                  URL is required!
+    <div *ngIf="menuType == 'general'" class="pl-zero large-col" >
+      <div class="d-flex flex-column w-100 h-100 setting-wrapper">
+        <div>
+          <div class="header-wrap">
+            <h3 class="general">General</h3>
+          </div>
+          <div class="card-columns">
+            <div class="card card-wrap region-wrap">
+              <div class="title">
+                Regional Settings
+              </div>
+              <div class="region-info">
+                <div>
+                  <div class="title-wrap">
+                    <div id="parent">
+                        <img src="./assets/images/map.png">
+                    </div>
+                    <label class="labelTitle">Region name</label>
+                  </div>
+                  <label class="labelName">{{item.name}}</label>
                 </div>
-                <div [hidden]="!url.errors.pattern">
-                  Must be a valid URL!
+                <div class="timezone-wrap ease" *ngIf="!isEdit">
+                  <div>
+                    <div class="title-wrap">
+                      <div id="parent">
+                          <img src="./assets/images/time_zone.png">
+                      </div>
+                      <label class="labelTitle">Time zone</label>
+                    </div>
+                  </div>
+                  <div class="picker-wrap">
+                    <ng2-timezone-picker class="newpick"
+                    [(timezone)]="item.timezone" 
+                    showOffset="true">
+                    </ng2-timezone-picker>
+                  </div>
+                </div>
+                <div class="timezone-wrap" *ngIf="isEdit">
+                  <div>
+                    <label class="labelTitle">Time zone</label>
+                  </div>
+                  <div>
+                    <ng2-timezone-picker class="editTimezone"
+                    [(timezone)]="item.timezone" 
+                    showOffset="true">
+                    </ng2-timezone-picker>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div style="margin-top: 50px;">
-                <button type="submit" class="btn btn-primary" (click)="updateRegionalInfo(item)" [disabled]="!dashboradForm.valid">Update</button>
+              <div *ngIf="!isEdit">
+                <a class="link-btn" (click)="editRegion()">Edit</a>
               </div>
-          </form>
+              <div class="editBtns" *ngIf="isEdit">
+                <a class="cancel" (click)="cancelUpdate()">Cancel</a>
+                <a (click)="updateRegionalInfo(item,'timezone')">Done</a>
+              </div>
+            </div>  
+            <div class="card card-wrap">
+              <div class="title">
+                App Settings
+              </div>
+              <div class="setting-container">
+                <div class="setting-info" [ngClass]="{'blur': isUrlEdit}">
+                  <div class="link-wrap">
+                    <div class="title-wrap">
+                      <div id="parent">
+                          <img src="./assets/images/home.png">
+                      </div>
+                      <label class="labelTitle">Home page URL</label>
+                      <div class="urlEdit"><a (click)="editUrl()">Edit</a></div>
+                    </div>
+                    <label class="labelName">{{item.url}}</label>
+                  </div>
+                  <div class="timezone-wrap">
+                    <div>
+                      <div class="title-wrap">
+                        <div id="parent">
+                            <img src="./assets/images/filter.png">
+                        </div>
+                        <label class="labelTitle">Widget type visibility</label>
+                      </div>
+                    </div>
+                    <div class="module-container">
+                      <app-module></app-module>
+                    </div>
+                  </div>
+                </div>
+                <div class="overlay" *ngIf="isUrlEdit">
+                  <div class="text">
+                    <form novalidate #dashboradForm="ngForm">
+                      <div class="form-group mb-30">
+                        <label class="labelTitle">Home Page Url</label>   
+                        <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url" #url="ngModel" required pattern="https?://.+">
+                        <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
+                          <div [hidden]="!url.errors.required">
+                            URL is required!
+                          </div>
+                          <div [hidden]="!url.errors.pattern">
+                            Must be a valid URL!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="overlayBtns">
+                        <button type="submit" class="btn" (click)="closeEdit()">
+                          <span class="closemark">
+                              <div class="closemark_stem"></div>
+                              <div class="closemark_kick"></div>
+                          </span>
+                        </button>
+                        <button type="submit" class="btn" (click)="updateRegionalInfo(item,'url')" [disabled]="!dashboradForm.valid">
+                          <span class="checkmark">
+                              <div [ngClass]="{'colorD': !dashboradForm.valid}" class="checkmark_stem"></div>
+                              <div [ngClass]="{'colorD': !dashboradForm.valid}" class="checkmark_kick"></div>
+                          </span>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </div>
         </div>
       </div>
     </div>
-    <div *ngIf="menuType == 'location'" class="col-md-10 pl-zero">
+    <div *ngIf="menuType == 'location'" class="col-md-9 pl-zero">
       <app-location></app-location>
-    </div> 
-    <div *ngIf="menuType == 'module'" class="col-md-10 min-scroll">
-      <app-module></app-module>
     </div>  
-    <div *ngIf="menuType == 'apg'" class="col-md-10 min-scroll">
-        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
-          <div class="mb-30">
-            <app-apg></app-apg>
-          </div>
-        </div>    
-    </div> 
-    <div *ngIf="menuType == 'template'" class="col-md-10 min-scroll">
-        <div class="d-flex flex-column w-100 h-100 inner-wrapper">
-          <div class="mb-30">
-            <h2>Template</h2>
-            <app-template></app-template>            
-          </div>
-        </div>    
-    </div>   
 </div>
 <block-ui message="Deafult Message"></block-ui>
