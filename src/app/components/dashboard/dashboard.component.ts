@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
     url: ''
   };
   // public menuType:any = "location";
-  public menuType:any = "admin";
+  public menuType:any = "general";
   public checkedModule =[];
   public allModule;
   public emptyModule:boolean = false;

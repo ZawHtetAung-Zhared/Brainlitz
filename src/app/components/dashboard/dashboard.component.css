@@ -55,7 +55,7 @@
   /*border-left: 3px solid #4292f1;*/
 }
 .noti-tab{
-  padding: 7px 12px;
+  padding: 7px 20px;
   border-radius: 0;
   outline: none;
   background: transparent;
@@ -76,6 +76,22 @@
 }
 
 /*===comfirm UI===*/
+.setting-icon{
+  width: 25px;
+}
+.btnSpan{
+  float: left;
+  /*margin-left: 10px;*/
+}
+.btnSpan span{
+  margin-left: 5px;
+}
+.setting-wrapper{
+  padding: 23px 30px 0px 30px;
+}
+.header-wrap{
+  margin-bottom: 30px;
+}
 .general{
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
   color: #2e3d4d;
