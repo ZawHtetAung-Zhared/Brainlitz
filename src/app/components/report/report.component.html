@@ -184,16 +184,18 @@
 				</div>
 			</div>
 			<div class="col-md-12 flex-show" style="margin-top: 15px;">
-				<div class="col-md-5 flex-show left-side">
-					<div class="circular-image mr-top-right">
-						<img src="{{teacherProfile}}">
+				<div class="col-md-6 flex-show left-side">
+					<div>
+						<div class="circular-image mr-top-right">
+							<img src="{{teacherProfile}}">
+						</div>
 					</div>	
 					<div style="display: block; margin-top: 15px;">
 						<div class="teacher-detail-font">Senior teacher</div>
 						<h4>{{teacherPreferredName}}</h4>
 					</div>
 				</div>
-				<div class="col-md-7 right-side">
+				<div class="col-md-6 right-side">
 					<h3 class="head-rating-count">{{teacherRating}}</h3>
 					<div style="display: block;">
 						<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="teacherRating"></star-rating-comp>
