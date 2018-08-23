@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -7,6 +7,8 @@ import { cPlanField } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import {debounceTime, map} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -71,6 +73,13 @@ export class CourseplanComponent implements OnInit {
   public goBackCat: boolean = false;
   public focusCfee: boolean = false;
   public focusMisfee: boolean = false;
+  step1FormaData: any;
+  step2FormaData: any;
+  step3FormaData: any;
+  step4FormaData: any;
+  step5FormaData: any;
+  step6FormaData: any;
+  model: any;
 
 
   ngOnInit() {
@@ -88,7 +97,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllAPG();
     this.pdfId = [];
     this.formField.holidayCalendarId = 'disabledHoliday';
-    this.depositModel = '';
+    this.depositModel = 'deposit';
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.readyOnlyRange = '0  min';
@@ -101,8 +110,20 @@ export class CourseplanComponent implements OnInit {
       $("#step1").addClass('active');
     }, 200)
 
-    this.step1 = true;
+    this.step6 = true;
   }
+
+  @ViewChild('parentForm') mainForm;
+  
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.apgList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
+
+  formatter = (x: {name: string}) => x.name;
+  
 
 	back(){
     this.goBackCat = false;
@@ -128,6 +149,10 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
+    if(formData.deposit == 'deposit'){
+      console.log(formData.deposit)
+      formData.deposit = '';
+    }
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -142,7 +167,6 @@ export class CourseplanComponent implements OnInit {
       "paymentPolicy": {
         "deposit": formData.deposit,
         "courseFee": this.step3FormaData.courseFee,
-//        "allowProrated": formData.allowProrated,
         "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee
       },
@@ -151,7 +175,7 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxDuration,
         "duration": this.timeInminutes
       },
-      "allowPagewerkzBooks": this.step5FormaData.allowpagewerkz,
+      "allowPagewerkz": this.step5FormaData.allowpagewerkz,
       "age": {
         "min": formData.minage,
         "max": formData.maxage,
@@ -160,6 +184,10 @@ export class CourseplanComponent implements OnInit {
       "holidayCalendarId": this.step4FormaData.holidayCalendar,
       "accessPointGroup": this.apgId
     }
+    this.mainForm.reset();
+    this.formField = new cPlanField();
+    this.pdfId = [];
+    this.timeInminutes = "";
 
     console.log(data)
 
@@ -702,13 +730,6 @@ export class CourseplanComponent implements OnInit {
     }
   }
 
-  step1FormaData: any;
-  step2FormaData: any;
-  step3FormaData: any;
-  step4FormaData: any;
-  step5FormaData: any;
-  step6FormaData: any;
-
   continueStep(type, data){
     if(type == 'step1'){
       this.step1FormaData = data;
@@ -824,7 +845,5 @@ export class CourseplanComponent implements OnInit {
       }
     }
   }
-
-
 
 }

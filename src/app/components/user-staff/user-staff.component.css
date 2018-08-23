@@ -29,6 +29,7 @@ h3, h5 {
     padding: 9px 13px !important;
     font-weight: unset;
     letter-spacing: 0.5px;
+    cursor: pointer;
 }
 
 .pad-0 {
@@ -407,6 +408,46 @@ input[type=radio]:checked ~ label{
 
 .sticky-back-user.sticky-bar {
     top: 0;
+}
+
+.frame-upload {
+    padding: 10px 10px 0 10px;
+    border: 1px solid #e3e4e6;
+    float: right;
+    border-radius: 10px;
+}
+
+.mr-button {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.crop-box {
+    background: #f2f4f5;
+    padding: 5px 0 5px 0;
+}
+
+.crop-box button {
+    border: none;
+    background: none;
+    padding: 5px 60px;
+    cursor: pointer;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+}
+.crop-box button:focus{
+    outline: none;
+}
+
+.btn1 {
+    color: #2e3d4d !important;
+ }
+
+.btn2 {
+    color: #007fff;
+ }
+
+.br-right {
+    border-right: 1px solid gray;
 }
 
 @media only screen and (max-width: 768px){
