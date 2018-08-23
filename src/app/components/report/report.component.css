@@ -1,3 +1,6 @@
+.teacher-name{
+  word-break: break-all;
+}
 .content-wrapper.p-top{
   padding-top: 63px;
 }
