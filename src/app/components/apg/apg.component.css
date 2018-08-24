@@ -106,11 +106,17 @@
     border: none;
     margin-bottom: 0;
 }
+.apg-box{
+    padding: 16px 22px;
+}
+.apg-box,
 .single-apg{
     -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     -ms-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     border-radius: 4px;
+}
+.single-apg{
     margin-bottom: 20px;
     margin-top: 5px;
 }
@@ -206,7 +212,8 @@
 }
 .module-img {
     display: block;
-    padding: 20px;
+    padding: 20px 0 10px;
+    min-height: 77px;
 }
 .module-input label.selected{
     background: #1683FB;
@@ -338,9 +345,15 @@
     .card-columns{
         column-count: 3;
     }
+    
 }
 @media (min-width: 2000px){
     .card-columns{
         column-count: 4;
+    }
+    .col-xxl{
+        /*width: 25%;*/
+        flex: 0 0 25%;
+        max-width: 25%;
     }
 }
