@@ -329,3 +329,18 @@
     content:" *"; 
     color: red;
 }
+@media (max-width: 360px){
+    .card-columns{
+        column-count: 1;
+    }
+}
+@media (min-width: 1300px){
+    .card-columns{
+        column-count: 3;
+    }
+}
+@media (min-width: 2000px){
+    .card-columns{
+        column-count: 4;
+    }
+}
