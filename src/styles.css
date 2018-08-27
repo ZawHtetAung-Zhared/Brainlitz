@@ -295,3 +295,18 @@ span.scrollup:before {
 span.scrollup.show:hover:before {
     transform: scale(1);
 }
+
+.custom-dropdown-width .dropdown-menu {
+    width: 100%;
+    height: 380px;
+    overflow: scroll;
+    left: 0 !important;
+}
+.custom-dropdown-width .dropdown-menu .dropdown-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #edeff0;
+    padding: 10px 0;
+    margin: 0px 15px;
+    width: 97.2%;
+    cursor: pointer;
+}

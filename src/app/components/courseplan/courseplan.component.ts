@@ -79,8 +79,6 @@ export class CourseplanComponent implements OnInit {
   step4FormaData: any;
   step5FormaData: any;
   step6FormaData: any;
-  model: any;
-
 
   ngOnInit() {
     this.showModal = true;

@@ -495,7 +495,7 @@ h3.category-h3, .category-name, .d-wrapper {
   
 }
 
-.category-name, .step-font {
+.category-name, .step-font, .txt-default {
   font-family: 'Montserrat-SemiBold', Arial,sans-serif; 
   color: #64707d;
 }
@@ -895,8 +895,8 @@ ul.search-apg{
   height: 20px;
   border-radius: 100%;
   position: relative;
-  margin: 10px;
   display: inline-block;
+  margin-right: 10px;
 }
 
 .circle2{
@@ -905,8 +905,8 @@ ul.search-apg{
   height: 20px;
   border-radius: 100%;
   position: relative;
-  margin: 10px;
   display: inline-block;
+  margin-right: 10px;
 }
 
 .circle1.plus:before,
@@ -919,6 +919,7 @@ ul.search-apg{
     bottom: 0;
     background: #007fff;
 }
+
 .circle1.plus:before, .circle2.plus:before{
     width: 2px;
     margin: 2px auto;
@@ -940,9 +941,63 @@ ul.search-apg{
     height: 2px;
 }
 
+.txt-default {
+    position: absolute;
+    /*bottom: 31%; */
+    width: 56%;
+    bottom: 25%;
+}
+
+.arrow-pos {
+  float: right; 
+  width: 46%;
+}
+
+.arrow-pos img {
+  float: right;
+  width: 100%;
+}
+
+.img-pos img {
+    float: right;
+    padding-right: 50px;
+    width: 100%;
+    padding-top: 90px;
+    padding-left: 50px;
+    max-width: 400px;
+}
+
 @media only screen and (max-width: 768px){
   .down-arrow1 {
     bottom: 45px;
+  }
+
+  .txt-default {
+    bottom: 25%; 
+  }
+
+  .img-pos img {
+    float: right;
+    padding-right: 30px;
+    width: 100%;
+    padding-top: 50px;
+    padding-left: 30px;
+  } 
+
+} 
+
+@media (min-width: 1366px){
+  .arrow-pos {
+    float: right; 
+    width: 34%;
+  }
+}
+
+/*Extra large devices (large desktops, 1600px and up)*/
+@media (min-width: 1600px) { 
+  .arrow-pos {
+    float: right; 
+    width: 24%;
   }
 
 }
