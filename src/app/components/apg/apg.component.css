@@ -1,4 +1,39 @@
-
+.stoke-1,
+.stoke-2,
+.icon-apg,
+.stoke-2-first,
+.stoke-2-sec {    
+    background: #edeff0;    
+}
+.stoke-1{
+    padding: 4px;
+    width: 96px;
+}
+.stoke-2,
+.stoke-2-first,
+.stoke-2-sec{
+    margin-top: 12px;
+    padding: 8px;
+}
+.stoke-2{
+    width: 128px;
+}
+.icon-apg {
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+}
+.stoke-wrap{
+    margin-right: 20px;
+    margin-bottom: 32px;
+}
+.stoke-2-first,
+.stoke-2-sec{
+    width: 58px;
+}
+.stoke-2-first{
+    margin-right: 12px;
+}
 .main-wrapper{
     padding: 0 15px;
 }
@@ -107,7 +142,9 @@
     margin-bottom: 0;
 }
 .apg-box{
-    padding: 16px 22px;
+    padding: 24px;
+    max-height: 152px;
+    min-height: 152px;
 }
 .apg-box,
 .single-apg{
