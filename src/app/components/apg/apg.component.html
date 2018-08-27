@@ -148,7 +148,7 @@
   			</div>
   			<div class="row apg-share-content">
 	  			<div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
-		  			<label class="form-check-label" [ngClass]="{'selected': ischecked == temp._id}">
+		  			<label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
 		  			  	<div class="label-checked"></div>
 		  			  	<input class="form-check-input"
 		  			    type="radio" 
@@ -159,8 +159,10 @@
 		  			</label>
 		  		</div>
 		  	</div>
+		  	---{{temp}}
 		  	<div class="d-flex justify-content-end apg-share-bottom">
-  			  	<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(model, false)">Create</button>
+  			  	
+  			  	<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(temp)">Create</button>
 		  	</div>
   		</div>
   	</form>
