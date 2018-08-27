@@ -360,4 +360,7 @@
   .large-col{
     width: 85%
   }
+  .card-columns{
+      column-count: 4;
+  }
 }

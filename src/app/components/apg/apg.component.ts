@@ -59,6 +59,7 @@ export class ApgComponent implements OnInit {
     tempModuleId: any;
     emptyAP: boolean = false;
     public ismodule: boolean = false;
+    public isshare: boolean = false;
     public iscreate: boolean = false;
     public ischecked: any;
     public isUpdate: boolean = false;
@@ -87,7 +88,7 @@ export class ApgComponent implements OnInit {
 
     cancelapg(){
       this.model = {};
-      this.iscreate = false;
+      // this.iscreate = false;
       this.ismodule = false;
       this.isUpdate = false;
     }
@@ -99,6 +100,7 @@ export class ApgComponent implements OnInit {
         this.cancelapg();
       }else{        
         this.iscreate = false;
+        this.isshare = false;
         this.ismodule = true;
         this.model = {};
       }
@@ -112,13 +114,20 @@ export class ApgComponent implements OnInit {
       this.isUpdate = false;
     }
 
+    chooseModuleTypes(val, name){
+      this.ismodule = false;
+      this.isshare = true;
+    }
+
     chooseModuleType(val, name){
+      console.log(name)
       this.ischecked = val;
       localStorage.setItem('moduleID', val);
       // localStorage.setItem('moduleName', name);
       setTimeout(() => {
         this.ismodule = false;
-        this.iscreate = true;
+        this.isshare = true;
+        // this.iscreate = true;
         console.log('...')
       }, 300);
     }
@@ -171,7 +180,7 @@ export class ApgComponent implements OnInit {
     onclickUpdate(id){
       console.log(id)
       this.singleAPG(id);
-      this.iscreate = true;
+      // this.iscreate = true;
       this.isUpdate = true;
     }
 

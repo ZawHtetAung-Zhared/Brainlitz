@@ -1,4 +1,4 @@
-<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+<!-- <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
   <div class="d-flex justify-content-between">
     <div class="mr-auto">
 		<div class="d-flex flex-row">
@@ -8,8 +8,8 @@
 	</div>
 	<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button> 
   </div>
-</div>
-<div class="main-wrapper" *ngIf="ismodule == false && iscreate == false">
+</div> -->
+<div class="main-wrapper" *ngIf="ismodule == false && iscreate == false && isshare == false">
 	<div class="d-flex justify-content-between heading-margin">
 		<div class="mr-auto">
 			<div class="d-flex flex-row">
@@ -48,22 +48,27 @@
 	</div>
 </div>
 
-<div class="main-wrapper" *ngIf="ismodule == true || iscreate == true">
+<div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true">
   <div class="back-wrap">
     <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a>
-    <a class="back-to" *ngIf="iscreate == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>
+    <a class="back-to" *ngIf="isshare == true || iscreate == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>
+
   </div>
   <div class="location-group">
   	<h3 *ngIf="ismodule == true" class="title-heading">Pick APG type</h3>
+  	<h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">Creating progress APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>
   </div>
   <div class="apg-form">
   	<form novalidate #createapgForm="ngForm">
   		<div class="row" *ngIf="ismodule == true">
-	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
 	  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
-	  				<div class="module-img"></div>
+	  				<div class="module-img">
+            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
+            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/images/{{module.name}}-type_a.png" class="img-fluid">
+	  				</div>
 	  			  	<div class="label-checked"></div>
 	  			  	<input class="form-check-input"
 	  			    type="radio" 
@@ -73,6 +78,37 @@
 	  			    (click)="chooseModuleType(module._id, module.name)"> {{module.name}}
 	  			</label>
 	  		</div>
+  		</div>
+  		<div *ngIf="isshare == true">
+  			<div class="d-flex flex-row">
+  				<div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+  					<div class="d-flex apg-box justify-content-center flex-column">
+  						<div class="d-flex flex-row">
+  							<div class="stoke-wrap">
+  								<div class="stoke-1"></div>
+  								<div class="stoke-2"></div>
+  							</div>
+  							<div class="icon-apg"></div>
+  						</div>
+  						<label class="form-title input-label" for="address">Create new APG</label>
+  					</div>
+  				</div>
+  				<div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+  					<div class="d-flex apg-box justify-content-center flex-column">
+  						<div class="d-flex flex-row">
+  							<div class="stoke-wrap">
+  								<div class="stoke-1"></div>
+  								<div class="d-flex flex-row justify-content-between">
+  									<span class="stoke-2-first"></span>
+  									<span class="stoke-2-sec"></span>
+  								</div>
+  							</div>
+  							<div class="icon-apg"></div>
+  						</div>
+  						<label class="form-title input-label" for="address">Create using publicly shared APG</label>
+  					</div>
+  				</div>
+  			</div>
   		</div>
   		<div *ngIf="iscreate == true">
   			<div class="form-group">

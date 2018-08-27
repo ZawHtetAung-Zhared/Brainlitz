@@ -1,4 +1,4 @@
-<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+<!-- <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
   <div class="d-flex justify-content-between">
     <div class="mr-auto">
       <div class="d-flex flex-row">
@@ -7,7 +7,7 @@
     </div>
     <button type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
   </div>
-</div>
+</div> -->
 <div class="min-scroll main-wrapper">
   <div *ngIf="iscreate == false">
     <div class="d-flex justify-content-between heading-margin">
@@ -19,7 +19,7 @@
       <button type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
     </div>  
     <div class="row quizwerkz-group">
-      <div class="col-sm-6 col-md-6 col-lg-6" *ngFor="let pdf of pdfList">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3" *ngFor="let pdf of pdfList">
         <div class="d-flex single-quizwerkz">
             <div class="coverq">
               <img src="{{pdf.cover}}" class="book-cover-img">

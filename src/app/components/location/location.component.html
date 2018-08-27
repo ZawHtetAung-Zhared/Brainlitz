@@ -5,14 +5,14 @@
     </div>
     <button type="button" class="btn btn-create mr-15" (click)="creatnew()">Add new location</button>  
   </div>
-  <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+  <!-- <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
     <div class="d-flex justify-content-between">
       <div class="mr-auto p-2 pl-15">
         <h3 class="location-h3">Locations</h3>
       </div>
       <button type="button" class="btn btn-create mr-15" (click)="creatnew()">Add new location</button> 
     </div>
-  </div>
+  </div> -->
   <div class="location-group">
     <div class="single-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
       <div class="row">
