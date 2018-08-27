@@ -272,13 +272,14 @@
 				<div class="inside-data-wrapper">
 					<div class="col-md-12">
 						<p class="step-font">Step 6</p>
-						<h5 class="all-title-font">APG</h5>
+						<h3 class="all-title-font">APG</h3>
 					</div>
-					<div class="input-group col-md-12">
+					<div class="custom-dropdown-width input-group col-md-12">
 				<!-- 	    <input id="typeahead-focus" class="form-control input-search-bg" type="text" placeholder="Search APG to add to this Course Plan" #instance="ngbTypeahead" [ngbTypeahead]="search" id="example-search-input" name="search" [(ngModel)]="model"> -->
-						<ng-template #rt let-r="result" let-t="term" style="width: 97.3%;">
+						<ng-template #rt let-r="result" let-t="term">
 						  <div class="circle1 plus"></div>
 						  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+						  <div style="padding-left: 35px;">{{r.type}}</div>
 						</ng-template>
 						<input id="typeahead-template" type="text" placeholder="Search APG to add to this Course Plan" class="form-control input-search-bg" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt" name="searchbox" [inputFormatter]="formatter" />
 					    <span class="input-group-append">
@@ -286,6 +287,22 @@
 					            <i class="fa fa-search search-size"></i>
 					        </button>
 					     </span>
+					</div>
+					<div *ngIf="!model" class="display-style col-md-12 large-size-wrapper" style="margin-top: 30px;">
+						<div class="col-md-6 img-pos">
+							<img src="assets/img/apg-list-default.png">
+						</div>
+						<div class="col-md-6">
+							<div class="txt-default">
+								<h3>Add APG to this Course Plan</h3>
+							</div>
+							<div class="arrow-pos">
+								<img src="assets/img/arrow.png">
+							</div>
+						</div>
+					</div>
+					<div>
+						
 					</div>
 				</div>
 				<div class="button-wrapper">

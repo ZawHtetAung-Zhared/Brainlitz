@@ -123,7 +123,7 @@ export class ApgComponent implements OnInit {
       console.log(name)
       this.ischecked = val;
       localStorage.setItem('moduleID', val);
-      localStorage.setItem('moduleName', name);
+      // localStorage.setItem('moduleName', name);
       setTimeout(() => {
         this.ismodule = false;
         this.isshare = true;
