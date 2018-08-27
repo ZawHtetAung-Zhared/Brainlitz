@@ -106,7 +106,9 @@ h2 {
 	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 	border-radius: 7px;
 	min-height: 250px;
-	padding-left: 25px;
+  max-height: 250px;
+	/*padding-left: 25px;*/
+  padding: 20px 20px;
   position: relative;
   margin: 15px 0;
 }
@@ -136,7 +138,7 @@ h2 {
   	height: 80px;
   	overflow: hidden;
   	border-radius: 50%;
-  	margin-top: 25px;
+  	/*margin-top: 25px;*/
   	background: #ddd;
 }
 
@@ -157,8 +159,21 @@ h2 {
     object-fit: contain;
 }
 
-.detail-bg {
+/*.detail-btn-wrap{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: auto !important;
+}*/
+
+/*.detail-bg {
   float: right;
+  background: none;
+  border: none;
+  cursor: pointer;
+}*/
+.detail-bg{
+  padding: 0;
   background: none;
   border: none;
   cursor: pointer;
@@ -176,8 +191,22 @@ button.detail-bg:focus {
 }
 
 .wrap-rating {
-	display: flex; 
 	margin-top: 25px; 
+}
+
+.bottom-0{
+  margin-bottom: 0;
+}
+
+.star-icon{
+  width: 18px;
+}
+
+.center-flex{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 43px;
 }
 
 .back{
@@ -200,8 +229,10 @@ button.detail-bg:focus {
   max-width: 25%;
   flex: 0 0 33.333333%;
   max-width: 33.333333%;
-  padding-left: 15px;
-  padding-right: 15px;
+  /*padding-left: 15px;
+  padding-right: 15px;*/
+  padding-left: 12px;
+  padding-right: 12px;
   width: 100%;
   float: left;
 }
@@ -541,20 +572,20 @@ h3.head-rating-count {
     display: block;
   }
 
-	.detail-bg{
+	/*.detail-bg{
 		float: right;
 		position: relative;
-	}
+	}*/
 
 
 }
 
 @media (min-width: 769px) and (max-width: 1024px){
-	.detail-bg{
+	/*.detail-bg{
 		float: none;
 		position: absolute;
 		right: 0;
-	}
+	}*/
   .noti-tab{
     padding: 15px 27px;
   }

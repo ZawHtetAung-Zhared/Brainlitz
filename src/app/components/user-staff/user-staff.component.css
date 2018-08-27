@@ -72,6 +72,7 @@ h3, h5 {
     box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
     padding: 20px 20px;
     min-height: 120px;
+    max-height: 120px;
 }
 
 .mr-box {

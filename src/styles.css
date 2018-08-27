@@ -131,6 +131,7 @@ svg.star-filled.default-star-filled-icon {
 
 .star svg{
   fill: #788796 !important;
+  width: 17px !important;
 }
 
 .iti-arrow{
@@ -298,10 +299,9 @@ span.scrollup.show:hover:before {
 }
 
 .custom-dropdown-width .dropdown-menu {
-    width: 100%;
     height: 380px;
     overflow: scroll;
-    left: 0 !important;
+    right: 15px;
 }
 .custom-dropdown-width .dropdown-menu .dropdown-item {
     padding: 10px 0;
@@ -311,3 +311,4 @@ span.scrollup.show:hover:before {
     width: 97.2%;
     cursor: pointer;
 }
+

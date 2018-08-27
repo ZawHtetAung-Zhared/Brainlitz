@@ -79,6 +79,7 @@ export class CourseplanComponent implements OnInit {
   step4FormaData: any;
   step5FormaData: any;
   step6FormaData: any;
+  selectedSearchLists: any[] = [];
 
   ngOnInit() {
     this.showModal = true;
@@ -109,6 +110,8 @@ export class CourseplanComponent implements OnInit {
     }, 200)
 
     this.step6 = true;
+    this.getAllModule();
+    this.createAPGform = true;
   }
 
   @ViewChild('parentForm') mainForm;
@@ -843,5 +846,40 @@ export class CourseplanComponent implements OnInit {
       }
     }
   }
+
+  moduleList: any [] = [];
+  createAPGform: boolean = true;
+
+  getAllModule(){
+      this._service.getAllModule(this.regionID)
+      .subscribe((res:any) => {
+        console.log('moduleLists' ,res)
+        for(var i in res){
+          if(res[i]._id != null){
+            this.moduleList.push(res[i]);
+          }
+        }
+
+        }, err => {
+          console.log(err)
+        })
+    }
+
+    chooseModuleType(id, name){
+      console.log(id, name)
+      this.createAPGform = false;
+    }
+
+    backModule(){
+      this.createAPGform = true;
+    }
+
+    backSearch(){
+
+    }
+
+    selectedAPG(data){
+      console.log(data)
+    }
 
 }
