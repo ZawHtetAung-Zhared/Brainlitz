@@ -131,6 +131,7 @@ svg.star-filled.default-star-filled-icon {
 
 .star svg{
   fill: #788796 !important;
+  width: 17px !important;
 }
 
 .iti-arrow{
