@@ -176,6 +176,8 @@ svg.star-filled.default-star-filled-icon {
   position: fixed;
   width: inherit;
   height: 100%;
+  z-index: 9;
+  /*border-right: 1px solid #dedede;*/
   transition: height 300ms linear, transform 300ms linear;
 }
 

@@ -60,6 +60,7 @@ export class ApgComponent implements OnInit {
     emptyAP: boolean = false;
     public ismodule: boolean = false;
     public isshare: boolean = false;
+    public shareAPG: boolean = false;
     public iscreate: boolean = false;
     public ischecked: any;
     public isUpdate: boolean = false;
@@ -88,9 +89,10 @@ export class ApgComponent implements OnInit {
 
     cancelapg(){
       this.model = {};
-      // this.iscreate = false;
+      this.iscreate = false;
       this.ismodule = false;
       this.isUpdate = false;
+      this.shareAPG = false;
     }
 
     goToBack(status){
@@ -98,15 +100,19 @@ export class ApgComponent implements OnInit {
       if(status == 'type'){
         console.log('type')
         this.cancelapg();
-      }else{        
+      }else if(status == 'create'){        
         this.iscreate = false;
         this.isshare = false;
         this.ismodule = true;
         this.model = {};
+      }else{
+        this.isshare = true;
+        this.shareAPG = false;
+        this.iscreate = false;
       }
     }
 
-    creatnew(){
+    addNewAPG(){
       localStorage.removeItem('moduleID');      
       this.ischecked = '';
       this.model = {};
@@ -114,22 +120,32 @@ export class ApgComponent implements OnInit {
       this.isUpdate = false;
     }
 
-    chooseModuleTypes(val, name){
-      this.ismodule = false;
-      this.isshare = true;
+    createNewAPG(status){
+      if(status == 'create'){
+        this.model = {};
+        this.iscreate = true;
+      }else{
+        this.ischecked = ''
+        this.shareAPG = true;
+        this.getAllTemplate();
+      }
+      this.isshare = false;
     }
 
     chooseModuleType(val, name){
       console.log(name)
       this.ischecked = val;
       localStorage.setItem('moduleID', val);
-      // localStorage.setItem('moduleName', name);
       setTimeout(() => {
         this.ismodule = false;
         this.isshare = true;
-        // this.iscreate = true;
         console.log('...')
       }, 300);
+    }
+
+    chooseShareAPG(val,name){
+      console.log(val)
+      this.ischecked = val;
     }
 
     createapgs(data, update){
@@ -193,6 +209,21 @@ export class ApgComponent implements OnInit {
          console.log(err)
       })
     }
+
+    // getAllTemplate(){
+    //   this.blockUI.start('Loading...');
+    //   this._service.getAllTemplate(this.regionID)
+    //   .subscribe((res:any) => {
+    //      console.log(res.length)
+    //      console.log(res)
+    //      this.blockUI.stop();
+    //      this.tempLists = res;
+    //      this.isempty = (res.length === 0) ? true : false;       
+    //   }, err => {
+    //       this.blockUI.stop();
+    //       console.log(err)
+    //   })
+    // }
 
   	open(content){
   		this.customAP = false;
@@ -274,7 +305,7 @@ export class ApgComponent implements OnInit {
 	  	else {
 	  		console.log('error')
 	  	}
-	}
+	  }
 
 	  clickTab(type){
     	this.viewType = type;
