@@ -900,6 +900,7 @@ ul.search-apg{
   position: relative;
   display: inline-block;
   margin-right: 10px;
+  float: left;
 }
 
 .circle2{
@@ -912,8 +913,19 @@ ul.search-apg{
   margin-right: 10px;
 }
 
+.circle3{
+  border: 2px solid #788796;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+}
+
 .circle1.plus:before,
-.circle1.plus:after,.circle2.plus:before, .circle2.plus:after {
+.circle1.plus:after {
     content: '';
     position: absolute;
     top: 0;
@@ -923,11 +935,22 @@ ul.search-apg{
     background: #007fff;
 }
 
-.circle1.plus:before, .circle2.plus:before{
+.circle3.plus:before,
+.circle3.plus:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #788796;
+}
+
+.circle1.plus:before, .circle3.plus:before{
     width: 2px;
     margin: 2px auto;
 }
-.circle1.plus:after, .circle2.plus:after{
+.circle1.plus:after, .circle3.plus:after{
     margin: auto 2px;
     height: 2px;
 }
@@ -1075,8 +1098,22 @@ ul.search-apg{
   line-height: 0.8;
 }
 
-.active-bg {
-  background-color: #f2f4f5
+.hr-style {
+  margin: 0;
+  border-color: #edeff0;
+}
+
+.fixedText {
+  position: absolute;
+  bottom: -365px;
+  z-index: 1999;
+  padding: 10px 20px;
+  background: #fff;
+  left: 16px;
+  right: 16px;
+  cursor: pointer;
+  border-radius: .25rem;
+  color: #64707d;
 }
 
 @media only screen and (max-width: 768px){
