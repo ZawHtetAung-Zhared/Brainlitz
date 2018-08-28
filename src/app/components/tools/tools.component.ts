@@ -37,6 +37,7 @@ export class ToolsComponent implements OnInit {
   public notiType:any;
   public notiLists:any;
   public utcDate:any;
+  public isdropdown: boolean = false;
   public notiTypes:any = [
     {name: 'Email',type: 'email',checked: false},
     {name: 'App notification',type: 'noti',checked: false}
@@ -87,6 +88,12 @@ export class ToolsComponent implements OnInit {
       var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
       this.yesterday = yFormat.replace(/-/g, "/");
       console.log("Yesterday",this.yesterday);
+    }else if(type == 'dropdown'){
+      this.isdropdown = !this.isdropdown;
+      this.notiType = 'send'
+    }else if(type == 'apg' || type == 'quizwerkz'){
+      console.log(type)
+      this.isdropdown = false;
     }else{
       this.setDefaultSelected();
     }

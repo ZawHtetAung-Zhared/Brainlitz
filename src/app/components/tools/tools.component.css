@@ -1,15 +1,19 @@
-.noti-dropdown{
-  
+.noti-dropdown.down{
+  margin-top: 0 !important;
 }
 ul.noti-dropdown{
+  margin-top: -110px !important;
   list-style: none;
   display: block;
   margin: 0;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
 }
 ul.noti-dropdown li:last-child{
   border-bottom: 1px solid #e3e4e6;
 }
 ul.noti-dropdown li{
+  cursor: pointer;
   margin-left: 23px;
   color: #2e3d4d;
   border-top: 1px solid #e3e4e6;
@@ -218,8 +222,10 @@ img.setting-icon {
   margin-top: 14px;
 }
 .noti-tab{
+  position: relative;
+  z-index: 99;
   text-align: left;
-  background: transparent;
+  background: #f2f4f5;
 	padding: 15px 26px;
 	border-radius: 0;
 	outline: none;

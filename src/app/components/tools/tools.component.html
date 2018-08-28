@@ -3,14 +3,14 @@
     <div class="noti-sidebar h-100">
 	    <div class="side-bar-wrap">
 	    	<div [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap">
-	    		<button class="btn noti-tab w-100" (click)="clickTab('send')">
+	    		<button class="btn noti-tab w-100" (click)="clickTab('dropdown')">
 					<span class="btnSpan">
             		<img *ngIf="notiType == 'send' || notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
             		<img *ngIf="notiType != 'send' && notiType != 'view'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
 						<span>Notification</span>
 					</span>
 				</button>
-				<ul class="noti-dropdown">
+				<ul [ngClass]="{'down': isdropdown == true && (notiType == 'send' || notiType == 'view')}" class="noti-dropdown">
 					<li [ngClass]="{'activetab': notiType == 'send'}" (click)="clickTab('send')">Send notification</li>
 					<li [ngClass]="{'activetab': notiType == 'view'}" (click)="clickTab('view')">Sent history</li>
 				</ul>
