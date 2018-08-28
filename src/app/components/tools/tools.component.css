@@ -1,3 +1,26 @@
+.noti-dropdown{
+  
+}
+ul.noti-dropdown{
+  list-style: none;
+  display: block;
+  margin: 0;
+}
+ul.noti-dropdown li:last-child{
+  border-bottom: 1px solid #e3e4e6;
+}
+ul.noti-dropdown li{
+  margin-left: 23px;
+  color: #2e3d4d;
+  border-top: 1px solid #e3e4e6;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  padding: 16px 0;
+  margin-right: 20px;
+}
+ul.noti-dropdown li.activetab{
+  color: #4292f1;
+}
 img.setting-icon {
     width: 25px;
 }
@@ -204,6 +227,8 @@ img.setting-icon {
 	font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
   color: #2e3e4d;
   font-size: 16px;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
 }
 .noti-tab:focus{
 	outline: none;
