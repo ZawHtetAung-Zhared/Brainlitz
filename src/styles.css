@@ -118,6 +118,8 @@ app-tools{
 
 .rating {
   justify-content: left !important;
+  margin-top: 2px!important;
+  margin-bottom: 6px!important;
 }
 
 .info-group .rating {
@@ -131,8 +133,14 @@ svg.star-filled.default-star-filled-icon {
 
 .star svg{
   fill: #788796 !important;
-  width: 17px !important;
+  width: 15px !important;
 }
+
+.star{
+  width: 17px!important;
+  height: 17px!important;
+}
+
 
 .iti-arrow{
   left: 87px;
@@ -299,16 +307,28 @@ span.scrollup.show:hover:before {
 }
 
 .custom-dropdown-width .dropdown-menu {
-    height: 380px;
+    height: 365px;
     overflow: scroll;
     right: 15px;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0px 4px 12px -1px rgba(221,221,221,1);
+    border: none;
+    border-top: 1px solid rgba(0,0,0,.15);
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
 }
 .custom-dropdown-width .dropdown-menu .dropdown-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #edeff0;
-    padding: 10px 0;
-    margin: 0px 15px;
-    width: 97.2%;
+    padding: 15px 20px 0 20px !important;
     cursor: pointer;
+}
+
+.custom-dropdown-width .dropdown-menu .dropdown-item.active {
+  background-color: #f2f4f5;
+  color: unset;
+}
+
+.custom-dropdown-width .dropdown-menu .dropdown-item:focus {
+  outline: none;
 }
 

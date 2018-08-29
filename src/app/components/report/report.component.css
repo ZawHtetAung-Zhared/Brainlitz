@@ -102,6 +102,7 @@ h2 {
 }
 
 .rating-box {
+  /*min-width: 100%;*/
 	background: #fff;
 	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 	border-radius: 7px;
@@ -111,6 +112,9 @@ h2 {
   padding: 20px 20px;
   position: relative;
   margin: 15px 0;
+}
+.inner-box{
+  word-wrap: break-word;
 }
 
 /*.box-container {
@@ -159,13 +163,6 @@ h2 {
     object-fit: contain;
 }
 
-/*.detail-btn-wrap{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin-left: auto !important;
-}*/
-
 /*.detail-bg {
   float: right;
   background: none;
@@ -177,6 +174,7 @@ h2 {
   background: none;
   border: none;
   cursor: pointer;
+  margin-left: auto;
 }
 button.detail-bg:focus {
 	outline: none;
@@ -209,6 +207,16 @@ button.detail-bg:focus {
   min-height: 43px;
 }
 
+.half {
+  width:95%;/* do not mind flex, just set a width if that speaks to you */
+}
+
+.wil {
+  flex:1;/* will spray evenly in room left , flex-basis is here auto you can use min and max size to make it a bit more flexible */
+  min-width:5%;/* set a min-width*/
+  max-width:50px; /* and also a max-width */
+}
+
 .back{
 	background: none;
 	position: absolute;
@@ -231,8 +239,8 @@ button.detail-bg:focus {
   max-width: 33.333333%;
   /*padding-left: 15px;
   padding-right: 15px;*/
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 15px;
+  padding-right: 15px;
   width: 100%;
   float: left;
 }
