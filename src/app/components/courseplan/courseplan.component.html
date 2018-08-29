@@ -274,20 +274,24 @@
 						<p class="step-font">Step 6</p>
 						<h3 class="all-title-font">APG</h3>
 					</div>
-					<div class="custom-dropdown-width input-group col-md-12">
+					<div class="custom-dropdown-width input-group col-md-12 all-title-font">
 						<ng-template #rt let-r="result" let-t="term">
-						  <div class="circle1 plus"></div>
-						  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-						  <div style="padding-left: 35px;">{{r.type}}</div>
+						  	<div class="circle1 plus"></div>
+						  	<ngb-highlight [result]="r.name" [term]="t" ></ngb-highlight>
+						  	<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{r.type}}</div>
+						  	<hr class="hr-style">
 						</ng-template>
-						<input id="typeahead-template" type="text" placeholder="Search APG to add to this Course Plan" class="form-control input-search-bg" [(ngModel)]="model" (keypress)="selectedAPG(model)" [ngbTypeahead]="search" [resultTemplate]="rt" name="searchbox" [inputFormatter]="formatter" />
+						<input id="typeahead-focus" type="text" placeholder="Search APG to add to this Course Plan" class="form-control input-search-bg" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt" name="searchbox" [inputFormatter]="formatter" />
 					    <span class="input-group-append">
 					        <button class="bt btn-design btn-outline-secondary" type="button">
 					            <i class="fa fa-search search-size"></i>
 					        </button>
-					     </span>
+					    </span>
+					    <div class="fixedText">
+							<div class="circle3 plus"></div><p>Create new APG</p>
+						</div>
 					</div>
-					<div *ngIf="!model" class="display-style col-md-12" style="margin-top: 30px;">
+					<div *ngIf="button" class="display-style col-md-12" style="margin-top: 30px;">
 						<div class="col-md-6 img-pos">
 							<img src="assets/img/apg-list-default.png">
 						</div>

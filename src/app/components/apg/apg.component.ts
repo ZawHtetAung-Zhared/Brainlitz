@@ -63,8 +63,10 @@ export class ApgComponent implements OnInit {
     public shareAPG: boolean = false;
     public iscreate: boolean = false;
     public ischecked: any;
+    public sharechecked: any;
     public isUpdate: boolean = false;
     public navIsFixed: boolean = false;
+    public singleCheckedAPG: boolean = false;
     responseAP: any;
 
   	ngOnInit() {
@@ -96,9 +98,9 @@ export class ApgComponent implements OnInit {
     }
 
     goToBack(status){
-      localStorage.removeItem('moduleID');
       if(status == 'type'){
         console.log('type')
+        localStorage.removeItem('moduleID');
         this.cancelapg();
       }else if(status == 'create'){        
         this.iscreate = false;
@@ -125,11 +127,42 @@ export class ApgComponent implements OnInit {
         this.model = {};
         this.iscreate = true;
       }else{
-        this.ischecked = ''
+        this.sharechecked = ''
         this.shareAPG = true;
         this.getAllTemplate();
       }
       this.isshare = false;
+    }
+
+    
+
+    getsingleTemplate(id){  
+      this._service.getSingleTemplate(this.regionID, id)
+      .subscribe((res:any) => {
+        this.singleCheckedAPG = res;
+        console.log(res)
+      }, err => {
+        console.log(err)
+      })
+    }
+
+    setShareAPG(obj){
+      console.log(this.singleCheckedAPG)
+
+      let data = this.singleCheckedAPG;
+
+      this._service.updateSingleTemplate(this.regionID, data)
+      .subscribe((res:any) => {
+          console.log(res)
+          this.toastr.success('Successfully '+ status + '.');
+          this.blockUI.stop();
+          this.cancelapg();
+          this.getAllAPG();
+      }, err => {
+          this.toastr.success(status + ' Fail.');
+          this.blockUI.stop();
+          console.log(err)
+      })
     }
 
     chooseModuleType(val, name){
@@ -145,7 +178,8 @@ export class ApgComponent implements OnInit {
 
     chooseShareAPG(val,name){
       console.log(val)
-      this.ischecked = val;
+      this.sharechecked = val;
+      this.getsingleTemplate(this.sharechecked);
     }
 
     createapgs(data, update){
@@ -196,7 +230,7 @@ export class ApgComponent implements OnInit {
     onclickUpdate(id){
       console.log(id)
       this.singleAPG(id);
-      // this.iscreate = true;
+      this.iscreate = true;
       this.isUpdate = true;
     }
 

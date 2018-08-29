@@ -2,13 +2,13 @@ import { Component, OnInit, ViewContainerRef, HostListener, ElementRef, ViewChil
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
-import { Observable } from 'rxjs/Rx';
+import {Observable, Subject} from 'rxjs';
 import { cPlanField } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import {debounceTime, map} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -115,7 +115,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   @ViewChild('parentForm') mainForm;
-  
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -124,7 +124,6 @@ export class CourseplanComponent implements OnInit {
     );
 
   formatter = (x: {name: string}) => x.name;
-  
 
 	back(){
     this.goBackCat = false;
@@ -544,8 +543,11 @@ export class CourseplanComponent implements OnInit {
     this.progressSlider = true;
   }
 
+  showNewAPGbox: boolean = false;
+
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
+
         if(this.progressSlider != true){
            $('.bg-box').css({ 'display': "none" });   
         }
@@ -878,8 +880,8 @@ export class CourseplanComponent implements OnInit {
 
     }
 
-    selectedAPG(data){
-      console.log(data)
+    selected(event: any) {
+      console.log('sss')
     }
 
 }
