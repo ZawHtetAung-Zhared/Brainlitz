@@ -37,6 +37,12 @@
 .main-wrapper{
     padding: 0 15px;
 }
+.cancel-back{
+    font-size: 16px;
+    font-family: 'Montserrat-Regular',Arial,sans-serif;
+    color: #2e3d4d !important;
+    cursor: pointer;
+}
 .apg-share-bottom{
     position: fixed;
     width: 100%;

@@ -55,12 +55,12 @@
 
     <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
   		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
-  		<a (click)="cancelapg()">Cancel</a>
+  		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
   	</div>
 
   	<div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
   		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
-  		<a (click)="cancelapg()">Cancel</a>
+  		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
   	</div>
   </div>
   <div class="location-group">
