@@ -70,6 +70,29 @@ export class UsersComponent implements OnInit {
   	public isCreateFix: boolean = false;
   	atLeastOneMail: boolean = false;
   	imgDemoSlider: boolean = false;
+  	public showCustDetail:boolean = false;
+  	public custDetail:any;
+  	public testGurdian=[
+	  	{
+	  		"name": "Garry Nixon",
+	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
+	  	},
+	  	{
+	  		"name": "Massie William",
+	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
+	  	}
+  	];
+  	public testClasses = [
+  		{
+  			"name": "Beginner Piano Course"
+  		},
+  		{
+  			"name": "Beginner Piano Course2"
+  		},
+  		{
+  			"name": "Beginner Piano Course"
+  		}
+  	]
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
@@ -490,6 +513,15 @@ export class UsersComponent implements OnInit {
 		$(".frame-upload").css('display', 'none');
 	}
 
+	showDetails(data){
+		console.log("show details")
+		this.showCustDetail = true;
+		this.custDetail = data;
+	}
+
+	backToCustomer(){
+		this.showCustDetail = false;
+	}
 
 }
 
