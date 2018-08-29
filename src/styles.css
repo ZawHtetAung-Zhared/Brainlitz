@@ -118,6 +118,8 @@ app-tools{
 
 .rating {
   justify-content: left !important;
+  margin-top: 2px!important;
+  margin-bottom: 6px!important;
 }
 
 .info-group .rating {
@@ -131,8 +133,14 @@ svg.star-filled.default-star-filled-icon {
 
 .star svg{
   fill: #788796 !important;
-  width: 17px !important;
+  width: 15px !important;
 }
+
+.star{
+  width: 17px!important;
+  height: 17px!important;
+}
+
 
 .iti-arrow{
   left: 87px;
