@@ -115,9 +115,6 @@ h2 {
 }
 .inner-box{
   word-wrap: break-word;
-  /*display: inline-flex;
-  min-width: 100%;
-  flex-direction: column;*/
 }
 
 /*.box-container {
@@ -165,13 +162,6 @@ h2 {
     height: 100%;
     object-fit: contain;
 }
-
-/*.detail-btn-wrap{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin-left: auto !important;
-}*/
 
 /*.detail-bg {
   float: right;

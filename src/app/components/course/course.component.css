@@ -115,7 +115,6 @@ li button{
 }
 .header-info{
   font-size: 16px;
-  display: flex;
   color: #ffffff;
 }
 .addCourseBtn{
@@ -124,7 +123,6 @@ li button{
   padding: 0px 10px 0px 10px;
 }
 .course-wrap{
-  display: flex;
   padding: 1.05rem;
   border-bottom: 1px solid #f0f2f3;
   color: #8a939d;
@@ -151,11 +149,12 @@ li button{
   padding: 0px 4px 0px 4px;
   height: 20px;
   background: #f2f4f5;
-  color: #8b949e;
+  color: #64707d;
   text-align: center;
   font-size: 0.8rem;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 .date-wrap{
   width: 30%;

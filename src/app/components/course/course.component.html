@@ -17,18 +17,18 @@
               </label>
             </div>
             <h5 class="medium-font">{{ courseGroup.coursePlan.name }}</h5>
-            <div class="header-info light-font">
+            <div class="d-flex header-info light-font">
               {{ courseGroup.coursePlan.seats }} seats
               <ul><li>{{ courseGroup.coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
             </div>
           </div>
           <div>
             <div *ngFor="let course of courseGroup.courses">
-              <div class="course-wrap">
+              <div class="d-flex course-wrap">
                 <div *ngIf="course.seat_left > 0" class="absolute">
                   {{ course.seat_left }} seats left
                 </div>
-                <div *ngIf="course.seat_left == null || course.seat_left == 0 || course.seat_left == -1" class="absolute">
+                <div *ngIf="course.seat_left == null || course.seat_left == 0 || course.seat_left == -1" class="no-seat">
                   All seats taken
                 </div>
                 <div class="date-wrap">
