@@ -70,10 +70,10 @@
           ng2TelInput
           (intlTelInputObject)="telInputObject($event)"
           (hasError)="hasError($event)"
-          [ng2TelInputOptions]="{initialCountry: 'sg'}"
+          [ng2TelInputOptions]="{initialCountry: 'mm'}"
           (countryChange)="onCountryChange($event)"
           (ng2TelOutput)="getNumber($event)"
-          (input)="onSearchChange($event.target.value)"
+          (input)="onSearchChange($event.target.value, $event)"
           required
            />          
           <input 
@@ -97,17 +97,16 @@
               Phone number is required!
             </div>
           </div>
-          <div [hidden]="isequal == true" class="alert alert-danger">
-            <div>
-              Phone number length is wrong!
-            </div>
-          </div>
         </div>
       </div>
+      <!-- {{!locationForm.valid && isvalid == true}} <br> -->
+      
+      <!-- !locationform - {{!locationForm.valid}} <br> -->
+      <!-- isvalid == false - {{isvalid == false}} <br> -->
       <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-cancel" (click)="back()">Cancel</button>
-        <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
-        <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="createLocation(model, true, currentID)">Update</button>
+        <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid || isvalid == false">Create</button>
+        <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!locationForm.valid || isvalid == false" (click)="createLocation(model, true, currentID)">Update</button>
       </div>
     </form>
   </div>

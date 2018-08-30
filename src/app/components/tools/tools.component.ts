@@ -38,6 +38,7 @@ export class ToolsComponent implements OnInit {
   public notiLists:any;
   public utcDate:any;
   public isdropdown: boolean = false;
+  public wordLength : number = 0;
   public notiTypes:any = [
     {name: 'Email',type: 'email',checked: false},
     {name: 'App notification',type: 'noti',checked: false}
@@ -97,6 +98,29 @@ export class ToolsComponent implements OnInit {
     }else{
       this.setDefaultSelected();
     }
+  }
+
+  focusMethod(e, status){
+    console.log('hi', e)
+    if(status == 'subject'){
+      $('.limit-word').show('slow'); 
+    }else{
+      $('.limit-word1').show('slow'); 
+    }
+  }
+  
+  blurMethod(e, status){
+    console.log('blur', e);
+    if(status == 'subject'){
+      $('.limit-word').hide('slow'); 
+    }else{
+      $('.limit-word1').hide('slow'); 
+    }
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
   }
 
   viewNoti(){

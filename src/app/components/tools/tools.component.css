@@ -1,3 +1,9 @@
+.sub-title{
+  color: #2e3e4d;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-size: 18px;
+  margin-top: 32px;
+}
 .noti-dropdown.down{
   margin-top: 0 !important;
 }
@@ -68,7 +74,7 @@ img.setting-icon {
   padding-top: 63px;
 }
 .content-wrapper{
-  padding-top: 149px;
+  padding-top: 147px;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -78,13 +84,13 @@ img.setting-icon {
 	/*padding: 40px 30px 40px 30px;*/
 }
 .tool-box{
-  border: 1px solid #4392f1;
+  border: 2px solid #0080ff;
   border-radius: 4px;
 }
 .tool-checked{	
 	margin-right: 0;
 	flex: auto;
-  border-right: 1px solid #4392f1;
+  border-right: 2px solid #0080ff;
 }
 .tool-checked:last-child{
   border-right: none;
@@ -93,13 +99,14 @@ img.setting-icon {
 	/*border: none;*/
 	border-right: 0;
 	padding: 8px 6px;
-	color: #4392f1;
+	color: #0080ff;
 	font-size: 16px;
 	flex: auto;
 	text-align: center;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
 }
 .tool-checked:last-child label{
-	/*border-right: 1px solid #4392f1;*/
+	/*border-right: 1px solid #0080ff;*/
 	/*border-radius: 0 3px 3px 0;*/
 }
 .tool-checked:first-child label{
@@ -113,22 +120,51 @@ img.setting-icon {
 }
 .tool-checked.selected,
 .tool-checked label.selected{
-	background: #4392f1;
+	background: #0080ff;
 	color: #fff;
 }
 .selected label{
 	color: #fff !important;	
 }
 .lable-title{
-	font-family: 'Montserrat-Medium','Arial', sans-serif !important;
-	font-size: 18px;
-	color: #5e5e5e;
+	font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+  font-size: 18px;
+  color: #2e3e4d;
+}
+.limit-word,
+.limit-word1{
+  display: none;
+  font-size: 14px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  color: #0080ff;
+}
+.input-create{
+  border-radius: 0;
+  border: none;
+  font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+  margin-left: -.75rem;
+  border-radius: 4px;
+}
+.input-create:focus{
+  -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+}
+.active-user-form label{
+  font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+  font-size: 16px;
+  color: #2e3e4d;
 }
 .notif{
   padding-bottom: 130px;
 }
 .notif .form-group{
-	margin-bottom: 30px;
+	margin-bottom: 20px;
+  border-bottom: 1px solid #edeff0;
+  padding-bottom: 20px;
+}
+.notif .form-group:first-child{
+  border-bottom: 1px solid transparent;
 }
 .margin-heading{
     margin-top: 23px;
@@ -143,6 +179,7 @@ img.setting-icon {
   padding-left: 15px;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
   color: #2e3e4d;
+  margin-bottom: 0;
 }
 .user-count{
 	padding: 25px 20px;
@@ -151,23 +188,33 @@ img.setting-icon {
     color: #212529;
     display: table;
     border-radius: 5px;
-    margin-top: 5em;
+    margin-top: 4em;
     /*margin-left: 3em;*/
     -webkit-transition: .1s all ease-out;
     transition: .1s all ease-out;
     text-align: center;
     width: 100%;
+    color: #009940;
+    background: #c2f2d6;
 }
 .no-user{
 	background: #fff;
-	border: 1px solid #f5575f;
+	border: #f5575f !important;
 	color: #f5575f;
 }
-.user-count p{
+.no-user h4{
+  color: #f5575f;
+}
+.user-count label{
+  margin-bottom: 0;
+}
+.user-count h4{
 	margin-bottom: 0;
 	font-size: 32px;
-	min-height: 48px;
+	/*min-height: 48px;*/
 	min-width: 22px;
+  color: #009940;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .choose-cat{	
 	/*width: 95.5% !important;*/
@@ -603,7 +650,16 @@ width: 50%;
   border-bottom: 2px solid #d3d3d3;
 }
 
-
+/* notification */
+.info-message{
+  background: #f2f4f5;
+  padding: 8px 20px;
+  border-radius: 25px;
+  color: #64707d;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-size: 14px;
+  margin-top: 3px;
+}
 
 /* APG */
 .min-scroll {
@@ -615,8 +671,8 @@ width: 50%;
   background-color: #1682fb;
   border: none;
   height: 45px;
-  margin-right: 15px;
   border-radius: 3px;
+  min-width: 108px;
 }
 .input-search-bg{
     padding: 12px 0 12px 12px !important;

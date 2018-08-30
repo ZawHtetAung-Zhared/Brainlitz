@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
@@ -68,8 +68,34 @@ export class HeaderComponent implements OnInit {
     this._service.setLocationId(LocationId);
   }
 
+  dropMenuShow: boolean = false;
 
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+        if(this.dropMenuShow == false){
+           $('.dropdown-box').css('display', 'none');
+           // $('.bg-box').css('display', 'none');  
+        }
+        else {
+            $('.dropdown-box').css('display', 'block');
+            // $('.bg-box').css('display', 'block');
+            this.dropMenuShow = false;
 
+        }
+    }
+    
+  dropDown(){
+        var x = document.getElementsByClassName('dropdown-box');
+        if( (x[0]as HTMLElement).style.display == 'block'){
+          (x[0]as HTMLElement).style.display = 'none';
+        }
+        else {
+           (x[0]as HTMLElement).style.display = 'block';
+           this.dropMenuShow = true;
+        }
+  }
+
+  
 }
 
 

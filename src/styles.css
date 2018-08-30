@@ -118,6 +118,8 @@ app-tools{
 
 .rating {
   justify-content: left !important;
+  margin-top: 2px!important;
+  margin-bottom: 6px!important;
 }
 
 .info-group .rating {
@@ -131,8 +133,14 @@ svg.star-filled.default-star-filled-icon {
 
 .star svg{
   fill: #788796 !important;
-  width: 17px !important;
+  width: 15px !important;
 }
+
+.star{
+  width: 17px!important;
+  height: 17px!important;
+}
+
 
 .iti-arrow{
   left: 87px;
@@ -324,6 +332,7 @@ span.scrollup.show:hover:before {
   outline: none;
 }
 
+<<<<<<< HEAD
 .custom-dropdown-width .dropdown-menu button:last-child {
   margin-bottom: 47px;
 }
@@ -437,4 +446,8 @@ span.scrollup.show:hover:before {
     233px 0 0 -8px #d4d5d6, 234px 0 0 -8px #d4d5d6, 235px 0 0 -8px #d4d5d6,
     236px 0 0 -8px #d4d5d6, 237px 0 0 -8px #d4d5d6, 238px 0 0 -8px #d4d5d6,
     239px 0 0 -8px #d4d5d6, 240px 0 0 -8px #d4d5d6;
+}
+
+.progress-bar{
+  background: #788796!important;
 }
