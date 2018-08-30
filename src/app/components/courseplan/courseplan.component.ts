@@ -2,13 +2,14 @@ import { Component, OnInit, ViewContainerRef, HostListener, ElementRef, ViewChil
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { cPlanField } from './courseplan';
+import { apgForm } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 declare var $: any;
 
@@ -38,6 +39,7 @@ export class CourseplanComponent implements OnInit {
   public courseplanLists: any;
   public showLoading: boolean = false;
   formField: cPlanField = new cPlanField();
+  formAPG: apgForm = new apgForm();
   depositLists: any;
   @BlockUI() blockUI: NgBlockUI;
   holidayCalendarLists: any;
@@ -80,6 +82,24 @@ export class CourseplanComponent implements OnInit {
   step5FormaData: any;
   step6FormaData: any;
   selectedSearchLists: any[] = [];
+  step1: boolean = false;
+  step2: boolean = false;
+  step3: boolean = false;
+  step4: boolean = false;
+  step5: boolean = false;
+  step6: boolean = false;
+  step7: boolean = false;
+  moduleList: any [] = [];
+  showSearchAPG: boolean = true;
+  createAPGform: boolean = false;
+  showModule: boolean = false;
+  selectedAPGlists: boolean = false;
+  ischecked: any;
+  model: any;
+  createdAPGstore: any [] = [];
+  clickedItem: any;
+  selectedAPGidArray: any[] = [];
+  showNewAPGbox: boolean = false;
 
   ngOnInit() {
     this.showModal = true;
@@ -109,9 +129,9 @@ export class CourseplanComponent implements OnInit {
       $("#step1").addClass('active');
     }, 200)
 
-    this.step6 = true;
+    this.step1 = true;
     this.getAllModule();
-    this.createAPGform = true;
+    this.showSearchAPG = true;
   }
 
   @ViewChild('parentForm') mainForm;
@@ -124,6 +144,33 @@ export class CourseplanComponent implements OnInit {
     );
 
   formatter = (x: {name: string}) => x.name;
+
+  SearchBoxEmpty(): String {
+    var name;
+    return name
+  }
+
+  selectedItem(item){
+    this.clickedItem = item.item;
+    const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
+    if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
+    else this.createdAPGstore.push(this.clickedItem);
+    console.log(this.createdAPGstore)
+    this.selectedAPGlists = true;
+    this.showSearchAPG = true;
+    this.showModule = false;
+    this.createAPGform = false;
+  }
+
+  removeSelectedAPG(data){
+    var index = this.createdAPGstore.findIndex(function(element){
+       return element._id===data._id;
+    })
+    if(index!==-1){
+      this.createdAPGstore.splice(index, 1)
+    }
+  }
+
 
 	back(){
     this.goBackCat = false;
@@ -182,30 +229,29 @@ export class CourseplanComponent implements OnInit {
       },
       "quizwerkz": this.pdfId,
       "holidayCalendarId": this.step4FormaData.holidayCalendar,
-      "accessPointGroup": this.apgId
+      "accessPointGroup": this.selectedAPGidArray
     }
-    this.mainForm.reset();
-    this.formField = new cPlanField();
-    this.pdfId = [];
-    this.timeInminutes = "";
-
     console.log(data)
-
-    //this.blockUI.start('Loading...');
-    //this.modalReference.close();
-    //this._service.createCoursePlan(this.regionID,data)
-    //.subscribe((res:any) => {
+    // this.blockUI.start('Loading...');
+    // this._service.createCoursePlan(this.regionID,data)
+    // .subscribe((res:any) => {
     //  console.log('success post',res);
-   //   this.toastr.success('Successfully Created.');
-   //   this.blockUI.stop();
-      // this.getAllCoursePlan();
-      // }, err => {
-      //   this.toastr.error('Create Fail');
-      //   this.blockUI.stop();
-      //   console.log(err)
-      // })
-      // this.pdfName = [];
-      // this.pdfId = [];
+    //  this.toastr.success('Successfully Created.');
+    //  this.blockUI.stop();
+    //   this.getAllCoursePlan();
+    //   }, err => {
+    //     this.toastr.error('Create Fail');
+    //     this.blockUI.stop();
+    //     console.log(err)
+    //   })
+      this.mainForm.reset();
+      this.formField = new cPlanField();
+      this.pdfId = [];
+      this.timeInminutes = "";
+      this.selectedAPGidArray = [];
+      this.createdAPGstore = [];
+      this.model = '';
+      this.selectedAPGlists = false;
   }
 
   onclickDelete(cplan, confirmDelete1){
@@ -452,7 +498,7 @@ export class CourseplanComponent implements OnInit {
         "maxPassPerUser":  formData.makeupuser,
         "maxDayPerPass": formData.makeuppass
       },
-      "allowPagewerkzBooks": formData.allowpagewerkz,
+      "allowPagewerkz": formData.allowpagewerkz,
       "paymentPolicy": {
         "deposit": formData.deposit,
         "courseFee": formData.courseFee,
@@ -542,8 +588,6 @@ export class CourseplanComponent implements OnInit {
   durationProgress($event){
     this.progressSlider = true;
   }
-
-  showNewAPGbox: boolean = false;
 
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
@@ -662,14 +706,6 @@ export class CourseplanComponent implements OnInit {
     $('.input-group-text').css('background', '#fff');
   }
 
-  step1: boolean = false;
-  step2: boolean = false;
-  step3: boolean = false;
-  step4: boolean = false;
-  step5: boolean = false;
-  step6: boolean = false;
-  step7: boolean = false;
-
   backStep(type){
     if(type == 'step2'){
       this.step2 = false;
@@ -716,19 +752,33 @@ export class CourseplanComponent implements OnInit {
         $("#step4").addClass('active');
       }
     }
-    if(type == 'step7'){
+    if(type == 'step6'){
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
       this.step4 = false;
       this.step5 = true;
-      this.step6 = true;
-      this.step7 = false;
+      this.step6 = false;
       if(this.step5 == true){
-        $("#step7").removeClass('active');
+        $("#step6").removeClass('active');
         $("#step5").removeClass('done');
         $("#step1, #step2, #step3, #step4").addClass('done');
         $("#step5").addClass('active');
+      }
+    }
+    if(type == 'step7'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step6 = true;
+      this.step7 = false;
+      if(this.step6 == true){
+        $("#step7").removeClass('active');
+        $("#step6").removeClass('done');
+        $("#step1, #step2, #step3, #step4, #step5").addClass('done');
+        $("#step6").addClass('active');
       }
     }
   }
@@ -806,12 +856,15 @@ export class CourseplanComponent implements OnInit {
         $("#step4").addClass('done');
         $("#step5").addClass('done');
         $("#step7").addClass('active');
-        this.step7 = true;
+        this.step6 = true;
       }
     }
     if(type == 'step6'){
-      this.step6FormaData = data;
-      console.log(this.step6FormaData)
+      console.log(data)
+      for(var i in data){
+        this.selectedAPGidArray.push(data[i]._id);
+      }
+      console.log(this.selectedAPGidArray)
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
@@ -849,9 +902,6 @@ export class CourseplanComponent implements OnInit {
     }
   }
 
-  moduleList: any [] = [];
-  createAPGform: boolean = true;
-
   getAllModule(){
       this._service.getAllModule(this.regionID)
       .subscribe((res:any) => {
@@ -869,19 +919,66 @@ export class CourseplanComponent implements OnInit {
 
     chooseModuleType(id, name){
       console.log(id, name)
-      this.createAPGform = false;
+      this.ischecked = id;
+      setTimeout(() => {
+        this.createAPGform = true;
+        this.showModule = false;
+        this.showSearchAPG = false;
+        this.selectedAPGlists = false;
+      }, 300);
     }
 
     backModule(){
-      this.createAPGform = true;
+      this.showModule = true;
+      this.showSearchAPG = false;
+      this.createAPGform = false;
+      this.selectedAPGlists = false;
     }
 
-    backSearch(){
-
+    backSearhAPG(){
+      this.showSearchAPG = true;
+      this.showModule = false;
+      this.createAPGform = false;
+      this.selectedAPGlists = false;
+      this.formAPG = new apgForm();
     }
 
-    selected(event: any) {
-      console.log('sss')
+    goToModule(){
+      this.showSearchAPG = false;
+      this.showModule = true;
+      this.selectedAPGlists = false;
+      this.ischecked = '';
+    }
+
+    createAPGs(data){
+      console.log(data);
+      var templateID;
+      var moduleId = localStorage.getItem('moduleID')
+        data["moduleId"] = moduleId;
+         this._service.createAP(this.regionID, data)
+         .subscribe((res:any) => {
+           this.toastr.success('Successfully AP Created.');
+           data["accessPoints"] = [res._id]
+           console.log(data)
+           this._service.createAPG(this.regionID,data, templateID, moduleId)
+          .subscribe((response:any) => {
+            this.toastr.success('Successfully APG Created.');
+            console.log(response)
+            this.formAPG = new apgForm();
+            this.createdAPGstore.push(response);
+            this.showSearchAPG = true;
+            this.selectedAPGlists = true;
+            this.showModule = false;
+            this.createAPGform = false;
+            this.getAllAPG();
+          }, err => {
+            this.toastr.error('Created APG Fail');
+            console.log(err)
+          });
+         }, err => {
+           this.toastr.error('Created AP Fail');
+           console.log(err)
+         });
     }
 
 }

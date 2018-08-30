@@ -340,7 +340,7 @@
 						<div class="d-flex">
 							<div class="d-flex gurdian-wrap" *ngFor="let gurdian of testGurdian">
 								<div class="small-circular-image"><img src="{{gurdian.profilePic}}"></div>
-								<div class="d-flex justify-content-center flex-column info-p">
+								<div class="d-flex justify-content-center flex-column info-p padL-5">
 									{{gurdian.name}}
 								</div>
 							</div>
@@ -438,32 +438,49 @@
 				<div></div>
 			</div>
 		</div>
-		<!-- <div>
+		<div>
 			<h6 class="title-space">Ratings and reviews</h6>
-			<div class="list-wrapper">
-				<div class="child">
+			<div class="card-columns">
+				<div class="card card-wrap">
 					<div class="d-flex">
-						<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="3"></star-rating-comp>
-						<span>20 Aug 2018</span>
+						<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+						<span class="rating-date">20 Aug 2018</span>
 					</div>
-					<p>
+					<p class="medium-label-14" style="color: #2e3d4d">
 						Documentation and examples for using Bootstrap custom progress bars featuring support for stacked bars, animated backgrounds, and text labels.Progress components are built with two HTML elements, some CSS to set the width, and a few attributes.
 					</p>
-					<div>
-						
+					<div class="d-flex info-wrap">
+						<div class="timetable-col">
+							<label class="class-label-12 mb-0">Teacher</label>
+							<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+						</div>
+						<div class="timetable-col course-wrap info-wrap">
+							<label class="class-label-12 mb-0">Course</label>
+							<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+						</div>
 					</div>
 				</div>
-				<div class="child">
+				<div class="card card-wrap">
 					<div class="d-flex">
-						<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="3"></star-rating-comp>
-						<span>20 Aug 2018</span>
+						<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+						<span class="rating-date">20 Aug 2018</span>
 					</div>
-					<div>
-						
+					<div class="d-flex info-wrap">
+						<div class="timetable-col">
+							<label class="class-label-12 mb-0">Teacher</label>
+							<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+						</div>
+						<div class="timetable-col course-wrap info-wrap">
+							<label class="class-label-12 mb-0">Course</label>
+							<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div> -->
+			<div class="btn-wrap">
+				<button class="btn-showmore pad-0"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+			</div>
+		</div>
 	</div>
 </div>
 
