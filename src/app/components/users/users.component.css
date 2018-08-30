@@ -562,6 +562,9 @@ h3, h5 {
     height: 100%;
     object-fit: contain;
 }
+.padL-5{
+    padding-left: 5px;
+}
 .info-wrap{
     width: 100%;
 }
@@ -609,6 +612,7 @@ h3, h5 {
     /*padding-top: 15px;*/
     font-family: 'Montserrat-SemiBold', Arial,sans-serif;
     padding-left: 15px;
+    padding-top: 15px;
 }
 .medium-label-14{
     font-family: 'Montserrat-Medium', Arial,sans-serif !important;
@@ -626,6 +630,11 @@ h3, h5 {
     color: #64707d;
     font-size: 14px;
 }
+.teacher-label-12{
+    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    color: #2e3d4d;
+    font-size: 12px;
+}
 .timetable-col{
     width: 50%;
 }
@@ -640,6 +649,7 @@ h3, h5 {
     background: none;
     border: none;
     outline: none;
+    padding-bottom: 15px;
 }
 .btn-showmore i{
     font-size: 16px;
@@ -654,6 +664,31 @@ h3, h5 {
 }
 .btn-wrap div{
     border-bottom: 1px solid #edeff0;
+}
+.card-columns {
+    -webkit-column-count:3;
+    -moz-column-count:3;
+    column-count:2;
+    column-gap: 1.9rem;
+    padding: 10px 15px;
+}
+.card{
+    border: 0;
+}
+.card-wrap{
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: #f2f4f5;
+    padding: 15px;
+}
+.course-wrap{
+    border-left: 2px solid #ffffff;
+    padding-left: 15px;
+}
+.rating-date{
+    margin-left: auto;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    color: #64707d;
+    font-size: 12px;
 }
 /*===customer details===*/
 
