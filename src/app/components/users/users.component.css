@@ -144,7 +144,7 @@
   padding-top: 90px;
 }
 .inner-wrapper{
-  padding-top: 132px;
+  padding-top: 147px;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -531,6 +531,16 @@ h3, h5 {
 }
 
 /*===customer details===*/
+.heading-space{
+    padding: 15px;
+}
+.content-wrapper{
+    padding-top: 147px;
+    transition: padding-top 300ms linear;
+}
+.main-wrapper{
+    padding: 0px 15px;
+}
 .img-wrap{
     width: 80px;
 }
@@ -560,23 +570,90 @@ h3, h5 {
     padding-left: 15px;
 }
 .cust-info-wrapper{
-    border-bottom: 1px solid #edeff0;
-    padding: 10px 0px 5px 0px;
+    /*border-bottom: 1px solid #edeff0;*/
+    padding: 10px 15px 5px 15px;
 }
 .infoGp-wrap{
     padding: 10px 0px;
 }
 .info-p{
-    font-size: 14px;
+    font-size: 15px;
     color: #2e3e4d;
     font-family: 'Montserrat-SemiBold', Arial,sans-serif;
-    padding: 5px; 
+    /*padding: 5px; */
 }
 .gurdian-wrap{
    padding-right: 10px; 
 }
+.list-wrapper{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(50%, 1fr));
+}
 .flexc{
+    max-width: 45.9%;
+    flex: 0 0 50%;
+    display: block;
+    margin: 10px 15px;
+    padding: 15px;
+    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+.child {
+  flex: 1 0 40%; /* explanation below */
+  margin: 10px 15px;
+  padding: 15px;
+    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+  /*height: 100px;*/
+  /*background-color: blue;*/
+}
+.title-space{
+    /*padding-top: 15px;*/
+    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    padding-left: 15px;
+}
+.medium-label-14{
+    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    color: #64707d;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+.class-label-12{
+    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    color: #64707d;
+    font-size: 12px;
+}
+.class-label-14{
+    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    color: #64707d;
+    font-size: 14px;
+}
+.timetable-col{
     width: 50%;
+}
+.day-wrap{
+    border-left: 2px solid #edeff0;
+    padding-left: 15px;
+}
+.btn-showmore{
+    color: #0080ff;
+    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    font-size: 15px;
+    background: none;
+    border: none;
+    outline: none;
+}
+.btn-showmore i{
+    font-size: 16px;
+    font-weight: 900;
+    padding-left: 5px;
+}
+.bar-wrapper{
+    margin-bottom: 0.5rem;
+}
+.btn-wrap{
+    padding: 0px 15px;
+}
+.btn-wrap div{
+    border-bottom: 1px solid #edeff0;
 }
 /*===customer details===*/
 

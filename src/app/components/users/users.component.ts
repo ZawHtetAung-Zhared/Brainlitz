@@ -84,15 +84,40 @@ export class UsersComponent implements OnInit {
   	];
   	public testClasses = [
   		{
-  			"name": "Beginner Piano Course"
+  			"name": "Beginner Piano Course",
+  			"location": "Bedok Centre",
+  			"time": {
+  				"repeatDay": "Sunday",
+  				"start": "10:00AM",
+  				"end": "11:00AM"
+  			},
+  			"startDate": "12 Jul 18",
+  			"endDate": "22 Sept 18"
   		},
   		{
-  			"name": "Beginner Piano Course2"
+  			"name": "Beginner Piano Course2",
+  			"location": "Bedok Centre",
+  			"time": {
+  				"repeatDay": "Sunday",
+  				"start": "10:00AM",
+  				"end": "11:00AM"
+  			},
+  			"startDate": "12 Jul 18",
+  			"endDate": "22 Sept 18"
   		},
   		{
-  			"name": "Beginner Piano Course"
+  			"name": "Beginner Piano Course3",
+  			"location": "Bedok Centre",
+  			"time": {
+  				"repeatDay": "Sunday",
+  				"start": "10:00AM",
+  				"end": "11:00AM"
+  			},
+  			"startDate": "12 Jul 18",
+  			"endDate": "22 Sept 18"
   		}
-  	]
+  	];
+  	public showMore = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
@@ -521,6 +546,10 @@ export class UsersComponent implements OnInit {
 
 	backToCustomer(){
 		this.showCustDetail = false;
+	}
+	showMoreClasses(){
+		console.log("show More")
+		this.showMore = true;
 	}
 
 }
