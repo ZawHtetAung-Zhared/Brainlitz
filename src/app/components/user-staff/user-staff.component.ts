@@ -67,6 +67,8 @@ export class UserStaffComponent implements OnInit {
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 
 	getAllpermission(){
