@@ -60,7 +60,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" >
 						<form novalidate #notiForm="ngForm" class="notif">
 							<div class="form-group">
-							  	<label for="address">Send to</label>
+							  	<label for="address" class="sub-title">Send to</label>
 							  	<div class="d-flex tool-box">
 									<div class="form-check form-check-inline tool-checked">
 									  <label [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check-label">
@@ -142,7 +142,7 @@
 								/>
 							</div>
 							<div *ngIf="isChecked != 'user' && isChecked != 'course' " class="form-group">
-								<div class="form-check">
+								<div class="form-check active-user-form">
 								    <label class="form-check-label">
 								      <input type="checkbox" class="form-check-input" name="active" [(ngModel)]="item.active" #active="ngModel">
 								      Only active users
@@ -150,12 +150,32 @@
 								</div>
 							</div>
 							<div class="form-group">
-							  <label for="address" class="lable-title">Subject</label>
-							  <input type="text" class="form-control" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" required>
+								<div class="d-flex justify-content-between">
+									<label for="address" class="lable-title">Subject</label>
+									<div class="limit-word">
+										<span>{{wordLength}}/60characters</span>
+									</div>
+								</div>
+								<input type="text" class="form-control input-create" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" 
+								(focus)="focusMethod($event, 'subject')"
+								(blur)="blurMethod($event, 'subject')"
+								(input)="changeMethod($event.target.value)"
+								maxlength="60"
+								required>
 							</div>
 							<div class="form-group">
-							  <label for="address" class="lable-title">Message</label>
-							  <textarea class="form-control" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" required></textarea>
+								<div class="d-flex justify-content-between">
+								  	<label for="address" class="lable-title">Message</label>
+								  	<div class="limit-word1">
+										<span>{{wordLength}}/280characters</span>
+									</div>
+								</div>
+							  <textarea class="form-control input-create" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" 
+							  (focus)="focusMethod($event, 'msg')"
+							  (blur)="blurMethod($event, 'msg')"
+							  maxlength="280"
+							  (input)="changeMethod($event.target.value)"
+							  required></textarea>
 							</div>	
 							<!-- <div class="form-group">
 								<label for="address" class="lable-title">Message Type</label>
@@ -188,15 +208,21 @@
 									</label>
 								</div>
 							</div>
-							<div>
-								<button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button>
-								<button type="submit" (click)="sendNoti(item)" class="btn btn-primary" [disabled]="!notiForm.valid || userCount === 0 || checkedType.length == 0">Submit</button>
+							<div class="d-flex justify-content-between">
+								<div>
+									<div class="info-message">
+										The message will be sent to ({{userCount}}) of {{isChecked}}
+									</div>
+								</div>
+								<!-- <button type="reset" class="btn btn-light1" (click)="resetForm()">Reset</button> -->
+								<button type="submit" (click)="sendNoti(item)" class="btn btn-create" [disabled]="!notiForm.valid || userCount === 0 || checkedType.length == 0">Send</button>
 							</div>
 						</form>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
 						<div class="user-count" [ngClass]="userCount == 0 ? 'no-user' : ''">
-							<p>{{userCount}}</p>
+							<h4>{{userCount}}</h4>
+							<label>users</label>
 						</div>
 					</div>
 				</div>
