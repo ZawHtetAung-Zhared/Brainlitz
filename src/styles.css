@@ -332,3 +332,6 @@ span.scrollup.show:hover:before {
   outline: none;
 }
 
+.progress-bar{
+  background: #788796!important;
+}
