@@ -555,8 +555,7 @@ export class appService{
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
-        let result = res;
-        console.log(result);        
+        let result = res;     
         return result;
     }) 
     }
@@ -1129,7 +1128,7 @@ export class appService{
     } 
      
     createAPG(id: string, data: object, templateId: string, moduleId: string): Observable<any>{
-      console.log(data)
+      console.log(data, templateId)
       this.getLocalstorage();
       let apiUrl;
       if(templateId != undefined){

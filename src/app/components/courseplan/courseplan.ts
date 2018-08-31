@@ -29,3 +29,8 @@ export class cPlanField {
 	public accessPointGroup: Array<any> = [];
 	
 }
+
+export class apgForm {
+	name: string;
+	description: string;
+}
