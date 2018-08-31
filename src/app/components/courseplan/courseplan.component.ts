@@ -129,7 +129,7 @@ export class CourseplanComponent implements OnInit {
       $("#step1").addClass('active');
     }, 200)
 
-    this.step4 = true;
+    this.step1 = true;
     this.getAllModule();
     this.showSearchAPG = true;
   }
@@ -234,17 +234,17 @@ export class CourseplanComponent implements OnInit {
     }
     console.log(data)
     this.blockUI.start('Loading...');
-    this._service.createCoursePlan(this.regionID,data)
-    .subscribe((res:any) => {
-     console.log('success post',res);
-     this.toastr.success('Successfully Created.');
-     this.blockUI.stop();
-      this.getAllCoursePlan();
-      }, err => {
-        this.toastr.error('Create Fail');
-        this.blockUI.stop();
-        console.log(err)
-      })
+    // this._service.createCoursePlan(this.regionID,data)
+    // .subscribe((res:any) => {
+    //  console.log('success post',res);
+    //  this.toastr.success('Successfully Created.');
+    //  this.blockUI.stop();
+    //   this.getAllCoursePlan();
+    //   }, err => {
+    //     this.toastr.error('Create Fail');
+    //     this.blockUI.stop();
+    //     console.log(err)
+    //   })
       this.mainForm.reset();
       this.formField = new cPlanField();
       this.pdfId = [];
@@ -856,7 +856,7 @@ export class CourseplanComponent implements OnInit {
         $("#step3").addClass('done');
         $("#step4").addClass('done');
         $("#step5").addClass('done');
-        $("#step7").addClass('active');
+        $("#step6").addClass('active');
         this.step6 = true;
       }
     }
@@ -874,13 +874,14 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       this.step6 = false;
       if(this.step6 == false){
-        $("#step5").removeClass('active');
+        $("#step6").removeClass('active');
         $("#step1").addClass('done');
         $("#step2").addClass('done');
         $("#step3").addClass('done');
         $("#step4").addClass('done');
         $("#step5").addClass('done');
-        $("#step6").addClass('active');
+        $("#step6").addClass('done');
+        $("#step7").addClass('active');
         this.step7 = true;
       }
     }
@@ -892,7 +893,7 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       this.step7 = false;
       if(this.step7 == false){
-        $("#step5").removeClass('active');
+        $("#step6").removeClass('active');
         $("#step1").addClass('done');
         $("#step2").addClass('done');
         $("#step3").addClass('done');
