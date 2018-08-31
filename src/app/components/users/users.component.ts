@@ -550,7 +550,7 @@ export class UsersComponent implements OnInit {
 	        	setTimeout(function() {
 	        		$(".circular-profile img").remove();
 	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
-	           	}, 200);
+	           	}, 100);
 	        }
 	    });
   	}
