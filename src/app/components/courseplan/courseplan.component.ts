@@ -169,6 +169,7 @@ export class CourseplanComponent implements OnInit {
     if(index!==-1){
       this.createdAPGstore.splice(index, 1)
     }
+    console.log(this.createdAPGstore)
   }
 
 
@@ -232,18 +233,18 @@ export class CourseplanComponent implements OnInit {
       "accessPointGroup": this.selectedAPGidArray
     }
     console.log(data)
-    // this.blockUI.start('Loading...');
-    // this._service.createCoursePlan(this.regionID,data)
-    // .subscribe((res:any) => {
-    //  console.log('success post',res);
-    //  this.toastr.success('Successfully Created.');
-    //  this.blockUI.stop();
-    //   this.getAllCoursePlan();
-    //   }, err => {
-    //     this.toastr.error('Create Fail');
-    //     this.blockUI.stop();
-    //     console.log(err)
-    //   })
+    this.blockUI.start('Loading...');
+    this._service.createCoursePlan(this.regionID,data)
+    .subscribe((res:any) => {
+     console.log('success post',res);
+     this.toastr.success('Successfully Created.');
+     this.blockUI.stop();
+      this.getAllCoursePlan();
+      }, err => {
+        this.toastr.error('Create Fail');
+        this.blockUI.stop();
+        console.log(err)
+      })
       this.mainForm.reset();
       this.formField = new cPlanField();
       this.pdfId = [];
@@ -861,6 +862,7 @@ export class CourseplanComponent implements OnInit {
     }
     if(type == 'step6'){
       console.log(data)
+      this.selectedAPGidArray = [];
       for(var i in data){
         this.selectedAPGidArray.push(data[i]._id);
       }
@@ -932,15 +934,16 @@ export class CourseplanComponent implements OnInit {
       this.showModule = true;
       this.showSearchAPG = false;
       this.createAPGform = false;
+      this.formAPG = new apgForm();
       this.selectedAPGlists = false;
     }
 
-    backSearhAPG(){
+    backSearhAPG(type){
       this.showSearchAPG = true;
       this.showModule = false;
-      this.createAPGform = false;
-      this.selectedAPGlists = false;
+      this.createAPGform = false;      
       this.formAPG = new apgForm();
+      this.selectedAPGlists = true;
     }
 
     goToModule(){

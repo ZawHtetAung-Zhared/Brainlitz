@@ -332,7 +332,6 @@ span.scrollup.show:hover:before {
   outline: none;
 }
 
-<<<<<<< HEAD
 .custom-dropdown-width .dropdown-menu button:last-child {
   margin-bottom: 47px;
 }
@@ -349,8 +348,8 @@ span.scrollup.show:hover:before {
 
 .cr-slider {
   cursor: pointer;
-  width: 100%;
   overflow: hidden;
+  width: 100%;
 }
 
 .cr-slider::-webkit-slider-runnable-track {

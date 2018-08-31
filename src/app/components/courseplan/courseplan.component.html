@@ -323,7 +323,7 @@
 				</div>	
 				<div *ngIf="showModule" class="inside-data-wrapper">	
 					<div class="col-md-12">
-						<p class="back" (click)="backSearhAPG()"><i class="fa fa-angle-left left-arrow"></i><span>APG</span></p>
+						<p class="back" (click)="backSearhAPG('back')"><i class="fa fa-angle-left left-arrow"></i><span>APG</span></p>
 						<h3 class="all-title-font">Pick APG type</h3>
 					</div>
 					<div class="row pad-15">
@@ -360,7 +360,7 @@
 							</div>
 						</div>	
 						<div class="button-wrapper" style="float: right;">
-							<button type="button" class="bt cancel-button" (click)="backSearhAPG()" >Cancel</button>
+							<button type="button" class="bt cancel-button" (click)="backSearhAPG('cancel')" >Cancel</button>
 				        	<button type="submit" (click)="createAPGs(apgCreateForm.value)" [disabled]="!apgCreateForm.valid" class="btn create-button" >Create
 							</button>
 						</div>
