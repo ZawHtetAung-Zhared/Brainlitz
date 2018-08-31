@@ -137,6 +137,7 @@ export class CourseComponent implements OnInit {
   		'courseid': course._id,
   		'coursename': course.name,
   		'coursecode': course.courseCode,
+      'locationId': course.location.locationId
   	}
   	localStorage.setItem('courseObj',JSON.stringify(obj));
   }
