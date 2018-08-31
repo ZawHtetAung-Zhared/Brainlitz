@@ -635,6 +635,11 @@ h3, h5 {
     color: #2e3d4d;
     font-size: 12px;
 }
+.medium-label-12{
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    color: #64707d;
+    font-size: 12px;
+}
 .timetable-col{
     width: 50%;
 }
@@ -686,9 +691,31 @@ h3, h5 {
 }
 .rating-date{
     margin-left: auto;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
-    color: #64707d;
-    font-size: 12px;
+}
+.firstCol{
+    width: 70%;
+    padding-right: 15px;
+}
+.secondCol{
+    width: 30%;
+    padding-top: 15px;
+}
+.inner-secondCol{
+    border-left: 1px solid #edeef0;
+    /*padding: 0px 15px;*/
+    padding-left: 15px;
+    /*padding-right: 15px;*/
+    height: 100%;
+}
+.inner-secondCol h6{
+    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+}
+.activity-wrapper{
+    padding: 10px 0px;
+}
+.icon-img{
+    min-width: 20px;
+    background: #d3d3d3;
 }
 /*===customer details===*/
 

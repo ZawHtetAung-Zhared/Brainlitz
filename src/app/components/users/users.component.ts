@@ -117,6 +117,40 @@ export class UsersComponent implements OnInit {
   			"endDate": "22 Sept 18"
   		}
   	];
+  	public testActivities = [
+  		{
+  			"activity": "Emma Watson fully payed for Piano Grade 1",
+  			"time": "7 jun 18, 1:30 PM",
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Your mailing list lets you contact customers or visitors who have …",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Emma Watson fully payed for Piano Grade 1",
+  			"time": "7 jun 18, 1:30 PM",
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Your mailing list lets you contact customers or visitors who have …",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		}
+  	];
   	public showMore = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
