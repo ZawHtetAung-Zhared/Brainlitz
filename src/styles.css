@@ -354,7 +354,6 @@ span.scrollup.show:hover:before {
 
 .cr-slider::-webkit-slider-runnable-track {
   background: #0080ff;
-  content: '';
   height: 4px;
 }
 
