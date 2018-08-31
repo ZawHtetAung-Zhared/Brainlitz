@@ -151,7 +151,9 @@ export class UsersComponent implements OnInit {
   			"time": "7 jun 18, 1:30 PM"
   		}
   	];
+  	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public showMore = false;
+  	public seeAll = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
@@ -584,6 +586,9 @@ export class UsersComponent implements OnInit {
 	showMoreClasses(){
 		console.log("show More")
 		this.showMore = true;
+	}
+	showAll(){
+		this.seeAll = true;
 	}
 
 }

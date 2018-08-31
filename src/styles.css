@@ -244,6 +244,10 @@ ng2-timezone-picker.editTimezone .select2-selection__arrow::before{
   color: #3d5266;
 }
 
+star-rating-comp.custDetail-rating .star-container{
+  margin-left: 0px;
+}
+
 /*.modal-dialog{
     width: 320px !important;
     top: 30%;

@@ -533,6 +533,9 @@ h3, h5 {
 /*===customer details===*/
 .heading-space{
     padding: 15px;
+    font-size: 16px;
+    font-family: Montserrat-Medium;
+    color: #2e3d4d;
 }
 .content-wrapper{
     padding-top: 147px;
@@ -602,7 +605,7 @@ h3, h5 {
 }
 .child {
   flex: 1 0 40%; /* explanation below */
-  margin: 10px 15px;
+  margin: 15px 15px;
   padding: 15px;
     box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
   /*height: 100px;*/
@@ -611,8 +614,9 @@ h3, h5 {
 .title-space{
     /*padding-top: 15px;*/
     font-family: 'Montserrat-SemiBold', Arial,sans-serif;
-    padding-left: 15px;
-    padding-top: 15px;
+    padding: 15px 15px 0px 15px;
+    /*padding-left: 15px;
+    padding-top: 15px;*/
 }
 .medium-label-14{
     font-family: 'Montserrat-Medium', Arial,sans-serif !important;
@@ -716,6 +720,27 @@ h3, h5 {
 .icon-img{
     min-width: 20px;
     background: #d3d3d3;
+}
+.enroll-btn{
+    font-size: 14px;
+    font-family: Montserrat-Medium;
+    color: #fff;
+    background: #007fff;
+    border-radius: 2px;
+    border: 0;
+    padding: 5px 7px;
+}
+.scrollable{
+    max-height: 200px;
+    overflow-y: scroll;
+}
+.scrollable-card{
+    max-height: 300px;
+    overflow-y: scroll;
+}
+.scrollable-list{
+    max-height: 570px;
+    overflow: scroll;
 }
 /*===customer details===*/
 

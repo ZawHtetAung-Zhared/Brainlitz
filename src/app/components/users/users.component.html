@@ -316,6 +316,9 @@
 			<div class="back" (click)="backToCustomer()">
 				<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Customers</span>
 			</div>
+			<div class="ml-auto">
+				<span>Edit Profile</span>
+			</div>
 		</div>
 		<div class="d-flex cust-info-wrapper">
 			<div class="img-wrap">
@@ -346,12 +349,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="d-flex infoGp-wrap">
-						<div>
+					<div class="d-flex infoGp-wrap info-wrap">
+						<div class="timetable-col">
 							<label class="info-mail">Date of birth</label>
 							<p class="mb-0 info-p">9 June 1996</p>
 						</div>
-						<div>
+						<div class="timetable-col">
 							<label class="info-mail">Height</label>
 							<p class="mb-0 info-p">5' 10"</p>
 						</div>
@@ -363,46 +366,53 @@
 			<div></div>
 		</div>
 		<div>
-			<h6 class="title-space">Classes</h6>
-			<div class="list-wrapper">
-				<div class="child" *ngFor="let class of testClasses | slice:0:2">
-					<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
-					<p class="info-p">{{ class.name }}</p>
-					<div class="d-flex info-wrap">
-						<div class="timetable-col">
-							<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
-							<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
-						</div>
-						<div class="d-flex timetable-col day-wrap info-wrap">
+			<div class="d-flex title-space">
+				<div class="d-flex flex-column justify-content-center">
+					<h6 class="mb-0">Classes</h6>
+				</div>
+				<button class="ml-auto enroll-btn">Enroll new class</button>
+			</div>
+			<div class="scrollable">
+				<div class="list-wrapper">
+					<div class="child" *ngFor="let class of testClasses | slice:0:2">
+						<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
+						<p class="info-p">{{ class.name }}</p>
+						<div class="d-flex info-wrap">
 							<div class="timetable-col">
-								<label class="medium-label-14 mb-0">From</label>
-								<p class="class-label-14 mb-0">{{ class.startDate }}</p>
+								<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
+								<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
 							</div>
-							<div class="timetable-col">
-								<label class="medium-label-14 mb-0">To</label>
-								<p class="class-label-14 mb-0">{{ class.endDate }}</p>
+							<div class="d-flex timetable-col day-wrap info-wrap">
+								<div class="timetable-col">
+									<label class="medium-label-14 mb-0">From</label>
+									<p class="class-label-14 mb-0">{{ class.startDate }}</p>
+								</div>
+								<div class="timetable-col">
+									<label class="medium-label-14 mb-0">To</label>
+									<p class="class-label-14 mb-0">{{ class.endDate }}</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div *ngIf="showMore">
-					<div *ngFor="let class of testClasses; let ndx = index">
-						<div class="child" *ngIf="ndx>=2">
-							<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
-							<p class="info-p">{{ class.name }}</p>
-							<div class="d-flex info-wrap">
-								<div class="timetable-col">
-									<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
-									<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
-								</div>
-								<div class="d-flex timetable-col day-wrap info-wrap">
+					<div *ngIf="showMore">
+						<div *ngFor="let class of testClasses; let ndx = index">
+							<div class="child" *ngIf="ndx>=2">
+								<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
+								<p class="info-p">{{ class.name }}</p>
+								<div class="d-flex info-wrap">
 									<div class="timetable-col">
-										<label class="medium-label-14 mb-0">From</label>
-										<p class="class-label-14 mb-0">{{ class.startDate }}</p>
+										<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
+										<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
 									</div>
-									<div class="timetable-col">
-										<label class="medium-label-14 mb-0">To</label>
-										<p class="class-label-14 mb-0">{{ class.endDate }}</p>
+									<div class="d-flex timetable-col day-wrap info-wrap">
+										<div class="timetable-col">
+											<label class="medium-label-14 mb-0">From</label>
+											<p class="class-label-14 mb-0">{{ class.startDate }}</p>
+										</div>
+										<div class="timetable-col">
+											<label class="medium-label-14 mb-0">To</label>
+											<p class="class-label-14 mb-0">{{ class.endDate }}</p>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -419,20 +429,22 @@
 			<div class="firstCol">
 				<div>
 					<h6 class="title-space">Progress</h6>
-					<div class="list-wrapper">
-						<div class="child">
-							<label class="info-p">Piano Grade1</label>
-							<div class="bar-wrapper">
-								<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
+					<div class="scrollable">
+						<div class="list-wrapper">
+							<div class="child">
+								<label class="info-p">Piano Grade1</label>
+								<div class="bar-wrapper">
+									<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
+								</div>
+								<span class="class-label-12">50% accomplished</span>
 							</div>
-							<span class="class-label-12">50% accomplished</span>
-						</div>
-						<div class="child">
-							<label class="info-p">Piano Grade1</label>
-							<div class="bar-wrapper">
-								<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
+							<div class="child">
+								<label class="info-p">Piano Grade1</label>
+								<div class="bar-wrapper">
+									<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
+								</div>
+								<span class="class-label-12">50% accomplished</span>
 							</div>
-							<span class="class-label-12">50% accomplished</span>
 						</div>
 					</div>
 					<div class="btn-wrap">
@@ -442,39 +454,74 @@
 				</div>
 				<div>
 					<h6 class="title-space">Ratings and reviews</h6>
-					<div class="card-columns">
-						<div class="card card-wrap">
-							<div class="d-flex">
-								<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
-								<span class="rating-date medium-label-12">20 Aug 2018</span>
-							</div>
-							<p class="medium-label-14" style="color: #2e3d4d">
-								Documentation and examples for using Bootstrap custom progress bars featuring support for stacked bars, animated backgrounds, and text labels.Progress components are built with two HTML elements, some CSS to set the width, and a few attributes.
-							</p>
-							<div class="d-flex info-wrap">
-								<div class="timetable-col">
-									<label class="medium-label-12 mb-0">Teacher</label>
-									<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+					<div class="scrollable-card">
+						<div class="card-columns">
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
 								</div>
-								<div class="timetable-col course-wrap info-wrap">
-									<label class="medium-label-12 mb-0">Course</label>
-									<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+								<p class="medium-label-14" style="color: #2e3d4d"><read-more class="cust-readmore" [text]=testParagraph></read-more></p>
+								<!-- <p class="medium-label-14" style="color: #2e3d4d">
+									Documentation and examples for using Bootstrap custom progress bars featuring support for stacked bars, animated backgrounds, and text labels.Progress components are built with two HTML elements, some CSS to set the width, and a few attributes.
+								</p> -->
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="card card-wrap">
-							<div class="d-flex">
-								<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
-								<span class="rating-date medium-label-12">20 Aug 2018</span>
-							</div>
-							<div class="d-flex info-wrap">
-								<div class="timetable-col">
-									<label class="medium-label-12 mb-0">Teacher</label>
-									<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
 								</div>
-								<div class="timetable-col course-wrap info-wrap">
-									<label class="medium-label-12 mb-0">Course</label>
-									<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
+								</div>
+							</div>
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
+								</div>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
+								</div>
+							</div>
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
+								</div>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -488,17 +535,30 @@
 				<div class="inner-secondCol">
 					<h6 >Activity</h6>
 					<div class="scrollable-list">
-						<div class="activity-wrapper" *ngFor="let activity of testActivities">
-						<div class="d-flex">
-							<div class="teacher-label-12" style="width: 100%">{{ activity.activity }}</div>
-							<div class="icon-img">
-								
+						<div class="activity-wrapper" *ngFor="let activity of testActivities | slice:0:4">
+							<div class="d-flex">
+								<div class="teacher-label-12" style="width: 100%">{{ activity.activity }}</div>
+								<div class="icon-img">
+									
+								</div>
 							</div>
-						</div>
 							<label class="medium-label-12 mb-0">{{ activity.time }}</label>
 						</div>
+						<div *ngIf="seeAll">
+							<div *ngFor="let activity of testActivities; let idx= index;">
+								<div *ngIf="idx >= 4" class="activity-wrapper">
+									<div class="d-flex">
+										<div class="teacher-label-12" style="width: 100%">{{ activity.activity }}</div>
+										<div class="icon-img">
+											
+										</div>
+									</div>
+									<label class="medium-label-12 mb-0">{{ activity.time }}</label>
+								</div>
+							</div>
+						</div>
 						<div>
-							<button class="btn-showmore pad-0" style="font-size: 14px"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+							<button class="btn-showmore pad-0" style="font-size: 14px" (click)="showAll()"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 						</div>
 					</div>
 				</div>
