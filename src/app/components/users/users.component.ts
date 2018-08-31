@@ -455,6 +455,8 @@ export class UsersComponent implements OnInit {
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 
 	uploadCropImg($event: any) {
@@ -546,6 +548,10 @@ export class UsersComponent implements OnInit {
 
 	backToCustomer(){
 		this.showCustDetail = false;
+		this.showFormCreate = false;
+		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 	showMoreClasses(){
 		console.log("show More")

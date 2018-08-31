@@ -485,13 +485,13 @@
 </div>
 
 <div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
-	<button type="button" class="back-button display-flex" (click)="back()">
+	<button type="button" class="back-button display-flex" (click)="backToCustomer()">
 		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt fl-txt-rt">Customers</p>
 	</button>
 </div>
 
 <div class="inner-wrapper-detail" *ngIf="showFormCreate">
-	<button type="button" class="back-button display-flex" (click)="back()">
+	<button type="button" class="back-button display-flex" (click)="backToCustomer()">
 		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt fl-txt-rt">Customers</p>
 	</button>
 	<div class="col-md-12 pad-0 mr-bt-top">
