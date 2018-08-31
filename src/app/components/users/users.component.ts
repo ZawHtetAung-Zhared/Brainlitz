@@ -491,6 +491,8 @@ export class UsersComponent implements OnInit {
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 
 	uploadCropImg($event: any) {
@@ -550,7 +552,7 @@ export class UsersComponent implements OnInit {
 	        	setTimeout(function() {
 	        		$(".circular-profile img").remove();
 	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
-	           	}, 200);
+	           	}, 100);
 	        }
 	    });
   	}
@@ -582,6 +584,10 @@ export class UsersComponent implements OnInit {
 
 	backToCustomer(){
 		this.showCustDetail = false;
+		this.showFormCreate = false;
+		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 	showMoreClasses(){
 		console.log("show More")
