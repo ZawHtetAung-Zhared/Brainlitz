@@ -218,6 +218,10 @@ export class UsersComponent implements OnInit {
 	  	});
 	}
 
+	createCustomer(obj){
+		console.log(obj)
+	}
+
 	createUser(obj, type, apiState){
 		console.log(obj);
 		console.log(type);
