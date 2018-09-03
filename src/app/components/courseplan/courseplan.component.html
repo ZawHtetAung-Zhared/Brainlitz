@@ -281,17 +281,35 @@
 						  	<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{r.type}}</div>
 						  	<hr class="hr-style">
 						</ng-template>
-						<input id="typeahead-focus" type="text" placeholder="Search APG to add to this Course Plan" class="form-control input-search-bg" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt" name="searchbox" (selectItem)="selectedItem($event)" [inputFormatter]="SearchBoxEmpty"/>
+						<input id="typeahead-focus" 
+						type="text" placeholder="Search APG to add to this Course Plan" 
+						class="form-control input-search-bg" 
+						[(ngModel)]="model" 
+						[ngbTypeahead]="search" 
+						[resultTemplate]="rt" name="searchbox" 
+						(selectItem)="selectedItem($event)" 
+						[inputFormatter]="SearchBoxEmpty"
+						(ngModelChange)="valuechange($event)"/>
 					    <span class="input-group-append">
 					        <button class="bt btn-design btn-outline-secondary" type="button">
 					            <i class="fa fa-search search-size"></i>
 					        </button>
 					    </span>
-					    <div class="fixedText">
-							<button type="button" class="bt btn-apg" (click)="goToModule()">
-								<div class="circle3 plus"></div>Create new APG
-							</button>
+
+					    <div *ngIf="showfixedcreate == true" class="fixedText">
+						    <div>
+								<button type="button" class="bt btn-apg" (click)="goToModule()">
+									<div class="circle3 plus"></div>Create new APG
+								</button>
+							</div>
 						</div>
+					</div>
+					<div class="col-md-12" *ngIf="showfixedcreate == true">
+					    <div style="
+					    height: 341px;
+					    border: 1px solid #eee;
+					    border-radius: 0 0 4px 4px;
+					"></div>
 					</div>
 					<div *ngIf="!model" class="display-style col-md-12" style="margin-top: 30px;">
 						<div class="col-md-6 img-pos">

@@ -100,6 +100,7 @@ export class CourseplanComponent implements OnInit {
   clickedItem: any;
   selectedAPGidArray: any[] = [];
   showNewAPGbox: boolean = false;
+  showfixedcreate: boolean = false;
 
   ngOnInit() {
     this.showModal = true;
@@ -135,6 +136,15 @@ export class CourseplanComponent implements OnInit {
   }
 
   @ViewChild('parentForm') mainForm;
+
+  valuechange(val){
+    console.log(val)
+    if(val.length != 0 ){
+        this.showfixedcreate = true;
+    }else{
+      this.showfixedcreate = false;
+    }
+  }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -940,6 +950,8 @@ export class CourseplanComponent implements OnInit {
     }
 
     backSearhAPG(type){
+      this.model = '';
+      this.showfixedcreate = false;
       this.showSearchAPG = true;
       this.showModule = false;
       this.createAPGform = false;      
