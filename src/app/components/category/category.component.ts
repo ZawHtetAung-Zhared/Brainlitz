@@ -108,8 +108,11 @@ export class CategoryComponent implements OnInit {
     this.ischecked = val;
     localStorage.setItem('categoryID', val);
     localStorage.setItem('categoryName', name);
-    this._service.gotoplan();
-    this.goBackCat = true;
+    setTimeout(() => {
+      console.log("--waiting--")
+      this._service.gotoplan();
+      this.goBackCat = true;
+    }, 300);
   }
 
   focusFunction(status, val){
