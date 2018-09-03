@@ -121,15 +121,17 @@
   			</div>
   		</div>
   		<div *ngIf="iscreate == true">
-  			<div class="form-group">
-  				<label class="form-title input-label" for="address">APG name</label>
-          		<p class="input-recommend">We recommend to set APG name as same as Course name.</p>
-          		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
-  			</div>
-  			<div class="form-group">
-  				<label class="form-title input-label" for="address">Description</label>
-          		<textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" required #description="ngModel"></textarea>
-  			</div>
+        <div class="col-md-8 input-wrap">
+    			<div class="form-group">
+    				<label class="form-title input-label" for="address">APG name</label>
+        		<p class="input-recommend">We recommend to set APG name as same as Course name.</p>
+        		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
+    			</div>
+    			<div class="form-group">
+    				<label class="form-title input-label" for="address">Description</label>
+            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" required #description="ngModel"></textarea>
+    			</div>
+        </div>
   			<div class="d-flex justify-content-end">
   			  <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
   			  <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
@@ -159,7 +161,6 @@
 		  			</label>
 		  		</div>
 		  	</div>
-		  	---{{temp}}
 		  	<div class="d-flex justify-content-end apg-share-bottom">
   			  	
   			  	<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(temp)">Create</button>
