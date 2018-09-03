@@ -120,6 +120,9 @@
 .btn-cancel{
     background-color: #f2f4f5;
 }
+.input-wrap{
+    padding-left: 0;
+}
 .create-input:hover{
     background: #f7f9fa;
 }
