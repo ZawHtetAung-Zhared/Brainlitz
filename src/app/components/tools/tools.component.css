@@ -199,11 +199,11 @@ img.setting-icon {
 }
 .no-user{
 	background: #fff;
-	border: #f5575f !important;
+	border: 1px solid #f5575f !important;
 	color: #f5575f;
 }
 .no-user h4{
-  color: #f5575f;
+  color: #f5575f !important;
 }
 .user-count label{
   margin-bottom: 0;
