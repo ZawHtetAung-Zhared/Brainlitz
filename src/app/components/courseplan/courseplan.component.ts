@@ -139,7 +139,8 @@ export class CourseplanComponent implements OnInit {
 
   valuechange(val){
     console.log(val)
-    if(val.length != 0 ){
+    console.log(typeof val)
+    if(val.length != 0 && typeof val == 'string'){
         this.showfixedcreate = true;
     }else{
       this.showfixedcreate = false;
@@ -166,6 +167,7 @@ export class CourseplanComponent implements OnInit {
     if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
     else this.createdAPGstore.push(this.clickedItem);
     console.log(this.createdAPGstore)
+    this.showfixedcreate = false;
     this.selectedAPGlists = true;
     this.showSearchAPG = true;
     this.showModule = false;
@@ -244,17 +246,18 @@ export class CourseplanComponent implements OnInit {
     }
     console.log(data)
     this.blockUI.start('Loading...');
-    // this._service.createCoursePlan(this.regionID,data)
-    // .subscribe((res:any) => {
-    //  console.log('success post',res);
-    //  this.toastr.success('Successfully Created.');
-    //  this.blockUI.stop();
-    //   this.getAllCoursePlan();
-    //   }, err => {
-    //     this.toastr.error('Create Fail');
-    //     this.blockUI.stop();
-    //     console.log(err)
-    //   })
+    this._service.createCoursePlan(this.regionID,data)
+    .subscribe((res:any) => {
+     console.log('success post',res);
+     this.toastr.success('Successfully Created.');
+     this.blockUI.stop();
+      this.getAllCoursePlan();
+      }, err => {
+        this.toastr.error('Create Fail');
+        this.blockUI.stop();
+        console.log(err)
+      })
+      this.cancel();
       this.mainForm.reset();
       this.formField = new cPlanField();
       this.pdfId = [];

@@ -290,7 +290,7 @@
 		</div>
 	</div>
 	<div class="row display-flex">
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
 			<div class="box-design d-flex">
 				<div class="no-line-height">
 					<div class="circular-image">
@@ -585,23 +585,23 @@
 			<div class="col-md-7 pad-bottom">
 				<div class="form-group">
 		  	    	<label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 	
-		  	    	<input type="text" class="form-control bt-line" placeholder="Type preferred name here" name="preferredname" [(ngModel)]="prename" #preferredname="ngModel">
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFieldc.prename" #preferredname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="fullname" class="label-txt">Full name</label> 	
-		  	    	<input type="text" class="form-control bt-line" placeholder="Type full name here" name="fullname" [(ngModel)]="name" #fullname="ngModel">
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type full name here" name="fullname" [(ngModel)]="formFieldc.name" #fullname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="email" class="label-txt">Email address</label> 	
-		  	    	<input type="email" class="form-control bt-line" placeholder="Type email address here" name="email" [(ngModel)]="emailaddress" #email="ngModel">
+		  	    	<input type="email" class="form-control bt-line" placeholder="Type email address here" name="email" [(ngModel)]="formFieldc.emailaddress" #email="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="pass" class="label-txt">Password</label> 	
-		  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="pass" #password="ngModel">
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.pass" #password="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="guardmail" class="label-txt">Guardian email</label> 	
-		  	    	<input type="email" class="form-control bt-line" placeholder="Type guardian email here" name="password" [(ngModel)]="guardianmail" #password="ngModel">
+		  	    	<input type="email" class="form-control bt-line" placeholder="Type guardian email here" name="password" [(ngModel)]="formFieldc.guardianmail" #password="ngModel">
 		  	  	</div>
 			</div>
 			<div class="col-md-5">
@@ -646,7 +646,7 @@
 				</div>
 				<div class="button-group">
 					<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-		        	<button type="submit" (click)="createUser()" class="btn create-button" >Create
+		        	<button type="submit" (click)="createCustomer(formFieldc)" class="btn create-button" >Create
 					</button>
 				</div>
 			</div>
