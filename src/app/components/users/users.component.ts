@@ -70,6 +70,90 @@ export class UsersComponent implements OnInit {
   	public isCreateFix: boolean = false;
   	atLeastOneMail: boolean = false;
   	imgDemoSlider: boolean = false;
+  	public showCustDetail:boolean = false;
+  	public custDetail:any;
+  	public testGurdian=[
+	  	{
+	  		"name": "Garry Nixon",
+	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
+	  	},
+	  	{
+	  		"name": "Massie William",
+	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
+	  	}
+  	];
+  	public testClasses = [
+  		{
+  			"name": "Beginner Piano Course",
+  			"location": "Bedok Centre",
+  			"time": {
+  				"repeatDay": "Sunday",
+  				"start": "10:00AM",
+  				"end": "11:00AM"
+  			},
+  			"startDate": "12 Jul 18",
+  			"endDate": "22 Sept 18"
+  		},
+  		{
+  			"name": "Beginner Piano Course2",
+  			"location": "Bedok Centre",
+  			"time": {
+  				"repeatDay": "Sunday",
+  				"start": "10:00AM",
+  				"end": "11:00AM"
+  			},
+  			"startDate": "12 Jul 18",
+  			"endDate": "22 Sept 18"
+  		},
+  		{
+  			"name": "Beginner Piano Course3",
+  			"location": "Bedok Centre",
+  			"time": {
+  				"repeatDay": "Sunday",
+  				"start": "10:00AM",
+  				"end": "11:00AM"
+  			},
+  			"startDate": "12 Jul 18",
+  			"endDate": "22 Sept 18"
+  		}
+  	];
+  	public testActivities = [
+  		{
+  			"activity": "Emma Watson fully payed for Piano Grade 1",
+  			"time": "7 jun 18, 1:30 PM",
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Your mailing list lets you contact customers or visitors who have …",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Emma Watson fully payed for Piano Grade 1",
+  			"time": "7 jun 18, 1:30 PM",
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Your mailing list lets you contact customers or visitors who have …",
+  			"time": "7 jun 18, 1:30 PM"
+  		},
+  		{
+  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
+  			"time": "7 jun 18, 1:30 PM"
+  		}
+  	];
+  	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
+  	public showMore = false;
+  	public seeAll = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
@@ -132,6 +216,10 @@ export class UsersComponent implements OnInit {
 	  		this.formFieldc = new customer();
 	  	  	this.closeResult = `Closed with: ${reason}`;
 	  	});
+	}
+
+	createCustomer(obj){
+		console.log(obj)
 	}
 
 	createUser(obj, type, apiState){
@@ -407,6 +495,8 @@ export class UsersComponent implements OnInit {
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 
 	uploadCropImg($event: any) {
@@ -466,7 +556,7 @@ export class UsersComponent implements OnInit {
 	        	setTimeout(function() {
 	        		$(".circular-profile img").remove();
 	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
-	           	}, 200);
+	           	}, 100);
 	        }
 	    });
   	}
@@ -490,6 +580,26 @@ export class UsersComponent implements OnInit {
 		$(".frame-upload").css('display', 'none');
 	}
 
+	showDetails(data){
+		console.log("show details")
+		this.showCustDetail = true;
+		this.custDetail = data;
+	}
+
+	backToCustomer(){
+		this.showCustDetail = false;
+		this.showFormCreate = false;
+		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
+	}
+	showMoreClasses(){
+		console.log("show More")
+		this.showMore = true;
+	}
+	showAll(){
+		this.seeAll = true;
+	}
 
 }
 

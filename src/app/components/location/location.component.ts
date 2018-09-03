@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild, ElementRef, ViewContainerRef, HostListener } from '@angular/core';
 import { Location } from './location';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
@@ -18,12 +18,18 @@ declare var $: any;
 
 export class LocationComponent implements OnInit {	
 	// @ViewChild('categoryForm') form: any;
+	@Input() fullValue: string;
+  	@Output() fullValueChange = new EventEmitter<string>();
+	@Input() value: string;
+	@Output() valueChange = new EventEmitter<string>();
+  	@ViewChild('intlInput') intlInput: ElementRef;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
 	public locationLists: any;
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
 	public isrequired: boolean = true;
+	public isvalid: boolean = false;
 	public isequal: boolean = true;
 	public iscreate: boolean = false;
 	public navIsFixed: boolean = false;
@@ -78,7 +84,7 @@ export class LocationComponent implements OnInit {
 	    console.log(obj[0].placeholder.length);
 	    if(this.isUpdate != true){
 	    	console.log('create')
-	    	obj.intlTelInput('setCountry', 'in');
+	    	obj.intlTelInput('setCountry', 'sg');
 	    }else{
 	    	console.log('update')
 	    	obj.intlTelInput('setCountry', 'mm');
@@ -89,35 +95,40 @@ export class LocationComponent implements OnInit {
   		console.log(e)
   		this.countrycode = e.dialCode;
   	}
-  	getNumber(e){
-  		console.log('hi')
-  		console.log(e)
+  	getNumber(obj){
+  		// console.log('hi')
+  		console.log(obj)
   	}
- //  	onSearchChange(searchValue : string ) {  
-	//   	console.log(searchValue);
-	//   	let intel = $('.intl-tel-input input');
-	// 	var str = intel[0].placeholder;
-	// 	var str = str.replace(/\s/g, '');
+  	
+  	onSearchChange(searchValue : string, e ) {  
+	  	// console.log(searchValue);
+	  	// let intel = $('.intl-tel-input input');
+		// var str = intel[0].placeholder;
+		// var str = str.replace(/\s/g, '');
 		
-	// 	this.isrequired = true;
-	// 	this.isequal = (searchValue.length < str.length) ? false : true;
-	// 	console.log(this.isequal)
-	// }
+		// this.isrequired = true;
+		// this.isequal = (searchValue.length < str.length) ? false : true;
+		// console.log(this.isequal)
+		this.getNumber(e)
+		// this.hasError(e)
+	}
   	hasError(e){
-  		console.log(e)
+  		// console.log(e)
   		// let intel = $('.intl-tel-input input');
   		// console.log(intel[0].placeholder)
   		// var str = intel[0].placeholder;
   		// console.log( str.replace(/\s/g, '') );
   		// var str = str.replace(/\s/g, '');
   		// console.log( str.length );
+  		this.isvalid = e;
   		this.isrequired = e;
   		console.log(this.isrequired)
-  		this.isequal = (this.isrequired == false) ? true : false;
+  		// this.isequal = (this.isrequired == false) ? true : false;
   	}
   	creatnew(){
   		this.iscreate = true;
   		this.isUpdate = false;
+  		this.isvalid = false;
   		this.isrequired = true;
   		this.model = new Location();
   	}
@@ -236,6 +247,7 @@ export class LocationComponent implements OnInit {
 		this.iscreate = true;
 		console.log(this.model)
 		this.isUpdate = true;		
+		this.isvalid = true;		
 		this.singleLocation(id);
 	}
 

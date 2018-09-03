@@ -258,7 +258,7 @@
 
 
 <app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
-<div *ngIf="!showFormCreate" class="full-width">
+<!-- <div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
 		<div class="display-flex mr-top-menu">
 			<div class="col-md-4 pad-0">
@@ -269,9 +269,9 @@
 			</div>
 		</div>
 	</div>
-</div>	
-<div *ngIf="!showFormCreate" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
-	<div class="display-flex mr-top-menu">
+</div>	 -->
+<div *ngIf="!showFormCreate && !showCustDetail" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+	<div class="d-flex mr-top-menu">
 		<div class="col-md-4 pad-0">
 			<h3>Customers</h3>
 		</div>
@@ -290,19 +290,19 @@
 		</div>
 	</div>
 	<div class="row display-flex">
-		<div class="col-md-6 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
-			<div class="box-design display-flex pos-relative">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
+			<div class="box-design d-flex">
 				<div class="no-line-height">
 					<div class="circular-image">
 						<img src="{{customer.profilePic}}">
 					</div>
 				</div>
 				<div class="info-side">
-					<h5 class="text-vertical">{{customer.preferredName}}</h5>
+					<h5>{{customer.preferredName}}</h5>
 					<p class="info-mail">{{customer.email}}</p>
 				</div>
-				<div>
-					<i class="fa fa-angle-right right-arrow"></i>
+				<div class="right-arrow" (click)="showDetails(customer)">
+					<i class="fa fa-angle-right"></i>
 				</div>
 			</div>
 		</div>
@@ -310,14 +310,271 @@
 <!-- 	</div> -->
 </div>
 
+<div *ngIf="showCustDetail" class="content-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+	<div class="main-wrapper">
+		<div class="d-flex heading-space">
+			<div class="back" (click)="backToCustomer()">
+				<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Customers</span>
+			</div>
+			<div class="ml-auto">
+				<span>Edit Profile</span>
+			</div>
+		</div>
+		<div class="d-flex cust-info-wrapper">
+			<div class="img-wrap">
+				<div class="circular-image">
+					<img src="{{custDetail.profilePic}}">
+				</div>
+			</div>
+			<div class="d-flex justify-content-center info-wrap">
+				<div class="info-col">
+					<div class="infoGp-wrap">
+						<h5>{{custDetail.preferredName}}</h5>
+						<p class="info-mail">{{custDetail.email}}</p>
+					</div>
+					<div class="infoGp-wrap">
+						<label class="info-mail">Full name</label>
+						<p class="mb-0 info-p">{{custDetail.firstName}}{{custDetail.lastName}}</p>
+					</div>
+				</div>
+				<div class="info-col">
+					<div class="infoGp-wrap">
+						<label class="info-mail">Gurdians</label>
+						<div class="d-flex">
+							<div class="d-flex gurdian-wrap" *ngFor="let gurdian of testGurdian">
+								<div class="small-circular-image"><img src="{{gurdian.profilePic}}"></div>
+								<div class="d-flex justify-content-center flex-column info-p padL-5">
+									{{gurdian.name}}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex infoGp-wrap info-wrap">
+						<div class="timetable-col">
+							<label class="info-mail">Date of birth</label>
+							<p class="mb-0 info-p">9 June 1996</p>
+						</div>
+						<div class="timetable-col">
+							<label class="info-mail">Height</label>
+							<p class="mb-0 info-p">5' 10"</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="btn-wrap">
+			<div></div>
+		</div>
+		<div>
+			<div class="d-flex title-space">
+				<div class="d-flex flex-column justify-content-center">
+					<h6 class="mb-0">Classes</h6>
+				</div>
+				<button class="ml-auto enroll-btn">Enroll new class</button>
+			</div>
+			<div class="scrollable">
+				<div class="list-wrapper">
+					<div class="child" *ngFor="let class of testClasses | slice:0:2">
+						<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
+						<p class="info-p">{{ class.name }}</p>
+						<div class="d-flex info-wrap">
+							<div class="timetable-col">
+								<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
+								<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
+							</div>
+							<div class="d-flex timetable-col day-wrap info-wrap">
+								<div class="timetable-col">
+									<label class="medium-label-14 mb-0">From</label>
+									<p class="class-label-14 mb-0">{{ class.startDate }}</p>
+								</div>
+								<div class="timetable-col">
+									<label class="medium-label-14 mb-0">To</label>
+									<p class="class-label-14 mb-0">{{ class.endDate }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div *ngIf="showMore">
+						<div *ngFor="let class of testClasses; let ndx = index">
+							<div class="child" *ngIf="ndx>=2">
+								<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
+								<p class="info-p">{{ class.name }}</p>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
+										<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
+									</div>
+									<div class="d-flex timetable-col day-wrap info-wrap">
+										<div class="timetable-col">
+											<label class="medium-label-14 mb-0">From</label>
+											<p class="class-label-14 mb-0">{{ class.startDate }}</p>
+										</div>
+										<div class="timetable-col">
+											<label class="medium-label-14 mb-0">To</label>
+											<p class="class-label-14 mb-0">{{ class.endDate }}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="btn-wrap">
+				<button class="btn-showmore pad-0" (click)="showMoreClasses()"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+				<div></div>
+			</div>
+		</div>
+		<div class="d-flex">
+			<div class="firstCol">
+				<div>
+					<h6 class="title-space">Progress</h6>
+					<div class="scrollable">
+						<div class="list-wrapper">
+							<div class="child">
+								<label class="info-p">Piano Grade1</label>
+								<div class="bar-wrapper">
+									<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
+								</div>
+								<span class="class-label-12">50% accomplished</span>
+							</div>
+							<div class="child">
+								<label class="info-p">Piano Grade1</label>
+								<div class="bar-wrapper">
+									<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
+								</div>
+								<span class="class-label-12">50% accomplished</span>
+							</div>
+						</div>
+					</div>
+					<div class="btn-wrap">
+						<button class="btn-showmore pad-0"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<div></div>
+					</div>
+				</div>
+				<div>
+					<h6 class="title-space">Ratings and reviews</h6>
+					<div class="scrollable-card">
+						<div class="card-columns">
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
+								</div>
+								<p class="medium-label-14" style="color: #2e3d4d"><read-more class="cust-readmore" [text]=testParagraph></read-more></p>
+								<!-- <p class="medium-label-14" style="color: #2e3d4d">
+									Documentation and examples for using Bootstrap custom progress bars featuring support for stacked bars, animated backgrounds, and text labels.Progress components are built with two HTML elements, some CSS to set the width, and a few attributes.
+								</p> -->
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
+								</div>
+							</div>
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
+								</div>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
+								</div>
+							</div>
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
+								</div>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
+								</div>
+							</div>
+							<div class="card card-wrap">
+								<div class="d-flex">
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
+									<span class="ml-auto medium-label-12">20 Aug 2018</span>
+								</div>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="medium-label-12 mb-0">Teacher</label>
+										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									</div>
+									<div class="timetable-col course-wrap info-wrap">
+										<label class="medium-label-12 mb-0">Course</label>
+										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="btn-wrap">
+						<button class="btn-showmore pad-0"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="secondCol">
+				<div class="inner-secondCol">
+					<h6 >Activity</h6>
+					<div class="scrollable-list">
+						<div class="activity-wrapper" *ngFor="let activity of testActivities | slice:0:4">
+							<div class="d-flex">
+								<div class="teacher-label-12" style="width: 100%">{{ activity.activity }}</div>
+								<div class="icon-img">
+									
+								</div>
+							</div>
+							<label class="medium-label-12 mb-0">{{ activity.time }}</label>
+						</div>
+						<div *ngIf="seeAll">
+							<div *ngFor="let activity of testActivities; let idx= index;">
+								<div *ngIf="idx >= 4" class="activity-wrapper">
+									<div class="d-flex">
+										<div class="teacher-label-12" style="width: 100%">{{ activity.activity }}</div>
+										<div class="icon-img">
+											
+										</div>
+									</div>
+									<label class="medium-label-12 mb-0">{{ activity.time }}</label>
+								</div>
+							</div>
+						</div>
+						<div>
+							<button class="btn-showmore pad-0" style="font-size: 14px" (click)="showAll()"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
-	<button type="button" class="back-button display-flex" (click)="back()">
+	<button type="button" class="back-button display-flex" (click)="backToCustomer()">
 		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt fl-txt-rt">Customers</p>
 	</button>
 </div>
 
 <div class="inner-wrapper-detail" *ngIf="showFormCreate">
-	<button type="button" class="back-button display-flex" (click)="back()">
+	<button type="button" class="back-button display-flex" (click)="backToCustomer()">
 		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt fl-txt-rt">Customers</p>
 	</button>
 	<div class="col-md-12 pad-0 mr-bt-top">
@@ -328,23 +585,23 @@
 			<div class="col-md-7 pad-bottom">
 				<div class="form-group">
 		  	    	<label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 	
-		  	    	<input type="text" class="form-control bt-line" placeholder="Type preferred name here" name="preferredname" [(ngModel)]="prename" #preferredname="ngModel">
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFieldc.prename" #preferredname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="fullname" class="label-txt">Full name</label> 	
-		  	    	<input type="text" class="form-control bt-line" placeholder="Type full name here" name="fullname" [(ngModel)]="name" #fullname="ngModel">
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type full name here" name="fullname" [(ngModel)]="formFieldc.name" #fullname="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="email" class="label-txt">Email address</label> 	
-		  	    	<input type="email" class="form-control bt-line" placeholder="Type email address here" name="email" [(ngModel)]="emailaddress" #email="ngModel">
+		  	    	<input type="email" class="form-control bt-line" placeholder="Type email address here" name="email" [(ngModel)]="formFieldc.emailaddress" #email="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="pass" class="label-txt">Password</label> 	
-		  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="pass" #password="ngModel">
+		  	    	<input type="text" class="form-control bt-line" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.pass" #password="ngModel">
 		  	  	</div>
 		  	  	<div class="form-group">
 		  	    	<label for="guardmail" class="label-txt">Guardian email</label> 	
-		  	    	<input type="email" class="form-control bt-line" placeholder="Type guardian email here" name="password" [(ngModel)]="guardianmail" #password="ngModel">
+		  	    	<input type="email" class="form-control bt-line" placeholder="Type guardian email here" name="password" [(ngModel)]="formFieldc.guardianmail" #password="ngModel">
 		  	  	</div>
 			</div>
 			<div class="col-md-5">
@@ -389,7 +646,7 @@
 				</div>
 				<div class="button-group">
 					<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-		        	<button type="submit" (click)="createUser()" class="btn create-button" >Create
+		        	<button type="submit" (click)="createCustomer(formFieldc)" class="btn create-button" >Create
 					</button>
 				</div>
 			</div>

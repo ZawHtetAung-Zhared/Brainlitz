@@ -1,5 +1,5 @@
 <app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
-<div *ngIf="!showFormCreate" class="full-width">
+<!-- <div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
 		<div class="display-flex mr-top-menu">
 			<div class="col-md-4 pad-0">
@@ -10,7 +10,7 @@
 			</div>
 		</div>
 	</div>
-</div>	
+</div>	 -->
 <div *ngIf="!showFormCreate" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 		<div class="display-flex mr-top-menu">
 			<div class="col-md-4 pad-0">
@@ -31,19 +31,19 @@
 			</div>
 		</div>
 		<div class="row display-flex">
-			<div class="col-md-6 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
-				<div class="box-design display-flex pos-relative">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
+				<div class="box-design d-flex">
 					<div class="no-line-height">
 						<div class="circular-image">
 							<img src="{{staff.profilePic}}">
 						</div>
 					</div>
 					<div class="info-side">
-						<h5 class="text-vertical">{{staff.preferredName}}</h5>
+						<h5>{{staff.preferredName}}</h5>
 						<p class="info-mail">{{staff.email}}</p>
 					</div>
-					<div>
-						<i class="fa fa-angle-right right-arrow"></i>
+					<div class="right-arrow">
+						<i class="fa fa-angle-right"></i>
 					</div>
 				</div>
 			</div>

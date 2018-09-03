@@ -28,6 +28,7 @@ export class CourseComponent implements OnInit {
     this._service.goback.subscribe(() => {   
       console.log('goooo') 
       this.isCategory = false;
+      window.scroll(0,0);
     });
    
    this._service.goplan.subscribe(() => {
@@ -58,6 +59,7 @@ export class CourseComponent implements OnInit {
   	this.getCourseLists();
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
+    this.getCPlanList();
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -96,7 +98,12 @@ export class CourseComponent implements OnInit {
     // this.dataservice.edit = true;
     this.router.navigate(['/courseCreate']);
   }
-
+  getCPlanList(){
+    this._service.getAllCoursePlan(this.regionId)
+    .subscribe((res:any) => {
+      console.log("course plan list",res)
+    })
+  }
   getCourseLists(){
     this.blockUI.start('Loading...'); 
     this._service.getAllCourse(this.regionId)
@@ -137,6 +144,7 @@ export class CourseComponent implements OnInit {
   		'courseid': course._id,
   		'coursename': course.name,
   		'coursecode': course.courseCode,
+      'locationId': course.location.locationId
   	}
   	localStorage.setItem('courseObj',JSON.stringify(obj));
   }
