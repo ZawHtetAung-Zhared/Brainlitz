@@ -336,7 +336,7 @@ h3, h5 {
     margin: 15px 0 35px 0;
 }
 
-.bt-line {
+/*.bt-line {
     border-top: 0;
     border-right: 0;
     border-left: 0;
@@ -351,6 +351,18 @@ h3, h5 {
 
 .bt-line::-webkit-input-placeholder {
   color: #788796!important;
+}*/
+
+.form-wrap input{
+    border: none;
+    padding-left: 0;
+}
+.form-wrap::placeholder{
+    color: #788796!important;
+}
+.form-divider{
+    border-bottom: 1px solid #edeff0;
+    padding-bottom: 20px;
 }
 
 .permission-width {
@@ -741,6 +753,10 @@ h3, h5 {
 .scrollable-list{
     max-height: 570px;
     overflow: scroll;
+}
+.form-divider{
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
 }
 /*===customer details===*/
 
