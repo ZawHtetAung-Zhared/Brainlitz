@@ -36,7 +36,7 @@
           <input 
             type="text" 
             [ngClass]="{'onfocus': isfocus == true}"
-            class="form-control" 
+            class="form-control create-btn" 
             placeholder="+ Create new category" 
             name="name" 
             [(ngModel)]="item.name" 
@@ -73,14 +73,16 @@
       </div>
       <div class="col-md-4 cagetory-item" *ngFor="let category of categoryList; let i = index">
         <div *ngIf="isEditComplete == false" class="form-check">
-          <label class="form-check-label" [ngClass]="{'selected': ischecked == category._id, 'blury': isfocus == true}">
-            <div class="label-checked"></div>
-            <input class="form-check-input"
-              type="radio" 
-              name="inlineRadioOptions" 
-              id="category._id" 
-              (click)="somethingChanged(category._id, category.name)"
-              value="{{category.name}}"> {{category.name}}
+          <label class="form-check-label cat-label d-flex flex-column justify-content-center" [ngClass]="{'selected': ischecked == category._id, 'blury': isfocus == true}">
+            <div>
+                <div class="label-checked"></div>
+                <input class="form-check-input"
+                    type="radio" 
+                    name="inlineRadioOptions" 
+                    id="category._id" 
+                    (click)="somethingChanged(category._id, category.name)"
+                    value="{{category.name}}"> {{category.name}}
+            </div>
           </label>
         </div>
         <div *ngIf="isEditComplete == true" class="editcategory-item">          
