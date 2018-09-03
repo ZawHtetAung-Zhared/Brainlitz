@@ -609,6 +609,7 @@ textarea, input, select {
 
 #inlineFormInputGroupcourseFee, #inlineFormInputGroupmisFee {
   border-color: #fff;
+  border-left: 0;
 }
 
 .input-group-text {
@@ -619,7 +620,7 @@ textarea, input, select {
 }
 
 .input-group-prepend {
-  margin-top: 1px;
+  /*margin-top: 1px;*/
 }
 
 .input-group-bg:hover:not(:focus) .form-control,input:hover, textarea:hover, input:hover:read-only, select:hover ,#inlineFormInputGroupcourseFee:hover, #inlineFormInputGroupmisFee:hover {
@@ -652,9 +653,14 @@ textarea, input, select {
   background: #1A000000 !important;
 }
 
+.cfee-bg:hover {
+    background: #788796 !important;
+}
+
 .focus-bg {
     background: #788796 !important;
     color: #fff !important;
+    border-radius: 4px 0 0 4px;
 }
 
 select:hover + .down-arrow2, select:focus + .down-arrow2, select:hover + .down-arrow1, select:focus + .down-arrow1 {
@@ -1132,6 +1138,8 @@ ul.search-apg{
 }
 
 .fixedText {
+  border: 1px solid #eee;
+  border-bottom: none;
   position: absolute;
   bottom: -340px;
   z-index: 1999;
