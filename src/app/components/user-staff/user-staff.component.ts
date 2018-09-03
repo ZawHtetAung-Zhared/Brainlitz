@@ -67,6 +67,8 @@ export class UserStaffComponent implements OnInit {
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
 	}
 
 	getAllpermission(){
@@ -162,7 +164,7 @@ export class UserStaffComponent implements OnInit {
 	          	setTimeout(function() {
 	        		$(".circular-profile img").remove();
 	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
-	           	}, 200);
+	           	}, 100);
 	        }
 	    });
   	}

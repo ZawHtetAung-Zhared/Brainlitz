@@ -59,10 +59,14 @@ export class ApgComponent implements OnInit {
     tempModuleId: any;
     emptyAP: boolean = false;
     public ismodule: boolean = false;
+    public isshare: boolean = false;
+    public shareAPG: boolean = false;
     public iscreate: boolean = false;
     public ischecked: any;
+    public sharechecked: any;
     public isUpdate: boolean = false;
     public navIsFixed: boolean = false;
+    public singleCheckedAPG: boolean = false;
     responseAP: any;
 
   	ngOnInit() {
@@ -90,21 +94,27 @@ export class ApgComponent implements OnInit {
       this.iscreate = false;
       this.ismodule = false;
       this.isUpdate = false;
+      this.shareAPG = false;
     }
 
     goToBack(status){
-      localStorage.removeItem('moduleID');
       if(status == 'type'){
         console.log('type')
+        localStorage.removeItem('moduleID');
         this.cancelapg();
-      }else{        
+      }else if(status == 'create'){        
         this.iscreate = false;
+        this.isshare = false;
         this.ismodule = true;
         this.model = {};
+      }else{
+        this.isshare = true;
+        this.shareAPG = false;
+        this.iscreate = false;
       }
     }
 
-    creatnew(){
+    addNewAPG(){
       localStorage.removeItem('moduleID');      
       this.ischecked = '';
       this.model = {};
@@ -112,15 +122,64 @@ export class ApgComponent implements OnInit {
       this.isUpdate = false;
     }
 
+    createNewAPG(status){
+      if(status == 'create'){
+        this.model = {};
+        this.iscreate = true;
+      }else{
+        this.sharechecked = ''
+        this.shareAPG = true;
+        this.getAllTemplate();
+      }
+      this.isshare = false;
+    }
+
+    
+
+    getsingleTemplate(id){  
+      this._service.getSingleTemplate(this.regionID, id)
+      .subscribe((res:any) => {
+        this.singleCheckedAPG = res;
+        console.log(res)
+      }, err => {
+        console.log(err)
+      })
+    }
+
+    setShareAPG(obj){
+      console.log(this.singleCheckedAPG)
+
+      let data = this.singleCheckedAPG;
+
+      this._service.updateSingleTemplate(this.regionID, data)
+      .subscribe((res:any) => {
+          console.log(res)
+          this.toastr.success('Successfully '+ status + '.');
+          this.blockUI.stop();
+          this.cancelapg();
+          this.getAllAPG();
+      }, err => {
+          this.toastr.success(status + ' Fail.');
+          this.blockUI.stop();
+          console.log(err)
+      })
+    }
+
     chooseModuleType(val, name){
+      console.log(name)
       this.ischecked = val;
       localStorage.setItem('moduleID', val);
-      // localStorage.setItem('moduleName', name);
       setTimeout(() => {
         this.ismodule = false;
-        this.iscreate = true;
+        this.isshare = true;
         console.log('...')
       }, 300);
+    }
+
+    chooseShareAPG(val,name){
+      console.log(val)
+      this.sharechecked = val;
+      this.getsingleTemplate(this.sharechecked);
     }
 
     createapgs(data, update){
@@ -184,6 +243,21 @@ export class ApgComponent implements OnInit {
          console.log(err)
       })
     }
+
+    // getAllTemplate(){
+    //   this.blockUI.start('Loading...');
+    //   this._service.getAllTemplate(this.regionID)
+    //   .subscribe((res:any) => {
+    //      console.log(res.length)
+    //      console.log(res)
+    //      this.blockUI.stop();
+    //      this.tempLists = res;
+    //      this.isempty = (res.length === 0) ? true : false;       
+    //   }, err => {
+    //       this.blockUI.stop();
+    //       console.log(err)
+    //   })
+    // }
 
   	open(content){
   		this.customAP = false;
@@ -265,7 +339,7 @@ export class ApgComponent implements OnInit {
 	  	else {
 	  		console.log('error')
 	  	}
-	}
+	  }
 
 	  clickTab(type){
     	this.viewType = type;

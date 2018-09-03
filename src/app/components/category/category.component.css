@@ -239,3 +239,11 @@ h3.category-h3{
 	display: block !important;
 	z-index: 99 !important;
 }
+.cat-label{
+	max-height: 67px;
+	min-height: 67px;
+	padding: 0;
+}
+.create-btn{
+	height: 67px;
+}

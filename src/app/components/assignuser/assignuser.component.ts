@@ -43,9 +43,9 @@ export class AssignuserComponent implements OnInit {
     this.getAssignList();
   }
 
-  openUserModal(modal,type) {
-    console.log(modal,type)
-    this.modalReference = this.modalService.open(modal, { size: 'lg' });
+  openUserModal(content,type) {
+    console.log(type)
+    this.modalReference = this.modalService.open(content, { size: 'lg' });
     if(type == "customer"){
       this.getUsers("customer");
       this.listType = "Customer List";
@@ -118,7 +118,8 @@ export class AssignuserComponent implements OnInit {
     if(type == 'staff'){
      let obj1 = {
        'courseId': this.selectedCourse.courseid,
-        'userId': id,
+       'userId': id,
+       'locationId': this.selectedCourse.locationId,
        'userType': 'staff'
      }
      this.blockUIList.start('Loading...');
@@ -134,6 +135,7 @@ export class AssignuserComponent implements OnInit {
      let obj = {
        'courseId': this.selectedCourse.courseid,
        'userId': id,
+       'locationId': this.selectedCourse.locationId,
        'userType': 'customer'
      }
      this.blockUIList.start('Loading...');

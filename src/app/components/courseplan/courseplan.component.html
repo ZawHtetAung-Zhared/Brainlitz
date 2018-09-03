@@ -78,7 +78,7 @@
 				<div class="inside-data-wrapper">
 					<div class="col-md-12">
 						<p class="step-font">Step 1</p>
-						<h5 class="all-title-font title-br-rt">Plan information</h5>
+						<h5 class="all-title-font text-font-align">Plan information</h5>
 					</div>
 					<div class="display-style" style="padding-top: 40px;">
 						<div class="col-md-6">
@@ -155,7 +155,7 @@
 				<div class="inside-data-wrapper">
 					<div class="col-md-12">
 						<p class="step-font">Step 3</p>
-						<h5 class="all-title-font title-br-rt">Payment policy</h5>
+						<h5 class="all-title-font text-font-align">Payment policy</h5>
 					</div>
 					<div class="display-style" style="padding-top: 40px;">
 						<div class="col-md-6">
@@ -163,7 +163,7 @@
 								<label class="all-title-font"> Course fee </label>
 								<div style="margin-left: -10px;">
 									<label class="sr-only" for="inlineFormInputGroupcourseFee">0</label>
-									<div class="input-group mb-2 mr-sm-2">
+									<div class="input-group input-group-bg mb-2 mr-sm-2">
 									    <div class="input-group-prepend">
 									      <div class="input-group-text cfee-bg">S$</div>
 									    </div>
@@ -186,7 +186,7 @@
 				<div class="inside-data-wrapper">
 					<div class="col-md-12">
 						<p class="step-font">Step 4</p>
-						<h5 class="all-title-font title-br-rt">Lesson</h5>
+						<h5 class="all-title-font text-font-align">Lesson</h5>
 					</div>
 					<div class="display-style" style="padding-top: 40px;">
 						<div class="col-md-6">
@@ -238,16 +238,16 @@
 							<h5 class="all-title-font title-br-rt">QuizWerkz Book</h5>
 							<div class="radio-pos-book">
 								<label class="switch">
-									<input type="checkbox" [(ngModel)]='formField.allowPagewerkzBooks' name="allowpagewerkz" #makeupcheck="ngModel" >
-									<span class="slider round" [ngClass]="{'activeRadio': allowPagewerkzBooks == true}"></span>
-								</label>
+									<input type="checkbox" [(ngModel)]='formField.allowPagewerkz' id="allowpw" name="allowpagewerkz">
+									<span class="slider round" [ngClass]="{'activeRadio': formField.allowPagewerkz == true}"></span>
+								</label> 
 							</div>
 						</div>
-						<div *ngIf="allowPagewerkzBooks != true" style="padding-top: 40px;">
+						<div *ngIf="formField.allowPagewerkz != true" style="padding-top: 40px;">
 							<p class="option-text">Switch <span>on</span><br>to add QuizWerkz book.</p>
 						</div>
 					</div>
-					<div class="col-md-12" *ngIf="allowPagewerkzBooks == true" style="padding-top: 40px;padding-left: 6px;">
+					<div class="col-md-12" *ngIf="formField.allowPagewerkz == true" style="padding-top: 40px;padding-left: 6px;">
 						<drag-scroll class="drag-wrapper">
 				    		<div *ngFor="let pdf of pdfList; let i=index;" class="book-range">
 				    			<label for="{{pdf._id}}" class="book-label" [ngClass]="{'drag-active-bg': pdfId.indexOf(pdf._id) != -1}">
@@ -261,7 +261,7 @@
 				</div>
 				<hr class="limit-hr-100 mr-top-20">
 				<div class="button-wrapper">
-					<button type="button" class="btn sticky-create" [disabled]="pdfId == 0 || allowPagewerkzBooks != true" (click)="continueStep('step5', childForm5.value)">Continue</button>
+					<button type="button" class="btn sticky-create" [disabled]="pdfId?.length == 0 || formField.allowPagewerkz != true" (click)="continueStep('step5', childForm5.value)">Continue</button>
 					<button type="button" [hidden]="!step5" class="back-modal back-to" (click)="backStep('step5')"> < Back</button>
 					<span class="show-count">{{pdfId.length}} books picked</span>
 				</div>
@@ -269,28 +269,127 @@
 		</div>
 		<div *ngIf="step6">
 			<form #childForm6="ngForm" novalidate>
-				<div class="inside-data-wrapper">
+				<div *ngIf="showSearchAPG" class="inside-data-wrapper"> 
 					<div class="col-md-12">
 						<p class="step-font">Step 6</p>
-						<h5 class="all-title-font">APG</h5>
+						<h3 class="all-title-font" style="float: left;">APG</h3><span class="sticky-dot-large">&#183;</span><p class="small-caption">Access Point Group</p>	
 					</div>
-					<div class="input-group col-md-12">
-				<!-- 	    <input id="typeahead-focus" class="form-control input-search-bg" type="text" placeholder="Search APG to add to this Course Plan" #instance="ngbTypeahead" [ngbTypeahead]="search" id="example-search-input" name="search" [(ngModel)]="model"> -->
-						<ng-template #rt let-r="result" let-t="term" style="width: 97.3%;">
-						  <div class="circle1 plus"></div>
-						  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+					<div class="custom-dropdown-width input-group col-md-12 all-title-font">
+						<ng-template #rt let-r="result" let-t="term">
+						  	<div class="circle1 plus"></div>
+						  	<ngb-highlight [result]="r.name" [term]="t" ></ngb-highlight>
+						  	<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{r.type}}</div>
+						  	<hr class="hr-style">
 						</ng-template>
-						<input id="typeahead-template" type="text" placeholder="Search APG to add to this Course Plan" class="form-control input-search-bg" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt" name="searchbox" [inputFormatter]="formatter" />
+						<input id="typeahead-focus" 
+						type="text" placeholder="Search APG to add to this Course Plan" 
+						class="form-control input-search-bg" 
+						[(ngModel)]="model" 
+						[ngbTypeahead]="search" 
+						[resultTemplate]="rt" name="searchbox" 
+						(selectItem)="selectedItem($event)" 
+						[inputFormatter]="SearchBoxEmpty"
+						(ngModelChange)="valuechange($event)"/>
 					    <span class="input-group-append">
 					        <button class="bt btn-design btn-outline-secondary" type="button">
 					            <i class="fa fa-search search-size"></i>
 					        </button>
-					     </span>
+					    </span>
+
+					    <div *ngIf="showfixedcreate == true" class="fixedText">
+						    <div>
+								<button type="button" class="bt btn-apg" (click)="goToModule()">
+									<div class="circle3 plus"></div>Create new APG
+								</button>
+							</div>
+						</div>
 					</div>
+					<div class="col-md-12" *ngIf="showfixedcreate == true">
+					    <div style="
+					    height: 341px;
+					    border: 1px solid #eee;
+					    border-radius: 0 0 4px 4px;
+					"></div>
+					</div>
+					<div *ngIf="!model" class="display-style col-md-12" style="margin-top: 30px;">
+						<div class="col-md-6 img-pos">
+							<img src="assets/img/apg-list-default.png">
+						</div>
+						<div class="col-md-6">
+							<div class="txt-default">
+								<h3>Add APG to this Course Plan</h3>
+							</div>
+							<div class="arrow-pos">
+								<img src="assets/img/arrow.png">
+							</div>
+						</div>
+					</div>
+					<div *ngIf="selectedAPGlists" class="col-md-12">
+						<div class="wrap-height">
+							<div *ngFor="let cAPG of createdAPGstore">
+								<div class="group-text">
+									<button type="button" class="bt btn-apg" (click)="removeSelectedAPG(cAPG)">
+										<div class="circle2 minus"></div>
+										<div class="all-title-font">{{cAPG.name}}</div>
+										<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{cAPG.type}}</div>
+									</button>	
+								</div>
+								<hr class="hr-style">
+							</div>
+						</div>
+					</div>
+				</div>	
+				<div *ngIf="showModule" class="inside-data-wrapper">	
+					<div class="col-md-12">
+						<p class="back" (click)="backSearhAPG('back')"><i class="fa fa-angle-left left-arrow"></i><span>APG</span></p>
+						<h3 class="all-title-font">Pick APG type</h3>
+					</div>
+					<div class="row pad-15">
+				  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+				  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
+				  				<div class="module-img">
+			            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
+			            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/images/{{module.name}}-type_a.png" class="img-fluid">
+				  				</div>
+				  			  	<div class="label-checked"></div>
+				  			  	<input class="form-check-input"
+				  			    type="radio" 
+				  			    name="inlineRadioOptions" 
+				  			    id="module._id"
+				  			    value="{{module.name}}"
+				  			    (click)="chooseModuleType(module._id, module.name)"> {{module.name}}
+				  			</label>
+				  		</div>
+			  		</div>
 				</div>
-				<div class="button-wrapper">
-					<button type="button" class="btn sticky-create" [disabled]="!childForm6.value" (click)="continueStep('step5', childForm5.value)">Continue</button>
-					<button type="button" [hidden]="!step5" class="back-modal back-to" (click)="backStep('step6')"> < Back</button>
+				<div *ngIf="createAPGform">
+					<form #apgCreateForm="ngForm" novalidate>
+						<div class="inside-data-wrapper">
+							<div class="col-md-12">
+								<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Shared APGs</span></p>
+								<h3 class="all-title-font">Create APG</h3>
+							</div>
+							<div class="col-md-6 top-para" style="padding-top: 40px;">
+								<p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" #apgName="ngModel" required><hr class="limit-hr-length">
+								<label for="desc" class="all-title-font">Description</label>
+								<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" [(ngModel)]='formAPG.description' name="description" #apgDesc="ngModel" placeholder="Type address here" required ></textarea>
+								<hr class="limit-hr-length">
+							</div>
+						</div>	
+						<div class="button-wrapper" style="float: right;">
+							<button type="button" class="bt cancel-button" (click)="backSearhAPG('cancel')" >Cancel</button>
+				        	<button type="submit" (click)="createAPGs(apgCreateForm.value)" [disabled]="!apgCreateForm.valid" class="btn create-button" >Create
+							</button>
+						</div>
+					</form>
+				</div>
+				<div *ngIf="!showModule && !createAPGform">
+					<hr>
+					<div class="button-wrapper">
+						<button type="button" class="btn sticky-create" [disabled]="createdAPGstore?.length == 0" (click)="continueStep('step6', createdAPGstore)">Continue</button>
+						<button type="button" [hidden]="!step6" class="back-modal back-to" (click)="backStep('step6')"> < Back</button>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -298,7 +397,7 @@
 			<div class="inside-data-wrapper">
 				<div class="col-md-12">
 					<p class="step-font">Step 7</p>
-					<h5 class="all-title-font title-br-rt">Optional fields</h5>
+					<h5 class="all-title-font text-font-align">Optional fields</h5>
 				</div>
 				<div class="col-md-12" style="padding-top: 40px;">
 					<label for="age" class="all-title-font parent-box-name">Age</label>
@@ -329,7 +428,7 @@
 							<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
 						    <div class="inner-divleft-pad">
 						    	<label class="sr-only" for="inlineFormInputGroupmisFee">0</label>
-								<div class="input-group mb-2 mr-sm-2">
+								<div class="input-group input-group-bg mb-2 mr-sm-2">
 								    <div class="input-group-prepend">
 								      <div class="input-group-text misfee-bg">S$</div>
 								    </div>

@@ -1,4 +1,4 @@
-<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
+<!-- <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
   <div class="d-flex justify-content-between">
     <div class="mr-auto">
 		<div class="d-flex flex-row">
@@ -8,8 +8,8 @@
 	</div>
 	<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button> 
   </div>
-</div>
-<div class="main-wrapper" *ngIf="ismodule == false && iscreate == false">
+</div> -->
+<div class="main-wrapper" *ngIf="ismodule == false && iscreate == false && isshare == false && shareAPG == false">
 	<div class="d-flex justify-content-between heading-margin">
 		<div class="mr-auto">
 			<div class="d-flex flex-row">
@@ -17,7 +17,7 @@
 				<span class="apg-longterm">Access Point Group</span>
 			</div>
 		</div>
-		<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button>
+		<button type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
 	</div>
 	<div class="input-group col-md-12 mt-30">
 	    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
@@ -48,22 +48,37 @@
 	</div>
 </div>
 
-<div class="main-wrapper" *ngIf="ismodule == true || iscreate == true">
+<div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true || shareAPG == true">
   <div class="back-wrap">
     <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a>
-    <a class="back-to" *ngIf="iscreate == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>
+    <a class="back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>
+
+    <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
+  		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
+  		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
+  	</div>
+
+  	<div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
+  		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
+  		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
+  	</div>
   </div>
   <div class="location-group">
   	<h3 *ngIf="ismodule == true" class="title-heading">Pick APG type</h3>
+  	<h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">Creating progress APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>
+  	<h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
   </div>
   <div class="apg-form">
   	<form novalidate #createapgForm="ngForm">
   		<div class="row" *ngIf="ismodule == true">
-	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
 	  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
-	  				<div class="module-img"></div>
+	  				<div class="module-img">
+            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
+            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/images/{{module.name}}-type_a.png" class="img-fluid">
+	  				</div>
 	  			  	<div class="label-checked"></div>
 	  			  	<input class="form-check-input"
 	  			    type="radio" 
@@ -73,6 +88,37 @@
 	  			    (click)="chooseModuleType(module._id, module.name)"> {{module.name}}
 	  			</label>
 	  		</div>
+  		</div>
+  		<div *ngIf="isshare == true">
+  			<div class="d-flex flex-row">
+  				<div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+  					<div (click)="createNewAPG('create')" class="d-flex apg-box justify-content-center flex-column">
+  						<div class="d-flex flex-row">
+  							<div class="stoke-wrap">
+  								<div class="stoke-1"></div>
+  								<div class="stoke-2"></div>
+  							</div>
+  							<div class="icon-apg"></div>
+  						</div>
+  						<label class="form-title input-label" for="address">Create new APG</label>
+  					</div>
+  				</div>
+  				<div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+  					<div (click)="createNewAPG('share')" class="d-flex apg-box justify-content-center flex-column">
+  						<div class="d-flex flex-row">
+  							<div class="stoke-wrap">
+  								<div class="stoke-1"></div>
+  								<div class="d-flex flex-row justify-content-between">
+  									<span class="stoke-2-first"></span>
+  									<span class="stoke-2-sec"></span>
+  								</div>
+  							</div>
+  							<div class="icon-apg"></div>
+  						</div>
+  						<label class="form-title input-label" for="address">Create using publicly shared APG</label>
+  					</div>
+  				</div>
+  			</div>
   		</div>
   		<div *ngIf="iscreate == true">
   			<div class="form-group">
@@ -89,6 +135,35 @@
   			  <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
   			  <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid" (click)="createapgs(model, true, currentID)">Update</button>
   			</div>
+  		</div>
+
+  		<div *ngIf="shareAPG == true">
+  			<div class="input-group w-100">
+  			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+  			    <span class="input-group-append">
+  			        <button class="bt btn-design btn-outline-secondary" type="button">
+  			            <i class="fa fa-search search-size"></i>
+  			        </button>
+  			     </span>
+  			</div>
+  			<div class="row apg-share-content">
+	  			<div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+		  			<label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
+		  			  	<div class="label-checked"></div>
+		  			  	<input class="form-check-input"
+		  			    type="radio" 
+		  			    name="inlineRadioOptions" 
+		  			    id="temp._id"
+		  			    value="{{temp.name}}"
+		  			    (click)="chooseShareAPG(temp._id, temp.name)"> {{temp.name}}
+		  			</label>
+		  		</div>
+		  	</div>
+		  	---{{temp}}
+		  	<div class="d-flex justify-content-end apg-share-bottom">
+  			  	
+  			  	<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(temp)">Create</button>
+		  	</div>
   		</div>
   	</form>
   </div>

@@ -23,23 +23,21 @@
 					<div class="d-style pd-top-15">
 						<div class="box-width" *ngFor="let staffRating of ratingLists; let i = index;">
 							<div class="rating-box">
-								<div style="word-wrap: break-word;">
+								<div class="inner-box">
 									<div class="circular-image">
 										<img src="{{staffRating.profilePic}}">
 									</div>	
 									<div class="teacher-average-font">Senior teacher</div>
 									<h5 style="letter-spacing: 0.5px;">{{staffRating.preferredName}}</h5>
-									<div class="wrap-rating">
-										<div class="col-md-10 pad-0">
-											<div class="flex-show">
-												<h2 style="margin-right: 10px;">{{staffRating.rating}}</h2>
-												<div style="display: block;">
-													<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="staffRating.rating"></star-rating-comp>
-													<div class="average-rating-font">{{staffRating.voter}} ratings</div>
-												</div>
+									<div class="wrap-rating d-flex flex-row">
+										<div class="d-flex half">
+											<h2 style="margin: 0;">{{staffRating.rating}}</h2>
+											<div style="display: block;">
+												<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="staffRating.rating"></star-rating-comp>
+												<div class="average-rating-font">{{staffRating.voter}} ratings</div>
 											</div>
 										</div>
-										<div class="col-md-2 col-12 col-sm-12">
+										<div class="d-flex wil">
 											<button class="detail-bg" type="button" (click)="getFeedBack(staffRating.teacherId, staffRating)"><i class="fa fa-angle-right right-arrow"></i></button>
 										</div>
 									</div>
@@ -70,7 +68,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="sticky-menu flex-show" [ngClass]="{'stickywrap' : navIsFixed == true}">
+				<!-- <div class="sticky-menu flex-show" [ngClass]="{'stickywrap' : navIsFixed == true}">
 					<div class="col-md-6 pad-0">
 						<i class="fa fa-angle-left back-average-arrow"></i>
 						<button class="btn back" (click)="back()"> Average ratings</button>
@@ -89,7 +87,7 @@
 						    </div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<div class="col-md-12 flex-show" style="margin-top: 15px;">
 					<div class="col-md-6 flex-show left-side">
 						<div>
