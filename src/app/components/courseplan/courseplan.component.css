@@ -258,7 +258,7 @@ input:-webkit-input-placeholder {
 .radio-pos {
 	position: absolute;
   left: 291px;
-  top: 40px;
+  top: 30px;
 }
 
 .radio-pos-book {
@@ -681,7 +681,7 @@ select:hover + .down-arrow2, select:focus + .down-arrow2, select:hover + .down-a
 
 .down-arrow2 {
   position: absolute;
-  right: 40px;
+  right: 12px;
   top: 45px;
   font-size: 12px;
   color: #fff;
@@ -1187,6 +1187,22 @@ ul.search-apg{
   padding-top: 30px;
 }
 
+.all-m-left10{
+  margin-left: 10px;
+}
+
+.alert-m-right{
+  margin-right: 20px;
+}
+.alert-m-left{
+  margin-left: 18px;
+}
+.form-wrap input{
+  margin-bottom: 15px;
+}
+.m-top-15{
+  margin-top: 15px;
+}
 
 @media only screen and (max-width: 768px){
   .down-arrow1 {
