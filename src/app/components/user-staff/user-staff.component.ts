@@ -4,6 +4,10 @@ import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
 import { Croppie } from 'croppie';
 import { Bounds } from 'ng2-img-cropper/src/model/bounds';
+import { Staff } from './staff';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { environment } from '../../../environments/environment';
 declare var $: any;
 
 @Component({
@@ -12,11 +16,13 @@ declare var $: any;
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
-
+	public orgID = environment.orgID;
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: any;
   	showFormCreate: boolean = false;
   	permissionLists: any;
+  	formFields: Staff = new Staff();
+  	@BlockUI() blockUI: NgBlockUI;
   	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
@@ -28,9 +34,12 @@ export class UserStaffComponent implements OnInit {
 	isSticky: boolean = false;
 	public navIsFixed: boolean = false;
 	public isCreateFix: boolean = false;
+	public atLeastOneMail: boolean = false;
 	permissionId: any;
+	editId: any;
+	public locationID = localStorage.getItem('locationId');
 
-	constructor(private _service: appService) {
+	constructor(private _service: appService, public toastr: ToastsManager) {
   		this.cropperSettings1 = new CropperSettings();
 	    this.cropperSettings1.rounded = true;
 	    this.cropperSettings1.noFileInput = true;
@@ -63,7 +72,64 @@ export class UserStaffComponent implements OnInit {
 	    }, 10);
 	}
 
+	createUser(obj, state){
+		console.log(obj)
+		this.atLeastOneMail = false;		
+		let objData = new FormData();
+		let getImg = document.getElementById("blobUrl");
+		let profile;				
+		profile = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : profile = '';			
+		this.atLeastOneMail = (!obj.guardianmail && !obj.emailaddress) ? true : false;		
+		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
+		
+		objData.append('orgId', this.orgID),
+		objData.append('regionId', this.regionID),
+		objData.append('firstName', obj.firstname),
+		objData.append('lastName', obj.lastname),
+		objData.append('preferredName', obj.preferredname),
+		objData.append('email', obj.email),
+		objData.append('password', obj.password),
+		objData.append('location', JSON.stringify(locationObj)),
+		objData.append('profilePic', profile)
+
+		if(state == 'create'){
+			console.log('create')
+			this.blockUI.start('Loading...');
+			this._service.createUser(objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res)
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.back();
+		  		this.getAllUsers('staff');
+		    }, err => {		    	
+		    	this.blockUI.stop();
+		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    		this.toastr.error('Email already exist');
+		    	}
+		    	else {
+		    		this.toastr.error('Create Fail');
+		    	}
+		    	console.log(err)
+		    })
+		}else{
+			console.log('update')
+			this._service.updateUser(this.regionID,this.editId, objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res)
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.getAllUsers('staff');
+		    }, err => {
+		    	this.toastr.error('Create Fail');
+		    	this.blockUI.stop();
+		    	console.log(err)
+		    })
+		}
+	}
+
 	back(){
+		this.formFields = new Staff();
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
@@ -144,7 +210,7 @@ export class UserStaffComponent implements OnInit {
 	    let self = this;
 	    this.imgDemoSlider = false;
 	    setTimeout(function() {
-	      $("#upload-demo img:last-child").attr("id", "blobUrl");
+	      $(".circular-profile img:last-child").attr("id", "blobUrl");
 	      $(".frame-upload").css('display', 'none');
 	      this.blankCrop = false;
 	    }, 200);
@@ -158,7 +224,7 @@ export class UserStaffComponent implements OnInit {
 			},
 			quality:1 
 	      })
-	      .then(function(resp: any) {
+	      .then(function(resp: any) {	
 	      	$("#upload-demo img:last-child").remove();
 	        if (resp) {
 	          	setTimeout(function() {
@@ -177,6 +243,7 @@ export class UserStaffComponent implements OnInit {
 	      .split(";")[0];
 	    var ab = new ArrayBuffer(byteString.length);
 	    var ia = new Uint8Array(ab);
+	    console.log(ia)
 	    for (var i = 0; i < byteString.length; i++) {
 	      ia[i] = byteString.charCodeAt(i);
 	    }

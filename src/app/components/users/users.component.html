@@ -103,7 +103,7 @@
       	</div>
 	</form>
 </ng-template>
-<block-ui message="Deafult Message"></block-ui> -->
+
 <!-- Customer Modal -->
 <!-- <ng-template #customerModal let-c="close" let-d="dismiss">
 		<div class="modal-header">
@@ -307,7 +307,6 @@
 			</div>
 		</div>
 	</div>
-<!-- 	</div> -->
 </div>
 
 <div *ngIf="showCustDetail" class="content-wrapper" [ngClass]="{'pdactive': isSticky == true}">
@@ -585,7 +584,7 @@
 			<div class="col-md-7 pad-bottom">
 				<div class="form-group form-divider">
 		  	    	<label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 	
-		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFieldc.prename" #preferredname="ngModel" required>
+		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFieldc.preferredname" #preferredname="ngModel" required>
 		  	    	<div *ngIf="preferredname.invalid && (preferredname.dirty || preferredname.touched)" class="alert alert-danger">
 				        <div [hidden]="!preferredname.errors.required">
 				          Display name is required!
@@ -593,26 +592,33 @@
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
-		  	    	<label for="fullname" class="label-txt">Full name</label> 	
-		  	    	<input type="text" class="form-control" placeholder="Type full name here" name="fullname" [(ngModel)]="formFieldc.name" #fullname="ngModel" required>
-		  	    	<div *ngIf="fullname.errors && (fullname.dirty || fullname.touched)" class="alert alert-danger">
-				        <div [hidden]="!fullname.errors.required">
-				          Full name is required!
+		  	    	<label for="firstname" class="label-txt">First name</label> 	
+		  	    	<input type="text" class="form-control" placeholder="Type first name here" name="firstname" [(ngModel)]="formFieldc.firstname" #firstname="ngModel" required>
+		  	    	<div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="alert alert-danger">
+				        <div [hidden]="!firstname.errors.required">
+				          First name is required!
+				        </div>
+				    </div>
+		  	  	</div>
+		  	  	<div class="form-group form-divider">
+		  	    	<label for="lastname" class="label-txt">Last name</label> 	
+		  	    	<input type="text" class="form-control" placeholder="Type last name here" name="lastname" [(ngModel)]="formFieldc.lastname" #lastname="ngModel" required>
+		  	    	<div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="alert alert-danger">
+				        <div [hidden]="!lastname.errors.required">
+				          Last name is required!
 				        </div>
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
 		  	    	<label for="email" class="label-txt">Email address</label> 	
-		  	    	<input type="email" class="form-control" placeholder="Type email address here" name="email" [(ngModel)]="formFieldc.emailaddress" #email="ngModel" required>
-		  	    	<div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
-				        <div [hidden]="!email.errors.required">
-				          Email is required!
-				        </div>
-				    </div>
+		  	    	<input type="email" class="form-control" placeholder="Type email address here" (keyup)="validateEmail(formFieldc.emailaddress)"  name="email" [(ngModel)]="formFieldc.emailaddress" #email="ngModel">
+		  	    	<div *ngIf="emailAlert" class="alert alert-danger">
+		  	    		Please provide a valid email
+		  	    	</div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
-		  	    	<label for="pass" class="label-txt">Password</label> 	
-		  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.pass" #password="ngModel" required>
+		  	    	<label for="password" class="label-txt">Password</label> 	
+		  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.password" #password="ngModel" required>
 		  	    	<div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
 				        <div [hidden]="!password.errors.required">
 				          Password is required!
@@ -621,12 +627,11 @@
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
 		  	    	<label for="guardmail" class="label-txt">Guardian email</label> 	
-		  	    	<input type="email" class="form-control" placeholder="Type guardian email here" name="gurdianMail" [(ngModel)]="formFieldc.guardianmail" #gurdianMail="ngModel" required>
-		  	    	<div *ngIf="gurdianMail.errors && (gurdianMail.dirty || gurdianMail.touched)" class="alert alert-danger">
-				        <div [hidden]="!gurdianMail.errors.required">
-				          GurdianMail is required!
-				        </div>
-				    </div>
+		  	    	<input type="email" class="form-control" placeholder="Type guardian email here" name="gurdianMail" [(ngModel)]="formFieldc.guardianmail" (keyup)="validateGuarmail(formFieldc.guardianmail)"
+		  	    	#gurdianMail="ngModel">
+		  	    	<div *ngIf="guardianAlert" class="alert alert-danger">
+		  	    		Please provide a valid email!
+		  	    	</div>
 		  	  	</div>
 			</div>
 			<div class="col-md-5">
@@ -643,7 +648,15 @@
 					              	<div class="col-1-2">
 					                	<div class="actions">
 					                		<a class="btn file-btn">
-					                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
+					                  		<input 
+					                  			type="file" 
+					                  			class="upload-jpg form-control" 
+					                  			id="upload" 
+					                  			#cropper 
+					                  			(change)='uploadCropImg($event)' 
+					                  			value="Choose a file" 
+					                  			accept="image/*" 
+					                  			style="display:none" />
 					                		</a>
 					                	</div>
 					              	</div>
@@ -671,7 +684,7 @@
 				</div>
 				<div class="button-group">
 					<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-		        	<button type="submit" (click)="createCustomer(formFieldc)" class="btn create-button" [disabled]="!f.form.valid">Create
+		        	<button type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!f.form.valid">Create
 					</button>
 				</div>
 			</div>
@@ -680,3 +693,4 @@
 </div>
 
 
+<block-ui message="Deafult Message"></block-ui> 
