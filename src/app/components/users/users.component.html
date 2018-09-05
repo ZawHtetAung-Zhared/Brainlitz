@@ -292,14 +292,15 @@
 	<div class="row display-flex">
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
 			<div class="box-design d-flex">
-				<div class="no-line-height">
+				<div class="profileimg-wrap">
 					<div class="circular-image">
 						<img src="{{customer.profilePic}}">
 					</div>
 				</div>
 				<div class="info-side">
-					<h5>{{customer.preferredName}}</h5>
-					<p class="info-mail">{{customer.email}}</p>
+					<h5 style="margin-bottom: 0.3rem">{{customer.preferredName}}</h5>
+					<p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
+					<p class="info-about">Owns Guitar & Piano</p>
 				</div>
 				<div class="right-arrow" (click)="showDetails(customer)">
 					<i class="fa fa-angle-right"></i>

@@ -39,6 +39,8 @@ export class UserStaffComponent implements OnInit {
 	editId: any;
 	public locationID = localStorage.getItem('locationId');
 	public wordLength:any;
+	public aboutTest = "Owns Guitar & PianoOwns Guitar & PianoOwnsijii";
+	public aboutTest1 = " How your call you or like your preferred name kuiui";
 
 	constructor(private _service: appService, public toastr: ToastsManager) {
   		this.cropperSettings1 = new CropperSettings();

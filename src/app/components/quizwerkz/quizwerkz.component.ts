@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Rx';
 import { quizWerkzForm } from './quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+declare var $:any;
 
 @Component({
   selector: 'app-quizwerkz',

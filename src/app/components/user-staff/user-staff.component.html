@@ -33,14 +33,21 @@
 		<div class="row display-flex">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
 				<div class="box-design d-flex">
-					<div class="no-line-height">
+					<div>
 						<div class="circular-image">
 							<img src="{{staff.profilePic}}">
 						</div>
 					</div>
 					<div class="info-side">
+						<div><label class="staff-label">Coach</label></div>
 						<h5>{{staff.preferredName}}</h5>
 						<p class="info-mail">{{staff.email}}</p>
+						<p *ngIf="i>0" class="info-about">
+									{{ (aboutTest.length>40)? (aboutTest | slice:0:40)+'...' : (aboutTest) }}
+								</p>
+								<p *ngIf="i==0" class="info-about">
+									{{ (aboutTest1.length > 40)? (aboutTest1 | slice:0:40)+'...' : (aboutTest1) }}
+								</p>
 					</div>
 					<div class="right-arrow">
 						<i class="fa fa-angle-right"></i>

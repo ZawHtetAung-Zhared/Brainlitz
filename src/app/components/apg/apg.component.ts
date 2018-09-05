@@ -7,6 +7,8 @@ import { convertField } from './apg';
 import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+declare var $:any;
 
 @Component({
   selector: 'app-apg',
