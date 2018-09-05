@@ -68,6 +68,7 @@ export class ApgComponent implements OnInit {
     public navIsFixed: boolean = false;
     public singleCheckedAPG: boolean = false;
     responseAP: any;
+    wordLength:any;
 
   	ngOnInit() {
 	  	// this.getAllAP();
@@ -88,6 +89,19 @@ export class ApgComponent implements OnInit {
         this.navIsFixed = false;
       }
     } 
+
+    focusMethod(e){
+      $('.limit-wordcount').show('slow'); 
+    }
+
+    blurMethod(e){
+      $('.limit-wordcount').hide('slow'); 
+    }
+
+    changeMethod(val : string){
+      console.log(val)
+      this.wordLength = val.length;
+    }
 
     cancelapg(){
       this.model = {};

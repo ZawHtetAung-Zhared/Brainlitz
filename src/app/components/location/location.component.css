@@ -86,6 +86,8 @@
 	color: #656565;
 	text-align: justify;
 	padding-right: 60px;
+	max-height: 60px;
+	overflow-y: scroll;
 }
 .edit-btn,
 .delete-btn{

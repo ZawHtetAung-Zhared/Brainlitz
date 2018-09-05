@@ -102,6 +102,7 @@ export class CourseplanComponent implements OnInit {
   showNewAPGbox: boolean = false;
   showfixedcreate: boolean = false;
   createdAPGstoreLength:any;
+  wordLength:any;
 
   ngOnInit() {
     this.showModal = true;
@@ -137,6 +138,21 @@ export class CourseplanComponent implements OnInit {
   }
 
   @ViewChild('parentForm') mainForm;
+
+  focusMethod(e){
+    console.log('hi', e)
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    console.log('blur', e);
+    $('.limit-wordcount').hide('slow'); 
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
 
   valuechange(val){
     console.log(val)

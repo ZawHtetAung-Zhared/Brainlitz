@@ -154,6 +154,7 @@ export class UsersComponent implements OnInit {
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public showMore = false;
   	public seeAll = false;
+  	public wordLength:any;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
@@ -178,6 +179,21 @@ export class UsersComponent implements OnInit {
 	      this.isCreateFix = false;
 	    }
 
+	}
+
+	focusMethod(e){
+		console.log('hi', e)
+		$('.limit-wordcount').show('slow'); 
+	}
+	  
+	blurMethod(e){
+		console.log('blur', e);
+		$('.limit-wordcount').hide('slow'); 
+	}
+
+	changeMethod(val : string){
+		console.log(val)
+		this.wordLength = val.length;
 	}
 
 	createUser(obj, apiState){

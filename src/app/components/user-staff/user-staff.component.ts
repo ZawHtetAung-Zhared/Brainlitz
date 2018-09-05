@@ -38,6 +38,7 @@ export class UserStaffComponent implements OnInit {
 	permissionId: any;
 	editId: any;
 	public locationID = localStorage.getItem('locationId');
+	public wordLength:any;
 
 	constructor(private _service: appService, public toastr: ToastsManager) {
   		this.cropperSettings1 = new CropperSettings();
@@ -71,6 +72,18 @@ export class UserStaffComponent implements OnInit {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
 	}
+
+	focusMethod(e){
+		  $('.limit-wordcount').show('slow'); 
+	}
+	  
+	blurMethod(e){
+		  $('.limit-wordcount').hide('slow'); 
+	}
+
+	changeMethod(val : string){
+	    this.wordLength = val.length;
+	  }
 
 	createUser(obj, state){
 		console.log(obj)

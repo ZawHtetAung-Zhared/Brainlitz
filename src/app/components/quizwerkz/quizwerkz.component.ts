@@ -28,6 +28,7 @@ export class QuizwerkzComponent implements OnInit {
   public deleteQw:any;
   public modalReference1:any;
   public editId: any;
+  public wordLength:any;
   viewQuiz: any;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -61,7 +62,18 @@ export class QuizwerkzComponent implements OnInit {
     this.iscreate = true;
   }
 
+  focusMethod(e){
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    $('.limit-wordcount').hide('slow'); 
+  }
 
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
 
   open(content) {
     this.isEdit = false;

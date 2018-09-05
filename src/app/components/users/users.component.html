@@ -583,8 +583,13 @@
 		<div class="row display-flex">
 			<div class="col-md-7 pad-bottom">
 				<div class="form-group form-divider">
-		  	    	<label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 	
-		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFieldc.preferredname" #preferredname="ngModel" required>
+					<div class="d-flex justify-content-between">
+						<label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 
+						<div class="limit-wordcount">
+							<span>{{wordLength}}/60characters</span>
+						</div>
+					</div>	
+		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFieldc.preferredname" #preferredname="ngModel" (focus)="focusMethod($event)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" maxlength="60" required>
 		  	    	<div *ngIf="preferredname.invalid && (preferredname.dirty || preferredname.touched)" class="alert alert-danger">
 				        <div [hidden]="!preferredname.errors.required">
 				          Display name is required!
