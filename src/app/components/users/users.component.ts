@@ -180,151 +180,64 @@ export class UsersComponent implements OnInit {
 
 	}
 
-	open1(staffModal){
-		this.blankCrop = false; 
-		this.notShowEdit = true;
-		this.getAllpermission();
-		this.getAllLocation();
-		this.formFields = new staff();
-		this.updateButton = false;
-    	this.createButton = true;
-    	this.emailAlert = false;
-    	this.guardianAlert = false;
-		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
-	    this.modalReference.result.then((result) => {
-	    	this.formFields = new staff();	
-		  	this.closeResult = `Closed with: ${result}`
-	  	}, (reason) => {
-	  		this.formFields = new staff();	
-	  	    this.closeResult = `Closed with: ${reason}`;
-	  	});
-	}
-
-	open2(customerModal){
-		this.blankCrop = false;
-		this.notShowEdit = true;
-		this.formFieldc = new customer();
-		this.updateButton = false;
-    	this.createButton = true;
-    	this.emailAlert = false;
-    	this.guardianAlert = false;
-		this.modalReference = this.modalService.open(customerModal, { backdrop:'static', windowClass:'animation-wrap'});
-	    this.modalReference.result.then((result) => {
-	    	this.formFieldc = new customer();	
-		  	this.closeResult = `Closed with: ${result}`
-	  	}, (reason) => {
-	  		this.formFieldc = new customer();
-	  	  	this.closeResult = `Closed with: ${reason}`;
-	  	});
-	}
-
-	createCustomer(obj){
-		console.log(obj)
-	}
-
-	createUser(obj, type, apiState){
-		console.log(obj);
-		console.log(type);
-		this.atLeastOneMail = false;
-		let getImg = document.getElementById("blobUrl");
-		if(getImg != undefined){
-			this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
-			//this.img = this.dataURItoBlob(this.imageUrl);
-		}else{
-			this.img = '';
-		}
+	createUser(obj, apiState){
+		console.log(obj)		
+		this.atLeastOneMail = false;		
 		let objData = new FormData();
-		if(type == 'staff'){
-			let locationObj = [{'locationId': this.locationID,'permissionId': obj.role}];
-			console.log('locationObj', locationObj)
-			objData.append('orgId', this.orgID),
-			objData.append('firstName', obj.fname),
-			objData.append('lastName', obj.lname),
-			objData.append('preferredName', obj.preferredName),
-			objData.append('email', obj.mail),
-			objData.append('regionId', this.regionID),
-			objData.append('password', obj.pwd),
-			objData.append('location', JSON.stringify(locationObj)),
-			objData.append('profilePic', this.img)
-			console.log(objData)
-			this.blockUI.start('Loading...');
-			this.modalReference.close();
+		let getImg = document.getElementById("blobUrl");		
+		let guardianArray;
+		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = '';
+		guardianArray = (obj.guardianmail) ? obj.guardianmail.split(',') : '' ;
+		this.atLeastOneMail = (!obj.guardianmail && !obj.emailaddress) ? true : false;
+		obj.emailaddress = (obj.emailaddress == undefined) ? '' : obj.emailaddress;
 
-		}
-		else if(type == 'customer'){
-			let guardianArray;
-			if(obj.guardianmail){
-				guardianArray = obj.guardianmail.split(',')
-			}
-			if(!obj.guardianmail && !obj.mail){
-				this.atLeastOneMail = true;
-			}
-			else {
-				this.blockUI.start('Loading...');
-				this.modalReference.close();
-			}
-			objData.append('orgId', this.orgID);
-			objData.append('firstName', obj.fname);
-			objData.append('lastName', obj.lname);
-			objData.append('preferredName', obj.preferredName);
-			if(obj.mail == undefined){
-				objData.append('email', '')
-			}
-			else{
-				objData.append('email', obj.mail);
-			}
-			objData.append('regionId', this.regionID);
-			objData.append('password', obj.pwd);
-			objData.append('gender', obj.gender);
-			objData.append('guardianEmail', JSON.stringify(guardianArray));
-			objData.append('location', JSON.stringify([]));
-			objData.append('profilePic', this.img)
-			console.log(objData)
-		}
-		else {
-			console.log('error')
-		}
+		objData.append('regionId', this.regionID);
+		objData.append('orgId', this.orgID);
+		objData.append('firstName', obj.firstname);
+		objData.append('lastName', obj.lastname);
+		objData.append('preferredName', obj.preferredname);
+		objData.append('email', obj.emailaddress)		
+		objData.append('password', obj.password);
+		objData.append('gender', obj.gender);
+		objData.append('guardianEmail', JSON.stringify(guardianArray));
+		objData.append('location', JSON.stringify([]));
+		objData.append('profilePic', this.img)
+		console.log(objData)
+
 		if(apiState == 'create'){
 			console.log('create')
-			if(this.atLeastOneMail == false){
-				this._service.createUser(objData)
-		    	.subscribe((res:any) => {
-		  			console.log(res)
-		  			this.toastr.success('Successfully Created.');
-			  		this.blockUI.stop();
-			  		this.getAllUsers('all');
-			    }, err => {		    	
-			    	this.blockUI.stop();
-			    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
-			    		this.toastr.error('Email already exist');
-			    	}
-			    	else {
-			    		this.toastr.error('Create Fail');
-			    	}
-			    	
-			    	console.log(err)
-			    })
-			}
-		}
-		else if (apiState == 'update'){
+			this.blockUI.start('Loading...');
+			this._service.createUser(objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res)
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.back();
+		  		this.getAllUsers('customer');
+		    }, err => {		    	
+		    	this.blockUI.stop();
+		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    		this.toastr.error('Email already exist');
+		    	}
+		    	else {
+		    		this.toastr.error('Create Fail');
+		    	}
+		    	console.log(err)
+		    })
+		}else{
 			console.log('update')
 			this._service.updateUser(this.regionID,this.editId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
-		  		this.getAllUsers('all');
+		  		this.getAllUsers('customer');
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();
 		    	console.log(err)
 		    })
 		}
-		else {
-			console.log('error')
-		}
-		
-    		
 	}
 
 	edit(id, type, modal){
@@ -378,60 +291,18 @@ export class UsersComponent implements OnInit {
 		}
 	}
 
-	updateUser(obj, type){
-		if(type == "customer"){
-			console.log('update customer')
-		}else if(type == "staff"){
-			console.log('update staff')
-		}else{
-			console.log('update all')
-		}
-	}
-
 	getAllUsers(type){
 		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type)
-		.subscribe((res:any) => {
-			if(type == 'customer'){
-				this.customerLists = res;
-				console.log('this.customerLists', this.customerLists)
-			}
-			else if(type == 'staff'){
-				this.staffLists = res;
-				console.log('this.staffLists', this.staffLists)
-			}
-			else {
-				this.userType = 'all';
-				this.userLists = res;
-				console.log('this.userLists', this.userLists)
-			}
+		.subscribe((res:any) => {			
+			this.customerLists = res;
+			console.log('this.customerLists', this.customerLists)			
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		    }, 300);
 	    }, err => {
 	    	console.log(err)
 	    })
-	}
-
-	clickTab(type){
-	    if(type == 'customer'){
-	    	this.userType = 'customer';
-	        this.getAllUsers('customer');
-	    }else if(type == 'staff'){
-	    	this.userType = 'staff';
-	        this.getAllUsers('staff');
-	    }else{
-	    	this.userType = 'all';
-	    	this.getAllUsers('');
-	    }
-	  }
-
-	copyText(id){
-		console.log(id)
-		const inputElement = document.getElementById(id);
-		(<any>inputElement).select();
-		document.execCommand('copy');
-		inputElement.blur();
 	}
 
 	getAllpermission(){
@@ -459,7 +330,6 @@ export class UsersComponent implements OnInit {
 		else {
 			this.emailAlert = false;
 		}
-		
 	}
 
 	validateGuarmail(gData){
@@ -492,6 +362,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	back(){
+		this.formFieldc = new customer();
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
@@ -500,6 +371,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	uploadCropImg($event: any) {
+		console.log('hihi')
 	    this.blankCrop = true; 
 	    $(".frame-upload").css('display', 'block');
 	    this.imgDemoSlider = true;
@@ -534,10 +406,13 @@ export class UsersComponent implements OnInit {
   	}
 
   	cropResult(modal) {
+  		
 	    let self = this;
+  		console.log(self.input);
+
 	    this.imgDemoSlider = false;
 	    setTimeout(function() {
-	      $("#upload-demo img:last-child").attr("id", "blobUrl");
+	      $(".circular-profile img:last-child").attr("id", "blobUrl");
 	      $(".frame-upload").css('display', 'none');
 	      this.blankCrop = false;
 	    }, 200);
@@ -587,6 +462,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	backToCustomer(){
+		this.formFieldc = new customer();
 		this.showCustDetail = false;
 		this.showFormCreate = false;
 		this.blankCrop = false;
