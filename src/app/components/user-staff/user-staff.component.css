@@ -70,9 +70,9 @@ h3, h5 {
 
 .box-design {
     box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
-    padding: 20px 20px;
-    min-height: 120px;
-    max-height: 120px;
+    padding: 15px 15px;
+    min-height: 140px;
+    max-height: 140px;
 }
 .box-design:hover{
     cursor: pointer;
@@ -110,6 +110,14 @@ h3, h5 {
     /*padding: 0 20px 0 0;*/
 }
 
+.info-about{
+    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    color: #2e3d4d;
+    font-size: 14px;
+    word-wrap: break-word;
+    margin-bottom: 0!important;
+}
+
 .info-side {
     /*display: block; 
     word-break: break-all; 
@@ -118,7 +126,14 @@ h3, h5 {
     justify-content: center;
     flex-direction: column;
     word-break: break-all; 
-    padding: 0 15px;
+    padding-left: 15px;
+}
+
+.staff-label{
+    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    color: #64707d;
+    font-size: 12px;
+    margin-bottom: 0!important;
 }
 
 .right-arrow{

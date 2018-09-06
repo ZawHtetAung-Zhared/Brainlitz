@@ -248,6 +248,13 @@ star-rating-comp.custDetail-rating .star-container{
   margin-left: 0px;
 }
 
+.limit-wordcount{
+  display: none;
+  font-size: 14px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  color: #0080ff;
+}
+
 /*.modal-dialog{
     width: 320px !important;
     top: 30%;

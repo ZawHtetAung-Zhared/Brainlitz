@@ -83,8 +83,13 @@
 					<div class="display-style" style="padding-top: 40px;">
 						<div class="col-md-6">
 							<div>
-								<label for="course_name" class="all-title-font">Plan name</label>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
+								<div class="d-flex justify-content-between">
+									<label for="course_name" class="all-title-font">Plan name</label>
+									<div class="limit-wordcount">
+										<span>{{wordLength}}/60characters</span>
+									</div>
+								</div>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
 								<div *ngIf="cpName.invalid && (cpName.dirty || cpName.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!cpName.errors.required">
 							          Course plan name is required!

@@ -46,6 +46,7 @@ export class ToolsComponent implements OnInit {
   public checkedType: any = [];
   public today;
   public yesterday;
+  public tempList = [];
 
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
@@ -206,6 +207,7 @@ export class ToolsComponent implements OnInit {
   }
 
   somethingChanged(type){
+    this.tempList = [];
     console.log('what', type)
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
@@ -239,7 +241,14 @@ export class ToolsComponent implements OnInit {
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.courseLists = res;
-        this.dataLists = this.courseLists.map(a => a.name);
+        for(var key in this.courseLists){
+            for(var i in this.courseLists[key].courses){
+                this.tempList.push(this.courseLists[key].courses[i]);
+            }
+        }
+        console.log('templist',this.tempList)
+        this.dataLists = this.tempList.map(a => a.name);
+        console.log("Length",this.dataLists.length)
       }, err => {
         console.log(err)
       })
@@ -288,10 +297,17 @@ export class ToolsComponent implements OnInit {
     }
 
     if(type == 'course'){
-      for (var i in this.courseLists) {
-        if (this.courseLists[i].name == newValue) {
-          console.log('....', this.courseLists[i]);
-          let temp = this.courseLists[i];
+      // for (var i in this.courseLists) {
+      //   if (this.courseLists[i].name == newValue) {
+      //     console.log('....', this.courseLists[i]);
+      //     let temp = this.courseLists[i];
+      //     dataObj["id"] = temp._id
+      //   }
+      // }
+      for (var i in this.tempList) {
+        if (this.tempList[i].name == newValue) {
+          console.log('....', this.tempList[i]);
+          let temp = this.tempList[i];
           dataObj["id"] = temp._id
         }
       }
@@ -368,11 +384,19 @@ export class ToolsComponent implements OnInit {
         }
       }
     }else if(this.isChecked == 'course'){
-      for (var i in this.courseLists) {
-        if (this.courseLists[i].name == data.itemID) {
-          console.log('....', this.courseLists[i]);
-          let temp = this.courseLists[i];
+      // for (var i in this.courseLists) {
+      //   if (this.courseLists[i].name == data.itemID) {
+      //     console.log('....', this.courseLists[i]);
+      //     let temp = this.courseLists[i];
+      //     dataObj["id"] = temp._id
+      //   }
+      // }
+      for (var i in this.tempList) {
+        if (this.tempList[i].name == data.itemID) {
+          console.log('....', this.tempList[i]);
+          let temp = this.tempList[i];
           dataObj["id"] = temp._id
+          console.log("dataObj",dataObj["id"]);
         }
       }
     }else if(this.isChecked == 'user'){

@@ -123,9 +123,14 @@
   		<div *ngIf="iscreate == true">
         <div class="col-md-8 input-wrap">
     			<div class="form-group">
-    				<label class="form-title input-label" for="address">APG name</label>
+    				<div class="d-flex justify-content-between">
+              <label class="form-title input-label" for="address">APG name</label>  
+              <div class="limit-wordcount">
+                <span>{{wordLength}}/60characters</span>
+              </div>
+            </div>
         		<p class="input-recommend">We recommend to set APG name as same as Course name.</p>
-        		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
+        		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" required #name="ngModel">
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
               <div [hidden]="!name.errors.required">
                 Name is required!

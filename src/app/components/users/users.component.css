@@ -225,9 +225,9 @@ h3, h5 {
 
 .box-design {
     box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
-    padding: 20px 20px;
-    min-height: 120px;
-    max-height: 120px;
+    padding: 15px 15px;
+    min-height: 140px;
+    max-height: 140px;
 }
 .back:hover,
 .enroll-btn:hover,
@@ -260,8 +260,15 @@ h3, h5 {
     color: #64707d;
     font-size: 14px;
     word-wrap: break-word;
-    margin-bottom: 0!important;
+    /*margin-bottom: 0!important;*/
     /*padding: 0 20px 0 0;*/
+}
+.info-about{
+    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    color: #2e3d4d;
+    font-size: 14px;
+    word-wrap: break-word;
+    margin-bottom: 0!important;
 }
 
 .info-side {
