@@ -74,7 +74,9 @@ h3, h5 {
     min-height: 140px;
     max-height: 140px;
 }
-
+.box-design:hover{
+    cursor: pointer;
+}
 .mr-box {
     margin-top: 20px;
 }

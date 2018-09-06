@@ -367,6 +367,7 @@ export class appService{
       }) 
     }
 
+
     getUserDetail(id:string, userId:string){
       let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
       const httpOptions = {
@@ -376,7 +377,22 @@ export class appService{
       };
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
-        let result = res;
+        let result = res; 
+        return result;
+      })
+    }
+    
+    getCurrentUser(id: string){
+      let apiUrl = this.baseUrl  + '/user/' + id;
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
         return result;
       })
     }
