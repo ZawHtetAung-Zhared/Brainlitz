@@ -180,6 +180,23 @@ export class UsersComponent implements OnInit {
 
 	}
 
+	getSingleInfo(ID){
+		console.log(ID)
+		this.getSingleUser(ID);
+	}
+
+	getSingleUser(ID){
+		this._service.getCurrentUser(ID)
+    	.subscribe((res:any) => {
+  			console.log(res)
+  			this.formFieldc = res;
+  			this.showCustDetail = false;
+			this.goCreateForm();
+	    }, err => {	
+	    	console.log(err)
+	    })
+	}
+
 	createUser(obj, apiState){
 		console.log(obj)		
 		this.atLeastOneMail = false;		
@@ -455,7 +472,9 @@ export class UsersComponent implements OnInit {
 		$(".frame-upload").css('display', 'none');
 	}
 
-	showDetails(data){
+	showDetails(data, ID){
+		console.log(ID)
+		this.editId = ID;
 		console.log("show details")
 		this.showCustDetail = true;
 		this.custDetail = data;

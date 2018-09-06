@@ -229,6 +229,11 @@ h3, h5 {
     min-height: 120px;
     max-height: 120px;
 }
+.back:hover,
+.enroll-btn:hover,
+.box-design:hover{
+    cursor: pointer;
+}
 
 .mr-box {
     margin-top: 20px;

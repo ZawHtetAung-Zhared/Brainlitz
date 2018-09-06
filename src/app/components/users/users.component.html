@@ -291,7 +291,7 @@
 	</div>
 	<div class="row display-flex">
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
-			<div class="box-design d-flex">
+			<div class="box-design d-flex" (click)="showDetails(customer, customer.userId)">
 				<div class="no-line-height">
 					<div class="circular-image">
 						<img src="{{customer.profilePic}}">
@@ -301,7 +301,7 @@
 					<h5>{{customer.preferredName}}</h5>
 					<p class="info-mail">{{customer.email}}</p>
 				</div>
-				<div class="right-arrow" (click)="showDetails(customer)">
+				<div class="right-arrow">
 					<i class="fa fa-angle-right"></i>
 				</div>
 			</div>
@@ -316,7 +316,7 @@
 				<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Customers</span>
 			</div>
 			<div class="ml-auto">
-				<span>Edit Profile</span>
+				<span class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
 			</div>
 		</div>
 		<div class="d-flex cust-info-wrapper">

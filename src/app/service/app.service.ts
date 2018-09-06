@@ -367,6 +367,20 @@ export class appService{
       }) 
     }
 
+    getCurrentUser(id: string){
+      let apiUrl = this.baseUrl  + '/user/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     createLocation(id: string, body: object): Observable<any>{
       this.getLocalstorage();
       console.log(id)
