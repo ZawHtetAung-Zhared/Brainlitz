@@ -472,9 +472,13 @@ export class UsersComponent implements OnInit {
 	}
 
 	showDetails(data){
-		console.log("show details")
+		console.log("show details",data)
 		this.showCustDetail = true;
 		this.custDetail = data;
+		this._service.getUserDetail(this.regionID,data.userId)
+		.subscribe((res:any) => {
+			console.log("result",res)	
+		})
 	}
 
 	backToCustomer(){

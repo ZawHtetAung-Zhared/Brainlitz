@@ -141,6 +141,7 @@ h3, h5 {
     margin-left: auto;
     font-size: 26px;
     color: #d4d5d6;
+    cursor: pointer;
 }
 
 .text-vertical {
