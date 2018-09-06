@@ -183,23 +183,24 @@ export class UsersComponent implements OnInit {
 
 
 	getSingleInfo(ID){
-		console.log(ID)
+		console.log(ID);
 		this.getSingleUser(ID);
 	}
 
 	getSingleUser(ID){
 		this._service.getCurrentUser(ID)
     	.subscribe((res:any) => {
-  			console.log(res)
+  			console.log(res);
   			this.formFieldc = res;
   			this.showCustDetail = false;
 			this.goCreateForm();
 	    }, err => {	
-	    	console.log(err)
-	    })
+	    	console.log(err);
+	    });
+	}
 
 	focusMethod(e){
-		console.log('hi', e)
+		console.log('hi', e);
 		$('.limit-wordcount').show('slow'); 
 	}
 	  
@@ -209,12 +210,12 @@ export class UsersComponent implements OnInit {
 	}
 
 	changeMethod(val : string){
-		console.log(val)
+		console.log(val);
 		this.wordLength = val.length;
 	}
 
 	createUser(obj, apiState){
-		console.log(obj)		
+		console.log(obj);		
 		this.atLeastOneMail = false;		
 		let objData = new FormData();
 		let getImg = document.getElementById("blobUrl");		
@@ -235,14 +236,14 @@ export class UsersComponent implements OnInit {
 		objData.append('guardianEmail', JSON.stringify(guardianArray));
 		objData.append('location', JSON.stringify([]));
 		objData.append('profilePic', this.img)
-		console.log(objData)
+		console.log(objData);
 
 		if(apiState == 'create'){
-			console.log('create')
+			console.log('create');
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
 	    	.subscribe((res:any) => {
-	  			console.log(res)
+	  			console.log(res);
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
@@ -255,33 +256,33 @@ export class UsersComponent implements OnInit {
 		    	else {
 		    		this.toastr.error('Create Fail');
 		    	}
-		    	console.log(err)
+		    	console.log(err);
 		    })
 		}else{
-			console.log('update')
+			console.log('update');
 			this._service.updateUser(this.regionID,this.editId, objData)
 	    	.subscribe((res:any) => {
-	  			console.log(res)
+	  			console.log(res);
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.getAllUsers('customer');
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();
-		    	console.log(err)
+		    	console.log(err);
 		    })
 		}
 	}
 
 	edit(id, type, modal){
-		console.log(id)
+		console.log(id);
 		this.getAllpermission();
 		this.blankCrop= true;
 		this.notShowEdit = false;
 		this.updateButton = true;
 		this.createButton = false;
 		if(type == "customer"){
-			console.log('hello customer')
+			console.log('hello customer');
 			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
 			this._service.userDetail(this.regionID, id)
 			.subscribe((res:any) => {
@@ -292,7 +293,7 @@ export class UsersComponent implements OnInit {
 			})
 		}
 		else if (type == "staff"){
-			console.log('hello staff')
+			console.log('hello staff');
 			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
 			this._service.userDetail(this.regionID, id)
 			.subscribe((res:any) => {
@@ -305,7 +306,7 @@ export class UsersComponent implements OnInit {
 			})
 		}
 		else {
-			console.log('all user')
+			console.log('all user');
 			this._service.getAllUsers(this.regionID, type)
 			.subscribe((res:any) => {
 				for(var i = 0; i < res.length; i++){
@@ -317,7 +318,7 @@ export class UsersComponent implements OnInit {
 						this.modalReference = this.modalService.open('staffModal', { backdrop:'static', windowClass:'animation-wrap'});
 					}
 					else {
-						console.log('error')
+						console.log('error');
 					}
 				}
 			})
@@ -329,12 +330,12 @@ export class UsersComponent implements OnInit {
 		this._service.getAllUsers(this.regionID, type)
 		.subscribe((res:any) => {			
 			this.customerLists = res;
-			console.log('this.customerLists', this.customerLists)			
+			console.log('this.customerLists', this.customerLists);			
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		    }, 300);
 	    }, err => {
-	    	console.log(err)
+	    	console.log(err);
 	    })
 	}
 
@@ -342,7 +343,7 @@ export class UsersComponent implements OnInit {
 		this._service.getAllPermission(this.regionID)
 		.subscribe((res:any) => {
 			this.permissionLists = res;
-			console.log('this.permissionLists', this.permissionLists)
+			console.log('this.permissionLists', this.permissionLists);
 		})
 	}
 
@@ -350,12 +351,12 @@ export class UsersComponent implements OnInit {
 		this._service.getLocations(this.regionID)
 		.subscribe((res:any) =>{
 			this.locationLists = res;
-			console.log('this.locationLists', this.locationLists)
+			console.log('this.locationLists', this.locationLists);
 		})
 	}
 
 	validateEmail(data){
-		console.log(data)
+		console.log(data);
 		this.atLeastOneMail = false;
 		if( !this.isValidateEmail(data)) { 
 			this.emailAlert = true;
@@ -366,7 +367,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	validateGuarmail(gData){
-		console.log(gData)
+		console.log(gData);
 		this.atLeastOneMail = false;
 		if(!this.isValidateEmail(gData)) { 
 			this.guardianAlert = true;
@@ -388,7 +389,7 @@ export class UsersComponent implements OnInit {
 
 	goCreateForm(){
 		this.showFormCreate = true;
-		console.log('create')
+		console.log('create');
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
@@ -396,7 +397,7 @@ export class UsersComponent implements OnInit {
 
 	back(){
 		this.formFieldc = new customer();
-		console.log('back')
+		console.log('back');
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
@@ -404,7 +405,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	uploadCropImg($event: any) {
-		console.log('hihi')
+		console.log('hihi');
 	    this.blankCrop = true; 
 	    $(".frame-upload").css('display', 'block');
 	    this.imgDemoSlider = true;
@@ -489,9 +490,9 @@ export class UsersComponent implements OnInit {
 	}
 
 	showDetails(data, ID){
-		console.log(ID)
+		console.log(ID);
 		this.editId = ID;
-		console.log("show details")
+		console.log("show details");
 		this.showCustDetail = true;
 		this.custDetail = data;
 	}
@@ -505,7 +506,7 @@ export class UsersComponent implements OnInit {
 		$(".frame-upload").css('display', 'none');
 	}
 	showMoreClasses(){
-		console.log("show More")
+		console.log("show More");
 		this.showMore = true;
 	}
 	showAll(){
