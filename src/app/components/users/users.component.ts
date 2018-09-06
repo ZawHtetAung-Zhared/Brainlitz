@@ -454,12 +454,17 @@ export class UsersComponent implements OnInit {
 		$(".frame-upload").css('display', 'none');
 	}
 
+
 	showDetails(data, ID){
 		console.log(ID);
 		this.editId = ID;
 		console.log("show details");
 		this.showCustDetail = true;
 		this.custDetail = data;
+		this._service.getUserDetail(this.regionID,data.userId)
+		.subscribe((res:any) => {
+			console.log("result",res)	
+		})
 	}
 
 	backToCustomer(){
