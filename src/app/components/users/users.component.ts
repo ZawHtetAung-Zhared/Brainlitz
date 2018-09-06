@@ -1,7 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
-import { FormsModule,FormGroup,FormControl } from '@angular/forms';
-import { Staff } from './staff';
-import { Customer } from './customer';
+import { FormsModule ,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +11,6 @@ import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { Croppie } from 'croppie';
 import Cropper from 'cropperjs';
 import { environment } from '../../../environments/environment';
-import { staff } from './user';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -27,32 +24,26 @@ declare var $:any;
 })
 export class UsersComponent implements OnInit {
 
-	@ViewChild('stuffPic') stuffPic: ElementRef;
-	form: FormGroup;
-	stuffs: Staff = new Staff();
-	customers: Customer = new Customer();
+	@ViewChild('stuffPic') stuffPic: ElementRef;		
 	public img: any;
 	public orgID = environment.orgID;
-	public regionID = localStorage.getItem('regionId');
-	public userLists: any;
-	test:any;
-	formFields: staff = new staff();
-	formFieldc: customer = new customer();
-
+	public regionID = localStorage.getItem('regionId');		
+	formFieldc: customer = new customer();	
 	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
-	cropperSettings1: CropperSettings;
+	public isupdate: boolean = false;
+	public returnProfile: boolean = false;
 	input: any;
 	uploadCrop: any;
 	blankCrop: boolean = false;
 	isSticky: boolean = false;
 	modalReference: any;
 	closeResult: any;
-	imageUrl: any;
+	
 	public showLoading: boolean = false;
 	@BlockUI() blockUI: NgBlockUI;
-	staffLists: any;
+	
 	customerLists: any;
 	userType: any;
 	permissionLists: any;
@@ -154,7 +145,7 @@ export class UsersComponent implements OnInit {
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public showMore = false;
   	public seeAll = false;
-  	public wordLength:any;
+  	public wordLength:number = 0;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
@@ -192,6 +183,9 @@ export class UsersComponent implements OnInit {
     	.subscribe((res:any) => {
   			console.log(res);
   			this.formFieldc = res;
+  			this.isupdate = true;
+  			this.returnProfile = res.profilePic;
+  			console.log('~~~', this.returnProfile)
   			this.showCustDetail = false;
 			this.goCreateForm();
 	    }, err => {	
@@ -220,51 +214,52 @@ export class UsersComponent implements OnInit {
 		let objData = new FormData();
 		let getImg = document.getElementById("blobUrl");		
 		let guardianArray;
-		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = '';
+		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
 		guardianArray = (obj.guardianmail) ? obj.guardianmail.split(',') : '' ;
-		this.atLeastOneMail = (!obj.guardianmail && !obj.emailaddress) ? true : false;
-		obj.emailaddress = (obj.emailaddress == undefined) ? '' : obj.emailaddress;
+		this.atLeastOneMail = (!obj.guardianmail && !obj.email) ? true : false;
+		obj.email = (obj.email == undefined) ? '' : obj.email;
 
 		objData.append('regionId', this.regionID);
 		objData.append('orgId', this.orgID);
-		objData.append('firstName', obj.firstname);
-		objData.append('lastName', obj.lastname);
-		objData.append('preferredName', obj.preferredname);
-		objData.append('email', obj.emailaddress)		
-		objData.append('password', obj.password);
-		objData.append('gender', obj.gender);
-		objData.append('guardianEmail', JSON.stringify(guardianArray));
-		objData.append('location', JSON.stringify([]));
-		objData.append('profilePic', this.img)
+		objData.append('firstName', obj.firstName);
+		objData.append('lastName', obj.lastName);
+		objData.append('preferredName', obj.preferredName);
+		objData.append('email', obj.email);
+		objData.append('guardianEmail', JSON.stringify(guardianArray));		
+		objData.append('profilePic', this.img);
 		console.log(objData);
 
 		if(apiState == 'create'){
+			objData.append('password', obj.password);
+			objData.append('location', JSON.stringify([]));
 			console.log('create');
-			this.blockUI.start('Loading...');
-			this._service.createUser(objData)
+			// this.blockUI.start('Loading...');
+			// this._service.createUser(objData)
+	  //   	.subscribe((res:any) => {
+	  // 			console.log(res);
+	  // 			this.toastr.success('Successfully Created.');
+		 //  		this.blockUI.stop();
+		 //  		this.back();
+		 //  		this.getAllUsers('customer');
+		 //    }, err => {		    	
+		 //    	this.blockUI.stop();
+		 //    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		 //    		this.toastr.error('Email already exist');
+		 //    	}
+		 //    	else {
+		 //    		this.toastr.error('Create Fail');
+		 //    	}
+		 //    	console.log(err);
+		 //    })
+		}else{
+			console.log('update');
+			console.log(this.img);
+			this._service.updateUser(obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer');
-		    }, err => {		    	
-		    	this.blockUI.stop();
-		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
-		    		this.toastr.error('Email already exist');
-		    	}
-		    	else {
-		    		this.toastr.error('Create Fail');
-		    	}
-		    	console.log(err);
-		    })
-		}else{
-			console.log('update');
-			this._service.updateUser(this.regionID,this.editId, objData)
-	    	.subscribe((res:any) => {
-	  			console.log(res);
-	  			this.toastr.success('Successfully Created.');
-		  		this.blockUI.stop();
 		  		this.getAllUsers('customer');
 		    }, err => {
 		    	this.toastr.error('Create Fail');
@@ -281,48 +276,14 @@ export class UsersComponent implements OnInit {
 		this.notShowEdit = false;
 		this.updateButton = true;
 		this.createButton = false;
-		if(type == "customer"){
-			console.log('hello customer');
-			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
-			this._service.userDetail(this.regionID, id)
-			.subscribe((res:any) => {
-				console.log('customer', res);
-				this.formFieldc = res;
-				//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
-				//$("#upload-demo img").css("width", "100%");
-			})
-		}
-		else if (type == "staff"){
-			console.log('hello staff');
-			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
-			this._service.userDetail(this.regionID, id)
-			.subscribe((res:any) => {
-				console.log('staff', res);
-				this.formFields = res;
-				//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
-				//$("#upload-demo img").css("width", "100%");
-				//this.permissionId = this.formFields.location[0].permissionId;
-				this.editId = id;
-			})
-		}
-		else {
-			console.log('all user');
-			this._service.getAllUsers(this.regionID, type)
-			.subscribe((res:any) => {
-				for(var i = 0; i < res.length; i++){
-					if(res[i].userId == id && res[i].permissionCount == 0){
-						modal = customer
-						this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
-					}
-					else if(res[i].userId == id && res[i].permissionCount == 1){
-						this.modalReference = this.modalService.open('staffModal', { backdrop:'static', windowClass:'animation-wrap'});
-					}
-					else {
-						console.log('error');
-					}
-				}
-			})
-		}
+		this._service.userDetail(this.regionID, id)
+		.subscribe((res:any) => {
+			console.log('customer', res);
+			this.formFieldc = res;
+			//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
+			//$("#upload-demo img").css("width", "100%");
+		})
+		
 	}
 
 	getAllUsers(type){
@@ -397,6 +358,7 @@ export class UsersComponent implements OnInit {
 
 	back(){
 		this.formFieldc = new customer();
+		this.isupdate = false;
 		console.log('back');
 		this.showFormCreate = false;
 		this.blankCrop = false;
@@ -406,6 +368,7 @@ export class UsersComponent implements OnInit {
 
 	uploadCropImg($event: any) {
 		console.log('hihi');
+		var image:any = new Image();
 	    this.blankCrop = true; 
 	    $(".frame-upload").css('display', 'block');
 	    this.imgDemoSlider = true;
@@ -415,27 +378,29 @@ export class UsersComponent implements OnInit {
 	      	if (this.input && this.uploadCrop) {
 	        	this.uploadCrop.destroy();
 	      	}
-      	var reader = new FileReader();
-        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
-	        viewport: {
-	            width: 150,
-	            height: 150,
-	            type: 'circle'
-	          },
-	        boundary: {
-	            width: 300,
-	            height: 300
-	        },
-          	enableExif: true
-        });
-	      	var $uploadCrop = this.uploadCrop;
-	      	reader.onload = function(e: any) {
-	        $uploadCrop.bind({
-	            url: e.target.result
-	          })
-	          .then(function(e: any) {});
-	      };
-	      reader.readAsDataURL($event.target.files[0]);
+	      	var reader:FileReader = new FileReader();
+	        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
+		        viewport: {
+			            width: 150,
+			            height: 150,
+			            type: 'circle'
+			          },
+			        boundary: {
+			            width: 300,
+			            height: 300
+			        },
+		          	enableExif: true
+	        	});
+		      	var $uploadCrop = this.uploadCrop;
+
+		      	console.log($uploadCrop)
+		      	reader.onload = function(e: any) {
+		        $uploadCrop.bind({
+		            url: e.target.result
+		          })
+		          .then(function(e: any) {});
+		    };
+	    	reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
 
@@ -500,6 +465,7 @@ export class UsersComponent implements OnInit {
 	backToCustomer(){
 		this.formFieldc = new customer();
 		this.showCustDetail = false;
+		this.isupdate = false;
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;

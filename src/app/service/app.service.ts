@@ -1038,8 +1038,8 @@ export class appService{
       })
     }
 
-    updateUser(regionId: string, userId:string, data: object){
-      let apiUrl = this.baseUrl + '/' +  regionId + '/user/' + userId;
+    updateUser( userId:string, data: object){
+      let apiUrl = this.baseUrl + '/user/' + userId;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
