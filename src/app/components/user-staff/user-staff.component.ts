@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener,ViewContainerRef, Pipe, PipeTransform } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
@@ -20,6 +20,7 @@ export class UserStaffComponent implements OnInit {
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: any;
   	showFormCreate: boolean = false;
+  	public img: any;
   	permissionLists: any;
   	formFields: Staff = new Staff();
   	@BlockUI() blockUI: NgBlockUI;
@@ -30,11 +31,13 @@ export class UserStaffComponent implements OnInit {
 	input: any;
 	uploadCrop: any;
 	blankCrop: boolean = false;
+	validProfile: boolean = false;  	
+	isupdate: boolean = false;  	
 	imgDemoSlider: boolean = false;
 	isSticky: boolean = false;
 	public navIsFixed: boolean = false;
 	public isCreateFix: boolean = false;
-	public atLeastOneMail: boolean = false;
+	// public atLeastOneMail: boolean = false;
 	permissionId: any;
 	editId: any;
 	public locationID = localStorage.getItem('locationId');
@@ -42,12 +45,8 @@ export class UserStaffComponent implements OnInit {
 	public aboutTest = "Owns Guitar & PianoOwns Guitar & PianoOwnsijii";
 	public aboutTest1 = " How your call you or like your preferred name kuiui";
 
-	constructor(private _service: appService, public toastr: ToastsManager) {
-  		this.cropperSettings1 = new CropperSettings();
-	    this.cropperSettings1.rounded = true;
-	    this.cropperSettings1.noFileInput = true;
-	    this.cropperSettings1.cropperDrawSettings.strokeColor = "rgba(255,0,0,1)";
-	    this.cropperSettings1.cropperDrawSettings.strokeWidth = 2;
+	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+		this.toastr.setRootViewContainerRef(vcr);  		
    	}
 
   	ngOnInit() {
@@ -88,13 +87,13 @@ export class UserStaffComponent implements OnInit {
 	  }
 
 	createUser(obj, state){
-		console.log(obj)
-		this.atLeastOneMail = false;		
+		console.log(obj)	
 		let objData = new FormData();
 		let getImg = document.getElementById("blobUrl");
-		let profile;				
-		profile = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : profile = '';			
-		this.atLeastOneMail = (!obj.guardianmail && !obj.emailaddress) ? true : false;		
+		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
+		console.log(this.img)
+		
+		
 		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
 		
 		objData.append('orgId', this.orgID),
@@ -105,7 +104,7 @@ export class UserStaffComponent implements OnInit {
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
-		objData.append('profilePic', profile)
+		objData.append('profilePic', this.img)
 
 		if(state == 'create'){
 			console.log('create')
@@ -149,6 +148,7 @@ export class UserStaffComponent implements OnInit {
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
+		this.isupdate = false;
 		$(".frame-upload").css('display', 'none');
 	}
 
@@ -209,19 +209,30 @@ export class UserStaffComponent implements OnInit {
 	            height: 300
 	        },
           	enableExif: true
-        });
+        });	
+        	var cropper = this.uploadCrop;
 	      	var $uploadCrop = this.uploadCrop;
+	      	var BlobUrl = this.dataURItoBlob;
 	      	reader.onload = function(e: any) {
 	        $uploadCrop.bind({
 	            url: e.target.result
 	          })
-	          .then(function(e: any) {});
+	          .then(function(e: any) {
+	          	console.log(cropper.data.url)
+				const blob = BlobUrl(cropper.data.url);
+				const blobUrl = URL.createObjectURL(blob);
+				console.log(blobUrl)
+				$uploadCrop.bind({
+					url: blobUrl
+				})
+	          });
 	      };
 	      reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
 
   	cropResult(modal) {
+  		this.validProfile = true;
 	    let self = this;
 	    this.imgDemoSlider = false;
 	    setTimeout(function() {
@@ -229,6 +240,8 @@ export class UserStaffComponent implements OnInit {
 	      $(".frame-upload").css('display', 'none');
 	      this.blankCrop = false;
 	    }, 200);
+	    var cropper = this.uploadCrop;
+	    var BlobUrl = this.dataURItoBlob;
 	    this.uploadCrop
 	      .result({
 	      	circle: false,
@@ -241,10 +254,14 @@ export class UserStaffComponent implements OnInit {
 	      })
 	      .then(function(resp: any) {	
 	      	$("#upload-demo img:last-child").remove();
-	        if (resp) {
+  	      	console.log(resp)
+  	      	const blob = BlobUrl(resp);
+  			const blobUrl = URL.createObjectURL(blob);
+  			console.log(blobUrl)
+	        if (blobUrl) {
 	          	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
@@ -258,7 +275,6 @@ export class UserStaffComponent implements OnInit {
 	      .split(";")[0];
 	    var ab = new ArrayBuffer(byteString.length);
 	    var ia = new Uint8Array(ab);
-	    console.log(ia)
 	    for (var i = 0; i < byteString.length; i++) {
 	      ia[i] = byteString.charCodeAt(i);
 	    }
@@ -266,6 +282,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	backToUpload(){
+		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
 	}
