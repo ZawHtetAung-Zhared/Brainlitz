@@ -139,7 +139,7 @@
 				</div>
 			</div>
 			<div class="btn-wrap">
-				<button *ngIf="showCourse<custDetail.courses?.length" class="btn-showmore pad-0" (click)="showMoreClasses()"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+				<button *ngIf="showCourse<custDetail.courses?.length" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 				<div></div>
 			</div>
 		</div>
@@ -149,7 +149,7 @@
 					<h6 class="title-space">{{ widget.name }}</h6>
 					<div>
 						<div class="list-wrapper">
-							<div *ngFor="let apg of widget.APG">
+							<div *ngFor="let apg of widget.APG|slice:0:[widget.name == 'Progress' ? showProgress: showBadge]">
 								<div>
 									<div class="child">
 										<label class="info-p">{{ apg.name }}</label>
@@ -162,18 +162,11 @@
 									</div>
 								</div>
 							</div>
-							<!-- <div class="child">
-								<label class="info-p">Piano Grade1</label>
-								<div class="bar-wrapper">
-									<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
-								</div>
-								<span class="class-label-12">50% accomplished</span>
-							</div> -->
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<button *ngIf="widget.name == 'Progress'" class="btn-showmore pad-0"><span>Show More P</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
-						<button *ngIf="widget.name == 'Badge'" class="btn-showmore pad-0"><span>Show More B</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="widget.name == 'Progress' && showProgress< widget.APG.length" class="btn-showmore pad-0" (click)="showMoreItem(widget.name)"><span>Show More P</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="widget.name == 'Badge' && showBadge< widget.APG.length" class="btn-showmore pad-0" (click)="showMoreItem(widget.name)"><span>Show More B</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 						<div></div>
 					</div>
 				</div>
@@ -206,7 +199,7 @@
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<button class="btn-showmore pad-0" (click)="showMoreRating()"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="showRating<custDetail.ratings?.length" class="btn-showmore pad-0" (click)="showMoreItem('rating')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 					</div>
 				</div>
 			</div>
@@ -214,7 +207,7 @@
 				<div class="inner-secondCol">
 					<h6 >Activity</h6>
 					<div>
-						<div class="activity-wrapper" *ngFor="let activity of custDetail.journals">
+						<div class="activity-wrapper" *ngFor="let activity of custDetail.journals| slice: 0:showActivity">
 							<div class="d-flex">
 								<div class="teacher-label-12" style="width: 100%">{{ activity.message }}</div>
 								<div class="icon-img">
@@ -237,7 +230,7 @@
 							</div>
 						</div> -->
 						<div>
-							<button class="btn-showmore pad-0" style="font-size: 14px" (click)="showAll()"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+							<button *ngIf="showActivity<custDetail.journals?.length" class="btn-showmore pad-0" style="font-size: 14px" (click)="showMoreItem('activity')"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 						</div>
 					</div>
 				</div>

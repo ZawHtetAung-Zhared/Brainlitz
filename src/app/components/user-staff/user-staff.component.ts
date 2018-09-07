@@ -129,7 +129,7 @@ export class UserStaffComponent implements OnInit {
 		    })
 		}else{
 			console.log('update')
-			this._service.updateUser(this.regionID,this.editId, objData)
+			this._service.updateUser(this.editId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
