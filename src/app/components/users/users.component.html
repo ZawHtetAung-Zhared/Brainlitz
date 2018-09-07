@@ -252,7 +252,7 @@
 	<div class="col-md-12 pad-0 mr-bt-top">
 		<h3>Create Customers account</h3>
 	</div>
-	<form class="form-wrap" novalidate #f="ngForm">
+	<form class="form-wrap" novalidate #customerForm="ngForm">
 		<div class="row display-flex">
 			<div class="col-md-7 pad-bottom">
 				<div class="form-group form-divider">
@@ -305,11 +305,15 @@
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
 		  	    	<label for="guardmail" class="label-txt">Guardian email</label> 	
-		  	    	<input type="email" class="form-control" placeholder="Type guardian email here" name="gurdianMail" [(ngModel)]="formFieldc.guardianmail" (keyup)="validateGuarmail(formFieldc.guardianmail)"
-		  	    	#gurdianMail="ngModel">
+		  	    	<input type="email" class="form-control" placeholder="Type guardian email here" name="guardianEmail" [(ngModel)]="formFieldc.guardianEmail" (keyup)="validateGuarmail(formFieldc.guardianEmail)"
+		  	    	#guardianEmail="ngModel">
 		  	    	<div *ngIf="guardianAlert" class="alert alert-danger">
 		  	    		Please provide a valid email!
 		  	    	</div>
+		  	  	</div>
+		  	  	<div class="form-group form-divider">
+		  	    	<label for="about" class="label-txt">About</label> 	
+		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
 		  	  	</div>
 			</div>
 			<div class="col-md-5">
@@ -363,9 +367,9 @@
 				</div>
 				<div class="button-group">
 					<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-		        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!f.form.valid">Create
+		        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == false || validProfile == false ">Create
 					</button>
-					<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!f.form.valid">Update
+					<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == true ">Update
 					</button>
 				</div>
 			</div>

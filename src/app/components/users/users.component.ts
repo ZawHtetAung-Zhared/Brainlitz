@@ -61,6 +61,7 @@ export class UsersComponent implements OnInit {
   	public navIsFixed: boolean = false;
   	public isCreateFix: boolean = false;
   	atLeastOneMail: boolean = false;
+  	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
   	showCourse:number=2;
@@ -137,11 +138,12 @@ export class UsersComponent implements OnInit {
 
 	createUser(obj, apiState){
 		console.log(obj);		
-		this.atLeastOneMail = false;		
+		// this.atLeastOneMail = false;		
 		let objData = new FormData();						
 		let guardianArray;		
-		guardianArray = (obj.guardianmail) ? obj.guardianmail.split(',') : '' ;
-		this.atLeastOneMail = (!obj.guardianmail && !obj.email) ? true : false;
+		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : '' ;
+		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
+		console.log(this.atLeastOneMail)
 		obj.email = (obj.email == undefined) ? '' : obj.email;
 
 		objData.append('regionId', this.regionID);
@@ -251,24 +253,20 @@ export class UsersComponent implements OnInit {
 
 	validateEmail(data){
 		console.log(data);
-		this.atLeastOneMail = false;
-		if( !this.isValidateEmail(data)) { 
-			this.emailAlert = true;
-		}
-		else {
-			this.emailAlert = false;
-		}
+		// this.atLeastOneMail = false;		
+		this.emailAlert = ( !this.isValidateEmail(data)) ? true : false;
+		this.atLeastOneMail = (this.emailAlert != true && data.length > 0) ? true : false;
+		console.log('~~~ ', this.atLeastOneMail)
+		
 	}
 
 	validateGuarmail(gData){
 		console.log(gData);
-		this.atLeastOneMail = false;
-		if(!this.isValidateEmail(gData)) { 
-			this.guardianAlert = true;
-		}
-		else {
-			this.guardianAlert = false;
-		}	
+		// this.atLeastOneMail = false;	
+		this.guardianAlert = (!this.isValidateEmail(gData)) ? true: false;
+		this.atLeastOneMail = (this.guardianAlert != true && gData.length > 0) ? true : false;
+		console.log('~~~ ', this.atLeastOneMail)
+		
 	}
 
 	isValidateEmail($email) {
@@ -348,7 +346,7 @@ export class UsersComponent implements OnInit {
   	}
 
   	cropResult(modal) {
-  		
+  		this.validProfile = true;
 	    let self = this;
   		console.log(self.input);
 
@@ -400,6 +398,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	backToUpload(){
+		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
 	}

@@ -7,5 +7,6 @@ export class Customer {
 	password: string;
 	guardian_mail: string;
 	gender: string;
+	about: string;
 	profilePic: any;
 }
