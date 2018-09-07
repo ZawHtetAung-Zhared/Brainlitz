@@ -20,6 +20,7 @@ export class UserStaffComponent implements OnInit {
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: any;
   	showFormCreate: boolean = false;
+  	public img: any;
   	permissionLists: any;
   	formFields: Staff = new Staff();
   	@BlockUI() blockUI: NgBlockUI;
@@ -89,9 +90,10 @@ export class UserStaffComponent implements OnInit {
 		console.log(obj)	
 		let objData = new FormData();
 		let getImg = document.getElementById("blobUrl");
-		let profile;				
-		profile = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : profile = '';					
-		console.log(profile)
+		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
+		console.log(this.img)
+		
+		
 		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
 		
 		objData.append('orgId', this.orgID),
@@ -102,7 +104,7 @@ export class UserStaffComponent implements OnInit {
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
-		objData.append('profilePic', profile)
+		objData.append('profilePic', this.img)
 
 		if(state == 'create'){
 			console.log('create')
@@ -259,7 +261,7 @@ export class UserStaffComponent implements OnInit {
 	        if (blobUrl) {
 	          	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
@@ -273,7 +275,6 @@ export class UserStaffComponent implements OnInit {
 	      .split(";")[0];
 	    var ab = new ArrayBuffer(byteString.length);
 	    var ia = new Uint8Array(ab);
-	    console.log(ia)
 	    for (var i = 0; i < byteString.length; i++) {
 	      ia[i] = byteString.charCodeAt(i);
 	    }
