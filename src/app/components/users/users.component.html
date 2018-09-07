@@ -64,31 +64,32 @@
 		<div class="d-flex cust-info-wrapper">
 			<div class="img-wrap">
 				<div class="circular-image">
-					<img src="{{custDetail.profilePic}}">
+					<img src="custDetail.user.profilePic">
 				</div>
 			</div>
 			<div class="d-flex justify-content-center info-wrap">
 				<div class="info-col">
 					<div class="infoGp-wrap">
-						<h5>{{custDetail.preferredName}}</h5>
-						<p class="info-mail">{{custDetail.email}}</p>
+					<!-- <p>{{custDetail.user.profilePic}}</p> -->
+						<h5>{{custDetail.user.preferredName}}</h5>
+						<p class="info-mail">{{custDetail.user.email}}</p>
 					</div>
 					<div class="infoGp-wrap">
-						<label class="info-mail">Full name</label>
-						<p class="mb-0 info-p">{{custDetail.firstName}}{{custDetail.lastName}}</p>
+						<label class="info-mail">Gurdians</label>
+						<div class="d-flex">
+							<div class="d-flex gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
+								<div class="small-circular-image"><img src="{{gurdian.profilePic}}"></div>
+								<div class="d-flex justify-content-center flex-column info-p padL-5">
+									{{ (gurdian.fullname == null )? ("") : (gurdian.fullname) }}
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="info-col">
 					<div class="infoGp-wrap">
-						<label class="info-mail">Gurdians</label>
-						<div class="d-flex">
-							<div class="d-flex gurdian-wrap" *ngFor="let gurdian of testGurdian">
-								<div class="small-circular-image"><img src="{{gurdian.profilePic}}"></div>
-								<div class="d-flex justify-content-center flex-column info-p padL-5">
-									{{gurdian.name}}
-								</div>
-							</div>
-						</div>
+						<label class="info-mail">Full name</label>
+						<p class="mb-0 info-p">{{ custDetail.user.fullname }}</p>
 					</div>
 					<div class="d-flex infoGp-wrap info-wrap">
 						<div class="timetable-col">
@@ -113,48 +114,24 @@
 				</div>
 				<button class="ml-auto enroll-btn">Enroll new class</button>
 			</div>
-			<div class="scrollable">
+			<div>
 				<div class="list-wrapper">
-					<div class="child" *ngFor="let class of testClasses | slice:0:2">
-						<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
-						<p class="info-p">{{ class.name }}</p>
+					<div class="child" *ngFor="let course of custDetail.courses| slice:0:showCourse">
+						<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
+						<p class="info-p">{{ course.name }}</p>
 						<div class="d-flex info-wrap">
 							<div class="timetable-col">
-								<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
-								<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
+								<label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
+								<p class="medium-label-14 mb-0">10:00am - 11:00am</p>
 							</div>
 							<div class="d-flex timetable-col day-wrap info-wrap">
 								<div class="timetable-col">
 									<label class="medium-label-14 mb-0">From</label>
-									<p class="class-label-14 mb-0">{{ class.startDate }}</p>
+									<p class="class-label-14 mb-0">{{ course.startDate | date }}</p>
 								</div>
 								<div class="timetable-col">
 									<label class="medium-label-14 mb-0">To</label>
-									<p class="class-label-14 mb-0">{{ class.endDate }}</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div *ngIf="showMore">
-						<div *ngFor="let class of testClasses; let ndx = index">
-							<div class="child" *ngIf="ndx>=2">
-								<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ class.location }}</label>
-								<p class="info-p">{{ class.name }}</p>
-								<div class="d-flex info-wrap">
-									<div class="timetable-col">
-										<label class="class-label-14 mb-0">{{ class.time.repeatDay }}</label>
-										<p class="medium-label-14 mb-0">{{ class.time.start }} - {{ class.time.end }}</p>
-									</div>
-									<div class="d-flex timetable-col day-wrap info-wrap">
-										<div class="timetable-col">
-											<label class="medium-label-14 mb-0">From</label>
-											<p class="class-label-14 mb-0">{{ class.startDate }}</p>
-										</div>
-										<div class="timetable-col">
-											<label class="medium-label-14 mb-0">To</label>
-											<p class="class-label-14 mb-0">{{ class.endDate }}</p>
-										</div>
-									</div>
+									<p *ngIf = "course.endDate" class="class-label-14 mb-0">{{ course.endDate | date }}</p>
 								</div>
 							</div>
 						</div>
@@ -162,130 +139,84 @@
 				</div>
 			</div>
 			<div class="btn-wrap">
-				<button class="btn-showmore pad-0" (click)="showMoreClasses()"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+				<button *ngIf="showCourse<custDetail.courses?.length" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 				<div></div>
 			</div>
 		</div>
 		<div class="d-flex">
 			<div class="firstCol">
-				<div>
-					<h6 class="title-space">Progress</h6>
-					<div class="scrollable">
+				<div *ngFor="let widget of custDetail.widgets">
+					<h6 class="title-space">{{ widget.name }}</h6>
+					<div>
 						<div class="list-wrapper">
-							<div class="child">
-								<label class="info-p">Piano Grade1</label>
-								<div class="bar-wrapper">
-									<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
+							<div *ngFor="let apg of widget.APG|slice:0:[widget.name == 'Progress' ? showProgress: showBadge]">
+								<div>
+									<div class="child">
+										<label class="info-p">{{ apg.name }}</label>
+										<div *ngFor="let accessPoint of apg.accessPoints">
+											<div class="bar-wrapper">
+												<ngb-progressbar [value]="accessPoint.score" height="0.3rem"></ngb-progressbar>
+											</div>
+											<span class="class-label-12">{{ accessPoint.score }}% accomplished</span>
+										</div>
+									</div>
 								</div>
-								<span class="class-label-12">50% accomplished</span>
-							</div>
-							<div class="child">
-								<label class="info-p">Piano Grade1</label>
-								<div class="bar-wrapper">
-									<ngb-progressbar [value]="50" height="0.4rem"></ngb-progressbar>
-								</div>
-								<span class="class-label-12">50% accomplished</span>
 							</div>
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<button class="btn-showmore pad-0"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="widget.name == 'Progress' && showProgress< widget.APG.length" class="btn-showmore pad-0" (click)="showMoreItem(widget.name)"><span>Show More P</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="widget.name == 'Badge' && showBadge< widget.APG.length" class="btn-showmore pad-0" (click)="showMoreItem(widget.name)"><span>Show More B</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 						<div></div>
 					</div>
 				</div>
 				<div>
 					<h6 class="title-space">Ratings and reviews</h6>
-					<div class="scrollable-card">
+					<div>
 						<div class="card-columns">
-							<div class="card card-wrap">
+							<div *ngFor="let rating of custDetail.ratings| slice:0:showRating" class="card card-wrap">
 								<div class="d-flex">
-									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
-									<span class="ml-auto medium-label-12">20 Aug 2018</span>
+									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="rating.rating"></star-rating-comp>
+									<span class="ml-auto medium-label-12">{{ rating.updatedDate | date }}</span>
 								</div>
-								<p class="medium-label-14" style="color: #2e3d4d"><read-more class="cust-readmore" [text]=testParagraph></read-more></p>
-								<!-- <p class="medium-label-14" style="color: #2e3d4d">
-									Documentation and examples for using Bootstrap custom progress bars featuring support for stacked bars, animated backgrounds, and text labels.Progress components are built with two HTML elements, some CSS to set the width, and a few attributes.
-								</p> -->
+								<p class="medium-label-14" style="color: #2e3d4d"><read-more class="cust-readmore" [text]="rating.message"></read-more></p>
 								<div class="d-flex info-wrap">
-									<div class="timetable-col">
-										<label class="medium-label-12 mb-0">Teacher</label>
-										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
+									<div class="timetable-col d-flex">
+										<div class="small-circular-image">
+											<img src="{{ rating.teacher_info.profilePic }}">
+										</div>
+										<div class="padL-5">
+											<label class="medium-label-12 mb-0">Teacher</label>
+											<p class="teacher-label-12 mb-0">{{ rating.teacher_info.preferredName }}</p>
+										</div>
 									</div>
 									<div class="timetable-col course-wrap info-wrap">
 										<label class="medium-label-12 mb-0">Course</label>
-										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
-									</div>
-								</div>
-							</div>
-							<div class="card card-wrap">
-								<div class="d-flex">
-									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
-									<span class="ml-auto medium-label-12">20 Aug 2018</span>
-								</div>
-								<div class="d-flex info-wrap">
-									<div class="timetable-col">
-										<label class="medium-label-12 mb-0">Teacher</label>
-										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
-									</div>
-									<div class="timetable-col course-wrap info-wrap">
-										<label class="medium-label-12 mb-0">Course</label>
-										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
-									</div>
-								</div>
-							</div>
-							<div class="card card-wrap">
-								<div class="d-flex">
-									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
-									<span class="ml-auto medium-label-12">20 Aug 2018</span>
-								</div>
-								<div class="d-flex info-wrap">
-									<div class="timetable-col">
-										<label class="medium-label-12 mb-0">Teacher</label>
-										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
-									</div>
-									<div class="timetable-col course-wrap info-wrap">
-										<label class="medium-label-12 mb-0">Course</label>
-										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
-									</div>
-								</div>
-							</div>
-							<div class="card card-wrap">
-								<div class="d-flex">
-									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="4"></star-rating-comp>
-									<span class="ml-auto medium-label-12">20 Aug 2018</span>
-								</div>
-								<div class="d-flex info-wrap">
-									<div class="timetable-col">
-										<label class="medium-label-12 mb-0">Teacher</label>
-										<p class="teacher-label-12 mb-0">Arron Wamsley</p>
-									</div>
-									<div class="timetable-col course-wrap info-wrap">
-										<label class="medium-label-12 mb-0">Course</label>
-										<p class="teacher-label-12 mb-0">Piano Grade 1</p>
+										<p class="teacher-label-12 mb-0">{{ rating.course_info.name }}</p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<button class="btn-showmore pad-0"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="showRating<custDetail.ratings?.length" class="btn-showmore pad-0" (click)="showMoreItem('rating')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 					</div>
 				</div>
 			</div>
 			<div class="secondCol">
 				<div class="inner-secondCol">
 					<h6 >Activity</h6>
-					<div class="scrollable-list">
-						<div class="activity-wrapper" *ngFor="let activity of testActivities | slice:0:4">
+					<div>
+						<div class="activity-wrapper" *ngFor="let activity of custDetail.journals| slice: 0:showActivity">
 							<div class="d-flex">
-								<div class="teacher-label-12" style="width: 100%">{{ activity.activity }}</div>
+								<div class="teacher-label-12" style="width: 100%">{{ activity.message }}</div>
 								<div class="icon-img">
 									
 								</div>
 							</div>
 							<label class="medium-label-12 mb-0">{{ activity.time }}</label>
 						</div>
-						<div *ngIf="seeAll">
+						<!-- <div *ngIf="seeAll">
 							<div *ngFor="let activity of testActivities; let idx= index;">
 								<div *ngIf="idx >= 4" class="activity-wrapper">
 									<div class="d-flex">
@@ -297,9 +228,9 @@
 									<label class="medium-label-12 mb-0">{{ activity.time }}</label>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div>
-							<button class="btn-showmore pad-0" style="font-size: 14px" (click)="showAll()"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+							<button *ngIf="showActivity<custDetail.journals?.length" class="btn-showmore pad-0" style="font-size: 14px" (click)="showMoreItem('activity')"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 						</div>
 					</div>
 				</div>

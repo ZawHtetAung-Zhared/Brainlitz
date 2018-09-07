@@ -15,6 +15,7 @@ import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
+
 declare var $:any;
 
 @Component({
@@ -62,88 +63,13 @@ export class UsersComponent implements OnInit {
   	atLeastOneMail: boolean = false;
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
+  	showCourse:number=2;
+  	showProgress:number=2;
+  	showBadge:number=2;
+  	showRating:number=2;
+  	showActivity:number=4;
   	public custDetail:any;
-  	public testGurdian=[
-	  	{
-	  		"name": "Garry Nixon",
-	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
-	  	},
-	  	{
-	  		"name": "Massie William",
-	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
-	  	}
-  	];
-  	public testClasses = [
-  		{
-  			"name": "Beginner Piano Course",
-  			"location": "Bedok Centre",
-  			"time": {
-  				"repeatDay": "Sunday",
-  				"start": "10:00AM",
-  				"end": "11:00AM"
-  			},
-  			"startDate": "12 Jul 18",
-  			"endDate": "22 Sept 18"
-  		},
-  		{
-  			"name": "Beginner Piano Course2",
-  			"location": "Bedok Centre",
-  			"time": {
-  				"repeatDay": "Sunday",
-  				"start": "10:00AM",
-  				"end": "11:00AM"
-  			},
-  			"startDate": "12 Jul 18",
-  			"endDate": "22 Sept 18"
-  		},
-  		{
-  			"name": "Beginner Piano Course3",
-  			"location": "Bedok Centre",
-  			"time": {
-  				"repeatDay": "Sunday",
-  				"start": "10:00AM",
-  				"end": "11:00AM"
-  			},
-  			"startDate": "12 Jul 18",
-  			"endDate": "22 Sept 18"
-  		}
-  	];
-  	public testActivities = [
-  		{
-  			"activity": "Emma Watson fully payed for Piano Grade 1",
-  			"time": "7 jun 18, 1:30 PM",
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Your mailing list lets you contact customers or visitors who have …",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Emma Watson fully payed for Piano Grade 1",
-  			"time": "7 jun 18, 1:30 PM",
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Your mailing list lets you contact customers or visitors who have …",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		}
-  	];
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
-  	public showMore = false;
   	public seeAll = false;
   	public wordLength:number = 0;
 
@@ -483,11 +409,13 @@ export class UsersComponent implements OnInit {
 		console.log(ID);
 		this.editId = ID;
 		console.log("show details");
-		this.showCustDetail = true;
-		this.custDetail = data;
+		// this.showCustDetail = true;
+		// this.custDetail = data;
 		this._service.getUserDetail(this.regionID,data.userId)
 		.subscribe((res:any) => {
-			console.log("result",res)	
+			this.custDetail = res;
+			console.log("CustDetail",res);
+			this.showCustDetail = true;
 		})
 	}
 
@@ -498,14 +426,41 @@ export class UsersComponent implements OnInit {
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
+		this.showCourse = 2;
+		this.showProgress = 2;
+		this.showBadge = 2;
+		this.showRating = 2;
+		this.showActivity = 2;
 		$(".frame-upload").css('display', 'none');
 	}
-	showMoreClasses(){
+	showMoreItem(type){
 		console.log("show More");
-		this.showMore = true;
+		switch (type) {
+        case 'course':
+        this.showCourse = this.custDetail.courses.length;
+        break;
+        case 'rating':
+        this.showRating = this.custDetail.ratings.length;
+        break;
+        case 'activity':
+        this.showActivity = this.custDetail.journals.length;
+        break;
+        case 'Progress':
+        this.showProgress = this.custDetail.widgets[0].APG.length;
+        break;
+        case 'Badge':
+        this.showBadge = this.custDetail.widgets[1].APG.length;
+        break;
+      }
+	}
+	showMoreRating(){
+		this.showRating = this.custDetail.ratings.length;
 	}
 	showAll(){
 		this.seeAll = true;
+	}
+	test(){
+
 	}
 
 }
