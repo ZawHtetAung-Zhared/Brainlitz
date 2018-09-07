@@ -148,6 +148,7 @@ export class UsersComponent implements OnInit {
   	public wordLength:number = 0;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 
@@ -211,10 +212,8 @@ export class UsersComponent implements OnInit {
 	createUser(obj, apiState){
 		console.log(obj);		
 		this.atLeastOneMail = false;		
-		let objData = new FormData();
-		let getImg = document.getElementById("blobUrl");		
-		let guardianArray;
-		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
+		let objData = new FormData();						
+		let guardianArray;		
 		guardianArray = (obj.guardianmail) ? obj.guardianmail.split(',') : '' ;
 		this.atLeastOneMail = (!obj.guardianmail && !obj.email) ? true : false;
 		obj.email = (obj.email == undefined) ? '' : obj.email;
@@ -226,34 +225,42 @@ export class UsersComponent implements OnInit {
 		objData.append('preferredName', obj.preferredName);
 		objData.append('email', obj.email);
 		objData.append('guardianEmail', JSON.stringify(guardianArray));		
-		objData.append('profilePic', this.img);
+		
 		console.log(objData);
+		console.log(this.img);
 
 		if(apiState == 'create'){
+			let getImg = document.getElementById("blobUrl");
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
+			objData.append('profilePic', this.img);
 			console.log('create');
-			// this.blockUI.start('Loading...');
-			// this._service.createUser(objData)
-	  //   	.subscribe((res:any) => {
-	  // 			console.log(res);
-	  // 			this.toastr.success('Successfully Created.');
-		 //  		this.blockUI.stop();
-		 //  		this.back();
-		 //  		this.getAllUsers('customer');
-		 //    }, err => {		    	
-		 //    	this.blockUI.stop();
-		 //    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
-		 //    		this.toastr.error('Email already exist');
-		 //    	}
-		 //    	else {
-		 //    		this.toastr.error('Create Fail');
-		 //    	}
-		 //    	console.log(err);
-		 //    })
+			this.blockUI.start('Loading...');
+			this._service.createUser(objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res);
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.back();
+		  		this.getAllUsers('customer');
+		    }, err => {		    	
+		    	this.blockUI.stop();
+		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    		this.toastr.error('Email already exist');
+		    	}
+		    	else {
+		    		this.toastr.error('Create Fail');
+		    	}
+		    	console.log(err);
+		    })
 		}else{
 			console.log('update');
+			let getImg = document.getElementsByClassName("circular-profile");
+			console.log(getImg)
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
 			console.log(this.img);
+			objData.append('profilePic', this.img);
 			this._service.updateUser(obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
@@ -391,14 +398,24 @@ export class UsersComponent implements OnInit {
 			        },
 		          	enableExif: true
 	        	});
+		      	var cropper = this.uploadCrop;
 		      	var $uploadCrop = this.uploadCrop;
+		      	var BlobUrl = this.dataURItoBlob;
 
 		      	console.log($uploadCrop)
 		      	reader.onload = function(e: any) {
 		        $uploadCrop.bind({
 		            url: e.target.result
 		          })
-		          .then(function(e: any) {});
+		          .then(function(e: any) {
+		          		console.log(cropper.data.url)
+						const blob = BlobUrl(cropper.data.url);
+        				const blobUrl = URL.createObjectURL(blob);
+        				console.log(blobUrl)
+        				$uploadCrop.bind({
+        					url: blobUrl
+        				})
+		          });
 		    };
 	    	reader.readAsDataURL($event.target.files[0]);
 	    }
@@ -415,6 +432,9 @@ export class UsersComponent implements OnInit {
 	      $(".frame-upload").css('display', 'none');
 	      this.blankCrop = false;
 	    }, 200);
+	    console.log(this.uploadCrop);
+	    var cropper = this.uploadCrop;
+	    var BlobUrl = this.dataURItoBlob;
 	    this.uploadCrop
 	      .result({
 	      	circle: false,
@@ -426,10 +446,14 @@ export class UsersComponent implements OnInit {
 			quality:1 
 	      })
 	      .then(function(resp: any) {
-	        if (resp) {
+	      	console.log(resp)
+	      	const blob = BlobUrl(resp);
+			const blobUrl = URL.createObjectURL(blob);
+			console.log(blobUrl)
+	        if (blobUrl) {
 	        	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
