@@ -67,16 +67,21 @@
 					<img src="custDetail.user.profilePic">
 				</div>
 			</div>
-			<div class="d-flex justify-content-center info-wrap">
-				<div class="info-col">
+			<div class="d-flex justify-content-between info-wrap">
+				<div class="info-col1">
 					<div class="infoGp-wrap">
 					<!-- <p>{{custDetail.user.profilePic}}</p> -->
 						<h5>{{custDetail.user.preferredName}}</h5>
-						<p class="info-mail">{{custDetail.user.email}}</p>
+						<p class="info-mail mb-0">{{custDetail.user.email}}</p>
+					</div>
+					<div class="infoGp-wrap mb-0" style="border-bottom: 1px dotted #64707d;">
+						<p class="mb-0">
+							If D doesn't go into P evenly you will get the miss-match at the end of the shape
+						</p>
 					</div>
 					<div class="infoGp-wrap">
 						<label class="info-mail">Gurdians</label>
-						<div class="d-flex">
+						<div class="d-flex" style="overflow-x: scroll;">
 							<div class="d-flex gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
 								<div class="small-circular-image"><img src="{{gurdian.profilePic}}"></div>
 								<div class="d-flex justify-content-center flex-column info-p padL-5">
@@ -86,7 +91,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="info-col">
+				<div class="info-col2">
 					<div class="infoGp-wrap">
 						<label class="info-mail">Full name</label>
 						<p class="mb-0 info-p">{{ custDetail.user.fullname }}</p>
@@ -95,6 +100,16 @@
 						<div class="timetable-col">
 							<label class="info-mail">Date of birth</label>
 							<p class="mb-0 info-p">9 June 1996</p>
+						</div>
+						<div class="timetable-col">
+							<label class="info-mail">Gender</label>
+							<p class="mb-0 info-p">Female</p>
+						</div>
+					</div>
+					<div class="d-flex infoGp-wrap info-wrap">
+						<div class="timetable-col">
+							<label class="info-mail">Weight</label>
+							<p class="mb-0 info-p">140lb</p>
 						</div>
 						<div class="timetable-col">
 							<label class="info-mail">Height</label>
@@ -116,7 +131,7 @@
 			</div>
 			<div>
 				<div class="list-wrapper">
-					<div class="child" *ngFor="let course of custDetail.courses| slice:0:showCourse">
+					<div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
 						<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
 						<p class="info-p">{{ course.name }}</p>
 						<div class="d-flex info-wrap">
@@ -139,7 +154,7 @@
 				</div>
 			</div>
 			<div class="btn-wrap">
-				<button *ngIf="showCourse<custDetail.courses?.length" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+				<button *ngIf="selectedId.indexOf('course') == -1" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 				<div></div>
 			</div>
 		</div>
@@ -149,7 +164,7 @@
 					<h6 class="title-space">{{ widget.name }}</h6>
 					<div>
 						<div class="list-wrapper">
-							<div *ngFor="let apg of widget.APG|slice:0:[widget.name == 'Progress' ? showProgress: showBadge]">
+							<div *ngFor="let apg of widget.APG|slice:0:[selectedId.indexOf(widget._id) != -1 ? widget.APG.length : 2]">
 								<div>
 									<div class="child">
 										<label class="info-p">{{ apg.name }}</label>
@@ -163,10 +178,11 @@
 								</div>
 							</div>
 						</div>
+						<!-- <button class="btn-showmore pad-0" (click)="showMoreWidget(widget.name)"><span>Show More{{widget.name}}</span><i class="fa fa-angle-down" aria-hidden="true"></i></button> -->
 					</div>
 					<div class="btn-wrap">
-						<button *ngIf="widget.name == 'Progress' && showProgress< widget.APG.length" class="btn-showmore pad-0" (click)="showMoreItem(widget.name)"><span>Show More P</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
-						<button *ngIf="widget.name == 'Badge' && showBadge< widget.APG.length" class="btn-showmore pad-0" (click)="showMoreItem(widget.name)"><span>Show More B</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="selectedId.indexOf(widget._id) == -1" class="btn-showmore pad-0" (click)="showMoreItem(widget._id)"><span>Show More {{widget.name}}</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<!-- <button class="btn-showmore pad-0" (click)="showWidget(widget._id)"><span>Show More B</span><i class="fa fa-angle-down" aria-hidden="true"></i></button> -->
 						<div></div>
 					</div>
 				</div>
@@ -174,7 +190,7 @@
 					<h6 class="title-space">Ratings and reviews</h6>
 					<div>
 						<div class="card-columns">
-							<div *ngFor="let rating of custDetail.ratings| slice:0:showRating" class="card card-wrap">
+							<div *ngFor="let rating of custDetail.ratings| slice:0:[selectedId.indexOf('rating') != -1 ? custDetail.ratings?.length : 2]" class="card card-wrap">
 								<div class="d-flex">
 									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="rating.rating"></star-rating-comp>
 									<span class="ml-auto medium-label-12">{{ rating.updatedDate | date }}</span>
@@ -199,15 +215,15 @@
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<button *ngIf="showRating<custDetail.ratings?.length" class="btn-showmore pad-0" (click)="showMoreItem('rating')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+						<button *ngIf="selectedId.indexOf('rating') == -1" class="btn-showmore pad-0" (click)="showMoreItem('rating')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 					</div>
 				</div>
 			</div>
 			<div class="secondCol">
 				<div class="inner-secondCol">
-					<h6 >Activity</h6>
-					<div>
-						<div class="activity-wrapper" *ngFor="let activity of custDetail.journals| slice: 0:showActivity">
+					<h6>Activity</h6>
+					<div style="overflow: scroll;" [style.height.px]="divHeight">
+						<div class="activity-wrapper" *ngFor="let activity of custDetail.journals| slice: 0:[selectedId.indexOf('activity') != -1 ? custDetail.journals?.length : 2]">
 							<div class="d-flex">
 								<div class="teacher-label-12" style="width: 100%">{{ activity.message }}</div>
 								<div class="icon-img">
@@ -230,7 +246,7 @@
 							</div>
 						</div> -->
 						<div>
-							<button *ngIf="showActivity<custDetail.journals?.length" class="btn-showmore pad-0" style="font-size: 14px" (click)="showMoreItem('activity')"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+							<button *ngIf="selectedId.indexOf('activity') == -1" class="btn-showmore pad-0" style="font-size: 14px" (click)="showMoreItem('activity')"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 						</div>
 					</div>
 				</div>

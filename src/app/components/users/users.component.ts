@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
 
 	@ViewChild('stuffPic') stuffPic: ElementRef;		
 	public img: any;
+	public defaultSlice: number = 2;
 	public orgID = environment.orgID;
 	public regionID = localStorage.getItem('regionId');		
 	formFieldc: customer = new customer();	
@@ -63,15 +64,11 @@ export class UsersComponent implements OnInit {
   	atLeastOneMail: boolean = false;
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
-  	showCourse:number=2;
-  	showProgress:number=2;
-  	showBadge:number=2;
-  	showRating:number=2;
-  	showActivity:number=4;
   	public custDetail:any;
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public seeAll = false;
   	public wordLength:number = 0;
+  	divHeight:any;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 	}
@@ -386,7 +383,6 @@ export class UsersComponent implements OnInit {
 		this.editId = ID;
 		console.log("show details");
 		// this.showCustDetail = true;
-		// this.custDetail = data;
 		this._service.getUserDetail(this.regionID,data.userId)
 		.subscribe((res:any) => {
 			this.custDetail = res;
@@ -402,41 +398,48 @@ export class UsersComponent implements OnInit {
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
-		this.showCourse = 2;
-		this.showProgress = 2;
-		this.showBadge = 2;
-		this.showRating = 2;
-		this.showActivity = 2;
+		this.selectedId =[];
+		
 		$(".frame-upload").css('display', 'none');
 	}
-	showMoreItem(type){
-		console.log("show More");
-		switch (type) {
-        case 'course':
-        this.showCourse = this.custDetail.courses.length;
-        break;
-        case 'rating':
-        this.showRating = this.custDetail.ratings.length;
-        break;
-        case 'activity':
-        this.showActivity = this.custDetail.journals.length;
-        break;
-        case 'Progress':
-        this.showProgress = this.custDetail.widgets[0].APG.length;
-        break;
-        case 'Badge':
-        this.showBadge = this.custDetail.widgets[1].APG.length;
-        break;
-      }
-	}
-	showMoreRating(){
-		this.showRating = this.custDetail.ratings.length;
-	}
-	showAll(){
-		this.seeAll = true;
-	}
-	test(){
 
+	// showMoreItem(type){
+	// 	console.log("show More");
+	// 	let checkid = type;
+	// 	switch (type) {
+ //        case 'course':
+ //        this.defaultSlice = this.custDetail.courses.length;
+ //        this.showCourse = this.custDetail.courses.length;
+ //        break;
+ //        case 'rating':
+ //        this.showRating = this.custDetail.ratings.length;
+ //        break;
+ //        case 'activity':
+ //        this.showActivity = this.custDetail.journals.length;
+ //        break;
+ //        case 'Progress':
+ //        this.showProgress = this.custDetail.widgets[0].APG.length;
+ //        break;
+ //        case 'Badge':
+ //        this.showBadge = this.custDetail.widgets[1].APG.length;
+ //        break;
+ //      }
+	// }
+
+	
+	selectedId:any=[];
+	sliceCount:any;
+	showMoreItem(itemid){
+		console.log(itemid);
+		this.selectedId.push(itemid);
+		console.log('selectedId Arr',this.selectedId);
+		// if(itemid != 'activity'){
+		// 	this.divHeight = $( ".firstCol" ).height();
+		// 	console.log("divHeight",this.divHeight);
+		// }
+			this.divHeight = $( ".firstCol" ).height();
+			console.log("divHeight",this.divHeight);
+			// $(".journals-wrapper").css("height", this.divHeight + "px");
 	}
 
 }
