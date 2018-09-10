@@ -425,30 +425,6 @@ export class UsersComponent implements OnInit {
 		
 		$(".frame-upload").css('display', 'none');
 	}
-
-	// showMoreItem(type){
-	// 	console.log("show More");
-	// 	let checkid = type;
-	// 	switch (type) {
- //        case 'course':
- //        this.defaultSlice = this.custDetail.courses.length;
- //        this.showCourse = this.custDetail.courses.length;
- //        break;
- //        case 'rating':
- //        this.showRating = this.custDetail.ratings.length;
- //        break;
- //        case 'activity':
- //        this.showActivity = this.custDetail.journals.length;
- //        break;
- //        case 'Progress':
- //        this.showProgress = this.custDetail.widgets[0].APG.length;
- //        break;
- //        case 'Badge':
- //        this.showBadge = this.custDetail.widgets[1].APG.length;
- //        break;
- //      }
-	// }
-
 	
 	selectedId:any=[];
 	sliceCount:any;
