@@ -82,7 +82,50 @@
       <a class="back-to" (click)="cancel()">< Calendar</a>
     </div>
     <div class="calendar-form-wrap">
+      <div style="padding: 0px 15px">
+        <select>
+          <option value="volvo">2018</option>
+          <option value="saab">2019</option>
+          <option value="mercedes">2020</option>
+        </select>
+      </div>
       <h3 class="title-heading">{{calendarName}}</h3>
+      <div style="padding: 0px 15px">
+        <div class="d-flex justify-content-between holiday-wrap">
+          <div>
+            <div class="semi-16">3Jan</div>
+            <div class="semi-day-12">Mon</div>
+          </div>
+          <div class="d-flex flex-column justify-content-center medium-16">
+            Memorial day
+          </div>
+          <div class="d-flex flex-column justify-content-center btn-edit">
+            Edit
+          </div>
+        </div>
+        <div class="d-flex justify-content-between holiday-wrap">
+          <div class="d-flex">
+            <div>
+              <div class="semi-16">15Jan</div>
+              <div class="semi-day-12">TUE</div>
+            </div>
+            <div>
+              <div class="semi-16">20Jan</div>
+              <div class="semi-day-12">SUN</div>
+            </div>
+          </div>
+          <div class="d-flex flex-column justify-content-center medium-16">
+            Thadin kyout holiday
+          </div>
+          <div class="d-flex flex-column justify-content-center btn-edit">
+            Edit
+          </div>
+        </div>
+        <div class="holiday-create">
+          <div class="circle1 plus"></div>
+          <span class="btn-span">Creating new holiday</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
