@@ -89,7 +89,7 @@
           </select>
         </div> -->
         <div (click)="dropDown()">
-          {{yearLists[0]}} <i class="fa fa-chevron-down dropdown-arrow"></i>
+          <span class="btn-span">{{yearLists[0]}}</span> <i class="fa fa-chevron-down dropdown-arrow"></i>
         <span class="caret"></span></div>
         <div>
           <ul class="year-dropdown">
@@ -131,7 +131,7 @@
             Edit
           </div>
         </div>
-        <div class="holiday-create">
+        <div class="holiday-create" (click)="openModal(createHoliday)">
           <div class="circle1 plus"></div>
           <span class="btn-span">Creating new holiday</span>
         </div>
@@ -139,3 +139,17 @@
     </div>
   </div>
 </div>
+<ng-template class="modal-holiday" #createHoliday let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

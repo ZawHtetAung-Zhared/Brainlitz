@@ -138,7 +138,7 @@ export class QuizwerkzComponent implements OnInit {
     // this.selectQw = id;
     console.log("onclickDelete",id);
     this.getSingleQuizwerkz(id)
-    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'animation-wrap' });
+    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'deleteModal' });
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

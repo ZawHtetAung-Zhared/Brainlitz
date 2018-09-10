@@ -286,7 +286,7 @@ ul.calendar-year li:first-child{
 .dropdown-arrow {
   font-size: 12px;
   padding-left: 10px;
-  color: #3d5266;
+  color: #0080ff;
 }
 
 .year-dropdown{
@@ -296,8 +296,9 @@ ul.calendar-year li:first-child{
   position: absolute;
   z-index: 99;
   padding: 0px 15px;
-  top: 55px;
-  right: 15px;
+  /*top: 55px;
+  right: 15px;*/
+  top: 240px;
   display: none;
   background: #fff;
   color: #2e3d4d !important;
@@ -330,3 +331,4 @@ ul.calendar-year li:first-child{
   box-shadow: 0px 2px 30px 1px rgba(1,0,0,0.2);
   border: none;
 }
+

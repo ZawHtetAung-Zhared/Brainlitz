@@ -578,7 +578,7 @@ export class ApgComponent implements OnInit {
           this.deleteAPG = this.apgList[i].name;
         }
       }
-      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'animation-wrap'});
+      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'deleteModal'});
     }
 
   	apgDelete(id){
