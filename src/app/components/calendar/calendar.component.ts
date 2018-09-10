@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Rx';
 import { calendarField } from './calendar';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+
+declare var $:any;
 
 @Component({
   selector: 'app-calendar',
@@ -157,6 +159,8 @@ export class CalendarComponent implements OnInit {
     this.iscreate = false;
     this.isHoliday = true;
     this.getSingleCalendar(id);
+    this.yearCalc(this.currentYear);
+    this.isChecked = this.yearLists[0];
   }
 
   getAllHolidaysCalendar(){
@@ -246,6 +250,33 @@ export class CalendarComponent implements OnInit {
       })
       this.formField = new calendarField();
 
+  }
+
+  yearMenuShow: boolean = false;
+
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+        if(this.yearMenuShow == false){
+           $('.year-dropdown').css('display', 'none');
+           // $('.bg-box').css('display', 'none');  
+        }
+        else {
+            $('.year-dropdown').css('display', 'block');
+            // $('.bg-box').css('display', 'block');
+            this.yearMenuShow = false;
+
+        }
+    }
+    
+  dropDown(){
+        var x = document.getElementsByClassName('year-dropdown');
+        if( (x[0]as HTMLElement).style.display == 'block'){
+          (x[0]as HTMLElement).style.display = 'none';
+        }
+        else {
+           (x[0]as HTMLElement).style.display = 'block';
+           this.yearMenuShow = true;
+        }
   }
 
     
