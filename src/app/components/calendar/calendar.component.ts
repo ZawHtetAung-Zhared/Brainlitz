@@ -12,15 +12,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent implements OnInit {
-
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
-    this.toastr.setRootViewContainerRef(vcr);
-  }
-
-  ngOnInit() {
-    this.getAllHolidaysCalendar();
-  }
+export class CalendarComponent implements OnInit {  
 
   modalReference: any;
 	closeResult: any;
@@ -37,6 +29,62 @@ export class CalendarComponent implements OnInit {
   public updateButton: boolean = false;
   public createButton: boolean = true;
   public responseChecked: Array<any> = [];
+
+  //10.9.2018
+  public iscreate: boolean = false;
+  public wordLength:number = 0;
+  public currentYear:any;
+  public yearLists: Array<any> = [];
+  public isChecked: any;
+  public isHoliday: boolean = false;
+
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+    this.toastr.setRootViewContainerRef(vcr);
+  }
+
+  ngOnInit() {
+    this.getAllHolidaysCalendar();
+    this.currentYear = (new Date()).getFullYear();
+    console.log(this.currentYear)    
+  }
+
+  yearCalc(x){
+    for(let i = 0; i < 3; i++){
+      let temp = x + i;
+      this.yearLists.push(temp);
+    }    
+    console.log(this.yearLists)
+  }
+
+  chooseYear(val){
+    this.isChecked = val;
+  }
+
+  creatnew(){
+    this.iscreate = true;
+    this.yearCalc(this.currentYear);
+    this.isChecked = this.yearLists[0];
+  }
+
+  cancel(){
+    this.iscreate = false;
+    this.isHoliday = false;
+    this.isChecked = '';
+    this.yearLists = [];
+  }
+
+  focusMethod(e){
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    $('.limit-wordcount').hide('slow'); 
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
 
   open(content){
     this.getAllHolidays();
@@ -87,20 +135,29 @@ export class CalendarComponent implements OnInit {
 		}
 		console.log(dataObj);
     this.blockUI.start('Loading...');
-    this.modalReference.close();
-		  this._service.createHolidaysCalendar(this.regionID,dataObj)
+    
+		this._service.createHolidaysCalendar(this.regionID,dataObj)
     .subscribe((res:any) => {
       console.log('success holidayCalendar post',res)
       this.toastr.success('Successfully Created.');
       this.blockUI.stop();
-      this.getAllHolidaysCalendar();
-      }, err => {
-        this.toastr.error('Create Fail');
-        this.blockUI.stop();
-        console.log(err)
-      })
+      // this.getAllHolidaysCalendar();
+      this.cancel();
+    }, err => {
+      this.toastr.error('Create Fail');
+      this.blockUI.stop();
+      console.log(err)
+
+    })
 		this.arrayHoliday = [];
 	}
+
+  singleCalendarInfo(id){
+    console.log(id)
+    this.iscreate = false;
+    this.isHoliday = true;
+    this.getSingleCalendar(id);
+  }
 
   getAllHolidaysCalendar(){
     this.blockUI.start('Loading...');
@@ -133,8 +190,10 @@ export class CalendarComponent implements OnInit {
   } 
 
   getSingleCalendar(calendarId){
+    this.blockUI.start('Loading...');
     this._service.getSingleCalendar(calendarId)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         this.calendarName = res.name;
         console.log(res);
       },err => {

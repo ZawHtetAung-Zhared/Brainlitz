@@ -51,6 +51,15 @@
 					</span>
 				</button>
 			</div>
+			<div [ngClass]="{'active': notiType == 'calendar'}" class="tab-wrap">			
+				<button class="btn noti-tab w-100" (click)="clickTab('calendar')">
+					<span class="btnSpan">
+            	<img *ngIf="notiType == 'calendar'" class="setting-icon" src="./assets/images/sidebar-calendar_a@2x.png">
+            	<img *ngIf="notiType != 'calendar'" class="setting-icon" src="./assets/images/sidebar-calendar@2x.png">
+						<span>Calendar</span>
+					</span>
+				</button>
+			</div>
 		</div>
     </div>
     <div class="heading-margin no-padding large-col">
@@ -274,12 +283,15 @@
     			</div>
     		</div>
     	</div>
-      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'apg'">          
-          <app-apg></app-apg>          
-      </div>
-      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'quizwerkz'">          
-          <app-quizwerkz></app-quizwerkz>          
-      </div>    
+	      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'apg'">          
+	          <app-apg></app-apg>          
+	      </div>
+	      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'quizwerkz'">          
+	          <app-quizwerkz></app-quizwerkz>          
+	      </div>
+	      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'calendar'">          
+	          <app-calendar></app-calendar>          
+	      </div>    
     </div> 
 </div>
 <block-ui message="Deafult Message"></block-ui>
