@@ -349,3 +349,53 @@ ul.calendar-year li:first-child{
   font-family: 'Montserrat-SemiBold','Arial', sans-serif;
   font-size: 16px;
 }
+
+.dropdown-arrow {
+  font-size: 12px;
+  padding-left: 10px;
+  color: #0080ff;
+}
+
+.year-dropdown{
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 0;
+  position: absolute;
+  z-index: 99;
+  padding: 0px 15px;
+  /*top: 55px;
+  right: 15px;*/
+  top: 240px;
+  display: none;
+  background: #fff;
+  color: #2e3d4d !important;
+}
+.year-dropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: #fff transparent;
+}
+
+.yearDropdown-wrap ul li,
+.yearDropdown-wrap1 ul li{
+  border-bottom: 1px solid #e3e4e6;
+  padding: 10px 0px;
+}
+
+.yearDropdown-wrap ul li:last-child,
+.yearDropdown-wrap1 ul li:last-child {
+  border-bottom: none;
+}
+
+.yearDropdown-wrap .year-dropdown,
+.yearDropdown-wrap1 .year-dropdown1 {
+  box-shadow: 0px 2px 30px 1px rgba(1,0,0,0.2);
+  border: none;
+}
+

@@ -83,12 +83,22 @@
       <a class="edit-calnedar-btn" (click)="this.isNameEdit = true">Edit calendar</a>
     </div>
     <div class="calendar-form-wrap">
-      <div style="padding: 0px 15px">
-        <select>
-          <option value="volvo">2018</option>
-          <option value="saab">2019</option>
-          <option value="mercedes">2020</option>
-        </select>
+      <div class="yearDropdown-wrap" style="padding: 0px 15px">
+        <!-- <div>
+          <select>
+            <option *ngFor="let year of yearLists">{{year}}</option>
+          </select>
+        </div> -->
+        <div (click)="dropDown()">
+          <span class="btn-span">{{yearLists[0]}}</span> <i class="fa fa-chevron-down dropdown-arrow"></i>
+        <span class="caret"></span></div>
+        <div>
+          <ul class="year-dropdown">
+            <li *ngFor="let year of yearLists">
+              {{ year }}
+            </li>
+          </ul>
+        </div>
       </div>
       <div>
         <h3 *ngIf="isNameEdit == false" class="title-heading pt-7">{{calendarName}}</h3>
@@ -148,7 +158,7 @@
             Edit
           </div>
         </div>
-        <div class="holiday-create">
+        <div class="holiday-create" (click)="openModal(createHoliday)">
           <div class="circle1 plus"></div>
           <span class="btn-span">Creating new holiday</span>
         </div>
@@ -156,3 +166,17 @@
     </div>
   </div>
 </div>
+<ng-template class="modal-holiday" #createHoliday let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
