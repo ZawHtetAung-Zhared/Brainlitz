@@ -30,7 +30,7 @@ export class QuizwerkzComponent implements OnInit {
   public deleteQw:any;
   public modalReference1:any;
   public editId: any;
-  public wordLength:any;
+  public wordLength:number = 0;
   viewQuiz: any;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
