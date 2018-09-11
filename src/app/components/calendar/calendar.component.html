@@ -143,11 +143,11 @@
         <div class="d-flex justify-content-between holiday-wrap" *ngFor="let item of holidaysArr">
           <div class="d-flex">
             <div>
-              <div class="semi-16">{{item.start}}</div>
+              <div class="semi-16">{{item.start |date}}</div>
               <div class="semi-day-12">TUE</div>
             </div>
             <div>
-              <div class="semi-16">{{item.end}}</div>
+              <div class="semi-16">{{item.end | date}}</div>
               <div class="semi-day-12">SUN</div>
             </div>
           </div>
