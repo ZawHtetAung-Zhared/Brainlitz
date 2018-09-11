@@ -586,6 +586,7 @@ h3.category-h3, .category-name, .d-wrapper {
   padding-left: 0 !important;
   cursor: pointer;
   font-size: 16px;
+  border: none;
 }
 .pl-0{
   padding-left: 0 !important;

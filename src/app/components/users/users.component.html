@@ -65,7 +65,8 @@
 			<div class="d-flex col-left">
 					<div class="img-wrap">
 						<div class="circular-image">
-							<img src="{{custDetail.user.profilePic}}">
+							<img *ngIf="custDetail.user.profilePic == undefined" src="assets/img/user.svg">
+							<img *ngIf="custDetail.user.profilePic != undefined" src="{{custDetail.user.profilePic}}">
 						</div>
 					</div>
 					<div class="pad-left-15" style="width: 80%">
@@ -81,17 +82,38 @@
 						</div>
 						<div class="infoGp-wrap">
 							<label class="info-mail">Gurdians</label>
-							<div class="d-flex" style="overflow-x: scroll;">
-								<div class="d-flex gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
+							<div class="guardian-main-wrap">
+									<div *ngFor="let gurdian of custDetail.user.guardians" class="g-inner-wrap">
+					        	<div class="small-circular-image">
+						        	<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
+											<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
+					        	</div>
+
+					        	<span>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</span>
+									</div>
+					    </div>
+							<!-- <div class="" style="overflow-x: scroll;">
+								<div class="gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
+									<div class="small-circular-image">
+										<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
+										<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
+									</div>
+									<p>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</p>
+								</div>
+							</div> -->
+								<!-- <div class="d-flex gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
 									<div *ngIf="gurdian.length<=0">
 										-
 									</div>
-									<div class="small-circular-image"><img src="{{gurdian.profilePic}}"></div>
+									<div class="small-circular-image">
+										<img src="{{gurdian.profilePic}}">
+
+									</div>
 									<div class="d-flex justify-content-center flex-column info-p padL-5">
 										{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}
 									</div>
-								</div>
-							</div>
+								</div> -->
+							
 						</div>
 					</div>
 					<div>
