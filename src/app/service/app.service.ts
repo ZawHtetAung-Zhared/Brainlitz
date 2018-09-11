@@ -606,6 +606,7 @@ export class appService{
     }
 
     updateHoliday(holidayId: string, data: object){
+      console.log(holidayId)
       let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
       const httpOptions = {
           headers: new HttpHeaders({ 

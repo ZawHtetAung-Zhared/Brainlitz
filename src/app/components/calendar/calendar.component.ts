@@ -325,7 +325,7 @@ export class CalendarComponent implements OnInit {
         "holidays": this.holidayTemp
       }
       console.log(calendarObj)
-      this._service.updateCalendar(this.calendarid,calendarObj)
+      this._service.updateCalendar(this.currentID,calendarObj)
       .subscribe((res:any)=>{
           console.log("res",res);
           this.model ={};
@@ -429,6 +429,7 @@ export class CalendarComponent implements OnInit {
           this.model ={};
           this.holidayTemp = [];
           this.getSingleCalendar(this.currentID);
+          this.isEdit = false;
         },err =>{
           console.log(err);
           // this.holidayTemp = [];
@@ -438,12 +439,53 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-  onClickYear(year){
+  deleteHoliday(id){
+    console.log("id",id);
+    for(var key in this.holidaysArr){
+      // console.log("key",this.holidaysArr[key]._id);
+      this.holidayTemp.push(this.holidaysArr[key]._id);
+      console.log(this.holidayTemp)
+    }
+    this.modalReference.close();
+    console.log("~calendarid~",this.calendarid)
+    this._service.deleteHoliday(this.model._id)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.getSingleCalendar(this.currentID);
+      for(var key in this.holidaysArr){
+        // console.log("key",this.holidaysArr[key]._id);
+        this.holidayTemp.push(this.holidaysArr[key]._id);
+        console.log("~~After Delete~~",this.holidayTemp)
+      }
+      let calendarObj = {
+        "-id": this.calendarid,
+        "holidays": this.holidayTemp
+      }
+      console.log(calendarObj)
+      this._service.updateCalendar(this.calendarid,calendarObj)
+      .subscribe((res:any)=>{
+          console.log("res",res);
+          this.model ={};
+          this.holidayTemp = [];
+          this.getSingleCalendar(this.currentID);
+          this.isEdit = false;
+        },err =>{
+          console.log(err);
+          // this.holidayTemp = [];
+        });
+    },err =>{
+      console.log(err);
+    })
+
+  }
+
+  onClickYear(year,content1,content2){
     console.log("this.calendarId",)
     this.selectedYear = year;
     console.log("~year~",year);
     console.log(this.calendarHolidays);
-
+    // content1.navigateTo({year: 2019, month: 2});
+    // content2.navigateTo({year: 2019, month: 2});
 
     this.getSelectedHolidayByYear(this.selectedYear,this.calendarHolidays);
     // this.getSingleCalendar(this.calendarId)
@@ -522,6 +564,7 @@ export class CalendarComponent implements OnInit {
     this.modalReference.close();
     this.model = {};
     this.getSingleCalendar(this.currentID);
+    this.isEdit = false;
   }
     
 }
