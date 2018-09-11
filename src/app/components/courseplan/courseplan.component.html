@@ -1,37 +1,44 @@
 <div *ngIf="goBackCat" (scroll)="onScroll($event)">
 	<div class="inner-wrapper">
 		<header>
-		    <div class="header-wrap">
-				<div [ngClass]="{'stickywrap' : navIsFixed == true}">
-				  	<div class="display-style">
-						<div class="col-md-4 ul-pad">
-							<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
-						</div>	
-						<div class="col-md-4 title-align display-style">
-							<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
-							<h5>Course plan</h5>
-				    	</div>
-				    	<div class="col-md-4" style="padding: 0;">
-					    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
-				    	</div>
-				  	</div>
+			<div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
+				<div class="mr-auto p-2 pl-0 pb-0">
+					<div class="back-modal" (click)="back()">
+				      <i class="fa fa-angle-left"></i>
+				      <p>Pick Category</p>
+				    </div>
+			    </div>
+			    <div class="p-2">
+					<div class="d-flex flex-row courseplan-info">
+						<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
+						<h5>Course plan</h5>
+					</div>
+				</div>
+				<div class="ml-auto">
+					<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
 				</div>
 		    </div>
 		</header>
+		
 	</div>
 	<form #parentForm="ngForm" novalidate>
 		<div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
-		    <div class="display-style">
-				<div class="col-md-4 ul-pad">
-					<button type="button" class="back-modal" (click)="back()"> < Pick Category</button>
-				</div>	
-				<div class="col-md-4 title-align display-style">
-					<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
-					<h5>Course plan</h5>
-		    	</div>
-		    	<div class="col-md-4" style="padding: 0;">
-			    	<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
-		    	</div>
+		    <div class="d-flex">
+				<div class="mr-auto p-2 pl-0 pb-0">
+					<div class="back-modal" (click)="back()">
+				      <i class="fa fa-angle-left"></i>
+				      <p>Pick Category</p>
+				    </div>
+			    </div>
+			    <div class="p-2">
+					<div class="d-flex flex-row courseplan-info">
+						<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
+						<h5>Course plan</h5>
+					</div>
+				</div>
+				<div class="ml-auto">
+					<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
+				</div>
 		  	</div>
 		</div>
 		<div class="progress-box-wrap">
@@ -698,3 +705,23 @@
 	<block-ui message="Deafult Message"></block-ui>
 
 </div>
+
+<!-- <header>
+			<div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
+				<div class="mr-auto">
+					<div class="back-modal" (click)="back()">
+			          <i class="fa fa-angle-left"></i>
+			          <p>Pick Category</p>
+			        </div>
+				</div>
+				<div>
+					<div class="d-flex flex-row">
+						<p>#{{checkedName}}</p><span class="sticky-dot">&#183;</span>		
+							<h5>Course plan</h5>
+					</div>
+				</div>
+				<div class="ml-auto">
+					<button type="button" class="btn sticky-cancel" (click)="cancel()">Cancel</button>
+				</div>
+			</div>
+		</header> -->

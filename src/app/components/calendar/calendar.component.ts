@@ -33,7 +33,9 @@ export class CalendarComponent implements OnInit {
   public responseChecked: Array<any> = [];
 
   //10.9.2018
+
   public currentID: any;
+  public isNameEdit: boolean = false;
   public iscreate: boolean = false;
   public wordLength:number = 0;
   public currentYear:any;
@@ -166,6 +168,10 @@ export class CalendarComponent implements OnInit {
 		this.arrayHoliday = [];
 	}
 
+  editName(){
+    this.isNameEdit = true;
+  }
+
   singleCalendarInfo(id){
     console.log(id)
     this.currentID = id;
@@ -217,6 +223,7 @@ export class CalendarComponent implements OnInit {
         this.blockUI.stop();
         console.log("getSingleCalendar",res)
         this.calendarName = res.name;
+
         this.calendarid = res._id; 
         this.calendarHolidays = res.holidays;
 
@@ -225,6 +232,10 @@ export class CalendarComponent implements OnInit {
         let selectedYear = this.selectedYear;
         let holidayObj = this.calendarHolidays;
         this.getSelectedHolidayByYear(selectedYear, holidayObj);
+
+        this.formField = res;
+        console.log(res);
+
       },err => {
         console.log(err);
     })
