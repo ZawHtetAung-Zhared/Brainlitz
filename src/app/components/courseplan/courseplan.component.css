@@ -43,14 +43,25 @@
 } 
 
 .back-modal {
-	cursor: pointer;
-	outline: none;
-	padding: 3px 0px;
-	background: transparent;
-	border: none;
-	margin-bottom: 10px;
-	font-size: 13px;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-size: 16px;
+  color: #2e3d4d !important;
+  padding-left: 0 !important;
+  cursor: pointer;
+}
+.back-modal i,
+.back-modal p{
+  float: left;
+}
+.back-modal i{
+  float: left;
+    font-size: 23px;
+}
+.back-modal p{
+  float: left;
+  margin-bottom: 0;
+  line-height: 1.6;
+  margin-left: 4px;
 }
 
 .makeup-group input {
@@ -283,9 +294,6 @@ input:-webkit-input-placeholder {
 .display-style {
 	display: flex;
 }
-.display-style p {
-  color: #64707d;
-}
 
 #rectangle::after{
   content: "";
@@ -477,6 +485,9 @@ input:focus, .sticky-cancel:focus {
   outline: none;
   box-shadow: none;
 }
+.sticky-cancel:hover {
+  background: #f2f4f5;
+}
 
 h3.category-h3{
   top: 70px;
@@ -520,6 +531,16 @@ h3.category-h3, .category-name, .d-wrapper {
   border-right: 2px solid #e3e4e6;
   padding-right: 25px;
 }
+.courseplan-info p{
+  color: #64707d;
+  font-size: 12px;
+  margin-bottom: 0;
+  line-height: 1.75;
+}
+.courseplan-info h5{
+  font-size: 16px;
+  color: #2e3e4d;
+}
 
 .sticky-dot {
   margin-left: 10px;
@@ -545,9 +566,11 @@ h3.category-h3, .category-name, .d-wrapper {
 }
 
 .sticky-cancel {
-  float: right; 
-  background: none; 
+  width: 105px;
+  padding: 7px 0px;
+  background: #fff; 
   color: #2e3d4d;
+  font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 
 .sticky-create {
@@ -569,7 +592,7 @@ h3.category-h3, .category-name, .d-wrapper {
 }
 
 .d-wrapper {   
-  top: 10px; 
+  top: 0px; 
   width: 100%;
   -webkit-transition: all 0.8s ease-in-out;
   -ms-transition: all 0.8s ease-in-out;
@@ -577,8 +600,8 @@ h3.category-h3, .category-name, .d-wrapper {
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 
-.inner-wrapper {
-  position: relative;
+.inner-wrapper{
+  padding: 15px 30px;
 }
 
 .all-title-font {
@@ -686,14 +709,17 @@ select:hover + .down-arrow2, select:focus + .down-arrow2, select:hover + .down-a
   font-size: 12px;
   color: #fff;
 }
-
-.header-wrap {
+header{
+  position: relative; 
+  height: 35px;
+}
+/*.header-wrap {
   position: relative; 
 }
 
 .header-wrap div{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
-}
+}*/
 
 .fa.right-arrow {
   font-size: 31px !important;

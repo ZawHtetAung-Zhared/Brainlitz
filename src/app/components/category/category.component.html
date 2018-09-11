@@ -1,10 +1,13 @@
 <div class="inner-wrapper" *ngIf="!goBackCat" (scroll)="onScroll($event)">
   <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
   
-  <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}" style="height: 100px;">
+  <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}" style="height: 115px;">
     <div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
       <div class="mr-auto p-2 pl-0 pb-0">
-        <a class="back-to" (click)="backtoCourses()">< Courses</a>
+        <div class="back-to" (click)="backtoCourses()">
+          <i class="fa fa-angle-left"></i>
+          <p>Courses</p>
+        </div>
       </div> 
       <div>
         <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
@@ -16,7 +19,10 @@
   <div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
     <div class="d-flex">
       <div class="mr-auto p-2 pl-0 pb-0">
-        <a class="back-to" (click)="backtoCourses()">< Courses</a>
+        <div class="back-to" (click)="backtoCourses()">
+          <i class="fa fa-angle-left"></i>
+          <p>Courses</p>
+        </div>
       </div> 
       <div class="mr-auto p-2 pb-0">
         <h5 class="category-h5">Pick category</h5>
