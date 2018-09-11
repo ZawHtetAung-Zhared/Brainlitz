@@ -580,12 +580,19 @@ h3.category-h3, .category-name, .d-wrapper {
   cursor: pointer;
 }
 
+.back-btn,
 .back-to{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
-  color: #2e3d4d !important;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;  
   padding-left: 0 !important;
   cursor: pointer;
   font-size: 16px;
+  border: none;
+}
+.back-btn{
+  color: #64707d;
+}
+.back-to{
+  color: #2e3d4d !important;
 }
 .pl-0{
   padding-left: 0 !important;

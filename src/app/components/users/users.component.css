@@ -607,9 +607,21 @@ h3, h5 {
     overflow: hidden;
     border-radius: 50%;
     background: #ddd;
+    float: left;
+    margin-right: 7px;
 }
 
-.small-circular-image img {
+.guardian-main-wrap{
+    overflow: auto;
+    overflow-y: hidden;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+.g-inner-wrap{
+    display: inline-block;
+    margin-right: 10px;
+}
+.small-circular-image img{
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -655,7 +667,8 @@ h3, h5 {
     /*padding: 5px; */
 }
 .gurdian-wrap{
-   padding-right: 10px; 
+   margin: 20px 10px; 
+   display: inline;
 }
 .list-wrapper{
     display: grid;
