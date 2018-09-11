@@ -89,21 +89,21 @@
           </select>
         </div> -->
         <div (click)="dropDown()">
-          <span class="btn-span">{{yearLists[0]}}</span> <i class="fa fa-chevron-down dropdown-arrow"></i>
+          <span class="btn-span">{{selectedYear}}</span> <i class="fa fa-chevron-down dropdown-arrow"></i>
         <span class="caret"></span></div>
         <div>
           <ul class="year-dropdown">
             <li *ngFor="let year of yearLists">
-              {{ year }}
+              <span (click)="onClickYear(year)">{{ year }}</span>
             </li>
           </ul>
         </div>
       </div>
       <h3 class="title-heading">{{calendarName}}</h3>
       <div style="padding: 0px 15px">
-        <div class="d-flex justify-content-between holiday-wrap">
+        <!-- <div class="d-flex justify-content-between holiday-wrap">
           <div>
-            <div class="semi-16">3Jan</div>
+            <div class="semi-16">{{this.showYear.start}}</div>
             <div class="semi-day-12">Mon</div>
           </div>
           <div class="d-flex flex-column justify-content-center medium-16">
@@ -112,26 +112,29 @@
           <div class="d-flex flex-column justify-content-center btn-edit">
             Edit
           </div>
-        </div>
-        <div class="d-flex justify-content-between holiday-wrap">
+        </div> -->
+        <div class="d-flex justify-content-between holiday-wrap" *ngFor="let item of holidaysArr">
           <div class="d-flex">
             <div>
-              <div class="semi-16">15Jan</div>
+              <div class="semi-16">{{item.start}}</div>
               <div class="semi-day-12">TUE</div>
             </div>
             <div>
-              <div class="semi-16">20Jan</div>
+              <div class="semi-16">{{item.end}}</div>
               <div class="semi-day-12">SUN</div>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-center medium-16">
-            Thadin kyout holiday
+            {{item.name}}
           </div>
-          <div class="d-flex flex-column justify-content-center btn-edit">
+          <div class="d-flex flex-column justify-content-center btn-edit" (click)="editHolidays(item,contentCreate)">
             Edit
           </div>
         </div>
-        <div class="holiday-create" (click)="openModal(createHoliday)">
+       <!--  <div *ngFor="let item of calendarHolidays | mapToIterable">
+          {{item.key}}:{{item.val}}
+        </div> -->
+        <div class="holiday-create" (click)="onClickCreate(contentCreate)">
           <div class="circle1 plus"></div>
           <span class="btn-span">Creating new holiday</span>
         </div>
@@ -139,17 +142,34 @@
     </div>
   </div>
 </div>
-<ng-template class="modal-holiday" #createHoliday let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+
+
+<ng-template #contentCreate let-c="close" let-d="dismiss">
+  <div class="modal-body" style="padding: 30px;">
+    <h3 *ngIf="!isEdit">Create Holiday</h3>
+    <h3 *ngIf="isEdit">Update Holiday</h3>
+    <div class="input-wrap">
+      <label>Date</label>
+      <div>
+        <input class="input-day" type="text" placeholder="First Day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+        <span style="padding: 7px;">To</span>
+        <input class="input-day" type="test" placeholder="Last Day" required (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+      </div>
+    </div>
+    <div class="input-wrap">
+      <label>Holiday name</label>
+      <div>
+        <input class="input-name" type="text" placeholder="Type holiday name" [(ngModel)]="model.name">
+      </div>
+    </div>
+    <div class="btns-wrap">
+      <button type="button" class="btn btn-cancel" (click)="cancelModal()">Cancel</button>
+      <button *ngIf="!isEdit" type="submit" class="btn btn-Primary" (click)="createHoliday()">Create</button>
+      <button *ngIf="isEdit" type="submit" class="btn btn-Primary" (click)="updateHolidays()">Update</button>
+    </div>
   </div>
-  <div class="modal-body">
-    <p>One fine body&hellip;</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger">Create</button>
+  </div> -->
 </ng-template>
