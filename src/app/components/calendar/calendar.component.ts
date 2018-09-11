@@ -33,6 +33,8 @@ export class CalendarComponent implements OnInit {
   public responseChecked: Array<any> = [];
 
   //10.9.2018
+
+  public currentID: any;
   public isNameEdit: boolean = false;
   public iscreate: boolean = false;
   public wordLength:number = 0;
@@ -40,6 +42,17 @@ export class CalendarComponent implements OnInit {
   public yearLists: Array<any> = [];
   public isChecked: any;
   public isHoliday: boolean = false;
+  public minDate:any;
+  public maxDate:any;
+  public model: any = {};
+  public holidayTemp =[];
+  public selectedYear:any;
+  public showYear = {};
+  public calendarHolidays:any;
+  objectKeys = Object.keys;
+  public holidaysArr: Array<any> = [];
+  public isEdit:boolean = false;
+
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -161,11 +174,16 @@ export class CalendarComponent implements OnInit {
 
   singleCalendarInfo(id){
     console.log(id)
+    this.currentID = id;
     this.iscreate = false;
     this.isHoliday = true;
     this.getSingleCalendar(id);
     this.yearCalc(this.currentYear);
     this.isChecked = this.yearLists[0];
+    this.selectedYear = this.yearLists[0];
+    console.log("selectedYear",this.selectedYear);
+    // let list = Object.keys(this.calendarHolidays);
+    // console.log(list)
   }
 
   getAllHolidaysCalendar(){
@@ -197,18 +215,40 @@ export class CalendarComponent implements OnInit {
        console.log(err);
      })
   } 
-
+  calendarid:any;
   getSingleCalendar(calendarId){
     this.blockUI.start('Loading...');
     this._service.getSingleCalendar(calendarId)
       .subscribe((res:any) => {
         this.blockUI.stop();
+        console.log("getSingleCalendar",res)
         this.calendarName = res.name;
+
+        this.calendarid = res._id; 
+        this.calendarHolidays = res.holidays;
+
+        console.log(this.selectedYear);
+        console.log(this.calendarHolidays );
+        let selectedYear = this.selectedYear;
+        let holidayObj = this.calendarHolidays;
+        this.getSelectedHolidayByYear(selectedYear, holidayObj);
+
         this.formField = res;
         console.log(res);
+
       },err => {
         console.log(err);
     })
+  }
+
+  getSelectedHolidayByYear(x, obj){
+    console.log(x)
+    console.log(obj)
+    for(var i in obj){
+      let i = x;
+      console.log(obj[i]);
+      this.holidaysArr = obj[i];
+    }
   }
 
   getAllHolidays(){
@@ -258,23 +298,171 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  openModal(name){
-    this.modalReference = this.modalService.open(name, { backdrop:'static', windowClass: 'holidayModal'});
-      this.modalReference.result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
+  createHoliday(){
+    console.log("this.holidaysArr",this.holidaysArr)
+    console.log("~this.holidayTemp~",this.holidayTemp)
+    console.log("create holiday works",this.model);
+    for(var key in this.holidaysArr){
+      // console.log("key",this.holidaysArr[key]._id);
+      this.holidayTemp.push(this.holidaysArr[key]._id);
+      console.log(this.holidayTemp)
+    }
+    let object= {
+      "name": this.model.name,
+      "start": this.changeDateFormat(this.model.start,"00:01:00.000"),
+      "end": this.changeDateFormat(this.model.end,"23:59:59:999")
+    };
+    console.log("create holiday works",object);
+    this.modalReference.close();
+    console.log("~calendarid~",this.calendarid)
+    this._service.createHolidays(this.regionID,object)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.holidayTemp.push(res.id);
+      console.log('~Holiday~',this.holidayTemp);
+      let calendarObj = {
+        "-id": this.calendarid,
+        "holidays": this.holidayTemp
+      }
+      console.log(calendarObj)
+      this._service.updateCalendar(this.calendarid,calendarObj)
+      .subscribe((res:any)=>{
+          console.log("res",res);
+          this.model ={};
+          this.getSingleCalendar(this.currentID);
+          this.holidayTemp = [];
+        },err =>{
+          console.log(err);
+        });
+    },err =>{
+      console.log(err);
+    })
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
+  changeDateFormat(date,time){
+      if (date == null) {
+        console.log('null',date)
+        return ""
+      }else{
+        console.log("Time",time)
+        let sdate = date.year+ '-' +date.month+ '-' +date.day;
+        let dateParts = sdate.split('-');
+        console.log("dateParts",dateParts)
+        if(dateParts[1]){
+          console.log(Number(dateParts[1])-1);
+          let newParts = Number(dateParts[1])-1;
+          dateParts[1] = newParts.toString();
+        }
+        let timeParts = time.split(':');
+        if(dateParts && timeParts) {
+            let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+            console.log("UTC",testDate)
+            let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
+            console.log("ISO",fullDate)
+            return fullDate;
+        }
     }
+  }
+
+  changeDateStrtoObj(datestr,type){
+    if(type == "start"){
+      console.log(datestr)
+      let test = datestr.substring(0, datestr.search("T"));
+      let testSplit = test.split("-");
+      let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+      return format;
+    }else if(type == "end"){ 
+      if(datestr){
+        console.log(datestr)
+        let test = datestr.substring(0, datestr.search("T"));
+        let testSplit = test.split("-");
+        let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+        return format;
+      }else if(datestr == null){
+        return null;
+      }
+    }
+    
+  }
+
+  editHolidays(item,content){
+    this.holidayTemp = [];
+    this.isEdit = true;
+    console.log(content)
+    console.log(item);
+    this.model = item;
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'holidayModal'});
+    this.model.start = this.changeDateStrtoObj(item.start,"start");
+    console.log(this.model.start);
+    this.model.end = this.changeDateStrtoObj(item.end,"end");
+    console.log(this.model.end);
+  }
+  updateHolidays(){
+    for(var key in this.holidaysArr){
+      // console.log("key",this.holidaysArr[key]._id);
+      this.holidayTemp.push(this.holidaysArr[key]._id);
+      console.log(this.holidayTemp)
+    }
+    console.log(this.model);
+    let object= {
+      "-id": this.model._id,
+      "name": this.model.name,
+      "start": this.changeDateFormat(this.model.start,"00:01:00.000"),
+      "end": this.changeDateFormat(this.model.end,"23:59:59:999")
+    };
+    console.log("create holiday works",object);
+    this.modalReference.close();
+    console.log("~calendarid~",this.calendarid)
+    this._service.updateHoliday(this.model._id,object)
+    .subscribe((res:any) => {
+      console.log(res);
+      // this.holidayTemp.push(res.id);
+      // console.log('~Holiday~',this.holidayTemp);
+      let calendarObj = {
+        "-id": this.calendarid,
+        "holidays": this.holidayTemp
+      }
+      console.log(calendarObj)
+      this._service.updateCalendar(this.calendarid,calendarObj)
+      .subscribe((res:any)=>{
+          console.log("res",res);
+          this.model ={};
+          this.holidayTemp = [];
+          this.getSingleCalendar(this.currentID);
+        },err =>{
+          console.log(err);
+          // this.holidayTemp = [];
+        });
+    },err =>{
+      console.log(err);
+    })
+  }
+
+  onClickYear(year){
+    console.log("this.calendarId",)
+    this.selectedYear = year;
+    console.log("~year~",year);
+    console.log(this.calendarHolidays);
+
+
+    this.getSelectedHolidayByYear(this.selectedYear,this.calendarHolidays);
+    // this.getSingleCalendar(this.calendarId)
+    // for(let item in this.calendarHolidays){
+    //   console.log("Item",item);
+    //   if(item == this.selectedYear){
+    //     console.log("find",item)
+
+    //   }
+    // }
+    // Object.keys(this.calendarHolidays).forEach(key => {
+    //     console.log("KEY",key)
+    //     if(key == this.selectedYear){
+    //       this.showYear = this.calendarHolidays[key];
+    //       console.log("find",this.showYear);
+    //     }else{
+    //       this.showYear = {};
+    //     }
+    // });
   }
 
   yearMenuShow: boolean = false;
@@ -304,6 +492,37 @@ export class CalendarComponent implements OnInit {
         }
   }
 
+  onClickCreate(content){
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'holidayModal'});
+    this.modalReference.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  setMinDate(event){
+    console.log("setMinDate",event);
+    this.minDate = event;
+  }
+  setMaxDate(date){
+    console.log("setMaxDate",date);
+    this.maxDate =  date;
+  }
+  cancelModal(){
+    this.modalReference.close();
+    this.model = {};
+    this.getSingleCalendar(this.currentID);
+  }
     
 }
 
