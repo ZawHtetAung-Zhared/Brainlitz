@@ -1,4 +1,5 @@
 <div class="min-scroll main-wrapper">
+  <div [ngClass]="{'overlay': isfocus == true}"></div>
   <div *ngIf="iscreate == false && isHoliday == false">
     <div class="d-flex justify-content-between heading-margin">
       <div class="mr-auto">
@@ -12,8 +13,8 @@
       <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3" *ngFor="let calendar of calendarLists">
         <div class="d-flex flex-column single-calendar" (click)="singleCalendarInfo(calendar._id)">
           <ul class="calendar-year">
-            <li>2018</li>
-            <li>2019</li>
+            <li>{{calendar.year}}</li>
+            <li class="noliststyle" *ngIf="calendar.year == null || calendar.year == ''">-</li>
           </ul>
           <div class="d-flex justify-content-between">            
             <h4>{{calendar.name}}</h4>            
@@ -78,12 +79,12 @@
   </div>
 
   <div *ngIf="isHoliday == true">
-    <div class="back-wrap d-flex justify-content-between">
+    <div class="back-wrap d-flex justify-content-between" [ngClass]="{'blury': isfocus == true}">
       <a class="back-to" (click)="cancel()">< Calendar</a>
-      <a class="edit-calnedar-btn" (click)="this.isNameEdit = true">Edit calendar</a>
+      <a class="edit-calnedar-btn" (click)="editOn()">Edit calendar</a>
     </div>
     <div class="calendar-form-wrap">
-      <div class="yearDropdown-wrap" style="padding: 0px 15px">
+      <div [ngClass]="{'blury': isfocus == true}" class="yearDropdown-wrap" style="padding: 0px 15px">
         <!-- <div>
           <select>
             <option *ngFor="let year of yearLists">{{year}}</option>
@@ -102,7 +103,7 @@
       </div>
       <div>
         <h3 *ngIf="isNameEdit == false" class="title-heading pt-7">{{calendarName}}</h3>
-        <div *ngIf="isNameEdit == true" class="col-md-8">
+        <div *ngIf="isNameEdit == true" class="col-md-8 edit-input-wrap">
           <input type="text" class="form-control create-input mb-zero" placeholder="Type full name here" name="name" 
           [(ngModel)]="formField.name" 
           (focus)="focusMethod($event)" 
@@ -112,13 +113,13 @@
           #name="ngModel">
 
           <div class="edit-section">
-            <button type="submit" class="btn" (click)="this.isNameEdit = false">
+            <button type="submit" class="btn" (click)="editOff()">
               <span class="closemark">
                   <div class="closemark_stem"></div>
                   <div class="closemark_kick"></div>
               </span>
             </button>
-            <button type="submit" class="btn">
+            <button type="submit" class="btn" (click)="editSingleCalendar(currentID)">
               <span class="checkmark">
                   <div class="checkmark_stem"></div>
                   <div class="checkmark_kick"></div>
@@ -127,7 +128,7 @@
           </div>
         </div>
       </div>
-      <div style="padding: 0px 15px">
+      <div [ngClass]="{'blury': isfocus == true}" style="padding: 0px 15px">
         <!-- <div class="d-flex justify-content-between holiday-wrap">
           <div>
             <div class="semi-16">{{this.showYear.start}}</div>

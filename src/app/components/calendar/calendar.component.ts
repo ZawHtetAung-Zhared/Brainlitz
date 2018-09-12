@@ -36,6 +36,8 @@ export class CalendarComponent implements OnInit {
   //10.9.2018
 
   public currentID: any;
+  public getEditedName: any;
+  public isfocus: boolean = false;
   public isNameEdit: boolean = false;
   public iscreate: boolean = false;
   public wordLength:number = 0;
@@ -65,6 +67,16 @@ export class CalendarComponent implements OnInit {
     console.log(this.currentYear)    
   }
 
+  editOn(){
+    this.isNameEdit = true;
+    this.isfocus = true;
+  }
+
+  editOff(){
+    this.isNameEdit = false
+    this.isfocus = false;
+  }
+
   yearCalc(x){
     for(let i = 0; i < 3; i++){
       let temp = x + i;
@@ -88,6 +100,8 @@ export class CalendarComponent implements OnInit {
     this.isHoliday = false;
     this.isChecked = '';
     this.yearLists = [];
+    this.getAllHolidaysCalendar();
+    this.formField = new calendarField();
   }
 
   focusMethod(e){
@@ -100,6 +114,7 @@ export class CalendarComponent implements OnInit {
 
   changeMethod(val : string){
     console.log(val)
+    this.getEditedName = val;
     this.wordLength = val.length;
   }
 
@@ -159,7 +174,8 @@ export class CalendarComponent implements OnInit {
       this.toastr.success('Successfully Created.');
       this.blockUI.stop();
       // this.getAllHolidaysCalendar();
-      this.cancel();
+      // this.cancel();
+      this.singleCalendarInfo(res.id)
     }, err => {
       this.toastr.error('Create Fail');
       this.blockUI.stop();
@@ -169,8 +185,31 @@ export class CalendarComponent implements OnInit {
 		this.arrayHoliday = [];
 	}
 
-  editName(){
-    this.isNameEdit = true;
+  // editName(){
+  //   this.isNameEdit = true;
+  // }
+
+  editSingleCalendar(id){
+    this.editOff();
+    console.log(this.holidaysArr)
+    let calendarObj = {
+      "-id": id,
+      "name": this.getEditedName,
+      "holidays": this.holidaysArr
+    }
+    console.log('~~~ ',calendarObj)
+    this.blockUI.start('Loading...');
+    this._service.updateCalendar(this.calendarid,calendarObj)
+    .subscribe((res:any)=>{
+        this.blockUI.stop();
+        this.toastr.success('Successfully edited the calendar name.');
+        console.log("res",res);
+        this.formField = new calendarField();
+        this.getSingleCalendar(id);
+      },err =>{
+        console.log(err);
+        // this.holidayTemp = [];
+      });
   }
 
   singleCalendarInfo(id){
@@ -412,6 +451,7 @@ export class CalendarComponent implements OnInit {
     this.model.end = this.changeDateStrtoObj(item.end,"end");
     console.log(this.model.end);
   }
+
   updateHolidays(){
     for(var key in this.holidaysArr){
       // console.log("key",this.holidaysArr[key]._id);
