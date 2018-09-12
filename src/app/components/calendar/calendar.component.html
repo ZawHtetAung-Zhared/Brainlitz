@@ -28,8 +28,12 @@
   </div>
   
   <div *ngIf="iscreate == true">
-    <div class="back-wrap">
-      <a class="back-to" (click)="cancel()">< Calendar</a>  
+    <div class="back-wrap d-flex">
+      <!-- <a class="back-to" (click)="cancel()">< Calendar</a> -->  
+      <div class="back-to" (click)="cancel()">
+        <i class="fa fa-angle-left"></i>
+        <p>Calendar</p>
+      </div>
     </div>
     <div class="calendar-form-wrap">
       <h3 class="title-heading">Create calendar</h3>
@@ -80,7 +84,11 @@
 
   <div *ngIf="isHoliday == true">
     <div class="back-wrap d-flex justify-content-between" [ngClass]="{'blury': isfocus == true}">
-      <a class="back-to" (click)="cancel()">< Calendar</a>
+      <!-- <a class="back-to" (click)="cancel()">< Calendar</a> -->
+      <div class="back-to" (click)="cancel()">
+        <i class="fa fa-angle-left"></i>
+        <p>Calendar</p>
+      </div>
       <a class="edit-calnedar-btn" (click)="editOn()">Edit calendar</a>
     </div>
     <div class="calendar-form-wrap">
