@@ -39,6 +39,7 @@ export class LocationComponent implements OnInit {
 	model: Location = new Location();
 	private modalReference: NgbModalRef;
 	closeResult: string;
+	public wordLength:any;
 	@BlockUI() blockUI: NgBlockUI;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -77,6 +78,19 @@ export class LocationComponent implements OnInit {
 	      this.navIsFixed = false;
 	    }
 	  } 
+
+	  focusMethod(e){
+	  	$('.limit-wordcount').show('slow'); 
+	  }
+
+	  blurMethod(e){
+	    $('.limit-wordcount').hide('slow'); 
+	  }
+
+	  changeMethod(val : string){
+	    console.log(val)
+	    this.wordLength = val.length;
+	  }
 
 	telInputObject(obj) {
 	    console.log(obj);

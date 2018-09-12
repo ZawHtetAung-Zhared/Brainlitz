@@ -7,6 +7,8 @@ import { convertField } from './apg';
 import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+declare var $:any;
 
 @Component({
   selector: 'app-apg',
@@ -68,6 +70,7 @@ export class ApgComponent implements OnInit {
     public navIsFixed: boolean = false;
     public singleCheckedAPG: boolean = false;
     responseAP: any;
+    wordLength:any;
 
   	ngOnInit() {
 	  	// this.getAllAP();
@@ -88,6 +91,19 @@ export class ApgComponent implements OnInit {
         this.navIsFixed = false;
       }
     } 
+
+    focusMethod(e){
+      $('.limit-wordcount').show('slow'); 
+    }
+
+    blurMethod(e){
+      $('.limit-wordcount').hide('slow'); 
+    }
+
+    changeMethod(val : string){
+      console.log(val)
+      this.wordLength = val.length;
+    }
 
     cancelapg(){
       this.model = {};
@@ -562,7 +578,7 @@ export class ApgComponent implements OnInit {
           this.deleteAPG = this.apgList[i].name;
         }
       }
-      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'animation-wrap'});
+      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'deleteModal'});
     }
 
   	apgDelete(id){

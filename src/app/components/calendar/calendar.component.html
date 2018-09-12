@@ -1,76 +1,210 @@
-<div class="inner-wrapper">
-	<div class="mb-30">
-		<button type="button" class="btn btn-primary" (click)="open(content)">+ create Calendar</button>
-	</div>
+<div class="min-scroll main-wrapper">
+  <div [ngClass]="{'overlay': isfocus == true}"></div>
+  <div *ngIf="iscreate == false && isHoliday == false">
+    <div class="d-flex justify-content-between heading-margin">
+      <div class="mr-auto">
+        <div class="d-flex flex-row">
+          <h2 class="title-heading">Calendar</h2>
+        </div>
+      </div>
+      <button type="button" class="btn btn-create" (click)="creatnew()">Add new calendar</button>
+    </div>  
+    <div class="row calendar-group">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3" *ngFor="let calendar of calendarLists">
+        <div class="d-flex flex-column single-calendar" (click)="singleCalendarInfo(calendar._id)">
+          <ul class="calendar-year">
+            <li>{{calendar.year}}</li>
+            <li class="noliststyle" *ngIf="calendar.year == null || calendar.year == ''">-</li>
+          </ul>
+          <div class="d-flex justify-content-between">            
+            <h4>{{calendar.name}}</h4>            
+            <div class="right-arrow">
+              <i class="fa fa-angle-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="iscreate == true">
+    <div class="back-wrap">
+      <a class="back-to" (click)="cancel()">< Calendar</a>  
+    </div>
+    <div class="calendar-form-wrap">
+      <h3 class="title-heading">Create calendar</h3>
+      <div class="calendar-form">
+        <form novalidate #calendarForm="ngForm">
+          <div class="col-md-8 input-wrap">
+            <div class="form-group">
+              <div class="d-flex justify-content-between">
+                <label class="input-label" for="name">Calendar name</label>
+                <div class="limit-wordcount">
+                  <span>{{wordLength}}/80characters</span>
+                </div>
+              </div>  
+              <input type="text" class="form-control create-input" placeholder="Type full name here" name="name" 
+                [(ngModel)]="formField.name" 
+                (focus)="focusMethod($event)" 
+                (blur)="blurMethod($event)" 
+                maxlength="80" 
+                (input)="changeMethod($event.target.value)" required 
+                #name="ngModel">
 
-	<ng-template #content let-c="close" let-d="dismiss">
-	  	<div class="modal-header">
-		    <h4 [hidden]="!createButton" class="modal-title">Create Calendar</h4>
-		    <h4 [hidden]="!updateButton" class="modal-title">Update Calendar</h4>
-		    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-		      <span aria-hidden="true">&times;</span>
-		    </button>
-	  	</div>
-	  	<form novalidate #calendarForm="ngForm" novalidate>
-		  	<div class="modal-body">
-			  	<div class="form-group">
-			      	<label for="name">Name</label>   
-			      	<input type="text" class="form-control" placeholder="Name" [(ngModel)]="formField.name" name="name" required #name="ngModel">
-			      	<div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
-					    <div [hidden]="!name.errors.required">Name is required!</div>
-					</div>
-			    </div>
-			    <div class="form-group">
-			    	<label *ngIf="holidayLists!=0">Holiday Lists</label>
-			    	<label *ngIf="holidayLists==0" style="color:red;">Firstly, holiday calendar must be created before calendar.</label>
-			    	<div class="height-scroll">
-			    		<div *ngFor="let holidayDate of holidayLists; let i=index;" >
-				    		<input type="checkbox" id="{{holidayDate._id}}" (change)="ChangeValue($event)" value="{{holidayDate._id}}" name="holiday" [checked]="responseChecked.indexOf(holidayDate._id) != -1">
-				    		<label for="{{holidayDate._id}}"> {{holidayDate.name}}</label>
-				    	</div>
-			    	</div>
-			    	<!-- <select  class="form-control" name="holidayDate._id" (change)="ChangeValue($event)" multiple>
-				    	<option *ngFor="let holidayDate of holidayLists" [value]="holidayDate._id">{{holidayDate.name}}</option>
-				    </select> -->
-			    </div>
-		  	</div>
-		  	<div class="modal-footer">
-		  	  	<button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-		  	  	<div [hidden]="!createButton">
-		  	  		<button type="submit" [disabled]="!calendarForm.valid || arrayHoliday.length == 0" class="btn btn-primary btn-not-allowed" (click)="createCalendar(calendarForm.value)" >Create</button>
-		  		</div>
-		  	  	<div [hidden]="!updateButton">
-		  	  		<button type="submit" class="btn btn-primary btn-not-allowed" [disabled]="!calendarForm.valid || arrayHoliday.length == 0" (click)="updateCalendar(calendarForm.value)" >Update</button>
-		  	  	</div>
-		  	</div>
-	  	</form>
-	</ng-template>
+              <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+                <div [hidden]="!name.errors.required">
+                  Name is required!
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="input-label" for="name">Year</label>
+              <div class="tool-box">
+                <div class="form-check form-check-inline tool-checked" *ngFor="let list of yearLists; let i = index">
+                    <label [ngClass]="{'selected': isChecked == list}" class="form-check-label">
+                      <input class="form-check-input" type="radio" name="year" id="year_{{list}}" value="{{list}}" [(ngModel)]="formField.year" #year="ngModel" [checked]='true'
+                      (click)="chooseYear(list)"> {{list}}
+                    </label>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end form-footer">
+            <button type="submit" class="btn btn-cancel" (click)="cancel()">Close</button>
+            <button type="submit" [disabled]="!calendarForm.valid" class="btn btn-submit" (click)="createCalendar(formField)">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-	<ng-template #deletemodal let-c="close" let-d="dismiss">
-	  	<div class="modal-header">
-		    <h4 class="modal-title">Delete Holiday Calendar</h4>
-		    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-		      <span aria-hidden="true">&times;</span>
-		    </button>
-	  	</div>
-	  	<div class="modal-body">
-	  		<p>Are you sure you want to delete <b>{{calendarName}}</b></p>
-	  	</div>
-	  	<div class="modal-footer">
-	  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-	  	  <button type="submit" class="btn btn-primary" (click)="deleteCalendar(calendarId)" >Delete</button>
-	  	</div>
-	</ng-template>
+  <div *ngIf="isHoliday == true">
+    <div class="back-wrap d-flex justify-content-between" [ngClass]="{'blury': isfocus == true}">
+      <a class="back-to" (click)="cancel()">< Calendar</a>
+      <a class="edit-calnedar-btn" (click)="editOn()">Edit calendar</a>
+    </div>
+    <div class="calendar-form-wrap">
+      <div [ngClass]="{'blury': isfocus == true}" class="yearDropdown-wrap" style="padding: 0px 15px">
+        <!-- <div>
+          <select>
+            <option *ngFor="let year of yearLists">{{year}}</option>
+          </select>
+        </div> -->
+        <div (click)="dropDown()">
+          <span class="btn-span">{{selectedYear}}</span> <i class="fa fa-chevron-down dropdown-arrow"></i>
+        <span class="caret"></span></div>
+        <div>
+          <ul class="year-dropdown">
+            <li *ngFor="let year of yearLists">
+              <span (click)="onClickYear(year)">{{ year }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h3 *ngIf="isNameEdit == false" class="title-heading pt-7">{{calendarName}}</h3>
+        <div *ngIf="isNameEdit == true" class="col-md-8 edit-input-wrap">
+          <input type="text" class="form-control create-input mb-zero" placeholder="Type full name here" name="name" 
+          [(ngModel)]="formField.name" 
+          (focus)="focusMethod($event)" 
+          (blur)="blurMethod($event)"
+          maxlength="80" 
+          (input)="changeMethod($event.target.value)" required 
+          #name="ngModel">
 
-	<block-ui message="Deafult Message"></block-ui>
-	<div class="overflow">
-		<ul class="list-group-flush">  
-		  <li id="{{calendar._id}}" class="list-group-item" *ngFor="let calendar of calendarLists; let i = index" [attr.data-index]="i">
-			{{i + 1}}-{{ calendar.name }} 
-			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="openDeleteModal(deletemodal, calendar._id)">Delete</button>
-			<button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editCalendar(content,calendar._id)" style="margin-right: 5px;">Edit</button>
-			<!-- <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteCalendar(calendar._id)">Delete</button> -->
-		  </li>
-		</ul>
-	</div>
+          <div class="edit-section">
+            <button type="submit" class="btn" (click)="editOff()">
+              <span class="closemark">
+                  <div class="closemark_stem"></div>
+                  <div class="closemark_kick"></div>
+              </span>
+            </button>
+            <button type="submit" class="btn" (click)="editSingleCalendar(currentID)">
+              <span class="checkmark">
+                  <div class="checkmark_stem"></div>
+                  <div class="checkmark_kick"></div>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div [ngClass]="{'blury': isfocus == true}" style="padding: 0px 15px">
+        <!-- <div class="d-flex justify-content-between holiday-wrap">
+          <div>
+            <div class="semi-16">{{this.showYear.start}}</div>
+            <div class="semi-day-12">Mon</div>
+          </div>
+          <div class="d-flex flex-column justify-content-center medium-16">
+            Memorial day
+          </div>
+          <div class="d-flex flex-column justify-content-center btn-edit">
+            Edit
+          </div>
+        </div> -->
+        <div class="d-flex justify-content-between holiday-wrap" *ngFor="let item of holidaysArr">
+          <div class="d-flex">
+            <div>
+              <div class="semi-16">{{item.start}}</div>
+              <div class="semi-day-12">TUE</div>
+            </div>
+            <div>
+              <div class="semi-16">{{item.end}}</div>
+              <div class="semi-day-12">SUN</div>
+            </div>
+          </div>
+          <div class="d-flex flex-column justify-content-center medium-16">
+            {{item.name}}
+          </div>
+          <div class="d-flex flex-column justify-content-center btn-edit" (click)="editHolidays(item,contentCreate)">
+            Edit
+          </div>
+        </div>
+       <!--  <div *ngFor="let item of calendarHolidays | mapToIterable">
+          {{item.key}}:{{item.val}}
+        </div> -->
+        <div class="holiday-create" (click)="onClickCreate(contentCreate)">
+          <div class="circle1 plus"></div>
+          <span class="btn-span">Creating new holiday</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+<ng-template #contentCreate let-c="close" let-d="dismiss">
+  <div class="modal-body" style="padding: 30px;">
+    <h3 *ngIf="!isEdit">Create Holiday</h3>
+    <h3 *ngIf="isEdit">Update Holiday</h3>
+    <form #holidayForm="ngForm">
+      <div class="input-wrap">
+        <label>Date</label>
+        <div>
+          <input class="input-day" type="text" placeholder="First Day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+          <span style="padding: 7px;">To</span>
+          <input class="input-day" type="test" placeholder="Last Day" required (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+        </div>
+      </div>
+      <div class="input-wrap">
+        <label>Holiday name</label>
+        <div>
+          <input class="input-name" type="text" placeholder="Type holiday name" name="name" [(ngModel)]="model.name" required>
+        </div>
+      </div>
+      <div class="btns-wrap d-flex">
+        <div>
+          <button class="btn-delete" *ngIf="isEdit" (click)="deleteHoliday(this.model._id)">Delete</button>
+        </div>
+        <div class="btn-inner-wrap">
+          <button type="button" class="btn btn-cancel" (click)="cancelModal()">Cancel</button>
+          <button *ngIf="!isEdit" type="submit" class="btn btn-Primary" (click)="createHoliday()" [disabled]="!holidayForm.form.valid">Create</button>
+          <button *ngIf="isEdit" type="submit" class="btn btn-Primary" (click)="updateHolidays()" [disabled]="!holidayForm.form.valid">Update</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-danger">Create</button>
+  </div> -->
+</ng-template>

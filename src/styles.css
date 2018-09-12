@@ -61,6 +61,24 @@ main{
 .animation-wrap {
   animation: 0.3s linear 0s slideInFromTop;
 }
+.deleteModal{
+  animation: 0.3s linear 0s slideInFromTop;
+}
+.deleteModal .modal-dialog{
+  margin: 0 auto !important;
+  max-width: 320px!important;
+  top: 30%!important;
+}
+
+.holidayModal{
+  animation: 0.3s linear 0s slideInFromTop;
+}
+
+.holidayModal .modal-dialog{
+  margin: 0 auto !important;
+  max-width: 465px!important;
+  top: 20%!important;
+}
 
 .modal-title {
 	text-overflow: ellipsis;
@@ -248,18 +266,24 @@ star-rating-comp.custDetail-rating .star-container{
   margin-left: 0px;
 }
 
+.limit-wordcount{
+  display: none;
+  font-size: 14px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  color: #0080ff;
+}
+
 /*.modal-dialog{
     width: 320px !important;
     top: 30%;
 }*/
 
 @media (min-width: 576px){
-   .modal-dialog {
-       /*max-width: 500px;*/
+   /*.modal-dialog {
        max-width: 320px !important;
        margin: 0 auto !important;
        top: 30%;
-   } 
+   } */
 }
 
 /*===back to top button===*/

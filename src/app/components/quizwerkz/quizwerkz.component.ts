@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Rx';
 import { quizWerkzForm } from './quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+declare var $:any;
 
 @Component({
   selector: 'app-quizwerkz',
@@ -28,6 +30,7 @@ export class QuizwerkzComponent implements OnInit {
   public deleteQw:any;
   public modalReference1:any;
   public editId: any;
+  public wordLength:number = 0;
   viewQuiz: any;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -61,7 +64,18 @@ export class QuizwerkzComponent implements OnInit {
     this.iscreate = true;
   }
 
+  focusMethod(e){
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    $('.limit-wordcount').hide('slow'); 
+  }
 
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
 
   open(content) {
     this.isEdit = false;
@@ -124,7 +138,7 @@ export class QuizwerkzComponent implements OnInit {
     // this.selectQw = id;
     console.log("onclickDelete",id);
     this.getSingleQuizwerkz(id)
-    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'animation-wrap' });
+    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'deleteModal' });
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

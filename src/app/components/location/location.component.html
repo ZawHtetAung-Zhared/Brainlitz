@@ -38,8 +38,13 @@
     <h3 class="location-h3">Create Location</h3>
     <form novalidate #locationForm="ngForm" class="form-wrap" (keydown)="keyDownFunction($event)">
       <div class="form-group form-divider">
-        <label class="form-title" for="name">Location name</label>   
-        <input type="text" class="form-control" placeholder="Type location name here" name="name" [(ngModel)]="model.name" required #name="ngModel">
+        <div class="d-flex justify-content-between">
+          <label class="form-title" for="name">Location name</label>
+          <div class="limit-wordcount">
+            <span>{{wordLength}}/60characters</span>
+          </div>
+        </div>   
+        <input type="text" class="form-control" placeholder="Type location name here" name="name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" required #name="ngModel">
         <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
           <div [hidden]="!name.errors.required">
             Name is required!

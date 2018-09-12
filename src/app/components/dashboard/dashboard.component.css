@@ -136,6 +136,7 @@
   font-family: 'Montserrat-Medium','Arial', sans-serif;
   padding: 0.8rem;
   float: right;
+  cursor: pointer;
 }
 .labelTitle{
   color: #64707d;
@@ -195,6 +196,9 @@
   color: #0080ff!important;
   font-family: 'Montserrat-Medium','Arial', sans-serif;
   margin-left: auto;
+}
+.urlEdit a{
+  cursor: pointer;
 }
 .editBtns{
   padding: 1rem;
