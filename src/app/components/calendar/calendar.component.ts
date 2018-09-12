@@ -100,6 +100,7 @@ export class CalendarComponent implements OnInit {
     this.isChecked = '';
     this.yearLists = [];
     this.getAllHolidaysCalendar();
+    this.formField = new calendarField();
   }
 
   focusMethod(e){
@@ -201,6 +202,7 @@ export class CalendarComponent implements OnInit {
         this.blockUI.stop();
         this.toastr.success('Successfully edited the calendar name.');
         console.log("res",res);
+        this.formField = new calendarField();
         this.getSingleCalendar(id);
       },err =>{
         console.log(err);
