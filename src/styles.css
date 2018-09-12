@@ -171,6 +171,7 @@ svg.star-filled.default-star-filled-icon {
 .intl-tel-input .selected-flag{
   position: absolute;
   width: 90px !important;
+  z-index: 0;
 }
 .intl-tel-input .country-list{
   top: 35px;

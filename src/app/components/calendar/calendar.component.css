@@ -33,6 +33,7 @@ ul.calendar-year li{
     margin-top: 23px;
 }
 .btn-create{
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
   color: #fff;
   background-color: #1682fb;
   border: none;
@@ -94,17 +95,32 @@ ul.calendar-year li:first-child{
     padding: 23px 15px 15px;
 }
 .back-to{
-    font-family: 'Montserrat-Regular', Arial,sans-serif;
-    color: #6a7279;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    color: #2e3d4d !important;
     padding-left: 0 !important;
     cursor: pointer;
     font-size: 16px;
+}
+.back-to i,
+.back-to p{
+  float: left;
+}
+.back-to i{
+  float: left;
+    font-size: 23px;
+}
+.back-to p{
+  float: left;
+  margin-bottom: 0;
+  line-height: 1.6;
+  margin-left: 4px;
 }
 .calendar-form{
     padding: 20px 15px;
 }
 .btn-submit,
 .btn-cancel{
+    font-family: 'Montserrat-Medium','Arial', sans-serif;
     border: none;
     height: 45px;
     border-radius: 3px;
@@ -125,7 +141,7 @@ ul.calendar-year li:first-child{
     background: #f7f9fa;
 }
 .input-wrap .form-group{
-    /*border-bottom: 1px solid rgba(0,0,0,.1);*/
+    border-bottom: 1px solid rgba(0,0,0,.1);
 }
 .create-input:focus{
   -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
@@ -148,10 +164,12 @@ ul.calendar-year li:first-child{
     margin-bottom: 0;
 }
 .form-footer{
-	position: fixed;
-    bottom: 0;
-    padding: 20px 0;
-    right: 30px;
+  position: fixed;
+	width: 100%;
+  bottom: 0;
+  padding: 20px;
+  left: 0;
+  background: #fff;
 }
 .tool-box{
 	display: table;
@@ -444,8 +462,7 @@ ul.calendar-year li:first-child{
   outline: none;
   border: 0;
 }
-.input-wrap{
-  border-bottom: 1px solid #edeff0;
+.input-wrap{  
   padding: 15px 0px;
 }
 .btns-wrap{

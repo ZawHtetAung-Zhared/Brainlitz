@@ -39,7 +39,7 @@
 }
 .cancel-back{
     font-size: 16px;
-    font-family: 'Montserrat-Regular',Arial,sans-serif;
+    font-family: 'Montserrat-Medium',Arial,sans-serif;
     color: #2e3d4d !important;
     cursor: pointer;
 }
@@ -191,6 +191,7 @@
     padding: 24px;
     max-height: 152px;
     min-height: 152px;
+    cursor: pointer;
 }
 .apg-box,
 .single-apg{
@@ -248,15 +249,37 @@
 .heading-margin{
     margin-top: 23px;
 }
+.form-footer{
+  position: fixed;
+    width: 100%;
+  bottom: 0;
+  padding: 20px;
+  left: 0;
+  background: #fff;
+}
 .back-wrap{
     padding: 23px 15px 15px;
 }
 .back-to{
-    font-family: 'Montserrat-Regular', Arial,sans-serif;
-    color: #6a7279;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    color: #2e3d4d !important;
     padding-left: 0 !important;
     cursor: pointer;
     font-size: 16px;
+}
+.back-to i,
+.back-to p{
+  float: left;
+}
+.back-to i{
+  float: left;
+    font-size: 23px;
+}
+.back-to p{
+  float: left;
+  margin-bottom: 0;
+  line-height: 1.6;
+  margin-left: 4px;
 }
 .apg-form{
     padding: 20px 15px;
@@ -271,6 +294,7 @@
     margin-bottom: 0;
 }
 .share-input label{
+    cursor: pointer;
     width: 100%;
     border: none;
     padding: 15px 20px;
@@ -282,6 +306,7 @@
     border-radius: 3px;
 }
 .module-input label{
+    cursor: pointer;
     width: 100%;
     border: none;
     padding: 16px 22px;
@@ -325,6 +350,7 @@
 }
 .btn-submit,
 .btn-cancel{
+    font-family: 'Montserrat-Medium','Arial', sans-serif;
     border: none;
     height: 45px;
     border-radius: 3px;
@@ -339,6 +365,7 @@
     background-color: #f2f4f5;
 }
 .btn-create{
+    font-family: 'Montserrat-Medium','Arial', sans-serif;
     color: #fff;
     background-color: #1682fb;
     border: none;

@@ -50,16 +50,34 @@
 
 <div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true || shareAPG == true">
   <div class="back-wrap">
-    <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a>
-    <a class="back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>
+    <div class="d-flex back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">
+      <i class="fa fa-angle-left"></i>
+      <p>APG</p>
+    </div>
+    <div class="d-flex back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">
+      <i class="fa fa-angle-left"></i>
+      <p>Pick APG type</p>
+    </div>
+
+
+    <!-- <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a> -->
+    <!-- <a class="back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a> -->
 
     <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
-  		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
+      <div class="back-to" (click)="goToBack('share')">
+        <i class="fa fa-angle-left"></i>
+        <p>Creating progress APG</p>
+      </div>
+  		<!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
   		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
   	</div>
 
   	<div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
-  		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
+      <div class="back-to" (click)="goToBack('share')">
+        <i class="fa fa-angle-left"></i>
+        <p>Creating progress APG</p>
+      </div>
+  		<!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
   		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
   	</div>
   </div>
@@ -147,7 +165,7 @@
             </div>
     			</div>
         </div>
-  			<div class="d-flex justify-content-end">
+  			<div class="d-flex justify-content-end form-footer">
   			  <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
   			  <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
   			  <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid" (click)="createapgs(model, true, currentID)">Update</button>
