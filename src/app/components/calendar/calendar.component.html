@@ -106,7 +106,7 @@
           <input type="text" class="form-control create-input mb-zero" placeholder="Type full name here" name="name" 
           [(ngModel)]="formField.name" 
           (focus)="focusMethod($event)" 
-          (blur)="blurMethod($event)" 
+          (blur)="blurMethod($event)"
           maxlength="80" 
           (input)="changeMethod($event.target.value)" required 
           #name="ngModel">
@@ -143,11 +143,11 @@
         <div class="d-flex justify-content-between holiday-wrap" *ngFor="let item of holidaysArr">
           <div class="d-flex">
             <div>
-              <div class="semi-16">{{item.start |date}}</div>
+              <div class="semi-16">{{item.start}}</div>
               <div class="semi-day-12">TUE</div>
             </div>
             <div>
-              <div class="semi-16">{{item.end | date}}</div>
+              <div class="semi-16">{{item.end}}</div>
               <div class="semi-day-12">SUN</div>
             </div>
           </div>
