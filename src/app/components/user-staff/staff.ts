@@ -1,12 +1,11 @@
-export class Customer {
+export class Staff {
 	firstname: string;
 	lastname: string;
-	displayname: string;
+	preferredName: string;
 	email: string;
 	emailvalidate: boolean;
 	password: string;
-	guardian_mail: string;
 	gender: string;
-	about: string;
+	type: string;
 	profilePic: any;
 }

@@ -48,6 +48,7 @@ import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { GroupByPipe } from './service/pipe/groupby.pipe';
 import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
+import { MapToIterable } from './service/pipe/map-to-iterable.pipe';
 import { StarRatingModule } from 'angular-star-rating';
 import { ReadmoreComponent } from './components/readmore/readmore.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
@@ -84,7 +85,8 @@ import { HomeComponent } from './components/home/home.component';
     GetDayPipe,
     ReadmoreComponent,
     UserStaffComponent,
-    HomeComponent
+    HomeComponent,
+    MapToIterable
   ],
   imports: [
     BrowserModule,

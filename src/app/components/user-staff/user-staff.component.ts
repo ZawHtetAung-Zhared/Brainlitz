@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewChild, HostListener, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener,ViewContainerRef, Pipe, PipeTransform } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
 import { Croppie } from 'croppie';
 import { Bounds } from 'ng2-img-cropper/src/model/bounds';
+import { Staff } from './staff';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { environment } from '../../../environments/environment';
 declare var $: any;
 
 @Component({
@@ -12,11 +16,14 @@ declare var $: any;
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
-
+	public orgID = environment.orgID;
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: any;
   	showFormCreate: boolean = false;
+  	public img: any;
   	permissionLists: any;
+  	formFields: Staff = new Staff();
+  	@BlockUI() blockUI: NgBlockUI;
   	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
@@ -24,18 +31,22 @@ export class UserStaffComponent implements OnInit {
 	input: any;
 	uploadCrop: any;
 	blankCrop: boolean = false;
+	validProfile: boolean = false;  	
+	isupdate: boolean = false;  	
 	imgDemoSlider: boolean = false;
 	isSticky: boolean = false;
 	public navIsFixed: boolean = false;
 	public isCreateFix: boolean = false;
+	// public atLeastOneMail: boolean = false;
 	permissionId: any;
+	editId: any;
+	public locationID = localStorage.getItem('locationId');
+	public wordLength:any;
+	public aboutTest = "Owns Guitar & PianoOwns Guitar & PianoOwnsijii";
+	public aboutTest1 = " How your call you or like your preferred name kuiui";
 
-	constructor(private _service: appService) {
-  		this.cropperSettings1 = new CropperSettings();
-	    this.cropperSettings1.rounded = true;
-	    this.cropperSettings1.noFileInput = true;
-	    this.cropperSettings1.cropperDrawSettings.strokeColor = "rgba(255,0,0,1)";
-	    this.cropperSettings1.cropperDrawSettings.strokeWidth = 2;
+	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+		this.toastr.setRootViewContainerRef(vcr);  		
    	}
 
   	ngOnInit() {
@@ -63,11 +74,81 @@ export class UserStaffComponent implements OnInit {
 	    }, 10);
 	}
 
+	focusMethod(e){
+		  $('.limit-wordcount').show('slow'); 
+	}
+	  
+	blurMethod(e){
+		  $('.limit-wordcount').hide('slow'); 
+	}
+
+	changeMethod(val : string){
+	    this.wordLength = val.length;
+	  }
+
+	createUser(obj, state){
+		console.log(obj)	
+		let objData = new FormData();
+		let getImg = document.getElementById("blobUrl");
+		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
+		console.log(this.img)
+		
+		
+		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
+		
+		objData.append('orgId', this.orgID),
+		objData.append('regionId', this.regionID),
+		objData.append('firstName', obj.firstname),
+		objData.append('lastName', obj.lastname),
+		objData.append('preferredName', obj.preferredname),
+		objData.append('email', obj.email),
+		objData.append('password', obj.password),
+		objData.append('location', JSON.stringify(locationObj)),
+		objData.append('profilePic', this.img)
+
+		if(state == 'create'){
+			console.log('create')
+			this.blockUI.start('Loading...');
+			this._service.createUser(objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res)
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.back();
+		  		this.getAllUsers('staff');
+		    }, err => {		    	
+		    	this.blockUI.stop();
+		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    		this.toastr.error('Email already exist');
+		    	}
+		    	else {
+		    		this.toastr.error('Create Fail');
+		    	}
+		    	console.log(err)
+		    })
+		}else{
+			console.log('update')
+			this._service.updateUser(this.editId, objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res)
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.getAllUsers('staff');
+		    }, err => {
+		    	this.toastr.error('Create Fail');
+		    	this.blockUI.stop();
+		    	console.log(err)
+		    })
+		}
+	}
+
 	back(){
+		this.formFields = new Staff();
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
+		this.isupdate = false;
 		$(".frame-upload").css('display', 'none');
 	}
 
@@ -128,26 +209,39 @@ export class UserStaffComponent implements OnInit {
 	            height: 300
 	        },
           	enableExif: true
-        });
+        });	
+        	var cropper = this.uploadCrop;
 	      	var $uploadCrop = this.uploadCrop;
+	      	var BlobUrl = this.dataURItoBlob;
 	      	reader.onload = function(e: any) {
 	        $uploadCrop.bind({
 	            url: e.target.result
 	          })
-	          .then(function(e: any) {});
+	          .then(function(e: any) {
+	          	console.log(cropper.data.url)
+				const blob = BlobUrl(cropper.data.url);
+				const blobUrl = URL.createObjectURL(blob);
+				console.log(blobUrl)
+				$uploadCrop.bind({
+					url: blobUrl
+				})
+	          });
 	      };
 	      reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
 
   	cropResult(modal) {
+  		this.validProfile = true;
 	    let self = this;
 	    this.imgDemoSlider = false;
 	    setTimeout(function() {
-	      $("#upload-demo img:last-child").attr("id", "blobUrl");
+	      $(".circular-profile img:last-child").attr("id", "blobUrl");
 	      $(".frame-upload").css('display', 'none');
 	      this.blankCrop = false;
 	    }, 200);
+	    var cropper = this.uploadCrop;
+	    var BlobUrl = this.dataURItoBlob;
 	    this.uploadCrop
 	      .result({
 	      	circle: false,
@@ -158,12 +252,16 @@ export class UserStaffComponent implements OnInit {
 			},
 			quality:1 
 	      })
-	      .then(function(resp: any) {
+	      .then(function(resp: any) {	
 	      	$("#upload-demo img:last-child").remove();
-	        if (resp) {
+  	      	console.log(resp)
+  	      	const blob = BlobUrl(resp);
+  			const blobUrl = URL.createObjectURL(blob);
+  			console.log(blobUrl)
+	        if (blobUrl) {
 	          	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
@@ -184,6 +282,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	backToUpload(){
+		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
 	}

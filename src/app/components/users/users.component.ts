@@ -1,7 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
-import { FormsModule,FormGroup,FormControl } from '@angular/forms';
-import { Staff } from './staff';
-import { Customer } from './customer';
+import { FormsModule ,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -13,10 +11,10 @@ import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { Croppie } from 'croppie';
 import Cropper from 'cropperjs';
 import { environment } from '../../../environments/environment';
-import { staff } from './user';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+
 
 declare var $:any;
 
@@ -27,32 +25,27 @@ declare var $:any;
 })
 export class UsersComponent implements OnInit {
 
-	@ViewChild('stuffPic') stuffPic: ElementRef;
-	form: FormGroup;
-	stuffs: Staff = new Staff();
-	customers: Customer = new Customer();
+	@ViewChild('stuffPic') stuffPic: ElementRef;		
 	public img: any;
+	public defaultSlice: number = 2;
 	public orgID = environment.orgID;
-	public regionID = localStorage.getItem('regionId');
-	public userLists: any;
-	test:any;
-	formFields: staff = new staff();
-	formFieldc: customer = new customer();
-
+	public regionID = localStorage.getItem('regionId');		
+	formFieldc: customer = new customer();	
 	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
-	cropperSettings1: CropperSettings;
+	public isupdate: boolean = false;
+	public returnProfile: boolean = false;
 	input: any;
 	uploadCrop: any;
 	blankCrop: boolean = false;
 	isSticky: boolean = false;
 	modalReference: any;
 	closeResult: any;
-	imageUrl: any;
+	
 	public showLoading: boolean = false;
 	@BlockUI() blockUI: NgBlockUI;
-	staffLists: any;
+	
 	customerLists: any;
 	userType: any;
 	permissionLists: any;
@@ -69,93 +62,17 @@ export class UsersComponent implements OnInit {
   	public navIsFixed: boolean = false;
   	public isCreateFix: boolean = false;
   	atLeastOneMail: boolean = false;
+  	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
   	public custDetail:any;
-  	public testGurdian=[
-	  	{
-	  		"name": "Garry Nixon",
-	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
-	  	},
-	  	{
-	  		"name": "Massie William",
-	  		"profilePic": "https://brainlitz-dev.s3.amazonaws.com/profile/153260270582761976369_original.jpg"
-	  	}
-  	];
-  	public testClasses = [
-  		{
-  			"name": "Beginner Piano Course",
-  			"location": "Bedok Centre",
-  			"time": {
-  				"repeatDay": "Sunday",
-  				"start": "10:00AM",
-  				"end": "11:00AM"
-  			},
-  			"startDate": "12 Jul 18",
-  			"endDate": "22 Sept 18"
-  		},
-  		{
-  			"name": "Beginner Piano Course2",
-  			"location": "Bedok Centre",
-  			"time": {
-  				"repeatDay": "Sunday",
-  				"start": "10:00AM",
-  				"end": "11:00AM"
-  			},
-  			"startDate": "12 Jul 18",
-  			"endDate": "22 Sept 18"
-  		},
-  		{
-  			"name": "Beginner Piano Course3",
-  			"location": "Bedok Centre",
-  			"time": {
-  				"repeatDay": "Sunday",
-  				"start": "10:00AM",
-  				"end": "11:00AM"
-  			},
-  			"startDate": "12 Jul 18",
-  			"endDate": "22 Sept 18"
-  		}
-  	];
-  	public testActivities = [
-  		{
-  			"activity": "Emma Watson fully payed for Piano Grade 1",
-  			"time": "7 jun 18, 1:30 PM",
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Your mailing list lets you contact customers or visitors who have …",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Emma Watson fully payed for Piano Grade 1",
-  			"time": "7 jun 18, 1:30 PM",
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Your mailing list lets you contact customers or visitors who have …",
-  			"time": "7 jun 18, 1:30 PM"
-  		},
-  		{
-  			"activity": "Arron Wamsley enrolled Piano Grade 1 class",
-  			"time": "7 jun 18, 1:30 PM"
-  		}
-  	];
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
-  	public showMore = false;
   	public seeAll = false;
+  	public wordLength:number = 0;
+  	divHeight:any;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 
@@ -180,265 +97,146 @@ export class UsersComponent implements OnInit {
 
 	}
 
-	open1(staffModal){
-		this.blankCrop = false; 
-		this.notShowEdit = true;
-		this.getAllpermission();
-		this.getAllLocation();
-		this.formFields = new staff();
-		this.updateButton = false;
-    	this.createButton = true;
-    	this.emailAlert = false;
-    	this.guardianAlert = false;
-		this.modalReference = this.modalService.open(staffModal, { backdrop:'static', windowClass:'animation-wrap'});
-	    this.modalReference.result.then((result) => {
-	    	this.formFields = new staff();	
-		  	this.closeResult = `Closed with: ${result}`
-	  	}, (reason) => {
-	  		this.formFields = new staff();	
-	  	    this.closeResult = `Closed with: ${reason}`;
-	  	});
+
+	getSingleInfo(ID){
+		console.log(ID);
+		this.getSingleUser(ID);
 	}
 
-	open2(customerModal){
-		this.blankCrop = false;
-		this.notShowEdit = true;
-		this.formFieldc = new customer();
-		this.updateButton = false;
-    	this.createButton = true;
-    	this.emailAlert = false;
-    	this.guardianAlert = false;
-		this.modalReference = this.modalService.open(customerModal, { backdrop:'static', windowClass:'animation-wrap'});
-	    this.modalReference.result.then((result) => {
-	    	this.formFieldc = new customer();	
-		  	this.closeResult = `Closed with: ${result}`
-	  	}, (reason) => {
-	  		this.formFieldc = new customer();
-	  	  	this.closeResult = `Closed with: ${reason}`;
-	  	});
+	getSingleUser(ID){
+		this._service.getCurrentUser(ID)
+    	.subscribe((res:any) => {
+  			console.log(res);
+  			this.formFieldc = res;
+  			this.isupdate = true;
+  			this.returnProfile = res.profilePic;
+  			console.log('~~~', this.returnProfile)
+  			this.showCustDetail = false;
+			this.goCreateForm();
+	    }, err => {	
+	    	console.log(err);
+	    });
 	}
 
-	createCustomer(obj){
-		console.log(obj)
+	focusMethod(e){
+		console.log('hi', e);
+		$('.limit-wordcount').show('slow'); 
+	}
+	  
+	blurMethod(e){
+		console.log('blur', e);
+		$('.limit-wordcount').hide('slow'); 
 	}
 
-	createUser(obj, type, apiState){
-		console.log(obj);
-		console.log(type);
-		this.atLeastOneMail = false;
-		let getImg = document.getElementById("blobUrl");
-		if(getImg != undefined){
-			this.imageUrl = document.getElementById("blobUrl").getAttribute("src");
-			//this.img = this.dataURItoBlob(this.imageUrl);
-		}else{
-			this.img = '';
-		}
-		let objData = new FormData();
-		if(type == 'staff'){
-			let locationObj = [{'locationId': this.locationID,'permissionId': obj.role}];
-			console.log('locationObj', locationObj)
-			objData.append('orgId', this.orgID),
-			objData.append('firstName', obj.fname),
-			objData.append('lastName', obj.lname),
-			objData.append('preferredName', obj.preferredName),
-			objData.append('email', obj.mail),
-			objData.append('regionId', this.regionID),
-			objData.append('password', obj.pwd),
-			objData.append('location', JSON.stringify(locationObj)),
-			objData.append('profilePic', this.img)
-			console.log(objData)
-			this.blockUI.start('Loading...');
-			this.modalReference.close();
+	changeMethod(val : string){
+		console.log(val);
+		this.wordLength = val.length;
+	}
 
-		}
-		else if(type == 'customer'){
-			let guardianArray;
-			if(obj.guardianmail){
-				guardianArray = obj.guardianmail.split(',')
-			}
-			if(!obj.guardianmail && !obj.mail){
-				this.atLeastOneMail = true;
-			}
-			else {
-				this.blockUI.start('Loading...');
-				this.modalReference.close();
-			}
-			objData.append('orgId', this.orgID);
-			objData.append('firstName', obj.fname);
-			objData.append('lastName', obj.lname);
-			objData.append('preferredName', obj.preferredName);
-			if(obj.mail == undefined){
-				objData.append('email', '')
-			}
-			else{
-				objData.append('email', obj.mail);
-			}
-			objData.append('regionId', this.regionID);
-			objData.append('password', obj.pwd);
-			objData.append('gender', obj.gender);
-			objData.append('guardianEmail', JSON.stringify(guardianArray));
-			objData.append('location', JSON.stringify([]));
-			objData.append('profilePic', this.img)
-			console.log(objData)
-		}
-		else {
-			console.log('error')
-		}
+	createUser(obj, apiState){
+		console.log(obj);		
+		// this.atLeastOneMail = false;		
+		let objData = new FormData();						
+		let guardianArray;		
+		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : '' ;
+		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
+		console.log(this.atLeastOneMail)
+		obj.email = (obj.email == undefined) ? '' : obj.email;
+
+		objData.append('regionId', this.regionID);
+		objData.append('orgId', this.orgID);
+		objData.append('firstName', obj.firstName);
+		objData.append('lastName', obj.lastName);
+		objData.append('preferredName', obj.preferredName);
+		objData.append('email', obj.email);
+		objData.append('guardianEmail', JSON.stringify(guardianArray));		
+		
+		console.log(objData);
+		console.log(this.img);
+
 		if(apiState == 'create'){
-			console.log('create')
-			if(this.atLeastOneMail == false){
-				this._service.createUser(objData)
-		    	.subscribe((res:any) => {
-		  			console.log(res)
-		  			this.toastr.success('Successfully Created.');
-			  		this.blockUI.stop();
-			  		this.getAllUsers('all');
-			    }, err => {		    	
-			    	this.blockUI.stop();
-			    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
-			    		this.toastr.error('Email already exist');
-			    	}
-			    	else {
-			    		this.toastr.error('Create Fail');
-			    	}
-			    	
-			    	console.log(err)
-			    })
-			}
-		}
-		else if (apiState == 'update'){
-			console.log('update')
-			this._service.updateUser(this.regionID,this.editId, objData)
+			let getImg = document.getElementById("blobUrl");
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
+			objData.append('password', obj.password);
+			objData.append('location', JSON.stringify([]));
+			objData.append('profilePic', this.img);
+			console.log('create');
+			this.blockUI.start('Loading...');
+			this._service.createUser(objData)
 	    	.subscribe((res:any) => {
-	  			console.log(res)
+	  			console.log(res);
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
-		  		this.getAllUsers('all');
+		  		this.back();
+		  		this.getAllUsers('customer');
+		    }, err => {		    	
+		    	this.blockUI.stop();
+		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    		this.toastr.error('Email already exist');
+		    	}
+		    	else {
+		    		this.toastr.error('Create Fail');
+		    	}
+		    	console.log(err);
+		    })
+		}else{
+			console.log('update');
+			let getImg = document.getElementsByClassName("circular-profile");
+			console.log(getImg)
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
+			console.log(this.img);
+			objData.append('profilePic', this.img);
+			this._service.updateUser(obj.userId, objData)
+	    	.subscribe((res:any) => {
+	  			console.log(res);
+	  			this.toastr.success('Successfully Created.');
+		  		this.blockUI.stop();
+		  		this.back();
+		  		this.getAllUsers('customer');
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();
-		    	console.log(err)
+		    	console.log(err);
 		    })
 		}
-		else {
-			console.log('error')
-		}
-		
-    		
 	}
 
 	edit(id, type, modal){
-		console.log(id)
+		console.log(id);
 		this.getAllpermission();
 		this.blankCrop= true;
 		this.notShowEdit = false;
 		this.updateButton = true;
 		this.createButton = false;
-		if(type == "customer"){
-			console.log('hello customer')
-			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
-			this._service.userDetail(this.regionID, id)
-			.subscribe((res:any) => {
-				console.log('customer', res);
-				this.formFieldc = res;
-				//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
-				//$("#upload-demo img").css("width", "100%");
-			})
-		}
-		else if (type == "staff"){
-			console.log('hello staff')
-			this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
-			this._service.userDetail(this.regionID, id)
-			.subscribe((res:any) => {
-				console.log('staff', res);
-				this.formFields = res;
-				//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
-				//$("#upload-demo img").css("width", "100%");
-				//this.permissionId = this.formFields.location[0].permissionId;
-				this.editId = id;
-			})
-		}
-		else {
-			console.log('all user')
-			this._service.getAllUsers(this.regionID, type)
-			.subscribe((res:any) => {
-				for(var i = 0; i < res.length; i++){
-					if(res[i].userId == id && res[i].permissionCount == 0){
-						modal = customer
-						this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass:'animation-wrap'});
-					}
-					else if(res[i].userId == id && res[i].permissionCount == 1){
-						this.modalReference = this.modalService.open('staffModal', { backdrop:'static', windowClass:'animation-wrap'});
-					}
-					else {
-						console.log('error')
-					}
-				}
-			})
-		}
-	}
-
-	updateUser(obj, type){
-		if(type == "customer"){
-			console.log('update customer')
-		}else if(type == "staff"){
-			console.log('update staff')
-		}else{
-			console.log('update all')
-		}
+		this._service.userDetail(this.regionID, id)
+		.subscribe((res:any) => {
+			console.log('customer', res);
+			this.formFieldc = res;
+			//$("#upload-demo").append('<img src="' + res.profilePic + '" />');
+			//$("#upload-demo img").css("width", "100%");
+		})
+		
 	}
 
 	getAllUsers(type){
 		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type)
-		.subscribe((res:any) => {
-			if(type == 'customer'){
-				this.customerLists = res;
-				console.log('this.customerLists', this.customerLists)
-			}
-			else if(type == 'staff'){
-				this.staffLists = res;
-				console.log('this.staffLists', this.staffLists)
-			}
-			else {
-				this.userType = 'all';
-				this.userLists = res;
-				console.log('this.userLists', this.userLists)
-			}
+		.subscribe((res:any) => {			
+			this.customerLists = res;
+			console.log('this.customerLists', this.customerLists);			
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		    }, 300);
 	    }, err => {
-	    	console.log(err)
+	    	console.log(err);
 	    })
-	}
-
-	clickTab(type){
-	    if(type == 'customer'){
-	    	this.userType = 'customer';
-	        this.getAllUsers('customer');
-	    }else if(type == 'staff'){
-	    	this.userType = 'staff';
-	        this.getAllUsers('staff');
-	    }else{
-	    	this.userType = 'all';
-	    	this.getAllUsers('');
-	    }
-	  }
-
-	copyText(id){
-		console.log(id)
-		const inputElement = document.getElementById(id);
-		(<any>inputElement).select();
-		document.execCommand('copy');
-		inputElement.blur();
 	}
 
 	getAllpermission(){
 		this._service.getAllPermission(this.regionID)
 		.subscribe((res:any) => {
 			this.permissionLists = res;
-			console.log('this.permissionLists', this.permissionLists)
+			console.log('this.permissionLists', this.permissionLists);
 		})
 	}
 
@@ -446,31 +244,26 @@ export class UsersComponent implements OnInit {
 		this._service.getLocations(this.regionID)
 		.subscribe((res:any) =>{
 			this.locationLists = res;
-			console.log('this.locationLists', this.locationLists)
+			console.log('this.locationLists', this.locationLists);
 		})
 	}
 
 	validateEmail(data){
-		console.log(data)
-		this.atLeastOneMail = false;
-		if( !this.isValidateEmail(data)) { 
-			this.emailAlert = true;
-		}
-		else {
-			this.emailAlert = false;
-		}
+		console.log(data);
+		// this.atLeastOneMail = false;		
+		this.emailAlert = ( !this.isValidateEmail(data)) ? true : false;
+		this.atLeastOneMail = (this.emailAlert != true && data.length > 0) ? true : false;
+		console.log('~~~ ', this.atLeastOneMail)
 		
 	}
 
 	validateGuarmail(gData){
-		console.log(gData)
-		this.atLeastOneMail = false;
-		if(!this.isValidateEmail(gData)) { 
-			this.guardianAlert = true;
-		}
-		else {
-			this.guardianAlert = false;
-		}	
+		console.log(gData);
+		// this.atLeastOneMail = false;	
+		this.guardianAlert = (!this.isValidateEmail(gData)) ? true: false;
+		this.atLeastOneMail = (this.guardianAlert != true && gData.length > 0) ? true : false;
+		console.log('~~~ ', this.atLeastOneMail)
+		
 	}
 
 	isValidateEmail($email) {
@@ -485,14 +278,16 @@ export class UsersComponent implements OnInit {
 
 	goCreateForm(){
 		this.showFormCreate = true;
-		console.log('create')
+		console.log('create');
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
 	}
 
 	back(){
-		console.log('back')
+		this.formFieldc = new customer();
+		this.isupdate = false;
+		console.log('back');
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
@@ -500,6 +295,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	uploadCropImg($event: any) {
+		console.log('hihi');
+		var image:any = new Image();
 	    this.blankCrop = true; 
 	    $(".frame-upload").css('display', 'block');
 	    this.imgDemoSlider = true;
@@ -509,38 +306,56 @@ export class UsersComponent implements OnInit {
 	      	if (this.input && this.uploadCrop) {
 	        	this.uploadCrop.destroy();
 	      	}
-      	var reader = new FileReader();
-        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
-	        viewport: {
-	            width: 150,
-	            height: 150,
-	            type: 'circle'
-	          },
-	        boundary: {
-	            width: 300,
-	            height: 300
-	        },
-          	enableExif: true
-        });
-	      	var $uploadCrop = this.uploadCrop;
-	      	reader.onload = function(e: any) {
-	        $uploadCrop.bind({
-	            url: e.target.result
-	          })
-	          .then(function(e: any) {});
-	      };
-	      reader.readAsDataURL($event.target.files[0]);
+	      	var reader:FileReader = new FileReader();
+	        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
+		        viewport: {
+			            width: 150,
+			            height: 150,
+			            type: 'circle'
+			          },
+			        boundary: {
+			            width: 300,
+			            height: 300
+			        },
+		          	enableExif: true
+	        	});
+		      	var cropper = this.uploadCrop;
+		      	var $uploadCrop = this.uploadCrop;
+		      	var BlobUrl = this.dataURItoBlob;
+
+		      	console.log($uploadCrop)
+		      	reader.onload = function(e: any) {
+		        $uploadCrop.bind({
+		            url: e.target.result
+		          })
+		          .then(function(e: any) {
+		          		console.log(cropper.data.url)
+						const blob = BlobUrl(cropper.data.url);
+        				const blobUrl = URL.createObjectURL(blob);
+        				console.log(blobUrl)
+        				$uploadCrop.bind({
+        					url: blobUrl
+        				})
+		          });
+		    };
+	    	reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
 
   	cropResult(modal) {
+  		this.validProfile = true;
 	    let self = this;
+  		console.log(self.input);
+
 	    this.imgDemoSlider = false;
 	    setTimeout(function() {
-	      $("#upload-demo img:last-child").attr("id", "blobUrl");
+	      $(".circular-profile img:last-child").attr("id", "blobUrl");
 	      $(".frame-upload").css('display', 'none');
 	      this.blankCrop = false;
 	    }, 200);
+	    console.log(this.uploadCrop);
+	    var cropper = this.uploadCrop;
+	    var BlobUrl = this.dataURItoBlob;
 	    this.uploadCrop
 	      .result({
 	      	circle: false,
@@ -552,10 +367,14 @@ export class UsersComponent implements OnInit {
 			quality:1 
 	      })
 	      .then(function(resp: any) {
-	        if (resp) {
+	      	console.log(resp)
+	      	const blob = BlobUrl(resp);
+			const blobUrl = URL.createObjectURL(blob);
+			console.log(blobUrl)
+	        if (blobUrl) {
 	        	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
@@ -576,29 +395,50 @@ export class UsersComponent implements OnInit {
 	}
 
 	backToUpload(){
+		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
 	}
 
-	showDetails(data){
-		console.log("show details")
-		this.showCustDetail = true;
-		this.custDetail = data;
+
+	showDetails(data, ID){
+		console.log(ID);
+		this.editId = ID;
+		console.log("show details");
+		// this.showCustDetail = true;
+		this._service.getUserDetail(this.regionID,data.userId)
+		.subscribe((res:any) => {
+			this.custDetail = res;
+			console.log("CustDetail",res);
+			this.showCustDetail = true;
+		})
 	}
 
 	backToCustomer(){
+		this.formFieldc = new customer();
 		this.showCustDetail = false;
+		this.isupdate = false;
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
+		this.selectedId =[];
+		
 		$(".frame-upload").css('display', 'none');
 	}
-	showMoreClasses(){
-		console.log("show More")
-		this.showMore = true;
-	}
-	showAll(){
-		this.seeAll = true;
+	
+	selectedId:any=[];
+	sliceCount:any;
+	showMoreItem(itemid){
+		console.log(itemid);
+		this.selectedId.push(itemid);
+		console.log('selectedId Arr',this.selectedId);
+		// if(itemid != 'activity'){
+		// 	this.divHeight = $( ".firstCol" ).height();
+		// 	console.log("divHeight",this.divHeight);
+		// }
+			this.divHeight = $( ".firstCol" ).height();
+			console.log("divHeight",this.divHeight);
+			// $(".journals-wrapper").css("height", this.divHeight + "px");
 	}
 
 }

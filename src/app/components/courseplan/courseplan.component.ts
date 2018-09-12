@@ -101,6 +101,8 @@ export class CourseplanComponent implements OnInit {
   selectedAPGidArray: any[] = [];
   showNewAPGbox: boolean = false;
   showfixedcreate: boolean = false;
+  createdAPGstoreLength:any;
+  wordLength:any;
 
   ngOnInit() {
     this.showModal = true;
@@ -136,6 +138,21 @@ export class CourseplanComponent implements OnInit {
   }
 
   @ViewChild('parentForm') mainForm;
+
+  focusMethod(e){
+    console.log('hi', e)
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    console.log('blur', e);
+    $('.limit-wordcount').hide('slow'); 
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
 
   valuechange(val){
     console.log(val)
@@ -175,6 +192,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   removeSelectedAPG(data){
+    this.model = '';
     var index = this.createdAPGstore.findIndex(function(element){
        return element._id===data._id;
     })
@@ -245,18 +263,18 @@ export class CourseplanComponent implements OnInit {
       "accessPointGroup": this.selectedAPGidArray
     }
     console.log(data)
-    this.blockUI.start('Loading...');
-    this._service.createCoursePlan(this.regionID,data)
-    .subscribe((res:any) => {
-     console.log('success post',res);
-     this.toastr.success('Successfully Created.');
-     this.blockUI.stop();
-      this.getAllCoursePlan();
-      }, err => {
-        this.toastr.error('Create Fail');
-        this.blockUI.stop();
-        console.log(err)
-      })
+    // this.blockUI.start('Loading...');
+    // this._service.createCoursePlan(this.regionID,data)
+    // .subscribe((res:any) => {
+    //  console.log('success post',res);
+    //  this.toastr.success('Successfully Created.');
+    //  this.blockUI.stop();
+    //   this.getAllCoursePlan();
+    //   }, err => {
+    //     this.toastr.error('Create Fail');
+    //     this.blockUI.stop();
+    //     console.log(err)
+    //   })
       this.cancel();
       this.mainForm.reset();
       this.formField = new cPlanField();
@@ -953,7 +971,9 @@ export class CourseplanComponent implements OnInit {
     }
 
     backSearhAPG(type){
-      this.model = '';
+      if(this.createdAPGstore.length<=0){
+        this.model = '';
+      }
       this.showfixedcreate = false;
       this.showSearchAPG = true;
       this.showModule = false;
@@ -989,6 +1009,7 @@ export class CourseplanComponent implements OnInit {
             this.selectedAPGlists = true;
             this.showModule = false;
             this.createAPGform = false;
+            this.showfixedcreate = false;
             this.getAllAPG();
           }, err => {
             this.toastr.error('Created APG Fail');

@@ -367,6 +367,36 @@ export class appService{
       }) 
     }
 
+
+    getUserDetail(id:string, userId:string){
+      let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+    
+    getCurrentUser(id: string){
+      let apiUrl = this.baseUrl  + '/user/' + id;
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     createLocation(id: string, body: object): Observable<any>{
       this.getLocalstorage();
       console.log(id)
@@ -560,8 +590,8 @@ export class appService{
     }) 
     }
 
-    createHolidays(id: string, data: object): Observable<any>{
-      let url = this.baseUrl+ '/' + id + '/holidays';
+    createHolidays(regionid: string, data: object): Observable<any>{
+      let url = this.baseUrl+ '/' + regionid + '/holidays';
       const opt = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -576,6 +606,7 @@ export class appService{
     }
 
     updateHoliday(holidayId: string, data: object){
+      console.log(holidayId)
       let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -692,6 +723,36 @@ export class appService{
         return result;
       })
     }
+
+    updateCalendar(id:string, data: object){
+      console.log(data)
+      let apiUrl = this.baseUrl + '/holidays-calendar/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    // updateCalendar(id:string,data:object){
+    //   let apiUrl = this.baseUrl  + '/holidays-calendar/' + id;
+    //   const httpOptions = {
+    //       headers: new HttpHeaders({ 
+    //         'Content-Type': 'application/json', 
+    //         'authorization': this.tokenType + ' ' + this.accessToken})
+    //   };
+    //   return this.httpClient.put(apiUrl, httpOptions, data)
+    //   .map((res:Response) => {
+    //     let result = res; 
+    //     console.log(result)
+    //     return result;
+    //   })
+    // }
 
     createCourse(id: string, data: object): Observable<any>{
       console.log("APP Service")
@@ -1024,8 +1085,8 @@ export class appService{
       })
     }
 
-    updateUser(regionId: string, userId:string, data: object){
-      let apiUrl = this.baseUrl + '/' +  regionId + '/user/' + userId;
+    updateUser( userId:string, data: object){
+      let apiUrl = this.baseUrl + '/user/' + userId;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
