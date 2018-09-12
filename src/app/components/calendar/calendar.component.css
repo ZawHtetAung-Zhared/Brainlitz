@@ -75,7 +75,12 @@ ul.calendar-year{
 	padding: 0;
 	margin: 0;
 	margin-bottom: 2px;
+  min-height: 21px;
 }
+ul.calendar-year li.noliststyle{
+  list-style: none;
+}
+
 ul.calendar-year li{
 	color: #64707d;
 	font-size: 14px;

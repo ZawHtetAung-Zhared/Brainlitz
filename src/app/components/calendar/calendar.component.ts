@@ -173,7 +173,8 @@ export class CalendarComponent implements OnInit {
       this.toastr.success('Successfully Created.');
       this.blockUI.stop();
       // this.getAllHolidaysCalendar();
-      this.cancel();
+      // this.cancel();
+      this.singleCalendarInfo(res.id)
     }, err => {
       this.toastr.error('Create Fail');
       this.blockUI.stop();
