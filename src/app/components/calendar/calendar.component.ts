@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { calendarField } from './calendar';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import * as moment from 'moment-timezone';
 
 declare var $:any;
 
@@ -55,7 +56,8 @@ export class CalendarComponent implements OnInit {
   objectKeys = Object.keys;
   public holidaysArr: Array<any> = [];
   public isEdit:boolean = false;
-
+  public utcStartDate;
+  public utcEndDate;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -222,8 +224,23 @@ export class CalendarComponent implements OnInit {
     this.isChecked = this.yearLists[0];
     this.selectedYear = this.yearLists[0];
     console.log("selectedYear",this.selectedYear);
-    // let list = Object.keys(this.calendarHolidays);
-    // console.log(list)
+    /*===testing for timezone change(from iso)===*/
+    const zone = localStorage.getItem('timezone');
+    // const format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    var isoDate = '2018-09-21T23:59:59.999Z';
+    // var isoDate = '2018-09-15T00:00:00.000Z';
+    // console.log(isoDate);
+    // var utcTemp = new Date(isoDate);
+    // console.log('UTC',utcTemp); 
+    // const utcToString = utcTemp.toUTCString();
+    // console.log("UTCToString",utcToString);
+    // const time = new Date(utcToString);
+    // console.log(time);
+    // var utcDate = moment(time, format).tz(zone).format(format);
+    // console.log("utcDate",utcDate);
+    var test = moment.tz('2018-09-21T23:59:59.999Z',zone).format() // 2018-03-22T05:30:00+05:30
+    console.log(test);
+    /*===End testing for timezone change(from iso)===*/
   }
 
   getAllHolidaysCalendar(){
@@ -257,6 +274,8 @@ export class CalendarComponent implements OnInit {
   } 
   calendarid:any;
   getSingleCalendar(calendarId){
+  let zone = localStorage.getItem('timezone');
+  let format = 'YYYY/MM/DD HH:mm:ss ZZ';
     console.log('~~~ :B ', calendarId)
     this.blockUI.start('Loading...');
     this._service.getSingleCalendar(calendarId)
@@ -264,23 +283,39 @@ export class CalendarComponent implements OnInit {
         this.blockUI.stop();
         console.log("getSingleCalendar",res)
         this.calendarName = res.name;
-
         this.calendarid = res._id; 
-        this.calendarHolidays = res.holidays;
-
-        console.log(this.selectedYear);
-        console.log(this.calendarHolidays );
+        this.calendarHolidays = res.holidays; 
         let selectedYear = this.selectedYear;
         let holidayObj = this.calendarHolidays;
-        console.log('~~~ ', res.holidays)
-        console.log(this.calendarHolidays)
-        if(this.calendarHolidays == {}){
-          console.log('yes')
+        // console.log('~~~ ', res.holidays)
+        console.log(this.calendarHolidays);      
+        for(var i in this.calendarHolidays){
+          console.log('obj key',this.calendarHolidays[i]);
+          for(var key in this.calendarHolidays[i]){
+            // console.log("~object Key value~",this.calendarHolidays[i][key].start);
+            // let start = this.calendarHolidays[i][key].start;
+            // let end = this.calendarHolidays[i][key].end;
+            // var utcTZ = new Date(end);
+            // console.log('UTC',utcTZ); 
+            // var utcDate = moment(utcTZ, format).tz(zone).format(format);
+            // console.log("~~UTCDATE~~",utcDate);
+
+            // let utcStartTZ = new Date(start);
+            // console.log('UTC',utcStartTZ); 
+            // var utcStartDate = moment(utcStartTZ, format).tz(zone).format(format);
+            // console.log("~~START~~",utcStartDate);
+            // if(end){
+            //   var isoDate = this.calendarHolidays[i][key].end;
+            //   var utcTZ = new Date(isoDate);
+            //   console.log('UTC',utcTZ); 
+            //   this.utcEndDate = moment(utcTZ, format).tz(zone).format(format);
+            //   console.log("utcDate",this.utcEndDate);
+            //   this.utcEndDate = this.utcEndDate.slice(0, -5);
+            //   this.calendarHolidays[i][key].end = this.utcEndDate;
+            // }
+          }
         }
-        // if(this.calendarHolidays.length != undefined){
-          this.getSelectedHolidayByYear(selectedYear, holidayObj);
-        // }
-        // this.getSelectedHolidayByYear(selectedYear, holidayObj);
+        this.getSelectedHolidayByYear(selectedYear, holidayObj);
 
         this.formField = res;
         console.log(res);
@@ -353,17 +388,26 @@ export class CalendarComponent implements OnInit {
   }
 
   createHoliday(){
+    console.log("create Holidays",this.calendarHolidays);
     console.log("this.holidaysArr",this.holidaysArr)
     console.log("~this.holidayTemp~",this.holidayTemp)
     console.log("create holiday works",this.model);
-    for(var key in this.holidaysArr){
-      // console.log("key",this.holidaysArr[key]._id);
-      this.holidayTemp.push(this.holidaysArr[key]._id);
-      console.log(this.holidayTemp)
+    for(var i in this.calendarHolidays){
+      console.log(this.calendarHolidays[i]);
+      for(var key in this.calendarHolidays[i]){
+        console.log("~KEY item~",this.calendarHolidays[i][key]);
+        this.holidayTemp.push(this.calendarHolidays[i][key]._id);
+        console.log("~Array~",this.holidayTemp);
+      }
     }
+    // for(var key in this.holidaysArr){
+    //   // console.log("key",this.holidaysArr[key]._id);
+    //   this.holidayTemp.push(this.holidaysArr[key]._id);
+    //   console.log(this.holidayTemp)
+    // }
     let object= {
       "name": this.model.name,
-      "start": this.changeDateFormat(this.model.start,"00:01:00.000"),
+      "start": this.changeDateFormat(this.model.start,"00:00:00.000"),
       "end": this.changeDateFormat(this.model.end,"23:59:59:999")
     };
     console.log("create holiday works",object);
@@ -385,6 +429,8 @@ export class CalendarComponent implements OnInit {
           this.model ={};
           this.getSingleCalendar(this.currentID);
           this.holidayTemp = [];
+          this.maxDate ="";
+          this.minDate = "";
         },err =>{
           console.log(err);
         });
@@ -439,24 +485,31 @@ export class CalendarComponent implements OnInit {
     
   }
 
-  editHolidays(item,content){
+  editHolidays(id,content){
     this.holidayTemp = [];
     this.isEdit = true;
     console.log(content)
-    console.log(item);
-    this.model = item;
-    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'holidayModal'});
-    this.model.start = this.changeDateStrtoObj(item.start,"start");
-    console.log(this.model.start);
-    this.model.end = this.changeDateStrtoObj(item.end,"end");
-    console.log(this.model.end);
+    console.log(id);
+    this._service.getSingleHoliday(id)
+    .subscribe((res:any) => {
+      console.log('single Holiday',res);
+      this.model = res;
+      this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'holidayModal'});
+      this.model.start = this.changeDateStrtoObj(res.start,"start");
+      console.log(this.model.start);
+      this.model.end = this.changeDateStrtoObj(res.end,"end");
+      console.log(this.model.end);
+    })
   }
 
   updateHolidays(){
-    for(var key in this.holidaysArr){
-      // console.log("key",this.holidaysArr[key]._id);
-      this.holidayTemp.push(this.holidaysArr[key]._id);
-      console.log(this.holidayTemp)
+    for(var i in this.calendarHolidays){
+      console.log(this.calendarHolidays[i]);
+      for(var key in this.calendarHolidays[i]){
+        console.log("~KEY item~",this.calendarHolidays[i][key]);
+        this.holidayTemp.push(this.calendarHolidays[i][key]._id);
+        console.log("~Array~",this.holidayTemp);
+      }
     }
     console.log(this.model);
     let object= {
@@ -485,6 +538,8 @@ export class CalendarComponent implements OnInit {
           this.holidayTemp = [];
           this.getSingleCalendar(this.currentID);
           this.isEdit = false;
+          this.maxDate ="";
+          this.minDate = "";
         },err =>{
           console.log(err);
           // this.holidayTemp = [];
@@ -539,27 +594,7 @@ export class CalendarComponent implements OnInit {
     this.selectedYear = year;
     console.log("~year~",year);
     console.log(this.calendarHolidays);
-    // content1.navigateTo({year: 2019, month: 2});
-    // content2.navigateTo({year: 2019, month: 2});
-
     this.getSelectedHolidayByYear(this.selectedYear,this.calendarHolidays);
-    // this.getSingleCalendar(this.calendarId)
-    // for(let item in this.calendarHolidays){
-    //   console.log("Item",item);
-    //   if(item == this.selectedYear){
-    //     console.log("find",item)
-
-    //   }
-    // }
-    // Object.keys(this.calendarHolidays).forEach(key => {
-    //     console.log("KEY",key)
-    //     if(key == this.selectedYear){
-    //       this.showYear = this.calendarHolidays[key];
-    //       console.log("find",this.showYear);
-    //     }else{
-    //       this.showYear = {};
-    //     }
-    // });
   }
 
   yearMenuShow: boolean = false;
@@ -621,8 +656,10 @@ export class CalendarComponent implements OnInit {
   cancelModal(){
     this.modalReference.close();
     this.model = {};
-    this.getSingleCalendar(this.currentID);
+    // this.getSingleCalendar(this.currentID);
     this.isEdit = false;
+    this.maxDate ="";
+    this.minDate = "";
   }
     
 }

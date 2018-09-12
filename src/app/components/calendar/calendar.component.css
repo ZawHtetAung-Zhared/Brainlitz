@@ -374,6 +374,7 @@ ul.calendar-year li:first-child{
 }
 .holiday-create{
   padding: 15px 0px;
+  cursor: pointer;
 }
 .btn-span{
   color: #0080ff!important;
