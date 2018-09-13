@@ -15,6 +15,7 @@
 .main-wrapper{
     padding: 0 15px;
 }
+.btnC,
 .edit-calnedar-btn,
 ul.calendar-year li{
   font-family: 'Montserrat-Medium',Arial,sans-serif;
@@ -24,6 +25,7 @@ ul.calendar-year li{
 .input-label{
 	font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
+
 .title-heading{
     font-size: 27px;
     padding-left: 15px;
@@ -297,20 +299,20 @@ ul.calendar-year li:first-child{
   padding: 15px 0px;
     border-bottom: 1px solid #edeff0;
 }
-.medium-16{
+.font16{
   font-size: 16px;
-    font-family: 'Montserrat-Medium','Arial', sans-serif;
-    color: #2e3d4d;
 }
-.semi-16{
-  color: #2e3e4d;
-  font-size: 16px;
-  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+.font14{
+  font-size: 14px;
 }
-.semi-day-12{
-  color: #64707d;
+.font12{
   font-size: 12px;
-  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+}
+.color-6{
+  color: #64707d;
+}
+.color-2{
+  color: #2e3d4d;
 }
 .btn-edit{
   font-size: 14px;
@@ -448,7 +450,9 @@ ul.calendar-year li:first-child{
   box-shadow: 0px 2px 30px 1px rgba(1,0,0,0.2);
   border: none;
 }
-
+.modal-wrap{
+  padding: 30px;
+}
 .input-day{
   border: 0;
   padding: 7px;
@@ -465,6 +469,7 @@ ul.calendar-year li:first-child{
 }
 .input-wrap{  
   padding: 15px 0px;
+  border-bottom: 1px solid #edeff0;
 }
 .btns-wrap{
   padding-top: 30px;
@@ -493,4 +498,28 @@ ul.calendar-year li:first-child{
   color: #ff3d33;
   font-family: 'Montserrat-Medium',Arial,sans-serif;
   font-size: 16px;
+}
+.text-container {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.clearBtn {
+  position: absolute;
+  top: 0;
+  right: -15px;
+  transition: right 0.2s;
+  /*position: absolute;
+    top: 34%;
+    right: 413px;
+    -webkit-transition: right 0.2s;
+    transition: right 0.2s;*/
+}
+.show {
+  right: 350px;
+  top: 34%;
+  background: #f2f4f5;
+}
+.hide{
+  color:#f2f4f5; 
 }
