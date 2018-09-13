@@ -1,6 +1,6 @@
 <!-- <app-coursecreate></app-coursecreate> -->
 <app-header *ngIf="!isCategory && !isPlan" [ngClass]="{'stick': isSticky == true}"></app-header>
-<div class="inner-wrapper" *ngIf="!isCategory && !isPlan" [ngClass]="{'active': isSticky == true}">
+<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
   <div class="card-container">
     <div class="title"><h3 class="header-font">Courses</h3></div>
@@ -53,7 +53,7 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 class="course-label">{{ course.name }}</h5>
+                    <h5 (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
                     <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     <!-- <ul><li>0 staff</li></ul> -->
                     </span>
@@ -87,3 +87,24 @@
 
 <app-category class="category-content" *ngIf="isCategory == true"></app-category>
 <app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
+
+<div class="inner-wrapper" *ngIf="isCourseDetail == true">
+  <div class="back-wrap d-flex justify-content-between">
+    <div class="back-to" (click)="cancel()">
+      <i class="fa fa-angle-left"></i>
+      <p>Courses</p>
+    </div>
+    <a class="edit-course-btn" (click)="editOn()">Edit course</a>
+  </div>
+  <div>
+    <div class="d-flex flex-row">
+      <div class="col-md-6">
+        {{detailLists.name}}
+      </div>
+      <div class="col-md-6">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
