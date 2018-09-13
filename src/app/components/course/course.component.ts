@@ -18,6 +18,8 @@ export class CourseComponent implements OnInit {
   emptyCourse:boolean = false;
   isCategory:boolean = false;
   isPlan:boolean = false;
+  isCourseDetail:boolean = false;
+  public detailLists:any = {};
   isSticky:boolean = false;
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
@@ -72,6 +74,31 @@ export class CourseComponent implements OnInit {
       this.isSticky = false;
       this.showBtn = false;
     }
+  }
+
+  showCourseDetail(id){
+    console.log(id)
+    this.isCourseDetail = true;
+    this._service.getSingleCourse(id)
+    .subscribe((res:any)=>{
+      console.log(res)
+      // this.detailLists;
+      this.detailLists = res;
+      console.log(this.detailLists)
+    },err =>{
+      console.log(err);
+    });
+  }
+
+  getCourseDetail(id){
+    this._service.getSingleCourse(id)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.detailLists = res;
+      console.log(this.detailLists)
+    },err =>{
+      console.log(err);
+    });
   }
 
   changeRoute(){
