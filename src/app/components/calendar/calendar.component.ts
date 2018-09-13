@@ -224,23 +224,6 @@ export class CalendarComponent implements OnInit {
     this.isChecked = this.yearLists[0];
     this.selectedYear = this.yearLists[0];
     console.log("selectedYear",this.selectedYear);
-    /*===testing for timezone change(from iso)===*/
-    const zone = localStorage.getItem('timezone');
-    // const format = 'YYYY/MM/DD HH:mm:ss ZZ';
-    var isoDate = '2018-09-21T23:59:59.999Z';
-    // var isoDate = '2018-09-15T00:00:00.000Z';
-    // console.log(isoDate);
-    // var utcTemp = new Date(isoDate);
-    // console.log('UTC',utcTemp); 
-    // const utcToString = utcTemp.toUTCString();
-    // console.log("UTCToString",utcToString);
-    // const time = new Date(utcToString);
-    // console.log(time);
-    // var utcDate = moment(time, format).tz(zone).format(format);
-    // console.log("utcDate",utcDate);
-    var test = moment.tz('2018-09-21T23:59:59.999Z',zone).format() // 2018-03-22T05:30:00+05:30
-    console.log(test);
-    /*===End testing for timezone change(from iso)===*/
   }
 
   getAllHolidaysCalendar(){
@@ -292,27 +275,11 @@ export class CalendarComponent implements OnInit {
         for(var i in this.calendarHolidays){
           console.log('obj key',this.calendarHolidays[i]);
           for(var key in this.calendarHolidays[i]){
-            // console.log("~object Key value~",this.calendarHolidays[i][key].start);
-            // let start = this.calendarHolidays[i][key].start;
-            // let end = this.calendarHolidays[i][key].end;
-            // var utcTZ = new Date(end);
-            // console.log('UTC',utcTZ); 
-            // var utcDate = moment(utcTZ, format).tz(zone).format(format);
-            // console.log("~~UTCDATE~~",utcDate);
-
-            // let utcStartTZ = new Date(start);
-            // console.log('UTC',utcStartTZ); 
-            // var utcStartDate = moment(utcStartTZ, format).tz(zone).format(format);
-            // console.log("~~START~~",utcStartDate);
-            // if(end){
-            //   var isoDate = this.calendarHolidays[i][key].end;
-            //   var utcTZ = new Date(isoDate);
-            //   console.log('UTC',utcTZ); 
-            //   this.utcEndDate = moment(utcTZ, format).tz(zone).format(format);
-            //   console.log("utcDate",this.utcEndDate);
-            //   this.utcEndDate = this.utcEndDate.slice(0, -5);
-            //   this.calendarHolidays[i][key].end = this.utcEndDate;
-            // }
+            var testStart = moment.tz(this.calendarHolidays[i][key].start,zone).format(format) // 2018-03-22T05:30:00+05:30
+            console.log('Change Start As TZ',testStart);
+            var test = moment.tz(this.calendarHolidays[i][key].end,zone).format(format) // 2018-03-22T05:30:00+05:30
+            console.log('Change End As TZ',test);
+            
           }
         }
         this.getSelectedHolidayByYear(selectedYear, holidayObj);
@@ -562,6 +529,8 @@ export class CalendarComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.getSingleCalendar(this.currentID);
+      this.model = {};
+      this.isEdit = false;
       // for(var key in this.holidaysArr){
       //   // console.log("key",this.holidaysArr[key]._id);
       //   this.holidayTemp.push(this.holidaysArr[key]._id);
