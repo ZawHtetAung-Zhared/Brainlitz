@@ -58,6 +58,9 @@ export class CalendarComponent implements OnInit {
   public isEdit:boolean = false;
   public utcStartDate;
   public utcEndDate;
+  public testDate = {year: 2019, month: 1, day: 1};
+  public navigation = 'Without select boxes';
+  public sameDate:boolean = false;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -224,6 +227,21 @@ export class CalendarComponent implements OnInit {
     this.isChecked = this.yearLists[0];
     this.selectedYear = this.yearLists[0];
     console.log("selectedYear",this.selectedYear);
+    // var start = moment().startOf('day'); // set to 12:00 am today
+    // var end = moment().endOf('day'); // set to 23:59 pm today
+    // console.log("local start & end",start,end);
+    // console.log('locaL to iso',end.toISOString());
+    // var utcstart = moment.utc().startOf('day'); 
+    // var utcend = moment.utc().endOf('day'); 
+    // console.log("utc end",utcend);
+    // console.log('utc to iso',utcend.toISOString());
+    // var startT=new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
+    // var nowT =  new Date().toISOString();
+    // var endT = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
+    // console.log('startT', startT);
+    // console.log('nowT', nowT);
+    // console.log('endT', nowT);
+
   }
 
   getAllHolidaysCalendar(){
@@ -275,11 +293,23 @@ export class CalendarComponent implements OnInit {
         for(var i in this.calendarHolidays){
           console.log('obj key',this.calendarHolidays[i]);
           for(var key in this.calendarHolidays[i]){
-            var testStart = moment.tz(this.calendarHolidays[i][key].start,zone).format(format) // 2018-03-22T05:30:00+05:30
-            console.log('Change Start As TZ',testStart);
-            var test = moment.tz(this.calendarHolidays[i][key].end,zone).format(format) // 2018-03-22T05:30:00+05:30
-            console.log('Change End As TZ',test);
-            
+            let start = this.calendarHolidays[i][key].start;
+            let end = this.calendarHolidays[i][key].end;
+            // var testStart = moment.tz(this.calendarHolidays[i][key].start,zone).format(format) // 2018-03-22T05:30:00+05:30
+            // console.log('Change Start As TZ',testStart);
+            // var test = moment.tz(this.calendarHolidays[i][key].end,zone).format(format) // 2018-03-22T05:30:00+05:30
+            // console.log('Change End As TZ',test);
+            let startDate = start.substring(0, start.search("T"));
+            let endDate = end.substring(0, end.search("T"));
+            if(startDate === endDate){
+              this.sameDate = true;
+              this.calendarHolidays[i][key].sameDate = true;
+              console.log("~~SAME~~",startDate,endDate);
+            }else{
+              this.sameDate =false;
+              this.calendarHolidays[i][key].sameDate = false;
+              console.log("NOt Equal")
+            }
           }
         }
         this.getSelectedHolidayByYear(selectedYear, holidayObj);
@@ -332,7 +362,6 @@ export class CalendarComponent implements OnInit {
     })
   }
 
-
   updateCalendar(formData){
     console.log('updated', formData, this.arrayHoliday)
     let dataObj = {
@@ -367,15 +396,10 @@ export class CalendarComponent implements OnInit {
         console.log("~Array~",this.holidayTemp);
       }
     }
-    // for(var key in this.holidaysArr){
-    //   // console.log("key",this.holidaysArr[key]._id);
-    //   this.holidayTemp.push(this.holidaysArr[key]._id);
-    //   console.log(this.holidayTemp)
-    // }
     let object= {
       "name": this.model.name,
-      "start": this.changeDateFormat(this.model.start,"00:00:00.000"),
-      "end": this.changeDateFormat(this.model.end,"23:59:59:999")
+      "start": this.changeDateFormat(this.model.start,"00:00"),
+      "end": this.changeDateFormat(this.model.end,"23:59")
     };
     console.log("create holiday works",object);
     this.modalReference.close();
@@ -407,27 +431,28 @@ export class CalendarComponent implements OnInit {
   }
 
   changeDateFormat(date,time){
-      if (date == null) {
-        console.log('null',date)
-        return ""
-      }else{
-        console.log("Time",time)
-        let sdate = date.year+ '-' +date.month+ '-' +date.day;
-        let dateParts = sdate.split('-');
-        console.log("dateParts",dateParts)
-        if(dateParts[1]){
-          console.log(Number(dateParts[1])-1);
-          let newParts = Number(dateParts[1])-1;
-          dateParts[1] = newParts.toString();
-        }
-        let timeParts = time.split(':');
-        if(dateParts && timeParts) {
-            let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
-            console.log("UTC",testDate)
-            let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
-            console.log("ISO",fullDate)
-            return fullDate;
-        }
+    if (date == null) {
+      console.log('null',date)
+      return ""
+    }else{
+      console.log("Time",time)
+      let sdate = date.year+ '-' +date.month+ '-' +date.day;
+      let dateParts = sdate.split('-');
+      console.log("dateParts",dateParts)
+      if(dateParts[1]){
+        console.log(Number(dateParts[1])-1);
+        let newParts = Number(dateParts[1])-1;
+        dateParts[1] = newParts.toString();
+      }
+      let timeParts = time.split(':');
+      if(dateParts && timeParts) {
+          let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+          console.log("UTC",testDate)
+
+          let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
+          console.log("ISO",fullDate)
+          return fullDate;
+      }
     }
   }
 
@@ -594,9 +619,17 @@ export class CalendarComponent implements OnInit {
   }
 
   onClickCreate(content){
+    const now = new Date();
     // if(this.selectedYear)
-    // this.model.start = {year: this.selectedYear, month: 1, day: 1};
-    // this.model.end = {year: this.selectedYear, month: 1, day: 1};
+    // this.showText = true;
+    if(this.selectedYear == this.currentYear){
+      console.log("True");
+      this.model.start = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
+      this.model.end = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
+    }else{
+      this.model.start = {year: this.selectedYear, month: 1, day: 1};
+      this.model.end = {year: this.selectedYear, month: 1, day: 1};
+    }
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'holidayModal'});
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -613,15 +646,17 @@ export class CalendarComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
+  showText:boolean = true;
   setMinDate(event){
     console.log("setMinDate",event);
     this.minDate = event;
+    this.showText = false;
   }
   setMaxDate(date){
     console.log("setMaxDate",date);
     this.maxDate =  date;
   }
+
   cancelModal(){
     this.modalReference.close();
     this.model = {};

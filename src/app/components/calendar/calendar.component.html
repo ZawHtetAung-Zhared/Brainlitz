@@ -152,15 +152,15 @@
         <div class="d-flex justify-content-between holiday-wrap" *ngFor="let item of holidaysArr">
           <div class="d-flex">
             <div>
-              <div class="semi-16">{{item.start}}</div>
-              <div class="semi-day-12">TUE</div>
+              <div class="font16 color-2 input-label">{{item.start}}</div>
+              <div class="font12 color-6 input-label">TUE</div>
             </div>
-            <div>
-              <div class="semi-16">{{item.end}}</div>
-              <div class="semi-day-12">SUN</div>
+            <div *ngIf="!item.sameDate">
+              <div class="font16 color-2 input-label">{{item.end}}</div>
+              <div class="font12 color-6 input-label">SUN</div>
             </div>
           </div>
-          <div class="d-flex flex-column justify-content-center medium-16">
+          <div class="d-flex flex-column justify-content-center edit-calnedar-btn">
             {{item.name}}
           </div>
           <div class="d-flex flex-column justify-content-center btn-edit" (click)="editHolidays(item._id,contentCreate)">
@@ -181,22 +181,34 @@
 
 
 <ng-template #contentCreate let-c="close" let-d="dismiss">
-  <div class="modal-body" style="padding: 30px;">
-    <h3 *ngIf="!isEdit">Create Holiday</h3>
-    <h3 *ngIf="isEdit">Update Holiday</h3>
+  <div class="modal-body modal-wrap">
+    <h3 class="input-label color-2" *ngIf="!isEdit">Create Holiday</h3>
+    <h3 class="input-label color-2" *ngIf="isEdit">Update Holiday</h3>
     <form #holidayForm="ngForm">
       <div class="input-wrap">
-        <label>Date</label>
+        <label class="color-6 font16">Date</label>
         <div>
-          <input class="input-day" type="text" placeholder="First Day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
-          <span style="padding: 7px;">To</span>
+          <input class="input-day text-container" type="text" placeholder="First Day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" [navigation]="navigation" ngbDatepicker #start="ngbDatepicker">
+          <!-- <span *ngIf="showText" [ngClass]="{'show':showText}" id="clearBtn1" class="clearBtn">First Day</span> -->
+          <span style="padding: 7px;">
+          To</span>
           <input class="input-day" type="test" placeholder="Last Day" required (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
         </div>
       </div>
       <div class="input-wrap">
-        <label>Holiday name</label>
+        <div class="d-flex justify-content-between">
+          <label class="color-6 font16">Holiday name</label>
+          <div class="limit-wordcount">
+            <span>{{wordLength}}/60characters</span>
+          </div>
+        </div>
         <div>
-          <input class="input-name" type="text" placeholder="Type holiday name" name="name" [(ngModel)]="model.name" required>
+          <input class="input-name" type="text" placeholder="Type holiday name" name="name" (focus)="focusMethod($event)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" [(ngModel)]="model.name" required #holidayName="ngModel">
+          <div *ngIf="holidayName.invalid && (holidayName.dirty || holidayName.touched)" class="alert alert-danger mb-0">
+              <div [hidden]="!holidayName.errors.required">
+                Display name is required!
+              </div>
+          </div>
         </div>
       </div>
       <div class="btns-wrap d-flex">
@@ -205,8 +217,8 @@
         </div>
         <div class="btn-inner-wrap">
           <button type="button" class="btn btn-cancel" (click)="cancelModal()">Cancel</button>
-          <button *ngIf="!isEdit" type="submit" class="btn btn-Primary" (click)="createHoliday()" [disabled]="!holidayForm.form.valid">Create</button>
-          <button *ngIf="isEdit" type="submit" class="btn btn-Primary" (click)="updateHolidays()" [disabled]="!holidayForm.form.valid">Update</button>
+          <button *ngIf="!isEdit" type="submit" class="btn btn-Primary btnC" (click)="createHoliday()" [disabled]="!holidayForm.form.valid">Create</button>
+          <button *ngIf="isEdit" type="submit" class="btn btn-Primary btnC" (click)="updateHolidays()" [disabled]="!holidayForm.form.valid">Update</button>
         </div>
       </div>
     </form>
