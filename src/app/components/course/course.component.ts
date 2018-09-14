@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener, Inject } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
@@ -20,6 +20,13 @@ export class CourseComponent implements OnInit {
   isPlan:boolean = false;
   isCourseDetail:boolean = false;
   public detailLists:any = {};
+  public courseId:any;
+  public locationId:any;
+  public deleteId:any = {};
+  public modalReference: any;
+  public regionId = localStorage.getItem('regionId');
+  public pplLists:any;
+  public activeTab:any = '';
   isSticky:boolean = false;
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
@@ -53,15 +60,37 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
     });
-
-    
   }
-  public regionId = localStorage.getItem('regionId');
+
   ngOnInit() {
   	this.getCourseLists();
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     this.getCPlanList();
+    this.activeTab = 'People';
+  }
+
+  ngAfterViewInit() {
+    console.log('AfterViewInit');
+    this.detailLists = {
+      'paymentPolicy': {
+        "courseFee": "",
+        "miscFee": "",
+        "deposit": {"amount": ""},
+        "proratedLessonFee": ""
+      },
+      'location': {
+        'name': ""
+      }
+    }
+
+    this.pplLists = {
+      'CUSTOMER': [{}],
+      'TEACHER': [{
+              'preferredName': ''
+            }],
+      'STAFF': [{}],
+    }
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -76,18 +105,17 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  // start course detail
+
+  cancel(){
+    this.isCourseDetail = false;
+  }
+
   showCourseDetail(id){
     console.log(id)
     this.isCourseDetail = true;
-    this._service.getSingleCourse(id)
-    .subscribe((res:any)=>{
-      console.log(res)
-      // this.detailLists;
-      this.detailLists = res;
-      console.log(this.detailLists)
-    },err =>{
-      console.log(err);
-    });
+    this.getCourseDetail(id);
+    this.getUsersInCourse(id);
   }
 
   getCourseDetail(id){
@@ -95,11 +123,55 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
       console.log(res)
       this.detailLists = res;
-      console.log(this.detailLists)
+      this.courseId = res._id;
+      this.locationId = res.locationId;
+      console.log(res.locationId)
+      // console.log(this.locationId)
     },err =>{
       console.log(err);
     });
   }
+
+  getUsersInCourse(id){
+    this._service.getAssignUser(this.regionId,id)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.pplLists = res;
+    },err =>{
+      console.log(err);
+    });
+  }
+
+  clickTab(type){
+    this.activeTab = type;
+  }
+
+  openRemoveModal(id, deleteModal){
+    this.deleteId = id;
+    this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal'});
+  }
+
+  withdrawUser(id){
+    let userobj = {
+      'courseId': this.courseId,
+      'userId': id,
+      'locationId': this.locationId
+    }
+    this.blockUI.start('Loading...'); 
+    this._service.withdrawAssignUser(this.regionId,userobj)
+    .subscribe((res:any) => {
+      this.modalReference.close();
+      console.log(res);
+      this.toastr.success('User successfully withdrawaled.');
+      this.getUsersInCourse(id);
+    },err =>{
+      this.toastr.error('Withdrawal user failed.');
+      this.modalReference.close();
+      console.log(err);
+    });
+  }
+
+  // end course detail
 
   changeRoute(){
     this.isCategory = true;

@@ -94,17 +94,138 @@
       <i class="fa fa-angle-left"></i>
       <p>Courses</p>
     </div>
-    <a class="edit-course-btn" (click)="editOn()">Edit course</a>
+    <button class="btn edit-course-btn" (click)="editOn()">Edit course</button>
   </div>
   <div>
-    <div class="d-flex flex-row">
-      <div class="col-md-6">
-        {{detailLists.name}}
+    <div class="d-flex flex-row row">
+      <div class="col-md-6 detail-info">
+        <label>Plan name</label>        
+        <h4>{{detailLists.name}}
+        <span>{{detailLists.courseCode}}</span></h4>        
+        <p>{{detailLists.description}}</p>
       </div>
-      <div class="col-md-6">
-        
+      <div class="col-md-6 row detail-fees">
+        <div class="col-md-6 pl-zero">
+          <div>
+            <h5>Course fee</h5>
+            <b>{{detailLists.paymentPolicy.courseFee}}</b>
+          </div>
+          <div class="mt-32">
+            <h5>Miscellaneous fee</h5>
+            <b>{{detailLists.paymentPolicy.miscFee}}</b>
+          </div>
+        </div>
+        <div class="col-md-6 pl-zero">
+          <div>
+            <h5>Deposit</h5>
+            <b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+          </div>
+          <div class="mt-32">
+            <h5>Prorate class fee</h5>
+            <b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex detail-box">
+      <div class="col-md-4 col-lg-4 detail-fees pl-zero">
+        <h5 class="mt-03">Location</h5>
+        <b>{{detailLists.location.name}}</b>
+      </div>
+      <div class="col-md-4 col-lg-4 course-time pr-zero">
+        <h5>SUN & MON</h5>
+        <p>11:00 AM - 12:00 AM</p>
+      </div>
+      <div class="col-md-4 col-lg-4 course-date">
+        <div class="d-flex detail-fees">
+          <div class="col-md-6 pr-zero">
+            <h5 class="mt-03">From</h5>
+            <b>{{detailLists.startDate | date}}</b>
+          </div>
+          <div class="col-md-6 pr-zero">
+            <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
+            <b>{{detailLists.endDate | date}}</b>
+            <div *ngIf="detailLists.endDate == null" class="mt-15">
+              <b>{{ detailLists.lessonCount }} Lessons</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column">
+      <div class="d-flex">
+        <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
+        <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button>
+        <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
+      </div>
+      <div class="activeTab-content" *ngIf="activeTab == 'People'">
+        <div class="activeTab-header d-flex justify-content-center align-items-center">         
+          <label class="room-label">Room</label><label class="room-name">{{detailLists.room}}</label>
+        </div>
+        <div class="activeTab-body">
+          <div class="teacher-section">
+            <div class="d-flex justify-content-between user-header">
+              <h2 class="title-heading">Teachers</h2>
+              <button type="button" class="btn btn-create" (click)="creatnew()">Add teacher</button>
+            </div>
+            <div class="row">
+              <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <div class="d-flex flex-row single-user justify-content-center align-items-center">
+                  <div class="img-wrap">
+                    <img src="{{user.profilePic}}">
+                  </div>
+                  <div class="single-user-info d-flex flex-column justify-content-center">
+                    <p>{{user.userType}}</p>
+                    <h4>{{user.preferredName}}</h4>
+                  </div>
+                  <div class="ml-auto remover-wrap">
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="d-flex justify-content-between user-header">  
+              <div class="d-flex flex-row">
+                <h2 class="title-heading">Customers</h2>
+                <div>
+                  <p class="seat">seats left</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-create" (click)="creatnew()">Enroll class</button>
+            </div>
+            <div class="row">
+              <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <div class="d-flex flex-row single-user justify-content-center align-items-center">
+                  <div class="img-wrap">
+                    <img src="{{user.profilePic}}">
+                  </div>
+                  <div class="single-user-info d-flex flex-column justify-content-center">
+                    <h4>{{user.preferredName}}</h4>
+                  </div>
+                  <div class="ml-auto remover-wrap">
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
+<ng-template #deleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Withdraw user?</h3>
+  </div>
+  <div class="modal-body confirm-text">
+    <p>Are You sure you want to remove <span class="target">--</span> from this course?</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn modal-delete-btn" (click)="withdrawUser(deleteId)">Withdraw</button>
+  </div>
+</ng-template>
