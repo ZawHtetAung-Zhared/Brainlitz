@@ -20,6 +20,11 @@ export class CourseComponent implements OnInit {
   isPlan:boolean = false;
   isCourseDetail:boolean = false;
   public detailLists:any = {};
+  public courseId:any;
+  public locationId:any;
+  public deleteId:any = {};
+  public modalReference: any;
+  public regionId = localStorage.getItem('regionId');
   public pplLists:any;
   public activeTab:any = '';
   isSticky:boolean = false;
@@ -55,10 +60,8 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
     });
-
-    
   }
-  public regionId = localStorage.getItem('regionId');
+
   ngOnInit() {
   	this.getCourseLists();
     localStorage.removeItem('categoryID');
@@ -103,6 +106,7 @@ export class CourseComponent implements OnInit {
   }
 
   // start course detail
+
   cancel(){
     this.isCourseDetail = false;
   }
@@ -119,7 +123,10 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
       console.log(res)
       this.detailLists = res;
-      console.log(this.detailLists)
+      this.courseId = res._id;
+      this.locationId = res.locationId;
+      console.log(res.locationId)
+      // console.log(this.locationId)
     },err =>{
       console.log(err);
     });
@@ -130,8 +137,6 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
       console.log(res)
       this.pplLists = res;
-      // this.detailLists = res;
-      // console.log(this.detailLists)
     },err =>{
       console.log(err);
     });
@@ -139,6 +144,31 @@ export class CourseComponent implements OnInit {
 
   clickTab(type){
     this.activeTab = type;
+  }
+
+  openRemoveModal(id, deleteModal){
+    this.deleteId = id;
+    this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal'});
+  }
+
+  withdrawUser(id){
+    let userobj = {
+      'courseId': this.courseId,
+      'userId': id,
+      'locationId': this.locationId
+    }
+    this.blockUI.start('Loading...'); 
+    this._service.withdrawAssignUser(this.regionId,userobj)
+    .subscribe((res:any) => {
+      this.modalReference.close();
+      console.log(res);
+      this.toastr.success('User successfully withdrawaled.');
+      this.getUsersInCourse(id);
+    },err =>{
+      this.toastr.error('Withdrawal user failed.');
+      this.modalReference.close();
+      console.log(err);
+    });
   }
 
   // end course detail

@@ -94,7 +94,7 @@
       <i class="fa fa-angle-left"></i>
       <p>Courses</p>
     </div>
-    <a class="edit-course-btn" (click)="editOn()">Edit course</a>
+    <button class="btn edit-course-btn" (click)="editOn()">Edit course</button>
   </div>
   <div>
     <div class="d-flex flex-row row">
@@ -140,11 +140,14 @@
         <div class="d-flex detail-fees">
           <div class="col-md-6 pr-zero">
             <h5 class="mt-03">From</h5>
-            <b>12 Jul 18</b>
+            <b>{{detailLists.startDate | date}}</b>
           </div>
           <div class="col-md-6 pr-zero">
-            <h5 class="mt-03">To</h5>
-            <b>12 Jul 18</b>
+            <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
+            <b>{{detailLists.endDate | date}}</b>
+            <div *ngIf="detailLists.endDate == null" class="mt-15">
+              <b>{{ detailLists.lessonCount }} Lessons</b>
+            </div>
           </div>
         </div>
       </div>
@@ -176,7 +179,7 @@
                     <h4>{{user.preferredName}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <div class="remove-user d-flex justify-content-end"></div>
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
                   </div>
                 </div>
               </div>
@@ -186,7 +189,9 @@
             <div class="d-flex justify-content-between user-header">  
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
-                <div>seats left</div>
+                <div>
+                  <p class="seat">seats left</p>
+                </div>
               </div>
               <button type="button" class="btn btn-create" (click)="creatnew()">Enroll class</button>
             </div>
@@ -200,7 +205,7 @@
                     <h4>{{user.preferredName}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <div class="remove-user d-flex justify-content-end"></div>
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
                   </div>
                 </div>
               </div>
@@ -212,3 +217,15 @@
   </div>
 </div>
 
+<ng-template #deleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Withdraw user?</h3>
+  </div>
+  <div class="modal-body confirm-text">
+    <p>Are You sure you want to remove <span class="target">--</span> from this course?</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn modal-delete-btn" (click)="withdrawUser(deleteId)">Withdraw</button>
+  </div>
+</ng-template>
