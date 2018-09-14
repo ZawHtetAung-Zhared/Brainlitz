@@ -1,195 +1,270 @@
-.list-wrap{
-  width: 60%;
-  /*margin: 0 auto;*/
-  /*background-color: #d3d3d3;*/
+.font-medium{
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
-.item-list{
-	list-style: none;
-	column-count: 2;
+.font-semi{
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
-.btn-wrap{
-  display: flex;
-  justify-content: flex-end;
+textarea, input, select {
+  font-family: "Montserrat-Regular", Arial,sans-serif;
 }
-.calendar-wrap{
-	display: flex;
+header div{
+  height: 1.4rem;
 }
-.flex-item{
-	position: relative;
-	width: 50%;
-	flex: 1;
+.create-container{
+  /*overflow: hidden;*/
 }
-.flex-item:first-child{
-	margin-right: 5px;
+.header-wrapper{
+  padding: 20px 30px;
 }
-.image {
-  display: block;
-  width: 100%;
-  height: auto;
+.courseInfo p{
+  color: #64707d;
+  font-size: 12px;
+  line-height: 1.7
 }
-
-.overlay {
-  position: absolute; 
-  top: 0;
-  right: 0;
-  background: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.5); /* Black see-through */
-  color: #f1f1f1; 
-  width: 100%;
-  transition: .5s ease;
-  opacity:1;
-  color: white;
-  font-size: 20px;
-  text-align: center;
-  width: 40px;
-  height: 37px;
+.courseInfo h5{
+  font-size: 16px;
+  color: #2e3e4d;
 }
-.overlay img{
-	width: 40px;
+.back p{
+  font-size: 16px;
+  color: #2e3e4d;
+  cursor: pointer;
 }
-@keyframes slideInFromLeft {
-  100% {
-    transform: translateX(0);
-  }
-  0% {
-    transform: translateX(100%);
-  }
+.back i{
+  font-size: 21px;
+  padding-right: 4px;
 }
-.form-container{
-  animation: 0.6s ease-in 0s 1 slideInFromLeft;
+.btn-cancel{
+  padding: 0;
+  border: none;
+  outline: none;
+  color: #2e3d4d;
+  cursor: pointer;
+  font-size: 16px;
+  background: #fff;
 }
-
-.scrollable
-{
-      overflow-y: scroll;
-      height: 100vh;
- }
- .margin-left{
-    margin-left: 20px !important;
-}
-.btn-danger{
-  background: #fcfcfc;
-    color: #000;
-    border: 1px solid #888;
-    padding: 9px 8px;
-    margin-right: 20px;
-}
-.newbtn{
+.sticky-dot {
+  margin-left: 10px;
   margin-right: 10px;
+  font-weight: bold;
+  color: #788796;
+  font-size: 30px;
+  margin-top: -13px;
 }
-.selected {color: OrangeRed;}
-.day{
-    width: 60px;
-    padding: 2px;
-    background: #e9ecef;
-    margin: 5px 10px 5px 0px;
+.progress-box-wrap {
+  box-shadow: 0 6px 15px -9px rgba(184,184,184,1);
+  border-top: 1px solid #edeff0;
+  padding: 10px 30px;
+  /*padding: 30px;
+  height: 7.2em;*/
 }
-.form-head{
-  display: flex;
-  margin: 15px 0px 15px 0px;
-}
-.label-input{
-  width: 30%;
-}
-.form-input{
-  width: 70%;
-  display: flex;
-}
-.label-location{
-  width: 30%;
-}
-.new-input{
-  width: 70%;
-}
-.end-item{
-  position: relative;
-  margin-left: 5px;
-  width: 99%;
-}
-.endOpt{
-  margin-right: 5px;
-}
-.lesson-input{
-  width: 200px;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-.enddate-wrap{
-  display: flex;
-}
-.lesson-wrap{
-  margin: 5px 0px 10px 0px;
-}
-.chklist-wrap{
-  max-height: 80px;
-  overflow: auto;
-}
-.chklist-wrap label{
-  margin-right: 10px;
-}
-
-/* The container */
-.radio-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
+.progress {
+    width: 100%;
+    list-style: none;
+    list-style-image: none;
+    margin: 25px 0 25px 0;
+    padding: 0;
+    /*background: none;*/
+    overflow: unset !important;
     font-size: 18px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    height: 0.2em;
 }
 
-/* Hide the browser's default radio button */
-.radio-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+.progress li {
+    float: left;
+    /*text-align: center;*/
+    position: relative;
+    margin-top: -17px;
+    width: 1000px;
 }
 
-/* Create a custom radio button */
-.checkmark {
-    position: absolute;
-    top: 4px;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    border: 1px solid #703bc1;
+.progress li:last-child {
+  width: auto;
+}
+
+.progress li.active {
+  margin-top: -22px;
+}
+
+.progress .step {
+    color: #fff;
+    /*border: 3px solid #e3e4e6;*/
+    background-color: #e3e4e6;
     border-radius: 50%;
+    line-height: 2;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    z-index: 0;
+    text-align: center;
 }
 
-/* When the radio button is checked, add a blue background */
-.radio-container input:checked ~ .checkmark {
-    background-color: #fff;
+.progress .step span {
+    /*opacity: 0.3;*/
 }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
+.progress .active .name,
+.progress .active .step span {
+    opacity: 1;
+}
+
+.progress .step:before {
     content: "";
+    display: block;
+    background-color: #e3e4e6;
+    /*height: 0.2em;*/
+    width: 50%;
     position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.progress .step:after {
+    content: "";
+    display: block;
+    /*background-color: #e3e4e6;*/
+    /*height: 0.2em;*/
+    width: 50%;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+    right: 0;
+}
+
+.progress li:first-of-type .step:before {
     display: none;
 }
 
-/* Show the indicator (dot/circle) when checked */
-.radio-container input:checked ~ .checkmark:after {
-    display: block;
+.progress li:last-of-type .step:after {
+    display: none;
 }
 
-/* Style the indicator (dot/circle) */
-.radio-container .checkmark:after {
-    top: 2px;
-    left: 2px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #703bc1;
+.progress .done .step,
+.progress .done .step:before,
+.progress .done .step:after,
+.progress .active .step,
+.progress .active .step:before {
+    background-color: #0080ff;
 }
-/*for no courseplan*/
-.center{
-  margin: auto;
-  width: 50%;
-  padding: 30px;
+
+.progress .active .step {
+  border: 6px solid #cce6ff;
+  width: 2.6em;
+  height: 2.6em;
+  line-height: 2em;
+}
+
+.progress li.done {
+  background: #007fff;
+  margin-top: 1px;
+}
+
+.progress li.done .step{
+  position: absolute;
+  bottom: -15px;
+}
+
+.inside-data-wrapper {
+  padding: 50px 60px;
+  min-height: 600px;
+}
+
+.inside-data-wrapper input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px #fff inset;
+  -moz-box-shadow: 0 0 0 100px #fff inset;
+  box-shadow: 0 0 0 100px #fff inset !important;
+}
+
+.step-font, .txt-default, .small-caption {
+  font-family: 'Montserrat-SemiBold', Arial,sans-serif; 
+  color: #64707d;
+}
+.all-title-font {
+  font-family: "Montserrat-SemiBold",Arial,sans-serif;
+  color: #2e3e4d;
+  font-size: 18px;
+}
+.text-font-align {
+  font-size: 28px;
+  line-height: 0.8;
+}
+.br-bshadow-none {
+  border: none; 
+  box-shadow: none;
+  /*margin-left: -10px;*/
+}
+.all-left-box-10 {
+  margin-left: -10px;
+}
+.alert-m-right{
+  margin-right: 20px;
+}
+.limit-hr-length {
+  width: 98%;
+  margin-right: 15px;
+}
+.hoverReadonly:focus, select:focus, input:focus, textarea:focus {
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+  background: #1A000000 !important;
+}
+.sticky-create {
+  float: right; 
+  color: #ffffff; 
+  background: #007fff;
+  cursor: pointer;
+}
+.sticky-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   text-align: center;
+  padding: 20px 30px;
+}
+.input-day{
+  border: 0;
+  padding: 8px 15px;
+  width: 300px;
+  background: #f2f4f5;
+  outline: none;
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  background: #ffffff;
+}
+.input-day::placeholder {
+  color: #2e3d4d;
+  font-size: 14px;
+  font-family: 
+}
+.tool-box{
+  display: table;
+  border: 2px solid #0080ff;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  margin-top: 13px;
+}
+.tool-box input{
+  display: none;
+}
+.tool-box label{
+  width: 150px;
+  padding: 8px 0px;
+  text-align: center;
+  font-size: 14px;
+  color: #0080ff;
+}
+
+.selected{
+  background: #0080ff;
+  color: #fff!important;
+}
+.input-wrap{
+  margin: 13px 0px;
+}
+.duration{
+  background: #d3d3d3;
+  width: 60px;
+  padding: 6px;
+  text-align: center;
+  border-radius: 50px 50px;
 }

@@ -233,6 +233,7 @@ li button{
 .link-btn{
   text-decoration: none;
   color: #64707d;
+  cursor: pointer;
 }
 .time-color{
   color: #97a0a8;

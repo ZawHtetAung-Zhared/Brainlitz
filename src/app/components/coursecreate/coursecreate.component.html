@@ -1,8 +1,5 @@
-<div class="inner-wrapper">
+<!-- <div class="inner-wrapper">
 	<div *ngIf="!showCourse">
-		<!-- <div *ngIf="noPlan" class="center">
-			<h3>There is no course plan</h3>
-		</div> -->
 		<h3 *ngIf="noPlan">There is no course plan</h3>
 		<div class="list-wrap" *ngIf="!noPlan">
 			<div class="form-group">
@@ -62,9 +59,6 @@
 								Course Name is required.
 							</div>
 						</div>
-						<!-- <div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
-							Course Name is required.
-						</div> -->
 					</div>
 				</div>
 				<div class="form-group form-head">
@@ -78,9 +72,6 @@
 					<label class="label-input">Start Time</label>
 					<div>
 						<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
-						<!-- <div [hidden]="starttime.valid || starttime.pristine" class="alert alert-danger">
-						  Start Time is required;
-						</div> -->
 						<div *ngIf="starttime.invalid && (starttime.dirty || starttime.touched)"
 						class="alert alert-danger">
 							<div *ngIf="starttime.errors.required">
@@ -148,7 +139,6 @@
 			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
 			            </label>
 					</div>
-					<!-- {{cbChecked | json}} -->
 				</div>
 				<div class="form-group form-head">
 					<label class="label-input">Teacher Name</label>
@@ -180,7 +170,6 @@
 					<label class="label-input">Room</label>
 					<div *ngIf="!isEdit" class="new-input">
 						<input type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
-						<!-- <input *ngIf="isEdit" readonly type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room"> -->
 						<div *ngIf="room.invalid && (room.dirty || room.touched)"
 						class="alert alert-danger">
 							<div *ngIf="room.errors.required">
@@ -225,4 +214,167 @@
 			</form>
 		</div>
 	</div>
+</div> -->
+<div class="create-container">
+	<div class="header-wrapper">
+		<header>
+			<div class="d-flex justify-content-between">
+				<div class="d-flex back" (click)="backToCourses()">
+					<i class="fa fa-angle-left"></i>
+				    <p class="mb-0 font-medium ">Courses</p>
+				</div>
+				<div class="d-flex flex-row courseInfo font-medium">
+					<p class="mb-0">#{{ coursePlan.name }}</p><span class="sticky-dot">&#183;</span>		
+					<h5 class="mb-0">Course</h5>
+				</div>
+				<div class="font-medium">
+					<button class="btn-cancel">Cancel</button>
+				</div>
+			</div>
+		</header>
+	</div>
+	<form #courseForm="ngForm" novalidate>
+		<div class="progress-box-wrap">
+			<ol class="progress" data-steps="8">
+			    <li id="step1">
+			        <span class="step">
+			        	<span>1</span>
+			        </span>
+			    </li>
+			    <li id="step2">
+			        <span class="step">
+			        	<span>2</span>
+			        </span>
+			    </li>
+			    <li id="step3">
+			        <span class="step">
+			        	<span>3</span>
+			        </span>
+			    </li>
+			    <li id="step4">
+			        <span class="step">
+			        	<span>4</span>
+			        </span>
+			    </li>
+			</ol>
+		</div>
+		<div *ngIf="step1">
+			<form class="form-wrap" #childForm1="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 1</p>
+						<h5 class="all-title-font text-font-align">Course information</h5>
+					</div>
+					<div class="d-flex" style="padding-top: 40px;">
+						<div class="col-md-6">
+							<div>
+								<div class="d-flex justify-content-between">
+									<label for="course_name" class="all-title-font">Course name</label>
+									<div class="limit-wordcount">
+										<span>{{wordLength}}/60characters</span>
+									</div>
+								</div>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+								<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
+							        <div [hidden]="!courseName.errors.required">
+							          Course name is required!
+							        </div>
+							    </div>
+								<hr class="limit-hr-length">
+							</div>
+							<div class="mr-top">
+								<label for="seat" class="all-title-font">Course Code</label>
+								<input type="text" placeholder="Type relevant course code here" class="form-control br-bshadow-none all-left-box-10" id="courseCode" name="courseCode" [(ngModel)]="model.courseCode" required #code="ngModel"> 
+								<div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger alert-m-right">
+							        <div [hidden]="!code.errors.required">
+							          Course code is required!
+							        </div>
+							    </div>
+								<hr class="limit-hr-length">
+							</div> 
+						</div>
+						<div class="col-md-6">
+							<div>
+								<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
+								<textarea class="form-control br-bshadow-none" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
+								<!-- <div *ngIf="cpDesc.invalid && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
+							        <div [hidden]="!cpDesc.errors.required">
+							          Description is required!
+							        </div>
+							    </div> -->
+								<hr class="limit-hr-length">
+							</div>
+						</div> 
+					</div>
+				</div>
+				<div class="sticky-footer">
+					<!-- <div *ngIf="!step1" class="d-flex flex-column justify-content-center">
+						<div class="d-flex flex-row back">
+							<i class="fa fa-angle-left"></i>
+						    <p class="mb-0 font-medium ">Back</p>
+						</div>
+					</div> -->
+					<button type="button" class="btn sticky-create" [disabled]="!childForm1.valid" (click)="continueStep('step1', childForm1.value)">Continue</button>
+				</div>
+			</form>
+		</div>
+		<div *ngIf="step2">
+			<form class="form-wrap" #childForm2="ngForm" novalidate>
+				<div class="inside-data-wrapper">
+					<div class="col-md-12">
+						<p class="step-font">Step 2</p>
+						<h5 class="all-title-font text-font-align">Time range</h5>
+					</div>	
+					<div class="d-flex" style="padding-top: 40px;">
+						<div class="col-md-6">
+							<label for="course_name" class="all-title-font">Starts</label>
+							<div class="input-wrap">
+								<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label for="course_name" class="all-title-font">Ends</label>
+							<div>
+								<div class="tool-box">
+									<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
+									<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi">
+										<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseEndOpt('lesson')"> Lessons Count
+									</label>
+								</div>
+							</div>
+							<div *ngIf="isChecked == 'end'">
+								<input class="input-day" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+							</div>
+							<div *ngIf="isChecked == 'lesson'">
+								<input class="input-day" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel">
+							</div>
+						</div>
+					</div>
+					<div class="d-flex" style="padding-top: 40px;">
+						<div class="col-md-6">
+							<label for="course_name" class="all-title-font">Starting Time</label>
+							<div class="input-wrap">
+								<input type="text" placeholder="Start Time" class="input-day" name="starttime" required [(ngModel)]="model.starttime">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label for="course_name" class="all-title-font">Duration</label>
+							<div class="input-wrap">
+								<div class="duration">1hr</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="sticky-footer d-flex justify-content-between">
+					<div [hidden]="!step2" class="d-flex flex-column justify-content-center" (click)="backStep('step2')">
+						<div class="d-flex flex-row back">
+							<i class="fa fa-angle-left"></i>
+						    <p class="mb-0 font-medium ">Back</p>
+						</div>
+					</div>
+					<button type="button" class="btn sticky-create" [disabled]="!childForm2.valid" (click)="continueStep('step2', childForm2.value)">Continue</button>
+				</div>
+			</form>
+		</div>
+	</form>
 </div>
