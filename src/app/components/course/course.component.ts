@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener, Inject } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
@@ -20,6 +20,8 @@ export class CourseComponent implements OnInit {
   isPlan:boolean = false;
   isCourseDetail:boolean = false;
   public detailLists:any = {};
+  public pplLists:any;
+  public activeTab:any = '';
   isSticky:boolean = false;
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
@@ -62,6 +64,30 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     this.getCPlanList();
+    this.activeTab = 'People';
+  }
+
+  ngAfterViewInit() {
+    console.log('AfterViewInit');
+    this.detailLists = {
+      'paymentPolicy': {
+        "courseFee": "",
+        "miscFee": "",
+        "deposit": {"amount": ""},
+        "proratedLessonFee": ""
+      },
+      'location': {
+        'name': ""
+      }
+    }
+
+    this.pplLists = {
+      'CUSTOMER': [{}],
+      'TEACHER': [{
+              'preferredName': ''
+            }],
+      'STAFF': [{}],
+    }
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -76,18 +102,16 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  // start course detail
+  cancel(){
+    this.isCourseDetail = false;
+  }
+
   showCourseDetail(id){
     console.log(id)
     this.isCourseDetail = true;
-    this._service.getSingleCourse(id)
-    .subscribe((res:any)=>{
-      console.log(res)
-      // this.detailLists;
-      this.detailLists = res;
-      console.log(this.detailLists)
-    },err =>{
-      console.log(err);
-    });
+    this.getCourseDetail(id);
+    this.getUsersInCourse(id);
   }
 
   getCourseDetail(id){
@@ -100,6 +124,24 @@ export class CourseComponent implements OnInit {
       console.log(err);
     });
   }
+
+  getUsersInCourse(id){
+    this._service.getAssignUser(this.regionId,id)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.pplLists = res;
+      // this.detailLists = res;
+      // console.log(this.detailLists)
+    },err =>{
+      console.log(err);
+    });
+  }
+
+  clickTab(type){
+    this.activeTab = type;
+  }
+
+  // end course detail
 
   changeRoute(){
     this.isCategory = true;
