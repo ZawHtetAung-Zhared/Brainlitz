@@ -297,23 +297,12 @@
 							<div>
 								<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
 								<textarea class="form-control br-bshadow-none" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
-								<!-- <div *ngIf="cpDesc.invalid && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
-							        <div [hidden]="!cpDesc.errors.required">
-							          Description is required!
-							        </div>
-							    </div> -->
 								<hr class="limit-hr-length">
 							</div>
 						</div> 
 					</div>
 				</div>
 				<div class="sticky-footer">
-					<!-- <div *ngIf="!step1" class="d-flex flex-column justify-content-center">
-						<div class="d-flex flex-row back">
-							<i class="fa fa-angle-left"></i>
-						    <p class="mb-0 font-medium ">Back</p>
-						</div>
-					</div> -->
 					<button type="button" class="btn sticky-create" [disabled]="!childForm1.valid" (click)="continueStep('step1', childForm1.value)">Continue</button>
 				</div>
 			</form>
@@ -354,13 +343,72 @@
 						<div class="col-md-6">
 							<label for="course_name" class="all-title-font">Starting Time</label>
 							<div class="input-wrap">
-								<input type="text" placeholder="Start Time" class="input-day" name="starttime" required [(ngModel)]="model.starttime">
+								<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.starttime" readonly (click)="durationProgress($event)" style="background: none;">
+								<div class="bg-box duration-progress">
+									<div id="rectangle"></div>
+									<div class="time-wrapper d-flex justify-content-center">
+										 <div class="d-flex flex-column justify-content-center showTime font-semi">
+										 	{{selectedHrRange}}:{{selectedMinRange}}
+										 </div>
+										 <div>
+										 	<div class="time-box">
+												<label [ngClass]="{'selected':isSelected == 'am'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseTimeOpt('am')"> AM </label>
+												<label [ngClass]="{'selected':isSelected == 'pm'}" class="mb-0 font-semi">
+													<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseTimeOpt('pm')"> PM
+												</label>
+											</div>
+										 </div>
+									</div>
+									<div class="gap-box">
+										<label>
+											<div class="col-md-4 max-range">Hour</div>
+											<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
+											
+										</label>
+									</div>
+									<div class="gap-range-min">
+										<label>
+											<div class="col-md-4 min-range">Minute</div>
+											<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin" [disabled]="overDurationHr">
+											<p *ngIf="overDurationHr" class="alert-duration">Lesson Duration has only 24 hr, so can not choose minute. </p>			
+										</label>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<label for="course_name" class="all-title-font">Duration</label>
 							<div class="input-wrap">
-								<div class="duration">1hr</div>
+								<div class="duration all-title-font">1hr</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="form-group form-head">
+						<label class="label-input">Start Time</label>
+						<div>
+							<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
+							<div *ngIf="starttime.invalid && (starttime.dirty || starttime.touched)"
+							class="alert alert-danger">
+								<div *ngIf="starttime.errors.required">
+									Start Time is required.
+								</div>
+							</div>
+						</div>
+					</div> -->
+					<div class="checkboxes-wrapper">
+						<label class="all-title-font">Repeated days</label>
+						<div>
+							<div>
+								<span *ngFor="let d of days">
+									<label class="day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
+										<!-- <span><i class="fa fa-check"></i></span> -->
+										<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
+									    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
+										
+						                <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit">
+						                <div class="box-label">{{d.day}}</div>
+						            </label>
+								</span>
 							</div>
 						</div>
 					</div>

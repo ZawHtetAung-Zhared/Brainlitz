@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef, HostListener } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
@@ -17,46 +17,6 @@ declare var $:any;
   styleUrls: ['./coursecreate.component.css']
 })
 export class CoursecreateComponent implements OnInit {
-  // public closeResult: string;
-  // public modalReference: any;
-  // public choosePlan: any;
-  // public model: any = {};
-  // public showCourse:boolean = false;
-  // public courseObj:{};
-  // public coursePlan;
-  // public regionID = localStorage.getItem('regionId');
-  // public coursePlanId = localStorage.getItem('coursePlanId');    
-  // public coursePlanName;
-  // public courseId;
-  // public users;
-  // public locationList;
-  // public pdfList:any;
-  // public showPlanList:boolean = false;
-  // public showPlan:boolean = false;
-  // public toggleBool: boolean=true;
-  // public classend: any;
-  // public selectedDay = [];
-  // public isEdit:boolean = false;
-  // public days = [
-  //   {"day":"Sun", "val": 0},
-  //   {"day":"Mon", "val": 1},
-  //   {"day":"Tue", "val": 2},
-  //   {"day":"Wed", "val": 3},
-  //   {"day":"Thu", "val": 4},
-  //   {"day":"Fri ", "val": 5},
-  //   {"day":"Sat", "val": 6},
-  // ];
-  // public selectedPdf = [];
-  // public cbChecked = [];
-  // public testChar:boolean;
-  // minDate:any;
-  // maxDate:any;
-  // courseList: any;
-  // bsValue: Date;
-  // powers: any;
-  // public pdfListLength:any;
-  // public noPlan:boolean = false;
-  // date = new Date();
   public regionID = localStorage.getItem('regionId');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   @BlockUI() blockUI: NgBlockUI;
@@ -75,6 +35,28 @@ export class CoursecreateComponent implements OnInit {
   isChecked:any;
   minDate: any;
   maxDate: any;
+  public days = [
+    {"day":"Sun", "val": 0},
+    {"day":"Mon", "val": 1},
+    {"day":"Tue", "val": 2},
+    {"day":"Wed", "val": 3},
+    {"day":"Thu", "val": 4},
+    {"day":"Fri ", "val": 5},
+    {"day":"Sat", "val": 6},
+  ];
+  public selectedDay = [];
+  public toggleBool:boolean = true;
+  public progressSlider: boolean = false;
+  public focusCfee: boolean = false;
+  public focusMisfee: boolean = false;
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public startFormat: any;
+  public timeInminutes: any;
+  public rangeMin: any;
+  public rangeHr: any;
+  public isSelected: any;
 
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
@@ -88,6 +70,11 @@ export class CoursecreateComponent implements OnInit {
     }, 200)
     this.step2=true;
     this.isChecked = 'end';
+    this.isSelected = 'am';
+    this.rangeHr = '0';
+    this.rangeMin = '0';
+    this.selectedHrRange = "00";
+    this.selectedMinRange = "00";
   }
 
   focusMethod(e){
@@ -140,21 +127,156 @@ export class CoursecreateComponent implements OnInit {
   chooseEndOpt(type){
     console.log("Type",type);
     this.isChecked = type;
-    if(type == 'end'){
-      this.model.end = "";
-    }else{
-      this.model.lessonCount = "";
-      this.maxDate = "";
-    }
+      if(type == 'end'){
+        this.model.end = "";
+      }else{
+        this.model.lessonCount = "";
+        this.maxDate = "";
+      }
   }
 
   setMinDate(event){
     console.log("setMinDate",event);
     this.minDate = event;
   }
+
   setMaxDate(date){
     console.log("setMaxDate",date);
     this.maxDate =  date;
   }
+  clickInit:boolean = false;
+  selectDay(data, event): void {
+    this.clickInit = true;
+    console.log("Day",data,event);
+    var dayIdx = this.selectedDay.indexOf(data);
+    console.log(dayIdx);
+    if (event.target.checked) {
+        if(dayIdx < 0 )
+          this.selectedDay.push(data);
+          this.toggleBool= false;
+    } else {
+        if(dayIdx >= 0 )
+        this.selectedDay.splice(dayIdx,1);
+        if(this.selectedDay.length>0){
+          this.toggleBool= false;
+        }else{
+          this.toggleBool= true;
+        }
+    }
+    this.selectedDay.sort();
+    console.log(this.selectedDay);
+  }
+
+  durationProgress($event){
+    this.progressSlider = true;
+  }
+
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+
+        if(this.progressSlider != true){
+           $('.bg-box').css({ 'display': "none" });   
+        }
+        else {
+            $('.bg-box').css({ 'display': "block" }); 
+            $('.bg-box').click(function(event){
+                event.stopPropagation();
+            });
+            this.progressSlider = false;
+
+        }
+
+        if(this.focusCfee == true){
+          $('.cfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.cfee-bg').removeClass("focus-bg");
+        }
+        this.focusCfee = false;
+
+        if(this.focusMisfee == true){
+          $('.misfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.misfee-bg').removeClass("focus-bg");
+        }
+        this.focusMisfee = false;
+  }
+
+  ChangedRangeValue(e, type) {
+    if(type == 'hr'){
+      this.selectedHrRange = e;
+      this.overDurationHr = false;
+      // if(this.selectedHrRange == 24){
+      //   this.overDurationHr = true;
+      //   this.rangeMin = 0;
+      //   this.selectedMinRange = 0;
+      // }
+      // if(this.selectedHrRange<10){
+      //   this.selectedHrRange = 0 + e;
+      // }
+      // console.log("Hr",this.selectedHrRange);
+    }
+    if(type == 'min'){
+      this.selectedMinRange = e;
+      // if(this.selectedMinRange<10){
+      //   this.selectedMinRange = 0 + e;
+      // }
+      // console.log("Min",this.selectedMinRange);
+    }
+    // if(this.init == true ){
+    //   this.startFormat =Number(this.selectedHrRange) + ':' +Number(this.selectedMinRange);
+    //   console.log("InitstartAM",this.startFormat);
+    // }
+    this.startFormat = "";
+    if(this.isSelected == 'am'){
+      var hour = 0;
+      this.selectedHrRange= hour + Number(this.selectedHrRange);
+      this.startFormat = Number(this.selectedHrRange) + ':' +Number(this.selectedMinRange);
+       console.log("startAM",this.startFormat);
+    }else if(this.isSelected == 'pm'){
+      var hour = 12;
+      this.selectedHrRange= hour + Number(this.selectedHrRange);
+      console.log(this.selectedHrRange)
+      this.startFormat = Number(this.selectedHrRange) + ':' + Number(this.selectedMinRange);
+      console.log("startPM",this.startFormat)
+    }
+  }
+  public init:boolean = true;
+  chooseTimeOpt(type){
+    this.startFormat = "";
+      this.init = false;
+      this.isSelected = type;
+      if(type == 'am'){
+        if(this.selectedHrRange<=0){
+          var hour = 0;
+        }else{
+          var hour = 12;
+        }
+        console.log("AM",type);
+        this.selectedHrRange=Number(this.selectedHrRange) - 12;
+        this.startFormat = Number(this.selectedHrRange) + ':' +Number(this.selectedMinRange);
+        console.log("AM selectedHrRange",this.selectedHrRange);
+        console.log("startAM",this.startFormat);
+      }else{
+        console.log("PM",type)
+        var hour = 12;
+        this.selectedHrRange= hour + Number(this.selectedHrRange);
+        console.log(this.selectedHrRange)
+        this.startFormat = Number(this.selectedHrRange) + ':' + Number(this.selectedMinRange);
+        console.log("startPM",this.startFormat)
+      }
+  }
+  classend:any;
+  calculateDuration(time){
+    console.log("Calculate",time)
+    // let myTime = time.substring(0,3).concat(this.model.duration);
+    // console.log("end",myTime)
+    let piece = time.split(':');
+    let mins = piece[0]*60 + +piece[1] + +this.model.durationTimes;
+    this.classend = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+    console.log(this.classend)
+  }
+  D(J){ return (J<10? '0':'') + J};
 
 }
