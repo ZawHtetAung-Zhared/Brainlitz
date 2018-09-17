@@ -344,6 +344,7 @@ export class appService{
       }
 
     getAllUsers(id: string, type: any): Observable<any>{
+      console.log(id, type)
       this.getLocalstorage();
       let url; 
       if(type == 'customer'){

@@ -133,7 +133,10 @@
         <b>{{detailLists.location.name}}</b>
       </div>
       <div class="col-md-4 col-lg-4 course-time pr-zero">
-        <h5>SUN & MON</h5>
+        <!-- <h5>SUN & MON</h5> -->
+        <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+          {{ day }}
+        </h5>
         <p>11:00 AM - 12:00 AM</p>
       </div>
       <div class="col-md-4 col-lg-4 course-date">
@@ -166,7 +169,7 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button type="button" class="btn btn-create" (click)="creatnew()">Add teacher</button>
+              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal)">Add teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -193,7 +196,7 @@
                   <p class="seat">seats left</p>
                 </div>
               </div>
-              <button type="button" class="btn btn-create" (click)="creatnew()">Enroll class</button>
+              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal)">Enroll class</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -228,4 +231,90 @@
       <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
       <button type="submit" class="btn modal-delete-btn" (click)="withdrawUser(deleteId)">Withdraw</button>
   </div>
+</ng-template>
+
+<ng-template #userModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Add customer</h3>
+  </div>
+  <form novalidate #cfees="ngForm">
+  <div class="modal-body confirm-text">
+    <div class="d-flex">
+      <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
+        <h5 class="mt-03">{{detailLists.location.name}}</h5>
+        <b>{{detailLists.name}}</b>
+      </div>
+      <div class="col-md-4 col-lg-4 modal-ctime pr-zero">
+        <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+          {{ day }}
+        </h5>
+        <p>11:00 AM - 12:00 AM</p>
+      </div>
+      <div class="col-md-4 col-lg-4 modal-cdate">
+        <div class="d-flex">
+          <div class="col-md-6 pr-zero modal-dfees">
+            <h5 class="mt-03">From</h5>
+            <b>{{detailLists.startDate | date}}</b>
+          </div>
+          <div class="col-md-6 pr-zero modal-dfees">
+            <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
+            <h5 *ngIf="detailLists.endDate == null" class="mt-03"></h5>
+            <b>{{detailLists.endDate | date}}</b>
+            <div *ngIf="detailLists.endDate == null">
+              <b>{{ detailLists.lessonCount }} Lessons</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column mt-37">
+      <!-- <input name="name" [(ngModel)]="searchText" placeholder="search text goes here">
+      <ul>
+        <li *ngFor="let c of characters | filter : searchText">
+          {{c.name}}
+        </li>
+      </ul> -->
+      <div class="d-flex">
+        <input class="form-control py-2 input-search-bg" type="search" placeholder="Search customers" id="example-search-input" name="search" [(ngModel)]="searchText">
+        <span class="input-group-append">
+          <button class="bt btn-design btn-outline-secondary" type="button">
+              <i class="fa fa-search search-size"></i>
+          </button>
+        </span>
+      </div>
+      <div class="user-list-box">
+        <div *ngFor="let user of userLists | filter : searchText" class="d-flex flex-row search-user justify-content-center align-items-center">
+          <div class="img-wrap">
+            <img src="{{user.profilePic}}">
+          </div>
+          <div class="single-user-info d-flex flex-column justify-content-center">
+            <h4>{{user.preferredName}}</h4>
+          </div>
+          <div class="ml-auto remover-wrap">
+            <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-20">
+      <!-- <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+        <div class="d-flex flex-row single-user justify-content-center align-items-center">
+          <div class="img-wrap">
+            <img src="{{user.profilePic}}">
+          </div>
+          <div class="single-user-info d-flex flex-column justify-content-center">
+            <h4>{{user.preferredName}}</h4>
+          </div>
+          <div class="ml-auto remover-wrap">
+            <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn btn-submit" (click)="withdrawUser()">Confirm</button>
+  </div>
+  </form>
 </ng-template>

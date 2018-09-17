@@ -58,26 +58,36 @@ main{
     top: 5px;
   }
 }
-.animation-wrap {
+.animation-wrap,
+.deleteModal,
+.holidayModal,
+.userModal {
   animation: 0.3s linear 0s slideInFromTop;
 }
-.deleteModal{
-  animation: 0.3s linear 0s slideInFromTop;
+
+.holidayModal .modal-dialog {
+    margin: 0 auto !important;    
+    top: 30%!important;
+}
+.userModal .modal-content{
+  border-radius: 8px;
+}
+.userModal .modal-dialog{
+  max-width: 960px !important;
+  width: 960px !important;
+}
+.userModal .modal-header{
+  padding: 32px 32px 0 32px !important;
+}
+.userModal .modal-body{
+  padding: 16px 32px 32px 32px !important;
 }
 .deleteModal .modal-dialog{
-  margin: 0 auto !important;
-  max-width: 320px!important;
-  top: 30%!important;
+  max-width: 320px !important;
+  width: 320px !important;
 }
-
-.holidayModal{
-  animation: 0.3s linear 0s slideInFromTop;
-}
-
 .holidayModal .modal-dialog{
-  margin: 0 auto !important;
-  max-width: 465px!important;
-  top: 20%!important;
+  max-width: 465px !important;
 }
 
 .modal-title {
