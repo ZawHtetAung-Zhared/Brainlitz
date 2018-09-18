@@ -283,7 +283,8 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/courseCreate']);
     let planObj={
       "name": plan.name,
-      "id": plan.coursePlanId
+      "id": plan.coursePlanId,
+      "duration": plan.lesson.duration
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
   }

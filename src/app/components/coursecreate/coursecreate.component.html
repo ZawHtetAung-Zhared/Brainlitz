@@ -1,220 +1,3 @@
-<!-- <div class="inner-wrapper">
-	<div *ngIf="!showCourse">
-		<h3 *ngIf="noPlan">There is no course plan</h3>
-		<div class="list-wrap" *ngIf="!noPlan">
-			<div class="form-group">
-				<h4 class="mb-30">Choose Course Plan</h4>
-			</div>
-			<div class="form-group">
-				<ul class="item-list" style="padding-left: 0;">
-				     <li *ngFor="let plan of coursePlan">
-						<label class="radio-container">
-						  {{plan.name}}
-						  <input type="radio" id="{{plan._id}}" [(ngModel)]="choosePlan" name="cplan" [value]="plan">
-						  <span class="checkmark"></span>
-						</label>
-				     </li>
-				</ul>
-			</div>
-			<block-ui message="Deafult Message">
-			</block-ui>
-			<div class="form-group btn-wrap">
-				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-			    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)" [disabled]="!choosePlan">Select</button>
-			</div>
-		</div>
-	</div>
-
-	<div class="form-container container h-100" *ngIf="showCourse">
-		<div *blockUI="'contact-list'">
-			<div>
-				<button *ngIf="!isEdit" class="btn btn-info" (click)="back()">Back</button>
-			</div>
-			<form #heroForm="ngForm">
-				<div class="form-head">
-					<div class="label-input">
-						<h4>Create Course</h4>
-					</div>
-					<div class="form-input"> 
-						<label class="label-location">Choose Location</label>
-						<select class="form-control" id="user"
-				        [(ngModel)]="model.locationId" name="location" #location="ngModel" required>
-				          <option value="" disabled="true">Select Location</option>
-				          <option [disabled]="isEdit" *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
-				        </select>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Course Plan</label>
-					<span>{{model.coursePlanName}}</span>
-					<span style="margin-left: 20px;">({{coursePlanId}})</span>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Course Name</label>
-					<div class="new-input">
-						<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.name" name="courseName" #courseName="ngModel">
-						<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)"
-						class="alert alert-danger">
-							<div *ngIf="courseName.errors.required">
-								Course Name is required.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Start:</label>
-					<div class="flex-item">
-				      <input [disabled]="isEdit" type="text" id="startD" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
-						  <div class="overlay" (click)="start.toggle(); "><img src="./assets/img/calendar.png"></div>
-				    </div>
-				</div>
-				<div *ngIf="!isEdit" class="form-group form-head">
-					<label class="label-input">Start Time</label>
-					<div>
-						<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
-						<div *ngIf="starttime.invalid && (starttime.dirty || starttime.touched)"
-						class="alert alert-danger">
-							<div *ngIf="starttime.errors.required">
-								Start Time is required.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div *ngIf="isEdit" class="form-group form-head">
-					<label class="label-input">Start Time</label>
-					<input readonly style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
-				</div>
-				<div class="form-group form-head">
-					<label *ngIf="!isEdit" class="label-input">Duration:</label>
-					<label *ngIf="isEdit" class="label-input">Duration Times:</label>
-					<div class="new-input">
-						<div style="margin: 0px 0px 5px 0px">
-							<input class="form-control" type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
-						</div>
-						<div *ngIf="classend" class="flex-item">
-							<label>-will end at {{classend}}</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Repeat Days</label>
-					<div>
-						<div>
-							<label class="day" *ngFor="let d of days;let i=index;" >
-				                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit"> {{d.day}}
-				            </label>
-						</div>
-						<div *ngIf="toggleBool && clickInit" class="alert alert-danger">
-						  At least one day should be selected
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">ENDS</label>
-					<div class="new-input">
-						<div>
-							<label>
-								<input type="radio" [(ngModel)]= "model.prop" name="prop" value="A" (click)="model.end = null"> Lessons Count
-							</label>
-						</div>
-						<div class="lesson-wrap" *ngIf="model.prop === 'A'">
-							After <input *ngIf="!isEdit" type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel">
-							<input  *ngIf="isEdit" type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel" readonly> lessons
-						</div>
-						<div>
-							<label><input [disabled]="isEdit" type="radio" [(ngModel)]="model.prop" name="prop" value="B" (click)="model.lessonCount = ''"> End Date </label>
-						</div>
-						<div class="enddate-wrap" *ngIf="model.prop === 'B'">
-							on <div class="end-item">
-								<input [disabled]="isEdit" type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
-								  <div class="overlay" (click)="end.toggle()"><img src="./assets/img/calendar.png"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Pdf</label>
-					<div class="new-input chklist-wrap">
-			            <label *ngFor="let pdf of pdfList;let i=index;">
-			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
-			            </label>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Teacher Name</label>
-					<select class="form-control new-input"
-			        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
-			          <option value="" disabled="true">Select teacher Id</option>
-			          <option [disabled]="isEdit" *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
-			        </select>
-			        <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
-					  Teacher Name is required
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Course Code</label>
-					<div *ngIf="!isEdit" class="new-input">
-						<input type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" required name="courseCode" #code="ngModel">
-						<div *ngIf="code.invalid && (code.dirty || code.touched)"
-						class="alert alert-danger">
-							<div *ngIf="code.errors.required">
-								Course Code is required.
-							</div>
-						</div>
-					</div>
-					<div *ngIf="isEdit">
-						<input readonly type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Room</label>
-					<div *ngIf="!isEdit" class="new-input">
-						<input type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
-						<div *ngIf="room.invalid && (room.dirty || room.touched)"
-						class="alert alert-danger">
-							<div *ngIf="room.errors.required">
-								Room is required.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div *ngIf="isEdit" class="form-group form-head">
-					<label class="label-input">Room</label>
-					<div class="new-input">
-						<input readonly type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Reserved Number of Seat</label>
-					<div class="new-input">
-						<input *ngIf="!isEdit" type="number" class="form-control" id="seat" [(ngModel)]="model.reservedNumberofSeat" name="regionId" (keypress)="numberOnly($event)" #seat="ngModel">
-						<input *ngIf="isEdit" readonly type="number" class="form-control" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId" pattern="[0-9]+">
-						<div [hidden]="!testChar" class="alert alert-danger">
-							Only Numbers Allowed
-						</div>
-					</div>	
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Description</label>
-					<div class="new-input">
-						<textarea row="7" col="50" class="form-control" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel"></textarea>
-						<div *ngIf="description.invalid && (description.dirty || description.touched)"
-						class="alert alert-danger">
-							<div *ngIf="description.errors.required">
-								Description is required.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group" style="float: right;">
-					<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-					<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool || !model.lessonCount && !model.end">Submit</button>
-					<button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="updateCourse(model._id)" [disabled]="!heroForm.form.valid">Update</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div> -->
 <div class="create-container">
 	<div class="header-wrapper">
 		<header>
@@ -223,10 +6,10 @@
 					<i class="fa fa-angle-left"></i>
 				    <p class="mb-0 font-medium ">Courses</p>
 				</div>
-				<div class="d-flex flex-row courseInfo font-medium">
+				<!-- <div class="d-flex flex-row courseInfo font-medium">
 					<p class="mb-0">#{{ coursePlan.name }}</p><span class="sticky-dot">&#183;</span>		
 					<h5 class="mb-0">Course</h5>
-				</div>
+				</div> -->
 				<div class="font-medium">
 					<button class="btn-cancel">Cancel</button>
 				</div>
@@ -234,195 +17,204 @@
 		</header>
 	</div>
 	<form #courseForm="ngForm" novalidate>
-		<div class="progress-box-wrap">
-			<ol class="progress" data-steps="8">
-			    <li id="step1">
-			        <span class="step">
-			        	<span>1</span>
-			        </span>
-			    </li>
-			    <li id="step2">
-			        <span class="step">
-			        	<span>2</span>
-			        </span>
-			    </li>
-			    <li id="step3">
-			        <span class="step">
-			        	<span>3</span>
-			        </span>
-			    </li>
-			    <li id="step4">
-			        <span class="step">
-			        	<span>4</span>
-			        </span>
-			    </li>
-			</ol>
+		<div class="info-wrap">
+			<h3 class="font-semi">Create Course</h3>
+			<div class="d-flex courseInfo font-medium">
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>
+			</div>
 		</div>
-		<div *ngIf="step1">
-			<form class="form-wrap" #childForm1="ngForm" novalidate>
-				<div class="inside-data-wrapper">
-					<div class="col-md-12">
-						<p class="step-font">Step 1</p>
-						<h5 class="all-title-font text-font-align">Course information</h5>
+		<div class="d-flex pad-top-25">
+			<div class="col-md-5">
+				<label class="all-title-font">Course Information</label>
+				<p class="info-p font-medium">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
+				</p>
+			</div>
+			<div class="col-md-7">
+				<div>
+					<div class="d-flex justify-content-between">
+						<label for="course_name" class="all-title-font">Course name</label>
+						<div class="limit-wordcount">
+							<span>{{wordLength}}/60characters</span>
+						</div>
 					</div>
-					<div class="d-flex" style="padding-top: 40px;">
-						<div class="col-md-6">
-							<div>
-								<div class="d-flex justify-content-between">
-									<label for="course_name" class="all-title-font">Course name</label>
-									<div class="limit-wordcount">
-										<span>{{wordLength}}/60characters</span>
-									</div>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+					<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
+				        <div [hidden]="!courseName.errors.required">
+				          Course name is required!
+				        </div>
+				    </div>
+				    <hr class="limit-hr-length">
+				</div>
+				<div>
+					<label for="seat" class="all-title-font">Course Code</label>
+					<input type="text" placeholder="Type relevant course code here" class="form-control br-bshadow-none all-left-box-10" id="courseCode" name="courseCode" [(ngModel)]="model.courseCode" required #code="ngModel"> 
+					<div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger alert-m-right">
+				        <div [hidden]="!code.errors.required">
+				          Course code is required!
+				        </div>
+				    </div>
+					<hr class="limit-hr-length">
+				</div> 
+				<div>
+					<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
+					<textarea class="form-control br-bshadow-none" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
+				</div>
+			</div>
+		</div>
+		<hr class="hr-line">
+		<div class="d-flex pad-top-25">
+			<div class="col-md-5">
+				<label class="all-title-font">Time range & Teacher</label>
+				<p class="info-p font-medium">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
+				</p>
+			</div>
+			<div class="col-md-7">
+				<div class="d-flex">				
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="all-title-font">Starts</label>
+						<div class="input-wrap">
+							<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+						</div>
+					</div>
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="all-title-font">Ends</label>
+						<div>
+							<div class="tool-box">
+								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
+								<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi">
+									<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseEndOpt('lesson')"> Lessons Count
+								</label>
+							</div>
+						</div>
+						<div *ngIf="isChecked == 'end'">
+							<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+						</div>
+						<div *ngIf="isChecked == 'lesson'">
+							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel">
+						</div>
+					</div>
+				</div>
+				<div class="d-flex pad-top-25">
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="all-title-font">Starting Time</label>
+						<div class="input-wrap">
+							<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.starttime" readonly (click)="durationProgress($event)" style="background: none;">
+							<div class="bg-box duration-progress">
+								<div id="rectangle"></div>
+								<div class="time-wrapper d-flex justify-content-center">
+									 <div class="d-flex flex-column justify-content-center showTime font-medium">
+									 	{{showFormat}}
+									 </div>
+									 <div>
+									 	<div class="time-box">
+											<label [ngClass]="{'selected':isSelected == 'am'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseTimeOpt('am')"> AM </label>
+											<label [ngClass]="{'selected':isSelected == 'pm'}" class="mb-0 font-semi">
+												<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseTimeOpt('pm')"> PM
+											</label>
+										</div>
+									 </div>
 								</div>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
-								<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
-							        <div [hidden]="!courseName.errors.required">
-							          Course name is required!
-							        </div>
-							    </div>
-								<hr class="limit-hr-length">
-							</div>
-							<div class="mr-top">
-								<label for="seat" class="all-title-font">Course Code</label>
-								<input type="text" placeholder="Type relevant course code here" class="form-control br-bshadow-none all-left-box-10" id="courseCode" name="courseCode" [(ngModel)]="model.courseCode" required #code="ngModel"> 
-								<div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger alert-m-right">
-							        <div [hidden]="!code.errors.required">
-							          Course code is required!
-							        </div>
-							    </div>
-								<hr class="limit-hr-length">
-							</div> 
-						</div>
-						<div class="col-md-6">
-							<div>
-								<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
-								<textarea class="form-control br-bshadow-none" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
-								<hr class="limit-hr-length">
-							</div>
-						</div> 
-					</div>
-				</div>
-				<div class="sticky-footer">
-					<button type="button" class="btn sticky-create" [disabled]="!childForm1.valid" (click)="continueStep('step1', childForm1.value)">Continue</button>
-				</div>
-			</form>
-		</div>
-		<div *ngIf="step2">
-			<form class="form-wrap" #childForm2="ngForm" novalidate>
-				<div class="inside-data-wrapper">
-					<div class="col-md-12">
-						<p class="step-font">Step 2</p>
-						<h5 class="all-title-font text-font-align">Time range</h5>
-					</div>	
-					<div class="d-flex" style="padding-top: 40px;">
-						<div class="col-md-6">
-							<label for="course_name" class="all-title-font">Starts</label>
-							<div class="input-wrap">
-								<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<label for="course_name" class="all-title-font">Ends</label>
-							<div>
-								<div class="tool-box">
-									<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
-									<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi">
-										<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseEndOpt('lesson')"> Lessons Count
+								<div class="gap-box">
+									<label>
+										<div class="col-md-4 max-range">Hour</div>
+										<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
+										
+									</label>
+								</div>
+								<div class="gap-range-min">
+									<label>
+										<div class="col-md-4 min-range">Minute</div>
+										<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin">
+										<!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
 									</label>
 								</div>
 							</div>
-							<div *ngIf="isChecked == 'end'">
-								<input class="input-day" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
-							</div>
-							<div *ngIf="isChecked == 'lesson'">
-								<input class="input-day" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel">
-							</div>
 						</div>
 					</div>
-					<div class="d-flex" style="padding-top: 40px;">
-						<div class="col-md-6">
-							<label for="course_name" class="all-title-font">Starting Time</label>
-							<div class="input-wrap">
-								<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.starttime" readonly (click)="durationProgress($event)" style="background: none;">
-								<div class="bg-box duration-progress">
-									<div id="rectangle"></div>
-									<div class="time-wrapper d-flex justify-content-center">
-										 <div class="d-flex flex-column justify-content-center showTime font-medium">
-										 	{{startFormat}}
-										 </div>
-										 <div>
-										 	<div class="time-box">
-												<label [ngClass]="{'selected':isSelected == 'am'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseTimeOpt('am')"> AM </label>
-												<label [ngClass]="{'selected':isSelected == 'pm'}" class="mb-0 font-semi">
-													<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseTimeOpt('pm')"> PM
-												</label>
-											</div>
-										 </div>
-									</div>
-									<div class="gap-box">
-										<label>
-											<div class="col-md-4 max-range">Hour</div>
-											<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="{{minHrRange}}" max="{{maxHrRange}}" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
-											
-										</label>
-									</div>
-									<div class="gap-range-min">
-										<label>
-											<div class="col-md-4 min-range">Minute</div>
-											<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin" [disabled]="overDurationHr">
-											<p *ngIf="overDurationHr" class="alert-duration">Lesson Duration has only {{ maxHrRange }} hr, so can not choose minute. </p>			
-										</label>
-									</div>
-								</div>
-							</div>
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="all-title-font">Duration</label>
+						<div class="input-wrap form-group" (click)="dropDown()">
+						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="model.durationTimes" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
 						</div>
-						<div class="col-md-6">
-							<label for="course_name" class="all-title-font">Duration</label>
-							<div class="input-wrap">
-								<div class="duration all-title-font">1hr</div>
-							</div>
-						</div>
+						<div class="dropdown-wrap">
+				          <ul class="duration-dropdown">
+				            <li *ngFor="let test of testList">
+				              <span (click)="onClickYear(year)">{{ test }}</span>
+				            </li>
+				          </ul>
+				        </div>
 					</div>
-					<!-- <div class="form-group form-head">
-						<label class="label-input">Start Time</label>
+				</div>
+				<div class="checkboxes-wrapper">
+					<label class="all-title-font">Repeated days</label>
+					<div>
 						<div>
-							<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
-							<div *ngIf="starttime.invalid && (starttime.dirty || starttime.touched)"
-							class="alert alert-danger">
-								<div *ngIf="starttime.errors.required">
-									Start Time is required.
-								</div>
-							</div>
-						</div>
-					</div> -->
-					<div class="checkboxes-wrapper">
-						<label class="all-title-font">Repeated days</label>
-						<div>
-							<div>
-								<span *ngFor="let d of days">
-									<label class="day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
-										<!-- <span><i class="fa fa-check"></i></span> -->
-										<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
-									    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
-										
-						                <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit">
-						                <div class="box-label">{{d.day}}</div>
-						            </label>
-								</span>
-							</div>
+							<span *ngFor="let d of days">
+								<label class="day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
+									<!-- <span><i class="fa fa-check"></i></span> -->
+									<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
+								    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
+									
+					                <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit">
+					                <div class="box-label">{{d.day}}</div>
+					            </label>
+							</span>
 						</div>
 					</div>
 				</div>
-				<div class="sticky-footer d-flex justify-content-between">
-					<div [hidden]="!step2" class="d-flex flex-column justify-content-center" (click)="backStep('step2')">
-						<div class="d-flex flex-row back">
-							<i class="fa fa-angle-left"></i>
-						    <p class="mb-0 font-medium ">Back</p>
-						</div>
+				<div class="pad-bottom">
+					<label for="course_name" class="all-title-font">Teacher</label>
+					<div>
+						<input type="text" name="input-search" class="secrch-box" placeholder="Type teacher name">
 					</div>
-					<button type="button" class="btn sticky-create" [disabled]="!childForm2.valid" (click)="continueStep('step2', childForm2.value)">Continue</button>
 				</div>
-			</form>
+				<div class="pad-bottom">
+					<label for="course_name" class="all-title-font">Assistants</label>
+					<div>
+						<input type="text" name="input-search" class="secrch-box" placeholder="Add assistants by searching">
+					</div>
+				</div>
+			</div>
 		</div>
+		<hr class="hr-line">
+		<div class="d-flex pad-top-25">
+			<div class="col-md-5">
+				<label class="all-title-font">Venue</label>
+				<p class="info-p font-medium">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
+				</p>
+			</div>
+			<div class="col-md-7">
+				<div>
+					<label for="location" class="all-title-font">Location</label>
+					<input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required> 
+					<hr class="limit-hr-length">
+				</div> 
+				<div>
+					<label for="room" class="all-title-font">Room</label>
+					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" required #room="ngModel"> 
+					<div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
+				        <div [hidden]="!room.errors.required">
+				          Room is required!
+				        </div>
+				    </div>
+					<hr class="limit-hr-length">
+				</div> 
+				<div class="pad-bottom">
+					<label for="seat" class="all-title-font">Reserved seat</label>
+					<input type="number" class="form-control br-bshadow-none all-left-box-10" placeholder="0" id="seat" [(ngModel)]="model.reservedNumberofSeat" name="seat" (keypress)="numberOnly($event)" #seat="ngModel"> 
+					<div [hidden]="!testChar" class="alert alert-danger">
+						Only Numbers Allowed
+					</div>
+				</div> 
+			</div>
+		</div>
+		<hr class="hr-line">
+		<div class="d-flex justify-content-end form-footer">
+	        <button type="button" class="btn button-cancel">Cancel</button>
+	        <button type="button" class="btn button-submit">Create</button>
+        </div>
 	</form>
 </div>
