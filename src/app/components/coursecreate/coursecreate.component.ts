@@ -59,6 +59,7 @@ export class CoursecreateComponent implements OnInit {
   public isSelected: any;
   public maxHrRange:any;
   public minHrRange:any;
+  public showFormat:any;
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -74,8 +75,9 @@ export class CoursecreateComponent implements OnInit {
     this.isSelected = 'am';
     this.rangeHr = '0';
     this.rangeMin = '0';
-    this.selectedHrRange = "0";
-    this.selectedMinRange = "00";
+    // this.selectedHrRange = "00";
+    // this.selectedMinRange = "00";
+    this.showFormat = "00:00";
     this.maxHrRange = 12;
     this.minHrRange = 0;
   }
@@ -225,7 +227,7 @@ export class CoursecreateComponent implements OnInit {
     // }else{
     //   console.log('PM drag');
     // }
-    this.formatTime()
+    this.formatTime();
   }
 
   chooseTimeOpt(type){
@@ -249,16 +251,27 @@ export class CoursecreateComponent implements OnInit {
 
   formatTime(){
     if(this.selectedHrRange<10){
-      this.startFormat = 0+this.selectedHrRange + ':' + this.selectedMinRange;
-      console.log('Start Format',this.startFormat);
-      this.model.starttime = this.startFormat;
+      var hrFormat = 0 + this.selectedHrRange;
     }else{
-      this.startFormat = this.selectedHrRange + ':' + this.selectedMinRange;
-      console.log('Start Format',this.startFormat);
-      this.model.starttime = this.startFormat;
+      var hrFormat = this.selectedHrRange;
     }
-    
+    if(this.selectedMinRange > 0){
+      if(this.selectedMinRange<10){
+        var minFormat = 0 + this.selectedMinRange;
+      }else{
+        var minFormat = this.selectedMinRange;
+      }
+    }else{
+      this.selectedMinRange = "00";
+      var minFormat = this.selectedMinRange;
+    }
+    this.showFormat = hrFormat + ':' + minFormat;
+    this.startFormat = hrFormat + ':' + minFormat;
+    console.log('Start Format',this.startFormat);
+    this.model.starttime = this.startFormat;  
   }
+
+
 
   classend:any;
   calculateDuration(time){
