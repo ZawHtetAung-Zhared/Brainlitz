@@ -18,11 +18,15 @@ export class CourseComponent implements OnInit {
   emptyCourse:boolean = false;
   isCategory:boolean = false;
   isPlan:boolean = false;
+  isFous:boolean = false;
   isCourseDetail:boolean = false;
+  public formData:any = {};
   public userLists:any = {};
   public detailLists:any = {};
+  public selectedUserLists:any = [];
   public courseId:any;
   public locationId:any;
+  public userType:any;
   public deleteId:any = {};
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
@@ -164,6 +168,7 @@ export class CourseComponent implements OnInit {
 
   addUserModal(type, userModal){
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'userModal d-flex justify-content-center align-items-center'});
+    this.userType = type;
     this.getAllUsers(type);
   }
 
@@ -199,6 +204,68 @@ export class CourseComponent implements OnInit {
       }, err => {
         console.log(err);
       })
+  }
+
+  selectUser(id){
+    console.log('hihi ~~')
+    this.getSingleUser(id);
+    this.formData = {};
+  }
+
+  getSingleUser(ID){
+    this._service.getCurrentUser(ID)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.isFous = false;
+      console.log(this.selectedUserLists.length)
+      this.selectedUserLists.push(res);
+      console.log(this.selectedUserLists)
+      console.log(this.selectedUserLists.length)
+    }, err => {  
+      console.log(err);
+    });
+  }
+
+  focusMethod(e, userType){
+    console.log(e)
+    console.log(userType)
+    this.isFous = true;
+    this.getAllUsers(userType);
+  }
+
+  hideFocus(e){
+    setTimeout(() => {
+      this.isFous = false;
+    }, 300);
+    this.formData = {}
+  }
+
+  changeMethod(searchWord){
+    console.log(this.detailLists.locationId)
+    console.log(searchWord)
+    let locationId = this.detailLists.locationId;
+    this._service.getSearchUser(this.regionId, searchWord,locationId)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.userLists = res;
+    }, err => {  
+      console.log(err);
+    });
+  }
+
+  removeSelectedUser(id){
+    let getIndex;
+    for(let x in this.selectedUserLists){
+      if(id == this.selectedUserLists[x].userId){
+        getIndex = x;
+      }
+    }
+    this.selectedUserLists.splice(getIndex,1);
+    console.log(this.selectedUserLists);
+  }
+
+  enrollUserToCourse(){
+
   }
 
   // end course detail

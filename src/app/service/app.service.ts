@@ -368,6 +368,20 @@ export class appService{
       }) 
     }
 
+    getSearchUser(regionID: string, val: string, location: string){
+      let apiUrl = this.baseUrl + '/' + regionID + '/user/search?keyword=' + val + '&locationId=' + location;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 
     getUserDetail(id:string, userId:string){
       let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
