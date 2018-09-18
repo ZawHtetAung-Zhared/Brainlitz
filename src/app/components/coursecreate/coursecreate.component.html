@@ -362,7 +362,7 @@
 									<div class="gap-box">
 										<label>
 											<div class="col-md-4 max-range">Hour</div>
-											<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
+											<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="{{minHrRange}}" max="{{maxHrRange}}" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
 											
 										</label>
 									</div>
@@ -370,7 +370,7 @@
 										<label>
 											<div class="col-md-4 min-range">Minute</div>
 											<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin" [disabled]="overDurationHr">
-											<p *ngIf="overDurationHr" class="alert-duration">Lesson Duration has only 24 hr, so can not choose minute. </p>			
+											<p *ngIf="overDurationHr" class="alert-duration">Lesson Duration has only {{ maxHrRange }} hr, so can not choose minute. </p>			
 										</label>
 									</div>
 								</div>
