@@ -57,7 +57,9 @@ export class CoursecreateComponent implements OnInit {
   public rangeMin: any;
   public rangeHr: any;
   public isSelected: any;
-
+  public maxHrRange:any;
+  public minHrRange:any;
+  public showFormat:any;
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -73,8 +75,11 @@ export class CoursecreateComponent implements OnInit {
     this.isSelected = 'am';
     this.rangeHr = '0';
     this.rangeMin = '0';
-    this.selectedHrRange = "00";
-    this.selectedMinRange = "00";
+    // this.selectedHrRange = "00";
+    // this.selectedMinRange = "00";
+    this.showFormat = "00:00";
+    this.maxHrRange = 12;
+    this.minHrRange = 0;
   }
 
   focusMethod(e){
@@ -203,70 +208,71 @@ export class CoursecreateComponent implements OnInit {
         this.focusMisfee = false;
   }
 
-  ChangedRangeValue(e, type) {
+  ChangedRangeValue(e, type){
     if(type == 'hr'){
       this.selectedHrRange = e;
-      this.overDurationHr = false;
-      // if(this.selectedHrRange == 24){
-      //   this.overDurationHr = true;
-      //   this.rangeMin = 0;
-      //   this.selectedMinRange = 0;
-      // }
-      // if(this.selectedHrRange<10){
-      //   this.selectedHrRange = 0 + e;
-      // }
-      // console.log("Hr",this.selectedHrRange);
+      if(this.selectedHrRange == this.maxHrRange){
+        this.overDurationHr = true;
+        this.rangeMin = 0;
+        this.selectedMinRange = 0;
+      }else{
+        this.overDurationHr = false;
+      }
     }
     if(type == 'min'){
       this.selectedMinRange = e;
-      // if(this.selectedMinRange<10){
-      //   this.selectedMinRange = 0 + e;
-      // }
-      // console.log("Min",this.selectedMinRange);
     }
-    // if(this.init == true ){
-    //   this.startFormat =Number(this.selectedHrRange) + ':' +Number(this.selectedMinRange);
-    //   console.log("InitstartAM",this.startFormat);
+    // if(this.isSelected == 'am'){
+    //   console.log('AM drag');
+    // }else{
+    //   console.log('PM drag');
     // }
-    this.startFormat = "";
-    if(this.isSelected == 'am'){
-      var hour = 0;
-      this.selectedHrRange= hour + Number(this.selectedHrRange);
-      this.startFormat = Number(this.selectedHrRange) + ':' +Number(this.selectedMinRange);
-       console.log("startAM",this.startFormat);
-    }else if(this.isSelected == 'pm'){
-      var hour = 12;
-      this.selectedHrRange= hour + Number(this.selectedHrRange);
-      console.log(this.selectedHrRange)
-      this.startFormat = Number(this.selectedHrRange) + ':' + Number(this.selectedMinRange);
-      console.log("startPM",this.startFormat)
-    }
+    this.formatTime();
   }
-  public init:boolean = true;
+
   chooseTimeOpt(type){
-    this.startFormat = "";
-      this.init = false;
-      this.isSelected = type;
-      if(type == 'am'){
-        if(this.selectedHrRange<=0){
-          var hour = 0;
-        }else{
-          var hour = 12;
-        }
-        console.log("AM",type);
-        this.selectedHrRange=Number(this.selectedHrRange) - 12;
-        this.startFormat = Number(this.selectedHrRange) + ':' +Number(this.selectedMinRange);
-        console.log("AM selectedHrRange",this.selectedHrRange);
-        console.log("startAM",this.startFormat);
-      }else{
-        console.log("PM",type)
-        var hour = 12;
-        this.selectedHrRange= hour + Number(this.selectedHrRange);
-        console.log(this.selectedHrRange)
-        this.startFormat = Number(this.selectedHrRange) + ':' + Number(this.selectedMinRange);
-        console.log("startPM",this.startFormat)
-      }
+    console.log(type);
+    this.isSelected = type;
+    if(this.isSelected == 'pm'){
+      this.minHrRange = 12;
+      this.maxHrRange = 24;
+      this.rangeHr = Number(this.selectedHrRange) + 12;
+      this.selectedHrRange = Number(this.selectedHrRange) + 12;
+      console.log('rangeHr',this.rangeHr);
+    }else{
+      this.minHrRange =0;
+      this.maxHrRange = 12;
+      this.rangeHr = Number(this.selectedHrRange) - 12;
+      this.selectedHrRange = Number(this.selectedHrRange) - 12;
+      console.log('rangeHr',this.rangeHr);
+    }
+    this.formatTime();
   }
+
+  formatTime(){
+    if(this.selectedHrRange<10){
+      var hrFormat = 0 + this.selectedHrRange;
+    }else{
+      var hrFormat = this.selectedHrRange;
+    }
+    if(this.selectedMinRange > 0){
+      if(this.selectedMinRange<10){
+        var minFormat = 0 + this.selectedMinRange;
+      }else{
+        var minFormat = this.selectedMinRange;
+      }
+    }else{
+      this.selectedMinRange = "00";
+      var minFormat = this.selectedMinRange;
+    }
+    this.showFormat = hrFormat + ':' + minFormat;
+    this.startFormat = hrFormat + ':' + minFormat;
+    console.log('Start Format',this.startFormat);
+    this.model.starttime = this.startFormat;  
+  }
+
+
+
   classend:any;
   calculateDuration(time){
     console.log("Calculate",time)
