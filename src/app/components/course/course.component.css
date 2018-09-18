@@ -272,12 +272,44 @@ li button{
 
 
 /*Course detail*/
-.back-to{
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+.back-to,
+.edit-course-btn,
+.detail-info label,
+.course-tab,
+.single-user-info p,
+.btn-submit,
+.modal-ctime p,
+.modal-dfees h5{
+  font-family: 'Montserrat-Medium', Arial,sans-serif;
+}
+.back-to,
+.edit-course-btn,
+.course-time h5,
+.room-name{
     color: #2e3d4d !important;
+    font-size: 16px;
+}
+
+.course-time h5,
+.room-name,
+.course-time p,
+.detail-info h4,
+.detail-fees b,
+.single-user-info h4,
+.room-label,
+.title-heading,
+.seat,
+.target,
+.modal-title,
+.modal-cfees,
+.modal-ctime h5,
+.modal-dfees b{
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+
+.back-to{
     padding-left: 0 !important;
     cursor: pointer;
-    font-size: 16px;
 }
 .back-to i,
 .back-to p{
@@ -285,7 +317,7 @@ li button{
 }
 .back-to i{
   float: left;
-    font-size: 23px;
+  font-size: 23px;
 }
 .back-to p{
   float: left;
@@ -294,24 +326,24 @@ li button{
   margin-left: 4px;
 }
 .edit-course-btn{
-  color: #2e3d4d;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
-  font-size: 16px; 
   padding: 7px 10px;
   background: transparent; 
 }
 .edit-course-btn:hover{
   background: #f2f4f5;
 }
-.detail-info label{
+.detail-info label,
+.single-user-info p,
+.modal-ctime p,
+.modal-dfees h5{
   color: #64707d;
   font-size: 14px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+}
+.detail-info label{
   margin-bottom: 0;
 }
 .detail-info h4{
   color: #2e3e4d;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
   font-size: 24px;
   margin-bottom: 16px;
 }
@@ -322,7 +354,6 @@ li button{
   padding: 8px;
   border-radius: 25px;
   margin-left: 10px;
-  /*position: absolute;*/
 }
 .detail-info p{
   min-height: 80px;
@@ -334,21 +365,21 @@ li button{
   color: #64707d;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
   line-height: 1.7;
-  /*margin-top: 18px;*/
   margin-bottom: 0;
   font-size: 16px;
 }
-.detail-fees b{
+.detail-fees b,
+.single-user-info h4,
+.modal-cfees b{
   color: #2e3e4d;
   font-size: 18px;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .detail-box {
-    border-radius: 8px;
-    background-color: #f2f4f5;
-    padding: 32px;
-    margin-top: 24px;
-    margin-bottom: 32px;
+  border-radius: 8px;
+  background-color: #f2f4f5;
+  padding: 32px;
+  margin-top: 24px;
+  margin-bottom: 32px;
 }
 .course-date,
 .course-time{
@@ -363,16 +394,10 @@ li button{
 .mt-03{
   margin-top: .3rem;
 }
-.course-time h5,
-.room-name{
-  font-size: 16px;
-  color: #2e3e4d;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
-}
+
 .course-time p{
   color: #64707d;
   font-size: 16px;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
   margin-bottom: 0;
 }
 .mt-32{
@@ -381,8 +406,7 @@ li button{
 .course-tab {
     border-radius: 0;
     border-bottom: 2px solid transparent;
-    padding: 11px 18px;
-    font-family: 'Montserrat-Medium',Arial,sans-serif;
+    padding: 11px 18px;    
     font-size: 16px;
     color: #2e3e4d;
     background: transparent;
@@ -414,8 +438,7 @@ li button{
 .room-label{
   font-size: 12px;
   padding-right: 10px;
-  color: #64707d;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  color: #64707d;  
 }
 .room-label,
 .room-name{
@@ -448,7 +471,6 @@ label.room-name::before {
 }
 .title-heading{
   font-size: 20px;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
   color: #2e3e4d;
 }
 .teacher-section{
@@ -494,17 +516,11 @@ label.room-name::before {
   margin-left: 12px;
 }
 .single-user-info p{
-  color: #64707d;
-  font-size: 14px;
   margin-bottom: 0;
-  text-transform: lowercase;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  text-transform: lowercase;  
 }
 .single-user-info h4{
-  color: #2e3e4d;
-  font-size: 18px;
   margin-bottom: 0;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .remover-wrap{
   padding: 15px 0 15px 15px;
@@ -542,7 +558,6 @@ label.room-name::before {
 .seat{
   margin-bottom: 0;
   color: #0080ff;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
   background: #cce6ff;
   border-radius: 2px 0 0 2px;
   font-size: 14px;
@@ -550,7 +565,7 @@ label.room-name::before {
   margin-left: 12px;
 }
 .modal-title{
-    font-size: 20px;
+    font-size: 28px;
     color: #2e3d4d;
 }
 .confirm-text p{
@@ -580,16 +595,87 @@ label.room-name::before {
   padding-top: 24px;
 }
 .modal-footer{
-  border-top: none;
-  padding-top: 0;
+  padding: 24px 32px;
+  border-top: 1px solid #edeff0;
 }
 .target{
     color: #ff3d33;
-    font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .mt-15{
   margin-top: 32px;
 }
+.mt-20{
+  margin-top: 20px;
+}
+.mt-37{
+  margin-top: 37px;
+}
+.input-search-bg{
+  padding: 10px 0 10px 12px !important;
+  background: #f2f4f5;
+  border: none;
+  z-index: auto !important;
+  border-radius: 4px 0 0 4px;
+}
+.btn-design{
+  padding: 12px;
+  background: #f2f4f5;
+  border: none;
+  border-radius: 4px !important;
+  color: #788796;
+  cursor: pointer;
+}
+.btn-submit{    
+    border: none;
+    height: 45px;
+    border-radius: 3px;
+    width: 100px;
+    color: #fff;
+    background-color: #1682fb;
+    margin-left: 15px;
+}
+.modal-cfees h5 {
+  color: #64707d;
+  font-size: 12px;
+}
+.modal-ctime h5,
+.modal-dfees b{
+  color: #2e3d4d;
+  font-size: 14px;
+}
+.modal-dfees h5,
+.modal-cfees h5{
+  margin-bottom: 3px;
+  margin-top: 0;
+}
+.modal-dfees h5{
+  min-height: 16px;
+}
+.modal-ctime h5{
+  margin-bottom: 5px;
+}
+.modal-ctime p{
+  margin-bottom: 0;
+}
+.modal-ctime, 
+.modal-cdate{
+  border-left: 2px solid #edeff0;
+}
+.user-list-box{
+  height: 300px;
+  overflow: auto;
+}
+.search-user{
+  padding: 16px 0;
+  border-bottom: 1px solid #e3e4e6;
+}
+.user-list-box{
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 16px;
+  border-radius: 0 0 4px 4px;
+}
+
+
 
 
 

@@ -19,6 +19,7 @@ export class CourseComponent implements OnInit {
   isCategory:boolean = false;
   isPlan:boolean = false;
   isCourseDetail:boolean = false;
+  public userLists:any = {};
   public detailLists:any = {};
   public courseId:any;
   public locationId:any;
@@ -31,6 +32,14 @@ export class CourseComponent implements OnInit {
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
+  public characters = [
+    {'name': 'Finn the human'},
+    {'name': 'Jake the dog'},
+    {'name': 'Princess bubblegum'},
+    {'name': 'Lumpy Space Princess'},
+    {'name': 'Beemo1'},
+    {'name': 'Beemo2'}    
+  ]
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -81,7 +90,8 @@ export class CourseComponent implements OnInit {
       },
       'location': {
         'name': ""
-      }
+      },
+      'repeatDays': []
     }
 
     this.pplLists = {
@@ -90,7 +100,8 @@ export class CourseComponent implements OnInit {
               'preferredName': ''
             }],
       'STAFF': [{}],
-    }
+    };
+    this.userLists = [{}]
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -148,7 +159,12 @@ export class CourseComponent implements OnInit {
 
   openRemoveModal(id, deleteModal){
     this.deleteId = id;
-    this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal'});
+    this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
+  }
+
+  addUserModal(type, userModal){
+    this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'userModal d-flex justify-content-center align-items-center'});
+    this.getAllUsers(type);
   }
 
   withdrawUser(id){
@@ -169,6 +185,20 @@ export class CourseComponent implements OnInit {
       this.modalReference.close();
       console.log(err);
     });
+  }
+
+  getAllUsers(type){
+    this.blockUI.start('Loading...');    
+    this._service.getAllUsers(this.regionId, type)
+    .subscribe((res:any) => {      
+      this.userLists = res;
+      console.log('this.userLists', this.userLists);      
+      setTimeout(() => {
+            this.blockUI.stop(); // Stop blocking
+        }, 300);
+      }, err => {
+        console.log(err);
+      })
   }
 
   // end course detail
