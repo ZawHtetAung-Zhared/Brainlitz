@@ -68,7 +68,7 @@
                       </div>
                     </div>
                     <div class="btnCustomer-wrap">
-                      <button class="btn-addC" (click)="assignUser(course)"><span class="btn-plusicon"> + </span> Add customer</button>
+                      <button class="btn-addC" (click)="addUserModal('customer',userModal, course._id)"><span class="btn-plusicon"> + </span> Add customer</button>
                     </div>
                   </div>
                 </div>
@@ -169,11 +169,22 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal)">Add teacher</button>
+              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'')">Add teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-                <div class="d-flex flex-row single-user justify-content-center align-items-center">
+                <div class="d-flex flex-row single-user align-items-center">
+                  <div class="img-wrap">
+                    <img src="{{user.profilePic}}">
+                  </div>
+                  <div class="single-user-info d-flex flex-column justify-content-center">
+                    <p>{{user.userType}}</p>
+                    <h4>{{user.preferredName}}</h4>
+                  </div>
+                </div>
+              </div>
+              <div *ngFor="let user of pplLists.STAFF" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <div class="d-flex flex-row single-user align-items-center">
                   <div class="img-wrap">
                     <img src="{{user.profilePic}}">
                   </div>
@@ -196,9 +207,9 @@
                   <p class="seat">seats left</p>
                 </div>
               </div>
-              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal)">Enroll class</button>
+              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>
             </div>
-            <div class="row">
+            <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div class="d-flex flex-row single-user justify-content-center align-items-center">
                   <div class="img-wrap">
@@ -241,7 +252,10 @@
   <div class="modal-body confirm-text">
     <div class="d-flex">
       <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
-        <h5 class="mt-03">{{detailLists.location.name}}</h5>
+        <h5 class="mt-03">
+          <i class="fa fa-map-marker" style="font-size:15px"></i>
+          {{detailLists.location.name}}
+        </h5>
         <b>{{detailLists.name}}</b>
       </div>
       <div class="col-md-4 col-lg-4 modal-ctime pr-zero">
@@ -339,7 +353,8 @@
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
-      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse()">Confirm</button>
+      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
   </div>
   </form>
 </ng-template>
+<block-ui message="Deafult Message"></block-ui>

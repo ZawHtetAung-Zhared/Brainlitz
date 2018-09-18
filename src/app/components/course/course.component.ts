@@ -24,6 +24,7 @@ export class CourseComponent implements OnInit {
   public userLists:any = {};
   public detailLists:any = {};
   public selectedUserLists:any = [];
+  public selectedUserId:any = [];
   public courseId:any;
   public locationId:any;
   public userType:any;
@@ -126,11 +127,11 @@ export class CourseComponent implements OnInit {
     this.isCourseDetail = false;
   }
 
-  showCourseDetail(id){
-    console.log(id)
+  showCourseDetail(courseId){
+    console.log(courseId)
     this.isCourseDetail = true;
-    this.getCourseDetail(id);
-    this.getUsersInCourse(id);
+    this.getCourseDetail(courseId);
+    this.getUsersInCourse(courseId);
   }
 
   getCourseDetail(id){
@@ -147,9 +148,12 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  getUsersInCourse(id){
-    this._service.getAssignUser(this.regionId,id)
+  getUsersInCourse(courseId){
+    console.log('hi call course', courseId)
+    this.blockUI.start('Loading...'); 
+    this._service.getAssignUser(this.regionId,courseId)
     .subscribe((res:any)=>{
+      this.blockUI.stop();
       console.log(res)
       this.pplLists = res;
     },err =>{
@@ -166,7 +170,14 @@ export class CourseComponent implements OnInit {
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
 
-  addUserModal(type, userModal){
+  addUserModal(type, userModal, courseID){ 
+    console.log(courseID)
+    if(courseID != ''){
+      this.getCourseDetail(courseID);
+      this.getUsersInCourse(courseID);
+    }   
+    this.selectedUserLists = [];
+    this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'userModal d-flex justify-content-center align-items-center'});
     this.userType = type;
     this.getAllUsers(type);
@@ -175,16 +186,14 @@ export class CourseComponent implements OnInit {
   withdrawUser(id){
     let userobj = {
       'courseId': this.courseId,
-      'userId': id,
-      'locationId': this.locationId
+      'userId': id
     }
-    this.blockUI.start('Loading...'); 
-    this._service.withdrawAssignUser(this.regionId,userobj)
+    this._service.withdrawAssignUser(this.regionId,userobj, this.locationId)
     .subscribe((res:any) => {
       this.modalReference.close();
       console.log(res);
       this.toastr.success('User successfully withdrawaled.');
-      this.getUsersInCourse(id);
+      this.getUsersInCourse(this.courseId);
     },err =>{
       this.toastr.error('Withdrawal user failed.');
       this.modalReference.close();
@@ -264,8 +273,35 @@ export class CourseComponent implements OnInit {
     console.log(this.selectedUserLists);
   }
 
-  enrollUserToCourse(){
+  getSelectedUserId(){
+    console.log(this.selectedUserLists)
+    console.log(this.selectedUserId)
+    let userId;
+    for(let y in this.selectedUserLists){
+      userId = this.selectedUserLists[y].userId;
+      this.selectedUserId.push(userId)
+    }
+    console.log(this.selectedUserId)
+    this.selectedUserId = this.selectedUserId.toString();
+  }
 
+  enrollUserToCourse(courseId, userType){
+    // let type = userType;
+    // type = (userType == 'staff') ? 'teacher' : 'customer'
+    this.getSelectedUserId();   
+    let body = {
+       'courseId': courseId,
+       'userId': this.selectedUserId,
+       'userType': userType
+     }
+    this._service.assignUser(this.regionId,body)
+      .subscribe((res:any) => {
+         console.log(res);
+         this.modalReference.close();
+         this.getUsersInCourse(courseId);
+      }, err => {  
+        console.log(err);
+      });
   }
 
   // end course detail

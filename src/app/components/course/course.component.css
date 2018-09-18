@@ -606,7 +606,7 @@ label.room-name::before {
   right: -12px;
 }
 .modal-title{
-    font-size: 28px;
+    font-size: 20px;
     color: #2e3d4d;
 }
 .confirm-text p{
@@ -720,6 +720,10 @@ label.room-name::before {
   top: 49px;
   background: #fff;
   z-index: 9;
+}
+.customer-row{
+  max-height: 280px;
+  overflow: scroll;
 }
 
 
