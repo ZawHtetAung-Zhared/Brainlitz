@@ -526,6 +526,34 @@ label.room-name::before {
   padding: 15px 0 15px 15px;
   cursor: pointer;
 }
+.add-user{
+  border: 2px solid #007fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+}
+.add-user:before, 
+.add-user:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #007fff;
+}
+.add-user:before{
+  width: 2px;
+  margin: 2px auto;
+}
+.add-user:after{
+  margin: auto 2px;
+  height: 2px;
+}
 .remove-user{
   border: 2px solid #ff3d33;
   width: 20px;
@@ -563,9 +591,22 @@ label.room-name::before {
   font-size: 14px;
   padding: 4px 8px;
   margin-left: 12px;
+  position: relative;
+  line-height: 1.3;
+}
+.seat::before {
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-left: 12px solid #cce6ff;
+  border-bottom: 12px solid transparent;
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -12px;
 }
 .modal-title{
-    font-size: 28px;
+    font-size: 20px;
     color: #2e3d4d;
 }
 .confirm-text p{
@@ -609,6 +650,9 @@ label.room-name::before {
 }
 .mt-37{
   margin-top: 37px;
+}
+.input-search-bg:focus{
+  outline: none;
 }
 .input-search-bg{
   padding: 10px 0 10px 12px !important;
@@ -661,18 +705,25 @@ label.room-name::before {
 .modal-cdate{
   border-left: 2px solid #edeff0;
 }
-.user-list-box{
-  height: 300px;
-  overflow: auto;
-}
 .search-user{
   padding: 16px 0;
   border-bottom: 1px solid #e3e4e6;
 }
 .user-list-box{
+  height: 300px;
+  overflow: auto;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
+  position: absolute;
+  width: 100%;
+  top: 49px;
+  background: #fff;
+  z-index: 9;
+}
+.customer-row{
+  max-height: 280px;
+  overflow: scroll;
 }
 
 

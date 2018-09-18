@@ -368,6 +368,20 @@ export class appService{
       }) 
     }
 
+    getSearchUser(regionID: string, val: string, location: string){
+      let apiUrl = this.baseUrl + '/' + regionID + '/user/search?keyword=' + val + '&locationId=' + location;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 
     getUserDetail(id:string, userId:string){
       let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
@@ -869,10 +883,12 @@ export class appService{
     }
 
     getAssignUser(regionid,courseid){
+      console.log('app service', regionid)
+      console.log('app service', courseid)
       let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
       const httpOptions = {
           headers: new HttpHeaders({ 
-            'authorization': this.tokenType + ' ' + this.accessToken})
+          'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
@@ -882,9 +898,9 @@ export class appService{
       }) 
     }
 
-    withdrawAssignUser(regionid,obj:any){
+    withdrawAssignUser(regionid,obj:any, locationid){
       console.log(regionid,obj);
-      let apiUrl = this.baseUrl+ '/' + regionid + '/timetable';
+      let apiUrl = this.baseUrl+ '/' + regionid + '/timetable?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken}),

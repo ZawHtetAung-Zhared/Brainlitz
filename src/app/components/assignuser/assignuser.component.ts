@@ -202,7 +202,7 @@ export class AssignuserComponent implements OnInit {
        'courseId': this.selectedCourse.courseid,
        'userId': userid
      }
-    this._service.withdrawAssignUser(this.regionid,userobj)
+    this._service.withdrawAssignUser(this.regionid,userobj,'')
     .subscribe((res:any) => {
       this.modalReference.close();
       console.log(res);
