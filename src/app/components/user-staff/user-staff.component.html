@@ -179,17 +179,14 @@
 						</div>
 		  	    	</div>
 		  	  	</div>
-			</div>	
-	
-			<div class="col-md-12">
-				<div class="button-group">
-					<button type="button" class="bt cancel-button" (click)="back()">Cancel</button>
-		        	<button *ngIf="isupdate  == false" type="submit" (click)="createUser(formFields, 'create')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Create
-					</button>
-					<button *ngIf="isupdate  == true" type="submit" (click)="createUser(formFields, 'edit')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Update
-					</button>
-				</div>
 			</div>
+		</div>
+		<div class="d-flex justify-content-end button-group">
+			<button type="button" class="bt cancel-button" (click)="back()">Cancel</button>
+        	<button *ngIf="isupdate  == false" type="submit" (click)="createUser(formFields, 'create')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Create
+			</button>
+			<button *ngIf="isupdate  == true" type="submit" (click)="createUser(formFields, 'edit')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Update
+			</button>
 		</div>
 	</form>	
 </div>

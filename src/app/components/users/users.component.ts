@@ -183,6 +183,9 @@ export class UsersComponent implements OnInit {
 			console.log('update');
 			let getImg = document.getElementsByClassName("circular-profile");
 			console.log(getImg)
+			if(getImg != undefined){
+				$(".circular-profile img:last-child").attr("id", "blobUrl");
+			}
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
 			console.log(this.img);
 			objData.append('profilePic', this.img);
@@ -439,6 +442,11 @@ export class UsersComponent implements OnInit {
 			this.divHeight = $( ".firstCol" ).height();
 			console.log("divHeight",this.divHeight);
 			// $(".journals-wrapper").css("height", this.divHeight + "px");
+	}
+
+	// enroll class
+	callEnrollModal(enrollModal){
+		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
 	}
 
 }

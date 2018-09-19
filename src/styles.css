@@ -61,7 +61,7 @@ main{
 .animation-wrap,
 .deleteModal,
 .holidayModal,
-.userModal {
+.modal-xl {
   animation: 0.3s linear 0s slideInFromTop;
 }
 
@@ -69,20 +69,20 @@ main{
     margin: 0 auto !important;    
     top: 30%!important;
 }
-.userModal .modal-title{
+.modal-xl .modal-title{
     font-size: 28px !important;
   }
-.userModal .modal-content{
+.modal-xl .modal-content{
   border-radius: 8px;
 }
-.userModal .modal-dialog{
+.modal-xl .modal-dialog{
   max-width: 960px !important;
   width: 960px !important;
 }
-.userModal .modal-header{
+.modal-xl .modal-header{
   padding: 32px 32px 0 32px !important;
 }
-.userModal .modal-body{
+.modal-xl .modal-body{
   padding: 16px 32px 32px 32px !important;
 }
 .deleteModal .modal-dialog{

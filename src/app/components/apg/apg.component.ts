@@ -60,6 +60,8 @@ export class ApgComponent implements OnInit {
     getAccessPoint: any;
     tempModuleId: any;
     emptyAP: boolean = false;
+
+    //
     public ismodule: boolean = false;
     public isshare: boolean = false;
     public shareAPG: boolean = false;
@@ -228,6 +230,7 @@ export class ApgComponent implements OnInit {
 
       }else{
         console.log('update')
+        console.log(data)
         this.blockUI.start('Loading...');
         this._service.updateAPG(this.regionID, data._id , data, templateID)
           .subscribe((res:any) => {
@@ -243,19 +246,33 @@ export class ApgComponent implements OnInit {
       }
     }
 
+    apgPublicShare(apgID){
+      console.log(apgID)
+      this.singleAPG(apgID, 'share');
+    }
+
     onclickUpdate(id){
       console.log(id)
-      this.singleAPG(id);
+      this.singleAPG(id, 'update');
       this.iscreate = true;
       this.isUpdate = true;
     }
 
-    singleAPG(id){
+    singleAPG(id, state){
+      this.blockUI.start('Loading...');
       this._service.getSingleAPG(this.regionID, id)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         console.log('editapg' ,res)
         this.model = res;
+        if(state == 'share'){
+          console.log(res)
+          res['public'] = true;
+          console.log(res.name)
+          this.convertTemplate(res, res._id, res.name);
+        }
       }, err => {
+          this.blockUI.stop();
          console.log(err)
       })
     }
@@ -275,87 +292,87 @@ export class ApgComponent implements OnInit {
     //   })
     // }
 
-  	open(content){
-  		this.customAP = false;
-  		this.templateAPG = false;
-  		this.apArray = [];
-  		this.newAPList = [];
-  		this.customCheck = false;
-  		this.templateAPG = false;
-  		this.templateChecked = false;
-      this.createButton = true;
-      this.updateButton = false;
-      this.checkedModuleID = [];
-      this.checkedAPid = [];
-      this.moduleAPList = [];
-      this.getAccessPoint = [];
-  		this.apgField = new apgField();
-	  	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
-	    this.modalReference.result.then((result) => {
-	    	this.apgField = new apgField();
-	    	this.apField = new apField();
-		  this.closeResult = `Closed with: ${result}`
-	  	}, (reason) => {
-	  		this.apgField = new apgField();
-	  		this.apField = new apField();
+  	// open(content){
+  	// 	this.customAP = false;
+  	// 	this.templateAPG = false;
+  	// 	this.apArray = [];
+  	// 	this.newAPList = [];
+  	// 	this.customCheck = false;
+  	// 	this.templateAPG = false;
+  	// 	this.templateChecked = false;
+   //    this.createButton = true;
+   //    this.updateButton = false;
+   //    this.checkedModuleID = [];
+   //    this.checkedAPid = [];
+   //    this.moduleAPList = [];
+   //    this.getAccessPoint = [];
+  	// 	this.apgField = new apgField();
+	  // 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
+	  //   this.modalReference.result.then((result) => {
+	  //   	this.apgField = new apgField();
+	  //   	this.apField = new apField();
+		 //  this.closeResult = `Closed with: ${result}`
+	  // 	}, (reason) => {
+	  // 		this.apgField = new apgField();
+	  // 		this.apField = new apField();
 
-	  	  this.closeResult = `Closed with: ${reason}`;
-	  	});
-  	}
+	  // 	  this.closeResult = `Closed with: ${reason}`;
+	  // 	});
+  	// }
 
-  	radioEvent(e, type){
-	  	if(type == 'custom'){
-	  		this.customAP = true;
-	  		this.newAP = false;
-	  		this.templateAPG = false;
-	  		this.existAP = false;
-	  		this.newAPshow = false;
-        this.apgField.templateId = '';
-	  	}
-	  	else if(type == 'template'){
-	  		this.customAP = false;
-	  		this.templateAPG = true;
-        this.customCheck = false;
-        this.existAP = false;
-        this.apgField.moduleId = '';
-        this.apgField = new apgField();
-	  	}
-	  	else if(type == 'newap'){
-	  		this.newAP = true;
-	  		this.existAP = false;
-	  		this.newAPshow = false;
-        this.checkedAPid = [];
-        this.apField = new apField();
-        if(this.createButton == true && !this.apgField.moduleId){
-          this.moduleId = '';
-        }else {
-          this.getAPofModule(this.moduleId);
-        }
-        if(this.createButton == true){
-          this.apArray = [];
-        }
-	  	}
-	  	else if(type == 'existap'){
-	  		this.newAP = false;
-	  		this.existAP = true;
-	  		this.newAPshow = false;
-        this.checkedAPid = [];
-        this.apField = new apField();
-        this.newAPList = [];
-        this.apArray = [];
-        if(this.createButton == true && !this.apgField.moduleId){
-          this.moduleAPList = [];
-        }
-        else{
-          this.getAPofModule(this.moduleId);
+  	// radioEvent(e, type){
+	  // 	if(type == 'custom'){
+	  // 		this.customAP = true;
+	  // 		this.newAP = false;
+	  // 		this.templateAPG = false;
+	  // 		this.existAP = false;
+	  // 		this.newAPshow = false;
+   //      this.apgField.templateId = '';
+	  // 	}
+	  // 	else if(type == 'template'){
+	  // 		this.customAP = false;
+	  // 		this.templateAPG = true;
+   //      this.customCheck = false;
+   //      this.existAP = false;
+   //      this.apgField.moduleId = '';
+   //      this.apgField = new apgField();
+	  // 	}
+	  // 	else if(type == 'newap'){
+	  // 		this.newAP = true;
+	  // 		this.existAP = false;
+	  // 		this.newAPshow = false;
+   //      this.checkedAPid = [];
+   //      this.apField = new apField();
+   //      if(this.createButton == true && !this.apgField.moduleId){
+   //        this.moduleId = '';
+   //      }else {
+   //        this.getAPofModule(this.moduleId);
+   //      }
+   //      if(this.createButton == true){
+   //        this.apArray = [];
+   //      }
+	  // 	}
+	  // 	else if(type == 'existap'){
+	  // 		this.newAP = false;
+	  // 		this.existAP = true;
+	  // 		this.newAPshow = false;
+   //      this.checkedAPid = [];
+   //      this.apField = new apField();
+   //      this.newAPList = [];
+   //      this.apArray = [];
+   //      if(this.createButton == true && !this.apgField.moduleId){
+   //        this.moduleAPList = [];
+   //      }
+   //      else{
+   //        this.getAPofModule(this.moduleId);
 
-        }
+   //      }
 
-	  	}
-	  	else {
-	  		console.log('error')
-	  	}
-	  }
+	  // 	}
+	  // 	else {
+	  // 		console.log('error')
+	  // 	}
+	  // }
 
 	  clickTab(type){
     	this.viewType = type;
@@ -416,52 +433,52 @@ export class ApgComponent implements OnInit {
   		}  		
   	}
 
-  	createAPG(formData, type){
-  		console.log(formData)
-      let data;
-      if(!formData.templateId){
-          data = {
-            'name': formData.name,
-            'description': formData.desc,
-            'moduleId': formData.moduleId,
-            'accessPoints': this.apArray        
-          }
-        }
-  		if(type == 'create'){
-        console.log('create',data)
-        this.newAPList = [];
-        this.modalReference.close();
-        this.blockUI.start('Loading...');
-        this._service.createAPG(this.regionID, data, formData.templateId, formData.moduleId)
-          .subscribe((res:any) => {
-              console.log('success post',res);
-              this.toastr.success('Successfully APG Created.');
-              this.apArray = [];
-              this.getAllAPG();
-              this.blockUI.stop();
-          }, err => {
-              this.toastr.error('Created APG Fail');
-              console.log(err)
-          })  
-      }
-      else {
-        console.log('update', data)
-        this.newAPList = [];
-        this.modalReference.close();
-        this.blockUI.start('Loading...');
-        this._service.updateAPG(this.regionID, this.editId, data, formData.templateId)
-          .subscribe((res:any) => {
-              console.log('success update',res);
-              this.toastr.success('Successfully APG Updated.');
-              this.getAllAPG();
-              this.blockUI.stop();
-          }, err => {
-              this.toastr.error('Updated APG Fail');
-              console.log(err)
-          }) 
-      }
+  	// createAPG(formData, type){
+  	// 	console.log(formData)
+   //    let data;
+   //    if(!formData.templateId){
+   //        data = {
+   //          'name': formData.name,
+   //          'description': formData.desc,
+   //          'moduleId': formData.moduleId,
+   //          'accessPoints': this.apArray        
+   //        }
+   //      }
+  	// 	if(type == 'create'){
+   //      console.log('create',data)
+   //      this.newAPList = [];
+   //      this.modalReference.close();
+   //      this.blockUI.start('Loading...');
+   //      this._service.createAPG(this.regionID, data, formData.templateId, formData.moduleId)
+   //        .subscribe((res:any) => {
+   //            console.log('success post',res);
+   //            this.toastr.success('Successfully APG Created.');
+   //            this.apArray = [];
+   //            this.getAllAPG();
+   //            this.blockUI.stop();
+   //        }, err => {
+   //            this.toastr.error('Created APG Fail');
+   //            console.log(err)
+   //        })  
+   //    }
+   //    else {
+   //      console.log('update', data)
+   //      this.newAPList = [];
+   //      this.modalReference.close();
+   //      this.blockUI.start('Loading...');
+   //      this._service.updateAPG(this.regionID, this.editId, data, formData.templateId)
+   //        .subscribe((res:any) => {
+   //            console.log('success update',res);
+   //            this.toastr.success('Successfully APG Updated.');
+   //            this.getAllAPG();
+   //            this.blockUI.stop();
+   //        }, err => {
+   //            this.toastr.error('Updated APG Fail');
+   //            console.log(err)
+   //        }) 
+   //    }
 	
-  	}
+  	// }
     
     getAPofModule(moduleId){
       this._service.getAllAPmodule(this.regionID, moduleId)
@@ -578,7 +595,7 @@ export class ApgComponent implements OnInit {
           this.deleteAPG = this.apgList[i].name;
         }
       }
-      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'deleteModal'});
+      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
     }
 
   	apgDelete(id){
@@ -597,70 +614,69 @@ export class ApgComponent implements OnInit {
 	    }) 
   	}
     
-  	editAPG(id, content){
-  		this.getAllTemplate();
-      this.apgField = new apgField();
-  		this.customAP = false;
-  		this.templateAPG = false;
-  		this.existAP = false;
-	  	this.newAPshow = false;
-      this.newAP = false;
-      this.createButton = false;
-      this.updateButton = true;
-      this.newAPList = [];
-	  	this.checkedModuleID = [];
-	  	this.checkedAPid = [];
-      this.apArray = [];
-  		this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
-  		this._service.getSingleAPG(this.regionID, id)
-  		.subscribe((res:any) => {
-  			console.log('editapg' ,res)
-        this.getAPofModule(res.moduleId);
-        this.tempModuleId = res.moduleId;
-        this.moduleId = res.moduleId;
-  			for(var i in this.moduleList){
-  				if(this.moduleList[i]._id == res.moduleId){
-  					this.checkedModuleID.push(res.moduleId);
-  				}
-  			}
-        if(res.accessPoints == ''){
-          this.customCheck = false;
-          this.existAP = false;
-        }
-        else {
-          this.customCheck = true;
-          this.existAP = true;
-        }
-				this.customAP = true;
-				this.templateChecked = false;
-        this.getAccessPoint = res.accessPoints;
-  			this.apgField = res;
-        this.editId = id;
-  		}, err => {
-	        console.log(err)
-	    })
-  	}
+  	// editAPG(id, content){
+  	// 	this.getAllTemplate();
+   //    this.apgField = new apgField();
+  	// 	this.customAP = false;
+  	// 	this.templateAPG = false;
+  	// 	this.existAP = false;
+	  // 	this.newAPshow = false;
+   //    this.newAP = false;
+   //    this.createButton = false;
+   //    this.updateButton = true;
+   //    this.newAPList = [];
+	  // 	this.checkedModuleID = [];
+	  // 	this.checkedAPid = [];
+   //    this.apArray = [];
+  	// 	this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
+  	// 	this._service.getSingleAPG(this.regionID, id)
+  	// 	.subscribe((res:any) => {
+  	// 		console.log('editapg' ,res)
+   //      this.getAPofModule(res.moduleId);
+   //      this.tempModuleId = res.moduleId;
+   //      this.moduleId = res.moduleId;
+  	// 		for(var i in this.moduleList){
+  	// 			if(this.moduleList[i]._id == res.moduleId){
+  	// 				this.checkedModuleID.push(res.moduleId);
+  	// 			}
+  	// 		}
+   //      if(res.accessPoints == ''){
+   //        this.customCheck = false;
+   //        this.existAP = false;
+   //      }
+   //      else {
+   //        this.customCheck = true;
+   //        this.existAP = true;
+   //      }
+			// 	this.customAP = true;
+			// 	this.templateChecked = false;
+   //      this.getAccessPoint = res.accessPoints;
+  	// 		this.apgField = res;
+   //      this.editId = id;
+  	// 	}, err => {
+	  //       console.log(err)
+	  //   })
+  	// }
 
-    clickConvert(id, cTemplate){
-      this.convertField = new convertField();
-      this.convertId = id;
-      this.modalReference = this.modalService.open(cTemplate, { backdrop:'static', windowClass: 'animation-wrap'});
-    }
+    // clickConvert(id, cTemplate){
+    //   this.convertField = new convertField();
+    //   this.convertId = id;
+    //   this.modalReference = this.modalService.open(cTemplate, { backdrop:'static', windowClass: 'animation-wrap'});
+    // }
     
-  	convertTemplate(id, formData){
-      console.log(formData.name)
+  	convertTemplate(apgObj, id, apgName){
+      console.log(apgObj)
       let data = {
-          'name': formData.name,     
+          'name': apgName,     
       }
-      this.modalReference.close();
+      console.log(data)
       this.blockUI.start('Loading...');
       this._service.convertApgTemplate(id, data).subscribe((res:any) => {
-        console.log(res);
-        this.blockUI.stop();
-        this.toastr.success('Successfully converted from APG to template.');
+        console.log(apgObj)                
+        this.createapgs(apgObj, true)
       }, err => {
           console.log(err)
-        })
+      })
   	}
 
 }

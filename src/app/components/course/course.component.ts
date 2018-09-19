@@ -178,7 +178,7 @@ export class CourseComponent implements OnInit {
     }   
     this.selectedUserLists = [];
     this.selectedUserId = [];
-    this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'userModal d-flex justify-content-center align-items-center'});
+    this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
     this.userType = type;
     this.getAllUsers(type);
   }
