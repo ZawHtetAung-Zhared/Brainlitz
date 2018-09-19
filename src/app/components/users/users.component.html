@@ -430,7 +430,56 @@
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title">Enroll new class</h3>
+    <button aria-label="Close" class="close" type="button">
+	    <span aria-hidden="true" (click)="c('Close click')">×</span>
+	</button>
   </div>
+  <form novalidate #cfees="ngForm">
+  	<div class="modal-body confirm-text">
+  		<div class="d-flex flex-column mt-37" style="position: relative;">
+	      <div class="d-flex">
+	        <input 
+	          class="form-control py-2 input-search-bg" 
+	          type="search" 
+	          placeholder="Search customers" 
+	          id="example-search-input" 
+	          name="search" 
+	          #search="ngModel" 
+	          [(ngModel)]="searchData.searchText" 
+	          (focus)="focusMethod($event, userType)"
+	          (focusout)="hideFocus($event)"
+	          (input)="changeMethod($event.target.value)">
+	        <span class="input-group-append">
+	          <button class="bt btn-design btn-outline-secondary" type="button">
+	              <i class="fa fa-search search-size"></i>
+	          </button>
+	        </span>
+	      </div>
+	      <div class="user-list-box" *ngIf="isFous == true">
+	        <div (click)="selectUser(user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+	          <div class="img-wrap">
+	            <img src="{{user.profilePic}}">
+	          </div>
+	          <div class="single-user-info d-flex flex-column justify-content-center">
+	            <h4>{{user.preferredName}}</h4>
+	          </div>
+	          <div class="ml-auto remover-wrap">
+	            <div class="add-user d-flex justify-content-end"></div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="row">
+	    	<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+	    		<h5 class="mt-03">
+	          <i class="fa fa-map-marker" style="font-size:15px"></i>
+	          Bedok Center
+	        </h5>
+	        <b>Course name</b>
+	    	</div>
+	    </div>
+  	</div>  	
+  </form>
 </ng-template>
 
 

@@ -45,7 +45,7 @@ export class UsersComponent implements OnInit {
 	
 	public showLoading: boolean = false;
 	@BlockUI() blockUI: NgBlockUI;
-	
+		
 	customerLists: any;
 	userType: any;
 	permissionLists: any;
@@ -70,6 +70,10 @@ export class UsersComponent implements OnInit {
   	public seeAll = false;
   	public wordLength:number = 0;
   	divHeight:any;
+
+  	// enroll class
+  	searchData: any={};
+  	public courseLists: any={};
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -447,6 +451,17 @@ export class UsersComponent implements OnInit {
 	// enroll class
 	callEnrollModal(enrollModal){
 		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+		this.allCourseLists();
+	}
+
+	allCourseLists(){
+		this._service.getAllCourse(this.regionID)
+	    .subscribe((res:any)=>{
+	    	this.courseLists = res;
+	      console.log(res)
+	    },err =>{
+	      console.log(err);
+	    });
 	}
 
 }
