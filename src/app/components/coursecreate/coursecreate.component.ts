@@ -57,9 +57,10 @@ export class CoursecreateComponent implements OnInit {
   public rangeMin: any;
   public rangeHr: any;
   public isSelected: any;
-  public maxHrRange:any;
-  public minHrRange:any;
   public showFormat:any;
+  public testChar:boolean;
+  public testArr = ['Hello1','Hello2','Hello3'];
+  public testList = [];
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -75,11 +76,19 @@ export class CoursecreateComponent implements OnInit {
     this.isSelected = 'am';
     this.rangeHr = '0';
     this.rangeMin = '0';
-    // this.selectedHrRange = "00";
-    // this.selectedMinRange = "00";
     this.showFormat = "00:00";
-    this.maxHrRange = 12;
-    this.minHrRange = 0;
+    this.createList();
+  }
+
+  createList(){
+    console.log(this.coursePlan.duration);
+    for(var i = 0; i <= 9; i++){
+      var testVar = this.coursePlan.duration * (i+1) + ' min';
+      console.log("testVar",testVar);
+      this.testList.push(testVar);
+    }
+    console.log("testList",this.testList);
+    this.model.durationTimes = this.testList[0];
   }
 
   focusMethod(e){
@@ -176,76 +185,72 @@ export class CoursecreateComponent implements OnInit {
     this.progressSlider = true;
   }
 
-  @HostListener('document:click', ['$event'])
-    public documentClick(event): void {
+  // @HostListener('document:click', ['$event'])
+  //   public documentClick(event): void {
 
-        if(this.progressSlider != true){
-           $('.bg-box').css({ 'display': "none" });   
-        }
-        else {
-            $('.bg-box').css({ 'display': "block" }); 
-            $('.bg-box').click(function(event){
-                event.stopPropagation();
-            });
-            this.progressSlider = false;
+  //       if(this.progressSlider != true){
+  //          $('.bg-box').css({ 'display': "none" });   
+  //       }
+  //       else {
+  //           $('.bg-box').css({ 'display': "block" }); 
+  //           $('.bg-box').click(function(event){
+  //               event.stopPropagation();
+  //           });
+  //           this.progressSlider = false;
 
-        }
+  //       }
 
-        if(this.focusCfee == true){
-          $('.cfee-bg').addClass("focus-bg");
-        }
-        else {
-          $('.cfee-bg').removeClass("focus-bg");
-        }
-        this.focusCfee = false;
+  //       if(this.focusCfee == true){
+  //         $('.cfee-bg').addClass("focus-bg");
+  //       }
+  //       else {
+  //         $('.cfee-bg').removeClass("focus-bg");
+  //       }
+  //       this.focusCfee = false;
 
-        if(this.focusMisfee == true){
-          $('.misfee-bg').addClass("focus-bg");
-        }
-        else {
-          $('.misfee-bg').removeClass("focus-bg");
-        }
-        this.focusMisfee = false;
-  }
+  //       if(this.focusMisfee == true){
+  //         $('.misfee-bg').addClass("focus-bg");
+  //       }
+  //       else {
+  //         $('.misfee-bg').removeClass("focus-bg");
+  //       }
+  //       this.focusMisfee = false;
+  // }
 
   ChangedRangeValue(e, type){
     if(type == 'hr'){
       this.selectedHrRange = e;
-      if(this.selectedHrRange == this.maxHrRange){
-        this.overDurationHr = true;
-        this.rangeMin = 0;
-        this.selectedMinRange = 0;
-      }else{
-        this.overDurationHr = false;
-      }
+      // if(this.selectedHrRange == 12){
+      //   this.overDurationHr = true;
+      //   this.rangeMin = 0;
+      //   this.selectedMinRange = 0;
+      // }else{
+      //   this.overDurationHr = false;
+      // }
     }
     if(type == 'min'){
       this.selectedMinRange = e;
     }
-    // if(this.isSelected == 'am'){
-    //   console.log('AM drag');
-    // }else{
-    //   console.log('PM drag');
-    // }
     this.formatTime();
   }
 
   chooseTimeOpt(type){
     console.log(type);
     this.isSelected = type;
-    if(this.isSelected == 'pm'){
-      this.minHrRange = 12;
-      this.maxHrRange = 24;
-      this.rangeHr = Number(this.selectedHrRange) + 12;
-      this.selectedHrRange = Number(this.selectedHrRange) + 12;
-      console.log('rangeHr',this.rangeHr);
-    }else{
-      this.minHrRange =0;
-      this.maxHrRange = 12;
-      this.rangeHr = Number(this.selectedHrRange) - 12;
-      this.selectedHrRange = Number(this.selectedHrRange) - 12;
-      console.log('rangeHr',this.rangeHr);
-    }
+
+    // if(this.isSelected == 'pm'){
+    //   this.minHrRange = 12;
+    //   this.maxHrRange = 24;
+    //   this.rangeHr = Number(this.selectedHrRange) + 12;
+    //   this.selectedHrRange = Number(this.selectedHrRange) + 12;
+    //   console.log('rangeHr',this.rangeHr);
+    // }else{
+    //   this.minHrRange =0;
+    //   this.maxHrRange = 12;
+    //   this.rangeHr = Number(this.selectedHrRange) - 12;
+    //   this.selectedHrRange = Number(this.selectedHrRange) - 12;
+    //   console.log('rangeHr',this.rangeHr);
+    // }
     this.formatTime();
   }
 
@@ -266,7 +271,7 @@ export class CoursecreateComponent implements OnInit {
       var minFormat = this.selectedMinRange;
     }
     this.showFormat = hrFormat + ':' + minFormat;
-    this.startFormat = hrFormat + ':' + minFormat;
+    this.startFormat = hrFormat + ':' + minFormat + this.isSelected;
     console.log('Start Format',this.startFormat);
     this.model.starttime = this.startFormat;  
   }
@@ -284,5 +289,47 @@ export class CoursecreateComponent implements OnInit {
     console.log(this.classend)
   }
   D(J){ return (J<10? '0':'') + J};
+
+  numberOnly(event):boolean{
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log("character");
+      this.testChar = true;
+      return false;
+    }
+    if(event.target.value.search(/^0/) != -1){
+        event.target.value = '';  
+    }
+    this.testChar = false;
+    return true;
+  }
+
+  durationMenuShow: boolean = false;
+
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+        if(this.durationMenuShow == false){
+           $('.duration-dropdown').css('display', 'none');
+           // $('.bg-box').css('display', 'none');  
+        }
+        else {
+            $('.duration-dropdown').css('display', 'block');
+            // $('.bg-box').css('display', 'block');
+            this.durationMenuShow = false;
+
+        }
+    }
+    
+  dropDown(){
+        var x = document.getElementsByClassName('duration-dropdown');
+        if( (x[0]as HTMLElement).style.display == 'block'){
+          (x[0]as HTMLElement).style.display = 'none';
+        }
+        else {
+           (x[0]as HTMLElement).style.display = 'block';
+           this.durationMenuShow = true;
+        }
+  }
+
 
 }
