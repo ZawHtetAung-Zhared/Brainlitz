@@ -344,10 +344,13 @@ span.capitalize {
     border: none;
 }
 
-.button-group {
-    position: absolute;
+.button-group {    
+    position: fixed;
+    width: 100%;
     bottom: 0;
-    right: 15px;
+    padding: 20px;
+    left: 0;
+    background: #fff;
 }
 
 .pad-bottom {

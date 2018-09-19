@@ -157,7 +157,7 @@
 				<div class="d-flex flex-column justify-content-center">
 					<h6 class="mb-0">Classes</h6>
 				</div>
-				<button class="ml-auto enroll-btn">Enroll new class</button>
+				<button (click)="callEnrollModal(classEnrollModal)" class="ml-auto enroll-btn">Enroll new class</button>
 			</div>
 			<div>
 				<div class="list-wrapper">
@@ -416,17 +416,22 @@
 			            </div>
 		            </div>
 				</div>
-				<div class="button-group">
-					<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-		        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == false || validProfile == false ">Create
-					</button>
-					<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == true ">Update
-					</button>
-				</div>
 			</div>
+		</div>
+		<div class="d-flex justify-content-end button-group">
+			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == false || validProfile == false ">Create
+			</button>
+			<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == true ">Update
+			</button>
 		</div>
 	</form>
 </div>
+<ng-template #classEnrollModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Enroll new class</h3>
+  </div>
+</ng-template>
 
 
 <block-ui message="Deafult Message"></block-ui> 

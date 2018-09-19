@@ -1275,8 +1275,11 @@ export class appService{
       })
     }
 
-    updateAPG(id:string, apgID:string, body:any, templateId: string){
-      let apiUrl = this.baseUrl + '/' + id + '/access-point-group/' + apgID;
+    updateAPG(regionid:string, apgID:string, body:any, templateId: string){
+      console.log('apgID ~ ', apgID);
+      console.log('body ~ ', body);
+      console.log('templateId ~ ', templateId);
+      let apiUrl = this.baseUrl + '/' + regionid + '/access-point-group/' + apgID;
       const options = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})

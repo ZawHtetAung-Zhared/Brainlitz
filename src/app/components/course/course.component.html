@@ -282,12 +282,6 @@
       </div>
     </div>
     <div class="d-flex flex-column mt-37" style="position: relative;">
-      <!-- <input name="name" [(ngModel)]="searchText" placeholder="search text goes here">
-      <ul>
-        <li *ngFor="let c of characters | filter : searchText">
-          {{c.name}}
-        </li>
-      </ul> -->
       <div class="d-flex">
         <input 
           class="form-control py-2 input-search-bg" 
@@ -306,19 +300,6 @@
           </button>
         </span>
       </div>
-      <!-- <div class="user-list-box">
-        <div *ngFor="let user of userLists | filter : searchText" class="d-flex flex-row search-user justify-content-center align-items-center">
-          <div class="img-wrap">
-            <img src="{{user.profilePic}}">
-          </div>
-          <div class="single-user-info d-flex flex-column justify-content-center">
-            <h4>{{user.preferredName}}</h4>
-          </div>
-          <div class="ml-auto remover-wrap">
-            <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
-          </div>
-        </div>
-      </div> -->
       <div class="user-list-box" *ngIf="isFous == true">
         <div (click)="selectUser(user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
           <div class="img-wrap">
