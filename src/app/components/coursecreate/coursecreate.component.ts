@@ -18,18 +18,19 @@ declare var $:any;
 })
 export class CoursecreateComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
+  public currentLocation = localStorage.getItem('locationId');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   @BlockUI() blockUI: NgBlockUI;
 
   hello = JSON.parse(localStorage.getItem('splan')) ;
-  step1: boolean = false;
-  step2: boolean = false;
-  step3: boolean = false;
-  step4: boolean = false;
-  step1FormaData: any;
-  step2FormaData: any;
-  step3FormaData: any;
-  step4FormaData: any;
+  // step1: boolean = false;
+  // step2: boolean = false;
+  // step3: boolean = false;
+  // step4: boolean = false;
+  // step1FormaData: any;
+  // step2FormaData: any;
+  // step3FormaData: any;
+  // step4FormaData: any;
   wordLength:any;
   model:any = {};
   isChecked:any;
@@ -61,6 +62,15 @@ export class CoursecreateComponent implements OnInit {
   public testChar:boolean;
   public testArr = ['Hello1','Hello2','Hello3'];
   public testList = [];
+  public durationMenuShow: boolean = false;
+  public locationMenuShow: boolean = false;
+  public startTime: any;
+  public classend:any;
+  public locationList = [];
+  public locationId:any;
+  public isFocus:boolean = false;
+  public detailLists:any;
+  public userLists:any;
 
   constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -71,19 +81,28 @@ export class CoursecreateComponent implements OnInit {
     setTimeout(function(){
       $("#step1").addClass('active');
     }, 200)
-    this.step2=true;
+    // this.step2=true;
     this.isChecked = 'end';
-    this.isSelected = 'am';
+    this.isSelected = 'AM';
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.showFormat = "00:00";
     this.createList();
+    this.getAllLocations();
+  }
+
+  getAllLocations(){
+    this._service.getLocations(this.regionID)
+    .subscribe((res:any)=>{
+      console.log("Locations",res);
+      this.locationList = res;
+    })
   }
 
   createList(){
     console.log(this.coursePlan.duration);
     for(var i = 0; i <= 9; i++){
-      var testVar = this.coursePlan.duration * (i+1) + ' min';
+      var testVar = this.coursePlan.duration * (i+1);
       console.log("testVar",testVar);
       this.testList.push(testVar);
     }
@@ -111,32 +130,32 @@ export class CoursecreateComponent implements OnInit {
     localStorage.removeItem('cPlan');
   }
 
-  continueStep(type, data){
-    if(type == 'step1'){
-      this.step1FormaData = data;
-      console.log(this.step1FormaData)
-      this.step1 = false;
-      if(this.step1 == false){
-        $("#step1").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('active');
-        this.step2 = true;
-      }
-    }
-  }
+  // continueStep(type, data){
+  //   if(type == 'step1'){
+  //     this.step1FormaData = data;
+  //     console.log(this.step1FormaData)
+  //     this.step1 = false;
+  //     if(this.step1 == false){
+  //       $("#step1").removeClass('active');
+  //       $("#step1").addClass('done');
+  //       $("#step2").addClass('active');
+  //       this.step2 = true;
+  //     }
+  //   }
+  // }
 
-  backStep(step){
-    console.log(step);
-    if(step == 'step2'){
-      this.step2 = false;
-      this.step1 = true;
-      if(this.step1 == true){
-        $("#step2").removeClass('active');
-        $("#step2").addClass('done');
-        $("#step1").addClass('active');
-      }
-    }
-  }
+  // backStep(step){
+  //   console.log(step);
+  //   if(step == 'step2'){
+  //     this.step2 = false;
+  //     this.step1 = true;
+  //     if(this.step1 == true){
+  //       $("#step2").removeClass('active');
+  //       $("#step2").addClass('done');
+  //       $("#step1").addClass('active');
+  //     }
+  //   }
+  // }
 
   chooseEndOpt(type){
     console.log("Type",type);
@@ -185,37 +204,78 @@ export class CoursecreateComponent implements OnInit {
     this.progressSlider = true;
   }
 
-  // @HostListener('document:click', ['$event'])
-  //   public documentClick(event): void {
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
 
-  //       if(this.progressSlider != true){
-  //          $('.bg-box').css({ 'display': "none" });   
-  //       }
-  //       else {
-  //           $('.bg-box').css({ 'display': "block" }); 
-  //           $('.bg-box').click(function(event){
-  //               event.stopPropagation();
-  //           });
-  //           this.progressSlider = false;
+        if(this.progressSlider != true){
+           $('.bg-box').css({ 'display': "none" });   
+        }
+        else {
+            $('.bg-box').css({ 'display': "block" }); 
+            $('.bg-box').click(function(event){
+                event.stopPropagation();
+            });
+            this.progressSlider = false;
 
-  //       }
+        }
 
-  //       if(this.focusCfee == true){
-  //         $('.cfee-bg').addClass("focus-bg");
-  //       }
-  //       else {
-  //         $('.cfee-bg').removeClass("focus-bg");
-  //       }
-  //       this.focusCfee = false;
+        if(this.focusCfee == true){
+          $('.cfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.cfee-bg').removeClass("focus-bg");
+        }
+        this.focusCfee = false;
 
-  //       if(this.focusMisfee == true){
-  //         $('.misfee-bg').addClass("focus-bg");
-  //       }
-  //       else {
-  //         $('.misfee-bg').removeClass("focus-bg");
-  //       }
-  //       this.focusMisfee = false;
-  // }
+        if(this.focusMisfee == true){
+          $('.misfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.misfee-bg').removeClass("focus-bg");
+        }
+        this.focusMisfee = false;
+
+
+
+        // for duration dropdown
+        if(this.durationMenuShow == false){
+           $('.duration-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.duration-dropdown').css('display', 'block');
+            this.durationMenuShow = false;
+        }
+
+        //for location dropdown
+        if(this.locationMenuShow == false){
+           $('.location-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.location-dropdown').css('display', 'block');
+            this.locationMenuShow = false;
+        }
+  }
+
+  dropDown(){
+    var x = document.getElementsByClassName('duration-dropdown');
+    if( (x[0]as HTMLElement).style.display == 'block'){
+      (x[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (x[0]as HTMLElement).style.display = 'block';
+       this.durationMenuShow = true;
+    }
+  }
+  locationDropdown(){
+    var y = document.getElementsByClassName('location-dropdown');
+    if( (y[0]as HTMLElement).style.display == 'block'){
+      (y[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (y[0]as HTMLElement).style.display = 'block';
+       this.locationMenuShow = true;
+    }
+  }
 
   ChangedRangeValue(e, type){
     if(type == 'hr'){
@@ -237,7 +297,6 @@ export class CoursecreateComponent implements OnInit {
   chooseTimeOpt(type){
     console.log(type);
     this.isSelected = type;
-
     // if(this.isSelected == 'pm'){
     //   this.minHrRange = 12;
     //   this.maxHrRange = 24;
@@ -255,9 +314,14 @@ export class CoursecreateComponent implements OnInit {
   }
 
   formatTime(){
-    if(this.selectedHrRange<10){
-      var hrFormat = 0 + this.selectedHrRange;
+    if(this.selectedHrRange > 0 ){
+      if(this.selectedHrRange<10){
+        var hrFormat = 0 + this.selectedHrRange;
+      }else{
+        var hrFormat = this.selectedHrRange;
+      }
     }else{
+      this.selectedHrRange = "00";
       var hrFormat = this.selectedHrRange;
     }
     if(this.selectedMinRange > 0){
@@ -271,22 +335,28 @@ export class CoursecreateComponent implements OnInit {
       var minFormat = this.selectedMinRange;
     }
     this.showFormat = hrFormat + ':' + minFormat;
-    this.startFormat = hrFormat + ':' + minFormat + this.isSelected;
+    this.startFormat = hrFormat + ':' + minFormat +''+ this.isSelected;
     console.log('Start Format',this.startFormat);
-    this.model.starttime = this.startFormat;  
+    this.model.starttime = this.startFormat; 
+    this.startTime = moment(this.startFormat, "h:mm A").format("HH:mm");
+    console.log('Output',this.startTime);
+    this.calculateDuration(this.startTime);
   }
 
-
-
-  classend:any;
   calculateDuration(time){
     console.log("Calculate",time)
-    // let myTime = time.substring(0,3).concat(this.model.duration);
-    // console.log("end",myTime)
     let piece = time.split(':');
-    let mins = piece[0]*60 + +piece[1] + +this.model.durationTimes;
-    this.classend = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
-    console.log(this.classend)
+    let mins = Number(piece[0])*60 +Number(piece[1]) +this.model.durationTimes;
+    var endTime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+    console.log("Classend",endTime);
+    var test1 = Number(this.D(mins%(24*60)/60 | 0));
+    if(test1 > 12){
+      this.classend = endTime + 'PM';
+      console.log("classend PM",this.classend);
+    } else{
+      this.classend = endTime + 'AM';
+      console.log("classend AM",this.classend);
+    }
   }
   D(J){ return (J<10? '0':'') + J};
 
@@ -304,32 +374,88 @@ export class CoursecreateComponent implements OnInit {
     return true;
   }
 
-  durationMenuShow: boolean = false;
-
-  @HostListener('document:click', ['$event'])
-    public documentClick(event): void {
-        if(this.durationMenuShow == false){
-           $('.duration-dropdown').css('display', 'none');
-           // $('.bg-box').css('display', 'none');  
-        }
-        else {
-            $('.duration-dropdown').css('display', 'block');
-            // $('.bg-box').css('display', 'block');
-            this.durationMenuShow = false;
-
-        }
-    }
-    
-  dropDown(){
-        var x = document.getElementsByClassName('duration-dropdown');
-        if( (x[0]as HTMLElement).style.display == 'block'){
-          (x[0]as HTMLElement).style.display = 'none';
-        }
-        else {
-           (x[0]as HTMLElement).style.display = 'block';
-           this.durationMenuShow = true;
-        }
+  onClickDuration(time){
+    console.log("item",time);
+    this.model.durationTimes = time;
+    this.calculateDuration(this.startTime);
   }
 
+  chooseLocation(item){
+    console.log("Choose Location",item);
+    this.model.location = item.name;
+    this.locationId = item._id;
+  }
+
+  focusInputMethod(e, userType){
+    console.log(e)
+    console.log(userType)
+    this.isFocus = true;
+    this.getAllUsers(userType);
+  }
+
+  hideFocus(e){
+    setTimeout(() => {
+      this.isFocus = false;
+    }, 300);
+    this.model.assistantSearch = "";
+  }
+
+  changeInputMethod(searchWord){
+    // console.log(this.detailLists.locationId)
+    // console.log(searchWord)
+    // let locationId = this.detailLists.locationId;
+    console.log('searchword',searchWord);
+    if(searchWord == ''){
+      console.log("NULL")
+    }else{
+      this._service.getSearchUser(this.regionID, searchWord,this.currentLocation)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.userLists = res;
+      }, err => {  
+        console.log(err);
+      });
+    }
+  }
+
+  getAllUsers(type){
+    this.blockUI.start('Loading...');    
+    this._service.getAllUsers(this.regionID, type)
+    .subscribe((res:any) => {      
+      this.userLists = res;
+      console.log('this.userLists', this.userLists);      
+      setTimeout(() => {
+            this.blockUI.stop(); // Stop blocking
+        }, 300);
+      }, err => {
+        console.log(err);
+      })
+  }
+  selectedUserLists =[];
+  chooseAssistant(user){
+    console.log(user);
+    this._service.getCurrentUser(user.userId)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.isFocus = false;
+      console.log(this.selectedUserLists.length)
+      this.selectedUserLists.push(res);
+      console.log(this.selectedUserLists)
+      console.log(this.selectedUserLists.length)
+    }, err => {  
+      console.log(err);
+    });
+  }
+
+  removeSelectedUser(id){
+    let getIndex;
+    for(let x in this.selectedUserLists){
+      if(id == this.selectedUserLists[x].userId){
+        getIndex = x;
+      }
+    }
+    this.selectedUserLists.splice(getIndex,1);
+    console.log(this.selectedUserLists);
+  }
 
 }
