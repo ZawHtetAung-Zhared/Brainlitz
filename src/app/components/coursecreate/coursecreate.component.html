@@ -11,7 +11,7 @@
 					<h5 class="mb-0">Course</h5>
 				</div> -->
 				<div class="font-medium">
-					<button class="btn-cancel">Cancel</button>
+					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
 				</div>
 			</div>
 		</header>
@@ -56,7 +56,7 @@
 				    </div>
 					<hr class="limit-hr-length">
 				</div> 
-				<div>
+				<div class="pad-bottom">
 					<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
 					<textarea class="form-control br-bshadow-none" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
 				</div>
@@ -109,9 +109,9 @@
 									 </div>
 									 <div>
 									 	<div class="time-box">
-											<label [ngClass]="{'selected':isSelected == 'am'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseTimeOpt('am')"> AM </label>
-											<label [ngClass]="{'selected':isSelected == 'pm'}" class="mb-0 font-semi">
-												<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseTimeOpt('pm')"> PM
+											<label [ngClass]="{'selected':isSelected == 'AM'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseTimeOpt('AM')"> AM </label>
+											<label [ngClass]="{'selected':isSelected == 'PM'}" class="mb-0 font-semi">
+												<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseTimeOpt('PM')"> PM
 											</label>
 										</div>
 									 </div>
@@ -135,16 +135,21 @@
 					</div>
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="all-title-font">Duration</label>
-						<div class="input-wrap form-group" (click)="dropDown()">
-						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="model.durationTimes" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
+						<!-- <div class="input-wrap form-group" (click)="dropDown()">
+						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="{{model.durationTimes}}" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
+						</div> -->
+						<div class="d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
+							{{this.model.durationTimes}} min
+							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						</div>
 						<div class="dropdown-wrap">
 				          <ul class="duration-dropdown">
 				            <li *ngFor="let test of testList">
-				              <span (click)="onClickYear(year)">{{ test }}</span>
+				              <span (click)="onClickDuration(test)">{{ test }} min</span>
 				            </li>
 				          </ul>
 				        </div>
+				        <div *ngIf="classend" class="msg font-medium">It will end at {{ classend }}</div>
 					</div>
 				</div>
 				<div class="checkboxes-wrapper">
@@ -169,12 +174,89 @@
 					<div>
 						<input type="text" name="input-search" class="secrch-box" placeholder="Type teacher name">
 					</div>
+					<!-- <div class="d-flex flex-column" style="position: relative;">
+						<div class="d-flex">
+							<input 
+							  class="form-control py-2 input-search-bg" 
+							  type="search" 
+							  placeholder="Type teacher name" 
+							  id="example-search-input" 
+							  name="search" 
+							  #search="ngModel" 
+							  [(ngModel)]="model.teacherSearch" 
+							  (focus)="focusInputMethod($event, 'staff')"
+							  (focusout)="hideFocus($event)"
+							  (input)="changeInputMethod($event.target.value)">
+							<span class="input-group-append">
+							  <button class="bt btn-design btn-outline-secondary" type="button">
+							      <i class="fa fa-search search-size"></i>
+							  </button>
+							</span>
+						</div>
+						<div class="user-list-box" *ngIf="isFocus == true">
+							<div (click)="selectUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+							  <div class="single-user-info d-flex flex-column justify-content-center">
+							    <h4>{{user.preferredName}}</h4>
+							  </div>
+							  <div class="ml-auto remover-wrap">
+							    <div class="add-user d-flex justify-content-end"></div>
+							  </div>
+							</div>
+						</div>
+					</div> -->
 				</div>
 				<div class="pad-bottom">
 					<label for="course_name" class="all-title-font">Assistants</label>
-					<div>
+					<!-- <div>
 						<input type="text" name="input-search" class="secrch-box" placeholder="Add assistants by searching">
+					</div> -->
+					<div class="d-flex flex-column" style="position: relative;">
+						<div class="d-flex">
+							<input 
+							  class="form-control py-2 input-search-bg" 
+							  type="search" 
+							  placeholder="Add assistants by searching" 
+							  id="example-search-input" 
+							  name="search" 
+							  #search="ngModel" 
+							  [(ngModel)]="model.assistantSearch" 
+							  (focus)="focusInputMethod($event, 'staff')"
+							  (focusout)="hideFocus($event)"
+							  (input)="changeInputMethod($event.target.value)">
+							<span class="input-group-append">
+							  <button class="bt btn-design btn-outline-secondary" type="button">
+							      <i class="fa fa-search search-size"></i>
+							  </button>
+							</span>
+						</div>
+						<div class="user-list-box" *ngIf="isFocus == true">
+							<div (click)="chooseAssistant(user)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+							  <div class="single-user-info d-flex flex-column justify-content-center">
+							    <h4>{{user.preferredName}}</h4>
+							  </div>
+							  <div class="ml-auto remover-wrap">
+							    <div class="add-user d-flex justify-content-end"></div>
+							  </div>
+							</div>
+						</div>
 					</div>
+					<div class="mt-20">
+				      <div class="d-flex" style="padding-top: 10px" *ngIf="selectedUserLists.length > 0">
+				        <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+				          <div class="d-flex flex-row single-user font-semi justify-content-center align-items-center">
+				            <div class="img-wrap">
+				              <img src="{{user.profilePic}}">
+				            </div>
+				            <div class="single-user-info d-flex flex-column justify-content-center">
+				              <label class="mb-0">{{user.preferredName}}</label>
+				            </div>
+				            <div class="ml-auto remover-wrap single-user-info">
+				              <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+				            </div>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
 				</div>
 			</div>
 		</div>
@@ -189,7 +271,19 @@
 			<div class="col-md-7">
 				<div>
 					<label for="location" class="all-title-font">Location</label>
-					<input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required> 
+					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
+					<div>
+						 <div class="form-group has-feedback" (click)="locationDropdown()">
+					    	<input class="form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None"><span class="fa fa-angle-down down-icon"></span>
+					     </div>
+					     <div class="dropdown-wrap">
+				          <ul class="location-dropdown">
+				            <li *ngFor="let item of locationList">
+				              <span (click)="chooseLocation(item)">{{item.name}}</span>
+				            </li>
+				          </ul>
+				        </div>
+					</div>
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
@@ -213,7 +307,7 @@
 		</div>
 		<hr class="hr-line">
 		<div class="d-flex justify-content-end form-footer">
-	        <button type="button" class="btn button-cancel">Cancel</button>
+	        <button type="button" class="btn button-cancel" (click)="backToCourses()">Cancel</button>
 	        <button type="button" class="btn button-submit">Create</button>
         </div>
 	</form>
