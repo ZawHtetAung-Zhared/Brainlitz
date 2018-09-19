@@ -25,6 +25,32 @@ export class HolidaysComponent implements OnInit {
 	closeResult: any;
 	public regionID = localStorage.getItem('regionId');
 	formField: holidays = new holidays();
+	test = {
+		"1": "hello"
+	};
+	sample =
+	{
+	    "_id": "5b8cdd64d75475317f99006d",
+	    "holidays": {
+	        "y2018": [
+	            {
+	                "_id": "5b0bd17ab389691e0a19aedd",
+	                "name": "amk1",
+	                "start": "2018-05-20T09:00:26.344Z",
+	                "end": "2018-05-20T15:30:26.344Z"
+	            }
+	        ],
+	        "2019": [
+	            {
+	                "_id": "5b0bd197b389691e0a19aede",
+	                "name": "amk2",
+	                "start": "2019-05-21T09:00:26.344Z",
+	                "end": "2019-05-21T09:00:26.344Z"
+	            }
+	        ]
+	    },
+	    "name": "Myanmar Calendar"
+	};
 	@BlockUI() blockUI: NgBlockUI;
 
   	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 

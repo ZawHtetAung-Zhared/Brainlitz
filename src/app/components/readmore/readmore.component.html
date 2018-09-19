@@ -1,0 +1,17 @@
+<!-- <div [innerHTML]="currentText">
+</div>
+<a *ngIf="isCollapsed" (click)="toggleView()">Read more</a>
+<a *ngIf="hideToggle" (click)="toggleView()">Read less</a> -->
+<!-- <div>
+	<p [innerHTML]="currentText">
+	</p>
+	<a *ngIf="isCollapsed" (click)="toggleView()">Read more</a>
+	<a *ngIf="hideToggle" (click)="toggleView()">Read less</a>
+</div> -->
+<span [innerHTML]="currentText">
+	
+</span>
+<span>
+	<a class="link" *ngIf="isCollapsed" (click)="toggleView()">read more</a>
+	<!-- <a class="link" *ngIf="hideToggle" (click)="toggleView()">read less</a> -->
+</span>

@@ -19,6 +19,8 @@ import { AssignuserComponent } from './components/assignuser/assignuser.componen
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { ReportComponent } from './components/report/report.component';
+import { UserStaffComponent } from './components/user-staff/user-staff.component';
+import { HomeComponent } from './components/home/home.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
 
@@ -27,6 +29,11 @@ export const routes: Routes = [
     { path: '',   
       redirectTo: '/region', 
       pathMatch: 'full' 
+    },
+    {
+      path: 'home',
+      component: HomeComponent,
+      canActivate: [LoggedInGuard]
     },
     {
        path: 'region',
@@ -55,6 +62,11 @@ export const routes: Routes = [
     {
         path: 'user',
         component: UsersComponent,
+        canActivate: [LoggedInGuard]
+    },
+    {
+        path: 'staff',
+        component: UserStaffComponent,
         canActivate: [LoggedInGuard]
     },
     {

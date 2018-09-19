@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Rx';
 import { quizWerkzForm } from './quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+declare var $:any;
 
 @Component({
   selector: 'app-quizwerkz',
@@ -20,12 +22,15 @@ export class QuizwerkzComponent implements OnInit {
 	private modalReference: NgbModalRef;
 	closeResult: string;
 	public pdfList: any;
-	public isEdit:boolean = false;
+  public isEdit:boolean = false;
+  public iscreate:boolean = false;
+	public navIsFixed:boolean = false;
 	public currentID:any;
   public selectQw:any;
   public deleteQw:any;
   public modalReference1:any;
   public editId: any;
+  public wordLength:number = 0;
   viewQuiz: any;
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -34,6 +39,42 @@ export class QuizwerkzComponent implements OnInit {
 
   ngOnInit() {
   	this.getAllPdf();
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    // console.log($event);
+    // console.log("scrolling");
+    // console.log(window.pageYOffset)
+    if(window.pageYOffset > 40){
+      console.log('greater than 100')
+      this.navIsFixed = true;
+    }else{
+      console.log('less than 100')
+      this.navIsFixed = false;
+    }
+  } 
+  
+  cancel(){
+    this.iscreate = false;
+    this.formField = new quizWerkzForm();
+  }
+
+  creatnew(){
+    this.isEdit = false;
+    this.iscreate = true;
+  }
+
+  focusMethod(e){
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    $('.limit-wordcount').hide('slow'); 
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
   }
 
   open(content) {
@@ -60,11 +101,14 @@ export class QuizwerkzComponent implements OnInit {
   }
 
   getAllPdf(){
+    this.blockUI.start('Loading...');
   	this._service.getAllPdf(this.regionID)
 		.subscribe((res:any) => {
+      this.blockUI.stop();
       this.pdfList = res;
       console.log("pdflist",this.pdfList);
     }, err => {
+      this.blockUI.stop();
     	console.log(err)
     })
   }
@@ -77,23 +121,24 @@ export class QuizwerkzComponent implements OnInit {
       "cover": obj.cover
   	}
     this.blockUI.start('Loading...');
-    this.modalReference.close();
     this._service.createPdf(data)
     .subscribe((res:any) => {
       console.log(res);
       this.blockUI.stop();
       this.toastr.success('Quizwerkz successfully created.');
       this.getAllPdf();
+      this.iscreate = false;
     }, err => {
       this.toastr.error('Create quizwerkz failed.');
       console.log(err)
     })
   }
 
-  onClickDelete(data,confirm){
-    this.selectQw = data;
-    console.log("onclickDelete",data);
-    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'animation-wrap' });
+  onClickDelete(id,confirm){
+    // this.selectQw = id;
+    console.log("onclickDelete",id);
+    this.getSingleQuizwerkz(id)
+    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'deleteModal' });
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -117,20 +162,34 @@ export class QuizwerkzComponent implements OnInit {
     console.log("quizwerkz delete",qwId);
     this._service.deleteQuizwerkz(qwId)
     .subscribe((res:any) => {
-      this.modalReference1.close();
+      this.modalReference.close();
+      this.toastr.error('Successfully deleted');
       console.log("Res",res);
       this.getAllPdf();
+    }, err => {
+      this.toastr.error('Delete QuizWerkz Fail');
+      console.log(err)
     })
   }
 
-  editQuizWerkz(id, content){
+  onclickUpdate(id){
+    this.iscreate = true;
     this.isEdit = true;
-    this.editId = id;
-    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'animation-wrap' });
+    this.getSingleQuizwerkz(id)
+  }
+
+  getSingleQuizwerkz(id){
+    this.blockUI.start('Loading...');
     this._service.getSingleQuizwerkz(id)
     .subscribe((res:any) => {
+      this.blockUI.stop();
       console.log(res)
       this.formField = res;
+      this.selectQw = res.name;
+      this.currentID = res._id
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
     })
   }
 
@@ -143,27 +202,18 @@ export class QuizwerkzComponent implements OnInit {
       "cover": obj.cover
     }
     this.blockUI.start('Loading...');
-    this.modalReference.close();
-    this._service.updateSignleQuizwerkz(this.editId, data)
+    this._service.updateSignleQuizwerkz(obj._id, data)
     .subscribe((res:any) => {
       console.log(res);
       this.toastr.success('Successfully edited.');
       this.blockUI.stop();
       this.getAllPdf();
+      this.iscreate = false;
     }, err => {
       this.toastr.error('Edit fail');
       console.log(err)
     })
   }
   
-  viewQuizWerkz(id,view){
-    console.log(this.editId)
-    this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap' });
-    this._service.getSingleQuizwerkz(id)
-    .subscribe((res:any) => {
-      console.log(res)
-      this.viewQuiz = res;
-    })
-  }
 
 }

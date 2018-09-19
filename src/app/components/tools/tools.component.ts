@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild , ViewContainerRef} from '@angular/core';
+import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges, HostListener } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -13,13 +14,17 @@ import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
-  styleUrls: ['./tools.component.css']
+  styleUrls: ['./tools.component.css'],
+  providers: [DatePipe]
 })
 export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
   @BlockUI() blockUI: NgBlockUI;
+  @ViewChild('mainScreen') elementView: ElementRef;
+
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
+  public isSticky:boolean = false;
   public item:any = {};
   public regionID = localStorage.getItem('regionId');
   public locationId:any;
@@ -32,13 +37,21 @@ export class ToolsComponent implements OnInit {
   public notiType:any;
   public notiLists:any;
   public utcDate:any;
+  public isdropdown: boolean = false;
+  public wordLength : number = 0;
   public notiTypes:any = [
     {name: 'Email',type: 'email',checked: false},
     {name: 'App notification',type: 'noti',checked: false}
   ];
   public checkedType: any = [];
+  public today;
+  public yesterday;
+  public tempList = [];
 
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 
+  // test
+  public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
+
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef, private datePipe: DatePipe ) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
         this.locationId = data;
@@ -49,18 +62,66 @@ export class ToolsComponent implements OnInit {
 
   ngOnInit() {
     this.locationId = localStorage.getItem('locationId');
-    this.notiType = 'send';
+    this.notiType = 'calendar';
     this.setDefaultSelected();
     this.item.sendType = 'app';
   }
 
+  @HostListener('window:scroll', ['$event']) onScroll($event){    
+    if(window.pageYOffset > 10){
+      console.log('greater than 30')
+      this.isSticky = true;
+    }else{
+      console.log('less than 30')
+      this.isSticky = false;
+    }
+  }
+  
   clickTab(type){
     this.notiType = type;
     if(type == 'view'){
       this.viewNoti();
+      var date = new Date();
+      var dFormat = this.datePipe.transform(date,"yyyy-MM-dd");
+      console.log(dFormat); //output : 2018-02-13
+      this.today = dFormat.replace(/-/g, "/");
+      console.log(this.today);
+      var ydate = new Date(date.setDate(date.getDate() - 1));
+      var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
+      this.yesterday = yFormat.replace(/-/g, "/");
+      console.log("Yesterday",this.yesterday);
+    }else if(type == 'dropdown'){
+      this.isdropdown = !this.isdropdown;
+      this.notiType = 'send'
+    }else if(type == 'apg' || type == 'quizwerkz'){
+      console.log(type)
+      this.isdropdown = false;
     }else{
       this.setDefaultSelected();
     }
+  }
+
+  focusMethod(e, status){
+    console.log('hi', e)
+    if(status == 'subject'){
+      $('.limit-word').show('slow'); 
+    }else{
+      $('.limit-word1').show('slow'); 
+    }
+  }
+  
+  blurMethod(e, status){
+    console.log('blur', e);
+    if(status == 'subject'){
+      $('.limit-word').hide('slow'); 
+    }else{
+      $('.limit-word1').hide('slow'); 
+    }
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
   }
 
   viewNoti(){
@@ -86,14 +147,21 @@ export class ToolsComponent implements OnInit {
         const utcToString = utcTemp.toUTCString();
         const time = new Date(utcToString)
         this.utcDate = moment(time, format).tz(zone).format(format)
-        console.log(this.utcDate)
+        // console.log(this.utcDate)
         this.utcDate = this.utcDate.slice(0, -5);
-
+        /*===for testing Confirm UI===*/
+        let utcDate = this.utcDate;
+        let onlyDate = utcDate.substring(0, 10);
+        let onlyTime = utcDate.substring(11, 19)
+        // console.log(onlyDate)
+        /*===end Testing===*/
         if(this.notiLists[i].utc){
           this.notiLists[i].utc = this.utcDate;
+          this.notiLists[i].sentdate = onlyDate;
+          this.notiLists[i].senttime = onlyTime;
         }
       }
-      console.log(this.notiLists)
+      console.log('Noti List',this.notiLists);
     }, err => {
       this.blockUI.stop();
       this.toastr.error('View sent history fail');
@@ -139,6 +207,7 @@ export class ToolsComponent implements OnInit {
   }
 
   somethingChanged(type){
+    this.tempList = [];
     console.log('what', type)
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
@@ -172,7 +241,14 @@ export class ToolsComponent implements OnInit {
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.courseLists = res;
-        this.dataLists = this.courseLists.map(a => a.name);
+        for(var key in this.courseLists){
+            for(var i in this.courseLists[key].courses){
+                this.tempList.push(this.courseLists[key].courses[i]);
+            }
+        }
+        console.log('templist',this.tempList)
+        this.dataLists = this.tempList.map(a => a.name);
+        console.log("Length",this.dataLists.length)
       }, err => {
         console.log(err)
       })
@@ -221,10 +297,17 @@ export class ToolsComponent implements OnInit {
     }
 
     if(type == 'course'){
-      for (var i in this.courseLists) {
-        if (this.courseLists[i].name == newValue) {
-          console.log('....', this.courseLists[i]);
-          let temp = this.courseLists[i];
+      // for (var i in this.courseLists) {
+      //   if (this.courseLists[i].name == newValue) {
+      //     console.log('....', this.courseLists[i]);
+      //     let temp = this.courseLists[i];
+      //     dataObj["id"] = temp._id
+      //   }
+      // }
+      for (var i in this.tempList) {
+        if (this.tempList[i].name == newValue) {
+          console.log('....', this.tempList[i]);
+          let temp = this.tempList[i];
           dataObj["id"] = temp._id
         }
       }
@@ -301,11 +384,19 @@ export class ToolsComponent implements OnInit {
         }
       }
     }else if(this.isChecked == 'course'){
-      for (var i in this.courseLists) {
-        if (this.courseLists[i].name == data.itemID) {
-          console.log('....', this.courseLists[i]);
-          let temp = this.courseLists[i];
+      // for (var i in this.courseLists) {
+      //   if (this.courseLists[i].name == data.itemID) {
+      //     console.log('....', this.courseLists[i]);
+      //     let temp = this.courseLists[i];
+      //     dataObj["id"] = temp._id
+      //   }
+      // }
+      for (var i in this.tempList) {
+        if (this.tempList[i].name == data.itemID) {
+          console.log('....', this.tempList[i]);
+          let temp = this.tempList[i];
           dataObj["id"] = temp._id
+          console.log("dataObj",dataObj["id"]);
         }
       }
     }else if(this.isChecked == 'user'){
@@ -351,5 +442,17 @@ export class ToolsComponent implements OnInit {
     this.item.sendType = 'app';
     this.isChecked = 'allcustomer';
   }
+  viewHeight:any;
+  clickMe(){
+        this.viewHeight = this.elementView.nativeElement.offsetHeight;
+        console.log("Height",this.viewHeight);
+      }
 
+
+// testing
+// isCollapsed:boolean = true;
+  toggleView(){
+    // this.isCollapsed = false;
+  }
+// testing
 }

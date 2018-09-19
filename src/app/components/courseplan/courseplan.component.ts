@@ -1,11 +1,15 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { cPlanField } from './courseplan';
+import { apgForm } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 declare var $: any;
 
@@ -16,12 +20,8 @@ declare var $: any;
 })
 export class CourseplanComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef, private _router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
-  }
-
-  ngOnInit() {
-    this.getAllCoursePlan();
   }
 
 	public showModal: boolean = false;
@@ -39,6 +39,7 @@ export class CourseplanComponent implements OnInit {
   public courseplanLists: any;
   public showLoading: boolean = false;
   formField: cPlanField = new cPlanField();
+  formAPG: apgForm = new apgForm();
   depositLists: any;
   @BlockUI() blockUI: NgBlockUI;
   holidayCalendarLists: any;
@@ -61,13 +62,53 @@ export class CourseplanComponent implements OnInit {
   restrictFirstLessInput: boolean = false;
   restrictLastLessInput: boolean = false;
   apgList: any;
+  progressSlider: boolean = false;
+  rangeHr: any;
+  rangeMin: any;
+  public navIsFixed: boolean = false;
+  public depositModel: any;
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public readyOnlyRange: any;
+  public timeInminutes: any;
+  public goBackCat: boolean = false;
+  public focusCfee: boolean = false;
+  public focusMisfee: boolean = false;
+  step1FormaData: any;
+  step2FormaData: any;
+  step3FormaData: any;
+  step4FormaData: any;
+  step5FormaData: any;
+  step6FormaData: any;
+  selectedSearchLists: any[] = [];
+  step1: boolean = false;
+  step2: boolean = false;
+  step3: boolean = false;
+  step4: boolean = false;
+  step5: boolean = false;
+  step6: boolean = false;
+  step7: boolean = false;
+  moduleList: any [] = [];
+  showSearchAPG: boolean = true;
+  createAPGform: boolean = false;
+  showModule: boolean = false;
+  selectedAPGlists: boolean = false;
+  ischecked: any;
+  model: any;
+  createdAPGstore: any [] = [];
+  clickedItem: any;
+  selectedAPGidArray: any[] = [];
+  showNewAPGbox: boolean = false;
+  showfixedcreate: boolean = false;
+  createdAPGstoreLength:any;
+  wordLength:any;
 
-	open(content){
-    this.formField = new cPlanField();
-		this.showModal = true;
-		this.showsubModal = false;
+  ngOnInit() {
+    this.showModal = true;
+    this.showsubModal = false;
     this.showLoading = true;
-		this.checked = false;
+    this.checked = false;
     this.updateButton = false;
     this.createButton = true;
     this.restrictFirstInput = false;
@@ -77,38 +118,102 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG();
     this.pdfId = [];
-    this.apgId = [];
-		this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap', size: 'lg'});
-    this.modalReference.result.then((result) => {
-    this.formField = new cPlanField();
-	  this.closeResult = `Closed with: ${result}`
-  	}, (reason) => {
-      this.formField = new cPlanField();
-  	  this.closeResult = `Closed with: ${reason}`;
-  	});
-    this._service.getCategory(this.regionID)
-    .subscribe((res:any) => {
-      console.log('success',res)
-      this.courseCategories = res;
-      }, err => {
-        console.log(err)
-      });
-	}
+    this.formField.holidayCalendarId = 'disabledHoliday';
+    this.depositModel = 'deposit';
+    this.rangeHr = '0';
+    this.rangeMin = '0';
+    this.readyOnlyRange = '0  min';
+    this.categoryId  = localStorage.getItem('categoryID');
+    this.checkedName = localStorage.getItem('categoryName');
+    this.goBackCat = true;
+    window.addEventListener('scroll', this.scroll, true);
 
-	selectedRadioId(id){
-    console.log(id)
-		this.showModal = false;
-		this.showsubModal = true;
-    this.categoryId = id;
-    this.allowchecked = false;
-    this.allowMakeup = false;
-    this.checkedName = this.checked;
-	}
+    setTimeout(function(){
+      $("#step1").addClass('active');
+    }, 200)
+
+    this.step1 = true;
+    this.getAllModule();
+    this.showSearchAPG = true;
+  }
+
+  @ViewChild('parentForm') mainForm;
+
+  focusMethod(e){
+    console.log('hi', e)
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    console.log('blur', e);
+    $('.limit-wordcount').hide('slow'); 
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
+
+  valuechange(val){
+    console.log(val)
+    console.log(typeof val)
+    if(val.length != 0 && typeof val == 'string'){
+        this.showfixedcreate = true;
+    }else{
+      this.showfixedcreate = false;
+    }
+  }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.apgList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
+
+  formatter = (x: {name: string}) => x.name;
+
+  SearchBoxEmpty(): String {
+    var name;
+    return name
+  }
+
+  selectedItem(item){
+    this.clickedItem = item.item;
+    const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
+    if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
+    else this.createdAPGstore.push(this.clickedItem);
+    console.log(this.createdAPGstore)
+    this.showfixedcreate = false;
+    this.selectedAPGlists = true;
+    this.showSearchAPG = true;
+    this.showModule = false;
+    this.createAPGform = false;
+  }
+
+  removeSelectedAPG(data){
+    this.model = '';
+    var index = this.createdAPGstore.findIndex(function(element){
+       return element._id===data._id;
+    })
+    if(index!==-1){
+      this.createdAPGstore.splice(index, 1)
+    }
+    console.log(this.createdAPGstore)
+  }
+
 
 	back(){
-		this.showModal = true;
-		this.showsubModal = false;
+    this.goBackCat = false;
+    var data = localStorage.removeItem("categoryName");
+    this._service.backCat();
 	}
+
+  cancel(){
+    this.goBackCat = false;
+    var data = localStorage.removeItem("categoryName");
+    this._service.backCourse();
+  }
 
 	checkedData(id){
       this.checkedCatId = id;
@@ -122,55 +227,63 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-		console.log('created', formData)
+    if(formData.deposit == 'deposit'){
+      console.log(formData.deposit)
+      formData.deposit = '';
+    }
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
-      "name": formData.coursename,
-      "description": formData.description,
+      "name": this.step1FormaData.coursename,
+      "description": this.step1FormaData.description,
+      "seats": this.step1FormaData.seats,
       "makeupPolicy": {
-        "allowMakeupPass": formData.allowmakeup,
-        "maxPassPerUser":  formData.makeupuser,
-        "maxDayPerPass": formData.makeuppass
+        "allowMakeupPass": this.step2FormaData.allowmakeup,
+        "maxPassPerUser":  this.step2FormaData.makeupuser,
+        "maxDayPerPass": this.step2FormaData.makeuppass
       },
-      "allowPagewerkzBooks": formData.allowpagewerkz,
       "paymentPolicy": {
         "deposit": formData.deposit,
-        "courseFee": formData.courseFee,
-        "allowProrated": formData.allowProrated,
-        "proratedLessonFee": formData.proratedLessonFee,
+        "courseFee": this.step3FormaData.courseFee,
+        "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee
       },
       "lesson": {
         "min": formData.minDuration,
         "max": formData.maxDuration,
-        "duration": formData.lesson_duration
+        "duration": this.timeInminutes
       },
-      "seats": formData.seats,
+      "allowPagewerkz": this.step5FormaData.allowpagewerkz,
       "age": {
         "min": formData.minage,
         "max": formData.maxage,
       },
       "quizwerkz": this.pdfId,
-      "holidayCalendarId": formData.holidayCalendar,
-      "accessPointGroup": this.apgId
+      "holidayCalendarId": this.step4FormaData.holidayCalendar,
+      "accessPointGroup": this.selectedAPGidArray
     }
-
-    this.blockUI.start('Loading...');
-    this.modalReference.close();
-    this._service.createCoursePlan(this.regionID,data)
-    .subscribe((res:any) => {
-      console.log('success post',res);
-      this.toastr.success('Successfully Created.');
-      this.blockUI.stop();
-      this.getAllCoursePlan();
-      }, err => {
-        this.toastr.error('Create Fail');
-        this.blockUI.stop();
-        console.log(err)
-      })
-      this.pdfName = [];
+    console.log(data)
+    // this.blockUI.start('Loading...');
+    // this._service.createCoursePlan(this.regionID,data)
+    // .subscribe((res:any) => {
+    //  console.log('success post',res);
+    //  this.toastr.success('Successfully Created.');
+    //  this.blockUI.stop();
+    //   this.getAllCoursePlan();
+    //   }, err => {
+    //     this.toastr.error('Create Fail');
+    //     this.blockUI.stop();
+    //     console.log(err)
+    //   })
+      this.cancel();
+      this.mainForm.reset();
+      this.formField = new cPlanField();
       this.pdfId = [];
+      this.timeInminutes = "";
+      this.selectedAPGidArray = [];
+      this.createdAPGstore = [];
+      this.model = '';
+      this.selectedAPGlists = false;
   }
 
   onclickDelete(cplan, confirmDelete1){
@@ -366,6 +479,7 @@ export class CourseplanComponent implements OnInit {
   getAllPdf(){
     this._service.getAllPdf(this.regionID)
     .subscribe((res:any) => {
+      console.log('pdflists',res)
       this.pdfList = res;
     }, err => {
       console.log(err)
@@ -416,7 +530,7 @@ export class CourseplanComponent implements OnInit {
         "maxPassPerUser":  formData.makeupuser,
         "maxDayPerPass": formData.makeuppass
       },
-      "allowPagewerkzBooks": formData.allowpagewerkz,
+      "allowPagewerkz": formData.allowpagewerkz,
       "paymentPolicy": {
         "deposit": formData.deposit,
         "courseFee": formData.courseFee,
@@ -503,7 +617,76 @@ export class CourseplanComponent implements OnInit {
 
   }
 
-  numberOnly(event){
+  durationProgress($event){
+    this.progressSlider = true;
+  }
+
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+
+        if(this.progressSlider != true){
+           $('.bg-box').css({ 'display': "none" });   
+        }
+        else {
+            $('.bg-box').css({ 'display': "block" }); 
+            $('.bg-box').click(function(event){
+                event.stopPropagation();
+            });
+            this.progressSlider = false;
+
+        }
+
+        if(this.focusCfee == true){
+          $('.cfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.cfee-bg').removeClass("focus-bg");
+        }
+        this.focusCfee = false;
+
+        if(this.focusMisfee == true){
+          $('.misfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.misfee-bg').removeClass("focus-bg");
+        }
+        this.focusMisfee = false;
+  }
+
+  ChangedRangeValue(e, type) {
+    if(type == 'hr'){
+      this.selectedHrRange = e;
+      this.overDurationHr = false;
+      if(this.selectedHrRange == 24){
+        this.overDurationHr = true;
+        this.rangeMin = 0;
+        this.selectedMinRange = 0;
+      }
+    }
+    if(type == 'min'){
+      this.selectedMinRange = e;
+    }
+
+    if(this.selectedHrRange && this.selectedMinRange){
+      this.timeInminutes = (parseInt(this.selectedHrRange) * 60) +  parseInt(this.selectedMinRange);
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr' + ' ' +  parseInt(this.selectedMinRange) + ' ' + 'min';
+    }
+    else if(this.selectedHrRange){
+      this.timeInminutes = (parseInt(this.selectedHrRange) * 60);
+      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr';
+    }
+    else if(this.selectedMinRange){
+      this.timeInminutes = parseInt(this.selectedMinRange);
+      this.readyOnlyRange = parseInt(this.selectedMinRange) + ' ' + 'min';
+    }
+    else {
+      console.log('error')
+    }
+    console.log('durationMinutes',this.timeInminutes)
+      
+  }
+
+  numberOnly(event, type){
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -513,5 +696,329 @@ export class CourseplanComponent implements OnInit {
     }
   }
 
+  cplan() {
+    this.showModal = false;
+    this.showsubModal = true;
+  }
+
+  scroll = (e): void => {
+  };
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    if(window.pageYOffset > 40){
+      this.navIsFixed = true;
+    }else{
+      this.navIsFixed = false;
+    }
+  } 
+
+  ngOnDestroy() {
+      window.removeEventListener('scroll', this.scroll, true);
+  }
+
+  toKnowFocus(type){
+    if(type == 'cFee'){
+      this.focusCfee = true;
+      $('.cfee-bg').addClass("focus-bg");
+    }
+    if(type == 'misFee'){
+      this.focusMisfee = true;
+      $('.misfee-bg').addClass("focus-bg");
+    }
+  }
+
+  enterHover(e){
+    console.log('mouse enter')
+    $('.input-group-text').css('background', '#f7f9fa');
+    $('.input[type="number"]').css('background', '#f7f9fa');
+  }
+
+  leaveHover(e){
+    console.log('mouse out')
+    $('.input-group-text').css('background', '#fff');
+  }
+
+  backStep(type){
+    if(type == 'step2'){
+      this.step2 = false;
+      this.step1 = true;
+      if(this.step1 == true){
+        $("#step2").removeClass('active');
+        $("#step1").removeClass('done');
+        $("#step1").addClass('active');
+      }
+    }
+    if(type == 'step3'){
+      this.step1 = false;
+      this.step2 = true;
+      this.step3 = false;
+      if(this.step2 == true){
+        $("#step3").removeClass('active');
+        $("#step2").removeClass('done');
+        $("#step1").addClass('done');
+        $("#step2").addClass('active');
+      }
+    }
+    if(type == 'step4'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = true;
+      this.step4 = false;
+      if(this.step3 == true){
+        $("#step4").removeClass('active');
+        $("#step3").removeClass('done');
+        $("#step1, #step2").addClass('done');
+        $("#step3").addClass('active');
+      }
+    }
+    if(type == 'step5'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = true;
+      this.step5 = false;
+      if(this.step4 == true){
+        $("#step5").removeClass('active');
+        $("#step4").removeClass('done');
+        $("#step1, #step2, #step3").addClass('done');
+        $("#step4").addClass('active');
+      }
+    }
+    if(type == 'step6'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = true;
+      this.step6 = false;
+      if(this.step5 == true){
+        $("#step6").removeClass('active');
+        $("#step5").removeClass('done');
+        $("#step1, #step2, #step3, #step4").addClass('done');
+        $("#step5").addClass('active');
+      }
+    }
+    if(type == 'step7'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step6 = true;
+      this.step7 = false;
+      if(this.step6 == true){
+        $("#step7").removeClass('active');
+        $("#step6").removeClass('done');
+        $("#step1, #step2, #step3, #step4, #step5").addClass('done');
+        $("#step6").addClass('active');
+      }
+    }
+  }
+
+  continueStep(type, data){
+    if(type == 'step1'){
+      this.step1FormaData = data;
+      console.log(this.step1FormaData)
+      this.step1 = false;
+      if(this.step1 == false){
+        $("#step1").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('active');
+        this.step2 = true;
+      }
+    }
+    if(type == 'step2'){
+      this.step2FormaData = data;
+      console.log(this.step2FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      if(this.step2 == false){
+        $("#step2").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('active');
+        this.step3 = true;
+      }
+    }
+    if(type == 'step3'){
+      this.step3FormaData = data;
+      console.log(this.step3FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      if(this.step3 == false){
+        $("#step3").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('active');
+        this.step4 = true;
+      }
+    }
+    if(type == 'step4'){
+      this.step4FormaData = data;
+      console.log(this.step4FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      if(this.step4 == false){
+        $("#step4").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('active');
+        this.step5 = true;
+      }
+    }
+    if(type == 'step5'){
+      this.step5FormaData = data;
+      console.log(this.step5FormaData)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      if(this.step5 == false){
+        $("#step5").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('active');
+        this.step6 = true;
+      }
+    }
+    if(type == 'step6'){
+      console.log(data)
+      this.selectedAPGidArray = [];
+      for(var i in data){
+        this.selectedAPGidArray.push(data[i]._id);
+      }
+      console.log(this.selectedAPGidArray)
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step6 = false;
+      if(this.step6 == false){
+        $("#step6").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('done');
+        $("#step7").addClass('active');
+        this.step7 = true;
+      }
+    }
+    if(type == 'step7'){
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step7 = false;
+      if(this.step7 == false){
+        $("#step6").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('done');
+        $("#step7").addClass('active');
+      }
+    }
+  }
+
+  getAllModule(){
+      this._service.getAllModule(this.regionID)
+      .subscribe((res:any) => {
+        console.log('moduleLists' ,res)
+        for(var i in res){
+          if(res[i]._id != null){
+            this.moduleList.push(res[i]);
+          }
+        }
+
+        }, err => {
+          console.log(err)
+        })
+    }
+
+    chooseModuleType(id, name){
+      console.log(id, name)
+      this.ischecked = id;
+      setTimeout(() => {
+        this.createAPGform = true;
+        this.showModule = false;
+        this.showSearchAPG = false;
+        this.selectedAPGlists = false;
+      }, 300);
+    }
+
+    backModule(){
+      this.showModule = true;
+      this.showSearchAPG = false;
+      this.createAPGform = false;
+      this.formAPG = new apgForm();
+      this.selectedAPGlists = false;
+    }
+
+    backSearhAPG(type){
+      if(this.createdAPGstore.length<=0){
+        this.model = '';
+      }
+      this.showfixedcreate = false;
+      this.showSearchAPG = true;
+      this.showModule = false;
+      this.createAPGform = false;      
+      this.formAPG = new apgForm();
+      this.selectedAPGlists = true;
+    }
+
+    goToModule(){
+      this.showSearchAPG = false;
+      this.showModule = true;
+      this.selectedAPGlists = false;
+      this.ischecked = '';
+    }
+
+    createAPGs(data){
+      console.log(data);
+      var templateID;
+      var moduleId = localStorage.getItem('moduleID')
+        data["moduleId"] = moduleId;
+         this._service.createAP(this.regionID, data)
+         .subscribe((res:any) => {
+           this.toastr.success('Successfully AP Created.');
+           data["accessPoints"] = [res._id]
+           console.log(data)
+           this._service.createAPG(this.regionID,data, templateID, moduleId)
+          .subscribe((response:any) => {
+            this.toastr.success('Successfully APG Created.');
+            console.log(response)
+            this.formAPG = new apgForm();
+            this.createdAPGstore.push(response);
+            this.showSearchAPG = true;
+            this.selectedAPGlists = true;
+            this.showModule = false;
+            this.createAPGform = false;
+            this.showfixedcreate = false;
+            this.getAllAPG();
+          }, err => {
+            this.toastr.error('Created APG Fail');
+            console.log(err)
+          });
+         }, err => {
+           this.toastr.error('Created AP Fail');
+           console.log(err)
+         });
+    }
 
 }

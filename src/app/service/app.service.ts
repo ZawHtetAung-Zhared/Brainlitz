@@ -13,6 +13,7 @@ export class appService{
     private baseUrl = environment.apiurl + '/api/v1';
     public temp: any;    
     public tempToken: any;    
+    public isback: boolean = false;    
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType');   
     locationID: Observable<any>;
@@ -24,6 +25,18 @@ export class appService{
     slicePath: Observable<any>;
     private sendLoginName = new Subject<any>();
 
+    goback: Observable<any>;
+    private previous = new Subject<any>();
+
+    goplan: Observable<any>;
+    private plan = new Subject<any>(); 
+
+    goCat: Observable<any>;
+    private preCat = new Subject<any>();
+
+    goCourse: Observable<any>;
+    private backCo = new Subject<any>();
+
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
@@ -31,11 +44,37 @@ export class appService{
       this.sendData = this.sendParentToChild.asObservable();
       this.locationID = this.getLocationID.asObservable(); 
       this.slicePath = this.sendLoginName.asObservable(); 
+      this.goback = this.previous.asObservable(); 
+      this.goplan = this.plan.asObservable(); 
+      this.goCat = this.preCat.asObservable();
+      this.goCourse = this.backCo.asObservable();
      }
 
     getPathLocal(){
       var datGet = localStorage.getItem('slicePath')
       this.sendLoginName.next(datGet);
+    }
+
+    backCat(){
+      this.preCat.next(false)
+    }
+
+    backCourse(){
+      this.backCo.next(false)
+    }
+
+    back(){
+      this.previous.next(false)
+    }
+
+    back1(){
+      this.previous.next(false)
+    }
+
+    gotoplan(){
+      var val = localStorage.getItem('categoryID')
+      console.log('gotoplan ',val)
+      this.plan.next(val)
     }
 
     isLoggedIn(): boolean {
@@ -328,6 +367,36 @@ export class appService{
       }) 
     }
 
+
+    getUserDetail(id:string, userId:string){
+      let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+    
+    getCurrentUser(id: string){
+      let apiUrl = this.baseUrl  + '/user/' + id;
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     createLocation(id: string, body: object): Observable<any>{
       this.getLocalstorage();
       console.log(id)
@@ -516,14 +585,13 @@ export class appService{
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
-        let result = res;
-        console.log(result);        
+        let result = res;     
         return result;
     }) 
     }
 
-    createHolidays(id: string, data: object): Observable<any>{
-      let url = this.baseUrl+ '/' + id + '/holidays';
+    createHolidays(regionid: string, data: object): Observable<any>{
+      let url = this.baseUrl+ '/' + regionid + '/holidays';
       const opt = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -538,6 +606,7 @@ export class appService{
     }
 
     updateHoliday(holidayId: string, data: object){
+      console.log(holidayId)
       let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -654,6 +723,36 @@ export class appService{
         return result;
       })
     }
+
+    updateCalendar(id:string, data: object){
+      console.log(data)
+      let apiUrl = this.baseUrl + '/holidays-calendar/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    // updateCalendar(id:string,data:object){
+    //   let apiUrl = this.baseUrl  + '/holidays-calendar/' + id;
+    //   const httpOptions = {
+    //       headers: new HttpHeaders({ 
+    //         'Content-Type': 'application/json', 
+    //         'authorization': this.tokenType + ' ' + this.accessToken})
+    //   };
+    //   return this.httpClient.put(apiUrl, httpOptions, data)
+    //   .map((res:Response) => {
+    //     let result = res; 
+    //     console.log(result)
+    //     return result;
+    //   })
+    // }
 
     createCourse(id: string, data: object): Observable<any>{
       console.log("APP Service")
@@ -986,8 +1085,8 @@ export class appService{
       })
     }
 
-    updateUser(regionId: string, userId:string, data: object){
-      let apiUrl = this.baseUrl + '/' +  regionId + '/user/' + userId;
+    updateUser( userId:string, data: object){
+      let apiUrl = this.baseUrl + '/user/' + userId;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1090,7 +1189,7 @@ export class appService{
     } 
      
     createAPG(id: string, data: object, templateId: string, moduleId: string): Observable<any>{
-      console.log(data)
+      console.log(data, templateId)
       this.getLocalstorage();
       let apiUrl;
       if(templateId != undefined){

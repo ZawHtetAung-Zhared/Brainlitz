@@ -23,9 +23,14 @@ export class cPlanField {
 		{ max: ''}, 
 		{ duration: ''},
 	];
-	public allowPagewerkzBooks: boolean;
+	public allowPagewerkz: boolean = false;
 	public holidayCalendarId: string;
 	public quizwerkz: Array<any> = [];
 	public accessPointGroup: Array<any> = [];
 	
+}
+
+export class apgForm {
+	name: string;
+	description: string;
 }

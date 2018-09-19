@@ -1,0 +1,67 @@
+header{
+	position: relative;
+	margin-bottom: 1.3em;
+	height: 40px;
+}
+.d-wrapper{
+	position: absolute;
+	top: 0; 
+    width: 100%;
+    -webkit-transition: all 0.8s ease-in-out;
+	-ms-transition: all 0.8s ease-in-out;
+	transition: all 0.8s ease-in-out;
+}
+.sticky-menu{
+	position: fixed;
+	width: 100%;
+	z-index: 999 !important;
+	padding: 15px 30px;
+	left: 0;
+	right: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+	top: -80px;
+	background: #fff;
+	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+.stickywrap{
+	top: 0px !important;
+}
+.sticky{
+	top: -60px !important;
+}
+.region-item a{
+	display: block;
+	width: 100%;
+	border: none;
+	padding: 15px 20px;
+	text-align: left;
+	font-size: 18px;
+	-webkit-box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+	margin-bottom: 1.7em;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.region-item a,
+.region-item:hover a{
+	color: #212529;
+}
+.region-item a:hover{
+	text-decoration: none;
+}
+.region-item a:focus {
+	background: #1682fb !important;	
+}
+.region-item a:focus{
+	color: #fff;	
+}
+.region-item a:hover {
+    background: #e6ecf2;
+}
+h3.region-h3{
+	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
+	color: #2f3d4c;
+	margin-bottom: 0em;
+}

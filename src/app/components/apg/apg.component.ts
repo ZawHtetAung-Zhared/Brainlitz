@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef } from '@angular/core';
+import { Component, OnInit,ViewContainerRef, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -7,6 +7,8 @@ import { convertField } from './apg';
 import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+declare var $:any;
 
 @Component({
   selector: 'app-apg',
@@ -19,6 +21,7 @@ export class ApgComponent implements OnInit {
   		this.toastr.setRootViewContainerRef(vcr);
   	}
 
+    public model:any = {};
   	public modalReference: any;
   	public closeResult: any;
   	apgField: apgField = new apgField();
@@ -57,14 +60,220 @@ export class ApgComponent implements OnInit {
     getAccessPoint: any;
     tempModuleId: any;
     emptyAP: boolean = false;
+    public ismodule: boolean = false;
+    public isshare: boolean = false;
+    public shareAPG: boolean = false;
+    public iscreate: boolean = false;
+    public ischecked: any;
+    public sharechecked: any;
+    public isUpdate: boolean = false;
+    public navIsFixed: boolean = false;
+    public singleCheckedAPG: boolean = false;
     responseAP: any;
+    wordLength:any;
 
   	ngOnInit() {
-	  	this.getAllAP();
-	  	this.getAllTemplate();
+	  	// this.getAllAP();
+	  	// this.getAllTemplate();
 	  	this.getAllModule();
 	  	this.getAllAPG();
   	}
+
+    @HostListener('window:scroll', ['$event']) onScroll($event){
+      // console.log($event);
+      // console.log("scrolling");
+      // console.log(window.pageYOffset)
+      if(window.pageYOffset > 40){
+        console.log('greater than 100')
+        this.navIsFixed = true;
+      }else{
+        console.log('less than 100')
+        this.navIsFixed = false;
+      }
+    } 
+
+    focusMethod(e){
+      $('.limit-wordcount').show('slow'); 
+    }
+
+    blurMethod(e){
+      $('.limit-wordcount').hide('slow'); 
+    }
+
+    changeMethod(val : string){
+      console.log(val)
+      this.wordLength = val.length;
+    }
+
+    cancelapg(){
+      this.model = {};
+      this.iscreate = false;
+      this.ismodule = false;
+      this.isUpdate = false;
+      this.shareAPG = false;
+    }
+
+    goToBack(status){
+      if(status == 'type'){
+        console.log('type')
+        localStorage.removeItem('moduleID');
+        this.cancelapg();
+      }else if(status == 'create'){        
+        this.iscreate = false;
+        this.isshare = false;
+        this.ismodule = true;
+        this.model = {};
+      }else{
+        this.isshare = true;
+        this.shareAPG = false;
+        this.iscreate = false;
+      }
+    }
+
+    addNewAPG(){
+      localStorage.removeItem('moduleID');      
+      this.ischecked = '';
+      this.model = {};
+      this.ismodule = true;
+      this.isUpdate = false;
+    }
+
+    createNewAPG(status){
+      if(status == 'create'){
+        this.model = {};
+        this.iscreate = true;
+      }else{
+        this.sharechecked = ''
+        this.shareAPG = true;
+        this.getAllTemplate();
+      }
+      this.isshare = false;
+    }
+
+    
+
+    getsingleTemplate(id){  
+      this._service.getSingleTemplate(this.regionID, id)
+      .subscribe((res:any) => {
+        this.singleCheckedAPG = res;
+        console.log(res)
+      }, err => {
+        console.log(err)
+      })
+    }
+
+    setShareAPG(obj){
+      console.log(this.singleCheckedAPG)
+
+      let data = this.singleCheckedAPG;
+
+      this._service.updateSingleTemplate(this.regionID, data)
+      .subscribe((res:any) => {
+          console.log(res)
+          this.toastr.success('Successfully '+ status + '.');
+          this.blockUI.stop();
+          this.cancelapg();
+          this.getAllAPG();
+      }, err => {
+          this.toastr.success(status + ' Fail.');
+          this.blockUI.stop();
+          console.log(err)
+      })
+    }
+
+    chooseModuleType(val, name){
+      console.log(name)
+      this.ischecked = val;
+      localStorage.setItem('moduleID', val);
+      setTimeout(() => {
+        this.ismodule = false;
+        this.isshare = true;
+        console.log('...')
+      }, 300);
+    }
+
+    chooseShareAPG(val,name){
+      console.log(val)
+      this.sharechecked = val;
+      this.getsingleTemplate(this.sharechecked);
+    }
+
+    createapgs(data, update){
+      console.log(update)
+      var templateID;
+      console.log(data)
+      if(update == false){
+        console.log('create')
+        var moduleId = localStorage.getItem('moduleID')
+        data["moduleId"] = moduleId;
+         this._service.createAP(this.regionID,data)
+         .subscribe((res:any) => {
+           this.toastr.success('Successfully AP Created.');
+           data["accessPoints"] = [res._id]
+           console.log(data)
+           this._service.createAPG(this.regionID,data, templateID, moduleId)
+          .subscribe((res:any) => {
+            this.toastr.success('Successfully APG Created.');
+            console.log(res)
+            this.cancelapg();
+            this.getAllAPG();
+          }, err => {
+            this.toastr.error('Created APG Fail');
+            console.log(err)
+          });
+         }, err => {
+           this.toastr.error('Created AP Fail');
+           console.log(err)
+         });
+
+      }else{
+        console.log('update')
+        this.blockUI.start('Loading...');
+        this._service.updateAPG(this.regionID, data._id , data, templateID)
+          .subscribe((res:any) => {
+              console.log('success update',res);
+              this.toastr.success('Successfully APG Updated.');
+              this.cancelapg();
+              this.getAllAPG();
+              this.blockUI.stop();
+          }, err => {
+              this.toastr.error('Updated APG Fail');
+              console.log(err)
+          })
+      }
+    }
+
+    onclickUpdate(id){
+      console.log(id)
+      this.singleAPG(id);
+      this.iscreate = true;
+      this.isUpdate = true;
+    }
+
+    singleAPG(id){
+      this._service.getSingleAPG(this.regionID, id)
+      .subscribe((res:any) => {
+        console.log('editapg' ,res)
+        this.model = res;
+      }, err => {
+         console.log(err)
+      })
+    }
+
+    // getAllTemplate(){
+    //   this.blockUI.start('Loading...');
+    //   this._service.getAllTemplate(this.regionID)
+    //   .subscribe((res:any) => {
+    //      console.log(res.length)
+    //      console.log(res)
+    //      this.blockUI.stop();
+    //      this.tempLists = res;
+    //      this.isempty = (res.length === 0) ? true : false;       
+    //   }, err => {
+    //       this.blockUI.stop();
+    //       console.log(err)
+    //   })
+    // }
 
   	open(content){
   		this.customAP = false;
@@ -146,7 +355,7 @@ export class ApgComponent implements OnInit {
 	  	else {
 	  		console.log('error')
 	  	}
-	}
+	  }
 
 	  clickTab(type){
     	this.viewType = type;
@@ -369,7 +578,7 @@ export class ApgComponent implements OnInit {
           this.deleteAPG = this.apgList[i].name;
         }
       }
-      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'animation-wrap'});
+      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'deleteModal'});
     }
 
   	apgDelete(id){

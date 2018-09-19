@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { environment } from '../../../environments/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -13,6 +13,7 @@ export class RegionComponent implements OnInit {
 	public regionLists: any;
   public accessToken: any;
 	public tokenType: any;
+  public navIsFixed:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService) { }
@@ -26,6 +27,19 @@ export class RegionComponent implements OnInit {
       console.log('==undefined')
       this.getAccessToken();
     } 	
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    // console.log($event);
+    // console.log("scrolling");
+    // console.log(window.pageYOffset)
+    if(window.pageYOffset > 90){
+      console.log('greater than 100')
+      this.navIsFixed = true;
+    }else{
+      console.log('less than 100')
+      this.navIsFixed = false;
+    }
   }
 
   getAccessToken(){

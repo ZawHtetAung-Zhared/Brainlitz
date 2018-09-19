@@ -10,6 +10,111 @@
 }
 .bold-text{
 	font-weight: bold;
-	font-family: 'Montserrat-Regular';
+	font-family: 'Montserrat-Regular','Arial', sans-serif;
 	font-size: 18px;
+}
+.holiday-wrap{
+	padding: 15px 0px;
+    border-bottom: 1px solid #edeff0;
+}
+.medium-16{
+	font-size: 16px;
+    font-family: 'Montserrat-Medium','Arial', sans-serif;
+    color: #2e3d4d;
+}
+.semi-16{
+	color: #2e3e4d;
+	font-size: 16px;
+	font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+}
+.semi-day-12{
+	color: #64707d;
+	font-size: 12px;
+	font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+}
+.btn-edit{
+	font-size: 14px;
+    color: #ff9500;
+    font-family: M'ontserrat-Medium','Arial', sans-serif;
+}
+.circle1{
+  border: 2px solid #007fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+}
+.circle1{
+  border: 2px solid #007fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+}
+
+.circle2{
+  border: 2px solid #ff3d33;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+}
+
+.circle3{
+  border: 2px solid #788796;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+}
+
+.circle1.plus:before,
+.circle1.plus:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #007fff;
+}
+
+.circle3.plus:before,
+.circle3.plus:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #788796;
+}
+
+.circle1.plus:before, .circle3.plus:before{
+    width: 2px;
+    margin: 2px auto;
+}
+.circle1.plus:after, .circle3.plus:after{
+    margin: auto 2px;
+    height: 2px;
+}
+.btn-create{
+	padding: 15px 0px;
+}
+.btn-span{
+	color: #0080ff!important;
+	font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+	font-size: 16px;
 }

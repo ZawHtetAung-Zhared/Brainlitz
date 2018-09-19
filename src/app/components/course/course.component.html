@@ -1,237 +1,89 @@
 <!-- <app-coursecreate></app-coursecreate> -->
-
-<div class="inner-wrapper">
-  <div class="mb-30">
-    <button class="btn btn-primary" (click)="changeRoute()">+ Course Create</button>
-  </div>
-  <!-- <ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
-  <hr>
-  <pre>Selected time: {{time | json}}</pre> -->
+<app-header *ngIf="!isCategory && !isPlan" [ngClass]="{'stick': isSticky == true}"></app-header>
+<div class="inner-wrapper" *ngIf="!isCategory && !isPlan" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
-  <div class="scrollable">
-    <h2 *ngIf="emptyCourse">There is no course</h2>
-    <ul class="list-group-flush">
-      <li class="list-group-item" *ngFor="let course of courseList; let i=index">
-        <span style="margin-right: 20px;">{{i+1}}- {{course.name}}</span>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="onclickDelete(course,content)">Delete</button>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="edit(course)">Edit</button>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="assignUser(course)">Assign User</button>
-        <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="courseDetail(course,detail)">View</button>
-      </li>
-    </ul>
+  <div class="card-container">
+    <div class="title"><h3 class="header-font">Courses</h3></div>
+    <div class="card-columns">
+      <div class="card btn-card">
+        <button class="btn btn-large" (click)="changeRoute()"><span class="addCourseBtn">+</span> <span class="btn-largeLabel">Add new course plan</span></button>
+      </div>
+      <div *ngFor="let courseGroup of courseList">
+        <div class="card card-wrap">
+          <div class="header">
+            <div>
+              <label class="category semibold">
+                #{{ courseGroup.coursePlan.category.name }}
+              </label>
+            </div>
+            <h5 class="medium-font">{{ courseGroup.coursePlan.name }}</h5>
+            <div class="d-flex header-info light-font">
+              {{ courseGroup.coursePlan.seats }} seats
+              <ul><li>{{ courseGroup.coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
+            </div>
+          </div>
+          <div>
+            <div *ngFor="let course of courseGroup.courses">
+              <div class="d-flex course-wrap">
+                <div *ngIf="course.seat_left > 0" class="absolute">
+                  {{ course.seat_left }} seats left
+                </div>
+                <div *ngIf="course.seat_left == null || course.seat_left == 0 || course.seat_left == -1" class="no-seat">
+                  All seats taken
+                </div>
+                <div class="date-wrap">
+                  <div class="startDate-wrap">
+                    <span class="medium-font">From</span>
+                    <div class="semibold">{{course.startDate | date}}</div>
+                  </div>
+                  <div *ngIf = "course.endDate">
+                    <span class="medium-font">To</span>
+                    <div class="semibold">{{course.endDate | date}}</div>
+                  </div>
+                  <div *ngIf = "course.lessonCount">
+                    <span class="semibold">{{ course.lessonCount }}</span>
+                    <div class="medium-font">Lessons</div>
+                  </div>
+                </div>
+                <div class="course-info">
+                  <div class="course-detail">
+                    <div>
+                      <label class="category item-width semibold">
+                        <i class="fa fa-map-marker" style="font-size:15px"></i>
+                        <span>{{ course.location.name }}</span>
+                      </label>
+                    </div>
+                    <h5 class="course-label">{{ course.name }}</h5>
+                    <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
+                    <!-- <ul><li>0 staff</li></ul> -->
+                    </span>
+                  </div>
+                  <div class="second-info">
+                    <div class="time-wrap">
+                      <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
+                        {{ day }}
+                      </span>
+                      <div class="medium-font time-color">
+                        {{ course.courseDuration.starttime | convertTimeFormat }} - {{ course.courseDuration.endtime | convertTimeFormat }}
+                      </div>
+                    </div>
+                    <div class="btnCustomer-wrap">
+                      <button class="btn-addC" (click)="assignUser(course)"><span class="btn-plusicon"> + </span> Add customer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="link-wrap">
+            <a class="link-btn" [routerLink]="['/courseCreate']">Add new course</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Are You sure you want to delete?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="confirmDelete(selectCourse,content1)">Delete</button>
-  </div>
-</ng-template>
-
-<ng-template #content1 let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>We are going to delete <span style="color: red;">"{{deleteCourse.name}}"</span></p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-danger" (click)="courseDelete(deleteCourse._id)">Confirm</button>
-  </div>
-</ng-template>
-
-<ng-template #detail let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4>Course Detail</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body course-view">
-    <div>
-      <label class="detail-label">Course Plan Name:</label> 
-      <span>{{coursePlanName}}</span>
-    </div>
-    <div>
-      <label class="detail-label">Course Name:</label> 
-      <span>{{detailCourse.name}}</span>
-    </div>
-    <div>
-      <label class="detail-label">Course Code:</label> 
-      <span>{{detailCourse.courseCode}}</span>
-      <span *ngIf="!detailCourse.courseCode"> - </span>
-    </div>
-    <div>
-      <label class="detail-label">Description:</label> 
-      <label>{{detailCourse.description}}</label>
-      <label *ngIf="!detailCourse.description"> - </label>
-    </div>
-    <div>
-      <label class="detail-label">Location:</label> 
-      <span>{{locationName}}</span>
-    </div>
-    <div>
-      <label class="detail-label">Start Date:</label> 
-      <span>{{detailCourse.startDate}}</span>
-    </div>
-    <div>
-      <label class="detail-label">End Date:</label> 
-      <span>{{detailCourse.endDate}}</span>
-      <span *ngIf="!detailCourse.endDate">-</span>
-    </div>
-    <div>
-      <label class="detail-label">Duration:</label> 
-      <span>{{detailCourse.durationTimes}}</span>
-    </div>
-    <div>
-      <label class="detail-label">Repeated Days:</label> 
-        <label *ngFor="let day of repeatDay;let isLast=last" class="repeatday">
-          {{day}}{{isLast ? '' : ', '}}
-        </label>
-    </div>
-    <div>
-      <label class="detail-label">Lesson Count:</label> 
-      <span>{{detailCourse.lessons.length}}</span>
-    </div>
-    <div>
-      <label class="detail-label">Payment Policy</label> 
-    </div>
-    <div class="child">
-      <label>Allow Prorated:</label> 
-      <span>{{detailCourse.paymentPolicy.allowProrated}}</span>
-    </div>
-    <div class="child">
-      <label>Course Fee:</label> 
-      <span>{{detailCourse.paymentPolicy.courseFee}}</span>
-    </div>
-    <div class="child">
-      <label>Deposit</label> 
-      <span>{{detailCourse.paymentPolicy.deposit}}</span>
-    </div>
-    <div class="child">
-      <label>Misc Fee:</label> 
-      <span>{{detailCourse.paymentPolicy.miscFee}}</span>
-    </div>
-    <div class="child">
-      <label>Prorated Lesson Fee:</label> 
-      <span>{{detailCourse.paymentPolicy.proratedLessonFee}}</span>
-    </div>
-    <div>
-      <label class="detail-label">Reserved Number of Seat:</label> 
-      <span>{{detailCourse.reservedNumberofSeat}}</span>
-      <span *ngIf="!detailCourse.reservedNumberofSeat"> - </span>
-    </div>
-    <div>
-      <label class="detail-label">Room:</label> 
-      <span>{{detailCourse.room}}</span>
-      <span *ngIf="!detailCourse.room"> - </span>
-    </div>
-    <div>
-      <label class="detail-label">Teacher Name:</label> 
-      <span>{{detailCourse.teacher.preferredName}}</span>
-    </div>
-    <div>
-      <label class="detail-label">Quizwerkz:</label> 
-      <label *ngFor="let pdf of detailCourse.quizwerkz;let isLast=last" class="repeatday">
-        {{ pdf.name }}{{isLast ? '' : ', '}}
-        <!-- <span *ngIf="pdf?.length > 0">{{ pdf.name }}{{isLast ? '' : ', '}}</span>
-        <span *ngIf="pdf?.length == 0">-</span> -->
-      </label>
-      <label *ngIf='detailCourse.quizwerkz.length === 0'> - </label>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-cancel" (click)="c('Close click')">Cancel</button>
-  </div>
-</ng-template>
-
-<!-- <ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4>{{code}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div>
-      <button type="button" class="btn btn-primary" ()>+ Add User</button>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-  </div>
-</ng-template> -->
-
-<!-- <button class="btn btn-lg btn-outline-primary" (click)="changeRoute()">Course Create</button> -->
-<!-- <app-courseplan></app-courseplan> -->
-
-<!-- <ul class="nav nav-tabs" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" href="#category" role="tab" data-toggle="tab">Category</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#courseplan" role="tab" data-toggle="tab">Courseplan</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#course" role="tab" data-toggle="tab">Course</a>
-  </li>
-</ul> -->
-
-<!-- Tab panes -->
-<!-- <div class="tab-content">
-  <div role="tabpanel" class="tab-pane fade in active" id="category">
-      <div class="scrollable container">
-          <ul class="list-group-flush">  
-            <li class="list-group-item">
-              Swimming
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
-            </li>
-           
-          </ul>
-          
-        </div> 
-  </div>
-  <div role="tabpanel" class="tab-pane fade" id="courseplan">
-      <div class="scrollable container">
-          <ul class="list-group-flush">  
-            <li class="list-group-item">
-              Piano
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
-            </li>
-          
-          </ul>
-        </div> 
-  </div>
-  <div role="tabpanel" class="tab-pane fade" id="course">
-      <div class="scrollable container">
-          <ul class="list-group-flush">  
-            <li class="list-group-item">
-              Guiter
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" data-toggle="modal" data-target="#locationModal" (click)="editLocationInfo(location._id)">Edit</button>
-              <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteLocation(location._id)">Delete</button>
-            </li>
-            
-          </ul>
-        </div> 
-  </div>
-</div>
- -->
-
-
-
-
+<app-category class="category-content" *ngIf="isCategory == true"></app-category>
+<app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
