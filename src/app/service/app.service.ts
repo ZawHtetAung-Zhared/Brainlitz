@@ -393,6 +393,7 @@ export class appService{
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
+        console.log(result)
         return result;
       })
     }
