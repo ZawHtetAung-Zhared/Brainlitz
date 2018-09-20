@@ -428,11 +428,22 @@
 	</form>
 </div>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title">Enroll new class</h3>
-    <button aria-label="Close" class="close" type="button">
-	    <span aria-hidden="true" (click)="c('Close click')">×</span>
-	</button>
+  <div class="d-flex modal-header">
+    <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
+    <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
+  		<div class="user-image">
+  			<img *ngIf="custDetail.user.profilePic == undefined" src="assets/img/user.svg">
+  			<img *ngIf="custDetail.user.profilePic != undefined" src="{{custDetail.user.profilePic}}">
+  		</div>    	
+    	<p class="user-name">{{custDetail.user.preferredName}}</p>
+    </div>
+    <button (click)="c('Close click')" aria-label="Close" class="modal-close ml-auto" type="button">
+    	<span class="closemark">
+    	    <div class="closemark_stem"></div>
+    	    <div class="closemark_kick"></div>
+    	</span>
+	    <!-- <span aria-hidden="true" >×</span> -->
+		</button>
   </div>
   <form novalidate #cfees="ngForm">
   	<div class="modal-body confirm-text">
@@ -455,28 +466,162 @@
 	          </button>
 	        </span>
 	      </div>
-	      <div class="user-list-box" *ngIf="isFous == true">
-	        <div (click)="selectUser(user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
-	          <div class="img-wrap">
-	            <img src="{{user.profilePic}}">
-	          </div>
-	          <div class="single-user-info d-flex flex-column justify-content-center">
-	            <h4>{{user.preferredName}}</h4>
-	          </div>
-	          <div class="ml-auto remover-wrap">
-	            <div class="add-user d-flex justify-content-end"></div>
-	          </div>
-	        </div>
-	      </div>
 	    </div>
-	    <div class="row">
-	    	<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-	    		<h5 class="mt-03">
-	          <i class="fa fa-map-marker" style="font-size:15px"></i>
-	          Bedok Center
-	        </h5>
-	        <b>Course name</b>
-	    	</div>
+	    <div class="class-group">
+		    <div class="mt-20 card-columns pd-zero">
+		    	<div class="card">
+		    		<div class="single-class">
+		    			<div class="class-info-head">
+	  						<h5 class="mt-03">
+	  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
+	  				      Bedok Center
+	  				    </h5>
+	  				    <b>Course name</b>
+		    			</div>
+		    			<div class="class-info-body">
+		    				<div class="class-body-one row">
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<div>
+			    						<h5>Course fee</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    					<div class="mt-16">
+			    						<h5>Prorate class fee</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    				</div>
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<div>
+			    						<h5>Deposit</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    					<div class="mt-16">
+			    						<h5>Miscellaneous fee</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    				</div>
+			    			</div>
+			    			<div class="class-body-two row">
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<b>SUN & MON</b>
+			    					<h5>11:00 AM - 12:00 AM</h5>
+			    				</div>
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">	
+			    					<div class="d-flex detail-fees">
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    							<h5>From</h5>
+			    							<b>11</b>
+			    						</div>
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    							<h5>To</h5>
+			    							<b>2</b>
+			    						</div>
+			    					</div>
+			    				</div>
+			    			</div>
+		    			</div>
+		    			<div class="row d-flex justify-content-center class-info-footer">
+		    				Enroll on this course
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="card">
+		    		<div class="single-class">
+		    			<div class="class-info-head">
+	  						<h5 class="mt-03">
+	  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
+	  				      Bedok Center
+	  				    </h5>
+	  				    <b>Course name</b>
+		    			</div>
+		    			<div class="class-info-body">
+		    				<div class="class-body-one row">
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<div>
+			    						<h5>Course fee</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    				</div>
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<div>
+			    						<h5>Deposit</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    				</div>
+			    			</div>
+			    			<div class="class-body-two row">
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<b>SUN & MON</b>
+			    					<h5>11:00 AM - 12:00 AM</h5>
+			    				</div>
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">	
+			    					<div class="d-flex detail-fees">
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    							<h5>From</h5>
+			    							<b>11</b>
+			    						</div>
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    							<h5>To</h5>
+			    							<b>2</b>
+			    						</div>
+			    					</div>
+			    				</div>
+			    			</div>
+		    			</div>
+		    			<div class="row d-flex justify-content-center class-info-footer">
+		    				Enroll on this course
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="card">
+		    		<div class="single-class">
+		    			<div class="class-info-head">
+	  						<h5 class="mt-03">
+	  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
+	  				      Bedok Center
+	  				    </h5>
+	  				    <b>Course name</b>
+		    			</div>
+		    			<div class="class-info-body">
+		    				<div class="class-body-one row">
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<div>
+			    						<h5>Course fee</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    				</div>
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<div>
+			    						<h5>Deposit</h5>
+			    						<sup>$</sup><b>400</b>
+			    					</div>
+			    				</div>
+			    			</div>
+			    			<div class="class-body-two row">
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    					<b>SUN & MON</b>
+			    					<h5>11:00 AM - 12:00 AM</h5>
+			    				</div>
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">	
+			    					<div class="d-flex detail-fees">
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    							<h5>From</h5>
+			    							<b>11</b>
+			    						</div>
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    							<h5>To</h5>
+			    							<b>2</b>
+			    						</div>
+			    					</div>
+			    				</div>
+			    			</div>
+		    			</div>
+		    			<div class="row d-flex justify-content-center class-info-footer">
+		    				Enroll on this course
+		    			</div>
+		    		</div>
+		    	</div>
+		    </div>
 	    </div>
   	</div>  	
   </form>
