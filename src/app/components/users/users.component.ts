@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
 
 	@ViewChild('stuffPic') stuffPic: ElementRef;		
 	public img: any;
+	public ulFile: any;
 	public defaultSlice: number = 2;
 	public orgID = environment.orgID;
 	public regionID = localStorage.getItem('regionId');		
@@ -56,6 +57,7 @@ export class UsersComponent implements OnInit {
 	notShowEdit: boolean = true;
 	permissionId: any[] = [];
 	editId: any;
+	public personalMail: boolean = false;
 	public updateButton: boolean = false;
   	public createButton: boolean = true;
   	showFormCreate: boolean = false;
@@ -161,9 +163,13 @@ export class UsersComponent implements OnInit {
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
+			this.ulFile = this.dataURItoBlob(this.img);
+			console.log(this.ulFile)
+
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
-			objData.append('profilePic', this.img);
+			objData.append('profilePic', this.ulFile);
+			console.log('profilePic', this.ulFile);
 			console.log('create');
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
@@ -191,8 +197,10 @@ export class UsersComponent implements OnInit {
 				$(".circular-profile img:last-child").attr("id", "blobUrl");
 			}
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
+			this.ulFile = this.dataURItoBlob(this.img);
 			console.log(this.img);
-			objData.append('profilePic', this.img);
+			objData.append('profilePic', this.ulFile);
+			this.blockUI.start('Loading...');
 			this._service.updateUser(obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
@@ -256,15 +264,18 @@ export class UsersComponent implements OnInit {
 	}
 
 	validateEmail(data){
+		
 		console.log(data);
 		// this.atLeastOneMail = false;		
 		this.emailAlert = ( !this.isValidateEmail(data)) ? true : false;
+		this.personalMail = ( this.isValidateEmail(data)) ? true : false;
+		console.log(this.personalMail)
 		this.atLeastOneMail = (this.emailAlert != true && data.length > 0) ? true : false;
 		console.log('~~~ ', this.atLeastOneMail)
 		
 	}
 
-	validateGuarmail(gData){
+	validateGuarmail(gData){		
 		console.log(gData);
 		// this.atLeastOneMail = false;	
 		this.guardianAlert = (!this.isValidateEmail(gData)) ? true: false;
@@ -326,25 +337,34 @@ export class UsersComponent implements OnInit {
 			        },
 		          	enableExif: true
 	        	});
-		      	var cropper = this.uploadCrop;
-		      	var $uploadCrop = this.uploadCrop;
-		      	var BlobUrl = this.dataURItoBlob;
+		     //  	var cropper = this.uploadCrop;
+		     //  	var $uploadCrop = this.uploadCrop;
+		     //  	var BlobUrl = this.dataURItoBlob;
 
-		      	console.log($uploadCrop)
-		      	reader.onload = function(e: any) {
-		        $uploadCrop.bind({
-		            url: e.target.result
-		          })
-		          .then(function(e: any) {
-		          		console.log(cropper.data.url)
-						const blob = BlobUrl(cropper.data.url);
-        				const blobUrl = URL.createObjectURL(blob);
-        				console.log(blobUrl)
-        				$uploadCrop.bind({
-        					url: blobUrl
-        				})
-		          });
-		    };
+		     //  	console.log($uploadCrop)
+		     //  	reader.onload = function(e: any) {
+		     //    $uploadCrop.bind({
+	      //       url: e.target.result
+	      //     })
+	      //     .then(function(e: any) {
+	      //     	console.log(cropper.data.url)
+							// const blob = BlobUrl(cropper.data.url);
+      	// 			const blobUrl = URL.createObjectURL(blob);
+      	// 			console.log(blobUrl)
+      	// 			$uploadCrop.bind({
+      	// 				url: blobUrl
+      	// 			})
+	      //     });
+
+	      var $uploadCrop = this.uploadCrop;
+          console.log('$uploadCrop', $uploadCrop)
+          reader.onload = function (e: any) {
+              $('.upload-demo').addClass('ready');
+              $uploadCrop.bind({
+                  url: e.target.result
+              }).then(function(e:any){
+              })
+          }
 	    	reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
@@ -374,14 +394,14 @@ export class UsersComponent implements OnInit {
 			quality:1 
 	      })
 	      .then(function(resp: any) {
-	      	console.log(resp)
-	      	const blob = BlobUrl(resp);
-			const blobUrl = URL.createObjectURL(blob);
-			console.log(blobUrl)
-	        if (blobUrl) {
+	    //   	console.log(resp)
+	    //   	const blob = BlobUrl(resp);
+					// const blobUrl = URL.createObjectURL(blob);
+					// console.log(blobUrl)
+	        if (resp) {
 	        	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
