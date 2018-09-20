@@ -264,17 +264,17 @@ export class CourseplanComponent implements OnInit {
     }
     console.log(data)
     // this.blockUI.start('Loading...');
-    // this._service.createCoursePlan(this.regionID,data)
-    // .subscribe((res:any) => {
-    //  console.log('success post',res);
-    //  this.toastr.success('Successfully Created.');
-    //  this.blockUI.stop();
-    //   this.getAllCoursePlan();
-    //   }, err => {
-    //     this.toastr.error('Create Fail');
-    //     this.blockUI.stop();
-    //     console.log(err)
-    //   })
+    this._service.createCoursePlan(this.regionID,data)
+    .subscribe((res:any) => {
+     console.log('success post',res);
+     this.toastr.success('Successfully Created.');
+     this.blockUI.stop();
+      this.getAllCoursePlan();
+      }, err => {
+        this.toastr.error('Create Fail');
+        this.blockUI.stop();
+        console.log(err)
+      })
       this.cancel();
       this.mainForm.reset();
       this.formField = new cPlanField();

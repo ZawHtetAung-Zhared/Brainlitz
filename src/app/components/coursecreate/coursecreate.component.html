@@ -1,3 +1,25 @@
+<div id="navbar">
+	<div class="d-flex justify-content-between">
+		<div class="d-flex justify-content-center flex-column">
+			<div class="d-flex back" (click)="backToCourses()">
+				<i class="fa fa-angle-left"></i>
+			    <p class="mb-0 font-medium">Courses</p>
+			</div>
+		</div>
+		<div>
+			<div><h5 class="mb-0 nav-title font-semi text-center">Create course</h5></div>
+			<div class="d-flex flex-row courseInfo font-medium">
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>	
+			</div>
+		</div>
+		<div class="d-flex justify-content-center flex-column">
+			<div>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid">Publish</button>
+	        </div>
+		</div>
+	</div>
+</div>
 <div class="create-container">
 	<div class="header-wrapper">
 		<header>
@@ -57,8 +79,8 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div class="pad-bottom">
-					<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
-					<textarea class="form-control br-bshadow-none" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
+					<label for="desc" class="all-title-font">Description</label>
+					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
 				</div>
 			</div>
 		</div>
@@ -171,10 +193,51 @@
 				</div>
 				<div class="pad-bottom">
 					<label for="course_name" class="all-title-font">Teacher</label>
-					<div>
-						<input type="text" name="input-search" class="secrch-box" placeholder="Type teacher name">
+					<!-- <div class="form-group has-feedback">
+				    	<input class="form-control br-bshadow-none time-dropdown"  name="teacher"  type="text" [(ngModel)]="model.teacher" placeholder="Type teacher name"><span class="fa fa-angle-down down-icon"></span>
+				    </div> -->
+				    <div class="d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
+						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
+						<div class="d-flex" *ngIf="selectedTeacher">
+							<span class="img-wrap"><img src="{{  selectedTeacher.profilePic }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
+						</div>
+						<span *ngIf="!selectedTeacher" class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+						<span *ngIf="selectedTeacher" class="d-flex justify-content-center flex-column">	
+							<img src="./assets/images/swap-ico.png">		
+						</span>
 					</div>
-					<!-- <div class="d-flex flex-column" style="position: relative;">
+					<div class="search-dropdown">
+						<div class="d-flex flex-column">
+							<div class="teacher-list-box">
+								<div class="d-flex">
+									<input 
+									  class="form-control py-2 input-dropdown" 
+									  type="search" 
+									  placeholder="Type teacher name" id="myInput" 
+									  name="search" 
+									  #search="ngModel" 
+									  [(ngModel)]="model.teacherSearch" 
+									  (focus)="focusInputMethod($event, 'staff', 'teacher')"
+									  (focusout)="hideFocus($event, 'teacher')"
+									  (input)="changeInputMethod($event.target.value)"s>
+								</div>
+								<div class="list-wrap">
+									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+									  <div class="single-user-info d-flex flex-column justify-content-center">
+									    <h4>{{user.preferredName}}</h4>
+									  </div>
+									  <div class="ml-auto remover-wrap">
+									    <div class="add-user d-flex justify-content-end"></div>
+									  </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div>
+						<input type="text" name="input-search" class="secrch-box" placeholder="Type teacher name">
+					</div> -->
+					<!-- <div class="d-flex flex-column search-dropdown" style="position: relative;">
 						<div class="d-flex">
 							<input 
 							  class="form-control py-2 input-search-bg" 
@@ -207,9 +270,6 @@
 				</div>
 				<div class="pad-bottom">
 					<label for="course_name" class="all-title-font">Assistants</label>
-					<!-- <div>
-						<input type="text" name="input-search" class="secrch-box" placeholder="Add assistants by searching">
-					</div> -->
 					<div class="d-flex flex-column" style="position: relative;">
 						<div class="d-flex">
 							<input 
@@ -220,8 +280,8 @@
 							  name="search" 
 							  #search="ngModel" 
 							  [(ngModel)]="model.assistantSearch" 
-							  (focus)="focusInputMethod($event, 'staff')"
-							  (focusout)="hideFocus($event)"
+							  (focus)="focusInputMethod($event, 'staff','assistant')"
+							  (focusout)="hideFocus($event,'assistant')"
 							  (input)="changeInputMethod($event.target.value)">
 							<span class="input-group-append">
 							  <button class="bt btn-design btn-outline-secondary" type="button">
@@ -230,7 +290,7 @@
 							</span>
 						</div>
 						<div class="user-list-box" *ngIf="isFocus == true">
-							<div (click)="chooseAssistant(user)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+							<div (click)="chooseUser(user,'assistant')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
 							  <div class="single-user-info d-flex flex-column justify-content-center">
 							    <h4>{{user.preferredName}}</h4>
 							  </div>
@@ -241,8 +301,8 @@
 						</div>
 					</div>
 					<div class="mt-20">
-				      <div class="d-flex" style="padding-top: 10px" *ngIf="selectedUserLists.length > 0">
-				        <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+				      <div class="d-flex flex-wrap" *ngIf="selectedUserLists.length > 0">
+				        <div *ngFor="let user of selectedUserLists">
 				          <div class="d-flex flex-row single-user font-semi justify-content-center align-items-center">
 				            <div class="img-wrap">
 				              <img src="{{user.profilePic}}">
@@ -306,9 +366,16 @@
 			</div>
 		</div>
 		<hr class="hr-line">
-		<div class="d-flex justify-content-end form-footer">
-	        <button type="button" class="btn button-cancel" (click)="backToCourses()">Cancel</button>
-	        <button type="button" class="btn button-submit">Create</button>
+		<div class="d-flex justify-content-between form-footer">
+			<div class="d-flex justify-content-center flex-column">
+				<div class="font-medium">
+					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
+				</div>
+			</div>
+			<div>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid">Publish</button>
+	        </div>
         </div>
 	</form>
 </div>

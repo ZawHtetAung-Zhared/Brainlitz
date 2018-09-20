@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -64,15 +65,21 @@ export class CoursecreateComponent implements OnInit {
   public testList = [];
   public durationMenuShow: boolean = false;
   public locationMenuShow: boolean = false;
+  public searchMenuShow: boolean = false;
   public startTime: any;
   public classend:any;
   public locationList = [];
   public locationId:any;
   public isFocus:boolean = false;
+  public isDpFocus:boolean = false;
   public detailLists:any;
   public userLists:any;
+  public selectedTeacher:any;
+  public isSticky:boolean = false;
 
-  constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
+  @ViewChild("myInput") inputEl: ElementRef;
+
+  constructor( @Inject(DOCUMENT) private doc: Document,private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
    }
    test;
@@ -89,6 +96,17 @@ export class CoursecreateComponent implements OnInit {
     this.showFormat = "00:00";
     this.createList();
     this.getAllLocations();
+    window.scroll(0,0);
+  }
+
+  @HostListener("window:scroll", [])
+  scrollHandler() {
+    let num = this.doc.documentElement.scrollTop;
+    if(num>20){
+       this.doc.getElementById("navbar").style.top = "0";
+    }else{
+      this.doc.getElementById("navbar").style.top = "-120px";
+    }
   }
 
   getAllLocations(){
@@ -254,6 +272,18 @@ export class CoursecreateComponent implements OnInit {
             $('.location-dropdown').css('display', 'block');
             this.locationMenuShow = false;
         }
+
+        // this.showSearch = false;
+
+        // for search dropdown
+        if(this.searchMenuShow == false){
+           $('.search-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.search-dropdown').css('display', 'block');
+            this.searchMenuShow = false;
+            $("#myInput").focus();
+        }
   }
 
   dropDown(){
@@ -276,17 +306,29 @@ export class CoursecreateComponent implements OnInit {
        this.locationMenuShow = true;
     }
   }
+  showSearch:boolean = false;
+  searchDropdown(){
+    var z = document.getElementsByClassName('search-dropdown');
+    if( (z[0]as HTMLElement).style.display == 'block'){
+      (z[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (z[0]as HTMLElement).style.display = 'block';
+       this.searchMenuShow = true;
+       $("#myInput").focus();
+    }
+    // if(this.showSearch == false){
+    //   this.showSearch = true;
+    //    console.log("TRUE",this.showSearch)
+    // }else if(this.showSearch == true){
+    //   this.showSearch = false;
+    //   console.log("False",this.showSearch)
+    // }
+  }
 
   ChangedRangeValue(e, type){
     if(type == 'hr'){
       this.selectedHrRange = e;
-      // if(this.selectedHrRange == 12){
-      //   this.overDurationHr = true;
-      //   this.rangeMin = 0;
-      //   this.selectedMinRange = 0;
-      // }else{
-      //   this.overDurationHr = false;
-      // }
     }
     if(type == 'min'){
       this.selectedMinRange = e;
@@ -297,19 +339,6 @@ export class CoursecreateComponent implements OnInit {
   chooseTimeOpt(type){
     console.log(type);
     this.isSelected = type;
-    // if(this.isSelected == 'pm'){
-    //   this.minHrRange = 12;
-    //   this.maxHrRange = 24;
-    //   this.rangeHr = Number(this.selectedHrRange) + 12;
-    //   this.selectedHrRange = Number(this.selectedHrRange) + 12;
-    //   console.log('rangeHr',this.rangeHr);
-    // }else{
-    //   this.minHrRange =0;
-    //   this.maxHrRange = 12;
-    //   this.rangeHr = Number(this.selectedHrRange) - 12;
-    //   this.selectedHrRange = Number(this.selectedHrRange) - 12;
-    //   console.log('rangeHr',this.rangeHr);
-    // }
     this.formatTime();
   }
 
@@ -386,18 +415,30 @@ export class CoursecreateComponent implements OnInit {
     this.locationId = item._id;
   }
 
-  focusInputMethod(e, userType){
-    console.log(e)
-    console.log(userType)
-    this.isFocus = true;
-    this.getAllUsers(userType);
+  focusInputMethod(e, userType, staffType){
+    console.log(staffType)
+    if(staffType == 'teacher'){
+      console.log(e)
+      console.log(staffType,userType)
+      this.getAllUsers(userType);
+    }else if(staffType == 'assistant'){
+      console.log(e)
+      console.log(staffType,userType)
+      this.isFocus = true;
+      this.getAllUsers(userType);
+    }
   }
 
-  hideFocus(e){
-    setTimeout(() => {
-      this.isFocus = false;
-    }, 300);
-    this.model.assistantSearch = "";
+  hideFocus(e, staffType){
+    if(staffType == 'teacher'){
+      this.model.teacherSearch = "";
+    }else if(staffType == 'assistant'){
+      console.log("Assistant",staffType)
+      setTimeout(() => {
+        this.isFocus = false;
+      }, 300);
+      this.model.assistantSearch = "";
+    }
   }
 
   changeInputMethod(searchWord){
@@ -432,19 +473,31 @@ export class CoursecreateComponent implements OnInit {
       })
   }
   selectedUserLists =[];
-  chooseAssistant(user){
-    console.log(user);
-    this._service.getCurrentUser(user.userId)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.isFocus = false;
-      console.log(this.selectedUserLists.length)
-      this.selectedUserLists.push(res);
-      console.log(this.selectedUserLists)
-      console.log(this.selectedUserLists.length)
-    }, err => {  
-      console.log(err);
-    });
+  chooseUser(user,type){
+    if (type == 'assistant') {
+      console.log(user);
+      this._service.getCurrentUser(user.userId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.isFocus = false;
+        console.log(this.selectedUserLists.length)
+        this.selectedUserLists.push(res);
+        console.log(this.selectedUserLists)
+        console.log(this.selectedUserLists.length)
+      }, err => {  
+        console.log(err);
+      });
+    }else if (type == 'teacher') {
+      console.log("Teacher")
+      this._service.getCurrentUser(user.userId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.selectedTeacher = res;
+        console.log(this.selectedTeacher)
+      }, err => {  
+        console.log(err);
+      });
+    }
   }
 
   removeSelectedUser(id){
