@@ -72,6 +72,7 @@ export class UserStaffComponent implements OnInit {
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
+	    this.getAllpermission();
 	}
 
 	focusMethod(e){
@@ -153,6 +154,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	getAllpermission(){
+		console.log('hi permission')
 		this._service.getAllPermission(this.regionID)
 		.subscribe((res:any) => {
 			this.permissionLists = res;

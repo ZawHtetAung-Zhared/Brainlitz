@@ -54,6 +54,7 @@ li button{
 .btn-largeLabel{
   font-family: 'Montserrat-Medium',Arial,sans-serif;
   font-size: 18px;
+  margin-bottom: 0;
 }
 .btn-cancel{
 	background: #a9a9a9;
@@ -121,6 +122,7 @@ li button{
   font-size: 25px;
   font-family: 'Montserrat-Light',Arial,sans-serif;
   padding: 0px 10px 0px 10px;
+  margin-bottom: 0;
 }
 .course-wrap{
   padding: 1.05rem;
@@ -207,6 +209,9 @@ li button{
   padding: 5px;
   /*padding: 5px 0px 5px 0px;*/
   /*font-family: Montserrat-Regular;*/
+}
+.btn-addC p{
+  margin-bottom: 0;
 }
 .btn-addC{
   background: #f2f4f5;

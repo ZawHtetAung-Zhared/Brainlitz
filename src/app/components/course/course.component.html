@@ -6,7 +6,10 @@
     <div class="title"><h3 class="header-font">Courses</h3></div>
     <div class="card-columns">
       <div class="card btn-card">
-        <button class="btn btn-large" (click)="changeRoute()"><span class="addCourseBtn">+</span> <span class="btn-largeLabel">Add new course plan</span></button>
+        <button class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
+          <p class="addCourseBtn">+</p>
+          <p class="btn-largeLabel">Add new course plan</p>
+        </button>
       </div>
       <div *ngFor="let courseGroup of courseList">
         <div class="card card-wrap">
@@ -68,7 +71,10 @@
                       </div>
                     </div>
                     <div class="btnCustomer-wrap">
-                      <button class="btn-addC" (click)="addUserModal('customer',userModal, course._id)"><span class="btn-plusicon"> + </span> Add customer</button>
+                      <button class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
+                        <p class="btn-plusicon"> + </p> 
+                        <p>Add customer</p>
+                      </button>
                     </div>
                   </div>
                 </div>

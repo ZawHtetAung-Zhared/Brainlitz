@@ -279,16 +279,28 @@ span.capitalize {
     text-transform: capitalize;
 }
 
-.profile-box {
+.circular-wrap {
     background: #f2f4f5;
-    width: 220px;
+    padding: 55px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+.profile-box {
+    /*background: #f2f4f5;*/
+    background: #ffffff;
+    border: 1px solid #e3e4e6;
+    /*width: 220px;*/
+    width: 337px;
+    max-height: 405px;
+    height: 404px;
     text-align: center;
     min-height: 282px;
     position: absolute;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     right: 15px;
-    padding: 24px;
+    /*padding: 24px;*/
+    padding: 10px 10px 0 10px;
 }    
 
 .circular-profile {
@@ -300,9 +312,9 @@ span.capitalize {
     border-radius: 50%;
     background: #ddd;
     border: 20px solid #fff;
-    position: absolute;
-    bottom: 55px;
-    left: 31px;
+    /*position: absolute;*/
+    /*bottom: 55px;*/
+    /*left: 31px;*/
 }
 
 .circular-profile img {
@@ -320,8 +332,12 @@ span.capitalize {
     color: #0080ff;
     font-size: 16px;
     position: absolute;
-    bottom: 5px;
-    left: 55px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*position: absolute;*/
+    /*bottom: 5px;*/
+    /*left: 55px;*/
 }
 
 .cancel-button {
@@ -467,7 +483,7 @@ input[type=radio]:checked ~ label{
 }
 
 .frame-upload {
-    padding: 15px 15px 0 15px;
+    padding: 10px 10px 0 10px;
     border: 1px solid #e3e4e6;
     float: right;
     border-radius: 10px;
