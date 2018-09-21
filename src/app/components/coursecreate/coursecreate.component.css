@@ -1,10 +1,50 @@
+.refresh,.caption,::-webkit-input-placeholder {
+  color: #788796 !important;
+}
+
+.header {
+  padding: 10px 16px;
+  background: #555;
+  color: #f1f1f1;
+}
+
+#navbar {
+  padding: 15px 30px;
+  background: #ffffff;
+  position: fixed;
+  top: -120px;
+  width: 100%;
+  display:block;
+  transition: top 0.3s;
+  z-index: 999 !important;
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navbar a:hover {
+  background: #ddd;
+  color: black;
+}
+
+input:-webkit-input-placeholder {
+    font-size: 10px !important;
+}
 .font-medium{
   font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 .font-semi{
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
-textarea, input, select {
+textarea, input, select,.font-regular {
   font-family: "Montserrat-Regular", Arial,sans-serif;
 }
 header div{
@@ -47,7 +87,7 @@ header div{
   font-size: 16px;
   color: #2e3e4d;
 }*/
-.back p{
+.nav-title,.back p{
   font-size: 16px;
   color: #2e3e4d;
   cursor: pointer;
@@ -144,15 +184,16 @@ header div{
   background: #ffffff;
 }
 .input-day,.input-lesson {
-  color: #2e3d4d;
-  font-size: 16px; 
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  /*color: #2e3d4d;*/
+  /*font-size: 16px; 
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;*/
 }
-.input-day::placeholder,.input-lesson::placeholder{
+
+/*.input-day::placeholder,.input-lesson::placeholder{
   color: #2e3d4d;
   font-size: 16px;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
-}
+}*/
 .msg{
   color: #2e3d4d;
   font-size: 14px; 
@@ -416,13 +457,12 @@ header div{
   color: #ffffff;
 }
 
-.button-cancel{
-  border: none;
+.button-savedraft{
+  color: #0080ff;
   height: 45px;
   border-radius: 3px;
-  width: 100px;
-  background-color: #f2f4f5;
-  margin-right: 30px;
+  margin-right: 20px;
+  border: solid 2px #007fff;
 }
 .form-footer{
   padding: 20px 15px;
@@ -546,6 +586,32 @@ header div{
   color: #788796;
   cursor: pointer;
 }
+.input-dropdown{
+  border: 0;
+  padding: 8px 15px;
+  /*width: 90%;*/
+  outline: none;
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  background: #ffffff;
+}
+.teacher-list-box{
+  /*height: 300px;*/
+  overflow: auto;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  /*padding: 0 16px;*/
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  width: 95.5%;
+  /*width: 100%;*/
+  /*top: 49px;*/
+  background: #fff;
+  z-index: 9;
+}
+.list-wrap{
+  padding: 0 16px;
+  overflow-y: auto;
+  height: 300px;
+}
 .user-list-box{
   height: 300px;
   overflow: auto;
@@ -571,6 +637,7 @@ header div{
   padding: 5px;
   border-radius: 50px;
   margin-right: 10px;
+  margin-top: 10px;
   color: #64707d;
   font-size: 12px;
 }
@@ -597,8 +664,9 @@ header div{
 }
 .remove-user{
   border: 2px solid #ff3d33;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  margin-left: 5px;
   border-radius: 100%;
   position: relative;
   display: inline-block;
@@ -614,4 +682,11 @@ header div{
   background: #ff3d33;
   margin: auto 2px;
   height: 2px;
+}
+.search-dropdown{
+  padding: 0;
+  display: none;
+}
+.pad-left-5{
+  padding-left: 5px;
 }

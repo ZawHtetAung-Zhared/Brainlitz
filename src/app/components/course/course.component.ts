@@ -73,6 +73,7 @@ export class CourseComponent implements OnInit {
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
+      this.getCourseLists()
     });
   }
 
