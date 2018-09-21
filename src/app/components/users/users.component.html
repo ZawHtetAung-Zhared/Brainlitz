@@ -372,32 +372,34 @@
 					<div *ngIf="!imgDemoSlider" class="profile-box label-txt">
 						<div class="form-group">
 							<label for="upload" class="profile-label">Profile</label><br>
-							<div class="circular-profile">
-								<img *ngIf="isupdate == false" src="assets/img/user.svg">
-								<img *ngIf="isupdate == true" src="{{returnProfile}}">
-							</div>	
+							<div class="circular-wrap">
+								<div class="circular-profile">
+									<img *ngIf="isupdate == false" src="assets/img/user.svg">
+									<img *ngIf="isupdate == true" src="{{returnProfile}}">
+								</div>	
+							</div>
 							<div class="demo-wrap upload-demo">
-					          	<div class="container">
-						            <div class="grid">
-					              	<div class="col-1-2">
-					                	<div class="actions">
-					                		<a class="btn file-btn">
-					                  		<input 
-					                  			type="file" 
-					                  			class="upload-jpg form-control" 
-					                  			id="upload" 
-					                  			#cropper 
-					                  			(change)='uploadCropImg($event)'
-					                  			value="Choose a file" 
-					                  			accept="image/*" 
-					                  			style="display:none" />
-					                		</a>
-					                	</div>
-					              	</div>
-						            </div>
-					       		</div>
-						    </div>
-						    <p>Update photo</p>						
+		          	<div class="container">
+			            <div class="grid">
+		              	<div class="col-1-2">
+		                	<div class="actions">
+		                		<a class="btn file-btn">
+		                  		<input 
+		                  			type="file" 
+		                  			class="upload-jpg form-control" 
+		                  			id="upload" 
+		                  			#cropper 
+		                  			(change)='uploadCropImg($event)'
+		                  			value="Choose a file" 
+		                  			accept="image/*" 
+		                  			style="display:none" />
+		                		</a>
+		                	</div>
+		              	</div>
+			            </div>
+		       			</div>
+					    </div>
+						  <p>Update photo</p>						
 						</div>
 					</div>
 				</label>

@@ -147,7 +147,7 @@ export class UsersComponent implements OnInit {
 		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : '' ;
 		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
 		console.log(this.atLeastOneMail)
-		obj.email = (obj.email == undefined) ? '' : obj.email;
+		obj.email = (obj.email == undefined) ? [] : obj.email;
 
 		objData.append('regionId', this.regionID);
 		objData.append('orgId', this.orgID);
