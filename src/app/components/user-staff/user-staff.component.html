@@ -71,7 +71,7 @@
 	</div>
 	<form class="form-wrap" novalidate #createForm="ngForm">
 		<div class="row display-flex">
-			<div class="col-md-7">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
 				<div class="form-group form-divider">
 		  	    	<div class="d-flex justify-content-between">
 		  	    		<label for="" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 
@@ -123,45 +123,47 @@
 				    </div>
 		  	  	</div>
 			</div>
-			<div class="col-md-5" style="display: block;">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5" style="display: block;">
 				<label for="upload">
 					<div *ngIf="!imgDemoSlider" class="profile-box label-txt">
 						<div class="form-group">
 							<label for="upload" class="profile-label">Profile</label><br>
-							<div class="circular-profile">
-								<img src="assets/img/user.svg">
+							<div class="circular-wrap">
+								<div class="circular-profile">
+									<img src="assets/img/user.svg">
+								</div>	
 							</div>	
 						    <p>Update photo</p>							
 						</div>
 						<div class="demo-wrap upload-demo">
-				          	<div class="container">
-					            <div class="grid">
-				              	<div class="col-1-2">
-				                	<div class="actions">
-				                		<a class="btn file-btn">
-				                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
-				                		</a>
-				                	</div>
-				              	</div><br />
-					            </div>
-				       		</div>
-					    </div>
+	          	<div class="container">
+		            <div class="grid">
+	              	<div class="col-1-2">
+	                	<div class="actions">
+	                		<a class="btn file-btn">
+	                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
+	                		</a>
+	                	</div>
+	              	</div><br />
+		            </div>
+	       			</div>
+				    </div>
 					</div>
 				</label>
 				<div class="frame-upload">
 					<div class="upload-demo-wrap">
-		              	<div id="upload-demo"></div>
-		            </div>
-		            <div class="row mr-button">
-		            	<div class="col-md-6 crop-box" style="border-bottom-left-radius: 10px;">
-			            	<div class="br-right">
-			            		<button *ngIf="blankCrop" class="upload-result btn1" (click)="backToUpload()" >Cancel</button>
-			            	</div>
-			            </div>
-		            	<div class="col-md-6 crop-box" style="border-bottom-right-radius: 10px;">
-			            	<button *ngIf="blankCrop" class="upload-result btn2" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
-			            </div>
-		            </div>
+            	<div id="upload-demo"></div>
+          </div>
+          <div class="row mr-button">
+          	<div class="col-md-6 crop-box" style="border-bottom-left-radius: 10px;">
+            	<div class="br-right">
+            		<button *ngIf="blankCrop" class="upload-result btn1" (click)="backToUpload()" >Cancel</button>
+            	</div>
+            </div>
+          	<div class="col-md-6 crop-box" style="border-bottom-right-radius: 10px;">
+            	<button *ngIf="blankCrop" class="upload-result btn2" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
+            </div>
+          </div>
 				</div>
 			</div>
 			<div class="col-md-12 pad-bottom">
