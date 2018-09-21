@@ -45,7 +45,7 @@
 				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>
 			</div>
 		</div>
-		<div class="d-flex pad-top-25">
+		<div class="d-flex step-wrapper">
 			<div class="col-md-5">
 				<label class="all-title-font">Course Information</label>
 				<p class="info-p font-medium">
@@ -78,14 +78,14 @@
 				    </div>
 					<hr class="limit-hr-length">
 				</div> 
-				<div class="pad-bottom">
+				<div>
 					<label for="desc" class="all-title-font">Description</label>
 					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
 				</div>
 			</div>
 		</div>
 		<hr class="hr-line">
-		<div class="d-flex pad-top-25">
+		<div class="d-flex step-wrapper">
 			<div class="col-md-5">
 				<label class="all-title-font">Time range & Teacher</label>
 				<p class="info-p font-medium">
@@ -118,7 +118,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="d-flex pad-top-25">
+				<div class="d-flex step-wrapper">
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="all-title-font">Starting Time</label>
 						<div class="input-wrap">
@@ -191,11 +191,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="pad-bottom">
+				<div>
 					<label for="course_name" class="all-title-font">Teacher</label>
-					<!-- <div class="form-group has-feedback">
-				    	<input class="form-control br-bshadow-none time-dropdown"  name="teacher"  type="text" [(ngModel)]="model.teacher" placeholder="Type teacher name"><span class="fa fa-angle-down down-icon"></span>
-				    </div> -->
 				    <div class="d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
 						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
 						<div class="d-flex" *ngIf="selectedTeacher">
@@ -234,41 +231,8 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div>
-						<input type="text" name="input-search" class="secrch-box" placeholder="Type teacher name">
-					</div> -->
-					<!-- <div class="d-flex flex-column search-dropdown" style="position: relative;">
-						<div class="d-flex">
-							<input 
-							  class="form-control py-2 input-search-bg" 
-							  type="search" 
-							  placeholder="Type teacher name" 
-							  id="example-search-input" 
-							  name="search" 
-							  #search="ngModel" 
-							  [(ngModel)]="model.teacherSearch" 
-							  (focus)="focusInputMethod($event, 'staff')"
-							  (focusout)="hideFocus($event)"
-							  (input)="changeInputMethod($event.target.value)">
-							<span class="input-group-append">
-							  <button class="bt btn-design btn-outline-secondary" type="button">
-							      <i class="fa fa-search search-size"></i>
-							  </button>
-							</span>
-						</div>
-						<div class="user-list-box" *ngIf="isFocus == true">
-							<div (click)="selectUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
-							  <div class="single-user-info d-flex flex-column justify-content-center">
-							    <h4>{{user.preferredName}}</h4>
-							  </div>
-							  <div class="ml-auto remover-wrap">
-							    <div class="add-user d-flex justify-content-end"></div>
-							  </div>
-							</div>
-						</div>
-					</div> -->
 				</div>
-				<div class="pad-bottom">
+				<div>
 					<label for="course_name" class="all-title-font">Assistants</label>
 					<div class="d-flex flex-column" style="position: relative;">
 						<div class="d-flex">
@@ -321,7 +285,7 @@
 			</div>
 		</div>
 		<hr class="hr-line">
-		<div class="d-flex pad-top-25">
+		<div class="d-flex step-wrapper">
 			<div class="col-md-5">
 				<label class="all-title-font">Venue</label>
 				<p class="info-p font-medium">
@@ -356,13 +320,110 @@
 				    </div>
 					<hr class="limit-hr-length">
 				</div> 
-				<div class="pad-bottom">
+				<div>
 					<label for="seat" class="all-title-font">Reserved seat</label>
 					<input type="number" class="form-control br-bshadow-none all-left-box-10" placeholder="0" id="seat" [(ngModel)]="model.reservedNumberofSeat" name="seat" (keypress)="numberOnly($event)" #seat="ngModel"> 
 					<div [hidden]="!testChar" class="alert alert-danger">
 						Only Numbers Allowed
 					</div>
 				</div> 
+			</div>
+		</div>
+		<hr class="hr-line">
+		<div class="col-md-12 step-wrapper">
+			<span class="number-wrap font-medium">16</span><label class="conflit-title font-medium">Conflicts</label>
+			<div class="d-flex">
+				<span class="round-number font-medium">6</span>
+				<span class="image-wrap">
+					<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743702082858825712_original.jpg">
+				</span>
+				<div class="pad-left-10">
+					<div class="label-12 font-regular">Senior Teacher</div>
+					<div class="name-label font-semi">Arron Wamsley</div>
+				</div>
+			</div>
+			<div class="d-flex font-medium msg-padding">
+				<span class="round-icon">!</span>
+				<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+			</div>
+			<div class="conflit-wrapper" *ngFor="let conflit of testConflitsArr">
+				<div class="d-flex column-wrap">
+					<div class="flex-item">
+						<div class="name-label font-medium">
+							{{ conflit.date }}
+						</div>
+						<div class="label-12 font-medium">
+							{{ conflit.time }}
+						</div>
+					</div>
+					<div class="flex-item">
+						<div class="item-label font-medium">Lesson</div>
+						<div class="name-label font-medium">{{ conflit.lesson }}</div>
+					</div>
+					<div class="flex-item">
+						<div class="item-label font-medium">Location</div>
+						<div class="name-label font-medium">{{ conflit.location }}</div>
+					</div>
+					<div class="flex-item">
+						<div class="item-label font-medium">Number of students</div>
+						<div class="name-label font-medium">{{ conflit.studentCount }}</div>
+					</div>
+				</div>
+				<hr class="hr-line">
+				<div class="d-flex btn-wrap">
+					<div class="skip-btn font-medium">Skip</div>
+					<div class="ignore-btn font-medium">Ignore</div>
+				</div>
+			</div>
+			<div class="d-flex allbtn-wrap">
+				<div class="skipAll font-medium">Skip all</div>
+				<div class="cancelAll font-medium">Ignore all</div>
+			</div>
+		</div>
+		<hr class="hr-line">
+		<div class="col-md-12 step-wrapper">
+			<div class="d-flex">
+				<span class="round-noconflit font-medium">0</span>
+				<span class="image-wrap">
+					<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743838881879518777_original.jpg">
+				</span>
+				<div class="pad-left-10">
+					<div class="label-12 font-regular">Teacher</div>
+					<div class="name-label">John Snow</div>
+				</div>
+			</div>
+			<div class="d-flex font-medium msg-padding">
+				<span class="d-flex justify-content-center flex-column icon-wrap"><img src="./assets/images/circle-check-green@2x.png"></span>
+				<div class="pad-left-10 noconflit-msg">No conflict on any lessons</div>
+			</div>
+		</div>
+		<hr class="hr-line">
+		<div class="col-md-12 step-wrapper">
+			<div class="d-flex">
+				<div id="parent">
+					<img src="./assets/images/timetable-ico.png">
+				</div>
+				<span class="name-label font-semi">Timetable</span>
+			</div>
+			<div class="timetable-wrapper">
+				<div class="d-flex timetable">
+					<div class="flex-item1">
+						<div class="item-label font-medium">Lesson</div>
+						<div class="name-label font-medium">Test</div>
+					</div>
+					<div class="flex-item2">
+						<div class="item-label font-medium">Location</div>
+						<div class="name-label font-medium">Hello</div>
+					</div>
+					<div class="flex-item2">
+						<div class="item-label font-medium">Number of students</div>
+						<div class="name-label font-medium">Test</div>
+					</div>
+				</div>
+				<hr class="hr-line">
+				<div class="d-flex btn-wrap">
+					<div class="detailBtn font-medium">View details</div>
+				</div>
 			</div>
 		</div>
 		<hr class="hr-line">
