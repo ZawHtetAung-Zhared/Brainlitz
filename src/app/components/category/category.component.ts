@@ -30,6 +30,7 @@ export class CategoryComponent implements OnInit {
   public ischecked:any;
   public navIsFixed: boolean = false;
   public goBackCat: boolean = false;
+  public wordLength : number = 0;
 
   constructor( 
     private _service: appService, 
@@ -115,10 +116,15 @@ export class CategoryComponent implements OnInit {
     }, 300);
   }
 
-  focusFunction(status, val){
+  focusFunction(status, val, word){
+    console.log(word)
     if(status == 'create'){
       this.isfocus = true;
+      this.wordLength = word.length;
+      $('.limit-word').show('slow');
     }else{
+      this.wordLength = word.length;
+      $('.limit-'+val).show('slow');
       this.iseditfocus = true;
       this.otherfocus = true;
       this.editValue = val;
@@ -128,6 +134,18 @@ export class CategoryComponent implements OnInit {
         this.item = res;
       })
     }
+  }
+
+  blurMethod(e, status){
+    console.log('blur', e);
+    let wp = this.wordLength;
+    $('.limit-word').hide('slow');
+    this.wordLength = 0;
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
   }
 
   close(status, id){
