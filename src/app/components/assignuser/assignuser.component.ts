@@ -104,7 +104,7 @@ export class AssignuserComponent implements OnInit {
 
   getUsers(type){
     this.blockUIList.start('Loading...');
-  	this._service.getAllUsers(this.regionid, type)
+  	this._service.getAllUsers(this.regionid, type, 20, 0)
   	.subscribe((res:any) => {
   		console.log("userList",res);
   		this.userList = res;

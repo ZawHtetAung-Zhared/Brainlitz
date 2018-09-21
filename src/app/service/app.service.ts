@@ -343,12 +343,12 @@ export class appService{
         }) 
       }
 
-    getAllUsers(id: string, type: any): Observable<any>{
+    getAllUsers(id: string, type: any, limit: number, skip: number): Observable<any>{
       console.log(id, type)
       this.getLocalstorage();
       let url; 
       if(type == 'customer'){
-        url = this.baseUrl+ '/' + id + '/user?type=customer';
+        url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       }
       else if(type == 'staff'){
         url = this.baseUrl+ '/' + id + '/user?type=staff';

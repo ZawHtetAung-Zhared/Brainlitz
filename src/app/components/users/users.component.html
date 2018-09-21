@@ -49,6 +49,9 @@
 			</div>
 		</div>
 	</div>
+	<div *ngIf="customerLists.length >= 20 " class="d-flex justify-content-center load-more">
+		<button class="btn" (click)="showMore('customer', customerLists.length)">load more</button>
+	</div>
 </div>
 
 <div *ngIf="showCustDetail" class="content-wrapper" [ngClass]="{'pdactive': isSticky == true}">

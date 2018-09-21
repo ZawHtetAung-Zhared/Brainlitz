@@ -18,7 +18,7 @@ declare var $: any;
 export class UserStaffComponent implements OnInit {
 	public orgID = environment.orgID;
   	public regionID = localStorage.getItem('regionId');
-  	public staffLists: any;
+  	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
   	public img: any;
   	permissionLists: any;
@@ -50,16 +50,22 @@ export class UserStaffComponent implements OnInit {
    	}
 
   	ngOnInit() {
-  		this.getAllUsers('staff');
+  		this.getAllUsers('staff', 20, 0);
   		this.blankCrop = false; 
 		this.getAllpermission();
   	}
 
+  	showMore(type: any, skip: any){
+  		console.log(skip)
+  		this.getAllUsers(type, 20, skip)
+  	}
 
-  	getAllUsers(type){
-		this._service.getAllUsers(this.regionID, type)
+
+  	getAllUsers(type, limit, skip){
+		this._service.getAllUsers(this.regionID, type, limit, skip)
 		.subscribe((res:any) => {
-			this.staffLists = res;
+			this.staffLists = this.staffLists.concat(res);
+			// this.staffLists = res;
 			console.log('this.staffLists', this.staffLists)
 	    }, err => {
 	    	console.log(err)
@@ -116,7 +122,7 @@ export class UserStaffComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('staff');
+		  		this.getAllUsers('staff', 20, 0);
 		    }, err => {		    	
 		    	this.blockUI.stop();
 		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
@@ -134,7 +140,7 @@ export class UserStaffComponent implements OnInit {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
-		  		this.getAllUsers('staff');
+		  		this.getAllUsers('staff', 20 , 0);
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();
