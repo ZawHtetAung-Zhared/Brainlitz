@@ -75,6 +75,7 @@ export class CoursecreateComponent implements OnInit {
   public userLists:any;
   public selectedTeacher:any;
   public isSticky:boolean = false;
+  public isShowDetail:boolean = false;
   public testConflitsArr = [
     {
       "date": "25 May 2018",
@@ -98,6 +99,75 @@ export class CoursecreateComponent implements OnInit {
       "studentCount": 5
     }
   ];
+  public testTimetable = [
+    {
+      "date": "May 2018",
+      "time": "10:30 AM - 11:30 AM",
+      "timetableArr": [
+        {
+          "date": "7 May",
+          "time": "Sunday",
+          "skip": false
+        },
+        {
+          "date": "8 May",
+          "time": "Monday",
+          "skip": false
+        },
+        {
+          "date": "14 May",
+          "time": "Sunday",
+          "skip": false
+        },
+        {
+          "date": "15 May",
+          "time": "Monday",
+          "skip": false
+        },
+        {
+          "date": "7 May",
+          "time": "Sunday",
+          "skip": false
+        },
+        {
+          "date": "8 May",
+          "time": "Monday",
+          "skip": true
+        },
+        {
+          "date": "14 May",
+          "time": "Sunday",
+          "skip": false
+        }
+      ]
+    },
+    {
+      "date": "Jun 2018",
+      "time": "10:30 AM - 11:30 AM",
+      "timetableArr": [
+        {
+          "date": "7 May",
+          "time": "Sunday",
+          "skip": false
+        },
+        {
+          "date": "8 May",
+          "time": "Monday",
+          "skip": false
+        },
+        {
+          "date": "14 May",
+          "time": "Sunday",
+          "skip": false
+        },
+        {
+          "date": "15 May",
+          "time": "Sunday",
+          "skip": true
+        }
+      ]
+    },
+  ]
 
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -531,6 +601,14 @@ export class CoursecreateComponent implements OnInit {
     }
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
+  }
+
+  viewDetailTimetable(){
+    this.isShowDetail = true;
+  }
+
+  hideDetailTimetable(){
+    this.isShowDetail = false;
   }
 
 }
