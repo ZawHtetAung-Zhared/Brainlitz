@@ -68,7 +68,7 @@ export class UsersComponent implements OnInit {
   	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
-  	public custDetail: Array<any> = [];
+  	public custDetail: any;
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public seeAll = false;
   	public wordLength:number = 0;
