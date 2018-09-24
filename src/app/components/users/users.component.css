@@ -1,3 +1,6 @@
+.user-group{
+    margin-bottom: 70px;
+}
 .pl-zero{
     padding-left: 0;
 }
@@ -9,6 +12,11 @@
     background: #fff;
     border-top: 1px solid #eee;
     padding: 10px;
+}
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
 }
 .title{
   margin: 20px 0px 35px 0px;

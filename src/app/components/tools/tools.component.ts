@@ -228,7 +228,7 @@ export class ToolsComponent implements OnInit {
 
     this.item.itemID = '';
     if(type == 'category'){
-      this._service.getCategory(this.regionID)
+      this._service.getCategory(this.regionID, 20, 0)
       .subscribe((res:any) => {
         let temp_category = res;
         this.categoryLists = res;
@@ -237,7 +237,8 @@ export class ToolsComponent implements OnInit {
         console.log(err)
       })
     }else if(type == 'course'){
-      this._service.getAllCourse(this.regionID)
+      console.log('hi course')
+      this._service.getAllCourse(this.regionID, 20, 0)
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.courseLists = res;

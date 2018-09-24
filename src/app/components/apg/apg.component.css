@@ -464,14 +464,19 @@
 
 .load-more{
     position: fixed;
-    z-index: 99;
-    bottom: 0;
-    /*width: 100%;*/
-    width: 82%;
+    z-index: 1;
+    width: 85%;
     background: #fff;
     border-top: 1px solid #eee;
     padding: 10px;
+    bottom: 0;
+    right: 0;
     text-align: center;
+}
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
 }
 .pad-bottom{
     padding-bottom: 100px;

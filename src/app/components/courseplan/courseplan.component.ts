@@ -412,7 +412,7 @@ export class CourseplanComponent implements OnInit {
           }
         }
       }
-      this._service.getCategory(this.regionID)
+      this._service.getCategory(this.regionID, 20, 0)
       .subscribe((res:any) => {
         this.courseCategories = res;
           for(var i=0; i < this.courseCategories.length; i++){
@@ -454,7 +454,11 @@ export class CourseplanComponent implements OnInit {
 
   getAllAPG(skip,limit){
     this.blockUI.start('Loading...');
+<<<<<<< HEAD
     this._service.getAllAPG(this.regionID,skip,limit)
+=======
+    this._service.getAllAPG(this.regionID, 20, 0)
+>>>>>>> 983129af293a59c8a80d0d439297a09971a98023
     .subscribe((res:any) => {
       console.log('apgLists' ,res)
       this.apgList = res;
@@ -467,7 +471,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllHolidaysCalendar(){
-      this._service.getAllHolidaysCalendar(this.regionID)
+      this._service.getAllHolidaysCalendar(this.regionID, 20, 0)
       .subscribe((res:any) => {
         this.holidayCalendarLists = res;
         console.log(this.holidayCalendarLists)

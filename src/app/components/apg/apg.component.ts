@@ -267,9 +267,12 @@ export class ApgComponent implements OnInit {
         this.model = res;
         if(state == 'share'){
           console.log(res)
-          res['public'] = true;
-          console.log(res.name)
           this.convertTemplate(res, res._id, res.name);
+        }
+        if(state == 'public'){
+          console.log('public ok')
+          this.publicAPG(res);
+
         }
       }, err => {
           this.blockUI.stop();
@@ -680,11 +683,29 @@ export class ApgComponent implements OnInit {
       console.log(data)
       this.blockUI.start('Loading...');
       this._service.convertApgTemplate(id, data).subscribe((res:any) => {
-        console.log(apgObj)                
-        this.createapgs(apgObj, true)
+        console.log(res)        
+        let returnData = JSON.parse(res._body) 
+        this.singleAPG(returnData._id, 'public');
+
       }, err => {
           console.log(err)
       })
   	}
+
+    publicAPG(data){
+      console.log(data)
+      data.public = true;
+      this._service.updateSingleTemplate(this.regionID, data)
+      .subscribe((res:any) => {
+          console.log(res)
+          this.getAllTemplate();
+          this.toastr.success('Successfully '+ status + '.');
+          this.blockUI.stop();
+      }, err => {
+          this.toastr.success(status + ' Fail.');
+          this.blockUI.stop();
+          console.log(err)
+      })
+    }
 
 }

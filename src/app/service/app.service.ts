@@ -498,10 +498,10 @@ export class appService{
         })
     }
 
-    getCategory(regionid: string): Observable<any>{
+    getCategory(regionid: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
       console.log(regionid)
-      let url = this.baseUrl + '/' + regionid + '/category';
+      let url = this.baseUrl + '/' + regionid + '/category?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -711,9 +711,9 @@ export class appService{
       }) 
     }
 
-    getAllHolidaysCalendar(id: string): Observable<any>{
+    getAllHolidaysCalendar(id: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/holidaysCalendar';
+      let url = this.baseUrl+ '/' + id + '/holidaysCalendar&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -802,9 +802,9 @@ export class appService{
       })
     }
 
-    getAllCourse(id: string): Observable<any>{
+    getAllCourse(id: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/course';
+      let url = this.baseUrl+ '/' + id + '/course?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})

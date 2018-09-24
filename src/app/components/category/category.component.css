@@ -1,3 +1,11 @@
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.load-more button:focus{
+	outline: none;
+}
 .limit-word{
   display: none;
   font-size: 14px;

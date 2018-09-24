@@ -508,7 +508,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	allCourseLists(){
-		this._service.getAllCourse(this.regionID)
+		this._service.getAllCourse(this.regionID, 20, 0)
 	    .subscribe((res:any)=>{
 	    	this.courseLists = res;
 	      console.log(res)

@@ -24,7 +24,7 @@ export class CalendarComponent implements OnInit {
 	chosenHoliday: any;
 	arrayHoliday: Array<any> = [];
 	holidayLists: any;
-  calendarLists: any;
+  calendarLists: Array<any> = [];
   public calendarName: any;
   public calendarId: any;
   formField: calendarField = new calendarField();
@@ -67,7 +67,7 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllHolidaysCalendar();
+    this.getAllHolidaysCalendar(20, 0);
     this.currentYear = (new Date()).getFullYear();
     console.log(this.currentYear)    
   }
@@ -105,7 +105,7 @@ export class CalendarComponent implements OnInit {
     this.isHoliday = false;
     this.isChecked = '';
     this.yearLists = [];
-    this.getAllHolidaysCalendar();
+    this.getAllHolidaysCalendar(20, 0);
     this.formField = new calendarField();
   }
 
@@ -244,9 +244,13 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  getAllHolidaysCalendar(){
+  showMore(skip: any){
+    this.getAllHolidaysCalendar(20, skip)
+  }
+
+  getAllHolidaysCalendar(limit, skip){
     this.blockUI.start('Loading...');
-      this._service.getAllHolidaysCalendar(this.regionID)
+      this._service.getAllHolidaysCalendar(this.regionID, limit, skip)
       .subscribe((res:any) => {
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
@@ -267,7 +271,7 @@ export class CalendarComponent implements OnInit {
        console.log(res);
        this.toastr.success('Successfully Deleted.');
        this.blockUI.stop();
-       this.getAllHolidaysCalendar();
+       this.getAllHolidaysCalendar(20, 0);
      },err => {
        this.toastr.error('Delete Fail.');
        console.log(err);
@@ -375,7 +379,7 @@ export class CalendarComponent implements OnInit {
         console.log(res);
         this.blockUI.stop();
         this.toastr.success('Successfully Updated.');
-        this.getAllHolidaysCalendar();
+        this.getAllHolidaysCalendar(20, 0);
       },err => {
         console.log(err);
       })

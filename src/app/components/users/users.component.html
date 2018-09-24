@@ -30,7 +30,7 @@
 		     </span>
 		</div>
 	</div>
-	<div class="row display-flex">
+	<div class="row display-flex user-group">
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
 			<div class="box-design d-flex" (click)="showDetails(customer, customer.userId)">
 				<div class="profileimg-wrap">
@@ -479,7 +479,7 @@
 		    			<div class="class-info-head">
 	  						<h5 class="mt-03">
 	  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
-	  				      {{course.location[0].name}}
+	  				      {{course.location.name}}
 	  				    </h5>
 	  				    <b>{{course.name}}</b>
 		    			</div>
@@ -509,7 +509,7 @@
 			    			<div class="class-body-two row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 			    					<b *ngFor="let day of course.repeatDays | weekDays">{{day}}</b>
-			    					<h5>11:00 AM - 12:00 AM</h5>
+			    					<h5>{{ course.duration.startDate | convertTimeFormat }} - {{ course.duration.endDate | convertTimeFormat }}</h5>
 			    				</div>
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">	
 			    					<div class="d-flex detail-fees">
