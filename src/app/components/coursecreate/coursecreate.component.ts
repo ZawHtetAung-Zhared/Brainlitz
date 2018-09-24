@@ -61,7 +61,6 @@ export class CoursecreateComponent implements OnInit {
   public isSelected: any;
   public showFormat:any;
   public testChar:boolean;
-  public testArr = ['Hello1','Hello2','Hello3'];
   public testList = [];
   public durationMenuShow: boolean = false;
   public locationMenuShow: boolean = false;
@@ -76,6 +75,29 @@ export class CoursecreateComponent implements OnInit {
   public userLists:any;
   public selectedTeacher:any;
   public isSticky:boolean = false;
+  public testConflitsArr = [
+    {
+      "date": "25 May 2018",
+      "time": "10:30 AM - 11:30 AM",
+      "lesson": "Pre School Music Academia",
+      "location": "Bedok Point",
+      "studentCount": 5
+    },
+    {
+      "date": "27 May 2018",
+      "time": "10:30 AM - 11:30 AM",
+      "lesson": "Pre School Music Academia",
+      "location": "Bedok Point",
+      "studentCount": 5
+    },
+    {
+      "date": "30 May 2018",
+      "time": "10:30 AM - 11:30 AM",
+      "lesson": "Pre School Music Academia",
+      "location": "Bedok Point",
+      "studentCount": 5
+    }
+  ];
 
   @ViewChild("myInput") inputEl: ElementRef;
 

@@ -593,6 +593,9 @@ h3.category-h3, .category-name, .d-wrapper {
 }
 .back-to{
   color: #2e3d4d !important;
+  background: none;
+  float: left;
+  cursor: pointer;
 }
 .pl-0{
   padding-left: 0 !important;
@@ -908,6 +911,18 @@ label.pd-lt-10 {
 
 .button-wrapper{
   padding: 10px 30px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 20px 30px;
+  background: #ffffff;
+  border-top: 1px solid #edeff0;
+}
+
+.pad-100{
+  padding-bottom: 100px;
 }
 
 .title-align {
