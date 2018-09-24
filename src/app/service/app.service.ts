@@ -711,9 +711,9 @@ export class appService{
       }) 
     }
 
-    getAllHolidaysCalendar(id: string): Observable<any>{
+    getAllHolidaysCalendar(id: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/holidaysCalendar';
+      let url = this.baseUrl+ '/' + id + '/holidaysCalendar&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})

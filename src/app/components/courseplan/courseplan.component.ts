@@ -467,7 +467,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllHolidaysCalendar(){
-      this._service.getAllHolidaysCalendar(this.regionID)
+      this._service.getAllHolidaysCalendar(this.regionID, 20, 0)
       .subscribe((res:any) => {
         this.holidayCalendarLists = res;
         console.log(this.holidayCalendarLists)
