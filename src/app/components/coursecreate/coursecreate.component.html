@@ -55,7 +55,7 @@
 			<div class="col-md-7">
 				<div>
 					<div class="d-flex justify-content-between">
-						<label for="course_name" class="all-title-font">Course name</label>
+						<label for="course_name" class="input-title font-medium">Course name</label>
 						<div class="limit-wordcount">
 							<span>{{wordLength}}/60characters</span>
 						</div>
@@ -69,7 +69,7 @@
 				    <hr class="limit-hr-length">
 				</div>
 				<div>
-					<label for="seat" class="all-title-font">Course Code</label>
+					<label for="seat" class="input-title font-medium">Course Code</label>
 					<input type="text" placeholder="Type relevant course code here" class="form-control br-bshadow-none all-left-box-10" id="courseCode" name="courseCode" [(ngModel)]="model.courseCode" required #code="ngModel"> 
 					<div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!code.errors.required">
@@ -79,7 +79,7 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
-					<label for="desc" class="all-title-font">Description</label>
+					<label for="desc" class="input-title font-medium">Description</label>
 					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
 				</div>
 			</div>
@@ -95,13 +95,13 @@
 			<div class="col-md-7">
 				<div class="d-flex">				
 					<div class="col-md-6 p-0">
-						<label for="course_name" class="all-title-font">Starts</label>
+						<label for="course_name" class="input-title font-medium">Starts</label>
 						<div class="input-wrap">
 							<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
 						</div>
 					</div>
 					<div class="col-md-6 p-0">
-						<label for="course_name" class="all-title-font">Ends</label>
+						<label for="course_name" class="input-title font-medium">Ends</label>
 						<div>
 							<div class="tool-box">
 								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
@@ -120,7 +120,7 @@
 				</div>
 				<div class="d-flex step-wrapper">
 					<div class="col-md-6 p-0">
-						<label for="course_name" class="all-title-font">Starting Time</label>
+						<label for="course_name" class="input-title font-medium">Starting Time</label>
 						<div class="input-wrap">
 							<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.starttime" readonly (click)="durationProgress($event)" style="background: none;">
 							<div class="bg-box duration-progress">
@@ -156,7 +156,7 @@
 						</div>
 					</div>
 					<div class="col-md-6 p-0">
-						<label for="course_name" class="all-title-font">Duration</label>
+						<label for="course_name" class="input-title font-medium">Duration</label>
 						<!-- <div class="input-wrap form-group" (click)="dropDown()">
 						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="{{model.durationTimes}}" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
 						</div> -->
@@ -192,7 +192,7 @@
 					</div>
 				</div>
 				<div>
-					<label for="course_name" class="all-title-font">Teacher</label>
+					<label for="course_name" class="input-title font-medium">Teacher</label>
 				    <div class="d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
 						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
 						<div class="d-flex" *ngIf="selectedTeacher">
@@ -233,7 +233,7 @@
 					</div>
 				</div>
 				<div>
-					<label for="course_name" class="all-title-font">Assistants</label>
+					<label for="course_name" class="input-title font-medium">Assistants</label>
 					<div class="d-flex flex-column" style="position: relative;">
 						<div class="d-flex">
 							<input 
@@ -294,7 +294,7 @@
 			</div>
 			<div class="col-md-7">
 				<div>
-					<label for="location" class="all-title-font">Location</label>
+					<label for="location" class="input-title font-medium">Location</label>
 					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
 					<div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
@@ -311,7 +311,7 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
-					<label for="room" class="all-title-font">Room</label>
+					<label for="room" class="input-title font-medium">Room</label>
 					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" required #room="ngModel"> 
 					<div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!room.errors.required">
@@ -321,7 +321,7 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
-					<label for="seat" class="all-title-font">Reserved seat</label>
+					<label for="seat" class="input-title font-medium">Reserved seat</label>
 					<input type="number" class="form-control br-bshadow-none all-left-box-10" placeholder="0" id="seat" [(ngModel)]="model.reservedNumberofSeat" name="seat" (keypress)="numberOnly($event)" #seat="ngModel"> 
 					<div [hidden]="!testChar" class="alert alert-danger">
 						Only Numbers Allowed
@@ -405,24 +405,69 @@
 				</div>
 				<span class="name-label font-semi">Timetable</span>
 			</div>
-			<div class="timetable-wrapper">
+			<div class="timetable-wrapper" *ngIf="!isShowDetail">
 				<div class="d-flex timetable">
-					<div class="flex-item1">
-						<div class="item-label font-medium">Lesson</div>
-						<div class="name-label font-medium">Test</div>
+					<div class="d-flex justify-content-between flex-item1">
+						<div>
+							<div class="name-label font-medium">25 May 2018</div>
+							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+						</div>
+						<div class="arrow-wrap">
+							<img src="./assets/images/timetable-arrow@2x.png">
+						</div>
+						<div>
+							<div class="name-label font-medium">27 July 2018</div>
+							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+						</div>
 					</div>
 					<div class="flex-item2">
-						<div class="item-label font-medium">Location</div>
-						<div class="name-label font-medium">Hello</div>
+						<div class="item-label font-medium">Number of lessons</div>
+						<div class="name-label font-medium">11</div>
 					</div>
 					<div class="flex-item2">
-						<div class="item-label font-medium">Number of students</div>
-						<div class="name-label font-medium">Test</div>
+						S$<span class="font-medium">200</span>
 					</div>
 				</div>
 				<hr class="hr-line">
 				<div class="d-flex btn-wrap">
-					<div class="detailBtn font-medium">View details</div>
+					<div class="detailBtn font-medium" (click)="viewDetailTimetable()">View details</div>
+				</div>
+			</div>
+			<div *ngIf="isShowDetail" class="tabel-detail">
+				<div class="d-flex table-header">
+					<div class="table-item">
+						<div class="font-regular">
+							Number of lessons
+						</div>
+						<div class="font-medium">
+							11
+						</div>
+					</div>
+					<div class="table-item">
+						S$<span class="font-medium">200</span>
+					</div>
+				</div>
+				<div class="table-body">
+					<div *ngFor="let timetable of testTimetable">
+						<div class="time-info">
+							<div class="name-label font-semi">{{ timetable.date }}</div>
+							<div class="label-12 font-medium">{{ timetable.time }}</div>
+						</div>
+						<div class="grid-container">
+							<div *ngFor="let item of timetable.timetableArr">
+								<div class="grid-item" [ngClass]="{'skip': item.skip == true}">
+									<div *ngIf="item.skip == true" class="skip-arrow">skip</div>
+									<div>
+										<div class="font-semi">{{ item.date }}</div>
+										<div class="label-12 font-medium">{{ item.time }}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="btn-wrap table-footer">
+					<div class="detailBtn font-medium" (click)="hideDetailTimetable()">Hide details</div>
 				</div>
 			</div>
 		</div>
