@@ -78,7 +78,7 @@ export class ApgComponent implements OnInit {
 	  	// this.getAllAP();
 	  	// this.getAllTemplate();
 	  	this.getAllModule();
-	  	this.getAllAPG();
+	  	this.getAllAPG(20,0);
   	}
 
     @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -175,7 +175,7 @@ export class ApgComponent implements OnInit {
           this.toastr.success('Successfully '+ status + '.');
           this.blockUI.stop();
           this.cancelapg();
-          this.getAllAPG();
+          this.getAllAPG(20,0);
       }, err => {
           this.toastr.success(status + ' Fail.');
           this.blockUI.stop();
@@ -218,7 +218,7 @@ export class ApgComponent implements OnInit {
             this.toastr.success('Successfully APG Created.');
             console.log(res)
             this.cancelapg();
-            this.getAllAPG();
+            this.getAllAPG(20,0);
           }, err => {
             this.toastr.error('Created APG Fail');
             console.log(err)
@@ -237,7 +237,7 @@ export class ApgComponent implements OnInit {
               console.log('success update',res);
               this.toastr.success('Successfully APG Updated.');
               this.cancelapg();
-              this.getAllAPG();
+              this.getAllAPG(20,0);
               this.blockUI.stop();
           }, err => {
               this.toastr.error('Updated APG Fail');
@@ -567,10 +567,18 @@ export class ApgComponent implements OnInit {
 	        console.log(err)
 	      })
   	}
+
+    showMore(skip:any){
+      if(skip<=20){
+        skip = 0;
+      }
+      console.log("skip",skip);
+      this.getAllAPG(20,skip);
+    }
     
-  	getAllAPG(){
+  	getAllAPG(limit,skip){
       this.blockUI.start('Loading...');
-  		this._service.getAllAPG(this.regionID)
+  		this._service.getAllAPG(this.regionID,limit,skip)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
         this.apgList = res;
@@ -589,7 +597,7 @@ export class ApgComponent implements OnInit {
 
     onclickDelete(id, alertDelete){
       this.deleteId = id;
-      this.getAllAPG();
+      this.getAllAPG(20,0);
       for(var i in this.apgList){
         if(this.apgList[i]._id == id){
           this.deleteAPG = this.apgList[i].name;
@@ -608,7 +616,7 @@ export class ApgComponent implements OnInit {
           this.blockUI.stop(); // Stop blocking
         }, 300);
 	    	this.toastr.success('Successfully APG deleted.');
-	    	this.getAllAPG();
+	    	this.getAllAPG(20,0);
 	    }, err => {
 	        console.log(err)
 	    }) 

@@ -344,7 +344,7 @@ export class appService{
       }
 
     getAllUsers(id: string, type: any, limit: number, skip: number): Observable<any>{
-      console.log(id, type)
+      console.log(id, type,limit,skip)
       this.getLocalstorage();
       let url; 
       if(type == 'customer'){
@@ -1176,8 +1176,10 @@ export class appService{
       })
     }
 
-    getAllAPG(id: string){
-      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group';
+    getAllAPG(id: string,limit:number,skip:number){
+      // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
+      console.log("APG limit skip",limit,skip);
+      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
