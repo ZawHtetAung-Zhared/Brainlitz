@@ -19,7 +19,7 @@ export class CategoryComponent implements OnInit {
 	
   public item:any = {};
 	public regionID = localStorage.getItem('regionId');
-  public categoryList: any;
+  public categoryList: Array<any> = [];
   public isEditComplete:boolean = false;
   public editValue:any;
   public isCategory:boolean = false;
@@ -42,7 +42,7 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllCategories();
+    this.getAllCategories(20, 0);
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -86,7 +86,7 @@ export class CategoryComponent implements OnInit {
         console.log(res);
         this.toastr.success('Successfully Created.');
         this.blockUI.stop();
-        this.getAllCategories();
+        this.getAllCategories(20, 0);
       },err => {
         this.toastr.error('Create Fail');
         this.blockUI.stop();
@@ -156,20 +156,25 @@ export class CategoryComponent implements OnInit {
       console.log('edit', id)
       this.iseditfocus = !this.iseditfocus;
       this.editValue = ''
-      this.getAllCategories();
+      this.getAllCategories(20, 0);
     }
     this.item = {}
   }
 
-  getAllCategories(){
+  showMore(skip: any){
+    console.log('hi')
+    this.getAllCategories(20, skip)
+  }
+
+  getAllCategories(limit, skip){
     this.blockUI.start('Loading...');
-    this._service.getCategory(this.regionID)
+    this._service.getCategory(this.regionID, limit, skip)
     .subscribe((res:any) => {
       setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
       }, 300);
       console.log(res);
-      this.categoryList = res;
+      this.categoryList = this.categoryList.concat(res);
       this.isempty = (res.length === 0) ? true : false;       
     })
   }
@@ -186,7 +191,7 @@ export class CategoryComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.toastr.success('Successfully Updated.');
-      this.getAllCategories();
+      this.getAllCategories(20, 0);
       this.iseditfocus = false;
       // this.isEditComplete = false;
       this.item = {}

@@ -228,7 +228,7 @@ export class ToolsComponent implements OnInit {
 
     this.item.itemID = '';
     if(type == 'category'){
-      this._service.getCategory(this.regionID)
+      this._service.getCategory(this.regionID, 20, 0)
       .subscribe((res:any) => {
         let temp_category = res;
         this.categoryLists = res;

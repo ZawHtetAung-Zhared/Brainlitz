@@ -412,7 +412,7 @@ export class CourseplanComponent implements OnInit {
           }
         }
       }
-      this._service.getCategory(this.regionID)
+      this._service.getCategory(this.regionID, 20, 0)
       .subscribe((res:any) => {
         this.courseCategories = res;
           for(var i=0; i < this.courseCategories.length; i++){
@@ -454,7 +454,7 @@ export class CourseplanComponent implements OnInit {
 
   getAllAPG(){
     this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID)
+    this._service.getAllAPG(this.regionID, 20, 0)
     .subscribe((res:any) => {
       console.log('apgLists' ,res)
       this.apgList = res;

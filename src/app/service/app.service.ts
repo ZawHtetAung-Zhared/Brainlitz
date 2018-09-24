@@ -498,10 +498,10 @@ export class appService{
         })
     }
 
-    getCategory(regionid: string): Observable<any>{
+    getCategory(regionid: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
       console.log(regionid)
-      let url = this.baseUrl + '/' + regionid + '/category';
+      let url = this.baseUrl + '/' + regionid + '/category?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
