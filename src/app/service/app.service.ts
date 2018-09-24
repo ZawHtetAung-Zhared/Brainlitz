@@ -802,9 +802,9 @@ export class appService{
       })
     }
 
-    getAllCourse(id: string): Observable<any>{
+    getAllCourse(id: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/course';
+      let url = this.baseUrl+ '/' + id + '/course?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})

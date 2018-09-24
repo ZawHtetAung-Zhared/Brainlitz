@@ -109,7 +109,7 @@ export class QuizwerkzComponent implements OnInit {
   	this._service.getAllPdf(this.regionID, limit, skip)
 		.subscribe((res:any) => {
       this.blockUI.stop();
-      this.pdfList = res;
+      this.pdfList = this.pdfList.concat(res);
       console.log("pdflist",this.pdfList);
     }, err => {
       this.blockUI.stop();

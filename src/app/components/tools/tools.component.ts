@@ -237,7 +237,8 @@ export class ToolsComponent implements OnInit {
         console.log(err)
       })
     }else if(type == 'course'){
-      this._service.getAllCourse(this.regionID)
+      console.log('hi course')
+      this._service.getAllCourse(this.regionID, 20, 0)
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.courseLists = res;

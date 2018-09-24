@@ -1,3 +1,17 @@
+.load-more{
+    position: fixed;
+    z-index: 99;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 10px;
+}
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
 .inner-wrapper.active{
   padding-top: 90px;
 }
@@ -79,6 +93,7 @@ li button{
     -webkit-column-count:3;
     -moz-column-count:3;
     column-count:2;
+    margin-bottom: 70px;
 }
 .card-body{
   padding: 1.05rem;

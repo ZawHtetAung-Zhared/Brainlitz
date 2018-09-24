@@ -673,7 +673,7 @@ export class ApgComponent implements OnInit {
       this.blockUI.start('Loading...');
       this._service.convertApgTemplate(id, data).subscribe((res:any) => {
         console.log(apgObj)                
-        this.createapgs(apgObj, true)
+        // this.createapgs(apgObj, true)
       }, err => {
           console.log(err)
       })

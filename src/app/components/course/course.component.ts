@@ -13,7 +13,7 @@ import { DOCUMENT } from "@angular/platform-browser";
   styleUrls: ['./course.component.css']
 })
 export class CourseComponent implements OnInit {
-  courseList:any;
+  courseList: Array<any> = [];
   code:any ;
   emptyCourse:boolean = false;
   isCategory:boolean = false;
@@ -73,12 +73,12 @@ export class CourseComponent implements OnInit {
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
-      this.getCourseLists()
+      this.getCourseLists(20, 0)
     });
   }
 
   ngOnInit() {
-  	this.getCourseLists();
+  	this.getCourseLists(20, 0);
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     this.getCPlanList();
@@ -337,12 +337,18 @@ export class CourseComponent implements OnInit {
       console.log("course plan list",res)
     })
   }
-  getCourseLists(){
+
+  showMore(skip: any){
+    console.log(skip)
+    this.getCourseLists(20, skip);
+  }
+
+  getCourseLists(limit, skip){
     this.blockUI.start('Loading...'); 
-    this._service.getAllCourse(this.regionId)
+    this._service.getAllCourse(this.regionId, limit, skip)
     .subscribe((res:any) => {
       console.log('Course List',res);
-      this.courseList = res;
+      this.courseList = this.courseList.concat(res);
       if(this.courseList.length > 0 ){
         this.emptyCourse = false;
         for (var i in this.courseList) {
