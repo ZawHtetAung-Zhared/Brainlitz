@@ -56,6 +56,9 @@
 			</div>
 		</div>
 </div>
+<div *ngIf="staffLists.length >= 20 && !showFormCreate" class="d-flex justify-content-center load-more">
+	<button class="btn" (click)="showMore('staff', staffLists.length)">load more</button>
+</div>
 
 <div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
 	<button type="button" class="back-button display-flex" (click)="back()">

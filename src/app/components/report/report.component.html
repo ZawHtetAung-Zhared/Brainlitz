@@ -143,5 +143,8 @@
 	    	</div>
 		</div>
 	</div>
+	<div *ngIf="ratingLists.length >= 20 && !showDetail" class="d-flex justify-content-center load-more">
+	  <button class="btn" (click)="showMore(ratingLists.length)">load more</button>
+	</div>
 </div>
 

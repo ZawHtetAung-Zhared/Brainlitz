@@ -47,7 +47,7 @@ export class UsersComponent implements OnInit {
 	public showLoading: boolean = false;
 	@BlockUI() blockUI: NgBlockUI;
 		
-	customerLists: any;
+	customerLists: Array<any> = [];
 	userType: any;
 	permissionLists: any;
 	locationLists: any;
@@ -84,7 +84,7 @@ export class UsersComponent implements OnInit {
 
 	ngOnInit() {
 		this.blankCrop = false; 
-		this.getAllUsers('customer');
+		this.getAllUsers('customer', 20, 0);
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -178,7 +178,7 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer');
+		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {		    	
 		    	this.blockUI.stop();
 		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
@@ -207,7 +207,7 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer');
+		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();
@@ -233,11 +233,19 @@ export class UsersComponent implements OnInit {
 		
 	}
 
-	getAllUsers(type){
+	showMore(type: any, skip: any){
+		console.log(skip)
+		this.getAllUsers(type, 20, skip)
+	}
+
+	getAllUsers(type, limit, skip){
+		console.log(this.customerLists)
 		this.blockUI.start('Loading...');		
-		this._service.getAllUsers(this.regionID, type)
-		.subscribe((res:any) => {			
-			this.customerLists = res;
+		this._service.getAllUsers(this.regionID, type, limit, skip)
+		.subscribe((res:any) => {	
+			console.log(res)
+			this.customerLists = this.customerLists.concat(res);		
+			// this.customerLists = res;
 			console.log('this.customerLists', this.customerLists);			
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking

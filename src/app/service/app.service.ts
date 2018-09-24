@@ -343,12 +343,12 @@ export class appService{
         }) 
       }
 
-    getAllUsers(id: string, type: any): Observable<any>{
+    getAllUsers(id: string, type: any, limit: number, skip: number): Observable<any>{
       console.log(id, type)
       this.getLocalstorage();
       let url; 
       if(type == 'customer'){
-        url = this.baseUrl+ '/' + id + '/user?type=customer';
+        url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       }
       else if(type == 'staff'){
         url = this.baseUrl+ '/' + id + '/user?type=staff';
@@ -957,10 +957,10 @@ export class appService{
       })
     }
 
-    getAllPdf(regionId){
-      console.log(regionId)
+    getAllPdf(regionId, limit: number, skip: number){
+      console.log(skip)
       this.getLocalstorage();
-      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs';
+      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1061,8 +1061,8 @@ export class appService{
       })
     }
 
-    getRatingList(locationId: string){
-      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff';
+    getRatingList(locationId: string, limit: number, skip: number){
+      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

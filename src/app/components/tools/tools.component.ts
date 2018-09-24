@@ -254,7 +254,7 @@ export class ToolsComponent implements OnInit {
       })
     }else if(type == 'user'){
       console.log(this.userLists)
-      this._service.getAllUsers(this.regionID, 'all')
+      this._service.getAllUsers(this.regionID, 'all', 20, 0)
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.userLists = res;

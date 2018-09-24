@@ -204,7 +204,7 @@ export class CourseComponent implements OnInit {
 
   getAllUsers(type){
     this.blockUI.start('Loading...');    
-    this._service.getAllUsers(this.regionId, type)
+    this._service.getAllUsers(this.regionId, type, 20 , 0)
     .subscribe((res:any) => {      
       this.userLists = res;
       console.log('this.userLists', this.userLists);      

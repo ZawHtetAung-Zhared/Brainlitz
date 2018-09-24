@@ -1,3 +1,12 @@
+.load-more{
+    position: fixed;
+    z-index: 99;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 10px;
+}
 h3, h5 {
     font-family: 'Montserrat-Semibold', Arial,sans-serif;
     color: #2e3d4d;
