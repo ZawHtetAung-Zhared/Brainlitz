@@ -48,6 +48,7 @@ export class UsersComponent implements OnInit {
 	@BlockUI() blockUI: NgBlockUI;
 		
 	customerLists: Array<any> = [];
+	availableCourses: Array<any> = [];
 	userType: any;
 	permissionLists: any;
 	locationLists: any;
@@ -67,7 +68,7 @@ export class UsersComponent implements OnInit {
   	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
-  	public custDetail:any;
+  	public custDetail: Array<any> = [];
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public seeAll = false;
   	public wordLength:number = 0;
@@ -477,9 +478,33 @@ export class UsersComponent implements OnInit {
 	}
 
 	// enroll class
-	callEnrollModal(enrollModal){
-		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
-		this.allCourseLists();
+	callEnrollModal(enrollModal, userId){
+		console.log(userId)
+		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});		
+		this._service.getAvailabelCourse(this.regionID, userId, 20, 0)
+	    .subscribe((res:any)=>{
+	      console.log(res)
+	      this.availableCourses = res;
+	    },err =>{
+	      console.log(err);
+	    });
+	}
+
+	enrollUser(courseId){
+		console.log(this.custDetail);
+		let body = {
+		   'courseId': courseId,
+		   'userId': this.custDetail.user.userId,
+		   'userType': 'customer'
+		}
+		this._service.assignUser(this.regionID,body)
+		  	.subscribe((res:any) => {
+		     	console.log(res);
+		     	this.modalReference.close();
+		     	this.showDetails(this.custDetail.user, this.custDetail.user.userId)
+		  	}, err => {  
+		    	console.log(err);
+		  	});
 	}
 
 	allCourseLists(){

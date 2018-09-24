@@ -160,7 +160,7 @@
 				<div class="d-flex flex-column justify-content-center">
 					<h6 class="mb-0">Classes</h6>
 				</div>
-				<button (click)="callEnrollModal(classEnrollModal)" class="ml-auto enroll-btn">Enroll new class</button>
+				<button (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)" class="ml-auto enroll-btn">Enroll new class</button>
 			</div>
 			<div>
 				<div class="list-wrapper">
@@ -474,63 +474,63 @@
 	    </div>
 	    <div class="class-group">
 		    <div class="mt-20 card-columns pd-zero">
-		    	<div class="card">
+		    	<div class="card" *ngFor="let course of availableCourses; let i = index">
 		    		<div class="single-class">
 		    			<div class="class-info-head">
 	  						<h5 class="mt-03">
 	  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
-	  				      Bedok Center
+	  				      {{course.location[0].name}}
 	  				    </h5>
-	  				    <b>Course name</b>
+	  				    <b>{{course.name}}</b>
 		    			</div>
 		    			<div class="class-info-body">
 		    				<div class="class-body-one row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 			    					<div>
 			    						<h5>Course fee</h5>
-			    						<sup>$</sup><b>400</b>
+			    						<sup>$</sup><b>{{course.paymentPolicy.courseFee}}</b>
 			    					</div>
 			    					<div class="mt-16">
 			    						<h5>Prorate class fee</h5>
-			    						<sup>$</sup><b>400</b>
+			    						<sup>$</sup><b>{{course.paymentPolicy.proratedLessonFee}}</b>
 			    					</div>
 			    				</div>
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 			    					<div>
 			    						<h5>Deposit</h5>
-			    						<sup>$</sup><b>400</b>
+			    						<sup>$</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
 			    					</div>
 			    					<div class="mt-16">
 			    						<h5>Miscellaneous fee</h5>
-			    						<sup>$</sup><b>400</b>
+			    						<sup>$</sup><b>{{course.paymentPolicy.miscFee}}</b>
 			    					</div>
 			    				</div>
 			    			</div>
 			    			<div class="class-body-two row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-			    					<b>SUN & MON</b>
+			    					<b *ngFor="let day of course.repeatDays | weekDays">{{day}}</b>
 			    					<h5>11:00 AM - 12:00 AM</h5>
 			    				</div>
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">	
 			    					<div class="d-flex detail-fees">
-			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
 			    							<h5>From</h5>
-			    							<b>11</b>
+			    							<b>{{course.startDate | date}}</b>
 			    						</div>
-			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
 			    							<h5>To</h5>
-			    							<b>2</b>
+			    							<b>{{course.endDate | date}}</b>
 			    						</div>
 			    					</div>
 			    				</div>
 			    			</div>
 		    			</div>
 		    			<div class="row d-flex justify-content-center class-info-footer">
-		    				Enroll on this course
+		    				<button class="btn" (click)="enrollUser(course._id)">Enroll on this course</button>
 		    			</div>
 		    		</div>
 		    	</div>
-		    	<div class="card">
+		    	<!-- <div class="card">
 		    		<div class="single-class">
 		    			<div class="class-info-head">
 	  						<h5 class="mt-03">
@@ -625,7 +625,7 @@
 		    				Enroll on this course
 		    			</div>
 		    		</div>
-		    	</div>
+		    	</div> -->
 		    </div>
 	    </div>
   	</div>  	
