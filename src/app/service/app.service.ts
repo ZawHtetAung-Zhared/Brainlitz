@@ -384,6 +384,8 @@ export class appService{
 
 
     getUserDetail(id:string, userId:string){
+      console.log(id)
+      console.log(userId)
       let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -591,6 +593,20 @@ export class appService{
       })
     }
 
+    getAvailabelCourse(regionId:string, userId:string, limit: number, skip: number){
+      this.getLocalstorage();
+      let url = this.baseUrl+ '/' + regionId + '/available-course/' + userId + '?limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
+
     getAllCoursePlan(id: string): Observable<any>{
       this.getLocalstorage();
       console.log(id)
@@ -603,7 +619,7 @@ export class appService{
       .map((res:Response) => {
         let result = res;     
         return result;
-    }) 
+      }) 
     }
 
     createHolidays(regionid: string, data: object): Observable<any>{
