@@ -1061,8 +1061,8 @@ export class appService{
       })
     }
 
-    getRatingList(locationId: string){
-      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff';
+    getRatingList(locationId: string, limit: number, skip: number){
+      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

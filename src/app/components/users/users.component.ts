@@ -178,7 +178,7 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer', 3, 20);
+		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {		    	
 		    	this.blockUI.stop();
 		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
@@ -207,7 +207,7 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer', 3, 20);
+		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();
