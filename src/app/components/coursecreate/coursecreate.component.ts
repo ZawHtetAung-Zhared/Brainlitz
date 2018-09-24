@@ -24,14 +24,7 @@ export class CoursecreateComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
 
   hello = JSON.parse(localStorage.getItem('splan')) ;
-  // step1: boolean = false;
-  // step2: boolean = false;
-  // step3: boolean = false;
-  // step4: boolean = false;
-  // step1FormaData: any;
-  // step2FormaData: any;
-  // step3FormaData: any;
-  // step4FormaData: any;
+  public courseObj = {};
   wordLength:any;
   model:any = {};
   isChecked:any;
@@ -76,6 +69,7 @@ export class CoursecreateComponent implements OnInit {
   public selectedTeacher:any;
   public isSticky:boolean = false;
   public isShowDetail:boolean = false;
+  public save:boolean = false;
   public testConflitsArr = [
     {
       "date": "25 May 2018",
@@ -458,9 +452,10 @@ export class CoursecreateComponent implements OnInit {
     this.showFormat = hrFormat + ':' + minFormat;
     this.startFormat = hrFormat + ':' + minFormat +''+ this.isSelected;
     console.log('Start Format',this.startFormat);
-    this.model.starttime = this.startFormat; 
+    // this.model.starttime = this.startFormat;  
     this.startTime = moment(this.startFormat, "h:mm A").format("HH:mm");
     console.log('Output',this.startTime);
+    this.model.starttime = this.startTime;
     this.calculateDuration(this.startTime);
   }
 
@@ -573,7 +568,7 @@ export class CoursecreateComponent implements OnInit {
         console.log(res);
         this.isFocus = false;
         console.log(this.selectedUserLists.length)
-        this.selectedUserLists.push(res);
+        this.selectedUserLists.push(res.userId);
         console.log(this.selectedUserLists)
         console.log(this.selectedUserLists.length)
       }, err => {  
@@ -585,7 +580,8 @@ export class CoursecreateComponent implements OnInit {
       .subscribe((res:any) => {
         console.log(res);
         this.selectedTeacher = res;
-        console.log(this.selectedTeacher)
+        this.model.teacherId = this.selectedTeacher.userId;
+        console.log("selected Teacher",this.model.teacherId)
       }, err => {  
         console.log(err);
       });
@@ -601,6 +597,76 @@ export class CoursecreateComponent implements OnInit {
     }
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
+  }
+
+
+
+  saveDraft(){
+    this.save = true;
+    if(this.save == true){
+      this.createCourse();
+    }
+  }
+
+  createCourse(){
+    console.log("createCourse work",this.model);
+    this.courseObj = {
+      "coursePlanId": this.coursePlan.id,
+      "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+      "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
+      "teacherId": this.model.teacherId,
+      "assistants": JSON.stringify(this.selectedUserLists),
+      "courseCode": this.model.courseCode,
+      "locationId": this.locationId,
+      "room": this.model.room,
+      "reservedNumberofSeat": this.model.reservedNumberofSeat,
+      "name": this.model.name,
+      "lessonCount": this.model.lessonCount,
+      "repeatDays": this.selectedDay,
+      "quizwerkz": [],
+      "description": this.model.description,
+      "skipLessons": [],
+      "ignoreLessons": []
+    };
+    console.log("Course",this.courseObj);
+    this._service.createCourse(this.regionID,this.courseObj,this.save)
+    .subscribe((res:any) => {
+      console.log(res);
+      setTimeout(() => {
+        this.toastr.success('Successfully Created.');
+      }, 300); 
+      localStorage.removeItem('coursePlanId');
+      localStorage.removeItem('splan');
+      this.router.navigate(['course/']); 
+    },err => {
+        this.toastr.error('Create Fail');
+        console.log(err)
+      });
+  }
+
+  changeDateFormat(date,time){
+      if (date == null) {
+        console.log('null',date)
+        return ""
+      }else{
+        console.log("Time",time)
+        let sdate = date.year+ '-' +date.month+ '-' +date.day;
+        let dateParts = sdate.split('-');
+        console.log("dateParts",dateParts)
+        if(dateParts[1]){
+          console.log(Number(dateParts[1])-1);
+          let newParts = Number(dateParts[1])-1;
+          dateParts[1] = newParts.toString();
+        }
+        let timeParts = time.split(':');
+        if(dateParts && timeParts) {
+            // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+            // console.log("UTC",testDate)
+            let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
+            console.log("ISO",fullDate)
+            return fullDate;
+        }
+    }
   }
 
   viewDetailTimetable(){
