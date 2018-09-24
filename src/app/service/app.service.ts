@@ -957,10 +957,10 @@ export class appService{
       })
     }
 
-    getAllPdf(regionId){
-      console.log(regionId)
+    getAllPdf(regionId, limit: number, skip: number){
+      console.log(skip)
       this.getLocalstorage();
-      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs';
+      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

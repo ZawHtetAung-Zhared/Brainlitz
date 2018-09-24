@@ -477,7 +477,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllPdf(){
-    this._service.getAllPdf(this.regionID)
+    this._service.getAllPdf(this.regionID, 20, 0)
     .subscribe((res:any) => {
       console.log('pdflists',res)
       this.pdfList = res;
