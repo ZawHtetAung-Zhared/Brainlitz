@@ -1,3 +1,19 @@
+.load-more{
+  position: fixed;
+  z-index: 1;
+  width: 85%;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 10px;
+  bottom: 0;
+  right: 0;
+}
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+
 .pl-15{
 	padding-left: 15px !important;
 }
@@ -6,6 +22,7 @@
 }
 .location-group{
 	padding: 0 30px;
+  margin-bottom: 70px;
 }
 .header-wrap{
 	padding: 23px 15px 0;

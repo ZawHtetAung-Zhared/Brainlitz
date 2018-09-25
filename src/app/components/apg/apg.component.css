@@ -1,3 +1,19 @@
+.search-result-box{
+  height: 300px;
+  overflow: auto;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 16px;
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  width: 100%;
+  top: 24.5%;
+  background: #fff;
+  z-index: 9;
+}
+.single-result{
+  cursor: pointer;
+  padding: 7px 0;
+}
 .stoke-1,
 .stoke-2,
 .icon-apg,
@@ -54,7 +70,7 @@
 }
 .apg-share-content{
     margin-top: 20px;
-    padding-bottom: 80px;
+    padding-bottom: 20px;
 }
 .share-input .label-checked{
     background: #fff;
@@ -461,7 +477,9 @@
     content:" *"; 
     color: red;
 }
-
+.load-more1{
+    margin-bottom: 90px;
+}
 .load-more{
     position: fixed;
     z-index: 1;
@@ -473,6 +491,7 @@
     right: 0;
     text-align: center;
 }
+.load-more1 button,
 .load-more button{
   color: #0080ff;
   font-size: 14px;

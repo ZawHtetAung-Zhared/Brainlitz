@@ -303,7 +303,9 @@
           [(ngModel)]="formData.searchText" 
           (focus)="focusMethod($event, userType)"
           (focusout)="hideFocus($event)"
-          (input)="changeMethod($event.target.value)">
+          (input)="changeMethod($event.target.value, userType)"
+          autocomplete="off"
+          >
         <span class="input-group-append">
           <button class="bt btn-design btn-outline-secondary" type="button">
               <i class="fa fa-search search-size"></i>

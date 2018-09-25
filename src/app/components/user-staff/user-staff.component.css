@@ -83,13 +83,24 @@ h3, h5 {
 }
 
 .box-design {
-    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     padding: 15px 15px;
     min-height: 140px;
     max-height: 140px;
+    -ms-transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    transition: 0.3s all ease;
 }
 .box-design:hover{
+    -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+    -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
     cursor: pointer;
+}
+.box-design:hover .right-arrow i {
+    color: #0080ff;
 }
 .mr-box {
     margin-top: 20px;
@@ -158,6 +169,9 @@ h3, h5 {
     font-size: 26px;
     color: #d4d5d6;
     cursor: pointer;
+    -webkit-transition: 0.6s all ease-out;
+    -ms-transition: 0.6s all ease-out;
+    transition: 0.6s all ease-out;
 }
 
 .text-vertical {

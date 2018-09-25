@@ -28,7 +28,9 @@
     </div>
   </div>
 </div>
-
+<div *ngIf="locationLists.length >=20 && iscreate == false" class="d-flex justify-content-center load-more">
+  <button class="btn" (click)="showMore(locationLists.length)">load more</button>
+</div>
 
 <div class="content-wrapper" *ngIf="iscreate == true">
   <div class="back-wrap d-flex">

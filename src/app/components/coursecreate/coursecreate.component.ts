@@ -194,7 +194,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   getAllLocations(){
-    this._service.getLocations(this.regionID)
+    this._service.getLocations(this.regionID, 20, 0, false)
     .subscribe((res:any)=>{
       console.log("Locations",res);
       this.locationList = res;
@@ -670,6 +670,7 @@ export class CoursecreateComponent implements OnInit {
       };
     }
     console.log("Course",this.courseObj);
+
     this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId)
     .subscribe((res:any) => {
       console.log(res);
