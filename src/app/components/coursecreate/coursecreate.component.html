@@ -14,8 +14,8 @@
 		</div>
 		<div class="d-flex justify-content-center flex-column">
 			<div>
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid">Publish</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -191,7 +191,7 @@
 						</div>
 					</div>
 				</div>
-				<div>
+				<div class="pad-b">
 					<label for="course_name" class="input-title font-medium">Teacher</label>
 				    <div class="d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
 						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
@@ -329,76 +329,92 @@
 				</div> 
 			</div>
 		</div>
-		<!-- <hr class="hr-line">
-		<div class="col-md-12 step-wrapper">
-			<span class="number-wrap font-medium">16</span><label class="conflit-title font-medium">Conflicts</label>
-			<div class="d-flex">
-				<span class="round-number font-medium">6</span>
-				<span class="image-wrap">
-					<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743702082858825712_original.jpg">
-				</span>
-				<div class="pad-left-10">
-					<div class="label-12 font-regular">Senior Teacher</div>
-					<div class="name-label font-semi">Arron Wamsley</div>
+		<hr class="hr-line">
+		<div *ngIf="conflitArr?.length > 0">
+			<div class="col-md-12 step-wrapper" *ngFor="let conflit of conflitArr">
+				<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Conflicts</label>
+				<div class="d-flex">
+					<span class="round-number font-medium">{{ conflit.conflictWith?.length }}</span>
+					<span class="image-wrap">
+						<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743702082858825712_original.jpg">
+					</span>
+					<div class="pad-left-10">
+						<div class="label-12 font-regular">Senior Teacher</div>
+						<div class="name-label font-semi">{{ conflit.preferredName }}</div>
+					</div>
 				</div>
-			</div>
-			<div class="d-flex font-medium msg-padding">
-				<span class="round-icon">!</span>
-				<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
-			</div>
-			<div class="conflit-wrapper" *ngFor="let conflit of testConflitsArr">
-				<div class="d-flex column-wrap">
-					<div class="flex-item">
-						<div class="name-label font-medium">
-							{{ conflit.date }}
+				<div class="d-flex font-medium msg-padding">
+					<span class="round-icon">!</span>
+					<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+				</div>
+				<div class="conflit-wrapper" *ngFor="let lesson of conflit.conflictWith">
+					<div class="d-flex column-wrap">
+						<div class="flex-item">
+							<div class="name-label font-medium">
+								<!-- {{ conflit.date }} -->
+								{{ lesson.startDate }} - {{ lesson.endDate }}
+							</div>
+							<div class="label-12 font-medium">
+								time
+							</div>
 						</div>
-						<div class="label-12 font-medium">
-							{{ conflit.time }}
+						<div class="flex-item">
+							<div class="item-label font-medium">Lesson</div>
+							<div *ngIf="lesson.name" class="name-label font-medium">{{ lesson.name }}</div>
+							<div *ngIf="!lesson.name" class="name-label font-medium"> - </div>
+						</div>
+						<div class="flex-item">
+							<div class="item-label font-medium">Location</div>
+							<div *ngIf="lesson.location" class="name-label font-medium">{{ lesson.location }}</div>
+							<div *ngIf="!lesson.location" class="name-label font-medium"> - </div>
+						</div>
+						<div class="flex-item">
+							<div class="item-label font-medium">Number of students</div>
+							<div *ngIf="lesson.students" class="name-label font-medium">
+								{{ lesson.students }}
+							</div>
+							<div *ngIf="!lesson.students" class="name-label font-medium">
+								-
+							</div>
 						</div>
 					</div>
-					<div class="flex-item">
-						<div class="item-label font-medium">Lesson</div>
-						<div class="name-label font-medium">{{ conflit.lesson }}</div>
-					</div>
-					<div class="flex-item">
-						<div class="item-label font-medium">Location</div>
-						<div class="name-label font-medium">{{ conflit.location }}</div>
-					</div>
-					<div class="flex-item">
-						<div class="item-label font-medium">Number of students</div>
-						<div class="name-label font-medium">{{ conflit.studentCount }}</div>
+					<hr class="hr-line"  *ngIf="conflitArr?.length > 0">
+					<div class="d-flex  justify-content-between btn-wrap">
+						<div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex">
+							<button class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
+							Skip
+							</button>
+							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
+						</div>
+						<!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
+						<!-- hello {{conflit.staffId}} <br>
+						-- {{tempID}} -->
+						<button *ngIf="tempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
+							<div class="skipped">
+								hello Skipped
+							</div>
+						</button>
+						<!-- <button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="d-flex"> -->
+						<button *ngIf="ignoreTempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
+							<div class="skipped">
+								Ignored
+							</div>
+						</button>
+						<button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
+							Undo
+						</button>
 					</div>
 				</div>
-				<hr class="hr-line">
-				<div class="d-flex btn-wrap">
-					<div class="skip-btn font-medium">Skip</div>
-					<div class="ignore-btn font-medium">Ignore</div>
+				<div class="d-flex allbtn-wrap">
+					<button [disabled]="tempID.indexOf(conflit.staffId) != -1" class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
+					<button [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
 				</div>
-			</div>
-			<div class="d-flex allbtn-wrap">
-				<div class="skipAll font-medium">Skip all</div>
-				<div class="cancelAll font-medium">Ignore all</div>
 			</div>
 		</div>
-		<hr class="hr-line">
-		<div class="col-md-12 step-wrapper">
-			<div class="d-flex">
-				<span class="round-noconflit font-medium">0</span>
-				<span class="image-wrap">
-					<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743838881879518777_original.jpg">
-				</span>
-				<div class="pad-left-10">
-					<div class="label-12 font-regular">Teacher</div>
-					<div class="name-label">John Snow</div>
-				</div>
-			</div>
-			<div class="d-flex font-medium msg-padding">
-				<span class="d-flex justify-content-center flex-column icon-wrap"><img src="./assets/images/circle-check-green@2x.png"></span>
-				<div class="pad-left-10 noconflit-msg">No conflict on any lessons</div>
-			</div>
-		</div>
-		<hr class="hr-line">
-		<div class="col-md-12 step-wrapper">
+		<hr  class="hr-line">
+		<!-- <div class="col-md-12 step-wrapper">
 			<div class="d-flex">
 				<div id="parent">
 					<img src="./assets/images/timetable-ico.png">
@@ -470,8 +486,8 @@
 					<div class="detailBtn font-medium" (click)="hideDetailTimetable()">Hide details</div>
 				</div>
 			</div>
-		</div> -->
-		<hr class="hr-line">
+		</div>
+		<hr class="hr-line"> -->
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
@@ -480,7 +496,7 @@
 			</div>
 			<div>
 		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid">Publish</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>

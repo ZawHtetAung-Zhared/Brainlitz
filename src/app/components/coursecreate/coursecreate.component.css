@@ -692,7 +692,9 @@ header div{
 .pad-left-5{
   padding-left: 5px;
 }
-
+.pad-b{
+  padding-bottom: 20px;
+}
 .step-wrapper{
   padding-top: 25px;
   padding-bottom: 25px;
@@ -852,11 +854,16 @@ header div{
   padding: 15px;
 }
 
-.skip-btn,.ignore-btn,.skipAll,.cancelAll,.detailBtn{
+.skip-btn,.ignore-btn,.skipAll,.cancelAll,.detailBtn,.skipped,.ignored{
   cursor: pointer;
   color: #0080ff;
   font-size: 14px;
+  border: none;
+  background: none;
   /*padding: 0px 10px;*/
+}
+button:disabled {
+    cursor: not-allowed;
 }
 .skip-btn{
   border-right: 1px solid  #d4d5d6;
@@ -970,5 +977,19 @@ header div{
   line-height: 2.5;
 }
 .arrow-wrap img{
+  width: 100%;
+}
+.undo-btn{
+  background-color: #ffffff;
+  color: #64707d;
+  font-size: 12px;
+  cursor: pointer;
+}
+.tick-wrap{
+  width: 12px;
+  line-height: 1.2;
+}
+
+.tick-wrap img{
   width: 100%;
 }

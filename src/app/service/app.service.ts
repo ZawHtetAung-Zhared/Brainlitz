@@ -786,9 +786,18 @@ export class appService{
     //   })
     // }
 
-    createCourse(id: string, data: object, save: boolean): Observable<any>{
-      console.log("APP Service")
-      let url = this.baseUrl + '/' + id + '/course?draft=' + save;
+    createCourse(id: string, data: object, save: boolean,courseID:string): Observable<any>{
+      console.log("APP Service");
+      console.log(courseID);
+      if(courseID == ""){
+        console.log("tttt");
+        var url = this.baseUrl + '/' + id + '/course?draft=' + save;
+        // let url = this.baseUrl + '/' + id + '/course?courseId=' + courseID;
+        // let url = this.baseUrl + '/' + id + '/course?courseId=' + courseID;
+      }else{
+        var url = this.baseUrl + '/' + id + '/course?courseId=' + courseID + '&draft=' + save;
+      }
+      // let url = this.baseUrl + '/' + id + '/course?draft=' + save;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

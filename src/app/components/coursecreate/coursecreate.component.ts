@@ -39,6 +39,7 @@ export class CoursecreateComponent implements OnInit {
     {"day":"Fri ", "val": 5},
     {"day":"Sat", "val": 6},
   ];
+  public tempID = [];
   public selectedDay = [];
   public toggleBool:boolean = true;
   public progressSlider: boolean = false;
@@ -70,98 +71,95 @@ export class CoursecreateComponent implements OnInit {
   public isSticky:boolean = false;
   public isShowDetail:boolean = false;
   public save:boolean = false;
-  public testConflitsArr = [
-    {
-      "date": "25 May 2018",
-      "time": "10:30 AM - 11:30 AM",
-      "lesson": "Pre School Music Academia",
-      "location": "Bedok Point",
-      "studentCount": 5
-    },
-    {
-      "date": "27 May 2018",
-      "time": "10:30 AM - 11:30 AM",
-      "lesson": "Pre School Music Academia",
-      "location": "Bedok Point",
-      "studentCount": 5
-    },
-    {
-      "date": "30 May 2018",
-      "time": "10:30 AM - 11:30 AM",
-      "lesson": "Pre School Music Academia",
-      "location": "Bedok Point",
-      "studentCount": 5
-    }
-  ];
-  public testTimetable = [
-    {
-      "date": "May 2018",
-      "time": "10:30 AM - 11:30 AM",
-      "timetableArr": [
-        {
-          "date": "7 May",
-          "time": "Sunday",
-          "skip": false
-        },
-        {
-          "date": "8 May",
-          "time": "Monday",
-          "skip": false
-        },
-        {
-          "date": "14 May",
-          "time": "Sunday",
-          "skip": false
-        },
-        {
-          "date": "15 May",
-          "time": "Monday",
-          "skip": false
-        },
-        {
-          "date": "7 May",
-          "time": "Sunday",
-          "skip": false
-        },
-        {
-          "date": "8 May",
-          "time": "Monday",
-          "skip": true
-        },
-        {
-          "date": "14 May",
-          "time": "Sunday",
-          "skip": false
-        }
-      ]
-    },
-    {
-      "date": "Jun 2018",
-      "time": "10:30 AM - 11:30 AM",
-      "timetableArr": [
-        {
-          "date": "7 May",
-          "time": "Sunday",
-          "skip": false
-        },
-        {
-          "date": "8 May",
-          "time": "Monday",
-          "skip": false
-        },
-        {
-          "date": "14 May",
-          "time": "Sunday",
-          "skip": false
-        },
-        {
-          "date": "15 May",
-          "time": "Sunday",
-          "skip": true
-        }
-      ]
-    },
-  ]
+  public conflitCourseId :any = "";
+  public skipArr = [];
+  public ignoreArr = [];
+  public tempArr = [];
+  public conflitArr = [];
+  // public conflitArr = 
+  // [
+  //   {
+  //     "conflictWith": [
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-25T14:15:00.000Z",
+  //         "startDate": "2018-09-25T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296777"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-26T14:15:00.000Z",
+  //         "startDate": "2018-09-26T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296776"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-27T14:15:00.000Z",
+  //         "startDate": "2018-09-27T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296775"
+  //       }
+  //     ],
+  //     "preferredName": "Android 13",
+  //     "staffId": "5afa53d58205a72fad7ebe78"
+  //   },
+  //   {
+  //     "conflictWith": [
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-25T14:15:00.000Z",
+  //         "startDate": "2018-09-25T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296777"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-26T14:15:00.000Z",
+  //         "startDate": "2018-09-26T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296776"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-27T14:15:00.000Z",
+  //         "startDate": "2018-09-27T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296775"
+  //       }
+  //     ],
+  //     "preferredName": "HeiN",
+  //     "staffId": "5b18fd9629251d27ef24747c"
+  //   },
+  //   {
+  //     "conflictWith": [
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-25T14:15:00.000Z",
+  //         "startDate": "2018-09-25T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296777"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-26T14:15:00.000Z",
+  //         "startDate": "2018-09-26T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296776"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-27T14:15:00.000Z",
+  //         "startDate": "2018-09-27T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296775"
+  //       }
+  //     ],
+  //     "preferredName": "staff xxx01",
+  //     "staffId": "5b9261e2ddfd6b4c832618cb"
+  //   }
+  // ];
 
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -559,6 +557,7 @@ export class CoursecreateComponent implements OnInit {
         console.log(err);
       })
   }
+  selectedAssistants = [];
   selectedUserLists =[];
   chooseUser(user,type){
     if (type == 'assistant') {
@@ -568,7 +567,8 @@ export class CoursecreateComponent implements OnInit {
         console.log(res);
         this.isFocus = false;
         console.log(this.selectedUserLists.length)
-        this.selectedUserLists.push(res.userId);
+        this.selectedUserLists.push(res);
+        this.selectedAssistants.push(res.userId);
         console.log(this.selectedUserLists)
         console.log(this.selectedUserLists.length)
       }, err => {  
@@ -590,13 +590,19 @@ export class CoursecreateComponent implements OnInit {
 
   removeSelectedUser(id){
     let getIndex;
+    let nextIndex;
     for(let x in this.selectedUserLists){
       if(id == this.selectedUserLists[x].userId){
         getIndex = x;
       }
+      if(id == this.selectedAssistants[x].userId){
+        nextIndex = x;
+      }
     }
     this.selectedUserLists.splice(getIndex,1);
+    this.selectedAssistants.splice(nextIndex,1);
     console.log(this.selectedUserLists);
+    console.log(this.selectedAssistants);
   }
 
 
@@ -608,28 +614,63 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
+  publishCourse(){
+    this.save = false;
+    if(this.save == false){
+      this.createCourse();
+    }
+  }
+
   createCourse(){
     console.log("createCourse work",this.model);
-    this.courseObj = {
-      "coursePlanId": this.coursePlan.id,
-      "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
-      "teacherId": this.model.teacherId,
-      "assistants": JSON.stringify(this.selectedUserLists),
-      "courseCode": this.model.courseCode,
-      "locationId": this.locationId,
-      "room": this.model.room,
-      "reservedNumberofSeat": this.model.reservedNumberofSeat,
-      "name": this.model.name,
-      "lessonCount": this.model.lessonCount,
-      "repeatDays": this.selectedDay,
-      "quizwerkz": [],
-      "description": this.model.description,
-      "skipLessons": [],
-      "ignoreLessons": []
-    };
+    if(this.model.end){
+      console.log("KKKK")
+      this.courseObj = {
+        "coursePlanId": this.coursePlan.id,
+        "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+        "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
+        "teacherId": this.model.teacherId,
+        "assistants": JSON.stringify(this.selectedAssistants),
+        // "assistants": this.selectedUserLists.toString(),
+        "courseCode": this.model.courseCode,
+        "locationId": this.locationId,
+        "room": this.model.room,
+        "reservedNumberofSeat": this.model.reservedNumberofSeat,
+        "name": this.model.name,
+        "repeatDays": this.selectedDay,
+        "quizwerkz": [],
+        "description": this.model.description,
+        "skipLessons": JSON.stringify(this.skipArr),
+        "ignoreLessons": JSON.stringify(this.ignoreArr)
+        // "ignoreLessons": this.ignoreArr.toString(),
+        // "skipLessons": this.skipArr.toString()
+      };
+    }else{
+      console.log("GGGG")
+      this.courseObj = {
+        "coursePlanId": this.coursePlan.id,
+        "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+        "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
+        "teacherId": this.model.teacherId,
+        // "assistants": this.selectedUserLists.toString(),
+        "assistants": JSON.stringify(this.selectedAssistants),
+        "courseCode": this.model.courseCode,
+        "locationId": this.locationId,
+        "room": this.model.room,
+        "reservedNumberofSeat": this.model.reservedNumberofSeat,
+        "name": this.model.name,
+        "lessonCount": this.model.lessonCount,
+        "repeatDays": this.selectedDay,
+        "quizwerkz": [],
+        "description": this.model.description,
+        "skipLessons": JSON.stringify(this.skipArr),
+        "ignoreLessons": JSON.stringify(this.ignoreArr)
+        // "ignoreLessons": this.ignoreArr.toString(),
+        // "skipLessons": this.skipArr.toString()
+      };
+    }
     console.log("Course",this.courseObj);
-    this._service.createCourse(this.regionID,this.courseObj,this.save)
+    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId)
     .subscribe((res:any) => {
       console.log(res);
       setTimeout(() => {
@@ -639,8 +680,18 @@ export class CoursecreateComponent implements OnInit {
       localStorage.removeItem('splan');
       this.router.navigate(['course/']); 
     },err => {
-        this.toastr.error('Create Fail');
-        console.log(err)
+        console.log(err);
+        if(err.status == 409){
+          this.toastr.error(err.error.message);
+          this.conflitArr = err.error.lessons;
+          this.conflitCourseId = err.error.courseId;
+          this.tempID =[];
+          this.ignoreTempID= [];
+          this.skipArr = [];
+          this.ignoreArr = [];
+        }else{
+          this.toastr.error('Create Fail');
+        }
       });
   }
 
@@ -667,6 +718,93 @@ export class CoursecreateComponent implements OnInit {
             return fullDate;
         }
     }
+  }
+
+  skipStaff:any;
+  lessonID:any;
+  skip(id,staffid){
+    // this.tempID = staffid;
+    // this.lessonID = id;
+    // console.log(this.lessonID)
+    this.skipArr.push(id);
+    // console.log(staffid)
+    // this.skipStaff =staffid;
+    // this.skipArr.push(id);
+    // console.log("skip",this.skipArr);
+
+  }
+
+  ignore(id){
+    this.ignoreArr.push(id);
+    console.log("ignore",this.ignoreArr);
+  }
+  skipAll(item){
+    console.log(item);
+    if(this.ignoreTempID.length > 0){
+       for(var i in this.ignoreTempID){
+          if(this.ignoreTempID[i]==item.staffId){
+            var remove = Number(i);
+            console.log("Remove from ignore",i);
+            this.ignoreTempID.splice(remove,1);
+            console.log("temp",this.ignoreTempID)
+          }
+        }
+    }
+    this.tempID.push(item.staffId);
+    console.log('~~~~', this.tempID)
+    for(var key in item.conflictWith){
+      console.log("id",item.conflictWith[key]._id);
+      this.skipArr.push(item.conflictWith[key]._id);
+      // this.removeValues.push(lesson[key]._id);
+      console.log(this.skipArr);
+    }
+  }
+  ignoreTempID = [];
+  ignoreAll(item){
+    console.log(item);
+    if(this.tempID.length>0){
+       for(var i in this.tempID){
+          if(this.tempID[i]==item.staffId){
+            var remove = Number(i);
+            console.log("Remove from skip",i);
+            this.tempID.splice(remove,1);
+            console.log("temp",this.tempID)
+          }
+        }
+    }
+    this.ignoreTempID.push(item.staffId);
+    console.log('~~~~', this.ignoreTempID)
+    for(var key in item.conflictWith){
+      console.log("id",item.conflictWith[key]._id);
+      this.ignoreArr.push(item.conflictWith[key]._id);
+      // this.removeValues.push(lesson[key]._id);
+      console.log(this.ignoreArr);
+    }
+
+    
+    // for(var key in lesson){
+    //   console.log("id",lesson[key]._id);
+    //   this.ignoreArr.push(lesson[key]._id);
+    //   this.removeArr.push(lesson[key]._id);
+    //   console.log(this.ignoreArr);
+    // }
+    // if(this.ignoreArr.length > 0){
+    //   this.ignoreArr =  Array.from(new Set(this.ignoreArr));
+    //   console.log("Ignore array",this.ignoreArr)
+    // }
+
+    // if(this.removeArr.length >0){
+    //   this.skipArr = this.skipArr.filter((i) => (this.removeArr.indexOf(i) === -1));
+    //   console.log("Final Skip",this.skipArr);
+    //   this.removeArr = [];
+    // }
+  }
+
+  undo(id){
+    // var skipIdx = this.skipArr.indexOf(id);
+    // console.log('skipIdx',skipIdx);
+    // this.skipArr.splice(skipIdx,1);
+    // console.log("Splice SkipArr",this.skipArr);
   }
 
   viewDetailTimetable(){
