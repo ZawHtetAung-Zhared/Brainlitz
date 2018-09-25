@@ -146,7 +146,7 @@ export class UsersComponent implements OnInit {
 		// this.atLeastOneMail = false;		
 		let objData = new FormData();						
 		let guardianArray;		
-		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : '' ;
+		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
 		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
 		console.log(this.atLeastOneMail)
 		obj.email = (obj.email == undefined) ? [] : obj.email;
@@ -241,7 +241,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	getAllUsers(type, limit, skip){
-		console.log(this.customerLists)
+		console.log('....', this.customerLists)
 		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type, limit, skip)
 		.subscribe((res:any) => {	
@@ -253,6 +253,7 @@ export class UsersComponent implements OnInit {
 		        this.blockUI.stop(); // Stop blocking
 		    }, 300);
 	    }, err => {
+	    	this.blockUI.stop();
 	    	console.log(err);
 	    })
 	}
@@ -320,6 +321,8 @@ export class UsersComponent implements OnInit {
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
+		this.customerLists = [];
+		this.getAllUsers('customer', 20, 0);
 	}
 
 	uploadCropImg($event: any) {
@@ -461,6 +464,8 @@ export class UsersComponent implements OnInit {
 		this.selectedId =[];
 		
 		$(".frame-upload").css('display', 'none');
+		this.customerLists = [];
+		this.getAllUsers('customer', 20, 0);
 	}
 	
 	selectedId:any=[];
@@ -485,24 +490,37 @@ export class UsersComponent implements OnInit {
 	}
 
 	userSearch(searchWord, userType){
-		this._service.getSearchUser(this.regionID, searchWord, userType)
+		console.log('hi hello')
+		if(searchWord.length != 0){
+			this._service.getSearchUser(this.regionID, searchWord, userType)
         .subscribe((res:any) => {
           console.log(res);
           this.customerLists = res;
         }, err => {  
           console.log(err);
         });
+    }else if(searchWord.length == 0){
+    	console.log('zero', searchWord.length)
+    	this.customerLists = [];
+    	this.getAllUsers('customer',20,0);
+    }
 	}
 
 	changeSearch(searchWord, userId){
 		console.log(searchWord)
-		this._service.getSearchAvailableCourse(this.regionID, searchWord, userId)
+		if(searchWord.length != 0){
+			this._service.getSearchAvailableCourse(this.regionID, searchWord, userId)
 	      .subscribe((res:any) => {
 	        console.log(res);
 	        this.availableCourses = res;
 	      }, err => {  
 	        console.log(err);
 	      });
+	  }else if(searchWord.length == 0){
+    	console.log('zero', searchWord.length)
+    	this.availableCourses = [];
+    	this.getAC(20, 0, userId)
+    }
 	}
 
 	showMoreAC(skip, userId){

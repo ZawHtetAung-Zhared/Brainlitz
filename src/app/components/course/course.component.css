@@ -1,3 +1,35 @@
+.modal-close:focus{
+    outline: none;
+}
+.modal-close{
+    opacity: 1;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.closemark {
+    display:inline-block;
+    width: 30px;
+    height: 16px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+    position: absolute;
+    width: 2px;
+    height: 24px;
+    background-color: #3d5266;
+    left: 16px;
+    top: -2px;
+}
+.closemark_kick {
+    transform: rotate(90deg);
+}
+
 .load-more{
     position: fixed;
     z-index: 99;
@@ -394,6 +426,11 @@ li button{
   color: #2e3e4d;
   font-size: 18px;
 }
+.detail-fees sup{
+    font-size: 12px;
+    color: #2e3d4d;
+    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
 .detail-box {
   border-radius: 8px;
   background-color: #f2f4f5;
@@ -673,6 +710,7 @@ label.room-name::before {
 }
 .input-search-bg:focus{
   outline: none;
+  box-shadow: none;
 }
 .input-search-bg{
   padding: 10px 0 10px 12px !important;

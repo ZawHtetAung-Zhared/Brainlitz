@@ -118,21 +118,33 @@
         <div class="col-md-6 pl-zero">
           <div>
             <h5>Course fee</h5>
-            <b>{{detailLists.paymentPolicy.courseFee}}</b>
+            <div *ngIf="detailLists.paymentPolicy.courseFee != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.courseFee == null">-</b>
           </div>
           <div class="mt-32">
             <h5>Miscellaneous fee</h5>
-            <b>{{detailLists.paymentPolicy.miscFee}}</b>
+            <div *ngIf="detailLists.paymentPolicy.miscFee != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.miscFee == null">-</b>
           </div>
         </div>
         <div class="col-md-6 pl-zero">
           <div>
             <h5>Deposit</h5>
-            <b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+            <div *ngIf="detailLists.paymentPolicy.deposit.amount != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.deposit.amount == null">-</b>
           </div>
           <div class="mt-32">
             <h5>Prorate class fee</h5>
-            <b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+            <div *ngIf="detailLists.paymentPolicy.proratedLessonFee != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.proratedLessonFee == null">-</b>
           </div>
         </div>
       </div>
@@ -255,8 +267,16 @@
 </ng-template>
 
 <ng-template #userModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title">Add customer</h3>
+  <div class="d-flex modal-header">
+    <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">Add teacher</h3>
+    <h3 *ngIf="userType == 'customer'" class="modal-title d-flex mr-auto">Add customer</h3>
+    <button (click)="c('Close click')" aria-label="Close" class="modal-close ml-auto" type="button">
+      <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+      </span>
+      <!-- <span aria-hidden="true" >×</span> -->
+    </button>
   </div>
   <form novalidate #cfees="ngForm">
   <div class="modal-body confirm-text">

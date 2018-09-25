@@ -189,8 +189,10 @@
 									<p class="class-label-14 mb-0">{{ course.startDate | date }}</p>
 								</div>
 								<div class="timetable-col">
-									<label class="medium-label-14 mb-0">To</label>
+									<label *ngIf = "course.endDate" class="medium-label-14 mb-0">To</label>
+									<label *ngIf = "course.lessonCount" class="medium-label-14 mb-0"></label>
 									<p *ngIf = "course.endDate" class="class-label-14 mb-0">{{ course.endDate | date }}</p>
+									<p *ngIf = "course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
 								</div>
 							</div>
 						</div>
@@ -456,7 +458,7 @@
     	    <div class="closemark_kick"></div>
     	</span>
 	    <!-- <span aria-hidden="true" >×</span> -->
-		</button>
+	</button>
   </div>
   <form novalidate #cfees="ngForm">
   	<div class="modal-body confirm-text">
@@ -492,21 +494,21 @@
 		    			<div class="class-info-body">
 		    				<div class="class-body-one row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-			    					<div>
+			    					<div *ngIf="course.paymentPolicy.courseFee != null">
 			    						<h5>Course fee</h5>
 			    						<sup>$</sup><b>{{course.paymentPolicy.courseFee}}</b>
 			    					</div>
-			    					<div class="mt-16">
+			    					<div *ngIf="course.paymentPolicy.proratedLessonFee != null" class="mt-16">
 			    						<h5>Prorate class fee</h5>
 			    						<sup>$</sup><b>{{course.paymentPolicy.proratedLessonFee}}</b>
 			    					</div>
 			    				</div>
-			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-			    					<div>
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
+			    					<div *ngIf="course.paymentPolicy.deposit.amount != null">
 			    						<h5>Deposit</h5>
 			    						<sup>$</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
 			    					</div>
-			    					<div class="mt-16">
+			    					<div class="mt-16" *ngIf="course.paymentPolicy.miscFee != null">
 			    						<h5>Miscellaneous fee</h5>
 			    						<sup>$</sup><b>{{course.paymentPolicy.miscFee}}</b>
 			    					</div>
@@ -515,17 +517,22 @@
 			    			<div class="class-body-two row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 			    					<b *ngFor="let day of course.repeatDays | weekDays">{{day}}</b>
-			    					<h5>{{ course.duration.startDate | convertTimeFormat }} - {{ course.duration.endDate | convertTimeFormat }}</h5>
+			    					<h5>{{ course.duration.startDate | utcDate }} - {{ course.duration.endDate | utcDate }}</h5>
 			    				</div>
-			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">	
+			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">	
 			    					<div class="d-flex detail-fees">
-			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-03">
 			    							<h5>From</h5>
 			    							<b>{{course.startDate | date}}</b>
 			    						</div>
 			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
-			    							<h5>To</h5>
+			    							
+			    							<h5 *ngIf="course.endDate != null" class="mt-03">To</h5>
+			    							<h5 *ngIf="course.endDate == null" class="pt-13"></h5>
 			    							<b>{{course.endDate | date}}</b>
+			    							
+			    							<b *ngIf="course.endDate == null">{{ course.lessonCount }} Lessons</b>
+			    							
 			    						</div>
 			    					</div>
 			    				</div>

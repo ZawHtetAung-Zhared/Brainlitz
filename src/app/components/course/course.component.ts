@@ -182,7 +182,7 @@ export class CourseComponent implements OnInit {
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
     this.userType = type;
-    this.getAllUsers(type);
+    // this.getAllUsers(type);
   }
 
   withdrawUser(id){
@@ -255,7 +255,7 @@ export class CourseComponent implements OnInit {
     console.log(this.detailLists.locationId)
     console.log(searchWord)
     let locationId = this.detailLists.locationId;
-    if(searchWord != 0){
+    if(searchWord.length != 0){
         this._service.getSearchUser(this.regionId, searchWord, userType)
         .subscribe((res:any) => {
           console.log(res);
@@ -263,6 +263,9 @@ export class CourseComponent implements OnInit {
         }, err => {  
           console.log(err);
         });
+    }else if(searchWord.length == 0){
+      this.userLists = [];
+      this.getAllUsers(userType);
     }
   }
 

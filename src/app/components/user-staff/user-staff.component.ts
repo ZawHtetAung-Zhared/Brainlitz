@@ -60,14 +60,31 @@ export class UserStaffComponent implements OnInit {
   		this.getAllUsers(type, 20, skip)
   	}
 
+	userSearch(searchWord, userType){
+		if(searchWord.length != 0){
+			this._service.getSearchUser(this.regionID, searchWord, userType)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.staffLists = res;
+        }, err => {  
+          console.log(err);
+        });
+	    }else{
+	    	this.staffLists = [];
+	    	this.getAllUsers('staff',20,0);
+	    }
+	}
 
   	getAllUsers(type, limit, skip){
+  		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type, limit, skip)
 		.subscribe((res:any) => {
+			this.blockUI.stop();
 			this.staffLists = this.staffLists.concat(res);
 			// this.staffLists = res;
 			console.log('this.staffLists', this.staffLists)
 	    }, err => {
+	    	this.blockUI.stop();
 	    	console.log(err)
 	    })
 	}
@@ -157,6 +174,8 @@ export class UserStaffComponent implements OnInit {
 		this.imgDemoSlider = false;
 		this.isupdate = false;
 		$(".frame-upload").css('display', 'none');
+		this.staffLists = [];
+		this.getAllUsers('staff', 20, 0);
 	}
 
 	getAllpermission(){
