@@ -454,11 +454,7 @@ export class CourseplanComponent implements OnInit {
 
   getAllAPG(skip,limit){
     this.blockUI.start('Loading...');
-<<<<<<< HEAD
     this._service.getAllAPG(this.regionID,skip,limit)
-=======
-    this._service.getAllAPG(this.regionID, 20, 0)
->>>>>>> 983129af293a59c8a80d0d439297a09971a98023
     .subscribe((res:any) => {
       console.log('apgLists' ,res)
       this.apgList = res;
