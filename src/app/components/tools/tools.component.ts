@@ -35,7 +35,7 @@ export class ToolsComponent implements OnInit {
   public dataLists:any;
   public userCount:any;
   public notiType:any;
-  public notiLists:any;
+  public notiLists: Array<any> = [];
   public utcDate:any;
   public selectedID:any;
   public isdropdown: boolean = false;
@@ -84,12 +84,13 @@ export class ToolsComponent implements OnInit {
   clickTab(type){
     this.notiType = type;
     if(type == 'view'){
-      this.viewNoti();
+      this.notiLists = [];
+      this.viewNoti(20, 0);
       var date = new Date();
       var dFormat = this.datePipe.transform(date,"yyyy-MM-dd");
-      console.log(dFormat); //output : 2018-02-13
+      // console.log(dFormat); //output : 2018-02-13
       this.today = dFormat.replace(/-/g, "/");
-      console.log(this.today);
+      // console.log(this.today);
       var ydate = new Date(date.setDate(date.getDate() - 1));
       var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
       this.yesterday = yFormat.replace(/-/g, "/");
@@ -129,7 +130,7 @@ export class ToolsComponent implements OnInit {
     console.log(searchWord)
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
     if(type == 'user'){
-      this._service.getSearchUser(this.regionID, searchWord, this.locationId)
+      this._service.getSearchUser(this.regionID, searchWord, this.locationId, 'all')
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;
@@ -211,18 +212,27 @@ export class ToolsComponent implements OnInit {
     this.wordLength = val.length;
   }
 
-  viewNoti(){
-    console.log(this.regionID)
+  showMore(skip){
+    console.log('~~~', this.notiLists);
+    this.viewNoti(20, skip);
+  }
+
+  viewNoti(limit, skip){
+    console.log('~~~', this.notiLists);
+    // console.log(this.regionID)
     const zone = localStorage.getItem('timezone');
     const format = 'YYYY/MM/DD HH:mm:ss ZZ';
-    console.log(zone)
+    // console.log(zone)
 
     this.blockUI.start('Loading...');
-    this._service.viewNoti()
+    this._service.viewNoti(limit, skip)
     .subscribe((res:any) => {  
+      console.log('~~~', this.notiLists);
       console.log(res);
       this.blockUI.stop();
+      
       this.notiLists = res;
+      console.log(this.notiLists)
       for (var i in this.notiLists) {
         let year = this.notiLists[i].utc.year;
         let month = this.notiLists[i].utc.month - 1;
@@ -248,6 +258,7 @@ export class ToolsComponent implements OnInit {
           this.notiLists[i].senttime = onlyTime;
         }
       }
+      this.notiLists = this.notiLists.concat(this.notiLists);
       console.log('Noti List',this.notiLists);
     }, err => {
       this.blockUI.stop();

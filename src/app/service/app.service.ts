@@ -311,14 +311,14 @@ export class appService{
       })
     }
 
-    viewNoti(): Observable<any>{
+    viewNoti(limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
       const httpOptions = {
         headers: new HttpHeaders({  
           'Content-Type': 'application/json',
           'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      var url = this.baseUrl + '/noti/logs';
+      var url = this.baseUrl + '/noti/logs?limit=' + limit + '&skip=' + skip;
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
         let result = res; 
@@ -373,8 +373,8 @@ export class appService{
       }) 
     }
 
-    getSearchUser(regionID: string, val: string, location: string){
-      let apiUrl = this.baseUrl + '/' + regionID + '/user/search?keyword=' + val + '&locationId=' + location;
+    getSearchUser(regionID: string, val: string, location: string, userType){
+      let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -833,9 +833,9 @@ export class appService{
     //   })
     // }
 
-    createCourse(id: string, data: object, save: boolean): Observable<any>{
+    createCourse(id: string, data: object): Observable<any>{
       console.log("APP Service")
-      let url = this.baseUrl + '/' + id + '/course?draft=' + save;
+      let url = this.baseUrl + '/' + id + '/course';
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

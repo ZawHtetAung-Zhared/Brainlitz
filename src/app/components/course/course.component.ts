@@ -251,17 +251,19 @@ export class CourseComponent implements OnInit {
     this.formData = {}
   }
 
-  changeMethod(searchWord){
+  changeMethod(searchWord, userType){
     console.log(this.detailLists.locationId)
     console.log(searchWord)
     let locationId = this.detailLists.locationId;
-    this._service.getSearchUser(this.regionId, searchWord,locationId)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.userLists = res;
-    }, err => {  
-      console.log(err);
-    });
+    if(searchWord != 0){
+        this._service.getSearchUser(this.regionId, searchWord,locationId, userType)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.userLists = res;
+        }, err => {  
+          console.log(err);
+        });
+    }
   }
 
   removeSelectedUser(id){

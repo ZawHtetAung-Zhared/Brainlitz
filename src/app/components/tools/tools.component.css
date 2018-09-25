@@ -14,7 +14,23 @@
   cursor: pointer;
   padding: 7px 0;
 }
-
+.load-more{
+    position: fixed;
+    z-index: 9;
+    width: 85%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 10px;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+}
+.load-more1 button,
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
 
 .sub-title{
   color: #2e3e4d;
@@ -479,6 +495,7 @@ input:checked + .slider:before {
 
 .notiGroup-wrap{
 	padding-top: 25px;
+  padding-bottom: 60px; 
 }
 
 .flex-wrap{

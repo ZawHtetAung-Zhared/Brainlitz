@@ -629,7 +629,7 @@ export class CoursecreateComponent implements OnInit {
       "ignoreLessons": []
     };
     console.log("Course",this.courseObj);
-    this._service.createCourse(this.regionID,this.courseObj,this.save)
+    this._service.createCourse(this.regionID,this.courseObj)
     .subscribe((res:any) => {
       console.log(res);
       setTimeout(() => {
