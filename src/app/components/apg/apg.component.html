@@ -20,7 +20,14 @@
 		<button type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
 	</div>
 	<div class="input-group col-md-12 mt-30">
-	    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+	    <input 
+        class="form-control py-2 input-search-bg" 
+        type="search" 
+        placeholder="Search APG" 
+        id="example-search-input"
+        (input)="changeSearch($event.target.value, 'apg')"
+        autocomplete="off"
+        >
 	    <span class="input-group-append">
 	        <button class="bt btn-design btn-outline-secondary" type="button">
 	            <i class="fa fa-search search-size"></i>
@@ -47,7 +54,7 @@
 		</div>
 	</div>
 </div>
-<div *ngIf="ismodule == false && iscreate == false && isshare == false && shareAPG == false" class="load-more">
+<div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false" class="load-more">
   <button class="btn" (click)="showMore(apgList.length)">load more</button>
 </div>
 
@@ -177,7 +184,13 @@
 
   		<div *ngIf="shareAPG == true">
   			<div class="input-group w-100">
-  			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+  			    <input 
+            class="form-control py-2 input-search-bg"
+            type="search" placeholder="Search APG" 
+            id="template-search-input"
+            (input)="changeSearch($event.target.value, 'template')"
+            autocomplete="off"
+            >
   			    <span class="input-group-append">
   			        <button class="bt btn-design btn-outline-secondary" type="button">
   			            <i class="fa fa-search search-size"></i>
@@ -197,6 +210,9 @@
 		  			</label>
 		  		</div>
 		  	</div>
+        <div class="d-flex justify-content-center load-more1">
+          <button class="btn" (click)="showMoreTemplate(templateList.length)">load more</button>
+        </div>
 		  	<div class="d-flex justify-content-end apg-share-bottom">
   			  	
   			  	<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(temp)">Create</button>

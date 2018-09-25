@@ -37,7 +37,11 @@ export class ToolsComponent implements OnInit {
   public notiType:any;
   public notiLists:any;
   public utcDate:any;
+  public selectedID:any;
   public isdropdown: boolean = false;
+  public isFous: boolean = false;
+  public isFousCourse: boolean = false;
+  public isFousCategory: boolean = false;
   public wordLength : number = 0;
   public notiTypes:any = [
     {name: 'Email',type: 'email',checked: false},
@@ -62,7 +66,7 @@ export class ToolsComponent implements OnInit {
 
   ngOnInit() {
     this.locationId = localStorage.getItem('locationId');
-    this.notiType = 'calendar';
+    this.notiType = 'send';
     this.setDefaultSelected();
     this.item.sendType = 'app';
   }
@@ -99,6 +103,89 @@ export class ToolsComponent implements OnInit {
     }else{
       this.setDefaultSelected();
     }
+  }
+
+  focusSearch(e, type){
+    if(type == 'course'){
+      this.isFousCourse = true;
+      this.userLists = []
+    }else if(type == 'user'){
+      this.isFous = true;
+      this.courseLists = []
+    }else if(type == 'category'){
+      this.isFousCategory = true;
+    }
+  }
+
+  hideSearch(e){
+    setTimeout(() => {
+      this.isFous = false;
+      this.isFousCourse = false;
+      this.isFousCategory = false;
+    }, 300);
+  }
+
+  changeSearch(searchWord, type){
+    console.log(searchWord)
+    this.userCount = (searchWord.length == 0 ) ? 0 : 0;
+    if(type == 'user'){
+      this._service.getSearchUser(this.regionID, searchWord, this.locationId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.userLists = res;
+      }, err => {  
+        console.log(err);
+      });
+    }else if(type == 'course'){
+      this._service.getSearchCourse(this.regionID, searchWord, this.locationId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.courseLists = res;
+      }, err => {  
+        console.log(err);
+      });
+    }else if(type == 'category'){
+      this._service.getSearchCategory(this.regionID, searchWord, this.locationId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.categoryLists = res;
+
+      }, err => {  
+        console.log(err);
+      });
+    }
+    
+  }
+
+  selectData(id, name, type){
+    console.log(id)
+    this.selectedID = id;
+    this.item.itemID = name;
+    if(type == 'user'){
+      this.userCount = 1;
+    }else{
+      this.getUserCount(type)
+    }
+  }
+
+
+  getUserCount(type){
+    console.log(type)
+    let dataObj = {
+      "regionId": this.regionID,
+      "locationId": this.locationId,
+      "option": type
+    }
+    dataObj["id"] = this.selectedID;
+    this._service.userCount(dataObj)
+      .subscribe((res:any) => {    
+          console.log(res);
+          console.log(res.count);
+          this.userCount = res.count
+          console.log(this.userCount);
+      }, err => {
+        console.log(err)
+      })
   }
 
   focusMethod(e, status){
@@ -232,6 +319,7 @@ export class ToolsComponent implements OnInit {
       .subscribe((res:any) => {
         let temp_category = res;
         this.categoryLists = res;
+        console.log(this.categoryLists)
         this.dataLists = this.categoryLists.map(a => a.name);
       }, err => {
         console.log(err)
@@ -248,6 +336,7 @@ export class ToolsComponent implements OnInit {
             }
         }
         console.log('templist',this.tempList)
+        this.courseLists = this.tempList;
         this.dataLists = this.tempList.map(a => a.name);
         console.log("Length",this.dataLists.length)
       }, err => {
@@ -259,11 +348,11 @@ export class ToolsComponent implements OnInit {
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.userLists = res;
-        for (var i in this.userLists) {
-          this.userLists[i].preferredName = this.userLists[i].preferredName + " - (" + this.userLists[i].email + ")";
-        }
+        // for (var i in this.userLists) {
+        //   this.userLists[i].preferredName = this.userLists[i].preferredName + " - (" + this.userLists[i].email + ")";
+        // }
 
-        this.dataLists = this.userLists.map(a => a.preferredName);
+        // this.dataLists = this.userLists.map(a => a.preferredName);
         
       }, err => {
         console.log(err)
@@ -376,41 +465,42 @@ export class ToolsComponent implements OnInit {
       "message": data.message
     }
 
-    if(this.isChecked == 'category'){
-      for (var i in this.categoryLists) {
-        if (this.categoryLists[i].name == data.itemID) {
-          console.log('....', this.categoryLists[i]);
-          let temp = this.categoryLists[i];
-          dataObj["id"] = temp._id
-        }
-      }
-    }else if(this.isChecked == 'course'){
-      // for (var i in this.courseLists) {
-      //   if (this.courseLists[i].name == data.itemID) {
-      //     console.log('....', this.courseLists[i]);
-      //     let temp = this.courseLists[i];
-      //     dataObj["id"] = temp._id
-      //   }
-      // }
-      for (var i in this.tempList) {
-        if (this.tempList[i].name == data.itemID) {
-          console.log('....', this.tempList[i]);
-          let temp = this.tempList[i];
-          dataObj["id"] = temp._id
-          console.log("dataObj",dataObj["id"]);
-        }
-      }
-    }else if(this.isChecked == 'user'){
-      for (var i in this.userLists) {
-        if (this.userLists[i].preferredName == data.itemID) {
-          console.log('....', this.userLists[i]);
-          let temp = this.userLists[i];
-          dataObj["id"] = temp.userId
-        }
-      }
-    }else{
-      console.log(':)')
-    }
+    // if(this.isChecked == 'category'){
+    //   for (var i in this.categoryLists) {
+    //     if (this.categoryLists[i].name == data.itemID) {
+    //       console.log('....', this.categoryLists[i]);
+    //       let temp = this.categoryLists[i];
+    //       dataObj["id"] = temp._id
+    //     }
+    //   }
+    // }else if(this.isChecked == 'course'){
+    //   // for (var i in this.courseLists) {
+    //   //   if (this.courseLists[i].name == data.itemID) {
+    //   //     console.log('....', this.courseLists[i]);
+    //   //     let temp = this.courseLists[i];
+    //   //     dataObj["id"] = temp._id
+    //   //   }
+    //   // }
+    //   for (var i in this.tempList) {
+    //     if (this.tempList[i].name == data.itemID) {
+    //       console.log('....', this.tempList[i]);
+    //       let temp = this.tempList[i];
+    //       dataObj["id"] = temp._id
+    //       console.log("dataObj",dataObj["id"]);
+    //     }
+    //   }
+    // }else if(this.isChecked == 'user'){
+    //   for (var i in this.userLists) {
+    //     if (this.userLists[i].preferredName == data.itemID) {
+    //       console.log('....', this.userLists[i]);
+    //       let temp = this.userLists[i];
+    //       dataObj["id"] = temp.userId
+    //     }
+    //   }
+    // }else{
+    //   console.log(':)')
+    // }
+    dataObj["id"] = this.selectedID;
     console.log(dataObj)
 
 

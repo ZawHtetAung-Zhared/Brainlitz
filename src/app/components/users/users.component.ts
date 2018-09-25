@@ -68,6 +68,7 @@ export class UsersComponent implements OnInit {
   	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
+  	public isFous:boolean = false;
   	public custDetail: any;
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public seeAll = false;
@@ -205,12 +206,12 @@ export class UsersComponent implements OnInit {
 			this._service.updateUser(obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
-	  			this.toastr.success('Successfully Created.');
+	  			this.toastr.success('Successfully updated.');
 		  		this.blockUI.stop();
 		  		this.back();
 		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {
-		    	this.toastr.error('Create Fail');
+		    	this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err);
 		    })
@@ -264,13 +265,13 @@ export class UsersComponent implements OnInit {
 		})
 	}
 
-	getAllLocation(){
-		this._service.getLocations(this.regionID)
-		.subscribe((res:any) =>{
-			this.locationLists = res;
-			console.log('this.locationLists', this.locationLists);
-		})
-	}
+	// getAllLocation(){
+	// 	this._service.getLocations(this.regionID, 20, 0, false)
+	// 	.subscribe((res:any) =>{
+	// 		this.locationLists = res;
+	// 		console.log('this.locationLists', this.locationLists);
+	// 	})
+	// }
 
 	validateEmail(data){
 		
@@ -478,13 +479,34 @@ export class UsersComponent implements OnInit {
 	}
 
 	// enroll class
+
+	changeSearch(searchWord, userId){
+		console.log(searchWord)
+		this._service.getSearchAvailableCourse(this.regionID, searchWord, userId)
+	      .subscribe((res:any) => {
+	        console.log(res);
+	        this.availableCourses = res;
+	      }, err => {  
+	        console.log(err);
+	      });
+	}
+
+	showMoreAC(skip, userId){
+		console.log(skip)
+		this.getAC(20, skip, userId);
+	}
+
 	callEnrollModal(enrollModal, userId){
 		console.log(userId)
 		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});		
+		this.getAC(20, 0, userId)
+	}
+
+	getAC(limit, skip, userId){
 		this._service.getAvailabelCourse(this.regionID, userId, 20, 0)
 	    .subscribe((res:any)=>{
 	      console.log(res)
-	      this.availableCourses = res;
+	      this.availableCourses = this.availableCourses.concat(res);
 	    },err =>{
 	      console.log(err);
 	    });

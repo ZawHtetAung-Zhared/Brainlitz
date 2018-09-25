@@ -26,7 +26,8 @@ export class CourseplanComponent implements OnInit {
 
 	public showModal: boolean = false;
 	public showsubModal: boolean = true;
-	public checked: boolean = false;
+  public checked: boolean = false;
+	public isfocus: boolean = false;
 	modalReference: any;
   modalReference1: any;
 	closeResult: any;
@@ -132,7 +133,7 @@ export class CourseplanComponent implements OnInit {
       $("#step1").addClass('active');
     }, 200)
 
-    this.step1 = true;
+    this.step6 = true;
     this.getAllModule();
     this.showSearchAPG = true;
   }
@@ -451,6 +452,29 @@ export class CourseplanComponent implements OnInit {
         console.log(err)
       })
   }
+
+  focusSearch(e){
+    this.isfocus = true;
+  }
+
+  hideSearch(e){
+    // this.isfocus = false;
+  }
+
+  changeSearch(keyword){
+    console.log(keyword)
+    this.getApgSearch(keyword, 'apg');
+  }
+
+  getApgSearch(keyword, type){
+      this._service.getSearchApg(this.regionID, keyword, type, '')
+      .subscribe((res:any) => {
+        console.log(res);
+        this.apgList = res;
+      }, err => {  
+        console.log(err);
+      });
+    }
 
   getAllAPG(){
     this.blockUI.start('Loading...');

@@ -1,3 +1,21 @@
+.search-result-box{
+  height: 300px;
+  overflow: auto;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 16px;
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  width: 100%;
+  top: 24.5%;
+  background: #fff;
+  z-index: 9;
+}
+.single-result{
+  cursor: pointer;
+  padding: 7px 0;
+}
+
+
 .sub-title{
   color: #2e3e4d;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
@@ -165,6 +183,7 @@ img.setting-icon {
   color: #2e3e4d;
 }
 .notif{
+  position: relative;
   padding-bottom: 130px;
 }
 .notif .form-group{

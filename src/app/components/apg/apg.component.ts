@@ -35,8 +35,8 @@ export class ApgComponent implements OnInit {
   	public regionID = localStorage.getItem('regionId');
   	apList: any;
   	moduleList: any[] = [];
-  	templateList: any;
-  	apgList: any;
+  	templateList: Array<any> = [];
+  	apgList: Array<any> = [];
   	apArray: any[] = [];
   	@BlockUI() blockUI: NgBlockUI;
   	newAPList: any[] = [];
@@ -145,9 +145,11 @@ export class ApgComponent implements OnInit {
         this.model = {};
         this.iscreate = true;
       }else{
+        console.log('hi')
         this.sharechecked = ''
         this.shareAPG = true;
-        this.getAllTemplate();
+        this.templateList = [];
+        this.getAllTemplate(20,0);
       }
       this.isshare = false;
     }
@@ -546,11 +548,11 @@ export class ApgComponent implements OnInit {
 	      })
   	}
 
-  	getAllTemplate(){
-  		this._service.getAllTemplate(this.regionID)
+  	getAllTemplate(limit, skip){
+  		this._service.getAllTemplate(this.regionID, limit, skip)
 	    .subscribe((res:any) => {
 	    	console.log('templateLists' ,res)
-	    	this.templateList = res;
+        this.templateList = this.templateList.concat(res);
 	      }, err => {
 	        console.log(err)
 	      })
@@ -578,13 +580,47 @@ export class ApgComponent implements OnInit {
       console.log("skip",skip);
       this.getAllAPG(20,skip);
     }
+
+    showMoreTemplate(skip){
+      this.getAllTemplate(20, skip);
+    }
+
+    changeSearch(keyword, type){
+      console.log(keyword)
+      this.getApgSearch(keyword, type)
+      if(type == 'apg'){
+        if(keyword.length == 0){
+          this.apgList = [];
+          this.getAllAPG(20,0)
+        }
+      }else{
+        if(keyword.length == 0){
+          this.templateList = [];
+          this.getAllTemplate(20,0)
+        }
+      }
+    }
+
+    getApgSearch(keyword, type){
+      this._service.getSearchApg(this.regionID, keyword, type, '')
+      .subscribe((res:any) => {
+        console.log(res);
+        if(type == 'apg'){
+          this.apgList = res;
+        }else{
+          this.templateList = res;
+        }
+      }, err => {  
+        console.log(err);
+      });
+    }
     
   	getAllAPG(limit,skip){
       this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID,limit,skip)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
-        this.apgList = res;
+        this.apgList = this.apgList.concat(res);
         if(res.length == 0){
           this.emptyAPG = true;
         } else {
@@ -698,7 +734,7 @@ export class ApgComponent implements OnInit {
       this._service.updateSingleTemplate(this.regionID, data)
       .subscribe((res:any) => {
           console.log(res)
-          this.getAllTemplate();
+          this.getAllTemplate(20, 0);
           this.toastr.success('Successfully '+ status + '.');
           this.blockUI.stop();
       }, err => {

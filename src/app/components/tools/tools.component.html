@@ -108,17 +108,46 @@
 								  name="itemID"
 								  [(ngModel)]="item.itemID"
 								  #itemID="ngModel"
+								  (focus)="focusSearch($event, 'category')"
+								  (focusout)="hideSearch($event)"
+								  (input)="changeSearch($event.target.value, 'category')"
+								  autocomplete="off"
+								/>
+								<!-- <input
+								  id="typeahead-focus"
+								  type="text"
+								  class="form-control"
+								  name="itemID"
+								  [(ngModel)]="item.itemID"
+								  #itemID="ngModel"
 								  (focus)="focus$.next($event.target.value)"
 								  (click)="click$.next($event.target.value)"
 								  [ngbTypeahead]="search"
 								  #instance="ngbTypeahead"
 								  (ngModelChange)="valuechange($event, 'category')"
 								  [disabled]="categoryLists == undefined"
-								/>
+								/> -->
+							</div>
+							<div style="top: 23%;" class="search-result-box" *ngIf="isFousCategory == true">
+								<div class="single-result" (click)="selectData(category._id, category.name, 'category')" *ngFor="let category of categoryLists">
+									{{category.name}}
+								</div>
 							</div>
 							<div *ngIf="isChecked == 'course'" class="form-group">
-								<label for="typeahead-focus">Search for a course:</label>	
+								<label for="typeahead-focus">Search for a course:</label>
 								<input
+								  id="typeahead-focus"
+								  type="text"
+								  class="form-control"
+								  name="itemID"
+								  [(ngModel)]="item.itemID"
+								  #itemID="ngModel"
+								  (focus)="focusSearch($event, 'course')"
+								  (focusout)="hideSearch($event)"
+								  (input)="changeSearch($event.target.value, 'course')"
+								  autocomplete="off"
+								/>	
+								<!-- <input
 								  id="typeahead-focus"
 								  type="text"
 								  class="form-control"
@@ -131,11 +160,29 @@
 								  #instance="ngbTypeahead"
 								  (ngModelChange)="valuechange($event, 'course')"
 								  [disabled]="courseLists == undefined"
-								/>
+								/> -->
 							</div>
+							<div class="search-result-box" *ngIf="isFousCourse == true">
+								<div class="single-result" (click)="selectData(course._id, course.name, 'course')" *ngFor="let course of courseLists">
+									{{course.name}}
+								</div>
+							</div>
+
 							<div *ngIf="isChecked == 'user'" class="form-group">
 								<label for="typeahead-focus">Search for a user:</label>	
 								<input
+								  id="typeahead-focus"
+								  type="text"
+								  class="form-control"
+								  name="itemID"
+								  [(ngModel)]="item.itemID"
+								  #itemID="ngModel"
+								  (focus)="focusSearch($event, 'user')"
+								  (focusout)="hideSearch($event)"
+								  (input)="changeSearch($event.target.value, 'user')"
+								  autocomplete="off"
+								/>
+								<!-- <input
 								  id="typeahead-focus"
 								  type="text"
 								  class="form-control"
@@ -148,8 +195,15 @@
 								  #instance="ngbTypeahead"
 								  (ngModelChange)="valuechange($event, 'user')"
 								  [disabled]="userLists == undefined"
-								/>
+								/> -->
 							</div>
+							<div class="search-result-box" *ngIf="isFous == true">
+								<div class="single-result" (click)="selectData(user.userId, user.preferredName ,'user')" *ngFor="let user of userLists">
+									{{user.preferredName}}
+								</div>
+							</div>
+
+
 							<div *ngIf="isChecked != 'user' && isChecked != 'course' " class="form-group">
 								<div class="form-check active-user-form">
 								    <label class="form-check-label">

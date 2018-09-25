@@ -324,7 +324,19 @@
 						  	<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{r.type}}</div>
 						  	<hr class="hr-style">
 						</ng-template>
-						<input id="typeahead-focus" 
+						<input 
+							id="typeahead-focus"
+							type="text" 
+							placeholder="Search APG to add to this Course Plan"
+							class="form-control input-search-bg" 
+							name="searchbox" 
+							[(ngModel)]="model"
+							(focus)="focusSearch($event)"
+							(focusout)="hideSearch($event)"
+							(input)="changeSearch($event.target.value)"
+							autocomplete="off" 
+						/>
+						<!-- <input id="typeahead-focus" 
 						type="text" placeholder="Search APG to add to this Course Plan" 
 						class="form-control input-search-bg" 
 						[(ngModel)]="model" 
@@ -332,12 +344,27 @@
 						[resultTemplate]="rt" name="searchbox" 
 						(selectItem)="selectedItem($event)" 
 						[inputFormatter]="SearchBoxEmpty"
-						(ngModelChange)="valuechange($event)"/>
+						(ngModelChange)="valuechange($event)"/> -->
 					    <span class="input-group-append">
 					        <button class="bt btn-design btn-outline-secondary" type="button">
 					            <i class="fa fa-search search-size"></i>
 					        </button>
 					    </span>
+
+					    <div class="search-result-box" *ngIf="isfocus == true" style="height: 300px;
+							  overflow: auto;
+							  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+							  padding: 0 16px;
+							  border-radius: 0 0 4px 4px;
+							  position: absolute;
+							  width: 100%;
+							  top: 24.5%;
+							  background: #fff;
+							  z-index: 9;">
+					    	<div class="single-result" (click)="selectData(apg._id, apg.name)" *ngFor="let apg of apgList">
+					    		{{apg.name}}
+					    	</div>
+					    </div>
 
 					    <div *ngIf="showfixedcreate == true" class="fixedText">
 						    <div>
