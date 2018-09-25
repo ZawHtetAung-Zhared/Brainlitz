@@ -833,7 +833,7 @@ export class appService{
     //   })
     // }
 
-<<<<<<< HEAD
+
     createCourse(id: string, data: object, save: boolean,courseID:string): Observable<any>{
       console.log("APP Service");
       console.log(courseID);
@@ -845,12 +845,6 @@ export class appService{
       }else{
         var url = this.baseUrl + '/' + id + '/course?courseId=' + courseID + '&draft=' + save;
       }
-      // let url = this.baseUrl + '/' + id + '/course?draft=' + save;
-=======
-    createCourse(id: string, data: object): Observable<any>{
-      console.log("APP Service")
-      let url = this.baseUrl + '/' + id + '/course';
->>>>>>> 81f8a449ede0fbd64c52221486c24840f24f50ba
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
