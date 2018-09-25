@@ -508,11 +508,23 @@ header div{
   padding: 0px 15px;
   /*top: 55px;
   right: 15px;*/
-  top: 100px;
+  top: 0px;
   right: 10px;
   display: none;
   background: #fff;
   color: #2e3d4d !important;
+  height: 250px;
+  overflow: auto;
+}
+.carret{
+  width: 0;
+  height: 0;
+  position: absolute;
+  bottom: 100%;
+  right: 15px;
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: #fff transparent;
 }
 .location-dropdown:after {
     content: "";
@@ -533,7 +545,9 @@ header div{
   border-bottom: 1px solid #e3e4e6;
   padding: 10px 0px;
 }
-
+.dropdown-wrap{
+  position: relative;
+}
 .dropdown-wrap ul li:last-child,
 .dropdown-wrap1 ul li:last-child,
 .location-dropdown ul li,
@@ -627,6 +641,7 @@ header div{
   z-index: 9;
 }
 .search-user{
+  cursor: pointer;
   padding: 16px 0;
   border-bottom: 1px solid #e3e4e6;
 }

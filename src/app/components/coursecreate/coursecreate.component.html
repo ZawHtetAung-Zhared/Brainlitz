@@ -221,7 +221,7 @@
 								<div class="list-wrap">
 									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
 									  <div class="single-user-info d-flex flex-column justify-content-center">
-									    <h4>{{user.preferredName}}</h4>
+									    {{user.preferredName}}
 									  </div>
 									  <div class="ml-auto remover-wrap">
 									    <div class="add-user d-flex justify-content-end"></div>
@@ -256,7 +256,7 @@
 						<div class="user-list-box" *ngIf="isFocus == true">
 							<div (click)="chooseUser(user,'assistant')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
 							  <div class="single-user-info d-flex flex-column justify-content-center">
-							    <h4>{{user.preferredName}}</h4>
+							    {{user.preferredName}}
 							  </div>
 							  <div class="ml-auto remover-wrap">
 							    <div class="add-user d-flex justify-content-end"></div>
@@ -298,9 +298,10 @@
 					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
 					<div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
-					    	<input class="form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None"><span class="fa fa-angle-down down-icon"></span>
+					    	<input class="form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
 					     </div>
 					     <div class="dropdown-wrap">
+				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
 				          <ul class="location-dropdown">
 				            <li *ngFor="let item of locationList">
 				              <span (click)="chooseLocation(item)">{{item.name}}</span>
