@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'utcDate'
+  name: 'utcTime'
 })
-export class GetDatePipe implements PipeTransform {
+export class GetUtcTimePipe implements PipeTransform {
 
   transform(getDate) {
-    var time;
+    var time;    
     var utcString1 = new Date(getDate).getUTCHours();
     var utcString2 = new Date(getDate).getUTCMinutes();
     var utcString3 = new Date(getDate).getUTCSeconds();
@@ -18,13 +18,13 @@ export class GetDatePipe implements PipeTransform {
       time = 'AM'
     }
     
-    var utcDate;
+    var utcTime;
     if(utcString2 == 0){
-  	  utcDate = utcString1 + ':' + utcString2 + '0 ' + time;
+  	  utcTime = utcString1 + ':' + utcString2 + '0 ' + time;
     }else{
-      utcDate = utcString1 + ':' + utcString2 + ' ' + time;
+      utcTime = utcString1 + ':' + utcString2 + ' ' + time;
     }
     
-    return utcDate;
+    return utcTime;
   }
 }

@@ -37,11 +37,12 @@
                 <div class="date-wrap">
                   <div class="startDate-wrap">
                     <span class="medium-font">From</span>
-                    <div class="semibold">{{course.startDate | date}}</div>
+                    <div class="semibold">{{course.startDate | utcDate}}</div>
                   </div>
+                  <!-- 000000 {{course.endDate}} -->
                   <div *ngIf = "course.endDate">
                     <span class="medium-font">To</span>
-                    <div class="semibold">{{course.endDate | date}}</div>
+                    <div class="semibold">{{course.endDate | utcDate}}</div>
                   </div>
                   <div *ngIf = "course.lessonCount">
                     <span class="semibold">{{ course.lessonCount }}</span>
@@ -159,17 +160,17 @@
         <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
           {{ day }}
         </h5>
-        <p>11:00 AM - 12:00 AM</p>
+        <p>{{detailLists.startDate | utcTime}} - <span *ngIf="detailLists.endDate">{{detailLists.endDate | utcTime}}</span></p>
       </div>
       <div class="col-md-4 col-lg-4 course-date">
         <div class="d-flex detail-fees">
           <div class="col-md-6 pr-zero">
             <h5 class="mt-03">From</h5>
-            <b>{{detailLists.startDate | date}}</b>
+            <b>{{detailLists.startDate | utcDate}}</b>
           </div>
           <div class="col-md-6 pr-zero">
-            <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
-            <b>{{detailLists.endDate | date}}</b>
+            <h5 *ngIf="detailLists.endDate" class="mt-03">To</h5>
+            <b *ngIf="detailLists.endDate">{{detailLists.endDate | utcDate}}</b>
             <div *ngIf="detailLists.endDate == null" class="mt-15">
               <b>{{ detailLists.lessonCount }} Lessons</b>
             </div>

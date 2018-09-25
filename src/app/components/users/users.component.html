@@ -517,19 +517,19 @@
 			    			<div class="class-body-two row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 			    					<b *ngFor="let day of course.repeatDays | weekDays">{{day}}</b>
-			    					<h5>{{ course.duration.startDate | utcDate }} - {{ course.duration.endDate | utcDate }}</h5>
+			    					<h5>{{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}</h5>
 			    				</div>
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">	
 			    					<div class="d-flex detail-fees">
 			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-03">
 			    							<h5>From</h5>
-			    							<b>{{course.startDate | date}}</b>
+			    							<b>{{course.startDate | utcDate}}</b>
 			    						</div>
-			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
+			    						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-zero">
 			    							
 			    							<h5 *ngIf="course.endDate != null" class="mt-03">To</h5>
 			    							<h5 *ngIf="course.endDate == null" class="pt-13"></h5>
-			    							<b>{{course.endDate | date}}</b>
+			    							<b>{{course.endDate | utcDate}}</b>
 			    							
 			    							<b *ngIf="course.endDate == null">{{ course.lessonCount }} Lessons</b>
 			    							
