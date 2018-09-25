@@ -130,7 +130,7 @@ export class ToolsComponent implements OnInit {
     console.log(searchWord)
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
     if(type == 'user'){
-      this._service.getSearchUser(this.regionID, searchWord, this.locationId, 'all')
+      this._service.getSearchUser(this.regionID, searchWord, 'all')
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;

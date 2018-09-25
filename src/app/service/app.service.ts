@@ -373,7 +373,7 @@ export class appService{
       }) 
     }
 
-    getSearchUser(regionID: string, val: string, location: string, userType){
+    getSearchUser(regionID: string, val: string,userType){
       let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 

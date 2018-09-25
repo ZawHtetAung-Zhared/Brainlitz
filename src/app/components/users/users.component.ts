@@ -480,6 +480,20 @@ export class UsersComponent implements OnInit {
 
 	// enroll class
 
+	clearSearch(){
+		
+	}
+
+	userSearch(searchWord, userType){
+		this._service.getSearchUser(this.regionID, searchWord, userType)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.customerLists = res;
+        }, err => {  
+          console.log(err);
+        });
+	}
+
 	changeSearch(searchWord, userId){
 		console.log(searchWord)
 		this._service.getSearchAvailableCourse(this.regionID, searchWord, userId)

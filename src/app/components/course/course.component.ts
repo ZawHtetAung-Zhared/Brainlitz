@@ -256,7 +256,7 @@ export class CourseComponent implements OnInit {
     console.log(searchWord)
     let locationId = this.detailLists.locationId;
     if(searchWord != 0){
-        this._service.getSearchUser(this.regionId, searchWord,locationId, userType)
+        this._service.getSearchUser(this.regionId, searchWord, userType)
         .subscribe((res:any) => {
           console.log(res);
           this.userLists = res;
