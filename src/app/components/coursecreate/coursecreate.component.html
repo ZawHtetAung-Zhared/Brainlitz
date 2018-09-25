@@ -216,7 +216,7 @@
 									  [(ngModel)]="model.teacherSearch" 
 									  (focus)="focusInputMethod($event, 'staff', 'teacher')"
 									  (focusout)="hideFocus($event, 'teacher')"
-									  (input)="changeInputMethod($event.target.value)"s>
+									  (input)="changeInputMethod($event.target.value)">
 								</div>
 								<div class="list-wrap">
 									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
@@ -329,7 +329,7 @@
 				</div> 
 			</div>
 		</div>
-		<hr class="hr-line">
+		<!-- <hr class="hr-line">
 		<div class="col-md-12 step-wrapper">
 			<span class="number-wrap font-medium">16</span><label class="conflit-title font-medium">Conflicts</label>
 			<div class="d-flex">
@@ -470,7 +470,7 @@
 					<div class="detailBtn font-medium" (click)="hideDetailTimetable()">Hide details</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<hr class="hr-line">
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
@@ -479,7 +479,7 @@
 				</div>
 			</div>
 			<div>
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid">Save Draft</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid">Publish</button>
 	        </div>
         </div>

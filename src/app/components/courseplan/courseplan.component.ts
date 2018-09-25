@@ -117,7 +117,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
     this.getAllPdf();
-    this.getAllAPG();
+    this.getAllAPG(20,0);
     this.pdfId = [];
     this.formField.holidayCalendarId = 'disabledHoliday';
     this.depositModel = 'deposit';
@@ -362,7 +362,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   viewPlan(view, id){
-    this.getAllAPG();
+    this.getAllAPG(20,0);
     this.getAllHolidaysCalendar();
     this.getAllDeposit();
     this.getAllPdf();
@@ -475,10 +475,9 @@ export class CourseplanComponent implements OnInit {
         console.log(err);
       });
     }
-
-  getAllAPG(){
+  getAllAPG(skip,limit){
     this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID, 20, 0)
+    this._service.getAllAPG(this.regionID,skip,limit)
     .subscribe((res:any) => {
       console.log('apgLists' ,res)
       this.apgList = res;
@@ -513,7 +512,7 @@ export class CourseplanComponent implements OnInit {
   editcPlan(content, id){
     console.log(id)
     this.getAllPdf();
-    this.getAllAPG();
+    this.getAllAPG(20,0);
     this.responseChecked = [];
     this.pdfId = [];
     this.apgId = [];
@@ -1034,7 +1033,7 @@ export class CourseplanComponent implements OnInit {
             this.showModule = false;
             this.createAPGform = false;
             this.showfixedcreate = false;
-            this.getAllAPG();
+            this.getAllAPG(20,0);
           }, err => {
             this.toastr.error('Created APG Fail');
             console.log(err)

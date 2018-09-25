@@ -833,9 +833,9 @@ export class appService{
     //   })
     // }
 
-    createCourse(id: string, data: object): Observable<any>{
+    createCourse(id: string, data: object, save: boolean): Observable<any>{
       console.log("APP Service")
-      let url = this.baseUrl + '/' + id + '/course';
+      let url = this.baseUrl + '/' + id + '/course?draft=' + save;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
