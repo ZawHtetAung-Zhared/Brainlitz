@@ -90,14 +90,14 @@ export class CourseplanComponent implements OnInit {
   step5: boolean = false;
   step6: boolean = false;
   step7: boolean = false;
-  moduleList: any [] = [];
+  moduleList: Array<any> = [];
   showSearchAPG: boolean = true;
   createAPGform: boolean = false;
   showModule: boolean = false;
   selectedAPGlists: boolean = false;
   ischecked: any;
   model: any;
-  createdAPGstore: any [] = [];
+  createdAPGstore: Array<any> = [];
   clickedItem: any;
   selectedAPGidArray: any[] = [];
   showNewAPGbox: boolean = false;
@@ -133,7 +133,7 @@ export class CourseplanComponent implements OnInit {
       $("#step1").addClass('active');
     }, 200)
 
-    this.step6 = true;
+    this.step1 = true;
     this.getAllModule();
     this.showSearchAPG = true;
   }
@@ -455,15 +455,53 @@ export class CourseplanComponent implements OnInit {
 
   focusSearch(e){
     this.isfocus = true;
+    this.showfixedcreate = true
   }
 
   hideSearch(e){
-    // this.isfocus = false;
+    setTimeout(() => {
+      this.isfocus = false;
+      this.showfixedcreate = false;
+    }, 300);
   }
 
   changeSearch(keyword){
     console.log(keyword)
     this.getApgSearch(keyword, 'apg');
+    if(keyword == 0){
+      this.apgList = [];
+      this.getAllAPG(20, 0)
+    }
+  }
+
+  selectData(id, name){
+    console.log(id)
+    console.log(name)
+    this.singleAPG(id)
+
+    // const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
+    // if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
+    // else this.createdAPGstore.push(this.clickedItem);
+    // console.log(this.createdAPGstore)
+    // this.showfixedcreate = false;
+    // this.selectedAPGlists = true;
+    // this.showSearchAPG = true;
+    // this.showModule = false;
+    // this.createAPGform = false;
+    this.createdAPGstore.push(this.clickedItem)
+  }
+
+  singleAPG(id){
+    this.blockUI.start('Loading...');
+    this._service.getSingleAPG(this.regionID, id)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      console.log('editapg' ,res) 
+      this.clickedItem = res;    
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
   }
 
   getApgSearch(keyword, type){
@@ -474,7 +512,8 @@ export class CourseplanComponent implements OnInit {
       }, err => {  
         console.log(err);
       });
-    }
+  }
+
   getAllAPG(skip,limit){
     this.blockUI.start('Loading...');
     this._service.getAllAPG(this.regionID,skip,limit)

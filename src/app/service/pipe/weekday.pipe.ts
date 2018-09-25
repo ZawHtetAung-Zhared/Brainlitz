@@ -11,7 +11,7 @@ export class WeekDaysPipe implements PipeTransform {
     let newday:string="";
     let d:string='';
     let weekDays="SunMonTueWedThuFriSat";
-    console.log('~~~', arr)
+    // console.log('~~~', arr)
     // let weekDays = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
     for (let i = 0; i < arr.length; i++) {
       switch (arr[i]) {
