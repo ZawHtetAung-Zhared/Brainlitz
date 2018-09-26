@@ -137,6 +137,10 @@ export class CourseComponent implements OnInit {
     this.getUsersInCourse(courseId);
   }
 
+  goToConflict(courseId){
+    this.router.navigate(['/courseCreate']);
+  }
+
   getCourseDetail(id){
     this._service.getSingleCourse(id)
     .subscribe((res:any)=>{

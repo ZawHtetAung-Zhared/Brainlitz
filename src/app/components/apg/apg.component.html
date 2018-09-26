@@ -101,11 +101,11 @@
   <div class="apg-form">
   	<form novalidate #createapgForm="ngForm">
   		<div class="row" *ngIf="ismodule == true">
-	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 	  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 	  				<div class="module-img">
-            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
-            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/images/{{module.name}}-type_a.png" class="img-fluid">
+            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">
+            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png" class="img-fluid">
 	  				</div>
 	  			  	<div class="label-checked"></div>
 	  			  	<input class="form-check-input"
@@ -210,7 +210,7 @@
 		  			</label>
 		  		</div>
 		  	</div>
-        <div class="d-flex justify-content-center load-more1">
+        <div *ngIf="templateList >= 20" class="d-flex justify-content-center load-more1">
           <button class="btn" (click)="showMoreTemplate(templateList.length)">load more</button>
         </div>
 		  	<div class="d-flex justify-content-end apg-share-bottom">

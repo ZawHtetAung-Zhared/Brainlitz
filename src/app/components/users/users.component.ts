@@ -36,6 +36,7 @@ export class UsersComponent implements OnInit {
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
 	public isupdate: boolean = false;
+	public isCrop: boolean = false;
 	public returnProfile: boolean = false;
 	input: any;
 	uploadCrop: any;
@@ -199,9 +200,15 @@ export class UsersComponent implements OnInit {
 				$(".circular-profile img:last-child").attr("id", "blobUrl");
 			}
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
-			this.ulFile = this.dataURItoBlob(this.img);
+			
 			console.log(this.img);
-			objData.append('profilePic', this.ulFile);
+
+			if(this.isCrop == true){
+				this.ulFile = this.dataURItoBlob(this.img);
+				objData.append('profilePic', this.ulFile);
+			}else{
+				objData.append('profilePic', this.img);
+			}
 			this.blockUI.start('Loading...');
 			this._service.updateUser(obj.userId, objData)
 	    	.subscribe((res:any) => {
@@ -384,6 +391,7 @@ export class UsersComponent implements OnInit {
 
   	cropResult(modal) {
   		this.validProfile = true;
+  		this.isCrop = true;
 	    let self = this;
   		console.log(self.input);
 
