@@ -58,7 +58,7 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">OO {{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
                     <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
                     <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     <!-- <ul><li>0 staff</li></ul> -->
