@@ -303,16 +303,18 @@ export class CalendarComponent implements OnInit {
             // console.log('Change Start As TZ',testStart);
             // var test = moment.tz(this.calendarHolidays[i][key].end,zone).format(format) // 2018-03-22T05:30:00+05:30
             // console.log('Change End As TZ',test);
-            let startDate = start.substring(0, start.search("T"));
-            let endDate = end.substring(0, end.search("T"));
-            if(startDate === endDate){
-              this.sameDate = true;
-              this.calendarHolidays[i][key].sameDate = true;
-              console.log("~~SAME~~",startDate,endDate);
-            }else{
-              this.sameDate =false;
-              this.calendarHolidays[i][key].sameDate = false;
-              console.log("NOt Equal")
+            if(start && end){
+              let startDate = start.substring(0, start.search("T"));
+              let endDate = end.substring(0, end.search("T"));
+              if(startDate === endDate){
+                this.sameDate = true;
+                this.calendarHolidays[i][key].sameDate = true;
+                console.log("~~SAME~~",startDate,endDate);
+              }else{
+                this.sameDate =false;
+                this.calendarHolidays[i][key].sameDate = false;
+                console.log("NOt Equal")
+              }
             }
           }
         }

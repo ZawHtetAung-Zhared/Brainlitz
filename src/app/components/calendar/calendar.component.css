@@ -315,6 +315,15 @@ ul.calendar-year li:first-child{
   padding: 15px 0px;
     border-bottom: 1px solid #edeff0;
 }
+.child1,.child2{
+  width: 45%;
+}
+.child3{
+  width: 10%;
+}
+.child3 span{
+  margin-left: auto;
+}
 .font16{
   font-size: 16px;
 }
@@ -482,6 +491,7 @@ ul.calendar-year li:first-child{
 .input-name{
   outline: none;
   border: 0;
+  width: 100%;
 }
 .input-wrap{  
   padding: 15px 0px;
@@ -538,4 +548,11 @@ ul.calendar-year li:first-child{
 }
 .hide{
   color:#f2f4f5; 
+}
+.span-dash{
+  font-size: 18px;
+  color: #788796;
+  font-family: Montserrat-SemiBold;
+  line-height: 2.2;
+  padding: 0px 10px;
 }

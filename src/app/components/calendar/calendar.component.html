@@ -150,21 +150,22 @@
           </div>
         </div> -->
         <div class="d-flex justify-content-between holiday-wrap" *ngFor="let item of holidaysArr">
-          <div class="d-flex">
+          <div class="d-flex child1">
             <div>
-              <div class="font16 color-2 input-label">{{item.start}}</div>
+              <div class="font16 color-2 input-label">{{ item.start | utcDate }}</div>
               <div class="font12 color-6 input-label">TUE</div>
             </div>
+            <span class="span-dash" *ngIf="!item.sameDate">-</span>
             <div *ngIf="!item.sameDate">
-              <div class="font16 color-2 input-label">{{item.end}}</div>
+              <div class="font16 color-2 input-label">{{ item.end | utcDate }}</div>
               <div class="font12 color-6 input-label">SUN</div>
             </div>
           </div>
-          <div class="d-flex flex-column justify-content-center edit-calnedar-btn">
+          <div class="d-flex flex-column justify-content-center edit-calnedar-btn child2">
             {{item.name}}
           </div>
-          <div class="d-flex flex-column justify-content-center btn-edit" (click)="editHolidays(item._id,contentCreate)">
-            Edit
+          <div class="d-flex flex-column justify-content-center btn-edit child3" (click)="editHolidays(item._id,contentCreate)">
+            <span>Edit</span>
           </div>
         </div>
        <!--  <div *ngFor="let item of calendarHolidays | mapToIterable">

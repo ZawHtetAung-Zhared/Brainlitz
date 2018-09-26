@@ -631,7 +631,6 @@ export class CoursecreateComponent implements OnInit {
         "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
         "teacherId": this.model.teacherId,
         "assistants": JSON.stringify(this.selectedAssistants),
-        // "assistants": this.selectedUserLists.toString(),
         "courseCode": this.model.courseCode,
         "locationId": this.locationId,
         "room": this.model.room,
@@ -642,17 +641,13 @@ export class CoursecreateComponent implements OnInit {
         "description": this.model.description,
         "skipLessons": JSON.stringify(this.skipArr),
         "ignoreLessons": JSON.stringify(this.ignoreArr)
-        // "ignoreLessons": this.ignoreArr.toString(),
-        // "skipLessons": this.skipArr.toString()
       };
     }else{
       console.log("GGGG")
       this.courseObj = {
         "coursePlanId": this.coursePlan.id,
         "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-        "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
         "teacherId": this.model.teacherId,
-        // "assistants": this.selectedUserLists.toString(),
         "assistants": JSON.stringify(this.selectedAssistants),
         "courseCode": this.model.courseCode,
         "locationId": this.locationId,
