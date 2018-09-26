@@ -388,7 +388,7 @@
 					<hr class="hr-line"  *ngIf="conflitArr?.length > 0">
 					<div class="d-flex  justify-content-between btn-wrap">
 						<!-- <div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex"> -->
-						<div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex">
+						<div *ngIf="ignoreArr.indexOf(lesson._id) == -1" class="d-flex">
 							<button [ngClass]="{'disable-click': lesson._id == isSkipId}" [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
 							Skip
 							</button>
@@ -398,14 +398,14 @@
 						<!-- hello {{conflit.staffId}} <br>
 						-- {{tempID}} -->
 						<!-- <button *ngIf="tempID.indexOf(conflit.staffId) != -1" class="d-flex skipped"> -->
-						<button *ngIf="lesson._id == isSkipId" class="d-flex skipped">
+						<button *ngIf="ignoreArr.indexOf(lesson._id) < -1" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
 								hello Skipped
 							</div>
 						</button>
 						<!-- <button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="d-flex"> -->
-						<button *ngIf="ignoreTempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+						<button *ngIf="lesson._id == isIgnoreId" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
 								Ignored
