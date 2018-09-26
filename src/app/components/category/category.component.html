@@ -39,6 +39,11 @@
     <div class="row justify-content-start">
       <div class="col-md-4 category-btn">
         <form novalidate #categoryForm="ngForm">
+          <div class="d-flex justify-content-between">
+            <div class="limit-word">
+              <span>{{wordLength}}/60characters</span>
+            </div>
+          </div>
           <input 
             type="text" 
             [ngClass]="{'onfocus': isfocus == true}"
@@ -48,8 +53,11 @@
             [(ngModel)]="item.name" 
             required 
             #name="ngModel"
-            (focus)="focusFunction('create')" 
+            (focus)="focusFunction('create','', $event.target.value )" 
+            (blur)="blurMethod($event, 'create')"
+            (input)="changeMethod($event.target.value)"
             *ngIf="isEditComplete == false"
+            maxlength="60"
             >
             <input 
             type="text" 
@@ -85,13 +93,18 @@
                 <input class="form-check-input"
                     type="radio" 
                     name="inlineRadioOptions" 
-                    id="category._id" 
+                    id="category._id"                                         
                     (click)="somethingChanged(category._id, category.name)"
                     value="{{category.name}}"> {{category.name}}
             </div>
           </label>
         </div>
-        <div *ngIf="isEditComplete == true" class="editcategory-item">          
+        <div *ngIf="isEditComplete == true" class="editcategory-item">
+          <div class="d-flex justify-content-between">
+            <div class="limit-word limit-{{category._id}}">
+              <span>{{wordLength}}/60characters</span>
+            </div>
+          </div>          
           <input
             type="text" 
             id="category._id"
@@ -101,7 +114,10 @@
             [(ngModel)]="category.name" 
             required 
             #name="ngModel"
-            (focus)="focusFunction('edit',category._id)">
+            (focus)="focusFunction('edit',category._id, $event.target.value)"
+            (blur)="blurMethod($event, 'create')"
+            (input)="changeMethod($event.target.value)"
+            maxlength="60">
           <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == category._id}"> 
             <button type="submit" class="btn" (click)="close('edit', category._id)">
               <span class="closemark">
@@ -119,6 +135,10 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="categoryList.length >= 20" class="d-flex justify-content-center load-more">
+    <button class="btn" (click)="showMore(categoryList.length)">load more</button>
   </div>
   <block-ui message="Deafult Message"></block-ui>
 </div>

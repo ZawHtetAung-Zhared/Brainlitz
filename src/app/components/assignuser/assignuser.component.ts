@@ -104,7 +104,7 @@ export class AssignuserComponent implements OnInit {
 
   getUsers(type){
     this.blockUIList.start('Loading...');
-  	this._service.getAllUsers(this.regionid, type)
+  	this._service.getAllUsers(this.regionid, type, 20, 0)
   	.subscribe((res:any) => {
   		console.log("userList",res);
   		this.userList = res;
@@ -202,7 +202,7 @@ export class AssignuserComponent implements OnInit {
        'courseId': this.selectedCourse.courseid,
        'userId': userid
      }
-    this._service.withdrawAssignUser(this.regionid,userobj)
+    this._service.withdrawAssignUser(this.regionid,userobj,'')
     .subscribe((res:any) => {
       this.modalReference.close();
       console.log(res);

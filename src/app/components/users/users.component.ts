@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
 
 	@ViewChild('stuffPic') stuffPic: ElementRef;		
 	public img: any;
+	public ulFile: any;
 	public defaultSlice: number = 2;
 	public orgID = environment.orgID;
 	public regionID = localStorage.getItem('regionId');		
@@ -45,8 +46,9 @@ export class UsersComponent implements OnInit {
 	
 	public showLoading: boolean = false;
 	@BlockUI() blockUI: NgBlockUI;
-	
-	customerLists: any;
+		
+	customerLists: Array<any> = [];
+	availableCourses: Array<any> = [];
 	userType: any;
 	permissionLists: any;
 	locationLists: any;
@@ -56,6 +58,7 @@ export class UsersComponent implements OnInit {
 	notShowEdit: boolean = true;
 	permissionId: any[] = [];
 	editId: any;
+	public personalMail: boolean = false;
 	public updateButton: boolean = false;
   	public createButton: boolean = true;
   	showFormCreate: boolean = false;
@@ -65,11 +68,16 @@ export class UsersComponent implements OnInit {
   	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
-  	public custDetail:any;
+  	public isFous:boolean = false;
+  	public custDetail: any;
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public seeAll = false;
   	public wordLength:number = 0;
   	divHeight:any;
+
+  	// enroll class
+  	searchData: any={};
+  	public courseLists: any={};
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -78,7 +86,7 @@ export class UsersComponent implements OnInit {
 
 	ngOnInit() {
 		this.blankCrop = false; 
-		this.getAllUsers('customer');
+		this.getAllUsers('customer', 20, 0);
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -138,10 +146,10 @@ export class UsersComponent implements OnInit {
 		// this.atLeastOneMail = false;		
 		let objData = new FormData();						
 		let guardianArray;		
-		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : '' ;
+		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
 		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
 		console.log(this.atLeastOneMail)
-		obj.email = (obj.email == undefined) ? '' : obj.email;
+		obj.email = (obj.email == undefined) ? [] : obj.email;
 
 		objData.append('regionId', this.regionID);
 		objData.append('orgId', this.orgID);
@@ -157,9 +165,13 @@ export class UsersComponent implements OnInit {
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
+			this.ulFile = this.dataURItoBlob(this.img);
+			console.log(this.ulFile)
+
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
-			objData.append('profilePic', this.img);
+			objData.append('profilePic', this.ulFile);
+			console.log('profilePic', this.ulFile);
 			console.log('create');
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
@@ -168,7 +180,7 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer');
+		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {		    	
 		    	this.blockUI.stop();
 		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
@@ -183,18 +195,23 @@ export class UsersComponent implements OnInit {
 			console.log('update');
 			let getImg = document.getElementsByClassName("circular-profile");
 			console.log(getImg)
+			if(getImg != undefined){
+				$(".circular-profile img:last-child").attr("id", "blobUrl");
+			}
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
+			this.ulFile = this.dataURItoBlob(this.img);
 			console.log(this.img);
-			objData.append('profilePic', this.img);
+			objData.append('profilePic', this.ulFile);
+			this.blockUI.start('Loading...');
 			this._service.updateUser(obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
-	  			this.toastr.success('Successfully Created.');
+	  			this.toastr.success('Successfully updated.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer');
+		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {
-		    	this.toastr.error('Create Fail');
+		    	this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err);
 		    })
@@ -218,16 +235,25 @@ export class UsersComponent implements OnInit {
 		
 	}
 
-	getAllUsers(type){
+	showMore(type: any, skip: any){
+		console.log(skip)
+		this.getAllUsers(type, 20, skip)
+	}
+
+	getAllUsers(type, limit, skip){
+		console.log('....', this.customerLists)
 		this.blockUI.start('Loading...');		
-		this._service.getAllUsers(this.regionID, type)
-		.subscribe((res:any) => {			
-			this.customerLists = res;
+		this._service.getAllUsers(this.regionID, type, limit, skip)
+		.subscribe((res:any) => {	
+			console.log(res)
+			this.customerLists = this.customerLists.concat(res);		
+			// this.customerLists = res;
 			console.log('this.customerLists', this.customerLists);			
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		    }, 300);
 	    }, err => {
+	    	this.blockUI.stop();
 	    	console.log(err);
 	    })
 	}
@@ -240,24 +266,27 @@ export class UsersComponent implements OnInit {
 		})
 	}
 
-	getAllLocation(){
-		this._service.getLocations(this.regionID)
-		.subscribe((res:any) =>{
-			this.locationLists = res;
-			console.log('this.locationLists', this.locationLists);
-		})
-	}
+	// getAllLocation(){
+	// 	this._service.getLocations(this.regionID, 20, 0, false)
+	// 	.subscribe((res:any) =>{
+	// 		this.locationLists = res;
+	// 		console.log('this.locationLists', this.locationLists);
+	// 	})
+	// }
 
 	validateEmail(data){
+		
 		console.log(data);
 		// this.atLeastOneMail = false;		
 		this.emailAlert = ( !this.isValidateEmail(data)) ? true : false;
+		this.personalMail = ( this.isValidateEmail(data)) ? true : false;
+		console.log(this.personalMail)
 		this.atLeastOneMail = (this.emailAlert != true && data.length > 0) ? true : false;
 		console.log('~~~ ', this.atLeastOneMail)
 		
 	}
 
-	validateGuarmail(gData){
+	validateGuarmail(gData){		
 		console.log(gData);
 		// this.atLeastOneMail = false;	
 		this.guardianAlert = (!this.isValidateEmail(gData)) ? true: false;
@@ -292,6 +321,8 @@ export class UsersComponent implements OnInit {
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
+		this.customerLists = [];
+		this.getAllUsers('customer', 20, 0);
 	}
 
 	uploadCropImg($event: any) {
@@ -319,25 +350,34 @@ export class UsersComponent implements OnInit {
 			        },
 		          	enableExif: true
 	        	});
-		      	var cropper = this.uploadCrop;
-		      	var $uploadCrop = this.uploadCrop;
-		      	var BlobUrl = this.dataURItoBlob;
+		     //  	var cropper = this.uploadCrop;
+		     //  	var $uploadCrop = this.uploadCrop;
+		     //  	var BlobUrl = this.dataURItoBlob;
 
-		      	console.log($uploadCrop)
-		      	reader.onload = function(e: any) {
-		        $uploadCrop.bind({
-		            url: e.target.result
-		          })
-		          .then(function(e: any) {
-		          		console.log(cropper.data.url)
-						const blob = BlobUrl(cropper.data.url);
-        				const blobUrl = URL.createObjectURL(blob);
-        				console.log(blobUrl)
-        				$uploadCrop.bind({
-        					url: blobUrl
-        				})
-		          });
-		    };
+		     //  	console.log($uploadCrop)
+		     //  	reader.onload = function(e: any) {
+		     //    $uploadCrop.bind({
+	      //       url: e.target.result
+	      //     })
+	      //     .then(function(e: any) {
+	      //     	console.log(cropper.data.url)
+							// const blob = BlobUrl(cropper.data.url);
+      	// 			const blobUrl = URL.createObjectURL(blob);
+      	// 			console.log(blobUrl)
+      	// 			$uploadCrop.bind({
+      	// 				url: blobUrl
+      	// 			})
+	      //     });
+
+	      var $uploadCrop = this.uploadCrop;
+          console.log('$uploadCrop', $uploadCrop)
+          reader.onload = function (e: any) {
+              $('.upload-demo').addClass('ready');
+              $uploadCrop.bind({
+                  url: e.target.result
+              }).then(function(e:any){
+              })
+          }
 	    	reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
@@ -367,14 +407,14 @@ export class UsersComponent implements OnInit {
 			quality:1 
 	      })
 	      .then(function(resp: any) {
-	      	console.log(resp)
-	      	const blob = BlobUrl(resp);
-			const blobUrl = URL.createObjectURL(blob);
-			console.log(blobUrl)
-	        if (blobUrl) {
+	    //   	console.log(resp)
+	    //   	const blob = BlobUrl(resp);
+					// const blobUrl = URL.createObjectURL(blob);
+					// console.log(blobUrl)
+	        if (resp) {
 	        	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
@@ -424,6 +464,8 @@ export class UsersComponent implements OnInit {
 		this.selectedId =[];
 		
 		$(".frame-upload").css('display', 'none');
+		this.customerLists = [];
+		this.getAllUsers('customer', 20, 0);
 	}
 	
 	selectedId:any=[];
@@ -439,6 +481,94 @@ export class UsersComponent implements OnInit {
 			this.divHeight = $( ".firstCol" ).height();
 			console.log("divHeight",this.divHeight);
 			// $(".journals-wrapper").css("height", this.divHeight + "px");
+	}
+
+	// enroll class
+
+	clearSearch(){
+		
+	}
+
+	userSearch(searchWord, userType){
+		console.log('hi hello')
+		if(searchWord.length != 0){
+			this._service.getSearchUser(this.regionID, searchWord, userType)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.customerLists = res;
+        }, err => {  
+          console.log(err);
+        });
+    }else if(searchWord.length == 0){
+    	console.log('zero', searchWord.length)
+    	this.customerLists = [];
+    	this.getAllUsers('customer',20,0);
+    }
+	}
+
+	changeSearch(searchWord, userId){
+		console.log(searchWord)
+		if(searchWord.length != 0){
+			this._service.getSearchAvailableCourse(this.regionID, searchWord, userId)
+	      .subscribe((res:any) => {
+	        console.log(res);
+	        this.availableCourses = res;
+	      }, err => {  
+	        console.log(err);
+	      });
+	  }else if(searchWord.length == 0){
+    	console.log('zero', searchWord.length)
+    	this.availableCourses = [];
+    	this.getAC(20, 0, userId)
+    }
+	}
+
+	showMoreAC(skip, userId){
+		console.log(skip)
+		this.getAC(20, skip, userId);
+	}
+
+	callEnrollModal(enrollModal, userId){
+		console.log(userId)
+		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});		
+		this.getAC(20, 0, userId)
+	}
+
+	getAC(limit, skip, userId){
+		this._service.getAvailabelCourse(this.regionID, userId, 20, 0)
+	    .subscribe((res:any)=>{
+	      console.log(res)
+	      this.availableCourses = this.availableCourses.concat(res);
+	    },err =>{
+	      console.log(err);
+	    });
+	}
+
+	enrollUser(courseId){
+		console.log(this.custDetail);
+		let body = {
+		   'courseId': courseId,
+		   'userId': this.custDetail.user.userId,
+		   'userType': 'customer'
+		}
+		this._service.assignUser(this.regionID,body)
+		  	.subscribe((res:any) => {
+		     	console.log(res);
+		     	this.modalReference.close();
+		     	this.showDetails(this.custDetail.user, this.custDetail.user.userId)
+		  	}, err => {  
+		    	console.log(err);
+		  	});
+	}
+
+	allCourseLists(){
+		this._service.getAllCourse(this.regionID, 20, 0)
+	    .subscribe((res:any)=>{
+	    	this.courseLists = res;
+	      console.log(res)
+	    },err =>{
+	      console.log(err);
+	    });
 	}
 
 }

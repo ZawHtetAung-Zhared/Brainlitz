@@ -28,11 +28,17 @@
     </div>
   </div>
 </div>
-
+<div *ngIf="locationLists.length >=20 && iscreate == false" class="d-flex justify-content-center load-more">
+  <button class="btn" (click)="showMore(locationLists.length)">load more</button>
+</div>
 
 <div class="content-wrapper" *ngIf="iscreate == true">
-  <div class="back-wrap">
-    <a class="back-to" (click)="iscreate = false">< Location</a>
+  <div class="back-wrap d-flex">
+    <div class="back-to" (click)="iscreate = false">
+      <i class="fa fa-angle-left"></i>
+      <p>Location</p>
+    </div>
+    <!-- <a class="back-to" (click)="iscreate = false">< Location</a> -->
   </div>
   <div class="location-group">
     <h3 class="location-h3">Create Location</h3>
@@ -108,7 +114,7 @@
       
       <!-- !locationform - {{!locationForm.valid}} <br> -->
       <!-- isvalid == false - {{isvalid == false}} <br> -->
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end form-footer">
         <button type="button" class="btn btn-cancel" (click)="back()">Cancel</button>
         <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid || isvalid == false">Create</button>
         <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!locationForm.valid || isvalid == false" (click)="createLocation(model, true, currentID)">Update</button>

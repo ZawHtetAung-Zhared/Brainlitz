@@ -1,228 +1,504 @@
-<div class="inner-wrapper">
-	<div *ngIf="!showCourse">
-		<!-- <div *ngIf="noPlan" class="center">
-			<h3>There is no course plan</h3>
-		</div> -->
-		<h3 *ngIf="noPlan">There is no course plan</h3>
-		<div class="list-wrap" *ngIf="!noPlan">
-			<div class="form-group">
-				<h4 class="mb-30">Choose Course Plan</h4>
-			</div>
-			<div class="form-group">
-				<ul class="item-list" style="padding-left: 0;">
-				     <li *ngFor="let plan of coursePlan">
-						<label class="radio-container">
-						  {{plan.name}}
-						  <input type="radio" id="{{plan._id}}" [(ngModel)]="choosePlan" name="cplan" [value]="plan">
-						  <span class="checkmark"></span>
-						</label>
-				     </li>
-				</ul>
-			</div>
-			<block-ui message="Deafult Message">
-			</block-ui>
-			<div class="form-group btn-wrap">
-				<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-			    <button type="button" class="btn btn-primary" (click)="selectCoursePlan(choosePlan)" [disabled]="!choosePlan">Select</button>
+<div id="navbar">
+	<div class="d-flex justify-content-between">
+		<div class="d-flex justify-content-center flex-column">
+			<div class="d-flex back" (click)="backToCourses()">
+				<i class="fa fa-angle-left"></i>
+			    <p class="mb-0 font-medium">Courses</p>
 			</div>
 		</div>
-	</div>
-
-	<div class="form-container container h-100" *ngIf="showCourse">
-		<div *blockUI="'contact-list'">
-			<div>
-				<button *ngIf="!isEdit" class="btn btn-info" (click)="back()">Back</button>
+		<div>
+			<div><h5 class="mb-0 nav-title font-semi text-center">Create course</h5></div>
+			<div class="d-flex flex-row courseInfo font-medium">
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>	
 			</div>
-			<form #heroForm="ngForm">
-				<div class="form-head">
-					<div class="label-input">
-						<h4>Create Course</h4>
-					</div>
-					<div class="form-input"> 
-						<label class="label-location">Choose Location</label>
-						<select class="form-control" id="user"
-				        [(ngModel)]="model.locationId" name="location" #location="ngModel" required>
-				          <option value="" disabled="true">Select Location</option>
-				          <option [disabled]="isEdit" *ngFor="let location of locationList" [value]="location._id">{{location.name}}</option>
-				        </select>
-					</div>
+		</div>
+		<div class="d-flex justify-content-center flex-column">
+			<div>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
+	        </div>
+		</div>
+	</div>
+</div>
+<div class="create-container">
+	<div class="header-wrapper">
+		<header>
+			<div class="d-flex justify-content-between">
+				<div class="d-flex back" (click)="backToCourses()">
+					<i class="fa fa-angle-left"></i>
+				    <p class="mb-0 font-medium ">Courses</p>
 				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Course Plan</label>
-					<span>{{model.coursePlanName}}</span>
-					<span style="margin-left: 20px;">({{coursePlanId}})</span>
+				<!-- <div class="d-flex flex-row courseInfo font-medium">
+					<p class="mb-0">#{{ coursePlan.name }}</p><span class="sticky-dot">&#183;</span>		
+					<h5 class="mb-0">Course</h5>
+				</div> -->
+				<div class="font-medium">
+					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
 				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Course Name</label>
-					<div class="new-input">
-						<input type="text" class="form-control" id="courseName" required [(ngModel)]="model.name" name="courseName" #courseName="ngModel">
-						<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)"
-						class="alert alert-danger">
-							<div *ngIf="courseName.errors.required">
-								Course Name is required.
+			</div>
+		</header>
+	</div>
+	<form #courseForm="ngForm" novalidate>
+		<div class="info-wrap">
+			<h3 class="font-semi">Create Course</h3>
+			<div class="d-flex courseInfo font-medium">
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>
+			</div>
+		</div>
+		<div class="d-flex step-wrapper">
+			<div class="col-md-5">
+				<label class="all-title-font">Course Information</label>
+				<p class="info-p font-medium">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
+				</p>
+			</div>
+			<div class="col-md-7">
+				<div>
+					<div class="d-flex justify-content-between">
+						<label for="course_name" class="input-title font-medium">Course name</label>
+						<div class="limit-wordcount">
+							<span>{{wordLength}}/60characters</span>
+						</div>
+					</div>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+					<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
+				        <div [hidden]="!courseName.errors.required">
+				          Course name is required!
+				        </div>
+				    </div>
+				    <hr class="limit-hr-length">
+				</div>
+				<div>
+					<label for="seat" class="input-title font-medium">Course Code</label>
+					<input type="text" placeholder="Type relevant course code here" class="form-control br-bshadow-none all-left-box-10" id="courseCode" name="courseCode" [(ngModel)]="model.courseCode" required #code="ngModel"> 
+					<div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger alert-m-right">
+				        <div [hidden]="!code.errors.required">
+				          Course code is required!
+				        </div>
+				    </div>
+					<hr class="limit-hr-length">
+				</div> 
+				<div>
+					<label for="desc" class="input-title font-medium">Description</label>
+					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
+				</div>
+			</div>
+		</div>
+		<hr class="hr-line">
+		<div class="d-flex step-wrapper">
+			<div class="col-md-5">
+				<label class="all-title-font">Time range & Teacher</label>
+				<p class="info-p font-medium">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
+				</p>
+			</div>
+			<div class="col-md-7">
+				<div class="d-flex">				
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="input-title font-medium">Starts</label>
+						<div class="input-wrap">
+							<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+						</div>
+					</div>
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="input-title font-medium">Ends</label>
+						<div>
+							<div class="tool-box">
+								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
+								<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi">
+									<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseEndOpt('lesson')"> Lessons Count
+								</label>
 							</div>
 						</div>
-						<!-- <div [hidden]="courseName.valid || courseName.pristine" class="alert alert-danger">
-							Course Name is required.
-						</div> -->
+						<div *ngIf="isChecked == 'end'">
+							<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+						</div>
+						<div *ngIf="isChecked == 'lesson'">
+							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel">
+						</div>
 					</div>
 				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Start:</label>
-					<div class="flex-item">
-				      <input [disabled]="isEdit" type="text" id="startD" name="txt" class="image form-control" placeholder="Start Date" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
-						  <div class="overlay" (click)="start.toggle(); "><img src="./assets/img/calendar.png"></div>
+				<div class="d-flex step-wrapper">
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="input-title font-medium">Starting Time</label>
+						<div class="input-wrap">
+							<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.starttime" readonly (click)="durationProgress($event)" style="background: none;">
+							<div class="bg-box duration-progress">
+								<div id="rectangle"></div>
+								<div class="time-wrapper d-flex justify-content-center">
+									 <div class="d-flex flex-column justify-content-center showTime font-medium">
+									 	{{showFormat}}
+									 </div>
+									 <div>
+									 	<div class="time-box">
+											<label [ngClass]="{'selected':isSelected == 'AM'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseTimeOpt('AM')"> AM </label>
+											<label [ngClass]="{'selected':isSelected == 'PM'}" class="mb-0 font-semi">
+												<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseTimeOpt('PM')"> PM
+											</label>
+										</div>
+									 </div>
+								</div>
+								<div class="gap-box">
+									<label>
+										<div class="col-md-4 max-range">Hour</div>
+										<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
+										
+									</label>
+								</div>
+								<div class="gap-range-min">
+									<label>
+										<div class="col-md-4 min-range">Minute</div>
+										<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin">
+										<!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 p-0">
+						<label for="course_name" class="input-title font-medium">Duration</label>
+						<!-- <div class="input-wrap form-group" (click)="dropDown()">
+						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="{{model.durationTimes}}" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
+						</div> -->
+						<div class="d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
+							{{this.model.durationTimes}} min
+							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+						</div>
+						<div class="dropdown-wrap">
+				          <ul class="duration-dropdown">
+				            <li *ngFor="let test of testList">
+				              <span (click)="onClickDuration(test)">{{ test }} min</span>
+				            </li>
+				          </ul>
+				        </div>
+				        <div *ngIf="classend" class="msg font-medium">It will end at {{ classend }}</div>
+					</div>
+				</div>
+				<div class="checkboxes-wrapper">
+					<label class="all-title-font">Repeated days</label>
+					<div>
+						<div>
+							<span *ngFor="let d of days">
+								<label class="day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
+									<!-- <span><i class="fa fa-check"></i></span> -->
+									<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
+								    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
+									
+					                <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit">
+					                <div class="box-label">{{d.day}}</div>
+					            </label>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="pad-b">
+					<label for="course_name" class="input-title font-medium">Teacher</label>
+				    <div class="d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
+						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
+						<div class="d-flex" *ngIf="selectedTeacher">
+							<span class="img-wrap"><img src="{{  selectedTeacher.profilePic }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
+						</div>
+						<span *ngIf="!selectedTeacher" class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+						<span *ngIf="selectedTeacher" class="d-flex justify-content-center flex-column">	
+							<img src="./assets/images/swap-ico.png">		
+						</span>
+					</div>
+					<div class="search-dropdown">
+						<div class="d-flex flex-column">
+							<div class="teacher-list-box">
+								<div class="d-flex">
+									<input 
+									  class="form-control py-2 input-dropdown" 
+									  type="search" 
+									  placeholder="Type teacher name" id="myInput" 
+									  name="search" 
+									  #search="ngModel" 
+									  [(ngModel)]="model.teacherSearch" 
+									  (focus)="focusInputMethod($event, 'staff', 'teacher')"
+									  (focusout)="hideFocus($event, 'teacher')"
+									  (input)="changeInputMethod($event.target.value)">
+								</div>
+								<div class="list-wrap">
+									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+									  <div class="single-user-info d-flex flex-column justify-content-center">
+									    {{user.preferredName}}
+									  </div>
+									  <div class="ml-auto remover-wrap">
+									    <div class="add-user d-flex justify-content-end"></div>
+									  </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<label for="course_name" class="input-title font-medium">Assistants</label>
+					<div class="d-flex flex-column" style="position: relative;">
+						<div class="d-flex">
+							<input 
+							  class="form-control py-2 input-search-bg" 
+							  type="search" 
+							  placeholder="Add assistants by searching" 
+							  id="example-search-input" 
+							  name="search" 
+							  #search="ngModel" 
+							  [(ngModel)]="model.assistantSearch" 
+							  (focus)="focusInputMethod($event, 'staff','assistant')"
+							  (focusout)="hideFocus($event,'assistant')"
+							  (input)="changeInputMethod($event.target.value)">
+							<span class="input-group-append">
+							  <button class="bt btn-design btn-outline-secondary" type="button">
+							      <i class="fa fa-search search-size"></i>
+							  </button>
+							</span>
+						</div>
+						<div class="user-list-box" *ngIf="isFocus == true">
+							<div (click)="chooseUser(user,'assistant')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+							  <div class="single-user-info d-flex flex-column justify-content-center">
+							    {{user.preferredName}}
+							  </div>
+							  <div class="ml-auto remover-wrap">
+							    <div class="add-user d-flex justify-content-end"></div>
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="mt-20">
+				      <div class="d-flex flex-wrap" *ngIf="selectedUserLists.length > 0">
+				        <div *ngFor="let user of selectedUserLists">
+				          <div class="d-flex flex-row single-user font-semi justify-content-center align-items-center">
+				            <div class="img-wrap">
+				              <img src="{{user.profilePic}}">
+				            </div>
+				            <div class="single-user-info d-flex flex-column justify-content-center">
+				              <label class="mb-0">{{user.preferredName}}</label>
+				            </div>
+				            <div class="ml-auto remover-wrap single-user-info">
+				              <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+				            </div>
+				          </div>
+				        </div>
+				      </div>
 				    </div>
 				</div>
-				<div *ngIf="!isEdit" class="form-group form-head">
-					<label class="label-input">Start Time</label>
-					<div>
-						<input style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
-						<!-- <div [hidden]="starttime.valid || starttime.pristine" class="alert alert-danger">
-						  Start Time is required;
-						</div> -->
-						<div *ngIf="starttime.invalid && (starttime.dirty || starttime.touched)"
-						class="alert alert-danger">
-							<div *ngIf="starttime.errors.required">
-								Start Time is required.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div *ngIf="isEdit" class="form-group form-head">
-					<label class="label-input">Start Time</label>
-					<input readonly style="width: 150px;" id="test1" class="form-control" name="starttime" type="time" value="10:40" [(ngModel)]="model.starttime" (ngModelChange)="calculateDuration(model.starttime)" required #starttime="ngModel"/>
-				</div>
-				<div class="form-group form-head">
-					<label *ngIf="!isEdit" class="label-input">Duration:</label>
-					<label *ngIf="isEdit" class="label-input">Duration Times:</label>
-					<div class="new-input">
-						<div style="margin: 0px 0px 5px 0px">
-							<input class="form-control" type="num" name="duration" [(ngModel)]="model.durationTimes" readonly>
-						</div>
-						<div *ngIf="classend" class="flex-item">
-							<label>-will end at {{classend}}</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Repeat Days</label>
-					<div>
-						<div>
-							<label class="day" *ngFor="let d of days;let i=index;" >
-				                <input type="checkbox" id=i+1 name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit"> {{d.day}}
-				            </label>
-						</div>
-						<div *ngIf="toggleBool && clickInit" class="alert alert-danger">
-						  At least one day should be selected
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">ENDS</label>
-					<div class="new-input">
-						<div>
-							<label>
-								<input type="radio" [(ngModel)]= "model.prop" name="prop" value="A" (click)="model.end = null"> Lessons Count
-							</label>
-						</div>
-						<div class="lesson-wrap" *ngIf="model.prop === 'A'">
-							After <input *ngIf="!isEdit" type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel">
-							<input  *ngIf="isEdit" type="number" name="lesson" [(ngModel)]="model.lessonCount" #lesson="ngModel" readonly> lessons
-						</div>
-						<div>
-							<label><input [disabled]="isEdit" type="radio" [(ngModel)]="model.prop" name="prop" value="B" (click)="model.lessonCount = ''"> End Date </label>
-						</div>
-						<div class="enddate-wrap" *ngIf="model.prop === 'B'">
-							on <div class="end-item">
-								<input [disabled]="isEdit" type="text" name="txt" class="image form-control" placeholder="End Date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
-								  <div class="overlay" (click)="end.toggle()"><img src="./assets/img/calendar.png"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Pdf</label>
-					<div class="new-input chklist-wrap">
-			            <label *ngFor="let pdf of pdfList;let i=index;">
-			                <input type="checkbox" id=i+1 name="{{pdf.name}}" value={{pdf._id}} (change)="selectPdf(pdf._id, $event)" [checked]="cbChecked.indexOf(pdf._id) != -1"> {{pdf.name}}
-			            </label>
-					</div>
-					<!-- {{cbChecked | json}} -->
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Teacher Name</label>
-					<select class="form-control new-input"
-			        required [(ngModel)]="model.teacherId" name="teacherId" #teacherId="ngModel">
-			          <option value="" disabled="true">Select teacher Id</option>
-			          <option [disabled]="isEdit" *ngFor="let user of users; let i = index" [value]="user.userId">{{user.preferredName}}</option>
-			        </select>
-			        <div [hidden]="teacherId.valid || teacherId.pristine" class="alert alert-danger">
-					  Teacher Name is required
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Course Code</label>
-					<div *ngIf="!isEdit" class="new-input">
-						<input type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" required name="courseCode" #code="ngModel">
-						<div *ngIf="code.invalid && (code.dirty || code.touched)"
-						class="alert alert-danger">
-							<div *ngIf="code.errors.required">
-								Course Code is required.
-							</div>
-						</div>
-					</div>
-					<div *ngIf="isEdit">
-						<input readonly type="text" class="form-control" id="courseCode" [(ngModel)]="model.courseCode" name="courseCode" #code="ngModel">
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Room</label>
-					<div *ngIf="!isEdit" class="new-input">
-						<input type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
-						<!-- <input *ngIf="isEdit" readonly type="text" class="form-control" id="room" [(ngModel)]="model.room" name="room"> -->
-						<div *ngIf="room.invalid && (room.dirty || room.touched)"
-						class="alert alert-danger">
-							<div *ngIf="room.errors.required">
-								Room is required.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div *ngIf="isEdit" class="form-group form-head">
-					<label class="label-input">Room</label>
-					<div class="new-input">
-						<input readonly type="text" class="form-control" id="room" required [(ngModel)]="model.room" name="room" #room=ngModel>
-					</div>
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Reserved Number of Seat</label>
-					<div class="new-input">
-						<input *ngIf="!isEdit" type="number" class="form-control" id="seat" [(ngModel)]="model.reservedNumberofSeat" name="regionId" (keypress)="numberOnly($event)" #seat="ngModel">
-						<input *ngIf="isEdit" readonly type="number" class="form-control" id="regionId" [(ngModel)]="model.reservedNumberofSeat" name="regionId" pattern="[0-9]+">
-						<div [hidden]="!testChar" class="alert alert-danger">
-							Only Numbers Allowed
-						</div>
-					</div>	
-				</div>
-				<div class="form-group form-head">
-					<label class="label-input">Description</label>
-					<div class="new-input">
-						<textarea row="7" col="50" class="form-control" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel"></textarea>
-						<div *ngIf="description.invalid && (description.dirty || description.touched)"
-						class="alert alert-danger">
-							<div *ngIf="description.errors.required">
-								Description is required.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group" style="float: right;">
-					<button type="button" class="btn btn-light1 newbtn" (click)="cancel()">Cancel</button>
-					<button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="createCourse()" [disabled]="!heroForm.form.valid || toggleBool || !model.lessonCount && !model.end">Submit</button>
-					<button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="updateCourse(model._id)" [disabled]="!heroForm.form.valid">Update</button>
-				</div>
-			</form>
+			</div>
 		</div>
-	</div>
+		<hr class="hr-line">
+		<div class="d-flex step-wrapper">
+			<div class="col-md-5">
+				<label class="all-title-font">Venue</label>
+				<p class="info-p font-medium">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard 
+				</p>
+			</div>
+			<div class="col-md-7">
+				<div>
+					<label for="location" class="input-title font-medium">Location</label>
+					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
+					<div>
+						 <div class="form-group has-feedback" (click)="locationDropdown()">
+					    	<input class="form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
+					     </div>
+					     <div class="dropdown-wrap">
+				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+				          <ul class="location-dropdown">
+				            <li *ngFor="let item of locationList">
+				              <span (click)="chooseLocation(item)">{{item.name}}</span>
+				            </li>
+				          </ul>
+				        </div>
+					</div>
+					<hr class="limit-hr-length">
+				</div> 
+				<div>
+					<label for="room" class="input-title font-medium">Room</label>
+					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" required #room="ngModel"> 
+					<div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
+				        <div [hidden]="!room.errors.required">
+				          Room is required!
+				        </div>
+				    </div>
+					<hr class="limit-hr-length">
+				</div> 
+				<div>
+					<label for="seat" class="input-title font-medium">Reserved seat</label>
+					<input type="number" class="form-control br-bshadow-none all-left-box-10" placeholder="0" id="seat" [(ngModel)]="model.reservedNumberofSeat" name="seat" (keypress)="numberOnly($event)" #seat="ngModel"> 
+					<div [hidden]="!testChar" class="alert alert-danger">
+						Only Numbers Allowed
+					</div>
+				</div> 
+			</div>
+		</div>
+		<hr class="hr-line">
+		<div *ngIf="conflitArr?.length > 0">
+			<div class="col-md-12 step-wrapper" *ngFor="let conflit of conflitArr">
+				<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Conflicts</label>
+				<div class="d-flex">
+					<span class="round-number font-medium">{{ conflit.conflictWith?.length }}</span>
+					<span class="image-wrap">
+						<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743702082858825712_original.jpg">
+					</span>
+					<div class="pad-left-10">
+						<div class="label-12 font-regular">Senior Teacher</div>
+						<div class="name-label font-semi">{{ conflit.preferredName }}</div>
+					</div>
+				</div>
+				<div class="d-flex font-medium msg-padding">
+					<span class="round-icon">!</span>
+					<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+				</div>
+				<div class="conflit-wrapper" *ngFor="let lesson of conflit.conflictWith">
+					<div class="d-flex column-wrap">
+						<div class="flex-item">
+							<div class="name-label font-medium">
+								<!-- {{ conflit.date }} -->
+								{{ lesson.startDate }} - {{ lesson.endDate }}
+							</div>
+							<div class="label-12 font-medium">
+								time
+							</div>
+						</div>
+						<div class="flex-item">
+							<div class="item-label font-medium">Lesson</div>
+							<div *ngIf="lesson.name" class="name-label font-medium">{{ lesson.name }}</div>
+							<div *ngIf="!lesson.name" class="name-label font-medium"> - </div>
+						</div>
+						<div class="flex-item">
+							<div class="item-label font-medium">Location</div>
+							<div *ngIf="lesson.location" class="name-label font-medium">{{ lesson.location }}</div>
+							<div *ngIf="!lesson.location" class="name-label font-medium"> - </div>
+						</div>
+						<div class="flex-item">
+							<div class="item-label font-medium">Number of students</div>
+							<div *ngIf="lesson.students" class="name-label font-medium">
+								{{ lesson.students }}
+							</div>
+							<div *ngIf="!lesson.students" class="name-label font-medium">
+								-
+							</div>
+						</div>
+					</div>
+					<hr class="hr-line"  *ngIf="conflitArr?.length > 0">
+					<div class="d-flex  justify-content-between btn-wrap">
+						<div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex">
+							<button class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
+							Skip
+							</button>
+							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
+						</div>
+						<!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
+						<!-- hello {{conflit.staffId}} <br>
+						-- {{tempID}} -->
+						<button *ngIf="tempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
+							<div class="skipped">
+								hello Skipped
+							</div>
+						</button>
+						<!-- <button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="d-flex"> -->
+						<button *ngIf="ignoreTempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
+							<div class="skipped">
+								Ignored
+							</div>
+						</button>
+						<button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
+							Undo
+						</button>
+					</div>
+				</div>
+				<div class="d-flex allbtn-wrap">
+					<button [disabled]="tempID.indexOf(conflit.staffId) != -1" class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
+					<button [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
+				</div>
+			</div>
+		</div>
+		<hr  class="hr-line">
+		<!-- <div class="col-md-12 step-wrapper">
+			<div class="d-flex">
+				<div id="parent">
+					<img src="./assets/images/timetable-ico.png">
+				</div>
+				<span class="name-label font-semi">Timetable</span>
+			</div>
+			<div class="timetable-wrapper" *ngIf="!isShowDetail">
+				<div class="d-flex timetable">
+					<div class="d-flex justify-content-between flex-item1">
+						<div>
+							<div class="name-label font-medium">25 May 2018</div>
+							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+						</div>
+						<div class="arrow-wrap">
+							<img src="./assets/images/timetable-arrow@2x.png">
+						</div>
+						<div>
+							<div class="name-label font-medium">27 July 2018</div>
+							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+						</div>
+					</div>
+					<div class="flex-item2">
+						<div class="item-label font-medium">Number of lessons</div>
+						<div class="name-label font-medium">11</div>
+					</div>
+					<div class="flex-item2">
+						S$<span class="font-medium">200</span>
+					</div>
+				</div>
+				<hr class="hr-line">
+				<div class="d-flex btn-wrap">
+					<div class="detailBtn font-medium" (click)="viewDetailTimetable()">View details</div>
+				</div>
+			</div>
+			<div *ngIf="isShowDetail" class="tabel-detail">
+				<div class="d-flex table-header">
+					<div class="table-item">
+						<div class="font-regular">
+							Number of lessons
+						</div>
+						<div class="font-medium">
+							11
+						</div>
+					</div>
+					<div class="table-item">
+						S$<span class="font-medium">200</span>
+					</div>
+				</div>
+				<div class="table-body">
+					<div *ngFor="let timetable of testTimetable">
+						<div class="time-info">
+							<div class="name-label font-semi">{{ timetable.date }}</div>
+							<div class="label-12 font-medium">{{ timetable.time }}</div>
+						</div>
+						<div class="grid-container">
+							<div *ngFor="let item of timetable.timetableArr">
+								<div class="grid-item" [ngClass]="{'skip': item.skip == true}">
+									<div *ngIf="item.skip == true" class="skip-arrow">skip</div>
+									<div>
+										<div class="font-semi">{{ item.date }}</div>
+										<div class="label-12 font-medium">{{ item.time }}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="btn-wrap table-footer">
+					<div class="detailBtn font-medium" (click)="hideDetailTimetable()">Hide details</div>
+				</div>
+			</div>
+		</div>
+		<hr class="hr-line"> -->
+		<div class="d-flex justify-content-between form-footer">
+			<div class="d-flex justify-content-center flex-column">
+				<div class="font-medium">
+					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
+				</div>
+			</div>
+			<div>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
+	        </div>
+        </div>
+	</form>
 </div>

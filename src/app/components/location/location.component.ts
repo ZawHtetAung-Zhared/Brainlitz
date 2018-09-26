@@ -25,7 +25,7 @@ export class LocationComponent implements OnInit {
   	@ViewChild('intlInput') intlInput: ElementRef;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
-	public locationLists: any;
+	public locationLists: Array<any> = [];
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
 	public isrequired: boolean = true;
@@ -44,12 +44,12 @@ export class LocationComponent implements OnInit {
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);
-		this._service.getLocations(this.regionID);
+		this._service.getLocations(this.regionID, 20, 0, false);
 	}
 
 	ngOnInit() {
 		window.addEventListener('scroll', this.scroll, true);
-		this.getAllLocation();
+		this.getAllLocation(20,0);
 	}
 
 	ngOnDestroy() {
@@ -175,15 +175,21 @@ export class LocationComponent implements OnInit {
 	    return `with: ${reason}`;
 	  }
 	}
+
+	showMore(skip: any){
+	    console.log(skip)
+	    this.getAllLocation(20, skip);
+	  }
 	
-	getAllLocation(){
+	getAllLocation(limit, skip){
 		this.blockUI.start('Loading...');
-		this._service.getLocations(this.regionID)
+		this._service.getLocations(this.regionID, limit, skip, false)
 		.subscribe((res:any) => {
+			console.log(res)
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		      }, 300);
-    		this.locationLists = res;
+    		this.locationLists = this.locationLists.concat(res);
     		this.isempty = (res.length === 0) ? true : false;       
 	    }, err => {
 	    	console.log(err)
@@ -211,7 +217,7 @@ export class LocationComponent implements OnInit {
 	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
 	     		this.iscreate = false;
-	     		this.getAllLocation();
+	     		this.getAllLocation(20, 0);
 	     	}, err => {
 	     		this.toastr.error('Update fail');
 	     		console.log(err)
@@ -227,7 +233,7 @@ export class LocationComponent implements OnInit {
     		this.toastr.success('Successfully Created.');
     		this.blockUI.stop();
     		this.iscreate = false;
-    		this.getAllLocation();
+    		this.getAllLocation(20,0);
 	    }, err => {
 	    	
 	    	console.log(err)
@@ -249,7 +255,7 @@ export class LocationComponent implements OnInit {
 			console.log(res);
 			this.modalReference.close();
 			this.toastr.success('Successfully Deleted.');
-			this.getAllLocation();
+			this.getAllLocation(20,0);
 		},err => {
 			this.modalReference.close();
 			this.toastr.error('Delete Fail.');

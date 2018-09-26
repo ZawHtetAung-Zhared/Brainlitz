@@ -1,3 +1,22 @@
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.load-more button:focus{
+	outline: none;
+}
+.limit-word{
+  display: none;
+  font-size: 14px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  color: #0080ff;
+  position: absolute;
+  top: -26px;
+  z-index: 9;
+  right: 0;
+}
+
 .pb-0{
 	padding-bottom: 0 !important;
 }
@@ -240,7 +259,7 @@ h3.category-h3{
 	display: none !important;
 	position: absolute;
 	right: 15px;
-	top: 65px;
+	top: 69px;
 }
 .category-btn-group .btn{
 	background: #fff;

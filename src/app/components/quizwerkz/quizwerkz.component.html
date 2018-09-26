@@ -39,8 +39,12 @@
     </div>
   </div>
   <div *ngIf="iscreate == true">
-    <div class="back-wrap">
-      <a class="back-to" (click)="cancel()">< QuizWerkz</a>
+    <div class="d-flex back-wrap">
+      <!-- <a class="back-to" (click)="cancel()">< QuizWerkz</a> -->
+      <div class="back-to" (click)="cancel()">
+        <i class="fa fa-angle-left"></i>
+        <p>QuizWerkz</p>
+      </div>
     </div>
     <div class="quizwerkz-form-wrap">
       <h3 class="title-heading">Create QuizWerkz</h3>
@@ -87,7 +91,7 @@
               </div>
             </div>
           </div>
-          <div class="d-flex justify-content-end">
+          <div class="d-flex justify-content-end form-footer">
             <button type="submit" class="btn btn-cancel" (click)="cancel()">Close</button>
             <button *ngIf="!isEdit" type="submit" [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="createQuizWerkz(formField, isEdit)">Create</button>
             <button *ngIf="isEdit" type="submit" [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="updateQuizWerkz(formField)">Update</button>
@@ -97,7 +101,9 @@
     </div>
   </div>
 </div>
-
+<div *ngIf="pdfList.length >= 20 && iscreate == false" class="d-flex justify-content-center load-more">
+  <button class="btn" (click)="showMore(pdfList.length)">load more</button>
+</div>
 <ng-template #deletemodal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title">Confirm delete?</h3>

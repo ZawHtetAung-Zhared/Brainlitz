@@ -18,7 +18,7 @@ declare var $: any;
 export class UserStaffComponent implements OnInit {
 	public orgID = environment.orgID;
   	public regionID = localStorage.getItem('regionId');
-  	public staffLists: any;
+  	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
   	public img: any;
   	permissionLists: any;
@@ -50,18 +50,41 @@ export class UserStaffComponent implements OnInit {
    	}
 
   	ngOnInit() {
-  		this.getAllUsers('staff');
+  		this.getAllUsers('staff', 20, 0);
   		this.blankCrop = false; 
 		this.getAllpermission();
   	}
 
+  	showMore(type: any, skip: any){
+  		console.log(skip)
+  		this.getAllUsers(type, 20, skip)
+  	}
 
-  	getAllUsers(type){
-		this._service.getAllUsers(this.regionID, type)
+	userSearch(searchWord, userType){
+		if(searchWord.length != 0){
+			this._service.getSearchUser(this.regionID, searchWord, userType)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.staffLists = res;
+        }, err => {  
+          console.log(err);
+        });
+	    }else{
+	    	this.staffLists = [];
+	    	this.getAllUsers('staff',20,0);
+	    }
+	}
+
+  	getAllUsers(type, limit, skip){
+  		this.blockUI.start('Loading...');		
+		this._service.getAllUsers(this.regionID, type, limit, skip)
 		.subscribe((res:any) => {
-			this.staffLists = res;
+			this.blockUI.stop();
+			this.staffLists = this.staffLists.concat(res);
+			// this.staffLists = res;
 			console.log('this.staffLists', this.staffLists)
 	    }, err => {
+	    	this.blockUI.stop();
 	    	console.log(err)
 	    })
 	}
@@ -72,6 +95,7 @@ export class UserStaffComponent implements OnInit {
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
+	    this.getAllpermission();
 	}
 
 	focusMethod(e){
@@ -115,7 +139,7 @@ export class UserStaffComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('staff');
+		  		this.getAllUsers('staff', 20, 0);
 		    }, err => {		    	
 		    	this.blockUI.stop();
 		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
@@ -133,7 +157,7 @@ export class UserStaffComponent implements OnInit {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
-		  		this.getAllUsers('staff');
+		  		this.getAllUsers('staff', 20 , 0);
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();
@@ -150,9 +174,12 @@ export class UserStaffComponent implements OnInit {
 		this.imgDemoSlider = false;
 		this.isupdate = false;
 		$(".frame-upload").css('display', 'none');
+		this.staffLists = [];
+		this.getAllUsers('staff', 20, 0);
 	}
 
 	getAllpermission(){
+		console.log('hi permission')
 		this._service.getAllPermission(this.regionID)
 		.subscribe((res:any) => {
 			this.permissionLists = res;
