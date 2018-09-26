@@ -183,7 +183,7 @@
     <div class="d-flex flex-column">
       <div class="d-flex">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
-        <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button>
+        <!-- <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button> -->
         <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">

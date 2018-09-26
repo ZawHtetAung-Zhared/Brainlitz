@@ -23,6 +23,8 @@ export class CoursecreateComponent implements OnInit {
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   @BlockUI() blockUI: NgBlockUI;
 
+  public isSkipId: any;
+  public isIgnoreId: any;
   hello = JSON.parse(localStorage.getItem('splan')) ;
   public courseObj = {};
   wordLength:any;
@@ -725,21 +727,67 @@ export class CoursecreateComponent implements OnInit {
   skipStaff:any;
   lessonID:any;
   skip(id,staffid){
-    // this.tempID = staffid;
-    // this.lessonID = id;
-    // console.log(this.lessonID)
-    this.skipArr.push(id);
-    // console.log(staffid)
-    // this.skipStaff =staffid;
-    // this.skipArr.push(id);
-    // console.log("skip",this.skipArr);
+    this.isSkipId = id;
 
+    var val = id;
+    var val1 = staffid;
+    if(this.skipArr.includes(val) == false){
+      console.log('in the if')
+      this.skipArr.push(val)
+      // this.tempID.push(staffid);
+    }else{
+      console.log('in the else')
+      val = [val]
+      val1 = [val1]
+      this.skipArr =this.skipArr.filter(f => !val.includes(f));
+      // this.tempID =this.tempID.filter(f => !val1.includes(f));
+    }
+    console.log(this.skipArr)
   }
 
-  ignore(id){
-    this.ignoreArr.push(id);
+  undo(id){
+    var val = id;
+    this.isSkipId = ''
+    console.log('is skip true')
+    if(this.skipArr.includes(id) == true){
+      val = [id]
+      this.skipArr =this.skipArr.filter(f => !val.includes(f));
+    }
+    console.log(this.skipArr)
+  }
+
+  undoIG(id){
+    var val = id;
+    this.isIgnoreId = ''
+    console.log('is ignore true')
+    if(this.ignoreArr.includes(id) == true){
+      val = [id]
+      this.ignoreArr =this.ignoreArr.filter(f => !val.includes(f));
+    }
+    console.log(this.ignoreArr)
+  }
+
+  ignore(id, staffid){
+    this.isIgnoreId = id;
+
+    // this.ignoreArr.push(id);
+    var val = id;
+    var val1 = id;
+    if(this.ignoreArr.includes(val) == false){
+      console.log('in the if ignore')
+      this.ignoreArr.push(val)
+      // this.tempID.push(staffid);
+    }else{
+      console.log('in the else ignore')
+      val = [val]
+      val1 = [val1]
+      this.ignoreArr =this.ignoreArr.filter(f => !val.includes(f));
+      // this.tempID =this.tempID.filter(f => !val1.includes(f));
+    }
     console.log("ignore",this.ignoreArr);
   }
+
+
   skipAll(item){
     console.log(item);
     if(this.ignoreTempID.length > 0){
@@ -805,12 +853,12 @@ export class CoursecreateComponent implements OnInit {
     // }
   }
 
-  undo(id){
+  // undo(id){
     // var skipIdx = this.skipArr.indexOf(id);
     // console.log('skipIdx',skipIdx);
     // this.skipArr.splice(skipIdx,1);
     // console.log("Splice SkipArr",this.skipArr);
-  }
+  // }
 
   viewDetailTimetable(){
     this.isShowDetail = true;

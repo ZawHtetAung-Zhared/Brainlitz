@@ -1179,7 +1179,7 @@ export class appService{
       let apiUrl = this.baseUrl + '/user/' + userId;
       const httpOptions = {
           headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
+            
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.put(apiUrl, data, httpOptions)

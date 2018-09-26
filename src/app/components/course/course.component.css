@@ -468,6 +468,10 @@ li button{
     color: #2e3e4d;
     background: transparent;
 }
+.course-tab:focus{
+  outline: none;
+  box-shadow: none;
+}
 .course-tab.active {
     color: #0080ff;
     border-bottom: 2px solid #0080ff;
