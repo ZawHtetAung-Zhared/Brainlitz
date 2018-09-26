@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -9,32 +10,26 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment';
 
+declare var $:any;
+
 @Component({
   selector: 'app-coursecreate',
   templateUrl: './coursecreate.component.html',
   styleUrls: ['./coursecreate.component.css']
 })
 export class CoursecreateComponent implements OnInit {
-  public closeResult: string;
-  public modalReference: any;
-  public choosePlan: any;
-  public model: any = {};
-  public showCourse:boolean = false;
-  public courseObj:{};
-  public coursePlan;
   public regionID = localStorage.getItem('regionId');
-  public coursePlanId = localStorage.getItem('coursePlanId');    
-  public coursePlanName;
-  public courseId;
-  public users;
-  public locationList;
-  public pdfList:any;
-  public showPlanList:boolean = false;
-  public showPlan:boolean = false;
-  public toggleBool: boolean=true;
-  public classend: any;
-  public selectedDay = [];
-  public isEdit:boolean = false;
+  public currentLocation = localStorage.getItem('locationId');
+  public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
+  @BlockUI() blockUI: NgBlockUI;
+
+  hello = JSON.parse(localStorage.getItem('splan')) ;
+  public courseObj = {};
+  wordLength:any;
+  model:any = {};
+  isChecked:any;
+  minDate: any;
+  maxDate: any;
   public days = [
     {"day":"Sun", "val": 0},
     {"day":"Mon", "val": 1},
@@ -44,191 +39,252 @@ export class CoursecreateComponent implements OnInit {
     {"day":"Fri ", "val": 5},
     {"day":"Sat", "val": 6},
   ];
-  public selectedPdf = [];
-  public cbChecked = [];
+  public tempID = [];
+  public selectedDay = [];
+  public toggleBool:boolean = true;
+  public progressSlider: boolean = false;
+  public focusCfee: boolean = false;
+  public focusMisfee: boolean = false;
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public startFormat: any;
+  public timeInminutes: any;
+  public rangeMin: any;
+  public rangeHr: any;
+  public isSelected: any;
+  public showFormat:any;
   public testChar:boolean;
-  minDate:any;
-  maxDate:any;
-  courseList: any;
-  bsValue: Date;
-  powers: any;
-  @BlockUI() blockUI: NgBlockUI;
-  date = new Date();
-  hello = JSON.parse(localStorage.getItem('splan')) ;
-  public pdfListLength:any;
-  public noPlan:boolean = false;
+  public testList = [];
+  public durationMenuShow: boolean = false;
+  public locationMenuShow: boolean = false;
+  public searchMenuShow: boolean = false;
+  public startTime: any;
+  public classend:any;
+  public locationList = [];
+  public locationId:any;
+  public isFocus:boolean = false;
+  public isDpFocus:boolean = false;
+  public detailLists:any;
+  public userLists:any;
+  public selectedTeacher:any;
+  public isSticky:boolean = false;
+  public isShowDetail:boolean = false;
+  public save:boolean = false;
+  public conflitCourseId :any = "";
+  public skipArr = [];
+  public ignoreArr = [];
+  public tempArr = [];
+  public conflitArr = [];
+  // public conflitArr = 
+  // [
+  //   {
+  //     "conflictWith": [
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-25T14:15:00.000Z",
+  //         "startDate": "2018-09-25T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296777"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-26T14:15:00.000Z",
+  //         "startDate": "2018-09-26T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296776"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-27T14:15:00.000Z",
+  //         "startDate": "2018-09-27T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296775"
+  //       }
+  //     ],
+  //     "preferredName": "Android 13",
+  //     "staffId": "5afa53d58205a72fad7ebe78"
+  //   },
+  //   {
+  //     "conflictWith": [
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-25T14:15:00.000Z",
+  //         "startDate": "2018-09-25T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296777"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-26T14:15:00.000Z",
+  //         "startDate": "2018-09-26T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296776"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-27T14:15:00.000Z",
+  //         "startDate": "2018-09-27T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296775"
+  //       }
+  //     ],
+  //     "preferredName": "HeiN",
+  //     "staffId": "5b18fd9629251d27ef24747c"
+  //   },
+  //   {
+  //     "conflictWith": [
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-25T14:15:00.000Z",
+  //         "startDate": "2018-09-25T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296777"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-26T14:15:00.000Z",
+  //         "startDate": "2018-09-26T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296776"
+  //       },
+  //       {
+  //         "cancel": false,
+  //         "endDate": "2018-09-27T14:15:00.000Z",
+  //         "startDate": "2018-09-27T13:00:00.000Z",
+  //         "teacherId": "5afa53d58205a72fad7ebe78",
+  //         "_id": "5ba9f80897c271389f296775"
+  //       }
+  //     ],
+  //     "preferredName": "staff xxx01",
+  //     "staffId": "5b9261e2ddfd6b4c832618cb"
+  //   }
+  // ];
 
-  constructor(private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
+  @ViewChild("myInput") inputEl: ElementRef;
+
+  constructor( @Inject(DOCUMENT) private doc: Document,private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
-    // config.markDisabled = (date: NgbDateStruct) => {
-    //   const d = new Date(date.year, date.month - 1, date.day);
-    //   return d.getDay() === this.model.startDate;
-    // }
    }
    test;
   ngOnInit() {    
-    // this.hello =JSON.parse(localStorage.getItem('splan'))
-    this.getCoursePlanList();
-    this.courseId = localStorage.getItem('courseId');
-    console.log(this.coursePlanId)
-    if(this.courseId){
-      console.log("EDIT")
-      this.getLocationsList();
-      this.getUserList();
-      this.getPdfList();
-      setTimeout(() => {
-         this.editCourse(this.courseId);
-       }, 300);
-      
-    }else if(this.coursePlanId){
-      console.log("Create")
-      this.showCourse = true;
-      this.getUserList();
-      this.getPdfList();
-      this.getLocationsList();
-      console.log('this hello',this.hello);
-      this.model.locationId = "";  
-      this.model.teacherId = "";  
-      this.model.coursePlanId = this.hello.planid;
-      this.model.coursePlanName = this.hello.planname;
-      this.model.durationTimes = this.hello.duration;
-      this.original = this.hello.quizwerkz;
-      this.cbChecked = this.hello.quizwerkz;
-      console.log("CHECKED create state",this.cbChecked)
-      console.log(this.model.duration)
-      console.log(this.model.coursePlanId)
+    console.log("CPLan",this.coursePlan)
+    setTimeout(function(){
+      $("#step1").addClass('active');
+    }, 200)
+    // this.step2=true;
+    this.isChecked = 'end';
+    this.isSelected = 'AM';
+    this.rangeHr = '0';
+    this.rangeMin = '0';
+    this.showFormat = "00:00";
+    this.createList();
+    this.getAllLocations();
+    window.scroll(0,0);
+  }
+
+  @HostListener("window:scroll", [])
+  scrollHandler() {
+    let num = this.doc.documentElement.scrollTop;
+    if(num>20){
+       this.doc.getElementById("navbar").style.top = "0";
     }else{
-      this.showCourse = false;
+      this.doc.getElementById("navbar").style.top = "-120px";
     }
   }
 
-  getCoursePlanList(){
-    this.blockUI.start('Loading...');
-    this._service.getAllCoursePlan(this.regionID)
-    .subscribe((res:any) => {
-      this.coursePlan = res;
-      console.log(this.coursePlan);
-      if(this.coursePlan.length > 0){
-        this.noPlan = false;
-      }else{
-        this.noPlan = true;
-      }
-      //this.blockUI.stop(); // Stop blocking
-       setTimeout(() => {
-         this.blockUI.stop(); // Stop blocking
-       }, 300);
-    });
-  }
-
-  getUserList(){
-    this._service.getAllUsers(this.regionID,"staff")
-    .subscribe((res:any) => {
-      console.log(res);
-      this.users = res;
-      // this.model.teacherId = '';
-    });
-  }
-
-  getLocationsList(){
-    this._service.getLocations(this.regionID)
-    .subscribe((res:any) => {
+  getAllLocations(){
+    this._service.getLocations(this.regionID, 20, 0, false)
+    .subscribe((res:any)=>{
+      console.log("Locations",res);
       this.locationList = res;
-      console.log(this.locationList);
-      // this.model.locationId = '';
-    })
-  }
-  
-  getPdfList(){
-    this._service.getAllPdf(this.regionID)
-    .subscribe((res:any) => {
-      this.pdfList = res;
-      this.pdfListLength = this.pdfList.length;
-      console.log("quizwerkz",this.pdfList)
     })
   }
 
-  showPlanlist(){
-    console.log("showPlanList")
-    this.showPlan = true;
+  createList(){
+    console.log(this.coursePlan.duration);
+    for(var i = 0; i <= 9; i++){
+      var testVar = this.coursePlan.duration * (i+1);
+      console.log("testVar",testVar);
+      this.testList.push(testVar);
+    }
+    console.log("testList",this.testList);
+    this.model.durationTimes = this.testList[0];
   }
 
-  // checkedData(plan){
-  //   this.choosePlan = plan;
-  //   console.log('choose plan',this.choosePlan)
+  focusMethod(e){
+    console.log('hi', e)
+    $('.limit-wordcount').show('slow'); 
+  }
+    
+  blurMethod(e){
+    console.log('blur', e);
+    $('.limit-wordcount').hide('slow'); 
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
+
+  backToCourses(){
+    this.router.navigate(['/course']);
+    localStorage.removeItem('cPlan');
+  }
+
+  // continueStep(type, data){
+  //   if(type == 'step1'){
+  //     this.step1FormaData = data;
+  //     console.log(this.step1FormaData)
+  //     this.step1 = false;
+  //     if(this.step1 == false){
+  //       $("#step1").removeClass('active');
+  //       $("#step1").addClass('done');
+  //       $("#step2").addClass('active');
+  //       this.step2 = true;
+  //     }
+  //   }
   // }
 
-  original:any;
-  selectCoursePlan(plan){
-    let newSelect ={
-      'planid': plan._id,
-      'planname': plan.name,
-      'duration': plan.lesson.duration,
-      'quizwerkz': plan.quizwerkz,
-    };
-    localStorage.setItem('splan',JSON.stringify(newSelect));
-    console.log("selectCoursePlan",plan);
-    this.showCourse = true;
-    localStorage.setItem('coursePlanId',plan._id);
-    this.coursePlanId = localStorage.getItem('coursePlanId');
-    // console.log("Course Plan",this.hello) 
-    this.model.locationId = "";  
-    this.model.teacherId = "";  
-    this.model.coursePlanId = plan._id;
-    this.model.coursePlanName = plan.name;
-    this.model.durationTimes = plan.lesson.duration;
-    // this.original = plan.quizwerkz;
-    this.cbChecked = plan.quizwerkz;
-    console.log("CHECKED create state",this.cbChecked)
-    console.log(this.model.duration)
-    console.log(this.model.coursePlanId)
-    this.getUserList();
-    this.getLocationsList();
-    this.getPdfList();
-    // let isplanSelect:boolean = true;
-    // localStorage.setItem('selectedPlan',isplanSelect)
+  // backStep(step){
+  //   console.log(step);
+  //   if(step == 'step2'){
+  //     this.step2 = false;
+  //     this.step1 = true;
+  //     if(this.step1 == true){
+  //       $("#step2").removeClass('active');
+  //       $("#step2").addClass('done');
+  //       $("#step1").addClass('active');
+  //     }
+  //   }
+  // }
+
+  chooseEndOpt(type){
+    console.log("Type",type);
+    this.isChecked = type;
+      if(type == 'end'){
+        this.model.end = "";
+      }else{
+        this.model.lessonCount = "";
+        this.maxDate = "";
+      }
   }
 
-  back(){
-    console.log("Back Works")
-    this.showCourse = false;
-    this.model = {};
-    this.cbChecked = [];
-    console.log("pdf checked",this.cbChecked)
-    this.selectedDay=[];
-    let xxx = JSON.parse(localStorage.getItem('splan'))
-    console.log(xxx.quizwerkz)
-    console.log("choosePlan in Back",this.choosePlan);
-    if(this.choosePlan){
-      this.choosePlan.quizwerkz = xxx.quizwerkz
-    }
-    localStorage.removeItem('coursePlanId');
+  setMinDate(event){
+    console.log("setMinDate",event);
+    this.minDate = event;
   }
 
-  numberOnly(event):boolean{
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      console.log("character");
-      this.testChar = true;
-      return false;
-    }
-    if(event.target.value.search(/^0/) != -1){
-        event.target.value = '';  
-    }
-    this.testChar = false;
-    return true;
+  setMaxDate(date){
+    console.log("setMaxDate",date);
+    this.maxDate =  date;
   }
-  public hide: boolean = true;
-  onChange(technology) {
-    console.log(technology);
-    this.hide = false;
-  }
-
   clickInit:boolean = false;
   selectDay(data, event): void {
     this.clickInit = true;
     console.log("Day",data,event);
     var dayIdx = this.selectedDay.indexOf(data);
-    console.log(dayIdx)
+    console.log(dayIdx);
     if (event.target.checked) {
         if(dayIdx < 0 )
           this.selectedDay.push(data);
@@ -246,54 +302,389 @@ export class CoursecreateComponent implements OnInit {
     console.log(this.selectedDay);
   }
 
-  selectPdf(data, event): void {
-    console.log("Pdf",data,event);
-    console.log("cbChecked",this.cbChecked)
-    var cbIdx = this.cbChecked.indexOf(data);
-    console.log(cbIdx)
-    if (event.target.checked) {
-        if(cbIdx < 0 )
-            this.cbChecked.push(data);
-     } else {
-       if(cbIdx >= 0 )
-         console.log("else")
-            this.cbChecked.splice(cbIdx,1);
+  durationProgress($event){
+    this.progressSlider = true;
+  }
+
+  @HostListener('document:click', ['$event'])
+    public documentClick(event): void {
+
+        if(this.progressSlider != true){
+           $('.bg-box').css({ 'display': "none" });   
+        }
+        else {
+            $('.bg-box').css({ 'display': "block" }); 
+            $('.bg-box').click(function(event){
+                event.stopPropagation();
+            });
+            this.progressSlider = false;
+
+        }
+
+        if(this.focusCfee == true){
+          $('.cfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.cfee-bg').removeClass("focus-bg");
+        }
+        this.focusCfee = false;
+
+        if(this.focusMisfee == true){
+          $('.misfee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.misfee-bg').removeClass("focus-bg");
+        }
+        this.focusMisfee = false;
+
+
+
+        // for duration dropdown
+        if(this.durationMenuShow == false){
+           $('.duration-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.duration-dropdown').css('display', 'block');
+            this.durationMenuShow = false;
+        }
+
+        //for location dropdown
+        if(this.locationMenuShow == false){
+           $('.location-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.location-dropdown').css('display', 'block');
+            this.locationMenuShow = false;
+        }
+
+        // this.showSearch = false;
+
+        // for search dropdown
+        if(this.searchMenuShow == false){
+           $('.search-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.search-dropdown').css('display', 'block');
+            this.searchMenuShow = false;
+            $("#myInput").focus();
+        }
+  }
+
+  dropDown(){
+    var x = document.getElementsByClassName('duration-dropdown');
+    if( (x[0]as HTMLElement).style.display == 'block'){
+      (x[0]as HTMLElement).style.display = 'none';
     }
-    console.log(this.cbChecked);
+    else {
+       (x[0]as HTMLElement).style.display = 'block';
+       this.durationMenuShow = true;
+    }
+  }
+  locationDropdown(){
+    var y = document.getElementsByClassName('location-dropdown');
+    if( (y[0]as HTMLElement).style.display == 'block'){
+      (y[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (y[0]as HTMLElement).style.display = 'block';
+       this.locationMenuShow = true;
+    }
+  }
+  showSearch:boolean = false;
+  searchDropdown(){
+    var z = document.getElementsByClassName('search-dropdown');
+    if( (z[0]as HTMLElement).style.display == 'block'){
+      (z[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (z[0]as HTMLElement).style.display = 'block';
+       this.searchMenuShow = true;
+       $("#myInput").focus();
+    }
+    // if(this.showSearch == false){
+    //   this.showSearch = true;
+    //    console.log("TRUE",this.showSearch)
+    // }else if(this.showSearch == true){
+    //   this.showSearch = false;
+    //   console.log("False",this.showSearch)
+    // }
+  }
+
+  ChangedRangeValue(e, type){
+    if(type == 'hr'){
+      this.selectedHrRange = e;
+    }
+    if(type == 'min'){
+      this.selectedMinRange = e;
+    }
+    this.formatTime();
+  }
+
+  chooseTimeOpt(type){
+    console.log(type);
+    this.isSelected = type;
+    this.formatTime();
+  }
+
+  formatTime(){
+    if(this.selectedHrRange > 0 ){
+      if(this.selectedHrRange<10){
+        var hrFormat = 0 + this.selectedHrRange;
+      }else{
+        var hrFormat = this.selectedHrRange;
+      }
+    }else{
+      this.selectedHrRange = "00";
+      var hrFormat = this.selectedHrRange;
+    }
+    if(this.selectedMinRange > 0){
+      if(this.selectedMinRange<10){
+        var minFormat = 0 + this.selectedMinRange;
+      }else{
+        var minFormat = this.selectedMinRange;
+      }
+    }else{
+      this.selectedMinRange = "00";
+      var minFormat = this.selectedMinRange;
+    }
+    this.showFormat = hrFormat + ':' + minFormat;
+    this.startFormat = hrFormat + ':' + minFormat +''+ this.isSelected;
+    console.log('Start Format',this.startFormat);
+    // this.model.starttime = this.startFormat;  
+    this.startTime = moment(this.startFormat, "h:mm A").format("HH:mm");
+    console.log('Output',this.startTime);
+    this.model.starttime = this.startTime;
+    this.calculateDuration(this.startTime);
   }
 
   calculateDuration(time){
     console.log("Calculate",time)
-    // let myTime = time.substring(0,3).concat(this.model.duration);
-    // console.log("end",myTime)
     let piece = time.split(':');
-    let mins = piece[0]*60 + +piece[1] + +this.model.durationTimes;
-    this.classend = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
-    console.log(this.classend)
+    let mins = Number(piece[0])*60 +Number(piece[1]) +this.model.durationTimes;
+    var endTime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+    console.log("Classend",endTime);
+    var test1 = Number(this.D(mins%(24*60)/60 | 0));
+    if(test1 > 12){
+      this.classend = endTime + 'PM';
+      console.log("classend PM",this.classend);
+    } else{
+      this.classend = endTime + 'AM';
+      console.log("classend AM",this.classend);
+    }
   }
   D(J){ return (J<10? '0':'') + J};
 
+  numberOnly(event):boolean{
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log("character");
+      this.testChar = true;
+      return false;
+    }
+    if(event.target.value.search(/^0/) != -1){
+        event.target.value = '';  
+    }
+    this.testChar = false;
+    return true;
+  }
+
+  onClickDuration(time){
+    console.log("item",time);
+    this.model.durationTimes = time;
+    this.calculateDuration(this.startTime);
+  }
+
+  chooseLocation(item){
+    console.log("Choose Location",item);
+    this.model.location = item.name;
+    this.locationId = item._id;
+  }
+
+  focusInputMethod(e, userType, staffType){
+    console.log(staffType)
+    if(staffType == 'teacher'){
+      console.log(e)
+      console.log(staffType,userType)
+      this.getAllUsers(userType);
+    }else if(staffType == 'assistant'){
+      console.log(e)
+      console.log(staffType,userType)
+      this.isFocus = true;
+      this.getAllUsers(userType);
+    }
+  }
+
+  hideFocus(e, staffType){
+    if(staffType == 'teacher'){
+      this.model.teacherSearch = "";
+    }else if(staffType == 'assistant'){
+      console.log("Assistant",staffType)
+      setTimeout(() => {
+        this.isFocus = false;
+      }, 300);
+      this.model.assistantSearch = "";
+    }
+  }
+
+  changeInputMethod(searchWord){
+    // console.log(this.detailLists.locationId)
+    // console.log(searchWord)
+    // let locationId = this.detailLists.locationId;
+    console.log('searchword',searchWord);
+    if(searchWord == ''){
+      console.log("NULL")
+    }else{
+      this._service.getSearchUser(this.regionID, searchWord,this.currentLocation)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.userLists = res;
+      }, err => {  
+        console.log(err);
+      });
+    }
+  }
+
+  getAllUsers(type){
+    this.blockUI.start('Loading...');    
+    this._service.getAllUsers(this.regionID, type, 20 , 0)
+    .subscribe((res:any) => {      
+      this.userLists = res;
+      console.log('this.userLists', this.userLists);      
+      setTimeout(() => {
+            this.blockUI.stop(); // Stop blocking
+        }, 300);
+      }, err => {
+        console.log(err);
+      })
+  }
+  selectedAssistants = [];
+  selectedUserLists =[];
+  chooseUser(user,type){
+    if (type == 'assistant') {
+      console.log(user);
+      this._service.getCurrentUser(user.userId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.isFocus = false;
+        console.log(this.selectedUserLists.length)
+        this.selectedUserLists.push(res);
+        this.selectedAssistants.push(res.userId);
+        console.log(this.selectedUserLists)
+        console.log(this.selectedUserLists.length)
+      }, err => {  
+        console.log(err);
+      });
+    }else if (type == 'teacher') {
+      console.log("Teacher")
+      this._service.getCurrentUser(user.userId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.selectedTeacher = res;
+        this.model.teacherId = this.selectedTeacher.userId;
+        console.log("selected Teacher",this.model.teacherId)
+      }, err => {  
+        console.log(err);
+      });
+    }
+  }
+
+  removeSelectedUser(id){
+    let getIndex;
+    let nextIndex;
+    for(let x in this.selectedUserLists){
+      if(id == this.selectedUserLists[x].userId){
+        getIndex = x;
+      }
+      if(id == this.selectedAssistants[x].userId){
+        nextIndex = x;
+      }
+    }
+    this.selectedUserLists.splice(getIndex,1);
+    this.selectedAssistants.splice(nextIndex,1);
+    console.log(this.selectedUserLists);
+    console.log(this.selectedAssistants);
+  }
+
+
+
+  saveDraft(){
+    this.save = true;
+    if(this.save == true){
+      this.createCourse();
+    }
+  }
+
+  publishCourse(){
+    this.save = false;
+    if(this.save == false){
+      this.createCourse();
+    }
+  }
+
   createCourse(){
     console.log("createCourse work",this.model);
-    console.log(this.model.optionsSelected)
-    console.log(this.model.opt)
-    this.courseObj = {
-      "coursePlanId": this.model.coursePlanId,
-      "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
-      "teacherId": this.model.teacherId,
-      "courseCode": this.model.courseCode,
-      "locationId": this.model.locationId,
-      "room": this.model.room,
-      "reservedNumberofSeat": this.model.reservedNumberofSeat,
-      "name": this.model.name,
-      "lessonCount": this.model.lessonCount,
-      "repeatDays": this.selectedDay,
-      "quizwerkz": this.cbChecked,
-      "description": this.model.description,
-    };
+    if(this.conflitCourseId == ""){
+      console.log("First Time");
+      if(this.model.end){
+      console.log("KKKK")
+      this.courseObj = {
+          "coursePlanId": this.coursePlan.id,
+          "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+          "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
+          "teacherId": this.model.teacherId,
+          "assistants": JSON.stringify(this.selectedAssistants),
+          "courseCode": this.model.courseCode,
+          "locationId": this.locationId,
+          "room": this.model.room,
+          "reservedNumberofSeat": this.model.reservedNumberofSeat,
+          "name": this.model.name,
+          "repeatDays": this.selectedDay,
+          "quizwerkz": [],
+          "description": this.model.description,
+          "skipLessons": JSON.stringify(this.skipArr),
+          "ignoreLessons": JSON.stringify(this.ignoreArr)
+        };
+      }else{
+        console.log("GGGG")
+        this.courseObj = {
+          "coursePlanId": this.coursePlan.id,
+          "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+          "teacherId": this.model.teacherId,
+          "assistants": JSON.stringify(this.selectedAssistants),
+          "courseCode": this.model.courseCode,
+          "locationId": this.locationId,
+          "room": this.model.room,
+          "reservedNumberofSeat": this.model.reservedNumberofSeat,
+          "name": this.model.name,
+          "lessonCount": this.model.lessonCount,
+          "repeatDays": this.selectedDay,
+          "quizwerkz": [],
+          "description": this.model.description,
+          "skipLessons": JSON.stringify(this.skipArr),
+          "ignoreLessons": JSON.stringify(this.ignoreArr)
+        };
+      }
+    }else{
+      console.log("Not First Time");
+      this.courseObj = {
+          "coursePlanId": this.coursePlan.id,
+          "teacherId": this.model.teacherId,
+          "assistants": JSON.stringify(this.selectedAssistants),
+          "courseCode": this.model.courseCode,
+          "locationId": this.locationId,
+          "room": this.model.room,
+          "reservedNumberofSeat": this.model.reservedNumberofSeat,
+          "name": this.model.name,
+          "quizwerkz": [],
+          "description": this.model.description,
+          "skipLessons": JSON.stringify(this.skipArr),
+          "ignoreLessons": JSON.stringify(this.ignoreArr)
+        };
+    }
+    
     console.log("Course",this.courseObj);
-    this._service.createCourse(this.regionID,this.courseObj)
+
+    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId)
     .subscribe((res:any) => {
       console.log(res);
       setTimeout(() => {
@@ -303,18 +694,19 @@ export class CoursecreateComponent implements OnInit {
       localStorage.removeItem('splan');
       this.router.navigate(['course/']); 
     },err => {
-        this.toastr.error('Create Fail');
-        console.log(err)
+        console.log(err);
+        if(err.status == 409){
+          this.toastr.error(err.error.message);
+          this.conflitArr = err.error.lessons;
+          this.conflitCourseId = err.error.courseId;
+          this.tempID =[];
+          this.ignoreTempID= [];
+          this.skipArr = [];
+          this.ignoreArr = [];
+        }else{
+          this.toastr.error('Create Fail');
+        }
       });
-  }
-
-  setMinDate(event){
-    console.log("setMinDate",event);
-    this.minDate = event;
-  }
-  setMaxDate(date){
-    console.log("setMaxDate",date);
-    this.maxDate =  date;
   }
 
   changeDateFormat(date,time){
@@ -333,118 +725,108 @@ export class CoursecreateComponent implements OnInit {
         }
         let timeParts = time.split(':');
         if(dateParts && timeParts) {
-            let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
-            console.log("UTC",testDate)
+            // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+            // console.log("UTC",testDate)
             let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
             console.log("ISO",fullDate)
             return fullDate;
         }
     }
   }
-  
-  cancel(){
-    localStorage.removeItem('coursePlanId');
-    localStorage.removeItem('courseId');
-    localStorage.removeItem('splan');
-    this.router.navigate(['course/']); 
-    this.isEdit = true;
-  }
-   
-  showCoursePlanName(planid){
-    console.log("course planid ",planid);
-    console.log("Course PLans",this.coursePlan)
-    let item1 = this.coursePlan.filter(item => item._id === planid)[0];
-    console.log(item1.name);
-    return item1;
+
+  skipStaff:any;
+  lessonID:any;
+  skip(id,staffid){
+    // this.tempID = staffid;
+    // this.lessonID = id;
+    // console.log(this.lessonID)
+    this.skipArr.push(id);
+    // console.log(staffid)
+    // this.skipStaff =staffid;
+    // this.skipArr.push(id);
+    // console.log("skip",this.skipArr);
+
   }
 
-  editCourse(cId){
-    this.isEdit = true;
-    this.showCourse = true;
-    this._service.getSingleCourse(cId)
-    .subscribe((res:any) => {
-      this.model = res;
-      console.log('Edit Course',this.model); 
-      let coursePlan=this.showCoursePlanName(this.model.coursePlanId);
-      this.model.coursePlanName = coursePlan.name;
-      console.log("coursePlanName",this.coursePlanName);
-      this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
-      console.log(this.model.start);
-      this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
-      console.log(this.model.end);
-      this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
-      console.log(this.model.starttime);
-      this.selectedDay = this.model.repeatDays;
-      let checkedarr = this.model.quizwerkz;
-      console.log("CHECKED create state",checkedarr)
-      for(let i=0; i < checkedarr.length ; i++){
-        let qw = checkedarr[i]._id;
-        this.cbChecked.push(qw);
-        console.log("cbChecked Arr",qw)
-      }
-      if(this.model.end){
-        this.model.prop = 'B';
-      }else if(this.model.lessonCount){
-        this.model.prop= 'A';
-      }
-    })
+  ignore(id){
+    this.ignoreArr.push(id);
+    console.log("ignore",this.ignoreArr);
   }
+  skipAll(item){
+    console.log(item);
+    if(this.ignoreTempID.length > 0){
+       for(var i in this.ignoreTempID){
+          if(this.ignoreTempID[i]==item.staffId){
+            var remove = Number(i);
+            console.log("Remove from ignore",i);
+            this.ignoreTempID.splice(remove,1);
+            console.log("temp",this.ignoreTempID)
+          }
+        }
+    }
+    this.tempID.push(item.staffId);
+    console.log('~~~~', this.tempID)
+    for(var key in item.conflictWith){
+      console.log("id",item.conflictWith[key]._id);
+      this.skipArr.push(item.conflictWith[key]._id);
+      // this.removeValues.push(lesson[key]._id);
+      console.log(this.skipArr);
+    }
+  }
+  ignoreTempID = [];
+  ignoreAll(item){
+    console.log(item);
+    if(this.tempID.length>0){
+       for(var i in this.tempID){
+          if(this.tempID[i]==item.staffId){
+            var remove = Number(i);
+            console.log("Remove from skip",i);
+            this.tempID.splice(remove,1);
+            console.log("temp",this.tempID)
+          }
+        }
+    }
+    this.ignoreTempID.push(item.staffId);
+    console.log('~~~~', this.ignoreTempID)
+    for(var key in item.conflictWith){
+      console.log("id",item.conflictWith[key]._id);
+      this.ignoreArr.push(item.conflictWith[key]._id);
+      // this.removeValues.push(lesson[key]._id);
+      console.log(this.ignoreArr);
+    }
 
-  updateCourse(courseid){
-    console.log("updateCourse",courseid);
-    if(this.model.prop == 'A'){
-      this.model.end = null;
-    }else if(this.model.prop == 'B'){
-      this.model.lessonCount == null;
-    }
-    let obj = {
-      "coursePlanId": this.model.coursePlanId,
-      "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      "endDate": this.changeDateFormat(this.model.end,"00:00"),
-      "teacherId": this.model.teacherId,
-      "courseCode": this.model.courseCode,
-      "locationId": this.model.locationId,
-      "room": this.model.room,
-      "reservedNumberofSeat": this.model.reservedNumberofSeat,
-      "name": this.model.name,
-      "lessonCount": this.model.lessonCount,
-      "repeatDays": this.selectedDay,
-      "quizwerkz": this.cbChecked,
-      "description": this.model.description,
-    };
-    this._service.updateCourse(courseid,obj)
-    .subscribe((res:any) => {
-      console.log(res);
-      localStorage.removeItem('coursePlanId');
-      setTimeout(() => {
-        this.toastr.success('Successfully Updated.');
-      }, 300); 
-      this.router.navigate(['course/']); 
-    },err => {
-      this.toastr.error('Edit Fail');
-      console.log(err);
-    })
-  }
-  
-  changeDateStrtoObj(datestr,type){
-    if(type == "start"){
-      console.log(datestr)
-      let test = datestr.substring(0, datestr.search("T"));
-      let testSplit = test.split("-");
-      let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
-      return format;
-    }else if(type == "end"){ 
-      if(datestr){
-        console.log(datestr)
-        let test = datestr.substring(0, datestr.search("T"));
-        let testSplit = test.split("-");
-        let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
-        return format;
-      }else if(datestr == null){
-        return null;
-      }
-    }
     
+    // for(var key in lesson){
+    //   console.log("id",lesson[key]._id);
+    //   this.ignoreArr.push(lesson[key]._id);
+    //   this.removeArr.push(lesson[key]._id);
+    //   console.log(this.ignoreArr);
+    // }
+    // if(this.ignoreArr.length > 0){
+    //   this.ignoreArr =  Array.from(new Set(this.ignoreArr));
+    //   console.log("Ignore array",this.ignoreArr)
+    // }
+
+    // if(this.removeArr.length >0){
+    //   this.skipArr = this.skipArr.filter((i) => (this.removeArr.indexOf(i) === -1));
+    //   console.log("Final Skip",this.skipArr);
+    //   this.removeArr = [];
+    // }
+  }
+
+  undo(id){
+    // var skipIdx = this.skipArr.indexOf(id);
+    // console.log('skipIdx',skipIdx);
+    // this.skipArr.splice(skipIdx,1);
+    // console.log("Splice SkipArr",this.skipArr);
+  }
+
+  viewDetailTimetable(){
+    this.isShowDetail = true;
+  }
+
+  hideDetailTimetable(){
+    this.isShowDetail = false;
   }
 
 }

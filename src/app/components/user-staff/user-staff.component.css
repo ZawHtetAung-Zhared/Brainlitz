@@ -1,3 +1,20 @@
+.user-group{
+    margin-bottom: 70px;
+}
+.load-more{
+    position: fixed;
+    z-index: 99;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 10px;
+}
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
 h3, h5 {
     font-family: 'Montserrat-Semibold', Arial,sans-serif;
     color: #2e3d4d;
@@ -69,13 +86,24 @@ h3, h5 {
 }
 
 .box-design {
-    box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     padding: 15px 15px;
     min-height: 140px;
     max-height: 140px;
+    -ms-transition: 0.3s all ease;
+    -webkit-transition: 0.3s all ease;
+    transition: 0.3s all ease;
 }
 .box-design:hover{
+    -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+    -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
     cursor: pointer;
+}
+.box-design:hover .right-arrow i {
+    color: #0080ff;
 }
 .mr-box {
     margin-top: 20px;
@@ -144,6 +172,9 @@ h3, h5 {
     font-size: 26px;
     color: #d4d5d6;
     cursor: pointer;
+    -webkit-transition: 0.6s all ease-out;
+    -ms-transition: 0.6s all ease-out;
+    transition: 0.6s all ease-out;
 }
 
 .text-vertical {
@@ -279,16 +310,28 @@ span.capitalize {
     text-transform: capitalize;
 }
 
-.profile-box {
+.circular-wrap {
     background: #f2f4f5;
-    width: 220px;
+    padding: 55px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+.profile-box {
+    /*background: #f2f4f5;*/
+    background: #ffffff;
+    border: 1px solid #e3e4e6;
+    /*width: 220px;*/
+    width: 337px;
+    max-height: 405px;
+    height: 404px;
     text-align: center;
     min-height: 282px;
     position: absolute;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     right: 15px;
-    padding: 24px;
+    /*padding: 24px;*/
+    padding: 10px 10px 0 10px;
 }    
 
 .circular-profile {
@@ -300,9 +343,9 @@ span.capitalize {
     border-radius: 50%;
     background: #ddd;
     border: 20px solid #fff;
-    position: absolute;
-    bottom: 55px;
-    left: 31px;
+    /*position: absolute;*/
+    /*bottom: 55px;*/
+    /*left: 31px;*/
 }
 
 .circular-profile img {
@@ -320,8 +363,12 @@ span.capitalize {
     color: #0080ff;
     font-size: 16px;
     position: absolute;
-    bottom: 5px;
-    left: 55px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*position: absolute;*/
+    /*bottom: 5px;*/
+    /*left: 55px;*/
 }
 
 .cancel-button {
@@ -344,10 +391,13 @@ span.capitalize {
     border: none;
 }
 
-.button-group {
-    position: absolute;
+.button-group {    
+    position: fixed;
+    width: 100%;
     bottom: 0;
-    right: 15px;
+    padding: 20px;
+    left: 0;
+    background: #fff;
 }
 
 .pad-bottom {
@@ -464,7 +514,7 @@ input[type=radio]:checked ~ label{
 }
 
 .frame-upload {
-    padding: 15px 15px 0 15px;
+    padding: 10px 10px 0 10px;
     border: 1px solid #e3e4e6;
     float: right;
     border-radius: 10px;

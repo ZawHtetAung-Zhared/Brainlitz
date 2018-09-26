@@ -21,7 +21,7 @@ export class QuizwerkzComponent implements OnInit {
 	public regionID = localStorage.getItem('regionId');
 	private modalReference: NgbModalRef;
 	closeResult: string;
-	public pdfList: any;
+	public pdfList: Array<any> = [];
   public isEdit:boolean = false;
   public iscreate:boolean = false;
 	public navIsFixed:boolean = false;
@@ -38,7 +38,7 @@ export class QuizwerkzComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.getAllPdf();
+  	this.getAllPdf(20, 0);
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -100,12 +100,16 @@ export class QuizwerkzComponent implements OnInit {
     }
   }
 
-  getAllPdf(){
+  showMore(skip: any){
+    this.getAllPdf(20, skip)
+  }
+
+  getAllPdf(limit, skip){
     this.blockUI.start('Loading...');
-  	this._service.getAllPdf(this.regionID)
+  	this._service.getAllPdf(this.regionID, limit, skip)
 		.subscribe((res:any) => {
       this.blockUI.stop();
-      this.pdfList = res;
+      this.pdfList = this.pdfList.concat(res);
       console.log("pdflist",this.pdfList);
     }, err => {
       this.blockUI.stop();
@@ -126,7 +130,7 @@ export class QuizwerkzComponent implements OnInit {
       console.log(res);
       this.blockUI.stop();
       this.toastr.success('Quizwerkz successfully created.');
-      this.getAllPdf();
+      this.getAllPdf(20, 0);
       this.iscreate = false;
     }, err => {
       this.toastr.error('Create quizwerkz failed.');
@@ -138,7 +142,7 @@ export class QuizwerkzComponent implements OnInit {
     // this.selectQw = id;
     console.log("onclickDelete",id);
     this.getSingleQuizwerkz(id)
-    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'deleteModal' });
+    this.modalReference = this.modalService.open(confirm, { backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });
     this.modalReference.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -165,7 +169,7 @@ export class QuizwerkzComponent implements OnInit {
       this.modalReference.close();
       this.toastr.error('Successfully deleted');
       console.log("Res",res);
-      this.getAllPdf();
+      this.getAllPdf(20, 0);
     }, err => {
       this.toastr.error('Delete QuizWerkz Fail');
       console.log(err)
@@ -207,7 +211,7 @@ export class QuizwerkzComponent implements OnInit {
       console.log(res);
       this.toastr.success('Successfully edited.');
       this.blockUI.stop();
-      this.getAllPdf();
+      this.getAllPdf(20, 0);
       this.iscreate = false;
     }, err => {
       this.toastr.error('Edit fail');

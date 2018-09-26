@@ -58,26 +58,40 @@ main{
     top: 5px;
   }
 }
-.animation-wrap {
+.animation-wrap,
+.deleteModal,
+.holidayModal,
+.modal-xl {
   animation: 0.3s linear 0s slideInFromTop;
 }
-.deleteModal{
-  animation: 0.3s linear 0s slideInFromTop;
+
+.holidayModal .modal-dialog {
+    margin: 0 auto !important;    
+    top: 30%!important;
+}
+.modal-xl .modal-title{
+    font-size: 28px !important;
+  }
+.modal-xl .modal-content{
+  border-radius: 8px;
+}
+.modal-xl .modal-dialog{
+  max-width: 960px !important;
+  width: 960px !important;
+}
+.modal-xl .modal-header{
+  padding: 32px 32px 0 32px !important;
+  border-bottom: none;
+}
+.modal-xl .modal-body{
+  padding: 16px 32px 32px 32px !important;
 }
 .deleteModal .modal-dialog{
-  margin: 0 auto !important;
-  max-width: 320px!important;
-  top: 30%!important;
+  max-width: 320px !important;
+  width: 320px !important;
 }
-
-.holidayModal{
-  animation: 0.3s linear 0s slideInFromTop;
-}
-
 .holidayModal .modal-dialog{
-  margin: 0 auto !important;
-  max-width: 465px!important;
-  top: 20%!important;
+  max-width: 465px !important;
 }
 
 .modal-title {
@@ -171,6 +185,7 @@ svg.star-filled.default-star-filled-icon {
 .intl-tel-input .selected-flag{
   position: absolute;
   width: 90px !important;
+  z-index: 0;
 }
 .intl-tel-input .country-list{
   top: 35px;
@@ -203,7 +218,7 @@ svg.star-filled.default-star-filled-icon {
   position: fixed;
   width: inherit;
   height: 100%;
-  z-index: 9;
+  z-index: 10;
   /*border-right: 1px solid #dedede;*/
   transition: height 300ms linear, transform 300ms linear;
 }
@@ -337,7 +352,7 @@ span.scrollup.show:hover:before {
 .custom-dropdown-width .dropdown-menu {
     height: 340px;
     overflow: scroll;
-    right: 15px;
+    right: 0;
     padding: 0;
     margin: 0;
     box-shadow: 0px 4px 12px -1px rgba(221,221,221,1);

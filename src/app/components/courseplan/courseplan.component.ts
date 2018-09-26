@@ -26,7 +26,8 @@ export class CourseplanComponent implements OnInit {
 
 	public showModal: boolean = false;
 	public showsubModal: boolean = true;
-	public checked: boolean = false;
+  public checked: boolean = false;
+	public isfocus: boolean = false;
 	modalReference: any;
   modalReference1: any;
 	closeResult: any;
@@ -89,14 +90,14 @@ export class CourseplanComponent implements OnInit {
   step5: boolean = false;
   step6: boolean = false;
   step7: boolean = false;
-  moduleList: any [] = [];
+  moduleList: Array<any> = [];
   showSearchAPG: boolean = true;
   createAPGform: boolean = false;
   showModule: boolean = false;
   selectedAPGlists: boolean = false;
   ischecked: any;
   model: any;
-  createdAPGstore: any [] = [];
+  createdAPGstore: Array<any> = [];
   clickedItem: any;
   selectedAPGidArray: any[] = [];
   showNewAPGbox: boolean = false;
@@ -116,7 +117,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllDeposit();
     this.getAllHolidaysCalendar();
     this.getAllPdf();
-    this.getAllAPG();
+    this.getAllAPG(20,0);
     this.pdfId = [];
     this.formField.holidayCalendarId = 'disabledHoliday';
     this.depositModel = 'deposit';
@@ -264,17 +265,17 @@ export class CourseplanComponent implements OnInit {
     }
     console.log(data)
     // this.blockUI.start('Loading...');
-    // this._service.createCoursePlan(this.regionID,data)
-    // .subscribe((res:any) => {
-    //  console.log('success post',res);
-    //  this.toastr.success('Successfully Created.');
-    //  this.blockUI.stop();
-    //   this.getAllCoursePlan();
-    //   }, err => {
-    //     this.toastr.error('Create Fail');
-    //     this.blockUI.stop();
-    //     console.log(err)
-    //   })
+    this._service.createCoursePlan(this.regionID,data)
+    .subscribe((res:any) => {
+     console.log('success post',res);
+     this.toastr.success('Successfully Created.');
+     this.blockUI.stop();
+      this.getAllCoursePlan();
+      }, err => {
+        this.toastr.error('Create Fail');
+        this.blockUI.stop();
+        console.log(err)
+      })
       this.cancel();
       this.mainForm.reset();
       this.formField = new cPlanField();
@@ -361,7 +362,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   viewPlan(view, id){
-    this.getAllAPG();
+    this.getAllAPG(20,0);
     this.getAllHolidaysCalendar();
     this.getAllDeposit();
     this.getAllPdf();
@@ -412,7 +413,7 @@ export class CourseplanComponent implements OnInit {
           }
         }
       }
-      this._service.getCategory(this.regionID)
+      this._service.getCategory(this.regionID, 20, 0)
       .subscribe((res:any) => {
         this.courseCategories = res;
           for(var i=0; i < this.courseCategories.length; i++){
@@ -452,9 +453,70 @@ export class CourseplanComponent implements OnInit {
       })
   }
 
-  getAllAPG(){
+  focusSearch(e){
+    this.isfocus = true;
+    this.showfixedcreate = true
+  }
+
+  hideSearch(e){
+    setTimeout(() => {
+      this.isfocus = false;
+      this.showfixedcreate = false;
+    }, 300);
+  }
+
+  changeSearch(keyword){
+    console.log(keyword)
+    this.getApgSearch(keyword, 'apg');
+    if(keyword == 0){
+      this.apgList = [];
+      this.getAllAPG(20, 0)
+    }
+  }
+
+  selectData(id, name){
+    console.log(id)
+    console.log(name)
+    this.singleAPG(id)
+
+    // const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
+    // if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
+    // else this.createdAPGstore.push(this.clickedItem);
+    // console.log(this.createdAPGstore)
+    // this.showfixedcreate = false;
+    // this.selectedAPGlists = true;
+    // this.showSearchAPG = true;
+    // this.showModule = false;
+    // this.createAPGform = false;
+    this.createdAPGstore.push(this.clickedItem)
+  }
+
+  singleAPG(id){
     this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID)
+    this._service.getSingleAPG(this.regionID, id)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      console.log('editapg' ,res) 
+      this.clickedItem = res;    
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
+  }
+
+  getApgSearch(keyword, type){
+      this._service.getSearchApg(this.regionID, keyword, type, '')
+      .subscribe((res:any) => {
+        console.log(res);
+        this.apgList = res;
+      }, err => {  
+        console.log(err);
+      });
+  }
+
+  getAllAPG(skip,limit){
+    this.blockUI.start('Loading...');
+    this._service.getAllAPG(this.regionID,skip,limit)
     .subscribe((res:any) => {
       console.log('apgLists' ,res)
       this.apgList = res;
@@ -467,7 +529,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllHolidaysCalendar(){
-      this._service.getAllHolidaysCalendar(this.regionID)
+      this._service.getAllHolidaysCalendar(this.regionID, 20, 0)
       .subscribe((res:any) => {
         this.holidayCalendarLists = res;
         console.log(this.holidayCalendarLists)
@@ -477,7 +539,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllPdf(){
-    this._service.getAllPdf(this.regionID)
+    this._service.getAllPdf(this.regionID, 20, 0)
     .subscribe((res:any) => {
       console.log('pdflists',res)
       this.pdfList = res;
@@ -489,7 +551,7 @@ export class CourseplanComponent implements OnInit {
   editcPlan(content, id){
     console.log(id)
     this.getAllPdf();
-    this.getAllAPG();
+    this.getAllAPG(20,0);
     this.responseChecked = [];
     this.pdfId = [];
     this.apgId = [];
@@ -1010,7 +1072,7 @@ export class CourseplanComponent implements OnInit {
             this.showModule = false;
             this.createAPGform = false;
             this.showfixedcreate = false;
-            this.getAllAPG();
+            this.getAllAPG(20,0);
           }, err => {
             this.toastr.error('Created APG Fail');
             console.log(err)

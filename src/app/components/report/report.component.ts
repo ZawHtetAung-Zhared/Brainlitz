@@ -14,13 +14,13 @@ export class ReportComponent implements OnInit {
   constructor( private _service: appService) { 
     this._service.itemValue.subscribe((nextValue) => {
          this.locationID = nextValue;
-         this.getStaffRating();
+         this.getStaffRating(20,0);
          this.showDetail = false;
       })
   }
   	public regionID = localStorage.getItem('regionId');
   	feedbackLists: any;
-	ratingLists: any;
+	ratingLists: Array<any> = [];
 	showFeedback: any;
 	showDetail: boolean = false;
 	isSticky: boolean = false;
@@ -39,7 +39,7 @@ export class ReportComponent implements OnInit {
 
   	ngOnInit() {
   		this.reportType = 'averageRating';
-  		this.getStaffRating();
+  		this.getStaffRating(20,0);
   		window.addEventListener('scroll', this.scroll, true);
   		this.dropDownShow = false;
   	}
@@ -88,18 +88,22 @@ export class ReportComponent implements OnInit {
 	    	console.log(err)
 	    })
 	}
+
+	showMore(skip: any){
+	    this.getStaffRating(20, skip)
+	  }
 	
-	getStaffRating(){
+	getStaffRating(limit, skip){
 		this.showFeedback = false;
 		this.blockUI.start('Loading...');
 		this.locationID = localStorage.getItem('locationId');
-		this._service.getRatingList(this.locationID)
+		this._service.getRatingList(this.locationID, limit, skip)
 		.subscribe((res:any) => {
 			this.ratingLists = res;
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		      }, 300);
-			if(this.ratingLists == ''){
+			if(this.ratingLists == []){
 				this.noData = true;
 			}
 			else {

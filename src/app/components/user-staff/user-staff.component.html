@@ -22,7 +22,14 @@
 		</div>
 		<div class="col-md-12 pad-0" style="margin-top: 35px;">
 			<div class="input-group col-md-12 pad-0">
-			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search staff here" id="example-search-input">
+			    <input 
+			    	class="form-control py-2 input-search-bg" 
+			    	type="search" 
+			    	placeholder="Search staff here"
+			    	id="staff-search-input"
+			    	(input)="userSearch($event.target.value, 'staff')"
+        			autocomplete="off"
+			    	>
 			    <span class="input-group-append">
 			        <button class="bt btn-design btn-outline-secondary" type="button">
 			            <i class="fa fa-search search-size"></i>
@@ -30,7 +37,7 @@
 			     </span>
 			</div>
 		</div>
-		<div class="row display-flex">
+		<div class="row display-flex user-group">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
 				<div class="box-design d-flex">
 					<div>
@@ -56,6 +63,9 @@
 			</div>
 		</div>
 </div>
+<div *ngIf="staffLists.length >= 20 && !showFormCreate" class="d-flex justify-content-center load-more">
+	<button class="btn" (click)="showMore('staff', staffLists.length)">load more</button>
+</div>
 
 <div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
 	<button type="button" class="back-button display-flex" (click)="back()">
@@ -71,7 +81,7 @@
 	</div>
 	<form class="form-wrap" novalidate #createForm="ngForm">
 		<div class="row display-flex">
-			<div class="col-md-7">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
 				<div class="form-group form-divider">
 		  	    	<div class="d-flex justify-content-between">
 		  	    		<label for="" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 
@@ -123,45 +133,47 @@
 				    </div>
 		  	  	</div>
 			</div>
-			<div class="col-md-5" style="display: block;">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5" style="display: block;">
 				<label for="upload">
 					<div *ngIf="!imgDemoSlider" class="profile-box label-txt">
 						<div class="form-group">
 							<label for="upload" class="profile-label">Profile</label><br>
-							<div class="circular-profile">
-								<img src="assets/img/user.svg">
+							<div class="circular-wrap">
+								<div class="circular-profile">
+									<img src="assets/img/user.svg">
+								</div>	
 							</div>	
 						    <p>Update photo</p>							
 						</div>
 						<div class="demo-wrap upload-demo">
-				          	<div class="container">
-					            <div class="grid">
-				              	<div class="col-1-2">
-				                	<div class="actions">
-				                		<a class="btn file-btn">
-				                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
-				                		</a>
-				                	</div>
-				              	</div><br />
-					            </div>
-				       		</div>
-					    </div>
+	          	<div class="container">
+		            <div class="grid">
+	              	<div class="col-1-2">
+	                	<div class="actions">
+	                		<a class="btn file-btn">
+	                  		<input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)' value="Choose a file" accept="image/*" style="display:none" />
+	                		</a>
+	                	</div>
+	              	</div><br />
+		            </div>
+	       			</div>
+				    </div>
 					</div>
 				</label>
 				<div class="frame-upload">
 					<div class="upload-demo-wrap">
-		              	<div id="upload-demo"></div>
-		            </div>
-		            <div class="row mr-button">
-		            	<div class="col-md-6 crop-box" style="border-bottom-left-radius: 10px;">
-			            	<div class="br-right">
-			            		<button *ngIf="blankCrop" class="upload-result btn1" (click)="backToUpload()" >Cancel</button>
-			            	</div>
-			            </div>
-		            	<div class="col-md-6 crop-box" style="border-bottom-right-radius: 10px;">
-			            	<button *ngIf="blankCrop" class="upload-result btn2" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
-			            </div>
-		            </div>
+            	<div id="upload-demo"></div>
+          </div>
+          <div class="row mr-button">
+          	<div class="col-md-6 crop-box" style="border-bottom-left-radius: 10px;">
+            	<div class="br-right">
+            		<button *ngIf="blankCrop" class="upload-result btn1" (click)="backToUpload()" >Cancel</button>
+            	</div>
+            </div>
+          	<div class="col-md-6 crop-box" style="border-bottom-right-radius: 10px;">
+            	<button *ngIf="blankCrop" class="upload-result btn2" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
+            </div>
+          </div>
 				</div>
 			</div>
 			<div class="col-md-12 pad-bottom">
@@ -179,17 +191,14 @@
 						</div>
 		  	    	</div>
 		  	  	</div>
-			</div>	
-	
-			<div class="col-md-12">
-				<div class="button-group">
-					<button type="button" class="bt cancel-button" (click)="back()">Cancel</button>
-		        	<button *ngIf="isupdate  == false" type="submit" (click)="createUser(formFields, 'create')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Create
-					</button>
-					<button *ngIf="isupdate  == true" type="submit" (click)="createUser(formFields, 'edit')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Update
-					</button>
-				</div>
 			</div>
+		</div>
+		<div class="d-flex justify-content-end button-group">
+			<button type="button" class="bt cancel-button" (click)="back()">Cancel</button>
+        	<button *ngIf="isupdate  == false" type="submit" (click)="createUser(formFields, 'create')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Create
+			</button>
+			<button *ngIf="isupdate  == true" type="submit" (click)="createUser(formFields, 'edit')" class="btn create-button" [disabled]="!createForm.form.valid || validProfile == false">Update
+			</button>
 		</div>
 	</form>	
 </div>

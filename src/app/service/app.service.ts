@@ -199,9 +199,9 @@ export class appService{
       }) 
     }
 
-    getAllTemplate(id){
+    getAllTemplate(id, limit: number, skip: number){
       this.getLocalstorage();
-      let url = this.baseUrl + '/' + id + '/access-point-template?all=1';
+      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -311,14 +311,14 @@ export class appService{
       })
     }
 
-    viewNoti(): Observable<any>{
+    viewNoti(limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
       const httpOptions = {
         headers: new HttpHeaders({  
           'Content-Type': 'application/json',
           'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      var url = this.baseUrl + '/noti/logs';
+      var url = this.baseUrl + '/noti/logs?limit=' + limit + '&skip=' + skip;
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
         let result = res; 
@@ -326,15 +326,20 @@ export class appService{
       })
     }
 
-    getLocations(id: string): Observable<any>{
+    getLocations(id: string, limit, skip, all): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl + '/' + id + '/locations';
+      let url;
+      if(all != false){
+        url = this.baseUrl + '/' + id + '/locations?all=' + all;
+      }else{
+        url = this.baseUrl + '/' + id + '/locations?limit=' + limit + '&skip=' + skip;       
+      }
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-         return this.httpClient.get(url, httpOptions)
+         return this.httpClient.get( url, httpOptions)
         .map((res:Response) => {
           let result = res;
           console.log(result);  
@@ -343,11 +348,12 @@ export class appService{
         }) 
       }
 
-    getAllUsers(id: string, type: any): Observable<any>{
+    getAllUsers(id: string, type: any, limit: number, skip: number): Observable<any>{
+      console.log(id, type,limit,skip)
       this.getLocalstorage();
       let url; 
       if(type == 'customer'){
-        url = this.baseUrl+ '/' + id + '/user?type=customer';
+        url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       }
       else if(type == 'staff'){
         url = this.baseUrl+ '/' + id + '/user?type=staff';
@@ -367,8 +373,52 @@ export class appService{
       }) 
     }
 
+    getSearchUser(regionID: string, val: string,userType){
+      let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getSearchCourse(regionID: string, val: string, location: string){
+      let apiUrl = this.baseUrl + '/' + regionID + '/course/search?keyword=' + val + '&locationId=' + location;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getSearchCategory(regionID: string, val: string, location: string){
+      let apiUrl = this.baseUrl + '/' + regionID + '/category/search?keyword=' + val + '&locationId=' + location;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 
     getUserDetail(id:string, userId:string){
+      console.log(id)
+      console.log(userId)
       let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -378,6 +428,7 @@ export class appService{
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
+        console.log(result)
         return result;
       })
     }
@@ -480,10 +531,10 @@ export class appService{
         })
     }
 
-    getCategory(regionid: string): Observable<any>{
+    getCategory(regionid: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
       console.log(regionid)
-      let url = this.baseUrl + '/' + regionid + '/category';
+      let url = this.baseUrl + '/' + regionid + '/category?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -575,6 +626,34 @@ export class appService{
       })
     }
 
+    getSearchAvailableCourse(regionID: string, val: string, userId){
+      let apiUrl = this.baseUrl + '/' + regionID + '/available-course/' + userId + '/search?keyword=' + val;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getAvailabelCourse(regionId:string, userId:string, limit: number, skip: number){
+      this.getLocalstorage();
+      let url = this.baseUrl+ '/' + regionId + '/available-course/' + userId + '?limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
+
     getAllCoursePlan(id: string): Observable<any>{
       this.getLocalstorage();
       console.log(id)
@@ -587,7 +666,7 @@ export class appService{
       .map((res:Response) => {
         let result = res;     
         return result;
-    }) 
+      }) 
     }
 
     createHolidays(regionid: string, data: object): Observable<any>{
@@ -679,9 +758,9 @@ export class appService{
       }) 
     }
 
-    getAllHolidaysCalendar(id: string): Observable<any>{
+    getAllHolidaysCalendar(id: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/holidaysCalendar';
+      let url = this.baseUrl+ '/' + id + '/holidaysCalendar?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -754,9 +833,18 @@ export class appService{
     //   })
     // }
 
-    createCourse(id: string, data: object): Observable<any>{
-      console.log("APP Service")
-      let url = this.baseUrl + '/' + id + '/course';
+
+    createCourse(id: string, data: object, save: boolean,courseID:string): Observable<any>{
+      console.log("APP Service");
+      console.log(courseID);
+      if(courseID == ""){
+        console.log("tttt");
+        var url = this.baseUrl + '/' + id + '/course?draft=' + save;
+        // let url = this.baseUrl + '/' + id + '/course?courseId=' + courseID;
+        // let url = this.baseUrl + '/' + id + '/course?courseId=' + courseID;
+      }else{
+        var url = this.baseUrl + '/' + id + '/course?courseId=' + courseID + '&draft=' + save;
+      }
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -770,9 +858,9 @@ export class appService{
       })
     }
 
-    getAllCourse(id: string): Observable<any>{
+    getAllCourse(id: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/course';
+      let url = this.baseUrl+ '/' + id + '/course?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -868,10 +956,12 @@ export class appService{
     }
 
     getAssignUser(regionid,courseid){
+      console.log('app service', regionid)
+      console.log('app service', courseid)
       let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
       const httpOptions = {
           headers: new HttpHeaders({ 
-            'authorization': this.tokenType + ' ' + this.accessToken})
+          'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
@@ -881,9 +971,9 @@ export class appService{
       }) 
     }
 
-    withdrawAssignUser(regionid,obj:any){
+    withdrawAssignUser(regionid,obj:any, locationid){
       console.log(regionid,obj);
-      let apiUrl = this.baseUrl+ '/' + regionid + '/timetable';
+      let apiUrl = this.baseUrl+ '/' + regionid + '/timetable?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken}),
@@ -939,10 +1029,10 @@ export class appService{
       })
     }
 
-    getAllPdf(regionId){
-      console.log(regionId)
+    getAllPdf(regionId, limit: number, skip: number){
+      console.log(skip)
       this.getLocalstorage();
-      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs';
+      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1043,8 +1133,8 @@ export class appService{
       })
     }
 
-    getRatingList(locationId: string){
-      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff';
+    getRatingList(locationId: string, limit: number, skip: number){
+      let apiUrl = this.baseUrl +'/'+ locationId + '/rating/staff?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1158,8 +1248,27 @@ export class appService{
       })
     }
 
-    getAllAPG(id: string){
-      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group';
+    getSearchApg(regionID: string, keyword: string, type: string, nin){
+      let apiUrl;
+      if(nin == ''){
+        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type;
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getAllAPG(id: string,limit:number,skip:number){
+      // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
+      console.log("APG limit skip",limit,skip);
+      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1258,8 +1367,11 @@ export class appService{
       })
     }
 
-    updateAPG(id:string, apgID:string, body:any, templateId: string){
-      let apiUrl = this.baseUrl + '/' + id + '/access-point-group/' + apgID;
+    updateAPG(regionid:string, apgID:string, body:any, templateId: string){
+      console.log('apgID ~ ', apgID);
+      console.log('body ~ ', body);
+      console.log('templateId ~ ', templateId);
+      let apiUrl = this.baseUrl + '/' + regionid + '/access-point-group/' + apgID;
       const options = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})

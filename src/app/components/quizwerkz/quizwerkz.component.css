@@ -1,3 +1,18 @@
+.load-more{
+    position: fixed;
+    z-index: 1;
+    width: 85%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 10px;
+    bottom: 0;
+    right: 0;
+}
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
 .main-wrapper{
     padding: 0 15px;
 }
@@ -30,6 +45,7 @@
     margin-top: 23px;
 }
 .btn-create{
+    font-family: 'Montserrat-Medium','Arial', sans-serif;
   color: #fff;
   background-color: #1682fb;
   border: none;
@@ -57,6 +73,7 @@
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-top: 20px;
+    margin-bottom: 70px;
 }
 .coverq {
     width: 120px;
@@ -96,17 +113,40 @@
     padding: 23px 15px 15px;
 }
 .back-to{
-    font-family: 'Montserrat-Regular', Arial,sans-serif;
-    color: #6a7279;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    color: #2e3d4d !important;
     padding-left: 0 !important;
     cursor: pointer;
     font-size: 16px;
+}
+.back-to i,
+.back-to p{
+  float: left;
+}
+.back-to i{
+  float: left;
+    font-size: 23px;
+}
+.back-to p{
+  float: left;
+  margin-bottom: 0;
+  line-height: 1.6;
+  margin-left: 4px;
+}
+.form-footer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 20px;
+    left: 0;
+    background: #fff;
 }
 .quizwerkz-form{
     padding: 20px 15px;
 }
 .btn-submit,
 .btn-cancel{
+    font-family: 'Montserrat-Medium','Arial', sans-serif;
     border: none;
     height: 45px;
     border-radius: 3px;
