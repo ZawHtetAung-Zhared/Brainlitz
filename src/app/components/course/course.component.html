@@ -27,6 +27,7 @@
           </div>
           <div>
             <div *ngFor="let course of courseGroup.courses">
+            ---{{course.draft}}
               <div class="d-flex course-wrap">
                 <div *ngIf="course.seat_left > 0" class="absolute">
                   {{ course.seat_left }} seats left
@@ -57,7 +58,8 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">OO {{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
                     <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     <!-- <ul><li>0 staff</li></ul> -->
                     </span>
