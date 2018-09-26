@@ -138,6 +138,7 @@ export class CourseComponent implements OnInit {
   }
 
   goToConflict(courseId){
+    localStorage.setItem("courseID",courseId);
     this.router.navigate(['/courseCreate']);
   }
 
@@ -151,9 +152,9 @@ export class CourseComponent implements OnInit {
       this.draft = res.draft;
       console.log("Draft",this.draft)
       console.log(res.locationId)
-      if(this.draft == true){
-        this.router.navigate(['/courseCreate']);
-      }
+      // if(this.draft == true){
+      //   this.router.navigate(['/courseCreate']);
+      // }
       // console.log(this.locationId)
     },err =>{
       console.log(err);

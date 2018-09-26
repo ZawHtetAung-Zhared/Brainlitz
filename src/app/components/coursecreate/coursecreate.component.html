@@ -9,7 +9,7 @@
 		<div>
 			<div><h5 class="mb-0 nav-title font-semi text-center">Create course</h5></div>
 			<div class="d-flex flex-row courseInfo font-medium">
-				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>	
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ planName }}</p>	
 			</div>
 		</div>
 		<div class="d-flex justify-content-center flex-column">
@@ -42,7 +42,7 @@
 		<div class="info-wrap">
 			<h3 class="font-semi">Create Course</h3>
 			<div class="d-flex courseInfo font-medium">
-				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ planName }}</p>
 			</div>
 		</div>
 		<div class="d-flex step-wrapper">
@@ -161,13 +161,13 @@
 						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="{{model.durationTimes}}" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
 						</div> -->
 						<div class="d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
-							{{this.model.durationTimes}} min
+							{{ model.duration }} min
 							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						</div>
 						<div class="dropdown-wrap">
 				          <ul class="duration-dropdown">
-				            <li *ngFor="let test of testList">
-				              <span (click)="onClickDuration(test)">{{ test }} min</span>
+				            <li *ngFor="let test of testList;let i = index;">
+				              <span (click)="onClickDuration(test,i)">{{ test }} min</span>
 				            </li>
 				          </ul>
 				        </div>
@@ -220,6 +220,9 @@
 								</div>
 								<div class="list-wrap">
 									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+									  <div class="img-wrap">
+							            <img src="{{user.profilePic}}">
+							          </div>
 									  <div class="single-user-info d-flex flex-column justify-content-center">
 									    {{user.preferredName}}
 									  </div>
@@ -255,6 +258,9 @@
 						</div>
 						<div class="user-list-box" *ngIf="isFocus == true">
 							<div (click)="chooseUser(user,'assistant')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+							  <div class="img-wrap">
+					            <img src="{{user.profilePic}}">
+					          </div>
 							  <div class="single-user-info d-flex flex-column justify-content-center">
 							    {{user.preferredName}}
 							  </div>

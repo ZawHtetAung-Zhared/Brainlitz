@@ -21,6 +21,7 @@ export class CoursecreateComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public currentLocation = localStorage.getItem('locationId');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
+  public courseID = localStorage.getItem('courseID');
   @BlockUI() blockUI: NgBlockUI;
 
   hello = JSON.parse(localStorage.getItem('splan')) ;
@@ -77,91 +78,11 @@ export class CoursecreateComponent implements OnInit {
   public tempArr = [];
   public conflitArr = [];
   public endAgain:boolean = false;
-  // public conflitArr = 
-  // [
-  //   {
-  //     "conflictWith": [
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-25T14:15:00.000Z",
-  //         "startDate": "2018-09-25T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296777"
-  //       },
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-26T14:15:00.000Z",
-  //         "startDate": "2018-09-26T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296776"
-  //       },
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-27T14:15:00.000Z",
-  //         "startDate": "2018-09-27T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296775"
-  //       }
-  //     ],
-  //     "preferredName": "Android 13",
-  //     "staffId": "5afa53d58205a72fad7ebe78"
-  //   },
-  //   {
-  //     "conflictWith": [
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-25T14:15:00.000Z",
-  //         "startDate": "2018-09-25T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296777"
-  //       },
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-26T14:15:00.000Z",
-  //         "startDate": "2018-09-26T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296776"
-  //       },
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-27T14:15:00.000Z",
-  //         "startDate": "2018-09-27T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296775"
-  //       }
-  //     ],
-  //     "preferredName": "HeiN",
-  //     "staffId": "5b18fd9629251d27ef24747c"
-  //   },
-  //   {
-  //     "conflictWith": [
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-25T14:15:00.000Z",
-  //         "startDate": "2018-09-25T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296777"
-  //       },
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-26T14:15:00.000Z",
-  //         "startDate": "2018-09-26T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296776"
-  //       },
-  //       {
-  //         "cancel": false,
-  //         "endDate": "2018-09-27T14:15:00.000Z",
-  //         "startDate": "2018-09-27T13:00:00.000Z",
-  //         "teacherId": "5afa53d58205a72fad7ebe78",
-  //         "_id": "5ba9f80897c271389f296775"
-  //       }
-  //     ],
-  //     "preferredName": "staff xxx01",
-  //     "staffId": "5b9261e2ddfd6b4c832618cb"
-  //   }
-  // ];
-
+  public planId:any;
+  public planName:any;
+  public planDuration:any;
+  public pplLists = [];
+  
   @ViewChild("myInput") inputEl: ElementRef;
 
   constructor( @Inject(DOCUMENT) private doc: Document,private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
@@ -170,18 +91,107 @@ export class CoursecreateComponent implements OnInit {
    test;
   ngOnInit() {    
     console.log("CPLan",this.coursePlan)
-    setTimeout(function(){
-      $("#step1").addClass('active');
-    }, 200)
-    // this.step2=true;
-    this.isChecked = 'end';
+    console.log("CourseID",this.courseID);
+    // this.isChecked = 'end';
     this.isSelected = 'AM';
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.showFormat = "00:00";
-    this.createList();
-    this.getAllLocations();
+    // this.createList();
+    // this.getAllLocations();
     window.scroll(0,0);
+    if(this.courseID){
+      console.log("Draft True",this.courseID);
+      this.showDraftCourse(this.courseID);
+    }else if(this.coursePlan){
+      console.log("course Create");
+      this.isChecked = 'end';
+      this.getAllLocations();
+      this.model = [];
+      this.planId = this.coursePlan.id;
+      this.planName = this.coursePlan.name;
+      this.model.duration = this.coursePlan.duration;
+      this.createList(this.model.duration);
+    }
+    
+  }
+
+  showDraftCourse(cId){
+    console.log("Function Works");
+    this.getAllLocations();
+    this._service.getSingleCourse(cId)
+    .subscribe((res:any) => {
+      console.log("Course Detail",res);
+      this.model = res;
+      this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
+      console.log(this.model.start);
+      this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
+      console.log(this.model.end);
+      this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
+      console.log(this.model.starttime);
+      this.model.location = this.model.location.name;
+      this.locationId = this.model.locationId;
+      console.log("this location",this.locationId);
+      this.selectedDay = this.model.repeatDays;
+      this.planId = this.model.coursePlan.coursePlanId;
+      this.planName = this.model.coursePlan.name;
+      console.log("plan in draft",this.planName)
+      this.model.duration = this.model.coursePlan.lesson.duration;
+      this.createList(this.model.duration);
+      this.model.durationTimes = this.model.durationTimes;
+      // this.getUsersInCourse(this.courseID);
+      this.selectedTeacher = this.model.teacher;
+      // this.selectedUserLists.push(this.model.assistants);
+      var assiatantsArr = this.model.assistants;
+      for(var i in assiatantsArr){
+        console.log("Assistant",assiatantsArr[i]);
+        this.selectedUserLists.push(assiatantsArr[i]);
+        this.selectedAssistants.push(assiatantsArr[i].userId);
+      }
+      if(this.model.end){
+        this.isChecked = 'end';
+      }else if(this.model.lessonCount){
+        this.isChecked = 'lesson';
+      }
+      setTimeout(() => {
+         this.createCourse();
+       }, 300);
+      // this.createCourse();
+    });
+  }
+
+  
+  // getUsersInCourse(courseId){
+  //   console.log('hi call course', courseId)
+  //   this._service.getAssignUser(this.regionID,courseId)
+  //   .subscribe((res:any)=>{
+  //     this.blockUI.stop();
+  //     console.log('Users',res)
+  //     this.pplLists = res;
+  //   },err =>{
+  //     console.log(err);
+  //   });
+  // }
+
+  changeDateStrtoObj(datestr,type){
+    if(type == "start"){
+      console.log(datestr)
+      let test = datestr.substring(0, datestr.search("T"));
+      let testSplit = test.split("-");
+      let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+      return format;
+    }else if(type == "end"){ 
+      if(datestr){
+        console.log(datestr)
+        let test = datestr.substring(0, datestr.search("T"));
+        let testSplit = test.split("-");
+        let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+        return format;
+      }else if(datestr == null){
+        return null;
+      }
+    }
+    
   }
 
   @HostListener("window:scroll", [])
@@ -202,15 +212,18 @@ export class CoursecreateComponent implements OnInit {
     })
   }
 
-  createList(){
-    console.log(this.coursePlan.duration);
+
+
+  createList(duration){
+    console.log(duration);
     for(var i = 0; i <= 9; i++){
-      var testVar = this.coursePlan.duration * (i+1);
+      var testVar = duration * (i+1);
       console.log("testVar",testVar);
       this.testList.push(testVar);
     }
     console.log("testList",this.testList);
-    this.model.durationTimes = this.testList[0];
+    // this.model.duration = this.testList[0];
+    console.log("Duration Times",this.model.duration)
   }
 
   focusMethod(e){
@@ -231,6 +244,7 @@ export class CoursecreateComponent implements OnInit {
   backToCourses(){
     this.router.navigate(['/course']);
     localStorage.removeItem('cPlan');
+    localStorage.removeItem('courseID');
   }
 
   // continueStep(type, data){
@@ -459,9 +473,9 @@ export class CoursecreateComponent implements OnInit {
   }
 
   calculateDuration(time){
-    console.log("Calculate",time)
+    console.log("Calculate",time,this.model.duration)
     let piece = time.split(':');
-    let mins = Number(piece[0])*60 +Number(piece[1]) +this.model.durationTimes;
+    let mins = Number(piece[0])*60 +Number(piece[1]) +this.model.duration;
     var endTime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
     console.log("Classend",endTime);
     var test1 = Number(this.D(mins%(24*60)/60 | 0));
@@ -489,10 +503,13 @@ export class CoursecreateComponent implements OnInit {
     return true;
   }
 
-  onClickDuration(time){
+  onClickDuration(time,index){
     console.log("item",time);
-    this.model.durationTimes = time;
-    this.calculateDuration(this.startTime);
+    console.log("index",index);
+    this.model.duration = time;
+    this.model.durationTimes = index+1;
+    console.log(this.model.durationTimes);
+    // this.calculateDuration(this.startTime);
   }
 
   chooseLocation(item){
@@ -623,8 +640,9 @@ export class CoursecreateComponent implements OnInit {
   }
 
   createCourse(){
+    console.log("This Plan",this.planId,this.planName,this.locationId)
     this.courseObj = {
-      "coursePlanId": this.coursePlan.id,
+      "coursePlanId": this.planId,
       // "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
       // "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
       "teacherId": this.model.teacherId,
@@ -634,13 +652,14 @@ export class CoursecreateComponent implements OnInit {
       "room": this.model.room,
       "reservedNumberofSeat": this.model.reservedNumberofSeat,
       "name": this.model.name,
+      "durationTimes": this.model.durationTimes,
       // "repeatDays": this.selectedDay,
       "quizwerkz": [],
       "description": this.model.description,
       "skipLessons": JSON.stringify(this.skipArr),
       "ignoreLessons": JSON.stringify(this.ignoreArr)
     };
-    console.log("createCourse work",this.model);
+    // console.log("createCourse work",this.model);
     if(this.conflitCourseId == ""){
       console.log("First Time");
       this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
