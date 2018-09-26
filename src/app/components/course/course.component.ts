@@ -44,7 +44,8 @@ export class CourseComponent implements OnInit {
     {'name': 'Lumpy Space Princess'},
     {'name': 'Beemo1'},
     {'name': 'Beemo2'}    
-  ]
+  ];
+  public draft:boolean;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -143,7 +144,12 @@ export class CourseComponent implements OnInit {
       this.detailLists = res;
       this.courseId = res._id;
       this.locationId = res.locationId;
+      this.draft = res.draft;
+      console.log("Draft",this.draft)
       console.log(res.locationId)
+      if(this.draft == true){
+        this.router.navigate(['/courseCreate']);
+      }
       // console.log(this.locationId)
     },err =>{
       console.log(err);
