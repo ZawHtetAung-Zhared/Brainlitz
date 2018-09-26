@@ -623,47 +623,65 @@ export class CoursecreateComponent implements OnInit {
 
   createCourse(){
     console.log("createCourse work",this.model);
-    if(this.model.end){
+    if(this.conflitCourseId == ""){
+      console.log("First Time");
+      if(this.model.end){
       console.log("KKKK")
       this.courseObj = {
-        "coursePlanId": this.coursePlan.id,
-        "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-        "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
-        "teacherId": this.model.teacherId,
-        "assistants": JSON.stringify(this.selectedAssistants),
-        "courseCode": this.model.courseCode,
-        "locationId": this.locationId,
-        "room": this.model.room,
-        "reservedNumberofSeat": this.model.reservedNumberofSeat,
-        "name": this.model.name,
-        "repeatDays": this.selectedDay,
-        "quizwerkz": [],
-        "description": this.model.description,
-        "skipLessons": JSON.stringify(this.skipArr),
-        "ignoreLessons": JSON.stringify(this.ignoreArr)
-      };
+          "coursePlanId": this.coursePlan.id,
+          "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+          "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
+          "teacherId": this.model.teacherId,
+          "assistants": JSON.stringify(this.selectedAssistants),
+          "courseCode": this.model.courseCode,
+          "locationId": this.locationId,
+          "room": this.model.room,
+          "reservedNumberofSeat": this.model.reservedNumberofSeat,
+          "name": this.model.name,
+          "repeatDays": this.selectedDay,
+          "quizwerkz": [],
+          "description": this.model.description,
+          "skipLessons": JSON.stringify(this.skipArr),
+          "ignoreLessons": JSON.stringify(this.ignoreArr)
+        };
+      }else{
+        console.log("GGGG")
+        this.courseObj = {
+          "coursePlanId": this.coursePlan.id,
+          "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
+          "teacherId": this.model.teacherId,
+          "assistants": JSON.stringify(this.selectedAssistants),
+          "courseCode": this.model.courseCode,
+          "locationId": this.locationId,
+          "room": this.model.room,
+          "reservedNumberofSeat": this.model.reservedNumberofSeat,
+          "name": this.model.name,
+          "lessonCount": this.model.lessonCount,
+          "repeatDays": this.selectedDay,
+          "quizwerkz": [],
+          "description": this.model.description,
+          "skipLessons": JSON.stringify(this.skipArr),
+          "ignoreLessons": JSON.stringify(this.ignoreArr)
+        };
+      }
     }else{
-      console.log("GGGG")
+      console.log("Not First Time");
       this.courseObj = {
-        "coursePlanId": this.coursePlan.id,
-        "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-        "teacherId": this.model.teacherId,
-        "assistants": JSON.stringify(this.selectedAssistants),
-        "courseCode": this.model.courseCode,
-        "locationId": this.locationId,
-        "room": this.model.room,
-        "reservedNumberofSeat": this.model.reservedNumberofSeat,
-        "name": this.model.name,
-        "lessonCount": this.model.lessonCount,
-        "repeatDays": this.selectedDay,
-        "quizwerkz": [],
-        "description": this.model.description,
-        "skipLessons": JSON.stringify(this.skipArr),
-        "ignoreLessons": JSON.stringify(this.ignoreArr)
-        // "ignoreLessons": this.ignoreArr.toString(),
-        // "skipLessons": this.skipArr.toString()
-      };
+          "coursePlanId": this.coursePlan.id,
+          "teacherId": this.model.teacherId,
+          "assistants": JSON.stringify(this.selectedAssistants),
+          "courseCode": this.model.courseCode,
+          "locationId": this.locationId,
+          "room": this.model.room,
+          "reservedNumberofSeat": this.model.reservedNumberofSeat,
+          "name": this.model.name,
+          "quizwerkz": [],
+          "description": this.model.description,
+          "skipLessons": JSON.stringify(this.skipArr),
+          "ignoreLessons": JSON.stringify(this.ignoreArr)
+        };
     }
+    
     console.log("Course",this.courseObj);
 
     this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId)
