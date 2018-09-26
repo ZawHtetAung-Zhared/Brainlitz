@@ -529,7 +529,7 @@
 			    							
 			    							<h5 *ngIf="course.endDate != null" class="mt-03">To</h5>
 			    							<h5 *ngIf="course.endDate == null" class="pt-13"></h5>
-			    							<b>{{course.endDate | utcDate}}</b>
+			    							<b *ngIf="course.endDate">{{course.endDate | utcDate}}</b>
 			    							
 			    							<b *ngIf="course.endDate == null">{{ course.lessonCount }} Lessons</b>
 			    							
