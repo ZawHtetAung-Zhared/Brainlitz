@@ -80,6 +80,7 @@ export class CalendarComponent implements OnInit {
   editOff(){
     this.isNameEdit = false
     this.isfocus = false;
+    this.formField.name = this.calendarName;
   }
 
   yearCalc(x){
@@ -197,10 +198,10 @@ export class CalendarComponent implements OnInit {
   editSingleCalendar(id){
     this.editOff();
     console.log(this.holidaysArr)
+    console.log(this.calendarHolidays)
     let calendarObj = {
       "-id": id,
-      "name": this.getEditedName,
-      "holidays": this.holidaysArr
+      "name": this.getEditedName
     }
     console.log('~~~ ',calendarObj)
     this.blockUI.start('Loading...');
