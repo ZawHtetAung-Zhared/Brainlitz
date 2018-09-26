@@ -162,7 +162,7 @@
         <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
           {{ day }}
         </h5>
-        <p>{{detailLists.startDate | utcTime}} - <span *ngIf="detailLists.endDate">{{detailLists.endDate | utcTime}}</span></p>
+        <p>{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
       </div>
       <div class="col-md-4 col-lg-4 course-date">
         <div class="d-flex detail-fees">
@@ -229,7 +229,7 @@
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
                 <div>
-                  <p class="seat">seats left</p>
+                  <p class="seat">{{detailLists.seat_left}} seats left</p>
                 </div>
               </div>
               <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>

@@ -99,6 +99,10 @@ export class CourseComponent implements OnInit {
       'location': {
         'name': ""
       },
+      'duration': {
+        'startDate' : '',
+        'endDate' : ''
+      },
       'repeatDays': []
     }
 

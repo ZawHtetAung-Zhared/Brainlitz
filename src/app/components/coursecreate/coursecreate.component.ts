@@ -126,9 +126,9 @@ export class CoursecreateComponent implements OnInit {
       console.log("Course Detail",res);
       this.model = res;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
-      console.log(this.model.start);
+      // console.log(this.model.start);
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
-      console.log(this.model.end);
+      // console.log(this.model.end);
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
       console.log(this.model.starttime);
       this.model.location = this.model.location.name;
@@ -141,9 +141,9 @@ export class CoursecreateComponent implements OnInit {
       this.model.duration = this.model.coursePlan.lesson.duration;
       this.createList(this.model.duration);
       this.model.durationTimes = this.model.durationTimes;
-      // this.getUsersInCourse(this.courseID);
+      // // this.getUsersInCourse(this.courseID);
       this.selectedTeacher = this.model.teacher;
-      // this.selectedUserLists.push(this.model.assistants);
+      // // this.selectedUserLists.push(this.model.assistants);
       var assiatantsArr = this.model.assistants;
       for(var i in assiatantsArr){
         console.log("Assistant",assiatantsArr[i]);
@@ -155,10 +155,11 @@ export class CoursecreateComponent implements OnInit {
       }else if(this.model.lessonCount){
         this.isChecked = 'lesson';
       }
-      setTimeout(() => {
-         this.createCourse();
-       }, 300);
-      // this.createCourse();
+      // setTimeout(() => {
+      //    this.createCourse();
+      //  }, 300);
+      this.conflitCourseId = res._id;
+      this.createCourse();
     });
   }
 
@@ -711,6 +712,11 @@ export class CoursecreateComponent implements OnInit {
             console.log("Please choose the end date again that should be later than the first one");
             // this.toastr.error("Please choose the end date again that should be later than the first one");
             this.toastr.error("please choose end date or lesson count");
+          }else if(err.error.message == "LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE NEEDED"){
+            
+            console.log("...");
+            // this.toastr.error("Please choose the end date again that should be later than the first one");
+            this.toastr.error(err.error.message);
           }else{
             this.toastr.error('Create Fail');
           }
