@@ -24,6 +24,8 @@ export class CoursecreateComponent implements OnInit {
   public courseID = localStorage.getItem('courseID');
   @BlockUI() blockUI: NgBlockUI;
 
+  public isSkipId: any;
+  public isIgnoreId: any;
   hello = JSON.parse(localStorage.getItem('splan')) ;
   public courseObj = {};
   wordLength:any;
@@ -124,9 +126,9 @@ export class CoursecreateComponent implements OnInit {
       console.log("Course Detail",res);
       this.model = res;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
-      console.log(this.model.start);
+      // console.log(this.model.start);
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
-      console.log(this.model.end);
+      // console.log(this.model.end);
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5)
       console.log(this.model.starttime);
       this.model.location = this.model.location.name;
@@ -139,9 +141,9 @@ export class CoursecreateComponent implements OnInit {
       this.model.duration = this.model.coursePlan.lesson.duration;
       this.createList(this.model.duration);
       this.model.durationTimes = this.model.durationTimes;
-      // this.getUsersInCourse(this.courseID);
+      // // this.getUsersInCourse(this.courseID);
       this.selectedTeacher = this.model.teacher;
-      // this.selectedUserLists.push(this.model.assistants);
+      // // this.selectedUserLists.push(this.model.assistants);
       var assiatantsArr = this.model.assistants;
       for(var i in assiatantsArr){
         console.log("Assistant",assiatantsArr[i]);
@@ -153,10 +155,11 @@ export class CoursecreateComponent implements OnInit {
       }else if(this.model.lessonCount){
         this.isChecked = 'lesson';
       }
-      setTimeout(() => {
-         this.createCourse();
-       }, 300);
-      // this.createCourse();
+      // setTimeout(() => {
+      //    this.createCourse();
+      //  }, 300);
+      this.conflitCourseId = res._id;
+      this.createCourse();
     });
   }
 
@@ -709,6 +712,11 @@ export class CoursecreateComponent implements OnInit {
             console.log("Please choose the end date again that should be later than the first one");
             // this.toastr.error("Please choose the end date again that should be later than the first one");
             this.toastr.error("please choose end date or lesson count");
+          }else if(err.error.message == "LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE NEEDED"){
+            
+            console.log("...");
+            // this.toastr.error("Please choose the end date again that should be later than the first one");
+            this.toastr.error(err.error.message);
           }else{
             this.toastr.error('Create Fail');
           }
@@ -744,21 +752,67 @@ export class CoursecreateComponent implements OnInit {
   skipStaff:any;
   lessonID:any;
   skip(id,staffid){
-    // this.tempID = staffid;
-    // this.lessonID = id;
-    // console.log(this.lessonID)
-    this.skipArr.push(id);
-    // console.log(staffid)
-    // this.skipStaff =staffid;
-    // this.skipArr.push(id);
-    // console.log("skip",this.skipArr);
+    this.isSkipId = id;
 
+    var val = id;
+    var val1 = staffid;
+    if(this.skipArr.includes(val) == false){
+      console.log('in the if')
+      this.skipArr.push(val)
+      // this.tempID.push(staffid);
+    }else{
+      console.log('in the else')
+      val = [val]
+      val1 = [val1]
+      this.skipArr =this.skipArr.filter(f => !val.includes(f));
+      // this.tempID =this.tempID.filter(f => !val1.includes(f));
+    }
+    console.log(this.skipArr)
   }
 
-  ignore(id){
-    this.ignoreArr.push(id);
+  undo(id){
+    var val = id;
+    this.isSkipId = ''
+    console.log('is skip true')
+    if(this.skipArr.includes(id) == true){
+      val = [id]
+      this.skipArr =this.skipArr.filter(f => !val.includes(f));
+    }
+    console.log(this.skipArr)
+  }
+
+  undoIG(id){
+    var val = id;
+    this.isIgnoreId = ''
+    console.log('is ignore true')
+    if(this.ignoreArr.includes(id) == true){
+      val = [id]
+      this.ignoreArr =this.ignoreArr.filter(f => !val.includes(f));
+    }
+    console.log(this.ignoreArr)
+  }
+
+  ignore(id, staffid){
+    this.isIgnoreId = id;
+
+    // this.ignoreArr.push(id);
+    var val = id;
+    var val1 = id;
+    if(this.ignoreArr.includes(val) == false){
+      console.log('in the if ignore')
+      this.ignoreArr.push(val)
+      // this.tempID.push(staffid);
+    }else{
+      console.log('in the else ignore')
+      val = [val]
+      val1 = [val1]
+      this.ignoreArr =this.ignoreArr.filter(f => !val.includes(f));
+      // this.tempID =this.tempID.filter(f => !val1.includes(f));
+    }
     console.log("ignore",this.ignoreArr);
   }
+
+
   skipAll(item){
     console.log(item);
     if(this.ignoreTempID.length > 0){
@@ -824,12 +878,12 @@ export class CoursecreateComponent implements OnInit {
     // }
   }
 
-  undo(id){
+  // undo(id){
     // var skipIdx = this.skipArr.indexOf(id);
     // console.log('skipIdx',skipIdx);
     // this.skipArr.splice(skipIdx,1);
     // console.log("Splice SkipArr",this.skipArr);
-  }
+  // }
 
   viewDetailTimetable(){
     this.isShowDetail = true;

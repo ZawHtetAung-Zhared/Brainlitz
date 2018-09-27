@@ -1,3 +1,7 @@
+.disable-click{
+  pointer-events: none;
+  opacity: 0.6
+}
 .refresh,.caption,::-webkit-input-placeholder {
   color: #788796 !important;
 }
@@ -999,6 +1003,7 @@ button:disabled {
   color: #64707d;
   font-size: 12px;
   cursor: pointer;
+  border: none;
 }
 .tick-wrap{
   width: 12px;

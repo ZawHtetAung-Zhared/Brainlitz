@@ -60,7 +60,7 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 					</div>
-					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
 					<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!courseName.errors.required">
 				          Course name is required!
@@ -387,30 +387,39 @@
 					</div>
 					<hr class="hr-line"  *ngIf="conflitArr?.length > 0">
 					<div class="d-flex  justify-content-between btn-wrap">
-						<div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex">
-							<button class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
+						<!-- <div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex"> -->
+
+						<div *ngIf="ignoreArr.indexOf(lesson._id) == -1 && skipArr.indexOf(lesson._id) == -1" class="d-flex">
+							<button [ngClass]="{'disable-click': lesson._id == isSkipId}" [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
 							Skip
 							</button>
-							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
+							<button [ngClass]="{'disable-click': lesson._id == isIgnoreId}" class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
 						</div>
 						<!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
 						<!-- hello {{conflit.staffId}} <br>
 						-- {{tempID}} -->
-						<button *ngIf="tempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+						<!-- <button *ngIf="tempID.indexOf(conflit.staffId) != -1" class="d-flex skipped"> -->
+						<button *ngIf="skipArr.indexOf(lesson._id) > -1" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
 								hello Skipped
 							</div>
 						</button>
 						<!-- <button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="d-flex"> -->
-						<button *ngIf="ignoreTempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+						<button *ngIf="ignoreArr.indexOf(lesson._id) > -1" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
 								Ignored
 							</div>
 						</button>
-						<button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
+						<!-- <button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
 							Undo
+						</button> -->
+						<button *ngIf="skipArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
+							Undo
+						</button>
+						<button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undoIG(lesson._id)">
+							Undo IG
 						</button>
 					</div>
 				</div>
@@ -502,7 +511,11 @@
 				</div>
 			</div>
 			<div>
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid" (click)="saveDraft()">Save Draft</button>
+
+		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid" (click)="saveDraft()">Save Draft</button>
+ -->
+		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
+		        <button type="button" class="btn button-savedraft font-medium" (click)="saveDraft()">Save Draft</button>
 		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
