@@ -1,7 +1,7 @@
 <div id="navbar">
 	<div class="d-flex justify-content-between">
 		<div class="d-flex justify-content-center flex-column">
-			<div class="d-flex back" (click)="backToCourses()">
+			<div class="d-flex back" (click)="backToCourses('back')">
 				<i class="fa fa-angle-left"></i>
 			    <p class="mb-0 font-medium">Courses</p>
 			</div>
@@ -24,7 +24,7 @@
 	<div class="header-wrapper">
 		<header>
 			<div class="d-flex justify-content-between">
-				<div class="d-flex back" (click)="backToCourses()">
+				<div class="d-flex back" (click)="backToCourses('back')">
 					<i class="fa fa-angle-left"></i>
 				    <p class="mb-0 font-medium ">Courses</p>
 				</div>
@@ -33,7 +33,7 @@
 					<h5 class="mb-0">Course</h5>
 				</div> -->
 				<div class="font-medium">
-					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
+					<button class="btn-cancel" (click)="backToCourses('back')">Cancel</button>
 				</div>
 			</div>
 		</header>
@@ -242,6 +242,7 @@
 							<input 
 							  class="form-control py-2 input-search-bg" 
 							  type="search" 
+							  autocomplete="off"
 							  placeholder="Add assistants by searching" 
 							  id="example-search-input" 
 							  name="search" 
@@ -507,14 +508,10 @@
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
-					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
+					<button type="button" class="btn-cancel" (click)="backToCourses('back')">Cancel</button>
 				</div>
 			</div>
 			<div>
-
-		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid" (click)="saveDraft()">Save Draft</button>
- -->
-		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
 		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid" (click)="saveDraft()">Save Draft</button>
 		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
 	        </div>

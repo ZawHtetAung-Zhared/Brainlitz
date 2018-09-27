@@ -23,7 +23,7 @@ export class CoursecreateComponent implements OnInit {
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   public courseID = localStorage.getItem('courseID');
   @BlockUI() blockUI: NgBlockUI;
-
+  // public goBackCat: boolean = false;
   public isSkipId: any;
   public isIgnoreId: any;
   hello = JSON.parse(localStorage.getItem('splan')) ;
@@ -102,6 +102,7 @@ export class CoursecreateComponent implements OnInit {
     // this.createList();
     // this.getAllLocations();
     window.scroll(0,0);
+    // this.goBackCat = true;
     if(this.courseID){
       console.log("Draft True",this.courseID);
       this.showDraftCourse(this.courseID);
@@ -244,11 +245,18 @@ export class CoursecreateComponent implements OnInit {
     this.wordLength = val.length;
   }
 
-  backToCourses(){
-    this.router.navigate(['/course']);
+  backToCourses(state){
+    console.log('backtocourse')
+    // this.router.navigate(['/course']);
+    this._service.backCourse();
     localStorage.removeItem('cPlan');
     localStorage.removeItem('courseID');
   }
+
+  // back(){
+  //   this.goBackCat = false;
+  //   this.backToCourses();
+  // }
 
   // continueStep(type, data){
   //   if(type == 'step1'){
