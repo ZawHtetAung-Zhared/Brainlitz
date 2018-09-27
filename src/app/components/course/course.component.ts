@@ -155,6 +155,7 @@ export class CourseComponent implements OnInit {
   goToConflict(courseId){
     localStorage.setItem("courseID",courseId);
     localStorage.removeItem('cPlan');
+    localStorage.removeItem('tempObj');
     // this.router.navigate(['/courseCreate']);
     this.goBackCat = false;
     this.isCourseCreate = true;
@@ -427,6 +428,7 @@ export class CourseComponent implements OnInit {
 
   addNewCourse(plan){
     localStorage.removeItem('courseID');
+    localStorage.removeItem('tempObj');
     this.goBackCat = false;
     this.isCourseCreate = true;
     console.log("CPlanId",plan);

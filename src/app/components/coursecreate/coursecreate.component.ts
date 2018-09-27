@@ -762,15 +762,11 @@ export class CoursecreateComponent implements OnInit {
     this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck)
     .subscribe((res:any) => {
       console.log(res);
-
-      setTimeout(() => {
-        this.toastr.success('Successfully Created.');
-      }, 300); 
       // localStorage.removeItem('coursePlanId');
       // localStorage.removeItem('splan');
       localStorage.removeItem('cPlan');
       localStorage.removeItem('courseID');
-      localStorage.removeItem('tempObj');
+      // localStorage.removeItem('tempObj');
       this.router.navigate(['course/']); 
 
       console.log(res.status);
