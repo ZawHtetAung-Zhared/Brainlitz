@@ -73,7 +73,7 @@
                         {{ course.courseDuration.starttime | convertTimeFormat }} - {{ course.courseDuration.endtime | convertTimeFormat }}
                       </div>
                     </div>
-                    <div class="btnCustomer-wrap">
+                    <div *ngIf="!course.draft" class="btnCustomer-wrap">
                       <button class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
