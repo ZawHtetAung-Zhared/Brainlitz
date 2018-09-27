@@ -1,7 +1,7 @@
 <div id="navbar">
 	<div class="d-flex justify-content-between">
 		<div class="d-flex justify-content-center flex-column">
-			<div class="d-flex back" (click)="backToCourses()">
+			<div class="d-flex back" (click)="backToCourses('back')">
 				<i class="fa fa-angle-left"></i>
 			    <p class="mb-0 font-medium">Courses</p>
 			</div>
@@ -9,13 +9,15 @@
 		<div>
 			<div><h5 class="mb-0 nav-title font-semi text-center">Create course</h5></div>
 			<div class="d-flex flex-row courseInfo font-medium">
-				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>	
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ planName }}</p>	
 			</div>
 		</div>
 		<div class="d-flex justify-content-center flex-column">
 			<div>
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
+		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -24,7 +26,7 @@
 	<div class="header-wrapper">
 		<header>
 			<div class="d-flex justify-content-between">
-				<div class="d-flex back" (click)="backToCourses()">
+				<div class="d-flex back" (click)="backToCourses('back')">
 					<i class="fa fa-angle-left"></i>
 				    <p class="mb-0 font-medium ">Courses</p>
 				</div>
@@ -33,7 +35,7 @@
 					<h5 class="mb-0">Course</h5>
 				</div> -->
 				<div class="font-medium">
-					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
+					<button class="btn-cancel" (click)="backToCourses('back')">Cancel</button>
 				</div>
 			</div>
 		</header>
@@ -42,7 +44,7 @@
 		<div class="info-wrap">
 			<h3 class="font-semi">Create Course</h3>
 			<div class="d-flex courseInfo font-medium">
-				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ coursePlan.name }}</p>
+				<p class="mb-0">Plan</p><span class="sticky-dot">&#183;</span><p class="mb-0">{{ planName }}</p>
 			</div>
 		</div>
 		<div class="d-flex step-wrapper">
@@ -60,7 +62,7 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 					</div>
-					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
 					<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!courseName.errors.required">
 				          Course name is required!
@@ -114,7 +116,7 @@
 							<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
 						</div>
 						<div *ngIf="isChecked == 'lesson'">
-							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel">
+							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
 						</div>
 					</div>
 				</div>
@@ -161,13 +163,13 @@
 						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="{{model.durationTimes}}" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
 						</div> -->
 						<div class="d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
-							{{this.model.durationTimes}} min
+							{{ model.duration }} min
 							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						</div>
 						<div class="dropdown-wrap">
 				          <ul class="duration-dropdown">
-				            <li *ngFor="let test of testList">
-				              <span (click)="onClickDuration(test)">{{ test }} min</span>
+				            <li *ngFor="let test of testList;let i = index;">
+				              <span (click)="onClickDuration(test,i)">{{ test }} min</span>
 				            </li>
 				          </ul>
 				        </div>
@@ -220,6 +222,9 @@
 								</div>
 								<div class="list-wrap">
 									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+									  <div class="img-wrap">
+							            <img src="{{user.profilePic}}">
+							          </div>
 									  <div class="single-user-info d-flex flex-column justify-content-center">
 									    {{user.preferredName}}
 									  </div>
@@ -239,6 +244,7 @@
 							<input 
 							  class="form-control py-2 input-search-bg" 
 							  type="search" 
+							  autocomplete="off"
 							  placeholder="Add assistants by searching" 
 							  id="example-search-input" 
 							  name="search" 
@@ -255,6 +261,9 @@
 						</div>
 						<div class="user-list-box" *ngIf="isFocus == true">
 							<div (click)="chooseUser(user,'assistant')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+							  <div class="img-wrap">
+					            <img src="{{user.profilePic}}">
+					          </div>
 							  <div class="single-user-info d-flex flex-column justify-content-center">
 							    {{user.preferredName}}
 							  </div>
@@ -353,10 +362,11 @@
 						<div class="flex-item">
 							<div class="name-label font-medium">
 								<!-- {{ conflit.date }} -->
-								{{ lesson.startDate }} - {{ lesson.endDate }}
+								{{ lesson.startDate | utcDate }}
+								<!-- {{ lesson.endDate | utcDate }} -->
 							</div>
 							<div class="label-12 font-medium">
-								time
+								{{ lesson.startDate | utcTime}} - {{ lesson.endDate | utcTime }}
 							</div>
 						</div>
 						<div class="flex-item">
@@ -381,30 +391,39 @@
 					</div>
 					<hr class="hr-line"  *ngIf="conflitArr?.length > 0">
 					<div class="d-flex  justify-content-between btn-wrap">
-						<div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex">
-							<button class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
+						<!-- <div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex"> -->
+
+						<div *ngIf="ignoreArr.indexOf(lesson._id) == -1 && skipArr.indexOf(lesson._id) == -1" class="d-flex">
+							<button [ngClass]="{'disable-click': lesson._id == isSkipId}" [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
 							Skip
 							</button>
-							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
+							<button [ngClass]="{'disable-click': lesson._id == isIgnoreId}" class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
 						</div>
 						<!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
 						<!-- hello {{conflit.staffId}} <br>
 						-- {{tempID}} -->
-						<button *ngIf="tempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+						<!-- <button *ngIf="tempID.indexOf(conflit.staffId) != -1" class="d-flex skipped"> -->
+						<button *ngIf="skipArr.indexOf(lesson._id) > -1" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
 								hello Skipped
 							</div>
 						</button>
 						<!-- <button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="d-flex"> -->
-						<button *ngIf="ignoreTempID.indexOf(conflit.staffId) != -1" class="d-flex skipped">
+						<button *ngIf="ignoreArr.indexOf(lesson._id) > -1" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
 								Ignored
 							</div>
 						</button>
-						<button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
+						<!-- <button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
 							Undo
+						</button> -->
+						<button *ngIf="skipArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
+							Undo
+						</button>
+						<button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undoIG(lesson._id)">
+							Undo IG
 						</button>
 					</div>
 				</div>
@@ -492,12 +511,13 @@
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
-					<button class="btn-cancel" (click)="backToCourses()">Cancel</button>
+					<button type="button" class="btn-cancel" (click)="backToCourses('back')">Cancel</button>
 				</div>
 			</div>
 			<div>
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
+			
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>

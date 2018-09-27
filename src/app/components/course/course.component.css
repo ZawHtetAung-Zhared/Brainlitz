@@ -468,6 +468,10 @@ li button{
     color: #2e3e4d;
     background: transparent;
 }
+.course-tab:focus{
+  outline: none;
+  box-shadow: none;
+}
 .course-tab.active {
     color: #0080ff;
     border-bottom: 2px solid #0080ff;
@@ -764,6 +768,7 @@ label.room-name::before {
   border-left: 2px solid #edeff0;
 }
 .search-user{
+  cursor: pointer;
   padding: 16px 0;
   border-bottom: 1px solid #e3e4e6;
 }

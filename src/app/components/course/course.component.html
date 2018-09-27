@@ -1,6 +1,6 @@
 <!-- <app-coursecreate></app-coursecreate> -->
-<app-header *ngIf="!isCategory && !isPlan" [ngClass]="{'stick': isSticky == true}"></app-header>
-<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail" [ngClass]="{'active': isSticky == true}">
+<app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
   <div class="card-container">
     <div class="title"><h3 class="header-font">Courses</h3></div>
@@ -27,6 +27,7 @@
           </div>
           <div>
             <div *ngFor="let course of courseGroup.courses">
+            ---{{course.draft}}
               <div class="d-flex course-wrap">
                 <div *ngIf="course.seat_left > 0" class="absolute">
                   {{ course.seat_left }} seats left
@@ -57,7 +58,8 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
                     <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     <!-- <ul><li>0 staff</li></ul> -->
                     </span>
@@ -71,7 +73,7 @@
                         {{ course.courseDuration.starttime | convertTimeFormat }} - {{ course.courseDuration.endtime | convertTimeFormat }}
                       </div>
                     </div>
-                    <div class="btnCustomer-wrap">
+                    <div *ngIf="!course.draft" class="btnCustomer-wrap">
                       <button class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
@@ -92,12 +94,13 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail" class="d-flex justify-content-center load-more">
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(courseList.length)">load more</button>
 </div>
 
 <app-category class="category-content" *ngIf="isCategory == true"></app-category>
 <app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
+<app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
 
 <div class="inner-wrapper" *ngIf="isCourseDetail == true">
   <div class="back-wrap d-flex justify-content-between">
@@ -160,7 +163,7 @@
         <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
           {{ day }}
         </h5>
-        <p>{{detailLists.startDate | utcTime}} - <span *ngIf="detailLists.endDate">{{detailLists.endDate | utcTime}}</span></p>
+        <p>{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
       </div>
       <div class="col-md-4 col-lg-4 course-date">
         <div class="d-flex detail-fees">
@@ -181,7 +184,7 @@
     <div class="d-flex flex-column">
       <div class="d-flex">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
-        <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button>
+        <!-- <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button> -->
         <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">
@@ -227,7 +230,7 @@
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
                 <div>
-                  <p class="seat">seats left</p>
+                  <p class="seat">{{detailLists.seat_left}} seats left</p>
                 </div>
               </div>
               <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>
