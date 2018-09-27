@@ -14,8 +14,10 @@
 		</div>
 		<div class="d-flex justify-content-center flex-column">
 			<div>
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
+		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.end == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.end == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -114,7 +116,7 @@
 							<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
 						</div>
 						<div *ngIf="isChecked == 'lesson'">
-							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel">
+							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
 						</div>
 					</div>
 				</div>
@@ -512,8 +514,17 @@
 				</div>
 			</div>
 			<div>
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button>
+			{{model.end == null}}
+			---{{model.end == null && isthereLC == false}}<!-- 
+			---{{!courseForm.form.valid}}
+			---{{model.end == null}}
+			---{{model.reservedNumberofSeat == null}}
+			---{{selectedDay.length == 0}}
+			---{{model.location == null}}
+			---{{model.assistantSearch == null}}
+			---{{selectedTeacher == ''}} -->
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.end == null && model.lessonCount == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.end == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>

@@ -424,6 +424,7 @@ export class CourseComponent implements OnInit {
   }
 
   addNewCourse(plan){
+    localStorage.removeItem('courseID');
     this.goBackCat = false;
     this.isCourseCreate = true;
     console.log("CPlanId",plan);

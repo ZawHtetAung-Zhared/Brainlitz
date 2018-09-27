@@ -842,7 +842,7 @@ export class appService{
     // }
 
 
-    createCourse(id: string, data: object, save: boolean,courseID:string): Observable<any>{
+    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean): any{
       console.log("APP Service");
       console.log(courseID);
       if(courseID == ""){
@@ -852,18 +852,25 @@ export class appService{
         // let url = this.baseUrl + '/' + id + '/course?courseId=' + courseID;
       }else{
         var url = this.baseUrl + '/' + id + '/course?courseId=' + courseID + '&draft=' + save;
+        url = (isCheck == true) ? url + '&check=' + isCheck : url;
       }
-      const httpOptions = {
-          headers: new HttpHeaders({ 
+
+      const httpOptions: any = {
+          headers: new HttpHeaders({
             'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
+            'authorization': this.tokenType + ' ' + this.accessToken
+          }),
+          observe: "response",
+          responseType: "json"
       };
-      return this.httpClient.post(url, data, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        console.log(result)
-        return result;
+      return this.httpClient
+      .post(url, data, httpOptions)
+      .map((res) => {
+          console.log(res)
+          return res;
       })
+
+            
     }
 
     getAllCourse(id: string, limit: number, skip: number): Observable<any>{
