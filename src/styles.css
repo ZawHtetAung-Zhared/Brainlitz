@@ -281,7 +281,7 @@ star-rating-comp.custDetail-rating .star-container{
   margin-left: 0px;
 }
 
-.limit-wordcount{
+.limit-wordcount,.limit-wordcount1{
   display: none;
   font-size: 14px;
   font-family: 'Montserrat-Medium','Arial', sans-serif !important;

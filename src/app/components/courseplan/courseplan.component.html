@@ -96,7 +96,7 @@
 										<span>{{wordLength}}/60characters</span>
 									</div>
 								</div>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' (focus)="focusMethod($event,'name')" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
 								<div *ngIf="cpName.invalid && (cpName.dirty || cpName.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!cpName.errors.required">
 							          Course plan name is required!
@@ -117,8 +117,13 @@
 						</div>
 						<div class="col-md-6">
 							<div>
-								<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
-								<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' name="description" #cpDesc="ngModel" placeholder="Type message here"></textarea>
+								<div class="d-flex justify-content-between">
+									<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
+									<div class="limit-wordcount1">
+										<span>{{wordLength}}/280characters</span>
+									</div>
+								</div>
+								<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' (focus)="focusMethod($event,'msg')" (blur)="blurMethod($event,'msg')" maxlength="280" (input)="changeMethod($event.target.value)" name="description" #cpDesc="ngModel" placeholder="Type message here"></textarea>
 								<!-- <div *ngIf="cpDesc.invalid && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
 							        <div [hidden]="!cpDesc.errors.required">
 							          Description is required!

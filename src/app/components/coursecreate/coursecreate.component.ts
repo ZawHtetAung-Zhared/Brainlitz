@@ -245,14 +245,22 @@ export class CoursecreateComponent implements OnInit {
     console.log("Duration Times",this.model.duration)
   }
 
-  focusMethod(e){
+  focusMethod(e, status){
     console.log('hi', e)
-    $('.limit-wordcount').show('slow'); 
+    if(status == 'name'){
+      $('.limit-wordcount').show('slow'); 
+    }else{
+      $('.limit-wordcount1').show('slow'); 
+    }
   }
     
-  blurMethod(e){
+  blurMethod(e, status){
     console.log('blur', e);
-    $('.limit-wordcount').hide('slow'); 
+    if(status == 'name'){
+      $('.limit-wordcount').hide('slow'); 
+    }else{
+      $('.limit-wordcount1').hide('slow'); 
+    }
   }
 
   changeMethod(val : string){
