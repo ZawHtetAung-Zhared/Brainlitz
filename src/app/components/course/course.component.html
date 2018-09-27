@@ -1,6 +1,6 @@
 <!-- <app-coursecreate></app-coursecreate> -->
-<app-header *ngIf="!isCategory && !isPlan" [ngClass]="{'stick': isSticky == true}"></app-header>
-<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail" [ngClass]="{'active': isSticky == true}">
+<app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
   <div class="card-container">
     <div class="title"><h3 class="header-font">Courses</h3></div>
@@ -94,12 +94,13 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail" class="d-flex justify-content-center load-more">
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(courseList.length)">load more</button>
 </div>
 
 <app-category class="category-content" *ngIf="isCategory == true"></app-category>
 <app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
+<app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
 
 <div class="inner-wrapper" *ngIf="isCourseDetail == true">
   <div class="back-wrap d-flex justify-content-between">

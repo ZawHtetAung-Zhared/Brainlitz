@@ -16,6 +16,7 @@ export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
   emptyCourse:boolean = false;
+  isCourseCreate:boolean = false;
   isCategory:boolean = false;
   isPlan:boolean = false;
   isFous:boolean = false;
@@ -54,26 +55,36 @@ export class CourseComponent implements OnInit {
       this.isCategory = false;
       window.scroll(0,0);
     });
+
+    this._service.goCourseCreate.subscribe(() => {   
+      console.log('go to cc') 
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = true;
+      window.scroll(0,0);
+    });
    
-   this._service.goplan.subscribe(() => {
+    this._service.goplan.subscribe(() => {
      console.log('muuuu')
      this.isCategory = false;
       this.isPlan = true;
       this.goBackCat = true;
-   })
+    })
 
-   this._service.goCat.subscribe(() => {   
+    this._service.goCat.subscribe(() => {   
       console.log('goback22', this.goBackCat) 
       this.goBackCat = false;
       this.isCategory = true;
       this.isPlan = false;
     });
 
-   this._service.goCourse.subscribe(() => {   
+    this._service.goCourse.subscribe(() => {   
       console.log('goback33') 
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
+      this.isCourseCreate = false;
       this.courseList = []
       this.getCourseLists(20, 0)
     });
@@ -144,7 +155,10 @@ export class CourseComponent implements OnInit {
   goToConflict(courseId){
     localStorage.setItem("courseID",courseId);
     localStorage.removeItem('cPlan');
-    this.router.navigate(['/courseCreate']);
+    // this.router.navigate(['/courseCreate']);
+    this.goBackCat = false;
+    this.isCourseCreate = true;
+    // this.router.navigate(['/courseCreate']);
   }
 
   getCourseDetail(id){
@@ -257,6 +271,7 @@ export class CourseComponent implements OnInit {
     console.log(e)
     console.log(userType)
     this.isFous = true;
+    // this.userLists = [];
     this.getAllUsers(userType);
   }
 
@@ -411,8 +426,11 @@ export class CourseComponent implements OnInit {
   }
 
   addNewCourse(plan){
+    localStorage.removeItem('courseID');
+    this.goBackCat = false;
+    this.isCourseCreate = true;
     console.log("CPlanId",plan);
-    this.router.navigate(['/courseCreate']);
+    // this.router.navigate(['/courseCreate']);
     let planObj={
       "name": plan.name,
       "id": plan.coursePlanId,

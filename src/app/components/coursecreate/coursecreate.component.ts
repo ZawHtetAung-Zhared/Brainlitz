@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener, AfterViewInit } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +23,8 @@ export class CoursecreateComponent implements OnInit {
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   public courseID = localStorage.getItem('courseID');
   @BlockUI() blockUI: NgBlockUI;
-
+  public addCheck: boolean = false;
+  public isthereLC: boolean = false;
   public isSkipId: any;
   public isIgnoreId: any;
   // hello = JSON.parse(localStorage.getItem('splan')) ;
@@ -70,7 +71,7 @@ export class CoursecreateComponent implements OnInit {
   public isDpFocus:boolean = false;
   public detailLists:any;
   public userLists:any;
-  public selectedTeacher:any;
+  public selectedTeacher:any = '';
   public isSticky:boolean = false;
   public isShowDetail:boolean = false;
   public save:boolean = false;
@@ -92,7 +93,7 @@ export class CoursecreateComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vcr);
    }
    test;
-  ngOnInit() {    
+  ngOnInit() { 
     console.log("CPLan",this.coursePlan)
     console.log("CourseID",this.courseID);
     // this.isChecked = 'end';
@@ -103,6 +104,7 @@ export class CoursecreateComponent implements OnInit {
     // this.createList();
     // this.getAllLocations();
     window.scroll(0,0);
+    // this.goBackCat = true;
     if(this.courseID){
       console.log("Draft True",this.courseID);
       this.showDraftCourse(this.courseID);
@@ -154,13 +156,18 @@ export class CoursecreateComponent implements OnInit {
       }else if(this.model.lessonCount){
         this.isChecked = 'lesson';
       }
+
       // var selectedDays= this.model.repeatDays;
       this.temp["endDate"] = this.model.endDate;
       this.temp["startDate"] = this.model.startDate;
       this.temp["lessonCount"] = this.model.lessonCount;
       this.temp["repeatDays"] = this.selectedDay;
       localStorage.setItem("tempObj",JSON.stringify(this.temp));
-
+      // setTimeout(() => {
+      //    this.createCourse();
+      //  }, 300);
+      this.save = true;
+      this.addCheck = true;
       this.conflitCourseId = res._id;
       this.createCourse();
     });
@@ -229,8 +236,8 @@ export class CoursecreateComponent implements OnInit {
   createList(duration){
     console.log(duration);
     for(var i = 0; i <= 9; i++){
-      var testVar = duration * (i+1);
-      console.log("testVar",testVar);
+    var testVar = duration * (i+1);
+      // console.log("testVar",testVar);
       this.testList.push(testVar);
     }
     console.log("testList",this.testList);
@@ -253,21 +260,67 @@ export class CoursecreateComponent implements OnInit {
     this.wordLength = val.length;
   }
 
-  backToCourses(){
-    this.router.navigate(['/course']);
+  backToCourses(ToCourses){
+    console.log('backtocourse')
+    // this.router.navigate(['/course']);
+    this._service.backCourse();
     localStorage.removeItem('cPlan');
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
   }
 
+
+  // back(){
+  //   this.goBackCat = false;
+  //   this.backToCourses();
+  // }
+
+  // continueStep(type, data){
+  //   if(type == 'step1'){
+  //     this.step1FormaData = data;
+  //     console.log(this.step1FormaData)
+  //     this.step1 = false;
+  //     if(this.step1 == false){
+  //       $("#step1").removeClass('active');
+  //       $("#step1").addClass('done');
+  //       $("#step2").addClass('active');
+  //       this.step2 = true;
+  //     }
+  //   }
+  // }
+
+  // backStep(step){
+  //   console.log(step);
+  //   if(step == 'step2'){
+  //     this.step2 = false;
+  //     this.step1 = true;
+  //     if(this.step1 == true){
+  //       $("#step2").removeClass('active');
+  //       $("#step2").addClass('done');
+  //       $("#step1").addClass('active');
+  //     }
+  //   }
+  // }
+
+  lCount(val){
+    console.log(val)
+    this.isthereLC = (val == '') ? false : true;
+    console.log(this.isthereLC)
+  }
+
+
   chooseEndOpt(type){
+    this.model.lessonCount = ''
     console.log("Type",type);
     this.isChecked = type;
       if(type == 'end'){
         this.model.end = "";
+        // this.isthereLC = '';
       }else{
+        console.log(this.model.lessonCount)
         this.model.lessonCount = "";
-        this.maxDate = "";
+        // this.isthereLC = '';
+        // this.maxDate = "";
       }
   }
 
@@ -705,9 +758,10 @@ export class CoursecreateComponent implements OnInit {
     
     console.log("Course",this.courseObj);
 
-    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId)
+    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck)
     .subscribe((res:any) => {
       console.log(res);
+
       setTimeout(() => {
         this.toastr.success('Successfully Created.');
       }, 300); 
@@ -717,8 +771,25 @@ export class CoursecreateComponent implements OnInit {
       localStorage.removeItem('courseID');
       localStorage.removeItem('tempObj');
       this.router.navigate(['course/']); 
+
+      console.log(res.status);
+      if(res.status === 201){
+        setTimeout(() => {
+          this.toastr.success('You have no conflict.');
+        }, 300); 
+        this.addCheck = false;
+        console.log('201 status', this.addCheck)
+      }else{
+        setTimeout(() => {
+          this.toastr.success('Successfully Created.');
+        }, 300); 
+        localStorage.removeItem('coursePlanId');
+        localStorage.removeItem('splan');
+        this.backToCourses('');
+      }
     },err => {
         console.log(err);
+        console.log(err.status);
         if(err.status == 409){
           this.toastr.error(err.error.message);
           this.conflitArr = err.error.lessons;

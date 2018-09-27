@@ -37,6 +37,9 @@ export class appService{
     goCourse: Observable<any>;
     private backCo = new Subject<any>();
 
+    goCourseCreate: Observable<any>;
+    private backCC = new Subject<any>();
+
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
@@ -48,7 +51,8 @@ export class appService{
       this.goplan = this.plan.asObservable(); 
       this.goCat = this.preCat.asObservable();
       this.goCourse = this.backCo.asObservable();
-     }
+      this.goCourseCreate = this.backCC.asObservable();
+    }
 
     getPathLocal(){
       var datGet = localStorage.getItem('slicePath')
@@ -61,6 +65,10 @@ export class appService{
 
     backCourse(){
       this.backCo.next(false)
+    }
+
+    backCCreate(){
+      this.backCC.next(false)
     }
 
     back(){
@@ -834,7 +842,7 @@ export class appService{
     // }
 
 
-    createCourse(id: string, data: object, save: boolean,courseID:string): Observable<any>{
+    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean): any{
       console.log("APP Service");
       console.log(courseID);
       if(courseID == ""){
@@ -842,18 +850,25 @@ export class appService{
         var url = this.baseUrl + '/' + id + '/course?draft=' + save;
       }else{
         var url = this.baseUrl + '/' + id + '/course?courseId=' + courseID + '&draft=' + save;
+        url = (isCheck == true) ? url + '&check=' + isCheck : url;
       }
-      const httpOptions = {
-          headers: new HttpHeaders({ 
+
+      const httpOptions: any = {
+          headers: new HttpHeaders({
             'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
+            'authorization': this.tokenType + ' ' + this.accessToken
+          }),
+          observe: "response",
+          responseType: "json"
       };
-      return this.httpClient.post(url, data, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        console.log(result)
-        return result;
+      return this.httpClient
+      .post(url, data, httpOptions)
+      .map((res) => {
+          console.log(res)
+          return res;
       })
+
+            
     }
 
     getAllCourse(id: string, limit: number, skip: number): Observable<any>{
