@@ -362,10 +362,11 @@
 						<div class="flex-item">
 							<div class="name-label font-medium">
 								<!-- {{ conflit.date }} -->
-								{{ lesson.startDate }} - {{ lesson.endDate }}
+								{{ lesson.startDate | utcDate }}
+								<!-- {{ lesson.endDate | utcDate }} -->
 							</div>
 							<div class="label-12 font-medium">
-								time
+								{{ lesson.startDate | utcTime}} - {{ lesson.endDate | utcTime }}
 							</div>
 						</div>
 						<div class="flex-item">

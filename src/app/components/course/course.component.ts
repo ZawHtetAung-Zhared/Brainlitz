@@ -154,6 +154,8 @@ export class CourseComponent implements OnInit {
 
   goToConflict(courseId){
     localStorage.setItem("courseID",courseId);
+    localStorage.removeItem('cPlan');
+    // this.router.navigate(['/courseCreate']);
     this.goBackCat = false;
     this.isCourseCreate = true;
     // this.router.navigate(['/courseCreate']);
@@ -435,5 +437,6 @@ export class CourseComponent implements OnInit {
       "duration": plan.lesson.duration
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
+    localStorage.removeItem('courseID');
   }
 }

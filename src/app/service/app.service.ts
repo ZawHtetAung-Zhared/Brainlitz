@@ -848,8 +848,6 @@ export class appService{
       if(courseID == ""){
         console.log("tttt");
         var url = this.baseUrl + '/' + id + '/course?draft=' + save;
-        // let url = this.baseUrl + '/' + id + '/course?courseId=' + courseID;
-        // let url = this.baseUrl + '/' + id + '/course?courseId=' + courseID;
       }else{
         var url = this.baseUrl + '/' + id + '/course?courseId=' + courseID + '&draft=' + save;
         url = (isCheck == true) ? url + '&check=' + isCheck : url;
