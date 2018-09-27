@@ -1,3 +1,6 @@
+.disable-click{
+    pointer-events: none;
+}
 .search-result-box{
   height: 300px;
   overflow: auto;
