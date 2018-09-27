@@ -15,9 +15,9 @@
 		<div class="d-flex justify-content-center flex-column">
 			<div>
 		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.end == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
 		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.end == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -514,17 +514,9 @@
 				</div>
 			</div>
 			<div>
-			{{model.end == null}}
-			---{{model.end == null && isthereLC == false}}<!-- 
-			---{{!courseForm.form.valid}}
-			---{{model.end == null}}
-			---{{model.reservedNumberofSeat == null}}
-			---{{selectedDay.length == 0}}
-			---{{model.location == null}}
-			---{{model.assistantSearch == null}}
-			---{{selectedTeacher == ''}} -->
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.end == null && model.lessonCount == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.end == null || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+			
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>

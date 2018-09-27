@@ -163,7 +163,7 @@ export class CoursecreateComponent implements OnInit {
       this.save = true;
       this.addCheck = true;
       this.conflitCourseId = res._id;
-      this.createCourse();
+      this.createCourse('withDraf');
     });
   }
 
@@ -304,7 +304,7 @@ export class CoursecreateComponent implements OnInit {
       }else{
         console.log(this.model.lessonCount)
         this.model.lessonCount = "";
-        this.isthereLC = '';
+        
         // this.maxDate = "";
       }
   }
@@ -650,20 +650,22 @@ export class CoursecreateComponent implements OnInit {
 
 
   saveDraft(){
+    this.addCheck = false;
     this.save = true;
     if(this.save == true){
-      this.createCourse();
+      this.createCourse('withoutDraf');
     }
   }
 
   publishCourse(){
+    this.addCheck = false;
     this.save = false;
     if(this.save == false){
-      this.createCourse();
+      this.createCourse('withoutDraf');
     }
   }
 
-  createCourse(){
+  createCourse(state){
     console.log("This Plan",this.planId,this.planName,this.locationId)
     this.courseObj = {
       "coursePlanId": this.planId,
@@ -714,9 +716,9 @@ export class CoursecreateComponent implements OnInit {
       console.log(res);
       console.log(res.status);
       if(res.status === 201){
-        setTimeout(() => {
-          this.toastr.success('You have no conflict.');
-        }, 300); 
+        
+        this.toastr.success('You have no conflict.');
+         
         this.addCheck = false;
         console.log('201 status', this.addCheck)
       }else{
