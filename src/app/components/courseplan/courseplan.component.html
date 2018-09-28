@@ -446,17 +446,29 @@
 								<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Shared APGs</span></p>
 								<h3 class="all-title-font">Create APG</h3>
 							</div>
-							<div class="col-md-6 top-para" style="padding-top: 40px;">
-								<p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" #apgName="ngModel" required>
+							<div class="col-md-6" style="padding-top: 40px;">
+								<!-- <p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p> -->
+								<div class="d-flex justify-content-between">
+					              <label class="form-title input-label all-title-font" for="address">APG name</label>  
+					              <div class="limit-wordcount">
+					                <span class="count-color">{{wordLength}}/60characters</span>
+					              </div>
+					            </div>
+					            <p class="input-recommend">We recommend to set APG name as same as Course name.</p>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name')" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" #apgName="ngModel" required>
 								<div *ngIf="apgName.invalid && (apgName.dirty || apgName.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!apgName.errors.required">
 							          APG name is required!
 							        </div>
 							    </div>	
 								<hr class="limit-hr-length">
-								<label for="desc" class="all-title-font">Description</label>
-								<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" style="margin-bottom: 15px;" [(ngModel)]='formAPG.description' name="description" #apgDesc="ngModel" placeholder="Type address here" required ></textarea>
+								<div class="d-flex justify-content-between">
+					              <label class="form-title input-label all-title-font" for="address">Description</label>
+					              <div class="limit-wordcount1">
+					                <span class="count-color">{{wordLength}}/280characters</span>
+					              </div>
+					            </div>
+								<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" style="margin-bottom: 15px;" [(ngModel)]='formAPG.description' name="description" (focus)="focusMethod($event,'msg')" (blur)="blurMethod($event,'msg')" (input)="changeMethod($event.target.value)" maxlength="280" #apgDesc="ngModel" placeholder="Type address here" required ></textarea>
 								<div *ngIf="apgDesc.invalid && (apgDesc.dirty || apgDesc.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!apgDesc.errors.required">
 							          APG description is required!
@@ -465,7 +477,7 @@
 								<hr class="limit-hr-length">
 							</div>
 						</div>	
-						<div class="button-wrapper" style="float: right;">
+						<div class="d-flex justify-content-end  button-wrapper">
 							<button type="button" class="bt cancel-button" (click)="backSearhAPG('cancel')" >Cancel</button>
 				        	<button type="submit" (click)="createAPGs(apgCreateForm.value)" [disabled]="!apgCreateForm.valid" class="btn create-button" >Create
 							</button>
