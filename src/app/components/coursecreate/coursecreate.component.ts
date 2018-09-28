@@ -87,6 +87,9 @@ export class CoursecreateComponent implements OnInit {
   public planDuration:any;
   public pplLists = [];
   public temp:any = {};
+  public timetable: any;
+  public ttCalendar: Aray<any> = [];
+  public timetableLists: Aray<any> = [];
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -804,6 +807,10 @@ export class CoursecreateComponent implements OnInit {
           this.ignoreTempID= [];
           this.skipArr = [];
           this.ignoreArr = [];
+          this.timetable = err.error.timetable
+          this.ttCalendar = err.error.timetable.calendar
+          this.timetableLists = err.error.timetable.calendar
+          console.log(this.ttCalendar)
         }else if(err.status == 400){
           if(err.error.message == "LESSONS CAN'T BE EMPTY"){
             this.endAgain = true;

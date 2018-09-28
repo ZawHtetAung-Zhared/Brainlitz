@@ -441,8 +441,8 @@
 				</div>
 			</div>
 		</div>
-		<hr  class="hr-line">
-		<!-- <div class="col-md-12 step-wrapper">
+		<hr class="hr-line">
+		<div *ngIf="conflitArr?.length > 0" class="col-md-12 step-wrapper">
 			<div class="d-flex">
 				<div id="parent">
 					<img src="./assets/images/timetable-ico.png">
@@ -466,7 +466,7 @@
 					</div>
 					<div class="flex-item2">
 						<div class="item-label font-medium">Number of lessons</div>
-						<div class="name-label font-medium">11</div>
+						<div class="name-label font-medium">{{timetable.lessons_count}}</div>
 					</div>
 					<div class="flex-item2">
 						S$<span class="font-medium">200</span>
@@ -492,18 +492,18 @@
 					</div>
 				</div>
 				<div class="table-body">
-					<div *ngFor="let timetable of testTimetable">
+					<div *ngFor="let timetable of timetableLists">
 						<div class="time-info">
 							<div class="name-label font-semi">{{ timetable.date }}</div>
 							<div class="label-12 font-medium">{{ timetable.time }}</div>
 						</div>
 						<div class="grid-container">
-							<div *ngFor="let item of timetable.timetableArr">
+							<div *ngFor="let item of timetable.lessons">
 								<div class="grid-item" [ngClass]="{'skip': item.skip == true}">
 									<div *ngIf="item.skip == true" class="skip-arrow">skip</div>
 									<div>
-										<div class="font-semi">{{ item.date }}</div>
-										<div class="label-12 font-medium">{{ item.time }}</div>
+										<div class="font-semi">{{ item.date }} {{item.month}}</div>
+										<div class="label-12 font-medium">{{ item.day | getDay}}</div>
 									</div>
 								</div>
 							</div>
@@ -515,7 +515,7 @@
 				</div>
 			</div>
 		</div>
-		<hr class="hr-line"> -->
+		<hr class="hr-line">
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
