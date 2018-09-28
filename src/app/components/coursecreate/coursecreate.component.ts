@@ -88,8 +88,8 @@ export class CoursecreateComponent implements OnInit {
   public pplLists = [];
   public temp:any = {};
   public timetable: any;
-  public ttCalendar: Aray<any> = [];
-  public timetableLists: Aray<any> = [];
+  public ttCalendar: Array<any> = [];
+  public timetableLists: Array<any> = [];
   
   @ViewChild("myInput") inputEl: ElementRef;
 
