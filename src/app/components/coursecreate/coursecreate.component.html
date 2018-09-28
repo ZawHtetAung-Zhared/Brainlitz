@@ -399,10 +399,10 @@
 						<!-- <div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex"> -->
 
 						<div *ngIf="ignoreArr.indexOf(lesson._id) == -1 && skipArr.indexOf(lesson._id) == -1" class="d-flex">
-							<button [ngClass]="{'disable-click': lesson._id == isSkipId}" [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
+							<button [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
 							Skip
 							</button>
-							<button [ngClass]="{'disable-click': lesson._id == isIgnoreId}" class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
+							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
 						</div>
 						<!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
 						<!-- hello {{conflit.staffId}} <br>
@@ -433,8 +433,11 @@
 					</div>
 				</div>
 				<div class="d-flex allbtn-wrap">
-					<button [disabled]="tempID.indexOf(conflit.staffId) != -1" class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
-					<button [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
+					<!-- [disabled]="tempID.indexOf(conflit.staffId) != -1" -->
+					<button class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
+
+					<!-- [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" -->
+					<button class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
 				</div>
 			</div>
 		</div>
