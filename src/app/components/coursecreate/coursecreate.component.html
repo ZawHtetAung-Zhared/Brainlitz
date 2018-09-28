@@ -317,8 +317,8 @@
 					     <div class="dropdown-wrap">
 				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
 				          <ul class="location-dropdown">
-				            <li *ngFor="let item of locationList">
-				              <span (click)="chooseLocation(item)">{{item.name}}</span>
+				            <li *ngFor="let item of locationList" (click)="chooseLocation(item)">
+				              <span>{{item.name}}</span>
 				            </li>
 				          </ul>
 				        </div>

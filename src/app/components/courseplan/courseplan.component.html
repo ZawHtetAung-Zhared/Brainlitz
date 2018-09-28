@@ -258,7 +258,7 @@
 							</div>
 							<hr class="limit-hr-length">	
 						</div>
-						<div class="col-md-6" style="padding-right: 0;">
+						<!-- <div class="col-md-6" style="padding-right: 0;">
 							<div>
 								<label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
 								<select class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px; height: auto;">
@@ -268,6 +268,25 @@
 								 <i class="fa fa-chevron-down down-arrow2"></i>	
 							 	<hr class="limit-hr-length">	
 							</div> 		
+						</div> -->
+						<div class="col-md-6" style="padding-right: 0;">
+							<div>
+								<label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
+								<div>
+									 <div class="form-group has-feedback" (click)="holidayDropdown()">
+								    	<input class="form-control br-bshadow-none"  name="holiday"  type="text" [(ngModel)]="formField.holidayCalendarName" placeholder="None" autocomplete="off"><span class="fa fa-angle-down holiday-downicon"></span>
+								     </div>
+								     <div class="dropdown-wrap">
+							          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+							          <ul class="holiday-dropdown">
+							            <li *ngFor="let holidayCalendar of holidayCalendarLists" (click)="chooseHoliday(holidayCalendar)">
+							              <span>{{holidayCalendar.name}}</span>
+							            </li>
+							          </ul>
+							        </div>
+								</div>
+							</div>
+							<hr class="limit-hr-length">
 						</div>
 					</div>
 				</div>
@@ -477,7 +496,7 @@
 								<hr class="limit-hr-length">
 							</div>
 						</div>	
-						<div class="d-flex justify-content-end  button-wrapper">
+						<div class="d-flex justify-content-end button-wrapper">
 							<button type="button" class="bt cancel-button" (click)="backSearhAPG('cancel')" >Cancel</button>
 				        	<button type="submit" (click)="createAPGs(apgCreateForm.value)" [disabled]="!apgCreateForm.valid" class="btn create-button" >Create
 							</button>
@@ -518,13 +537,31 @@
 				<div class="col-md-12" style="padding-top: 40px;">
 					<label for="age" class="all-title-font parent-box-name">Payment policy</label>
 					<div class="display-style">
-						<div class="col-md-4" style="padding: 0;">
+						<!-- <div class="col-md-4" style="padding: 0;">
 							<label class="all-title-font">Deposit</label>
 							<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel">
 								<option [value]="depositModel" disabled="true">S$ 0</option>
 								<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
 							</select>
 							<i class="fa fa-chevron-down down-arrow1"></i>
+						</div> -->
+						<div class="col-md-4" style="padding: 0;">
+							<label class="all-title-font">Deposit</label>
+							<div>
+								 <div class="form-group has-feedback" (click)="depositDropdown()">
+								 	<div>
+								 		<span class="deposit-sign">S$</span>
+							    		<input class="form-control br-bshadow-none all-left-box-10 pad-left-40"  name="UserName"  type="text" [(ngModel)]="formField.deposit" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
+						    		</div>
+							     </div>
+							     <div class="dropdown-wrap">
+						          <ul class="new-dropdown">
+						            <li *ngFor="let deposit of depositLists" (click)="chooseDeposit(deposit)">
+						              <span>{{deposit.amount}}</span>
+						            </li>
+						          </ul>
+						        </div>
+							</div>
 						</div>
 						<div class="col-md-4">
 							<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
