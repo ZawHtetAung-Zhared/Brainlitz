@@ -104,6 +104,9 @@ export class CourseplanComponent implements OnInit {
   showfixedcreate: boolean = false;
   createdAPGstoreLength:any;
   wordLength:any;
+  public depositMenuShow:boolean = false;
+  public holidayMenuShow:boolean = false;
+  public depositId:any;
 
   ngOnInit() {
     this.showModal = true;
@@ -139,6 +142,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   @ViewChild('parentForm') mainForm;
+
 
   focusMethod(e,status){
     console.log('hi', e)
@@ -236,10 +240,10 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-    if(formData.deposit == 'deposit'){
-      console.log(formData.deposit)
-      formData.deposit = '';
-    }
+    // if(formData.deposit == 'deposit'){
+    //   console.log(formData.deposit)
+    //   formData.deposit = '';
+    // }
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -252,7 +256,7 @@ export class CourseplanComponent implements OnInit {
         "maxDayPerPass": this.step2FormaData.makeuppass
       },
       "paymentPolicy": {
-        "deposit": formData.deposit,
+        "deposit": this.depositId,
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee
@@ -268,11 +272,11 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxage,
       },
       "quizwerkz": this.pdfId,
-      "holidayCalendarId": this.step4FormaData.holidayCalendar,
+      "holidayCalendarId": this.formField.holidayCalendarId,
       "accessPointGroup": this.selectedAPGidArray
     }
     console.log(data)
-    // this.blockUI.start('Loading...');
+    this.blockUI.start('Loading...');
     this._service.createCoursePlan(this.regionID,data)
     .subscribe((res:any) => {
      console.log('success post',res);
@@ -690,7 +694,7 @@ export class CourseplanComponent implements OnInit {
   durationProgress($event){
     this.progressSlider = true;
   }
-
+  
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
 
@@ -721,6 +725,60 @@ export class CourseplanComponent implements OnInit {
           $('.misfee-bg').removeClass("focus-bg");
         }
         this.focusMisfee = false;
+
+        // for deposit dropdown
+        if(this.depositMenuShow == false){
+           $('.new-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.new-dropdown').css('display', 'block');
+            this.depositMenuShow = false;
+        }
+
+        // for holiday dropdown
+        if(this.holidayMenuShow == false){
+           $('.holiday-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.holiday-dropdown').css('display', 'block');
+            this.holidayMenuShow = false;
+        }
+
+  }
+
+  depositDropdown(){
+    var y = document.getElementsByClassName('new-dropdown');
+    if( (y[0]as HTMLElement).style.display == 'block'){
+      (y[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (y[0]as HTMLElement).style.display = 'block';
+       this.depositMenuShow = true;
+    }
+  }
+  
+  chooseDeposit(item){
+    console.log("Deposit",item);
+    this.formField.deposit = item.amount;
+    this.depositId = item._id;
+  }
+
+ holidayDropdown(){
+   console.log("holiday dropdown")
+    var z = document.getElementsByClassName('holiday-dropdown');
+    if( (z[0]as HTMLElement).style.display == 'block'){
+      (z[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (z[0]as HTMLElement).style.display = 'block';
+       this.holidayMenuShow = true;
+    }
+  }
+
+  chooseHoliday(holidayCalendar){
+    console.log("holiday",holidayCalendar);
+    this.formField.holidayCalendarName = holidayCalendar.name;
+    this.formField.holidayCalendarId = holidayCalendar._id;
   }
 
   ChangedRangeValue(e, type) {
@@ -1090,5 +1148,5 @@ export class CourseplanComponent implements OnInit {
            console.log(err)
          });
     }
-
+  
 }
