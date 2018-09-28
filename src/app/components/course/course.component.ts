@@ -15,6 +15,7 @@ import { DOCUMENT } from "@angular/platform-browser";
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
   isCourseCreate:boolean = false;
   isCategory:boolean = false;
@@ -183,6 +184,7 @@ export class CourseComponent implements OnInit {
 
   getUsersInCourse(courseId){
     console.log('hi call course', courseId)
+    this.getCourseDetail(courseId);
     this.blockUI.start('Loading...'); 
     this._service.getAssignUser(this.regionId,courseId)
     .subscribe((res:any)=>{
@@ -204,6 +206,12 @@ export class CourseComponent implements OnInit {
   }
 
   addUserModal(type, userModal, courseID){ 
+    if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+      console.log('cant add')
+      this.isSeatAvailable = false;
+    }else{
+      this.isSeatAvailable = true;
+    }
     console.log(courseID)
     if(courseID != ''){
       this.getCourseDetail(courseID);
@@ -213,6 +221,8 @@ export class CourseComponent implements OnInit {
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
     this.userType = type;
+    console.log(this.detailLists.seat_left)
+    console.log(this.selectedUserLists.length)
     // this.getAllUsers(type);
   }
 
@@ -225,7 +235,7 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       this.modalReference.close();
       console.log(res);
-      this.toastr.success('User successfully withdrawaled.');
+      this.toastr.success('User successfully withdrawled.');
       this.getUsersInCourse(this.courseId);
     },err =>{
       this.toastr.error('Withdrawal user failed.');
@@ -249,6 +259,8 @@ export class CourseComponent implements OnInit {
   }
 
   selectUser(id){
+    console.log(this.detailLists.seat_left)
+    console.log(this.selectedUserLists.length)
     console.log('hihi ~~')
     this.getSingleUser(id);
     this.formData = {};
@@ -259,10 +271,16 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.isFous = false;
-      console.log(this.selectedUserLists.length)
       this.selectedUserLists.push(res);
-      console.log(this.selectedUserLists)
+      console.log(this.detailLists.seat_left)
       console.log(this.selectedUserLists.length)
+
+      if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+        console.log('cant add')
+        this.isSeatAvailable = false;
+      }else{
+        this.isSeatAvailable = true;
+      }
     }, err => {  
       console.log(err);
     });
@@ -310,6 +328,13 @@ export class CourseComponent implements OnInit {
     }
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
+    console.log(this.detailLists.seat_left - this.selectedUserLists.length == 0)
+    if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+      console.log('cant add')
+      this.isSeatAvailable = false;
+    }else{
+      this.isSeatAvailable = true;
+    }
   }
 
   getSelectedUserId(){
