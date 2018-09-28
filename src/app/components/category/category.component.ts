@@ -77,6 +77,7 @@ export class CategoryComponent implements OnInit {
   }
 
   createCategory(item) {
+    this.categoryList = [];
     this.isfocus = !this.isfocus;
   	console.log(item);
       this.blockUI.start('Loading...');

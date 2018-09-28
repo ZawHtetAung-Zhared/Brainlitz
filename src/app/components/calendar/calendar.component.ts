@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -33,7 +33,8 @@ export class CalendarComponent implements OnInit {
   public updateButton: boolean = false;
   public createButton: boolean = true;
   public responseChecked: Array<any> = [];
-
+  @Output() dateSelect = new EventEmitter<NgbDateStruct>();
+  @Output() monthSelect = new EventEmitter<NgbDateStruct>();
   //10.9.2018
 
   public currentID: any;
@@ -70,6 +71,14 @@ export class CalendarComponent implements OnInit {
     this.getAllHolidaysCalendar(20, 0);
     this.currentYear = (new Date()).getFullYear();
     console.log(this.currentYear)    
+  }
+
+  onDateSelect(e){
+    console.log(e)
+  }
+
+  onMonthSelect(e){
+    console.log(e)
   }
 
   editOn(){
@@ -125,6 +134,9 @@ export class CalendarComponent implements OnInit {
   }
 
   open(content){
+    $('.input-daterange input').each(function() {
+        $(this).datepicker('clearDates');
+    });
     this.getAllHolidays();
     this.formField = new calendarField();
     this.responseChecked = [];

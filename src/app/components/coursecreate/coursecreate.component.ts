@@ -43,6 +43,7 @@ export class CoursecreateComponent implements OnInit {
     {"day":"Fri ", "val": 5},
     {"day":"Sat", "val": 6},
   ];
+  public ignoreTempID = [];
   public tempID = [];
   public selectedDay = [];
   public toggleBool:boolean = true;
@@ -903,47 +904,44 @@ export class CoursecreateComponent implements OnInit {
 
 
   skipAll(item){
-    console.log(item);
+    this.ignoreArr = [];
     if(this.ignoreTempID.length > 0){
        for(var i in this.ignoreTempID){
           if(this.ignoreTempID[i]==item.staffId){
             var remove = Number(i);
-            console.log("Remove from ignore",i);
             this.ignoreTempID.splice(remove,1);
-            console.log("temp",this.ignoreTempID);
+            this.ignoreArr = [];
           }
         }
     }
     this.tempID.push(item.staffId);
-    console.log('~~~~', this.tempID)
     for(var key in item.conflictWith){
-      console.log("id",item.conflictWith[key]._id);
-      this.skipArr.push(item.conflictWith[key]._id);
-      // this.removeValues.push(lesson[key]._id);
+      let conflictTempId = item.conflictWith[key]._id;
+      if(this.skipArr.includes(conflictTempId) == false){        
+        this.skipArr.push(item.conflictWith[key]._id);
+      }
       console.log("ignoreArr",this.ignoreArr)
       console.log("skipArr",this.skipArr);
     }
   }
-  ignoreTempID = [];
+  
   ignoreAll(item){
-    console.log(item);
+    this.skipArr = []
     if(this.tempID.length>0){
        for(var i in this.tempID){
           if(this.tempID[i]==item.staffId){
             var remove = Number(i);
-            console.log("Remove from skip",i);
             this.tempID.splice(remove,1);
-            console.log("temp",this.tempID);
             this.skipArr = [];
           }
         }
     }
     this.ignoreTempID.push(item.staffId);
-    console.log('~~~~', this.ignoreTempID)
     for(var key in item.conflictWith){
-      console.log("id",item.conflictWith[key]._id);
-      this.ignoreArr.push(item.conflictWith[key]._id);
-      // this.removeValues.push(lesson[key]._id);
+      let conflictTempId = item.conflictWith[key]._id;
+      if(this.ignoreArr.includes(conflictTempId) == false){
+        this.ignoreArr.push(item.conflictWith[key]._id);
+      }
       console.log("skipArr",this.skipArr);
       console.log("ignoreArr",this.ignoreArr);
     }
