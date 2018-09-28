@@ -62,7 +62,7 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 					</div>
-					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event,'name')" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
 					<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!courseName.errors.required">
 				          Course name is required!
@@ -81,8 +81,13 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
-					<label for="desc" class="input-title font-medium">Description</label>
-					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
+					<div class="d-flex justify-content-between">
+						<label for="course_name" class="input-title font-medium">Description</label>
+						<div class="limit-wordcount1">
+							<span>{{wordLength}}/280characters</span>
+						</div>
+					</div>
+					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description"  required #description="ngModel" (focus)="focusMethod($event, 'msg')" (blur)="blurMethod($event, 'msg')" maxlength="280" (input)="changeMethod($event.target.value)" placeholder="Type description here"></textarea>
 				</div>
 			</div>
 		</div>

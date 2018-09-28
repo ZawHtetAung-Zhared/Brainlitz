@@ -94,12 +94,20 @@ export class ApgComponent implements OnInit {
       }
     } 
 
-    focusMethod(e){
-      $('.limit-wordcount').show('slow'); 
+    focusMethod(e,status){
+      if(status == 'name'){
+        $('.limit-wordcount').show('slow'); 
+      }else{
+        $('.limit-wordcount1').show('slow'); 
+      }
     }
 
-    blurMethod(e){
-      $('.limit-wordcount').hide('slow'); 
+    blurMethod(e,status){
+      if(status == 'name'){
+        $('.limit-wordcount').hide('slow'); 
+      }else{
+        $('.limit-wordcount1').hide('slow'); 
+      }
     }
 
     changeMethod(val : string){
