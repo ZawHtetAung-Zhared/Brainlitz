@@ -27,6 +27,8 @@ export class cPlanField {
 	public holidayCalendarId: string;
 	public quizwerkz: Array<any> = [];
 	public accessPointGroup: Array<any> = [];
+	public holidayCalendarName: string;
+	public depositAmount:any;
 	
 }
 

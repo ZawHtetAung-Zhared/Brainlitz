@@ -107,6 +107,9 @@ export class CourseplanComponent implements OnInit {
   public depositMenuShow:boolean = false;
   public holidayMenuShow:boolean = false;
   public depositId:any;
+  public holidayId:any;
+  public depositAmount:any = "";
+  public holidayName:any = "";
 
   ngOnInit() {
     this.showModal = true;
@@ -136,7 +139,7 @@ export class CourseplanComponent implements OnInit {
       $("#step1").addClass('active');
     }, 200)
 
-    this.step1 = true;
+    this.step4 = true;
     this.getAllModule();
     this.showSearchAPG = true;
   }
@@ -759,7 +762,9 @@ export class CourseplanComponent implements OnInit {
   
   chooseDeposit(item){
     console.log("Deposit",item);
-    this.formField.deposit = item.amount;
+    // this.depositAmount = item.amount;
+    // this.depositId = item._id;
+    this.formField.depositAmount = item.amount;
     this.depositId = item._id;
   }
 
@@ -777,6 +782,8 @@ export class CourseplanComponent implements OnInit {
 
   chooseHoliday(holidayCalendar){
     console.log("holiday",holidayCalendar);
+    // this.holidayId = holidayCalendar._id;
+    // this.holidayName = holidayCalendar.name;
     this.formField.holidayCalendarName = holidayCalendar.name;
     this.formField.holidayCalendarId = holidayCalendar._id;
   }
