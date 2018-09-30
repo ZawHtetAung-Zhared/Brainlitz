@@ -15,9 +15,9 @@
 		<div class="d-flex justify-content-center flex-column">
 			<div>
 		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -344,23 +344,44 @@
 				</div> 
 			</div>
 		</div>
-		<hr class="hr-line">
+		<hr class="hr-line" style="padding-bottom: 15px;">
 		<div *ngIf="conflitArr?.length > 0">
-			<div class="col-md-12 step-wrapper" *ngFor="let conflit of conflitArr">
-				<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Conflicts</label>
-				<div class="d-flex">
-					<span class="round-number font-medium">{{ conflit.conflictWith?.length }}</span>
-					<span class="image-wrap">
-						<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743702082858825712_original.jpg">
-					</span>
-					<div class="pad-left-10">
-						<div class="label-12 font-regular">Senior Teacher</div>
-						<div class="name-label font-semi">{{ conflit.preferredName }}</div>
+			<div class="col-md-12" *ngFor="let conflit of conflitArr">
+				<div *ngIf="conflit.conflictWith?.length <= 0">
+					<div class="list-pd">
+						<div class="d-flex">
+							<span class="round-noconflit font-medium">{{ conflit.conflictWith?.length }}</span>
+							<span class="image-wrap">
+								<img src="{{ conflit.profilePic }}">
+							</span>
+							<div class="pad-left-10">
+								<!-- <div class="label-12 font-regular">Teacher</div> -->
+								<div class="name-label">{{ conflit.preferredName }}</div>
+							</div>
+						</div>
+						<div class="d-flex font-medium msg-padding">
+							<span class="d-flex justify-content-center flex-column icon-wrap"><img src="./assets/images/circle-check-green@2x.png"></span>
+							<div class="pad-left-10 noconflit-msg">No conflict on any lessons</div>
+						</div>
 					</div>
+					<!-- <hr class="no-conflit-hr"> -->
 				</div>
-				<div class="d-flex font-medium msg-padding">
-					<span class="round-icon">!</span>
-					<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+				<div class="pad-t-15" *ngIf="conflit.conflictWith?.length > 0">
+					<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Conflicts</label>
+					<div class="d-flex" style="padding-top: 15px">
+						<span class="round-number font-medium">{{ conflit.conflictWith?.length }}</span>
+						<span class="image-wrap">
+							<img src="{{ conflit.profilePic }}">
+						</span>
+						<div class="pad-left-10">
+							<!-- <div class="label-12 font-regular">Senior Teacher</div> -->
+							<div class="name-label font-semi">{{ conflit.preferredName }}</div>
+						</div>
+					</div>
+					<div class="d-flex font-medium msg-padding">
+						<span class="round-icon">!</span>
+						<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+					</div>
 				</div>
 				<div class="conflit-wrapper" *ngFor="let lesson of conflit.conflictWith">
 					<div class="d-flex column-wrap">
@@ -432,16 +453,17 @@
 						</button>
 					</div>
 				</div>
-				<div class="d-flex allbtn-wrap">
+				<div *ngIf="conflit.conflictWith?.length > 0" class="d-flex allbtn-wrap">
 					<!-- [disabled]="tempID.indexOf(conflit.staffId) != -1" -->
 					<button class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
 
 					<!-- [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" -->
 					<button class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
 				</div>
+				<hr class="conflit-list-line">
 			</div>
 		</div>
-		<hr class="hr-line">
+		<!-- <hr class="hr-line"> -->
 		<div *ngIf="conflitArr?.length > 0" class="col-md-12 step-wrapper">
 			<div class="d-flex">
 				<div id="parent">
@@ -534,7 +556,7 @@
 				</div>
 			</div>
 		</div>
-		<hr class="hr-line">
+		<!-- <hr class="hr-line"> -->
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
@@ -543,8 +565,8 @@
 			</div>
 			<div>
 			
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>

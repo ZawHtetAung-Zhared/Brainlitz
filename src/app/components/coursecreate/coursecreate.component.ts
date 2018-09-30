@@ -322,19 +322,19 @@ export class CoursecreateComponent implements OnInit {
     console.log(this.isthereLC)
   }
 
-
   chooseEndOpt(type){
-    this.model.lessonCount = ''
-    console.log("Type",type);
     this.isChecked = type;
-      if(type == 'end'){
-        this.model.end = "";
-        // this.isthereLC = '';
-      }else{
-        console.log(this.model.lessonCount)
+    if(type == 'end'){
+      this.model.end = "";
+      if(this.model.lesson){
         this.model.lessonCount = "";
-        // this.maxDate = "";
       }
+    }else if(type == 'lesson'){
+      if(this.model.end){
+        this.model.end = "";
+      }
+      this.model.lessonCount = "";
+    }
   }
 
   setMinDate(event){
