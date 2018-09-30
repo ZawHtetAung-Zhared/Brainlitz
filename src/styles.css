@@ -418,3 +418,11 @@ span.scrollup.show:hover:before {
   pointer-events: none;
   background: none;
 }
+.datepicker-wrap.hideRight .ngb-dp-arrow.right{
+  opacity: 0 !important;
+  pointer-events: none;
+}
+.datepicker-wrap.hideLeft .ngb-dp-arrow:first-child{
+  opacity: 0 !important;
+  pointer-events: none;
+}
