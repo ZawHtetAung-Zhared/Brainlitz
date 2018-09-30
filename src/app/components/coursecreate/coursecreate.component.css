@@ -753,7 +753,7 @@ header div{
   font-size: 14px;
   text-align: center;
   position: absolute;
-  top: 50px;
+  top: 55px;
   left: 2px;
   z-index: 999;
   border: 2px solid #ffffff;
@@ -1014,4 +1014,14 @@ button:disabled {
 
 .tick-wrap img{
   width: 100%;
+}
+.list-pd{
+  padding-top: 25px;
+  /*padding-bottom: 10px;*/
+}
+.pad-t-15{
+  padding-top: 15px;
+}
+.conflit-list-line{ 
+  margin: 15px 0px 15px 0px;
 }

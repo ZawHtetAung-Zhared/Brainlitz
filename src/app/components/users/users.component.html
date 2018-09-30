@@ -200,7 +200,7 @@
 				</div>
 			</div>
 			<div class="btn-wrap">
-				<div *ngIf="custDetail.courses?.length>0">
+				<div *ngIf="custDetail.courses?.length>2">
 					<button *ngIf="selectedId.indexOf('course') == -1" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 				</div>
 				<div></div>
@@ -231,7 +231,7 @@
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<div *ngIf="widget.APG.length > 0"> 
+						<div *ngIf="widget.APG.length > 2"> 
 							<button *ngIf="selectedId.indexOf(widget._id) == -1" class="btn-showmore pad-0" (click)="showMoreItem(widget._id)"><span>Show More {{widget.name}}</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 						</div>
 						<div></div>
@@ -269,7 +269,7 @@
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<div *ngIf="custDetail.ratings?.length>0">
+						<div *ngIf="custDetail.ratings?.length>2">
 							<button *ngIf="selectedId.indexOf('rating') == -1" class="btn-showmore pad-0" (click)="showMoreItem('rating')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
 						</div>
 					</div>
@@ -292,7 +292,7 @@
 							<label class="medium-label-12 mb-0">{{ activity.time }}</label>
 						</div>
 						<div>
-							<div *ngIf="custDetail.journals?.length>0">
+							<div *ngIf="custDetail.journals?.length>4">
 								<button *ngIf="selectedId.indexOf('activity') == -1" class="btn-showmore pad-0" style="font-size: 14px" (click)="showMoreItem('activity')"><span>See all activities</span><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 							</div>
 						</div>
