@@ -1,3 +1,11 @@
+.draft-sign {
+    position: absolute;
+    padding: 3px 10px;
+    font-size: 10px;
+    background: #fff0e6;
+    color: #e66000;
+    font-family: 'Montserrat-Medium',Arial,sans-serif;
+}
 .single-user-wrap{
   max-height: 305px;
   overflow-y: auto;

@@ -90,6 +90,8 @@ export class CoursecreateComponent implements OnInit {
   public timetable: any;
   public ttCalendar: Array<any> = [];
   public timetableLists: Array<any> = [];
+  public ttStartDate: Array<any> = [];
+  public ttEndDate: Array<any> = [];
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -811,6 +813,12 @@ export class CoursecreateComponent implements OnInit {
           this.ttCalendar = err.error.timetable.calendar
           this.timetableLists = err.error.timetable.calendar
           console.log(this.ttCalendar)
+          console.log(this.timetableLists[0].lessons[0])
+          this.ttStartDate =this.timetableLists[0].lessons[0];
+          const lastItem= this.timetableLists[this.timetableLists.length - 1].lessons.length - 1;
+          console.log(lastItem)
+          console.log(this.timetableLists[this.timetableLists.length - 1].lessons[lastItem])
+          this.ttEndDate = this.timetableLists[this.timetableLists.length - 1].lessons[lastItem];
         }else if(err.status == 400){
           if(err.error.message == "LESSONS CAN'T BE EMPTY"){
             this.endAgain = true;
