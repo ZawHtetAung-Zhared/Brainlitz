@@ -15,9 +15,9 @@
 		<div class="d-flex justify-content-center flex-column">
 			<div>
 		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -344,7 +344,7 @@
 				</div> 
 			</div>
 		</div>
-		<hr class="hr-line">
+		<hr class="hr-line" style="padding-bottom: 15px;">
 		<div *ngIf="conflitArr?.length > 0">
 			<div class="col-md-12" *ngFor="let conflit of conflitArr">
 				<div *ngIf="conflit.conflictWith?.length <= 0">
@@ -537,7 +537,7 @@
 				</div>
 			</div>
 		</div>
-		<hr class="hr-line">
+		<!-- <hr class="hr-line"> -->
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
@@ -546,8 +546,8 @@
 			</div>
 			<div>
 			
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>
