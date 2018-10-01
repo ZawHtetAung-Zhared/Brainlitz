@@ -38,7 +38,10 @@
 		<div class="card" *ngFor="let apg of apgList; let i = index">
 			<div class="single-apg">
 				<div class="info-section">
-					<p class="apg-type">Progress</p>
+					<p class="apg-type" *ngIf="apg.module">
+            {{ apg.module.name }}
+          </p>
+          <p class="apg-type" *ngIf="!apg.module"> - </p>
 					<h4>{{apg.name}}</h4>
 					<div class="apg-scroll">
 						<p class="apg-desc">{{apg.description}}</p>

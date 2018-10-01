@@ -1029,4 +1029,24 @@ export class CoursecreateComponent implements OnInit {
     this.isShowDetail = false;
   }
 
+  closeStart(event,datePicker){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "cc-start"
+    })
+    if(parentWrap.length == 0){
+      // console.log('blank')
+      datePicker.close();
+    }
+  }
+
+  closeEnd(event,endPicker){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "cc-end"
+    })
+    if(parentWrap.length == 0){
+      // console.log('blank')
+      endPicker.close();
+    }
+  }
+
 }
