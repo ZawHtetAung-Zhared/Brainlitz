@@ -1203,7 +1203,7 @@ export class appService{
     }
 
     updateUser(regionId, userId:string, data: object){
-      let apiUrl = this.baseUrl + '/' + regionId + '/user/' + userId;
+      let apiUrl = this.baseUrl + '/user/' + userId;
       const httpOptions = {
           headers: new HttpHeaders({ 
             

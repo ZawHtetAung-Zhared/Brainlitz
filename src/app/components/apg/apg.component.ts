@@ -72,7 +72,7 @@ export class ApgComponent implements OnInit {
     public navIsFixed: boolean = false;
     public singleCheckedAPG: boolean = false;
     responseAP: any;
-    wordLength:any;
+    wordLength:any = 0;
 
   	ngOnInit() {
 	  	// this.getAllAP();
@@ -94,7 +94,8 @@ export class ApgComponent implements OnInit {
       }
     } 
 
-    focusMethod(e,status){
+    focusMethod(e,status, word){
+      this.wordLength = word.length;
       if(status == 'name'){
         $('.limit-wordcount').show('slow'); 
       }else{
@@ -103,6 +104,7 @@ export class ApgComponent implements OnInit {
     }
 
     blurMethod(e,status){
+      this.wordLength = 0;
       if(status == 'name'){
         $('.limit-wordcount').hide('slow'); 
       }else{
@@ -116,11 +118,13 @@ export class ApgComponent implements OnInit {
     }
 
     cancelapg(){
+      this.apgList = [];
       this.model = {};
       this.iscreate = false;
       this.ismodule = false;
       this.isUpdate = false;
       this.shareAPG = false;
+      this.getAllAPG(20,0);
     }
 
     goToBack(status){
@@ -138,6 +142,7 @@ export class ApgComponent implements OnInit {
         this.shareAPG = false;
         this.iscreate = false;
       }
+
     }
 
     addNewAPG(){
@@ -185,7 +190,6 @@ export class ApgComponent implements OnInit {
           this.toastr.success('Successfully '+ status + '.');
           this.blockUI.stop();
           this.cancelapg();
-          this.getAllAPG(20,0);
       }, err => {
           this.toastr.success(status + ' Fail.');
           this.blockUI.stop();
@@ -228,7 +232,6 @@ export class ApgComponent implements OnInit {
             this.toastr.success('Successfully APG Created.');
             console.log(res)
             this.cancelapg();
-            this.getAllAPG(20,0);
           }, err => {
             this.toastr.error('Created APG Fail');
             console.log(err)
@@ -247,7 +250,6 @@ export class ApgComponent implements OnInit {
               console.log('success update',res);
               this.toastr.success('Successfully APG Updated.');
               this.cancelapg();
-              this.getAllAPG(20,0);
               this.blockUI.stop();
           }, err => {
               this.toastr.error('Updated APG Fail');
@@ -263,6 +265,7 @@ export class ApgComponent implements OnInit {
 
     onclickUpdate(id){
       console.log(id)
+      this.apgList = [];
       this.singleAPG(id, 'update');
       this.iscreate = true;
       this.isUpdate = true;
@@ -644,7 +647,6 @@ export class ApgComponent implements OnInit {
 
     onclickDelete(id, alertDelete){
       this.deleteId = id;
-      this.getAllAPG(20,0);
       for(var i in this.apgList){
         if(this.apgList[i]._id == id){
           this.deleteAPG = this.apgList[i].name;
@@ -663,6 +665,7 @@ export class ApgComponent implements OnInit {
           this.blockUI.stop(); // Stop blocking
         }, 300);
 	    	this.toastr.success('Successfully APG deleted.');
+        this.apgList = [];
 	    	this.getAllAPG(20,0);
 	    }, err => {
 	        console.log(err)

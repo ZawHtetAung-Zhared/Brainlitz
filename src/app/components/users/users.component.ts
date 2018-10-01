@@ -129,14 +129,16 @@ export class UsersComponent implements OnInit {
 	    });
 	}
 
-	focusMethod(e){
+	focusMethod(e, word){
 		console.log('hi', e);
+		this.wordLength = word.length;
 		$('.limit-wordcount').show('slow'); 
 	}
 	  
 	blurMethod(e){
 		console.log('blur', e);
 		$('.limit-wordcount').hide('slow'); 
+		this.wordLength = 0;
 	}
 
 	changeMethod(val : string){
@@ -145,49 +147,38 @@ export class UsersComponent implements OnInit {
 	}
 
 	createUser(obj, apiState){
-		console.log(obj);		
-		// this.atLeastOneMail = false;		
+		console.log(obj);				
 		let objData = new FormData();						
 		let guardianArray;		
-		console.log(obj.guardianEmail)
+		console.log('~~~ ', obj.guardianEmail)
 		console.log(typeof obj.guardianEmail)
-		if(typeof obj.guardianEmail == 'object'){
-			console.log(typeof obj.guardianEmail)
-			obj.guardianEmail = JSON.stringify(obj.guardianEmail);
-		}
-		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
-		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
-		console.log("TTT",this.atLeastOneMail)
+		// if(typeof obj.guardianEmail == 'object'){
+		// 	console.log(typeof obj.guardianEmail)
+		// 	obj.guardianEmail = JSON.stringify(obj.guardianEmail);
+		// }
+		
+		// this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
+		// console.log("TTT",this.atLeastOneMail)
 		obj.email = (obj.email == undefined) ? [] : obj.email;
-
 		objData.append('regionId', this.regionID);
 		objData.append('orgId', this.orgID);
 		objData.append('firstName', obj.firstName);
 		objData.append('lastName', obj.lastName);
 		objData.append('preferredName', obj.preferredName);
 		objData.append('email', obj.email);
-		objData.append('guardianEmail', JSON.stringify(guardianArray));		
-		objData.append('about', obj.about);		
-		
-		console.log(obj.about);
-		console.log(objData);
-		console.log(this.img);
+		objData.append('about', obj.about);	
 
 		this.customerLists = [];
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
-			console.log(this.img)
-			 
 			this.ulFile = (this.img != undefined) ? this.dataURItoBlob(this.img) : this.img;
-
-			console.log(this.ulFile)
-
+			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
+			objData.append('guardianEmail', JSON.stringify(guardianArray));	
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
 			objData.append('profilePic', this.ulFile);
-			console.log('profilePic', this.ulFile);
-			console.log('create');
+
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
 	    	.subscribe((res:any) => {
@@ -207,21 +198,33 @@ export class UsersComponent implements OnInit {
 		    })
 		}else{
 			console.log('update');
-			let getImg = document.getElementsByClassName("circular-profile");
-			console.log(getImg)
+			let getImg = document.getElementsByClassName("circular-profile");			
 			if(getImg != undefined){
 				$(".circular-profile img:last-child").attr("id", "blobUrl");
 			}
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
-			
-			console.log(this.img);
-
 			if(this.isCrop == true){
 				this.ulFile = this.dataURItoBlob(this.img);
 				objData.append('profilePic', this.ulFile);
 			}else{
 				objData.append('profilePic', this.img);
 			}
+
+			if(typeof obj.guardianEmail == 'object'){
+				guardianArray = obj.guardianEmail
+			}else{
+				guardianArray = obj.guardianEmail.split(',')
+			}
+
+			guardianArray = (obj.guardianEmail) ? guardianArray : [] ;
+			objData.append('guardianEmail', JSON.stringify(guardianArray));	
+
+
+
+			objData.append('guardianEmail', JSON.stringify(obj.guardianEmail));	
+
+
+
 			this.blockUI.start('Loading...');
 			this._service.updateUser(this.regionID, obj.userId, objData)
 	    	.subscribe((res:any) => {

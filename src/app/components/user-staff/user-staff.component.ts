@@ -42,7 +42,7 @@ export class UserStaffComponent implements OnInit {
 	permissionId: any;
 	editId: any;
 	public locationID = localStorage.getItem('locationId');
-	public wordLength:any;
+	public wordLength:any = 0;
 	public aboutTest = "Owns Guitar & PianoOwns Guitar & PianoOwnsijii";
 	public aboutTest1 = " How your call you or like your preferred name kuiui";
 
@@ -99,12 +99,14 @@ export class UserStaffComponent implements OnInit {
 	    this.getAllpermission();
 	}
 
-	focusMethod(e){
-		  $('.limit-wordcount').show('slow'); 
+	focusMethod(e, word){
+		this.wordLength = word.length;
+		$('.limit-wordcount').show('slow'); 
 	}
 	  
 	blurMethod(e){
 		  $('.limit-wordcount').hide('slow'); 
+		  this.wordLength = 0;
 	}
 
 	changeMethod(val : string){

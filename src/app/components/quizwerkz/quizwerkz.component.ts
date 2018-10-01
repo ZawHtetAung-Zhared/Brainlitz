@@ -55,8 +55,10 @@ export class QuizwerkzComponent implements OnInit {
   } 
   
   cancel(){
+    this.pdfList = [];
     this.iscreate = false;
     this.formField = new quizWerkzForm();
+    this.getAllPdf(20,0);
   }
 
   creatnew(){
@@ -130,8 +132,7 @@ export class QuizwerkzComponent implements OnInit {
       console.log(res);
       this.blockUI.stop();
       this.toastr.success('Quizwerkz successfully created.');
-      this.getAllPdf(20, 0);
-      this.iscreate = false;
+      this.cancel();
     }, err => {
       this.toastr.error('Create quizwerkz failed.');
       console.log(err)
@@ -169,6 +170,7 @@ export class QuizwerkzComponent implements OnInit {
       this.modalReference.close();
       this.toastr.error('Successfully deleted');
       console.log("Res",res);
+      this.pdfList = [];
       this.getAllPdf(20, 0);
     }, err => {
       this.toastr.error('Delete QuizWerkz Fail');
@@ -177,6 +179,7 @@ export class QuizwerkzComponent implements OnInit {
   }
 
   onclickUpdate(id){
+    this.pdfList = [];
     this.iscreate = true;
     this.isEdit = true;
     this.getSingleQuizwerkz(id)
