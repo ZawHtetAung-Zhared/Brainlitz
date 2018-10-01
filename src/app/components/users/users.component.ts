@@ -217,14 +217,7 @@ export class UsersComponent implements OnInit {
 			}
 
 			guardianArray = (obj.guardianEmail) ? guardianArray : [] ;
-			objData.append('guardianEmail', JSON.stringify(guardianArray));	
-
-
-
-			objData.append('guardianEmail', JSON.stringify(obj.guardianEmail));	
-
-
-
+			objData.append('guardianEmail', JSON.stringify(guardianArray));
 			this.blockUI.start('Loading...');
 			this._service.updateUser(this.regionID, obj.userId, objData)
 	    	.subscribe((res:any) => {
