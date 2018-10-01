@@ -60,12 +60,12 @@
       <div class="row">
         <div class="form-group col-md-7">
           <label class="form-title" for="address">Address</label>
-          <textarea class="form-control" rows="3" placeholder="Type address here" name="address" [(ngModel)]="model.address" required #address="ngModel"></textarea>
-          <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
+          <textarea class="form-control" rows="3" placeholder="Type address here" name="address" [(ngModel)]="model.address" #address="ngModel"></textarea>
+          <!-- <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
             <div [hidden]="!address.errors.required">
               Address is required!
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="form-group col-md-5">
           <label class="form-title" for="address">Telephone</label>
@@ -85,7 +85,7 @@
           (countryChange)="onCountryChange($event)"
           (ng2TelOutput)="getNumber($event)"
           (input)="onSearchChange($event.target.value, $event)"
-          required
+          
            />          
           <input 
           *ngIf="isUpdate == true"
@@ -100,14 +100,14 @@
           (hasError)="hasError($event)"
           (countryChange)="onCountryChange($event)"
           (ng2TelOutput)="getNumber($event)"
-          required
+          
            />
            <!-- {{isrequired}} -->
-          <div [hidden]="isrequired == true" class="alert alert-danger">
+          <!-- <div [hidden]="isrequired == true" class="alert alert-danger">
             <div>
               Phone number is required!
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- {{!locationForm.valid && isvalid == true}} <br> -->
@@ -116,8 +116,8 @@
       <!-- isvalid == false - {{isvalid == false}} <br> -->
       <div class="d-flex justify-content-end form-footer">
         <button type="button" class="btn btn-cancel" (click)="back()">Cancel</button>
-        <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid || isvalid == false">Create</button>
-        <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!locationForm.valid || isvalid == false" (click)="createLocation(model, true, currentID)">Update</button>
+        <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
+        <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!locationForm.valid" (click)="createLocation(model, true, currentID)">Update</button>
       </div>
     </form>
   </div>

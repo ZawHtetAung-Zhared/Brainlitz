@@ -96,7 +96,7 @@
 										<span>{{wordLength}}/60characters</span>
 									</div>
 								</div>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' (focus)="focusMethod($event,'name')" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type plan name here" autocomplete="off"#cpName="ngModel" required>
 								<div *ngIf="cpName.invalid && (cpName.dirty || cpName.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!cpName.errors.required">
 							          Course plan name is required!
@@ -106,12 +106,12 @@
 							</div>
 							<div class="mr-top">
 								<label for="seat" class="all-title-font">Seats</label>
-								<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel"> 
-								<div *ngIf="cpSeat.invalid && (cpSeat.dirty || cpSeat.touched)" class="alert alert-danger alert-m-right">
+								<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" #cpSeat="ngModel"> 
+								<!-- <div *ngIf="cpSeat.invalid && (cpSeat.dirty || cpSeat.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!cpSeat.errors.required">
 							          Number of seates is required!
 							        </div>
-							    </div>
+							    </div> -->
 								<hr class="limit-hr-length">
 							</div> 
 						</div>
@@ -123,7 +123,7 @@
 										<span>{{wordLength}}/280characters</span>
 									</div>
 								</div>
-								<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' (focus)="focusMethod($event,'msg')" (blur)="blurMethod($event,'msg')" maxlength="280" (input)="changeMethod($event.target.value)" name="description" #cpDesc="ngModel" placeholder="Type message here"></textarea>
+								<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')" maxlength="280" (input)="changeMethod($event.target.value)" name="description" #cpDesc="ngModel" placeholder="Type message here"></textarea>
 								<!-- <div *ngIf="cpDesc.invalid && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
 							        <div [hidden]="!cpDesc.errors.required">
 							          Description is required!
@@ -149,7 +149,7 @@
 							<h5 class="all-title-font title-br-rt">Makeup policy</h5>
 							<div class="radio-pos">
 								<label class="switch">
-									<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel" required>
+									<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel">
 									<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
 								</label>
 							</div>
@@ -162,24 +162,24 @@
 								<div class="col-md-6" style="padding: 0;">
 									<div>
 										<label class="all-title-font"> Validation duration after class </label>
-										<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day" required>
-										<div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
+										<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day">
+										<!-- <div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
 									        <div [hidden]="!makeuppass.errors.required">
 									          Validation duration after class is required!
 									        </div>
-									    </div>
+									    </div> -->
 										<hr class="limit-hr-length">
 									</div>
 								</div>
 								<div class="col-md-6" style="padding-right: 0;">
 									<div>
 										<label class="all-title-font" style="padding-left: 20px;"> Number of days per user </label>
-										<input type="number" class="form-control br-bshadow-none all-m-left10" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" required>
-										<div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
+										<input type="number" class="form-control br-bshadow-none all-m-left10" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" >
+										<!-- <div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
 									        <div [hidden]="!makeupuser.errors.required">
 									          Number of days per user is required!
 									        </div>
-									    </div>
+									    </div> -->
 										<hr class="limit-hr-length all-m-left10">
 									</div>
 								</div>
@@ -210,14 +210,14 @@
 									    <div class="input-group-prepend">
 									      <div class="input-group-text cfee-bg">S$</div>
 									    </div>
-									    <input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" required>			    
+									    <input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" >			    
 									</div>
 								</div>
-								<div *ngIf="courseFee.invalid && (courseFee.dirty || courseFee.touched)" class="alert alert-danger alert-m-right">
+								<!-- <div *ngIf="courseFee.invalid && (courseFee.dirty || courseFee.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!courseFee.errors.required">
 							          Course fee is required!
 							        </div>
-							    </div>
+							    </div> -->
 								<hr class="limit-hr-100">
 							</div>
 						</div>
@@ -292,7 +292,7 @@
 				</div>
 				<div class="button-wrapper">
 					<!-- <button type="button" class="btn sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 || formField.holidayCalendarId == 'disabledHoliday'" (click)="continueStep('step4', childForm4.value)">Continue</button> -->
-					<button type="button" class="btn sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 || formField.holidayCalendarId == 'disabledHoliday' " (click)="continueStep('step4', childForm4.value)">Continue</button>
+					<button type="button" class="btn sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 " (click)="continueStep('step4', childForm4.value)">Continue</button>
 					<button type="button" [hidden]="!step4" class="back-modal back-to" (click)="backStep('step4')"> < Back</button>
 				</div>
 			</form>
@@ -493,7 +493,7 @@
 					              </div>
 					            </div>
 					            <p class="input-recommend">We recommend to set APG name as same as Course name.</p>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name')" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" #apgName="ngModel" required>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" #apgName="ngModel" required>
 								<div *ngIf="apgName.invalid && (apgName.dirty || apgName.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!apgName.errors.required">
 							          APG name is required!
@@ -506,12 +506,12 @@
 					                <span class="count-color">{{wordLength}}/280characters</span>
 					              </div>
 					            </div>
-								<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" style="margin-bottom: 15px;" [(ngModel)]='formAPG.description' name="description" (focus)="focusMethod($event,'msg')" (blur)="blurMethod($event,'msg')" (input)="changeMethod($event.target.value)" maxlength="280" #apgDesc="ngModel" placeholder="Type address here" required ></textarea>
-								<div *ngIf="apgDesc.invalid && (apgDesc.dirty || apgDesc.touched)" class="alert alert-danger alert-m-right">
+								<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" style="margin-bottom: 15px;" [(ngModel)]='formAPG.description' name="description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')" (input)="changeMethod($event.target.value)" maxlength="280" #apgDesc="ngModel" placeholder="Type description here"></textarea>
+								<!-- <div *ngIf="apgDesc.invalid && (apgDesc.dirty || apgDesc.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!apgDesc.errors.required">
 							          APG description is required!
 							        </div>
-							    </div>	
+							    </div>	 -->
 								<hr class="limit-hr-length">
 							</div>
 						</div>	
@@ -525,7 +525,7 @@
 				<div *ngIf="!showModule && !createAPGform">
 					<!-- <hr> -->
 					<div class="button-wrapper">
-						<button type="button" class="btn sticky-create" [disabled]="createdAPGstore?.length == 0" (click)="continueStep('step6', createdAPGstore)">Continue</button>
+						<button type="button" class="btn sticky-create" (click)="continueStep('step6', createdAPGstore)">Continue</button>
 						<button type="button" [hidden]="!step6" class="back-modal back-to" (click)="backStep('step6')"> < Back</button>
 					</div>
 				</div>
