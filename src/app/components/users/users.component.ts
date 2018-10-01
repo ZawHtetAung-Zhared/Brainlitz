@@ -110,6 +110,7 @@ export class UsersComponent implements OnInit {
 
 	getSingleInfo(ID){
 		console.log(ID);
+		this.customerLists = [];
 		this.getSingleUser(ID);
 	}
 
@@ -160,14 +161,20 @@ export class UsersComponent implements OnInit {
 		objData.append('preferredName', obj.preferredName);
 		objData.append('email', obj.email);
 		objData.append('guardianEmail', JSON.stringify(guardianArray));		
+		objData.append('about', obj.about);		
 		
+		console.log(obj.about);
 		console.log(objData);
 		console.log(this.img);
 
+		this.customerLists = [];
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
-			this.ulFile = this.dataURItoBlob(this.img);
+			console.log(this.img)
+			 
+			this.ulFile = (this.img != undefined) ? this.dataURItoBlob(this.img) : this.img;
+
 			console.log(this.ulFile)
 
 			objData.append('password', obj.password);
@@ -182,7 +189,6 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {		    	
 		    	this.blockUI.stop();
 		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
@@ -217,7 +223,6 @@ export class UsersComponent implements OnInit {
 	  			this.toastr.success('Successfully updated.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('customer', 20, 0);
 		    }, err => {
 		    	this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
@@ -249,6 +254,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	getAllUsers(type, limit, skip){
+		console.log('hihihihi')
+		this.customerLists = [];
 		console.log('....', this.customerLists)
 		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type, limit, skip)
@@ -313,6 +320,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	goCreateForm(){
+		this.customerLists = [];
 		this.showFormCreate = true;
 		console.log('create');
 		setTimeout(function() {
@@ -450,6 +458,7 @@ export class UsersComponent implements OnInit {
 
 
 	showDetails(data, ID){
+		this.customerLists = [];
 		console.log(ID);
 		this.editId = ID;
 		console.log("show details");
@@ -473,6 +482,7 @@ export class UsersComponent implements OnInit {
 		
 		$(".frame-upload").css('display', 'none');
 		this.customerLists = [];
+		console.log(this.customerLists)
 		this.getAllUsers('customer', 20, 0);
 	}
 	
