@@ -440,6 +440,20 @@ export class appService{
         return result;
       })
     }
+
+    editProfile(regionId:string, id: string){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/user/' + id;     
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
     
     getCurrentUser(id: string){
       let apiUrl = this.baseUrl  + '/user/' + id;
@@ -1188,8 +1202,8 @@ export class appService{
       })
     }
 
-    updateUser( userId:string, data: object){
-      let apiUrl = this.baseUrl + '/user/' + userId;
+    updateUser(regionId, userId:string, data: object){
+      let apiUrl = this.baseUrl + '/' + regionId + '/user/' + userId;
       const httpOptions = {
           headers: new HttpHeaders({ 
             

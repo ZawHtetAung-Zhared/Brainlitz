@@ -20,6 +20,7 @@ export class UserStaffComponent implements OnInit {
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
+  	emailAlert: boolean = false;
   	public img: any;
   	permissionLists: any;
   	formFields: Staff = new Staff();
@@ -110,6 +111,21 @@ export class UserStaffComponent implements OnInit {
 	    this.wordLength = val.length;
 	  }
 
+	validateEmail(data){
+		console.log(data);		
+		this.emailAlert = ( !this.isValidateEmail(data)) ? true : false;
+	}
+
+	isValidateEmail($email) {
+	  var emailReg = /^([A-Za-z0-9\.\+])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+	  if($email != ''){
+	  	return emailReg.test( $email );
+	  }
+	  else {
+	  	return true;
+	  }	
+	}
+
 	createUser(obj, state){
 		console.log(obj)	
 		let objData = new FormData();
@@ -129,6 +145,7 @@ export class UserStaffComponent implements OnInit {
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
 		objData.append('profilePic', this.img)
+		objData.append('about', obj.about)
 
 		if(state == 'create'){
 			console.log('create')
@@ -151,7 +168,7 @@ export class UserStaffComponent implements OnInit {
 		    })
 		}else{
 			console.log('update')
-			this._service.updateUser(this.editId, objData)
+			this._service.updateUser(this.regionID, this.editId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');

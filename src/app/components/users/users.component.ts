@@ -115,7 +115,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	getSingleUser(ID){
-		this._service.getCurrentUser(ID)
+		this._service.editProfile(this.regionID, ID)
     	.subscribe((res:any) => {
   			console.log(res);
   			this.formFieldc = res;
@@ -223,7 +223,7 @@ export class UsersComponent implements OnInit {
 				objData.append('profilePic', this.img);
 			}
 			this.blockUI.start('Loading...');
-			this._service.updateUser(obj.userId, objData)
+			this._service.updateUser(this.regionID, obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
 	  			this.toastr.success('Successfully updated.');
