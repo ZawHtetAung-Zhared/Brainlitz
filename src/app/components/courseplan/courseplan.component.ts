@@ -125,7 +125,8 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG(20,0);
     this.pdfId = [];
-    this.formField.holidayCalendarId = 'disabledHoliday';
+    // this.formField.holidayCalendarId = 'disabledHoliday';
+    this.formField.holidayCalendarId = null;
     this.depositModel = 'deposit';
     this.rangeHr = '0';
     this.rangeMin = '0';
@@ -147,11 +148,13 @@ export class CourseplanComponent implements OnInit {
   @ViewChild('parentForm') mainForm;
 
 
-  focusMethod(e,status){
+  focusMethod(e,status, word){
     console.log('hi', e)
     if(status == 'name'){
+      this.wordLength = word.length;
       $('.limit-wordcount').show('slow'); 
     }else{
+      this.wordLength = word.length;
       $('.limit-wordcount1').show('slow'); 
     }
   }
@@ -163,6 +166,7 @@ export class CourseplanComponent implements OnInit {
     }else{
       $('.limit-wordcount1').hide('slow'); 
     }
+    this.wordLength = 0;
   }
 
   changeMethod(val : string){
