@@ -251,11 +251,13 @@ export class CoursecreateComponent implements OnInit {
     console.log("Duration Times",this.model.duration)
   }
 
-  focusMethod(e, status){
+  focusMethod(e, status, word){
     console.log('hi', e)
     if(status == 'name'){
+      this.wordLength = word.length;
       $('.limit-wordcount').show('slow'); 
     }else{
+      this.wordLength = word.length;
       $('.limit-wordcount1').show('slow'); 
     }
   }
@@ -267,6 +269,7 @@ export class CoursecreateComponent implements OnInit {
     }else{
       $('.limit-wordcount1').hide('slow'); 
     }
+    this.wordLength = 0;
   }
 
   changeMethod(val : string){

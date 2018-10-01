@@ -15,9 +15,9 @@
 		<div class="d-flex justify-content-center flex-column">
 			<div>
 		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid ||  selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -62,7 +62,7 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 					</div>
-					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event,'name')" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
 					<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!courseName.errors.required">
 				          Course name is required!
@@ -87,7 +87,7 @@
 							<span>{{wordLength}}/280characters</span>
 						</div>
 					</div>
-					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description"  required #description="ngModel" (focus)="focusMethod($event, 'msg')" (blur)="blurMethod($event, 'msg')" maxlength="280" (input)="changeMethod($event.target.value)" placeholder="Type description here"></textarea>
+					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" #description="ngModel" (focus)="focusMethod($event, 'msg', $event.target.value)" (blur)="blurMethod($event, 'msg')" maxlength="280" (input)="changeMethod($event.target.value)" placeholder="Type description here"></textarea>
 				</div>
 			</div>
 		</div>
@@ -327,12 +327,12 @@
 				</div> 
 				<div>
 					<label for="room" class="input-title font-medium">Room</label>
-					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" required #room="ngModel"> 
-					<div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
+					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" #room="ngModel"> 
+					<!-- <div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!room.errors.required">
 				          Room is required!
 				        </div>
-				    </div>
+				    </div> -->
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
@@ -565,8 +565,8 @@
 			</div>
 			<div>
 			
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>
