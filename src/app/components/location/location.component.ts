@@ -39,7 +39,7 @@ export class LocationComponent implements OnInit {
 	model: Location = new Location();
 	private modalReference: NgbModalRef;
 	closeResult: string;
-	public wordLength:any;
+	public wordLength:any = 0;
 	@BlockUI() blockUI: NgBlockUI;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -79,11 +79,13 @@ export class LocationComponent implements OnInit {
 	    }
 	  } 
 
-	  focusMethod(e){
+	  focusMethod(e, word){
+	  	this.wordLength = word.length;
 	  	$('.limit-wordcount').show('slow'); 
 	  }
 
 	  blurMethod(e){
+	  	this.wordLength = 0;
 	    $('.limit-wordcount').hide('slow'); 
 	  }
 
@@ -140,6 +142,7 @@ export class LocationComponent implements OnInit {
   		// this.isequal = (this.isrequired == false) ? true : false;
   	}
   	creatnew(){
+  		this.locationLists = [];
   		this.iscreate = true;
   		this.isUpdate = false;
   		this.isvalid = false;
@@ -147,8 +150,10 @@ export class LocationComponent implements OnInit {
   		this.model = new Location();
   	}
   	back(){
+  		this.locationLists = [];
 	    this.iscreate = false
-	    this.isUpdate = false 	
+	    this.isUpdate = false 
+	    this.getAllLocation(20,0)	
   	}
   	keyDownFunction(e){
   		if(e.keyCode == 13) {
@@ -216,34 +221,32 @@ export class LocationComponent implements OnInit {
 	     		this.model = new Location();
 	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
-	     		this.iscreate = false;
-	     		this.getAllLocation(20, 0);
+	     		this.back();
 	     	}, err => {
 	     		this.toastr.error('Update fail');
 	     		console.log(err)
 	    	})
 		}else{
-    	console.log("Form Submitted!", this.regionID);
-    	this.blockUI.start('Loading...');
-    	// this.modalReference.close();
-    	this._service.createLocation(this.regionID, obj)
-      	.subscribe((res:any) => {
-    		console.log(res);
-    		this.model = new Location();
-    		this.toastr.success('Successfully Created.');
-    		this.blockUI.stop();
-    		this.iscreate = false;
-    		this.getAllLocation(20,0);
-	    }, err => {
-	    	
-	    	console.log(err)
-	    	if(err.error == "Location name already exists."){
-	    		this.toastr.error(err.error);
-	    	}else{
-	    		this.toastr.error('Create Fail.');
-	    	}
-	    	this.blockUI.stop();
-	    })
+	    	console.log("Form Submitted!", this.regionID);
+	    	this.blockUI.start('Loading...');
+	    	// this.modalReference.close();
+	    	this._service.createLocation(this.regionID, obj)
+	      	.subscribe((res:any) => {
+	    		console.log(res);
+	    		this.model = new Location();
+	    		this.toastr.success('Successfully Created.');
+	    		this.blockUI.stop();
+	    		this.back();
+		    }, err => {
+		    	
+		    	console.log(err)
+		    	if(err.error == "Location name already exists."){
+		    		this.toastr.error(err.error);
+		    	}else{
+		    		this.toastr.error('Create Fail.');
+		    	}
+		    	this.blockUI.stop();
+		    })
 		  
 		}
 	}
@@ -255,6 +258,7 @@ export class LocationComponent implements OnInit {
 			console.log(res);
 			this.modalReference.close();
 			this.toastr.success('Successfully Deleted.');
+			this.locationLists = [];
 			this.getAllLocation(20,0);
 		},err => {
 			this.modalReference.close();
@@ -285,7 +289,7 @@ export class LocationComponent implements OnInit {
 
 
 	deleteModal(deletemodal, id){
-		this.modalReference = this.modalService.open(deletemodal, {backdrop:'static', windowClass:'animation-wrap'});
+		this.modalReference = this.modalService.open(deletemodal, {backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });
 		this.singleLocation(id);
 	}
 }
