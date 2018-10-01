@@ -153,12 +153,12 @@
           <div class="d-flex child1">
             <div>
               <div class="font16 color-2 input-label">{{ item.start | utcDate }}</div>
-              <div class="font12 color-6 input-label">TUE</div>
+              <div class="font12 color-6 input-label">{{ item.start | TTday }}</div>
             </div>
             <span class="span-dash" *ngIf="!item.sameDate">-</span>
             <div *ngIf="!item.sameDate">
               <div class="font16 color-2 input-label">{{ item.end | utcDate }}</div>
-              <div class="font12 color-6 input-label">SUN</div>
+              <div class="font12 color-6 input-label">{{item.end | TTday}}</div>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-center edit-calnedar-btn child2">

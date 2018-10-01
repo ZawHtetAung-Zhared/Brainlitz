@@ -5,17 +5,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ttDayPipe implements PipeTransform {
 
-  transform(day, month) {
+  transform(day) {
+    var temp = day;
+    var resultDay;
     const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     ];
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    const dayNames1 = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
     ];
-    console.log('day~~~ ', day)
-    console.log('month~~~ ', month)
-    var resultDay = dayNames[day];
-  	var resultMonth = monthNames[month];
-    
+    if(day.length > 1){
+      temp = new Date(day).getUTCDay()
+      resultDay = dayNames1[temp];
+    }else{
+      resultDay = dayNames[temp];
+    }    
     return resultDay;
   }
 }
