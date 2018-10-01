@@ -547,27 +547,7 @@ export class CoursecreateComponent implements OnInit {
         this.classend = h +endTime.substr(2,3) + ampm;
         console.log("Class end",this.classend);
       }
-      // var test1 = Number(this.D(mins%(24*60)/60 | 0));
-      // if(test1 > 12){
-      //   this.classend = endTime + 'PM';
-      //   console.log("classend PM",this.classend);
-      // } else{
-      //   this.classend = endTime + 'AM';
-      //   console.log("classend AM",this.classend);
-      // }
     } 
-    // if(time){
-    //   var timeString = time;
-    //   var H = +timeString.substr(0, 2);
-    //   console.log(H);
-    //   var h = (H % 12) || 12;
-    //   var ampm = H < 12 ? "AM" : "PM";
-    //   if(h<10){
-    //     timeString = '0' + h + timeString.substr(2, 3) + ampm;
-    //   }else{
-    //     timeString = h + timeString.substr(2, 3) + ampm;
-    //   }
-    // } 
   }
   D(J){ return (J<10? '0':'') + J};
 
