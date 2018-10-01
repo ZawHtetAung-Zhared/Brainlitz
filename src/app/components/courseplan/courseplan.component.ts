@@ -480,19 +480,31 @@ export class CourseplanComponent implements OnInit {
     }, 300);
   }
 
-  changeSearch(keyword){
+  changeSearch(keyword,type){
     console.log(keyword)
     this.getApgSearch(keyword, 'apg');
     if(keyword == 0){
       this.apgList = [];
       this.getAllAPG(20, 0)
     }
+
+    // console.log(keyword,type)
+    //   this.getApgSearch(keyword, type)
+    //   if(type == 'apg'){
+    //     if(keyword.length == 0){
+    //       this.apgList = [];
+    //       this.getAllAPG(20,0)
+    //     }
+    //   }
   }
 
   selectData(id, name){
     console.log(id)
     console.log(name)
-    this.singleAPG(id)
+    this.singleAPG(id);
+    this.selectedAPGlists = true;
+    this.isfocus = false;
+    this.showfixedcreate = false;
 
     // const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
     // if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
@@ -503,7 +515,7 @@ export class CourseplanComponent implements OnInit {
     // this.showSearchAPG = true;
     // this.showModule = false;
     // this.createAPGform = false;
-    this.createdAPGstore.push(this.clickedItem)
+    // this.createdAPGstore.push(this.clickedItem)
   }
 
   singleAPG(id){
@@ -512,18 +524,34 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log('editapg' ,res) 
-      this.clickedItem = res;    
+      this.clickedItem = res; 
+      this.createdAPGstore.push(this.clickedItem);   
     }, err => {
       this.blockUI.stop();
       console.log(err)
     })
   }
-
+  // templateList:any;
   getApgSearch(keyword, type){
+      // this._service.getSearchApg(this.regionID, keyword, type, '')
+      // .subscribe((res:any) => {
+      //   console.log(res);
+      //   this.apgList = res;
+      // }, err => {  
+      //   console.log(err);
+      // });
+      console.log("search APG",this.regionID,keyword,type);
       this._service.getSearchApg(this.regionID, keyword, type, '')
       .subscribe((res:any) => {
-        console.log(res);
+        console.log("apg result",res);
         this.apgList = res;
+        console.log("APG List",this.apgList);
+        // if(type == 'apg'){
+        //   this.apgList = res;
+        //   console.log("APG list",this.apgList)
+        // }else{
+        //   this.templateList = res;
+        // }
       }, err => {  
         console.log(err);
       });
@@ -1089,6 +1117,7 @@ export class CourseplanComponent implements OnInit {
     chooseModuleType(id, name){
       console.log(id, name)
       this.ischecked = id;
+      localStorage.setItem("moduleID",id)
       setTimeout(() => {
         this.createAPGform = true;
         this.showModule = false;

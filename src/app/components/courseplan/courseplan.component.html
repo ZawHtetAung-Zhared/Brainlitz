@@ -362,7 +362,7 @@
 							(input)="changeSearch($event.target.value)"
 							autocomplete="off" 
 						/> -->
-						<input id="typeahead-focus" 
+						<!-- <input id="typeahead-focus" 
 						type="text" placeholder="Search APG to add to this Course Plan" 
 						class="form-control input-search-bg" 
 						[(ngModel)]="model" 
@@ -375,17 +375,33 @@
 					        <button class="bt btn-design btn-outline-secondary" type="button">
 					            <i class="fa fa-search search-size"></i>
 					        </button>
-					    </span>
-
+					    </span> -->
+					    <div class="input-group w-100">
+			  			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" 
+				            id="template-search-input" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
+				            (input)="changeSearch($event.target.value, 'apg')"
+				            autocomplete="off"
+				            >
+			  			    <span class="input-group-append">
+			  			        <button class="bt btn-design btn-outline-secondary" type="button">
+			  			            <i class="fa fa-search search-size"></i>
+			  			        </button>
+			  			     </span>
+			  			</div>
 					    <div>
 						    <div class="search-result-box" *ngIf="isfocus == true">
 						    	<div class="single-result" (click)="selectData(apg._id, apg.name)" *ngFor="let apg of apgList">
-						    		{{apg.name}}
-						    		<div class="circle1 plus"></div>
+						    		<div class="d-flex">
+						    			<div class="circle1 plus"></div>
+						    			<div>
+						    				<div>{{apg.name}}</div>
+						    				<div class="step-font font-12">progress</div>
+						    			</div>
+						    		</div>
 						    	</div>
 						    </div>
 				        	<div *ngIf="showfixedcreate == true" class="fixedText">
-				    		    <div>
+				    		    <div class="top-line">
 				    				<button type="button" class="bt btn-apg" (click)="goToModule()">
 				    					<div class="circle3 plus"></div>Create new APG
 				    				</button>
@@ -393,23 +409,23 @@
 				    		</div>
 					    </div>
 
-					    <div *ngIf="showfixedcreate == true" class="fixedText">
-						    <div>
+					    <!-- <div *ngIf="showfixedcreate == true" class="fixedText">
+						    <div class="top-line">
 								<button type="button" class="bt btn-apg" (click)="goToModule()">
 									<div class="circle3 plus"></div>Create new APG
 								</button>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<div class="col-md-12 pl-zero" *ngIf="showfixedcreate == true">
-					    <div style="
+					    <!-- <div style="
 					    height: 341px;
 					    border: 1px solid #eee;
 					    border-radius: 0 0 4px 4px;
 					    position: absolute;
-					"></div>
+					"></div> -->
 					</div>
-					<div *ngIf="!model && createdAPGstore?.length <= 0" class="display-style col-md-12" style="margin-top: 30px;">
+					<div *ngIf="model=='' && createdAPGstore?.length <= 0" class="display-style col-md-12" style="margin-top: 30px;">
 						<div class="col-md-6 img-pos">
 							<img src="assets/img/apg-list-default.png">
 						</div>
@@ -422,10 +438,11 @@
 							</div>
 						</div>
 					</div>
-					<div *ngIf="selectedAPGlists" class="col-md-12 pl-zero">
+					<div *ngIf="selectedAPGlists == true" class="col-md-12 pl-zero">
 						<div class="wrap-height">
 							<div *ngFor="let cAPG of createdAPGstore">
 								<div class="group-text">
+									<!-- {{cAPG|json}} -->
 									<button type="button" class="bt btn-apg" (click)="removeSelectedAPG(cAPG)">
 										<div class="circle2 minus"></div>
 										<div class="all-title-font">{{cAPG.name}}</div>
@@ -443,7 +460,7 @@
 						<h3 class="all-title-font">Pick APG type</h3>
 					</div>
 					<div class="row pad-15">
-				  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+				  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 				  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 				  				<div class="module-img">
 			            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
