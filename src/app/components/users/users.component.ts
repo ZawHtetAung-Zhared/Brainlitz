@@ -149,6 +149,12 @@ export class UsersComponent implements OnInit {
 		// this.atLeastOneMail = false;		
 		let objData = new FormData();						
 		let guardianArray;		
+		console.log(obj.guardianEmail)
+		console.log(typeof obj.guardianEmail)
+		if(typeof obj.guardianEmail == 'object'){
+			console.log(typeof obj.guardianEmail)
+			obj.guardianEmail = JSON.stringify(obj.guardianEmail);
+		}
 		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
 		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
 		console.log("TTT",this.atLeastOneMail)

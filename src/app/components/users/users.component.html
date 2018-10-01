@@ -43,7 +43,8 @@
 			<div class="box-design d-flex" (click)="showDetails(customer, customer.userId)">
 				<div class="profileimg-wrap">
 					<div class="circular-image">
-						<img src="{{customer.profilePic}}">
+						<img *ngIf="customer.profilePic == 'undefined'" src="assets/img/user.svg">
+						<img *ngIf="customer.profilePic != 'undefined'" src="{{customer.profilePic}}">
 					</div>
 				</div>
 				<div class="info-side">
@@ -77,8 +78,8 @@
 			<div class="d-flex col-left">
 					<div class="img-wrap">
 						<div class="circular-image">
-							<img *ngIf="custDetail.user.profilePic == undefined" src="assets/img/user.svg">
-							<img *ngIf="custDetail.user.profilePic != undefined" src="{{custDetail.user.profilePic}}">
+							<img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg">
+							<img *ngIf="custDetail.user.profilePic != 'undefined'" src="{{custDetail.user.profilePic}}">
 						</div>
 					</div>
 					<div class="pad-left-15" style="width: 80%">
@@ -98,7 +99,7 @@
 									<div *ngFor="let gurdian of custDetail.user.guardians" class="g-inner-wrap">
 					        	<div class="small-circular-image">
 						        	<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
-											<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
+									<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
 					        	</div>
 
 					        	<span>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</span>

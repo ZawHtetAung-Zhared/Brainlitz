@@ -42,7 +42,8 @@
 				<div class="box-design d-flex">
 					<div>
 						<div class="circular-image">
-							<img src="{{staff.profilePic}}">
+							<img *ngIf="staff.profilePic == 'undefined'" src="assets/img/user.svg">
+							<img *ngIf="staff.profilePic != 'undefined'" src="{{staff.profilePic}}">
 						</div>
 					</div>
 					<div class="info-side">
