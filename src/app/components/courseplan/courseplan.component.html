@@ -394,8 +394,9 @@
 						    		<div class="d-flex">
 						    			<div class="circle1 plus"></div>
 						    			<div>
-						    				<div>{{apg.name}}</div>
-						    				<div class="step-font font-12">progress</div>
+						    				<div>{{ apg.name }}</div>
+						    				<div class="step-font font-12" *ngIf="apg.module">{{ apg.module.name }}</div>
+						    				<div class="step-font font-12" *ngIf="!apg.module"> - </div>
 						    			</div>
 						    		</div>
 						    	</div>

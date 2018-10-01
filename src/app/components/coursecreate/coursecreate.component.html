@@ -104,7 +104,9 @@
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="input-title font-medium">Starts</label>
 						<div class="input-wrap">
-							<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+							<div class="cc-start">
+								<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker" (document:click)="closeStart($event, start)">
+							</div>
 						</div>
 					</div>
 					<div class="col-md-6 p-0">
@@ -118,7 +120,9 @@
 							</div>
 						</div>
 						<div *ngIf="isChecked == 'end'">
-							<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+							<div class="cc-end">
+								<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" (document:click)="closeEnd($event, end)">
+							</div>
 						</div>
 						<div *ngIf="isChecked == 'lesson'">
 							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
