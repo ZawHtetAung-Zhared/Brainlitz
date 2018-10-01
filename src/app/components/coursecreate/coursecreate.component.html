@@ -475,15 +475,27 @@
 				<div class="d-flex timetable">
 					<div class="d-flex justify-content-between flex-item1">
 						<div>
-							<div class="name-label font-medium">25 May 2018</div>
-							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+							<div class="name-label font-medium">{{ttStartDate.date}} {{ttStartDate.month | TTmonth}} 2018</div>
+							<div class="label-12 font-medium">
+								{{ ttStartDate.startTime.hour | TTtime}}:<span *ngIf="ttStartDate.startTime.minute == 0">{{ ttStartDate.startTime.minute}}0</span><span *ngIf="ttStartDate.startTime.minute != 0">{{ ttStartDate.startTime.minute}}</span>
+								<span>{{ttStartDate.startTime.hour | AMPM}}</span>
+								 - 
+								{{ ttStartDate.endTime.hour | TTtime}}:<span *ngIf="ttStartDate.endTime.minute == 0">{{ ttStartDate.endTime.minute}}0</span><span *ngIf="ttStartDate.endTime.minute != 0">{{ ttStartDate.endTime.minute}}</span>
+								<span>{{ttStartDate.endTime.hour | AMPM}}</span>
+							</div>
 						</div>
 						<div class="arrow-wrap">
 							<img src="./assets/images/timetable-arrow@2x.png">
 						</div>
 						<div>
-							<div class="name-label font-medium">27 July 2018</div>
-							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+							<div class="name-label font-medium">{{ttEndDate.date}} {{ttEndDate.month | TTmonth}} 2018</div>
+							<div class="label-12 font-medium">
+								{{ ttEndDate.startTime.hour | TTtime}}:<span *ngIf="ttEndDate.startTime.minute == 0">{{ ttEndDate.startTime.minute}}0</span><span *ngIf="ttEndDate.startTime.minute != 0">{{ ttEndDate.startTime.minute}}</span>
+								<span>{{ttEndDate.startTime.hour | AMPM}}</span>
+								 - 
+								{{ ttEndDate.endTime.hour | TTtime}}:<span *ngIf="ttEndDate.endTime.minute == 0">{{ ttEndDate.endTime.minute}}0</span><span *ngIf="ttEndDate.endTime.minute != 0">{{ ttEndDate.endTime.minute}}</span>
+								<span>{{ttEndDate.endTime.hour | AMPM}}</span>
+							</div>
 						</div>
 					</div>
 					<div class="flex-item2">
@@ -516,16 +528,23 @@
 				<div class="table-body">
 					<div *ngFor="let timetable of timetableLists">
 						<div class="time-info">
-							<div class="name-label font-semi">{{ timetable.date }}</div>
-							<div class="label-12 font-medium">{{ timetable.time }}</div>
+							<div class="name-label font-semi">{{ timetable.month | TTmonth }} {{timetable.year}}</div>
+							<div class="label-12 font-medium">
+								{{ timetable.startTime.hour | TTtime}}:<span *ngIf="timetable.startTime.minute == 0">{{ timetable.startTime.minute}}0</span><span *ngIf="timetable.startTime.minute != 0">{{ timetable.startTime.minute}}</span>
+								<span>{{timetable.startTime.hour | AMPM}}</span>
+								 - 
+								{{ timetable.endTime.hour | TTtime}}:<span *ngIf="timetable.endTime.minute == 0">{{ timetable.endTime.minute}}0</span><span *ngIf="timetable.endTime.minute != 0">{{ timetable.endTime.minute}}</span>
+								<span>{{timetable.endTime.hour | AMPM}}</span>
+							</div>
 						</div>
 						<div class="grid-container">
 							<div *ngFor="let item of timetable.lessons">
-								<div class="grid-item" [ngClass]="{'skip': item.skip == true}">
-									<div *ngIf="item.skip == true" class="skip-arrow">skip</div>
+
+								<div class="grid-item" [ngClass]="{'skip': skipArr.indexOf(item.lessonId) > -1}">
+									<div *ngIf="skipArr.indexOf(item.lessonId) > -1" class="skip-arrow">skip</div>
 									<div>
-										<div class="font-semi">{{ item.date }} {{item.month}}</div>
-										<div class="label-12 font-medium">{{ item.day }}</div>
+										<div class="font-semi">{{ item.date}} {{item.month | TTmonth}}</div>
+										<div class="label-12 font-medium">{{ item.day | TTday }}</div>
 									</div>
 								</div>
 							</div>

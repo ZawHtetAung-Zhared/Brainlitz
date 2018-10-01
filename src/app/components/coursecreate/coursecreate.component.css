@@ -941,7 +941,7 @@ button:disabled {
 }
 .table-body{
   padding-top: 20px;
-  min-height: 430px;
+  min-height: 180px;
   overflow: auto;
 }
 .time-info{
@@ -961,6 +961,7 @@ button:disabled {
 .grid-item{
   padding: 12px;
    background-color: #f2f4f5;
+   border-radius: 4px;
 }
 .table-footer{
   border-top: 1px solid #edeff0;
@@ -972,11 +973,10 @@ button:disabled {
   position: absolute;
   top: 10px;
   right: 0;
-  padding: 0px 4px 0px 4px;
+  padding: 0px 4px 0px 6px;
   height: 25px;
-  /*background: #cce6ff;*/
   background: #fff0e6;
-  color: #64707d;
+  color: #e66000;
   text-align: center;
   font-size: 0.8rem;
   line-height: 1.8;

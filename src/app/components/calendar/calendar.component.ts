@@ -637,7 +637,7 @@ export class CalendarComponent implements OnInit {
         }
   }
 
-  onClickCreate(content){
+  onClickCreate(content){     
     const now = new Date();
     // if(this.selectedYear)
     // this.showText = true;
@@ -666,6 +666,9 @@ export class CalendarComponent implements OnInit {
     }
   }
   showText:boolean = true;
+  xxx(event){
+    console.log('hi')
+  }
   setMinDate(event){
     console.log("setMinDate",event);
     this.minDate = event;
@@ -674,6 +677,23 @@ export class CalendarComponent implements OnInit {
   setMaxDate(date){
     console.log("setMaxDate",date);
     this.maxDate =  date;
+  }
+
+  currentMonth(event){
+    console.log(event.next.month) 
+    let vim = event;
+    if(vim.next.month == 12){
+      console.log(vim.next.month)
+      $('.datepicker-wrap').addClass('hideRight');
+    }else{
+      $('.datepicker-wrap').removeClass('hideRight');
+    }
+    if(vim.next.month == 1){
+      console.log(vim.next.month)
+      $('.datepicker-wrap').addClass('hideLeft');
+    }else{
+      $('.datepicker-wrap').removeClass('hideLeft');
+    }
   }
 
   cancelModal(){
