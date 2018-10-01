@@ -360,7 +360,7 @@
 		  	  	</div>
 		  	  	<div *ngIf="isupdate == false" class="form-group form-divider">
 		  	    	<label for="password" class="label-txt">Password</label> 	
-		  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.password" #password="ngModel" required>
+		  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.password" #password="ngModel">
 		  	    	<div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
 				        <div [hidden]="!password.errors.required">
 				          Password is required!
@@ -375,10 +375,11 @@
 		  	    		Please provide a valid email!
 		  	    	</div>
 		  	  	</div>
-		  	  	<div class="form-group form-divider">
+		  	  	customerForm.valid{{customerForm.valid}}
+		  	  	<!-- <div class="form-group form-divider">
 		  	    	<label for="about" class="label-txt">About</label> 	
 		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
-		  	  	</div>
+		  	  	</div> -->
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
 				<label for="upload">
@@ -435,7 +436,7 @@
 		</div>
 		<div class="d-flex justify-content-end button-group">
 			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == false || validProfile == false ">Create
+        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || (emailAlert || !formFieldc.email || !formFieldc.password ) && (guardianAlert || !formFieldc.guardianEmail)">Create
 			</button>
 			<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || atLeastOneMail == true ">Update
 			</button>
@@ -452,7 +453,7 @@
   		</div>    	
     	<p class="user-name">{{custDetail.user.preferredName}}</p>
     </div>
-    <button (click)="c('Close click')" aria-label="Close" class="modal-close ml-auto" type="button">
+    <button (click)="closeModel()" aria-label="Close" class="modal-close ml-auto" type="button">
     	<span class="closemark">
     	    <div class="closemark_stem"></div>
     	    <div class="closemark_kick"></div>
@@ -504,10 +505,12 @@
 			    					</div>
 			    				</div>
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
-			    					<div *ngIf="course.paymentPolicy.deposit.amount != null">
-			    						<h5>Deposit</h5>
-			    						<sup>$</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
-			    					</div>
+				    				<div>
+				    					<div *ngIf="course.paymentPolicy.deposit">
+				    						<h5>Deposit</h5>
+				    						<sup>$</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
+				    					</div>
+				    				</div>
 			    					<div class="mt-16" *ngIf="course.paymentPolicy.miscFee != null">
 			    						<h5>Miscellaneous fee</h5>
 			    						<sup>$</sup><b>{{course.paymentPolicy.miscFee}}</b>
