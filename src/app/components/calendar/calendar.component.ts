@@ -22,7 +22,7 @@ export class CalendarComponent implements OnInit {
 	closeResult: any;
 	public regionID = localStorage.getItem('regionId');
 	chosenHoliday: any;
-	arrayHoliday: Array<any> = [];
+  arrayHoliday: Array<any> = [];
 	holidayLists: any;
   calendarLists: Array<any> = [];
   public calendarName: any;
@@ -677,6 +677,36 @@ export class CalendarComponent implements OnInit {
   setMaxDate(date){
     console.log("setMaxDate",date);
     this.maxDate =  date;
+  }
+
+  closeFix(event, datePicker) {
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "xxx-start"
+    })
+    console.log('~~~ ', parentWrap.length)
+    if(parentWrap.length == 0){
+      console.log('blank')
+      datePicker.close();
+    }
+    
+    // if(event.target.id == "dpStart" || event.target.nodeName == 'SELECT' || event.target.className =='ngb-dp-navigation-chevron' || event.target.nodeName == 'ngb-datepicker-navigation'){
+    //       console.log('in the if')
+    //       datePicker.open();
+    // }else if(event.target.id != "dpStart"){
+    //   console.log('in the else if')
+    //   datePicker.close();
+    // }
+  }
+
+  closeFixEnd(event, endPicker){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "xxx-end"
+    })
+    console.log('~~~ ', parentWrap.length)
+    if(parentWrap.length == 0){
+      console.log('blank')
+      endPicker.close();
+    }
   }
 
   currentMonth(event){

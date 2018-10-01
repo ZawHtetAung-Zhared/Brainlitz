@@ -28,6 +28,18 @@
           <div class="header-wrap">
             <h3 class="general">General</h3>
           </div>
+          <form class="form-inline">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="d2" #c2="ngModel" [(ngModel)]="model2" ngbDatepicker 
+                           [autoClose]="true"  #d2="ngbDatepicker">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
           <div class="card-columns">
             <div class="card card-wrap region-wrap">
               <div class="title">
