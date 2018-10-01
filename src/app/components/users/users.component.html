@@ -49,7 +49,8 @@
 				<div class="info-side">
 					<h5 style="margin-bottom: 0.3rem">{{customer.preferredName}}</h5>
 					<p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
-					<p class="info-about">Owns Guitar & Piano</p>
+					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
+					<p class="info-about" *ngIf="customer.about != 'undefined'">{{customer.about}}</p>
 				</div>
 				<div class="right-arrow">
 					<i class="fa fa-angle-right"></i>
@@ -375,11 +376,11 @@
 		  	    		Please provide a valid email!
 		  	    	</div>
 		  	  	</div>
-		  	  	customerForm.valid{{customerForm.valid}}
-		  	  	<!-- <div class="form-group form-divider">
+		  	  	
+		  	  	<div class="form-group form-divider">
 		  	    	<label for="about" class="label-txt">About</label> 	
 		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
-		  	  	</div> -->
+		  	  	</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
 				<label for="upload">

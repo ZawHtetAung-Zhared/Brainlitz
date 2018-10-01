@@ -263,10 +263,11 @@ h3, h5 {
 .bt-line::-webkit-input-placeholder {
   color: #788796!important;
 }*/
-
+.form-wrap textarea:hover,
 .form-wrap input:hover{
     background: #f7f9fa;
 }
+.form-wrap textarea,
 .form-wrap input{
     font-family: 'Montserrat-Regular','Arial', sans-serif !important;
     border-radius: .25rem;
@@ -275,6 +276,7 @@ h3, h5 {
     margin-left: -.75rem;
     width: 103%;
 }
+.form-wrap textarea:focus,
 .form-wrap input:focus{
   -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
   -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
@@ -291,11 +293,15 @@ h3, h5 {
 }
 
 
-.permission-width {
+/*.permission-width {
     flex: 0 0 8.333333%;
     max-width: 8.333333%;
     cursor: pointer;
     margin: 15px 15px 35px 15px;
+}*/
+.permission-width1{
+    margin: 0 15px 15px 0;
+    cursor: pointer;
 }
 
 .permission-box {
