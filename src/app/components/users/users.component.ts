@@ -65,7 +65,8 @@ export class UsersComponent implements OnInit {
   	showFormCreate: boolean = false;
   	public navIsFixed: boolean = false;
   	public isCreateFix: boolean = false;
-  	atLeastOneMail: boolean = false;
+  	public atLeastOneMail: boolean = false;
+  	public atLeastGurMail:boolean = false;
   	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
@@ -149,7 +150,7 @@ export class UsersComponent implements OnInit {
 		let guardianArray;		
 		guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
 		this.atLeastOneMail = (!obj.guardianEmail && !obj.email) ? true : false;
-		console.log(this.atLeastOneMail)
+		console.log("TTT",this.atLeastOneMail)
 		obj.email = (obj.email == undefined) ? [] : obj.email;
 
 		objData.append('regionId', this.regionID);
@@ -289,7 +290,7 @@ export class UsersComponent implements OnInit {
 		this.personalMail = ( this.isValidateEmail(data)) ? true : false;
 		console.log(this.personalMail)
 		this.atLeastOneMail = (this.emailAlert != true && data.length > 0) ? true : false;
-		console.log('~~~ ', this.atLeastOneMail)
+		console.log('Email~~~ ', this.atLeastOneMail)
 		
 	}
 
@@ -297,9 +298,8 @@ export class UsersComponent implements OnInit {
 		console.log(gData);
 		// this.atLeastOneMail = false;	
 		this.guardianAlert = (!this.isValidateEmail(gData)) ? true: false;
-		this.atLeastOneMail = (this.guardianAlert != true && gData.length > 0) ? true : false;
-		console.log('~~~ ', this.atLeastOneMail)
-		
+		this.atLeastGurMail = (this.guardianAlert != true && gData.length > 0) ? true : false;
+		console.log('GurMail~~~ ', this.atLeastGurMail)
 	}
 
 	isValidateEmail($email) {
@@ -562,11 +562,19 @@ export class UsersComponent implements OnInit {
 		this._service.assignUser(this.regionID,body)
 		  	.subscribe((res:any) => {
 		     	console.log(res);
-		     	this.modalReference.close();
-		     	this.showDetails(this.custDetail.user, this.custDetail.user.userId)
+		     	this.toastr.success('Successfully Enrolled.');
+		     	this.showDetails(this.custDetail.user, this.custDetail.user.userId);
+		     	this.closeModel();
+		     	// this.modalReference.close();
+		     	// this.availableCourses = [];
 		  	}, err => {  
 		    	console.log(err);
 		  	});
+	}
+
+	closeModel(){
+		this.modalReference.close();
+		this.availableCourses = [];
 	}
 
 	allCourseLists(){
