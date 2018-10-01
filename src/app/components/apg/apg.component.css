@@ -501,7 +501,7 @@
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
 }
 .pad-bottom{
-    padding-bottom: 100px;
+    /*padding-bottom: 100px;*/
 }
 
 @media (max-width: 360px){

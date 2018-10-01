@@ -45,11 +45,12 @@ export class DashboardComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
-    if(window.pageYOffset > 10){
-      console.log('greater than 30')
+    if(window.pageYOffset > 40){
+      console.log('greater than 40')
       this.navIsFixed = true;
-    }else{
-      console.log('less than 30')
+    }
+    if(window.pageYOffset < 15){
+      console.log('less than 15')
       this.navIsFixed = false;
     }
   }

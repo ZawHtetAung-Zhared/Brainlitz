@@ -45,13 +45,13 @@ export class QuizwerkzComponent implements OnInit {
     // console.log($event);
     // console.log("scrolling");
     // console.log(window.pageYOffset)
-    if(window.pageYOffset > 40){
-      console.log('greater than 100')
-      this.navIsFixed = true;
-    }else{
-      console.log('less than 100')
-      this.navIsFixed = false;
-    }
+    // if(window.pageYOffset > 40){
+    //   console.log('greater than 100')
+    //   this.navIsFixed = true;
+    // }else{
+    //   console.log('less than 100')
+    //   this.navIsFixed = false;
+    // }
   } 
   
   cancel(){

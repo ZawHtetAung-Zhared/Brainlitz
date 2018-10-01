@@ -205,8 +205,8 @@ svg.star-filled.default-star-filled-icon {
     top: 0;
 }*/
 .stick #header{
-  /*-ms-transform: translateY(-85px) !important;*/
-  /*transform: translateY(-85px) !important;*/
+  -ms-transform: translateY(-85px) !important;
+  transform: translateY(-85px) !important;
 }
 .stick .sidebar-wrap{
   -moz-box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
