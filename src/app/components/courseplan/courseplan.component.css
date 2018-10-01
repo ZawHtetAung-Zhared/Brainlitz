@@ -3,7 +3,7 @@
   padding-right: 0;
 }
 .search-result-box{
-  height: 300px;
+  height: 320px;
   overflow: auto;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
@@ -14,12 +14,15 @@
   background: #fff;
   z-index: 9;
   left: 0;
-  padding-bottom: 43px;
+  padding-bottom: 45px;
 }
 .single-result{
   cursor: pointer;
   padding: 16px 0;
   border-bottom: 1px solid #edeff0;
+}
+.font-12{
+  font-size: 12px;
 }
 
 .ul-pad {
@@ -1216,13 +1219,14 @@ ul.search-apg{
 
 .fixedText {
   /*border-top: 1px solid #eee;*/
-  border: 1px solid #eee;
-  border-bottom: none;
+  /*border: 1px solid #eee;*/
+  /*border-bottom: none;*/
   position: absolute;
   /*bottom: -299px;*/
-  bottom: -340px;
+  bottom: -320px;
   z-index: 1999;
-  padding: 10px;
+  /*padding: 10px;*/
+  padding: 0px 16px;
   background: #fff;
   left: 0;
   right: 0;
@@ -1244,12 +1248,16 @@ ul.search-apg{
   border: none;
   cursor: pointer;
   background: none;
+  padding: 12px 0px;
+  /*padding: 0;*/
 }
 
 .btn-apg:focus {
   outline: none;
 }
-
+.top-line{
+  border-top: 1px solid #edeff0;
+}
 .show-apg-selected {
   padding: 15px 20px;
 }
@@ -1394,6 +1402,10 @@ ul.search-apg{
 
 .pad-left-40{
   padding-left: 40px;
+}
+
+.disable-click{
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 768px){

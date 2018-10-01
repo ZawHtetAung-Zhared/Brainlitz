@@ -742,6 +742,9 @@ export class CoursecreateComponent implements OnInit {
           console.log("Not same endD",testObj.endDate,"&&&",endD);
           this.courseObj["endDate"] = endD;
           this.temp["endDate"] = endD;
+          //other Obj
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+          this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
         }
       }
@@ -752,6 +755,9 @@ export class CoursecreateComponent implements OnInit {
           console.log("Not Same",testObj.lessonCount,"&&&",this.model.lessonCount);
           this.courseObj["lessonCount"] = this.model.lessonCount;
           this.temp["lessonCount"] = this.model.lessonCount;
+          // other obj
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+          this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
         }
       }
@@ -760,6 +766,13 @@ export class CoursecreateComponent implements OnInit {
         console.log("Not Same StartD",testObj.lessonCount,"&&&",this.model.lessonCount);
         this.courseObj["startDate"] = startD;
         this.temp["startDate"] = startD;
+        // other obj
+        if(this.model.end){
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        }else if(this.model.lessonCount){
+          this.courseObj["lessonCount"] = this.model.lessonCount;
+        }
+        this.courseObj["repeatDays"] = this.selectedDay;
         localStorage.setItem("tempObj",JSON.stringify(this.temp)); 
       }
 
@@ -767,6 +780,12 @@ export class CoursecreateComponent implements OnInit {
         console.log("not same repeat",testObj.repeatDays,this.selectedDay);
         this.courseObj["repeatDays"] = this.selectedDay;
         this.temp["repeatDays"] = this.selectedDay;
+        if(this.model.end){
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        }else if(this.model.lessonCount){
+          this.courseObj["lessonCount"] = this.model.lessonCount;
+        }
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
         localStorage.setItem("tempObj",JSON.stringify(this.temp));
       }
     }
