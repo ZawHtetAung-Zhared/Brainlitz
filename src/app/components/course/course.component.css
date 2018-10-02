@@ -362,7 +362,7 @@ li button{
 .single-user-info p,
 .btn-submit,
 .modal-ctime p,
-.modal-dfees h5{
+.modal-dfees h5,.modal-duration{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 .back-to,
@@ -418,7 +418,7 @@ li button{
 .detail-info label,
 .single-user-info p,
 .modal-ctime p,
-.modal-dfees h5{
+.modal-dfees h5,.modal-duration{
   color: #64707d;
   font-size: 14px;
 }

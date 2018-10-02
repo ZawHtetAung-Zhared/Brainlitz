@@ -49,12 +49,8 @@
               </div>  
               <input type="text" class="form-control create-input" placeholder="Type full name here" name="name" 
                 [(ngModel)]="formField.name" 
-                (focus)="focusMethod($event)" 
-                (blur)="blurMethod($event)" 
-                maxlength="80" 
-                (input)="changeMethod($event.target.value)" required 
-                #name="ngModel">
-
+                (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)"
+                maxlength="80" required #name="ngModel">
               <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
                 <div [hidden]="!name.errors.required">
                   Name is required!
@@ -240,7 +236,7 @@
           </div>
         </div>
         <div>
-          <input class="input-name" type="text" placeholder="Type holiday name" name="name" (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" [(ngModel)]="model.name" required #holidayName="ngModel">
+          <input class="input-name" type="text" placeholder="Type holiday name" name="name" (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" maxlength="60" [(ngModel)]="model.name" required #holidayName="ngModel">
           <div *ngIf="holidayName.invalid && (holidayName.dirty || holidayName.touched)" class="alert alert-danger mb-0">
               <div [hidden]="!holidayName.errors.required">
                 Display name is required!

@@ -152,7 +152,6 @@ export class CategoryComponent implements OnInit {
   close(status, id){
     if(status == 'create'){
       this.isfocus = !this.isfocus;
-      
     }else{
       console.log('edit', id)
       this.iseditfocus = !this.iseditfocus;

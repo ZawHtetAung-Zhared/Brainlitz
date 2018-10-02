@@ -88,7 +88,7 @@
 							<h5>{{custDetail.user.preferredName}}</h5>
 							<p class="info-mail mb-0">{{custDetail.user.email}}</p>
 						</div>
-						<div class="infoGp-wrap mb-0" style="border-bottom: 1px dotted #64707d;">
+						<div class="infoGp-wrap mb-0">
 							<p *ngIf="custDetail.user.about" class="mb-0">
 								{{ custDetail.user.about }}
 							</p>
@@ -96,18 +96,18 @@
 								-
 							</p>
 						</div>
-						<div class="infoGp-wrap">
+						<div *ngIf="custDetail.user.guardians?.length > 0" class="infoGp-wrap" style="border-top: 1px dotted #64707d;">
 							<label class="info-mail">Gurdians</label>
 							<div class="guardian-main-wrap">
-									<div *ngFor="let gurdian of custDetail.user.guardians" class="g-inner-wrap">
-					        	<div class="small-circular-image">
-						        	<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
-									<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
-					        	</div>
+								<div *ngFor="let gurdian of custDetail.user.guardians" class="g-inner-wrap">
+						        	<div class="small-circular-image">
+							        	<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
+										<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
+						        	</div>
 
-					        	<span>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</span>
-									</div>
-					    </div>
+						        	<span>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</span>
+								</div>
+					    	</div>
 							<!-- <div class="" style="overflow-x: scroll;">
 								<div class="gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
 									<div class="small-circular-image">
