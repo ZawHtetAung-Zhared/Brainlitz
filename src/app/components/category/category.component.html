@@ -86,53 +86,55 @@
         </form>
       </div>
       <div class="col-md-4 cagetory-item" *ngFor="let category of categoryList; let i = index">
-        <div *ngIf="isEditComplete == false" class="form-check">
-          <label class="form-check-label cat-label d-flex flex-column justify-content-center" [ngClass]="{'selected': ischecked == category._id, 'blury': isfocus == true}">
-            <div>
-                <div class="label-checked"></div>
-                <input class="form-check-input"
-                    type="radio" 
-                    name="inlineRadioOptions" 
-                    id="category._id"                                         
-                    (click)="somethingChanged(category._id, category.name)"
-                    value="{{category.name}}"> {{category.name}}
-            </div>
-          </label>
-        </div>
-        <div *ngIf="isEditComplete == true" class="editcategory-item">
-          <div class="d-flex justify-content-between">
-            <div class="limit-word limit-{{category._id}}">
-              <span>{{wordLength}}/60characters</span>
-            </div>
-          </div>          
-          <input
-            type="text" 
-            id="category._id"
-            class="form-control" 
-            [ngClass]="{'onfocus': editValue == category._id, 'blury': (iseditfocus == true && editValue != category._id)}"            
-            name="name" 
-            [(ngModel)]="category.name" 
-            required 
-            #name="ngModel"
-            (focus)="focusFunction('edit',category._id, $event.target.value)"
-            (blur)="blurMethod($event, 'create')"
-            (input)="changeMethod($event.target.value)"
-            maxlength="60">
-          <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == category._id}"> 
-            <button type="submit" class="btn" (click)="close('edit', category._id)">
-              <span class="closemark">
-                  <div class="closemark_stem"></div>
-                  <div class="closemark_kick"></div>
-              </span>
-            </button>
-            <button type="submit" class="btn" (click)="updateCategory(item, category.name)" [disabled]="!categoryForm.valid">
-              <span class="checkmark">
-                  <div class="checkmark_stem"></div>
-                  <div class="checkmark_kick"></div>
-              </span>
-            </button>
+        <form novalidate #categoryForm="ngForm">
+          <div *ngIf="isEditComplete == false" class="form-check">
+            <label class="form-check-label cat-label d-flex flex-column justify-content-center" [ngClass]="{'selected': ischecked == category._id, 'blury': isfocus == true}">
+              <div>
+                  <div class="label-checked"></div>
+                  <input class="form-check-input"
+                      type="radio" 
+                      name="inlineRadioOptions" 
+                      id="category._id"                                         
+                      (click)="somethingChanged(category._id, category.name)"
+                      value="{{category.name}}"> {{category.name}}
+              </div>
+            </label>
           </div>
-        </div>
+          <div *ngIf="isEditComplete == true" class="editcategory-item">
+            <div class="d-flex justify-content-between">
+              <div class="limit-word limit-{{category._id}}">
+                <span>{{wordLength}}/60characters</span>
+              </div>
+            </div>          
+            <input
+              type="text" 
+              id="category._id"
+              class="form-control" 
+              [ngClass]="{'onfocus': editValue == category._id, 'blury': (iseditfocus == true && editValue != category._id)}"            
+              name="name" 
+              [(ngModel)]="category.name" 
+              required 
+              #name="ngModel"
+              (focus)="focusFunction('edit',category._id, $event.target.value)"
+              (blur)="blurMethod($event, 'create')"
+              (input)="changeMethod($event.target.value)"
+              maxlength="60">
+            <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == category._id}"> 
+              <button type="submit" class="btn" (click)="close('edit', category._id)">
+                <span class="closemark">
+                    <div class="closemark_stem"></div>
+                    <div class="closemark_kick"></div>
+                </span>
+              </button>
+              <button type="submit" class="btn" (click)="updateCategory(item, category.name)" [disabled]="!categoryForm.valid">
+                <span class="checkmark">
+                    <div class="checkmark_stem"></div>
+                    <div class="checkmark_kick"></div>
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
