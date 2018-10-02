@@ -130,9 +130,13 @@ export class CoursecreateComponent implements OnInit {
   showDraftCourse(cId){
     console.log("Function Works");
     this.getAllLocations();
+    this.blockUI.start('Loading...');
     this._service.getSingleCourse(cId)
     .subscribe((res:any) => {
       console.log("Course Detail",res);
+      setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+      }, 300);
       this.model = res;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
