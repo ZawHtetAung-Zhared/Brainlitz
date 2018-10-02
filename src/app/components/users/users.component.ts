@@ -166,6 +166,8 @@ export class UsersComponent implements OnInit {
 		objData.append('lastName', obj.lastName);
 		objData.append('preferredName', obj.preferredName);
 		objData.append('email', obj.email);
+
+		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);	
 
 		this.customerLists = [];
