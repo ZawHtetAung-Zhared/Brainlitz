@@ -95,6 +95,7 @@ export class UserStaffComponent implements OnInit {
 	goCreateForm(){
 		this.staffLists = [];
 		this.showFormCreate = true;
+		this.permissionCount = false;
 		console.log('create')
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');

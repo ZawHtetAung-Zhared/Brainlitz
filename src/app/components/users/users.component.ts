@@ -336,6 +336,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	goCreateForm(){
+		this.isCrop = false;
 		this.customerLists = [];
 		this.showFormCreate = true;
 		console.log('create');

@@ -176,7 +176,9 @@ li button{
   border-radius: 9px;
   margin: 10px 0px 10px 0px;    
   border: 1px solid #F0F0F0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 .header span{
   padding-left: 20px;
