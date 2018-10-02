@@ -110,6 +110,8 @@ export class UsersComponent implements OnInit {
 
 	getSingleInfo(ID){
 		console.log(ID);
+		console.log(this.isCrop);
+		this.isCrop = false;
 		this.customerLists = [];
 		this.getSingleUser(ID);
 	}
@@ -174,12 +176,15 @@ export class UsersComponent implements OnInit {
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
-			this.ulFile = (this.img != undefined) ? this.dataURItoBlob(this.img) : this.img;
+			if(this.img != undefined){
+				this.ulFile = this.dataURItoBlob(this.img)
+				objData.append('profilePic', this.ulFile)
+			}
+
 			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
 			objData.append('guardianEmail', JSON.stringify(guardianArray));	
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
-			objData.append('profilePic', this.ulFile);
 
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
@@ -204,12 +209,14 @@ export class UsersComponent implements OnInit {
 			if(getImg != undefined){
 				$(".circular-profile img:last-child").attr("id", "blobUrl");
 			}
-			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
-			if(this.isCrop == true){
-				this.ulFile = this.dataURItoBlob(this.img);
-				objData.append('profilePic', this.ulFile);
-			}else{
-				objData.append('profilePic', this.img);
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;			
+			console.log('~~~> ',this.img)
+			console.log('==== ',this.isCrop)
+
+			this.ulFile = (this.isCrop == true) ? this.dataURItoBlob(this.img) : this.img;
+			
+			if(this.ulFile != undefined){
+				objData.append('profilePic', this.ulFile)
 			}
 
 			if(typeof obj.guardianEmail == 'object'){
@@ -329,6 +336,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	goCreateForm(){
+		this.isCrop = false;
 		this.customerLists = [];
 		this.showFormCreate = true;
 		console.log('create');
@@ -374,24 +382,6 @@ export class UsersComponent implements OnInit {
 			        },
 		          	enableExif: true
 	        	});
-		     //  	var cropper = this.uploadCrop;
-		     //  	var $uploadCrop = this.uploadCrop;
-		     //  	var BlobUrl = this.dataURItoBlob;
-
-		     //  	console.log($uploadCrop)
-		     //  	reader.onload = function(e: any) {
-		     //    $uploadCrop.bind({
-	      //       url: e.target.result
-	      //     })
-	      //     .then(function(e: any) {
-	      //     	console.log(cropper.data.url)
-							// const blob = BlobUrl(cropper.data.url);
-      	// 			const blobUrl = URL.createObjectURL(blob);
-      	// 			console.log(blobUrl)
-      	// 			$uploadCrop.bind({
-      	// 				url: blobUrl
-      	// 			})
-	      //     });
 
 	      var $uploadCrop = this.uploadCrop;
           console.log('$uploadCrop', $uploadCrop)

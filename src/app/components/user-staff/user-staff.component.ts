@@ -21,7 +21,9 @@ export class UserStaffComponent implements OnInit {
   	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
   	emailAlert: boolean = false;
+  	public permissionCount: boolean = false;
   	public img: any;
+  	public ulFile: any;
   	permissionLists: any;
   	formFields: Staff = new Staff();
   	@BlockUI() blockUI: NgBlockUI;
@@ -93,6 +95,7 @@ export class UserStaffComponent implements OnInit {
 	goCreateForm(){
 		this.staffLists = [];
 		this.showFormCreate = true;
+		this.permissionCount = false;
 		console.log('create')
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
@@ -132,11 +135,6 @@ export class UserStaffComponent implements OnInit {
 	createUser(obj, state){
 		console.log(obj)	
 		let objData = new FormData();
-		let getImg = document.getElementById("blobUrl");
-		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
-		console.log(this.img)
-		
-		
 		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
 		
 		objData.append('orgId', this.orgID),
@@ -147,10 +145,16 @@ export class UserStaffComponent implements OnInit {
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
-		objData.append('profilePic', this.img)
+		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about)
 
 		if(state == 'create'){
+			let getImg = document.getElementById("blobUrl");
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;			
+			if(this.img != undefined){
+				this.ulFile = this.dataURItoBlob(this.img)
+				objData.append('profilePic', this.ulFile)
+			}
 			console.log('create')
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
@@ -208,6 +212,8 @@ export class UserStaffComponent implements OnInit {
 
 	checkUser(id, e){
 		console.log(e.target.checked)
+		this.permissionCount = e.target.checked;
+		console.log(this.permissionCount)
 	    $("label").on("click",function() {
    			if($(this).find('input[type="radio"]').is(':checked')) { 
           	$('label').removeClass('radio-bg-active');
@@ -256,23 +262,16 @@ export class UserStaffComponent implements OnInit {
 	        },
           	enableExif: true
         });	
-        	var cropper = this.uploadCrop;
+        	
 	      	var $uploadCrop = this.uploadCrop;
-	      	var BlobUrl = this.dataURItoBlob;
 	      	reader.onload = function(e: any) {
-	        $uploadCrop.bind({
-	            url: e.target.result
-	          })
-	          .then(function(e: any) {
-	          	console.log(cropper.data.url)
-				const blob = BlobUrl(cropper.data.url);
-				const blobUrl = URL.createObjectURL(blob);
-				console.log(blobUrl)
-				$uploadCrop.bind({
-					url: blobUrl
-				})
-	          });
-	      };
+	      		$('.upload-demo').addClass('ready');
+		        $uploadCrop.bind({
+		            url: e.target.result
+		        })
+		          .then(function(e: any) {
+		        });
+	      	};
 	      reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
@@ -298,16 +297,11 @@ export class UserStaffComponent implements OnInit {
 			},
 			quality:1 
 	      })
-	      .then(function(resp: any) {	
-	      	$("#upload-demo img:last-child").remove();
-  	      	console.log(resp)
-  	      	const blob = BlobUrl(resp);
-  			const blobUrl = URL.createObjectURL(blob);
-  			console.log(blobUrl)
-	        if (blobUrl) {
+	      .then(function(resp: any) {
+	        if (resp) {
 	          	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
