@@ -119,12 +119,14 @@ export class CalendarComponent implements OnInit {
     this.formField = new calendarField();
   }
 
-  focusMethod(e){
+  focusMethod(e, word){
+    this.wordLength = word.length;
     $('.limit-wordcount').show('slow'); 
   }
     
   blurMethod(e){
     $('.limit-wordcount').hide('slow'); 
+    this.wordLength = 0;
   }
 
   changeMethod(val : string){

@@ -91,6 +91,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	goCreateForm(){
+		this.staffLists = [];
 		this.showFormCreate = true;
 		console.log('create')
 		setTimeout(function() {

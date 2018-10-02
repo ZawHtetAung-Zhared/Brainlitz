@@ -472,7 +472,10 @@ ul.calendar-year li:first-child{
     border-style: solid;
     border-color: #fff transparent;
 }
-
+.yearDropdown-wrap ul li:hover{
+  cursor: pointer;
+  color: #0080ff;
+}
 .yearDropdown-wrap ul li,
 .yearDropdown-wrap1 ul li{
   border-bottom: 1px solid #e3e4e6;
