@@ -20,6 +20,7 @@ export class UserStaffComponent implements OnInit {
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
+  	emailAlert: boolean = false;
   	public img: any;
   	permissionLists: any;
   	formFields: Staff = new Staff();
@@ -41,7 +42,7 @@ export class UserStaffComponent implements OnInit {
 	permissionId: any;
 	editId: any;
 	public locationID = localStorage.getItem('locationId');
-	public wordLength:any;
+	public wordLength:any = 0;
 	public aboutTest = "Owns Guitar & PianoOwns Guitar & PianoOwnsijii";
 	public aboutTest1 = " How your call you or like your preferred name kuiui";
 
@@ -90,6 +91,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	goCreateForm(){
+		this.staffLists = [];
 		this.showFormCreate = true;
 		console.log('create')
 		setTimeout(function() {
@@ -98,17 +100,34 @@ export class UserStaffComponent implements OnInit {
 	    this.getAllpermission();
 	}
 
-	focusMethod(e){
-		  $('.limit-wordcount').show('slow'); 
+	focusMethod(e, word){
+		this.wordLength = word.length;
+		$('.limit-wordcount').show('slow'); 
 	}
 	  
 	blurMethod(e){
 		  $('.limit-wordcount').hide('slow'); 
+		  this.wordLength = 0;
 	}
 
 	changeMethod(val : string){
 	    this.wordLength = val.length;
 	  }
+
+	validateEmail(data){
+		console.log(data);		
+		this.emailAlert = ( !this.isValidateEmail(data)) ? true : false;
+	}
+
+	isValidateEmail($email) {
+	  var emailReg = /^([A-Za-z0-9\.\+])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+	  if($email != ''){
+	  	return emailReg.test( $email );
+	  }
+	  else {
+	  	return true;
+	  }	
+	}
 
 	createUser(obj, state){
 		console.log(obj)	
@@ -129,6 +148,7 @@ export class UserStaffComponent implements OnInit {
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
 		objData.append('profilePic', this.img)
+		objData.append('about', obj.about)
 
 		if(state == 'create'){
 			console.log('create')
@@ -139,7 +159,6 @@ export class UserStaffComponent implements OnInit {
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
 		  		this.back();
-		  		this.getAllUsers('staff', 20, 0);
 		    }, err => {		    	
 		    	this.blockUI.stop();
 		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
@@ -152,12 +171,12 @@ export class UserStaffComponent implements OnInit {
 		    })
 		}else{
 			console.log('update')
-			this._service.updateUser(this.editId, objData)
+			this._service.updateUser(this.regionID, this.editId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
 		  		this.blockUI.stop();
-		  		this.getAllUsers('staff', 20 , 0);
+		  		this.back();
 		    }, err => {
 		    	this.toastr.error('Create Fail');
 		    	this.blockUI.stop();

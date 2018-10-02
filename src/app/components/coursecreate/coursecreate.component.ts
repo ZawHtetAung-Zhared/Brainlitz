@@ -43,6 +43,7 @@ export class CoursecreateComponent implements OnInit {
     {"day":"Fri ", "val": 5},
     {"day":"Sat", "val": 6},
   ];
+  public ignoreTempID = [];
   public tempID = [];
   public selectedDay = [];
   public toggleBool:boolean = true;
@@ -86,6 +87,11 @@ export class CoursecreateComponent implements OnInit {
   public planDuration:any;
   public pplLists = [];
   public temp:any = {};
+  public timetable: any;
+  public ttCalendar: Array<any> = [];
+  public timetableLists: Array<any> = [];
+  public ttStartDate: Array<any> = [];
+  public ttEndDate: Array<any> = [];
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -124,9 +130,13 @@ export class CoursecreateComponent implements OnInit {
   showDraftCourse(cId){
     console.log("Function Works");
     this.getAllLocations();
+    this.blockUI.start('Loading...');
     this._service.getSingleCourse(cId)
     .subscribe((res:any) => {
       console.log("Course Detail",res);
+      setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+      }, 300);
       this.model = res;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
@@ -187,6 +197,7 @@ export class CoursecreateComponent implements OnInit {
     }
     this.isSelected = ampm;
     this.showFormat = timeString.substring(0,5);
+    this.model.startT = timeString;
     console.log(this.showFormat);
     this.rangeHr = timeString.substring(0,timeString.search(":"));
     this.rangeMin = timeString.substring(timeString.search(":")+1);
@@ -245,14 +256,25 @@ export class CoursecreateComponent implements OnInit {
     console.log("Duration Times",this.model.duration)
   }
 
-  focusMethod(e){
+  focusMethod(e, status, word){
     console.log('hi', e)
-    $('.limit-wordcount').show('slow'); 
+    if(status == 'name'){
+      this.wordLength = word.length;
+      $('.limit-wordcount').show('slow'); 
+    }else{
+      this.wordLength = word.length;
+      $('.limit-wordcount1').show('slow'); 
+    }
   }
     
-  blurMethod(e){
+  blurMethod(e, status){
     console.log('blur', e);
-    $('.limit-wordcount').hide('slow'); 
+    if(status == 'name'){
+      $('.limit-wordcount').hide('slow'); 
+    }else{
+      $('.limit-wordcount1').hide('slow'); 
+    }
+    this.wordLength = 0;
   }
 
   changeMethod(val : string){
@@ -308,19 +330,19 @@ export class CoursecreateComponent implements OnInit {
     console.log(this.isthereLC)
   }
 
-
   chooseEndOpt(type){
-    this.model.lessonCount = ''
-    console.log("Type",type);
     this.isChecked = type;
-      if(type == 'end'){
-        this.model.end = "";
-        // this.isthereLC = '';
-      }else{
-        console.log(this.model.lessonCount)
+    if(type == 'end'){
+      this.model.end = "";
+      if(this.model.lesson){
         this.model.lessonCount = "";
-        // this.maxDate = "";
       }
+    }else if(type == 'lesson'){
+      if(this.model.end){
+        this.model.end = "";
+      }
+      this.model.lessonCount = "";
+    }
   }
 
   setMinDate(event){
@@ -507,6 +529,7 @@ export class CoursecreateComponent implements OnInit {
     // this.model.starttime = this.startFormat;  
     this.startTime = moment(this.startFormat, "h:mm A").format("HH:mm");
     console.log('Output',this.startTime);
+    this.model.startT = this.startFormat;
     this.model.starttime = this.startTime;
     this.calculateDuration(this.startTime,this.model.duration);
   }
@@ -518,15 +541,17 @@ export class CoursecreateComponent implements OnInit {
       let mins = Number(piece[0])*60 +Number(piece[1]) +this.model.duration;
       var endTime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
       console.log("Classend",endTime);
-      var test1 = Number(this.D(mins%(24*60)/60 | 0));
-      if(test1 > 12){
-        this.classend = endTime + 'PM';
-        console.log("classend PM",this.classend);
-      } else{
-        this.classend = endTime + 'AM';
-        console.log("classend AM",this.classend);
+      var H = +endTime.substr(0,2);
+      var h = (H % 12) || 12;
+      var ampm = H < 12 ? "AM" : "PM";
+      if(h < 10){
+        this.classend = '0' + h + endTime.substr(2, 3) + ampm;
+        console.log("Class end",this.classend);
+      }else{
+        this.classend = h +endTime.substr(2,3) + ampm;
+        console.log("Class end",this.classend);
       }
-    }  
+    } 
   }
   D(J){ return (J<10? '0':'') + J};
 
@@ -728,6 +753,9 @@ export class CoursecreateComponent implements OnInit {
           console.log("Not same endD",testObj.endDate,"&&&",endD);
           this.courseObj["endDate"] = endD;
           this.temp["endDate"] = endD;
+          //other Obj
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+          this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
         }
       }
@@ -738,6 +766,9 @@ export class CoursecreateComponent implements OnInit {
           console.log("Not Same",testObj.lessonCount,"&&&",this.model.lessonCount);
           this.courseObj["lessonCount"] = this.model.lessonCount;
           this.temp["lessonCount"] = this.model.lessonCount;
+          // other obj
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+          this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
         }
       }
@@ -746,6 +777,13 @@ export class CoursecreateComponent implements OnInit {
         console.log("Not Same StartD",testObj.lessonCount,"&&&",this.model.lessonCount);
         this.courseObj["startDate"] = startD;
         this.temp["startDate"] = startD;
+        // other obj
+        if(this.model.end){
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        }else if(this.model.lessonCount){
+          this.courseObj["lessonCount"] = this.model.lessonCount;
+        }
+        this.courseObj["repeatDays"] = this.selectedDay;
         localStorage.setItem("tempObj",JSON.stringify(this.temp)); 
       }
 
@@ -753,6 +791,12 @@ export class CoursecreateComponent implements OnInit {
         console.log("not same repeat",testObj.repeatDays,this.selectedDay);
         this.courseObj["repeatDays"] = this.selectedDay;
         this.temp["repeatDays"] = this.selectedDay;
+        if(this.model.end){
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        }else if(this.model.lessonCount){
+          this.courseObj["lessonCount"] = this.model.lessonCount;
+        }
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
         localStorage.setItem("tempObj",JSON.stringify(this.temp));
       }
     }
@@ -795,6 +839,16 @@ export class CoursecreateComponent implements OnInit {
           this.ignoreTempID= [];
           this.skipArr = [];
           this.ignoreArr = [];
+          this.timetable = err.error.timetable
+          this.ttCalendar = err.error.timetable.calendar
+          this.timetableLists = err.error.timetable.calendar
+          console.log(this.ttCalendar)
+          console.log(this.timetableLists[0].lessons[0])
+          this.ttStartDate =this.timetableLists[0].lessons[0];
+          const lastItem= this.timetableLists[this.timetableLists.length - 1].lessons.length - 1;
+          console.log(lastItem)
+          console.log(this.timetableLists[this.timetableLists.length - 1].lessons[lastItem])
+          this.ttEndDate = this.timetableLists[this.timetableLists.length - 1].lessons[lastItem];
         }else if(err.status == 400){
           if(err.error.message == "LESSONS CAN'T BE EMPTY"){
             this.endAgain = true;
@@ -903,47 +957,44 @@ export class CoursecreateComponent implements OnInit {
 
 
   skipAll(item){
-    console.log(item);
+    this.ignoreArr = [];
     if(this.ignoreTempID.length > 0){
        for(var i in this.ignoreTempID){
           if(this.ignoreTempID[i]==item.staffId){
             var remove = Number(i);
-            console.log("Remove from ignore",i);
             this.ignoreTempID.splice(remove,1);
-            console.log("temp",this.ignoreTempID);
+            this.ignoreArr = [];
           }
         }
     }
     this.tempID.push(item.staffId);
-    console.log('~~~~', this.tempID)
     for(var key in item.conflictWith){
-      console.log("id",item.conflictWith[key]._id);
-      this.skipArr.push(item.conflictWith[key]._id);
-      // this.removeValues.push(lesson[key]._id);
+      let conflictTempId = item.conflictWith[key]._id;
+      if(this.skipArr.includes(conflictTempId) == false){        
+        this.skipArr.push(item.conflictWith[key]._id);
+      }
       console.log("ignoreArr",this.ignoreArr)
       console.log("skipArr",this.skipArr);
     }
   }
-  ignoreTempID = [];
+  
   ignoreAll(item){
-    console.log(item);
+    this.skipArr = []
     if(this.tempID.length>0){
        for(var i in this.tempID){
           if(this.tempID[i]==item.staffId){
             var remove = Number(i);
-            console.log("Remove from skip",i);
             this.tempID.splice(remove,1);
-            console.log("temp",this.tempID);
             this.skipArr = [];
           }
         }
     }
     this.ignoreTempID.push(item.staffId);
-    console.log('~~~~', this.ignoreTempID)
     for(var key in item.conflictWith){
-      console.log("id",item.conflictWith[key]._id);
-      this.ignoreArr.push(item.conflictWith[key]._id);
-      // this.removeValues.push(lesson[key]._id);
+      let conflictTempId = item.conflictWith[key]._id;
+      if(this.ignoreArr.includes(conflictTempId) == false){
+        this.ignoreArr.push(item.conflictWith[key]._id);
+      }
       console.log("skipArr",this.skipArr);
       console.log("ignoreArr",this.ignoreArr);
     }
@@ -980,6 +1031,26 @@ export class CoursecreateComponent implements OnInit {
 
   hideDetailTimetable(){
     this.isShowDetail = false;
+  }
+
+  closeStart(event,datePicker){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "cc-start"
+    })
+    if(parentWrap.length == 0){
+      // console.log('blank')
+      datePicker.close();
+    }
+  }
+
+  closeEnd(event,endPicker){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "cc-end"
+    })
+    if(parentWrap.length == 0){
+      // console.log('blank')
+      endPicker.close();
+    }
   }
 
 }

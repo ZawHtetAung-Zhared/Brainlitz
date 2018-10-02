@@ -15,9 +15,9 @@
 		<div class="d-flex justify-content-center flex-column">
 			<div>
 		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid ||  selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -62,7 +62,7 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 					</div>
-					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
+					<input class="form-control br-bshadow-none all-left-box-10" type="text" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" autocomplete="off" placeholder="Type course name here" [(ngModel)]="model.name" #courseName="ngModel" required>
 					<div *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!courseName.errors.required">
 				          Course name is required!
@@ -81,8 +81,13 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
-					<label for="desc" class="input-title font-medium">Description</label>
-					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" required #description="ngModel" placeholder="Type description here"></textarea>
+					<div class="d-flex justify-content-between">
+						<label for="course_name" class="input-title font-medium">Description</label>
+						<div class="limit-wordcount1">
+							<span>{{wordLength}}/280characters</span>
+						</div>
+					</div>
+					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" #description="ngModel" (focus)="focusMethod($event, 'msg', $event.target.value)" (blur)="blurMethod($event, 'msg')" maxlength="280" (input)="changeMethod($event.target.value)" placeholder="Type description here"></textarea>
 				</div>
 			</div>
 		</div>
@@ -99,21 +104,25 @@
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="input-title font-medium">Starts</label>
 						<div class="input-wrap">
-							<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker">
+							<div class="cc-start">
+								<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker" (document:click)="closeStart($event, start)">
+							</div>
 						</div>
 					</div>
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="input-title font-medium">Ends</label>
 						<div>
 							<div class="tool-box">
-								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
-								<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi">
+								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi cursor-on"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
+								<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi cursor-on">
 									<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseEndOpt('lesson')"> Lessons Count
 								</label>
 							</div>
 						</div>
 						<div *ngIf="isChecked == 'end'">
-							<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+							<div class="cc-end">
+								<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" (document:click)="closeEnd($event, end)">
+							</div>
 						</div>
 						<div *ngIf="isChecked == 'lesson'">
 							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
@@ -124,7 +133,7 @@
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="input-title font-medium">Starting Time</label>
 						<div class="input-wrap">
-							<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.starttime" readonly (click)="durationProgress($event)" style="background: none;">
+							<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly (click)="durationProgress($event)" style="background: none;">
 							<div class="bg-box duration-progress">
 								<div id="rectangle"></div>
 								<div class="time-wrapper d-flex justify-content-center">
@@ -162,7 +171,7 @@
 						<!-- <div class="input-wrap form-group" (click)="dropDown()">
 						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="{{model.durationTimes}}" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
 						</div> -->
-						<div class="d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
+						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
 							{{ model.duration }} min
 							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						</div>
@@ -181,7 +190,7 @@
 					<div>
 						<div>
 							<span *ngFor="let d of days">
-								<label class="day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
+								<label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
 									<!-- <span><i class="fa fa-check"></i></span> -->
 									<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
 								    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
@@ -195,7 +204,7 @@
 				</div>
 				<div class="pad-b">
 					<label for="course_name" class="input-title font-medium">Teacher</label>
-				    <div class="d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
+				    <div class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
 						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
 						<div class="d-flex" *ngIf="selectedTeacher">
 							<span class="img-wrap"><img src="{{  selectedTeacher.profilePic }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
@@ -307,13 +316,13 @@
 					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
 					<div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
-					    	<input class="form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
+					    	<input class="cursor-on form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
 					     </div>
 					     <div class="dropdown-wrap">
 				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
 				          <ul class="location-dropdown">
-				            <li *ngFor="let item of locationList">
-				              <span (click)="chooseLocation(item)">{{item.name}}</span>
+				            <li *ngFor="let item of locationList" (click)="chooseLocation(item)">
+				              <span>{{item.name}}</span>
 				            </li>
 				          </ul>
 				        </div>
@@ -322,12 +331,12 @@
 				</div> 
 				<div>
 					<label for="room" class="input-title font-medium">Room</label>
-					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" required #room="ngModel"> 
-					<div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
+					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" #room="ngModel"> 
+					<!-- <div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!room.errors.required">
 				          Room is required!
 				        </div>
-				    </div>
+				    </div> -->
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
@@ -339,23 +348,44 @@
 				</div> 
 			</div>
 		</div>
-		<hr class="hr-line">
+		<hr class="hr-line" style="padding-bottom: 15px;">
 		<div *ngIf="conflitArr?.length > 0">
-			<div class="col-md-12 step-wrapper" *ngFor="let conflit of conflitArr">
-				<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Conflicts</label>
-				<div class="d-flex">
-					<span class="round-number font-medium">{{ conflit.conflictWith?.length }}</span>
-					<span class="image-wrap">
-						<img src="https://brainlitz-dev.s3.amazonaws.com/profile/153743702082858825712_original.jpg">
-					</span>
-					<div class="pad-left-10">
-						<div class="label-12 font-regular">Senior Teacher</div>
-						<div class="name-label font-semi">{{ conflit.preferredName }}</div>
+			<div class="col-md-12" *ngFor="let conflit of conflitArr">
+				<div *ngIf="conflit.conflictWith?.length <= 0">
+					<div class="list-pd">
+						<div class="d-flex">
+							<span class="round-noconflit font-medium">{{ conflit.conflictWith?.length }}</span>
+							<span class="image-wrap">
+								<img src="{{ conflit.profilePic }}">
+							</span>
+							<div class="pad-left-10">
+								<!-- <div class="label-12 font-regular">Teacher</div> -->
+								<div class="name-label">{{ conflit.preferredName }}</div>
+							</div>
+						</div>
+						<div class="d-flex font-medium msg-padding">
+							<span class="d-flex justify-content-center flex-column icon-wrap"><img src="./assets/images/circle-check-green@2x.png"></span>
+							<div class="pad-left-10 noconflit-msg">No conflict on any lessons</div>
+						</div>
 					</div>
+					<!-- <hr class="no-conflit-hr"> -->
 				</div>
-				<div class="d-flex font-medium msg-padding">
-					<span class="round-icon">!</span>
-					<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+				<div class="pad-t-15" *ngIf="conflit.conflictWith?.length > 0">
+					<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Conflicts</label>
+					<div class="d-flex" style="padding-top: 15px">
+						<span class="round-number font-medium">{{ conflit.conflictWith?.length }}</span>
+						<span class="image-wrap">
+							<img src="{{ conflit.profilePic }}">
+						</span>
+						<div class="pad-left-10">
+							<!-- <div class="label-12 font-regular">Senior Teacher</div> -->
+							<div class="name-label font-semi">{{ conflit.preferredName }}</div>
+						</div>
+					</div>
+					<div class="d-flex font-medium msg-padding">
+						<span class="round-icon">!</span>
+						<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+					</div>
 				</div>
 				<div class="conflit-wrapper" *ngFor="let lesson of conflit.conflictWith">
 					<div class="d-flex column-wrap">
@@ -394,10 +424,10 @@
 						<!-- <div *ngIf="tempID.indexOf(conflit.staffId) == -1 && ignoreTempID.indexOf(conflit.staffId) == -1" class="d-flex"> -->
 
 						<div *ngIf="ignoreArr.indexOf(lesson._id) == -1 && skipArr.indexOf(lesson._id) == -1" class="d-flex">
-							<button [ngClass]="{'disable-click': lesson._id == isSkipId}" [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
+							<button [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
 							Skip
 							</button>
-							<button [ngClass]="{'disable-click': lesson._id == isIgnoreId}" class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
+							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
 						</div>
 						<!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
 						<!-- hello {{conflit.staffId}} <br>
@@ -427,14 +457,18 @@
 						</button>
 					</div>
 				</div>
-				<div class="d-flex allbtn-wrap">
-					<button [disabled]="tempID.indexOf(conflit.staffId) != -1" class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
-					<button [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
+				<div *ngIf="conflit.conflictWith?.length > 0" class="d-flex allbtn-wrap">
+					<!-- [disabled]="tempID.indexOf(conflit.staffId) != -1" -->
+					<button class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
+
+					<!-- [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" -->
+					<button class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
 				</div>
+				<hr class="conflit-list-line">
 			</div>
 		</div>
-		<hr  class="hr-line">
-		<!-- <div class="col-md-12 step-wrapper">
+		<!-- <hr class="hr-line"> -->
+		<div *ngIf="conflitArr?.length > 0" class="col-md-12 step-wrapper">
 			<div class="d-flex">
 				<div id="parent">
 					<img src="./assets/images/timetable-ico.png">
@@ -445,20 +479,32 @@
 				<div class="d-flex timetable">
 					<div class="d-flex justify-content-between flex-item1">
 						<div>
-							<div class="name-label font-medium">25 May 2018</div>
-							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+							<div class="name-label font-medium">{{ttStartDate.date}} {{ttStartDate.month | TTmonth}} 2018</div>
+							<div class="label-12 font-medium">
+								{{ ttStartDate.startTime.hour | TTtime}}:<span *ngIf="ttStartDate.startTime.minute == 0">{{ ttStartDate.startTime.minute}}0</span><span *ngIf="ttStartDate.startTime.minute != 0">{{ ttStartDate.startTime.minute}}</span>
+								<span>{{ttStartDate.startTime.hour | AMPM}}</span>
+								 - 
+								{{ ttStartDate.endTime.hour | TTtime}}:<span *ngIf="ttStartDate.endTime.minute == 0">{{ ttStartDate.endTime.minute}}0</span><span *ngIf="ttStartDate.endTime.minute != 0">{{ ttStartDate.endTime.minute}}</span>
+								<span>{{ttStartDate.endTime.hour | AMPM}}</span>
+							</div>
 						</div>
 						<div class="arrow-wrap">
 							<img src="./assets/images/timetable-arrow@2x.png">
 						</div>
 						<div>
-							<div class="name-label font-medium">27 July 2018</div>
-							<div class="label-12 font-medium">10:30 AM - 11:30 AM</div>
+							<div class="name-label font-medium">{{ttEndDate.date}} {{ttEndDate.month | TTmonth}} 2018</div>
+							<div class="label-12 font-medium">
+								{{ ttEndDate.startTime.hour | TTtime}}:<span *ngIf="ttEndDate.startTime.minute == 0">{{ ttEndDate.startTime.minute}}0</span><span *ngIf="ttEndDate.startTime.minute != 0">{{ ttEndDate.startTime.minute}}</span>
+								<span>{{ttEndDate.startTime.hour | AMPM}}</span>
+								 - 
+								{{ ttEndDate.endTime.hour | TTtime}}:<span *ngIf="ttEndDate.endTime.minute == 0">{{ ttEndDate.endTime.minute}}0</span><span *ngIf="ttEndDate.endTime.minute != 0">{{ ttEndDate.endTime.minute}}</span>
+								<span>{{ttEndDate.endTime.hour | AMPM}}</span>
+							</div>
 						</div>
 					</div>
 					<div class="flex-item2">
 						<div class="item-label font-medium">Number of lessons</div>
-						<div class="name-label font-medium">11</div>
+						<div class="name-label font-medium">{{timetable.lessons_count}}</div>
 					</div>
 					<div class="flex-item2">
 						S$<span class="font-medium">200</span>
@@ -484,18 +530,25 @@
 					</div>
 				</div>
 				<div class="table-body">
-					<div *ngFor="let timetable of testTimetable">
+					<div *ngFor="let timetable of timetableLists">
 						<div class="time-info">
-							<div class="name-label font-semi">{{ timetable.date }}</div>
-							<div class="label-12 font-medium">{{ timetable.time }}</div>
+							<div class="name-label font-semi">{{ timetable.month | TTmonth }} {{timetable.year}}</div>
+							<div class="label-12 font-medium">
+								{{ timetable.startTime.hour | TTtime}}:<span *ngIf="timetable.startTime.minute == 0">{{ timetable.startTime.minute}}0</span><span *ngIf="timetable.startTime.minute != 0">{{ timetable.startTime.minute}}</span>
+								<span>{{timetable.startTime.hour | AMPM}}</span>
+								 - 
+								{{ timetable.endTime.hour | TTtime}}:<span *ngIf="timetable.endTime.minute == 0">{{ timetable.endTime.minute}}0</span><span *ngIf="timetable.endTime.minute != 0">{{ timetable.endTime.minute}}</span>
+								<span>{{timetable.endTime.hour | AMPM}}</span>
+							</div>
 						</div>
 						<div class="grid-container">
-							<div *ngFor="let item of timetable.timetableArr">
-								<div class="grid-item" [ngClass]="{'skip': item.skip == true}">
-									<div *ngIf="item.skip == true" class="skip-arrow">skip</div>
+							<div *ngFor="let item of timetable.lessons">
+
+								<div class="grid-item" [ngClass]="{'skip': skipArr.indexOf(item.lessonId) > -1}">
+									<div *ngIf="skipArr.indexOf(item.lessonId) > -1" class="skip-arrow">skip</div>
 									<div>
-										<div class="font-semi">{{ item.date }}</div>
-										<div class="label-12 font-medium">{{ item.time }}</div>
+										<div class="font-semi">{{ item.date}} {{item.month | TTmonth}}</div>
+										<div class="label-12 font-medium">{{ item.day | TTday }}</div>
 									</div>
 								</div>
 							</div>
@@ -507,7 +560,7 @@
 				</div>
 			</div>
 		</div>
-		<hr class="hr-line"> -->
+		<!-- <hr class="hr-line"> -->
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
@@ -516,8 +569,8 @@
 			</div>
 			<div>
 			
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || model.reservedNumberofSeat == null || selectedDay.length == 0 || model.location == null || selectedTeacher == ''" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>

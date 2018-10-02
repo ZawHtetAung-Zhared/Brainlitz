@@ -281,7 +281,7 @@ star-rating-comp.custDetail-rating .star-container{
   margin-left: 0px;
 }
 
-.limit-wordcount{
+.limit-wordcount,.limit-wordcount1{
   display: none;
   font-size: 14px;
   font-family: 'Montserrat-Medium','Arial', sans-serif !important;
@@ -413,4 +413,16 @@ span.scrollup.show:hover:before {
 
 .progress-bar{
   background: #788796!important;
+}
+.bg-light .custom-select:last-child{
+  pointer-events: none;
+  background: none;
+}
+.datepicker-wrap.hideRight .ngb-dp-arrow.right{
+  opacity: 0 !important;
+  pointer-events: none;
+}
+.datepicker-wrap.hideLeft .ngb-dp-arrow:first-child{
+  opacity: 0 !important;
+  pointer-events: none;
 }

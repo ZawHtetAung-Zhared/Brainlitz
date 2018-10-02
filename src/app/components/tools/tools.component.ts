@@ -71,12 +71,15 @@ export class ToolsComponent implements OnInit {
     this.item.sendType = 'app';
   }
 
-  @HostListener('window:scroll', ['$event']) onScroll($event){    
-    if(window.pageYOffset > 10){
-      console.log('greater than 30')
+  @HostListener('window:scroll', ['$event']) onScroll($event){ 
+    console.log(window.pageYOffset)   
+    console.log($event)   
+    if(window.pageYOffset > 40){
+      console.log('greater than 40')
       this.isSticky = true;
-    }else{
-      console.log('less than 30')
+    }
+    if(window.pageYOffset < 15){
+      console.log('less than 40')
       this.isSticky = false;
     }
   }

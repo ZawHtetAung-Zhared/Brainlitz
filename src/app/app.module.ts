@@ -50,6 +50,10 @@ import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { ttDayPipe } from './service/pipe/timetableday.pipe';
+import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
+import { ttTimePipe } from './service/pipe/timetabletime.pipe';
+import { AmPmPipe } from './service/pipe/timetablename.pipe';
 import { MapToIterable } from './service/pipe/map-to-iterable.pipe';
 import { FilterPipe } from './service/pipe/filter.pipe';
 import { StarRatingModule } from 'angular-star-rating';
@@ -88,6 +92,10 @@ import { HomeComponent } from './components/home/home.component';
     GetDayPipe,
     GetUtcTimePipe,
     GetUtcDatePipe,
+    ttDayPipe,
+    ttMonthPipe,
+    ttTimePipe,
+    AmPmPipe,
     ReadmoreComponent,
     UserStaffComponent,
     HomeComponent,

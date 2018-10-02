@@ -27,7 +27,7 @@
           </div>
           <div>
             <div *ngFor="let course of courseGroup.courses">
-            ---{{course.draft}}
+              <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
               <div class="d-flex course-wrap">
                 <div *ngIf="course.seat_left > 0" class="absolute">
                   {{ course.seat_left }} seats left
@@ -337,7 +337,7 @@
         </span>
       </div>
       <div class="user-list-box" *ngIf="isFous == true">
-        <div (click)="selectUser(user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+        <div [ngClass]="{'disable-add': !isSeatAvailable}" (click)="selectUser(user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
           <div class="img-wrap">
             <img src="{{user.profilePic}}">
           </div>
@@ -350,8 +350,8 @@
         </div>
       </div>
     </div>
-    <div class="mt-20" style="min-height: 400px;">
-      <div class="row" *ngIf="selectedUserLists.length > 0">
+    <div class="mt-20 user-row-wrap">
+      <div class="row single-user-wrap" *ngIf="selectedUserLists.length > 0">
         <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
           <div class="d-flex flex-row single-user justify-content-center align-items-center">
             <div class="img-wrap">
@@ -367,6 +367,7 @@
         </div>
       </div>
     </div>
+    <div *ngIf="isSeatAvailable == false" class="seat-taken">All seat taken. Can't add user anymore.</div>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
