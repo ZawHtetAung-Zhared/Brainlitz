@@ -77,11 +77,29 @@ export class ApgComponent implements OnInit {
   	ngOnInit() {
 	  	// this.getAllAP();
 	  	// this.getAllTemplate();
+      console.log($(window).height())
+      console.log($(document).height())
+      console.log($('.apg-wrapper').height())
 	  	this.getAllModule();
 	  	this.getAllAPG(20,0);
+      this.getContentHeight();
   	}
 
+
+    getContentHeight(){
+      // console.log('==== ',$('.pad-bottom').height())
+      // let cheight = $('.pad-bottom').height();
+      return $('.pad-bottom').height();
+    }
+
     @HostListener('window:scroll', ['$event']) onScroll($event){
+      // console.log('==== ',$('.pad-bottom').height() + 150)
+      // console.log($(window).height())
+
+      // if(window.pageYOffset < 15){
+      //   console.log('less than 40')
+      //   this.isSticky = false;
+      // }
       // console.log($event);
       // console.log("scrolling");
       // console.log(window.pageYOffset)
@@ -627,6 +645,7 @@ export class ApgComponent implements OnInit {
     }
     
   	getAllAPG(limit,skip){
+
       this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID,limit,skip)
 	    .subscribe((res:any) => {
@@ -640,6 +659,8 @@ export class ApgComponent implements OnInit {
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
+        console.log($(window).height())
+        console.log($('.apg-wrapper').height())
 	      }, err => {
 	        console.log(err)
 	      })

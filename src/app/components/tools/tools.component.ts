@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges, HostListener, AfterViewInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
@@ -10,6 +10,9 @@ declare var $:any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
+
+import { ApgComponent } from '../apg/apg.component';
+
 
 @Component({
   selector: 'app-tools',
@@ -70,19 +73,33 @@ export class ToolsComponent implements OnInit {
     this.notiType = 'send';
     this.setDefaultSelected();
     this.item.sendType = 'app';
-  }
+  }  
 
   @HostListener('window:scroll', ['$event']) onScroll($event){ 
-    console.log(window.pageYOffset)   
-    console.log($event)   
-    if(window.pageYOffset > 40){
-      console.log('greater than 40')
-      this.isSticky = true;
+    // console.log('==== ',$('.app-xxx').height())
+    console.log(window.pageYOffset)
+    console.log(window.innerHeight)
+    if(window.innerHeight == 900){
+      console.log('900')
+      if(window.pageYOffset > 85){
+        // console.log('greater than 40')
+        this.isSticky = true;
+      }
+      if(window.pageYOffset < 10 && this.isSticky == true){
+        // console.log('less than 40')
+        this.isSticky = false;
+      }
+    }else{
+      // if(window.pageYOffset > 85){
+      //   console.log('greater than 40')
+      //   this.isSticky = true;
+      // }
+      // if(window.pageYOffset < 10 && this.isSticky == true){
+      //   console.log('less than 40')
+      //   this.isSticky = false;
+      // }
     }
-    if(window.pageYOffset < 15){
-      console.log('less than 40')
-      this.isSticky = false;
-    }
+    
   }
   
   clickTab(type){
