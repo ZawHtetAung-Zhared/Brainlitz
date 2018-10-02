@@ -506,9 +506,9 @@
 						<div class="item-label font-medium">Number of lessons</div>
 						<div class="name-label font-medium">{{timetable.lessons_count}}</div>
 					</div>
-					<!-- <div [hidden]="!conflitArr.paymentPolicy" class="flex-item2">
-						<sup class="font-semi sup-sign">S$</sup><span class="font-medium font-20">{{ conflitArr.paymentPolicy.courseFee }}</span>
-					</div> -->
+					<div *ngIf="coursePayment.courseFee" class="flex-item2" [ngClass]="{'borderL': coursePayment.courseFee}">
+						<sup class="font-semi sup-sign">S$</sup><span class="font-medium font-20">{{ coursePayment.courseFee }}</span>
+					</div>
 				</div>
 				<hr class="hr-line">
 				<div class="d-flex btn-wrap">
@@ -525,9 +525,9 @@
 							{{timetable.lessons_count}}
 						</div>
 					</div>
-					<!-- <div [hidden]="!conflitArr.paymentPolicy" class="table-item">
-						<sup class="font-semi sup-detail-sign">S$</sup><span class="font-medium font-20">{{ conflitArr.paymentPolicy.courseFee }}</span>
-					</div> -->
+					<div *ngIf="coursePayment.courseFee" class="table-item">
+						<sup class="font-semi sup-detail-sign">S$</sup><span class="font-medium font-20">{{ coursePayment.courseFee }}</span>
+					</div>
 				</div>
 				<div class="table-body">
 					<div *ngFor="let timetable of timetableLists">

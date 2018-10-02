@@ -92,6 +92,7 @@ export class CoursecreateComponent implements OnInit {
   public timetableLists: Array<any> = [];
   public ttStartDate: Array<any> = [];
   public ttEndDate: Array<any> = [];
+  public coursePayment:any = {}
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -711,8 +712,6 @@ export class CoursecreateComponent implements OnInit {
     console.log("This Plan",this.planId,this.planName,this.locationId)
     this.courseObj = {
       "coursePlanId": this.planId,
-      // "startDate": this.changeDateFormat(this.model.start,this.model.starttime),
-      // "endDate": this.changeDateFormat(this.model.end,"23:59:59:999"),
       "teacherId": this.model.teacherId,
       "assistants": JSON.stringify(this.selectedAssistants),
       "courseCode": this.model.courseCode,
@@ -734,13 +733,16 @@ export class CoursecreateComponent implements OnInit {
       this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       this.courseObj["repeatDays"] = this.selectedDay;
       if(this.model.end){
+        console.log("Is end date???",this.model.end)
         this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        this.temp["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
       }else{
+        console.log("Lesson???",this.model.lessonCount)
         this.courseObj["lessonCount"] = this.model.lessonCount;
+        this.temp["lessonCount"] = this.model.lessonCount;
       }
-      this.temp["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+      
       this.temp["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
-      this.temp["lessonCount"] = this.model.lessonCount;
       this.temp["repeatDays"] = this.selectedDay;
       localStorage.setItem("tempObj",JSON.stringify(this.temp));
     }else{
@@ -836,6 +838,7 @@ export class CoursecreateComponent implements OnInit {
           this.toastr.error(err.error.message);
           this.conflitArr = err.error.lessons;
           this.conflitCourseId = err.error.courseId;
+          this.coursePayment = err.error.paymentPolicy;
           this.tempID =[];
           this.ignoreTempID= [];
           this.skipArr = [];
@@ -873,8 +876,8 @@ export class CoursecreateComponent implements OnInit {
         console.log('null',date)
         return ""
       }else{
-
-        console.log("Time",time)
+        console.log("utc date",date);
+        console.log("Time",time);
         let sdate = date.year+ '-' +date.month+ '-' +date.day;
         console.log(sdate);
         let dateParts = sdate.split('-');
