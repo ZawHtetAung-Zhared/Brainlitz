@@ -51,6 +51,7 @@ export class ToolsComponent implements OnInit {
   public today;
   public yesterday;
   public tempList = [];
+  public active = [];
 
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
@@ -309,6 +310,7 @@ export class ToolsComponent implements OnInit {
 
   somethingChanged(type){
     this.tempList = [];
+    this.active = [];
     console.log('what', type)
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
@@ -319,13 +321,7 @@ export class ToolsComponent implements OnInit {
     }
 
     console.log(dataObj)
-    this._service.userCount(dataObj)
-    .subscribe((res:any) => {      
-      console.log(res.count);
-      this.userCount = res.count; 
-    }, err => {
-      console.log(err)
-    })
+    this.userCountCalc(dataObj);
 
     this.item.itemID = '';
     if(type == 'category'){
@@ -381,6 +377,47 @@ export class ToolsComponent implements OnInit {
     // });
     
   }
+
+  checkedActive(e, type){
+    console.log(e)
+    console.log('~~~' ,this.isChecked)
+    this.locationId = localStorage.getItem('locationId');
+    let dataObj = {
+      "regionId": this.regionID,
+      "locationId": this.locationId,
+      "option": this.isChecked
+    }
+
+    var val = type;
+    if(this.active.includes(val) == false){
+      this.active.push(val)
+    }else{
+      val = [val]
+      this.active =this.active.filter(f => !val.includes(f));
+    }
+    console.log(this.active)
+    if(this.active.length != 0){
+      console.log('no zero')
+      dataObj["active"] = true;
+      console.log(dataObj)
+      this.userCountCalc(dataObj);
+    }else{
+      console.log('length is zero')
+      console.log(dataObj)
+      this.userCountCalc(dataObj);
+    }
+  }
+
+  userCountCalc(obj){
+    this._service.userCount(obj)
+    .subscribe((res:any) => {      
+      console.log(res.count);
+      this.userCount = res.count; 
+    }, err => {
+      console.log(err)
+    })
+  }
+
 
   search = (text$: Observable<string>) =>
   text$.pipe(

@@ -307,6 +307,8 @@ export class appService{
       }else{
         var url = this.baseUrl + '/' + obj.regionId + '/' + obj.locationId + '/user/count' + '?option=' + obj.option ;
       }
+
+      url = (obj.active == true) ? url + '&active=1' : url;
       const httpOptions = {
         headers: new HttpHeaders({  
           'Content-Type': 'application/json',
