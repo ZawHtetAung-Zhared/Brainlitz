@@ -89,7 +89,10 @@
 							<p class="info-mail mb-0">{{custDetail.user.email}}</p>
 						</div>
 						<div class="infoGp-wrap mb-0" style="border-bottom: 1px dotted #64707d;">
-							<p class="mb-0">
+							<p *ngIf="custDetail.user.about" class="mb-0">
+								{{ custDetail.user.about }}
+							</p>
+							<p *ngIf="!custDetail.user.about" class="mb-0">
 								-
 							</p>
 						</div>

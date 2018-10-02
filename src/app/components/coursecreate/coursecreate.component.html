@@ -113,8 +113,8 @@
 						<label for="course_name" class="input-title font-medium">Ends</label>
 						<div>
 							<div class="tool-box">
-								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
-								<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi">
+								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi cursor-on"><input type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date </label>
+								<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi cursor-on">
 									<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseEndOpt('lesson')"> Lessons Count
 								</label>
 							</div>
@@ -171,7 +171,7 @@
 						<!-- <div class="input-wrap form-group" (click)="dropDown()">
 						<input class="form-control bg-color" name="UserName"  type="text" [(ngModel)]="{{model.durationTimes}}" readonly><span class="fa fa-angle-down form-control-feedback test-input"></span>
 						</div> -->
-						<div class="d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
+						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi" (click)="dropDown()">
 							{{ model.duration }} min
 							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						</div>
@@ -190,7 +190,7 @@
 					<div>
 						<div>
 							<span *ngFor="let d of days">
-								<label class="day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
+								<label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
 									<!-- <span><i class="fa fa-check"></i></span> -->
 									<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
 								    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
@@ -204,7 +204,7 @@
 				</div>
 				<div class="pad-b">
 					<label for="course_name" class="input-title font-medium">Teacher</label>
-				    <div class="d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
+				    <div class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
 						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
 						<div class="d-flex" *ngIf="selectedTeacher">
 							<span class="img-wrap"><img src="{{  selectedTeacher.profilePic }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
@@ -316,7 +316,7 @@
 					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
 					<div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
-					    	<input class="form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
+					    	<input class="cursor-on form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
 					     </div>
 					     <div class="dropdown-wrap">
 				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->

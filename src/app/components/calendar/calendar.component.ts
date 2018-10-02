@@ -201,6 +201,7 @@ export class CalendarComponent implements OnInit {
 
     })
 		this.arrayHoliday = [];
+    this.yearLists = [];
 	}
 
   // editName(){

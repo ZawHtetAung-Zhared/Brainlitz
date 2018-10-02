@@ -1364,6 +1364,7 @@ ul.search-apg{
 .holiday-dropdown1 ul li {
   border-bottom: 1px solid #e3e4e6;
   padding: 10px 0px;
+  cursor: pointer;
 }
 
 .dropdown-wrap ul li:last-child,
@@ -1406,6 +1407,10 @@ ul.search-apg{
 
 .disable-click{
     pointer-events: none;
+}
+
+.cursor-on{
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px){

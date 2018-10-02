@@ -548,6 +548,7 @@ header div{
 .location-dropdown1 ul li{
   border-bottom: 1px solid #e3e4e6;
   padding: 10px 0px;
+  cursor: pointer;
 }
 .dropdown-wrap{
   position: relative;
@@ -1024,4 +1025,7 @@ button:disabled {
 }
 .conflit-list-line{ 
   margin: 15px 0px 15px 0px;
+}
+.cursor-on{
+  cursor: pointer;
 }
