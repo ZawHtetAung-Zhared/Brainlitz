@@ -216,6 +216,12 @@ export class UsersComponent implements OnInit {
 				guardianArray = obj.guardianEmail.split(',')
 			}
 
+			console.log(obj.password)
+			if(obj.password != undefined){
+				console.log('hi')
+				objData.append('password', obj.password);
+			}
+
 			guardianArray = (obj.guardianEmail) ? guardianArray : [] ;
 			objData.append('guardianEmail', JSON.stringify(guardianArray));
 			this.blockUI.start('Loading...');
@@ -257,7 +263,6 @@ export class UsersComponent implements OnInit {
 
 	getAllUsers(type, limit, skip){
 		console.log('hihihihi')
-		this.customerLists = [];
 		console.log('....', this.customerLists)
 		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type, limit, skip)
