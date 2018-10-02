@@ -391,7 +391,8 @@
 							<div class="circular-wrap">
 								<div class="circular-profile">
 									<img *ngIf="isupdate == false" src="assets/img/user.svg">
-									<img *ngIf="isupdate == true" src="{{returnProfile}}">
+									<img *ngIf="isupdate == true && returnProfile != 'undefined'" src="{{returnProfile}}">
+									<img *ngIf="isupdate == true && returnProfile == 'undefined'" src="assets/img/user.svg">
 								</div>	
 							</div>
 							<div class="demo-wrap upload-demo">
