@@ -60,7 +60,7 @@ export const routes: Routes = [
         canActivate: [LoggedInGuard]
     },
     {
-        path: 'user',
+        path: 'customer',
         component: UsersComponent,
         canActivate: [LoggedInGuard]
     },

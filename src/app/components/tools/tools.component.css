@@ -130,6 +130,7 @@ img.setting-icon {
   border-right: none;
 }
 .tool-checked label{
+  cursor: pointer;
 	/*border: none;*/
 	border-right: 0;
 	padding: 8px 6px;
@@ -156,6 +157,7 @@ img.setting-icon {
 .tool-checked label.selected{
 	background: #0080ff;
 	color: #fff;
+  pointer-events: none;
 }
 .selected label{
 	color: #fff !important;	
