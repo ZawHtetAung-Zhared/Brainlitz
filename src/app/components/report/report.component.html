@@ -3,7 +3,14 @@
 	<div class="noti-sidebar h-100">
 		<div class="side-bar-wrap">
 			<div [ngClass]="{'active': reportType == 'averageRating'}" class="tab-wrap">
-				<button class="btn noti-tab w-100">Average ratings</button>
+				<!-- <button class="btn noti-tab w-100">Average ratings</button> -->
+
+				<button class="btn noti-tab w-100">
+				  <span class="btnSpan">
+				    <img class="setting-icon" src="./assets/images/sidebar-general_a@2x.png">
+				    <span>Average ratings</span>
+				  </span>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -27,14 +34,14 @@
 									<div class="circular-image">
 										<img src="{{staffRating.profilePic}}">
 									</div>	
-									<div class="teacher-average-font">Senior teacher</div>
+									<div class="teacher-average-font"><span>Staff</span></div>
 									<h5 style="letter-spacing: 0.5px;">{{staffRating.preferredName}}</h5>
 									<div class="wrap-rating d-flex flex-row">
 										<div class="d-flex half">
 											<h2 style="margin: 0;">{{staffRating.rating}}</h2>
 											<div style="display: block;">
 												<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="staffRating.rating"></star-rating-comp>
-												<div class="average-rating-font">{{staffRating.voter}} ratings</div>
+												<div class="average-rating-font">{{staffRating.voter}} <span *ngIf="staffRating.voter > 1">ratings</span><span *ngIf="staffRating.voter == 1">rating</span></div>
 											</div>
 										</div>
 										<div class="d-flex wil">
