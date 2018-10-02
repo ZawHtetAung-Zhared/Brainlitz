@@ -426,7 +426,8 @@
 					    position: absolute;
 					"></div> -->
 					</div>
-					<div *ngIf="model=='' && createdAPGstore?.length <= 0" class="display-style col-md-12" style="margin-top: 30px;">
+					<!-- <div *ngIf="(showfixedcreate == false && createdAPGstore?.length <= 0) ||  createdAPGstore?.length <= 0" class="display-style col-md-12" style="margin-top: 30px;"> -->
+					<div [hidden]="createdAPGstore?.length > 0 || showfixedcreate" class="display-style col-md-12" style="margin-top: 30px;">
 						<div class="col-md-6 img-pos">
 							<img src="assets/img/apg-list-default.png">
 						</div>
