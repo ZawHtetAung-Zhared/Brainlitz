@@ -3,7 +3,8 @@
   padding-right: 0;
 }
 .search-result-box{
-  height: 320px;
+  /*height: 320px;*/
+  height: 270px;
   overflow: auto;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
@@ -1223,7 +1224,7 @@ ul.search-apg{
   /*border-bottom: none;*/
   position: absolute;
   /*bottom: -299px;*/
-  bottom: -320px;
+  bottom: -270px;
   z-index: 1999;
   /*padding: 10px;*/
   padding: 0px 16px;
