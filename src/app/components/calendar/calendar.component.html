@@ -108,9 +108,12 @@
       <div>
         <h3 *ngIf="isNameEdit == false" class="title-heading pt-7">{{calendarName}}</h3>
         <div *ngIf="isNameEdit == true" class="col-md-8 edit-input-wrap">
+          <div class="limit-wordcount1">
+            <span>{{wordLength}}/80characters</span>
+          </div>
           <input type="text" class="form-control create-input mb-zero" placeholder="Type full name here" name="name" 
           [(ngModel)]="formField.name" 
-          (focus)="focusMethod($event)" 
+          (focus)="focusMethod($event, $event.target.value)" 
           (blur)="blurMethod($event)"
           maxlength="80" 
           (input)="changeMethod($event.target.value)" required 
@@ -123,7 +126,7 @@
                   <div class="closemark_kick"></div>
               </span>
             </button>
-            <button type="submit" class="btn" (click)="editSingleCalendar(currentID)">
+            <button type="submit" class="btn" (click)="editSingleCalendar(currentID)" [disabled]="formField.name == ''">
               <span class="checkmark">
                   <div class="checkmark_stem"></div>
                   <div class="checkmark_kick"></div>
