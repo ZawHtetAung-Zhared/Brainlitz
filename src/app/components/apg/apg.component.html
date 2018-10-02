@@ -38,7 +38,10 @@
 		<div class="card" *ngFor="let apg of apgList; let i = index">
 			<div class="single-apg">
 				<div class="info-section">
-					<p class="apg-type">Progress</p>
+					<p class="apg-type" *ngIf="apg.module">
+            {{ apg.module.name }}
+          </p>
+          <p class="apg-type" *ngIf="!apg.module"> - </p>
 					<h4>{{apg.name}}</h4>
 					<div class="apg-scroll">
 						<p class="apg-desc">{{apg.description}}</p>
@@ -158,7 +161,7 @@
               </div>
             </div>
         		<p class="input-recommend">We recommend to set APG name as same as Course name.</p>
-        		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" required #name="ngModel">
+        		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" required #name="ngModel">
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
               <div [hidden]="!name.errors.required">
                 Name is required!
@@ -166,13 +169,18 @@
             </div>
     			</div>
     			<div class="form-group">
-    				<label class="form-title input-label" for="address">Description</label>
-            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" required #description="ngModel"></textarea>
-            <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+            <div class="d-flex justify-content-between">
+              <label class="form-title input-label" for="address">Description</label>
+              <div class="limit-wordcount1">
+                <span>{{wordLength}}/280characters</span>
+              </div>
+            </div>
+            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')" (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea>
+            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
               <div [hidden]="!description.errors.required">
                 Description is required!
               </div>
-            </div>
+            </div> -->
     			</div>
         </div>
   			<div class="d-flex justify-content-end form-footer">

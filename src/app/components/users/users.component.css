@@ -1,3 +1,11 @@
+.limit-wordcount,.limit-wordcount1{
+  display: none;
+  font-size: 14px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  color: #0080ff;
+  position: absolute;
+  right: 0;
+}
 .pr-zero{
     padding-right: 0;
 }

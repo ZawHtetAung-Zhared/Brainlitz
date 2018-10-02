@@ -3,7 +3,7 @@
   padding-right: 0;
 }
 .search-result-box{
-  height: 300px;
+  height: 320px;
   overflow: auto;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
@@ -14,16 +14,22 @@
   background: #fff;
   z-index: 9;
   left: 0;
-  padding-bottom: 43px;
+  padding-bottom: 45px;
 }
 .single-result{
   cursor: pointer;
   padding: 16px 0;
   border-bottom: 1px solid #edeff0;
 }
+.font-12{
+  font-size: 12px;
+}
 
 .ul-pad {
 	padding: 0;
+}
+.count-color{
+  color: #0080ff;
 }
 
 /*.hideFlex {
@@ -816,7 +822,8 @@ ol.progress[data-steps="9"] li { width: 11%; }*/
 }
 
 .progress li.active {
-  margin-top: -22px;
+  /*margin-top: -22px;*/
+  margin-top:  -17px;
 }
 
 .progress .step {
@@ -882,10 +889,11 @@ ol.progress[data-steps="9"] li { width: 11%; }*/
 }
 
 .progress .active .step {
-  border: 6px solid #cce6ff;
+  box-shadow: 0 0 0 6px #cce6ff;
+  /*border: 6px solid #cce6ff;
   width: 2.6em;
   height: 2.6em;
-  line-height: 2em;
+  line-height: 2em;*/
 }
 
 .progress li.done {
@@ -939,7 +947,7 @@ label.pd-lt-10 {
   left: 0;
   bottom: 0;
   width: 100%;
-  text-align: center;
+  /*text-align: center;*/
   padding: 20px 30px;
   background: #ffffff;
   border-top: 1px solid #edeff0;
@@ -1165,7 +1173,7 @@ ul.search-apg{
     box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
 }
 
-.top-para p, .top-para span {
+.top-para p, .top-para span, . {
   font-family: 'Montserrat-Medium', Arial, sans-serif;
   color: #64707d;
 }
@@ -1211,13 +1219,14 @@ ul.search-apg{
 
 .fixedText {
   /*border-top: 1px solid #eee;*/
-  border: 1px solid #eee;
-  border-bottom: none;
+  /*border: 1px solid #eee;*/
+  /*border-bottom: none;*/
   position: absolute;
   /*bottom: -299px;*/
-  bottom: -340px;
+  bottom: -320px;
   z-index: 1999;
-  padding: 10px;
+  /*padding: 10px;*/
+  padding: 0px 16px;
   background: #fff;
   left: 0;
   right: 0;
@@ -1239,12 +1248,16 @@ ul.search-apg{
   border: none;
   cursor: pointer;
   background: none;
+  padding: 12px 0px;
+  /*padding: 0;*/
 }
 
 .btn-apg:focus {
   outline: none;
 }
-
+.top-line{
+  border-top: 1px solid #edeff0;
+}
 .show-apg-selected {
   padding: 15px 20px;
 }
@@ -1280,6 +1293,124 @@ ul.search-apg{
 }
 .m-top-15{
   margin-top: 15px;
+}
+
+.new-dropdown{
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 0;
+  position: absolute;
+  z-index: 99;
+  padding: 0px 15px;
+  /*top: 55px;
+  right: 15px;*/
+  top: 70px;
+  right: 10px;
+  display: none;
+  background: #fff;
+  color: #2e3d4d !important;
+  /*height: 250px;
+  overflow: auto;*/
+}
+
+.new-dropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: #fff transparent;
+}
+
+.holiday-dropdown{
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 0;
+  position: absolute;
+  z-index: 99;
+  padding: 0px 15px;
+  /*top: 55px;
+  right: 15px;*/
+  top: 80px;
+  right: 0px;
+  display: none;
+  background: #fff;
+  color: #2e3d4d !important;
+  height: 250px;
+  overflow: auto;
+}
+
+.holiday-dropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: #fff transparent;
+}
+
+
+.dropdown-wrap ul li,
+.dropdown-wrap1 ul li,
+.new-dropdown ul li,
+.new-dropdown1 ul li,
+.holiday-dropdown ul li,
+.holiday-dropdown1 ul li {
+  border-bottom: 1px solid #e3e4e6;
+  padding: 10px 0px;
+  cursor: pointer;
+}
+
+.dropdown-wrap ul li:last-child,
+.dropdown-wrap1 ul li:last-child,
+.new-dropdown ul li,
+.new-dropdown1 ul li,
+.holiday-dropdown ul li,
+.holiday-dropdown1 ul li {
+  border-bottom: none;
+}
+
+.dropdown-wrap .new-dropdown,
+.dropdown-wrap .new-dropdown1,
+.dropdown-wrap .holiday-dropdown,
+.dropdown-wrap .holiday-dropdown1
+ {
+  box-shadow: 0px 2px 30px 1px rgba(1,0,0,0.2);
+  border: none;
+}
+
+.down-icon.fa,.holiday-downicon.fa {
+    position: absolute;
+    top: 61%;
+    right: 15px;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.holiday-downicon.fa{
+  top: 49%;
+}
+.deposit-sign{
+  position: absolute;
+  top: 38px;
+}
+
+.pad-left-40{
+  padding-left: 40px;
+}
+
+.disable-click{
+    pointer-events: none;
+}
+
+.cursor-on{
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px){

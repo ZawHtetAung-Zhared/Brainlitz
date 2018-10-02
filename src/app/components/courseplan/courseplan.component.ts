@@ -104,6 +104,12 @@ export class CourseplanComponent implements OnInit {
   showfixedcreate: boolean = false;
   createdAPGstoreLength:any;
   wordLength:any;
+  public depositMenuShow:boolean = false;
+  public holidayMenuShow:boolean = false;
+  public depositId:any;
+  public holidayId:any;
+  public depositAmount:any = "";
+  public holidayName:any = "";
 
   ngOnInit() {
     this.showModal = true;
@@ -119,7 +125,8 @@ export class CourseplanComponent implements OnInit {
     this.getAllPdf();
     this.getAllAPG(20,0);
     this.pdfId = [];
-    this.formField.holidayCalendarId = 'disabledHoliday';
+    // this.formField.holidayCalendarId = 'disabledHoliday';
+    this.formField.holidayCalendarId = null;
     this.depositModel = 'deposit';
     this.rangeHr = '0';
     this.rangeMin = '0';
@@ -140,14 +147,26 @@ export class CourseplanComponent implements OnInit {
 
   @ViewChild('parentForm') mainForm;
 
-  focusMethod(e){
+
+  focusMethod(e,status, word){
     console.log('hi', e)
-    $('.limit-wordcount').show('slow'); 
+    if(status == 'name'){
+      this.wordLength = word.length;
+      $('.limit-wordcount').show('slow'); 
+    }else{
+      this.wordLength = word.length;
+      $('.limit-wordcount1').show('slow'); 
+    }
   }
     
-  blurMethod(e){
+  blurMethod(e,status){
     console.log('blur', e);
-    $('.limit-wordcount').hide('slow'); 
+    if(status == 'name'){
+      $('.limit-wordcount').hide('slow'); 
+    }else{
+      $('.limit-wordcount1').hide('slow'); 
+    }
+    this.wordLength = 0;
   }
 
   changeMethod(val : string){
@@ -228,10 +247,10 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-    if(formData.deposit == 'deposit'){
-      console.log(formData.deposit)
-      formData.deposit = '';
-    }
+    // if(formData.deposit == 'deposit'){
+    //   console.log(formData.deposit)
+    //   formData.deposit = '';
+    // }
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -244,7 +263,7 @@ export class CourseplanComponent implements OnInit {
         "maxDayPerPass": this.step2FormaData.makeuppass
       },
       "paymentPolicy": {
-        "deposit": formData.deposit,
+        "deposit": this.depositId,
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee
@@ -260,11 +279,11 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxage,
       },
       "quizwerkz": this.pdfId,
-      "holidayCalendarId": this.step4FormaData.holidayCalendar,
+      "holidayCalendarId": this.formField.holidayCalendarId,
       "accessPointGroup": this.selectedAPGidArray
     }
     console.log(data)
-    // this.blockUI.start('Loading...');
+    this.blockUI.start('Loading...');
     this._service.createCoursePlan(this.regionID,data)
     .subscribe((res:any) => {
      console.log('success post',res);
@@ -465,19 +484,31 @@ export class CourseplanComponent implements OnInit {
     }, 300);
   }
 
-  changeSearch(keyword){
+  changeSearch(keyword,type){
     console.log(keyword)
     this.getApgSearch(keyword, 'apg');
     if(keyword == 0){
       this.apgList = [];
       this.getAllAPG(20, 0)
     }
+
+    // console.log(keyword,type)
+    //   this.getApgSearch(keyword, type)
+    //   if(type == 'apg'){
+    //     if(keyword.length == 0){
+    //       this.apgList = [];
+    //       this.getAllAPG(20,0)
+    //     }
+    //   }
   }
 
   selectData(id, name){
     console.log(id)
     console.log(name)
-    this.singleAPG(id)
+    this.singleAPG(id);
+    this.selectedAPGlists = true;
+    this.isfocus = false;
+    this.showfixedcreate = false;
 
     // const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
     // if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
@@ -488,7 +519,7 @@ export class CourseplanComponent implements OnInit {
     // this.showSearchAPG = true;
     // this.showModule = false;
     // this.createAPGform = false;
-    this.createdAPGstore.push(this.clickedItem)
+    // this.createdAPGstore.push(this.clickedItem)
   }
 
   singleAPG(id){
@@ -497,18 +528,34 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log('editapg' ,res) 
-      this.clickedItem = res;    
+      this.clickedItem = res; 
+      this.createdAPGstore.push(this.clickedItem);   
     }, err => {
       this.blockUI.stop();
       console.log(err)
     })
   }
-
+  // templateList:any;
   getApgSearch(keyword, type){
+      // this._service.getSearchApg(this.regionID, keyword, type, '')
+      // .subscribe((res:any) => {
+      //   console.log(res);
+      //   this.apgList = res;
+      // }, err => {  
+      //   console.log(err);
+      // });
+      console.log("search APG",this.regionID,keyword,type);
       this._service.getSearchApg(this.regionID, keyword, type, '')
       .subscribe((res:any) => {
-        console.log(res);
+        console.log("apg result",res);
         this.apgList = res;
+        console.log("APG List",this.apgList);
+        // if(type == 'apg'){
+        //   this.apgList = res;
+        //   console.log("APG list",this.apgList)
+        // }else{
+        //   this.templateList = res;
+        // }
       }, err => {  
         console.log(err);
       });
@@ -682,7 +729,7 @@ export class CourseplanComponent implements OnInit {
   durationProgress($event){
     this.progressSlider = true;
   }
-
+  
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
 
@@ -713,6 +760,64 @@ export class CourseplanComponent implements OnInit {
           $('.misfee-bg').removeClass("focus-bg");
         }
         this.focusMisfee = false;
+
+        // for deposit dropdown
+        if(this.depositMenuShow == false){
+           $('.new-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.new-dropdown').css('display', 'block');
+            this.depositMenuShow = false;
+        }
+
+        // for holiday dropdown
+        if(this.holidayMenuShow == false){
+           $('.holiday-dropdown').css('display', 'none'); 
+        }
+        else {
+            $('.holiday-dropdown').css('display', 'block');
+            this.holidayMenuShow = false;
+        }
+
+  }
+
+  depositDropdown(){
+    var y = document.getElementsByClassName('new-dropdown');
+    if( (y[0]as HTMLElement).style.display == 'block'){
+      (y[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (y[0]as HTMLElement).style.display = 'block';
+       this.depositMenuShow = true;
+    }
+  }
+  
+  chooseDeposit(item){
+    console.log("Deposit",item);
+    // this.depositAmount = item.amount;
+    // this.depositId = item._id;
+    this.formField.depositAmount = item.amount;
+    this.depositId = item._id;
+  }
+
+ holidayDropdown(){
+   console.log("holiday dropdown")
+    var z = document.getElementsByClassName('holiday-dropdown');
+    if( (z[0]as HTMLElement).style.display == 'block'){
+      (z[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (z[0]as HTMLElement).style.display = 'block';
+       this.holidayMenuShow = true;
+    }
+  }
+
+  chooseHoliday(holidayCalendar){
+    console.log("holiday",holidayCalendar);
+    // this.holidayId = holidayCalendar._id;
+    // this.holidayName = holidayCalendar.name;
+    this.formField.holidayCalendarName = holidayCalendar.name;
+    this.formField.holidayCalendarId = holidayCalendar._id;
   }
 
   ChangedRangeValue(e, type) {
@@ -1016,6 +1121,7 @@ export class CourseplanComponent implements OnInit {
     chooseModuleType(id, name){
       console.log(id, name)
       this.ischecked = id;
+      localStorage.setItem("moduleID",id)
       setTimeout(() => {
         this.createAPGform = true;
         this.showModule = false;
@@ -1082,5 +1188,5 @@ export class CourseplanComponent implements OnInit {
            console.log(err)
          });
     }
-
+  
 }

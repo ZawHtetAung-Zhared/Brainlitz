@@ -74,7 +74,7 @@
             </div>
           </div>
           <div class="d-flex justify-content-end form-footer">
-            <button type="submit" class="btn btn-cancel" (click)="cancel()">Close</button>
+            <button type="submit" class="btn btn-cancel" (click)="cancel()">Cancel</button>
             <button type="submit" [disabled]="!calendarForm.valid" class="btn btn-submit" (click)="createCalendar(formField)">Create</button>
           </div>
         </form>
@@ -153,12 +153,12 @@
           <div class="d-flex child1">
             <div>
               <div class="font16 color-2 input-label">{{ item.start | utcDate }}</div>
-              <div class="font12 color-6 input-label">TUE</div>
+              <div class="font12 color-6 input-label">{{ item.start | TTday }}</div>
             </div>
             <span class="span-dash" *ngIf="!item.sameDate">-</span>
             <div *ngIf="!item.sameDate">
               <div class="font16 color-2 input-label">{{ item.end | utcDate }}</div>
-              <div class="font12 color-6 input-label">SUN</div>
+              <div class="font12 color-6 input-label">{{item.end | TTday}}</div>
             </div>
           </div>
           <div class="d-flex flex-column justify-content-center edit-calnedar-btn child2">
@@ -190,12 +190,46 @@
     <form #holidayForm="ngForm">
       <div class="input-wrap">
         <label class="color-6 font16">Date</label>
-        <div>
-          <input class="input-day text-container" type="text" placeholder="First Day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" [navigation]="navigation" ngbDatepicker #start="ngbDatepicker">
+        <!-- <div class="input-group input-daterange">
+            <input type="text" class="form-control" value="2012-04-05">
+            <div class="input-group-addon">to</div>
+            <input type="text" class="form-control" value="2012-04-19">
+        </div> -->
+        <div class="datepicker-wrap d-flex">
+          <div class="xxx-start">
+            <input 
+            id="dpStart"
+            class="input-day text-container" 
+            type="text" 
+            placeholder="First Day" 
+            name="start" 
+            required 
+            [(ngModel)]="model.start" 
+            (click)="start.toggle()" 
+            (ngModelChange)="setMinDate($event)" 
+            [maxDate]="maxDate"
+            (navigate)="currentMonth($event)"
+            [autoClose]="true" 
+            ngbDatepicker 
+            (dateSelect)="onDateSelect($event)" 
+            #start="ngbDatepicker"
+            (document:click)="closeFix($event, start)"
+            readonly>
+          </div>
           <!-- <span *ngIf="showText" [ngClass]="{'show':showText}" id="clearBtn1" class="clearBtn">First Day</span> -->
           <span style="padding: 7px;">
           To</span>
-          <input class="input-day" type="test" placeholder="Last Day" required (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker">
+          <div class="xxx-end">
+            <input 
+            id="dpEnd"
+            class="input-day" type="test" placeholder="Last Day" required (ngModelChange)="setMaxDate($event)" 
+            [minDate]="minDate" [autoClose]="true" name="end" 
+            [(ngModel)]="model.end" 
+            (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" 
+            (document:click)="closeFixEnd($event, end)"
+            (navigate)="currentMonth($event)"
+            readonly>
+          </div>
         </div>
       </div>
       <div class="input-wrap">
@@ -206,7 +240,7 @@
           </div>
         </div>
         <div>
-          <input class="input-name" type="text" placeholder="Type holiday name" name="name" (focus)="focusMethod($event)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" [(ngModel)]="model.name" required #holidayName="ngModel">
+          <input class="input-name" type="text" placeholder="Type holiday name" name="name" (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" [(ngModel)]="model.name" required #holidayName="ngModel">
           <div *ngIf="holidayName.invalid && (holidayName.dirty || holidayName.touched)" class="alert alert-danger mb-0">
               <div [hidden]="!holidayName.errors.required">
                 Display name is required!

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -22,7 +22,7 @@ export class CalendarComponent implements OnInit {
 	closeResult: any;
 	public regionID = localStorage.getItem('regionId');
 	chosenHoliday: any;
-	arrayHoliday: Array<any> = [];
+  arrayHoliday: Array<any> = [];
 	holidayLists: any;
   calendarLists: Array<any> = [];
   public calendarName: any;
@@ -33,7 +33,8 @@ export class CalendarComponent implements OnInit {
   public updateButton: boolean = false;
   public createButton: boolean = true;
   public responseChecked: Array<any> = [];
-
+  @Output() dateSelect = new EventEmitter<NgbDateStruct>();
+  @Output() monthSelect = new EventEmitter<NgbDateStruct>();
   //10.9.2018
 
   public currentID: any;
@@ -70,6 +71,14 @@ export class CalendarComponent implements OnInit {
     this.getAllHolidaysCalendar(20, 0);
     this.currentYear = (new Date()).getFullYear();
     console.log(this.currentYear)    
+  }
+
+  onDateSelect(e){
+    console.log(e)
+  }
+
+  onMonthSelect(e){
+    console.log(e)
   }
 
   editOn(){
@@ -110,12 +119,14 @@ export class CalendarComponent implements OnInit {
     this.formField = new calendarField();
   }
 
-  focusMethod(e){
+  focusMethod(e, word){
+    this.wordLength = word.length;
     $('.limit-wordcount').show('slow'); 
   }
     
   blurMethod(e){
     $('.limit-wordcount').hide('slow'); 
+    this.wordLength = 0;
   }
 
   changeMethod(val : string){
@@ -125,6 +136,9 @@ export class CalendarComponent implements OnInit {
   }
 
   open(content){
+    $('.input-daterange input').each(function() {
+        $(this).datepicker('clearDates');
+    });
     this.getAllHolidays();
     this.formField = new calendarField();
     this.responseChecked = [];
@@ -189,6 +203,7 @@ export class CalendarComponent implements OnInit {
 
     })
 		this.arrayHoliday = [];
+    this.yearLists = [];
 	}
 
   // editName(){
@@ -625,7 +640,7 @@ export class CalendarComponent implements OnInit {
         }
   }
 
-  onClickCreate(content){
+  onClickCreate(content){     
     const now = new Date();
     // if(this.selectedYear)
     // this.showText = true;
@@ -654,6 +669,9 @@ export class CalendarComponent implements OnInit {
     }
   }
   showText:boolean = true;
+  xxx(event){
+    console.log('hi')
+  }
   setMinDate(event){
     console.log("setMinDate",event);
     this.minDate = event;
@@ -662,6 +680,53 @@ export class CalendarComponent implements OnInit {
   setMaxDate(date){
     console.log("setMaxDate",date);
     this.maxDate =  date;
+  }
+
+  closeFix(event, datePicker) {
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "xxx-start"
+    })
+    console.log('~~~ ', parentWrap.length)
+    if(parentWrap.length == 0){
+      console.log('blank')
+      datePicker.close();
+    }
+    
+    // if(event.target.id == "dpStart" || event.target.nodeName == 'SELECT' || event.target.className =='ngb-dp-navigation-chevron' || event.target.nodeName == 'ngb-datepicker-navigation'){
+    //       console.log('in the if')
+    //       datePicker.open();
+    // }else if(event.target.id != "dpStart"){
+    //   console.log('in the else if')
+    //   datePicker.close();
+    // }
+  }
+
+  closeFixEnd(event, endPicker){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "xxx-end"
+    })
+    console.log('~~~ ', parentWrap.length)
+    if(parentWrap.length == 0){
+      console.log('blank')
+      endPicker.close();
+    }
+  }
+
+  currentMonth(event){
+    console.log(event.next.month) 
+    let vim = event;
+    if(vim.next.month == 12){
+      console.log(vim.next.month)
+      $('.datepicker-wrap').addClass('hideRight');
+    }else{
+      $('.datepicker-wrap').removeClass('hideRight');
+    }
+    if(vim.next.month == 1){
+      console.log(vim.next.month)
+      $('.datepicker-wrap').addClass('hideLeft');
+    }else{
+      $('.datepicker-wrap').removeClass('hideLeft');
+    }
   }
 
   cancelModal(){
