@@ -748,6 +748,7 @@ export class CoursecreateComponent implements OnInit {
       console.log("Temp obj",testObj)
       console.log("Not First Time");
       if(this.model.end){
+        console.log("this.model.end",this.model.end)
         var endD = this.changeDateFormat(this.model.end,"23:59:59:999");
         if(testObj.endDate != endD){
           console.log("Not same endD",testObj.endDate,"&&&",endD);
@@ -872,8 +873,10 @@ export class CoursecreateComponent implements OnInit {
         console.log('null',date)
         return ""
       }else{
+
         console.log("Time",time)
         let sdate = date.year+ '-' +date.month+ '-' +date.day;
+        console.log(sdate);
         let dateParts = sdate.split('-');
         console.log("dateParts",dateParts)
         if(dateParts[1]){

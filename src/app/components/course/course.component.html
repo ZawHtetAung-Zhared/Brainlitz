@@ -296,7 +296,8 @@
         <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
           {{ day }}
         </h5>
-        <p>11:00 AM - 12:00 AM</p>
+        <!-- <p>11:00 AM - 12:00 AM</p> -->
+        <div class="modal-duration">{{ detailLists.duration.startDate | utcTime }} - {{ detailLists.duration.endDate | utcTime }}</div>
       </div>
       <div class="col-md-4 col-lg-4 modal-cdate">
         <div class="d-flex">
