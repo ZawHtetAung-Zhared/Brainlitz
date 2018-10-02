@@ -366,7 +366,7 @@ export class appService{
         url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       }
       else if(type == 'staff'){
-        url = this.baseUrl+ '/' + id + '/user?type=staff';
+        url = this.baseUrl+ '/' + id + '/user?type=staff&limit=' + limit + '&skip=' + skip;
       }
       else {
         url = this.baseUrl+ '/' + id + '/user';
