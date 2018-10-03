@@ -207,7 +207,7 @@
 				    <div class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown()">
 						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
 						<div class="d-flex" *ngIf="selectedTeacher">
-							<span class="img-wrap"><img src="{{  selectedTeacher.profilePic }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
+							<span class="img-wrap"><img src="{{ selectedTeacher.profilePic || './assets/img/user.svg' }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
 						</div>
 						<span *ngIf="!selectedTeacher" class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						<span *ngIf="selectedTeacher" class="d-flex justify-content-center flex-column">	
@@ -232,7 +232,7 @@
 								<div class="list-wrap">
 									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
 									  <div class="img-wrap">
-							            <img src="{{user.profilePic}}">
+							            <img src="{{user.profilePic || './assets/img/user.svg'}}">
 							          </div>
 									  <div class="single-user-info d-flex flex-column justify-content-center">
 									    {{user.preferredName}}
@@ -271,7 +271,7 @@
 						<div class="user-list-box" *ngIf="isFocus == true">
 							<div (click)="chooseUser(user,'assistant')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
 							  <div class="img-wrap">
-					            <img src="{{user.profilePic}}">
+					            <img src="{{user.profilePic || user.profilePic=='undefine'|| './assets/img/user.svg'}}">
 					          </div>
 							  <div class="single-user-info d-flex flex-column justify-content-center">
 							    {{user.preferredName}}
@@ -287,7 +287,7 @@
 				        <div *ngFor="let user of selectedUserLists">
 				          <div class="d-flex flex-row single-user font-semi justify-content-center align-items-center">
 				            <div class="img-wrap">
-				              <img src="{{user.profilePic}}">
+				              <img src="{{user.profilePic || './assets/img/user.svg'}}">
 				            </div>
 				            <div class="single-user-info d-flex flex-column justify-content-center">
 				              <label class="mb-0">{{user.preferredName}}</label>
