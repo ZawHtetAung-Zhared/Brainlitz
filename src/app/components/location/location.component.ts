@@ -205,6 +205,7 @@ export class LocationComponent implements OnInit {
 		        this.blockUI.stop(); // Stop blocking
 		      }, 300);
     		this.locationLists = this.locationLists.concat(res);
+    		console.log(this.locationLists)
     		this.isempty = (res.length === 0) ? true : false;       
 	    }, err => {
 	    	console.log(err)
