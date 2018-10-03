@@ -73,6 +73,11 @@ export class CalendarComponent implements OnInit {
     console.log(this.currentYear)    
   }
 
+  getContentHeight(){
+    let hit = $('.min-scroll').height();
+    return hit;
+  }
+
   onDateSelect(e){
     console.log(e)
   }

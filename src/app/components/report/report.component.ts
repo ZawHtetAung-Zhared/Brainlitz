@@ -49,7 +49,7 @@ export class ReportComponent implements OnInit {
 
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    console.log(window.pageYOffset)
-	    if(window.pageYOffset >= 20){
+	    if(window.pageYOffset > 81){
 	    	console.log('true')
 	      	this.navIsFixed = true;
 	    }else{

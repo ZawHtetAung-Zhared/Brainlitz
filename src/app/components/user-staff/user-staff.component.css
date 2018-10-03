@@ -419,10 +419,10 @@ span.capitalize {
 }
 
 .inner-wrapper.pdactive{
-  padding-top: 90px;
+  /*padding-top: 90px;*/
 }
 .inner-wrapper{
-  padding-top: 147px;
+  padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }

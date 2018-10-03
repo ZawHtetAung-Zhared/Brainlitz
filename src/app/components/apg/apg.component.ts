@@ -81,7 +81,6 @@ export class ApgComponent implements OnInit {
 
     
     getContentHeight(){
-      // console.log('==== ',$('.pad-bottom').height())
       let hit = $('.pad-bottom').height();
       return hit;
     }
