@@ -25,6 +25,8 @@ export class ToolsComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('mainScreen') elementView: ElementRef;
 
+  @ViewChild(ApgComponent) alertAPG: ApgComponent;
+
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public isSticky:boolean = false;
@@ -75,18 +77,21 @@ export class ToolsComponent implements OnInit {
     this.item.sendType = 'app';
   }  
 
-  @HostListener('window:scroll', ['$event']) onScroll($event){ 
-    // console.log('==== ',$('.app-xxx').height())
-    console.log(window.pageYOffset)
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+
+    if(this.notiType == 'apg'){
+      const apgH= this.alertAPG.getContentHeight();
+      console.log(apgH)  
+
+    }
+
     console.log(window.innerHeight)
+
     if(window.innerHeight == 900){
-      console.log('900')
       if(window.pageYOffset > 85){
-        // console.log('greater than 40')
         this.isSticky = true;
       }
       if(window.pageYOffset < 10 && this.isSticky == true){
-        // console.log('less than 40')
         this.isSticky = false;
       }
     }else{
@@ -103,6 +108,7 @@ export class ToolsComponent implements OnInit {
   }
   
   clickTab(type){
+    console.log('clik', type)
     this.notiType = type;
     if(type == 'view'){
       this.notiLists = [];
@@ -119,7 +125,10 @@ export class ToolsComponent implements OnInit {
     }else if(type == 'dropdown'){
       this.isdropdown = !this.isdropdown;
       this.notiType = 'send'
-    }else if(type == 'apg' || type == 'quizwerkz'){
+    }else if(type == 'apg'){
+      console.log('apg ~~~')
+      this.isdropdown = false;
+    }else if(type == 'quizwerkz'){
       console.log(type)
       this.isdropdown = false;
     }else{
