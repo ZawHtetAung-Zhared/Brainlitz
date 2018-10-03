@@ -108,7 +108,7 @@
       <i class="fa fa-angle-left"></i>
       <p>Courses</p>
     </div>
-    <button class="btn edit-course-btn" (click)="editOn()">Edit course</button>
+    <!-- <button class="btn edit-course-btn" (click)="goToConflict(currentCourse)">Edit course</button> -->
   </div>
   <div>
     <div class="d-flex flex-row row">
@@ -262,7 +262,7 @@
     <h3 class="modal-title">Withdraw user?</h3>
   </div>
   <div class="modal-body confirm-text">
-    <p>Are You sure you want to remove <span class="target">--</span> from this course?</p>
+    <p>Are You sure you want to remove <span class="target">"{{removeUser}}"</span> from this course?</p>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
@@ -303,12 +303,12 @@
         <div class="d-flex">
           <div class="col-md-6 pr-zero modal-dfees">
             <h5 class="mt-03">From</h5>
-            <b>{{detailLists.startDate | date}}</b>
+            <b>{{detailLists.startDate | utcDate}}</b>
           </div>
           <div class="col-md-6 pr-zero modal-dfees">
             <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
             <h5 *ngIf="detailLists.endDate == null" class="mt-03"></h5>
-            <b>{{detailLists.endDate | date}}</b>
+            <b *ngIf="detailLists.endDate != null">{{detailLists.endDate | utcDate}}</b>
             <div *ngIf="detailLists.endDate == null">
               <b>{{ detailLists.lessonCount }} Lessons</b>
             </div>
@@ -338,7 +338,7 @@
         </span>
       </div>
       <div class="user-list-box" *ngIf="isFous == true">
-        <div [ngClass]="{'disable-add': !isSeatAvailable}" (click)="selectUser(user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
           <div class="img-wrap">
             <img src="{{user.profilePic}}">
           </div>
@@ -368,7 +368,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="isSeatAvailable == false" class="seat-taken">All seat taken. Can't add user anymore.</div>
+    <div *ngIf="isSeatAvailable == false && userType == 'customer'" class="seat-taken">All seat taken. Can't add user anymore.</div>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
