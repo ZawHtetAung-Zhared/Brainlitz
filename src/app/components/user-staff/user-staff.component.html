@@ -52,7 +52,7 @@
 							-
 						</p>
 						<p class="info-about" *ngIf="staff.about != 'undefined'">
-							{{ (staff.about.length>50)? (staff.about | slice:0:50)+'...' : (staff.about) }}
+							{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
 						</p>
 					</div>
 					<div class="right-arrow ml-auto" style="display: none;">
