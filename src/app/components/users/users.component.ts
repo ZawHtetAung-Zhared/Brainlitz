@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener, AfterViewInit } from '@angular/core';
 import { FormsModule ,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
   	public isFous:boolean = false;
-  	public custDetail: any;
+  	public custDetail:any = {};
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public seeAll = false;
   	public wordLength:number = 0;
@@ -91,8 +91,16 @@ export class UsersComponent implements OnInit {
 		this.getAllUsers('customer', 20, 0);
 	}
 
+	ngAfterViewInit() {
+		this.custDetail = {
+			'user': {
+				'about': ''
+			}
+		}
+	}
+
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
-	    if(window.pageYOffset > 10){
+	    if(window.pageYOffset > 81){
 	      this.isSticky = true;
 	    }else{
 	      this.isSticky = false;
@@ -110,6 +118,8 @@ export class UsersComponent implements OnInit {
 
 	getSingleInfo(ID){
 		console.log(ID);
+		console.log(this.isCrop);
+		this.isCrop = false;
 		this.customerLists = [];
 		this.getSingleUser(ID);
 	}
@@ -129,16 +139,31 @@ export class UsersComponent implements OnInit {
 	    });
 	}
 
-	focusMethod(e, word){
-		console.log('hi', e);
-		this.wordLength = word.length;
-		$('.limit-wordcount').show('slow'); 
+	focusMethod(e, status, word){
+		// console.log('hi', e);
+		// this.wordLength = word.length;
+		// $('.limit-wordcount').show('slow'); 
+		console.log('hi', e)
+	    if(status == 'name'){
+	      this.wordLength = word.length;
+	      $('.limit-wordcount').show('slow'); 
+	    }else{
+	      this.wordLength = word.length;
+	      $('.limit-wordcount1').show('slow'); 
+	    }
 	}
 	  
-	blurMethod(e){
+	blurMethod(e, status){
+		// console.log('blur', e);
+		// $('.limit-wordcount').hide('slow'); 
+		// this.wordLength = 0;
 		console.log('blur', e);
-		$('.limit-wordcount').hide('slow'); 
-		this.wordLength = 0;
+	    if(status == 'name'){
+	      $('.limit-wordcount').hide('slow'); 
+	    }else{
+	      $('.limit-wordcount1').hide('slow'); 
+	    }
+	    this.wordLength = 0;
 	}
 
 	changeMethod(val : string){
@@ -174,12 +199,15 @@ export class UsersComponent implements OnInit {
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
-			this.ulFile = (this.img != undefined) ? this.dataURItoBlob(this.img) : this.img;
+			if(this.img != undefined){
+				this.ulFile = this.dataURItoBlob(this.img)
+				objData.append('profilePic', this.ulFile)
+			}
+
 			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
 			objData.append('guardianEmail', JSON.stringify(guardianArray));	
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
-			objData.append('profilePic', this.ulFile);
 
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
@@ -204,12 +232,14 @@ export class UsersComponent implements OnInit {
 			if(getImg != undefined){
 				$(".circular-profile img:last-child").attr("id", "blobUrl");
 			}
-			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
-			if(this.isCrop == true){
-				this.ulFile = this.dataURItoBlob(this.img);
-				objData.append('profilePic', this.ulFile);
-			}else{
-				objData.append('profilePic', this.img);
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;			
+			console.log('~~~> ',this.img)
+			console.log('==== ',this.isCrop)
+
+			this.ulFile = (this.isCrop == true) ? this.dataURItoBlob(this.img) : this.img;
+			
+			if(this.ulFile != undefined){
+				objData.append('profilePic', this.ulFile)
 			}
 
 			if(typeof obj.guardianEmail == 'object'){
@@ -329,6 +359,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	goCreateForm(){
+		this.isCrop = false;
 		this.customerLists = [];
 		this.showFormCreate = true;
 		console.log('create');
@@ -374,24 +405,6 @@ export class UsersComponent implements OnInit {
 			        },
 		          	enableExif: true
 	        	});
-		     //  	var cropper = this.uploadCrop;
-		     //  	var $uploadCrop = this.uploadCrop;
-		     //  	var BlobUrl = this.dataURItoBlob;
-
-		     //  	console.log($uploadCrop)
-		     //  	reader.onload = function(e: any) {
-		     //    $uploadCrop.bind({
-	      //       url: e.target.result
-	      //     })
-	      //     .then(function(e: any) {
-	      //     	console.log(cropper.data.url)
-							// const blob = BlobUrl(cropper.data.url);
-      	// 			const blobUrl = URL.createObjectURL(blob);
-      	// 			console.log(blobUrl)
-      	// 			$uploadCrop.bind({
-      	// 				url: blobUrl
-      	// 			})
-	      //     });
 
 	      var $uploadCrop = this.uploadCrop;
           console.log('$uploadCrop', $uploadCrop)
@@ -472,11 +485,11 @@ export class UsersComponent implements OnInit {
 		this.editId = ID;
 		console.log("show details");
 		// this.showCustDetail = true;
+		this.showCustDetail = true;
 		this._service.getUserDetail(this.regionID,data.userId)
 		.subscribe((res:any) => {
 			this.custDetail = res;
 			console.log("CustDetail",res);
-			this.showCustDetail = true;
 		})
 	}
 

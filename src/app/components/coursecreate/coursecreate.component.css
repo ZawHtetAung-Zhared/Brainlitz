@@ -517,7 +517,7 @@ header div{
   display: none;
   background: #fff;
   color: #2e3d4d !important;
-  height: 250px;
+  max-height: 250px;
   overflow: auto;
 }
 .carret{
@@ -828,10 +828,10 @@ header div{
 .timetable .flex-item2{
   width: 25%;
   padding: 0px 15px;
-  border-right: 2px solid #edeff0;
+  /*border-left: 0;*/
 }
-.timetable .flex-item2:last-child{
-  border-right: 0;
+.borderL{
+  border-left: 2px solid #edeff0;
 }
 .warning-msg {
   font-size: 14px;
@@ -1028,4 +1028,16 @@ button:disabled {
 }
 .cursor-on{
   cursor: pointer;
+}
+.sup-sign,.sup-detail-sign{
+  font-size: 12px;
+  color: #2e3e4d;
+}
+.sup-detail-sign{
+  color: #ffffff;
+}
+
+.font-20{
+  font-size: 20px;
+  padding: 2px;
 }

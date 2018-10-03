@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild , ViewContainerRef, Input, ElementRef, OnChanges, HostListener, AfterViewInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
@@ -11,6 +11,11 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 
+import { ApgComponent } from '../apg/apg.component';
+import { CalendarComponent } from '../calendar/calendar.component';
+import { QuizwerkzComponent } from '../quizwerkz/quizwerkz.component';
+
+
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
@@ -22,8 +27,13 @@ export class ToolsComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('mainScreen') elementView: ElementRef;
 
+  @ViewChild(ApgComponent) alertAPG: ApgComponent;
+  @ViewChild(CalendarComponent) alertCal: CalendarComponent;
+  @ViewChild(QuizwerkzComponent) alertQW: QuizwerkzComponent;
+
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
+  public isMidStick:boolean = false;
   public isSticky:boolean = false;
   public item:any = {};
   public regionID = localStorage.getItem('regionId');
@@ -51,6 +61,14 @@ export class ToolsComponent implements OnInit {
   public today;
   public yesterday;
   public tempList = [];
+  public active = [];
+  public apgH:any;
+  public calH:any;
+  public windowH:any;
+  public qwH:any;
+  public scrollVal:any;
+  public totalHeight:any;
+  public yOffset:any;
 
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
@@ -62,6 +80,7 @@ export class ToolsComponent implements OnInit {
         console.log(this.locationId) 
         this.setDefaultSelected();
     });
+    window.scroll(0,0);
   }
 
   ngOnInit() {
@@ -69,22 +88,65 @@ export class ToolsComponent implements OnInit {
     this.notiType = 'send';
     this.setDefaultSelected();
     this.item.sendType = 'app';
-  }
+  }  
 
-  @HostListener('window:scroll', ['$event']) onScroll($event){ 
-    console.log(window.pageYOffset)   
-    console.log($event)   
-    if(window.pageYOffset > 40){
-      console.log('greater than 40')
-      this.isSticky = true;
+  @HostListener('window:scroll', ['$event']) onScroll($event){
+    this.windowH = window.innerHeight;
+    // console.log(this.windowH)
+    if(this.notiType == 'apg'){
+      this.apgH= this.alertAPG.getContentHeight();
+      console.log('apg content =', this.apgH)  
+      if(this.windowH < (this.apgH + 107)){
+        this.totalHeight = this.apgH + 107
+        // console.log(totalH)
+        const diff = this.totalHeight - this.windowH
+        console.log('content height is grater', diff);
+        this.scrollVal = diff;
+      }
+    }else if(this.notiType == 'calendar'){
+      this.calH= this.alertCal.getContentHeight();
+      console.log('cal content =', this.calH)  
+      // console.log('cal content =', this.calH + 150)  
+      // console.log('windowH = ' , window.innerHeight)
+
+      if(this.windowH < (this.calH + 107)){
+        this.totalHeight = this.calH + 107
+        // console.log(totalHeight)
+        const diff = this.totalHeight - this.windowH
+        // console.log('content height is grater', diff);
+        this.scrollVal = diff;
+      }
+    }else if(this.notiType == 'quizwerkz'){
+      this.qwH= this.alertQW.getContentHeight();
+      console.log('qw content =', this.qwH)  
+      console.log(this.windowH)  
+      if(this.windowH < (this.qwH + 107)){
+        this.totalHeight = this.qwH + 107
+        const diff = this.totalHeight - this.windowH
+        console.log('content height is grater', diff);
+        this.scrollVal = diff;
+      }
     }
-    if(window.pageYOffset < 15){
-      console.log('less than 40')
+    console.log(window.pageYOffset)
+    if (window.pageYOffset > 81) {
+      console.log('if', window.pageYOffset)
+      this.isSticky = true;
+      this.isMidStick = false;
+    } else {
+      console.log('else', window.pageYOffset)
       this.isSticky = false;
+    }
+    
+    if (window.pageYOffset > 45) {
+      this.isMidStick = true;
+    }else{
+      this.isMidStick = false;
     }
   }
   
   clickTab(type){
+    this.isSticky = false;
+    console.log('clik', type)
     this.notiType = type;
     if(type == 'view'){
       this.notiLists = [];
@@ -101,7 +163,10 @@ export class ToolsComponent implements OnInit {
     }else if(type == 'dropdown'){
       this.isdropdown = !this.isdropdown;
       this.notiType = 'send'
-    }else if(type == 'apg' || type == 'quizwerkz'){
+    }else if(type == 'apg'){
+      console.log('apg ~~~')
+      this.isdropdown = false;
+    }else if(type == 'quizwerkz'){
       console.log(type)
       this.isdropdown = false;
     }else{
@@ -309,6 +374,7 @@ export class ToolsComponent implements OnInit {
 
   somethingChanged(type){
     this.tempList = [];
+    this.active = [];
     console.log('what', type)
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
@@ -319,13 +385,7 @@ export class ToolsComponent implements OnInit {
     }
 
     console.log(dataObj)
-    this._service.userCount(dataObj)
-    .subscribe((res:any) => {      
-      console.log(res.count);
-      this.userCount = res.count; 
-    }, err => {
-      console.log(err)
-    })
+    this.userCountCalc(dataObj);
 
     this.item.itemID = '';
     if(type == 'category'){
@@ -381,6 +441,47 @@ export class ToolsComponent implements OnInit {
     // });
     
   }
+
+  checkedActive(e, type){
+    console.log(e)
+    console.log('~~~' ,this.isChecked)
+    this.locationId = localStorage.getItem('locationId');
+    let dataObj = {
+      "regionId": this.regionID,
+      "locationId": this.locationId,
+      "option": this.isChecked
+    }
+
+    var val = type;
+    if(this.active.includes(val) == false){
+      this.active.push(val)
+    }else{
+      val = [val]
+      this.active =this.active.filter(f => !val.includes(f));
+    }
+    console.log(this.active)
+    if(this.active.length != 0){
+      console.log('no zero')
+      dataObj["active"] = true;
+      console.log(dataObj)
+      this.userCountCalc(dataObj);
+    }else{
+      console.log('length is zero')
+      console.log(dataObj)
+      this.userCountCalc(dataObj);
+    }
+  }
+
+  userCountCalc(obj){
+    this._service.userCount(obj)
+    .subscribe((res:any) => {      
+      console.log(res.count);
+      this.userCount = res.count; 
+    }, err => {
+      console.log(err)
+    })
+  }
+
 
   search = (text$: Observable<string>) =>
   text$.pipe(

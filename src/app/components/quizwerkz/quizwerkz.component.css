@@ -108,6 +108,8 @@
     flex: 1 1 auto;
     overflow-y: auto;
     min-height: 0px;
+    max-height: 139px;
+    overflow: scroll;
 }
 .back-wrap{
     padding: 23px 15px 15px;

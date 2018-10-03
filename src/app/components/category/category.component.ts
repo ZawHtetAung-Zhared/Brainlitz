@@ -152,14 +152,15 @@ export class CategoryComponent implements OnInit {
   close(status, id){
     if(status == 'create'){
       this.isfocus = !this.isfocus;
-      
+      this.getAllCategories(20, 0);
     }else{
       console.log('edit', id)
       this.iseditfocus = !this.iseditfocus;
       this.editValue = ''
       this.getAllCategories(20, 0);
     }
-    this.item = {}
+    this.item = {};
+    this.categoryList = [];
   }
 
   showMore(skip: any){
@@ -195,7 +196,8 @@ export class CategoryComponent implements OnInit {
       this.getAllCategories(20, 0);
       this.iseditfocus = false;
       // this.isEditComplete = false;
-      this.item = {}
+      this.item = {};
+      this.categoryList = [];
       this.editValue = ''
     })
   }

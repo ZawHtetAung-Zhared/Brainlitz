@@ -34,6 +34,8 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public pplLists:any;
+  public removeUser:any;
+  public currentCourse:any;
   public activeTab:any = '';
   isSticky:boolean = false;
   showBtn:boolean = false;
@@ -148,6 +150,7 @@ export class CourseComponent implements OnInit {
 
   showCourseDetail(courseId){
     console.log(courseId)
+    this.currentCourse = courseId;
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
@@ -159,6 +162,7 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('tempObj');
     // this.router.navigate(['/courseCreate']);
     this.goBackCat = false;
+    this.isCourseDetail = false;
     this.isCourseCreate = true;
     // this.router.navigate(['/courseCreate']);
   }
@@ -201,6 +205,7 @@ export class CourseComponent implements OnInit {
   }
 
   openRemoveModal(id, deleteModal){
+    this.getSingleUser(id, 'withdraw')
     this.deleteId = id;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
@@ -221,7 +226,7 @@ export class CourseComponent implements OnInit {
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
     this.userType = type;
-    console.log(this.detailLists.seat_left)
+    console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     // this.getAllUsers(type);
   }
@@ -258,28 +263,32 @@ export class CourseComponent implements OnInit {
       })
   }
 
-  selectUser(id){
+  selectUser(state, id){
     console.log(this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log('hihi ~~')
-    this.getSingleUser(id);
+    this.getSingleUser(id, state);
     this.formData = {};
   }
 
-  getSingleUser(ID){
+  getSingleUser(ID, state){
     this._service.getCurrentUser(ID)
     .subscribe((res:any) => {
       console.log(res);
-      this.isFous = false;
-      this.selectedUserLists.push(res);
-      console.log(this.detailLists.seat_left)
-      console.log(this.selectedUserLists.length)
+      if(state == 'search'){
+        this.isFous = false;
+        this.selectedUserLists.push(res);
+        console.log(this.detailLists.seat_left)
+        console.log(this.selectedUserLists.length)
 
-      if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
-        console.log('cant add')
-        this.isSeatAvailable = false;
+        if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+          console.log('cant add')
+          this.isSeatAvailable = false;
+        }else{
+          this.isSeatAvailable = true;
+        }
       }else{
-        this.isSeatAvailable = true;
+        this.removeUser = res.preferredName;
       }
     }, err => {  
       console.log(err);

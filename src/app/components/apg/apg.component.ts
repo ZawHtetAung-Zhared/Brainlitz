@@ -75,13 +75,24 @@ export class ApgComponent implements OnInit {
     wordLength:any = 0;
 
   	ngOnInit() {
-	  	// this.getAllAP();
-	  	// this.getAllTemplate();
 	  	this.getAllModule();
 	  	this.getAllAPG(20,0);
   	}
 
+    
+    getContentHeight(){
+      let hit = $('.pad-bottom').height();
+      return hit;
+    }
+
     @HostListener('window:scroll', ['$event']) onScroll($event){
+      // console.log('==== ',$('.pad-bottom').height() + 150)
+      // console.log($(window).height())
+
+      // if(window.pageYOffset < 15){
+      //   console.log('less than 40')
+      //   this.isSticky = false;
+      // }
       // console.log($event);
       // console.log("scrolling");
       // console.log(window.pageYOffset)
@@ -627,6 +638,7 @@ export class ApgComponent implements OnInit {
     }
     
   	getAllAPG(limit,skip){
+
       this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID,limit,skip)
 	    .subscribe((res:any) => {

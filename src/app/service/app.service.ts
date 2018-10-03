@@ -307,6 +307,8 @@ export class appService{
       }else{
         var url = this.baseUrl + '/' + obj.regionId + '/' + obj.locationId + '/user/count' + '?option=' + obj.option ;
       }
+
+      url = (obj.active == true) ? url + '&active=1' : url;
       const httpOptions = {
         headers: new HttpHeaders({  
           'Content-Type': 'application/json',
@@ -364,7 +366,7 @@ export class appService{
         url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       }
       else if(type == 'staff'){
-        url = this.baseUrl+ '/' + id + '/user?type=staff';
+        url = this.baseUrl+ '/' + id + '/user?type=staff&limit=' + limit + '&skip=' + skip;
       }
       else {
         url = this.baseUrl+ '/' + id + '/user';

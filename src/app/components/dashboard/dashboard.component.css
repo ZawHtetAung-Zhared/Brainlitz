@@ -1,3 +1,15 @@
+.side-bar-wrap.b-top{
+  top: 95px;
+}
+.side-bar-wrap.p-top{
+  top: 65px;
+}
+.side-bar-wrap.mid-top{
+  top: 80px;
+}
+.alert-danger{
+  font-size: 14px;
+}
 .tab-wrap:first-child{
   margin-top: 14px;
 }
@@ -6,10 +18,10 @@
   padding-right: 0;
 }
 .content-wrapper.p-top{
-  padding-top: 63px;
+  /*padding-top: 63px;*/
 }
 .content-wrapper{
-  padding-top: 147px;
+  padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -28,9 +40,10 @@
     padding-right: 0;
     padding-left: 0;
     /*border-right: 1px solid #dedede;*/
-    -ms-transition: padding-top 300ms linear;
-    transition: padding-top 300ms linear;
+    -ms-transition: 300ms linear;
+    transition: 300ms linear;
     width: 25%;
+    background: #f2f4f5;
 }
 .large-col{
   width: 75%;

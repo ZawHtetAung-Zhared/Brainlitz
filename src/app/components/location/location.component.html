@@ -23,7 +23,7 @@
       </div>
       <div class="d-flex">
         <div class="col-md-6 pl-0 address-text">{{location.address}}</div>
-        <div class="col-md-6 pl-0 h5-title">{{location.phoneNumber}}</div>
+        <div class="col-md-6 pl-0 h5-title">{{location.phoneNumber.number}}</div>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@
           type="tel" 
           class="form-control"
           name="phoneNumber" 
-          [(ngModel)]="model.phoneNumber" 
+          [(ngModel)]="model.phonenumber" 
           #phoneNumber="ngModel"
           ng2TelInput
           (intlTelInputObject)="telInputObject($event)"
@@ -85,7 +85,7 @@
           (countryChange)="onCountryChange($event)"
           (ng2TelOutput)="getNumber($event)"
           (input)="onSearchChange($event.target.value, $event)"
-          
+          (input)="charCheck($event.target.value)"
            />          
           <input 
           *ngIf="isUpdate == true"
@@ -93,7 +93,7 @@
           type="tel" 
           class="form-control"
           name="phoneNumber" 
-          [(ngModel)]="model.phoneNumber" 
+          [(ngModel)]="model.phonenumber" 
           #phoneNumber="ngModel"
           ng2TelInput
           (intlTelInputObject)="telInputObject($event)"
@@ -108,6 +108,11 @@
               Phone number is required!
             </div>
           </div> -->
+          <div *ngIf="isnumber == true" class="alert alert-danger">
+            <div>
+              Phone number should be number!
+            </div>
+          </div>
         </div>
       </div>
       <!-- {{!locationForm.valid && isvalid == true}} <br> -->
