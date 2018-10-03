@@ -207,6 +207,15 @@ export class LocationComponent implements OnInit {
     		this.locationLists = this.locationLists.concat(res);
     		console.log(this.locationLists)
     		this.isempty = (res.length === 0) ? true : false;       
+	    	let locationId  = localStorage.getItem('locationId');
+		      if(locationId){
+		        for(var i = 0; i < this.locationLists.length; i++){
+		          if(this.locationLists[i]._id == locationId){
+		            this.locationLists[i].selected = true;
+		            localStorage.setItem('locationId', this.locationLists[i]._id);
+		          }
+		        }
+		      }
 	    }, err => {
 	    	console.log(err)
 	    })
