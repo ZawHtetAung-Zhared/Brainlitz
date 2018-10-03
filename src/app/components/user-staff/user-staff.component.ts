@@ -103,14 +103,29 @@ export class UserStaffComponent implements OnInit {
 	    this.getAllpermission();
 	}
 
-	focusMethod(e, word){
-		this.wordLength = word.length;
-		$('.limit-wordcount').show('slow'); 
+	focusMethod(e, status, word){
+		// this.wordLength = word.length;
+		// $('.limit-wordcount').show('slow'); 
+		console.log('hi', e)
+	    if(status == 'name'){
+	      this.wordLength = word.length;
+	      $('.limit-wordcount').show('slow'); 
+	    }else{
+	      this.wordLength = word.length;
+	      $('.limit-wordcount1').show('slow'); 
+	    }
 	}
 	  
-	blurMethod(e){
-		  $('.limit-wordcount').hide('slow'); 
-		  this.wordLength = 0;
+	blurMethod(e, status){
+		  // $('.limit-wordcount').hide('slow'); 
+		  // this.wordLength = 0;
+		  console.log('blur', e);
+		    if(status == 'name'){
+		      $('.limit-wordcount').hide('slow'); 
+		    }else{
+		      $('.limit-wordcount1').hide('slow'); 
+		    }
+		    this.wordLength = 0;
 	}
 
 	changeMethod(val : string){
