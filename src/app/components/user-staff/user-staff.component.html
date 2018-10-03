@@ -40,9 +40,11 @@
 		<div class="row display-flex user-group">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
 				<div class="box-design d-flex flex-row align-items-center">
-					<div class="circular-image">
-						<img *ngIf="staff.profilePic == 'undefined'" src="assets/img/user.svg">
-						<img *ngIf="staff.profilePic != 'undefined'" src="{{staff.profilePic}}">
+					<div class="profileimg-wrap">
+						<div class="circular-image">
+							<img *ngIf="staff.profilePic == 'undefined'" src="assets/img/user.svg">
+							<img *ngIf="staff.profilePic != 'undefined'" src="{{staff.profilePic}}">
+						</div>
 					</div>
 					<div class="info-side d-flex flex-column justify-content-center">
 						<div><label class="staff-label">Staff</label></div>
@@ -52,6 +54,7 @@
 							-
 						</p>
 						<p class="info-about" *ngIf="staff.about != 'undefined'">
+							<!-- <span>{{staff.about}}</span> -->
 							{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
 						</p>
 					</div>
