@@ -1,7 +1,7 @@
 <app-header [ngClass]="{'stick' : isSticky == true}"></app-header>
 <div class="d-flex flex-row h-100 w-100 content-wrapper">
     <div class="noti-sidebar h-100">
-	    <div class="side-bar-wrap" [ngClass]="{'p-top' : isSticky == true}">
+	    <div class="side-bar-wrap" [ngClass]="{'p-top' : isSticky == true, 'mid-top' : isMidStick == true}">
 	    	<div [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap">
 	    		<button class="btn noti-tab w-100" (click)="clickTab('dropdown')">
 					<span class="btnSpan">

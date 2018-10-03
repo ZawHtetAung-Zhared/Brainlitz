@@ -395,6 +395,9 @@ h3.head-rating-count {
   margin-bottom: 30px;
   margin-top: 20px;
 }
+.side-bar-wrap.mid-top{
+  top: 80px;
+}
 .side-bar-wrap.p-top{
   top: 65px;
 }
