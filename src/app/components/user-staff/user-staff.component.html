@@ -48,8 +48,11 @@
 						<div><label class="staff-label">Staff</label></div>
 						<h5>{{staff.preferredName}}</h5>
 						<p class="info-mail">{{staff.email}}</p>
-						<p class="info-about">
-							{{ (staff.about.length>40)? (staff.about | slice:0:40)+'...' : (staff.about) }}
+						<p class="info-about" *ngIf="staff.about == 'undefined'">
+							-
+						</p>
+						<p class="info-about" *ngIf="staff.about != 'undefined'">
+							{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
 						</p>
 					</div>
 					<div class="right-arrow ml-auto" style="display: none;">
