@@ -661,6 +661,9 @@ input[type=radio]:checked ~ label{
    margin: 20px 10px; 
    display: inline;
 }
+.user-info-wrap{
+    padding: 0 15px;
+}
 /*staff detail*/
 
 @media only screen and (max-width: 768px){
