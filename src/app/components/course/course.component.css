@@ -76,10 +76,10 @@
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
 }
 .inner-wrapper.active{
-  padding-top: 90px;
+  /*padding-top: 90px;*/
 }
 .inner-wrapper{
-  padding-top: 147px;
+  padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -112,7 +112,7 @@ li button{
     margin-left: 20px !important;
 }
 .title{
-  margin: 35px 0px 35px 0px;
+  margin: 23px 0px 35px 0px;
 }
 .back-wrap{
   margin-bottom: 10px;

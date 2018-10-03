@@ -12,6 +12,8 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 
 import { ApgComponent } from '../apg/apg.component';
+import { CalendarComponent } from '../calendar/calendar.component';
+import { QuizwerkzComponent } from '../quizwerkz/quizwerkz.component';
 
 
 @Component({
@@ -26,6 +28,8 @@ export class ToolsComponent implements OnInit {
   @ViewChild('mainScreen') elementView: ElementRef;
 
   @ViewChild(ApgComponent) alertAPG: ApgComponent;
+  @ViewChild(CalendarComponent) alertCal: CalendarComponent;
+  @ViewChild(QuizwerkzComponent) alertQW: QuizwerkzComponent;
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
@@ -57,6 +61,13 @@ export class ToolsComponent implements OnInit {
   public yesterday;
   public tempList = [];
   public active = [];
+  public apgH:any;
+  public calH:any;
+  public windowH:any;
+  public qwH:any;
+  public scrollVal:any;
+  public totalHeight:any;
+  public yOffset:any;
 
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
@@ -78,36 +89,69 @@ export class ToolsComponent implements OnInit {
   }  
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
-
+    this.windowH = window.innerHeight;
+    // console.log(this.windowH)
     if(this.notiType == 'apg'){
-      const apgH= this.alertAPG.getContentHeight();
-      console.log(apgH)  
+      this.apgH= this.alertAPG.getContentHeight();
+      console.log('apg content =', this.apgH)  
+      if(this.windowH < (this.apgH + 107)){
+        this.totalHeight = this.apgH + 107
+        // console.log(totalH)
+        const diff = this.totalHeight - this.windowH
+        console.log('content height is grater', diff);
+        this.scrollVal = diff;
+      }
+    }else if(this.notiType == 'calendar'){
+      this.calH= this.alertCal.getContentHeight();
+      console.log('cal content =', this.calH)  
+      // console.log('cal content =', this.calH + 150)  
+      // console.log('windowH = ' , window.innerHeight)
 
+      if(this.windowH < (this.calH + 107)){
+        this.totalHeight = this.calH + 107
+        // console.log(totalHeight)
+        const diff = this.totalHeight - this.windowH
+        // console.log('content height is grater', diff);
+        this.scrollVal = diff;
+      }
+    }else if(this.notiType == 'quizwerkz'){
+      this.qwH= this.alertQW.getContentHeight();
+      console.log('qw content =', this.qwH)  
+      console.log(this.windowH)  
+      if(this.windowH < (this.qwH + 107)){
+        this.totalHeight = this.qwH + 107
+        const diff = this.totalHeight - this.windowH
+        console.log('content height is grater', diff);
+        this.scrollVal = diff;
+      }
+    }
+    console.log(window.pageYOffset)
+    if (window.pageYOffset > 81) {
+      console.log('if', window.pageYOffset)
+      this.isSticky = true;
+    } else {
+      console.log('else', window.pageYOffset)
+      this.isSticky = false;
     }
 
-    console.log(window.innerHeight)
-
-    if(window.innerHeight == 900){
-      if(window.pageYOffset > 85){
-        this.isSticky = true;
-      }
-      if(window.pageYOffset < 10 && this.isSticky == true){
-        this.isSticky = false;
-      }
-    }else{
-      // if(window.pageYOffset > 85){
-      //   console.log('greater than 40')
-      //   this.isSticky = true;
-      // }
-      // if(window.pageYOffset < 10 && this.isSticky == true){
-      //   console.log('less than 40')
-      //   this.isSticky = false;
-      // }
-    }
+    // else{
+    //   console.log('else', window.pageYOffset)
+    //   this.yOffset = window.pageYOffset + 84;
+    //   this.isSticky = false;
+    // }
+    // else if(window.pageYOffset < this.scrollVal){     
+    //   console.log('else',  window.pageYOffset)
+    //   if(window.pageYOffset > 40){
+    //     console.log('hi inner')
+    //     this.isSticky = false;
+    //   }
+    // }
+    
     
   }
   
   clickTab(type){
+    this.isSticky = false;
     console.log('clik', type)
     this.notiType = type;
     if(type == 'view'){

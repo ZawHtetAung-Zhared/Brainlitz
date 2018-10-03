@@ -41,6 +41,11 @@ export class QuizwerkzComponent implements OnInit {
   	this.getAllPdf(20, 0);
   }
 
+  getContentHeight(){
+    let hit = $('.min-scroll').height();
+    return hit;
+  }
+
   @HostListener('window:scroll', ['$event']) onScroll($event){
     // console.log($event);
     // console.log("scrolling");

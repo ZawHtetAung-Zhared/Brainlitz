@@ -98,7 +98,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
-	    if(window.pageYOffset > 10){
+	    if(window.pageYOffset > 81){
 	      this.isSticky = true;
 	    }else{
 	      this.isSticky = false;

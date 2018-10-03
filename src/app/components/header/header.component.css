@@ -10,17 +10,27 @@
 .stick #header{
   -ms-transform: translateY(-95);
   transform: translateY(-95);
+  opacity: 1;
 }
-#header{
+header#header2 {
+    position: fixed;
+    top: 0;
+    z-index: 9;
+}
+#header,
+#header2{
+
   width: 100%;
   background: #fff;
   font-family: Montserrat-Regular;
-  z-index: 99;
+  /*z-index: 99;
   position: fixed;
-  top: 0;
-  transition: height 300ms linear, transform 300ms linear;
+  top: 0;*/
+  /*transition: height 300ms linear, transform 300ms linear;*/
+  /*transition: 0.4s all ease-out;
   -ms-transform: translateY(0);
   transform: translateY(0);
+  margin-top: 0;*/
 }
 #inputState {
 	border: none;
