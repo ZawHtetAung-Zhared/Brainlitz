@@ -568,6 +568,101 @@ input[type=radio]:checked ~ label{
     border-right: 1px solid gray;
 }
 
+.content-wrapper{
+    /*padding-top: 147px;*/
+    transition: padding-top 300ms linear;
+}
+/*staff details*/
+.heading-space{
+    padding: 15px;
+    font-size: 16px;
+    font-family: Montserrat-Medium;
+    color: #2e3d4d;
+}
+
+.main-wrapper{
+    padding: 0px 15px;
+}
+.img-wrap{
+    width: 80px;
+}
+.back span{
+    padding: 0px 5px;
+}
+.small-circular-image {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #ddd;
+    float: left;
+    margin-right: 7px;
+}
+
+.guardian-main-wrap{
+    overflow: auto;
+    overflow-y: hidden;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+.g-inner-wrap{
+    display: inline-block;
+    margin-right: 10px;
+}
+.small-circular-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.col-left{
+     width: 50%;
+    flex: 0 0 50%;
+}
+.col-right{
+     width: 50%;
+    flex: 0 0 50%;
+}
+.padL-5{
+    padding-left: 5px;
+}
+.info-wrap{
+    width: 100%;
+}
+.info-col{
+    width: 50%;
+}
+.pad-left-15{
+    padding-left: 15px;
+}
+.cust-about{
+    border-bottom: 1px dotted #64707d;
+    width: 80%;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-size: 15px;
+    color: #2e3d4d;
+}
+.cust-info-wrapper{
+    /*border-bottom: 1px solid #edeff0;*/
+    padding: 10px 15px 5px 15px;
+}
+.infoGp-wrap{
+    padding: 10px 0px;
+}
+.info-p{
+    font-size: 15px;
+    color: #2e3e4d;
+    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    /*padding: 5px; */
+}
+.gurdian-wrap{
+   margin: 20px 10px; 
+   display: inline;
+}
+/*staff detail*/
+
 @media only screen and (max-width: 768px){
 
 }

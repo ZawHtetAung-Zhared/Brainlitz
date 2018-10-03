@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener,ViewContainerRef, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener,ViewContainerRef, Pipe, PipeTransform, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
@@ -47,6 +47,8 @@ export class UserStaffComponent implements OnInit {
 	public wordLength:any = 0;
 	public aboutTest = "Owns Guitar & PianoOwns Guitar & PianoOwnsijii";
 	public aboutTest1 = " How your call you or like your preferred name kuiui";
+	public showStaffDetail:boolean = false;
+	public staffDetail:any ={};
 
 	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);  		
@@ -57,6 +59,14 @@ export class UserStaffComponent implements OnInit {
   		this.blankCrop = false; 
 		this.getAllpermission();
   	}
+
+  	ngAfterViewInit() {
+		this.staffDetail = {
+			'user': {
+				'about': ''
+			}
+		}
+	}
 
   	showMore(type: any, skip: any){
   		console.log(skip)
@@ -325,6 +335,35 @@ export class UserStaffComponent implements OnInit {
 		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
+	}
+
+	showDetails(data,ID){
+		console.log('show detail')
+		this.staffLists = [];
+		console.log(ID);
+		this.editId = ID;
+		console.log("show Staff details");
+		this.showStaffDetail = true;
+		this._service.getUserDetail(this.regionID,data.userId)
+		.subscribe((res:any) => {
+			this.staffDetail = res;
+			console.log("StaffDetail",res);
+		})
+	}
+
+	backToStaff(){
+		// this.formFieldc = new customer();
+		this.showStaffDetail = false;
+		this.isupdate = false;
+		this.showFormCreate = false;
+		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		// this.selectedId =[];
+		
+		$(".frame-upload").css('display', 'none');
+		this.staffLists = [];
+		console.log(this.staffLists)
+		this.getAllUsers('staff', 20, 0);
 	}
 
 }

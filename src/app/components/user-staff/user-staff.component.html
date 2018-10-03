@@ -11,7 +11,7 @@
 		</div>
 	</div>
 </div>	 -->
-<div *ngIf="!showFormCreate" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+<div *ngIf="!showFormCreate && !showStaffDetail" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 		<div class="display-flex mr-top-menu">
 			<div class="col-md-4 pad-0">
 				<h3>Staffs</h3>
@@ -39,7 +39,7 @@
 		</div>
 		<div class="row display-flex user-group">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
-				<div class="box-design d-flex flex-row align-items-center">
+				<div class="box-design d-flex flex-row align-items-center" (click)="showDetails(staff, staff.userId)">
 					<div class="profileimg-wrap">
 						<div class="circular-image">
 							<img *ngIf="staff.profilePic == 'undefined'" src="assets/img/user.svg">
@@ -58,7 +58,7 @@
 							{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
 						</p>
 					</div>
-					<div class="right-arrow ml-auto" style="display: none;">
+					<div class="right-arrow ml-auto">
 						<i class="fa fa-angle-right"></i>
 					</div>
 				</div>
@@ -67,6 +67,57 @@
 </div>
 <div *ngIf="staffLists.length >= 20 && !showFormCreate" class="d-flex justify-content-center load-more">
 	<button class="btn" (click)="showMore('staff', staffLists.length)">load more</button>
+</div>
+
+<div *ngIf="showStaffDetail" class="content-wrapper">
+	<div class="main-wrapper">
+		<div class="d-flex heading-space">
+			<div class="back" (click)="backToStaff()">
+				<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Staffs</span>
+			</div>
+			<!-- <div class="ml-auto">
+				<span class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
+			</div> -->
+		</div>
+
+		<div class="user-info-wrap d-flex -justify-content-between">
+			<div class="d-flex col-left">
+					<div class="img-wrap">
+						<div class="circular-image">
+							<img src="{{staffDetail.user.profilePic}}">
+						</div>
+					</div>
+					<div class="pad-left-15" style="width: 80%">
+						<div class="infoGp-wrap">
+							<h5>{{staffDetail.user.preferredName}}</h5>
+							<p class="info-mail mb-0">{{staffDetail.user.email}}</p>
+						</div>
+						<div class="infoGp-wrap mb-0">
+							<p *ngIf="staffDetail.user.about != ''" class="mb-0 info-p">
+								{{ staffDetail.user.about }}
+							</p>
+							<p *ngIf="staffDetail.user.about ==''" class="mb-0 info-p">
+								-
+							</p>
+						</div>
+					</div>
+					<div>
+						
+					</div>
+			</div>
+			<div class="pad-left-15 col-right">
+				<div>
+					<div class="infoGp-wrap">
+						<label class="info-mail">Full name</label>
+						<p class="mb-0 info-p">{{ staffDetail.user.firstName }} <span style="padding: 1px"></span>{{staffDetail.user.lastName}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="btn-wrap">
+			<div></div>
+		</div>
+	</div>
 </div>
 
 <div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
