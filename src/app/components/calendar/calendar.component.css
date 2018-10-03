@@ -1,3 +1,8 @@
+.limit-wordcount1{
+  position: absolute;
+  right: 15px;
+  top: -30px;
+}
 .datepicker-wrap.hideRight .ngb-dp-arrow.right{
   opacity: 0;
 }
@@ -433,6 +438,7 @@ ul.calendar-year li:first-child{
 }
 .holiday-create{
   padding: 15px 0px;
+  display: table;
   cursor: pointer;
 }
 .btn-span{

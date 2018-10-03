@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener,ViewContainerRef, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener,ViewContainerRef, Pipe, PipeTransform, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
@@ -21,7 +21,9 @@ export class UserStaffComponent implements OnInit {
   	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
   	emailAlert: boolean = false;
+  	public permissionCount: boolean = false;
   	public img: any;
+  	public ulFile: any;
   	permissionLists: any;
   	formFields: Staff = new Staff();
   	@BlockUI() blockUI: NgBlockUI;
@@ -45,6 +47,8 @@ export class UserStaffComponent implements OnInit {
 	public wordLength:any = 0;
 	public aboutTest = "Owns Guitar & PianoOwns Guitar & PianoOwnsijii";
 	public aboutTest1 = " How your call you or like your preferred name kuiui";
+	public showStaffDetail:boolean = false;
+	public staffDetail:any ={};
 
 	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);  		
@@ -55,6 +59,14 @@ export class UserStaffComponent implements OnInit {
   		this.blankCrop = false; 
 		this.getAllpermission();
   	}
+
+  	ngAfterViewInit() {
+		this.staffDetail = {
+			'user': {
+				'about': ''
+			}
+		}
+	}
 
   	showMore(type: any, skip: any){
   		console.log(skip)
@@ -93,6 +105,7 @@ export class UserStaffComponent implements OnInit {
 	goCreateForm(){
 		this.staffLists = [];
 		this.showFormCreate = true;
+		this.permissionCount = false;
 		console.log('create')
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
@@ -100,14 +113,29 @@ export class UserStaffComponent implements OnInit {
 	    this.getAllpermission();
 	}
 
-	focusMethod(e, word){
-		this.wordLength = word.length;
-		$('.limit-wordcount').show('slow'); 
+	focusMethod(e, status, word){
+		// this.wordLength = word.length;
+		// $('.limit-wordcount').show('slow'); 
+		console.log('hi', e)
+	    if(status == 'name'){
+	      this.wordLength = word.length;
+	      $('.limit-wordcount').show('slow'); 
+	    }else{
+	      this.wordLength = word.length;
+	      $('.limit-wordcount1').show('slow'); 
+	    }
 	}
 	  
-	blurMethod(e){
-		  $('.limit-wordcount').hide('slow'); 
-		  this.wordLength = 0;
+	blurMethod(e, status){
+		  // $('.limit-wordcount').hide('slow'); 
+		  // this.wordLength = 0;
+		  console.log('blur', e);
+		    if(status == 'name'){
+		      $('.limit-wordcount').hide('slow'); 
+		    }else{
+		      $('.limit-wordcount1').hide('slow'); 
+		    }
+		    this.wordLength = 0;
 	}
 
 	changeMethod(val : string){
@@ -132,11 +160,6 @@ export class UserStaffComponent implements OnInit {
 	createUser(obj, state){
 		console.log(obj)	
 		let objData = new FormData();
-		let getImg = document.getElementById("blobUrl");
-		this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;
-		console.log(this.img)
-		
-		
 		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
 		
 		objData.append('orgId', this.orgID),
@@ -147,10 +170,16 @@ export class UserStaffComponent implements OnInit {
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
-		objData.append('profilePic', this.img)
+		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about)
 
 		if(state == 'create'){
+			let getImg = document.getElementById("blobUrl");
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;			
+			if(this.img != undefined){
+				this.ulFile = this.dataURItoBlob(this.img)
+				objData.append('profilePic', this.ulFile)
+			}
 			console.log('create')
 			this.blockUI.start('Loading...');
 			this._service.createUser(objData)
@@ -208,6 +237,8 @@ export class UserStaffComponent implements OnInit {
 
 	checkUser(id, e){
 		console.log(e.target.checked)
+		this.permissionCount = e.target.checked;
+		console.log(this.permissionCount)
 	    $("label").on("click",function() {
    			if($(this).find('input[type="radio"]').is(':checked')) { 
           	$('label').removeClass('radio-bg-active');
@@ -217,7 +248,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
-	    if(window.pageYOffset > 10){
+	    if(window.pageYOffset > 81){
 	      this.isSticky = true;
 	    }else{
 	      this.isSticky = false;
@@ -256,23 +287,16 @@ export class UserStaffComponent implements OnInit {
 	        },
           	enableExif: true
         });	
-        	var cropper = this.uploadCrop;
+        	
 	      	var $uploadCrop = this.uploadCrop;
-	      	var BlobUrl = this.dataURItoBlob;
 	      	reader.onload = function(e: any) {
-	        $uploadCrop.bind({
-	            url: e.target.result
-	          })
-	          .then(function(e: any) {
-	          	console.log(cropper.data.url)
-				const blob = BlobUrl(cropper.data.url);
-				const blobUrl = URL.createObjectURL(blob);
-				console.log(blobUrl)
-				$uploadCrop.bind({
-					url: blobUrl
-				})
-	          });
-	      };
+	      		$('.upload-demo').addClass('ready');
+		        $uploadCrop.bind({
+		            url: e.target.result
+		        })
+		          .then(function(e: any) {
+		        });
+	      	};
 	      reader.readAsDataURL($event.target.files[0]);
 	    }
   	}
@@ -298,16 +322,11 @@ export class UserStaffComponent implements OnInit {
 			},
 			quality:1 
 	      })
-	      .then(function(resp: any) {	
-	      	$("#upload-demo img:last-child").remove();
-  	      	console.log(resp)
-  	      	const blob = BlobUrl(resp);
-  			const blobUrl = URL.createObjectURL(blob);
-  			console.log(blobUrl)
-	        if (blobUrl) {
+	      .then(function(resp: any) {
+	        if (resp) {
 	          	setTimeout(function() {
 	        		$(".circular-profile img").remove();
-	        		$(".circular-profile").append('<img src="' + blobUrl + '" width="100%" />');
+	        		$(".circular-profile").append('<img src="' + resp + '" width="100%" />');
 	           	}, 100);
 	        }
 	    });
@@ -331,6 +350,35 @@ export class UserStaffComponent implements OnInit {
 		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
+	}
+
+	showDetails(data,ID){
+		console.log('show detail')
+		this.staffLists = [];
+		console.log(ID);
+		this.editId = ID;
+		console.log("show Staff details");
+		this.showStaffDetail = true;
+		this._service.getUserDetail(this.regionID,data.userId)
+		.subscribe((res:any) => {
+			this.staffDetail = res;
+			console.log("StaffDetail",res);
+		})
+	}
+
+	backToStaff(){
+		// this.formFieldc = new customer();
+		this.showStaffDetail = false;
+		this.isupdate = false;
+		this.showFormCreate = false;
+		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		// this.selectedId =[];
+		
+		$(".frame-upload").css('display', 'none');
+		this.staffLists = [];
+		console.log(this.staffLists)
+		this.getAllUsers('staff', 20, 0);
 	}
 
 }

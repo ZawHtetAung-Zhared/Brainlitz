@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   public type: any;
   public admin: any;
   public navIsFixed: boolean = false;
+  public isMidStick: boolean = false;
   public item:any = {
     name: '',
     timezone: '',
@@ -37,6 +38,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    window.scroll(0,0);
   }
 
   ngOnInit() {
@@ -45,14 +47,21 @@ export class DashboardComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
-    if(window.pageYOffset > 40){
+    if(window.pageYOffset > 81){
       console.log('greater than 40')
       this.navIsFixed = true;
-    }
-    if(window.pageYOffset < 15){
+      this.isMidStick = false;
+    }else{
       console.log('less than 15')
       this.navIsFixed = false;
     }
+
+    if (window.pageYOffset > 45 && window.pageYOffset < 81) {
+      this.isMidStick = true;
+    }else{
+      this.isMidStick = false;
+    }
+
   }
 
   getAdministrator(){

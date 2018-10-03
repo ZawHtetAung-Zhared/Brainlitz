@@ -40,10 +40,11 @@
   margin: 20px 0px 35px 0px;
 }
 .inner-wrapper.pdactive{
-  padding-top: 90px;
+  /*padding-top: 90px;*/
 }
 .inner-wrapper{
-  padding-top: 147px;
+    padding-top: 0;
+  /*padding-top: 147px;*/
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -424,7 +425,7 @@ h3, h5 {
 }
 
 .mr-top-menu{
-    margin-top: 35px;
+    margin-top: 23px;
 }
 
 .full-width {
@@ -515,7 +516,7 @@ h3, h5 {
     color: #2e3d4d;
 }
 .content-wrapper{
-    padding-top: 147px;
+    /*padding-top: 147px;*/
     transition: padding-top 300ms linear;
 }
 .main-wrapper{

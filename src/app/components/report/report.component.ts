@@ -17,6 +17,7 @@ export class ReportComponent implements OnInit {
          this.getStaffRating(20,0);
          this.showDetail = false;
       })
+    window.scroll(0,0);
   }
   	public regionID = localStorage.getItem('regionId');
   	feedbackLists: any;
@@ -28,6 +29,7 @@ export class ReportComponent implements OnInit {
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
+	public isMidStick: boolean = false;
 	public navIsFixed: boolean = false;
 	CreatedDate: any;
   	teacherProfile: any;
@@ -49,12 +51,19 @@ export class ReportComponent implements OnInit {
 
   	@HostListener('window:scroll', ['$event']) onScroll($event){    
 	    console.log(window.pageYOffset)
-	    if(window.pageYOffset >= 20){
+	    if(window.pageYOffset > 81){
 	    	console.log('true')
 	      	this.navIsFixed = true;
+	      	this.isMidStick = false
 	    }else{
 	    	console.log('false')
 	      	this.navIsFixed = false;
+	    }
+
+	    if (window.pageYOffset > 45) {
+	      this.isMidStick = true;
+	    }else{
+	      this.isMidStick = false;
 	    }
 	  }
 

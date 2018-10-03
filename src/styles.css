@@ -204,9 +204,19 @@ svg.star-filled.default-star-filled-icon {
     background: #fff;
     top: 0;
 }*/
+
+#onscroll{
+  display: none;
+}
+.stick #onscroll{
+  display: block;
+}
 .stick #header{
-  -ms-transform: translateY(-85px) !important;
-  transform: translateY(-85px) !important;
+  opacity: 0 !important;
+  /*display: none;*/
+  /*-ms-transform: translateY(-85px) !important;*/
+  /*transform: translateY(-85px) !important;*/
+  /*margin-top: -85px !important;*/
 }
 .stick .sidebar-wrap{
   -moz-box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
@@ -219,8 +229,10 @@ svg.star-filled.default-star-filled-icon {
   width: inherit;
   height: 100%;
   z-index: 10;
-  /*border-right: 1px solid #dedede;*/
-  transition: height 300ms linear, transform 300ms linear;
+  border-right: 1px solid #dedede;
+  /*transition: height 300ms linear, transform 300ms linear;*/
+  transition: 0.5s all ease-out;
+  top: 147px;
 }
 
 .drag-wrapper .drag-scroll-content {

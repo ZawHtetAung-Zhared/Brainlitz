@@ -51,7 +51,7 @@
 					<h5 style="margin-bottom: 0.3rem">{{customer.preferredName}}</h5>
 					<p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
 					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
-					<p class="info-about" *ngIf="customer.about != 'undefined'">{{customer.about}}</p>
+					<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>40)? (customer.about | slice:0:40)+'..':(customer.about) }}</p>
 				</div>
 				<div class="ml-auto right-arrow">
 					<i class="fa fa-angle-right"></i>
@@ -78,8 +78,8 @@
 			<div class="d-flex col-left">
 					<div class="img-wrap">
 						<div class="circular-image">
-							<img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg">
-							<img *ngIf="custDetail.user.profilePic != 'undefined'" src="{{custDetail.user.profilePic}}">
+							<!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
+							<img src="{{custDetail.user.profilePic}}">
 						</div>
 					</div>
 					<div class="pad-left-15" style="width: 80%">
@@ -88,26 +88,26 @@
 							<h5>{{custDetail.user.preferredName}}</h5>
 							<p class="info-mail mb-0">{{custDetail.user.email}}</p>
 						</div>
-						<div class="infoGp-wrap mb-0" style="border-bottom: 1px dotted #64707d;">
+						<div class="infoGp-wrap mb-0 info-p">
 							<p *ngIf="custDetail.user.about" class="mb-0">
 								{{ custDetail.user.about }}
 							</p>
-							<p *ngIf="!custDetail.user.about" class="mb-0">
+							<p *ngIf="!custDetail.user.about" class="mb-0 info-p">
 								-
 							</p>
 						</div>
-						<div class="infoGp-wrap">
+						<div *ngIf="custDetail.user.guardians?.length > 0" class="infoGp-wrap" style="border-top: 1px dotted #64707d;">
 							<label class="info-mail">Gurdians</label>
 							<div class="guardian-main-wrap">
-									<div *ngFor="let gurdian of custDetail.user.guardians" class="g-inner-wrap">
-					        	<div class="small-circular-image">
-						        	<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
-									<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
-					        	</div>
+								<div *ngFor="let gurdian of custDetail.user.guardians" class="g-inner-wrap">
+						        	<div class="small-circular-image">
+							        	<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
+										<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
+						        	</div>
 
-					        	<span>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</span>
-									</div>
-					    </div>
+						        	<span>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</span>
+								</div>
+					    	</div>
 							<!-- <div class="" style="overflow-x: scroll;">
 								<div class="gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
 									<div class="small-circular-image">
@@ -140,7 +140,8 @@
 				<div>
 					<div class="infoGp-wrap">
 						<label class="info-mail">Full name</label>
-						<p class="mb-0 info-p">{{ custDetail.user.fullname }}</p>
+						<p class="mb-0 info-p">{{ custDetail.user.firstName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p>
+						<!-- <p class="mb-0 info-p">{{ custDetail.user.fullname }}</p> -->
 					</div>
 					<!-- <div class="d-flex infoGp-wrap info-wrap">
 						<div class="timetable-col">
@@ -331,7 +332,7 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 					</div>	
-		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredName" [(ngModel)]="formFieldc.preferredName" #preferredName="ngModel" (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" maxlength="60" required>
+		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredName" [(ngModel)]="formFieldc.preferredName" #preferredName="ngModel" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" maxlength="60" required>
 		  	    	<div *ngIf="preferredName.invalid && (preferredName.dirty || preferredName.touched)" class="alert alert-danger">
 				        <div [hidden]="!preferredName.errors.required">
 				          Display name is required!
@@ -357,6 +358,15 @@
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
+		  	  		<div class="d-flex justify-content-between">
+						<label for="about" class="label-txt">About</label> 	
+						<div class="limit-wordcount1">
+							<span>{{wordLength}}/280characters</span>
+						</div>
+					</div>	
+		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" (focus)="focusMethod($event, 'about', $event.target.value)" (blur)="blurMethod($event, 'about')" maxlength="280" (input)="changeMethod($event.target.value)" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
+		  	  	</div>
+		  	  	<div class="form-group form-divider">
 		  	    	<label for="email" class="label-txt">Email address</label> 	
 		  	    	<input type="email" class="form-control" placeholder="Type email address here" (keyup)="validateEmail(formFieldc.email)"  name="email" [(ngModel)]="formFieldc.email" #email="ngModel">
 		  	    	<div *ngIf="emailAlert" class="alert alert-danger">
@@ -380,11 +390,6 @@
 		  	    		Please provide a valid email!
 		  	    	</div>
 		  	  	</div>
-		  	  	
-		  	  	<div class="form-group form-divider">
-		  	    	<label for="about" class="label-txt">About</label> 	
-		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
-		  	  	</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
 				<label for="upload">
@@ -394,8 +399,7 @@
 							<div class="circular-wrap">
 								<div class="circular-profile">
 									<img *ngIf="isupdate == false" src="assets/img/user.svg">
-									<img *ngIf="isupdate == true && returnProfile != 'undefined'" src="{{returnProfile}}">
-									<img *ngIf="isupdate == true && returnProfile == 'undefined'" src="assets/img/user.svg">
+									<img *ngIf="isupdate == true" src="{{returnProfile}}">
 								</div>	
 							</div>
 							<div class="demo-wrap upload-demo">
@@ -419,7 +423,7 @@
 			            </div>
 		       			</div>
 					    </div>
-						  <p>Update photo</p>						
+						  <p>Update photo</p>	
 						</div>
 					</div>
 				</label>
