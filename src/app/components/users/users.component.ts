@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef, HostListener, AfterViewInit } from '@angular/core';
 import { FormsModule ,FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
   	public isFous:boolean = false;
-  	public custDetail: any;
+  	public custDetail: Array<any> = [];
   	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
   	public seeAll = false;
   	public wordLength:number = 0;
@@ -89,6 +89,12 @@ export class UsersComponent implements OnInit {
 	ngOnInit() {
 		this.blankCrop = false; 
 		this.getAllUsers('customer', 20, 0);
+	}
+
+	ngAfterViewInit() {
+		// this.custDetail = {
+		// 	'user': 
+		// }
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -462,11 +468,11 @@ export class UsersComponent implements OnInit {
 		this.editId = ID;
 		console.log("show details");
 		// this.showCustDetail = true;
+		this.showCustDetail = true;
 		this._service.getUserDetail(this.regionID,data.userId)
 		.subscribe((res:any) => {
 			this.custDetail = res;
 			console.log("CustDetail",res);
-			this.showCustDetail = true;
 		})
 	}
 
