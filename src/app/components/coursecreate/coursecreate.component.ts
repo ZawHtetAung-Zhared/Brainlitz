@@ -247,7 +247,7 @@ export class CoursecreateComponent implements OnInit {
 
   createList(duration){
     console.log(duration);
-    for(var i = 0; i <= 9; i++){
+    for(var i = 0; i <= 3; i++){
     var testVar = duration * (i+1);
       // console.log("testVar",testVar);
       this.testList.push(testVar);

@@ -1340,7 +1340,7 @@ ul.search-apg{
   display: none;
   background: #fff;
   color: #2e3d4d !important;
-  height: 250px;
+  max-height: 250px;
   overflow: auto;
 }
 

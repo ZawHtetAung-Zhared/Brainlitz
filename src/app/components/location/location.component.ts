@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output, ViewChild, ElementRef, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild, ElementRef, ViewContainerRef, HostListener,AfterViewInit } from '@angular/core';
 import { Location } from './location';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
@@ -36,7 +36,9 @@ export class LocationComponent implements OnInit {
 	public currentID: any;
 	public locationName: any;
 	public countrycode: any;
-	model: Location = new Location();
+	public countryname:any;
+	// model: Location = new Location();
+	public model:any = {};
 	private modalReference: NgbModalRef;
 	closeResult: string;
 	public wordLength:any = 0;
@@ -51,6 +53,15 @@ export class LocationComponent implements OnInit {
 		window.addEventListener('scroll', this.scroll, true);
 		this.getAllLocation(20,0);
 	}
+
+	// ngAfterViewInit(){
+	// 	this.model = {
+	// 		'phoneNumber': {
+	// 			'countryCode': Number,
+	// 			'number': Number
+	// 		}
+	// 	}
+	// }
 
 	ngOnDestroy() {
         window.removeEventListener('scroll', this.scroll, true);
@@ -103,14 +114,15 @@ export class LocationComponent implements OnInit {
 	    	obj.intlTelInput('setCountry', 'sg');
 	    }else{
 	    	console.log('update')
-	    	obj.intlTelInput('setCountry', 'mm');
+	    	obj.intlTelInput('setCountry', this.countryname);
 	    }
   	}
 
   	onCountryChange(e){
   		console.log(e)
+  		this.countryname = e.iso2;
   		this.countrycode = e.dialCode;
-  		console.log(this.countrycode)
+  		console.log(this.countrycode,this.countryname)
   	}
   	getNumber(obj){
   		console.log('hi getnumber')
@@ -148,7 +160,7 @@ export class LocationComponent implements OnInit {
   		this.isUpdate = false;
   		this.isvalid = false;
   		this.isrequired = true;
-  		this.model = new Location();
+  		// this.model = {};
   	}
   	back(){
   		this.locationLists = [];
@@ -162,15 +174,15 @@ export class LocationComponent implements OnInit {
   		    // rest of your code
   		  }
   	}
-	open(locationModal) {
-		this.model = new Location();
-	  this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
-	  this.modalReference.result.then((result) => {
-	    this.closeResult = `Closed with: ${result}`;	    
-	  }, (reason) => {
-	    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;	    
-	  });
-	}
+	// open(locationModal) {
+	// 	this.model = new Location();
+	//   this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
+	//   this.modalReference.result.then((result) => {
+	//     this.closeResult = `Closed with: ${result}`;	    
+	//   }, (reason) => {
+	//     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;	    
+	//   });
+	// }
 
 	private getDismissReason(reason: any): string {
 	  if (reason === ModalDismissReasons.ESC) {
@@ -207,26 +219,33 @@ export class LocationComponent implements OnInit {
 	}
 
 	createLocation(obj, update, locationID) {
-		console.log(obj)
-
-		let phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
+		console.log("Location Obj",obj)
+		// if(update == true){
+		// 	var phNum = (obj.phoneNumber.number == undefined) ? null : obj.phoneNumber.number;
+		// }else{
+		// 	var phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
+		// }
+		var phNum = (obj.phonenumber == undefined) ? null : obj.phonenumber;
+		
+		console.log("PhNum",phNum)
 		let data = {
 			"regionId": this.regionID,
 			"name": obj.name,
 			"address": obj.address,
 			"phoneNumber": {
 				"countryCode": this.countrycode,
-				"number" : phNum
+				"number" : phNum,
+				"countryName": this.countryname
 			}
 		}
-		console.log(data)
+		console.log("location Data",data)
 		if(update == true){
 			console.log(update)
 			this.blockUI.start('Loading...');
 			this._service.updateLocation(locationID, data)
 			 .subscribe((res:any) => {
 	     		console.log(res)
-	     		this.model = new Location();
+	     		this.model = {};
 	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
 	     		this.back();
@@ -241,7 +260,7 @@ export class LocationComponent implements OnInit {
 	    	this._service.createLocation(this.regionID, data)
 	      	.subscribe((res:any) => {
 	    		console.log(res);
-	    		this.model = new Location();
+	    		this.model = {};
 	    		this.toastr.success('Successfully Created.');
 	    		this.blockUI.stop();
 	    		this.back();
@@ -277,7 +296,7 @@ export class LocationComponent implements OnInit {
 
 	getSingleLocation(id){
 		this.iscreate = true;
-		console.log(this.model)
+		// console.log(this.model)
 		this.isUpdate = true;		
 		this.isvalid = true;		
 		this.singleLocation(id);
@@ -286,10 +305,14 @@ export class LocationComponent implements OnInit {
 	singleLocation(id){
 		this._service.getSingleLocation(id)
 		.subscribe((res:any) => {
-			console.log(res);
+			console.log('single location',res);
 			this.currentID = res._id;
 			this.locationName = res.name;
 			this.model = res;
+			this.model.phonenumber = res.phoneNumber.number;
+			this.countrycode = res.phoneNumber.countryCode;
+			this.countryname = res.phoneNumber.countryName;
+			console.log("this.model",this.model)
 		},err => {
 			console.log(err);
 		})
