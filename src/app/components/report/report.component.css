@@ -601,6 +601,11 @@ h3.head-rating-count {
   display: block;
 }
 
+.span-label{
+  line-height: 1.8;
+  padding-left: 5px;
+}
+
 @media only screen and (max-width: 768px){
 
 	.box-width {

@@ -51,7 +51,7 @@
 					<h5 style="margin-bottom: 0.3rem">{{customer.preferredName}}</h5>
 					<p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
 					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
-					<p class="info-about" *ngIf="customer.about != 'undefined'">{{customer.about}}</p>
+					<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>40)? (customer.about | slice:0:40)+'..':(customer.about) }}</p>
 				</div>
 				<div class="ml-auto right-arrow">
 					<i class="fa fa-angle-right"></i>
