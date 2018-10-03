@@ -139,16 +139,31 @@ export class UsersComponent implements OnInit {
 	    });
 	}
 
-	focusMethod(e, word){
-		console.log('hi', e);
-		this.wordLength = word.length;
-		$('.limit-wordcount').show('slow'); 
+	focusMethod(e, status, word){
+		// console.log('hi', e);
+		// this.wordLength = word.length;
+		// $('.limit-wordcount').show('slow'); 
+		console.log('hi', e)
+	    if(status == 'name'){
+	      this.wordLength = word.length;
+	      $('.limit-wordcount').show('slow'); 
+	    }else{
+	      this.wordLength = word.length;
+	      $('.limit-wordcount1').show('slow'); 
+	    }
 	}
 	  
-	blurMethod(e){
+	blurMethod(e, status){
+		// console.log('blur', e);
+		// $('.limit-wordcount').hide('slow'); 
+		// this.wordLength = 0;
 		console.log('blur', e);
-		$('.limit-wordcount').hide('slow'); 
-		this.wordLength = 0;
+	    if(status == 'name'){
+	      $('.limit-wordcount').hide('slow'); 
+	    }else{
+	      $('.limit-wordcount1').hide('slow'); 
+	    }
+	    this.wordLength = 0;
 	}
 
 	changeMethod(val : string){

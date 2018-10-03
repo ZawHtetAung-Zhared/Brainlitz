@@ -80,6 +80,7 @@ export class ToolsComponent implements OnInit {
         console.log(this.locationId) 
         this.setDefaultSelected();
     });
+    window.scroll(0,0);
   }
 
   ngOnInit() {

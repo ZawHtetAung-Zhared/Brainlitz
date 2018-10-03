@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    window.scroll(0,0);
   }
 
   ngOnInit() {

@@ -17,6 +17,7 @@ export class ReportComponent implements OnInit {
          this.getStaffRating(20,0);
          this.showDetail = false;
       })
+    window.scroll(0,0);
   }
   	public regionID = localStorage.getItem('regionId');
   	feedbackLists: any;

@@ -6,7 +6,7 @@
     		  <label for="inputState" class="location-label">Location</label>
     		  <i class="chevron-down"></i>
     		  <select id="inputState" class="form-control" name="location" (change)="selectLocation($event)">
-    		    <option [selected]="location.selected" *ngFor="let location of locationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
+    		    <option [selected]="location.selected" *ngFor="let location of headerlocationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
     		  </select>
     		</div>
     	</form> 

@@ -41,10 +41,10 @@
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
 				<div class="box-design d-flex flex-row align-items-center" (click)="showDetails(staff, staff.userId)">
 					<div class="profileimg-wrap">
-						<div class="circular-image">
-							<img *ngIf="staff.profilePic == 'undefined'" src="assets/img/user.svg">
-							<img *ngIf="staff.profilePic != 'undefined'" src="{{staff.profilePic}}">
-						</div>
+					<div class="circular-image">
+						<img *ngIf="staff.profilePic == 'undefined'" src="assets/img/user.svg">
+						<img *ngIf="staff.profilePic != 'undefined'" src="{{staff.profilePic}}">
+					</div>
 					</div>
 					<div class="info-side d-flex flex-column justify-content-center">
 						<div><label class="staff-label">Staff</label></div>
@@ -142,7 +142,7 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 		  	    	</div>	
-		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFields.preferredname" #preferredname="ngModel" (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" required>
+		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFields.preferredname" #preferredname="ngModel" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" required>
 		  	    	<div *ngIf="preferredname.invalid && (preferredname.dirty || preferredname.touched)" class="alert alert-danger">
 				        <div [hidden]="!preferredname.errors.required">
 				          Display name is required!
@@ -168,8 +168,13 @@
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
-		  	    	<label for="about" class="label-txt">About</label> 	
-		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFields.about" #about="ngModel"></textarea>
+		  	  		<div class="d-flex justify-content-between">
+						<label for="about" class="label-txt">About</label> 	
+						<div class="limit-wordcount1">
+							<span>{{wordLength}}/280characters</span>
+						</div>
+					</div>
+		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" (focus)="focusMethod($event, 'about', $event.target.value)" (blur)="blurMethod($event, 'about')" maxlength="280" (input)="changeMethod($event.target.value)" [(ngModel)]="formFields.about" #about="ngModel"></textarea>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
 		  	    	<label for="" class="label-txt">Email address</label> 	

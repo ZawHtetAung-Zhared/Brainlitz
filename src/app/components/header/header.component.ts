@@ -13,12 +13,12 @@ declare var $:any;
 })
 export class HeaderComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
-  public locationLists: any;
+  public headerlocationLists: any;
   public accessToken: any;
   
   constructor(private _router: Router, private _service: appService) {
     this._service.sendData.subscribe((data) => {
-        this.locationLists = data; 
+        this.headerlocationLists = data; 
     })
   }
   
@@ -41,20 +41,20 @@ export class HeaderComponent implements OnInit {
     console.log('afterclick region', this.regionID)
     this._service.getLocations(this.regionID, '', '', true)
     .subscribe((res:any) => {
-      this.locationLists = res; 
-      console.log('header locationlists',this.locationLists)
+      this.headerlocationLists = res; 
+      console.log('header headerlocationLists',this.headerlocationLists)
       let locationId  = localStorage.getItem('locationId');
       if(locationId){
-        for(var i = 0; i < this.locationLists.length; i++){
-          if(this.locationLists[i]._id == locationId){
-            this.locationLists[i].selected = true;
-            localStorage.setItem('locationId', this.locationLists[i]._id);
+        for(var i = 0; i < this.headerlocationLists.length; i++){
+          if(this.headerlocationLists[i]._id == locationId){
+            this.headerlocationLists[i].selected = true;
+            localStorage.setItem('locationId', this.headerlocationLists[i]._id);
           }
         }
       } 
       let regionId  = localStorage.getItem('regionId');
       if(!localStorage.getItem('locationId')){
-        localStorage.setItem('locationId', this.locationLists[0]._id);
+        localStorage.setItem('locationId', this.headerlocationLists[0]._id);
       } 
       
     }, err => {
