@@ -33,6 +33,7 @@ export class ToolsComponent implements OnInit {
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
+  public isMidStick:boolean = false;
   public isSticky:boolean = false;
   public item:any = {};
   public regionID = localStorage.getItem('regionId');
@@ -129,25 +130,17 @@ export class ToolsComponent implements OnInit {
     if (window.pageYOffset > 81) {
       console.log('if', window.pageYOffset)
       this.isSticky = true;
+      this.isMidStick = false;
     } else {
       console.log('else', window.pageYOffset)
       this.isSticky = false;
     }
-
-    // else{
-    //   console.log('else', window.pageYOffset)
-    //   this.yOffset = window.pageYOffset + 84;
-    //   this.isSticky = false;
-    // }
-    // else if(window.pageYOffset < this.scrollVal){     
-    //   console.log('else',  window.pageYOffset)
-    //   if(window.pageYOffset > 40){
-    //     console.log('hi inner')
-    //     this.isSticky = false;
-    //   }
-    // }
     
-    
+    if (window.pageYOffset > 45) {
+      this.isMidStick = true;
+    }else{
+      this.isMidStick = false;
+    }
   }
   
   clickTab(type){

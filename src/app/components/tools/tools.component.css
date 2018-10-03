@@ -105,7 +105,7 @@ img.setting-icon {
     color: #060606;
 }
 .noti-sidebar.p-top{
-  top:;
+  /*top:;*/
 }
 .content-wrapper.p-top{
   /*padding-top: 63px;*/
@@ -271,6 +271,9 @@ img.setting-icon {
 /*.noti-sidebar.p-top{
 	padding-top: 70px;
 }*/
+.side-bar-wrap.mid-top{
+  top: 80px;
+}
 .side-bar-wrap.p-top{
   top: 65px;
 }

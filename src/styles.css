@@ -231,7 +231,7 @@ svg.star-filled.default-star-filled-icon {
   z-index: 10;
   border-right: 1px solid #dedede;
   /*transition: height 300ms linear, transform 300ms linear;*/
-  transition: 0.3s all ease-out;
+  transition: 0.5s all ease-out;
   top: 147px;
 }
 

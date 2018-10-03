@@ -1,5 +1,11 @@
+.side-bar-wrap.b-top{
+  top: 95px;
+}
 .side-bar-wrap.p-top{
   top: 65px;
+}
+.side-bar-wrap.mid-top{
+  top: 80px;
 }
 .alert-danger{
   font-size: 14px;

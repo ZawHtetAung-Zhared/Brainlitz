@@ -28,6 +28,7 @@ export class ReportComponent implements OnInit {
 	locationID: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
+	public isMidStick: boolean = false;
 	public navIsFixed: boolean = false;
 	CreatedDate: any;
   	teacherProfile: any;
@@ -52,9 +53,16 @@ export class ReportComponent implements OnInit {
 	    if(window.pageYOffset > 81){
 	    	console.log('true')
 	      	this.navIsFixed = true;
+	      	this.isMidStick = false
 	    }else{
 	    	console.log('false')
 	      	this.navIsFixed = false;
+	    }
+
+	    if (window.pageYOffset > 45) {
+	      this.isMidStick = true;
+	    }else{
+	      this.isMidStick = false;
 	    }
 	  }
 
