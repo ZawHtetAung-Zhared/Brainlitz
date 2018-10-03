@@ -110,9 +110,10 @@ export class LocationComponent implements OnInit {
   	onCountryChange(e){
   		console.log(e)
   		this.countrycode = e.dialCode;
+  		console.log(this.countrycode)
   	}
   	getNumber(obj){
-  		// console.log('hi')
+  		console.log('hi getnumber')
   		console.log(obj)
   	}
   	
@@ -206,12 +207,19 @@ export class LocationComponent implements OnInit {
 	}
 
 	createLocation(obj, update, locationID) {
+		console.log(obj)
+
+		let phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
 		let data = {
 			"regionId": this.regionID,
 			"name": obj.name,
 			"address": obj.address,
-			"phoneNumber": obj.phoneNumber
+			"phoneNumber": {
+				"countryCode": this.countrycode,
+				"number" : phNum
+			}
 		}
+		console.log(data)
 		if(update == true){
 			console.log(update)
 			this.blockUI.start('Loading...');
@@ -230,7 +238,7 @@ export class LocationComponent implements OnInit {
 	    	console.log("Form Submitted!", this.regionID);
 	    	this.blockUI.start('Loading...');
 	    	// this.modalReference.close();
-	    	this._service.createLocation(this.regionID, obj)
+	    	this._service.createLocation(this.regionID, data)
 	      	.subscribe((res:any) => {
 	    		console.log(res);
 	    		this.model = new Location();
