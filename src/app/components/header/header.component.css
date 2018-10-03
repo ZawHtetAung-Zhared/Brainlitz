@@ -1,17 +1,40 @@
+.logo-wrap{
+  height: 50px;
+  width: auto;
+}
+.logo-wrap img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 .stick #header{
   -ms-transform: translateY(-95);
   transform: translateY(-95);
+  opacity: 1;
+}
+header#header2 {
+    position: fixed;
+    top: 0;
+    z-index: 99;
 }
 #header{
+  z-index: 99;
+  position: relative;
+}
+#header,
+#header2{
+
   width: 100%;
   background: #fff;
   font-family: Montserrat-Regular;
-  z-index: 99;
+  /*z-index: 99;
   position: fixed;
-  top: 0;
-  transition: height 300ms linear, transform 300ms linear;
+  top: 0;*/
+  /*transition: height 300ms linear, transform 300ms linear;*/
+  /*transition: 0.4s all ease-out;
   -ms-transform: translateY(0);
   transform: translateY(0);
+  margin-top: 0;*/
 }
 #inputState {
 	border: none;
@@ -21,6 +44,7 @@
 	margin: -12px;
   color: #465360;
   font-size: 18px;
+  font-family: 'Montserrat-Regular', Arial,sans-serif !important;
 }
 
 #inputState:focus {
@@ -94,6 +118,7 @@ select {
   display: none;
   background: #fff;
   color: #2e3d4d !important;
+  cursor: pointer;
 }
 .dropdown-box:after {
     content: "";
@@ -111,6 +136,7 @@ select {
 .dropdown-wrap1 ul li{
   border-bottom: 1px solid #e3e4e6;
   padding: 10px 0px;
+  cursor: pointer;
 }
 
 .dropdown-wrap ul li:last-child,
@@ -122,4 +148,8 @@ select {
 .dropdown-wrap1 .dropdown-box1 {
   box-shadow: 0px 2px 30px 1px rgba(1,0,0,0.2);
   border: none;
+}
+
+.cursor-on{
+  cursor: pointer;
 }

@@ -1,12 +1,15 @@
 <!-- <app-coursecreate></app-coursecreate> -->
-<app-header *ngIf="!isCategory && !isPlan" [ngClass]="{'stick': isSticky == true}"></app-header>
-<div class="inner-wrapper" *ngIf="!isCategory && !isPlan" [ngClass]="{'active': isSticky == true}">
+<app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
   <div class="card-container">
     <div class="title"><h3 class="header-font">Courses</h3></div>
     <div class="card-columns">
       <div class="card btn-card">
-        <button class="btn btn-large" (click)="changeRoute()"><span class="addCourseBtn">+</span> <span class="btn-largeLabel">Add new course plan</span></button>
+        <button class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
+          <p class="addCourseBtn">+</p>
+          <p class="btn-largeLabel">Add new course plan</p>
+        </button>
       </div>
       <div *ngFor="let courseGroup of courseList">
         <div class="card card-wrap">
@@ -24,6 +27,7 @@
           </div>
           <div>
             <div *ngFor="let course of courseGroup.courses">
+              <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
               <div class="d-flex course-wrap">
                 <div *ngIf="course.seat_left > 0" class="absolute">
                   {{ course.seat_left }} seats left
@@ -34,11 +38,12 @@
                 <div class="date-wrap">
                   <div class="startDate-wrap">
                     <span class="medium-font">From</span>
-                    <div class="semibold">{{course.startDate | date}}</div>
+                    <div class="semibold">{{course.startDate | utcDate}}</div>
                   </div>
+                  <!-- 000000 {{course.endDate}} -->
                   <div *ngIf = "course.endDate">
                     <span class="medium-font">To</span>
-                    <div class="semibold">{{course.endDate | date}}</div>
+                    <div class="semibold">{{course.endDate | utcDate}}</div>
                   </div>
                   <div *ngIf = "course.lessonCount">
                     <span class="semibold">{{ course.lessonCount }}</span>
@@ -53,7 +58,8 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
                     <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     <!-- <ul><li>0 staff</li></ul> -->
                     </span>
@@ -67,8 +73,11 @@
                         {{ course.courseDuration.starttime | convertTimeFormat }} - {{ course.courseDuration.endtime | convertTimeFormat }}
                       </div>
                     </div>
-                    <div class="btnCustomer-wrap">
-                      <button class="btn-addC" (click)="assignUser(course)"><span class="btn-plusicon"> + </span> Add customer</button>
+                    <div *ngIf="!course.draft" class="btnCustomer-wrap">
+                      <button class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
+                        <p class="btn-plusicon"> + </p> 
+                        <p>Add customer</p>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -76,7 +85,7 @@
             </div>
           </div>
           <div class="link-wrap">
-            <a class="link-btn" [routerLink]="['/courseCreate']">Add new course</a>
+            <a class="link-btn" (click)="addNewCourse(courseGroup.coursePlan)">Add new course</a>
           </div>
         </div>
       </div>
@@ -85,5 +94,299 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate" class="d-flex justify-content-center load-more">
+  <button class="btn" (click)="showMore(courseList.length)">load more</button>
+</div>
+
 <app-category class="category-content" *ngIf="isCategory == true"></app-category>
 <app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
+<app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
+
+<div class="inner-wrapper" *ngIf="isCourseDetail == true">
+  <div class="back-wrap d-flex justify-content-between">
+    <div class="back-to" (click)="cancel()">
+      <i class="fa fa-angle-left"></i>
+      <p>Courses</p>
+    </div>
+    <!-- <button class="btn edit-course-btn" (click)="goToConflict(currentCourse)">Edit course</button> -->
+  </div>
+  <div>
+    <div class="d-flex flex-row row">
+      <div class="col-md-6 detail-info">
+        <label>Plan name</label>        
+        <h4>{{detailLists.name}}
+        <span>{{detailLists.courseCode}}</span></h4>        
+        <p>{{detailLists.description}}</p>
+      </div>
+      <div class="col-md-6 row detail-fees">
+        <div class="col-md-6 pl-zero">
+          <div>
+            <h5>Course fee</h5>
+            <div *ngIf="detailLists.paymentPolicy.courseFee != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.courseFee == null">-</b>
+          </div>
+          <div class="mt-32">
+            <h5>Miscellaneous fee</h5>
+            <div *ngIf="detailLists.paymentPolicy.miscFee != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.miscFee == null">-</b>
+          </div>
+        </div>
+        <div class="col-md-6 pl-zero">
+          <div>
+            <h5>Deposit</h5>
+            <div *ngIf="detailLists.paymentPolicy.deposit.amount != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.deposit.amount == null">-</b>
+          </div>
+          <div class="mt-32">
+            <h5>Prorate class fee</h5>
+            <div *ngIf="detailLists.paymentPolicy.proratedLessonFee != null">
+              <sup>$</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+            </div>
+            <b *ngIf="detailLists.paymentPolicy.proratedLessonFee == null">-</b>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex detail-box">
+      <div class="col-md-4 col-lg-4 detail-fees pl-zero">
+        <h5 class="mt-03">Location</h5>
+        <b>{{detailLists.location.name}}</b>
+      </div>
+      <div class="col-md-4 col-lg-4 course-time pr-zero">
+        <!-- <h5>SUN & MON</h5> -->
+        <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+          {{ day }}
+        </h5>
+        <p>{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
+      </div>
+      <div class="col-md-4 col-lg-4 course-date">
+        <div class="d-flex detail-fees">
+          <div class="col-md-6 pr-zero">
+            <h5 class="mt-03">From</h5>
+            <b>{{detailLists.startDate | utcDate}}</b>
+          </div>
+          <div class="col-md-6 pr-zero">
+            <h5 *ngIf="detailLists.endDate" class="mt-03">To</h5>
+            <b *ngIf="detailLists.endDate">{{detailLists.endDate | utcDate}}</b>
+            <div *ngIf="detailLists.endDate == null" class="mt-15">
+              <b>{{ detailLists.lessonCount }} Lessons</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column">
+      <div class="d-flex">
+        <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
+        <!-- <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button> -->
+        <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
+      </div>
+      <div class="activeTab-content" *ngIf="activeTab == 'People'">
+        <div class="activeTab-header d-flex justify-content-center align-items-center">         
+          <label class="room-label">Room</label><label class="room-name">{{detailLists.room}}</label>
+        </div>
+        <div class="activeTab-body">
+          <div class="teacher-section">
+            <div class="d-flex justify-content-between user-header">
+              <h2 class="title-heading">Teachers</h2>
+              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'')">Add teacher</button>
+            </div>
+            <div class="row">
+              <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <div class="d-flex flex-row single-user align-items-center">
+                  <div class="img-wrap">
+                    <img src="{{user.profilePic}}">
+                  </div>
+                  <div class="single-user-info d-flex flex-column justify-content-center">
+                    <p>{{user.userType}}</p>
+                    <h4>{{user.preferredName}}</h4>
+                  </div>
+                </div>
+              </div>
+              <div *ngFor="let user of pplLists.STAFF" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <div class="d-flex flex-row single-user align-items-center">
+                  <div class="img-wrap">
+                    <img src="{{user.profilePic}}">
+                  </div>
+                  <div class="single-user-info d-flex flex-column justify-content-center">
+                    <p>{{user.userType}}</p>
+                    <h4>{{user.preferredName}}</h4>
+                  </div>
+                  <div class="ml-auto remover-wrap">
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="d-flex justify-content-between user-header">  
+              <div class="d-flex flex-row">
+                <h2 class="title-heading">Customers</h2>
+                <div>
+                  <p class="seat">{{detailLists.seat_left}} seats left</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>
+            </div>
+            <div class="row customer-row">
+              <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+                <div class="d-flex flex-row single-user justify-content-center align-items-center">
+                  <div class="img-wrap">
+                    <img src="{{user.profilePic}}">
+                  </div>
+                  <div class="single-user-info d-flex flex-column justify-content-center">
+                    <h4>{{user.preferredName}}</h4>
+                  </div>
+                  <div class="ml-auto remover-wrap">
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Withdraw user?</h3>
+  </div>
+  <div class="modal-body confirm-text">
+    <p>Are You sure you want to remove <span class="target">"{{removeUser}}"</span> from this course?</p>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn modal-delete-btn" (click)="withdrawUser(deleteId)">Withdraw</button>
+  </div>
+</ng-template>
+
+<ng-template #userModal let-c="close" let-d="dismiss">
+  <div class="d-flex modal-header">
+    <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">Add teacher</h3>
+    <h3 *ngIf="userType == 'customer'" class="modal-title d-flex mr-auto">Add customer</h3>
+    <button (click)="c('Close click')" aria-label="Close" class="modal-close ml-auto" type="button">
+      <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+      </span>
+      <!-- <span aria-hidden="true" >×</span> -->
+    </button>
+  </div>
+  <form novalidate #cfees="ngForm">
+  <div class="modal-body confirm-text">
+    <div class="d-flex">
+      <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
+        <h5 class="mt-03">
+          <i class="fa fa-map-marker" style="font-size:15px"></i>
+          {{detailLists.location.name}}
+        </h5>
+        <b>{{detailLists.name}}</b>
+      </div>
+      <div class="col-md-4 col-lg-4 modal-ctime pr-zero">
+        <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+          {{ day }}
+        </h5>
+        <!-- <p>11:00 AM - 12:00 AM</p> -->
+        <div class="modal-duration">{{ detailLists.duration.startDate | utcTime }} - {{ detailLists.duration.endDate | utcTime }}</div>
+      </div>
+      <div class="col-md-4 col-lg-4 modal-cdate">
+        <div class="d-flex">
+          <div class="col-md-6 pr-zero modal-dfees">
+            <h5 class="mt-03">From</h5>
+            <b>{{detailLists.startDate | utcDate}}</b>
+          </div>
+          <div class="col-md-6 pr-zero modal-dfees">
+            <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
+            <h5 *ngIf="detailLists.endDate == null" class="mt-03"></h5>
+            <b *ngIf="detailLists.endDate != null">{{detailLists.endDate | utcDate}}</b>
+            <div *ngIf="detailLists.endDate == null">
+              <b>{{ detailLists.lessonCount }} Lessons</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column mt-37" style="position: relative;">
+      <div class="d-flex">
+        <input *ngIf="userType == 'customer'"
+          class="form-control py-2 input-search-bg" 
+          type="search" 
+          placeholder="Search customers" 
+          id="example-search-input" 
+          name="search" 
+          #search="ngModel" 
+          [(ngModel)]="formData.searchText" 
+          (focus)="focusMethod($event, userType)"
+          (focusout)="hideFocus($event)"
+          (input)="changeMethod($event.target.value, userType)"
+          autocomplete="off"
+          >
+        <input *ngIf="userType == 'staff'"
+          class="form-control py-2 input-search-bg" 
+          type="search" 
+          placeholder="Search teachers" 
+          id="example-search-input" 
+          name="search" 
+          #search="ngModel" 
+          [(ngModel)]="formData.searchText" 
+          (focus)="focusMethod($event, userType)"
+          (focusout)="hideFocus($event)"
+          (input)="changeMethod($event.target.value, userType)"
+          autocomplete="off"
+          >
+        <span class="input-group-append">
+          <button class="bt btn-design btn-outline-secondary" type="button">
+              <i class="fa fa-search search-size"></i>
+          </button>
+        </span>
+      </div>
+      <div class="user-list-box" *ngIf="isFous == true">
+        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+          <div class="img-wrap">
+            <img src="{{user.profilePic}}">
+          </div>
+          <div class="single-user-info d-flex flex-column justify-content-center">
+            <h4>{{user.preferredName}}</h4>
+          </div>
+          <div class="ml-auto remover-wrap">
+            <div class="add-user d-flex justify-content-end"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-20 user-row-wrap">
+      <div class="row single-user-wrap" *ngIf="selectedUserLists.length > 0">
+        <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+          <div class="d-flex flex-row single-user justify-content-center align-items-center">
+            <div class="img-wrap">
+              <img src="{{user.profilePic}}">
+            </div>
+            <div class="single-user-info d-flex flex-column justify-content-center">
+              <h4>{{user.preferredName}}</h4>
+            </div>
+            <div class="ml-auto remover-wrap">
+              <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isSeatAvailable == false && userType == 'customer'" class="seat-taken">All seat taken. Can't add user anymore.</div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
+  </div>
+  </form>
+</ng-template>
+<block-ui message="Deafult Message"></block-ui>

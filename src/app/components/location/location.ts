@@ -1,6 +1,10 @@
 export class Location {
 	name: string;
 	address: string;
-	phone: number;
-	gps: string;
+	phoneNumber: {
+		countryCode: number;
+		number: number;
+		countryName: string;
+	}
 }
+

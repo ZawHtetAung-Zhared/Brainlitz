@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output, ViewChild, ElementRef, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild, ElementRef, ViewContainerRef, HostListener,AfterViewInit } from '@angular/core';
 import { Location } from './location';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
@@ -23,67 +23,59 @@ export class LocationComponent implements OnInit {
 	@Input() value: string;
 	@Output() valueChange = new EventEmitter<string>();
   	@ViewChild('intlInput') intlInput: ElementRef;
+	public limitno: Location;
+	public PHpattern: any;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
-	public locationLists: any;
+	public locationLists: Array<any> = [];
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
 	public isrequired: boolean = true;
 	public isvalid: boolean = false;
+	public isnumber: boolean = false;
 	public isequal: boolean = true;
 	public iscreate: boolean = false;
 	public navIsFixed: boolean = false;
 	public currentID: any;
 	public locationName: any;
 	public countrycode: any;
-	model: Location = new Location();
+	public countryname:any;
+	// model: Location = new Location();
+	public model:any = {};
 	private modalReference: NgbModalRef;
 	closeResult: string;
-	public wordLength:any;
+	public wordLength:any = 0;
 	@BlockUI() blockUI: NgBlockUI;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);
-		this._service.getLocations(this.regionID);
+		this._service.getLocations(this.regionID, 20, 0, false);
 	}
 
 	ngOnInit() {
-		window.addEventListener('scroll', this.scroll, true);
-		this.getAllLocation();
+		this.getAllLocation(20,0);
 	}
-
-	ngOnDestroy() {
-        window.removeEventListener('scroll', this.scroll, true);
-    }
-
-    scroll = (): void => {
-    	// var el = document.getElementsByClassName("content-wrapper");
-    	// console.log(el)
-    	// console.log('..', window)
-    	// console.log('..', window.pageYOffset)
-      //handle your scroll here
-      //notice the 'odd' function assignment to a class field
-      //this is used to be able to remove the event listener
-    };
 
     @HostListener('window:scroll', ['$event']) onScroll($event){
 	    // console.log($event);
 	    // console.log("scrolling");
 	    // console.log(window.pageYOffset)
-	    if(window.pageYOffset > 40){
-	      console.log('greater than 100')
-	      this.navIsFixed = true;
-	    }else{
-	      console.log('less than 100')
-	      this.navIsFixed = false;
-	    }
+	    // if(window.pageYOffset > 40){
+	    //   console.log('greater than 100')
+	    //   this.navIsFixed = true;
+	    // }else{
+	    //   console.log('less than 100')
+	    //   this.navIsFixed = false;
+	    // }
 	  } 
 
-	  focusMethod(e){
+	  focusMethod(e, word){
+	  	this.wordLength = word.length;
 	  	$('.limit-wordcount').show('slow'); 
 	  }
 
 	  blurMethod(e){
+	  	this.wordLength = 0;
 	    $('.limit-wordcount').hide('slow'); 
 	  }
 
@@ -92,25 +84,45 @@ export class LocationComponent implements OnInit {
 	    this.wordLength = val.length;
 	  }
 
+	  charCheck(val){
+	  	console.log(val)
+	  	console.log(isNaN(val))
+	  	if(isNaN(val) == true){
+	  		this.isnumber = true;
+	  	}else{
+	  		this.isnumber = false;
+	  	}
+	  	// this.isnumber = true;
+	  }
+
 	telInputObject(obj) {
 	    console.log(obj);
 	    console.log(obj[0].placeholder);
+	    var str = obj[0].placeholder
+		console.log(str.replace(/\s/g, ''))
+		const strLength = str.replace(/\s/g, '');
+		this.limitno = strLength.length;
+		this.PHpattern = '[0-9]{' + this.limitno + '}';
+
+		console.log(this.PHpattern)
 	    console.log(obj[0].placeholder.length);
 	    if(this.isUpdate != true){
 	    	console.log('create')
 	    	obj.intlTelInput('setCountry', 'sg');
 	    }else{
 	    	console.log('update')
-	    	obj.intlTelInput('setCountry', 'mm');
+	    	obj.intlTelInput('setCountry', this.countryname);
 	    }
   	}
 
   	onCountryChange(e){
   		console.log(e)
+  		this.countryname = e.iso2;
   		this.countrycode = e.dialCode;
+  		console.log(this.countrycode,this.countryname)
   	}
   	getNumber(obj){
-  		// console.log('hi')
+  		console.log('hi getnumber')
   		console.log(obj)
   	}
   	
@@ -140,15 +152,18 @@ export class LocationComponent implements OnInit {
   		// this.isequal = (this.isrequired == false) ? true : false;
   	}
   	creatnew(){
+  		this.locationLists = [];
   		this.iscreate = true;
   		this.isUpdate = false;
   		this.isvalid = false;
   		this.isrequired = true;
-  		this.model = new Location();
+  		this.model = {};
   	}
   	back(){
+  		this.locationLists = [];
 	    this.iscreate = false
-	    this.isUpdate = false 	
+	    this.isUpdate = false 
+	    this.getAllLocation(20,0)	
   	}
   	keyDownFunction(e){
   		if(e.keyCode == 13) {
@@ -156,15 +171,15 @@ export class LocationComponent implements OnInit {
   		    // rest of your code
   		  }
   	}
-	open(locationModal) {
-		this.model = new Location();
-	  this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
-	  this.modalReference.result.then((result) => {
-	    this.closeResult = `Closed with: ${result}`;	    
-	  }, (reason) => {
-	    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;	    
-	  });
-	}
+	// open(locationModal) {
+	// 	this.model = new Location();
+	//   this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
+	//   this.modalReference.result.then((result) => {
+	//     this.closeResult = `Closed with: ${result}`;	    
+	//   }, (reason) => {
+	//     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;	    
+	//   });
+	// }
 
 	private getDismissReason(reason: any): string {
 	  if (reason === ModalDismissReasons.ESC) {
@@ -175,16 +190,32 @@ export class LocationComponent implements OnInit {
 	    return `with: ${reason}`;
 	  }
 	}
+
+	showMore(skip: any){
+	    console.log(skip)
+	    this.getAllLocation(20, skip);
+	  }
 	
-	getAllLocation(){
+	getAllLocation(limit, skip){
 		this.blockUI.start('Loading...');
-		this._service.getLocations(this.regionID)
+		this._service.getLocations(this.regionID, limit, skip, false)
 		.subscribe((res:any) => {
+			console.log(res)
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		      }, 300);
-    		this.locationLists = res;
+    		this.locationLists = this.locationLists.concat(res);
+    		console.log(this.locationLists)
     		this.isempty = (res.length === 0) ? true : false;       
+	    	let locationId  = localStorage.getItem('locationId');
+		      if(locationId){
+		        for(var i = 0; i < this.locationLists.length; i++){
+		          if(this.locationLists[i]._id == locationId){
+		            this.locationLists[i].selected = true;
+		            localStorage.setItem('locationId', this.locationLists[i]._id);
+		          }
+		        }
+		      }
 	    }, err => {
 	    	console.log(err)
 	    })
@@ -195,49 +226,75 @@ export class LocationComponent implements OnInit {
 	}
 
 	createLocation(obj, update, locationID) {
+		console.log("Location Obj",obj)
+		// if(update == true){
+		// 	var phNum = (obj.phoneNumber.number == undefined) ? null : obj.phoneNumber.number;
+		// }else{
+		// 	var phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
+		// }
+
+		
+		var phNum;
+		
+		if(obj.phonenumber != undefined){
+			var txt = obj.phonenumber;
+			console.log(txt.match(/\d/g))
+			var numb = txt.match(/\d/g);
+			numb = numb.join("");
+			console.log(numb);​
+			phNum = numb
+		}else{
+			phNum = null
+		}
+
+		// phNum = (obj.phonenumber == undefined) ? null: parseInt(obj.phonenumber);
+		console.log("PhNum",phNum)
 		let data = {
 			"regionId": this.regionID,
 			"name": obj.name,
 			"address": obj.address,
-			"phoneNumber": obj.phoneNumber
+			"phoneNumber": {
+				"countryCode": this.countrycode,
+				"number" : phNum,
+				"countryName": this.countryname
+			}
 		}
+		console.log("location Data",data)
 		if(update == true){
 			console.log(update)
 			this.blockUI.start('Loading...');
 			this._service.updateLocation(locationID, data)
 			 .subscribe((res:any) => {
 	     		console.log(res)
-	     		this.model = new Location();
+	     		this.model = {};
 	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
-	     		this.iscreate = false;
-	     		this.getAllLocation();
+	     		this.back();
 	     	}, err => {
 	     		this.toastr.error('Update fail');
 	     		console.log(err)
 	    	})
 		}else{
-    	console.log("Form Submitted!", this.regionID);
-    	this.blockUI.start('Loading...');
-    	// this.modalReference.close();
-    	this._service.createLocation(this.regionID, obj)
-      	.subscribe((res:any) => {
-    		console.log(res);
-    		this.model = new Location();
-    		this.toastr.success('Successfully Created.');
-    		this.blockUI.stop();
-    		this.iscreate = false;
-    		this.getAllLocation();
-	    }, err => {
-	    	
-	    	console.log(err)
-	    	if(err.error == "Location name already exists."){
-	    		this.toastr.error(err.error);
-	    	}else{
-	    		this.toastr.error('Create Fail.');
-	    	}
-	    	this.blockUI.stop();
-	    })
+	    	console.log("Form Submitted!", this.regionID);
+	    	this.blockUI.start('Loading...');
+	    	// this.modalReference.close();
+	    	this._service.createLocation(this.regionID, data)
+	      	.subscribe((res:any) => {
+	    		console.log(res);
+	    		this.model = {};
+	    		this.toastr.success('Successfully Created.');
+	    		this.blockUI.stop();
+	    		this.back();
+		    }, err => {
+		    	
+		    	console.log(err)
+		    	if(err.error == "Location name already exists."){
+		    		this.toastr.error(err.error);
+		    	}else{
+		    		this.toastr.error('Create Fail.');
+		    	}
+		    	this.blockUI.stop();
+		    })
 		  
 		}
 	}
@@ -249,7 +306,8 @@ export class LocationComponent implements OnInit {
 			console.log(res);
 			this.modalReference.close();
 			this.toastr.success('Successfully Deleted.');
-			this.getAllLocation();
+			this.locationLists = [];
+			this.getAllLocation(20,0);
 		},err => {
 			this.modalReference.close();
 			this.toastr.error('Delete Fail.');
@@ -259,7 +317,7 @@ export class LocationComponent implements OnInit {
 
 	getSingleLocation(id){
 		this.iscreate = true;
-		console.log(this.model)
+		// console.log(this.model)
 		this.isUpdate = true;		
 		this.isvalid = true;		
 		this.singleLocation(id);
@@ -268,10 +326,14 @@ export class LocationComponent implements OnInit {
 	singleLocation(id){
 		this._service.getSingleLocation(id)
 		.subscribe((res:any) => {
-			console.log(res);
+			console.log('single location',res);
 			this.currentID = res._id;
 			this.locationName = res.name;
 			this.model = res;
+			this.model.phonenumber = res.phoneNumber.number;
+			this.countrycode = res.phoneNumber.countryCode;
+			this.countryname = res.phoneNumber.countryName;
+			console.log("this.model",this.model)
 		},err => {
 			console.log(err);
 		})
@@ -279,7 +341,7 @@ export class LocationComponent implements OnInit {
 
 
 	deleteModal(deletemodal, id){
-		this.modalReference = this.modalService.open(deletemodal, {backdrop:'static', windowClass:'animation-wrap'});
+		this.modalReference = this.modalService.open(deletemodal, {backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });
 		this.singleLocation(id);
 	}
 }

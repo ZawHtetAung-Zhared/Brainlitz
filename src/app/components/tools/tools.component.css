@@ -1,3 +1,37 @@
+.search-result-box{
+  height: 300px;
+  overflow: auto;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 16px;
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  width: 100%;
+  top: 24.5%;
+  background: #fff;
+  z-index: 9;
+}
+.single-result{
+  cursor: pointer;
+  padding: 7px 0;
+}
+.load-more{
+    position: fixed;
+    z-index: 9;
+    width: 85%;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 10px;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+}
+.load-more1 button,
+.load-more button{
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+
 .sub-title{
   color: #2e3e4d;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
@@ -70,11 +104,14 @@ img.setting-icon {
     font-size: 1.1em;
     color: #060606;
 }
+.noti-sidebar.p-top{
+  /*top:;*/
+}
 .content-wrapper.p-top{
-  padding-top: 63px;
+  /*padding-top: 63px;*/
 }
 .content-wrapper{
-  padding-top: 147px;
+  /*padding-top: 147px;*/
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -96,6 +133,7 @@ img.setting-icon {
   border-right: none;
 }
 .tool-checked label{
+  cursor: pointer;
 	/*border: none;*/
 	border-right: 0;
 	padding: 8px 6px;
@@ -122,6 +160,7 @@ img.setting-icon {
 .tool-checked label.selected{
 	background: #0080ff;
 	color: #fff;
+  pointer-events: none;
 }
 .selected label{
 	color: #fff !important;	
@@ -165,6 +204,7 @@ img.setting-icon {
   color: #2e3e4d;
 }
 .notif{
+  position: relative;
   padding-bottom: 130px;
 }
 .notif .form-group{
@@ -231,14 +271,21 @@ img.setting-icon {
 /*.noti-sidebar.p-top{
 	padding-top: 70px;
 }*/
+.side-bar-wrap.mid-top{
+  top: 80px;
+}
+.side-bar-wrap.p-top{
+  top: 65px;
+}
 .noti-sidebar{
 	/*padding-top: 149px;*/
     padding-right: 0;
     padding-left: 0;
     /*border-right: 1px solid #dedede;*/
-    -ms-transition: padding-top 300ms linear;
-  	transition: padding-top 300ms linear;
+    -ms-transition: 300ms linear;
+  	transition: 300ms linear;
     width: 25%;
+    background: #f2f4f5;
 }
 .large-col{
   width: 75%;
@@ -460,6 +507,7 @@ input:checked + .slider:before {
 
 .notiGroup-wrap{
 	padding-top: 25px;
+  padding-bottom: 60px; 
 }
 
 .flex-wrap{

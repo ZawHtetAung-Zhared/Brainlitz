@@ -48,7 +48,14 @@ import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { GroupByPipe } from './service/pipe/groupby.pipe';
 import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
+import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
+import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { ttDayPipe } from './service/pipe/timetableday.pipe';
+import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
+import { ttTimePipe } from './service/pipe/timetabletime.pipe';
+import { AmPmPipe } from './service/pipe/timetablename.pipe';
 import { MapToIterable } from './service/pipe/map-to-iterable.pipe';
+import { FilterPipe } from './service/pipe/filter.pipe';
 import { StarRatingModule } from 'angular-star-rating';
 import { ReadmoreComponent } from './components/readmore/readmore.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
@@ -83,10 +90,17 @@ import { HomeComponent } from './components/home/home.component';
     GroupByPipe,
     ConvertTimeFormatPipe,
     GetDayPipe,
+    GetUtcTimePipe,
+    GetUtcDatePipe,
+    ttDayPipe,
+    ttMonthPipe,
+    ttTimePipe,
+    AmPmPipe,
     ReadmoreComponent,
     UserStaffComponent,
     HomeComponent,
-    MapToIterable
+    MapToIterable,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

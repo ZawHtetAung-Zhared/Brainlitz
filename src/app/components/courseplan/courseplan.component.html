@@ -96,7 +96,7 @@
 										<span>{{wordLength}}/60characters</span>
 									</div>
 								</div>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type plan name here" #cpName="ngModel" required>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formField.name' (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" name="coursename" placeholder="Type plan name here" autocomplete="off"#cpName="ngModel" required>
 								<div *ngIf="cpName.invalid && (cpName.dirty || cpName.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!cpName.errors.required">
 							          Course plan name is required!
@@ -106,19 +106,24 @@
 							</div>
 							<div class="mr-top">
 								<label for="seat" class="all-title-font">Seats</label>
-								<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" required #cpSeat="ngModel"> 
-								<div *ngIf="cpSeat.invalid && (cpSeat.dirty || cpSeat.touched)" class="alert alert-danger alert-m-right">
+								<input type="number" placeholder="0" class="form-control br-bshadow-none all-left-box-10" (keypress)="numberOnly($event, 'seats')" [(ngModel)]='formField.seats' min="0" name="seats" #cpSeat="ngModel"> 
+								<!-- <div *ngIf="cpSeat.invalid && (cpSeat.dirty || cpSeat.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!cpSeat.errors.required">
 							          Number of seates is required!
 							        </div>
-							    </div>
+							    </div> -->
 								<hr class="limit-hr-length">
 							</div> 
 						</div>
 						<div class="col-md-6">
 							<div>
-								<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
-								<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' name="description" #cpDesc="ngModel" placeholder="Type message here"></textarea>
+								<div class="d-flex justify-content-between">
+									<label style="padding-left: 10px;" for="desc" class="all-title-font">Description</label>
+									<div class="limit-wordcount1">
+										<span>{{wordLength}}/280characters</span>
+									</div>
+								</div>
+								<textarea class="form-control br-bshadow-none" rows="5" [(ngModel)]='formField.description' (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')" maxlength="280" (input)="changeMethod($event.target.value)" name="description" #cpDesc="ngModel" placeholder="Type message here"></textarea>
 								<!-- <div *ngIf="cpDesc.invalid && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
 							        <div [hidden]="!cpDesc.errors.required">
 							          Description is required!
@@ -131,7 +136,7 @@
 				</div>
 				<div class="button-wrapper">
 					<button type="button" class="btn sticky-create" [disabled]="!childForm1.valid" (click)="continueStep('step1', childForm1.value)">Continue</button>
-					<button type="button" [hidden]="step1" class="back-btn" (click)="backStep()"> < Back</button>
+					<button type="button" [hidden]="step1" class="back-btn" (click)="backStep()"> <i class="fa fa-angle-left"></i> Back</button>
 				</div>
 			</form>
 		</div>
@@ -144,7 +149,7 @@
 							<h5 class="all-title-font title-br-rt">Makeup policy</h5>
 							<div class="radio-pos">
 								<label class="switch">
-									<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel" required>
+									<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel">
 									<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
 								</label>
 							</div>
@@ -157,24 +162,24 @@
 								<div class="col-md-6" style="padding: 0;">
 									<div>
 										<label class="all-title-font"> Validation duration after class </label>
-										<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day" required>
-										<div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
+										<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day">
+										<!-- <div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
 									        <div [hidden]="!makeuppass.errors.required">
 									          Validation duration after class is required!
 									        </div>
-									    </div>
+									    </div> -->
 										<hr class="limit-hr-length">
 									</div>
 								</div>
 								<div class="col-md-6" style="padding-right: 0;">
 									<div>
 										<label class="all-title-font" style="padding-left: 20px;"> Number of days per user </label>
-										<input type="number" class="form-control br-bshadow-none all-m-left10" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" required>
-										<div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
+										<input type="number" class="form-control br-bshadow-none all-m-left10" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" >
+										<!-- <div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
 									        <div [hidden]="!makeupuser.errors.required">
 									          Number of days per user is required!
 									        </div>
-									    </div>
+									    </div> -->
 										<hr class="limit-hr-length all-m-left10">
 									</div>
 								</div>
@@ -184,7 +189,7 @@
 				</div>
 				<div class="button-wrapper">
 					<button type="button" class="btn sticky-create" [disabled]="!childForm2.valid" (click)="continueStep('step2',childForm2.value)">Continue</button>
-					<button type="button" [hidden]="!step2" class="back-modal back-to" (click)="backStep('step2')"> < Back</button>
+					<div [hidden]="!step2" class="back-modal" (click)="backStep('step2')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
 				</div>
 			</form>
 		</div>	
@@ -205,14 +210,14 @@
 									    <div class="input-group-prepend">
 									      <div class="input-group-text cfee-bg">S$</div>
 									    </div>
-									    <input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" required>			    
+									    <input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" >			    
 									</div>
 								</div>
-								<div *ngIf="courseFee.invalid && (courseFee.dirty || courseFee.touched)" class="alert alert-danger alert-m-right">
+								<!-- <div *ngIf="courseFee.invalid && (courseFee.dirty || courseFee.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!courseFee.errors.required">
 							          Course fee is required!
 							        </div>
-							    </div>
+							    </div> -->
 								<hr class="limit-hr-100">
 							</div>
 						</div>
@@ -220,7 +225,7 @@
 				</div>
 				<div class="button-wrapper">
 					<button type="button" class="btn sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3',childForm3.value)">Continue</button>
-					<button type="button" [hidden]="!step3" class="back-modal back-to" (click)="backStep('step3')"> < Back</button>
+					<div [hidden]="!step3" class="back-modal" (click)="backStep('step3')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
 				</div>
 			</form>
 		</div>
@@ -253,7 +258,7 @@
 							</div>
 							<hr class="limit-hr-length">	
 						</div>
-						<div class="col-md-6" style="padding-right: 0;">
+						<!-- <div class="col-md-6" style="padding-right: 0;">
 							<div>
 								<label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
 								<select class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px; height: auto;">
@@ -263,12 +268,32 @@
 								 <i class="fa fa-chevron-down down-arrow2"></i>	
 							 	<hr class="limit-hr-length">	
 							</div> 		
+						</div> -->
+						<div class="col-md-6" style="padding-right: 0;">
+							<div>
+								<label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
+								<div>
+									 <div class="form-group has-feedback" (click)="holidayDropdown()">
+								    	<input class="cursor-on form-control br-bshadow-none"  name="holiday"  type="text" [(ngModel)]="formField.holidayCalendarName" placeholder="None" autocomplete="off"><span class="fa fa-angle-down holiday-downicon"></span>
+								     </div>
+								     <div class="dropdown-wrap">
+							          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+							          <ul class="holiday-dropdown">
+							            <li *ngFor="let holidayCalendar of holidayCalendarLists" (click)="chooseHoliday(holidayCalendar)">
+							              <span>{{holidayCalendar.name}}</span>
+							            </li>
+							          </ul>
+							        </div>
+								</div>
+							</div>
+							<hr class="limit-hr-length">
 						</div>
 					</div>
 				</div>
 				<div class="button-wrapper">
-					<button type="button" class="btn sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 || formField.holidayCalendarId == 'disabledHoliday'" (click)="continueStep('step4', childForm4.value)">Continue</button>
-					<button type="button" [hidden]="!step4" class="back-modal back-to" (click)="backStep('step4')"> < Back</button>
+					<!-- <button type="button" class="btn sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 || formField.holidayCalendarId == 'disabledHoliday'" (click)="continueStep('step4', childForm4.value)">Continue</button> -->
+					<button type="button" class="btn sticky-create" [disabled]="timeInminutes == undefined || timeInminutes == 0 " (click)="continueStep('step4', childForm4.value)">Continue</button>
+					<div [hidden]="!step4" class="back-modal" (click)="backStep('step4')"><i class="fa fa-angle-left"></i> <p>Back</p></div>
 				</div>
 			</form>
 		</div>	
@@ -302,10 +327,11 @@
 						</drag-scroll>	
 					</div>
 				</div>
-				<hr class="limit-hr-100 mr-top-20">
+				<!-- <hr class="limit-hr-100 mr-top-20"> -->
 				<div class="button-wrapper">
-					<button type="button" class="btn sticky-create" [disabled]="pdfId?.length == 0 || formField.allowPagewerkz != true" (click)="continueStep('step5', childForm5.value)">Continue</button>
-					<button type="button" [hidden]="!step5" class="back-modal back-to" (click)="backStep('step5')"> < Back</button>
+					<!-- <button type="button" class="btn sticky-create" [disabled]="pdfId?.length == 0 || formField.allowPagewerkz != true" (click)="continueStep('step5', childForm5.value)">Continue</button> -->
+					<button type="button" class="btn sticky-create"  (click)="continueStep('step5', childForm5.value)">Continue</button>
+					<div [hidden]="!step5" class="back-modal" (click)="backStep('step5')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
 					<span class="show-count">{{pdfId.length}} books picked</span>
 				</div>
 			</form>
@@ -324,7 +350,19 @@
 						  	<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{r.type}}</div>
 						  	<hr class="hr-style">
 						</ng-template>
-						<input id="typeahead-focus" 
+						<!-- <input 
+							id="typeahead-focus"
+							type="text" 
+							placeholder="Search APG to add to this Course Plan"
+							class="form-control input-search-bg" 
+							name="searchbox" 
+							[(ngModel)]="model"
+							(focus)="focusSearch($event)"
+							(focusout)="hideSearch($event)"
+							(input)="changeSearch($event.target.value)"
+							autocomplete="off" 
+						/> -->
+						<!-- <input id="typeahead-focus" 
 						type="text" placeholder="Search APG to add to this Course Plan" 
 						class="form-control input-search-bg" 
 						[(ngModel)]="model" 
@@ -337,24 +375,59 @@
 					        <button class="bt btn-design btn-outline-secondary" type="button">
 					            <i class="fa fa-search search-size"></i>
 					        </button>
-					    </span>
+					    </span> -->
+					    <div class="input-group w-100">
+			  			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" 
+				            id="template-search-input" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
+				            (input)="changeSearch($event.target.value, 'apg')"
+				            autocomplete="off"
+				            >
+			  			    <span class="input-group-append">
+			  			        <button class="bt btn-design btn-outline-secondary" type="button">
+			  			            <i class="fa fa-search search-size"></i>
+			  			        </button>
+			  			     </span>
+			  			</div>
+					    <div>
+						    <div class="search-result-box" *ngIf="isfocus == true">
+						    	<div class="single-result" (click)="selectData(apg._id, apg.name)" *ngFor="let apg of apgList">
+						    		<div class="d-flex">
+						    			<div class="circle1 plus"></div>
+						    			<div>
+						    				<div>{{ apg.name }}</div>
+						    				<div class="step-font font-12" *ngIf="apg.module">{{ apg.module.name }}</div>
+						    				<div class="step-font font-12" *ngIf="!apg.module"> - </div>
+						    			</div>
+						    		</div>
+						    	</div>
+						    </div>
+				        	<div *ngIf="showfixedcreate == true" class="fixedText">
+				    		    <div class="top-line">
+				    				<button type="button" class="bt btn-apg" (click)="goToModule()">
+				    					<div class="circle3 plus"></div>Create new APG
+				    				</button>
+				    			</div>
+				    		</div>
+					    </div>
 
-					    <div *ngIf="showfixedcreate == true" class="fixedText">
-						    <div>
+					    <!-- <div *ngIf="showfixedcreate == true" class="fixedText">
+						    <div class="top-line">
 								<button type="button" class="bt btn-apg" (click)="goToModule()">
 									<div class="circle3 plus"></div>Create new APG
 								</button>
 							</div>
-						</div>
+						</div> -->
 					</div>
-					<div class="col-md-12" *ngIf="showfixedcreate == true">
-					    <div style="
+					<div class="col-md-12 pl-zero" *ngIf="showfixedcreate == true">
+					    <!-- <div style="
 					    height: 341px;
 					    border: 1px solid #eee;
 					    border-radius: 0 0 4px 4px;
-					"></div>
+					    position: absolute;
+					"></div> -->
 					</div>
-					<div *ngIf="!model && createdAPGstore?.length <= 0" class="display-style col-md-12" style="margin-top: 30px;">
+					<!-- <div *ngIf="(showfixedcreate == false && createdAPGstore?.length <= 0) ||  createdAPGstore?.length <= 0" class="display-style col-md-12" style="margin-top: 30px;"> -->
+					<div [hidden]="createdAPGstore?.length > 0 || showfixedcreate" class="display-style col-md-12" style="margin-top: 30px;">
 						<div class="col-md-6 img-pos">
 							<img src="assets/img/apg-list-default.png">
 						</div>
@@ -367,10 +440,11 @@
 							</div>
 						</div>
 					</div>
-					<div *ngIf="selectedAPGlists" class="col-md-12">
+					<div *ngIf="selectedAPGlists == true" class="col-md-12 pl-zero">
 						<div class="wrap-height">
 							<div *ngFor="let cAPG of createdAPGstore">
 								<div class="group-text">
+									<!-- {{cAPG|json}} -->
 									<button type="button" class="bt btn-apg" (click)="removeSelectedAPG(cAPG)">
 										<div class="circle2 minus"></div>
 										<div class="all-title-font">{{cAPG.name}}</div>
@@ -388,7 +462,7 @@
 						<h3 class="all-title-font">Pick APG type</h3>
 					</div>
 					<div class="row pad-15">
-				  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+				  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 				  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 				  				<div class="module-img">
 			            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
@@ -412,26 +486,38 @@
 								<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Shared APGs</span></p>
 								<h3 class="all-title-font">Create APG</h3>
 							</div>
-							<div class="col-md-6 top-para" style="padding-top: 40px;">
-								<p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p>
-								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" #apgName="ngModel" required>
+							<div class="col-md-6" style="padding-top: 40px;">
+								<!-- <p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p> -->
+								<div class="d-flex justify-content-between">
+					              <label class="form-title input-label all-title-font" for="address">APG name</label>  
+					              <div class="limit-wordcount">
+					                <span class="count-color">{{wordLength}}/60characters</span>
+					              </div>
+					            </div>
+					            <p class="input-recommend">We recommend to set APG name as same as Course name.</p>
+								<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" #apgName="ngModel" required>
 								<div *ngIf="apgName.invalid && (apgName.dirty || apgName.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!apgName.errors.required">
 							          APG name is required!
 							        </div>
 							    </div>	
 								<hr class="limit-hr-length">
-								<label for="desc" class="all-title-font">Description</label>
-								<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" style="margin-bottom: 15px;" [(ngModel)]='formAPG.description' name="description" #apgDesc="ngModel" placeholder="Type address here" required ></textarea>
-								<div *ngIf="apgDesc.invalid && (apgDesc.dirty || apgDesc.touched)" class="alert alert-danger alert-m-right">
+								<div class="d-flex justify-content-between">
+					              <label class="form-title input-label all-title-font" for="address">Description</label>
+					              <div class="limit-wordcount1">
+					                <span class="count-color">{{wordLength}}/280characters</span>
+					              </div>
+					            </div>
+								<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" style="margin-bottom: 15px;" [(ngModel)]='formAPG.description' name="description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')" (input)="changeMethod($event.target.value)" maxlength="280" #apgDesc="ngModel" placeholder="Type description here"></textarea>
+								<!-- <div *ngIf="apgDesc.invalid && (apgDesc.dirty || apgDesc.touched)" class="alert alert-danger alert-m-right">
 							        <div [hidden]="!apgDesc.errors.required">
 							          APG description is required!
 							        </div>
-							    </div>	
+							    </div>	 -->
 								<hr class="limit-hr-length">
 							</div>
 						</div>	
-						<div class="button-wrapper" style="float: right;">
+						<div class="d-flex justify-content-end button-wrapper">
 							<button type="button" class="bt cancel-button" (click)="backSearhAPG('cancel')" >Cancel</button>
 				        	<button type="submit" (click)="createAPGs(apgCreateForm.value)" [disabled]="!apgCreateForm.valid" class="btn create-button" >Create
 							</button>
@@ -439,16 +525,16 @@
 					</form>
 				</div>
 				<div *ngIf="!showModule && !createAPGform">
-					<hr>
+					<!-- <hr> -->
 					<div class="button-wrapper">
-						<button type="button" class="btn sticky-create" [disabled]="createdAPGstore?.length == 0" (click)="continueStep('step6', createdAPGstore)">Continue</button>
-						<button type="button" [hidden]="!step6" class="back-modal back-to" (click)="backStep('step6')"> < Back</button>
+						<button type="button" class="btn sticky-create" (click)="continueStep('step6', createdAPGstore)">Continue</button>
+						<div [hidden]="!step6" class="back-modal" (click)="backStep('step6')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
 					</div>
 				</div>
 			</form>
 		</div>
 		<div *ngIf="step7">
-			<div class="inside-data-wrapper">
+			<div class="inside-data-wrapper pad-100">
 				<div class="col-md-12">
 					<p class="step-font">Step 7</p>
 					<h5 class="all-title-font text-font-align">Optional fields</h5>
@@ -472,13 +558,31 @@
 				<div class="col-md-12" style="padding-top: 40px;">
 					<label for="age" class="all-title-font parent-box-name">Payment policy</label>
 					<div class="display-style">
-						<div class="col-md-4" style="padding: 0;">
+						<!-- <div class="col-md-4" style="padding: 0;">
 							<label class="all-title-font">Deposit</label>
 							<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel">
 								<option [value]="depositModel" disabled="true">S$ 0</option>
 								<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
 							</select>
 							<i class="fa fa-chevron-down down-arrow1"></i>
+						</div> -->
+						<div class="col-md-4" style="padding: 0;">
+							<label class="all-title-font">Deposit</label>
+							<div>
+								 <div class="form-group has-feedback" (click)="depositDropdown()">
+								 	<div>
+								 		<span class="deposit-sign">S$</span>
+							    		<input class="cursor-on form-control br-bshadow-none all-left-box-10 pad-left-40"  name="UserName"  type="text" [(ngModel)]="formField.depositAmount" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
+						    		</div>
+							     </div>
+							     <div class="dropdown-wrap">
+						          <ul class="new-dropdown">
+						            <li *ngFor="let deposit of depositLists" (click)="chooseDeposit(deposit)">
+						              <span>{{deposit.amount}}</span>
+						            </li>
+						          </ul>
+						        </div>
+							</div>
 						</div>
 						<div class="col-md-4">
 							<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
@@ -526,10 +630,10 @@
 					</div>
 				</div>
 			</div>
-			<hr class="limit-hr-100 mr-top-20">
+			<!-- <hr class="limit-hr-100 mr-top-20"> -->
 			<div class="button-wrapper">
 				<button type="submit" class="btn sticky-create" (click)="createdPlan(parentForm.value)" [disabled]="!parentForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
-				<button type="button" [hidden]="!step7" class="back-modal back-to" (click)="backStep('step7')"> < Back</button>
+				<div [hidden]="!step7" class="back-modal" (click)="backStep('step7')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
 			</div>
 		</div>
 		

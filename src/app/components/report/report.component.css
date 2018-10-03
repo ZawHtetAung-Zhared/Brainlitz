@@ -1,11 +1,31 @@
+.setting-icon{
+  width: 25px;
+}
+.btnSpan{
+  float: left;
+  /*margin-left: 10px;*/
+}
+.btnSpan span{
+  margin-left: 5px;
+}
+.load-more{
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 10px;
+  left: 0;
+}
 .teacher-name{
   word-break: break-all;
 }
 .content-wrapper.p-top{
-  padding-top: 63px;
+  /*padding-top: 63px;*/
 }
 .content-wrapper{
-  padding-top: 147px;
+  /*padding-top: 147px;*/
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -104,7 +124,9 @@ h2 {
 .rating-box {
   /*min-width: 100%;*/
 	background: #fff;
-	box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 7px;
 	min-height: 250px;
   max-height: 250px;
@@ -112,6 +134,14 @@ h2 {
   padding: 20px 20px;
   position: relative;
   margin: 15px 0;
+}
+.rating-box:hover{
+    -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+    -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+}
+.detail-bg:hover i {
+    color: #0080ff;
 }
 .inner-box{
   word-wrap: break-word;
@@ -318,6 +348,9 @@ h3.head-rating-count {
 .right-arrow {
 	font-size: 31px; 
 	color: #d4d5d6;
+  -webkit-transition: 0.2s all ease-out;
+  -ms-transition: 0.2s all ease-out;
+  transition: 0.2s all ease-out;
 }
 
 .right-side {
@@ -362,15 +395,21 @@ h3.head-rating-count {
   margin-bottom: 30px;
   margin-top: 20px;
 }
-
+.side-bar-wrap.mid-top{
+  top: 80px;
+}
+.side-bar-wrap.p-top{
+  top: 65px;
+}
 .noti-sidebar{
   /*padding-top: 150px;*/
   padding-right: 0;
   padding-left: 0;
   /*border-right: 1px solid #dedede;*/
-  -ms-transition: padding-top 300ms linear;
-  transition: padding-top 300ms linear;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
   width: 25%;
+  background: #f2f4f5;
 }
 .large-col{
   width: 75%;
@@ -425,7 +464,7 @@ h3.head-rating-count {
 }
 .noti-tab{
   background: transparent;
-  padding: 14px 12px;
+  padding: 15px 26px;
   border-radius: 0;
   outline: none;
   border-left: 3px solid transparent;
@@ -566,6 +605,11 @@ h3.head-rating-count {
 .d-style {
   /*display: flex;*/
   display: block;
+}
+
+.span-label{
+  line-height: 1.8;
+  padding-left: 5px;
 }
 
 @media only screen and (max-width: 768px){

@@ -9,7 +9,7 @@
 	<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button> 
   </div>
 </div> -->
-<div class="main-wrapper" *ngIf="ismodule == false && iscreate == false && isshare == false && shareAPG == false">
+<div id="mainapg" class="main-wrapper pad-bottom" *ngIf="ismodule == false && iscreate == false && isshare == false && shareAPG == false">
 	<div class="d-flex justify-content-between heading-margin">
 		<div class="mr-auto">
 			<div class="d-flex flex-row">
@@ -20,7 +20,14 @@
 		<button type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
 	</div>
 	<div class="input-group col-md-12 mt-30">
-	    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+	    <input 
+        class="form-control py-2 input-search-bg" 
+        type="search" 
+        placeholder="Search APG" 
+        id="example-search-input"
+        (input)="changeSearch($event.target.value, 'apg')"
+        autocomplete="off"
+        >
 	    <span class="input-group-append">
 	        <button class="bt btn-design btn-outline-secondary" type="button">
 	            <i class="fa fa-search search-size"></i>
@@ -31,14 +38,17 @@
 		<div class="card" *ngFor="let apg of apgList; let i = index">
 			<div class="single-apg">
 				<div class="info-section">
-					<p class="apg-type">Progress</p>
+					<p class="apg-type" *ngIf="apg.module">
+            {{ apg.module.name }}
+          </p>
+          <p class="apg-type" *ngIf="!apg.module"> - </p>
 					<h4>{{apg.name}}</h4>
 					<div class="apg-scroll">
 						<p class="apg-desc">{{apg.description}}</p>
 					</div>
 				</div>
 				<div class="d-flex justify-content-between btn-section">
-					<button class="apg-share">Share</button>
+					<button class="apg-share" (click)="apgPublicShare(apg._id)">Share</button>
 					<div>
 						<button class="btn-action" (click)="onclickUpdate(apg._id)">Edit</button> | <button class="btn-action" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
 					</div>
@@ -47,19 +57,40 @@
 		</div>
 	</div>
 </div>
+<div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false" class="load-more">
+  <button class="btn" (click)="showMore(apgList.length)">load more</button>
+</div>
 
 <div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true || shareAPG == true">
   <div class="back-wrap">
-    <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a>
-    <a class="back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a>
+    <div class="d-flex back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">
+      <i class="fa fa-angle-left"></i>
+      <p>APG</p>
+    </div>
+    <div class="d-flex back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">
+      <i class="fa fa-angle-left"></i>
+      <p>Pick APG type</p>
+    </div>
+
+
+    <!-- <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a> -->
+    <!-- <a class="back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a> -->
 
     <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
-  		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
+      <div class="back-to" (click)="goToBack('share')">
+        <i class="fa fa-angle-left"></i>
+        <p>Creating progress APG</p>
+      </div>
+  		<!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
   		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
   	</div>
 
   	<div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
-  		<a class="back-to" (click)="goToBack('share')">< Creating progress APG</a>
+      <div class="back-to" (click)="goToBack('share')">
+        <i class="fa fa-angle-left"></i>
+        <p>Creating progress APG</p>
+      </div>
+  		<!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
   		<a class="cancel-back" (click)="cancelapg()">Cancel</a>
   	</div>
   </div>
@@ -73,11 +104,11 @@
   <div class="apg-form">
   	<form novalidate #createapgForm="ngForm">
   		<div class="row" *ngIf="ismodule == true">
-	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 	  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 	  				<div class="module-img">
-            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
-            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/images/{{module.name}}-type_a.png" class="img-fluid">
+            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">
+            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png" class="img-fluid">
 	  				</div>
 	  			  	<div class="label-checked"></div>
 	  			  	<input class="form-check-input"
@@ -130,7 +161,7 @@
               </div>
             </div>
         		<p class="input-recommend">We recommend to set APG name as same as Course name.</p>
-        		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" required #name="ngModel">
+        		<input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" required #name="ngModel">
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
               <div [hidden]="!name.errors.required">
                 Name is required!
@@ -138,16 +169,21 @@
             </div>
     			</div>
     			<div class="form-group">
-    				<label class="form-title input-label" for="address">Description</label>
-            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" required #description="ngModel"></textarea>
-            <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+            <div class="d-flex justify-content-between">
+              <label class="form-title input-label" for="address">Description</label>
+              <div class="limit-wordcount1">
+                <span>{{wordLength}}/280characters</span>
+              </div>
+            </div>
+            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description" [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')" (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea>
+            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
               <div [hidden]="!description.errors.required">
                 Description is required!
               </div>
-            </div>
+            </div> -->
     			</div>
         </div>
-  			<div class="d-flex justify-content-end">
+  			<div class="d-flex justify-content-end form-footer">
   			  <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
   			  <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
   			  <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid" (click)="createapgs(model, true, currentID)">Update</button>
@@ -156,7 +192,13 @@
 
   		<div *ngIf="shareAPG == true">
   			<div class="input-group w-100">
-  			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input">
+  			    <input 
+            class="form-control py-2 input-search-bg"
+            type="search" placeholder="Search APG" 
+            id="template-search-input"
+            (input)="changeSearch($event.target.value, 'template')"
+            autocomplete="off"
+            >
   			    <span class="input-group-append">
   			        <button class="bt btn-design btn-outline-secondary" type="button">
   			            <i class="fa fa-search search-size"></i>
@@ -176,6 +218,9 @@
 		  			</label>
 		  		</div>
 		  	</div>
+        <div *ngIf="templateList >= 20" class="d-flex justify-content-center load-more1">
+          <button class="btn" (click)="showMoreTemplate(templateList.length)">load more</button>
+        </div>
 		  	<div class="d-flex justify-content-end apg-share-bottom">
   			  	
   			  	<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(temp)">Create</button>

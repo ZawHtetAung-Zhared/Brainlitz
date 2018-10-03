@@ -8,7 +8,10 @@ export class GetDayPipe implements PipeTransform {
   transform(sentday) {
   	var day=""
     let d = new Date(sentday.key);
+    console.log(d)
     var weekday = d.getDay();
+    console.log(sentday)
+    console.log(weekday)
     switch (weekday) {
         case 0:
         day = "Sunday";
