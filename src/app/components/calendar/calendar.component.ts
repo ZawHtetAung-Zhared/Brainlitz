@@ -122,10 +122,12 @@ export class CalendarComponent implements OnInit {
   focusMethod(e, word){
     this.wordLength = word.length;
     $('.limit-wordcount').show('slow'); 
+    $('.limit-wordcount1').show('slow'); 
   }
     
   blurMethod(e){
     $('.limit-wordcount').hide('slow'); 
+    $('.limit-wordcount1').hide('slow'); 
     this.wordLength = 0;
   }
 

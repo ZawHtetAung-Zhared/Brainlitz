@@ -1,3 +1,17 @@
+.mb-20{
+	margin-bottom: 20px;
+}
+.load-more{
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	padding: 20px;
+	right: 0;
+	background: #fff;
+}
+.load-more button:focus{
+	box-shadow: none;
+}
 .load-more button{
   color: #0080ff;
   font-size: 14px;

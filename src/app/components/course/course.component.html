@@ -318,10 +318,23 @@
     </div>
     <div class="d-flex flex-column mt-37" style="position: relative;">
       <div class="d-flex">
-        <input 
+        <input *ngIf="userType == 'customer'"
           class="form-control py-2 input-search-bg" 
           type="search" 
           placeholder="Search customers" 
+          id="example-search-input" 
+          name="search" 
+          #search="ngModel" 
+          [(ngModel)]="formData.searchText" 
+          (focus)="focusMethod($event, userType)"
+          (focusout)="hideFocus($event)"
+          (input)="changeMethod($event.target.value, userType)"
+          autocomplete="off"
+          >
+        <input *ngIf="userType == 'staff'"
+          class="form-control py-2 input-search-bg" 
+          type="search" 
+          placeholder="Search teachers" 
           id="example-search-input" 
           name="search" 
           #search="ngModel" 

@@ -108,7 +108,8 @@
       <div>
         <h3 *ngIf="isNameEdit == false" class="title-heading pt-7">{{calendarName}}</h3>
         <div *ngIf="isNameEdit == true" class="col-md-8 edit-input-wrap">
-          <form novalidate #editForm="ngForm">
+
+          <!-- <form novalidate #editForm="ngForm">
             <div class="d-flex justify-content-end">
               <div class="limit-wordcount">
                 <span>{{wordLength}}/80characters</span>
@@ -131,7 +132,34 @@
                 </span>
               </button>
             </div>
-          </form>
+          </form> -->
+
+          <div class="limit-wordcount1">
+            <span>{{wordLength}}/80characters</span>
+          </div>
+          <input type="text" class="form-control create-input mb-zero" placeholder="Type full name here" name="name" 
+          [(ngModel)]="formField.name" 
+          (focus)="focusMethod($event, $event.target.value)" 
+          (blur)="blurMethod($event)"
+          maxlength="80" 
+          (input)="changeMethod($event.target.value)" required 
+          #name="ngModel">
+
+          <div class="edit-section">
+            <button type="submit" class="btn" (click)="editOff()">
+              <span class="closemark">
+                  <div class="closemark_stem"></div>
+                  <div class="closemark_kick"></div>
+              </span>
+            </button>
+            <button type="submit" class="btn" (click)="editSingleCalendar(currentID)" [disabled]="formField.name == ''">
+              <span class="checkmark">
+                  <div class="checkmark_stem"></div>
+                  <div class="checkmark_kick"></div>
+              </span>
+            </button>
+          </div>
+
         </div>
       </div>
       <div [ngClass]="{'blury': isfocus == true}" style="padding: 0px 15px">

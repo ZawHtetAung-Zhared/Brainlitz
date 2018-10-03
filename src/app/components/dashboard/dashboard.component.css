@@ -1,3 +1,6 @@
+.alert-danger{
+  font-size: 14px;
+}
 .tab-wrap:first-child{
   margin-top: 14px;
 }
