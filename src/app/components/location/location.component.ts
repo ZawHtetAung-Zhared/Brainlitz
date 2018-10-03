@@ -23,6 +23,8 @@ export class LocationComponent implements OnInit {
 	@Input() value: string;
 	@Output() valueChange = new EventEmitter<string>();
   	@ViewChild('intlInput') intlInput: ElementRef;
+	public limitno: Location;
+	public PHpattern: any;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
 	public locationLists: Array<any> = [];
@@ -30,6 +32,7 @@ export class LocationComponent implements OnInit {
 	public isempty: boolean = false;
 	public isrequired: boolean = true;
 	public isvalid: boolean = false;
+	public isnumber: boolean = false;
 	public isequal: boolean = true;
 	public iscreate: boolean = false;
 	public navIsFixed: boolean = false;
@@ -54,28 +57,9 @@ export class LocationComponent implements OnInit {
 		this.getAllLocation(20,0);
 	}
 
-	// ngAfterViewInit(){
-	// 	this.model = {
-	// 		'phoneNumber': {
-	// 			'countryCode': Number,
-	// 			'number': Number
-	// 		}
-	// 	}
-	// }
-
 	ngOnDestroy() {
         window.removeEventListener('scroll', this.scroll, true);
     }
-
-    scroll = (): void => {
-    	// var el = document.getElementsByClassName("content-wrapper");
-    	// console.log(el)
-    	// console.log('..', window)
-    	// console.log('..', window.pageYOffset)
-      //handle your scroll here
-      //notice the 'odd' function assignment to a class field
-      //this is used to be able to remove the event listener
-    };
 
     @HostListener('window:scroll', ['$event']) onScroll($event){
 	    // console.log($event);
@@ -105,9 +89,27 @@ export class LocationComponent implements OnInit {
 	    this.wordLength = val.length;
 	  }
 
+	  charCheck(val){
+	  	console.log(val)
+	  	console.log(isNaN(val))
+	  	if(isNaN(val) == true){
+	  		this.isnumber = true;
+	  	}else{
+	  		this.isnumber = false;
+	  	}
+	  	// this.isnumber = true;
+	  }
+
 	telInputObject(obj) {
 	    console.log(obj);
 	    console.log(obj[0].placeholder);
+	    var str = obj[0].placeholder
+		console.log(str.replace(/\s/g, ''))
+		const strLength = str.replace(/\s/g, '');
+		this.limitno = strLength.length;
+		this.PHpattern = '[0-9]{' + this.limitno + '}';
+
+		console.log(this.PHpattern)
 	    console.log(obj[0].placeholder.length);
 	    if(this.isUpdate != true){
 	    	console.log('create')
@@ -160,7 +162,7 @@ export class LocationComponent implements OnInit {
   		this.isUpdate = false;
   		this.isvalid = false;
   		this.isrequired = true;
-  		// this.model = {};
+  		this.model = {};
   	}
   	back(){
   		this.locationLists = [];
@@ -225,8 +227,22 @@ export class LocationComponent implements OnInit {
 		// }else{
 		// 	var phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
 		// }
-		var phNum = (obj.phonenumber == undefined) ? null : obj.phonenumber;
+
 		
+		var phNum;
+		
+		if(obj.phonenumber != undefined){
+			var txt = obj.phonenumber;
+			console.log(txt.match(/\d/g))
+			var numb = txt.match(/\d/g);
+			numb = numb.join("");
+			console.log(numb);​
+			phNum = numb
+		}else{
+			phNum = null
+		}
+
+		// phNum = (obj.phonenumber == undefined) ? null: parseInt(obj.phonenumber);
 		console.log("PhNum",phNum)
 		let data = {
 			"regionId": this.regionID,

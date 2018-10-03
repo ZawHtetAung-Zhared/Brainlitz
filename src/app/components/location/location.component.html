@@ -72,7 +72,7 @@
           <div class="coun-code">+{{countrycode}}</div>
           <input 
           *ngIf="isUpdate == false"
-          style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" pattern= "[0-9]"
+          style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;" 
           type="tel" 
           class="form-control"
           name="phoneNumber" 
@@ -85,11 +85,11 @@
           (countryChange)="onCountryChange($event)"
           (ng2TelOutput)="getNumber($event)"
           (input)="onSearchChange($event.target.value, $event)"
-          
+          (input)="charCheck($event.target.value)"
            />          
           <input 
           *ngIf="isUpdate == true"
-          style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"  pattern= "[0-9]"
+          style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"  
           type="tel" 
           class="form-control"
           name="phoneNumber" 
@@ -108,6 +108,11 @@
               Phone number is required!
             </div>
           </div> -->
+          <div *ngIf="isnumber == true" class="alert alert-danger">
+            <div>
+              Phone number should be number!
+            </div>
+          </div>
         </div>
       </div>
       <!-- {{!locationForm.valid && isvalid == true}} <br> -->
