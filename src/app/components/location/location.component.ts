@@ -53,13 +53,8 @@ export class LocationComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		window.addEventListener('scroll', this.scroll, true);
 		this.getAllLocation(20,0);
 	}
-
-	ngOnDestroy() {
-        window.removeEventListener('scroll', this.scroll, true);
-    }
 
     @HostListener('window:scroll', ['$event']) onScroll($event){
 	    // console.log($event);
