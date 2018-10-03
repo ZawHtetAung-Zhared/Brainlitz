@@ -92,9 +92,11 @@ export class UsersComponent implements OnInit {
 	}
 
 	ngAfterViewInit() {
-		// this.custDetail = {
-		// 	'user': 
-		// }
+		this.custDetail = {
+			'user': {
+				'about': ''
+			}
+		}
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    

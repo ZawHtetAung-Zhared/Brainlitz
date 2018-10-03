@@ -412,6 +412,7 @@ span.capitalize {
     padding: 20px;
     left: 0;
     background: #fff;
+    z-index: 9;
 }
 
 .pad-bottom {

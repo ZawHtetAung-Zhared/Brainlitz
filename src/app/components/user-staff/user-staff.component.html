@@ -114,6 +114,10 @@
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
+		  	    	<label for="about" class="label-txt">About</label> 	
+		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFields.about" #about="ngModel"></textarea>
+		  	  	</div>
+		  	  	<div class="form-group form-divider">
 		  	    	<label for="" class="label-txt">Email address</label> 	
 		  	    	<input type="email" class="form-control" placeholder="Type email address here" (keyup)="validateEmail(formFields.email)" name="email" [(ngModel)]="formFields.email" #email="ngModel" required>
 		  	    	<div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
@@ -133,24 +137,6 @@
 				          Password is required!
 				        </div>
 				    </div>
-		  	  	</div>
-  	  			<div class="form-group" ngFor="let user of permissionLists">
-  	  	  	    	<label class="label-txt radio">Permission as</label> 	
-  	  	  	    	<div class="d-flex flex-wrap">
-  	  	  	    		<div class="permission-width1" *ngFor="let user of permissionLists; let i = index;" >
-  	  	  	    			<label for={{user._id}} style="cursor: pointer; position: relative;">
-  	  		  	    			<div class="permission-box permission-name">
-  	  								<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="formFields.permission" #permission="ngModel" (click)="checkUser(user._id, $event)"><br>
-  	  							  	<span class="capitalize">{{user.name|lowercase}}</span>
-  	  							  	<span class="check"></span>
-  	  							</div>
-  	  						</label>	
-  	  					</div>
-  	  	  	    	</div>
-  	  	  	  	</div>
-  	  	  	  	<div style="border-bottom: 1px solid #e3e4e6;" class="form-group form-divider">
-		  	    	<label for="about" class="label-txt">About</label> 	
-		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFields.about" #about="ngModel"></textarea>
 		  	  	</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5" style="display: block;">
@@ -197,7 +183,20 @@
 				</div>
 			</div>
 			<div class="col-md-12 pad-bottom">
-				
+				<div style="border-bottom: 1px solid #e3e4e6;"  class="form-group" ngFor="let user of permissionLists">
+  	  	  	    	<label class="label-txt radio" style="padding-bottom: 10px">Permission as</label> 	
+  	  	  	    	<div class="d-flex flex-wrap">
+  	  	  	    		<div class="permission-width1" *ngFor="let user of permissionLists; let i = index;" >
+  	  	  	    			<label for={{user._id}} style="cursor: pointer; position: relative;">
+  	  		  	    			<div class="permission-box permission-name">
+  	  								<input type="radio" id="{{user._id}}" value="{{user._id}}" name="role" [(ngModel)]="formFields.permission" #permission="ngModel" (click)="checkUser(user._id, $event)"><br>
+  	  							  	<span class="capitalize">{{user.name|lowercase}}</span>
+  	  							  	<span class="check"></span>
+  	  							</div>
+  	  						</label>	
+  	  					</div>
+  	  	  	    	</div>
+  	  	  	  	</div>
 			</div>
 		</div>
 		<div class="d-flex justify-content-end button-group">

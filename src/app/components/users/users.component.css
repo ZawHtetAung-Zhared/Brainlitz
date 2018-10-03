@@ -516,7 +516,7 @@ h3, h5 {
     color: #2e3d4d;
 }
 .content-wrapper{
-    padding-top: 147px;
+    /*padding-top: 147px;*/
     transition: padding-top 300ms linear;
 }
 .main-wrapper{

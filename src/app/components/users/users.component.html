@@ -78,8 +78,8 @@
 			<div class="d-flex col-left">
 					<div class="img-wrap">
 						<div class="circular-image">
-							<img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg">
-							<img *ngIf="custDetail.user.profilePic != 'undefined'" src="{{custDetail.user.profilePic}}">
+							<!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
+							<img src="{{custDetail.user.profilePic}}">
 						</div>
 					</div>
 					<div class="pad-left-15" style="width: 80%">
@@ -357,6 +357,10 @@
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
+		  	    	<label for="about" class="label-txt">About</label> 	
+		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
+		  	  	</div>
+		  	  	<div class="form-group form-divider">
 		  	    	<label for="email" class="label-txt">Email address</label> 	
 		  	    	<input type="email" class="form-control" placeholder="Type email address here" (keyup)="validateEmail(formFieldc.email)"  name="email" [(ngModel)]="formFieldc.email" #email="ngModel">
 		  	    	<div *ngIf="emailAlert" class="alert alert-danger">
@@ -379,11 +383,6 @@
 		  	    	<div *ngIf="guardianAlert" class="alert alert-danger">
 		  	    		Please provide a valid email!
 		  	    	</div>
-		  	  	</div>
-		  	  	
-		  	  	<div class="form-group form-divider">
-		  	    	<label for="about" class="label-txt">About</label> 	
-		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
 		  	  	</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
