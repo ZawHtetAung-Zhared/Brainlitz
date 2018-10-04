@@ -110,8 +110,10 @@ export class LocationComponent implements OnInit {
 	    	console.log('create')
 	    	obj.intlTelInput('setCountry', 'sg');
 	    }else{
-	    	console.log('update')
-	    	obj.intlTelInput('setCountry', this.countryname);
+	    	console.log('update', this.countryname)
+	    	setTimeout(() => {
+	    		obj.intlTelInput('setCountry', this.countryname);
+	    	}, 300);
 	    }
   	}
 
@@ -227,20 +229,20 @@ export class LocationComponent implements OnInit {
 
 	createLocation(obj, update, locationID) {
 		console.log("Location Obj",obj)
-		console.log(isNaN(obj.phonenumber))
+		console.log(obj.phonenumber)
 		var phNum;
-		if(obj.phonenumber != undefined && obj.phonenumber.length !=  0){
-			var txt = obj.phonenumber;
-			console.log(txt.match(/\d/g))
-			var numb = txt.match(/\d/g);
-			numb = numb.join("");
-			console.log(numb);​
-			phNum = numb
-		}else{
-			phNum = null
-		}
+		// if(obj.phonenumber != undefined && obj.phonenumber.length !=  0){
+		// 	var txt = obj.phonenumber;
+		// 	console.log(txt.match(/\d/g))
+		// 	var numb = txt.match(/\d/g);
+		// 	numb = numb.join("");
+		// 	console.log(numb);​
+		// 	phNum = numb
+		// }else{
+		// 	phNum = null
+		// }
 
-		// phNum = (obj.phonenumber == undefined) ? null: parseInt(obj.phonenumber);
+		phNum = (obj.phonenumber == undefined || obj.phonenumber.length ==  0) ? null: parseInt(obj.phonenumber);
 		console.log("PhNum",phNum)
 		let data = {
 			"regionId": this.regionID,

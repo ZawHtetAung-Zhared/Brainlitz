@@ -109,8 +109,8 @@
       </div>
       <div class="d-flex justify-content-end form-footer">
         <button type="button" class="btn btn-cancel" (click)="back()">Cancel</button>
-        <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid">Create</button>
-        <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!locationForm.valid" (click)="createLocation(model, true, currentID)">Update</button>
+        <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createLocation(model, false)" [disabled]="!locationForm.valid || isnumber == true">Create</button>
+        <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!locationForm.valid || isnumber == true" (click)="createLocation(model, true, currentID)">Update</button>
       </div>
     </form>
   </div>
