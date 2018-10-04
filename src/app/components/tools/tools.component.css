@@ -281,7 +281,7 @@ img.setting-icon {
 	/*padding-top: 149px;*/
     padding-right: 0;
     padding-left: 0;
-    /*border-right: 1px solid #dedede;*/
+    border-right: 1px solid #dedede;
     -ms-transition: 300ms linear;
   	transition: 300ms linear;
     width: 25%;
@@ -845,6 +845,9 @@ width: 50%;
   }
   .noti-tab{
     padding: 15px 2px;
+  }
+  ul.noti-dropdown li{
+    margin-left: 7px;
   }
  }
 

@@ -257,8 +257,9 @@ export class ToolsComponent implements OnInit {
       })
   }
 
-  focusMethod(e, status){
+  focusMethod(e, status, word){
     console.log('hi', e)
+    this.wordLength = word.length;
     if(status == 'subject'){
       $('.limit-word').show('slow'); 
     }else{
@@ -273,6 +274,7 @@ export class ToolsComponent implements OnInit {
     }else{
       $('.limit-word1').hide('slow'); 
     }
+    this.wordLength = 0;
   }
 
   changeMethod(val : string){
@@ -299,7 +301,8 @@ export class ToolsComponent implements OnInit {
       console.log(res);
       this.blockUI.stop();
       
-      this.notiLists = res;
+      // this.notiLists = res;
+      this.notiLists = this.notiLists.concat(res);
       console.log(this.notiLists)
       for (var i in this.notiLists) {
         let year = this.notiLists[i].utc.year;
@@ -326,7 +329,7 @@ export class ToolsComponent implements OnInit {
           this.notiLists[i].senttime = onlyTime;
         }
       }
-      this.notiLists = this.notiLists.concat(this.notiLists);
+      
       console.log('Noti List',this.notiLists);
     }, err => {
       this.blockUI.stop();
