@@ -209,29 +209,26 @@ export class CourseComponent implements OnInit {
     this.deleteId = id;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
-
+  isCourseId:boolean = false;
   addUserModal(type, userModal, courseID){
-    // if(this.selectedUserLists.length>0){
-    //   if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
-    //     console.log('cant add')
-    //     this.isSeatAvailable = false;
-    //   }else{
-    //     this.isSeatAvailable = true;
-    //   }
-    // }else{
-    //   if(this.detailLists.seat_left>0){
-    //     this.isSeatAvailable = true;
-    //   }else{
-
-    //   }
-    // }
-    if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
-      console.log('cant add')
-      this.isSeatAvailable = false;
+    if(courseID == ''){
+      this.isCourseId = false;
+      console.log("Modal from detail");
+      if(this.detailLists.seat_left == null){
+        this.isSeatAvailable = true;
+      }else{
+        if( this.detailLists.seat_left - this.selectedUserLists.length == 0){
+          console.log('cant add')
+          this.isSeatAvailable = false;
+        }else{
+          this.isSeatAvailable = true;
+        }
+      }
     }else{
+      this.isCourseId = true;
+      console.log("Modal from list");
       this.isSeatAvailable = true;
     }
-
 
     console.log(courseID)
     if(courseID != ''){
@@ -263,6 +260,11 @@ export class CourseComponent implements OnInit {
       this.modalReference.close();
       console.log(err);
     });
+  }
+
+  cancelModal(){
+    this.modalReference.close();
+    this.isSeatAvailable = true;
   }
 
   getAllUsers(type){
@@ -388,6 +390,10 @@ export class CourseComponent implements OnInit {
          console.log(res);
          this.modalReference.close();
          this.getUsersInCourse(courseId);
+         if(this.isCourseId == true){
+           // this.getCourseLists(20,0);
+           this.cancel();
+         }
       }, err => {  
         console.log(err);
       });
