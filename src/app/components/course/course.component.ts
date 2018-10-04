@@ -131,7 +131,7 @@ export class CourseComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
-    if(window.pageYOffset > 10){
+    if(window.pageYOffset > 81){
       console.log('greater than 30')
       this.isSticky = true;
       this.showBtn = true
