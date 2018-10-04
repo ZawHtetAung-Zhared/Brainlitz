@@ -501,6 +501,7 @@
 	  				      {{course.location.name}}
 	  				    </h5>
 	  				    <b>{{course.name}}</b>
+	  				    <div>{{course.seat_left}}</div>
 		    			</div>
 		    			<div class="class-info-body">
 		    				<div [hidden]="!course.paymentPolicy.courseFee && !course.paymentPolicy.deposit && !course.paymentPolicy.miscFee && !course.paymentPolicy.proratedLessonFee" class="class-body-one row">
@@ -552,7 +553,7 @@
 			    			</div>
 		    			</div>
 		    			<div class="row d-flex justify-content-center class-info-footer">
-		    				<button class="btn" (click)="enrollUser(course._id)">Enroll on this course</button>
+		    				<button class="btn" (click)="enrollUser(course._id)" [disabled]="course.seat_left == 0">Enroll on this course</button>
 		    			</div>
 		    		</div>
 		    	</div>
