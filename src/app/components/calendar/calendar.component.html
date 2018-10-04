@@ -222,7 +222,7 @@
             <input type="text" class="form-control" value="2012-04-19">
         </div> -->
         <div class="datepicker-wrap d-flex">
-          <div class="xxx-start">
+          <div class="xxx-start wrapper">
             <input 
             id="dpStart"
             class="input-day text-container" 
@@ -243,9 +243,9 @@
             readonly>
           </div>
           <!-- <span *ngIf="showText" [ngClass]="{'show':showText}" id="clearBtn1" class="clearBtn">First Day</span> -->
-          <span style="padding: 7px;">
+          <span class="center-span">
           To</span>
-          <div class="xxx-end">
+          <div class="xxx-end  wrapper">
             <input 
             id="dpEnd"
             class="input-day" type="test" placeholder="Last Day" required (ngModelChange)="setMaxDate($event)" 

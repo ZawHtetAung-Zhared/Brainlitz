@@ -485,7 +485,7 @@
 	          [(ngModel)]="searchData.searchText" 
 	          (input)="changeSearch($event.target.value, custDetail.user.userId)">
 	        <span class="input-group-append">
-	          <button class="bt btn-design btn-outline-secondary" type="button">
+	          <button class="bt btn-design btn-outline-secondary btn-right-radius" type="button">
 	              <i class="fa fa-search search-size"></i>
 	          </button>
 	        </span>
@@ -503,7 +503,7 @@
 	  				    <b>{{course.name}}</b>
 		    			</div>
 		    			<div class="class-info-body">
-		    				<div class="class-body-one row">
+		    				<div [hidden]="!course.paymentPolicy.courseFee && !course.paymentPolicy.deposit && !course.paymentPolicy.miscFee && !course.paymentPolicy.proratedLessonFee" class="class-body-one row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 			    					<div *ngIf="course.paymentPolicy.courseFee != null">
 			    						<h5>Course fee</h5>

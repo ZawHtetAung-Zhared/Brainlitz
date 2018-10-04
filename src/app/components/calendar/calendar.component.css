@@ -506,6 +506,7 @@ ul.calendar-year li:first-child{
   padding: 7px;
   background: #f2f4f5;
   outline: none;
+  width: 100%;
 }
 .input-day:focus{
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
@@ -578,4 +579,12 @@ ul.calendar-year li:first-child{
   font-family: Montserrat-SemiBold;
   line-height: 2.2;
   padding: 0px 10px;
+}
+.wrapper{
+  width: 45%;
+}
+.center-span{
+  width: 10%;
+  padding: 7px;
+  text-align: center;
 }
