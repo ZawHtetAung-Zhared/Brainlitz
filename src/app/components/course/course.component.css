@@ -822,7 +822,9 @@ label.room-name::before {
   overflow: scroll;
 }
 
-
+button:disabled{
+  cursor: no-drop;
+}
 
 
 

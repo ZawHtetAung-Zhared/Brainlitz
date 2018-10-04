@@ -210,13 +210,29 @@ export class CourseComponent implements OnInit {
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
 
-  addUserModal(type, userModal, courseID){ 
+  addUserModal(type, userModal, courseID){
+    // if(this.selectedUserLists.length>0){
+    //   if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+    //     console.log('cant add')
+    //     this.isSeatAvailable = false;
+    //   }else{
+    //     this.isSeatAvailable = true;
+    //   }
+    // }else{
+    //   if(this.detailLists.seat_left>0){
+    //     this.isSeatAvailable = true;
+    //   }else{
+
+    //   }
+    // }
     if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
       console.log('cant add')
       this.isSeatAvailable = false;
     }else{
       this.isSeatAvailable = true;
     }
+
+
     console.log(courseID)
     if(courseID != ''){
       this.getCourseDetail(courseID);
