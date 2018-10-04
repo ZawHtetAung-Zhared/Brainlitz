@@ -146,6 +146,8 @@ export class CourseComponent implements OnInit {
 
   cancel(){
     this.isCourseDetail = false;
+    this.courseList = [];
+    this.getCourseLists(20,0);
   }
 
   showCourseDetail(courseId){
