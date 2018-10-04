@@ -204,7 +204,7 @@
 							</div>
 
 
-							<div *ngIf="isChecked != 'user' && isChecked != 'course' " class="form-group">
+							<div *ngIf="isChecked != 'user' && isChecked != 'course' && isChecked != 'category'" class="form-group">
 								<div *ngIf="isChecked=='allcustomer'" class="form-check active-user-form">
 								    <label class="form-check-label">
 								      <input type="checkbox" class="form-check-input" name="active" (change)="checkedActive($event, 'active')">
