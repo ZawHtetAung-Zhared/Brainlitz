@@ -234,7 +234,8 @@
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
                 <div>
-                  <p class="seat">{{detailLists.seat_left}} seats left</p>
+                  <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.seat_left}} seats left</p>
+                  <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
               <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>

@@ -156,6 +156,7 @@ export class CourseComponent implements OnInit {
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
+    console.log(this.detailLists.seat_left);
   }
 
   goToConflict(courseId){
@@ -212,38 +213,30 @@ export class CourseComponent implements OnInit {
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
   isCourseId:boolean = false;
-  addUserModal(type, userModal, courseID){
-    if(courseID == ''){
-      this.isCourseId = false;
-      console.log("Modal from detail");
-      if(this.detailLists.seat_left == null){
-        this.isSeatAvailable = true;
-      }else{
-        if( this.detailLists.seat_left - this.selectedUserLists.length == 0){
-          console.log('cant add')
-          this.isSeatAvailable = false;
-        }else{
-          this.isSeatAvailable = true;
-        }
-      }
-    }else{
-      this.isCourseId = true;
-      console.log("Modal from list");
-      this.isSeatAvailable = true;
-    }
 
-    console.log(courseID)
-    if(courseID != ''){
+  addUserModal(type, userModal, courseID){
+    if(courseID != '' || this.detailLists.seat_left == null){
+      console.log('has courseID', courseID)
+      this.isCourseId = true;
+      this.isSeatAvailable = true;
       this.getCourseDetail(courseID);
-      this.getUsersInCourse(courseID);
-    }   
+    }else{
+      this.isCourseId = false;
+      console.log('no courseID', this.detailLists.seat_left)
+      if(this.detailLists.seat_left == 0){
+        this.isSeatAvailable = false;
+      }else{
+        this.isSeatAvailable = true;
+      }
+    }
+    
     this.selectedUserLists = [];
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
     this.userType = type;
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
-    // this.getAllUsers(type);
+    
   }
 
   withdrawUser(id){
@@ -379,6 +372,7 @@ export class CourseComponent implements OnInit {
   }
 
   enrollUserToCourse(courseId, userType){
+    console.log('call from enrolluser', this.isCourseId)
     // let type = userType;
     // type = (userType == 'staff') ? 'teacher' : 'customer'
     this.getSelectedUserId();   
@@ -387,6 +381,7 @@ export class CourseComponent implements OnInit {
        'userId': this.selectedUserId,
        'userType': userType
      }
+     console.log('~~~~' , body)
     this._service.assignUser(this.regionId,body)
       .subscribe((res:any) => {
          console.log(res);
