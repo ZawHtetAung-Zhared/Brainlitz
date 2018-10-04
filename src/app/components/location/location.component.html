@@ -15,7 +15,8 @@
       </div>
       <div class="d-flex">
         <div class="col-md-6 pl-0 address-text">{{location.address}}</div>
-        <div class="col-md-6 pl-0 h5-title">{{location.phoneNumber.number}}</div>
+        <div class="col-md-6 pl-0 h5-title" *ngIf="location.phoneNumber.number !=null">+{{location.phoneNumber.countryCode}} {{location.phoneNumber.number}}</div>
+        <div class="col-md-6 pl-0 h5-title" *ngIf="location.phoneNumber.number ==null">-</div>
       </div>
     </div>
   </div>
@@ -91,7 +92,7 @@
           (hasError)="hasError($event)"
           (countryChange)="onCountryChange($event)"
           (ng2TelOutput)="getNumber($event)"
-          
+          (input)="charCheck($event.target.value)"
            />
            <!-- {{isrequired}} -->
           <!-- <div [hidden]="isrequired == true" class="alert alert-danger">

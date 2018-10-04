@@ -97,15 +97,15 @@ export class LocationComponent implements OnInit {
 
 	telInputObject(obj) {
 	    console.log(obj);
-	    console.log(obj[0].placeholder);
-	    var str = obj[0].placeholder
-		console.log(str.replace(/\s/g, ''))
-		const strLength = str.replace(/\s/g, '');
-		this.limitno = strLength.length;
-		this.PHpattern = '[0-9]{' + this.limitno + '}';
+	 //    console.log(obj[0].placeholder);
+	 //    var str = obj[0].placeholder
+		// console.log(str.replace(/\s/g, ''))
+		// const strLength = str.replace(/\s/g, '');
+		// this.limitno = strLength.length;
+		// this.PHpattern = '[0-9]{' + this.limitno + '}';
 
-		console.log(this.PHpattern)
-	    console.log(obj[0].placeholder.length);
+		// console.log(this.PHpattern)
+	 //    console.log(obj[0].placeholder.length);
 	    if(this.isUpdate != true){
 	    	console.log('create')
 	    	obj.intlTelInput('setCountry', 'sg');
@@ -227,16 +227,9 @@ export class LocationComponent implements OnInit {
 
 	createLocation(obj, update, locationID) {
 		console.log("Location Obj",obj)
-		// if(update == true){
-		// 	var phNum = (obj.phoneNumber.number == undefined) ? null : obj.phoneNumber.number;
-		// }else{
-		// 	var phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
-		// }
-
-		
+		console.log(isNaN(obj.phonenumber))
 		var phNum;
-		
-		if(obj.phonenumber != undefined){
+		if(obj.phonenumber != undefined && obj.phonenumber.length !=  0){
 			var txt = obj.phonenumber;
 			console.log(txt.match(/\d/g))
 			var numb = txt.match(/\d/g);
@@ -319,7 +312,8 @@ export class LocationComponent implements OnInit {
 		this.iscreate = true;
 		// console.log(this.model)
 		this.isUpdate = true;		
-		this.isvalid = true;		
+		this.isvalid = true;
+		this.isnumber = false;		
 		this.singleLocation(id);
 	}
 
