@@ -146,6 +146,8 @@ export class CourseComponent implements OnInit {
 
   cancel(){
     this.isCourseDetail = false;
+    this.courseList = [];
+    this.getCourseLists(20,0);
   }
 
   showCourseDetail(courseId){
@@ -290,7 +292,7 @@ export class CourseComponent implements OnInit {
   }
 
   getSingleUser(ID, state){
-    this._service.getCurrentUser(ID)
+    this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       console.log(res);
       if(state == 'search'){

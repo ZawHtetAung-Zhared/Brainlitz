@@ -97,21 +97,23 @@ export class LocationComponent implements OnInit {
 
 	telInputObject(obj) {
 	    console.log(obj);
-	    console.log(obj[0].placeholder);
-	    var str = obj[0].placeholder
-		console.log(str.replace(/\s/g, ''))
-		const strLength = str.replace(/\s/g, '');
-		this.limitno = strLength.length;
-		this.PHpattern = '[0-9]{' + this.limitno + '}';
+	 //    console.log(obj[0].placeholder);
+	 //    var str = obj[0].placeholder
+		// console.log(str.replace(/\s/g, ''))
+		// const strLength = str.replace(/\s/g, '');
+		// this.limitno = strLength.length;
+		// this.PHpattern = '[0-9]{' + this.limitno + '}';
 
-		console.log(this.PHpattern)
-	    console.log(obj[0].placeholder.length);
+		// console.log(this.PHpattern)
+	 //    console.log(obj[0].placeholder.length);
 	    if(this.isUpdate != true){
 	    	console.log('create')
 	    	obj.intlTelInput('setCountry', 'sg');
 	    }else{
-	    	console.log('update')
-	    	obj.intlTelInput('setCountry', this.countryname);
+	    	console.log('update', this.countryname)
+	    	setTimeout(() => {
+	    		obj.intlTelInput('setCountry', this.countryname);
+	    	}, 300);
 	    }
   	}
 
@@ -227,27 +229,20 @@ export class LocationComponent implements OnInit {
 
 	createLocation(obj, update, locationID) {
 		console.log("Location Obj",obj)
-		// if(update == true){
-		// 	var phNum = (obj.phoneNumber.number == undefined) ? null : obj.phoneNumber.number;
+		console.log(obj.phonenumber)
+		var phNum;
+		// if(obj.phonenumber != undefined && obj.phonenumber.length !=  0){
+		// 	var txt = obj.phonenumber;
+		// 	console.log(txt.match(/\d/g))
+		// 	var numb = txt.match(/\d/g);
+		// 	numb = numb.join("");
+		// 	console.log(numb);​
+		// 	phNum = numb
 		// }else{
-		// 	var phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
+		// 	phNum = null
 		// }
 
-		
-		var phNum;
-		
-		if(obj.phonenumber != undefined){
-			var txt = obj.phonenumber;
-			console.log(txt.match(/\d/g))
-			var numb = txt.match(/\d/g);
-			numb = numb.join("");
-			console.log(numb);​
-			phNum = numb
-		}else{
-			phNum = null
-		}
-
-		// phNum = (obj.phonenumber == undefined) ? null: parseInt(obj.phonenumber);
+		phNum = (obj.phonenumber == undefined || obj.phonenumber.length ==  0) ? null: parseInt(obj.phonenumber);
 		console.log("PhNum",phNum)
 		let data = {
 			"regionId": this.regionID,
@@ -319,7 +314,8 @@ export class LocationComponent implements OnInit {
 		this.iscreate = true;
 		// console.log(this.model)
 		this.isUpdate = true;		
-		this.isvalid = true;		
+		this.isvalid = true;
+		this.isnumber = false;		
 		this.singleLocation(id);
 	}
 

@@ -358,12 +358,19 @@ export class UserStaffComponent implements OnInit {
 		console.log(ID);
 		this.editId = ID;
 		console.log("show Staff details");
+		this.blockUI.start('Loading...');
 		this.showStaffDetail = true;
 		this._service.getUserDetail(this.regionID,data.userId)
 		.subscribe((res:any) => {
 			this.staffDetail = res;
 			console.log("StaffDetail",res);
-		})
+			setTimeout(() => {
+				this.blockUI.stop();
+			}, 100);
+		}, err => {
+	        this.blockUI.stop();
+	        console.log(err)
+      	})
 	}
 
 	backToStaff(){

@@ -15,16 +15,13 @@
 	<div class="heading-margin no-padding large-col">
 		<div class="d-flex flex-column w-100 h-100 main-wrapper">
 			<div *ngIf="!showDetail" class="w-100">
-				<div *ngIf="noData" class="txt-color-center">
+				<div *ngIf="ratingLists.length == 0" class="txt-color-center">
 					<h3>Don't have staff for this location.</h3>
 				</div>
-				<div *ngIf="!noData">			  
+				<div *ngIf="ratingLists.length != 0">			  
 					<div [ngClass]="{'sticky' : isSticky == true}">
 						<h3 class="pd-lft-15">Average ratings</h3>
 					</div>
-					<!-- <div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
-						<h3 class="pd-lft-15">Average ratings</h3>
-					</div> -->
 					<div class="d-style pd-top-15">
 						<div class="box-width" *ngFor="let staffRating of ratingLists; let i = index;">
 							<div class="rating-box" (click)="getFeedBack(staffRating.teacherId, staffRating)">
@@ -130,4 +127,4 @@
 	  <button class="btn" (click)="showMore(ratingLists.length)">load more</button>
 	</div>
 </div>
-
+<block-ui message="Deafult Message"></block-ui>
