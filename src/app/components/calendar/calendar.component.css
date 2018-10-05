@@ -580,11 +580,9 @@ ul.calendar-year li:first-child{
   line-height: 2.2;
   padding: 0px 10px;
 }
-.wrapper{
-  width: 45%;
-}
+
 .center-span{
-  width: 10%;
+  /*width: 10%;*/
   padding: 7px;
   text-align: center;
 }
