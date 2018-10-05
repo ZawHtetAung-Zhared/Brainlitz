@@ -361,7 +361,7 @@ export class CoursecreateComponent implements OnInit {
       this.isChecked = type;
       if(this.tempVar){
         if(this.tempVar == this.isChecked){
-          console.log("Draft Choose");
+          console.log("Draft Choose",this.tempVar);
           if(this.tempVar == 'end'){
             this.model.end = this.tempValue;
             this.model.lessonCount = ""
@@ -775,10 +775,16 @@ export class CoursecreateComponent implements OnInit {
         console.log("Is end date???",this.model.end)
         this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
         this.temp["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        this.tempVar = "end";
+        this.tempValue = this.model.end;
+        this.model.lessonCount = null;
       }else{
         console.log("Lesson???",this.model.lessonCount)
         this.courseObj["lessonCount"] = this.model.lessonCount;
         this.temp["lessonCount"] = this.model.lessonCount;
+        this.tempVar = "lesson";
+          this.tempValue = this.model.lessonCount;
+          this.model.end = null;
       }
       
       this.temp["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
@@ -799,6 +805,9 @@ export class CoursecreateComponent implements OnInit {
           this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
           this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
+          this.tempVar = "end";
+          this.tempValue = this.model.end;
+          this.model.lessonCount = null;
         }
       }
 
@@ -812,6 +821,9 @@ export class CoursecreateComponent implements OnInit {
           this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
           this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
+          this.tempVar = "lesson";
+          this.tempValue = this.model.lessonCount;
+          this.model.end = null;
         }
       }
       var startD = this.changeDateFormat(this.model.start,this.model.starttime);
@@ -874,6 +886,8 @@ export class CoursecreateComponent implements OnInit {
         console.log(err);
         console.log(err.status);
         if(err.status == 409){
+          console.log(this.model.end)
+          console.log(this.model.lessonCount)
           this.toastr.error(err.error.message);
           this.conflitArr = err.error.lessons;
           this.conflitCourseId = err.error.courseId;
@@ -892,6 +906,7 @@ export class CoursecreateComponent implements OnInit {
           console.log(lastItem)
           console.log(this.timetableLists[this.timetableLists.length - 1].lessons[lastItem])
           this.ttEndDate = this.timetableLists[this.timetableLists.length - 1].lessons[lastItem];
+
         }else if(err.status == 400){
           if(err.error.message == "LESSONS CAN'T BE EMPTY"){
             this.endAgain = true;
