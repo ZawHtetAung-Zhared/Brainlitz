@@ -21,7 +21,7 @@
             </div>
             <h5 class="medium-font">{{ courseGroup.coursePlan.name }}</h5>
             <div class="d-flex header-info light-font">
-              <label class="mb-0" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} seats</label>
+              <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} seats</label>
               <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats==null">unlimited seats</label>
               <ul><li class="l-height">{{ courseGroup.coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
             </div>
