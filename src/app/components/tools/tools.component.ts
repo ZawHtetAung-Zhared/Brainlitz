@@ -267,6 +267,7 @@ export class ToolsComponent implements OnInit {
           console.log(this.userCount);
       }, err => {
         console.log(err)
+        this.userCount = 0;
       })
   }
 
