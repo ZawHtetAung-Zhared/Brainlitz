@@ -356,7 +356,29 @@ export class appService{
           this.sendParentToChild.next(result);  
           return result;
         }) 
+    }
+
+    getHeaderLocations(id: string, limit, skip, all): Observable<any>{
+      this.getLocalstorage();
+      let url;
+      if(all != false){
+        url = this.baseUrl + '/' + id + '/locations?all=' + all;
+      }else{
+        url = this.baseUrl + '/' + id + '/locations?limit=' + limit + '&skip=' + skip;       
       }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+         return this.httpClient.get( url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);  
+          this.sendParentToChild.next(result);  
+          return result;
+        }) 
+    }
 
     getAllUsers(id: string, type: any, limit: number, skip: number): Observable<any>{
       console.log(id, type,limit,skip)
@@ -398,7 +420,7 @@ export class appService{
     }
 
     getSearchCourse(regionID: string, val: string, location: string){
-      let apiUrl = this.baseUrl + '/' + regionID + '/course/search?keyword=' + val + '&locationId=' + location;
+      let apiUrl = this.baseUrl + '/' + regionID + '/course/search?keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -412,7 +434,7 @@ export class appService{
     }
 
     getSearchCategory(regionID: string, val: string, location: string){
-      let apiUrl = this.baseUrl + '/' + regionID + '/category/search?keyword=' + val + '&locationId=' + location;
+      let apiUrl = this.baseUrl + '/' + regionID + '/category?keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

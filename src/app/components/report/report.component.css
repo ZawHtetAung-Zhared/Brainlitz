@@ -1,3 +1,24 @@
+.back-to{
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    color: #2e3d4d !important;
+    padding-left: 0 !important;
+    cursor: pointer;
+    font-size: 16px;
+}
+.back-to i,
+.back-to p{
+  float: left;
+}
+.back-to i{
+  float: left;
+    font-size: 23px;
+}
+.back-to p{
+  float: left;
+  margin-bottom: 0;
+  line-height: 1.6;
+  margin-left: 4px;
+}
 .setting-icon{
   width: 25px;
 }
@@ -122,15 +143,14 @@ h2 {
 }
 
 .rating-box {
-  /*min-width: 100%;*/
+  cursor: pointer;
 	background: #fff;
   -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-	border-radius: 7px;
+	border-radius: 4px;
 	min-height: 250px;
   max-height: 250px;
-	/*padding-left: 25px;*/
   padding: 20px 20px;
   position: relative;
   margin: 15px 0;
@@ -140,7 +160,7 @@ h2 {
     -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
     box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
 }
-.detail-bg:hover i {
+.rating-box:hover i {
     color: #0080ff;
 }
 .inner-box{
@@ -405,7 +425,7 @@ h3.head-rating-count {
   /*padding-top: 150px;*/
   padding-right: 0;
   padding-left: 0;
-  /*border-right: 1px solid #dedede;*/
+  border-right: 1px solid #dedede;
   -ms-transition: 300ms linear;
   transition: 300ms linear;
   width: 25%;
@@ -456,18 +476,19 @@ h3.head-rating-count {
 .active .noti-tab{
   /*background: #e6ecf2;*/
   color: #4292f1;
-  text-align: left;
+  /*text-align: left;*/
   /*border-left: 3px solid #4292f1;*/
 }
 .tab-wrap:first-child{
   margin-top: 14px;
 }
 .noti-tab{
-  background: transparent;
+  text-align: left;
   padding: 15px 26px;
   border-radius: 0;
   outline: none;
-  border-left: 3px solid transparent;
+  background: transparent;
+  /*border-left: 3px solid transparent;*/  
   font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
   color: #2e3e4d;
   font-size: 16px;
@@ -479,11 +500,11 @@ h3.head-rating-count {
 
 .heading-margin{
   margin-bottom: 20px;
-  /*padding-top: 170px;*/
 }
 
 .tab-wrap{
   position: relative;
+  outline: none;
 }
 
 .sticky-menu{
@@ -516,7 +537,7 @@ h3.head-rating-count {
 }
 
 .back-wrap{
-  margin-top: 23px;
+  padding: 23px 15px 15px;
 }
 .pd-lft-15 {
   padding-left: 15px;
@@ -639,13 +660,22 @@ h3.head-rating-count {
 		right: 0;
 	}*/
   .noti-tab{
-    padding: 15px 27px;
+    padding: 15px 26px;
   }
   .noti-sidebar{
     width: 25%
   }
   .large-col{
     width: 75%
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) { 
+  .xxx{
+    left: -14%;
+  }
+  .noti-tab{
+    padding: 15px 2px;
   }
 }
 

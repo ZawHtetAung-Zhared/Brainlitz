@@ -146,6 +146,8 @@ export class CourseComponent implements OnInit {
 
   cancel(){
     this.isCourseDetail = false;
+    this.courseList = [];
+    this.getCourseLists(20,0);
   }
 
   showCourseDetail(courseId){
@@ -154,6 +156,7 @@ export class CourseComponent implements OnInit {
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
+    console.log(this.detailLists.seat_left);
   }
 
   goToConflict(courseId){
@@ -209,26 +212,31 @@ export class CourseComponent implements OnInit {
     this.deleteId = id;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
+  isCourseId:boolean = false;
 
-  addUserModal(type, userModal, courseID){ 
-    if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
-      console.log('cant add')
-      this.isSeatAvailable = false;
-    }else{
+  addUserModal(type, userModal, courseID){
+    if(courseID != '' || this.detailLists.seat_left == null){
+      console.log('has courseID', courseID)
+      this.isCourseId = true;
       this.isSeatAvailable = true;
-    }
-    console.log(courseID)
-    if(courseID != ''){
       this.getCourseDetail(courseID);
-      this.getUsersInCourse(courseID);
-    }   
+    }else{
+      this.isCourseId = false;
+      console.log('no courseID', this.detailLists.seat_left)
+      if(this.detailLists.seat_left == 0){
+        this.isSeatAvailable = false;
+      }else{
+        this.isSeatAvailable = true;
+      }
+    }
+    
     this.selectedUserLists = [];
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
     this.userType = type;
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
-    // this.getAllUsers(type);
+    
   }
 
   withdrawUser(id){
@@ -247,6 +255,11 @@ export class CourseComponent implements OnInit {
       this.modalReference.close();
       console.log(err);
     });
+  }
+
+  cancelModal(){
+    this.modalReference.close();
+    this.isSeatAvailable = true;
   }
 
   getAllUsers(type){
@@ -272,7 +285,7 @@ export class CourseComponent implements OnInit {
   }
 
   getSingleUser(ID, state){
-    this._service.getCurrentUser(ID)
+    this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       console.log(res);
       if(state == 'search'){
@@ -359,6 +372,7 @@ export class CourseComponent implements OnInit {
   }
 
   enrollUserToCourse(courseId, userType){
+    console.log('call from enrolluser', this.isCourseId)
     // let type = userType;
     // type = (userType == 'staff') ? 'teacher' : 'customer'
     this.getSelectedUserId();   
@@ -367,11 +381,16 @@ export class CourseComponent implements OnInit {
        'userId': this.selectedUserId,
        'userType': userType
      }
+     console.log('~~~~' , body)
     this._service.assignUser(this.regionId,body)
       .subscribe((res:any) => {
          console.log(res);
          this.modalReference.close();
          this.getUsersInCourse(courseId);
+         if(this.isCourseId == true){
+           // this.getCourseLists(20,0);
+           this.cancel();
+         }
       }, err => {  
         console.log(err);
       });

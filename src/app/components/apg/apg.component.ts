@@ -22,6 +22,7 @@ export class ApgComponent implements OnInit {
   	}
 
     public model:any = {};
+    public dataVal:any = {};
   	public modalReference: any;
   	public closeResult: any;
   	apgField: apgField = new apgField();
@@ -77,6 +78,10 @@ export class ApgComponent implements OnInit {
   	ngOnInit() {
 	  	this.getAllModule();
 	  	this.getAllAPG(20,0);
+      this.dataVal = {
+        '_id': '',
+        'moduleId': '',
+      }
   	}
 
     
@@ -191,14 +196,19 @@ export class ApgComponent implements OnInit {
     }
 
     setShareAPG(obj){
-      console.log(this.singleCheckedAPG)
+      // console.log('set share',this.singleCheckedAPG)
 
       let data = this.singleCheckedAPG;
+      // console.log(obj)
+      let emptyObj = {}
+      this.dataVal = this.singleCheckedAPG;
 
-      this._service.updateSingleTemplate(this.regionID, data)
+      
+      console.log('~~~~', this.dataVal)
+      this._service.createAPG(this.regionID, emptyObj , this.dataVal._id, this.dataVal.moduleId)
       .subscribe((res:any) => {
           console.log(res)
-          this.toastr.success('Successfully '+ status + '.');
+          this.toastr.success('Successfully created.');
           this.blockUI.stop();
           this.cancelapg();
       }, err => {
@@ -752,13 +762,13 @@ export class ApgComponent implements OnInit {
   	}
 
     publicAPG(data){
-      console.log(data)
+      console.log('public share',data)
       data.public = true;
       this._service.updateSingleTemplate(this.regionID, data)
       .subscribe((res:any) => {
           console.log(res)
           this.getAllTemplate(20, 0);
-          this.toastr.success('Successfully '+ status + '.');
+          this.toastr.success('Successfully shared.');
           this.blockUI.stop();
       }, err => {
           this.toastr.success(status + ' Fail.');

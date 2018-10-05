@@ -71,6 +71,7 @@
     padding: 10px;
 }
 .load-more button{
+  background: #fff;
   color: #0080ff;
   font-size: 14px;
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
@@ -822,9 +823,13 @@ label.room-name::before {
   overflow: scroll;
 }
 
+button:disabled{
+  cursor: no-drop;
+}
 
-
-
+.l-height{
+  line-height: 1;
+}
 
 
 

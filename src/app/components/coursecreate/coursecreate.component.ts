@@ -92,7 +92,9 @@ export class CoursecreateComponent implements OnInit {
   public timetableLists: Array<any> = [];
   public ttStartDate: Array<any> = [];
   public ttEndDate: Array<any> = [];
-  public coursePayment:any = {}
+  public coursePayment:any = {};
+  public tempVar:any;
+  public tempValue:any;
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -143,6 +145,7 @@ export class CoursecreateComponent implements OnInit {
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
       this.setToTimerange(this.model.starttime);
+      this.minDate = this.model.start;
       this.model.location = this.model.location.name;
       this.locationId = this.model.locationId;
       console.log("this location",this.locationId);
@@ -164,8 +167,12 @@ export class CoursecreateComponent implements OnInit {
       }
       if(this.model.end){
         this.isChecked = 'end';
+        this.tempVar = 'end';
+        this.tempValue = this.changeDateStrtoObj(res.endDate,"end");
       }else if(this.model.lessonCount){
         this.isChecked = 'lesson';
+        this.tempVar = 'lesson';
+        this.tempValue = res.lessonCount;
       }
 
       // var selectedDays= this.model.repeatDays;
@@ -191,6 +198,8 @@ export class CoursecreateComponent implements OnInit {
     console.log(H);
     var h = (H % 12) || 12;
     var ampm = H < 12 ? "AM" : "PM";
+    var forSelected = h + timeString.substr(2, 3);
+    console.log("For Selected",forSelected);
     if(h<10){
       timeString = '0' + h + timeString.substr(2, 3) + ampm;
     }else{
@@ -201,7 +210,12 @@ export class CoursecreateComponent implements OnInit {
     this.model.startT = timeString;
     console.log(this.showFormat);
     this.rangeHr = timeString.substring(0,timeString.search(":"));
+    console.log('this.rangeHr',this.rangeHr)
     this.rangeMin = timeString.substring(timeString.search(":")+1);
+    console.log('this.rangeMin',this.rangeMin);
+    this.selectedHrRange = forSelected.substring(0,forSelected.search(":"));
+    this.selectedMinRange = forSelected.substring(forSelected.search(":")+1);
+    console.log("MinRange in Draft",this.selectedMinRange);
   }
 
   changeDateStrtoObj(datestr,type){
@@ -332,18 +346,40 @@ export class CoursecreateComponent implements OnInit {
   }
 
   chooseEndOpt(type){
-    this.isChecked = type;
-    if(type == 'end'){
-      this.model.end = "";
-      if(this.model.lesson){
-        this.model.lessonCount = "";
+    // this.isChecked = type;
+    // if(type == 'end'){
+    //   this.model.end = "";
+    //   if(this.model.lesson){
+    //     this.model.lessonCount = "";
+    //   }
+    // }else if(type == 'lesson'){
+    //   if(this.model.end){
+    //     this.model.end = "";
+    //   }
+    //   this.model.lessonCount = "";
+    // }
+      this.isChecked = type;
+      if(this.tempVar){
+        if(this.tempVar == this.isChecked){
+          console.log("Draft Choose",this.tempVar);
+          if(this.tempVar == 'end'){
+            this.model.end = this.tempValue;
+            this.model.lessonCount = ""
+          }else{
+            this.model.lessonCount = this.tempValue;
+            this.model.end = ""
+          }
+        }
+      }else{
+        console.log("CREATE");
+        if(this.isChecked == 'end'){
+          this.model.lessonCount = "";
+        }else{
+          this.model.end = "";
+        }
       }
-    }else if(type == 'lesson'){
-      if(this.model.end){
-        this.model.end = "";
-      }
-      this.model.lessonCount = "";
-    }
+    
+
   }
 
   setMinDate(event){
@@ -490,9 +526,11 @@ export class CoursecreateComponent implements OnInit {
     // console.log(e)
     if(type == 'hr'){
       this.selectedHrRange = e;
+      console.log("this.selectedHrRange",this.selectedHrRange);
     }
     if(type == 'min'){
       this.selectedMinRange = e;
+      console.log("this.selectedMinRange",this.selectedMinRange)
     }
     this.formatTime();
   }
@@ -504,6 +542,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   formatTime(){
+    console.log()
     if(this.selectedHrRange > 0 ){
       if(this.selectedHrRange<10){
         var hrFormat = 0 + this.selectedHrRange;
@@ -619,7 +658,7 @@ export class CoursecreateComponent implements OnInit {
     if(searchWord == ''){
       console.log("NULL")
     }else{
-      this._service.getSearchUser(this.regionID, searchWord,this.currentLocation)
+      this._service.getSearchUser(this.regionID, searchWord, 'staff')
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;
@@ -736,10 +775,16 @@ export class CoursecreateComponent implements OnInit {
         console.log("Is end date???",this.model.end)
         this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
         this.temp["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        this.tempVar = "end";
+        this.tempValue = this.model.end;
+        this.model.lessonCount = null;
       }else{
         console.log("Lesson???",this.model.lessonCount)
         this.courseObj["lessonCount"] = this.model.lessonCount;
         this.temp["lessonCount"] = this.model.lessonCount;
+        this.tempVar = "lesson";
+          this.tempValue = this.model.lessonCount;
+          this.model.end = null;
       }
       
       this.temp["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
@@ -760,6 +805,9 @@ export class CoursecreateComponent implements OnInit {
           this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
           this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
+          this.tempVar = "end";
+          this.tempValue = this.model.end;
+          this.model.lessonCount = null;
         }
       }
 
@@ -773,6 +821,9 @@ export class CoursecreateComponent implements OnInit {
           this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
           this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj",JSON.stringify(this.temp));
+          this.tempVar = "lesson";
+          this.tempValue = this.model.lessonCount;
+          this.model.end = null;
         }
       }
       var startD = this.changeDateFormat(this.model.start,this.model.starttime);
@@ -805,10 +856,11 @@ export class CoursecreateComponent implements OnInit {
     }
     
     console.log("Course",this.courseObj);
-
+    this.blockUI.start('Loading...');
     this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck)
     .subscribe((res:any) => {
       console.log(res);
+      this.blockUI.stop();
       // localStorage.removeItem('coursePlanId');
       // localStorage.removeItem('splan');
       localStorage.removeItem('cPlan');
@@ -834,7 +886,10 @@ export class CoursecreateComponent implements OnInit {
     },err => {
         console.log(err);
         console.log(err.status);
+        this.blockUI.stop();
         if(err.status == 409){
+          console.log(this.model.end)
+          console.log(this.model.lessonCount)
           this.toastr.error(err.error.message);
           this.conflitArr = err.error.lessons;
           this.conflitCourseId = err.error.courseId;
@@ -853,6 +908,7 @@ export class CoursecreateComponent implements OnInit {
           console.log(lastItem)
           console.log(this.timetableLists[this.timetableLists.length - 1].lessons[lastItem])
           this.ttEndDate = this.timetableLists[this.timetableLists.length - 1].lessons[lastItem];
+
         }else if(err.status == 400){
           if(err.error.message == "LESSONS CAN'T BE EMPTY"){
             this.endAgain = true;

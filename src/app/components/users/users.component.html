@@ -446,11 +446,18 @@
 		</div>
 		<div class="d-flex justify-content-end button-group">
 			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid">Create
+			</button>
+			<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid">Update
+			</button>
+		</div>
+		<!-- <div class="d-flex justify-content-end button-group">
+			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
         	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || (emailAlert || !formFieldc.email || !formFieldc.password ) && (guardianAlert || !formFieldc.guardianEmail)">Create
 			</button>
 			<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || (emailAlert || !formFieldc.email || !formFieldc.password ) && (guardianAlert || !formFieldc.guardianEmail)">Update
 			</button>
-		</div>
+		</div> -->
 	</form>
 </div>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
@@ -485,7 +492,7 @@
 	          [(ngModel)]="searchData.searchText" 
 	          (input)="changeSearch($event.target.value, custDetail.user.userId)">
 	        <span class="input-group-append">
-	          <button class="bt btn-design btn-outline-secondary" type="button">
+	          <button class="bt btn-design btn-outline-secondary btn-right-radius" type="button">
 	              <i class="fa fa-search search-size"></i>
 	          </button>
 	        </span>
@@ -495,15 +502,18 @@
 		    <div class="card-columns pd-zero">
 		    	<div class="card" *ngFor="let course of availableCourses; let i = index">
 		    		<div class="single-class">
+		    			<div class="no-seat" *ngIf="course.seat_left == 0">All seat taken</div>
+		    			<div class="seat-left" *ngIf="course.seat_left != 0 && course.seat_left != null">{{course.seat_left}} seats left</div>
 		    			<div class="class-info-head">
 	  						<h5 class="mt-03">
 	  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
 	  				      {{course.location.name}}
 	  				    </h5>
 	  				    <b>{{course.name}}</b>
+	  				    <!-- <div>{{course.seat_left}}</div> -->
 		    			</div>
 		    			<div class="class-info-body">
-		    				<div class="class-body-one row">
+		    				<div [hidden]="!course.paymentPolicy.courseFee && !course.paymentPolicy.deposit && !course.paymentPolicy.miscFee && !course.paymentPolicy.proratedLessonFee" class="class-body-one row">
 			    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 			    					<div *ngIf="course.paymentPolicy.courseFee != null">
 			    						<h5>Course fee</h5>
@@ -552,13 +562,13 @@
 			    			</div>
 		    			</div>
 		    			<div class="row d-flex justify-content-center class-info-footer">
-		    				<button class="btn" (click)="enrollUser(course._id)">Enroll on this course</button>
+		    				<button type="button" class="btn" (click)="enrollUser(course._id)" [disabled]="course.seat_left == 0">Enroll on this course</button>
 		    			</div>
 		    		</div>
 		    	</div>
 		    </div>
 	    	<div *ngIf="availableCourses.length >= 20" class="load-more1 d-flex justify-content-center">
-	    		<button class="btn" (click)="showMoreAC(availableCourses.length, custDetail.user.userId)">load more</button>
+	    		<button type="button" class="btn" (click)="showMoreAC(availableCourses.length, custDetail.user.userId)">load more</button>
 	    	</div>
 	    </div>
   	</div>  	
