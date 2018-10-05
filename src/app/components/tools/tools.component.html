@@ -204,7 +204,7 @@
 							</div>
 
 
-							<div *ngIf="isChecked != 'user' && isChecked != 'course'" class="form-group">
+							<div *ngIf="isChecked != 'user'" class="form-group">
 								<div *ngIf="isChecked=='allcustomer'" class="form-check active-user-form">
 								    <label class="form-check-label">
 								      <input type="checkbox" class="form-check-input" name="active" (change)="checkedActive($event, 'active')">
@@ -220,6 +220,12 @@
 								<div *ngIf="isChecked=='category'" class="form-check active-user-form">
 								    <label class="form-check-label">
 								      <input type="checkbox" class="form-check-input" name="activecategory" (change)="checkedActive($event, 'active')">
+								      Only active users
+								    </label>
+								</div>
+								<div *ngIf="isChecked=='course'" class="form-check active-user-form">
+								    <label class="form-check-label">
+								      <input type="checkbox" class="form-check-input" name="activecourse" (change)="checkedActive($event, 'active')">
 								      Only active users
 								    </label>
 								</div>

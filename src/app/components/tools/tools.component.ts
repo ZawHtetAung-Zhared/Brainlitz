@@ -196,6 +196,9 @@ export class ToolsComponent implements OnInit {
 
   changeSearch(searchWord, type){
     console.log(searchWord)
+    console.log(this.active)
+    // this.active = (searchWord.length == 0 ) ? [] : this.active;
+    this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
     if(type == 'user'){
       this._service.getSearchUser(this.regionID, searchWord, 'all')
@@ -228,6 +231,7 @@ export class ToolsComponent implements OnInit {
 
   selectData(id, name, type){
     console.log(id)
+    console.log('~~~', this.active.length)
     this.selectedID = id;
     this.item.itemID = name;
     if(type == 'user'){
@@ -240,12 +244,21 @@ export class ToolsComponent implements OnInit {
 
   getUserCount(type){
     console.log(type)
+    console.log('...',this.active.length)
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
       "option": type
     }
     dataObj["id"] = this.selectedID;
+    if(this.active.length != 0){
+      dataObj["active"] = true;
+      console.log('active true')
+    }else{
+      console.log('[]')
+    }
+    
+    console.log('=====',dataObj)
     this._service.userCount(dataObj)
       .subscribe((res:any) => {    
           console.log(res);
@@ -378,6 +391,7 @@ export class ToolsComponent implements OnInit {
   somethingChanged(type){
     this.tempList = [];
     this.active = [];
+    this.selectedID = undefined
     console.log('what', type)
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
@@ -448,11 +462,16 @@ export class ToolsComponent implements OnInit {
   checkedActive(e, type){
     console.log(e)
     console.log('~~~' ,this.isChecked)
+    console.log('~~~' ,this.selectedID)
     this.locationId = localStorage.getItem('locationId');
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
       "option": this.isChecked
+    }
+
+    if(this.selectedID != undefined){
+      dataObj["id"] = this.selectedID;
     }
 
     var val = type;
@@ -476,6 +495,7 @@ export class ToolsComponent implements OnInit {
   }
 
   userCountCalc(obj){
+    console.log(obj)
     this._service.userCount(obj)
     .subscribe((res:any) => {      
       console.log(res.count);
