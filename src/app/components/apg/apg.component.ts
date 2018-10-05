@@ -191,11 +191,11 @@ export class ApgComponent implements OnInit {
     }
 
     setShareAPG(obj){
-      console.log(this.singleCheckedAPG)
+      console.log('set share',this.singleCheckedAPG)
 
       let data = this.singleCheckedAPG;
-
-      this._service.updateSingleTemplate(this.regionID, data)
+      console.log(data)
+      this._service.createAPG(this.regionID, '' , data._id, data.moduleId)
       .subscribe((res:any) => {
           console.log(res)
           this.toastr.success('Successfully '+ status + '.');
@@ -752,13 +752,13 @@ export class ApgComponent implements OnInit {
   	}
 
     publicAPG(data){
-      console.log(data)
+      console.log('public share',data)
       data.public = true;
       this._service.updateSingleTemplate(this.regionID, data)
       .subscribe((res:any) => {
           console.log(res)
           this.getAllTemplate(20, 0);
-          this.toastr.success('Successfully '+ status + '.');
+          this.toastr.success('Successfully shared.');
           this.blockUI.stop();
       }, err => {
           this.toastr.success(status + ' Fail.');

@@ -142,7 +142,8 @@ main{
 }
 app-login,
 app-dashboard,
-app-tools{
+app-tools,
+app-report{
   display: flex;
   flex-direction: column;
   height: 100%;

@@ -21,18 +21,22 @@
             </div>
             <h5 class="medium-font">{{ courseGroup.coursePlan.name }}</h5>
             <div class="d-flex header-info light-font">
-              {{ courseGroup.coursePlan.seats }} seats
-              <ul><li>{{ courseGroup.coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
+              <label class="mb-0" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} seats</label>
+              <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats==null">unlimited seats</label>
+              <ul><li class="l-height">{{ courseGroup.coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
             </div>
           </div>
           <div>
             <div *ngFor="let course of courseGroup.courses">
               <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
               <div class="d-flex course-wrap">
-                <div *ngIf="course.seat_left > 0" class="absolute">
+                <div [hidden]="course.draft == true" *ngIf="course.seat_left > 0" class="absolute">
                   {{ course.seat_left }} seats left
                 </div>
-                <div *ngIf="course.seat_left == null || course.seat_left == 0 || course.seat_left == -1" class="no-seat">
+                <div [hidden]="course.draft == true" *ngIf="course.seat_left == null" class="absolute">
+                  unlimited seats
+                </div>
+                <div *ngIf="course.seat_left == 0 || course.seat_left == -1" class="no-seat">
                   All seats taken
                 </div>
                 <div class="date-wrap">
@@ -74,7 +78,7 @@
                       </div>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
-                      <button class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
+                      <button *ngIf="course.seat_left != 0" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
                       </button>
@@ -230,7 +234,8 @@
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
                 <div>
-                  <p class="seat">{{detailLists.seat_left}} seats left</p>
+                  <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.seat_left}} seats left</p>
+                  <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
               <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>
@@ -274,7 +279,7 @@
   <div class="d-flex modal-header">
     <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">Add teacher</h3>
     <h3 *ngIf="userType == 'customer'" class="modal-title d-flex mr-auto">Add customer</h3>
-    <button (click)="c('Close click')" aria-label="Close" class="modal-close ml-auto" type="button">
+    <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
       <span class="closemark">
           <div class="closemark_stem"></div>
           <div class="closemark_kick"></div>
@@ -384,7 +389,7 @@
     <div *ngIf="isSeatAvailable == false && userType == 'customer'" class="seat-taken">All seat taken. Can't add user anymore.</div>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
       <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
   </div>
   </form>
