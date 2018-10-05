@@ -446,11 +446,18 @@
 		</div>
 		<div class="d-flex justify-content-end button-group">
 			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid">Create
+			</button>
+			<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid">Update
+			</button>
+		</div>
+		<!-- <div class="d-flex justify-content-end button-group">
+			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
         	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || (emailAlert || !formFieldc.email || !formFieldc.password ) && (guardianAlert || !formFieldc.guardianEmail)">Create
 			</button>
 			<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || (emailAlert || !formFieldc.email || !formFieldc.password ) && (guardianAlert || !formFieldc.guardianEmail)">Update
 			</button>
-		</div>
+		</div> -->
 	</form>
 </div>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
