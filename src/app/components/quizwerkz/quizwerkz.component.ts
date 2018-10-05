@@ -69,6 +69,7 @@ export class QuizwerkzComponent implements OnInit {
   creatnew(){
     this.isEdit = false;
     this.iscreate = true;
+    this.formField = new quizWerkzForm();
   }
 
   focusMethod(e){
