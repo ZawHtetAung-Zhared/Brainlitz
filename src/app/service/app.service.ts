@@ -398,7 +398,7 @@ export class appService{
     }
 
     getSearchCourse(regionID: string, val: string, location: string){
-      let apiUrl = this.baseUrl + '/' + regionID + '/course/search?keyword=' + val + '&locationId=' + location;
+      let apiUrl = this.baseUrl + '/' + regionID + '/course/search?keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -412,7 +412,7 @@ export class appService{
     }
 
     getSearchCategory(regionID: string, val: string, location: string){
-      let apiUrl = this.baseUrl + '/' + regionID + '/category/search?keyword=' + val + '&locationId=' + location;
+      let apiUrl = this.baseUrl + '/' + regionID + '/category?keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

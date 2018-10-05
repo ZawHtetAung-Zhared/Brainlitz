@@ -162,7 +162,7 @@
 								  [disabled]="courseLists == undefined"
 								/> -->
 							</div>
-							<div class="search-result-box" *ngIf="isFousCourse == true">
+							<div class="search-result-box" style="top: 23%;" *ngIf="isFousCourse == true">
 								<div class="single-result" (click)="selectData(course._id, course.name, 'course')" *ngFor="let course of courseLists">
 									{{course.name}}
 								</div>
