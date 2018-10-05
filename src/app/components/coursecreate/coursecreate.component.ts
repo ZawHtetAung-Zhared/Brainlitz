@@ -92,7 +92,9 @@ export class CoursecreateComponent implements OnInit {
   public timetableLists: Array<any> = [];
   public ttStartDate: Array<any> = [];
   public ttEndDate: Array<any> = [];
-  public coursePayment:any = {}
+  public coursePayment:any = {};
+  public tempVar:any;
+  public tempValue:any;
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -164,8 +166,12 @@ export class CoursecreateComponent implements OnInit {
       }
       if(this.model.end){
         this.isChecked = 'end';
+        this.tempVar = 'end';
+        this.tempValue = this.changeDateStrtoObj(res.endDate,"end");
       }else if(this.model.lessonCount){
         this.isChecked = 'lesson';
+        this.tempVar = 'lesson';
+        this.tempValue = res.lessonCount;
       }
 
       // var selectedDays= this.model.repeatDays;
@@ -332,18 +338,40 @@ export class CoursecreateComponent implements OnInit {
   }
 
   chooseEndOpt(type){
-    this.isChecked = type;
-    if(type == 'end'){
-      this.model.end = "";
-      if(this.model.lesson){
-        this.model.lessonCount = "";
+    // this.isChecked = type;
+    // if(type == 'end'){
+    //   this.model.end = "";
+    //   if(this.model.lesson){
+    //     this.model.lessonCount = "";
+    //   }
+    // }else if(type == 'lesson'){
+    //   if(this.model.end){
+    //     this.model.end = "";
+    //   }
+    //   this.model.lessonCount = "";
+    // }
+      this.isChecked = type;
+      if(this.tempVar){
+        if(this.tempVar == this.isChecked){
+          console.log("Draft Choose");
+          if(this.tempVar == 'end'){
+            this.model.end = this.tempValue;
+            this.model.lessonCount = ""
+          }else{
+            this.model.lessonCount = this.tempValue;
+            this.model.end = ""
+          }
+        }
+      }else{
+        console.log("CREATE");
+        if(this.isChecked == 'end'){
+          this.model.lessonCount = "";
+        }else{
+          this.model.end = "";
+        }
       }
-    }else if(type == 'lesson'){
-      if(this.model.end){
-        this.model.end = "";
-      }
-      this.model.lessonCount = "";
-    }
+    
+
   }
 
   setMinDate(event){
