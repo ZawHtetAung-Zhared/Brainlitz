@@ -145,6 +145,7 @@ export class CoursecreateComponent implements OnInit {
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
       this.setToTimerange(this.model.starttime);
+      this.minDate = this.model.start;
       this.model.location = this.model.location.name;
       this.locationId = this.model.locationId;
       console.log("this location",this.locationId);
