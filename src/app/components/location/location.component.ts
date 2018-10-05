@@ -6,7 +6,6 @@ import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-
 declare var $: any;
 
 @Component({
@@ -27,6 +26,7 @@ export class LocationComponent implements OnInit {
 	public PHpattern: any;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
+	public locationID = localStorage.getItem('locationId');
 	public locationLists: Array<any> = [];
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
@@ -209,15 +209,24 @@ export class LocationComponent implements OnInit {
     		this.locationLists = this.locationLists.concat(res);
     		console.log(this.locationLists)
     		this.isempty = (res.length === 0) ? true : false;       
-	    	let locationId  = localStorage.getItem('locationId');
-		      if(locationId){
-		        for(var i = 0; i < this.locationLists.length; i++){
-		          if(this.locationLists[i]._id == locationId){
-		            this.locationLists[i].selected = true;
-		            localStorage.setItem('locationId', this.locationLists[i]._id);
-		          }
-		        }
-		      }
+	    	
+    		console.log(this.locationID)
+    		if(this.locationID){
+    			for(var i in  this.locationLists){
+    				if(this.locationID == this.locationLists[i]._id){
+    					console.log('same')
+    					this.locationLists[i].selected = true;
+    				}
+    			}
+    		}
+		      // if(this.locationID){
+		      //   for(var i = 0; i < this.locationLists.length; i++){
+		      //     if(this.locationLists[i]._id == locationId){
+		      //       this.locationLists[i].selected = true;
+		      //       localStorage.setItem('locationId', this.locationLists[i]._id);
+		      //     }
+		      //   }
+		      // }
 	    }, err => {
 	    	console.log(err)
 	    })
