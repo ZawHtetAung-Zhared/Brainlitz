@@ -660,6 +660,7 @@ export class ToolsComponent implements OnInit {
       if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
         this.userCount = 0;
       }
+      // location.reload();
     }, err => {
       this.toastr.error('Notify fail');
       console.log(err)

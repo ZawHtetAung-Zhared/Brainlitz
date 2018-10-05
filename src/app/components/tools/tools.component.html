@@ -128,7 +128,7 @@
 								  [disabled]="categoryLists == undefined"
 								/> -->
 							</div>
-							<div style="top: 23%;" class="search-result-box" *ngIf="isFousCategory == true">
+							<div style="top: 225px;" class="search-result-box" *ngIf="isFousCategory == true">
 								<div class="single-result" (click)="selectData(category._id, category.name, 'category')" *ngFor="let category of categoryLists">
 									{{category.name}}
 								</div>
@@ -162,7 +162,7 @@
 								  [disabled]="courseLists == undefined"
 								/> -->
 							</div>
-							<div class="search-result-box" style="top: 23%;" *ngIf="isFousCourse == true">
+							<div class="search-result-box" style="top: 225px;" *ngIf="isFousCourse == true">
 								<div class="single-result" (click)="selectData(course._id, course.name, 'course')" *ngFor="let course of courseLists">
 									{{course.name}}
 								</div>
