@@ -756,7 +756,7 @@ header div{
   position: absolute;
   top: 55px;
   left: 2px;
-  z-index: 999;
+  z-index: 9;
   border: 2px solid #ffffff;
   line-height: 1.5;
 }

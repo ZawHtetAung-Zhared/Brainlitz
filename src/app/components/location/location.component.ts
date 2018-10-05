@@ -6,7 +6,6 @@ import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-
 declare var $: any;
 
 @Component({
@@ -27,6 +26,7 @@ export class LocationComponent implements OnInit {
 	public PHpattern: any;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
+	public locationID = localStorage.getItem('locationId');
 	public locationLists: Array<any> = [];
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
@@ -97,21 +97,23 @@ export class LocationComponent implements OnInit {
 
 	telInputObject(obj) {
 	    console.log(obj);
-	    console.log(obj[0].placeholder);
-	    var str = obj[0].placeholder
-		console.log(str.replace(/\s/g, ''))
-		const strLength = str.replace(/\s/g, '');
-		this.limitno = strLength.length;
-		this.PHpattern = '[0-9]{' + this.limitno + '}';
+	 //    console.log(obj[0].placeholder);
+	 //    var str = obj[0].placeholder
+		// console.log(str.replace(/\s/g, ''))
+		// const strLength = str.replace(/\s/g, '');
+		// this.limitno = strLength.length;
+		// this.PHpattern = '[0-9]{' + this.limitno + '}';
 
-		console.log(this.PHpattern)
-	    console.log(obj[0].placeholder.length);
+		// console.log(this.PHpattern)
+	 //    console.log(obj[0].placeholder.length);
 	    if(this.isUpdate != true){
 	    	console.log('create')
 	    	obj.intlTelInput('setCountry', 'sg');
 	    }else{
-	    	console.log('update')
-	    	obj.intlTelInput('setCountry', this.countryname);
+	    	console.log('update', this.countryname)
+	    	setTimeout(() => {
+	    		obj.intlTelInput('setCountry', this.countryname);
+	    	}, 300);
 	    }
   	}
 
@@ -207,15 +209,24 @@ export class LocationComponent implements OnInit {
     		this.locationLists = this.locationLists.concat(res);
     		console.log(this.locationLists)
     		this.isempty = (res.length === 0) ? true : false;       
-	    	let locationId  = localStorage.getItem('locationId');
-		      if(locationId){
-		        for(var i = 0; i < this.locationLists.length; i++){
-		          if(this.locationLists[i]._id == locationId){
-		            this.locationLists[i].selected = true;
-		            localStorage.setItem('locationId', this.locationLists[i]._id);
-		          }
-		        }
-		      }
+	    	
+    		console.log(this.locationID)
+    		if(this.locationID){
+    			for(var i in  this.locationLists){
+    				if(this.locationID == this.locationLists[i]._id){
+    					console.log('same')
+    					this.locationLists[i].selected = true;
+    				}
+    			}
+    		}
+		      // if(this.locationID){
+		      //   for(var i = 0; i < this.locationLists.length; i++){
+		      //     if(this.locationLists[i]._id == locationId){
+		      //       this.locationLists[i].selected = true;
+		      //       localStorage.setItem('locationId', this.locationLists[i]._id);
+		      //     }
+		      //   }
+		      // }
 	    }, err => {
 	    	console.log(err)
 	    })
@@ -227,27 +238,20 @@ export class LocationComponent implements OnInit {
 
 	createLocation(obj, update, locationID) {
 		console.log("Location Obj",obj)
-		// if(update == true){
-		// 	var phNum = (obj.phoneNumber.number == undefined) ? null : obj.phoneNumber.number;
+		console.log(obj.phonenumber)
+		var phNum;
+		// if(obj.phonenumber != undefined && obj.phonenumber.length !=  0){
+		// 	var txt = obj.phonenumber;
+		// 	console.log(txt.match(/\d/g))
+		// 	var numb = txt.match(/\d/g);
+		// 	numb = numb.join("");
+		// 	console.log(numb);​
+		// 	phNum = numb
 		// }else{
-		// 	var phNum = (obj.phoneNumber == undefined) ? null : obj.phoneNumber;
+		// 	phNum = null
 		// }
 
-		
-		var phNum;
-		
-		if(obj.phonenumber != undefined){
-			var txt = obj.phonenumber;
-			console.log(txt.match(/\d/g))
-			var numb = txt.match(/\d/g);
-			numb = numb.join("");
-			console.log(numb);​
-			phNum = numb
-		}else{
-			phNum = null
-		}
-
-		// phNum = (obj.phonenumber == undefined) ? null: parseInt(obj.phonenumber);
+		phNum = (obj.phonenumber == undefined || obj.phonenumber.length ==  0) ? null: parseInt(obj.phonenumber);
 		console.log("PhNum",phNum)
 		let data = {
 			"regionId": this.regionID,
@@ -319,7 +323,8 @@ export class LocationComponent implements OnInit {
 		this.iscreate = true;
 		// console.log(this.model)
 		this.isUpdate = true;		
-		this.isvalid = true;		
+		this.isvalid = true;
+		this.isnumber = false;		
 		this.singleLocation(id);
 	}
 

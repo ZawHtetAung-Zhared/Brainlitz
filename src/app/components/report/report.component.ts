@@ -126,6 +126,7 @@ export class ReportComponent implements OnInit {
 
 	back(){
 		this.showDetail = false;
+		this.getStaffRating(20,0);
 	}
 
 	dropDownShow: boolean = false;

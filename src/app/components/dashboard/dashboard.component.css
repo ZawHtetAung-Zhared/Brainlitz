@@ -39,7 +39,7 @@
     /*padding-top: 20px;*/
     padding-right: 0;
     padding-left: 0;
-    /*border-right: 1px solid #dedede;*/
+    border-right: 1px solid #dedede;
     -ms-transition: 300ms linear;
     transition: 300ms linear;
     width: 25%;
@@ -213,6 +213,9 @@
 .urlEdit a{
   cursor: pointer;
 }
+.editBtns a:hover{
+  cursor: pointer;
+}
 .editBtns{
   padding: 1rem;
   float: right;
@@ -276,8 +279,21 @@
 .blur{
   filter: blur(8px);
 }
+.url-edit{
+  margin-bottom: 12px;
+}
 .overlayBtns{
   float: right;
+}
+.overlayBtns button{
+  background: #fff;
+  border-radius: 2px;
+  -ms-box-shadow: 0 0 9px 4px rgba(195, 195, 195, 0.3);
+  -webkit-box-shadow: 0 0 9px 4px rgba(195, 195, 195, 0.3);
+  box-shadow: 0 0 9px 4px rgba(195, 195, 195, 0.3);
+}
+.overlayBtns button:first-child{
+  margin-right: 12px;
 }
 .closemark {
     display:inline-block;
@@ -343,7 +359,7 @@
   .noti-tab{
     padding: 15px 2px;
   }
- }
+}
 
 /*Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) and (max-width: 1199px) { 

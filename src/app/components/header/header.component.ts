@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
 
   getAllLocation(){
     console.log('afterclick region', this.regionID)
-    this._service.getLocations(this.regionID, '', '', true)
+    this._service.getHeaderLocations(this.regionID, '', '', true)
     .subscribe((res:any) => {
       this.headerlocationLists = res; 
       console.log('header headerlocationLists',this.headerlocationLists)
