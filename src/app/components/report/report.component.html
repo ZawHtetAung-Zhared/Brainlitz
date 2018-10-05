@@ -98,22 +98,22 @@
 										Room <span class="room-dot">&#183;</span> {{detail.course.room}}
 									</div>
 								</div>
-								<div class="flex-show pos-gray-content" *ngFor="let detailVote of detail.feedbacks; let i = index;">
-									<div class="col-md-2 pad-0">
+								<div class="d-flex flex-row pos-gray-content" *ngFor="let detailVote of detail.feedbacks; let i = index;">
+									<div class="pad-0" style="padding-right: 15px;">
 										<div class="circular-detail-image">
 											<img src="{{detailVote.profilePic}}">
 										</div>	
 									</div>	
-									<div class="col-md-10 info-group pad-0">
-										<div class="d-flex justify-content-between">
+									<div class="info-group pad-0 d-flex justify-content-between flex-row w-100">
+										<div class="">
 											<div>
 												<p class="mr-0">{{detailVote.preferredName}}</p>
 												<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detailVote.rating"></star-rating-comp>
 											</div>
-											<p class="detail-show-date">{{CreatedDate}}</p>
+											<p class="detail-message">{{detailVote.message}}</p>
 										</div>
+										<p class="detail-show-date">{{CreatedDate}}</p>
 										
-										<p class="detail-message">{{detailVote.message}}</p>
 									</div>
 									
 								</div>
