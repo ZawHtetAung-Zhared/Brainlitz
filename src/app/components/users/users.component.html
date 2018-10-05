@@ -495,13 +495,15 @@
 		    <div class="card-columns pd-zero">
 		    	<div class="card" *ngFor="let course of availableCourses; let i = index">
 		    		<div class="single-class">
+		    			<div class="no-seat" *ngIf="course.seat_left == 0">All seat taken</div>
+		    			<div class="seat-left" *ngIf="course.seat_left != 0 && course.seat_left != null">{{course.seat_left}} seats left</div>
 		    			<div class="class-info-head">
 	  						<h5 class="mt-03">
 	  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
 	  				      {{course.location.name}}
 	  				    </h5>
 	  				    <b>{{course.name}}</b>
-	  				    <div>{{course.seat_left}}</div>
+	  				    <!-- <div>{{course.seat_left}}</div> -->
 		    			</div>
 		    			<div class="class-info-body">
 		    				<div [hidden]="!course.paymentPolicy.courseFee && !course.paymentPolicy.deposit && !course.paymentPolicy.miscFee && !course.paymentPolicy.proratedLessonFee" class="class-body-one row">

@@ -1,3 +1,22 @@
+.no-seat{
+    background: #f2f4f5;
+    color: #64707d;
+}
+.seat-left{
+    background: #007fff;
+    color: #fff;
+}
+.no-seat,
+.seat-left {
+    text-align: center;
+    font-size: 0.8rem;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    font-family: 'Montserrat-Medium',Arial,sans-serif;
+    position: absolute;
+    right: 0;
+    padding: 4px;
+}
 .limit-wordcount,.limit-wordcount1{
   display: none;
   font-size: 14px;
@@ -912,6 +931,7 @@ h3, h5 {
     max-height: 385px;
     overflow: overlay;
     padding-left: 3px;
+    padding-right: 3px;
 }
 
 /*enroll new class modal*/
