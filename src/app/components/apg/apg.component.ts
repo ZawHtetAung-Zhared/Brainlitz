@@ -758,7 +758,7 @@ export class ApgComponent implements OnInit {
       .subscribe((res:any) => {
           console.log(res)
           this.getAllTemplate(20, 0);
-          this.toastr.success('Successfully '+ status + '.');
+          this.toastr.success('Successfully shared.');
           this.blockUI.stop();
       }, err => {
           this.toastr.success(status + ' Fail.');
