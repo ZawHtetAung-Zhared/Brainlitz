@@ -197,6 +197,8 @@ export class CoursecreateComponent implements OnInit {
     console.log(H);
     var h = (H % 12) || 12;
     var ampm = H < 12 ? "AM" : "PM";
+    var forSelected = h + timeString.substr(2, 3);
+    console.log("For Selected",forSelected);
     if(h<10){
       timeString = '0' + h + timeString.substr(2, 3) + ampm;
     }else{
@@ -207,7 +209,12 @@ export class CoursecreateComponent implements OnInit {
     this.model.startT = timeString;
     console.log(this.showFormat);
     this.rangeHr = timeString.substring(0,timeString.search(":"));
+    console.log('this.rangeHr',this.rangeHr)
     this.rangeMin = timeString.substring(timeString.search(":")+1);
+    console.log('this.rangeMin',this.rangeMin);
+    this.selectedHrRange = forSelected.substring(0,forSelected.search(":"));
+    this.selectedMinRange = forSelected.substring(forSelected.search(":")+1);
+    console.log("MinRange in Draft",this.selectedMinRange);
   }
 
   changeDateStrtoObj(datestr,type){
@@ -518,9 +525,11 @@ export class CoursecreateComponent implements OnInit {
     // console.log(e)
     if(type == 'hr'){
       this.selectedHrRange = e;
+      console.log("this.selectedHrRange",this.selectedHrRange);
     }
     if(type == 'min'){
       this.selectedMinRange = e;
+      console.log("this.selectedMinRange",this.selectedMinRange)
     }
     this.formatTime();
   }
@@ -532,6 +541,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   formatTime(){
+    console.log()
     if(this.selectedHrRange > 0 ){
       if(this.selectedHrRange<10){
         var hrFormat = 0 + this.selectedHrRange;
