@@ -856,10 +856,11 @@ export class CoursecreateComponent implements OnInit {
     }
     
     console.log("Course",this.courseObj);
-
+    this.blockUI.start('Loading...');
     this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck)
     .subscribe((res:any) => {
       console.log(res);
+      this.blockUI.stop();
       // localStorage.removeItem('coursePlanId');
       // localStorage.removeItem('splan');
       localStorage.removeItem('cPlan');
@@ -885,6 +886,7 @@ export class CoursecreateComponent implements OnInit {
     },err => {
         console.log(err);
         console.log(err.status);
+        this.blockUI.stop();
         if(err.status == 409){
           console.log(this.model.end)
           console.log(this.model.lessonCount)
