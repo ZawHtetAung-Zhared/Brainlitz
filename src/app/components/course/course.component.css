@@ -1,3 +1,9 @@
+.pl-60{
+  padding-left: 60px;
+}
+.pd-zero{
+  padding: 0;
+}
 .draft-sign {
     position: absolute;
     padding: 3px 10px;
@@ -371,14 +377,15 @@ li button{
 .back-to,
 .edit-course-btn,
 .course-time h5,
+.cdetail h5,
 .room-name{
     color: #2e3d4d !important;
     font-size: 16px;
 }
 
+.cdetail h5,
 .course-time h5,
 .room-name,
-.course-time p,
 .detail-info h4,
 .detail-fees b,
 .single-user-info h4,
@@ -445,14 +452,12 @@ li button{
   min-height: 80px;
   height: 80px;
   overflow: scroll;
-}
-.detail-info p,
-.detail-fees h5{
   color: #64707d;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
   line-height: 1.7;
   margin-bottom: 0;
   font-size: 16px;
+  text-align: justify;
 }
 .detail-fees b,
 .single-user-info h4,
@@ -464,6 +469,11 @@ li button{
     font-size: 12px;
     color: #2e3d4d;
     font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.detail-fees h5{
+  color: #64707d;
+  font-size: 16px;
+  font-family: 'Montserrat-Regular', Arial,sans-serif;
 }
 .detail-box {
   border-radius: 8px;
@@ -485,11 +495,38 @@ li button{
 .mt-03{
   margin-top: .3rem;
 }
-
+.cdetail {
+  padding: 40px 24px 24px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  /*background: url(../../../../assets/src/img/wave-1@3x.png) no-repeat top;*/
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.course-bg:nth-child(1) .cdetail{
+  background-image: url("../../../assets/img/wave-1@3x.png");
+}
+.course-bg:nth-child(2) .cdetail{
+  background-image: url("../../../assets/img/wave-2@3x.png");
+}
+.course-bg:nth-child(3) .cdetail{
+  background-image: url("../../../assets/img/wave-3@3x.png");
+}
+.course-bg:nth-child(4) .cdetail{
+  background-image: url("../../../assets/img/wave-4@3x.png");
+}
+.cdetail h5 {
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+.cdetail p,
 .course-time p{
   color: #64707d;
-  font-size: 16px;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  line-height: 1.7;
   margin-bottom: 0;
+  font-size: 14px;
 }
 .mt-32{
   margin-top: 32px;
