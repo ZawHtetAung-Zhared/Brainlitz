@@ -195,9 +195,9 @@
     </div>
 
     <div class="d-flex flex-column mt-32">
-      <div class="d-flex">
+      <div class="d-flex c-border">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
-        <!-- <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button> -->
+        <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class')">Class</button>
         <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">
@@ -262,6 +262,38 @@
                     <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="activeTab-content" *ngIf="activeTab == 'Class'">
+        <div class="timeline">
+          <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
+            <b>{{timeline.startDate | timelineDate}}</b>
+            <p>{{timeline.startDate | timelineDay}}</p>
+          </div>
+        </div>
+        <div class="mt-20">
+          <div class="d-flex justify-content-between">
+            <div class="mr-auto">
+              <p class="class-day">Sunday</p>
+              <p class="class-date">7 Aug 2018</p>
+            </div>
+            <button type="button" class="btn btn-class-cancel" (click)="cancelClass()">Cancel class</button>
+          </div>
+          <div>
+            <label class="present">present</label>
+            <label class="absent">absent</label>
+            <label class="no-data">no data</label>
+          </div>
+          <div class="student-lists row">
+            <div *ngFor="let user of pplLists.CUSTOMER" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
+              <div class="d-flex flex-row single-student align-items-center">
+                <div class="std-img-wrap">
+                  <img src="{{user.profilePic}}">
+                </div>
+                <p>{{user.preferredName}}</p>
               </div>
             </div>
           </div>

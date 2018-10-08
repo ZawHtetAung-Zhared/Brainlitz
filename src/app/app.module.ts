@@ -50,6 +50,8 @@ import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
+import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
 import { ttDayPipe } from './service/pipe/timetableday.pipe';
 import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
 import { ttTimePipe } from './service/pipe/timetabletime.pipe';
@@ -92,6 +94,8 @@ import { HomeComponent } from './components/home/home.component';
     GetDayPipe,
     GetUtcTimePipe,
     GetUtcDatePipe,
+    GetTimelineDatePipe,
+    GetTimelineDayPipe,
     ttDayPipe,
     ttMonthPipe,
     ttTimePipe,

@@ -27,6 +27,7 @@ export class CourseComponent implements OnInit {
   public detailLists:any = {};
   public selectedUserLists:any = [];
   public selectedUserId:any = [];
+  public todayDate:any;
   public courseId:any;
   public locationId:any;
   public userType:any;
@@ -41,14 +42,9 @@ export class CourseComponent implements OnInit {
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
-  public characters = [
-    {'name': 'Finn the human'},
-    {'name': 'Jake the dog'},
-    {'name': 'Princess bubblegum'},
-    {'name': 'Lumpy Space Princess'},
-    {'name': 'Beemo1'},
-    {'name': 'Beemo2'}    
-  ];
+ 
+
+  
   public draft:boolean;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
@@ -148,6 +144,7 @@ export class CourseComponent implements OnInit {
     this.isCourseDetail = false;
     this.courseList = [];
     this.getCourseLists(20,0);
+    this.activeTab = 'People';
   }
 
   showCourseDetail(courseId){
@@ -205,6 +202,16 @@ export class CourseComponent implements OnInit {
 
   clickTab(type){
     this.activeTab = type;
+    if(type == 'Class'){
+      const today = new Date();
+      this.todayDate = today.toISOString();
+      console.log(this.todayDate)
+      // let bb = new Date(this.todayDate)
+      let bb = today.getFullYear()+'-' + (today.getMonth()+1) + '-'+today.getDate();
+      
+      console.log(bb)
+
+    }
   }
 
   openRemoveModal(id, deleteModal){
