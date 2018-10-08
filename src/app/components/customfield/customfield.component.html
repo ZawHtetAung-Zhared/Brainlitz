@@ -1,0 +1,88 @@
+<div *ngIf="!showForm" class="content-wrapper">
+	<div class="d-flex justify-content-between header-wrap">
+		<div class="mr-auto pl-15 d-flex align-items-center">
+	      <h3 class="field-h3 font-semi m-0">Custom field</h3>
+	    </div>
+	    <button type="button" class="btn btn-create mr-15 font-medium" (click)="showCreateForm()">Add new field</button>  
+	</div>
+	<div class="field-wrapper card-columns">
+		<div class="card" *ngFor="let field of fieldLists">
+			<div class="single-field">
+				<div class="field-info">
+					<h5 class="field-name font-semi">{{ field.name }}</h5>
+					<div>
+						<p class="mb-0 field-desc">
+							{{ field.description }}
+						</p>
+					</div>
+				</div>
+				<div class="d-flex justify-content-between btn-section">
+					<div>{{ field.dataType }}</div>
+					<div class="font-medium">
+						<button class="btn-action">Edit</button>
+						<span>.</span>
+						<button class="btn-action">Delete</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div *ngIf="showForm" class="content-wrapper">
+	<div class="back-wrap d-flex">
+		<div class="d-flex back" (click)="cancel()">
+			<i class="fa fa-angle-left"></i>
+			<p class="mb-0 font-medium">Custom field</p>
+		</div>
+	</div>
+	<div class="form-wrap">
+		<h3 class="field-h3 font-semi m-bottom">Create custom field</h3>
+		<form novalidate #fieldForm="ngForm">
+			<div class="col-md-8 p-0">
+				<div class="form-group">
+					<div class="d-flex justify-content-between">
+						<label class="form-title field-name font-semi" for="name">Field name</label>
+						<div class="limit-wordcount">
+							<span>{{wordLength}}/60characters</span>
+						</div>
+					</div>
+					<input type="text" name="name" class="input-field" placeholder="Type field name" maxlength="60" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" [(ngModel)]="model.name" required #name ="ngModel">
+					<div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+						<div [hidden]="!name.errors.required">
+							Name is required!
+						</div>
+					</div>
+				</div>
+				<div class="form-group formfield-wrap">
+					<div class="d-flex justify-content-between">
+						<label class="form-title field-name font-semi mb-0" for="name">Description</label>
+						<div class="limit-wordcount1">
+							<span>{{wordLength}}/60characters</span>
+						</div>
+					</div>
+					<div class="font-medium recomend-msg">
+						We recomend field name alternative sentence.
+					</div>
+					<input type="text" class="form-control input-field" placeholder="Type description" name="description" maxlength="60" (focus)="focusMethod($event,'sub',$event.target.value)" (blur)="blurMethod($event,'sub')" (input)="changeMethod($event.target.value)" [(ngModel)]="model.description" #description="ngModel">	
+				</div>
+				<div>
+					<label class="field-name font-semi">
+						Input type
+					</label>
+					<div class="tool-box">
+		                <div class="form-check form-check-inline tool-checked" *ngFor="let list of testLists">
+		                    <label [ngClass]="{'selected': isChecked == list}" class="form-check-label">
+		                      <input class="form-check-input" type="radio" name="type" value="{{list}}" [(ngModel)]="model.type" #type="ngModel" [checked]='true'
+		                      (click)="chooseType(list)"> {{list}}
+		                    </label>
+		                </div>
+		             </div>
+				</div>
+			</div>
+			<div class="d-flex justify-content-end form-footer">
+				<button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
+				<button type="button" class="btn-submit" (click)="createField()" [disabled]="!fieldForm.form.valid">Create</button>
+			</div>
+		</form>
+	</div>
+</div>

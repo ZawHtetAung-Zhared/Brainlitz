@@ -60,6 +60,7 @@ import { StarRatingModule } from 'angular-star-rating';
 import { ReadmoreComponent } from './components/readmore/readmore.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
 import { HomeComponent } from './components/home/home.component';
+import { CustomfieldComponent } from './components/customfield/customfield.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { HomeComponent } from './components/home/home.component';
     UserStaffComponent,
     HomeComponent,
     MapToIterable,
-    FilterPipe
+    FilterPipe,
+    CustomfieldComponent
   ],
   imports: [
     BrowserModule,

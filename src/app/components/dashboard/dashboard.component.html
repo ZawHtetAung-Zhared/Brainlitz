@@ -20,6 +20,15 @@
             </span>
           </button>
         </div>
+        <div [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">      
+          <button class="btn noti-tab w-100" (click)="clickTab('customfield')">
+            <span class="btnSpan">
+              <img *ngIf="menuType == 'customfield'" class="setting-icon" src="./assets/images/sidebar-location_a@2x.png">
+              <img *ngIf="menuType != 'customfield'" class="setting-icon" src="./assets/images/sidebar-location@2x.png">
+              <span>Custom Field</span>
+            </span>
+          </button>
+        </div>
       </div>
     </div>
     <div *ngIf="menuType == 'general'" class="pl-zero large-col" >
@@ -149,6 +158,9 @@
     </div>
     <div *ngIf="menuType == 'location'" class="large-col pl-zero">
       <app-location></app-location>
-    </div>  
+    </div> 
+    <div *ngIf="menuType == 'customfield'" class="large-col pl-zero">
+      <app-customfield></app-customfield>
+    </div> 
 </div>
 <block-ui message="Deafult Message"></block-ui>

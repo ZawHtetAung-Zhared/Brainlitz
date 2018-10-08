@@ -61,7 +61,7 @@
 	</div>
 </div>
 <div *ngIf="customerLists.length >= 20 && !showFormCreate && !showCustDetail" class="d-flex justify-content-center load-more">
-	<button class="btn" (click)="showMore('customer', customerLists.length)">load more</button>
+	<button type="button" class="btn" (click)="showMore('customer', customerLists.length)">load more</button>
 </div>
 
 <div *ngIf="showCustDetail" class="content-wrapper" [ngClass]="{'pdactive': isSticky == true}">
@@ -446,9 +446,9 @@
 		</div>
 		<div class="d-flex justify-content-end button-group">
 			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-        	<button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid">Create
+        	<button type="button" *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid">Create
 			</button>
-			<button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid">Update
+			<button type="button" *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid">Update
 			</button>
 		</div>
 		<!-- <div class="d-flex justify-content-end button-group">
