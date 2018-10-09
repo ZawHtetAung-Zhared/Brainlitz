@@ -202,6 +202,10 @@
 	background-color: #007fff;
 	color: #ffffff;
 }
+button:disabled{
+	cursor: no-drop;
+	opacity: 0.5;
+}
 
 /*For 1024px*/
 @media (max-width: 360px){
