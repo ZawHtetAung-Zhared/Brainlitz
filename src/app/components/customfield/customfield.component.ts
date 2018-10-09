@@ -17,8 +17,8 @@ export class CustomfieldComponent implements OnInit {
   public fieldLists:any = [];
   public showForm:boolean = false;
   public isUpdate:boolean = false;
-  public testLists = ['Text', 'Date', 'Number'];
-  public isChecked = 'Text';
+  public testLists = ['String', 'Date', 'Number'];
+  public isChecked:any;
   public model:any = {};
   public wordLength:any;
   public modalReference: any;
@@ -72,15 +72,16 @@ export class CustomfieldComponent implements OnInit {
   showCreateForm(){
   	this.showForm = true;
   	this.model = {};
-  	this.isChecked = 'Text';
+  	this.isChecked = this.testLists[0];
+  	this.defineType(this.isChecked);
   	this.isUpdate = false;
   }
 
   cancel(){
   	this.showForm = false;
   	this.model = {};
-  	this.isChecked = 'Text';
   	this.isUpdate = false;
+  	this.isChecked = false;
   }
 
   chooseType(item){
@@ -98,32 +99,37 @@ export class CustomfieldComponent implements OnInit {
 
   	// }
   	switch (type) {
+  		case "String":
+  			this.model.dataType = 'String';
+  			this.model.controlType = 'Textarea';
+  			break;
+
   		case "Text":
-  			this.model.datatype = 'String';
-  			this.model.controltype = 'Textarea';
+  			this.model.dataType = 'String';
+  			this.model.controlType = 'Textarea';
   			break;
   		
   		case "Number":
-  			this.model.datatype = 'Number';
-  			this.model.controltype = 'Textarea';
+  			this.model.dataType = 'Number';
+  			this.model.controlType = 'Textarea';
   			break;
 
 		case "Date":
-  			this.model.datatype = 'Date';
-  			this.model.controltype = 'Textarea';
+  			this.model.dataType = 'Date';
+  			this.model.controlType = 'Textarea';
   	}
-  	console.log('type',this.model.datatype,this.model.controltype);
+  	console.log('type',this.model.dataType,this.model.controlType);
   }
 
   createField(data,id){
   	console.log("type",id);
-  	console.log("datatype and controltype",this.model.datatype,this.model.controltype);
+  	console.log("datatype and controltype",this.model.dataType,this.model.controlType);
   	let fieldObj = {
   		"userInfoPermitted":{
 	  		"name": this.model.name,
 	  		"description": this.model.description,
-	  		"dataType": this.model.datatype,
-	  		"controlType": this.model.controltype
+	  		"dataType": this.model.dataType,
+	  		"controlType": this.model.controlType
   		}
   	};
   	console.log("Field Obj",fieldObj);
@@ -168,7 +174,16 @@ export class CustomfieldComponent implements OnInit {
   	this.model = field;
   	this.model.type = this.model.dataType;
   	console.log("model type",this.model.type);
-  	this.isChecked = this.model.type;
+  	this.defineType(this.isChecked);
+  	this.isChecked = this.model.dataType;
+  	console.log("model type",this.isChecked)
+  	// if(this.model.type == 'String'){
+  	// 	console.log("String")
+  	// 	this.isChecked = 'Text';
+  	// }else{
+  	// 	console.log("Other")
+  	// 	this.isChecked = this.model.type;
+  	// }
   }
 
   deleteModal(data,alertDelete){

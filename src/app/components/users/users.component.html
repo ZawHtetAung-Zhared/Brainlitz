@@ -390,6 +390,11 @@
 		  	    		Please provide a valid email!
 		  	    	</div>
 		  	  	</div>
+		  	  	<div class="form-group form-divider" *ngFor="let field of customFields">
+		  	  		<label for="guardmail" class="label-txt">{{ field.name }}</label>
+		  	  		<textarea class="form-control" rows="3" placeholder="{{ field.description }}"></textarea>	
+		  	    	<!-- <input type="{{ field.dataType }}" class="form-control" placeholder="{{field.description}}"> -->
+		  	  	</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
 				<label for="upload">

@@ -17,10 +17,10 @@
 					</div>
 				</div>
 				<div class="d-flex justify-content-between btn-section">
-					<div>{{ field.dataType }}</div>
-					<div class="font-medium">
+					<div class="show-type font-semi">{{ field.dataType }} <span style="padding-left: 3px;">field</span></div>
+					<div class="d-flex font-medium">
 						<button class="btn-action cursor-on" (click)="editField(field)">Edit</button>
-						<span>.</span>
+						<span class="dot font-semi">.</span>
 						<button class="btn-action cursor-on" (click)="deleteModal(field,alertDelete)">Delete</button>
 					</div>
 				</div>
@@ -72,7 +72,7 @@
 					<div class="tool-box">
 		                <div class="form-check form-check-inline tool-checked" *ngFor="let list of testLists">
 		                    <label [ngClass]="{'selected': isChecked == list}" class="form-check-label">
-		                      <input class="form-check-input" type="radio" name="type" value="{{list}}" [(ngModel)]="model.type" #type="ngModel" [checked]='true'
+		                      <input class="form-check-input" type="radio" name="type" value="{{ list }}" [(ngModel)]="model.type" #type="ngModel" [checked]='true'
 		                      (click)="chooseType(list)"> {{list}}
 		                    </label>
 		                </div>
