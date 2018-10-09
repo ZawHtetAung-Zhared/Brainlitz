@@ -63,6 +63,7 @@ import { ReadmoreComponent } from './components/readmore/readmore.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
 import { HomeComponent } from './components/home/home.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
+import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { CustomfieldComponent } from './components/customfield/customfield.compo
     HomeComponent,
     MapToIterable,
     FilterPipe,
-    CustomfieldComponent
+    CustomfieldComponent,
+    EmailtemplateComponent
   ],
   imports: [
     BrowserModule,
