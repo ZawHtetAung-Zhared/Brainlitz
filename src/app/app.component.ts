@@ -18,11 +18,14 @@ export class AppComponent implements OnInit{
   	if (window.location.hash.indexOf("#") === 0) {
   		var data = {}, pairs, pair, separatorIndex, escapedKey, escapedValue;
         var queryString = window.location.search.substr(1);
-
+        // console.log(queryString)
         let pairs = queryString.split("&");
+        // console.log(pairs)
         for (var i = 0; i < pairs.length; i++) {
+          // console.log('hello')
           pair = pairs[i];
           separatorIndex = pair.indexOf("=");
+          console.log(separatorIndex)
           if (separatorIndex === -1) {
               escapedKey = pair;
               escapedValue = null;
@@ -43,7 +46,14 @@ export class AppComponent implements OnInit{
         this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/category" || event.url == "/courseplan" ) ? this.showHeader = false : this.showHeader = true; 
      }
     })
-    var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
+    console.log(document.location.href)
+    let str = document.location.href;
+    var start_pos = str.indexOf('//') + 2;
+    var end_pos = str.indexOf('/#',start_pos);
+    var storeLocal = str.substring(start_pos,end_pos)
+    console.log(storeLocal);
+
+    // var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
     if((document.location.href.slice(-5)) == "login"){
       localStorage.setItem('slicePath', storeLocal);
       console.log('right')

@@ -1,0 +1,53 @@
+<div class="content-wrapper">
+	<div *ngIf="selectedType == null">
+		<div class="d-flex justify-content-between header-wrap">
+	    <div class="mr-auto">
+	      <h3 class="heading-h3">Modify template</h3>
+	    </div>
+	  </div>
+	  <div class="data-content">
+	  	<div>
+	  		<h4 class="heading-h4">Attendance</h4>
+	  		<ul class="data-ul">
+	  			<li class="d-flex justify-content-between" (click)="clickTab('Present')">Present<i class="fa fa-angle-right"></i></li>
+	  			<li class="d-flex justify-content-between" (click)="clickTab('Absent')">Absent<i class="fa fa-angle-right"></i></li>
+	  			<li class="d-flex justify-content-between" (click)="clickTab('Reset')">Reset<i class="fa fa-angle-right"></i></li>
+	  		</ul>
+	  	</div>
+	  	<div class="mt-32">
+	  		<h3 class="heading-h4">Enrollment confirmation</h3>
+	  		<ul class="data-ul">
+	  			<li class="d-flex justify-content-between" (click)="clickTab('enroll')">New course enrollment for every students<i class="fa fa-angle-right"></i></li>
+	  		</ul>
+	  	</div>
+	  </div>
+	</div>
+
+  <div *ngIf="selectedType != null">
+  	<div class="header-wrap d-flex justify-content-between">
+  	  <div class="back-to" (click)="cancel()">
+  	    <i class="fa fa-angle-left"></i>
+  	    <p>Modify template</p>
+  	  </div>
+  	  <a class="edit-btn-btn" (click)="editOn()">Edit template</a>
+  	</div>
+  	<div class="data-content">
+  		<h3 class="heading-h3-2">Attendance</h3>
+  		<div class="email-lists">
+  			<h4 class="email-type">{{selectedType}}</h4>
+  			<div>
+  				<p class="email-info">
+  					<span class="squareBracket">[[</span>
+  					<span class="highlight">displayName</span>
+  					<span class="squareBracket"span>]]</span> dis not show up for 
+  					<span class="squareBracket">[[</span>
+  					<span class="highlight">courseName</span>
+  					<span class="squareBracket"span>]]</span> class.</p>
+  			</div>
+  			<div>
+  				
+  			</div>
+  		</div>
+  	</div>
+  </div>
+</div>
