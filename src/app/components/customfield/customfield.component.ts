@@ -16,10 +16,13 @@ export class CustomfieldComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public fieldLists:any = [];
   public showForm:boolean = false;
+  public isUpdate:boolean = false;
   public testLists = ['Text', 'Date', 'Number'];
   public isChecked = 'Text';
   public model:any = {};
   public wordLength:any;
+  public modalReference: any;
+  public deleteObj:any = {}
   @BlockUI() blockUI: NgBlockUI;
   
   constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
@@ -68,13 +71,16 @@ export class CustomfieldComponent implements OnInit {
 
   showCreateForm(){
   	this.showForm = true;
-
+  	this.model = {};
+  	this.isChecked = 'Text';
+  	this.isUpdate = false;
   }
 
   cancel(){
   	this.showForm = false;
   	this.model = {};
   	this.isChecked = 'Text';
+  	this.isUpdate = false;
   }
 
   chooseType(item){
@@ -109,8 +115,9 @@ export class CustomfieldComponent implements OnInit {
   	console.log('type',this.model.datatype,this.model.controltype);
   }
 
-  createField(){
-  	console.log("datatype and controltype",this.model.datatype,this.model.controltype)
+  createField(data,id){
+  	console.log("type",id);
+  	console.log("datatype and controltype",this.model.datatype,this.model.controltype);
   	let fieldObj = {
   		"userInfoPermitted":{
 	  		"name": this.model.name,
@@ -121,17 +128,65 @@ export class CustomfieldComponent implements OnInit {
   	};
   	console.log("Field Obj",fieldObj);
   	this.blockUI.start('Loading...');
-  	this._service.createCustomField(this.regionID,fieldObj)
+  	if(id == ''){
+  		console.log("CREATE");
+  		this._service.createCustomField(this.regionID,fieldObj)
+	  	.subscribe((res:any) => {
+	  		console.log(res);
+	  		this.model = {};
+	  		this.showForm = false;
+	  		this.toastr.success('Successfully Created.');
+	  		this.blockUI.stop();
+	  		this.getAllCustomfields();
+	  	}, err => {
+	  		console.log(err);
+	  		this.toastr.success('Create Fail');
+	  		this.blockUI.stop();
+	  	})
+  	}else{
+  		console.log("UPDATE",id);
+  		this._service.updateCustomField(this.regionID,fieldObj,id)
+  		.subscribe((res:any) => {
+  			console.log(res);
+  			this.model = {};
+  			this.toastr.success('Successfully Updated.');
+  			this.blockUI.stop();
+  			this.getAllCustomfields();
+  			this.showForm = false;
+  		}, err => {
+  			console.log(err);
+	  		this.toastr.success('Update Fail');
+	  		this.blockUI.stop();
+  		})
+  	}
+  }
+
+  editField(field){
+  	console.log("edit field",field);
+  	this.showForm = true;
+  	this.isUpdate = true;
+  	this.model = field;
+  	this.model.type = this.model.dataType;
+  	console.log("model type",this.model.type);
+  	this.isChecked = this.model.type;
+  }
+
+  deleteModal(data,alertDelete){
+  	console.log(data)
+  	this.deleteObj["id"] = data._id;
+  	this.deleteObj["name"] = data.name;
+
+  	console.log('delete data',this.deleteObj);
+    this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
+  }
+
+  deleteField(id){
+  	console.log("delete",id)
+  	this._service.deleteCustomField(this.regionID,id)
   	.subscribe((res:any) => {
   		console.log(res);
-  		this.model = {};
-  		this.showForm = false;
-  		this.toastr.success('Successfully Created.');
-  		this.blockUI.stop();
-  	}, err => {
+  	},err => {
   		console.log(err);
-  		this.toastr.success('Create Fail');
-  		this.blockUI.stop();
   	})
   }
 

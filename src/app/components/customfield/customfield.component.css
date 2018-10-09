@@ -202,6 +202,9 @@
 	background-color: #007fff;
 	color: #ffffff;
 }
+.cursor-on{
+	cursor: pointer;
+}
 button:disabled{
 	cursor: no-drop;
 	opacity: 0.5;

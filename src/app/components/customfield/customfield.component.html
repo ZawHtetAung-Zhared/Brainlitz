@@ -19,9 +19,9 @@
 				<div class="d-flex justify-content-between btn-section">
 					<div>{{ field.dataType }}</div>
 					<div class="font-medium">
-						<button class="btn-action">Edit</button>
+						<button class="btn-action cursor-on" (click)="editField(field)">Edit</button>
 						<span>.</span>
-						<button class="btn-action">Delete</button>
+						<button class="btn-action cursor-on" (click)="deleteModal(field,alertDelete)">Delete</button>
 					</div>
 				</div>
 			</div>
@@ -30,7 +30,7 @@
 </div>
 <div *ngIf="showForm" class="content-wrapper">
 	<div class="back-wrap d-flex">
-		<div class="d-flex back" (click)="cancel()">
+		<div class="d-flex back cursor-on" (click)="cancel()">
 			<i class="fa fa-angle-left"></i>
 			<p class="mb-0 font-medium">Custom field</p>
 		</div>
@@ -80,9 +80,28 @@
 				</div>
 			</div>
 			<div class="d-flex justify-content-end form-footer">
-				<button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
-				<button type="button" class="btn-submit" (click)="createField()" [disabled]="!fieldForm.form.valid">Create</button>
+				<button type="button" class="btn-cancel cursor-on" (click)="cancel()">Cancel</button>
+				<button *ngIf="!isUpdate" type="button" class="btn-submit cursor-on" (click)="createField(this.model,'')" [disabled]="!fieldForm.form.valid">Create</button>
+				<button *ngIf="isUpdate" type="button" class="btn-submit cursor-on" (click)="createField(this.model,this.model._id)" [disabled]="!fieldForm.form.valid">Update</button>
 			</div>
 		</form>
 	</div>
 </div>
+<ng-template #alertDelete let-c="close" let-d="dismiss">
+  	<div class="modal-header">
+  		<h3 class="modal-title">Confirm delete?</h3>
+    	<!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      	<span aria-hidden="true">&times;</span>
+    	</button> -->
+  	</div>
+  	<div class="modal-body field-confirm">
+	    <p>Are You sure you want to delete <span class="target">"{{deleteObj.name}}"</span>?
+	    	<!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+	    	{{deleteObj.id}}
+	    </p>
+	</div>
+	<div class="modal-footer">
+	    <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+	    <button type="submit" class="btn modal-delete-btn" (click)="deleteField(deleteObj.id)">Delete</button>
+	</div>
+</ng-template>
