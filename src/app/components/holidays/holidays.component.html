@@ -1,3 +1,22 @@
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+ First name: 
+ <input 
+   type="text"
+   name="firstName"
+   ngModel><br>
+Last name: 
+ <input 
+   type="text" 
+   name="lastName"
+   ngModel><br>
+Age:
+ <input 
+   type="number" 
+   name="age" 
+   ngModel><br>
+ <input type="submit" value="Submit">
+</form>
+
 <!-- <div class="inner-wrapper">
 	<div class="mb-30">
 		<button type="button" class="btn btn-primary" (click)="open(content)">+ create Holidays</button>
@@ -81,7 +100,7 @@
 		  <option value="mercedes">2020</option>
 		</select>
 	</div> -->
-	<div class="padding: 0px 15px;">
+	<!-- <div class="padding: 0px 15px;">
 		<div class="d-flex justify-content-between holiday-wrap">
 			<div>
 				<div class="semi-16">3Jan</div>
@@ -116,4 +135,4 @@
 			<div class="circle1 plus"></div>
 			<span class="btn-span">Creating new holiday</span>
 		</div>
-	</div>
+	</div> -->

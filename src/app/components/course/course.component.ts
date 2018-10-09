@@ -6,6 +6,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { DOCUMENT } from "@angular/platform-browser";
+declare var $:any;
 
 @Component({
   selector: 'app-course',
@@ -25,6 +26,11 @@ export class CourseComponent implements OnInit {
   public formData:any = {};
   public userLists:any = {};
   public detailLists:any = {};
+  public activeCourseInfo:any = {};
+  public LASD:any; //lastActiceStartDate
+  public presentStudent:number = 0;
+  public absentStudent:number = 0;
+  public noStudent:number = 0;
   public selectedUserLists:any = [];
   public selectedUserId:any = [];
   public todayDate:any;
@@ -190,7 +196,7 @@ export class CourseComponent implements OnInit {
     console.log('hi call course', courseId)
     this.getCourseDetail(courseId);
     this.blockUI.start('Loading...'); 
-    this._service.getAssignUser(this.regionId,courseId)
+    this._service.getAssignUser(this.regionId,courseId,null,null,null)
     .subscribe((res:any)=>{
       this.blockUI.stop();
       console.log(res)
@@ -203,14 +209,53 @@ export class CourseComponent implements OnInit {
   clickTab(type){
     this.activeTab = type;
     if(type == 'Class'){
+      this.blockUI.start('Loading...'); 
       const today = new Date();
       this.todayDate = today.toISOString();
-      console.log(this.todayDate)
-      // let bb = new Date(this.todayDate)
-      let bb = today.getFullYear()+'-' + (today.getMonth()+1) + '-'+today.getDate();
-      
-      console.log(bb)
+      var to_day = new Date(today).getUTCDate();
+      var currentMonth =  new Date(today).getUTCMonth()+1;
+      let lessonCount = this.detailLists.lessons;
+      let finishedDate = [];
+      for(let i=0; i< lessonCount.length; i++){
+        let strDate = lessonCount[i].startDate;
+        let courseDate = new Date(strDate).getUTCDate();
+        let courseMonth = new Date(strDate).getUTCMonth()+1;
+        if(courseMonth <= currentMonth){
+          if(to_day >= courseDate){
+            finishedDate.push(i)
+          }
+        }else{
+          console.log('greater than current month')
+        }
+      }
+      let lastActiveDate = finishedDate.length -1;
+      console.log(lastActiveDate)
+      //LASD = lastActiceStartDate
+      this.LASD = lessonCount[lastActiveDate].startDate
+      // ACD = activeCourseDate/Month/Year
+      let ACD = new Date(this.LASD).getUTCDate()
+      let ACM = new Date(this.LASD).getUTCDate()
+      let ACY = new Date(this.LASD).getUTCDate()
+      this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
+      .subscribe((res:any)=>{
+        console.log(res)
+        this.blockUI.stop();
+        this.activeCourseInfo = res;
+        for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+          if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+            this.presentStudent += 1;
+          }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+            this.absentStudent += 1;
+          }else{
+            this.noStudent += 1;
+          }
+        }
 
+        $('.timeline').scrollLeft( 80*(lastActiveDate-1) ); 
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      });
     }
   }
 

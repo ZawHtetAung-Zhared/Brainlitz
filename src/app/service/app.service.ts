@@ -1006,10 +1006,16 @@ export class appService{
         })
     }
 
-    getAssignUser(regionid,courseid){
+    getAssignUser(regionid, courseid, date, month, year){
       console.log('app service', regionid)
       console.log('app service', courseid)
-      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
+      let url;
+      if(date == null && month == null && year == null){
+        url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
+      }else{
+        url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid + '?date=' + date + '&month=' + month + '&year=' + year;        
+      }
+      
       const httpOptions = {
           headers: new HttpHeaders({ 
           'authorization': this.tokenType + ' ' + this.accessToken})
