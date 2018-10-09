@@ -31,7 +31,8 @@ export class UsersComponent implements OnInit {
 	public defaultSlice: number = 2;
 	public orgID = environment.orgID;
 	public regionID = localStorage.getItem('regionId');		
-	formFieldc: customer = new customer();	
+	// formFieldc: customer = new customer();
+	formFieldc:any = {};	
 	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
@@ -81,6 +82,7 @@ export class UsersComponent implements OnInit {
   	// enroll class
   	searchData: any={};
   	public courseLists: any={};
+  	public testArray = ['1','2','3'];
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -145,6 +147,13 @@ export class UsersComponent implements OnInit {
 		.subscribe((res:any) => {
 			console.log("Custom Field",res);
 			this.customFields = res.userInfoPermitted;
+			for (var i = 0; i < this.customFields.length; i++) {
+				console.log("^^i",this.customFields[i]);
+				var fieldName = this.customFields[i].name.toLowerCase();
+				console.log("^^Test^^",fieldName);
+				this.customFields[i]["value"] = null;
+				console.log("name----",this.customFields);
+			}
 		})
 	}
 
@@ -152,7 +161,7 @@ export class UsersComponent implements OnInit {
 		// console.log('hi', e);
 		// this.wordLength = word.length;
 		// $('.limit-wordcount').show('slow'); 
-		console.log('hi', e)
+		// console.log('hi', e)
 	    if(status == 'name'){
 	      this.wordLength = word.length;
 	      $('.limit-wordcount').show('slow'); 
@@ -166,7 +175,7 @@ export class UsersComponent implements OnInit {
 		// console.log('blur', e);
 		// $('.limit-wordcount').hide('slow'); 
 		// this.wordLength = 0;
-		console.log('blur', e);
+		// console.log('blur', e);
 	    if(status == 'name'){
 	      $('.limit-wordcount').hide('slow'); 
 	    }else{
@@ -176,12 +185,30 @@ export class UsersComponent implements OnInit {
 	}
 
 	changeMethod(val : string){
-		console.log(val);
+		// console.log(val);
 		this.wordLength = val.length;
 	}
 
 	createUser(obj, apiState){
-		console.log(obj);				
+		console.log(obj);
+		this.formFieldc.details = [];
+		//for custom fields
+		for(var i=0; i<this.customFields.length; i++){
+			console.log('field value',this.customFields[i].value);
+			if(this.customFields[i].value !=null){
+				var fieldObj:any = {};
+				fieldObj = {
+					"name": this.customFields[i].name,
+					"description": this.customFields[i].description,
+					"dataType": this.customFields[i].dataType,
+					"value": this.customFields[i].value  
+				}
+				console.log("fieldObj",fieldObj);
+				this.formFieldc.details.push(fieldObj);
+			}
+		}	
+		console.log("formFieldc details",this.formFieldc.details);
+				
 		let objData = new FormData();						
 		let guardianArray;		
 		console.log('~~~ ', obj.guardianEmail)
@@ -200,11 +227,20 @@ export class UsersComponent implements OnInit {
 		objData.append('lastName', obj.lastName);
 		objData.append('preferredName', obj.preferredName);
 		objData.append('email', obj.email);
+		// objData.append('details',obj.details);
+		// console.log(obj.details);
+
+		// for (var i = 0; i < obj.details.length; i++) {
+		//     objData.append('details', obj.details[i]);
+		// }
 
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);	
 
 		this.customerLists = [];
+
+		// console.log("Latest",objData)
+
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
@@ -219,6 +255,7 @@ export class UsersComponent implements OnInit {
 			objData.append('location', JSON.stringify([]));
 
 			this.blockUI.start('Loading...');
+			console.log("Data",objData)
 			this._service.createUser(objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
