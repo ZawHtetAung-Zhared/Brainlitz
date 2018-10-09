@@ -76,6 +76,7 @@ export class UsersComponent implements OnInit {
   	public seeAll = false;
   	public wordLength:number = 0;
   	divHeight:any;
+  	public customFields:any = [];
 
   	// enroll class
   	searchData: any={};
@@ -137,6 +138,14 @@ export class UsersComponent implements OnInit {
 	    }, err => {	
 	    	console.log(err);
 	    });
+	}
+
+	getCustomFields(){
+		this._service.getAllFields(this.regionID)
+		.subscribe((res:any) => {
+			console.log("Custom Field",res);
+			this.customFields = res.userInfoPermitted;
+		})
 	}
 
 	focusMethod(e, status, word){
@@ -366,6 +375,7 @@ export class UsersComponent implements OnInit {
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
+	    this.getCustomFields();
 	}
 
 	back(){

@@ -1441,9 +1441,66 @@ export class appService{
       })
     }
 
+    getAllFields(regionid:string){
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
 
+    createCustomField(regionid:string, data:object): Observable<any>{
+      console.log(data);
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        console.log(res);
+        let result = res;  
+        return result;
+      })
+    }
 
+    updateCustomField(regionid:string, data:object, fieldId:string): Observable<any>{
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info/' + fieldId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 
+    deleteCustomField(regionid:string,id:string): Observable<any>{
+      // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/setting/user-info/:user_info_id
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 
 }
 
