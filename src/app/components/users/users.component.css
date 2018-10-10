@@ -49,12 +49,23 @@
     border-top: 1px solid #eee;
     padding: 10px;
 }
+.load-more1{
+    position: absolute;
+    z-index: 99;
+    bottom: 15px;
+    width: 93%;
+    background: #fff;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
 .load-more1 button,
 .load-more button{
     background: #fff;
   color: #0080ff;
   font-size: 14px;
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  outline: none;
+  border: none;
 }
 .title{
   margin: 20px 0px 35px 0px;

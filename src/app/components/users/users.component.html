@@ -28,7 +28,7 @@
 		    	placeholder="Search customer here" 
 		    	id="customer-search-input"
 		    	(focusout)="clearSearch($event)"
-		    	(input)="userSearch($event.target.value, 'cutomer')"
+		    	(input)="userSearch($event.target.value, 'cutomer','','')"
         		autocomplete="off"
 		    >
 		    <span class="input-group-append">
@@ -60,7 +60,8 @@
 		</div>
 	</div>
 </div>
-<div *ngIf="customerLists.length >= 20 && !showFormCreate && !showCustDetail" class="d-flex justify-content-center load-more">
+
+<div *ngIf="customerLists.length >= 20 && !showFormCreate && !showCustDetail && result?.length>0" class="d-flex justify-content-center load-more">
 	<button type="button" class="btn" (click)="showMore('customer', customerLists.length)">load more</button>
 </div>
 
@@ -132,16 +133,13 @@
 							
 						</div>
 					</div>
-					<div>
-						
-					</div>
 			</div>
 			<div class="pad-left-15 col-right">
 				<div>
 					<div class="infoGp-wrap">
 						<label class="info-mail">Full name</label>
-						<p class="mb-0 info-p">{{ custDetail.user.firstName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p>
-						<!-- <p class="mb-0 info-p">{{ custDetail.user.fullname }}</p> -->
+						<!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
+						<p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
 					</div>
 					<!-- <div class="d-flex infoGp-wrap info-wrap">
 						<div class="timetable-col">
@@ -340,15 +338,15 @@
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
-		  	    	<label for="firstName" class="label-txt">First name</label> 	
-		  	    	<input type="text" class="form-control" placeholder="Type first name here" name="firstName" [(ngModel)]="formFieldc.firstName" #firstName="ngModel" required>
-		  	    	<div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" class="alert alert-danger">
-				        <div [hidden]="!firstName.errors.required">
-				          First name is required!
+		  	    	<label for="fullName" class="label-txt">Full name</label> 	
+		  	    	<input type="text" class="form-control" placeholder="Type full name here" name="fullName" [(ngModel)]="formFieldc.fullName" #fullName="ngModel" required>
+		  	    	<div *ngIf="fullName.errors && (fullName.dirty || fullName.touched)" class="alert alert-danger">
+				        <div [hidden]="!fullName.errors.required">
+				          Full name is required!
 				        </div>
 				    </div>
 		  	  	</div>
-		  	  	<div class="form-group form-divider">
+		  	  	<!-- <div class="form-group form-divider">
 		  	    	<label for="lastName" class="label-txt">Last name</label> 	
 		  	    	<input type="text" class="form-control" placeholder="Type last name here" name="lastName" [(ngModel)]="formFieldc.lastName" #lastName="ngModel" required>
 		  	    	<div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="alert alert-danger">
@@ -356,7 +354,7 @@
 				          Last name is required!
 				        </div>
 				    </div>
-		  	  	</div>
+		  	  	</div> -->
 		  	  	<div class="form-group form-divider">
 		  	  		<div class="d-flex justify-content-between">
 						<label for="about" class="label-txt">About</label> 	
@@ -499,7 +497,7 @@
 	          name="search" 
 	          #search="ngModel" 
 	          [(ngModel)]="searchData.searchText" 
-	          (input)="changeSearch($event.target.value, custDetail.user.userId)">
+	          (input)="changeSearch($event.target.value, custDetail.user.userId, '','')">
 	        <span class="input-group-append">
 	          <button class="bt btn-design btn-outline-secondary btn-right-radius" type="button">
 	              <i class="fa fa-search search-size"></i>
@@ -507,6 +505,7 @@
 	        </span>
 	      </div>
 	    </div>
+	    <h2 style="color: green">{{availableCourses?.length}}</h2>
 	    <div class="mt-20 class-group">
 		    <div class="card-columns pd-zero">
 		    	<div class="card" *ngFor="let course of availableCourses; let i = index">
@@ -576,7 +575,7 @@
 		    		</div>
 		    	</div>
 		    </div>
-	    	<div *ngIf="availableCourses.length >= 20" class="load-more1 d-flex justify-content-center">
+	    	<div *ngIf="availableCourses.length >= 20 && acResult?.length>0" class="load-more1 d-flex justify-content-center">
 	    		<button type="button" class="btn" (click)="showMoreAC(availableCourses.length, custDetail.user.userId)">load more</button>
 	    	</div>
 	    </div>

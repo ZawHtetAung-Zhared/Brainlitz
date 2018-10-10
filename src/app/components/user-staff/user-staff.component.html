@@ -27,7 +27,7 @@
 			    	type="search" 
 			    	placeholder="Search staff here"
 			    	id="staff-search-input"
-			    	(input)="userSearch($event.target.value, 'staff')"
+			    	(input)="userSearch($event.target.value, 'staff','','')"
         			autocomplete="off"
 			    	>
 			    <span class="input-group-append">
@@ -65,7 +65,7 @@
 			</div>
 		</div>
 </div>
-<div *ngIf="staffLists.length >= 20 && !showFormCreate" class="d-flex justify-content-center load-more">
+<div *ngIf="staffLists.length >= 20 && !showFormCreate && result?.length>0" class="d-flex justify-content-center load-more">
 	<button class="btn" (click)="showMore('staff', staffLists.length)">load more</button>
 </div>
 
