@@ -200,6 +200,9 @@ export class CustomfieldComponent implements OnInit {
   	this._service.deleteCustomField(this.regionID,id)
   	.subscribe((res:any) => {
   		console.log(res);
+  		this.modalReference.close();
+  		this.toastr.success('Successfully Deleted.');
+  		this.getAllCustomfields();
   	},err => {
   		console.log(err);
   	})
