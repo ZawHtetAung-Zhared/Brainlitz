@@ -201,7 +201,7 @@ export class UsersComponent implements OnInit {
 					"name": this.customFields[i].name,
 					"description": this.customFields[i].description,
 					"dataType": this.customFields[i].dataType,
-					"value": this.customFields[i].value  
+					"value": Number(this.customFields[i].value) 
 				}
 				console.log("fieldObj",fieldObj);
 				this.formFieldc.details.push(fieldObj);
@@ -227,19 +227,15 @@ export class UsersComponent implements OnInit {
 		objData.append('lastName', obj.lastName);
 		objData.append('preferredName', obj.preferredName);
 		objData.append('email', obj.email);
-		// objData.append('details',obj.details);
-		// console.log(obj.details);
-
-		// for (var i = 0; i < obj.details.length; i++) {
-		//     objData.append('details', obj.details[i]);
-		// }
+		objData.append('details', JSON.stringify(obj.details));
 
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);	
 
+
 		this.customerLists = [];
 
-		// console.log("Latest",objData)
+		console.log("Latest",objData)
 
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
@@ -250,6 +246,7 @@ export class UsersComponent implements OnInit {
 			}
 
 			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
+			console.log('guardianArray',guardianArray);
 			objData.append('guardianEmail', JSON.stringify(guardianArray));	
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
