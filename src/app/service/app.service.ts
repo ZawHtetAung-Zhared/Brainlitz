@@ -405,8 +405,9 @@ export class appService{
       }) 
     }
 
-    getSearchUser(regionID: string, val: string,userType){
-      let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
+    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number){
+      let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
+      // let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -672,8 +673,8 @@ export class appService{
       })
     }
 
-    getSearchAvailableCourse(regionID: string, val: string, userId){
-      let apiUrl = this.baseUrl + '/' + regionID + '/available-course/' + userId + '/search?keyword=' + val;
+    getSearchAvailableCourse(regionID: string, val: string, userId:string , limit:number , skip: number){
+      let apiUrl = this.baseUrl + '/' + regionID + '/available-course/' + userId + '/search?keyword=' + val + '&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1305,10 +1306,10 @@ export class appService{
       })
     }
 
-    getSearchApg(regionID: string, keyword: string, type: string, nin){
+    getSearchApg(regionID: string, keyword: string, type: string, nin, limit:number,skip:number){
       let apiUrl;
       if(nin == ''){
-        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type;
+        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
       const httpOptions = {
           headers: new HttpHeaders({ 

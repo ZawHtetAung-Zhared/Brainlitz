@@ -49,6 +49,10 @@ export class UserStaffComponent implements OnInit {
 	public aboutTest1 = " How your call you or like your preferred name kuiui";
 	public showStaffDetail:boolean = false;
 	public staffDetail:any ={};
+	isSearch:boolean = false;
+	searchword:any;
+	usertype:any;
+	result:any;
 
 	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);  		
@@ -70,21 +74,49 @@ export class UserStaffComponent implements OnInit {
 
   	showMore(type: any, skip: any){
   		console.log(skip)
-  		this.getAllUsers(type, 20, skip)
+  		// this.getAllUsers(type, 20, skip);
+  		if(this.isSearch == true){
+			console.log("User Search");
+			this.userSearch(this.searchword, this.usertype, 20, skip)
+		}else{
+			console.log("Not user search")
+			this.getAllUsers(type, 20, skip);
+		}
   	}
 
-	userSearch(searchWord, userType){
+	userSearch(searchWord, userType, limit, skip){
+		this.searchword = searchWord;
+		this.usertype = userType;
+		console.log('hi hello');
+		if(skip == '' && limit == ''){
+			console.log("First time search")
+			var isFirst = true;
+			limit = 20;
+			skip = 0;
+		}
+
 		if(searchWord.length != 0){
-			this._service.getSearchUser(this.regionID, searchWord, userType)
-        .subscribe((res:any) => {
-          console.log(res);
-          this.staffLists = res;
-        }, err => {  
-          console.log(err);
-        });
+			this.isSearch = true;
+			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip)
+	        .subscribe((res:any) => {
+	          console.log(res);
+	          // this.staffLists = res;
+	          this.result = res;
+				if(isFirst == true){
+					console.log("First time searching");
+					this.staffLists = [];
+					this.staffLists = res;
+				}else{
+					console.log("Not First time searching")
+					this.staffLists = this.staffLists.concat(res);
+				}	
+	        }, err => {  
+	          console.log(err);
+	        });
 	    }else{
 	    	this.staffLists = [];
 	    	this.getAllUsers('staff',20,0);
+	    	this.isSearch = false;
 	    }
 	}
 
@@ -93,6 +125,7 @@ export class UserStaffComponent implements OnInit {
 		this._service.getAllUsers(this.regionID, type, limit, skip)
 		.subscribe((res:any) => {
 			this.blockUI.stop();
+			this.result = res;
 			this.staffLists = this.staffLists.concat(res);
 			// this.staffLists = res;
 			console.log('this.staffLists', this.staffLists)
