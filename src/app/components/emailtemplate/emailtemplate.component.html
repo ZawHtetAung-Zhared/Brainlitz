@@ -100,10 +100,17 @@
             </div>
             <div class="message-body">
               <div *ngIf="this.showBox == true">
-                <ul class="variable-box">
+                <ul [ngStyle]="{'left': leftPos+'px', 'top': topPos + 'px'}" class="variable-box">
                   <li (click)="insertVariable(val.name)" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
                 </ul>
               </div>
+              <!-- <div 
+                contenteditable="true"
+                id="input-msg" 
+                class="form-control"
+                (keyup)="keyInserted($event)"
+                (input)="changeMethod($event.data, $event)"
+                ></div> -->
               <textarea 
                 class="form-control input-msg" 
                 rows="5" 

@@ -32,7 +32,7 @@ ul.variable-box{
 	box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
 	padding: 8px 12px;
 	background: #fff;
-	z-index: 9;
+	z-index: 99;
 	top: -110px;
 }
 ul.data-ul li{
@@ -197,4 +197,8 @@ h4.email-type{
   font-size: 16px;
   border: none;
 }
-
+#input-msg{
+	min-height: 135px;
+	height: 135px;
+	overflow: auto;
+}
