@@ -124,12 +124,12 @@ export class UsersComponent implements OnInit {
 
 	}
 
-
 	getSingleInfo(ID){
 		console.log(ID);
 		console.log(this.isCrop);
 		this.isCrop = false;
 		this.customerLists = [];
+		this.formFieldc.details = [];
 		this.getSingleUser(ID);
 	}
 
@@ -142,27 +142,71 @@ export class UsersComponent implements OnInit {
   			this.returnProfile = res.profilePic;
   			console.log('~~~', this.returnProfile)
   			this.showCustDetail = false;
-			this.goCreateForm();
+			this.goCreateForm('edit');
 	    }, err => {	
 	    	console.log(err);
 	    });
 	}
 
-	getCustomFields(){
-		this._service.getAllFields(this.regionID)
-		.subscribe((res:any) => {
-			console.log("Custom Field",res);
-			this.customFields = res.userInfoPermitted;
-			for (var i = 0; i < this.customFields.length; i++) {
-				console.log("^^i",this.customFields[i]);
-				var fieldName = this.customFields[i].name.toLowerCase();
-				console.log("^^Test^^",fieldName);
-				this.customFields[i]["value"] = null;
-				console.log("name----",this.customFields);
-			}
-		})
-	}
+	getCustomFields(type){
+		if(type == 'create'){
+			console.log("create")
+			this._service.getAllFields(this.regionID)
+			.subscribe((res:any) => {
+				console.log("Custom Field",res);
+				this.customFields = res.userInfoPermitted;
+				this.formFieldc.details = [];
+				for(var i=0; i<this.customFields.length; i++){
+					var fieldObj:any = {};
+					fieldObj = {
+						"name": this.customFields[i].name,
+						"description": this.customFields[i].description,
+						"dataType": this.customFields[i].dataType,
+						"value": null
+					}
+					console.log("fieldObj",fieldObj);
+					this.formFieldc.details.push(fieldObj);
+				}
 
+			})
+		}else{
+			console.log("edit")
+			this._service.getAllFields(this.regionID)
+			.subscribe((res:any) => {
+				console.log("Custom Field",res);
+				this.customFields = res.userInfoPermitted;
+				if(this.customFields.length != this.formFieldc.details.length){
+					let result1 = this.customFields.map(item => item.name);
+					console.log("ids1",result1);
+					let result2 = this.formFieldc.details.map(item => item.name);
+					console.log("ids1",result2);
+					let diff = result1.map((id, index) => {
+				        if (result2.indexOf(id) < 0) {
+				            return this.customFields[index];
+				        }
+				    }).concat(result2.map((id, index) => {
+				        if (result1.indexOf(id) < 0) {
+				            return this.formFieldc.details[index];
+				        }
+				    })).filter(item => item != undefined);
+
+				    console.log("diff",diff)
+				    for(var key=0;key<diff.length;key++){
+				    	var fieldObj:any = {};
+						fieldObj = {
+							"name": diff[key].name,
+							"description": diff[key].description,
+							"dataType": diff[key].dataType,
+							"value": null
+						}
+						console.log("fieldObj",fieldObj);
+						this.formFieldc.details.push(fieldObj);
+				    }
+				}
+			})
+		}
+		
+	}
 	focusMethod(e, status, word){
 		// console.log('hi', e);
 		// this.wordLength = word.length;
@@ -197,24 +241,38 @@ export class UsersComponent implements OnInit {
 
 	createUser(obj, apiState){
 		console.log(obj);
-		this.formFieldc.details = [];
-		//for custom fields
-		for(var i=0; i<this.customFields.length; i++){
-			console.log('field value',this.customFields[i].value);
-			if(this.customFields[i].value !=null){
-				var fieldObj:any = {};
-				fieldObj = {
-					"name": this.customFields[i].name,
-					"description": this.customFields[i].description,
-					"dataType": this.customFields[i].dataType,
-					"value": this.customFields[i].value
-				}
-				console.log("fieldObj",fieldObj);
-				this.formFieldc.details.push(fieldObj);
+		// this.formFieldc.details = [];
+			// for custom fields
+			// for(var i=0; i<this.customFields.length; i++){
+			// 	console.log('field value',this.customFields[i].value);
+			// 	if(this.customFields[i].value !=null){
+			// 		var fieldObj:any = {};
+			// 		fieldObj = {
+			// 			"name": this.customFields[i].name,
+			// 			"description": this.customFields[i].description,
+			// 			"dataType": this.customFields[i].dataType,
+			// 			"value": this.customFields[i].value
+			// 		}
+			// 		console.log("fieldObj",fieldObj);
+			// 		this.formFieldc.details.push(fieldObj);
+			// 	}
+			// }
+
+
+
+		// this.formFieldc.details = this.formFieldc.details.filter(detail => detail.value != null);
+		// console.log("This formFieldc details",this.formFieldc.details);
+
+		for(let i =0; i< this.formFieldc.details.length; i++){
+			// console.log("i",this.f)
+			if(this.formFieldc.details[i].value == null || this.formFieldc.details[i].value == ''){
+				console.log('hi', i)
+				obj.details.splice(i, 1);
 			}
-		}	
-		console.log("formFieldc details",this.formFieldc.details);
-				
+		}
+
+		console.log('......',obj.details)
+		
 		let objData = new FormData();						
 		let guardianArray;		
 		console.log('~~~ ', obj.guardianEmail)
@@ -231,16 +289,16 @@ export class UsersComponent implements OnInit {
 		objData.append('orgId', this.orgID);
 		objData.append('fullName', obj.fullName);
 		objData.append('preferredName', obj.preferredName);
-		objData.append('email', obj.email);
-		// objData
-		if(this.formFieldc.details.length>0){
-			console.log("Has Details",this.formFieldc.details)
-			objData.append('details', JSON.stringify(obj.details));
-		}	
+		objData.append('email', obj.email);	
 
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);	
 
+		// objData
+		if(this.formFieldc.details.length>0){
+			console.log("Has Details",this.formFieldc.details)
+			objData.append('details', JSON.stringify(obj.details));
+		}
 
 		this.customerLists = [];
 
@@ -308,6 +366,7 @@ export class UsersComponent implements OnInit {
 
 			guardianArray = (obj.guardianEmail) ? guardianArray : [] ;
 			objData.append('guardianEmail', JSON.stringify(guardianArray));
+			
 			this.blockUI.start('Loading...');
 			this._service.updateUser(this.regionID, obj.userId, objData)
 	    	.subscribe((res:any) => {
@@ -330,6 +389,7 @@ export class UsersComponent implements OnInit {
 		this.notShowEdit = false;
 		this.updateButton = true;
 		this.createButton = false;
+
 		this._service.userDetail(this.regionID, id)
 		.subscribe((res:any) => {
 			console.log('customer', res);
@@ -417,7 +477,7 @@ export class UsersComponent implements OnInit {
 	  }	
 	}
 
-	goCreateForm(){
+	goCreateForm(type){
 		this.isCrop = false;
 		this.customerLists = [];
 		this.showFormCreate = true;
@@ -425,7 +485,12 @@ export class UsersComponent implements OnInit {
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
-	    this.getCustomFields();
+
+	    if(type == 'create' || this.formFieldc.details.length == 0){
+	    	this.getCustomFields('create');
+	    }else{
+	    	this.getCustomFields('update');
+	    }
 	}
 
 	back(){

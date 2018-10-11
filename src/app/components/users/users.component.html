@@ -17,7 +17,7 @@
 			<h3>Customers</h3>
 		</div>
 		<div class="col-md-8 pad-0">
-			<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new customer</button>
+			<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>
 		</div>
 	</div>
 	<div class="col-md-12 pad-0" style="margin-top: 35px;">
@@ -361,7 +361,7 @@
 						<div class="limit-wordcount1">
 							<span>{{wordLength}}/280characters</span>
 						</div>
-					</div>	
+					</div>
 		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" (focus)="focusMethod($event, 'about', $event.target.value)" (blur)="blurMethod($event, 'about')" maxlength="280" (input)="changeMethod($event.target.value)" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
@@ -388,14 +388,13 @@
 		  	    		Please provide a valid email!
 		  	    	</div>
 		  	  	</div>
-		  	  	<div class="form-group form-divider" *ngFor="let field of customFields;let i = index;">
+		  	  	<!-- <div class="form-group form-divider" *ngFor="let field of customFields;let i = index;">
 		  	  		<label for="guardmail" class="label-txt">{{ field.name }}</label>
-		  	  		<textarea class="form-control" rows="3" placeholder="{{ field.description }}" name="field.name" [(ngModel)]="field.value"></textarea>	
-		  	    	<!-- <input type="{{ field.dataType }}" class="form-control" placeholder="{{field.description}}"> -->
-		  	    	 <!-- <div *ngFor="let num of testArray">
-				      <input name="qtd{{num}}" [(ngModel)]="this['qtd' + num]" type="text"/>
-				    </div>
-				    <div>{{ qtd | json}}</div> -->
+		  	  		<textarea class="form-control" rows="3" placeholder="{{ field.description }}" name="field.name" [(ngModel)]="field.value"></textarea>
+		  	  	</div> -->
+		  	  	<div class="form-group form-divider" *ngFor="let field of formFieldc.details;">
+		  	  		<label for="guardmail" class="label-txt">{{ field.name }}</label>
+		  	  		<textarea class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
 		  	  	</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
