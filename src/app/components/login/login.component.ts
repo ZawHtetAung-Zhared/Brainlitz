@@ -35,6 +35,26 @@ export class LoginComponent implements OnInit {
       console.log('no key')
       this.generateRandom();
     }
+    console.log(this.slicePathName)
+    if(this.slicePathName == undefined){
+      console.log('no slicePath')
+      localStorage.setItem('OrgId', '5b063e2636f2e0f83cdbac88'); 
+    }else{
+      console.log('slicePath exit')
+      localStorage.removeItem('OrgId')
+      this.getOrgKey(this.slicePathName)
+    }
+  }
+
+  getOrgKey(orgCode){
+    this._service.getOrgCredentials(orgCode)
+    .subscribe((res:any) => {
+      console.log(res)
+      localStorage.setItem('OrgId', res.orgId);      
+      localStorage.setItem('OrgLogo', res.logo);      
+    }, err => {
+      console.log(err)
+    })
   }
 
   generateRandom(){

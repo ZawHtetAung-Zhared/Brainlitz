@@ -13,6 +13,7 @@ declare var $:any;
 })
 export class HeaderComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
+  public OrgLogo = localStorage.getItem('OrgLogo');
   public headerlocationLists: any;
   public accessToken: any;
   
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit() {
     console.log('headerLocation work')
+    console.log(this.OrgLogo)
     this.accessToken = localStorage.getItem('token');
     if(this.accessToken != undefined){
         console.log('!undefined')
