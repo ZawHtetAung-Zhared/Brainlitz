@@ -1020,6 +1020,37 @@ button:disabled{
   cursor: pointer !important;
 }
 
+/*for modal box empty ui*/
+.empty-ui-wrapper{
+  height: 100%;
+}
+.empty-wrapper{
+  width: 285px;
+  float: right;
+  margin-top: 50px;
+}
+.empty-wrapper img {
+  width: 100%;
+}
+
+.arrow-pos {
+  float: right; 
+  width: 46%;
+}
+
+.arrow-pos img {
+  float: right;
+  width: 100%;
+}
+
+.txt-default{
+  width: 300px;
+  margin-top: 140px;
+  color: #64707d;
+  font-size: 28px;
+  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+}
+
 /*For 1024px*/
 @media (max-width: 575px) { 
   .card-columns {
