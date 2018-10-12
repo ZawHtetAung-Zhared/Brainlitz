@@ -25,7 +25,8 @@ export class UserStaffComponent implements OnInit {
   	public img: any;
   	public ulFile: any;
   	permissionLists: any;
-  	formFields: Staff = new Staff();
+  	// formFields: Staff = new Staff();
+  	formFields:any = {};
   	@BlockUI() blockUI: NgBlockUI;
   	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
@@ -53,6 +54,7 @@ export class UserStaffComponent implements OnInit {
 	searchword:any;
 	usertype:any;
 	result:any;
+	public customFields:any = [];
 
 	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);  		
@@ -144,6 +146,23 @@ export class UserStaffComponent implements OnInit {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
 	    this.getAllpermission();
+	    this.getCustomFields();
+	}
+
+	getCustomFields(){
+		console.log('call getcustom fields')
+		this._service.getAllFields(this.regionID)
+		.subscribe((res:any) => {
+			console.log("Custom Field",res);
+			this.customFields = res.userInfoPermitted;
+			for (var i = 0; i < this.customFields.length; i++) {
+				console.log("^^i",this.customFields[i]);
+				// var fieldName = this.customFields[i].name.toLowerCase();
+				// console.log("^^Test^^",fieldName);
+				this.customFields[i]["value"] = null;
+				console.log("test--",this.customFields);
+			}
+		})
 	}
 
 	focusMethod(e, status, word){
@@ -191,20 +210,43 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	createUser(obj, state){
-		console.log(obj)	
+		console.log(obj);
+
+		this.formFields.details = [];
+		for(var i=0; i<this.customFields.length; i++){
+			console.log('field value',this.customFields[i].value);
+			if(this.customFields[i].value){
+				if(this.customFields[i].value.trim().length){
+					var fieldObj:any = {};
+					fieldObj = {
+						"permittedUserInfoId": this.customFields[i]._id,
+						"value": this.customFields[i].value
+					}
+					console.log("fieldObj",fieldObj);
+					this.formFields.details.push(fieldObj);
+				}
+			}
+		}	
+		console.log("formFields details",this.formFields.details);
+
 		let objData = new FormData();
 		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
 		
 		objData.append('orgId', this.orgID),
 		objData.append('regionId', this.regionID),
-		objData.append('firstName', obj.firstname),
-		objData.append('lastName', obj.lastname),
+		objData.append('fullName', obj.firstname)
 		objData.append('preferredName', obj.preferredname),
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
 		obj.about = (obj.about == undefined) ? '' : obj.about;
-		objData.append('about', obj.about)
+		objData.append('about', obj.about);
+
+		// objData
+		if(this.formFields.details.length>0){
+			console.log("Has Details",this.formFields.details)
+			objData.append('details', JSON.stringify(obj.details));
+		}
 
 		if(state == 'create'){
 			let getImg = document.getElementById("blobUrl");

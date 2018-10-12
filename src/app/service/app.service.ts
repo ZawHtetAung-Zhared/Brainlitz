@@ -1487,6 +1487,7 @@ export class appService{
     }
 
     updateCustomField(regionid:string, data:object, fieldId:string): Observable<any>{
+      console.log("fieldId",fieldId);
       let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info/' + fieldId;
       const httpOptions = {
           headers: new HttpHeaders({ 
