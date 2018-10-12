@@ -89,7 +89,12 @@
           <p class="selected-mail-type">{{selectedType}}</p>
           <!-- <input type="text" name="subject" class="form-control"> -->
         </div>
-        <div class="form-group">
+        <div class="form-group parent-div">
+          <div *ngIf="this.showBox == true">
+            <ul [ngStyle]="{'left': leftPos+'px', 'top': topPos + 'px'}" class="variable-box">
+              <li (click)="insertVariable(val.name)" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
+            </ul>
+          </div>
           <label for="address" class="lable-title">Message</label>
           <div class="message-content">
             <div class="message-head">
@@ -99,19 +104,8 @@
               </ul>
             </div>
             <div class="message-body">
-              <div *ngIf="this.showBox == true">
-                <ul [ngStyle]="{'left': leftPos+'px', 'top': topPos + 'px'}" class="variable-box">
-                  <li (click)="insertVariable(val.name)" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
-                </ul>
-              </div>
-              <!-- <div 
-                contenteditable="true"
-                id="input-msg" 
-                class="form-control"
-                (keyup)="keyInserted($event)"
-                (input)="changeMethod($event.data, $event)"
-                ></div> -->
               <textarea 
+                [ngStyle]="{'height': textareaHeight +'px'}"
                 class="form-control input-msg" 
                 rows="5" 
                 placeholder="Write message" 
