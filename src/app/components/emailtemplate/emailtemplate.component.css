@@ -1,4 +1,5 @@
-.content-wrapper{
+.content-wrapper,
+.parent-div{
 	position: relative;
 }
 .header-wrap{
@@ -174,6 +175,8 @@ h4.email-type{
 }
 .message-body textarea{
 	border: none;
+	overflow: hidden;
+	min-height: 132px;
 }
 .message-body textarea:focus{
 	outline: none;
