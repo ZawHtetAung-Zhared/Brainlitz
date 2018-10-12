@@ -167,7 +167,8 @@ export class UsersComponent implements OnInit {
 					console.log("fieldObj",fieldObj);
 					this.formFieldc.details.push(fieldObj);
 				}
-
+				this.formFieldc.details.sort(function(a,b){return a.name > b.name;});
+				console.log("Sorting result",this.formFieldc.details)
 			})
 		}else{
 			console.log("edit")
@@ -202,16 +203,13 @@ export class UsersComponent implements OnInit {
 						console.log("fieldObj",fieldObj);
 						this.formFieldc.details.push(fieldObj);
 				    }
+				    this.formFieldc.details.sort(function(a,b){return a.name > b.name;});
 				}
 			})
 		}
 		
 	}
 	focusMethod(e, status, word){
-		// console.log('hi', e);
-		// this.wordLength = word.length;
-		// $('.limit-wordcount').show('slow'); 
-		// console.log('hi', e)
 	    if(status == 'name'){
 	      this.wordLength = word.length;
 	      $('.limit-wordcount').show('slow'); 
@@ -222,10 +220,6 @@ export class UsersComponent implements OnInit {
 	}
 	  
 	blurMethod(e, status){
-		// console.log('blur', e);
-		// $('.limit-wordcount').hide('slow'); 
-		// this.wordLength = 0;
-		// console.log('blur', e);
 	    if(status == 'name'){
 	      $('.limit-wordcount').hide('slow'); 
 	    }else{
@@ -235,43 +229,33 @@ export class UsersComponent implements OnInit {
 	}
 
 	changeMethod(val : string){
-		// console.log(val);
 		this.wordLength = val.length;
 	}
 
 	createUser(obj, apiState){
 		console.log(obj);
-		// this.formFieldc.details = [];
-			// for custom fields
-			// for(var i=0; i<this.customFields.length; i++){
-			// 	console.log('field value',this.customFields[i].value);
-			// 	if(this.customFields[i].value !=null){
-			// 		var fieldObj:any = {};
-			// 		fieldObj = {
-			// 			"name": this.customFields[i].name,
-			// 			"description": this.customFields[i].description,
-			// 			"dataType": this.customFields[i].dataType,
-			// 			"value": this.customFields[i].value
-			// 		}
-			// 		console.log("fieldObj",fieldObj);
-			// 		this.formFieldc.details.push(fieldObj);
-			// 	}
-			// }
-
-
-
-		// this.formFieldc.details = this.formFieldc.details.filter(detail => detail.value != null);
-		// console.log("This formFieldc details",this.formFieldc.details);
-
-		for(let i =0; i< this.formFieldc.details.length; i++){
-			// console.log("i",this.f)
-			if(this.formFieldc.details[i].value == null || this.formFieldc.details[i].value == ''){
-				console.log('hi', i)
-				obj.details.splice(i, 1);
+		var detailsArr = [];
+		console.log(this.formFieldc.details.length);
+		// for custom fields
+		for(var i=0; i<this.formFieldc.details.length; i++){
+			console.log("value",this.formFieldc.details[i].value)
+			if(this.formFieldc.details[i].value){
+				if(this.formFieldc.details[i].value.trim().length){
+					console.log("Has Value");
+					var detailsObj:any = {};
+					detailsObj = {
+						"name": this.formFieldc.details[i].name,
+						"description": this.formFieldc.details[i].description,
+						"dataType": this.formFieldc.details[i].dataType,
+						"value": this.formFieldc.details[i].value
+					}
+					console.log("detailsObj",detailsObj);
+					detailsArr.push(detailsObj);
+				}
 			}
 		}
 
-		console.log('......',obj.details)
+		console.log("DETAILS ARR",detailsArr);
 		
 		let objData = new FormData();						
 		let guardianArray;		
@@ -294,10 +278,9 @@ export class UsersComponent implements OnInit {
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);	
 
-		// objData
-		if(this.formFieldc.details.length>0){
-			console.log("Has Details",this.formFieldc.details)
-			objData.append('details', JSON.stringify(obj.details));
+		if(detailsArr.length > 0){
+			console.log("Has Details",detailsArr);
+			objData.append('details', JSON.stringify(detailsArr));
 		}
 
 		this.customerLists = [];
