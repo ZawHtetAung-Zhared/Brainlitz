@@ -82,6 +82,7 @@ export class CustomfieldComponent implements OnInit {
   	this.model = {};
   	this.isUpdate = false;
   	this.isChecked = false;
+    this.getAllCustomfields();
   }
 
   chooseType(item){

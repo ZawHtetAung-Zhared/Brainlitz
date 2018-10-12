@@ -129,7 +129,7 @@ export class UsersComponent implements OnInit {
 		console.log(this.isCrop);
 		this.isCrop = false;
 		this.customerLists = [];
-		this.formFieldc.details = [];
+		// this.formFieldc.details = [];
 		this.getSingleUser(ID);
 	}
 
@@ -137,7 +137,7 @@ export class UsersComponent implements OnInit {
 		console.log(this.formFieldc.details)
 		this._service.editProfile(this.regionID, ID)
     	.subscribe((res:any) => {
-  			console.log(res);
+  			console.log("SingleUser",res);
   			this.formFieldc = res;
   			this.isupdate = true;
   			this.returnProfile = res.profilePic;
@@ -151,69 +151,33 @@ export class UsersComponent implements OnInit {
 
 	getCustomFields(type){
 		console.log('call getcustom fields')
-		if(type == 'create'){
-			console.log("create")
-			this._service.getAllFields(this.regionID)
-			.subscribe((res:any) => {
-				console.log("Custom Field",res);
-				this.customFields = res.userInfoPermitted;
-				console.log("*** " ,this.customFields)
-				this.formFieldc.details = [];
-				for(var i=0; i<this.customFields.length; i++){
-					var fieldObj:any = {};
-					fieldObj = {
-						"name": this.customFields[i].name,
-						"description": this.customFields[i].description,
-						"dataType": this.customFields[i].dataType,
-						"value": null
+		this._service.getAllFields(this.regionID)
+		.subscribe((res:any) => {
+			console.log("Custom Field",res);
+			this.customFields = res.userInfoPermitted;
+			for (var i = 0; i < this.customFields.length; i++) {
+				console.log("^^i",this.customFields[i]);
+				var fieldName = this.customFields[i].name.toLowerCase();
+				console.log("^^Test^^",fieldName);
+				if(type == 'create'){
+					this.customFields[i]["value"] = null;
+					console.log("name----",this.customFields);
+				}else{
+					console.log("EDIT RES",this.customFields[i]._id);
+					var findId = this.customFields[i]._id;
+					var test = this.formFieldc.details.filter(item=> item.permittedUserInfoId == findId);
+					console.log("Test",test);
+					if(test.length>0){
+						console.log("value",test[0].value);
+						this.customFields[i]["value"] = test[0].value;
 					}
-					console.log("fieldObj",fieldObj);
-					this.formFieldc.details.push(fieldObj);
+					console.log(this.formFieldc.details);
+					
 				}
-				this.formFieldc.details.sort(function(a,b){return a.name > b.name;});
-				console.log("Sorting result",this.formFieldc.details)
-			})
-		}else{
-			console.log("edit")
-			this._service.getAllFields(this.regionID)
-			.subscribe((res:any) => {
-				console.log("Custom Field",res);
-				this.customFields = res.userInfoPermitted;
-				console.log("this.customFields",this.customFields)
-				console.log("this.formFieldc.details",this.formFieldc.details)
-				// if(this.customFields.length != this.formFieldc.details.length){
-				// 	let result1 = this.customFields.map(item => item.name);
-				// 	console.log("ids1",result1);
-				// 	let result2 = this.formFieldc.details.map(item => item.name);
-				// 	console.log("ids1",result2);
-				// 	let diff = result1.map((id, index) => {
-				//         if (result2.indexOf(id) < 0) {
-				//             return this.customFields[index];
-				//         }
-				//     }).concat(result2.map((id, index) => {
-				//         if (result1.indexOf(id) < 0) {
-				//             return this.formFieldc.details[index];
-				//         }
-				//     })).filter(item => item != undefined);
-
-				//     console.log("diff",diff)
-				//     for(var key=0;key<diff.length;key++){
-				//     	var fieldObj:any = {};
-				// 		fieldObj = {
-				// 			"name": diff[key].name,
-				// 			"description": diff[key].description,
-				// 			"dataType": diff[key].dataType,
-				// 			"value": null
-				// 		}
-				// 		console.log("fieldObj",fieldObj);
-				// 		this.formFieldc.details.push(fieldObj);
-				//     }
-				//     this.formFieldc.details.sort(function(a,b){return a.name > b.name;});
-				// }
-			})
-		}
-		
+			}
+		})
 	}
+
 	focusMethod(e, status, word){
 	    if(status == 'name'){
 	      this.wordLength = word.length;
@@ -239,28 +203,23 @@ export class UsersComponent implements OnInit {
 
 	createUser(obj, apiState){
 		console.log(obj);
-		var detailsArr = [];
-		console.log(this.formFieldc.details.length);
-		// for custom fields
-		for(var i=0; i<this.formFieldc.details.length; i++){
-			console.log("value",this.formFieldc.details[i].value)
-			if(this.formFieldc.details[i].value){
-				if(this.formFieldc.details[i].value.trim().length){
-					console.log("Has Value");
-					var detailsObj:any = {};
-					detailsObj = {
-						"name": this.formFieldc.details[i].name,
-						"description": this.formFieldc.details[i].description,
-						"dataType": this.formFieldc.details[i].dataType,
-						"value": this.formFieldc.details[i].value
+		this.formFieldc.details = [];
+		//for custom fields
+		for(var i=0; i<this.customFields.length; i++){
+			console.log('field value',this.customFields[i].value);
+			if(this.customFields[i].value){
+				if(this.customFields[i].value.trim().length){
+					var fieldObj:any = {};
+					fieldObj = {
+						"permittedUserInfoId": this.customFields[i]._id,
+						"value": this.customFields[i].value
 					}
-					console.log("detailsObj",detailsObj);
-					detailsArr.push(detailsObj);
+					console.log("fieldObj",fieldObj);
+					this.formFieldc.details.push(fieldObj);
 				}
 			}
-		}
-
-		console.log("DETAILS ARR",detailsArr);
+		}	
+		console.log("formFieldc details",this.formFieldc.details);
 		
 		let objData = new FormData();						
 		let guardianArray;		
@@ -283,10 +242,16 @@ export class UsersComponent implements OnInit {
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);	
 
-		if(detailsArr.length > 0){
-			console.log("Has Details",detailsArr);
-			objData.append('details', JSON.stringify(detailsArr));
-		}
+		// if(detailsArr.length > 0){
+		// 	console.log("Has Details",detailsArr);
+		// 	objData.append('details', JSON.stringify(detailsArr));
+		// }
+
+		// objData
+		if(this.formFieldc.details.length>0){
+			console.log("Has Details",this.formFieldc.details)
+			objData.append('details', JSON.stringify(obj.details));
+		}	
 
 		this.customerLists = [];
 
