@@ -636,9 +636,20 @@ h3, h5 {
    margin: 20px 10px; 
    display: inline;
 }
-.list-wrapper{
+.list-wrapper,.detail-list{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(50%, 1fr));
+}
+.detail-list{
+    width: 100%;
+}
+.details-list-wrap{
+    max-height: 170px;
+    overflow: auto;
+}
+.child-detail{
+    flex: 1 0 40%;
+    padding: 15px 0px;
 }
 .flexc{
     max-width: 45.9%;

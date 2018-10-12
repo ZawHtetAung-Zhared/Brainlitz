@@ -111,6 +111,14 @@
 						<label class="info-mail">Full name</label>
 						<p class="mb-0 info-p">{{ staffDetail.user.firstName }} <span style="padding: 1px"></span>{{staffDetail.user.lastName}}</p>
 					</div>
+					<div class="d-flex info-wrap details-list-wrap">
+						<div *ngIf="staffDetail.user.details" class="list-wrapper detail-list">
+							<div *ngFor="let detail of staffDetail.user.details" class="child-detail">
+								<label class="info-mail">{{detail.name}}</label>
+								<p class="mb-0 info-p">{{detail.value}}</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -134,6 +134,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	getSingleUser(ID){
+		console.log(this.formFieldc.details)
 		this._service.editProfile(this.regionID, ID)
     	.subscribe((res:any) => {
   			console.log(res);
@@ -149,12 +150,14 @@ export class UsersComponent implements OnInit {
 	}
 
 	getCustomFields(type){
+		console.log('call getcustom fields')
 		if(type == 'create'){
 			console.log("create")
 			this._service.getAllFields(this.regionID)
 			.subscribe((res:any) => {
 				console.log("Custom Field",res);
 				this.customFields = res.userInfoPermitted;
+				console.log("*** " ,this.customFields)
 				this.formFieldc.details = [];
 				for(var i=0; i<this.customFields.length; i++){
 					var fieldObj:any = {};
@@ -176,35 +179,37 @@ export class UsersComponent implements OnInit {
 			.subscribe((res:any) => {
 				console.log("Custom Field",res);
 				this.customFields = res.userInfoPermitted;
-				if(this.customFields.length != this.formFieldc.details.length){
-					let result1 = this.customFields.map(item => item.name);
-					console.log("ids1",result1);
-					let result2 = this.formFieldc.details.map(item => item.name);
-					console.log("ids1",result2);
-					let diff = result1.map((id, index) => {
-				        if (result2.indexOf(id) < 0) {
-				            return this.customFields[index];
-				        }
-				    }).concat(result2.map((id, index) => {
-				        if (result1.indexOf(id) < 0) {
-				            return this.formFieldc.details[index];
-				        }
-				    })).filter(item => item != undefined);
+				console.log("this.customFields",this.customFields)
+				console.log("this.formFieldc.details",this.formFieldc.details)
+				// if(this.customFields.length != this.formFieldc.details.length){
+				// 	let result1 = this.customFields.map(item => item.name);
+				// 	console.log("ids1",result1);
+				// 	let result2 = this.formFieldc.details.map(item => item.name);
+				// 	console.log("ids1",result2);
+				// 	let diff = result1.map((id, index) => {
+				//         if (result2.indexOf(id) < 0) {
+				//             return this.customFields[index];
+				//         }
+				//     }).concat(result2.map((id, index) => {
+				//         if (result1.indexOf(id) < 0) {
+				//             return this.formFieldc.details[index];
+				//         }
+				//     })).filter(item => item != undefined);
 
-				    console.log("diff",diff)
-				    for(var key=0;key<diff.length;key++){
-				    	var fieldObj:any = {};
-						fieldObj = {
-							"name": diff[key].name,
-							"description": diff[key].description,
-							"dataType": diff[key].dataType,
-							"value": null
-						}
-						console.log("fieldObj",fieldObj);
-						this.formFieldc.details.push(fieldObj);
-				    }
-				    this.formFieldc.details.sort(function(a,b){return a.name > b.name;});
-				}
+				//     console.log("diff",diff)
+				//     for(var key=0;key<diff.length;key++){
+				//     	var fieldObj:any = {};
+				// 		fieldObj = {
+				// 			"name": diff[key].name,
+				// 			"description": diff[key].description,
+				// 			"dataType": diff[key].dataType,
+				// 			"value": null
+				// 		}
+				// 		console.log("fieldObj",fieldObj);
+				// 		this.formFieldc.details.push(fieldObj);
+				//     }
+				//     this.formFieldc.details.sort(function(a,b){return a.name > b.name;});
+				// }
 			})
 		}
 		

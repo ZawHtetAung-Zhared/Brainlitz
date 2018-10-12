@@ -141,17 +141,15 @@
 						<!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
 						<p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
 					</div>
-					<!-- <div class="d-flex infoGp-wrap info-wrap">
-						<div class="timetable-col">
-							<label class="info-mail">Date of birth</label>
-							<p class="mb-0 info-p">-</p>
-						</div>
-						<div class="timetable-col">
-							<label class="info-mail">Gender</label>
-							<p class="mb-0 info-p">-</p>
+					<div class="d-flex info-wrap details-list-wrap">
+						<div class="list-wrapper detail-list">
+							<div *ngFor="let detail of custDetail.user.details" class="child-detail">
+								<label class="info-mail">{{detail.name}}</label>
+								<p class="mb-0 info-p">{{detail.value}}</p>
+							</div>
 						</div>
 					</div>
-					<div class="d-flex infoGp-wrap info-wrap">
+					<!-- <div class="d-flex infoGp-wrap info-wrap">
 						<div class="timetable-col">
 							<label class="info-mail">Weight</label>
 							<p class="mb-0 info-p">-</p>

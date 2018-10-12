@@ -426,6 +426,22 @@
           </div>
         </div>
       </div>
+      <div *ngIf="selectedUserLists.length <= 0" class="d-flex col-md-12 empty-ui-wrapper">
+        <div class="col-md-6 img-pos">
+          <div class="empty-wrapper">
+            <img src="assets/images/add-customer-illustration@2x.png">
+          </div>
+        </div>
+        <div class="d-flex col-md-6">
+          <div class="txt-default">
+            <h3 *ngIf="userType == 'staff'">Add Staff to this Course</h3>
+            <h3 *ngIf="userType == 'customer'">Add Customer to this Course</h3>
+          </div>
+          <div class="arrow-pos">
+            <img src="assets/img/arrow.png">
+          </div>
+        </div>
+      </div>
     </div>
     <div *ngIf="isSeatAvailable == false && userType == 'customer'" class="seat-taken">All seat taken. Can't add user anymore.</div>
   </div>
