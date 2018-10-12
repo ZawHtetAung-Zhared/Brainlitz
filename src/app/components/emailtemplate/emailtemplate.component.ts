@@ -12,7 +12,7 @@ export class EmailtemplateComponent implements OnInit {
   public concatValue: any;
   public leftPos: any = 0;
   public topPos: any = 0;
-  public isedit: boolean = true;
+  public isedit: boolean = false;
   public textareaTxt: string = '';
   public textareaHeight: any;
 	public showBox: boolean = false;
@@ -55,26 +55,24 @@ export class EmailtemplateComponent implements OnInit {
   }
 
   changeMethod(word){
-    // console.log(word)
+    // console.log(document.getElementById("txt-body").scrollHeight)
+    // this.textareaHeight = document.getElementById("txt-body").scrollHeight;
     this.textareaTxt = word;
+    var str_sub,str_res,index,cursorPos,text,lines,linecount;
     if (word.includes('[[')) {
-      var str_sub = word.substr(word.lastIndexOf(" ")+1)      
-      var str_res = str_sub.split("[[");
-      var index = str_res.length - 1;
-      var cursorPos = $('.input-msg')[0].selectionStart;
+      str_sub = word.substr(word.lastIndexOf(" ")+1)      
+      str_res = str_sub.split("[[");
+      index = str_res.length - 1;
+      cursorPos = $('.input-msg')[0].selectionStart;
       console.log('~~~~',cursorPos)
-      var text = $('.input-msg').val();   
-      var lines = text.split(/\r|\r\n|\n/);
-      var linecount = lines.length;
+      text = $('.input-msg').val();   
+      lines = text.split(/\r|\r\n|\n/);
+      linecount = lines.length;
       console.log(linecount);
       var arrayOfLines = this.textareaTxt.split("\n");
       for(var i = 0;i < linecount;i++){
-        this.leftPos = (arrayOfLines[i].length * 8) - 112;  
-        if(linecount<= 5){
-          this.topPos = linecount*24;
-        }else{
-          this.topPos = 130;
-        }
+        this.leftPos = (arrayOfLines[i].length * 8) - 112;
+        this.topPos = (linecount<= 5) ? linecount*24 : 130;
       }
 
       if(str_res[index] == '' && str_res != ""){
@@ -90,6 +88,14 @@ export class EmailtemplateComponent implements OnInit {
       this.topPos = 0;
     }
   } 
+
+  auto_grow(element){
+    // console.log(element.keyCode)
+    // let  textArea = document.getElementById("txt-body")       
+    // textArea.style.overflow = 'hidden';
+    // textArea.style.height = '0px';
+    // textArea.style.height = textArea.scrollHeight + 'px';
+  }
 
   updateEmail(){
     
