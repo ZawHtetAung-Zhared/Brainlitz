@@ -29,11 +29,11 @@
             </span>
           </button>
         </div>
-        <div [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">      
+        <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('email')">
             <span class="btnSpan">
-              <img *ngIf="menuType == 'customfield'" class="setting-icon" src="./assets/images/modify-template@2x.png">
-              <img *ngIf="menuType != 'customfield'" class="setting-icon" src="./assets/images/modify-template@2x.png">
+              <img *ngIf="menuType == 'email'" class="setting-icon" src="./assets/images/modify-template_a@2x.png">
+              <img *ngIf="menuType != 'email'" class="setting-icon" src="./assets/images/modify-template@2x.png">
               <span>Modify template</span>
             </span>
           </button>

@@ -2,6 +2,9 @@
 .parent-div{
 	position: relative;
 }
+.parent-div{
+	margin-bottom: 110px;
+}
 .header-wrap{
 	padding: 23px 30px;
 }
@@ -108,6 +111,15 @@ h4.email-type{
 	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
 	margin-bottom: 12px;
 }
+.form-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 20px;
+    left: 0;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
 .squareBracket{
 	color: #cacbcc;
 }
@@ -175,8 +187,8 @@ h4.email-type{
 }
 .message-body textarea{
 	border: none;
-	overflow: hidden;
-	min-height: 132px;
+	/*overflow: hidden;*/
+	min-height: 180px;
 }
 .message-body textarea:focus{
 	outline: none;
