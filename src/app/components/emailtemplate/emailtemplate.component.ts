@@ -43,12 +43,19 @@ export class EmailtemplateComponent implements OnInit {
   insertVariable(val){
     this.concatValue = "[[" + val + "]]";
     console.log(this.textareaTxt)
-    $('.input-msg').val( this.textareaTxt + this.concatValue);
-    $('.input-msg').focus();
-    console.log(this.textareaTxt + this.concatValue)
-    var all_txt = this.textareaTxt + this.concatValue;
+    // $('.input-msg').val( this.textareaTxt + this.concatValue);
+    // $('.input-msg').focus();
+    // console.log(this.textareaTxt + this.concatValue)
+    // var all_txt = this.textareaTxt + this.concatValue;
     
-    this.textareaTxt = all_txt;
+    // this.textareaTxt = all_txt;
+
+    var cursorPos = $('.input-msg')[0].selectionStart;
+    $('.input-msg').val(this.textareaTxt.substring(0, cursorPos) + this.concatValue + this.textareaTxt.substring(cursorPos) );
+
+    
+    console.log(cursorPos)
+
     this.showBox = false;
   }
 
