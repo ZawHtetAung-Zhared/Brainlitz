@@ -13,19 +13,16 @@ export class AppComponent implements OnInit{
   title = 'app';
   public showSidebar: boolean = true;
   public showHeader: boolean = false;
+  public str_res: any;
 
   constructor(private http: Http, private _router: Router, private _service: appService) { 
   	if (window.location.hash.indexOf("#") === 0) {
   		var data = {}, pairs, pair, separatorIndex, escapedKey, escapedValue;
-        var queryString = window.location.search.substr(1);
-        // console.log(queryString)
-        let pairs = queryString.split("&");
-        // console.log(pairs)
-        for (var i = 0; i < pairs.length; i++) {
-          // console.log('hello')
+        var queryString = window.location.search.substr(1);        
+        let pairs = queryString.split("&");        
+        for (var i = 0; i < pairs.length; i++) {          
           pair = pairs[i];
           separatorIndex = pair.indexOf("=");
-          console.log(separatorIndex)
           if (separatorIndex === -1) {
               escapedKey = pair;
               escapedValue = null;
@@ -50,13 +47,20 @@ export class AppComponent implements OnInit{
     let str = document.location.href;
     var start_pos = str.indexOf('//') + 2;
     var end_pos = str.indexOf('/#',start_pos);
-    var storeLocal = str.substring(start_pos,end_pos)
-    console.log(storeLocal);
+    var storeLocal = str.substring(start_pos,end_pos)    
+
+    if(storeLocal.includes('/')){
+      var str_temp = storeLocal.substr(storeLocal.lastIndexOf("/")+1);
+      this.str_res = str_temp.substring(0,str_temp.indexOf('.'));
+    }else{
+      this.str_res = storeLocal.substring(0,storeLocal.indexOf('.'));
+    }
+
+    console.log('~~~~~', this.str_res)
 
     // var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
     if((document.location.href.slice(-5)) == "login"){
-      localStorage.setItem('slicePath', storeLocal);
-      console.log('right')
+      localStorage.setItem('slicePath', this.str_res);      
       this._service.getPathLocal();
       this._router.navigateByUrl('/login', { skipLocationChange: true });
     }

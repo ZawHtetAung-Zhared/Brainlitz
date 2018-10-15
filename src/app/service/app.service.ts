@@ -145,6 +145,20 @@ export class appService{
       // }
     }
 
+    getOrgCredentials(orgCode){
+      let url = this.baseUrl + '/organization-credentials/' + orgCode;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'secretkey': 'PAK2jf8WrS'})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
+
     getAllRegion(type: any, token: any): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl + '/organization/user/regions';
