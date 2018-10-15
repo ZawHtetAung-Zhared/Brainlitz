@@ -9,10 +9,13 @@ import { appService } from '../../service/app.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private loginUrl = environment.apiurl + '/dialog/authorize/5b063e2636f2e0f83cdbac88';
-  private clientId = environment.client_id;
-  private clientSecret = environment.clientSecret;
-  private redirectUri = environment.redirect_uri;
+  private loginUrl = environment.apiurl + '/dialog/authorize/';
+  // private clientId = environment.client_id;
+  private clientId:any;
+  // private clientSecret = environment.clientSecret;
+  private clientSecret:any;
+  // private redirectUri = environment.redirect_uri;
+  private redirectUri = localStorage.getItem('redirectURL');
   private responseType = environment.response_type;
   public slicePathName: any;
   public randomKey: any;
@@ -36,6 +39,11 @@ export class LoginComponent implements OnInit {
       this.generateRandom();
     }
     console.log(this.slicePathName)
+    let str = document.location.href;
+    var end_index = str.lastIndexOf('/');
+    var redirectURL = str.substr(0,end_index) + '/'
+    console.log(redirectURL)
+    localStorage.setItem('redirectURL', redirectURL);
     if(this.slicePathName == undefined){
       console.log('no slicePath')
       localStorage.setItem('OrgId', '5b063e2636f2e0f83cdbac88'); 
@@ -52,7 +60,12 @@ export class LoginComponent implements OnInit {
       console.log(res)
       localStorage.setItem('OrgId', res.orgId);      
       localStorage.setItem('OrgLogo', res.logo);    
-      console.log(res.logo)  
+      localStorage.setItem('clientId', res.clientId);    
+      localStorage.setItem('clientSecret', res.clientSecret);    
+      console.log(res.logo)
+      this.clientId = res.clientId
+      this.clientSecret = res.clientSecret
+      this.loginUrl = this.loginUrl + res.orgId;
     }, err => {
       console.log(err)
     })
@@ -69,9 +82,14 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
-  	console.log('login start');
+    console.log('login start', this.redirectUri);
+    console.log(this.clientId);
+  	console.log(this.clientSecret);
     this.redirectUri = encodeURIComponent(this.redirectUri);
+    console.log(this.redirectUri)
+    console.log(this.loginUrl)
     window.location.href = this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri
+    console.log(this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri)
   }
   
 }

@@ -12,6 +12,9 @@ import {Subject} from 'rxjs/Subject';
 export class appService{
     private baseUrl = environment.apiurl + '/api/v1';
     private baseUrl1 = environment.apiurl;
+    private redirect_uri = localStorage.getItem('redirectURL');
+    private clientId = localStorage.getItem('clientId');
+    private clientSecret = localStorage.getItem('clientSecret');
     public temp: any;    
     public tempToken: any;    
     public isback: boolean = false;    
@@ -118,11 +121,12 @@ export class appService{
       let body = {
         'grant_type': environment.grant_type,
         'code': this.tempToken,
-        'redirect_uri': environment.redirect_uri,
-        'client_id': environment.client_id,
+        'redirect_uri': this.redirect_uri,
+        // 'client_id': environment.client_id,
+        'client_id': this.clientId,
       }
       console.log('~~~ ',body)
-      let basicToken = window.btoa(environment.client_id + ":" + environment.client_id)
+      let basicToken = window.btoa(this.clientId + ":" + this.clientSecret)
       const httpOptions = {
           headers: new HttpHeaders({ 'authorization': 'Basic ' + basicToken })
       };
