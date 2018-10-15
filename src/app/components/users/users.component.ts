@@ -160,6 +160,7 @@ export class UsersComponent implements OnInit {
 				var fieldName = this.customFields[i].name.toLowerCase();
 				console.log("^^Test^^",fieldName);
 				if(type == 'create'){
+					console.log("No detail fields in Res")
 					this.customFields[i]["value"] = null;
 					console.log("name----",this.customFields);
 				}else{
@@ -431,6 +432,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	goCreateForm(type){
+		console.log("TYPE",type);
 		this.isCrop = false;
 		this.customerLists = [];
 		this.showFormCreate = true;
@@ -439,7 +441,8 @@ export class UsersComponent implements OnInit {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
 
-	    if(type == 'create' || this.formFieldc.details.length == 0){
+	    if(type == 'create' || !this.formFieldc.details){
+	    	console.log("CREATE")
 	    	this.getCustomFields('create');
 	    }else{
 	    	this.getCustomFields('update');
