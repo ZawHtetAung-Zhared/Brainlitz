@@ -48,7 +48,9 @@ export class AppComponent implements OnInit{
     var start_pos = str.indexOf('//') + 2;
     var end_pos = str.indexOf('/#',start_pos);
     var storeLocal = str.substring(start_pos,end_pos)    
-
+    console.log('~~~~~', storeLocal)
+    // var redirectURL = storeLocal.split("/").pop();
+     
     if(storeLocal.includes('/')){
       var str_temp = storeLocal.substr(storeLocal.lastIndexOf("/")+1);
       this.str_res = str_temp.substring(0,str_temp.indexOf('.'));
