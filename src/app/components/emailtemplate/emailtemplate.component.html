@@ -92,7 +92,7 @@
         <div class="form-group parent-div">
           <div *ngIf="this.showBox == true">
             <ul [ngStyle]="{'left': leftPos+'px', 'top': topPos + 'px'}" class="variable-box">
-              <li (click)="insertVariable(val.name)" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
+              <li (click)="insertVariable(val.name, 'popup')" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
             </ul>
           </div>
           <label for="address" class="lable-title">Message</label>
@@ -100,7 +100,7 @@
             <div class="message-head">
               <p>Personalize your message using merge</p>
               <ul class="email-variable">
-                <li (click)="insertVariable(val.name)" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
+                <li (click)="insertVariable(val.name, 'header')" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
               </ul>
             </div>
             <div class="message-body">
@@ -108,7 +108,7 @@
                 id="txt-body" 
                 [ngStyle]="{'height': textareaHeight +'px'}"
                 class="form-control input-msg" 
-                rows="1" 
+                rows="5" 
                 placeholder="Write message" 
                 name="message"
                 (keyup)="auto_grow($event)"

@@ -46,6 +46,7 @@ ul.data-ul li{
 	color: #2e3d4d;
 	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
 	font-size: 16px;
+	border-radius: 2px;
 }
 ul.email-variable li {
 	cursor: pointer;
@@ -57,6 +58,17 @@ ul.email-variable li {
   border-radius: 2px;
   font-size: 12px;
   color: #2e3d4d;
+}
+ul.variable-box::before {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #fff;
+    content: "";
+    top: 112px;
+    position: absolute;
+    right: 10px;
 }
 .mt-32{
 	margin-top: 32px;
@@ -188,7 +200,7 @@ h4.email-type{
 .message-body textarea{
 	border: none;
 	/*overflow: hidden;*/
-	min-height: 180px;
+	/*min-height: 180px;*/
 }
 .message-body textarea:focus{
 	outline: none;

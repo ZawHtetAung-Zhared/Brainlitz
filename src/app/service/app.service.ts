@@ -11,6 +11,7 @@ import {Subject} from 'rxjs/Subject';
 @Injectable()
 export class appService{
     private baseUrl = environment.apiurl + '/api/v1';
+    private baseUrl1 = environment.apiurl;
     public temp: any;    
     public tempToken: any;    
     public isback: boolean = false;    
@@ -146,7 +147,7 @@ export class appService{
     }
 
     getOrgCredentials(orgCode){
-      let url = this.baseUrl + '/organization-credentials/' + orgCode;
+      let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'secretkey': 'PAK2jf8WrS'})

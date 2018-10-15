@@ -51,7 +51,8 @@ export class LoginComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       localStorage.setItem('OrgId', res.orgId);      
-      localStorage.setItem('OrgLogo', res.logo);      
+      localStorage.setItem('OrgLogo', res.logo);    
+      console.log(res.logo)  
     }, err => {
       console.log(err)
     })
