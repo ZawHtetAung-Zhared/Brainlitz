@@ -41,14 +41,23 @@ export class EmailtemplateComponent implements OnInit {
     this.isedit = true;
   }
 
-  insertVariable(val){
+  insertVariable(val, state){
     this.concatValue = "[[" + val + "]]";
     var cursorPos = $('.input-msg')[0].selectionStart;
     $('.input-msg').val(this.textareaTxt.substring(0, cursorPos) + this.concatValue + this.textareaTxt.substring(cursorPos) );
-    console.log($('.input-msg').val())
-
-    this.textareaTxt = $('.input-msg').val();
+    
+    if(state == 'popup'){
+      let input_val = $('.input-msg').val()
+      var end_index = input_val.lastIndexOf("[[" + val + "]]")         
+      input_val = input_val.substr(0, (end_index - 2)) + input_val.substr(end_index);
+      console.log(input_val);
+      $('.input-msg').val(input_val);
+      this.textareaTxt = input_val;
+    }else{
+      this.textareaTxt = $('.input-msg').val();
+    }
     $('.input-msg').focus();
+
     this.showBox = false;
     this.leftPos = 0;
     this.topPos = 0;
@@ -71,7 +80,7 @@ export class EmailtemplateComponent implements OnInit {
       console.log(linecount);
       var arrayOfLines = this.textareaTxt.split("\n");
       for(var i = 0;i < linecount;i++){
-        this.leftPos = (arrayOfLines[i].length * 8) - 112;
+        this.leftPos = (arrayOfLines[i].length * 8) - 130;
         this.topPos = (linecount<= 5) ? linecount*24 : 130;
       }
 
