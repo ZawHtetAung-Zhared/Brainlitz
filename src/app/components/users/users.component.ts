@@ -31,7 +31,8 @@ export class UsersComponent implements OnInit {
 	public defaultSlice: number = 2;
 	public orgID = environment.orgID;
 	public regionID = localStorage.getItem('regionId');		
-	formFieldc: customer = new customer();	
+	// formFieldc: customer = new customer();
+	formFieldc:any = {};	
 	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
@@ -76,10 +77,18 @@ export class UsersComponent implements OnInit {
   	public seeAll = false;
   	public wordLength:number = 0;
   	divHeight:any;
+  	public customFields:any = [];
 
   	// enroll class
   	searchData: any={};
   	public courseLists: any={};
+  	isSearch:boolean = false;
+	searchword:any;
+	usertype:any;
+	result:any;
+	isACSearch:boolean = false;
+	acWord:any;
+  	public testArray = ['1','2','3'];
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -115,35 +124,62 @@ export class UsersComponent implements OnInit {
 
 	}
 
-
 	getSingleInfo(ID){
 		console.log(ID);
 		console.log(this.isCrop);
 		this.isCrop = false;
 		this.customerLists = [];
+		// this.formFieldc.details = [];
 		this.getSingleUser(ID);
 	}
 
 	getSingleUser(ID){
+		console.log(this.formFieldc.details)
 		this._service.editProfile(this.regionID, ID)
     	.subscribe((res:any) => {
-  			console.log(res);
+  			console.log("SingleUser",res);
   			this.formFieldc = res;
   			this.isupdate = true;
   			this.returnProfile = res.profilePic;
   			console.log('~~~', this.returnProfile)
   			this.showCustDetail = false;
-			this.goCreateForm();
+			this.goCreateForm('edit');
 	    }, err => {	
 	    	console.log(err);
 	    });
 	}
 
+	getCustomFields(type){
+		console.log('call getcustom fields')
+		this._service.getAllFields(this.regionID)
+		.subscribe((res:any) => {
+			console.log("Custom Field",res);
+			this.customFields = res.userInfoPermitted;
+			for (var i = 0; i < this.customFields.length; i++) {
+				console.log("^^i",this.customFields[i]);
+				var fieldName = this.customFields[i].name.toLowerCase();
+				console.log("^^Test^^",fieldName);
+				if(type == 'create'){
+					console.log("No detail fields in Res")
+					this.customFields[i]["value"] = null;
+					console.log("name----",this.customFields);
+				}else{
+					console.log("EDIT RES",this.customFields[i]._id);
+					var findId = this.customFields[i]._id;
+					var test = this.formFieldc.details.filter(item=> item.permittedUserInfoId == findId);
+					console.log("Test",test);
+					if(test.length>0){
+						console.log("value",test[0].value);
+						this.customFields[i]["value"] = test[0].value;
+					}
+					console.log(this.formFieldc.details);
+					
+				}
+			}
+		})
+	}
+
 	focusMethod(e, status, word){
-		// console.log('hi', e);
-		// this.wordLength = word.length;
-		// $('.limit-wordcount').show('slow'); 
-		console.log('hi', e)
 	    if(status == 'name'){
 	      this.wordLength = word.length;
 	      $('.limit-wordcount').show('slow'); 
@@ -154,10 +190,6 @@ export class UsersComponent implements OnInit {
 	}
 	  
 	blurMethod(e, status){
-		// console.log('blur', e);
-		// $('.limit-wordcount').hide('slow'); 
-		// this.wordLength = 0;
-		console.log('blur', e);
 	    if(status == 'name'){
 	      $('.limit-wordcount').hide('slow'); 
 	    }else{
@@ -167,12 +199,29 @@ export class UsersComponent implements OnInit {
 	}
 
 	changeMethod(val : string){
-		console.log(val);
 		this.wordLength = val.length;
 	}
 
 	createUser(obj, apiState){
-		console.log(obj);				
+		console.log(obj);
+		this.formFieldc.details = [];
+		//for custom fields
+		for(var i=0; i<this.customFields.length; i++){
+			console.log('field value',this.customFields[i].value);
+			if(this.customFields[i].value){
+				if(this.customFields[i].value.trim().length){
+					var fieldObj:any = {};
+					fieldObj = {
+						"permittedUserInfoId": this.customFields[i]._id,
+						"value": this.customFields[i].value
+					}
+					console.log("fieldObj",fieldObj);
+					this.formFieldc.details.push(fieldObj);
+				}
+			}
+		}	
+		console.log("formFieldc details",this.formFieldc.details);
+		
 		let objData = new FormData();						
 		let guardianArray;		
 		console.log('~~~ ', obj.guardianEmail)
@@ -187,15 +236,28 @@ export class UsersComponent implements OnInit {
 		obj.email = (obj.email == undefined) ? [] : obj.email;
 		objData.append('regionId', this.regionID);
 		objData.append('orgId', this.orgID);
-		objData.append('firstName', obj.firstName);
-		objData.append('lastName', obj.lastName);
+		objData.append('fullName', obj.fullName);
 		objData.append('preferredName', obj.preferredName);
-		objData.append('email', obj.email);
+		objData.append('email', obj.email);	
 
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);	
 
+		// if(detailsArr.length > 0){
+		// 	console.log("Has Details",detailsArr);
+		// 	objData.append('details', JSON.stringify(detailsArr));
+		// }
+
+		// objData
+		if(this.formFieldc.details.length>0){
+			console.log("Has Details",this.formFieldc.details)
+			objData.append('details', JSON.stringify(obj.details));
+		}	
+
 		this.customerLists = [];
+
+		console.log("Latest",objData)
+
 		if(apiState == 'create'){
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
@@ -205,11 +267,13 @@ export class UsersComponent implements OnInit {
 			}
 
 			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
+			console.log('guardianArray',guardianArray);
 			objData.append('guardianEmail', JSON.stringify(guardianArray));	
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
 
 			this.blockUI.start('Loading...');
+			console.log("Data",objData)
 			this._service.createUser(objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
@@ -256,6 +320,7 @@ export class UsersComponent implements OnInit {
 
 			guardianArray = (obj.guardianEmail) ? guardianArray : [] ;
 			objData.append('guardianEmail', JSON.stringify(guardianArray));
+			
 			this.blockUI.start('Loading...');
 			this._service.updateUser(this.regionID, obj.userId, objData)
 	    	.subscribe((res:any) => {
@@ -278,6 +343,7 @@ export class UsersComponent implements OnInit {
 		this.notShowEdit = false;
 		this.updateButton = true;
 		this.createButton = false;
+
 		this._service.userDetail(this.regionID, id)
 		.subscribe((res:any) => {
 			console.log('customer', res);
@@ -289,8 +355,14 @@ export class UsersComponent implements OnInit {
 	}
 
 	showMore(type: any, skip: any){
-		console.log(skip)
-		this.getAllUsers(type, 20, skip)
+		console.log(skip);
+		if(this.isSearch == true){
+			console.log("User Search");
+			this.userSearch(this.searchword, this.usertype, 20, skip)
+		}else{
+			console.log("Not user search")
+			this.getAllUsers(type, 20, skip);
+		}
 	}
 
 	getAllUsers(type, limit, skip){
@@ -299,7 +371,8 @@ export class UsersComponent implements OnInit {
 		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type, limit, skip)
 		.subscribe((res:any) => {	
-			console.log(res)
+			console.log(res);
+			this.result = res;
 			this.customerLists = this.customerLists.concat(res);		
 			// this.customerLists = res;
 			console.log('this.customerLists', this.customerLists);			
@@ -358,7 +431,8 @@ export class UsersComponent implements OnInit {
 	  }	
 	}
 
-	goCreateForm(){
+	goCreateForm(type){
+		console.log("TYPE",type);
 		this.isCrop = false;
 		this.customerLists = [];
 		this.showFormCreate = true;
@@ -366,6 +440,13 @@ export class UsersComponent implements OnInit {
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
+
+	    if(type == 'create' || !this.formFieldc.details){
+	    	console.log("CREATE")
+	    	this.getCustomFields('create');
+	    }else{
+	    	this.getCustomFields('update');
+	    }
 	}
 
 	back(){
@@ -526,46 +607,93 @@ export class UsersComponent implements OnInit {
 	// enroll class
 
 	clearSearch(){
+		// this.isSearch = false;
+	}
+	
+	userSearch(searchWord, userType, limit, skip){
+		this.searchword = searchWord;
+		this.usertype = userType;
+		console.log('hi hello');
+		if(skip == '' && limit == ''){
+			console.log("First time search")
+			var isFirst = true;
+			limit = 20;
+			skip = 0;
+		}
 		
-	}
-
-	userSearch(searchWord, userType){
-		console.log('hi hello')
 		if(searchWord.length != 0){
-			this._service.getSearchUser(this.regionID, searchWord, userType)
-        .subscribe((res:any) => {
-          console.log(res);
-          this.customerLists = res;
-        }, err => {  
-          console.log(err);
-        });
-    }else if(searchWord.length == 0){
-    	console.log('zero', searchWord.length)
-    	this.customerLists = [];
-    	this.getAllUsers('customer',20,0);
-    }
+			this.isSearch = true;
+			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip)
+	        .subscribe((res:any) => {
+				console.log(res);
+				this.result = res;
+				if(isFirst == true){
+					console.log("First time searching");
+					this.customerLists = [];
+					this.customerLists = res;
+				}else{
+					console.log("Not First time searching")
+					this.customerLists = this.customerLists.concat(res);
+				}	          
+	        }, err => {  
+				console.log(err);
+	        });
+	    }else if(searchWord.length == 0){
+	    	console.log('zero', searchWord.length)
+	    	this.customerLists = [];
+	    	this.getAllUsers('customer',20,0);
+	    	this.isSearch = false;
+	    }
 	}
-
-	changeSearch(searchWord, userId){
-		console.log(searchWord)
+	userid:any;
+	acResult:any;
+	changeSearch(searchWord, userId, limit, skip){
+		this.acWord = searchWord;
+		this.userid = userId;	
+		console.log(searchWord);
+		console.log('userid',userId)
+		if(skip == '' && limit == ''){
+			console.log("First time search")
+			var isFirst = true;
+			limit = 20;
+			skip = 0;
+		}
 		if(searchWord.length != 0){
-			this._service.getSearchAvailableCourse(this.regionID, searchWord, userId)
+			this.isACSearch = true
+			this._service.getSearchAvailableCourse(this.regionID, searchWord, userId, limit, skip)
 	      .subscribe((res:any) => {
 	        console.log(res);
-	        this.availableCourses = res;
+	        this.acResult = res;
+	        // this.availableCourses = res;
+	        if(isFirst == true){
+					console.log("First time searching");
+					this.availableCourses = [];
+					this.availableCourses = res;
+				}else{
+					console.log("Not First time searching")
+					this.availableCourses = this.availableCourses.concat(res);
+				}
 	      }, err => {  
 	        console.log(err);
 	      });
-	  }else if(searchWord.length == 0){
-    	console.log('zero', searchWord.length)
-    	this.availableCourses = [];
-    	this.getAC(20, 0, userId)
-    }
+	  }else{
+	    	console.log('zero', searchWord.length)
+	    	this.availableCourses = [];
+	    	this.getAC(20, 0, userId);
+	    	this.isACSearch = false;
+	  }
 	}
 
 	showMoreAC(skip, userId){
 		console.log(skip)
-		this.getAC(20, skip, userId);
+		// this.getAC(20, skip, userId);
+		if(this.isACSearch == true){
+			console.log("AC Search");
+			this.changeSearch(this.acWord, this.userid, 20, skip)
+		}else{
+			console.log("Not AC search")
+			this.getAC(20, skip, userId);
+		}
 	}
 
 	callEnrollModal(enrollModal, userId){

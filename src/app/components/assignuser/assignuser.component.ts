@@ -152,7 +152,7 @@ export class AssignuserComponent implements OnInit {
 
   getAssignList(){
     console.log("getAssignList")
-    this._service.getAssignUser(this.regionid,this.selectedCourse.courseid)
+    this._service.getAssignUser(this.regionid,this.selectedCourse.courseid,null,null,null)
      .subscribe((res:any) => {
        this.blockUIList.stop();
        console.log("getAssignList",res);

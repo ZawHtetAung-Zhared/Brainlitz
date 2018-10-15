@@ -16,7 +16,7 @@ declare var $: any;
 })
 
 export class HolidaysComponent implements OnInit {
-
+	formValue: any;
 	public holidayLists: any;
 	public isUpdate: boolean = false;
 	public currentID: any;
@@ -59,6 +59,13 @@ export class HolidaysComponent implements OnInit {
 
   	ngOnInit() {
   		this.getAllHolidays();
+  	}
+
+  	onSubmit(form: NgForm) {
+	    this.formValue = form.value;
+	    console.log(this.formValue);
+	    // Do whatever you want with form value
+	    // Could be a POST request or else
   	}
 
   	open(content){

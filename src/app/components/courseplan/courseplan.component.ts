@@ -546,7 +546,7 @@ export class CourseplanComponent implements OnInit {
       //   console.log(err);
       // });
       console.log("search APG",this.regionID,keyword,type);
-      this._service.getSearchApg(this.regionID, keyword, type, '')
+      this._service.getSearchApg(this.regionID, keyword, type, '', 20,  0)
       .subscribe((res:any) => {
         console.log("apg result",res);
         this.apgList = res;

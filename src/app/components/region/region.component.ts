@@ -9,7 +9,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
   styleUrls: ['./region.component.css']
 })
 export class RegionComponent implements OnInit {
-	private orgID = environment.orgID;
+	private orgID = localStorage.getItem('OrgId');
 	public regionLists: any;
   public accessToken: any;
 	public tokenType: any;

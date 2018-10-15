@@ -10,7 +10,9 @@ export class GetUtcDatePipe implements PipeTransform {
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];    
     var monthName =  monthNames[new Date(getDate).getUTCMonth()];
-    var utcDate = monthName + ' ' + new Date(getDate).getUTCDate() + ', ' + new Date(getDate).getUTCFullYear()
+    var yearName = new Date(getDate).getUTCFullYear();
+    var year = yearName.toString();
+    var utcDate = monthName + ' ' + new Date(getDate).getUTCDate() + ' ’' + year.substr(-2);
     // console.log(utcDate)
     return utcDate;
   }

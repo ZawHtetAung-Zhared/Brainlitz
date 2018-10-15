@@ -610,16 +610,30 @@ export class ApgComponent implements OnInit {
         skip = 0;
       }
       console.log("skip",skip);
-      this.getAllAPG(20,skip);
+      this.isFirst = false;
+      // this.getAllAPG(20,skip);
+      if(this.isFirst == false){
+        console.log("Apg Search");
+        this.getApgSearch(this.searchWord, this.itemtype, 20, skip)
+      }else{
+        console.log("Not Apg search")
+        this.getAllAPG(20,skip);
+      }
     }
 
     showMoreTemplate(skip){
       this.getAllTemplate(20, skip);
     }
-
+    isFirst:boolean = false;
+    searchWord:any;
+    itemtype:any;
     changeSearch(keyword, type){
       console.log(keyword)
-      this.getApgSearch(keyword, type)
+      this.getApgSearch(keyword, type, 20, 0);
+      this.searchWord = keyword;
+      this.isFirst = true;
+      this.itemtype = type;
+      // this.isSearch = true;
       if(type == 'apg'){
         if(keyword.length == 0){
           this.apgList = [];
@@ -633,12 +647,20 @@ export class ApgComponent implements OnInit {
       }
     }
 
-    getApgSearch(keyword, type){
-      this._service.getSearchApg(this.regionID, keyword, type, '')
+    getApgSearch(keyword, type, limit, skip){
+      this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
       .subscribe((res:any) => {
         console.log(res);
         if(type == 'apg'){
-          this.apgList = res;
+          // this.apgList = res;
+          if(this.isFirst == true){
+            console.log("First time searching");
+            this.apgList = [];
+            this.apgList = res;
+          }else{
+            console.log("Not First time searching")
+            this.apgList = this.apgList.concat(res);
+          }  
         }else{
           this.templateList = res;
         }

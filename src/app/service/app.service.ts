@@ -11,6 +11,10 @@ import {Subject} from 'rxjs/Subject';
 @Injectable()
 export class appService{
     private baseUrl = environment.apiurl + '/api/v1';
+    private baseUrl1 = environment.apiurl;
+    private redirect_uri = localStorage.getItem('redirectURL');
+    private clientId = localStorage.getItem('clientId');
+    private clientSecret = localStorage.getItem('clientSecret');
     public temp: any;    
     public tempToken: any;    
     public isback: boolean = false;    
@@ -117,11 +121,12 @@ export class appService{
       let body = {
         'grant_type': environment.grant_type,
         'code': this.tempToken,
-        'redirect_uri': environment.redirect_uri,
-        'client_id': environment.client_id,
+        'redirect_uri': this.redirect_uri,
+        // 'client_id': environment.client_id,
+        'client_id': this.clientId,
       }
       console.log('~~~ ',body)
-      let basicToken = window.btoa(environment.client_id + ":" + environment.client_id)
+      let basicToken = window.btoa(this.clientId + ":" + this.clientSecret)
       const httpOptions = {
           headers: new HttpHeaders({ 'authorization': 'Basic ' + basicToken })
       };
@@ -143,6 +148,20 @@ export class appService{
       // if(this.accessToken == undefined){
       //   this._router.navigateByUrl('/login');
       // }
+    }
+
+    getOrgCredentials(orgCode){
+      let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'secretkey': 'PAK2jf8WrS'})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
     }
 
     getAllRegion(type: any, token: any): Observable<any>{
@@ -405,8 +424,9 @@ export class appService{
       }) 
     }
 
-    getSearchUser(regionID: string, val: string,userType){
-      let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
+    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number){
+      let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
+      // let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -672,8 +692,8 @@ export class appService{
       })
     }
 
-    getSearchAvailableCourse(regionID: string, val: string, userId){
-      let apiUrl = this.baseUrl + '/' + regionID + '/available-course/' + userId + '/search?keyword=' + val;
+    getSearchAvailableCourse(regionID: string, val: string, userId:string , limit:number , skip: number){
+      let apiUrl = this.baseUrl + '/' + regionID + '/available-course/' + userId + '/search?keyword=' + val + '&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1006,10 +1026,16 @@ export class appService{
         })
     }
 
-    getAssignUser(regionid,courseid){
+    getAssignUser(regionid, courseid, date, month, year){
       console.log('app service', regionid)
       console.log('app service', courseid)
-      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
+      let url;
+      if(date == null && month == null && year == null){
+        url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
+      }else{
+        url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid + '?date=' + date + '&month=' + month + '&year=' + year;        
+      }
+      
       const httpOptions = {
           headers: new HttpHeaders({ 
           'authorization': this.tokenType + ' ' + this.accessToken})
@@ -1299,10 +1325,10 @@ export class appService{
       })
     }
 
-    getSearchApg(regionID: string, keyword: string, type: string, nin){
+    getSearchApg(regionID: string, keyword: string, type: string, nin, limit:number,skip:number){
       let apiUrl;
       if(nin == ''){
-        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type;
+        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -1435,9 +1461,67 @@ export class appService{
       })
     }
 
+    getAllFields(regionid:string){
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;  
+        return result;
+      })
+    }
 
+    createCustomField(regionid:string, data:object): Observable<any>{
+      console.log(data);
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        console.log(res);
+        let result = res;  
+        return result;
+      })
+    }
 
+    updateCustomField(regionid:string, data:object, fieldId:string): Observable<any>{
+      console.log("fieldId",fieldId);
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info/' + fieldId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 
+    deleteCustomField(regionid:string,id:string): Observable<any>{
+      // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/setting/user-info/:user_info_id
+      let apiUrl = this.baseUrl +'/'+ regionid + '/setting/user-info/' + id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 
 }
 
