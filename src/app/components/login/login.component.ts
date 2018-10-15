@@ -9,7 +9,7 @@ import { appService } from '../../service/app.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private loginUrl = environment.apiurl + '/dialog/authorize/5b063e2636f2e0f83cdbac88';
+  private loginUrl = environment.apiurl + '/dialog/authorize/';
   // private clientId = environment.client_id;
   private clientId:any;
   // private clientSecret = environment.clientSecret;
@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
       console.log(res.logo)
       this.clientId = res.clientId
       this.clientSecret = res.clientSecret
+      this.loginUrl = this.loginUrl + res.orgId;
     }, err => {
       console.log(err)
     })
@@ -86,6 +87,7 @@ export class LoginComponent implements OnInit {
   	console.log(this.clientSecret);
     this.redirectUri = encodeURIComponent(this.redirectUri);
     console.log(this.redirectUri)
+    console.log(this.loginUrl)
     window.location.href = this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri
     console.log(this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri)
   }
