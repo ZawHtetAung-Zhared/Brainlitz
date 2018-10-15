@@ -161,16 +161,16 @@ export class ToolsComponent implements OnInit {
       // this.yesterday = yFormat.replace(/-/g, "/");
       // console.log("Yesterday",this.yesterday);
 
-      const zone = localStorage.getItem('timezone');
-      const dFormat = 'YYYY/MM/DD';
-      var todayD = new Date();
-      console.log("new Date",todayD);
-      this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
-      console.log("Today",this.today);
+      // const zone = localStorage.getItem('timezone');
+      // const dFormat = 'YYYY/MM/DD';
+      // var todayD = new Date();
+      // console.log("new Date",todayD);
+      // this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
+      // console.log("Today",this.today);
 
-      var yesterdayD = new Date(todayD.setDate(todayD.getDate() - 1));
-      this.yesterday = moment(yesterdayD, dFormat).tz(zone).format(dFormat);
-      console.log("Yesterday",this.yesterday)
+      // var yesterdayD = new Date(todayD.setDate(todayD.getDate() - 1));
+      // this.yesterday = moment(yesterdayD, dFormat).tz(zone).format(dFormat);
+      // console.log("Yesterday",this.yesterday)
 
     }else if(type == 'dropdown'){
       this.isdropdown = !this.isdropdown;
@@ -313,11 +313,26 @@ export class ToolsComponent implements OnInit {
     this.viewNoti(20, skip);
   }
 
+  showDayType(){
+    const zone = localStorage.getItem('timezone');
+    const dFormat = 'YYYY/MM/DD';
+    var todayD = new Date();
+    console.log("new Date",todayD);
+    this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
+    console.log("Today",this.today);
+
+    var yesterdayD = new Date(todayD.setDate(todayD.getDate() - 1));
+    this.yesterday = moment(yesterdayD, dFormat).tz(zone).format(dFormat);
+    console.log("Yesterday",this.yesterday)
+  }
+
   viewNoti(limit, skip){
     console.log('~~~', this.notiLists);
     // console.log(this.regionID)
     const zone = localStorage.getItem('timezone');
     const format = 'YYYY/MM/DD HH:mm:ss ZZ';
+
+    this.showDayType();
 
     this.blockUI.start('Loading...');
     this._service.viewNoti(limit, skip)
@@ -349,7 +364,7 @@ export class ToolsComponent implements OnInit {
         // console.log(onlyDate)
         /*===end Testing===*/
         if(this.notiLists[i].utc){
-          this.notiLists[i].utc = this.utcDate;
+          this.notiLists[i].utcDate = this.utcDate;
           this.notiLists[i].sentdate = onlyDate;
           this.notiLists[i].senttime = onlyTime;
         }
