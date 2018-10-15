@@ -97,8 +97,8 @@ export class ReportComponent implements OnInit {
 					// var testDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
 					var d = new Date(tempData);
 					console.log("Date",d);
-					var utcDate = moment(d, format).tz(zone).format(format);
-					console.log("UTC zone",utcDate);
+					// var utcDate = moment(d, format).tz(zone).format(format);
+					// console.log("UTC zone",utcDate);
 					this.CreatedDate = moment(d, format).tz(zone).format(format);
 					console.log("created date",this.CreatedDate)
 
