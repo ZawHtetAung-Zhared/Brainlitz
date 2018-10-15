@@ -1,8 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import * as moment from 'moment'; 
+// import * as moment from 'moment'; 
 declare var $: any;
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-report',
@@ -75,6 +76,10 @@ export class ReportComponent implements OnInit {
   		this.teacherVote = data.voter;
   		this.showDetail = true;
   		this.dropDownShow = false;
+  		const zone = localStorage.getItem('timezone');
+  		console.log(zone)
+    	// const format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    	const format = 'DD MMM YYYY';
 		this._service.getFeedBackList(this.regionID, teacherId)
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
@@ -83,12 +88,20 @@ export class ReportComponent implements OnInit {
 				for (var j = 0; j < this.feedbackLists[i].feedbacks.length; j++) {
 					console.log(this.feedbackLists[i].feedbacks[j])
 					var tempData = this.feedbackLists[i].feedbacks[j].createdDate;
-					var date = new Date(tempData);
-					var tempDay = date.getUTCDate() ;
-					var tempMonth = moment().month(date.getUTCMonth()).format("MMM");
-					var tempYear = date.getUTCFullYear();
-					this.CreatedDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
-					console.log(this.CreatedDate)
+					// var date = new Date(tempData);
+					// var tempDay = date.getUTCDate() ;
+					// var tempMonth = moment().month(date.getUTCMonth()).format("MMM");
+					// var tempYear = date.getUTCFullYear();
+					// this.CreatedDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
+					// console.log(this.CreatedDate);
+					// var testDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
+					var d = new Date(tempData);
+					console.log("Date",d);
+					var utcDate = moment(d, format).tz(zone).format(format);
+					console.log("UTC zone",utcDate);
+					this.CreatedDate = moment(d, format).tz(zone).format(format);
+					console.log("created date",this.CreatedDate)
+
 				}
 			}
 
