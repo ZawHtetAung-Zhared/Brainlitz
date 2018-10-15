@@ -668,6 +668,21 @@ input[type=radio]:checked ~ label{
 .user-info-wrap{
     padding: 0 15px;
 }
+.list-wrapper,.detail-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(50%, 1fr));
+}
+.detail-list{
+    width: 100%;
+}
+.details-list-wrap{
+    max-height: 170px;
+    overflow: auto;
+}
+.child-detail{
+    flex: 1 0 40%;
+    padding: 15px 0px;
+}
 /*staff detail*/
 
 @media only screen and (max-width: 768px){

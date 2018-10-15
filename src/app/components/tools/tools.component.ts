@@ -69,6 +69,8 @@ export class ToolsComponent implements OnInit {
   public scrollVal:any;
   public totalHeight:any;
   public yOffset:any;
+  public todayDate:any;
+  // public yesterdayDate:any;
 
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
@@ -151,15 +153,25 @@ export class ToolsComponent implements OnInit {
     if(type == 'view'){
       this.notiLists = [];
       this.viewNoti(20, 0);
-      var date = new Date();
-      var dFormat = this.datePipe.transform(date,"yyyy-MM-dd");
-      // console.log(dFormat); //output : 2018-02-13
-      this.today = dFormat.replace(/-/g, "/");
-      // console.log(this.today);
-      var ydate = new Date(date.setDate(date.getDate() - 1));
-      var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
-      this.yesterday = yFormat.replace(/-/g, "/");
-      console.log("Yesterday",this.yesterday);
+      // var date = new Date();
+      // var dFormat = this.datePipe.transform(date,"yyyy-MM-dd");
+      // this.today = dFormat.replace(/-/g, "/");
+      // var ydate = new Date(date.setDate(date.getDate() - 1));
+      // var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
+      // this.yesterday = yFormat.replace(/-/g, "/");
+      // console.log("Yesterday",this.yesterday);
+
+      const zone = localStorage.getItem('timezone');
+      const dFormat = 'YYYY/MM/DD';
+      var todayD = new Date();
+      console.log("new Date",todayD);
+      this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
+      console.log("Today",this.today);
+
+      var yesterdayD = new Date(todayD.setDate(todayD.getDate() - 1));
+      this.yesterday = moment(yesterdayD, dFormat).tz(zone).format(dFormat);
+      console.log("Yesterday",this.yesterday)
+
     }else if(type == 'dropdown'){
       this.isdropdown = !this.isdropdown;
       this.notiType = 'send'
@@ -201,7 +213,7 @@ export class ToolsComponent implements OnInit {
     this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
     if(type == 'user'){
-      this._service.getSearchUser(this.regionID, searchWord, 'all')
+      this._service.getSearchUser(this.regionID, searchWord, 'all', 20, 0)
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;
@@ -306,7 +318,6 @@ export class ToolsComponent implements OnInit {
     // console.log(this.regionID)
     const zone = localStorage.getItem('timezone');
     const format = 'YYYY/MM/DD HH:mm:ss ZZ';
-    // console.log(zone)
 
     this.blockUI.start('Loading...');
     this._service.viewNoti(limit, skip)

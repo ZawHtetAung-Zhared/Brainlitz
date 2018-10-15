@@ -1,4 +1,3 @@
-<!-- <app-coursecreate></app-coursecreate> -->
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
@@ -116,14 +115,14 @@
   </div>
   <div>
     <div class="d-flex flex-row row">
-      <div class="col-md-6 detail-info">
+      <div class="col-md-5 detail-info">
         <label>Plan name</label>        
         <h4>{{detailLists.name}}
         <span>{{detailLists.courseCode}}</span></h4>        
         <p>{{detailLists.description}}</p>
       </div>
-      <div class="col-md-6 row detail-fees">
-        <div class="col-md-6 pl-zero">
+      <div class="col-md-7 row detail-fees">
+        <div class="col-md-6 pl-60">
           <div>
             <h5>Course fee</h5>
             <div *ngIf="detailLists.paymentPolicy.courseFee != null">
@@ -139,7 +138,7 @@
             <b *ngIf="detailLists.paymentPolicy.miscFee == null">-</b>
           </div>
         </div>
-        <div class="col-md-6 pl-zero">
+        <div class="col-md-6 pd-zero">
           <div>
             <h5>Deposit</h5>
             <div *ngIf="detailLists.paymentPolicy.deposit.amount != null">
@@ -157,38 +156,48 @@
         </div>
       </div>
     </div>
-    <div class="d-flex detail-box">
-      <div class="col-md-4 col-lg-4 detail-fees pl-zero">
-        <h5 class="mt-03">Location</h5>
-        <b>{{detailLists.location.name}}</b>
+    
+
+    <div class="d-flex flex-row mt-37"> 
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
+        <div class="cdetail">
+          <p>Location</p>
+          <h5>{{detailLists.location.name}}</h5>
+        </div>
       </div>
-      <div class="col-md-4 col-lg-4 course-time pr-zero">
-        <!-- <h5>SUN & MON</h5> -->
-        <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
-          {{ day }}
-        </h5>
-        <p>{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
+        <div class="cdetail">
+          <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+            {{ day }}
+          </h5>
+          <p>{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
+        </div>
       </div>
-      <div class="col-md-4 col-lg-4 course-date">
-        <div class="d-flex detail-fees">
-          <div class="col-md-6 pr-zero">
-            <h5 class="mt-03">From</h5>
-            <b>{{detailLists.startDate | utcDate}}</b>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
+        <div class="cdetail">
+          <p>Lesson count</p>
+          <h5 *ngIf="detailLists.lessonCount == null">-</h5>
+          <h5 *ngIf="detailLists.lessonCount != null">{{ detailLists.lessonCount }} Lessons</h5>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pd-zero course-bg">
+        <div class="d-flex cdetail">
+          <div class="col-md-6 pd-zero">
+            <p>From</p>
+            <h5>{{detailLists.startDate | utcDate}}</h5>
           </div>
-          <div class="col-md-6 pr-zero">
-            <h5 *ngIf="detailLists.endDate" class="mt-03">To</h5>
-            <b *ngIf="detailLists.endDate">{{detailLists.endDate | utcDate}}</b>
-            <div *ngIf="detailLists.endDate == null" class="mt-15">
-              <b>{{ detailLists.lessonCount }} Lessons</b>
-            </div>
+          <div class="col-md-6 pd-zero">
+            <p *ngIf="detailLists.endDate">To</p>
+            <h5 *ngIf="detailLists.endDate">{{detailLists.endDate | utcDate}}</h5>
           </div>
         </div>
       </div>
     </div>
-    <div class="d-flex flex-column">
-      <div class="d-flex">
+
+    <div class="d-flex flex-column mt-32">
+      <div class="d-flex c-border">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
-        <!-- <button [ngClass]="{'active': activeTab == 'Quizwerkz' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Quizwerkz')">Quizwerkz</button> -->
+        <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class')">Class</button>
         <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">
@@ -253,6 +262,38 @@
                     <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="activeTab-content" *ngIf="activeTab == 'Class'">
+        <div class="timeline">
+          <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
+            <b>{{timeline.startDate | timelineDate}}</b>
+            <p>{{timeline.startDate | timelineDay}}</p>
+          </div>
+        </div>
+        <div class="mt-20">
+          <div class="d-flex justify-content-between">
+            <div class="mr-auto">
+              <p class="class-day">{{LASD | TTday}}</p>
+              <p class="class-date">{{LASD | utcDate}}</p>
+            </div>
+            <button type="button" class="btn btn-class-cancel" (click)="cancelClass()">Cancel class</button>
+          </div>
+          <div>
+            <label class="present">{{presentStudent}} present</label>
+            <label class="absent">{{absentStudent}} absent</label>
+            <label class="no-data">{{noStudent}} no data</label>
+          </div>
+          <div class="student-lists row">
+            <div *ngFor="let user of activeCourseInfo.CUSTOMER" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
+              <div class="d-flex flex-row single-student align-items-center">
+                <div class="std-img-wrap">
+                  <img src="{{user.profilePic}}">
+                </div>
+                <p>{{user.preferredName}}</p>
               </div>
             </div>
           </div>
@@ -382,6 +423,22 @@
             <div class="ml-auto remover-wrap">
               <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedUserLists.length <= 0" class="d-flex col-md-12 empty-ui-wrapper">
+        <div class="col-md-6 img-pos">
+          <div class="empty-wrapper">
+            <img src="assets/images/add-customer-illustration@2x.png">
+          </div>
+        </div>
+        <div class="d-flex col-md-6">
+          <div class="txt-default">
+            <h3 *ngIf="userType == 'staff'">Add Teacher to this Course</h3>
+            <h3 *ngIf="userType == 'customer'">Add Customer to this Course</h3>
+          </div>
+          <div class="arrow-pos">
+            <img src="assets/img/arrow.png">
           </div>
         </div>
       </div>
