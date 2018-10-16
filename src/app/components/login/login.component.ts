@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../../../environments/environment';
 import { appService } from '../../service/app.service';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +11,15 @@ import { appService } from '../../service/app.service';
 })
 export class LoginComponent implements OnInit {
   private loginUrl = environment.apiurl + '/dialog/authorize/';
-  // private clientId = environment.client_id;
   private clientId:any;
-  // private clientSecret = environment.clientSecret;
   private clientSecret:any;
-  // private redirectUri = environment.redirect_uri;
-  private redirectUri = localStorage.getItem('redirectURL');
+  private redirectUri: any;  
   private responseType = environment.response_type;
   public slicePathName: any;
   public randomKey: any;
-  constructor(private _service: appService) {
+  public host: any;
+
+  constructor(private _service: appService, @Inject(DOCUMENT) private document: any) {
       this._service.slicePath.subscribe((nextValue) => {
         this.slicePathName = nextValue;
      })
@@ -32,6 +32,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.randomKey = localStorage.getItem('random');
+    console.log(this.document.location.hostname)
+    this.host = this.document.location.hostname;
     if(this.randomKey != undefined){
       console.log('key exit')
     }else{
@@ -43,19 +45,25 @@ export class LoginComponent implements OnInit {
     var end_index = str.lastIndexOf('/');
     var redirectURL = str.substr(0,end_index) + '/'
     console.log(redirectURL)
-    localStorage.setItem('redirectURL', redirectURL);
+    
     if(this.slicePathName == undefined){
       console.log('no slicePath')
-      localStorage.setItem('OrgId', '5b063e2636f2e0f83cdbac88'); 
+      this.slicePathName = 'stgbl-cw1'
+      localStorage.setItem('redirectURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
+      this.getOrgKey(this.slicePathName)
+
     }else{
+      localStorage.setItem('redirectURL', redirectURL);
       console.log('slicePath exit')
       localStorage.removeItem('OrgId')
+      console.log(this.slicePathName);
+      this.slicePathName = (this.slicePathName == 'staging-brainlitz-web') ? 'stgbl-cw1' : this.slicePathName;
       this.getOrgKey(this.slicePathName)
     }
   }
 
   getOrgKey(orgCode){
-    this._service.getOrgCredentials(orgCode)
+    this._service.getOrgCredentials(orgCode, this.host)
     .subscribe((res:any) => {
       console.log(res)
       localStorage.setItem('OrgId', res.orgId);      
@@ -85,6 +93,7 @@ export class LoginComponent implements OnInit {
     console.log('login start', this.redirectUri);
     console.log(this.clientId);
   	console.log(this.clientSecret);
+    this.redirectUri = localStorage.getItem('redirectURL');
     this.redirectUri = encodeURIComponent(this.redirectUri);
     console.log(this.redirectUri)
     console.log(this.loginUrl)
