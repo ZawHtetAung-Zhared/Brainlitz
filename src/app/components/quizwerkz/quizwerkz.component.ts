@@ -30,6 +30,7 @@ export class QuizwerkzComponent implements OnInit {
   public deleteQw:any;
   public modalReference1:any;
   public editId: any;
+  public result: any;
   public wordLength:number = 0;
   viewQuiz: any;
 
@@ -117,6 +118,7 @@ export class QuizwerkzComponent implements OnInit {
   	this._service.getAllPdf(this.regionID, limit, skip)
 		.subscribe((res:any) => {
       this.blockUI.stop();
+      this.result = res;
       this.pdfList = this.pdfList.concat(res);
       console.log("pdflist",this.pdfList);
     }, err => {

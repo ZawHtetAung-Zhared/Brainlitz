@@ -101,7 +101,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="pdfList.length >= 20 && iscreate == false" class="d-flex justify-content-center load-more">
+<div *ngIf="pdfList.length >= 20 && iscreate == false && result.length !=0" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(pdfList.length)">load more</button>
 </div>
 <ng-template #deletemodal let-c="close" let-d="dismiss">

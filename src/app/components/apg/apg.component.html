@@ -57,7 +57,7 @@
 		</div>
 	</div>
 </div>
-<div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false" class="load-more">
+<div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0" class="load-more">
   <button class="btn" (click)="showMore(apgList.length)">load more</button>
 </div>
 
