@@ -60,7 +60,11 @@ export class ApgComponent implements OnInit {
     moduleAPList: any;
     getAccessPoint: any;
     tempModuleId: any;
+    result: any;
     emptyAP: boolean = false;
+    isFirst:boolean = false;
+    searchWord:any;
+    itemtype:any;
 
     //
     public ismodule: boolean = false;
@@ -610,7 +614,7 @@ export class ApgComponent implements OnInit {
         skip = 0;
       }
       console.log("skip",skip);
-      this.isFirst = false;
+      // this.isFirst = false;
       // this.getAllAPG(20,skip);
       if(this.isFirst == false){
         console.log("Apg Search");
@@ -619,14 +623,13 @@ export class ApgComponent implements OnInit {
         console.log("Not Apg search")
         this.getAllAPG(20,skip);
       }
+      // this.getAllAPG(20,skip);
     }
 
     showMoreTemplate(skip){
       this.getAllTemplate(20, skip);
     }
-    isFirst:boolean = false;
-    searchWord:any;
-    itemtype:any;
+    
     changeSearch(keyword, type){
       console.log(keyword)
       this.getApgSearch(keyword, type, 20, 0);
@@ -651,6 +654,7 @@ export class ApgComponent implements OnInit {
       this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
       .subscribe((res:any) => {
         console.log(res);
+        this.result = res;
         if(type == 'apg'){
           // this.apgList = res;
           if(this.isFirst == true){
@@ -675,6 +679,7 @@ export class ApgComponent implements OnInit {
   		this._service.getAllAPG(this.regionID,limit,skip)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
+        this.result = res;
         this.apgList = this.apgList.concat(res);
         if(res.length == 0){
           this.emptyAPG = true;
