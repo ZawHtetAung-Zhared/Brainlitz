@@ -234,7 +234,7 @@ export class UserStaffComponent implements OnInit {
 		
 		objData.append('orgId', this.orgID),
 		objData.append('regionId', this.regionID),
-		objData.append('fullName', obj.firstname)
+		objData.append('fullName', obj.fullName)
 		objData.append('preferredName', obj.preferredname),
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),

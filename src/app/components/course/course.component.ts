@@ -126,10 +126,11 @@ export class CourseComponent implements OnInit {
       'CUSTOMER': [{}],
       'TEACHER': [{
               'preferredName': ''
-            }],
+      }],
       'STAFF': [{}],
     };
-    this.userLists = [{}]
+    this.userLists = [{}];
+    
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -441,7 +442,7 @@ export class CourseComponent implements OnInit {
          this.getUsersInCourse(courseId);
          if(this.isCourseId == true){
            // this.getCourseLists(20,0);
-           this.cancel();
+           // this.cancel();
          }
       }, err => {  
         console.log(err);

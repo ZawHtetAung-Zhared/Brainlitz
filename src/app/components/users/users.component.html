@@ -28,7 +28,7 @@
 		    	placeholder="Search customer here" 
 		    	id="customer-search-input"
 		    	(focusout)="clearSearch($event)"
-		    	(input)="userSearch($event.target.value, 'cutomer','','')"
+		    	(input)="userSearch($event.target.value, 'customer','','')"
         		autocomplete="off"
 		    >
 		    <span class="input-group-append">
@@ -98,15 +98,19 @@
 							</p>
 						</div>
 						<div *ngIf="custDetail.user.guardians?.length > 0" class="infoGp-wrap" style="border-top: 1px dotted #64707d;">
-							<label class="info-mail">Gurdians</label>
+							<label class="info-mail">Guardians</label>
 							<div class="guardian-main-wrap">
-								<div *ngFor="let gurdian of custDetail.user.guardians" class="g-inner-wrap">
+								<div *ngFor="let guardian of custDetail.user.guardians" class="g-inner-wrap">
 						        	<div class="small-circular-image">
-							        	<img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
-										<img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
+							        	<img *ngIf="guardian.profilePic == undefined || guardian.profilePic == ''" src="assets/img/user.svg">
+										<img *ngIf="guardian.profilePic != undefined" src="{{guardian.profilePic}}">
 						        	</div>
+						        	<!-- <span> -->
+						        		<!--  <pre>{{gurdian|json}}</pre> -->
 
-						        	<span>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</span>
+
+						        	<!-- </span> -->
+						        	<span>{{ (guardian.fullName == null )? ("-") : (guardian.fullName) }}</span>
 								</div>
 					    	</div>
 							<!-- <div class="" style="overflow-x: scroll;">
@@ -188,12 +192,12 @@
 							<div class="d-flex timetable-col day-wrap info-wrap">
 								<div class="timetable-col">
 									<label class="medium-label-14 mb-0">From</label>
-									<p class="class-label-14 mb-0">{{ course.startDate | date }}</p>
+									<p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
 								</div>
 								<div class="timetable-col">
 									<label *ngIf = "course.endDate" class="medium-label-14 mb-0">To</label>
 									<label *ngIf = "course.lessonCount" class="medium-label-14 mb-0"></label>
-									<p *ngIf = "course.endDate" class="class-label-14 mb-0">{{ course.endDate | date }}</p>
+									<p *ngIf = "course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
 									<p *ngIf = "course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
 								</div>
 							</div>

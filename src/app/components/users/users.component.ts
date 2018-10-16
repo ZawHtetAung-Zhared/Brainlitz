@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-
+import * as moment from 'moment-timezone';
 
 declare var $:any;
 
@@ -565,12 +565,20 @@ export class UsersComponent implements OnInit {
 		console.log(ID);
 		this.editId = ID;
 		console.log("show details");
+		const format = 'DD MMM YYYY';
+		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
 		this.showCustDetail = true;
 		this._service.getUserDetail(this.regionID,data.userId)
 		.subscribe((res:any) => {
 			this.custDetail = res;
 			console.log("CustDetail",res);
+			for(var i = 0; i < this.custDetail.ratings.length; i++){
+				var tempData = this.custDetail.ratings[i].updatedDate;
+				var d = new Date(tempData);
+				console.log(this.custDetail.ratings[i].updatedDate)
+				this.custDetail.ratings[i].updatedDate = moment(d, format).tz(zone).format(format);
+			}
 		})
 	}
 
@@ -623,6 +631,7 @@ export class UsersComponent implements OnInit {
 		
 		if(searchWord.length != 0){
 			this.isSearch = true;
+			console.log(userType)
 			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip)
 	        .subscribe((res:any) => {
 				console.log(res);
