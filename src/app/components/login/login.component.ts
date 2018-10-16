@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   private loginUrl = environment.apiurl + '/dialog/authorize/';
   private clientId:any;
   private clientSecret:any;
-  private redirectUri = localStorage.getItem('redirectURL');  
+  private redirectUri: any;  
   private responseType = environment.response_type;
   public slicePathName: any;
   public randomKey: any;
@@ -45,14 +45,15 @@ export class LoginComponent implements OnInit {
     var end_index = str.lastIndexOf('/');
     var redirectURL = str.substr(0,end_index) + '/'
     console.log(redirectURL)
-    localStorage.setItem('redirectURL', redirectURL);
+    
     if(this.slicePathName == undefined){
       console.log('no slicePath')
-      localStorage.setItem('OrgId', '5b063e2636f2e0f83cdbac88'); 
-      this.loginUrl = this.loginUrl + '5b063e2636f2e0f83cdbac88';
-      
+      this.slicePathName = 'stgbl-cw1'
+      localStorage.setItem('redirectURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
       this.getOrgKey(this.slicePathName)
+
     }else{
+      localStorage.setItem('redirectURL', redirectURL);
       console.log('slicePath exit')
       localStorage.removeItem('OrgId')
       console.log(this.slicePathName);
@@ -92,6 +93,7 @@ export class LoginComponent implements OnInit {
     console.log('login start', this.redirectUri);
     console.log(this.clientId);
   	console.log(this.clientSecret);
+    this.redirectUri = localStorage.getItem('redirectURL');
     this.redirectUri = encodeURIComponent(this.redirectUri);
     console.log(this.redirectUri)
     console.log(this.loginUrl)
