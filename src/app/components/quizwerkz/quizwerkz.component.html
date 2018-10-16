@@ -47,7 +47,8 @@
       </div>
     </div>
     <div class="quizwerkz-form-wrap">
-      <h3 class="title-heading">Create QuizWerkz</h3>
+      <h3 *ngIf="!isEdit" class="title-heading">Create QuizWerkz</h3>
+      <h3 *ngIf="isEdit" class="title-heading">Update QuizWerkz</h3>
       <div class="quizwerkz-form">
         <form novalidate #createqwForm="ngForm">
           <div class="col-md-8 input-wrap">

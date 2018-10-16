@@ -892,6 +892,7 @@ export class CoursecreateComponent implements OnInit {
           console.log(this.model.lessonCount)
           this.toastr.error(err.error.message);
           this.conflitArr = err.error.lessons;
+          console.log(this.conflitArr)
           this.conflitCourseId = err.error.courseId;
           this.coursePayment = err.error.paymentPolicy;
           this.tempID =[];

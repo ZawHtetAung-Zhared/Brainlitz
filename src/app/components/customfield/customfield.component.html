@@ -36,7 +36,8 @@
 		</div>
 	</div>
 	<div class="form-wrap">
-		<h3 class="field-h3 font-semi m-bottom">Create custom field</h3>
+		<h3 *ngIf="!isUpdate" class="field-h3 font-semi m-bottom">Create custom field</h3>
+		<h3 *ngIf="isUpdate" class="field-h3 font-semi m-bottom">Update custom field</h3>
 		<form novalidate #fieldForm="ngForm">
 			<div class="col-md-8 p-0">
 				<div class="form-group">
