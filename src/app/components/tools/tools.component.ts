@@ -50,6 +50,7 @@ export class ToolsComponent implements OnInit {
   public selectedID:any;
   public isdropdown: boolean = false;
   public isFous: boolean = false;
+  public isSelected: boolean = false;
   public isFousCourse: boolean = false;
   public isFousCategory: boolean = false;
   public wordLength : number = 0;
@@ -209,6 +210,8 @@ export class ToolsComponent implements OnInit {
   changeSearch(searchWord, type){
     console.log(searchWord)
     console.log(this.active)
+    this.isSelected = false;
+    this.selectedID = (this.isSelected == false) ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
     this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
@@ -244,6 +247,7 @@ export class ToolsComponent implements OnInit {
   selectData(id, name, type){
     console.log(id)
     console.log('~~~', this.active.length)
+    this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
     if(type == 'user'){
