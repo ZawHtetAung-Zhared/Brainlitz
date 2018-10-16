@@ -32,7 +32,7 @@ export class ReportComponent implements OnInit {
 	noData: boolean = true;
 	public isMidStick: boolean = false;
 	public navIsFixed: boolean = false;
-	CreatedDate: any;
+	CreatedDate: any[] = [];
   	teacherProfile: any;
   	teacherPreferredName: any;
   	teacherRating: any;
@@ -84,26 +84,36 @@ export class ReportComponent implements OnInit {
 		.subscribe((res:any) => {
 			this.feedbackLists = res;
 			console.log('this.feedbackLists', this.feedbackLists)
-			for (var i = 0; i < this.feedbackLists.length; i++) {				
+			for(var i = 0; i < this.feedbackLists.length; i++){
 				for (var j = 0; j < this.feedbackLists[i].feedbacks.length; j++) {
-					console.log(this.feedbackLists[i].feedbacks[j])
-					var tempData = this.feedbackLists[i].feedbacks[j].createdDate;
-					// var date = new Date(tempData);
-					// var tempDay = date.getUTCDate() ;
-					// var tempMonth = moment().month(date.getUTCMonth()).format("MMM");
-					// var tempYear = date.getUTCFullYear();
-					// this.CreatedDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
-					// console.log(this.CreatedDate);
-					// var testDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
+					console.log("update date",this.feedbackLists[i].feedbacks[j].updatedDate);
+					var tempData = this.feedbackLists[i].feedbacks[j].updatedDate;
 					var d = new Date(tempData);
-					console.log("Date",d);
-					// var utcDate = moment(d, format).tz(zone).format(format);
-					// console.log("UTC zone",utcDate);
 					this.CreatedDate = moment(d, format).tz(zone).format(format);
 					console.log("created date",this.CreatedDate)
-
+					this.feedbackLists[i].feedbacks[j].updatedDate = this.CreatedDate;
 				}
 			}
+			// for (var i = 0; i < this.feedbackLists.length; i++) {				
+			// 	for (var j = 0; j < this.feedbackLists[i].feedbacks.length; j++) {
+			// 		console.log(this.feedbackLists[i].feedbacks[j])
+			// 		var tempData = this.feedbackLists[i].feedbacks[j].updatedDate;
+			// 		var date = new Date(tempData);
+			// 		var tempDay = date.getUTCDate() ;
+			// 		var tempMonth = moment().month(date.getUTCMonth()).format("MMM");
+			// 		var tempYear = date.getUTCFullYear();
+			// 		this.CreatedDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
+			// 		console.log(this.CreatedDate);
+			// 		// var testDate = tempDay + ' ' + tempMonth + ' ' + tempYear;
+			// 		// var d = new Date(tempData);
+			// 		// console.log("Date",d);
+			// 		// var utcDate = moment(d, format).tz(zone).format(format);
+			// 		// console.log("UTC zone",utcDate);
+			// 		// this.CreatedDate = moment(d, format).tz(zone).format(format);
+			// 		// console.log("created date",this.CreatedDate)
+
+			// 	}
+			// }
 
 
 	    }, err => {
