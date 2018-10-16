@@ -253,7 +253,7 @@
 							<div *ngFor="let rating of custDetail.ratings| slice:0:[selectedId.indexOf('rating') != -1 ? custDetail.ratings?.length : 2]" class="card card-wrap">
 								<div class="d-flex">
 									<star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="rating.rating"></star-rating-comp>
-									<span class="ml-auto medium-label-12">{{ rating.updatedDate | date }}</span>
+									<span class="ml-auto medium-label-12">{{ rating.updatedDate }}</span>
 								</div>
 								<p class="medium-label-14" style="color: #2e3d4d"><read-more class="cust-readmore" [text]="rating.message"></read-more></p>
 								<div class="d-flex info-wrap">
