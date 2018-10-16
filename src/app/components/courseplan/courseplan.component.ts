@@ -140,7 +140,7 @@ export class CourseplanComponent implements OnInit {
       $("#step1").addClass('active');
     }, 200)
 
-    this.step1 = true;
+    this.step3 = true;
     this.getAllModule();
     this.showSearchAPG = true;
   }

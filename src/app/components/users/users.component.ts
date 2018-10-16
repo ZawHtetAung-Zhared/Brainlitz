@@ -325,6 +325,7 @@ export class UsersComponent implements OnInit {
 			this._service.updateUser(this.regionID, obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
+	  			this.backToDetails();
 	  			this.toastr.success('Successfully updated.');
 		  		this.blockUI.stop();
 		  		this.back();
@@ -461,6 +462,16 @@ export class UsersComponent implements OnInit {
 		this.getAllUsers('customer', 20, 0);
 	}
 
+	backToDetails(){
+		this.formFieldc = new customer();
+		this.showFormCreate = false;
+		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
+		this.customerLists = [];
+		this.showDetails(this.custDetail.user.userId);
+	}
+
 	uploadCropImg($event: any) {
 		console.log('hihi');
 		var image:any = new Image();
@@ -560,7 +571,7 @@ export class UsersComponent implements OnInit {
 	}
 
 
-	showDetails(data, ID){
+	showDetails(ID){
 		this.customerLists = [];
 		console.log(ID);
 		this.editId = ID;
@@ -569,7 +580,7 @@ export class UsersComponent implements OnInit {
 		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
 		this.showCustDetail = true;
-		this._service.getUserDetail(this.regionID,data.userId)
+		this._service.getUserDetail(this.regionID,ID)
 		.subscribe((res:any) => {
 			this.custDetail = res;
 			console.log("CustDetail",res);
@@ -732,7 +743,7 @@ export class UsersComponent implements OnInit {
 		  	.subscribe((res:any) => {
 		     	console.log(res);
 		     	this.toastr.success('Successfully Enrolled.');
-		     	this.showDetails(this.custDetail.user, this.custDetail.user.userId);
+		     	this.showDetails(this.custDetail.user.userId);
 		     	this.closeModel();
 		     	// this.modalReference.close();
 		     	// this.availableCourses = [];

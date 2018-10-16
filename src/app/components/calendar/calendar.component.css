@@ -230,7 +230,8 @@ ul.calendar-year li:first-child{
 	font-size: 16px;
 	flex: auto;
 	text-align: center;
-  	font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  cursor: pointer;
 }
 .tool-checked.selected,
 .tool-checked label.selected{
