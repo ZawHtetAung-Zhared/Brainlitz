@@ -44,6 +44,7 @@ export class CourseComponent implements OnInit {
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
+  public result:any;
   isSticky:boolean = false;
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
@@ -130,6 +131,7 @@ export class CourseComponent implements OnInit {
       'STAFF': [{}],
     };
     this.userLists = [{}];
+    
     
   }
 
@@ -525,6 +527,9 @@ export class CourseComponent implements OnInit {
     this._service.getAllCourse(this.regionId, limit, skip)
     .subscribe((res:any) => {
       console.log('Course List',res);
+      this.result = res;
+      console.log(this.result)
+      console.log(this.result.length)
       this.courseList = this.courseList.concat(res);
       if(this.courseList.length > 0 ){
         this.emptyCourse = false;

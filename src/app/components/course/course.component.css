@@ -939,6 +939,7 @@ button:disabled{
   border-radius: 28px;
   background-color: #f2f4f5;
   padding: 8px;
+  margin-bottom: 10px;
 }
 .single-student p{
   margin-bottom: 0;
