@@ -150,18 +150,33 @@ export class appService{
       // }
     }
 
-    getOrgCredentials(orgCode){
-      let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
+    getOrgCredentials(orgCode, hostName){
+      let url = this.baseUrl1 + '/organization-credentials/' + orgCode;      
       const httpOptions = {
+          headers: new HttpHeaders({ 
+            'secretkey': 'PAK2jf8WrS', 'local': '1'})
+      };    
+      const httpOptions2 = {
           headers: new HttpHeaders({ 
             'secretkey': 'PAK2jf8WrS'})
       };
-      return this.httpClient.get(url, httpOptions)
-        .map((res:Response) => {
-          let result = res;
-          console.log(result);        
-          return result;
-      }) 
+      
+      if(hostName == 'localhost'){
+        return this.httpClient.get(url, httpOptions)
+          .map((res:Response) => {
+            let result = res;
+            console.log(result);        
+            return result;
+        })
+      }else{
+        return this.httpClient.get(url, httpOptions2)
+          .map((res:Response) => {
+            let result = res;
+            console.log(result);        
+            return result;
+        })
+      }
+       
     }
 
     getAllRegion(type: any, token: any): Observable<any>{
