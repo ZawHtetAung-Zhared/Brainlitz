@@ -221,14 +221,32 @@
 								<hr class="limit-hr-100">
 							</div>
 						</div>
-						<!-- <div class="col-md-6">
-							<div>
-								<label class="all-title-font"> Course fee </label>
-								<div class="input-group input-group-bg mb-2 mr-sm-2">
-									
+					</div>
+					<div>
+						<label class="all-title-font" style="padding-left: 15px;"> Course fee Options</label>
+						<div class="d-flex">
+							<div class="col-md-4">
+								<div>
+									<div class="input-group input-group-bg mb-2 mr-sm-2">
+										<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
+									</div>
 								</div>
 							</div>
-						</div> -->
+							<div class="col-md-4">
+								<div>
+									<div class="input-group input-group-bg mb-2 mr-sm-2">
+										<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10" style="background: none;" [(ngModel)]="testObj.fees" name="fee" #fees>
+									</div>
+								</div>
+							</div>
+							<div>
+							<button type="button" (click)="addOption()">Add</button>
+								<!-- <button type="button" (click)="addOptionFees(name.value,fees.value)">Add</button> -->
+							</div>
+						</div>
+						<div *ngFor="let opt of optArr">
+							<div class="remove-user" (click)="removeOpt(opt)"></div>{{opt.name}} - {{opt.fees}}
+						</div>
 					</div>
 				</div>
 				<div class="button-wrapper">
