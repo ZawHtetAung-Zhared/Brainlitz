@@ -601,6 +601,7 @@ export class UsersComponent implements OnInit {
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
 		this.selectedId =[];
+		this.isSearch = false;
 		
 		$(".frame-upload").css('display', 'none');
 		this.customerLists = [];

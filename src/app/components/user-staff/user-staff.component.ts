@@ -296,6 +296,7 @@ export class UserStaffComponent implements OnInit {
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
 		this.isupdate = false;
+		this.isSearch = false;
 		$(".frame-upload").css('display', 'none');
 		this.staffLists = [];
 		this.getAllUsers('staff', 20, 0);
@@ -455,6 +456,7 @@ export class UserStaffComponent implements OnInit {
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
+		this.isSearch = false;
 		// this.selectedId =[];
 		
 		$(".frame-upload").css('display', 'none');

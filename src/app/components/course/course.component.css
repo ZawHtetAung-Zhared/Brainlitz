@@ -971,10 +971,30 @@ button:disabled{
 }
 .present,
 .absent,
-.no-data{
+.no-data,
+.no-data-alert,
+.present-alert,
+.absent-alert
+{
   font-size: 16px;
   font-family: 'Montserrat-Medium',Arial,sans-serif;
   position: relative;
+}
+
+.single-student.no-data-alert{
+
+}
+.single-student.present-alert{
+  background: #c2f2d6;
+}
+.single-student.absent-alert{
+  background: #ffdbd9;
+}
+.single-student.present-alert p{
+  color: #004d20 !important;
+}
+.single-student.absent-alert p{
+  color: #7d1e19 !important;
 }
 .absent::before,
 .no-data::before {
