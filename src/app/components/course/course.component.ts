@@ -209,6 +209,9 @@ export class CourseComponent implements OnInit {
 
   clickTab(type){
     this.activeTab = type;
+    this.noStudent = 0;
+    this.presentStudent = 0;
+    this.absentStudent = 0;
     if(type == 'Class'){
       this.blockUI.start('Loading...'); 
       const today = new Date();
@@ -216,23 +219,49 @@ export class CourseComponent implements OnInit {
       var to_day = new Date(today).getUTCDate();
       var currentMonth =  new Date(today).getUTCMonth()+1;
       let lessonCount = this.detailLists.lessons;
+      console.log(lessonCount)
+      console.log(lessonCount.length)
       let finishedDate = [];
+      let unfinishedDate = [];
+      let xx = false;
       for(let i=0; i< lessonCount.length; i++){
         let strDate = lessonCount[i].startDate;
         let courseDate = new Date(strDate).getUTCDate();
-        let courseMonth = new Date(strDate).getUTCMonth()+1;
-        if(courseMonth <= currentMonth){
-          if(to_day >= courseDate){
+        let courseMonth = new Date(strDate).getUTCMonth()+1;        
+
+        if(courseMonth < currentMonth){
+          console.log('less than current month')
+          finishedDate.push(i)
+        }else if(courseMonth == currentMonth){
+          console.log('same with current month')
+          if(courseDate > to_day){
+            console.log('unfinished course => ', courseDate)
+            unfinishedDate.push(i);
+          }else{
+            console.log('finished course => ', courseDate)
             finishedDate.push(i)
           }
         }else{
-          console.log('greater than current month')
+          console.log('grater than current month')
+          unfinishedDate.push(i)
         }
       }
-      let lastActiveDate = finishedDate.length -1;
-      console.log(lastActiveDate)
-      //LASD = lastActiceStartDate
-      this.LASD = lessonCount[lastActiveDate].startDate
+      console.log('finish', finishedDate.length)
+      console.log('unfinish' , unfinishedDate.length)
+      let lastActiveDate;
+      if(finishedDate.length != 0){
+        lastActiveDate = finishedDate.length -1;
+        console.log(lastActiveDate)
+        //LASD = lastActiceStartDate
+        this.LASD = lessonCount[lastActiveDate].startDate
+        console.log(this.LASD)
+      }else{
+        lastActiveDate = 0;
+        this.LASD = lessonCount[0].startDate
+      }
+      
+
+      
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate()
       let ACM = new Date(this.LASD).getUTCDate()
@@ -257,6 +286,10 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop();
         console.log(err);
       });
+    }else{
+      this.noStudent = 0;
+      this.presentStudent = 0;
+      this.absentStudent = 0;
     }
   }
 
