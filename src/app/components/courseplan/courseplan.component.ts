@@ -250,6 +250,7 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
+    console.log('hello plan')
     // if(formData.deposit == 'deposit'){
     //   console.log(formData.deposit)
     //   formData.deposit = '';
@@ -257,7 +258,14 @@ export class CourseplanComponent implements OnInit {
 
     let obj:any={};
     for(var i=0;i<this.optArr.length;i++){
-      obj[this.optArr[i].name] = this.optArr[i].fees;
+        console.log(this.optArr[i].fees)
+      if(this.optArr[i].fees == undefined || this.optArr[i].fees == ''){
+        console.log('undefined')
+      }else{
+        console.log('add to obj')
+        obj[this.optArr[i].name] = this.optArr[i].fees;
+
+      }
     }
     console.log("Obj",obj);
 
