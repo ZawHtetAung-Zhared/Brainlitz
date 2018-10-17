@@ -277,7 +277,6 @@ export class CourseplanComponent implements OnInit {
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee,
-        "courseFeeOptions": obj
       },
       "lesson": {
         "min": formData.minDuration,
@@ -292,6 +291,11 @@ export class CourseplanComponent implements OnInit {
       "quizwerkz": this.pdfId,
       "holidayCalendarId": this.formField.holidayCalendarId,
       "accessPointGroup": this.selectedAPGidArray
+    }
+
+    if(Object.keys(obj).length != 0){
+      console.log("Hello")
+      data.paymentPolicy["courseFeeOptions"] = obj;
     }
 
     console.log(data)
