@@ -170,12 +170,16 @@ export class CoursecreateComponent implements OnInit {
       this.selectedDay = this.model.repeatDays;
       this.planId = this.model.coursePlan.coursePlanId;
       this.planName = this.model.coursePlan.name;
-      console.log("plan in draft",this.planName)
-      this.model.duration = this.model.coursePlan.lesson.duration;
+      console.log("plan in draft",this.planName);
+      console.log(this.model.coursePlan.lesson.duration*this.model.durationTimes);
+      this.model.duration = this.model.coursePlan.lesson.duration*this.model.durationTimes;
       console.log(this.model.duration);
       this.calculateDuration(this.model.starttime,this.model.duration);
-      this.createList(this.model.duration);
+      this.createList(this.model.coursePlan.lesson.duration);
       this.model.durationTimes = this.model.durationTimes;
+      this.startTime = this.model.starttime
+      // console.log(this.model.coursePlan.lesson.duration);
+      // console.log(this.model.starttime,this.model.duration);
       this.selectedTeacher = this.model.teacher;
       var assiatantsArr = this.model.assistants;
       for(var i in assiatantsArr){
@@ -288,7 +292,7 @@ export class CoursecreateComponent implements OnInit {
     }
     console.log("testList",this.testList);
     // this.model.duration = this.testList[0];
-    console.log("Duration Times",this.model.duration)
+    console.log("Duration Times",this.model.duration);
   }
 
   focusMethod(e, status, word){
@@ -626,9 +630,18 @@ export class CoursecreateComponent implements OnInit {
 
   calculateDuration(time,duration){
     console.log("Calculate",time,duration)
+
+    let totalduration = duration/60;
+    let gethour = Math.floor( totalduration );
+    let getmin = duration%60;
+
+    console.log(gethour)
+    console.log(getmin)
+
+    // this.classend = time + 
     if(time){
       let piece = time.split(':');
-      let mins = Number(piece[0])*60 +Number(piece[1]) +this.model.duration;
+      let mins = Number(piece[0])*60 +Number(piece[1]) +duration;
       var endTime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
       console.log("Classend",endTime);
       var H = +endTime.substr(0,2);
