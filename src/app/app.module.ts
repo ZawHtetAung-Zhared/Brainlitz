@@ -52,6 +52,7 @@ import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
+import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
 import { ttDayPipe } from './service/pipe/timetableday.pipe';
 import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
 import { ttTimePipe } from './service/pipe/timetabletime.pipe';
@@ -98,6 +99,7 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     GetUtcDatePipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
+    attandanceDayPipe,
     ttDayPipe,
     ttMonthPipe,
     ttTimePipe,

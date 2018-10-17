@@ -61,11 +61,13 @@ export class CustomfieldComponent implements OnInit {
   }
 
   getAllCustomfields(){
+    this.blockUI.start('Loading...');
   	this._service.getAllFields(this.regionID)
   	.subscribe((res:any) => {
   		console.log(res);
   		this.fieldLists = res.userInfoPermitted;
   		console.log(this.fieldLists);
+      this.blockUI.stop();
   	})
   }
 
@@ -197,7 +199,7 @@ export class CustomfieldComponent implements OnInit {
   }
 
   deleteField(id){
-  	console.log("delete",id)
+    this.blockUI.start('Loading...');
   	this._service.deleteCustomField(this.regionID,id)
   	.subscribe((res:any) => {
   		console.log(res);

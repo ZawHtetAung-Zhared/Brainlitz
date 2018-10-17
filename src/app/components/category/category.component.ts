@@ -18,6 +18,7 @@ export class CategoryComponent implements OnInit {
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 	
   public item:any = {};
+  public result:any;
 	public regionID = localStorage.getItem('regionId');
   public categoryList: Array<any> = [];
   public isEditComplete:boolean = false;
@@ -176,6 +177,7 @@ export class CategoryComponent implements OnInit {
         this.blockUI.stop(); // Stop blocking
       }, 300);
       console.log(res);
+      this.result = res;
       this.categoryList = this.categoryList.concat(res);
       this.isempty = (res.length === 0) ? true : false;       
     })

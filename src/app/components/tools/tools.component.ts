@@ -50,6 +50,7 @@ export class ToolsComponent implements OnInit {
   public selectedID:any;
   public isdropdown: boolean = false;
   public isFous: boolean = false;
+  public isSelected: boolean = false;
   public isFousCourse: boolean = false;
   public isFousCategory: boolean = false;
   public wordLength : number = 0;
@@ -95,47 +96,47 @@ export class ToolsComponent implements OnInit {
   @HostListener('window:scroll', ['$event']) onScroll($event){
     this.windowH = window.innerHeight;
     // console.log(this.windowH)
-    if(this.notiType == 'apg'){
-      this.apgH= this.alertAPG.getContentHeight();
-      console.log('apg content =', this.apgH)  
-      if(this.windowH < (this.apgH + 107)){
-        this.totalHeight = this.apgH + 107
-        // console.log(totalH)
-        const diff = this.totalHeight - this.windowH
-        console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }else if(this.notiType == 'calendar'){
-      this.calH= this.alertCal.getContentHeight();
-      console.log('cal content =', this.calH)  
-      // console.log('cal content =', this.calH + 150)  
-      // console.log('windowH = ' , window.innerHeight)
+    // if(this.notiType == 'apg'){
+    //   this.apgH= this.alertAPG.getContentHeight();
+    //   console.log('apg content =', this.apgH)  
+    //   if(this.windowH < (this.apgH + 107)){
+    //     this.totalHeight = this.apgH + 107
+    //     // console.log(totalH)
+    //     const diff = this.totalHeight - this.windowH
+    //     console.log('content height is grater', diff);
+    //     this.scrollVal = diff;
+    //   }
+    // }else if(this.notiType == 'calendar'){
+    //   this.calH= this.alertCal.getContentHeight();
+    //   console.log('cal content =', this.calH)  
+    //   // console.log('cal content =', this.calH + 150)  
+    //   // console.log('windowH = ' , window.innerHeight)
 
-      if(this.windowH < (this.calH + 107)){
-        this.totalHeight = this.calH + 107
-        // console.log(totalHeight)
-        const diff = this.totalHeight - this.windowH
-        // console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }else if(this.notiType == 'quizwerkz'){
-      this.qwH= this.alertQW.getContentHeight();
-      console.log('qw content =', this.qwH)  
-      console.log(this.windowH)  
-      if(this.windowH < (this.qwH + 107)){
-        this.totalHeight = this.qwH + 107
-        const diff = this.totalHeight - this.windowH
-        console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }
-    console.log(window.pageYOffset)
+    //   if(this.windowH < (this.calH + 107)){
+    //     this.totalHeight = this.calH + 107
+    //     // console.log(totalHeight)
+    //     const diff = this.totalHeight - this.windowH
+    //     // console.log('content height is grater', diff);
+    //     this.scrollVal = diff;
+    //   }
+    // }else if(this.notiType == 'quizwerkz'){
+    //   this.qwH= this.alertQW.getContentHeight();
+    //   console.log('qw content =', this.qwH)  
+    //   console.log(this.windowH)  
+    //   if(this.windowH < (this.qwH + 107)){
+    //     this.totalHeight = this.qwH + 107
+    //     const diff = this.totalHeight - this.windowH
+    //     console.log('content height is grater', diff);
+    //     this.scrollVal = diff;
+    //   }
+    // }
+    // console.log(window.pageYOffset)
     if (window.pageYOffset > 81) {
-      console.log('if', window.pageYOffset)
+      // console.log('if', window.pageYOffset)
       this.isSticky = true;
       this.isMidStick = false;
     } else {
-      console.log('else', window.pageYOffset)
+      // console.log('else', window.pageYOffset)
       this.isSticky = false;
     }
     
@@ -209,6 +210,8 @@ export class ToolsComponent implements OnInit {
   changeSearch(searchWord, type){
     console.log(searchWord)
     console.log(this.active)
+    this.isSelected = false;
+    this.selectedID = (this.isSelected == false) ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
     this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
@@ -244,6 +247,7 @@ export class ToolsComponent implements OnInit {
   selectData(id, name, type){
     console.log(id)
     console.log('~~~', this.active.length)
+    this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
     if(type == 'user'){

@@ -75,6 +75,10 @@ ul.calendar-year li{
   -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
   box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
 }
+.show-dropdown {
+    display: table;
+    cursor: pointer;
+}
 .single-calendar{
 	cursor: pointer;
 	-ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -86,6 +90,7 @@ ul.calendar-year li{
 	padding: 16px;
 	margin-left: 0;
 	margin-right: 0;
+  transition: 0.3s all ease-out;
 }
 .single-calendar h4{
 	color: #2e3e4d;
@@ -230,7 +235,8 @@ ul.calendar-year li:first-child{
 	font-size: 16px;
 	flex: auto;
 	text-align: center;
-  	font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  cursor: pointer;
 }
 .tool-checked.selected,
 .tool-checked label.selected{
@@ -342,6 +348,7 @@ ul.calendar-year li:first-child{
 }
 .child3 span{
   margin-left: auto;
+  cursor: pointer;
 }
 .font16{
   font-size: 16px;

@@ -40,7 +40,7 @@
 	</div>
 	<div class="row display-flex user-group">
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
-			<div class="box-design d-flex flex-row align-items-center" (click)="showDetails(customer, customer.userId)">
+			<div class="box-design d-flex flex-row align-items-center" (click)="showDetails( customer.userId)">
 				<div class="profileimg-wrap">
 					<div class="circular-image">
 						<img *ngIf="customer.profilePic == 'undefined'" src="assets/img/user.svg">
@@ -320,7 +320,8 @@
 		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt fl-txt-rt">Customers</p>
 	</button>
 	<div class="col-md-12 pad-0 mr-bt-top">
-		<h3>Create Customers account</h3>
+		<h3 *ngIf="isupdate == false">Create Customers account</h3>
+		<h3 *ngIf="isupdate == true">Update Customers account</h3>
 	</div>
 	<form class="form-wrap" novalidate #customerForm="ngForm">
 		<div class="row display-flex">
@@ -453,7 +454,8 @@
 			</div>
 		</div>
 		<div class="d-flex justify-content-end button-group">
-			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+			<button *ngIf="isupdate == false" type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+			<button *ngIf="isupdate == true" type="button" class="bt cancel-button" (click)="backToDetails()" >Cancel</button>
         	<button type="button" *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid">Create
 			</button>
 			<button type="button" *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid">Update

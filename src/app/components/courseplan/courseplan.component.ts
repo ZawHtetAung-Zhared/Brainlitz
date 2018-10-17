@@ -10,6 +10,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { feeOption } from './courseplan';
 
 declare var $: any;
 
@@ -39,6 +40,7 @@ export class CourseplanComponent implements OnInit {
   checkedCatId: any;
   public courseplanLists: any;
   public showLoading: boolean = false;
+  // formField = {};
   formField: cPlanField = new cPlanField();
   formAPG: apgForm = new apgForm();
   depositLists: any;
@@ -76,6 +78,7 @@ export class CourseplanComponent implements OnInit {
   public goBackCat: boolean = false;
   public focusCfee: boolean = false;
   public focusMisfee: boolean = false;
+  public focusOptionfee: boolean = false;
   step1FormaData: any;
   step2FormaData: any;
   step3FormaData: any;
@@ -251,6 +254,13 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
+
+    let obj:any={};
+    for(var i=0;i<this.optArr.length;i++){
+      obj[this.optArr[i].name] = this.optArr[i].fees;
+    }
+    console.log("Obj",obj);
+
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -266,7 +276,8 @@ export class CourseplanComponent implements OnInit {
         "deposit": this.depositId,
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.allowProrated,
-        "miscFee": formData.miscFee
+        "miscFee": formData.miscFee,
+        "courseFeeOptions": obj
       },
       "lesson": {
         "min": formData.minDuration,
@@ -282,6 +293,7 @@ export class CourseplanComponent implements OnInit {
       "holidayCalendarId": this.formField.holidayCalendarId,
       "accessPointGroup": this.selectedAPGidArray
     }
+
     console.log(data)
     this.blockUI.start('Loading...');
     this._service.createCoursePlan(this.regionID,data)
@@ -888,13 +900,27 @@ export class CourseplanComponent implements OnInit {
     if(type == 'cFee'){
       this.focusCfee = true;
       $('.cfee-bg').addClass("focus-bg");
-    }
-    if(type == 'misFee'){
+    }else if(type == 'misFee'){
       this.focusMisfee = true;
       $('.misfee-bg').addClass("focus-bg");
     }
   }
 
+  showFocus(e, type){
+    console.log(type)
+    if (type == 'optionFee'){
+      this.optionFee = true;
+    }
+  }
+
+  hideFocus(e, type){
+    console.log(type)
+    if (type == 'optionFee'){
+      this.optionFee = false;
+    }
+  }
+
+    
   enterHover(e){
     console.log('mouse enter')
     $('.input-group-text').css('background', '#f7f9fa');
@@ -1014,6 +1040,8 @@ export class CourseplanComponent implements OnInit {
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
+      this.testObj.name = null;
+      this.testObj.fees = null;
       if(this.step3 == false){
         $("#step3").removeClass('active');
         $("#step1").addClass('done');
@@ -1188,6 +1216,42 @@ export class CourseplanComponent implements OnInit {
            this.toastr.error('Created AP Fail');
            console.log(err)
          });
+    }
+    public testObj:any={};
+    public optArr=[];
+    // addOptionFees(name,fees){
+    //   console.log("name&fee",name,fees);
+    //   let data = {
+    //     "name": name,
+    //     "fees": fees
+    //   }
+    //   console.log(data);
+    //   this.optArr.push(data);
+    //   console.log(this.optArr)
+    // }
+    addOption(){
+      console.log("option",this.testObj)
+      let data = {
+        "name": this.testObj.name,
+        "fees": this.testObj.fees
+      }
+      console.log(data);
+      this.optArr.push(data);
+      console.log(this.optArr)
+      this.testObj.name = "";
+      this.testObj.fees = ""; 
+    }
+
+    removeOpt(opt){
+      var index;
+      console.log("remove",opt)
+      for(let x in this.optArr){
+        if(this.optArr[x].name == opt.name && this.optArr[x].fees == opt.fees){
+          index = x;
+        }
+      }
+      this.optArr.splice(index,1);
+      console.log("arr",this.optArr);
     }
   
 }

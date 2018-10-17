@@ -26,6 +26,7 @@
             </div>
           </div>
           <div>
+          <!-- <pre>{{courseGroup.courses |json}}</pre> -->
             <div *ngFor="let course of courseGroup.courses">
               <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
               <div class="d-flex course-wrap">
@@ -43,7 +44,6 @@
                     <span class="medium-font">From</span>
                     <div class="semibold">{{course.startDate | utcDate}}</div>
                   </div>
-                  <!-- 000000 {{course.endDate}} -->
                   <div *ngIf = "course.endDate">
                     <span class="medium-font">To</span>
                     <div class="semibold">{{course.endDate | utcDate}}</div>
@@ -63,8 +63,9 @@
                     </div>
                     <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
                     <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
-                    <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
-                    <!-- <ul><li>0 staff</li></ul> -->
+                    <span *ngIf="course.teacher != undefined" class="staff-info medium-font">by {{ course.teacher.preferredName }} 
+                    </span>
+                    <span *ngIf="course.teacher == undefined" class="staff-info medium-font">-
                     </span>
                   </div>
                   <div class="second-info">
@@ -97,7 +98,7 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate" class="d-flex justify-content-center load-more">
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(courseList.length)">load more</button>
 </div>
 
@@ -277,7 +278,7 @@
         <div class="mt-20">
           <div class="d-flex justify-content-between">
             <div class="mr-auto">
-              <p class="class-day">{{LASD | TTday}}</p>
+              <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
             </div>
             <button type="button" class="btn btn-class-cancel" (click)="cancelClass()">Cancel class</button>
@@ -289,7 +290,7 @@
           </div>
           <div class="student-lists row">
             <div *ngFor="let user of activeCourseInfo.CUSTOMER" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
-              <div class="d-flex flex-row single-student align-items-center">
+              <div [ngClass]="{'no-data-alert': user.attendance == null, 'present-alert': user.attendance == true, 'absent-alert': user.attendance == false}" class="d-flex flex-row single-student align-items-center">
                 <div class="std-img-wrap">
                   <img src="{{user.profilePic}}">
                 </div>

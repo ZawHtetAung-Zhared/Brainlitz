@@ -60,7 +60,11 @@ export class ApgComponent implements OnInit {
     moduleAPList: any;
     getAccessPoint: any;
     tempModuleId: any;
+    result: any;
     emptyAP: boolean = false;
+    isFirst:boolean = false;
+    searchWord:any;
+    itemtype:any;
 
     //
     public ismodule: boolean = false;
@@ -606,27 +610,26 @@ export class ApgComponent implements OnInit {
   	}
 
     showMore(skip:any){
-      if(skip<=20){
-        skip = 0;
-      }
+      // if(skip<=20){
+      //   skip = 0;
+      // }
       console.log("skip",skip);
-      this.isFirst = false;
-      // this.getAllAPG(20,skip);
-      if(this.isFirst == false){
-        console.log("Apg Search");
-        this.getApgSearch(this.searchWord, this.itemtype, 20, skip)
+      // // this.isFirst = false;
+      // // this.getAllAPG(20,skip);
+      if(this.isFirst == true){
+        console.log("Apg Search by keyword");
+        this.getApgSearch(this.searchWord, this.itemtype, 20, 0)
       }else{
-        console.log("Not Apg search")
+        console.log("without keyword")
         this.getAllAPG(20,skip);
       }
+      // this.getAllAPG(20,skip);
     }
 
     showMoreTemplate(skip){
       this.getAllTemplate(20, skip);
     }
-    isFirst:boolean = false;
-    searchWord:any;
-    itemtype:any;
+    
     changeSearch(keyword, type){
       console.log(keyword)
       this.getApgSearch(keyword, type, 20, 0);
@@ -651,16 +654,17 @@ export class ApgComponent implements OnInit {
       this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
       .subscribe((res:any) => {
         console.log(res);
+        this.result = res;
         if(type == 'apg'){
-          // this.apgList = res;
-          if(this.isFirst == true){
-            console.log("First time searching");
-            this.apgList = [];
-            this.apgList = res;
-          }else{
-            console.log("Not First time searching")
-            this.apgList = this.apgList.concat(res);
-          }  
+          this.apgList = res;
+          // if(this.isFirst == true){
+          //   console.log("First time searching");
+          //   this.apgList = [];
+          //   this.apgList = res;
+          // }else{
+          //   console.log("Not First time searching")
+          //   this.apgList = this.apgList.concat(res);
+          // }  
         }else{
           this.templateList = res;
         }
@@ -670,11 +674,11 @@ export class ApgComponent implements OnInit {
     }
     
   	getAllAPG(limit,skip){
-
       this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID,limit,skip)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
+        this.result = res;
         this.apgList = this.apgList.concat(res);
         if(res.length == 0){
           this.emptyAPG = true;
