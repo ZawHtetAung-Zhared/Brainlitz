@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   public slicePathName: any;
   public randomKey: any;
   public host: any;
+  public islogin: boolean = false;
 
   constructor(private _service: appService, @Inject(DOCUMENT) private document: any) {
       this._service.slicePath.subscribe((nextValue) => {
@@ -66,6 +67,7 @@ export class LoginComponent implements OnInit {
     this._service.getOrgCredentials(orgCode, this.host)
     .subscribe((res:any) => {
       console.log(res)
+      this.islogin = true;
       localStorage.setItem('OrgId', res.orgId);      
       localStorage.setItem('OrgLogo', res.logo);    
       localStorage.setItem('clientId', res.clientId);    
