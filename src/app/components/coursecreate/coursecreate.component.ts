@@ -27,6 +27,7 @@ export class CoursecreateComponent implements OnInit {
   public isthereLC: boolean = false;
   public isSkipId: any;
   public isIgnoreId: any;
+  public courseFeess: any;
   chooseFee:any = '';
   // hello = JSON.parse(localStorage.getItem('splan')) ;
   public courseObj:any = {};
@@ -157,6 +158,7 @@ export class CoursecreateComponent implements OnInit {
           this.blockUI.stop(); // Stop blocking
       }, 300);
       this.model = res;
+      this.courseFeess = res.paymentPolicy.courseFee;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
@@ -958,6 +960,7 @@ export class CoursecreateComponent implements OnInit {
           console.log(this.ttCalendar)
           console.log(this.timetableLists[0].lessons[0])
           this.ttStartDate =this.timetableLists[0].lessons[0];
+          console.log(this.ttStartDate)
           const lastItem= this.timetableLists[this.timetableLists.length - 1].lessons.length - 1;
           console.log(lastItem)
           console.log(this.timetableLists[this.timetableLists.length - 1].lessons[lastItem])
