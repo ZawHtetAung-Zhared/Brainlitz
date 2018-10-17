@@ -250,8 +250,8 @@
 								<!-- <button type="button" (click)="addOptionFees(name.value,fees.value)">Add</button> -->
 							</div>
 						</div>
-						<div *ngFor="let opt of optArr">
-							<div class="remove-user" (click)="removeOpt(opt)"></div>{{opt.name}} - {{opt.fees}}
+						<div class="d-flex" *ngFor="let opt of optArr">
+							<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{opt.fees}}</p>
 						</div>
 					</div>
 				</div>

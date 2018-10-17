@@ -27,6 +27,7 @@ export class CoursecreateComponent implements OnInit {
   public isthereLC: boolean = false;
   public isSkipId: any;
   public isIgnoreId: any;
+  chooseFee:any = '';
   // hello = JSON.parse(localStorage.getItem('splan')) ;
   public courseObj:any = {};
   wordLength:any;
@@ -1167,7 +1168,7 @@ export class CoursecreateComponent implements OnInit {
       endPicker.close();
     }
   }
-  chooseFee:any;
+  
   chooseFeeOption(key,data){
     this.chooseFee = data;
     console.log(key,data);
