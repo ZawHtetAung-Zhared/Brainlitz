@@ -78,6 +78,7 @@ export class CourseplanComponent implements OnInit {
   public goBackCat: boolean = false;
   public focusCfee: boolean = false;
   public focusMisfee: boolean = false;
+  public focusOptionfee: boolean = false;
   step1FormaData: any;
   step2FormaData: any;
   step3FormaData: any;
@@ -899,13 +900,27 @@ export class CourseplanComponent implements OnInit {
     if(type == 'cFee'){
       this.focusCfee = true;
       $('.cfee-bg').addClass("focus-bg");
-    }
-    if(type == 'misFee'){
+    }else if(type == 'misFee'){
       this.focusMisfee = true;
       $('.misfee-bg').addClass("focus-bg");
     }
   }
 
+  showFocus(e, type){
+    console.log(type)
+    if (type == 'optionFee'){
+      this.optionFee = true;
+    }
+  }
+
+  hideFocus(e, type){
+    console.log(type)
+    if (type == 'optionFee'){
+      this.optionFee = false;
+    }
+  }
+
+    
   enterHover(e){
     console.log('mouse enter')
     $('.input-group-text').css('background', '#f7f9fa');

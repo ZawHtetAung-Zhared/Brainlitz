@@ -1,3 +1,9 @@
+.add-fee-option{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding-top: 4px;
+}
 .pl-zero{
   padding-left: 0;
   padding-right: 0;
