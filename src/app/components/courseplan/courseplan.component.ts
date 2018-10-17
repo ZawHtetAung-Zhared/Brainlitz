@@ -250,7 +250,6 @@ export class CourseplanComponent implements OnInit {
   categoryName: any;
 
 	createdPlan(formData) {
-    console.log('hello plan')
     // if(formData.deposit == 'deposit'){
     //   console.log(formData.deposit)
     //   formData.deposit = '';
@@ -258,14 +257,7 @@ export class CourseplanComponent implements OnInit {
 
     let obj:any={};
     for(var i=0;i<this.optArr.length;i++){
-        console.log(this.optArr[i].fees)
-      if(this.optArr[i].fees == undefined || this.optArr[i].fees == ''){
-        console.log('undefined')
-      }else{
-        console.log('add to obj')
-        obj[this.optArr[i].name] = this.optArr[i].fees;
-
-      }
+      obj[this.optArr[i].name] = this.optArr[i].fees;
     }
     console.log("Obj",obj);
 
@@ -285,6 +277,7 @@ export class CourseplanComponent implements OnInit {
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.allowProrated,
         "miscFee": formData.miscFee,
+        "courseFeeOptions": obj
       },
       "lesson": {
         "min": formData.minDuration,
@@ -299,11 +292,6 @@ export class CourseplanComponent implements OnInit {
       "quizwerkz": this.pdfId,
       "holidayCalendarId": this.formField.holidayCalendarId,
       "accessPointGroup": this.selectedAPGidArray
-    }
-
-    if(Object.keys(obj).length != 0){
-      console.log("Hello")
-      data.paymentPolicy["courseFeeOptions"] = obj;
     }
 
     console.log(data)
@@ -1052,6 +1040,8 @@ export class CourseplanComponent implements OnInit {
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
+      this.testObj.name = null;
+      this.testObj.fees = null;
       if(this.step3 == false){
         $("#step3").removeClass('active');
         $("#step1").addClass('done');

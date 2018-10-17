@@ -246,7 +246,10 @@
 								</div>
 							</div>
 							<div>
-							<button type="button" class="add-fee-option" (click)="addOption()"><div class="circle1 plus"></div></button>
+							<button [disabled]="!testObj.fees" type="button" class="add-fee-option" (click)="addOption()">
+								<div *ngIf="testObj.fees" class="circle1 plus"></div>
+								<div *ngIf="!testObj.fees" class="circle3 plus"></div>
+							</button>
 								<!-- <button type="button" (click)="addOptionFees(name.value,fees.value)">Add</button> -->
 							</div>
 						</div>
