@@ -587,11 +587,11 @@ header div{
 }
 
 .feeOpt-dropdown ul li:last-child,
-.feeOpt-dropdown1 ul li:last-child
+.feeOpt-dropdown1 ul li:last-child,
 .dropdown-wrap ul li:last-child,
 .dropdown-wrap1 ul li:last-child,
-.location-dropdown ul li,
-.location-dropdown1 ul li {
+.location-dropdown ul li:last-child,
+.location-dropdown1 ul li:last-child {
   border-bottom: none;
 }
 
