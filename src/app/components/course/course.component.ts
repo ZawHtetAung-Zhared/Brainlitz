@@ -318,6 +318,7 @@ export class CourseComponent implements OnInit {
   isCourseId:boolean = false;
 
   addUserModal(type, userModal, courseID){
+    console.log('====', courseID)
     if(courseID != '' || this.detailLists.seat_left == null){
       console.log('has courseID', courseID)
       this.isCourseId = true;
@@ -495,8 +496,12 @@ export class CourseComponent implements OnInit {
          this.modalReference.close();
          this.getUsersInCourse(courseId);
          if(this.isCourseId == true){
+           // window.location.reload();
            // this.getCourseLists(20,0);
-           // this.cancel();
+            console.log('in the if')
+           this.cancel();
+         }else{
+           console.log('in the else')
          }
       }, err => {  
         console.log(err);

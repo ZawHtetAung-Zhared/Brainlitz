@@ -171,6 +171,7 @@ export class CoursecreateComponent implements OnInit {
       this.planId = this.model.coursePlan.coursePlanId;
       this.planName = this.model.coursePlan.name;
       console.log("plan in draft",this.planName);
+      console.log(this.model.coursePlan.lesson.duration*this.model.durationTimes);
       this.model.duration = this.model.coursePlan.lesson.duration*this.model.durationTimes;
       console.log(this.model.duration);
       this.calculateDuration(this.model.starttime,this.model.duration);
