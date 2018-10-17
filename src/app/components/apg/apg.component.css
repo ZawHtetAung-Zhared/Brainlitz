@@ -206,6 +206,9 @@
     border: none;
     margin-bottom: 0;
 }
+.apg-box .input-label{
+    cursor: pointer;
+}
 .apg-box{
     padding: 24px;
     max-height: 152px;

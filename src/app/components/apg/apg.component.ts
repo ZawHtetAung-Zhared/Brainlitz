@@ -212,7 +212,7 @@ export class ApgComponent implements OnInit {
       this._service.createAPG(this.regionID, emptyObj , this.dataVal._id, this.dataVal.moduleId)
       .subscribe((res:any) => {
           console.log(res)
-          this.toastr.success('Successfully created.');
+          this.toastr.success('APG successfully created.');
           this.blockUI.stop();
           this.cancelapg();
       }, err => {
@@ -249,12 +249,12 @@ export class ApgComponent implements OnInit {
         data["moduleId"] = moduleId;
          this._service.createAP(this.regionID,data)
          .subscribe((res:any) => {
-           this.toastr.success('Successfully AP Created.');
+           // this.toastr.success('Successfully AP Created.');
            data["accessPoints"] = [res._id]
            console.log(data)
            this._service.createAPG(this.regionID,data, templateID, moduleId)
           .subscribe((res:any) => {
-            this.toastr.success('Successfully APG Created.');
+            this.toastr.success('APG successfully Created.');
             console.log(res)
             this.cancelapg();
           }, err => {
@@ -794,7 +794,7 @@ export class ApgComponent implements OnInit {
       .subscribe((res:any) => {
           console.log(res)
           this.getAllTemplate(20, 0);
-          this.toastr.success('Successfully shared.');
+          this.toastr.success('Successfully shared to public.');
           this.blockUI.stop();
       }, err => {
           this.toastr.success(status + ' Fail.');
