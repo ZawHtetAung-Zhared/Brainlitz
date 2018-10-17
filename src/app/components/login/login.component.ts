@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
   public islogin: boolean = false;
 
   constructor(private _service: appService, @Inject(DOCUMENT) private document: any) {
-      this._service.slicePath.subscribe((nextValue) => {
-        this.slicePathName = nextValue;
-     })
+     //  this._service.slicePath.subscribe((nextValue) => {
+     //    this.slicePathName = nextValue;
+     // })
 
-      if(localStorage.getItem('slicePath')){
-        var data = localStorage.getItem('slicePath');
-        this.slicePathName = data;
-      }
+     //  if(localStorage.getItem('slicePath')){
+     //    var data = localStorage.getItem('slicePath');
+     //    this.slicePathName = data;
+     //  }
   }
 
   ngOnInit() {
@@ -46,7 +46,23 @@ export class LoginComponent implements OnInit {
     var end_index = str.lastIndexOf('/');
     var redirectURL = str.substr(0,end_index) + '/'
     console.log(redirectURL)
-    
+
+
+    var start_pos = str.indexOf('//') + 2;
+    var end_pos = str.indexOf('/#',start_pos);
+    var storeLocal = str.substring(start_pos,end_pos)    
+    console.log('~~~~~', storeLocal)
+    // var redirectURL = storeLocal.split("/").pop();
+    var str_res;
+    if(storeLocal.includes('/')){
+      var str_temp = storeLocal.substr(storeLocal.lastIndexOf("/")+1);
+      str_res = str_temp.substring(0,str_temp.indexOf('.'));
+    }else{
+      str_res = storeLocal.substring(0,storeLocal.indexOf('.'));
+    }
+
+    console.log('~~~~~', str_res)
+    localStorage.setItem('slicePath', str_res);
     if(this.slicePathName == undefined){
       console.log('no slicePath')
       this.slicePathName = 'stgbl-cw1'
