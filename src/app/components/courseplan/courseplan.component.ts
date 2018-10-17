@@ -951,6 +951,8 @@ export class CourseplanComponent implements OnInit {
       this.step1 = false;
       this.step2 = true;
       this.step3 = false;
+      this.testObj.name = null;
+      this.testObj.fees = null;
       if(this.step2 == true){
         $("#step3").removeClass('active');
         $("#step2").removeClass('done');
