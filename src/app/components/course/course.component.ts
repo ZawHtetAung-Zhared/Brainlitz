@@ -266,8 +266,8 @@ export class CourseComponent implements OnInit {
       
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate()
-      let ACM = new Date(this.LASD).getUTCDate()
-      let ACY = new Date(this.LASD).getUTCDate()
+      let ACM = new Date(this.LASD).getUTCMonth() + 1;
+      let ACY = new Date(this.LASD).getUTCFullYear()
       this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
       .subscribe((res:any)=>{
         console.log(res)
