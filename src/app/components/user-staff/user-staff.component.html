@@ -27,7 +27,7 @@
 			    	type="search" 
 			    	placeholder="Search staff here"
 			    	id="staff-search-input"
-			    	(input)="userSearch($event.target.value, 'staff')"
+			    	(input)="userSearch($event.target.value, 'staff','','')"
         			autocomplete="off"
 			    	>
 			    <span class="input-group-append">
@@ -65,7 +65,7 @@
 			</div>
 		</div>
 </div>
-<div *ngIf="staffLists.length >= 20 && !showFormCreate" class="d-flex justify-content-center load-more">
+<div *ngIf="staffLists.length >= 20 && !showFormCreate && result?.length>0" class="d-flex justify-content-center load-more">
 	<button class="btn" (click)="showMore('staff', staffLists.length)">load more</button>
 </div>
 
@@ -109,7 +109,16 @@
 				<div>
 					<div class="infoGp-wrap">
 						<label class="info-mail">Full name</label>
-						<p class="mb-0 info-p">{{ staffDetail.user.firstName }} <span style="padding: 1px"></span>{{staffDetail.user.lastName}}</p>
+						<p class="mb-0 info-p">{{ staffDetail.user.fullName }}</p>
+						<!-- <p class="mb-0 info-p">{{ staffDetail.user.firstName }} <span style="padding: 1px"></span>{{staffDetail.user.lastName}}</p> -->
+					</div>
+					<div class="d-flex info-wrap details-list-wrap">
+						<div *ngIf="staffDetail.user.details" class="list-wrapper detail-list">
+							<div *ngFor="let detail of staffDetail.user.details" class="child-detail">
+								<label class="info-mail">{{detail.name}}</label>
+								<p class="mb-0 info-p">{{detail.value}}</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -150,20 +159,11 @@
 				    </div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
-		  	    	<label for="firstname" class="label-txt">First name</label> 	
-		  	    	<input type="text" class="form-control" placeholder="Type first name here" name="firstname" [(ngModel)]="formFields.firstname" #firstname="ngModel" required>
-		  	    	<div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="alert alert-danger">
-				        <div [hidden]="!firstname.errors.required">
-				          First name is required!
-				        </div>
-				    </div>
-		  	  	</div>
-		  	  	<div class="form-group form-divider">
-		  	    	<label for="lastname" class="label-txt">Last name</label> 	
-		  	    	<input type="text" class="form-control" placeholder="Type last name here" name="lastname" [(ngModel)]="formFields.lastname" #lastname="ngModel" required>
-		  	    	<div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="alert alert-danger">
-				        <div [hidden]="!lastname.errors.required">
-				          Last name is required!
+		  	    	<label for="firstname" class="label-txt">Full name</label> 	
+		  	    	<input type="text" class="form-control" placeholder="Type full name here" name="fullName" [(ngModel)]="formFields.fullName" #fullName="ngModel" required>
+		  	    	<div *ngIf="fullName.errors && (fullName.dirty || fullName.touched)" class="alert alert-danger">
+				        <div [hidden]="!fullName.errors.required">
+				          Full name is required!
 				        </div>
 				    </div>
 		  	  	</div>
@@ -196,6 +196,10 @@
 				          Password is required!
 				        </div>
 				    </div>
+		  	  	</div>
+		  	  	<div class="form-group form-divider" *ngFor="let field of customFields;">
+		  	  		<label for="guardmail" class="label-txt">{{ field.name }}</label>
+		  	  		<textarea class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
 		  	  	</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5" style="display: block;">

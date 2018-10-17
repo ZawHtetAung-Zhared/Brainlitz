@@ -25,7 +25,8 @@ export class UserStaffComponent implements OnInit {
   	public img: any;
   	public ulFile: any;
   	permissionLists: any;
-  	formFields: Staff = new Staff();
+  	// formFields: Staff = new Staff();
+  	formFields:any = {};
   	@BlockUI() blockUI: NgBlockUI;
   	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
@@ -49,6 +50,11 @@ export class UserStaffComponent implements OnInit {
 	public aboutTest1 = " How your call you or like your preferred name kuiui";
 	public showStaffDetail:boolean = false;
 	public staffDetail:any ={};
+	isSearch:boolean = false;
+	searchword:any;
+	usertype:any;
+	result:any;
+	public customFields:any = [];
 
 	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
 		this.toastr.setRootViewContainerRef(vcr);  		
@@ -70,21 +76,49 @@ export class UserStaffComponent implements OnInit {
 
   	showMore(type: any, skip: any){
   		console.log(skip)
-  		this.getAllUsers(type, 20, skip)
+  		// this.getAllUsers(type, 20, skip);
+  		if(this.isSearch == true){
+			console.log("User Search");
+			this.userSearch(this.searchword, this.usertype, 20, skip)
+		}else{
+			console.log("Not user search")
+			this.getAllUsers(type, 20, skip);
+		}
   	}
 
-	userSearch(searchWord, userType){
+	userSearch(searchWord, userType, limit, skip){
+		this.searchword = searchWord;
+		this.usertype = userType;
+		console.log('hi hello');
+		if(skip == '' && limit == ''){
+			console.log("First time search")
+			var isFirst = true;
+			limit = 20;
+			skip = 0;
+		}
+
 		if(searchWord.length != 0){
-			this._service.getSearchUser(this.regionID, searchWord, userType)
-        .subscribe((res:any) => {
-          console.log(res);
-          this.staffLists = res;
-        }, err => {  
-          console.log(err);
-        });
+			this.isSearch = true;
+			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip)
+	        .subscribe((res:any) => {
+	          console.log(res);
+	          // this.staffLists = res;
+	          this.result = res;
+				if(isFirst == true){
+					console.log("First time searching");
+					this.staffLists = [];
+					this.staffLists = res;
+				}else{
+					console.log("Not First time searching")
+					this.staffLists = this.staffLists.concat(res);
+				}	
+	        }, err => {  
+	          console.log(err);
+	        });
 	    }else{
 	    	this.staffLists = [];
 	    	this.getAllUsers('staff',20,0);
+	    	this.isSearch = false;
 	    }
 	}
 
@@ -93,6 +127,7 @@ export class UserStaffComponent implements OnInit {
 		this._service.getAllUsers(this.regionID, type, limit, skip)
 		.subscribe((res:any) => {
 			this.blockUI.stop();
+			this.result = res;
 			this.staffLists = this.staffLists.concat(res);
 			// this.staffLists = res;
 			console.log('this.staffLists', this.staffLists)
@@ -111,6 +146,23 @@ export class UserStaffComponent implements OnInit {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
 	    this.getAllpermission();
+	    this.getCustomFields();
+	}
+
+	getCustomFields(){
+		console.log('call getcustom fields')
+		this._service.getAllFields(this.regionID)
+		.subscribe((res:any) => {
+			console.log("Custom Field",res);
+			this.customFields = res.userInfoPermitted;
+			for (var i = 0; i < this.customFields.length; i++) {
+				console.log("^^i",this.customFields[i]);
+				// var fieldName = this.customFields[i].name.toLowerCase();
+				// console.log("^^Test^^",fieldName);
+				this.customFields[i]["value"] = null;
+				console.log("test--",this.customFields);
+			}
+		})
 	}
 
 	focusMethod(e, status, word){
@@ -158,20 +210,43 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	createUser(obj, state){
-		console.log(obj)	
+		console.log(obj);
+
+		this.formFields.details = [];
+		for(var i=0; i<this.customFields.length; i++){
+			console.log('field value',this.customFields[i].value);
+			if(this.customFields[i].value){
+				if(this.customFields[i].value.trim().length){
+					var fieldObj:any = {};
+					fieldObj = {
+						"permittedUserInfoId": this.customFields[i]._id,
+						"value": this.customFields[i].value
+					}
+					console.log("fieldObj",fieldObj);
+					this.formFields.details.push(fieldObj);
+				}
+			}
+		}	
+		console.log("formFields details",this.formFields.details);
+
 		let objData = new FormData();
 		let locationObj = [{'locationId': this.locationID,'permissionId': obj.permission}];
 		
 		objData.append('orgId', this.orgID),
 		objData.append('regionId', this.regionID),
-		objData.append('firstName', obj.firstname),
-		objData.append('lastName', obj.lastname),
+		objData.append('fullName', obj.fullName)
 		objData.append('preferredName', obj.preferredname),
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
 		obj.about = (obj.about == undefined) ? '' : obj.about;
-		objData.append('about', obj.about)
+		objData.append('about', obj.about);
+
+		// objData
+		if(this.formFields.details.length>0){
+			console.log("Has Details",this.formFields.details)
+			objData.append('details', JSON.stringify(obj.details));
+		}
 
 		if(state == 'create'){
 			let getImg = document.getElementById("blobUrl");
@@ -221,6 +296,7 @@ export class UserStaffComponent implements OnInit {
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
 		this.isupdate = false;
+		this.isSearch = false;
 		$(".frame-upload").css('display', 'none');
 		this.staffLists = [];
 		this.getAllUsers('staff', 20, 0);
@@ -380,6 +456,7 @@ export class UserStaffComponent implements OnInit {
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
+		this.isSearch = false;
 		// this.selectedId =[];
 		
 		$(".frame-upload").css('display', 'none');

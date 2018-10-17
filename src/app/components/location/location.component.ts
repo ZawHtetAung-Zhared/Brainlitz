@@ -24,6 +24,7 @@ export class LocationComponent implements OnInit {
   	@ViewChild('intlInput') intlInput: ElementRef;
 	public limitno: Location;
 	public PHpattern: any;
+	public result: any;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
 	public locationID = localStorage.getItem('locationId');
@@ -203,6 +204,7 @@ export class LocationComponent implements OnInit {
 		this._service.getLocations(this.regionID, limit, skip, false)
 		.subscribe((res:any) => {
 			console.log(res)
+			this.result = res;
 			setTimeout(() => {
 		        this.blockUI.stop(); // Stop blocking
 		      }, 300);

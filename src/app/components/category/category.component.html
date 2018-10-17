@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <div *ngIf="categoryList.length >= 20" class="d-flex justify-content-center load-more">
+  <div *ngIf="categoryList.length >= 20 && result.length != 0" class="d-flex justify-content-center load-more">
     <button class="btn" (click)="showMore(categoryList.length)">load more</button>
   </div>
   <block-ui message="Deafult Message"></block-ui>

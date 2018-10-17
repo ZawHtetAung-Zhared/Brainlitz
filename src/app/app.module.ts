@@ -50,6 +50,9 @@ import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
+import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
+import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
 import { ttDayPipe } from './service/pipe/timetableday.pipe';
 import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
 import { ttTimePipe } from './service/pipe/timetabletime.pipe';
@@ -60,6 +63,8 @@ import { StarRatingModule } from 'angular-star-rating';
 import { ReadmoreComponent } from './components/readmore/readmore.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
 import { HomeComponent } from './components/home/home.component';
+import { CustomfieldComponent } from './components/customfield/customfield.component';
+import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +97,9 @@ import { HomeComponent } from './components/home/home.component';
     GetDayPipe,
     GetUtcTimePipe,
     GetUtcDatePipe,
+    GetTimelineDatePipe,
+    GetTimelineDayPipe,
+    attandanceDayPipe,
     ttDayPipe,
     ttMonthPipe,
     ttTimePipe,
@@ -100,7 +108,9 @@ import { HomeComponent } from './components/home/home.component';
     UserStaffComponent,
     HomeComponent,
     MapToIterable,
-    FilterPipe
+    FilterPipe,
+    CustomfieldComponent,
+    EmailtemplateComponent
   ],
   imports: [
     BrowserModule,

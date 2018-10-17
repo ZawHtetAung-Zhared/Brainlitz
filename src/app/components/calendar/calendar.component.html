@@ -79,8 +79,7 @@
   </div>
 
   <div *ngIf="isHoliday == true">
-    <div class="back-wrap d-flex justify-content-between" [ngClass]="{'blury': isfocus == true}">
-      <!-- <a class="back-to" (click)="cancel()">< Calendar</a> -->
+    <div class="back-wrap d-flex justify-content-between" [ngClass]="{'blury': isfocus == true}">      
       <div class="back-to" (click)="cancel()">
         <i class="fa fa-angle-left"></i>
         <p>Calendar</p>
@@ -94,7 +93,7 @@
             <option *ngFor="let year of yearLists">{{year}}</option>
           </select>
         </div> -->
-        <div (click)="dropDown()">
+        <div class="show-dropdown" (click)="dropDown()">
           <span class="btn-span">{{selectedYear}}</span> <i class="fa fa-chevron-down dropdown-arrow"></i>
         <span class="caret"></span></div>
         <div>

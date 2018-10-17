@@ -1,0 +1,128 @@
+<div class="content-wrapper">
+	<div *ngIf="selectedType == null && isedit == false">
+		<div class="d-flex justify-content-between header-wrap">
+	    <div class="mr-auto">
+	      <h3 class="heading-h3">Modify template</h3>
+	    </div>
+	  </div>
+	  <div class="data-content">
+	  	<div class="d-flex">
+        <div class="circle-box1 d-flex justify-content-center">
+          <div class="img-wrap">
+            <img src="./assets/images/bell@2x.png" class="img-fluid">
+          </div>
+        </div>
+        <div class="w-100 mt-06">
+  	  		<h4 class="heading-h4">Attendance</h4>
+  	  		<ul class="data-ul">
+  	  			<li class="d-flex justify-content-between" (click)="clickTab('app')">Present<i class="fa fa-angle-right"></i></li>
+  	  			<li class="d-flex justify-content-between" (click)="clickTab('app')">Absent<i class="fa fa-angle-right"></i></li>
+  	  			<li class="d-flex justify-content-between" (click)="clickTab('app')">Reset<i class="fa fa-angle-right"></i></li>
+  	  		</ul>
+        </div>
+	  	</div>
+	  	<div class="d-flex mt-32">
+        <div class="circle-box1 d-flex justify-content-center">
+          <div class="img-wrap">
+            <img src="./assets/images/envelope@2x.png" class="img-fluid">
+          </div>
+        </div>
+        <div class="w-100 mt-06">
+  	  		<h3 class="heading-h4">Enrollment confirmation</h3>
+  	  		<ul class="data-ul">
+  	  			<li class="d-flex justify-content-between" (click)="clickTab('email')">New course enrollment for every students<i class="fa fa-angle-right"></i></li>
+  	  		</ul>
+        </div>
+	  	</div>
+	  </div>
+	</div>
+
+  <div *ngIf="selectedType != null && isedit == false">
+  	<div class="header-wrap d-flex justify-content-between">
+  	  <div class="back-to" (click)="cancel()">
+  	    <i class="fa fa-angle-left"></i>
+  	    <p>Modify template</p>
+  	  </div>
+  	  <a class="edit-btn-btn" (click)="editOn()">Edit template</a>
+  	</div>
+  	<div class="data-content">
+  		<h3 class="heading-h3-2">Attendance</h3>
+  		<div class="email-lists">
+  			<h4 class="email-type">{{selectedType}}</h4>
+  			<div>
+  				<p class="email-info">
+  					<span class="squareBracket">[[</span>
+  					<span class="highlight">displayName</span>
+  					<span class="squareBracket"span>]]</span> dis not show up for 
+  					<span class="squareBracket">[[</span>
+  					<span class="highlight">courseName</span>
+  					<span class="squareBracket"span>]]</span> class.</p>
+  			</div>
+  			<div class="d-flex">
+          <div *ngIf="selectedType == 'app'" class="circle-box d-flex justify-content-center">
+            <div class="img-wrap">
+              <img src="./assets/images/bell@2x.png" class="img-fluid">
+            </div>
+          </div>
+  				<div *ngIf="selectedType == 'email'" class="circle-box d-flex justify-content-center">
+            <div class="img-wrap">
+              <img src="./assets/images/envelope@2x.png" class="img-fluid">
+            </div>
+          </div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+
+  <div *ngIf="isedit == true">
+    <div class="header-wrap d-flex justify-content-between">
+      <div class="back-to" (click)="cancel()">
+        <i class="fa fa-angle-left"></i>
+        <p>Modify template</p>
+      </div>
+    </div>
+    <div class="data-content">
+      <h3 class="heading-h3-2">Attendance</h3>
+      <form novalidate #emailForm="ngForm">
+        <div class="form-group">
+          <label for="address" class="lable-title">Subject</label>
+          <!-- <p class="selected-mail-type">{{selectedType}}</p> -->
+          <input type="text" name="subject" class="form-control form-input" placeholder="Type subject">
+        </div>
+        <div class="form-group parent-div">
+          <div *ngIf="this.showBox == true">
+            <ul [ngStyle]="{'left': leftPos+'px', 'top': topPos + 'px'}" class="variable-box">
+              <li (click)="insertVariable(val.name, 'popup')" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
+            </ul>
+          </div>
+          <label for="address" class="lable-title">Message</label>
+          <div class="message-content">
+            <div class="message-head">
+              <p>Personalize your message using merge</p>
+              <ul class="email-variable">
+                <li (click)="insertVariable(val.name, 'header')" *ngFor="let val of variables"><span class="squareBracket">[[</span>{{val.name}}<span class="squareBracket">]]</span></li>
+              </ul>
+            </div>
+            <div class="message-body">
+              <textarea 
+                id="txt-body" 
+                [ngStyle]="{'height': textareaHeight +'px'}"
+                class="form-control input-msg" 
+                rows="5" 
+                placeholder="Write message" 
+                name="message"
+                (keyup)="auto_grow($event)"
+                (input)="changeMethod($event.target.value)"
+                ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end form-footer">
+          <button type="button" class="btn cancel-button" (click)="cancel()" >Cancel</button>
+          <button type="button" type="submit" (click)="updateEmail()" class="btn create-button">Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

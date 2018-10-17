@@ -50,6 +50,7 @@ export class ToolsComponent implements OnInit {
   public selectedID:any;
   public isdropdown: boolean = false;
   public isFous: boolean = false;
+  public isSelected: boolean = false;
   public isFousCourse: boolean = false;
   public isFousCategory: boolean = false;
   public wordLength : number = 0;
@@ -69,6 +70,8 @@ export class ToolsComponent implements OnInit {
   public scrollVal:any;
   public totalHeight:any;
   public yOffset:any;
+  public todayDate:any;
+  // public yesterdayDate:any;
 
   // test
   public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
@@ -93,47 +96,47 @@ export class ToolsComponent implements OnInit {
   @HostListener('window:scroll', ['$event']) onScroll($event){
     this.windowH = window.innerHeight;
     // console.log(this.windowH)
-    if(this.notiType == 'apg'){
-      this.apgH= this.alertAPG.getContentHeight();
-      console.log('apg content =', this.apgH)  
-      if(this.windowH < (this.apgH + 107)){
-        this.totalHeight = this.apgH + 107
-        // console.log(totalH)
-        const diff = this.totalHeight - this.windowH
-        console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }else if(this.notiType == 'calendar'){
-      this.calH= this.alertCal.getContentHeight();
-      console.log('cal content =', this.calH)  
-      // console.log('cal content =', this.calH + 150)  
-      // console.log('windowH = ' , window.innerHeight)
+    // if(this.notiType == 'apg'){
+    //   this.apgH= this.alertAPG.getContentHeight();
+    //   console.log('apg content =', this.apgH)  
+    //   if(this.windowH < (this.apgH + 107)){
+    //     this.totalHeight = this.apgH + 107
+    //     // console.log(totalH)
+    //     const diff = this.totalHeight - this.windowH
+    //     console.log('content height is grater', diff);
+    //     this.scrollVal = diff;
+    //   }
+    // }else if(this.notiType == 'calendar'){
+    //   this.calH= this.alertCal.getContentHeight();
+    //   console.log('cal content =', this.calH)  
+    //   // console.log('cal content =', this.calH + 150)  
+    //   // console.log('windowH = ' , window.innerHeight)
 
-      if(this.windowH < (this.calH + 107)){
-        this.totalHeight = this.calH + 107
-        // console.log(totalHeight)
-        const diff = this.totalHeight - this.windowH
-        // console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }else if(this.notiType == 'quizwerkz'){
-      this.qwH= this.alertQW.getContentHeight();
-      console.log('qw content =', this.qwH)  
-      console.log(this.windowH)  
-      if(this.windowH < (this.qwH + 107)){
-        this.totalHeight = this.qwH + 107
-        const diff = this.totalHeight - this.windowH
-        console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }
-    console.log(window.pageYOffset)
+    //   if(this.windowH < (this.calH + 107)){
+    //     this.totalHeight = this.calH + 107
+    //     // console.log(totalHeight)
+    //     const diff = this.totalHeight - this.windowH
+    //     // console.log('content height is grater', diff);
+    //     this.scrollVal = diff;
+    //   }
+    // }else if(this.notiType == 'quizwerkz'){
+    //   this.qwH= this.alertQW.getContentHeight();
+    //   console.log('qw content =', this.qwH)  
+    //   console.log(this.windowH)  
+    //   if(this.windowH < (this.qwH + 107)){
+    //     this.totalHeight = this.qwH + 107
+    //     const diff = this.totalHeight - this.windowH
+    //     console.log('content height is grater', diff);
+    //     this.scrollVal = diff;
+    //   }
+    // }
+    // console.log(window.pageYOffset)
     if (window.pageYOffset > 81) {
-      console.log('if', window.pageYOffset)
+      // console.log('if', window.pageYOffset)
       this.isSticky = true;
       this.isMidStick = false;
     } else {
-      console.log('else', window.pageYOffset)
+      // console.log('else', window.pageYOffset)
       this.isSticky = false;
     }
     
@@ -151,15 +154,25 @@ export class ToolsComponent implements OnInit {
     if(type == 'view'){
       this.notiLists = [];
       this.viewNoti(20, 0);
-      var date = new Date();
-      var dFormat = this.datePipe.transform(date,"yyyy-MM-dd");
-      // console.log(dFormat); //output : 2018-02-13
-      this.today = dFormat.replace(/-/g, "/");
-      // console.log(this.today);
-      var ydate = new Date(date.setDate(date.getDate() - 1));
-      var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
-      this.yesterday = yFormat.replace(/-/g, "/");
-      console.log("Yesterday",this.yesterday);
+      // var date = new Date();
+      // var dFormat = this.datePipe.transform(date,"yyyy-MM-dd");
+      // this.today = dFormat.replace(/-/g, "/");
+      // var ydate = new Date(date.setDate(date.getDate() - 1));
+      // var yFormat = this.datePipe.transform(ydate,"yyyy-MM-dd");
+      // this.yesterday = yFormat.replace(/-/g, "/");
+      // console.log("Yesterday",this.yesterday);
+
+      // const zone = localStorage.getItem('timezone');
+      // const dFormat = 'YYYY/MM/DD';
+      // var todayD = new Date();
+      // console.log("new Date",todayD);
+      // this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
+      // console.log("Today",this.today);
+
+      // var yesterdayD = new Date(todayD.setDate(todayD.getDate() - 1));
+      // this.yesterday = moment(yesterdayD, dFormat).tz(zone).format(dFormat);
+      // console.log("Yesterday",this.yesterday)
+
     }else if(type == 'dropdown'){
       this.isdropdown = !this.isdropdown;
       this.notiType = 'send'
@@ -197,11 +210,13 @@ export class ToolsComponent implements OnInit {
   changeSearch(searchWord, type){
     console.log(searchWord)
     console.log(this.active)
+    this.isSelected = false;
+    this.selectedID = (this.isSelected == false) ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
     this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
     if(type == 'user'){
-      this._service.getSearchUser(this.regionID, searchWord, 'all')
+      this._service.getSearchUser(this.regionID, searchWord, 'all', 20, 0)
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;
@@ -232,6 +247,7 @@ export class ToolsComponent implements OnInit {
   selectData(id, name, type){
     console.log(id)
     console.log('~~~', this.active.length)
+    this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
     if(type == 'user'){
@@ -301,12 +317,26 @@ export class ToolsComponent implements OnInit {
     this.viewNoti(20, skip);
   }
 
+  showDayType(){
+    const zone = localStorage.getItem('timezone');
+    const dFormat = 'YYYY/MM/DD';
+    var todayD = new Date();
+    console.log("new Date",todayD);
+    this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
+    console.log("Today",this.today);
+
+    var yesterdayD = new Date(todayD.setDate(todayD.getDate() - 1));
+    this.yesterday = moment(yesterdayD, dFormat).tz(zone).format(dFormat);
+    console.log("Yesterday",this.yesterday)
+  }
+
   viewNoti(limit, skip){
     console.log('~~~', this.notiLists);
     // console.log(this.regionID)
     const zone = localStorage.getItem('timezone');
     const format = 'YYYY/MM/DD HH:mm:ss ZZ';
-    // console.log(zone)
+
+    this.showDayType();
 
     this.blockUI.start('Loading...');
     this._service.viewNoti(limit, skip)
@@ -338,7 +368,7 @@ export class ToolsComponent implements OnInit {
         // console.log(onlyDate)
         /*===end Testing===*/
         if(this.notiLists[i].utc){
-          this.notiLists[i].utc = this.utcDate;
+          this.notiLists[i].utcDate = this.utcDate;
           this.notiLists[i].sentdate = onlyDate;
           this.notiLists[i].senttime = onlyTime;
         }

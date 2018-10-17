@@ -6,6 +6,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { DOCUMENT } from "@angular/platform-browser";
+declare var $:any;
 
 @Component({
   selector: 'app-course',
@@ -25,8 +26,14 @@ export class CourseComponent implements OnInit {
   public formData:any = {};
   public userLists:any = {};
   public detailLists:any = {};
+  public activeCourseInfo:any = {};
+  public LASD:any; //lastActiceStartDate
+  public presentStudent:number = 0;
+  public absentStudent:number = 0;
+  public noStudent:number = 0;
   public selectedUserLists:any = [];
   public selectedUserId:any = [];
+  public todayDate:any;
   public courseId:any;
   public locationId:any;
   public userType:any;
@@ -37,18 +44,14 @@ export class CourseComponent implements OnInit {
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
+  public result:any;
   isSticky:boolean = false;
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
-  public characters = [
-    {'name': 'Finn the human'},
-    {'name': 'Jake the dog'},
-    {'name': 'Princess bubblegum'},
-    {'name': 'Lumpy Space Princess'},
-    {'name': 'Beemo1'},
-    {'name': 'Beemo2'}    
-  ];
+ 
+
+  
   public draft:boolean;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
@@ -124,10 +127,12 @@ export class CourseComponent implements OnInit {
       'CUSTOMER': [{}],
       'TEACHER': [{
               'preferredName': ''
-            }],
+      }],
       'STAFF': [{}],
     };
-    this.userLists = [{}]
+    this.userLists = [{}];
+    
+    
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -148,6 +153,7 @@ export class CourseComponent implements OnInit {
     this.isCourseDetail = false;
     this.courseList = [];
     this.getCourseLists(20,0);
+    this.activeTab = 'People';
   }
 
   showCourseDetail(courseId){
@@ -193,7 +199,7 @@ export class CourseComponent implements OnInit {
     console.log('hi call course', courseId)
     this.getCourseDetail(courseId);
     this.blockUI.start('Loading...'); 
-    this._service.getAssignUser(this.regionId,courseId)
+    this._service.getAssignUser(this.regionId,courseId,null,null,null)
     .subscribe((res:any)=>{
       this.blockUI.stop();
       console.log(res)
@@ -205,6 +211,88 @@ export class CourseComponent implements OnInit {
 
   clickTab(type){
     this.activeTab = type;
+    this.noStudent = 0;
+    this.presentStudent = 0;
+    this.absentStudent = 0;
+    if(type == 'Class'){
+      this.blockUI.start('Loading...'); 
+      const today = new Date();
+      this.todayDate = today.toISOString();
+      var to_day = new Date(today).getUTCDate();
+      var currentMonth =  new Date(today).getUTCMonth()+1;
+      let lessonCount = this.detailLists.lessons;
+      console.log(lessonCount)
+      console.log(lessonCount.length)
+      let finishedDate = [];
+      let unfinishedDate = [];
+      let xx = false;
+      for(let i=0; i< lessonCount.length; i++){
+        let strDate = lessonCount[i].startDate;
+        let courseDate = new Date(strDate).getUTCDate();
+        let courseMonth = new Date(strDate).getUTCMonth()+1;        
+
+        if(courseMonth < currentMonth){
+          console.log('less than current month')
+          finishedDate.push(i)
+        }else if(courseMonth == currentMonth){
+          console.log('same with current month')
+          if(courseDate > to_day){
+            console.log('unfinished course => ', courseDate)
+            unfinishedDate.push(i);
+          }else{
+            console.log('finished course => ', courseDate)
+            finishedDate.push(i)
+          }
+        }else{
+          console.log('grater than current month')
+          unfinishedDate.push(i)
+        }
+      }
+      console.log('finish', finishedDate.length)
+      console.log('unfinish' , unfinishedDate.length)
+      let lastActiveDate;
+      if(finishedDate.length != 0){
+        lastActiveDate = finishedDate.length -1;
+        console.log(lastActiveDate)
+        //LASD = lastActiceStartDate
+        this.LASD = lessonCount[lastActiveDate].startDate
+        console.log(this.LASD)
+      }else{
+        lastActiveDate = 0;
+        this.LASD = lessonCount[0].startDate
+      }
+      
+
+      
+      // ACD = activeCourseDate/Month/Year
+      let ACD = new Date(this.LASD).getUTCDate()
+      let ACM = new Date(this.LASD).getUTCMonth() + 1;
+      let ACY = new Date(this.LASD).getUTCFullYear()
+      this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
+      .subscribe((res:any)=>{
+        console.log(res)
+        this.blockUI.stop();
+        this.activeCourseInfo = res;
+        for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+          if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+            this.presentStudent += 1;
+          }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+            this.absentStudent += 1;
+          }else{
+            this.noStudent += 1;
+          }
+        }
+
+        $('.timeline').scrollLeft( 80*(lastActiveDate-1) ); 
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      });
+    }else{
+      this.noStudent = 0;
+      this.presentStudent = 0;
+      this.absentStudent = 0;
+    }
   }
 
   openRemoveModal(id, deleteModal){
@@ -328,7 +416,7 @@ export class CourseComponent implements OnInit {
     console.log(searchWord)
     let locationId = this.detailLists.locationId;
     if(searchWord.length != 0){
-        this._service.getSearchUser(this.regionId, searchWord, userType)
+        this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
         .subscribe((res:any) => {
           console.log(res);
           this.userLists = res;
@@ -389,7 +477,7 @@ export class CourseComponent implements OnInit {
          this.getUsersInCourse(courseId);
          if(this.isCourseId == true){
            // this.getCourseLists(20,0);
-           this.cancel();
+           // this.cancel();
          }
       }, err => {  
         console.log(err);
@@ -439,6 +527,9 @@ export class CourseComponent implements OnInit {
     this._service.getAllCourse(this.regionId, limit, skip)
     .subscribe((res:any) => {
       console.log('Course List',res);
+      this.result = res;
+      console.log(this.result)
+      console.log(this.result.length)
       this.courseList = this.courseList.concat(res);
       if(this.courseList.length > 0 ){
         this.emptyCourse = false;
@@ -489,7 +580,8 @@ export class CourseComponent implements OnInit {
     let planObj={
       "name": plan.name,
       "id": plan.coursePlanId,
-      "duration": plan.lesson.duration
+      "duration": plan.lesson.duration,
+      "paymentPolicy": plan.paymentPolicy
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');

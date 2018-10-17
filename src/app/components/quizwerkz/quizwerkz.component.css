@@ -54,15 +54,21 @@
   border-radius: 3px;
 }
 .single-quizwerkz{
-	-ms-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
-	-webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
-	box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+	-ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 4px;
 	margin-bottom: 20px;
 	margin-top: 5px;
 	padding: 16px 0 16px 16px;
 	margin-left: 0;
 	margin-right: 0;
+    transition: 0.3s all ease-out;
+}
+.single-quizwerkz:hover{
+  -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
 }
 .single-quizwerkz h4{
 	color: #2e3e4d;

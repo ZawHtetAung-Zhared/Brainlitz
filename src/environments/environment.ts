@@ -9,9 +9,5 @@ export const environment = {
   response_type: 'code',
   grant_type: 'authorization_code',
   orgID: '5b063e2636f2e0f83cdbac88',  
-  apiurl: 'https://app.brainlitz.com',
-  //apiurl: 'https://staging-brainlitz.pagewerkz.com',  
-  client_id: 'weblocal',  
-  clientSecret: 'weblocal',  
-  redirect_uri: 'http://localhost:4200/#/',
+  apiurl: 'https://app.brainlitz.com'
 };
