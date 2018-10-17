@@ -95,6 +95,8 @@ export class CoursecreateComponent implements OnInit {
   public coursePayment:any = {};
   public tempVar:any;
   public tempValue:any;
+  public feesOptions:any;
+  objectKeys = Object.keys;
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -117,6 +119,8 @@ export class CoursecreateComponent implements OnInit {
     if(this.courseID){
       console.log("Draft True",this.courseID);
       this.showDraftCourse(this.courseID);
+      // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
+      
     }else if(this.coursePlan){
       console.log("course Create");
       this.isChecked = 'end';
@@ -126,9 +130,20 @@ export class CoursecreateComponent implements OnInit {
       this.planName = this.coursePlan.name;
       this.model.duration = this.coursePlan.duration;
       this.createList(this.model.duration);
+      this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
+      // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
     }
     
   }
+
+  // feeOptList(feeOptions){
+  //   console.log(feeOptions);
+  //   var options = feeOptions;
+  //   for(var key in options){
+  //     console.log("--Options",options[key]);
+  //     // this.feesOptions = options[key].
+  //   }
+  // }
 
   showDraftCourse(cId){
     console.log("Function Works");
@@ -174,6 +189,8 @@ export class CoursecreateComponent implements OnInit {
         this.tempVar = 'lesson';
         this.tempValue = res.lessonCount;
       }
+      this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
+      this.chooseFee = this.model.paymentPolicy.courseFee;
 
       // var selectedDays= this.model.repeatDays;
       this.temp["endDate"] = this.model.endDate;
@@ -480,6 +497,14 @@ export class CoursecreateComponent implements OnInit {
             this.searchMenuShow = false;
             $("#myInput").focus();
         }
+
+        //for coursefee options
+        if(this.feeOptShow == false){
+          $('.feeOpt-dropdown').css('display','none');
+        }else{
+          $('.feeOpt-dropdown').css('display','block');
+          this.feeOptShow = false;
+        }
   }
 
   dropDown(){
@@ -492,6 +517,7 @@ export class CoursecreateComponent implements OnInit {
        this.durationMenuShow = true;
     }
   }
+
   locationDropdown(){
     var y = document.getElementsByClassName('location-dropdown');
     if( (y[0]as HTMLElement).style.display == 'block'){
@@ -502,6 +528,27 @@ export class CoursecreateComponent implements OnInit {
        this.locationMenuShow = true;
     }
   }
+
+  feeOptShow:boolean = false;
+  feeOptDropdown(){
+    var xx = document.getElementsByClassName('feeOpt-dropdown');
+    if( (xx[0]as HTMLElement).style.display == 'block'){
+      (xx[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (xx[0]as HTMLElement).style.display = 'block';
+       this.feeOptShow = true;
+    }
+  }
+
+  showFees(){
+    // this.feeOptShow = true;
+  }
+
+  hideFees(){
+    // this.feeOptShow = false;
+  }
+
   showSearch:boolean = false;
   searchDropdown(){
     var z = document.getElementsByClassName('search-dropdown');
@@ -763,8 +810,13 @@ export class CoursecreateComponent implements OnInit {
       "quizwerkz": [],
       "description": this.model.description,
       "skipLessons": JSON.stringify(this.skipArr),
-      "ignoreLessons": JSON.stringify(this.ignoreArr)
+      "ignoreLessons": JSON.stringify(this.ignoreArr),
     };
+
+    if(this.chooseFee !=''){
+      console.log("KKKK",this.chooseFee);
+      this.courseObj["courseFee"] = this.chooseFee;
+    }
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
     if(this.conflitCourseId == ""){
@@ -1114,6 +1166,12 @@ export class CoursecreateComponent implements OnInit {
       // console.log('blank')
       endPicker.close();
     }
+  }
+  chooseFee:any;
+  chooseFeeOption(key,data){
+    this.chooseFee = data;
+    console.log(key,data);
+    // console.log("option",this.chooseFee);
   }
 
 }

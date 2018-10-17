@@ -88,6 +88,26 @@
 						</div>
 					</div>
 					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" #description="ngModel" (focus)="focusMethod($event, 'msg', $event.target.value)" (blur)="blurMethod($event, 'msg')" maxlength="280" (input)="changeMethod($event.target.value)" placeholder="Type description here"></textarea>
+					<hr *ngIf="feesOptions" class="limit-hr-length">
+				</div>
+				<div *ngIf="feesOptions">
+					<label class="input-title font-medium">CourseFee Options</label>
+					<div>
+						 <div (click)="feeOptDropdown()" class="form-group has-feedback">
+					    	<input class="cursor-on form-control br-bshadow-none"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off"
+					    	(focus)="showFees()"
+					    	(focusOut)="hideFees()"
+					    	><span class="fa fa-angle-down down-icon"></span>
+					     </div>
+					     <div class="dropdown-wrap">
+				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+				          <ul class="feeOpt-dropdown">
+				            <li *ngFor="let key of objectKeys(feesOptions)">
+				              <span (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ feesOptions[key]}}</span>
+				            </li>
+				          </ul>
+				        </div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -316,7 +336,7 @@
 					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
 					<div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
-					    	<input class="cursor-on form-control br-bshadow-none"  name="UserName"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
+					    	<input class="cursor-on form-control br-bshadow-none"  name="location"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
 					     </div>
 					     <div class="dropdown-wrap">
 				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->

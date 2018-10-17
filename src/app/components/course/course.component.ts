@@ -580,7 +580,8 @@ export class CourseComponent implements OnInit {
     let planObj={
       "name": plan.name,
       "id": plan.coursePlanId,
-      "duration": plan.lesson.duration
+      "duration": plan.lesson.duration,
+      "paymentPolicy": plan.paymentPolicy
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');
