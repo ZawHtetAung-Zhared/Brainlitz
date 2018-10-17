@@ -25,6 +25,7 @@ export class CourseplanComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
+  public optionFee: boolean = false;
 	public showModal: boolean = false;
 	public showsubModal: boolean = true;
   public checked: boolean = false;
