@@ -18,6 +18,8 @@ export class CourseComponent implements OnInit {
   code:any ;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
+  activeToday:boolean = false;
+  todayIndex:any = '';
   isCourseCreate:boolean = false;
   isCategory:boolean = false;
   isPlan:boolean = false;
@@ -239,6 +241,11 @@ export class CourseComponent implements OnInit {
           if(courseDate > to_day){
             console.log('unfinished course => ', courseDate)
             unfinishedDate.push(i);
+          }else if(courseDate == to_day){
+            console.log('same with today ', courseDate)
+            finishedDate.push(i)
+            this.activeToday = true;
+            this.todayIndex = i;
           }else{
             console.log('finished course => ', courseDate)
             finishedDate.push(i)
@@ -251,13 +258,21 @@ export class CourseComponent implements OnInit {
       console.log('finish', finishedDate.length)
       console.log('unfinish' , unfinishedDate.length)
       let lastActiveDate;
+      
+
       if(finishedDate.length != 0){
-        lastActiveDate = finishedDate.length -1;
-        console.log(lastActiveDate)
-        //LASD = lastActiceStartDate
-        this.LASD = lessonCount[lastActiveDate].startDate
-        console.log(this.LASD)
+        console.log('hello in if')
+        if(this.activeToday == true){
+          this.LASD = lessonCount[this.todayIndex].startDate
+        }else{
+          lastActiveDate = finishedDate.length -1;
+          console.log(lastActiveDate)
+          //LASD = lastActiceStartDate
+          this.LASD = lessonCount[lastActiveDate].startDate
+          console.log(this.LASD)
+        }
       }else{
+        console.log('hello in else')
         lastActiveDate = 0;
         this.LASD = lessonCount[0].startDate
       }
@@ -303,6 +318,7 @@ export class CourseComponent implements OnInit {
   isCourseId:boolean = false;
 
   addUserModal(type, userModal, courseID){
+    console.log('====', courseID)
     if(courseID != '' || this.detailLists.seat_left == null){
       console.log('has courseID', courseID)
       this.isCourseId = true;
@@ -439,12 +455,16 @@ export class CourseComponent implements OnInit {
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
     console.log(this.detailLists.seat_left - this.selectedUserLists.length == 0)
-    if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
-      console.log('cant add')
-      this.isSeatAvailable = false;
-    }else{
-      this.isSeatAvailable = true;
+    console.log(this.detailLists.seat_left)
+    if(this.detailLists.seat_left != null){
+      if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+        console.log('cant add')
+        this.isSeatAvailable = false;
+      }else{
+        this.isSeatAvailable = true;
+      }
     }
+    
   }
 
   getSelectedUserId(){
@@ -476,8 +496,12 @@ export class CourseComponent implements OnInit {
          this.modalReference.close();
          this.getUsersInCourse(courseId);
          if(this.isCourseId == true){
+           // window.location.reload();
            // this.getCourseLists(20,0);
-           // this.cancel();
+            console.log('in the if')
+           this.cancel();
+         }else{
+           console.log('in the else')
          }
       }, err => {  
         console.log(err);

@@ -74,7 +74,7 @@
                         {{ day }}
                       </span>
                       <div class="medium-font time-color">
-                        {{ course.courseDuration.starttime | convertTimeFormat }} - {{ course.courseDuration.endtime | convertTimeFormat }}
+                        {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
                       </div>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
