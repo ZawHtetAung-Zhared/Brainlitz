@@ -454,12 +454,16 @@ export class CourseComponent implements OnInit {
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
     console.log(this.detailLists.seat_left - this.selectedUserLists.length == 0)
-    if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
-      console.log('cant add')
-      this.isSeatAvailable = false;
-    }else{
-      this.isSeatAvailable = true;
+    console.log(this.detailLists.seat_left)
+    if(this.detailLists.seat_left != null){
+      if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+        console.log('cant add')
+        this.isSeatAvailable = false;
+      }else{
+        this.isSeatAvailable = true;
+      }
     }
+    
   }
 
   getSelectedUserId(){
