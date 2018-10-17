@@ -175,7 +175,7 @@ export class CoursecreateComponent implements OnInit {
       this.model.duration = this.model.coursePlan.lesson.duration*this.model.durationTimes;
       console.log(this.model.duration);
       this.calculateDuration(this.model.starttime,this.model.duration);
-      this.createList(this.model.duration);
+      this.createList(this.model.coursePlan.lesson.duration);
       this.model.durationTimes = this.model.durationTimes;
       this.startTime = this.model.starttime
       // console.log(this.model.coursePlan.lesson.duration);
@@ -292,7 +292,7 @@ export class CoursecreateComponent implements OnInit {
     }
     console.log("testList",this.testList);
     // this.model.duration = this.testList[0];
-    console.log("Duration Times",this.model.duration)
+    console.log("Duration Times",this.model.duration);
   }
 
   focusMethod(e, status, word){
