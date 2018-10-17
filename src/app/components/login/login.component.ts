@@ -63,19 +63,19 @@ export class LoginComponent implements OnInit {
 
     console.log('~~~~~', str_res)
     localStorage.setItem('slicePath', str_res);
-    if(this.slicePathName == undefined){
+    if(str_res == ''){
       console.log('no slicePath')
-      this.slicePathName = 'stgbl-cw1'
+      str_res = 'stgbl-cw1'
       localStorage.setItem('redirectURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
-      this.getOrgKey(this.slicePathName)
+      this.getOrgKey(str_res)
 
     }else{
       localStorage.setItem('redirectURL', redirectURL);
       console.log('slicePath exit')
       localStorage.removeItem('OrgId')
-      console.log(this.slicePathName);
-      this.slicePathName = (this.slicePathName == 'staging-brainlitz-web') ? 'stgbl-cw1' : this.slicePathName;
-      this.getOrgKey(this.slicePathName)
+      console.log(str_res);
+      str_res = (str_res == 'staging-brainlitz-web') ? 'stgbl-cw1' : str_res;
+      this.getOrgKey(str_res)
     }
   }
 
@@ -88,6 +88,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('OrgLogo', res.logo);    
       localStorage.setItem('clientId', res.clientId);    
       localStorage.setItem('clientSecret', res.clientSecret);    
+      localStorage.setItem('favicon', res.favicon);    
       console.log(res.logo)
       this.clientId = res.clientId
       this.clientSecret = res.clientSecret
