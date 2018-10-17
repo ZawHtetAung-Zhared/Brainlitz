@@ -16,6 +16,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public isvalidID:any = '';
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
   activeToday:boolean = false;
@@ -315,17 +316,16 @@ export class CourseComponent implements OnInit {
     this.deleteId = id;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
-  isCourseId:boolean = false;
+  
 
-  addUserModal(type, userModal, courseID){
-    console.log('====', courseID)
-    if(courseID != '' || this.detailLists.seat_left == null){
-      console.log('has courseID', courseID)
-      this.isCourseId = true;
+  addUserModal(type, userModal, state, id){
+    console.log('====', state)
+    this.isvalidID = state;
+    if(state != 'inside' || this.detailLists.seat_left == null){
+      console.log('has courseID', id)
       this.isSeatAvailable = true;
-      this.getCourseDetail(courseID);
+      this.getCourseDetail(id);
     }else{
-      this.isCourseId = false;
       console.log('no courseID', this.detailLists.seat_left)
       if(this.detailLists.seat_left == 0){
         this.isSeatAvailable = false;
@@ -480,7 +480,7 @@ export class CourseComponent implements OnInit {
   }
 
   enrollUserToCourse(courseId, userType){
-    console.log('call from enrolluser', this.isCourseId)
+    console.log('call from enrolluser', this.isvalidID)
     // let type = userType;
     // type = (userType == 'staff') ? 'teacher' : 'customer'
     this.getSelectedUserId();   
@@ -494,15 +494,17 @@ export class CourseComponent implements OnInit {
       .subscribe((res:any) => {
          console.log(res);
          this.modalReference.close();
-         this.getUsersInCourse(courseId);
-         if(this.isCourseId == true){
-           // window.location.reload();
-           // this.getCourseLists(20,0);
-            console.log('in the if')
-           this.cancel();
+         if(this.isvalidID == 'inside'){
+           console.log('hi')
+           // this.cancel();
+           this.getUsersInCourse(courseId);
          }else{
-           console.log('in the else')
+           console.log('else hi')
+           this.cancel();
+           // this.getUsersInCourse(courseId);
          }
+           
+         
       }, err => {  
         console.log(err);
       });

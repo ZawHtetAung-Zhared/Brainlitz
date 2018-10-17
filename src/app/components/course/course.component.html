@@ -78,7 +78,7 @@
                       </div>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
-                      <button *ngIf="course.seat_left != 0" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
+                      <button *ngIf="course.seat_left != 0" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, 'outside', course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
                       </button>
@@ -209,7 +209,7 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'')">Add teacher</button>
+              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -248,7 +248,7 @@
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
-              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>
+              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">

@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
   public islogin: boolean = false;
 
   constructor(private _service: appService, @Inject(DOCUMENT) private document: any) {
-      this._service.slicePath.subscribe((nextValue) => {
-        this.slicePathName = nextValue;
-     })
+     //  this._service.slicePath.subscribe((nextValue) => {
+     //    this.slicePathName = nextValue;
+     // })
 
-      if(localStorage.getItem('slicePath')){
-        var data = localStorage.getItem('slicePath');
-        this.slicePathName = data;
-      }
+     //  if(localStorage.getItem('slicePath')){
+     //    var data = localStorage.getItem('slicePath');
+     //    this.slicePathName = data;
+     //  }
   }
 
   ngOnInit() {
@@ -46,20 +46,36 @@ export class LoginComponent implements OnInit {
     var end_index = str.lastIndexOf('/');
     var redirectURL = str.substr(0,end_index) + '/'
     console.log(redirectURL)
-    
-    if(this.slicePathName == undefined){
+
+
+    var start_pos = str.indexOf('//') + 2;
+    var end_pos = str.indexOf('/#',start_pos);
+    var storeLocal = str.substring(start_pos,end_pos)    
+    console.log('~~~~~', storeLocal)
+    // var redirectURL = storeLocal.split("/").pop();
+    var str_res;
+    if(storeLocal.includes('/')){
+      var str_temp = storeLocal.substr(storeLocal.lastIndexOf("/")+1);
+      str_res = str_temp.substring(0,str_temp.indexOf('.'));
+    }else{
+      str_res = storeLocal.substring(0,storeLocal.indexOf('.'));
+    }
+
+    console.log('~~~~~', str_res)
+    localStorage.setItem('slicePath', str_res);
+    if(str_res == ''){
       console.log('no slicePath')
-      this.slicePathName = 'stgbl-cw1'
+      str_res = 'stgbl-cw1'
       localStorage.setItem('redirectURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
-      this.getOrgKey(this.slicePathName)
+      this.getOrgKey(str_res)
 
     }else{
       localStorage.setItem('redirectURL', redirectURL);
       console.log('slicePath exit')
       localStorage.removeItem('OrgId')
-      console.log(this.slicePathName);
-      this.slicePathName = (this.slicePathName == 'staging-brainlitz-web') ? 'stgbl-cw1' : this.slicePathName;
-      this.getOrgKey(this.slicePathName)
+      console.log(str_res);
+      str_res = (str_res == 'staging-brainlitz-web') ? 'stgbl-cw1' : str_res;
+      this.getOrgKey(str_res)
     }
   }
 
@@ -72,6 +88,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('OrgLogo', res.logo);    
       localStorage.setItem('clientId', res.clientId);    
       localStorage.setItem('clientSecret', res.clientSecret);    
+      localStorage.setItem('favicon', res.favicon);    
       console.log(res.logo)
       this.clientId = res.clientId
       this.clientSecret = res.clientSecret
