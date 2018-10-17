@@ -18,6 +18,8 @@ export class CourseComponent implements OnInit {
   code:any ;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
+  activeToday:boolean = false;
+  todayIndex:any = '';
   isCourseCreate:boolean = false;
   isCategory:boolean = false;
   isPlan:boolean = false;
@@ -239,6 +241,11 @@ export class CourseComponent implements OnInit {
           if(courseDate > to_day){
             console.log('unfinished course => ', courseDate)
             unfinishedDate.push(i);
+          }else if(courseDate == to_day){
+            console.log('same with today ', courseDate)
+            finishedDate.push(i)
+            this.activeToday = true;
+            this.todayIndex = i;
           }else{
             console.log('finished course => ', courseDate)
             finishedDate.push(i)
@@ -251,13 +258,21 @@ export class CourseComponent implements OnInit {
       console.log('finish', finishedDate.length)
       console.log('unfinish' , unfinishedDate.length)
       let lastActiveDate;
+      
+
       if(finishedDate.length != 0){
-        lastActiveDate = finishedDate.length -1;
-        console.log(lastActiveDate)
-        //LASD = lastActiceStartDate
-        this.LASD = lessonCount[lastActiveDate].startDate
-        console.log(this.LASD)
+        console.log('hello in if')
+        if(this.activeToday == true){
+          this.LASD = lessonCount[this.todayIndex].startDate
+        }else{
+          lastActiveDate = finishedDate.length -1;
+          console.log(lastActiveDate)
+          //LASD = lastActiceStartDate
+          this.LASD = lessonCount[lastActiveDate].startDate
+          console.log(this.LASD)
+        }
       }else{
+        console.log('hello in else')
         lastActiveDate = 0;
         this.LASD = lessonCount[0].startDate
       }
