@@ -235,12 +235,18 @@
 							<div class="col-md-4">
 								<div>
 									<div class="input-group input-group-bg mb-2 mr-sm-2">
-										<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10" style="background: none;" [(ngModel)]="testObj.fees" name="fee" #fees>
+										<div class="input-group-prepend">
+										  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">S$</div>
+										</div>
+										<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
+										(focus)="showFocus($event,'optionFee')"
+								  	(focusout)="hideFocus($event,'optionFee')"
+										>
 									</div>
 								</div>
 							</div>
 							<div>
-							<button type="button" (click)="addOption()">Add</button>
+							<button type="button" class="add-fee-option" (click)="addOption()"><div class="circle1 plus"></div></button>
 								<!-- <button type="button" (click)="addOptionFees(name.value,fees.value)">Add</button> -->
 							</div>
 						</div>
