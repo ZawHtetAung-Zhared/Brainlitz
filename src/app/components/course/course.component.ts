@@ -43,6 +43,7 @@ export class CourseComponent implements OnInit {
   public deleteId:any = {};
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
   public pplLists:any;
   public removeUser:any;
   public currentCourse:any;
@@ -180,7 +181,7 @@ export class CourseComponent implements OnInit {
   }
 
   getCourseDetail(id){
-    this._service.getSingleCourse(id)
+    this._service.getSingleCourse(id,this.locationID)
     .subscribe((res:any)=>{
       console.log(res)
       this.detailLists = res;
@@ -490,7 +491,7 @@ export class CourseComponent implements OnInit {
        'userType': userType
      }
      console.log('~~~~' , body)
-    this._service.assignUser(this.regionId,body)
+    this._service.assignUser(this.regionId,body, this.locationID)
       .subscribe((res:any) => {
          console.log(res);
          this.modalReference.close();
@@ -537,7 +538,7 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/courseCreate']);
   }
   getCPlanList(){
-    this._service.getAllCoursePlan(this.regionId)
+    this._service.getAllCoursePlan(this.regionId,this.locationID)
     .subscribe((res:any) => {
       console.log("course plan list",res)
     })
@@ -550,7 +551,7 @@ export class CourseComponent implements OnInit {
 
   getCourseLists(limit, skip){
     this.blockUI.start('Loading...'); 
-    this._service.getAllCourse(this.regionId, limit, skip)
+    this._service.getAllCourse(this.regionId,this.locationID, limit, skip)
     .subscribe((res:any) => {
       console.log('Course List',res);
       this.result = res;

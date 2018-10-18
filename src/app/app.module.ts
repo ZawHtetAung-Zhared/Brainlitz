@@ -24,7 +24,6 @@ import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
-import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { RegionComponent } from './components/region/region.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
@@ -79,7 +78,6 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     CoursecreateComponent,
     CategoryComponent,
     CourseplanComponent,
-    HolidaysComponent,
     CalendarComponent,
     RegionComponent,
     AssignuserComponent,

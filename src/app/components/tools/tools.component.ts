@@ -339,7 +339,7 @@ export class ToolsComponent implements OnInit {
     this.showDayType();
 
     this.blockUI.start('Loading...');
-    this._service.viewNoti(limit, skip)
+    this._service.viewNoti(limit, skip, this.locationId)
     .subscribe((res:any) => {  
       console.log('~~~', this.notiLists);
       console.log(res);
@@ -447,8 +447,8 @@ export class ToolsComponent implements OnInit {
         console.log(err)
       })
     }else if(type == 'course'){
-      console.log('hi course')
-      this._service.getAllCourse(this.regionID, 20, 0)
+      console.log('hi course',this.locationId)
+      this._service.getAllCourse(this.regionID, this.locationId, 20, 0)
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.courseLists = res;

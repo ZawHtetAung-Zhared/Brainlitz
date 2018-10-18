@@ -21,6 +21,7 @@ export class CalendarComponent implements OnInit {
   modalReference: any;
 	closeResult: any;
 	public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
 	chosenHoliday: any;
   arrayHoliday: Array<any> = [];
 	holidayLists: any;
@@ -195,7 +196,7 @@ export class CalendarComponent implements OnInit {
 		console.log(dataObj);
     this.blockUI.start('Loading...');
     
-		this._service.createHolidaysCalendar(this.regionID,dataObj)
+		this._service.createHolidaysCalendar(this.regionID, this.locationID, dataObj)
     .subscribe((res:any) => {
       console.log('success holidayCalendar post',res)
       this.toastr.success('Successfully Created.');
@@ -433,7 +434,7 @@ export class CalendarComponent implements OnInit {
     console.log("create holiday works",object);
     this.modalReference.close();
     console.log("~calendarid~",this.calendarid)
-    this._service.createHolidays(this.regionID,object)
+    this._service.createHolidays(this.regionID, this.locationID, object)
     .subscribe((res:any) => {
       console.log(res);
       this.holidayTemp.push(res.id);
@@ -542,7 +543,7 @@ export class CalendarComponent implements OnInit {
     console.log("create holiday works",object);
     this.modalReference.close();
     console.log("~calendarid~",this.calendarid)
-    this._service.updateHoliday(this.model._id,object)
+    this._service.updateHoliday(this.model._id, this.locationID, object)
     .subscribe((res:any) => {
       console.log(res);
       // this.holidayTemp.push(res.id);
@@ -579,7 +580,7 @@ export class CalendarComponent implements OnInit {
     }
     this.modalReference.close();
     console.log("~calendarid~",this.calendarid)
-    this._service.deleteHoliday(this.model._id)
+    this._service.deleteHoliday(this.model._id, this.locationID)
     .subscribe((res:any) => {
       console.log(res);
       this.getSingleCalendar(this.currentID);

@@ -13,7 +13,6 @@ import { CourseComponent } from './components/course/course.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
-import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
@@ -82,11 +81,6 @@ export const routes: Routes = [
     {
        path: 'courseplan',
        component: CourseplanComponent,
-       canActivate: [LoggedInGuard]
-    },
-    {
-       path: 'holidays',
-       component: HolidaysComponent,
        canActivate: [LoggedInGuard]
     },
     {

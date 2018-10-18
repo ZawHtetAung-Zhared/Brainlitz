@@ -356,14 +356,14 @@ export class appService{
       })
     }
 
-    viewNoti(limit: number, skip: number): Observable<any>{
+    viewNoti(limit: number, skip: number, locationid: string): Observable<any>{
       this.getLocalstorage();
       const httpOptions = {
         headers: new HttpHeaders({  
           'Content-Type': 'application/json',
           'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      var url = this.baseUrl + '/noti/logs?limit=' + limit + '&skip=' + skip;
+      var url = this.baseUrl + '/noti/logs?locationId='+ locationid + '&limit=' + limit + '&skip=' + skip;
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
         let result = res; 
@@ -530,11 +530,11 @@ export class appService{
       })
     }
 
-    createLocation(id: string, body: object): Observable<any>{
+    createLocation(id: string, body: object, locationid: string): Observable<any>{
       this.getLocalstorage();
       console.log(id)
       console.log(body)
-      let apiUrl = this.baseUrl + '/' + id + '/locations';
+      let apiUrl = this.baseUrl + '/' + id + '/locations?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -565,10 +565,10 @@ export class appService{
       })
     }
 
-    updateLocation(id:string, body: object){
+    updateLocation(id:string, body: object, locationid:string){
       console.log(id)
       console.log(body)
-      let apiUrl = this.baseUrl  + '/locations/' + id;
+      let apiUrl = this.baseUrl  + '/locations/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -581,7 +581,7 @@ export class appService{
       })
     }
 
-    deleteLocation(id){
+    deleteLocation(id:string, locationid:string){
       console.log(id)
       let apiUrl = this.baseUrl  + '/locations/' + id;
       const httpOptions = {
@@ -597,9 +597,9 @@ export class appService{
       })
     }
 
-    createUser(data: object): Observable<any>{
+    createUser(data: object, locationid): Observable<any>{
       console.log(data)
-      let apiUrl = this.baseUrl + '/signup';
+      let apiUrl = this.baseUrl + '/signup?locationId='+ locationid;
       // let body = JSON.stringify(data);
       const opt = {
           headers: new HttpHeaders({  
@@ -631,8 +631,8 @@ export class appService{
       }) 
     }
     
-    createCoursePlan(id: string, data: object): Observable<any>{
-      let url = this.baseUrl + '/' + id + '/courseplan';
+    createCoursePlan(id: string, locationid: string, data: object): Observable<any>{
+      let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -736,10 +736,10 @@ export class appService{
       }) 
     }
 
-    getAllCoursePlan(id: string): Observable<any>{
+    getAllCoursePlan(id: string,locationid: string): Observable<any>{
       this.getLocalstorage();
       console.log(id)
-      let url = this.baseUrl+ '/' + id + '/courseplan';
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ locationid;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -751,8 +751,8 @@ export class appService{
       }) 
     }
 
-    createHolidays(regionid: string, data: object): Observable<any>{
-      let url = this.baseUrl+ '/' + regionid + '/holidays';
+    createHolidays(regionid: string, locationid: string, data: object): Observable<any>{
+      let url = this.baseUrl+ '/' + regionid + '/holidays?locationId=' + locationid;
       const opt = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -766,9 +766,9 @@ export class appService{
       }) 
     }
 
-    updateHoliday(holidayId: string, data: object){
+    updateHoliday(holidayId: string, locationid: string, data: object){
       console.log(holidayId)
-      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -810,8 +810,8 @@ export class appService{
       })
     }
 
-    deleteHoliday(holidayId:string): Observable<any>{
-      let apiUrl = this.baseUrl  + '/holidays/' + holidayId;
+    deleteHoliday(holidayId:string, locationid: string): Observable<any>{
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId + '?locationId' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -825,8 +825,8 @@ export class appService{
       })
     }
 
-    createHolidaysCalendar(id: string, data: object): Observable<any>{
-      let url = this.baseUrl+ '/' + id + '/holidaysCalendar';
+    createHolidaysCalendar(id: string, locationid: string, data: object): Observable<any>{
+      let url = this.baseUrl+ '/' + id + '/holidaysCalendar?locationId=' + locationid;
       const opt = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -916,14 +916,14 @@ export class appService{
     // }
 
 
-    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean): any{
+    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean, locationid:string): Observable<any>{
       console.log("APP Service");
       console.log(courseID);
       if(courseID == ""){
         console.log("tttt");
-        var url = this.baseUrl + '/' + id + '/course?draft=' + save;
+        var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&draft=' + save;
       }else{
-        var url = this.baseUrl + '/' + id + '/course?courseId=' + courseID + '&draft=' + save;
+        var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&courseId=' + courseID + '&draft=' + save;
         url = (isCheck == true) ? url + '&check=' + isCheck : url;
       }
 
@@ -945,9 +945,9 @@ export class appService{
             
     }
 
-    getAllCourse(id: string, limit: number, skip: number): Observable<any>{
+    getAllCourse(id: string, locationid:string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + id + '/course?limit=' + limit + '&skip=' + skip;
+      let url = this.baseUrl+ '/' + id + '/course?locationId=' + locationid +'&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -960,10 +960,10 @@ export class appService{
       }) 
     }
 
-    getSingleCourse(id:string): Observable<any>{
+    getSingleCourse(id:string, locationid:string): Observable<any>{
       this.getLocalstorage();
       console.log(id);
-      let apiUrl = this.baseUrl + '/course/' + id;
+      let apiUrl = this.baseUrl + '/course/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -976,8 +976,8 @@ export class appService{
       })
     }
 
-    updateCourse(id, body){
-      let apiUrl = this.baseUrl + '/course/' + id;
+    updateCourse(id, body,locationid){
+      let apiUrl = this.baseUrl + '/course/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -1021,10 +1021,10 @@ export class appService{
       })
     }
 
-    assignUser(regionid,body){
+    assignUser(regionid,body,locationid){
       console.log(regionid)
       console.log(body)
-      let apiUrl = this.baseUrl + '/' + regionid + '/timetable';
+      let apiUrl = this.baseUrl + '/' + regionid + '/timetable?locationId=' + locationid;
 
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -1122,10 +1122,10 @@ export class appService{
       })
     }
 
-    getAllPdf(regionId, limit: number, skip: number){
+    getAllPdf(regionId, locationid:string, limit: number, skip: number){
       console.log(skip)
       this.getLocalstorage();
-      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs?limit=' + limit + '&skip=' + skip;
+      let apiUrl = this.baseUrl + '/' + regionId + '/quizwerkzs?locationId='+ locationid + '&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1138,9 +1138,9 @@ export class appService{
       })
     }
 
-    createPdf(obj){
+    createPdf(obj, locationid){
       console.log(obj);
-      let apiUrl = this.baseUrl + '/' + obj.regionId + '/quizwerkzs';
+      let apiUrl = this.baseUrl + '/' + obj.regionId + '/quizwerkzs?locationId=' + locationid;
       const opt = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -1154,9 +1154,9 @@ export class appService{
       })
     }
 
-    deleteQuizwerkz(qwid){
+    deleteQuizwerkz(qwid:string, locationid:string){
       console.log(qwid);
-      let apiUrl = this.baseUrl+ '/quizwerkzs/' +  qwid;
+      let apiUrl = this.baseUrl+ '/quizwerkzs/' +  qwid + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -1169,9 +1169,9 @@ export class appService{
       })
     }
 
-    getSingleQuizwerkz(id:string){
+    getSingleQuizwerkz(id:string,locationid:string){
       console.log(id)
-      let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+      let apiUrl = this.baseUrl + '/quizwerkzs/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1184,8 +1184,8 @@ export class appService{
       })
     }
 
-    updateSignleQuizwerkz(id:string, data: object){
-      let apiUrl = this.baseUrl + '/quizwerkzs/' + id;
+    updateSignleQuizwerkz(id:string, data: object, locationid:string){
+      let apiUrl = this.baseUrl + '/quizwerkzs/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

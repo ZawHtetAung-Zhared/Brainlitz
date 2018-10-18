@@ -19,6 +19,7 @@ export class QuizwerkzComponent implements OnInit {
 	@ViewChild('pdfForm') form: any;
 	formField: quizWerkzForm = new quizWerkzForm();
 	public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
 	private modalReference: NgbModalRef;
 	closeResult: string;
 	public pdfList: Array<any> = [];
@@ -115,7 +116,7 @@ export class QuizwerkzComponent implements OnInit {
 
   getAllPdf(limit, skip){
     this.blockUI.start('Loading...');
-  	this._service.getAllPdf(this.regionID, limit, skip)
+  	this._service.getAllPdf(this.regionID, this.locationID, limit, skip)
 		.subscribe((res:any) => {
       this.blockUI.stop();
       this.result = res;
@@ -135,7 +136,7 @@ export class QuizwerkzComponent implements OnInit {
       "cover": obj.cover
   	}
     this.blockUI.start('Loading...');
-    this._service.createPdf(data)
+    this._service.createPdf(data, this.locationID)
     .subscribe((res:any) => {
       console.log(res);
       this.blockUI.stop();
@@ -173,7 +174,7 @@ export class QuizwerkzComponent implements OnInit {
 
   quizwerkzDelete(qwId){
     console.log("quizwerkz delete",qwId);
-    this._service.deleteQuizwerkz(qwId)
+    this._service.deleteQuizwerkz(qwId, this.locationID)
     .subscribe((res:any) => {
       this.modalReference.close();
       this.toastr.error('Successfully deleted');
@@ -195,7 +196,7 @@ export class QuizwerkzComponent implements OnInit {
 
   getSingleQuizwerkz(id){
     this.blockUI.start('Loading...');
-    this._service.getSingleQuizwerkz(id)
+    this._service.getSingleQuizwerkz(id, this.locationID)
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log(res)
@@ -217,7 +218,7 @@ export class QuizwerkzComponent implements OnInit {
       "cover": obj.cover
     }
     this.blockUI.start('Loading...');
-    this._service.updateSignleQuizwerkz(obj._id, data)
+    this._service.updateSignleQuizwerkz(obj._id, data, this.locationID)
     .subscribe((res:any) => {
       console.log(res);
       this.toastr.success('Successfully edited.');

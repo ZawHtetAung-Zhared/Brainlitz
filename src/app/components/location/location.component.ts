@@ -269,7 +269,7 @@ export class LocationComponent implements OnInit {
 		if(update == true){
 			console.log(update)
 			this.blockUI.start('Loading...');
-			this._service.updateLocation(locationID, data)
+			this._service.updateLocation(locationID, data, this.locationID)
 			 .subscribe((res:any) => {
 	     		console.log(res)
 	     		this.model = {};
@@ -284,7 +284,7 @@ export class LocationComponent implements OnInit {
 	    	console.log("Form Submitted!", this.regionID);
 	    	this.blockUI.start('Loading...');
 	    	// this.modalReference.close();
-	    	this._service.createLocation(this.regionID, data)
+	    	this._service.createLocation(this.regionID, data, this.locationID)
 	      	.subscribe((res:any) => {
 	    		console.log(res);
 	    		this.model = {};
@@ -307,7 +307,7 @@ export class LocationComponent implements OnInit {
 
 	deleteLocation(id){
 		console.log(id)
-		this._service.deleteLocation(id)
+		this._service.deleteLocation(id, this.locationID)
 		.subscribe((res:any) => {
 			console.log(res);
 			this.modalReference.close();

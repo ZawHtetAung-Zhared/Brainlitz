@@ -13,6 +13,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 export class AssignuserComponent implements OnInit {
   regionid = localStorage.getItem('regionId');
   selectedCourse =  JSON.parse(localStorage.getItem('courseObj'));
+  public locationID = localStorage.getItem("locationId");
   userList: any;
   modalReference:any;
   closeResult: any;
@@ -123,7 +124,7 @@ export class AssignuserComponent implements OnInit {
        'userType': 'staff'
      }
      this.blockUIList.start('Loading...');
-     this._service.assignUser(this.regionid,obj1)
+     this._service.assignUser(this.regionid,obj1,this.locationID)
      .subscribe((res:any) => {
        this.blockUIList.stop();
        console.log(res);
@@ -139,7 +140,7 @@ export class AssignuserComponent implements OnInit {
        'userType': 'customer'
      }
      this.blockUIList.start('Loading...');
-     this._service.assignUser(this.regionid,obj)
+     this._service.assignUser(this.regionid,obj,this.locationID)
      .subscribe((res:any) => {
        this.blockUIList.stop(); 
        console.log(res);

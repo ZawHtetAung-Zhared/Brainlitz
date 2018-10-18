@@ -30,7 +30,8 @@ export class UsersComponent implements OnInit {
 	public ulFile: any;
 	public defaultSlice: number = 2;
 	public orgID = localStorage.getItem('OrgId');
-	public regionID = localStorage.getItem('regionId');		
+	public regionID = localStorage.getItem('regionId');	
+	public locationID = localStorage.getItem('locationId');	
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
 	@ViewChild("cropper", undefined)
@@ -54,7 +55,6 @@ export class UsersComponent implements OnInit {
 	userType: any;
 	permissionLists: any;
 	locationLists: any;
-	public locationID = localStorage.getItem('locationId');
 	emailAlert: boolean = false;
 	guardianAlert : boolean = false;
 	notShowEdit: boolean = true;
@@ -274,7 +274,7 @@ export class UsersComponent implements OnInit {
 
 			this.blockUI.start('Loading...');
 			console.log("Data",objData)
-			this._service.createUser(objData)
+			this._service.createUser(objData, this.locationID)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
 	  			this.toastr.success('Successfully Created.');
@@ -740,7 +740,7 @@ export class UsersComponent implements OnInit {
 		   'userId': this.custDetail.user.userId,
 		   'userType': 'customer'
 		}
-		this._service.assignUser(this.regionID,body)
+		this._service.assignUser(this.regionID,body,this.locationID)
 		  	.subscribe((res:any) => {
 		     	console.log(res);
 		     	this.toastr.success('Successfully Enrolled.');
@@ -759,7 +759,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	allCourseLists(){
-		this._service.getAllCourse(this.regionID, 20, 0)
+		this._service.getAllCourse(this.regionID,this.locationID, 20, 0)
 	    .subscribe((res:any)=>{
 	    	this.courseLists = res;
 	      console.log(res)

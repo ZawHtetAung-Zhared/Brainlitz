@@ -257,7 +257,7 @@ export class UserStaffComponent implements OnInit {
 			}
 			console.log('create')
 			this.blockUI.start('Loading...');
-			this._service.createUser(objData)
+			this._service.createUser(objData,this.locationID)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');

@@ -50,6 +50,7 @@ export class CourseplanComponent implements OnInit {
   public updateButton: boolean = false;
   public createButton: boolean = true;
   public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
   editId: any;
   selectcPlan: any;
   viewCplan: any;
@@ -301,7 +302,7 @@ export class CourseplanComponent implements OnInit {
 
     console.log(data)
     this.blockUI.start('Loading...');
-    this._service.createCoursePlan(this.regionID,data)
+    this._service.createCoursePlan(this.regionID, this.locationID, data)
     .subscribe((res:any) => {
         console.log('success post',res);
         this.toastr.success('Successfully Created.');
@@ -468,7 +469,7 @@ export class CourseplanComponent implements OnInit {
 
   getAllCoursePlan(){
     this.blockUI.start('Loading...');
-    this._service.getAllCoursePlan(this.regionID)
+    this._service.getAllCoursePlan(this.regionID, this.locationID)
     .subscribe((res:any) => {
       this.courseplanLists = res;
       setTimeout(() => {
@@ -604,7 +605,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllPdf(){
-    this._service.getAllPdf(this.regionID, 20, 0)
+    this._service.getAllPdf(this.regionID, this.locationID, 20, 0)
     .subscribe((res:any) => {
       console.log('pdflists',res)
       this.pdfList = res;
