@@ -322,7 +322,7 @@ export class UsersComponent implements OnInit {
 			objData.append('guardianEmail', JSON.stringify(guardianArray));
 			
 			this.blockUI.start('Loading...');
-			this._service.updateUser(this.regionID, obj.userId, objData)
+			this._service.updateUser(this.regionID, this.locationID, obj.userId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
 	  			this.backToDetails();
@@ -580,7 +580,7 @@ export class UsersComponent implements OnInit {
 		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
 		this.showCustDetail = true;
-		this._service.getUserDetail(this.regionID,ID)
+		this._service.getUserDetail(this.regionID,ID, this.locationID)
 		.subscribe((res:any) => {
 			this.custDetail = res;
 			console.log("CustDetail",res);

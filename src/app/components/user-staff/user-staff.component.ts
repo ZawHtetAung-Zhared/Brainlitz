@@ -275,7 +275,7 @@ export class UserStaffComponent implements OnInit {
 		    })
 		}else{
 			console.log('update')
-			this._service.updateUser(this.regionID, this.editId, objData)
+			this._service.updateUser(this.regionID, this.locationID, this.editId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
@@ -436,7 +436,7 @@ export class UserStaffComponent implements OnInit {
 		console.log("show Staff details");
 		this.blockUI.start('Loading...');
 		this.showStaffDetail = true;
-		this._service.getUserDetail(this.regionID,data.userId)
+		this._service.getUserDetail(this.regionID,data.userId,this.locationID)
 		.subscribe((res:any) => {
 			this.staffDetail = res;
 			console.log("StaffDetail",res);

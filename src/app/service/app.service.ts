@@ -507,10 +507,10 @@ export class appService{
     }
 
 
-    getUserDetail(id:string, userId:string){
+    getUserDetail(id:string, userId:string, locationid:string){
       console.log(id)
       console.log(userId)
-      let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id;
+      let apiUrl = this.baseUrl + '/user/' + userId + '?profileType=details&regionId=' + id + '&locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -606,7 +606,7 @@ export class appService{
 
     deleteLocation(id:string, locationid:string){
       console.log(id)
-      let apiUrl = this.baseUrl  + '/locations/' + id;
+      let apiUrl = this.baseUrl  + '/locations/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1291,8 +1291,8 @@ export class appService{
       })
     }
 
-    updateUser(regionId, userId:string, data: object){
-      let apiUrl = this.baseUrl + '/user/' + userId;
+    updateUser(regionId, locationid, userId:string, data: object){
+      let apiUrl = this.baseUrl + '/user/' + userId + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             
@@ -1397,9 +1397,9 @@ export class appService{
       })
     }
 
-    createAP(id: string, data: object): Observable<any>{
+    createAP(id: string, locationid:string, data: object): Observable<any>{
       this.getLocalstorage();
-      let apiUrl = this.baseUrl + '/' + id + '/access-point';
+      let apiUrl = this.baseUrl + '/' + id + '/access-point?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1413,15 +1413,15 @@ export class appService{
       })
     } 
      
-    createAPG(id: string, data: object, templateId: string, moduleId: string): Observable<any>{
+    createAPG(id: string, locationid:string, data: object, templateId: string, moduleId: string): Observable<any>{
       console.log(data, templateId)
       this.getLocalstorage();
       let apiUrl;
       if(templateId != undefined){
-        apiUrl = this.baseUrl + '/' + id + '/access-point-group?templateId=' + templateId;
+        apiUrl = this.baseUrl + '/' + id + '/access-point-group?templateId=' + templateId+ '?locationId=' + locationid;
       }
       else {
-        apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId;
+        apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId + '?locationId=' + locationid;
       }
       const httpOptions = {
           headers: new HttpHeaders({ 

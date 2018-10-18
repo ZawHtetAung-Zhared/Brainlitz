@@ -1199,12 +1199,12 @@ export class CourseplanComponent implements OnInit {
       var templateID;
       var moduleId = localStorage.getItem('moduleID')
         data["moduleId"] = moduleId;
-         this._service.createAP(this.regionID, data)
+         this._service.createAP(this.regionID, this.locationID, data)
          .subscribe((res:any) => {
            this.toastr.success('Successfully AP Created.');
            data["accessPoints"] = [res._id]
            console.log(data)
-           this._service.createAPG(this.regionID,data, templateID, moduleId)
+           this._service.createAPG(this.regionID, this.locationID,data, templateID, moduleId)
           .subscribe((response:any) => {
             this.toastr.success('Successfully APG Created.');
             console.log(response)

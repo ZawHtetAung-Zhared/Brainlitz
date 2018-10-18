@@ -34,6 +34,7 @@ export class ApgComponent implements OnInit {
   	templateAPG: boolean = false;
   	viewType:any = 'apg';
   	public regionID = localStorage.getItem('regionId');
+    public locationID = localStorage.getItem('locationId');
   	apList: any;
   	moduleList: any[] = [];
   	templateList: Array<any> = [];
@@ -209,7 +210,7 @@ export class ApgComponent implements OnInit {
 
       
       console.log('~~~~', this.dataVal)
-      this._service.createAPG(this.regionID, emptyObj , this.dataVal._id, this.dataVal.moduleId)
+      this._service.createAPG(this.regionID, this.locationID, emptyObj , this.dataVal._id, this.dataVal.moduleId)
       .subscribe((res:any) => {
           console.log(res)
           this.toastr.success('APG successfully created.');
@@ -247,12 +248,12 @@ export class ApgComponent implements OnInit {
         console.log('create')
         var moduleId = localStorage.getItem('moduleID')
         data["moduleId"] = moduleId;
-         this._service.createAP(this.regionID,data)
+         this._service.createAP(this.regionID,this.locationID,data)
          .subscribe((res:any) => {
            // this.toastr.success('Successfully AP Created.');
            data["accessPoints"] = [res._id]
            console.log(data)
-           this._service.createAPG(this.regionID,data, templateID, moduleId)
+           this._service.createAPG(this.regionID, this.locationID,data, templateID, moduleId)
           .subscribe((res:any) => {
             this.toastr.success('APG successfully Created.');
             console.log(res)
@@ -428,7 +429,7 @@ export class ApgComponent implements OnInit {
       	}
         this.customCheck = false;
         this.checkedAPid = [];
-      	this._service.createAP(this.regionID,data)
+      	this._service.createAP(this.regionID,this.locationID,data)
 		    .subscribe((res:any) => {
 		      	console.log('success post',res);
             this.responseAP = res;
