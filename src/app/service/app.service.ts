@@ -7,6 +7,7 @@ import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
 import {Subject} from 'rxjs/Subject';
+declare var $: any;
  
 @Injectable()
 export class appService{
@@ -19,7 +20,7 @@ export class appService{
     public tempToken: any;    
     public isback: boolean = false;    
     public accessToken = localStorage.getItem('token');
-    public tokenType = localStorage.getItem('tokenType');   
+    public tokenType = localStorage.getItem('tokenType'); 
     locationID: Observable<any>;
     private getLocationID = new Subject<any>(); 
     sendData: Observable<any>;
