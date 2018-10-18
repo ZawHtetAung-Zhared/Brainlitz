@@ -16,20 +16,30 @@ export class HeaderComponent implements OnInit {
   public OrgLogo = localStorage.getItem('OrgLogo');
   public headerlocationLists: any;
   public accessToken: any;
+  public currentLocationID: any;
   
   constructor(private _router: Router, private _service: appService) {
     this._service.sendData.subscribe((data) => {
         this.headerlocationLists = data; 
     })
+
+    this._service.locationID.subscribe((id) => {
+        // this.locationId = data;
+        console.log(id) 
+        if(this.currentLocationID != id){
+          this.setPermission(id);
+        }
+        // this.setDefaultSelected();
+    });
   }
   
   ngOnInit() {
     console.log('headerLocation work')
     this.accessToken = localStorage.getItem('token');
     if(this.accessToken != undefined){
-        console.log('!undefined')
-        this.getAllLocation();
-      }
+      console.log('!undefined')
+      this.getAllLocation();
+    }
   }
 
   logoff(){
@@ -44,20 +54,34 @@ export class HeaderComponent implements OnInit {
     .subscribe((res:any) => {
       this.headerlocationLists = res; 
       console.log('header headerlocationLists',this.headerlocationLists)
-      let locationId  = localStorage.getItem('locationId');
-      if(locationId){
+      this.currentLocationID  = localStorage.getItem('locationId');
+      if(this.currentLocationID){
         for(var i = 0; i < this.headerlocationLists.length; i++){
-          if(this.headerlocationLists[i]._id == locationId){
+          if(this.headerlocationLists[i]._id == this.currentLocationID){
             this.headerlocationLists[i].selected = true;
             localStorage.setItem('locationId', this.headerlocationLists[i]._id);
           }
         }
+        this.setPermission(this.currentLocationID);
+      }else{
+        console.log('no location has choosen')
       } 
       let regionId  = localStorage.getItem('regionId');
       if(!localStorage.getItem('locationId')){
         localStorage.setItem('locationId', this.headerlocationLists[0]._id);
+        this.setPermission(this.headerlocationLists[0]._id);
       } 
       
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  setPermission(id){
+    this._service.getPermission(id)
+    .subscribe((res:any) => {
+      console.log(res)
+      this._service.showPermission(res);
     }, err => {
       console.log(err)
     })

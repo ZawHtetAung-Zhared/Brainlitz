@@ -76,11 +76,5 @@ export class AppComponent implements OnInit{
     console.log("favicon",this.favicon);
     this.document.getElementById('appFavicon').setAttribute('href',this.favicon);
   }
-
-  // logoff(){
-  //   console.log('log out');
-  //   localStorage.clear();
-  //   this._router.navigateByUrl('/login');
-  // }
     
 }
