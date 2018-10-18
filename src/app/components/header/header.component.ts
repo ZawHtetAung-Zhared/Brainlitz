@@ -22,15 +22,6 @@ export class HeaderComponent implements OnInit {
     this._service.sendData.subscribe((data) => {
         this.headerlocationLists = data; 
     })
-
-    this._service.locationID.subscribe((id) => {
-        // this.locationId = data;
-        console.log(id) 
-        if(this.currentLocationID != id){
-          this.setPermission(id);
-        }
-        // this.setDefaultSelected();
-    });
   }
   
   ngOnInit() {
@@ -62,10 +53,12 @@ export class HeaderComponent implements OnInit {
             localStorage.setItem('locationId', this.headerlocationLists[i]._id);
           }
         }
-        this.setPermission(this.currentLocationID);
+        // this.setPermission(this.currentLocationID);
       }else{
         console.log('no location has choosen')
       } 
+
+
       let regionId  = localStorage.getItem('regionId');
       if(!localStorage.getItem('locationId')){
         localStorage.setItem('locationId', this.headerlocationLists[0]._id);
@@ -90,6 +83,10 @@ export class HeaderComponent implements OnInit {
   selectLocation(e){
     let LocationId = e.target.value;
     localStorage.setItem('locationId', LocationId);
+    if(this.currentLocationID != LocationId){
+      console.log('different location')
+      this.setPermission(LocationId)
+    }
     this._service.setLocationId(LocationId);
   }
 
