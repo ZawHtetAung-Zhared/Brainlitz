@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener} from '@angular/core';
+import { Component, OnInit, HostListener} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit() {
     console.log('headerLocation work')
-    console.log(this.OrgLogo)
     this.accessToken = localStorage.getItem('token');
     if(this.accessToken != undefined){
         console.log('!undefined')
@@ -87,14 +86,14 @@ export class HeaderComponent implements OnInit {
     }
     
   dropDown(){
-        var x = document.getElementsByClassName('dropdown-box');
-        if( (x[0]as HTMLElement).style.display == 'block'){
-          (x[0]as HTMLElement).style.display = 'none';
-        }
-        else {
-           (x[0]as HTMLElement).style.display = 'block';
-           this.dropMenuShow = true;
-        }
+    var x = document.getElementsByClassName('dropdown-box');
+    if( (x[0]as HTMLElement).style.display == 'block'){
+      (x[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (x[0]as HTMLElement).style.display = 'block';
+       this.dropMenuShow = true;
+    }
   }
 
   

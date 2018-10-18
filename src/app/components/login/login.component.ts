@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.randomKey = localStorage.getItem('random');
-    console.log(this.document.location.hostname)
     this.host = this.document.location.hostname;
     if(this.randomKey != undefined){
       console.log('key exit')
@@ -41,13 +40,13 @@ export class LoginComponent implements OnInit {
       console.log('no key')
       this.generateRandom();
     }
-    console.log(this.slicePathName)
+    this.getSubdomain();
+  }
+
+  getSubdomain() {
     let str = document.location.href;
     var end_index = str.lastIndexOf('/');
-    var redirectURL = str.substr(0,end_index) + '/'
-
-    console.log(redirectURL)
-
+    var redirectURL = str.substr(0,end_index) + '/';
 
     var start_pos = str.indexOf('//') + 2;
     var end_pos = str.indexOf('/#',start_pos);
@@ -62,17 +61,16 @@ export class LoginComponent implements OnInit {
     }
 
     console.log('~~~~~', str_res)
-    localStorage.setItem('slicePath', str_res);
+    // localStorage.setItem('slicePath', str_res);
     if(str_res == ''){
-      console.log('no slicePath')
+      console.log('no subdomain')
       str_res = 'stgbl-cw1'
       localStorage.setItem('redirectURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
       this.getOrgKey(str_res)
-
     }else{
       localStorage.setItem('redirectURL', redirectURL);
-      console.log('slicePath exit')
-      localStorage.removeItem('OrgId')
+      console.log('subdomain exit')
+      // localStorage.removeItem('OrgId')
       console.log(str_res);
       str_res = (str_res == 'staging-brainlitz-web') ? 'stgbl-cw1' : str_res;
       this.getOrgKey(str_res)
@@ -101,26 +99,18 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  generateRandom(){
-    console.log('random')
+  generateRandom(){    
     var S4 = function() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     };
-    let bb =  (S4()+S4()+S4()+S4()+S4()+S4());
-    console.log(bb);
-    localStorage.setItem('random', bb)
+    let randomCode =  (S4()+S4()+S4()+S4()+S4()+S4());    
+    localStorage.setItem('random', randomCode)
   }
 
   public login() {
-    console.log('login start', this.redirectUri);
-    console.log(this.clientId);
-  	console.log(this.clientSecret);
     this.redirectUri = localStorage.getItem('redirectURL');
     this.redirectUri = encodeURIComponent(this.redirectUri);
-    console.log(this.redirectUri)
-    console.log(this.loginUrl)
     window.location.href = this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri
-    console.log(this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri)
   }
   
 }

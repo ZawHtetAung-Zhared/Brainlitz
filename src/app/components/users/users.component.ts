@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
 	public img: any;
 	public ulFile: any;
 	public defaultSlice: number = 2;
-	public orgID = environment.orgID;
+	public orgID = localStorage.getItem('OrgId');
 	public regionID = localStorage.getItem('regionId');		
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
