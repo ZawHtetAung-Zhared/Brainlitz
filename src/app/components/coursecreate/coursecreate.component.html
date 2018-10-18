@@ -96,7 +96,7 @@
 						 <div (click)="feeOptDropdown()" class="form-group has-feedback">
 					    	<input class="cursor-on form-control br-bshadow-none"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off"
 					    	(focus)="showFees()"
-					    	(focusOut)="hideFees()"
+					    	(focusOut)="hideFees()" readonly 
 					    	><span class="fa fa-angle-down down-icon"></span>
 					     </div>
 					     <div class="dropdown-wrap">
@@ -336,7 +336,7 @@
 					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
 					<div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
-					    	<input class="cursor-on form-control br-bshadow-none"  name="location"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off"><span class="fa fa-angle-down down-icon"></span>
+					    	<input class="cursor-on form-control br-bshadow-none"  name="location"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
 					     </div>
 					     <div class="dropdown-wrap">
 				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->

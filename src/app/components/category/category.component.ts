@@ -32,6 +32,8 @@ export class CategoryComponent implements OnInit {
   public navIsFixed: boolean = false;
   public goBackCat: boolean = false;
   public wordLength : number = 0;
+  public createdCat:any = {};
+  public isCreate:boolean = false;
 
   constructor( 
     private _service: appService, 
@@ -43,7 +45,7 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllCategories(20, 0);
+    this.getAllCategories(20, 0, '');
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -88,7 +90,10 @@ export class CategoryComponent implements OnInit {
         console.log(res);
         this.toastr.success('Successfully Created.');
         this.blockUI.stop();
-        this.getAllCategories(20, 0);
+        this.getAllCategories(20, 0,'create');
+        // this.ischecked = this.categoryList[0]._id;
+        console.log("category Lists",this.categoryList);
+        this.isCreate = true;
       },err => {
         this.toastr.error('Create Fail');
         this.blockUI.stop();
@@ -153,12 +158,12 @@ export class CategoryComponent implements OnInit {
   close(status, id){
     if(status == 'create'){
       this.isfocus = !this.isfocus;
-      this.getAllCategories(20, 0);
+      this.getAllCategories(20, 0,'');
     }else{
       console.log('edit', id)
       this.iseditfocus = !this.iseditfocus;
       this.editValue = ''
-      this.getAllCategories(20, 0);
+      this.getAllCategories(20, 0,'');
     }
     this.item = {};
     this.categoryList = [];
@@ -166,10 +171,10 @@ export class CategoryComponent implements OnInit {
 
   showMore(skip: any){
     console.log('hi')
-    this.getAllCategories(20, skip)
+    this.getAllCategories(20, skip, '')
   }
 
-  getAllCategories(limit, skip){
+  getAllCategories(limit, skip,state){
     this.blockUI.start('Loading...');
     this._service.getCategory(this.regionID, limit, skip)
     .subscribe((res:any) => {
@@ -179,7 +184,13 @@ export class CategoryComponent implements OnInit {
       console.log(res);
       this.result = res;
       this.categoryList = this.categoryList.concat(res);
-      this.isempty = (res.length === 0) ? true : false;       
+      this.isempty = (res.length === 0) ? true : false;  
+      if(state == 'create'){
+        console.log("category created")
+        this.somethingChanged(this.categoryList[0]._id,this.categoryList[0].name)
+      }else{
+        console.log("Not create")
+      }
     })
   }
 
@@ -195,7 +206,7 @@ export class CategoryComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.toastr.success('Successfully Updated.');
-      this.getAllCategories(20, 0);
+      this.getAllCategories(20, 0,'');
       this.iseditfocus = false;
       // this.isEditComplete = false;
       this.item = {};
