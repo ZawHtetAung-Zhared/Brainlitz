@@ -34,10 +34,9 @@ export class DashboardComponent implements OnInit {
   public isEdit:boolean = false;
   public isUrlEdit:boolean = false;
   public temp:any;
-  public urlTemp:any;
-  public appsetting:boolean = false;
-  public regionsetting:boolean = false;
-  public locationSidebar:boolean = false;
+  public urlTemp:any;  
+  public generalSidebar:any = [];
+  public locationSidebar:any = [];
   public customSidebar:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
@@ -63,31 +62,24 @@ export class DashboardComponent implements OnInit {
       console.log('less than 15')
       this.navIsFixed = false;
     }
-
-    if (window.pageYOffset > 45 && window.pageYOffset < 81) {
-      this.isMidStick = true;
-    }else{
-      this.isMidStick = false;
-    }
+    this.isMidStick = (window.pageYOffset > 45 && window.pageYOffset < 81) ? true : false;
   }
 
   checkPermission(){
     console.log(this.permissionType)
-    let app = 'UPDATEAPPSETTINGS';
-    this.appsetting = this.permissionType.includes(app);
-
-    let region = 'UPDATEAPPSETTINGS';
-    this.regionsetting = this.permissionType.includes(region);
-
-    let newloc = 'ADDNEWLOCATION'
-    let editloc = 'EDITLOCATION'
-    let deleteloc = 'DELETELOCATION'
-
-    console.log(this.appsetting, this.regionsetting)
-    if(this.appsetting){
+    this.generalSidebar = ['UPDATEAPPSETTINGS', 'UPDATEREGIONSETTINGS'];
+    this.locationSidebar = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION' ];
+      
+   
+    this.generalSidebar = this.generalSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.locationSidebar = this.locationSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    
+    if(this.generalSidebar.includes('UPDATEREGIONSETTINGS')){
       this.getAdministrator();
-    }else if(this.regionsetting){
+    }else if(this.generalSidebar.includes('UPDATEAPPSETTINGS')){
       this.isModuleList(); 
+    }else{
+      console.log('permission deny')
     }
   }
 
