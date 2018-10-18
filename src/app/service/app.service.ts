@@ -22,7 +22,11 @@ export class appService{
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType'); 
     locationID: Observable<any>;
-    private getLocationID = new Subject<any>(); 
+    private getLocationID = new Subject<any>();
+
+    permissionList: Observable<any>;
+    private getpermissionList = new Subject<any>();
+
     sendData: Observable<any>;
     private sendParentToChild = new Subject<any>();
     itemValue =  new Subject();
@@ -51,6 +55,7 @@ export class appService{
       this.tokenType = localStorage.getItem('tokenType');  
       this.sendData = this.sendParentToChild.asObservable();
       this.locationID = this.getLocationID.asObservable(); 
+      this.permissionList = this.getpermissionList.asObservable(); 
       this.slicePath = this.sendLoginName.asObservable(); 
       this.goback = this.previous.asObservable(); 
       this.goplan = this.plan.asObservable(); 
@@ -113,6 +118,10 @@ export class appService{
        localStorage.setItem('theItem', value);
       let locationTemp = localStorage.getItem('theItem');
       this.getLocationID.next(locationTemp)
+    }
+
+    showPermission(data){
+      this.getpermissionList.next(data)
     }
 
     getToken(){
@@ -194,6 +203,20 @@ export class appService{
           console.log(result);        
           return result;
       }) 
+    }
+
+    getPermission(locationId: string){
+      let url= this.baseUrl + '/user-location-permission/' + locationId; 
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+          'Content-Type': 'application/json', 
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;      
+        return result;
+      })
     }
 
     getRegionalAdministrator(regionId: any, token: any, type: any): Observable<any>{
@@ -388,7 +411,7 @@ export class appService{
         .map((res:Response) => {
           let result = res;
           console.log(result);  
-          this.sendParentToChild.next(result);  
+          // this.sendParentToChild.next(result);  
           return result;
         }) 
     }

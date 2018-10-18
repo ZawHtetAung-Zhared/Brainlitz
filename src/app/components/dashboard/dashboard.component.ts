@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   public token: any;
   public type: any;
   public admin: any;
+  public permissionType: Array<any> = [];
   public navIsFixed: boolean = false;
   public isMidStick: boolean = false;
   public item:any = {
@@ -34,6 +35,10 @@ export class DashboardComponent implements OnInit {
   public isUrlEdit:boolean = false;
   public temp:any;
   public urlTemp:any;
+  public appsetting:boolean = false;
+  public regionsetting:boolean = false;
+  public locationSidebar:boolean = false;
+  public customSidebar:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -42,8 +47,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAdministrator();
-    this.isModuleList();
+    this._service.permissionList.subscribe((data) => {
+        this.permissionType = data;
+        console.log(this.permissionType)
+        this.checkPermission();
+    });
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -61,7 +69,26 @@ export class DashboardComponent implements OnInit {
     }else{
       this.isMidStick = false;
     }
+  }
 
+  checkPermission(){
+    console.log(this.permissionType)
+    let app = 'UPDATEAPPSETTINGS';
+    this.appsetting = this.permissionType.includes(app);
+
+    let region = 'UPDATEAPPSETTINGS';
+    this.regionsetting = this.permissionType.includes(region);
+
+    let newloc = 'ADDNEWLOCATION'
+    let editloc = 'EDITLOCATION'
+    let deleteloc = 'DELETELOCATION'
+
+    console.log(this.appsetting, this.regionsetting)
+    if(this.appsetting){
+      this.getAdministrator();
+    }else if(this.regionsetting){
+      this.isModuleList(); 
+    }
   }
 
   getAdministrator(){
@@ -73,7 +100,7 @@ export class DashboardComponent implements OnInit {
       this.item.name = res.name;
       this.item.timezone = res.timezone;
       this.item.url = res.url
-      console.log('~~~', this.item)
+      console.log('~~~', this.item, ' nweni.win@villagelink.co,  hr@villagelink.co ')
       localStorage.setItem('timezone', this.item.timezone)
       // let test=moment().tz("Singapore").format();
       // console.log(test)
