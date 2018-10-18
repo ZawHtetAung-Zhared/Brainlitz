@@ -16,7 +16,7 @@ declare var $: any;
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
-	public orgID = environment.orgID;
+	public orgID = localStorage.getItem('OrgId');
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
