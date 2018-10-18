@@ -19,11 +19,23 @@ export class LoginComponent implements OnInit {
   public randomKey: any;
   public host: any;
   public islogin: boolean = false;
+  // public favicon:any;
+  // public favicon: any = localStorage.getItem('favicon');
 
   constructor(private _service: appService, @Inject(DOCUMENT) private document: any) {
       this._service.slicePath.subscribe((nextValue) => {
+        console.log('hi')
         this.slicePathName = nextValue;
      })
+
+    //   var basepath = localStorage.getItem("redirectURL");
+    // var id = "appFavicon";
+    // this._service.setAppFavicon.subscribe((nextValue) => {
+    //     console.log('hello favicon', nextValue)
+    //  })
+
+      // console.log("favicon",this.favicon)
+      // this.document.getElementById('appFavicon').setAttribute('href', this.favicon);
 
       if(localStorage.getItem('slicePath')){
         var data = localStorage.getItem('slicePath');
@@ -45,7 +57,8 @@ export class LoginComponent implements OnInit {
     let str = document.location.href;
     var end_index = str.lastIndexOf('/');
     var redirectURL = str.substr(0,end_index) + '/'
-    console.log(redirectURL)
+    console.log(redirectURL);
+
     
     if(this.slicePathName == undefined){
       console.log('no slicePath')
@@ -71,7 +84,12 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('OrgId', res.orgId);      
       localStorage.setItem('OrgLogo', res.logo);    
       localStorage.setItem('clientId', res.clientId);    
-      localStorage.setItem('clientSecret', res.clientSecret);    
+      localStorage.setItem('clientSecret', res.clientSecret); 
+      localStorage.setItem('favicon',res.favicon);
+      var id = "appFavicon";
+      var basepath = localStorage.getItem("redirectURL");
+      this.document.getElementById('appFavicon').setAttribute('href', res.favicon);
+      // this._service.setAppFavicon(id,basepath);
       console.log(res.logo)
       this.clientId = res.clientId
       this.clientSecret = res.clientSecret

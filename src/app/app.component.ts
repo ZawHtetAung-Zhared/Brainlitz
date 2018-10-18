@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
 import { appService } from './service/app.service';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,9 @@ export class AppComponent implements OnInit{
   public showSidebar: boolean = true;
   public showHeader: boolean = false;
   public str_res: any;
+  public favicon = localStorage.getItem("favicon");
 
-  constructor(private http: Http, private _router: Router, private _service: appService) { 
+  constructor(private http: Http, private _router: Router, private _service: appService, @Inject(DOCUMENT) private document: any) { 
   	if (window.location.hash.indexOf("#") === 0) {
   		var data = {}, pairs, pair, separatorIndex, escapedKey, escapedValue;
         var queryString = window.location.search.substr(1);        
@@ -66,9 +68,13 @@ export class AppComponent implements OnInit{
       this._service.getPathLocal();
       this._router.navigateByUrl('/login', { skipLocationChange: true });
     }
+
+    
 	}
 
   ngOnInit() {
+    console.log("favicon",this.favicon);
+    this.document.getElementById('appFavicon').setAttribute('href',this.favicon);
   }
 
   logoff(){
