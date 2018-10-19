@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
+	public permissionType: any;
+	public staffPermission:any = [];
 	public orgID = localStorage.getItem('OrgId');
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: Array<any> = [];
@@ -61,9 +63,13 @@ export class UserStaffComponent implements OnInit {
    	}
 
   	ngOnInit() {
-  		this.getAllUsers('staff', 20, 0);
   		this.blankCrop = false; 
-		this.getAllpermission();
+  		this._service.permissionList.subscribe((data) => {
+		  if(this.router.url === '/staff'){
+		    this.permissionType = data;
+		    this.checkPermission();
+		  }
+		});
   	}
 
   	ngAfterViewInit() {
@@ -72,6 +78,18 @@ export class UserStaffComponent implements OnInit {
 				'about': ''
 			}
 		}
+	}
+
+	checkPermission(){
+		console.log(this.permissionType)
+		this.staffPermission = ['CREATESTAFFS','EDITSTAFFS','VIEWSTAFFS','DELETESTAFFS'];
+		this.staffPermission = this.staffPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
+			this.getAllUsers('staff', 20, 0);
+		}else{
+	      console.log('permission deny')
+	      this.staffLists = [];
+	    }
 	}
 
   	showMore(type: any, skip: any){
@@ -145,7 +163,6 @@ export class UserStaffComponent implements OnInit {
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
-	    this.getAllpermission();
 	    this.getCustomFields();
 	}
 
@@ -300,16 +317,7 @@ export class UserStaffComponent implements OnInit {
 		$(".frame-upload").css('display', 'none');
 		this.staffLists = [];
 		this.getAllUsers('staff', 20, 0);
-	}
-
-	getAllpermission(){
-		console.log('hi permission')
-		this._service.getAllPermission(this.regionID)
-		.subscribe((res:any) => {
-			this.permissionLists = res;
-			console.log('this.permissionLists', this.permissionLists)
-		})
-	}
+	}	
 
 	checkUser(id, e){
 		console.log(e.target.checked)

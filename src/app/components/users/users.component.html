@@ -53,7 +53,7 @@
 					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
 					<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>40)? (customer.about | slice:0:40)+'..':(customer.about) }}</p>
 				</div>
-				<div class="ml-auto right-arrow">
+				<div *ngIf="customerPermission[1] != undefined" class="ml-auto right-arrow">
 					<i class="fa fa-angle-right"></i>
 				</div>
 			</div>
