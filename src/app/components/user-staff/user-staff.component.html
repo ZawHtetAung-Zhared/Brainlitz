@@ -1,4 +1,4 @@
-<app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<app-header [ngClass]="{'stick': isSticky == true , 'hide': hideMenu}"></app-header>
 <!-- <div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
 		<div class="display-flex mr-top-menu">

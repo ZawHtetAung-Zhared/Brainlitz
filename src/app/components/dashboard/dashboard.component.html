@@ -47,7 +47,7 @@
             <h3 class="general">General</h3>
           </div>
           <div class="card-columns">
-            <div *ngIf="generalSidebar.UPDATEREGIONSETTINGS != undefined" class="card card-wrap region-wrap">
+            <div *ngIf="generalSidebar[1] != undefined" class="card card-wrap region-wrap">
               <div class="title">
                 Regional Settings
               </div>
@@ -97,7 +97,7 @@
                 <a (click)="updateRegionalInfo(item,'timezone')">Done</a>
               </div>
             </div>  
-            <div *ngIf="generalSidebar.UPDATEAPPSETTINGS != undefined" class="card card-wrap">
+            <div *ngIf="generalSidebar[0] != undefined" class="card card-wrap">
               <div class="title">
                 App Settings
               </div>

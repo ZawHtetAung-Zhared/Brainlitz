@@ -70,14 +70,14 @@ export class DashboardComponent implements OnInit {
 
   checkPermission(){
     console.log(this.permissionType)
-    this.generalSidebar = ['UPDATEAPPSETTINGS', 'UPDATEREGIONSETTINGS'];
+    this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
     this.locationSidebar = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION' ];
       
    
     this.generalSidebar = this.generalSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     this.locationSidebar = this.locationSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     
-    if(this.generalSidebar.includes('UPDATEREGIONSETTINGS')){
+    if(this.generalSidebar.includes('UPDATEREGIONALSETTINGS')){
       this.getAdministrator();
     }else if(this.generalSidebar.includes('UPDATEAPPSETTINGS')){
       this.isModuleList(); 
@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit {
       this.item.name = res.name;
       this.item.timezone = res.timezone;
       this.item.url = res.url
-      console.log('~~~', this.item, ' nweni.win@villagelink.co,  hr@villagelink.co ')
+      console.log('~~~', this.item)
       localStorage.setItem('timezone', this.item.timezone)
       // let test=moment().tz("Singapore").format();
       // console.log(test)

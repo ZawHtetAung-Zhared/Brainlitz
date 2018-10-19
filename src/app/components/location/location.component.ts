@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 declare var $: any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-location',
@@ -18,10 +19,10 @@ declare var $: any;
 export class LocationComponent implements OnInit {	
 	// @ViewChild('categoryForm') form: any;
 	@Input() fullValue: string;
-  	@Output() fullValueChange = new EventEmitter<string>();
+  @Output() fullValueChange = new EventEmitter<string>();
 	@Input() value: string;
 	@Output() valueChange = new EventEmitter<string>();
-  	@ViewChild('intlInput') intlInput: ElementRef;
+  @ViewChild('intlInput') intlInput: ElementRef;
 	public limitno: Location;
 	public PHpattern: any;
 	public result: any;
@@ -46,67 +47,67 @@ export class LocationComponent implements OnInit {
 	private modalReference: NgbModalRef;
 	closeResult: string;
 	public wordLength:any = 0;
+	public permissionType:any;
+	public locPermission:any = [];
 	@BlockUI() blockUI: NgBlockUI;
 
-	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
 		this.toastr.setRootViewContainerRef(vcr);
 		this._service.getLocations(this.regionID, 20, 0, false);
 	}
 
 	ngOnInit() {
-		this.getAllLocation(20,0);
+		this._service.permissionList.subscribe((data) => {
+		  if(this.router.url === '/dashboard'){
+		    this.permissionType = data;
+		    console.log(this.permissionType)
+		    this.checkPermission();
+		  }
+		});
+		// 
 	}
 
-    @HostListener('window:scroll', ['$event']) onScroll($event){
-	    // console.log($event);
-	    // console.log("scrolling");
-	    // console.log(window.pageYOffset)
-	    // if(window.pageYOffset > 40){
-	    //   console.log('greater than 100')
-	    //   this.navIsFixed = true;
-	    // }else{
-	    //   console.log('less than 100')
-	    //   this.navIsFixed = false;
-	    // }
-	  } 
-
-	  focusMethod(e, word){
-	  	this.wordLength = word.length;
-	  	$('.limit-wordcount').show('slow'); 
+	checkPermission(){
+	  console.log(this.permissionType)
+	  this.locPermission = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
+	  this.locPermission = this.locPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+	  if(this.locPermission.length > 0){
+		  this.getAllLocation(20,0);
+	  }else{
+	  	this.locationLists = [];
 	  }
+	}
 
-	  blurMethod(e){
-	  	this.wordLength = 0;
-	    $('.limit-wordcount').hide('slow'); 
-	  }
+    
 
-	  changeMethod(val : string){
-	    console.log(val)
-	    this.wordLength = val.length;
-	  }
+  focusMethod(e, word){
+  	this.wordLength = word.length;
+  	$('.limit-wordcount').show('slow'); 
+  }
 
-	  charCheck(val){
-	  	console.log(val)
-	  	console.log(isNaN(val))
-	  	if(isNaN(val) == true){
-	  		this.isnumber = true;
-	  	}else{
-	  		this.isnumber = false;
-	  	}
-	  	// this.isnumber = true;
-	  }
+  blurMethod(e){
+  	this.wordLength = 0;
+    $('.limit-wordcount').hide('slow'); 
+  }
+
+  changeMethod(val : string){
+    console.log(val)
+    this.wordLength = val.length;
+  }
+
+  charCheck(val){
+  	console.log(val)
+  	console.log(isNaN(val))
+  	if(isNaN(val) == true){
+  		this.isnumber = true;
+  	}else{
+  		this.isnumber = false;
+  	}
+  	// this.isnumber = true;
+  }
 
 	telInputObject(obj) {
 	    console.log(obj);
-	 //    console.log(obj[0].placeholder);
-	 //    var str = obj[0].placeholder
-		// console.log(str.replace(/\s/g, ''))
-		// const strLength = str.replace(/\s/g, '');
-		// this.limitno = strLength.length;
-		// this.PHpattern = '[0-9]{' + this.limitno + '}';
-
-		// console.log(this.PHpattern)
-	 //    console.log(obj[0].placeholder.length);
 	    if(this.isUpdate != true){
 	    	console.log('create')
 	    	obj.intlTelInput('setCountry', 'sg');
@@ -141,48 +142,39 @@ export class LocationComponent implements OnInit {
 		this.getNumber(e)
 		// this.hasError(e)
 	}
-  	hasError(e){
-  		// console.log(e)
-  		// let intel = $('.intl-tel-input input');
-  		// console.log(intel[0].placeholder)
-  		// var str = intel[0].placeholder;
-  		// console.log( str.replace(/\s/g, '') );
-  		// var str = str.replace(/\s/g, '');
-  		// console.log( str.length );
-  		this.isvalid = e;
-  		this.isrequired = e;
-  		console.log(this.isrequired)
-  		// this.isequal = (this.isrequired == false) ? true : false;
-  	}
-  	creatnew(){
-  		this.locationLists = [];
-  		this.iscreate = true;
-  		this.isUpdate = false;
-  		this.isvalid = false;
-  		this.isrequired = true;
-  		this.model = {};
-  	}
-  	back(){
-  		this.locationLists = [];
-	    this.iscreate = false
-	    this.isUpdate = false 
-	    this.getAllLocation(20,0)	
-  	}
-  	keyDownFunction(e){
-  		if(e.keyCode == 13) {
-  		    console.log('you just clicked enter');
-  		    // rest of your code
-  		  }
-  	}
-	// open(locationModal) {
-	// 	this.model = new Location();
-	//   this.modalReference = this.modalService.open(locationModal, {backdrop:'static', windowClass:'animation-wrap'});
-	//   this.modalReference.result.then((result) => {
-	//     this.closeResult = `Closed with: ${result}`;	    
-	//   }, (reason) => {
-	//     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;	    
-	//   });
-	// }
+	hasError(e){
+		// console.log(e)
+		// let intel = $('.intl-tel-input input');
+		// console.log(intel[0].placeholder)
+		// var str = intel[0].placeholder;
+		// console.log( str.replace(/\s/g, '') );
+		// var str = str.replace(/\s/g, '');
+		// console.log( str.length );
+		this.isvalid = e;
+		this.isrequired = e;
+		console.log(this.isrequired)
+		// this.isequal = (this.isrequired == false) ? true : false;
+	}
+	creatnew(){
+		this.locationLists = [];
+		this.iscreate = true;
+		this.isUpdate = false;
+		this.isvalid = false;
+		this.isrequired = true;
+		this.model = {};
+	}
+	back(){
+		this.locationLists = [];
+    this.iscreate = false
+    this.isUpdate = false 
+    this.getAllLocation(20,0)	
+	}
+	keyDownFunction(e){
+		if(e.keyCode == 13) {
+		    console.log('you just clicked enter');
+		    // rest of your code
+		  }
+	}
 
 	private getDismissReason(reason: any): string {
 	  if (reason === ModalDismissReasons.ESC) {
@@ -221,14 +213,6 @@ export class LocationComponent implements OnInit {
     				}
     			}
     		}
-		      // if(this.locationID){
-		      //   for(var i = 0; i < this.locationLists.length; i++){
-		      //     if(this.locationLists[i]._id == locationId){
-		      //       this.locationLists[i].selected = true;
-		      //       localStorage.setItem('locationId', this.locationLists[i]._id);
-		      //     }
-		      //   }
-		      // }
 	    }, err => {
 	    	console.log(err)
 	    })
@@ -242,16 +226,6 @@ export class LocationComponent implements OnInit {
 		console.log("Location Obj",obj)
 		console.log(obj.phonenumber)
 		var phNum;
-		// if(obj.phonenumber != undefined && obj.phonenumber.length !=  0){
-		// 	var txt = obj.phonenumber;
-		// 	console.log(txt.match(/\d/g))
-		// 	var numb = txt.match(/\d/g);
-		// 	numb = numb.join("");
-		// 	console.log(numb);​
-		// 	phNum = numb
-		// }else{
-		// 	phNum = null
-		// }
 
 		phNum = (obj.phonenumber == undefined || obj.phonenumber.length ==  0) ? null: parseInt(obj.phonenumber);
 		console.log("PhNum",phNum)

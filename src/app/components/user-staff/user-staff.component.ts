@@ -24,6 +24,7 @@ export class UserStaffComponent implements OnInit {
   	showFormCreate: boolean = false;
   	emailAlert: boolean = false;
   	public permissionCount: boolean = false;
+  	public hideMenu: boolean = false;
   	public img: any;
   	public ulFile: any;
   	permissionLists: any;
@@ -159,6 +160,7 @@ export class UserStaffComponent implements OnInit {
 		this.staffLists = [];
 		this.showFormCreate = true;
 		this.permissionCount = false;
+		this.hideMenu = true;
 		console.log('create')
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
@@ -311,6 +313,7 @@ export class UserStaffComponent implements OnInit {
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
+		this.hideMenu = false;
 		this.imgDemoSlider = false;
 		this.isupdate = false;
 		this.isSearch = false;
@@ -433,6 +436,7 @@ export class UserStaffComponent implements OnInit {
 	backToUpload(){
 		this.validProfile = false;
 		this.imgDemoSlider = false;
+		this.hideMenu = false;
 		$(".frame-upload").css('display', 'none');
 	}
 
@@ -458,6 +462,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	backToStaff(){
+		this.hideMenu = false;
 		// this.formFieldc = new customer();
 		this.showStaffDetail = false;
 		this.isupdate = false;

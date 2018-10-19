@@ -1,3 +1,6 @@
+.hide{
+    display: none;
+}
 .limit-wordcount,.limit-wordcount1{
   display: none;
   font-size: 14px;
