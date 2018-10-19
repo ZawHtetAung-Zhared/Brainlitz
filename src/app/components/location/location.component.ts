@@ -29,6 +29,7 @@ export class LocationComponent implements OnInit {
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
 	public locationID = localStorage.getItem('locationId');
+	public currentLocation = localStorage.getItem('locationId');
 	public locationLists: Array<any> = [];
 	public isUpdate: boolean = false;
 	public isempty: boolean = false;
@@ -54,22 +55,35 @@ export class LocationComponent implements OnInit {
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
 		this.toastr.setRootViewContainerRef(vcr);
 		this._service.getLocations(this.regionID, 20, 0, false);
+		
+		this._service.locationID.subscribe((data) => {
+			console.log('=======', data)
+      if(this.router.url === '/dashboard'){
+        console.log('~~~~',this.router.url)
+        this.currentLocation = data;
+        console.log(this.currentLocation) 
+        if(this.currentLocation != localStorage.getItem('previousLID')){
+        	this.checkPermission();
+        }else{
+        	this.checkPermission();
+        }
+      }else{
+        // console.log('====',this.router.url)
+      }
+    });
 	}
 
-	ngOnInit() {
-		this._service.permissionList.subscribe((data) => {
+	ngOnInit() {		
 		  if(this.router.url === '/dashboard'){
-		    this.permissionType = data;
+		    this.permissionType = localStorage.getItem('permission');
 		    console.log(this.permissionType)
-		    this.checkPermission();
-		  }
-		});
+		  }		
 		// 
 	}
 
 	checkPermission(){
 	  console.log(this.permissionType)
-	  this.locPermission = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
+	  this.locPermission = ['ADDNEWLOCATION','EDITLOCATION','DELETELOCATION'];
 	  this.locPermission = this.locPermission.filter(value => -1 !== this.permissionType.indexOf(value));
 	  if(this.locPermission.length > 0){
 		  this.getAllLocation(20,0);

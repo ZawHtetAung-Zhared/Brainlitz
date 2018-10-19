@@ -45,6 +45,10 @@ export class HeaderComponent implements OnInit {
       console.log('!undefined')
       this.getAllLocation();
     }
+
+    if(this._router.url != '/dashboard'){
+      localStorage.removeItem('permission');
+    }
   }
 
   logoff(){

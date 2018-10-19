@@ -114,10 +114,8 @@ export class appService{
     }
 
     setLocationId(value) {
-      this.itemValue.next(value); // this will make sure to tell every subscriber about the change.
-       localStorage.setItem('theItem', value);
-      let locationTemp = localStorage.getItem('theItem');
-      this.getLocationID.next(locationTemp)
+      this.itemValue.next(value); // this will make sure to tell every subscriber about the change.      
+      this.getLocationID.next(value)
     }
 
     showPermission(data){
