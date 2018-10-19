@@ -7,8 +7,8 @@ import { Bounds } from 'ng2-img-cropper/src/model/bounds';
 import { Staff } from './staff';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-import { environment } from '../../../environments/environment';
 declare var $: any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-staff',
@@ -56,7 +56,7 @@ export class UserStaffComponent implements OnInit {
 	result:any;
 	public customFields:any = [];
 
-	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,  private router: Router) {
 		this.toastr.setRootViewContainerRef(vcr);  		
    	}
 

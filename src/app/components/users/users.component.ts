@@ -15,6 +15,7 @@ import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
+import { Router } from '@angular/router';
 
 declare var $:any;
 
@@ -26,6 +27,7 @@ declare var $:any;
 export class UsersComponent implements OnInit {
 
 	@ViewChild('stuffPic') stuffPic: ElementRef;		
+	public hideMenu: boolean = false;
 	public img: any;
 	public ulFile: any;
 	public defaultSlice: number = 2;
@@ -34,6 +36,7 @@ export class UsersComponent implements OnInit {
 	public locationID = localStorage.getItem('locationId');	
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
+	xxxx:any = {};	
 	@ViewChild("cropper", undefined)
 	cropper: ImageCropperComponent;
 	resetCroppers: Function;
@@ -64,6 +67,7 @@ export class UsersComponent implements OnInit {
 	public updateButton: boolean = false;
   	public createButton: boolean = true;
   	showFormCreate: boolean = false;
+  	addNewCustomer: boolean = false;
   	public navIsFixed: boolean = false;
   	public isCreateFix: boolean = false;
   	public atLeastOneMail: boolean = false;
@@ -73,11 +77,10 @@ export class UsersComponent implements OnInit {
   	public showCustDetail:boolean = false;
   	public isFous:boolean = false;
   	public custDetail:any = {};
-  	public testParagraph = "Make it easier for recruiters and hiring managers to quickly understand your skills and experience. skil test test test";
-  	public seeAll = false;
   	public wordLength:number = 0;
   	divHeight:any;
   	public customFields:any = [];
+  	public customerPermission:any = [];
 
   	// enroll class
   	searchData: any={};
@@ -88,16 +91,21 @@ export class UsersComponent implements OnInit {
 	result:any;
 	isACSearch:boolean = false;
 	acWord:any;
-  	public testArray = ['1','2','3'];
+	public permissionType: any;
 
-	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) { 	
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 
 	ngOnInit() {
 		this.blankCrop = false; 
-		this.getAllUsers('customer', 20, 0);
+		this._service.permissionList.subscribe((data) => {
+		  if(this.router.url === '/customer'){
+		    this.permissionType = data;
+		    this.checkPermission();
+		  }
+		});
 	}
 
 	ngAfterViewInit() {
@@ -121,7 +129,18 @@ export class UsersComponent implements OnInit {
 	      this.navIsFixed = false;
 	      this.isCreateFix = false;
 	    }
+	}
 
+	checkPermission(){
+		console.log(this.permissionType)
+		this.customerPermission = ['CREATECUSTOMERS','VIEWCUSTOMERS','EDITCUSTOMERS','DELETECUSTOMERS','ENROLLCOURSE'];		
+		this.customerPermission = this.customerPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
+			this.getAllUsers('customer', 20, 0);
+		}else{
+	      console.log('permission deny')
+	      this.customerLists = [];
+	    }
 	}
 
 	getSingleInfo(ID){
@@ -339,7 +358,7 @@ export class UsersComponent implements OnInit {
 
 	edit(id, type, modal){
 		console.log(id);
-		this.getAllpermission();
+		// this.getAllpermission();
 		this.blankCrop= true;
 		this.notShowEdit = false;
 		this.updateButton = true;
@@ -367,7 +386,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	getAllUsers(type, limit, skip){
-		console.log('hihihihi')
+		console.log('calling all users ....')
 		console.log('....', this.customerLists)
 		this.blockUI.start('Loading...');		
 		this._service.getAllUsers(this.regionID, type, limit, skip)
@@ -386,13 +405,13 @@ export class UsersComponent implements OnInit {
 	    })
 	}
 
-	getAllpermission(){
-		this._service.getAllPermission(this.regionID)
-		.subscribe((res:any) => {
-			this.permissionLists = res;
-			console.log('this.permissionLists', this.permissionLists);
-		})
-	}
+	// getAllpermission(){
+	// 	this._service.getAllPermission(this.regionID)
+	// 	.subscribe((res:any) => {
+	// 		this.permissionLists = res;
+	// 		console.log('this.permissionLists', this.permissionLists);
+	// 	})
+	// }
 
 	// getAllLocation(){
 	// 	this._service.getLocations(this.regionID, 20, 0, false)
@@ -432,11 +451,21 @@ export class UsersComponent implements OnInit {
 	  }	
 	}
 
+	cancel(){
+		this.addNewCustomer = false;
+	}
+
+	createNew(type){
+		this.addNewCustomer = true;
+	}
+
 	goCreateForm(type){
+		this.hideMenu = true;
 		console.log("TYPE",type);
 		this.isCrop = false;
 		this.customerLists = [];
 		this.showFormCreate = true;
+		
 		console.log('create');
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
@@ -451,18 +480,22 @@ export class UsersComponent implements OnInit {
 	}
 
 	back(){
+		this.hideMenu = false;
 		this.formFieldc = new customer();
 		this.isupdate = false;
 		console.log('back');
-		this.showFormCreate = false;
+		this.showFormCreate = false;	
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
 		this.customerLists = [];
-		this.getAllUsers('customer', 20, 0);
+		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
+			this.getAllUsers('customer', 20, 0);
+		}
 	}
 
 	backToDetails(){
+		this.hideMenu = true;
 		this.formFieldc = new customer();
 		this.showFormCreate = false;
 		this.blankCrop = false;
@@ -565,6 +598,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	backToUpload(){
+		this.hideMenu = false;
 		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
@@ -572,6 +606,7 @@ export class UsersComponent implements OnInit {
 
 
 	showDetails(ID){
+		this.hideMenu = false;
 		this.customerLists = [];
 		console.log(ID);
 		this.editId = ID;
@@ -591,9 +626,11 @@ export class UsersComponent implements OnInit {
 				this.custDetail.ratings[i].updatedDate = moment(d, format).tz(zone).format(format);
 			}
 		})
-	}
+	}	
 
 	backToCustomer(){
+		this.hideMenu = false;
+		console.log('back')
 		this.formFieldc = new customer();
 		this.showCustDetail = false;
 		this.isupdate = false;
@@ -606,7 +643,9 @@ export class UsersComponent implements OnInit {
 		$(".frame-upload").css('display', 'none');
 		this.customerLists = [];
 		console.log(this.customerLists)
-		this.getAllUsers('customer', 20, 0);
+		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
+			this.getAllUsers('customer', 20, 0);
+		}
 	}
 	
 	selectedId:any=[];

@@ -17,8 +17,22 @@ export class HeaderComponent implements OnInit {
   public headerlocationLists: any;
   public accessToken: any;
   public currentLocationID: any;
+  public customerMenu: any = [];
+  public staffMenu: any = [];
+  public courseMenu: any = [];
+  public reportMenu: any = [];
+  public toolsMenu: any = [];
+  public previousLocation:any = '';
   
   constructor(private _router: Router, private _service: appService) {
+    console.log(this.currentLocationID)
+    console.log('.....',localStorage.getItem('locationId'))
+    // if(localStorage.getItem('locationId') != localStorage.getItem('previousLID')){
+    //   console.log('not same')
+      
+    // }else{
+    //   console.log('same')
+    // }
     this._service.sendData.subscribe((data) => {
         this.headerlocationLists = data; 
     })
@@ -40,12 +54,13 @@ export class HeaderComponent implements OnInit {
 	}
 
   getAllLocation(){
-    console.log('afterclick region', this.regionID)
     this._service.getHeaderLocations(this.regionID, '', '', true)
     .subscribe((res:any) => {
       this.headerlocationLists = res; 
-      console.log('header headerlocationLists',this.headerlocationLists)
+      
       this.currentLocationID  = localStorage.getItem('locationId');
+      console.log(this.currentLocationID)
+      localStorage.setItem('previousLID', this.currentLocationID);
       if(this.currentLocationID){
         for(var i = 0; i < this.headerlocationLists.length; i++){
           if(this.headerlocationLists[i]._id == this.currentLocationID){
@@ -53,7 +68,7 @@ export class HeaderComponent implements OnInit {
             localStorage.setItem('locationId', this.headerlocationLists[i]._id);
           }
         }
-        // this.setPermission(this.currentLocationID);
+        this.setPermission(this.currentLocationID);
       }else{
         console.log('no location has choosen')
       } 
@@ -62,7 +77,8 @@ export class HeaderComponent implements OnInit {
       let regionId  = localStorage.getItem('regionId');
       if(!localStorage.getItem('locationId')){
         localStorage.setItem('locationId', this.headerlocationLists[0]._id);
-        this.setPermission(this.headerlocationLists[0]._id);
+        localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
+        this.setPermission(this.headerlocationLists[0]._id);        
       } 
       
     }, err => {
@@ -74,7 +90,13 @@ export class HeaderComponent implements OnInit {
     this._service.getPermission(id)
     .subscribe((res:any) => {
       console.log(res)
-      this._service.showPermission(res);
+
+      // if(this.currentLocationID != localStorage.getItem('previousLID')){
+        
+        this.showMenuPerPermission(res)
+        this._service.showPermission(res);
+      
+      
     }, err => {
       console.log(err)
     })
@@ -85,9 +107,26 @@ export class HeaderComponent implements OnInit {
     localStorage.setItem('locationId', LocationId);
     if(this.currentLocationID != LocationId){
       console.log('different location')
+      this.currentLocationID = LocationId
       this.setPermission(LocationId)
+    }else{
+      console.log('same location')
     }
     this._service.setLocationId(LocationId);
+  }
+
+  showMenuPerPermission(data){
+    this.customerMenu = ['CREATECUSTOMERS','VIEWCUSTOMERS','EDITCUSTOMERS','DELETECUSTOMERS','ENROLLCOURSE'];
+    this.staffMenu = ['CREATESTAFFS','EDITSTAFFS','VIEWSTAFFS','DELETESTAFFS'];
+    this.courseMenu = ['CREATECOURSE','VIEWCOURSE','EDITCOURSE','DELETECOURSE','ASSIGNTEACHER','ASSIGNSTUDENTS'];
+    this.reportMenu = ['VIEWREPORT','EXPORTREPORT'];
+    this.toolsMenu = ['SENDNOTIFICATION','VIEWSENDHISTORY'];
+
+    this.customerMenu = this.customerMenu.filter(value => -1 !== data.indexOf(value));
+    this.staffMenu = this.staffMenu.filter(value => -1 !== data.indexOf(value));
+    this.courseMenu = this.courseMenu.filter(value => -1 !== data.indexOf(value));
+    this.reportMenu = this.reportMenu.filter(value => -1 !== data.indexOf(value));
+    this.toolsMenu = this.toolsMenu.filter(value => -1 !== data.indexOf(value));
   }
 
   dropMenuShow: boolean = false;
@@ -95,12 +134,10 @@ export class HeaderComponent implements OnInit {
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
         if(this.dropMenuShow == false){
-           $('.dropdown-box').css('display', 'none');
-           // $('.bg-box').css('display', 'none');  
+           $('.dropdown-box').css('display', 'none'); 
         }
         else {
             $('.dropdown-box').css('display', 'block');
-            // $('.bg-box').css('display', 'block');
             this.dropMenuShow = false;
 
         }

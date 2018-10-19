@@ -11,10 +11,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 
-import { ApgComponent } from '../apg/apg.component';
-import { CalendarComponent } from '../calendar/calendar.component';
-import { QuizwerkzComponent } from '../quizwerkz/quizwerkz.component';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tools',
@@ -26,10 +23,6 @@ export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('mainScreen') elementView: ElementRef;
-
-  @ViewChild(ApgComponent) alertAPG: ApgComponent;
-  @ViewChild(CalendarComponent) alertCal: CalendarComponent;
-  @ViewChild(QuizwerkzComponent) alertQW: QuizwerkzComponent;
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
@@ -71,22 +64,25 @@ export class ToolsComponent implements OnInit {
   public totalHeight:any;
   public yOffset:any;
   public todayDate:any;
-  // public yesterdayDate:any;
 
-  // test
-  public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
-
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef, private datePipe: DatePipe ) { 
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef, private datePipe: DatePipe, private router: Router ) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
-        this.locationId = data;
+      if(this.router.url === '/tools'){
+        console.log('~~~~',this.router.url)
         console.log(this.locationId) 
+        this.locationId = data;
         this.setDefaultSelected();
+      }else{
+        console.log('====',this.router.url)
+      }
     });
+    
     window.scroll(0,0);
   }
 
   ngOnInit() {
+    console.log()
     this.locationId = localStorage.getItem('locationId');
     this.notiType = 'send';
     this.setDefaultSelected();

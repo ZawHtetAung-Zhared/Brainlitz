@@ -7,6 +7,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment-timezone';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,16 +41,18 @@ export class DashboardComponent implements OnInit {
   public customSidebar:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0,0);
   }
 
   ngOnInit() {
     this._service.permissionList.subscribe((data) => {
+      if(this.router.url === '/dashboard'){
         this.permissionType = data;
         console.log(this.permissionType)
         this.checkPermission();
+      }
     });
   }
 
