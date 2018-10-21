@@ -53,8 +53,8 @@ export class CourseComponent implements OnInit {
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
- 
-
+  public permissionType: any;
+  public coursePermission:any = [];
   
   public draft:boolean;
 
@@ -101,11 +101,34 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.getCourseLists(20, 0);
+  	
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
-    this.getCPlanList();
+    
     this.activeTab = 'People';
+
+    this._service.permissionList.subscribe((data) => {
+      if(this.router.url === '/course'){
+        this.permissionType = data;
+        this.checkPermission();
+      }
+    });
+
+  }
+
+
+  checkPermission(){
+    console.log(this.permissionType)
+    this.coursePermission = ["CREATECOURSE","VIEWCOURSE","EDITCOURSE","DELETECOURSE","ASSIGNTEACHER","ASSIGNSTUDENTS","CREATECOURSEPLAN","VIEWCOURSEPLAN","EDITCOURSEPLAN"];    
+    this.coursePermission = this.coursePermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    console.log(this.coursePermission.includes('VIEWCOURSE'))
+    if(this.coursePermission.includes('VIEWCOURSE') != false){      
+      this.getCPlanList();
+      this.getCourseLists(20, 0);
+    }else{
+        console.log('permission deny')
+        this.courseList = [];
+      }
   }
 
   ngAfterViewInit() {

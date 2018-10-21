@@ -11,7 +11,7 @@
             </span>
           </button>
         </div>
-        <div [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
+        <div *ngIf="locationSidebar.length > 0" [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('location')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'location'" class="setting-icon" src="./assets/images/sidebar-location_a@2x.png">

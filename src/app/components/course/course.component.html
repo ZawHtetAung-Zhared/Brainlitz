@@ -5,7 +5,7 @@
     <div class="title"><h3 class="header-font">Courses</h3></div>
     <div class="card-columns">
       <div class="card btn-card">
-        <button class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
+        <button *ngIf="coursePermission[6] != undefined" class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
           <p class="addCourseBtn">+</p>
           <p class="btn-largeLabel">Add new course plan</p>
         </button>
@@ -61,8 +61,8 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
-                    <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == true && coursePermission[1] != undefined" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == false && coursePermission[1] != undefined" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
                     <span *ngIf="course.teacher != undefined" class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     </span>
                     <span *ngIf="course.teacher == undefined" class="staff-info medium-font">-
@@ -78,7 +78,7 @@
                       </div>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
-                      <button *ngIf="course.seat_left != 0" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, 'outside', course._id)">
+                      <button *ngIf="course.seat_left != 0 && coursePermission[5] != undefined" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, 'outside', course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
                       </button>
@@ -89,7 +89,7 @@
             </div>
           </div>
           <div class="link-wrap">
-            <a class="link-btn" (click)="addNewCourse(courseGroup.coursePlan)">Add new course</a>
+            <a *ngIf="coursePermission[0] != undefined" class="link-btn" (click)="addNewCourse(courseGroup.coursePlan)">Add new course</a>
           </div>
         </div>
       </div>
@@ -209,7 +209,7 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
+              <button *ngIf="coursePermission[4] != undefined" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -248,7 +248,7 @@
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
-              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
+              <button *ngIf="coursePermission[5] != undefined" type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
