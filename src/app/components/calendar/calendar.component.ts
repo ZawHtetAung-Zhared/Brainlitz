@@ -7,7 +7,7 @@ import { calendarField } from './calendar';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
-
+import { Router } from '@angular/router';
 declare var $:any;
 
 @Component({
@@ -63,20 +63,42 @@ export class CalendarComponent implements OnInit {
   public testDate = {year: 2019, month: 1, day: 1};
   public navigation = 'Without select boxes';
   public sameDate:boolean = false;
+  public permissionType:any;
+  public calendarPermission:any = [];
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar) { 
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar, private router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.locationID.subscribe((data) => {
+      if(this.router.url === '/tools'){
+        this._service.permissionList.subscribe((data) => {
+          console.log('from calendar')
+          this.permissionType = data;
+          this.checkPermission();
+        });
+  
+      }else{
+        console.log('====',this.router.url)
+      }
+    });
   }
 
-  ngOnInit() {
-    this.getAllHolidaysCalendar(20, 0);
-    this.currentYear = (new Date()).getFullYear();
-    console.log(this.currentYear)    
+  ngOnInit() {  
+    if(this.router.url === '/tools'){
+      this.permissionType = localStorage.getItem('permission');
+      this.checkPermission();
+    }  
   }
 
-  getContentHeight(){
-    let hit = $('.min-scroll').height();
-    return hit;
+  checkPermission(){
+    console.log(this.permissionType)
+    this.calendarPermission = ["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"];
+    this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    if(this.calendarPermission.length > 0){
+      this.getAllHolidaysCalendar(20, 0);
+      this.currentYear = (new Date()).getFullYear();
+    }else{
+      this.calendarLists = [];
+    }
   }
 
   onDateSelect(e){

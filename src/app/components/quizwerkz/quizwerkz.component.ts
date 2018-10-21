@@ -8,6 +8,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quizwerkz',
@@ -34,32 +35,43 @@ export class QuizwerkzComponent implements OnInit {
   public result: any;
   public wordLength:number = 0;
   viewQuiz: any;
+  public permissionType:any;
+  public pdfPermission:any = [];
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.locationID.subscribe((data) => {
+      if(this.router.url === '/tools'){
+        this._service.permissionList.subscribe((data) => {
+          console.log('from quizwerkz')
+          this.permissionType = data;
+          this.checkPermission();
+        });
+  
+      }else{
+        console.log('====',this.router.url)
+      }
+    });
+
   }
 
   ngOnInit() {
-  	this.getAllPdf(20, 0);
+    if(this.router.url === '/tools'){
+      this.permissionType = localStorage.getItem('permission');
+      this.checkPermission();
+    } 
   }
 
-  getContentHeight(){
-    let hit = $('.min-scroll').height();
-    return hit;
+  checkPermission(){
+    console.log(this.permissionType)
+    this.pdfPermission = ["VIEWQUIZWERKZ","CREATEQUIZWERKZ","EDITQUIZWERKZ","DELETEQUIZWERKZ"];
+    this.pdfPermission = this.pdfPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    if(this.pdfPermission.length > 0){
+      this.getAllPdf(20, 0);
+    }else{
+      this.pdfList = [];
+    }
   }
-
-  @HostListener('window:scroll', ['$event']) onScroll($event){
-    // console.log($event);
-    // console.log("scrolling");
-    // console.log(window.pageYOffset)
-    // if(window.pageYOffset > 40){
-    //   console.log('greater than 100')
-    //   this.navIsFixed = true;
-    // }else{
-    //   console.log('less than 100')
-    //   this.navIsFixed = false;
-    // }
-  } 
   
   cancel(){
     this.pdfList = [];

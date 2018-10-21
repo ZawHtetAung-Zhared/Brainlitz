@@ -9,6 +9,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-apg',
@@ -16,10 +17,6 @@ declare var $:any;
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-
-  	constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
-  		this.toastr.setRootViewContainerRef(vcr);
-  	}
 
     public model:any = {};
     public dataVal:any = {};
@@ -79,15 +76,51 @@ export class ApgComponent implements OnInit {
     public singleCheckedAPG: boolean = false;
     responseAP: any;
     wordLength:any = 0;
+    public permissionType:any;
+    public apgPermission:any = [];
 
-  	ngOnInit() {
-	  	this.getAllModule();
-	  	this.getAllAPG(20,0);
+
+    constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private router: Router) { 
+      this.toastr.setRootViewContainerRef(vcr);
+
+
+      this._service.locationID.subscribe((data) => {
+        if(this.router.url === '/tools'){
+          this._service.permissionList.subscribe((data) => {
+            console.log('from apg')
+            this.permissionType = data;
+            this.checkPermission();
+          });
+    
+        }else{
+          console.log('====',this.router.url)
+        }
+      });
+    }
+
+  	ngOnInit() {	  	
       this.dataVal = {
         '_id': '',
         'moduleId': '',
       }
-  	}
+
+      if(this.router.url === '/tools'){
+        this.permissionType = localStorage.getItem('permission');
+        this.checkPermission();
+      }  
+  	}    
+
+    checkPermission(){
+      console.log(this.permissionType)
+      this.apgPermission = ["CREATEAPG","CREATEAP"];
+      this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+      if(this.apgPermission.length > 0){
+        this.getAllModule();
+        this.getAllAPG(20,0);
+      }else{
+        this.apgList = [];
+      }
+    }
 
     
     getContentHeight(){

@@ -50,7 +50,7 @@ export class LocationComponent implements OnInit {
 	public wordLength:any = 0;
 	public permissionType:any;
 	public locPermission:any = [];
-	public locationHasChanged:any
+	
 	@BlockUI() blockUI: NgBlockUI;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {

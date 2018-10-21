@@ -65,6 +65,12 @@ export class ToolsComponent implements OnInit {
   public yOffset:any;
   public todayDate:any;
 
+  public permissionType: Array<any> = [];
+  public notiSidebar:any = [];
+  public apgSidebar:any = [];
+  public quizwerkzSidebar:any = [];
+  public calendarSidebar:any = [];
+
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef, private datePipe: DatePipe, private router: Router ) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
@@ -87,60 +93,47 @@ export class ToolsComponent implements OnInit {
     this.notiType = 'send';
     this.setDefaultSelected();
     this.item.sendType = 'app';
-  }  
+
+
+    this._service.permissionList.subscribe((data) => {
+      if(this.router.url === '/tools'){
+        this.permissionType = data;
+        console.log(this.permissionType)
+        this.checkPermission();
+        localStorage.setItem('permission', JSON.stringify(data))
+      }
+    });
+  }
+
+  checkPermission(){
+    console.log(this.permissionType)
+    this.notiSidebar = ["SENDNOTIFICATION","VIEWSENDHISTORY"];
+    this.apgSidebar = ["CREATEAPG"];
+    this.quizwerkzSidebar =["VIEWQUIZWERKZ","CREATEQUIZWERKZ","EDITQUIZWERKZ","DELETEQUIZWERKZ"]
+    this.calendarSidebar  =["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"]
+      
+    this.notiSidebar = this.notiSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.apgSidebar = this.apgSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.quizwerkzSidebar = this.quizwerkzSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.calendarSidebar = this.calendarSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+        
+    if(this.notiSidebar.length > 0){
+      console.log('noti')
+    }else{
+      console.log('permission deny')
+    }
+  }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
     this.windowH = window.innerHeight;
-    // console.log(this.windowH)
-    // if(this.notiType == 'apg'){
-    //   this.apgH= this.alertAPG.getContentHeight();
-    //   console.log('apg content =', this.apgH)  
-    //   if(this.windowH < (this.apgH + 107)){
-    //     this.totalHeight = this.apgH + 107
-    //     // console.log(totalH)
-    //     const diff = this.totalHeight - this.windowH
-    //     console.log('content height is grater', diff);
-    //     this.scrollVal = diff;
-    //   }
-    // }else if(this.notiType == 'calendar'){
-    //   this.calH= this.alertCal.getContentHeight();
-    //   console.log('cal content =', this.calH)  
-    //   // console.log('cal content =', this.calH + 150)  
-    //   // console.log('windowH = ' , window.innerHeight)
-
-    //   if(this.windowH < (this.calH + 107)){
-    //     this.totalHeight = this.calH + 107
-    //     // console.log(totalHeight)
-    //     const diff = this.totalHeight - this.windowH
-    //     // console.log('content height is grater', diff);
-    //     this.scrollVal = diff;
-    //   }
-    // }else if(this.notiType == 'quizwerkz'){
-    //   this.qwH= this.alertQW.getContentHeight();
-    //   console.log('qw content =', this.qwH)  
-    //   console.log(this.windowH)  
-    //   if(this.windowH < (this.qwH + 107)){
-    //     this.totalHeight = this.qwH + 107
-    //     const diff = this.totalHeight - this.windowH
-    //     console.log('content height is grater', diff);
-    //     this.scrollVal = diff;
-    //   }
-    // }
-    // console.log(window.pageYOffset)
-    if (window.pageYOffset > 81) {
-      // console.log('if', window.pageYOffset)
+    if (window.pageYOffset > 81) {      
       this.isSticky = true;
       this.isMidStick = false;
-    } else {
-      // console.log('else', window.pageYOffset)
+    } else {      
       this.isSticky = false;
     }
-    
-    if (window.pageYOffset > 45) {
-      this.isMidStick = true;
-    }else{
-      this.isMidStick = false;
-    }
+
+    this.isMidStick = (window.pageYOffset > 45) ? true : false;
   }
   
   clickTab(type){

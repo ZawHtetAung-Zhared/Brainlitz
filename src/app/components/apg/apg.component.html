@@ -17,9 +17,9 @@
 				<span class="apg-longterm">Access Point Group</span>
 			</div>
 		</div>
-		<button type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
+		<button *ngIf="apgPermission[0] != undefined" type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
 	</div>
-	<div class="input-group col-md-12 mt-30">
+	<div *ngIf="apgPermission[0] != undefined" class="input-group col-md-12 mt-30">
 	    <input 
         class="form-control py-2 input-search-bg" 
         type="search" 
