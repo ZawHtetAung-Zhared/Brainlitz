@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
         this.permissionType = data;
         console.log(this.permissionType)
         this.checkPermission();
-        localStorage.setItem('permission', data)
+        localStorage.setItem('permission', JSON.stringify(data))
       }
     });
   }

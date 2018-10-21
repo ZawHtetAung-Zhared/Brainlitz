@@ -50,35 +50,30 @@ export class LocationComponent implements OnInit {
 	public wordLength:any = 0;
 	public permissionType:any;
 	public locPermission:any = [];
+	public locationHasChanged:any
 	@BlockUI() blockUI: NgBlockUI;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
 		this.toastr.setRootViewContainerRef(vcr);
 		this._service.getLocations(this.regionID, 20, 0, false);
-		
-		this._service.locationID.subscribe((data) => {
-			console.log('=======', data)
-      if(this.router.url === '/dashboard'){
-        console.log('~~~~',this.router.url)
-        this.currentLocation = data;
-        console.log(this.currentLocation) 
-        if(this.currentLocation != localStorage.getItem('previousLID')){
-        	this.checkPermission();
-        }else{
-        	this.checkPermission();
-        }
-      }else{
-        // console.log('====',this.router.url)
-      }
-    });
+		if(this.router.url === '/dashboard'){
+			console.log('in the dashboard')		
+	    this._service.permissionList.subscribe((data) => {  
+	    	if(this.router.url === '/dashboard'){
+	    		console.log('-----')      	  
+	        this.permissionType = data;
+	        this.checkPermission();    
+	      }    	  
+	    });
+		}
 	}
 
 	ngOnInit() {		
-		  if(this.router.url === '/dashboard'){
-		    this.permissionType = localStorage.getItem('permission');
-		    console.log(this.permissionType)
-		  }		
-		// 
+	  if(this.router.url === '/dashboard'){
+	    this.permissionType = localStorage.getItem('permission');
+	    this.checkPermission();
+	  }		
+		
 	}
 
 	checkPermission(){
