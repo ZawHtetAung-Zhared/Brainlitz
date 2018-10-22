@@ -55,6 +55,7 @@ export class CourseComponent implements OnInit {
   public goBackCat: boolean = false;
   public permissionType: any;
   public coursePermission:any = [];
+  public courseDemo:any = [];
   
   public draft:boolean;
 
@@ -122,6 +123,19 @@ export class CourseComponent implements OnInit {
     this.coursePermission = ["CREATECOURSE","VIEWCOURSE","EDITCOURSE","DELETECOURSE","ASSIGNTEACHER","ASSIGNSTUDENTS","CREATECOURSEPLAN","VIEWCOURSEPLAN","EDITCOURSEPLAN"];    
     this.coursePermission = this.coursePermission.filter(value => -1 !== this.permissionType.indexOf(value));
     console.log(this.coursePermission.includes('VIEWCOURSE'))
+    
+    
+    this.courseDemo['addCourse'] = (this.coursePermission.includes("CREATECOURSE")) ? 'CREATECOURSE' : '';
+    this.courseDemo['viewCourse'] = (this.coursePermission.includes("VIEWCOURSE")) ? 'VIEWCOURSE' : '';
+    this.courseDemo['editCourse'] = (this.coursePermission.includes("EDITCOURSE")) ? 'EDITCOURSE' : '';
+    this.courseDemo['deleteCourse'] = (this.coursePermission.includes("DELETECOURSE")) ? 'DELETECOURSE' : '';
+    this.courseDemo['assignTeacher'] = (this.coursePermission.includes("ASSIGNTEACHER")) ? 'ASSIGNTEACHER' : '';
+    this.courseDemo['assignStudent'] = (this.coursePermission.includes("ASSIGNSTUDENTS")) ? 'ASSIGNSTUDENTS' : '';    
+    this.courseDemo['createCP'] = (this.coursePermission.includes("CREATECOURSEPLAN")) ? 'CREATECOURSEPLAN' : '';
+    this.courseDemo['viewCP'] = (this.coursePermission.includes("VIEWCOURSEPLAN")) ? 'VIEWCOURSEPLAN' : '';
+    this.courseDemo['editCP'] = (this.coursePermission.includes("EDITCOURSEPLAN")) ? 'EDITCOURSEPLAN' : '';
+    
+
     if(this.coursePermission.includes('VIEWCOURSE') != false){      
       this.getCPlanList();
       this.getCourseLists(20, 0);
