@@ -15,6 +15,7 @@ export class ReportComponent implements OnInit {
 
 	//report permission
 	public reportPermission:any = [];
+	public reportDemo:any = [];
 	public permissionType: any;
 
   constructor( private _service: appService, private router: Router) { 
@@ -63,6 +64,10 @@ export class ReportComponent implements OnInit {
 		console.log(this.permissionType)
 		this.reportPermission = ["VIEWREPORT","EXPORTREPORT"];
 		this.reportPermission = this.reportPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+		
+		this.reportDemo['viewReport'] = (this.reportPermission.includes("VIEWREPORT")) ? 'VIEWREPORT' : '';
+		this.reportDemo['exportReport'] = (this.reportPermission.includes("EXPORTREPORT")) ? 'EXPORTREPORT' : '';
+		
 		if(this.reportPermission.includes('VIEWREPORT') != false){			
 			this.getStaffRating(20,0);
 		}else{

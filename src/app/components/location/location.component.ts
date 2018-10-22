@@ -50,6 +50,7 @@ export class LocationComponent implements OnInit {
 	public wordLength:any = 0;
 	public permissionType:any;
 	public locPermission:any = [];
+	public locationDemo:any = [];
 	
 	@BlockUI() blockUI: NgBlockUI;
 
@@ -80,6 +81,11 @@ export class LocationComponent implements OnInit {
 	  console.log(this.permissionType)
 	  this.locPermission = ['ADDNEWLOCATION','EDITLOCATION','DELETELOCATION'];
 	  this.locPermission = this.locPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+	  
+	  this.locationDemo['addLocation'] = (this.locPermission.includes("ADDNEWLOCATION")) ? 'ADDNEWLOCATION' : '';
+	  this.locationDemo['editLocation'] = (this.locPermission.includes("EDITLOCATION")) ? 'EDITLOCATION' : '';
+	  this.locationDemo['deleteLocation'] = (this.locPermission.includes("DELETELOCATION")) ? 'DELETELOCATION' : '';
+
 	  if(this.locPermission.length > 0){
 		  this.getAllLocation(20,0);
 	  }else{

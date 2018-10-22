@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
   public temp:any;
   public urlTemp:any;  
   public generalSidebar:any = [];
+  public generalDemo:any = [];
   public locationSidebar:any = [];
   public customSidebar:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
@@ -73,9 +74,13 @@ export class DashboardComponent implements OnInit {
     console.log(this.permissionType)
     this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
     this.locationSidebar = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION' ];
-      
-   
+       
     this.generalSidebar = this.generalSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+
+    this.generalDemo['regional'] = (this.generalSidebar.includes("UPDATEREGIONALSETTINGS")) ? 'UPDATEREGIONALSETTINGS' : '';
+    this.generalDemo['appsetting'] = (this.generalSidebar.includes("UPDATEAPPSETTINGS")) ? 'UPDATEAPPSETTINGS' : '';
+    
+
     this.locationSidebar = this.locationSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     
     if(this.generalSidebar.includes('UPDATEREGIONALSETTINGS')){
