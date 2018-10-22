@@ -65,6 +65,7 @@ export class CalendarComponent implements OnInit {
   public sameDate:boolean = false;
   public permissionType:any;
   public calendarPermission:any = [];
+  public calendarDemo:any = [];
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar, private router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
@@ -93,6 +94,12 @@ export class CalendarComponent implements OnInit {
     console.log(this.permissionType)
     this.calendarPermission = ["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"];
     this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    
+    this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
+    this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
+    this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
+    this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
+
     if(this.calendarPermission.length > 0){
       this.getAllHolidaysCalendar(20, 0);
       this.currentYear = (new Date()).getFullYear();

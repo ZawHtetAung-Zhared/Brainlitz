@@ -1,13 +1,13 @@
 <div class="min-scroll main-wrapper">
   <div [ngClass]="{'overlay': isfocus == true}"></div>
-  <div *ngIf="iscreate == false && isHoliday == false">
+  <div *ngIf="iscreate == false && isHoliday == false && calendarPermission.length > 0">
     <div class="d-flex justify-content-between heading-margin">
       <div class="mr-auto">
         <div class="d-flex flex-row">
           <h2 class="title-heading">Calendar</h2>
         </div>
       </div>
-      <button type="button" class="btn btn-create" (click)="creatnew()">Add new calendar</button>
+      <button *ngIf="calendarDemo.createCalendar != ''" type="button" class="btn btn-create" (click)="creatnew()">Add new calendar</button>
     </div>  
     <div class="row calendar-group">
       <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3" *ngFor="let calendar of calendarLists">
@@ -189,14 +189,14 @@
           <div class="d-flex flex-column justify-content-center edit-calnedar-btn child2">
             {{item.name}}
           </div>
-          <div *ngIf="calendarPermission[2] != undefined" class="d-flex flex-column justify-content-center btn-edit child3" (click)="editHolidays(item._id,contentCreate)">
+          <div *ngIf="calendarDemo.editHoliday != ''" class="d-flex flex-column justify-content-center btn-edit child3" (click)="editHolidays(item._id,contentCreate)">
             <span>Edit</span>
           </div>
         </div>
        <!--  <div *ngFor="let item of calendarHolidays | mapToIterable">
           {{item.key}}:{{item.val}}
         </div> -->
-        <div *ngIf="calendarPermission[1] != undefined" class="holiday-create" (click)="onClickCreate(contentCreate)">
+        <div *ngIf="calendarDemo.addHoliday != ''" class="holiday-create" (click)="onClickCreate(contentCreate)">
           <div class="circle1 plus"></div>
           <span class="btn-span">Creating new holiday</span>
         </div>
@@ -275,7 +275,7 @@
       </div>
       <div class="btns-wrap d-flex">
         <div>
-          <button class="btn-delete" *ngIf="isEdit && calendarPermission[3] != undefined" (click)="deleteHoliday(this.model._id)">Delete</button>
+          <button class="btn-delete" *ngIf="isEdit && calendarDemo.deleteHoliday != ''" (click)="deleteHoliday(this.model._id)">Delete</button>
         </div>
         <div class="btn-inner-wrap">
           <button type="button" class="btn btn-cancel" (click)="cancelModal()">Cancel</button>

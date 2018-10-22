@@ -10,7 +10,7 @@
   </div>
 </div> -->
 <div id="mainapg" class="main-wrapper pad-bottom" *ngIf="ismodule == false && iscreate == false && isshare == false && shareAPG == false">
-	<div class="d-flex justify-content-between heading-margin">
+	<div *ngIf="apgPermission.length > 0" class="d-flex justify-content-between heading-margin">
 		<div class="mr-auto">
 			<div class="d-flex flex-row">
 				<h2 class="title-heading">APG</h2>
@@ -19,7 +19,7 @@
 		</div>
 		<button *ngIf="apgDemo.addAPG != ''" type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
 	</div>
-	<div *ngIf="apgDemo.viewAPG != ''" class="input-group col-md-12 mt-30">
+	<div class="input-group col-md-12 mt-30">
 	    <input 
         class="form-control py-2 input-search-bg" 
         type="search" 
