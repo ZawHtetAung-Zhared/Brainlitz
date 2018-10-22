@@ -37,6 +37,7 @@ export class QuizwerkzComponent implements OnInit {
   viewQuiz: any;
   public permissionType:any;
   public pdfPermission:any = [];
+  public pdfDemo:any = [];
 
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -66,6 +67,12 @@ export class QuizwerkzComponent implements OnInit {
     console.log(this.permissionType)
     this.pdfPermission = ["VIEWQUIZWERKZ","CREATEQUIZWERKZ","EDITQUIZWERKZ","DELETEQUIZWERKZ"];
     this.pdfPermission = this.pdfPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    
+    this.pdfDemo['viewPdf'] = (this.pdfPermission.includes("VIEWQUIZWERKZ")) ? 'VIEWQUIZWERKZ' : '';
+    this.pdfDemo['addPdf'] = (this.pdfPermission.includes("CREATEQUIZWERKZ")) ? 'CREATEQUIZWERKZ' : '';
+    this.pdfDemo['editPdf'] = (this.pdfPermission.includes("EDITQUIZWERKZ")) ? 'EDITQUIZWERKZ' : '';
+    this.pdfDemo['deletePdf'] = (this.pdfPermission.includes("DELETEQUIZWERKZ")) ? 'DELETEQUIZWERKZ' : '';
+    
     if(this.pdfPermission.length > 0){
       this.getAllPdf(20, 0);
     }else{

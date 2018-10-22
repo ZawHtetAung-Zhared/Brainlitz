@@ -16,9 +16,9 @@
           <h2 class="title-heading">QuizWerkz</h2>
         </div>
       </div>
-      <button *ngIf="pdfPermission[1] != undefined" type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
+      <button *ngIf="pdfDemo.addPdf != ''" type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
     </div>  
-    <div *ngIf="pdfPermission[0] != undefined" class="row quizwerkz-group">
+    <div *ngIf="pdfDemo.viewPdf != ''" class="row quizwerkz-group">
       <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3" *ngFor="let pdf of pdfList">
         <div class="d-flex single-quizwerkz">
             <div class="coverq">
@@ -30,7 +30,7 @@
                     <h4>{{pdf.name}}</h4>
                   </div>
                   <div class="btn-section d-flex justify-content-end">
-                    <button *ngIf="pdfPermission[2] != undefined" class="btn-action" (click)="onclickUpdate(pdf._id)">Edit</button> | <button *ngIf="pdfPermission[3] != undefined" class="btn-action" (click)="onClickDelete(pdf._id, deletemodal)">Delete</button>
+                    <button *ngIf="pdfDemo.editPdf != ''" class="btn-action" (click)="onclickUpdate(pdf._id)">Edit</button> | <button *ngIf="pdfDemo.deletePdf != ''" class="btn-action" (click)="onClickDelete(pdf._id, deletemodal)">Delete</button>
                   </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="pdfList.length >= 20 && iscreate == false && result.length !=0" class="d-flex justify-content-center load-more">
+<div *ngIf="pdfList.length >= 20 && iscreate == false && result.length !=0 && pdfDemo.viewPdf != ''" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(pdfList.length)">load more</button>
 </div>
 <ng-template #deletemodal let-c="close" let-d="dismiss">
