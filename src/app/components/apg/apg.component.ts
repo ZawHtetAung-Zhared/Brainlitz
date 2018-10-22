@@ -78,6 +78,7 @@ export class ApgComponent implements OnInit {
     wordLength:any = 0;
     public permissionType:any;
     public apgPermission:any = [];
+    public apgDemo:any = [];
 
 
     constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private router: Router) { 
@@ -114,6 +115,11 @@ export class ApgComponent implements OnInit {
       console.log(this.permissionType)
       this.apgPermission = ["CREATEAPG","CREATEAP"];
       this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+      this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+      this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+      this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
+
+      console.log(this.apgDemo)
       if(this.apgPermission.length > 0){
         this.getAllModule();
         this.getAllAPG(20,0);

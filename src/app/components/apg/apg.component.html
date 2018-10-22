@@ -17,9 +17,9 @@
 				<span class="apg-longterm">Access Point Group</span>
 			</div>
 		</div>
-		<button *ngIf="apgPermission[0] != undefined" type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
+		<button *ngIf="apgDemo.addAPG != ''" type="button" class="btn btn-create" (click)="addNewAPG()">Add new APG</button>
 	</div>
-	<div *ngIf="apgPermission[0] != undefined" class="input-group col-md-12 mt-30">
+	<div *ngIf="apgDemo.viewAPG != ''" class="input-group col-md-12 mt-30">
 	    <input 
         class="form-control py-2 input-search-bg" 
         type="search" 
@@ -34,7 +34,7 @@
 	        </button>
 	     </span>
 	</div>
-	<div class="apg-wrapper card-columns">
+	<div *ngIf="apgDemo.viewAPG != ''" class="apg-wrapper card-columns">
 		<div class="card" *ngFor="let apg of apgList; let i = index">
 			<div class="single-apg">
 				<div class="info-section">
@@ -57,7 +57,7 @@
 		</div>
 	</div>
 </div>
-<div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0" class="load-more">
+<div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more">
   <button class="btn" (click)="showMore(apgList.length)">load more</button>
 </div>
 
