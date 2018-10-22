@@ -67,6 +67,7 @@ export class ToolsComponent implements OnInit {
 
   public permissionType: Array<any> = [];
   public notiSidebar:any = [];
+  public notiSidebarDemo:any = [];
   public apgSidebar:any = [];
   public quizwerkzSidebar:any = [];
   public calendarSidebar:any = [];
@@ -90,7 +91,6 @@ export class ToolsComponent implements OnInit {
   ngOnInit() {
     console.log()
     this.locationId = localStorage.getItem('locationId');
-    this.notiType = 'send';
     this.setDefaultSelected();
     this.item.sendType = 'app';
 
@@ -107,7 +107,7 @@ export class ToolsComponent implements OnInit {
 
   checkPermission(){
     console.log(this.permissionType)
-    this.notiSidebar = ["SENDNOTIFICATION","VIEWSENDHISTORY"];
+    this.notiSidebar = ["SENDNOTIFICATION","VIEWSENDHISTORY"];    
     this.apgSidebar = ["CREATEAPG"];
     this.quizwerkzSidebar =["VIEWQUIZWERKZ","CREATEQUIZWERKZ","EDITQUIZWERKZ","DELETEQUIZWERKZ"]
     this.calendarSidebar  =["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"]
@@ -116,9 +116,17 @@ export class ToolsComponent implements OnInit {
     this.apgSidebar = this.apgSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     this.quizwerkzSidebar = this.quizwerkzSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     this.calendarSidebar = this.calendarSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
-        
+
+    this.notiSidebarDemo['send'] = (this.notiSidebar.includes("SENDNOTIFICATION")) ? 'SENDNOTIFICATION' : ''
+    this.notiSidebarDemo['view'] = (this.notiSidebar.includes("VIEWSENDHISTORY")) ? 'SENDNOTIFICATION' : ''
+    
     if(this.notiSidebar.length > 0){
       console.log('noti')
+      this.notiType =  (this.notiSidebar.includes("SENDNOTIFICATION")) ? 'send' : 'view';      
+      if(this.notiType == 'view'){
+        this.notiLists = [];
+        this.viewNoti(20, 0);
+      }
     }else{
       console.log('permission deny')
     }
@@ -164,7 +172,8 @@ export class ToolsComponent implements OnInit {
 
     }else if(type == 'dropdown'){
       this.isdropdown = !this.isdropdown;
-      this.notiType = 'send'
+      this.notiType =  (this.notiSidebar.includes("SENDNOTIFICATION")) ? 'send' : 'view';      
+      // this.notiType = 'send'
     }else if(type == 'apg'){
       console.log('apg ~~~')
       this.isdropdown = false;
