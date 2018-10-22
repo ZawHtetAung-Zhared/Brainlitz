@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 export class UserStaffComponent implements OnInit {
 	public permissionType: any;
 	public staffPermission:any = [];
+	public staffDemo:any = [];
 	public orgID = localStorage.getItem('OrgId');
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: Array<any> = [];
@@ -85,6 +86,12 @@ export class UserStaffComponent implements OnInit {
 		console.log(this.permissionType)
 		this.staffPermission = ['CREATESTAFFS','EDITSTAFFS','VIEWSTAFFS','DELETESTAFFS'];
 		this.staffPermission = this.staffPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+		
+		this.staffDemo['addStaff'] = (this.staffPermission.includes("CREATESTAFFS")) ? 'CREATESTAFFS' : '';
+		this.staffDemo['editStaff'] = (this.staffPermission.includes("EDITSTAFFS")) ? 'EDITSTAFFS' : '';
+		this.staffDemo['viewStaff'] = (this.staffPermission.includes("VIEWSTAFFS")) ? 'VIEWSTAFFS' : '';
+		this.staffDemo['deleteStaff'] = (this.staffPermission.includes("DELETESTAFFS")) ? 'DELETESTAFFS' : '';
+
 		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
 			this.getAllUsers('staff', 20, 0);
 		}else{

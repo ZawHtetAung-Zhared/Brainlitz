@@ -17,7 +17,7 @@
 				<h3>Staffs</h3>
 			</div>
 			<div class="col-md-8 pad-0">
-				<button *ngIf="staffPermission[0] != undefined" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
+				<button *ngIf="staffDemo.addStaff != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
 			</div>
 		</div>
 		<div *ngIf="staffPermission[0] != undefined" class="col-md-12 pad-0" style="margin-top: 35px;">
@@ -58,7 +58,7 @@
 							{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
 						</p>
 					</div>
-					<div *ngIf="staffPermission[2] != undefined" class="right-arrow ml-auto">
+					<div *ngIf="staffDemo.viewStaff != ''" class="right-arrow ml-auto">
 						<i class="fa fa-angle-right"></i>
 					</div>
 				</div>

@@ -81,6 +81,7 @@ export class UsersComponent implements OnInit {
   	divHeight:any;
   	public customFields:any = [];
   	public customerPermission:any = [];
+  	public customerDemo:any = [];
 
   	// enroll class
   	searchData: any={};
@@ -135,6 +136,15 @@ export class UsersComponent implements OnInit {
 		console.log(this.permissionType)
 		this.customerPermission = ['CREATECUSTOMERS','VIEWCUSTOMERS','EDITCUSTOMERS','DELETECUSTOMERS','ENROLLCOURSE'];		
 		this.customerPermission = this.customerPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+		
+		
+		this.customerDemo['createCustomer'] = (this.customerPermission.includes("CREATECUSTOMERS")) ? 'CREATECUSTOMERS' : '';
+		this.customerDemo['viewCustomer'] = (this.customerPermission.includes("VIEWCUSTOMERS")) ? 'VIEWCUSTOMERS' : '';
+		this.customerDemo['editCustomer'] = (this.customerPermission.includes("EDITCUSTOMERS")) ? 'EDITCUSTOMERS' : '';
+		this.customerDemo['deleteCustomer'] = (this.customerPermission.includes("DELETECUSTOMERS")) ? 'DELETECUSTOMERS' : '';
+		this.customerDemo['enrollStudent'] = (this.customerPermission.includes("ENROLLCOURSE")) ? 'ENROLLCOURSE' : '';
+		
+
 		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
 			this.getAllUsers('customer', 20, 0);
 		}else{

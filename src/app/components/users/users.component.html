@@ -17,10 +17,10 @@
 			<h3>Customers</h3>
 		</div>
 		<div class="col-md-8 pad-0">
-			<button *ngIf="customerPermission[0] != undefined" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>
+			<button *ngIf="customerDemo.createCustomer != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>
 		</div>
 	</div>
-	<div *ngIf="customerPermission[1] != undefined" class="col-md-12 pad-0" style="margin-top: 35px;">
+	<div *ngIf="customerDemo.viewCustomer != ''" class="col-md-12 pad-0" style="margin-top: 35px;">
 		<div class="input-group col-md-12 pad-0">
 		    <input 
 		    	class="form-control py-2 input-search-bg" 
@@ -53,7 +53,7 @@
 					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
 					<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>40)? (customer.about | slice:0:40)+'..':(customer.about) }}</p>
 				</div>
-				<div *ngIf="customerPermission[1] != undefined" class="ml-auto right-arrow">
+				<div *ngIf="customerDemo.viewCustomer != ''" class="ml-auto right-arrow">
 					<i class="fa fa-angle-right"></i>
 				</div>
 			</div>
@@ -72,7 +72,7 @@
 				<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Customers</span>
 			</div>
 			<div class="ml-auto">
-				<span *ngIf="customerPermission[2] != undefined" class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
+				<span *ngIf="customerDemo.editCustomer != ''" class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
 			</div>
 		</div>
 		<div class="user-info-wrap d-flex -justify-content-between">
@@ -174,7 +174,7 @@
 				<div class="d-flex flex-column justify-content-center">
 					<h6 class="mb-0">Classes</h6>
 				</div>
-				<button *ngIf="customerPermission[4] != undefined" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)" class="ml-auto enroll-btn">Enroll new class</button>
+				<button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)" class="ml-auto enroll-btn">Enroll new class</button>
 			</div>
 			<div>
 				<div class="list-wrapper">
