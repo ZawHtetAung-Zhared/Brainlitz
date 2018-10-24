@@ -1,0 +1,34 @@
+<h3 class="pd-lft-15">Staff Performance</h3>
+<div class="pd-lft-15 report-content">
+  <div class="report-time-range d-flex flex-column" style="width:390px;float:left">
+    <div class="rpt-input-title">
+      Time
+    </div>
+    <div style="padding-top: 15px">
+
+      <!--<input name="reportTimeRange" placeholder="Hola" style="width:360px" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">-->
+      <!--<ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">-->
+      <!--</ngb-datepicker>-->
+
+
+    </div>
+  </div>
+  <div class="report-location-input d-flex flex-column">
+    <div class="rpt-input-title">
+      Group by
+    </div>
+    <div style="padding-top: 15px">
+      <select id="staffGroupBy" class="form-control" name="staffGroupBy" (change)="updateGraphUsingGroupBy($event)">
+        <option [selected]="0" *ngFor="let staffGroupBy of staffGroupByList; let i = index" value="{{staffGroupBy}}">{{
+          staffGroupBy }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="d-flex flex-column w-100 h-100" style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);margin-top: 15px;">
+    <div style="padding:15px;">
+      <button class="btn btn-filter">Filter Fields</button>
+    </div>
+  </div>
+</div>

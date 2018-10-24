@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
@@ -38,6 +38,9 @@ import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TimepickerModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
+import { StaffPerformanceReport } from './components/report/staffPerformance/staff.component';
+import { CourseActivitiesReport } from './components/report/courseActivities/course.component';
+import { StudentEnrollmentReport } from './components/report/studentEnrollment/enrollment.component';
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
@@ -85,6 +88,9 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     QuizwerkzComponent,
     ToolsComponent,
     ReportComponent,
+    StaffPerformanceReport,
+    CourseActivitiesReport,
+    StudentEnrollmentReport,
     ApgComponent,
     TemplateComponent,
     ModuleComponent,
