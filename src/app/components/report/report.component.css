@@ -124,6 +124,7 @@ h3, h4, h5 {
 
 h3, h4 {
   font-size: 28px;
+
 }
 
 h5 {
@@ -817,6 +818,11 @@ h3.head-rating-count {
 
 .input-search-bg:focus, .create-button-pos:focus {
   box-shadow: none;
+}
+.rpt-content{
+  border-top:1px solid#edeff0;
+  font-family: Montserrat-SemiBold;
+  padding:15px;
 }
 
 

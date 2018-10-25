@@ -62,9 +62,9 @@ export class StaffPerformanceReport implements OnInit {
       } else { //No filter is selected,get only location and their respective rating
         let data = staffData.location;
         //[TODO:Update better way to iterate data]
-        let res = this.getFinalData(data);
+        this.reportData = this.getFinalData(data);
         console.log("result after final step");
-        console.log(res);
+        console.log(this.reportData);
 
       }
     } else {
@@ -84,7 +84,10 @@ export class StaffPerformanceReport implements OnInit {
           "3": 0,
           "2": 0,
           "1": 0
-        }
+        },
+        totalRating:0,
+        ratingWeightage:0,
+        averageRating:0
       };
       obj.location = data[i].locationName;
       let categories = data[i].categories || [];
@@ -106,6 +109,13 @@ export class StaffPerformanceReport implements OnInit {
           });
         }
       }
+      obj.totalRating = Object.keys(obj.rating).reduce(function (sum, key) {
+        return sum + obj.rating[key];
+      }, 0);
+      obj.ratingWeightage = Object.keys(obj.rating).reduce(function (sum, key) {
+        return sum+ obj.rating[key]*parseInt(key);
+      }, 0);
+      obj.averageRating = (obj.ratingWeightage/obj.totalRating).toFixed(2);
       result.push(obj);
     }
     return result;
