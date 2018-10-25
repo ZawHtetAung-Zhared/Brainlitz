@@ -28,7 +28,43 @@
 
   <div class="d-flex flex-column w-100 h-100" style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);margin-top: 15px;">
     <div style="padding:15px;">
-      <button class="btn btn-filter">Filter Fields</button>
+      <button class="btn btn-filter" (click)="showFilterModal(filterFields)">Filter Fields</button>
     </div>
   </div>
 </div>
+
+<ng-template #filterFields let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title " id="modal-basic-title">Filter Fields</h3>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="slt-rpt-filter rpt-input-title">Select Filter</div>
+    <div class="pd-top-15">
+      <select id="filterType" class="form-control" name="filterType" (change)="updateFilterType($event)">
+        <option [selected]="0" *ngFor="let filter of filterList; let i = index" value="{{filter}}">{{
+          filter }}
+        </option>
+      </select>
+    </div>
+    <div class="input-group col-md-12" style="padding:15px 0;">
+      <input
+        class="form-control py-2 input-search-bg"
+        type="search"
+        placeholder="Search customer here"
+        id="customer-search-input"
+        (focusout)="clearSearch($event)"
+        (input)="filterSearch($event.target.value)"
+        autocomplete="off"
+      >
+		    <span class="input-group-append">
+		        <button class="bt btn-design btn-outline-secondary" type="button">
+		            <i class="fa fa-search search-size"></i>
+		        </button>
+		     </span>
+    </div>
+  </div>
+
+</ng-template>
