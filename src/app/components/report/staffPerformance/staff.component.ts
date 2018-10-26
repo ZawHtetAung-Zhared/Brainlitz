@@ -21,7 +21,7 @@ export class StaffPerformanceReport implements OnInit {
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
   groupBy = "location";
   selectedFilter:any;
-  filterValues:any;
+  filter:any;
   modalReference:any;
   reportData:any;
 
@@ -34,7 +34,7 @@ export class StaffPerformanceReport implements OnInit {
 
   ngOnInit() {
     this.selectedFilter = "";
-    this.filterValues = [];
+    this.filter = {type:"category",value:[]};
     console.log(staffData);
     this.showReportByLocation();
 
@@ -115,10 +115,13 @@ export class StaffPerformanceReport implements OnInit {
       obj.ratingWeightage = Object.keys(obj.rating).reduce(function (sum, key) {
         return sum + obj.rating[key] * parseInt(key);
       }, 0);
-      obj.averageRating = (obj.ratingWeightage / obj.totalRating).toFixed(2);
+      obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
       result.push(obj);
     }
     return result;
+  }
+  getFilteredDataOfTypeLocation(data){
+
   }
 
   /**
@@ -133,23 +136,6 @@ export class StaffPerformanceReport implements OnInit {
    */
   showReportByCoursePlan() {
 
-  }
-
-  findByKey(data, key) {
-    if (data.hasOwnProperty('key') && data['key'] === key) {
-      return data;
-    }
-
-    for (let i = 0; i < Object.keys(data).length; i++) {
-      if (typeof data[Object.keys(data)[i]] === 'object') {
-        let obj = this.findByKey(data[Object.keys(data)[i]], key);
-        if (obj != null) {
-          return obj;
-        }
-      }
-    }
-
-    return null;
   }
 
   /**
@@ -169,12 +155,9 @@ export class StaffPerformanceReport implements OnInit {
     this.modalReference = this.modalService.open(content, {backdrop: 'static', windowClass: 'animation-wrap'});
     this.modalReference.result.then((result) => {
       console.log(result);
-      // this.formField = new calendarField();
-      // this.closeResult = `Closed with: ${result}`
+
     }, (reason) => {
       console.log(reason);
-      // this.formField = new calendarField();
-      // this.closeResult = `Closed with: ${reason}`;
     });
   }
 
