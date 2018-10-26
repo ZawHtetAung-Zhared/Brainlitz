@@ -38,12 +38,12 @@
     <!-- <app-sidebar class="d-flex"></app-sidebar> -->
     <ul class="nav navbar-nav nav-style">
       <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
-      <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/customer">Customers</a></li>
-      <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/staff">Staffs</a></li>
-      <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/course">Courses</a></li>
-      <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/report">Report</a></li>
+      <li *ngIf="customerMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/customer">Customers</a></li>
+      <li *ngIf="staffMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/staff">Staffs</a></li>
+      <li *ngIf="courseMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/course">Courses</a></li>
+      <li *ngIf="reportMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/report">Report</a></li>
       <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Setting</a></li>
-      <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools">Tools</a></li>
+      <li *ngIf="toolsMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools">Tools</a></li>
     </ul>
   </div>
 </header>

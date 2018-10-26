@@ -140,6 +140,13 @@ main{
 .btn:disabled {
   cursor: not-allowed !important;
 }
+app-pagenotfound{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
 app-login,
 app-dashboard,
 app-tools,

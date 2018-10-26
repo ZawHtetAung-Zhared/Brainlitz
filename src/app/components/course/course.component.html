@@ -1,7 +1,7 @@
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
-  <div class="card-container">
+  <div *ngIf="coursePermission.length > 0" class="card-container">
     <div class="title"><h3 class="header-font">Courses</h3></div>
     <div class="card-columns">
       <div class="card btn-card">
