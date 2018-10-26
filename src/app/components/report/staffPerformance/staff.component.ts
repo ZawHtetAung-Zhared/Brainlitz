@@ -74,7 +74,23 @@ export class StaffPerformanceReport implements OnInit {
           let barColor=[0,'#ffb6b3','#ffd2b3','#ffea80','#c3e6a1','#aaf2c8'];
           let option = {
 
-            tooltip: {},
+            tooltip: {
+              backgroundColor:'#3d454d',
+              formatter: function (params) {
+                let value = '<div style="padding:5px 10px;">'+params.data.value+(params.data.value <= 1  ? ' rating':' ratings');
+                value += '<br/>';
+                value += (params.dataIndex+1) + ' ';
+                for (let i = 0; i <= params.dataIndex;i++){
+                  value+='<span class="fa fa-star"></span>';
+                }
+                value += '</div>';
+
+                return value ;
+              }
+            },
+            textStyle:{
+              fontFamily:'Montserrat-Medium'
+            },
             grid: {
               top: 30,
               bottom:10,
@@ -159,6 +175,7 @@ export class StaffPerformanceReport implements OnInit {
         averageRating: 0,
         id: "graph" + i
       };
+
       obj.location = data[i].locationName;
       let categories = data[i].categories || [];
       if (!categories.length) continue;

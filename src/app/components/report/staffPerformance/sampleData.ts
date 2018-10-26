@@ -135,7 +135,7 @@ let sampleData = {
                   },
                   {
                     "type": "1",
-                    "count": 42
+                    "count": 1
                   }
                 ]
               }
