@@ -146,6 +146,7 @@ export class appService{
         this.temp = res.access_token;
         localStorage.setItem("token", this.temp);
         localStorage.setItem("tokenType", res.token_type);
+        localStorage.setItem("userId", res.userId);
       })
     }
 
@@ -398,7 +399,7 @@ export class appService{
       if(all != false){
         url = this.baseUrl + '/' + id + '/locations?all=' + all;
       }else{
-        url = this.baseUrl + '/' + id + '/locations?limit=' + limit + '&skip=' + skip;       
+        url = this.baseUrl + '/' + id + '/locations?user=true&limit=' + limit + '&skip=' + skip;       
       }
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -418,7 +419,7 @@ export class appService{
       this.getLocalstorage();
       let url;
       if(all != false){
-        url = this.baseUrl + '/' + id + '/locations?all=' + all;
+        url = this.baseUrl + '/' + id + '/locations?user=true&all=' + all;
       }else{
         url = this.baseUrl + '/' + id + '/locations?limit=' + limit + '&skip=' + skip;       
       }
