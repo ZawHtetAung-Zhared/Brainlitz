@@ -17,6 +17,7 @@ export class ReportComponent implements OnInit {
 	public reportPermission:any = [];
 	public reportDemo:any = [];
 	public permissionType: any;
+	public hasReport: boolean = false;
 
   constructor( private _service: appService, private router: Router) { 
     this._service.itemValue.subscribe((nextValue) => {
@@ -70,9 +71,11 @@ export class ReportComponent implements OnInit {
 		
 		if(this.reportPermission.includes('VIEWREPORT') != false){			
 			this.getStaffRating(20,0);
+			this.hasReport = false;
 		}else{
 	      console.log('permission deny')
 	      this.ratingLists = [];
+	      this.hasReport = true;
 	    }
 	}
 
