@@ -1201,7 +1201,7 @@ export class CourseplanComponent implements OnInit {
         data["moduleId"] = moduleId;
          this._service.createAP(this.regionID, this.locationID, data)
          .subscribe((res:any) => {
-           this.toastr.success('Successfully AP Created.');
+           // this.toastr.success('Successfully AP Created.');
            data["accessPoints"] = [res._id]
            console.log(data)
            this._service.createAPG(this.regionID, this.locationID,data, templateID, moduleId)

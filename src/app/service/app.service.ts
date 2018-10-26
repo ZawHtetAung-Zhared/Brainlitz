@@ -758,10 +758,11 @@ export class appService{
       }) 
     }
 
-    getAllCoursePlan(id: string,locationid: string): Observable<any>{
+    getAllCoursePlan(id: string,location: string): Observable<any>{
       this.getLocalstorage();
-      console.log(id)
-      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ locationid;
+      console.log(location)
+      console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -833,7 +834,7 @@ export class appService{
     }
 
     deleteHoliday(holidayId:string, locationid: string): Observable<any>{
-      let apiUrl = this.baseUrl  + '/holidays/' + holidayId + '?locationId' + locationid;
+      let apiUrl = this.baseUrl  + '/holidays/' + holidayId + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1417,10 +1418,10 @@ export class appService{
       this.getLocalstorage();
       let apiUrl;
       if(templateId != undefined){
-        apiUrl = this.baseUrl + '/' + id + '/access-point-group?templateId=' + templateId+ '?locationId=' + locationid;
+        apiUrl = this.baseUrl + '/' + id + '/access-point-group?templateId=' + templateId+ '&locationId=' + locationid;
       }
       else {
-        apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId + '?locationId=' + locationid;
+        apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId + '&locationId=' + locationid;
       }
       const httpOptions = {
           headers: new HttpHeaders({ 

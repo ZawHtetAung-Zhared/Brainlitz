@@ -916,6 +916,7 @@ ol.progress[data-steps="9"] li { width: 11%; }*/
 .inside-data-wrapper {
   padding: 50px 60px;
   min-height: 600px;
+  margin-bottom: 60px;
 }
 
 .limit-hr-length {

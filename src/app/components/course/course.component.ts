@@ -575,7 +575,9 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/courseCreate']);
   }
   getCPlanList(){
-    this._service.getAllCoursePlan(this.regionId,this.locationID)
+    console.log(this.locationID)
+    console.log('----', localStorage.getItem('locationId'))
+    this._service.getAllCoursePlan(this.regionId,localStorage.getItem('locationId'))
     .subscribe((res:any) => {
       console.log("course plan list",res)
     })

@@ -98,8 +98,8 @@
         <span class="caret"></span></div>
         <div>
           <ul class="year-dropdown">
-            <li *ngFor="let year of yearLists">
-              <span (click)="onClickYear(year)">{{ year }}</span>
+            <li *ngFor="let year of yearLists" (click)="onClickYear(year)">
+              <span>{{ year }}</span>
             </li>
           </ul>
         </div>
