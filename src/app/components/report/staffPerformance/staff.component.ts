@@ -33,7 +33,7 @@ export class StaffPerformanceReport implements OnInit {
 
   ngOnInit() {
     this.selectedFilter = "";
-    this.filter = {type: "course", value: ["courseName1","courseName2"]};
+    this.filter = {};
     console.log(staffData);
     this.showReportByLocation();
 
