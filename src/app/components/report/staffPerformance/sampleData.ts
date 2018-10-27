@@ -9,7 +9,7 @@ let sampleData = {
           "catName": "cat1",
           "coursePlans": [
             {
-              "coursePlanName": "coursePlan1",
+              "coursePlanName": "coursePlan2",
               "courses": [
                 {
                   "courseName": "courseName1",
@@ -65,17 +65,12 @@ let sampleData = {
             }]
         },
         {
-          "catName": "cat2",
-          "coursePlans": [
-            {}]
-        },
-        {
-          "catName": "cat3",
+          "catName": "cat1",
           "coursePlans": [
             {
               "coursePlanName": "coursePlan2",
               "courses": [{
-                "courseName": "courseName4",
+                "courseName": "courseName1",
                 "rating": [
                   {
                     "type": "5",
@@ -113,9 +108,9 @@ let sampleData = {
           "catName": "cat4",
           "coursePlans": [
             {
-              "coursePlanName": "coursePlan3",
+              "coursePlanName": "coursePlan2",
               "courses": [{
-                "courseName": "courseName3",
+                "courseName": "courseName1",
                 "rating": [
                   {
                     "type": "5",
