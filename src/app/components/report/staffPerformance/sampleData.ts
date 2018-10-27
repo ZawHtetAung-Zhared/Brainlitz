@@ -93,6 +93,54 @@ let sampleData = {
                     "count": 42
                   }
                 ]
+              },{
+                "courseName": "courseName1",
+                "rating": [
+                  {
+                    "type": "5",
+                    "count": 125
+                  },
+                  {
+                    "type": "4",
+                    "count": 74
+                  },
+                  {
+                    "type": "3",
+                    "count": 65
+                  },
+                  {
+                    "type": "2",
+                    "count": 40
+                  },
+                  {
+                    "type": "1",
+                    "count": 22
+                  }
+                ]
+              },{
+                "courseName": "courseName2",
+                "rating": [
+                  {
+                    "type": "5",
+                    "count": 125
+                  },
+                  {
+                    "type": "4",
+                    "count": 74
+                  },
+                  {
+                    "type": "3",
+                    "count": 65
+                  },
+                  {
+                    "type": "2",
+                    "count": 40
+                  },
+                  {
+                    "type": "1",
+                    "count": 22
+                  }
+                ]
               }
               ]
             }
