@@ -24,7 +24,6 @@ export class StaffPerformanceReport implements OnInit {
   filter:any;
   modalReference:any;
   reportData:any;
-  _self:this;
   /**
    * Initialize the StaffPerformanceReport
    */
@@ -34,7 +33,7 @@ export class StaffPerformanceReport implements OnInit {
 
   ngOnInit() {
     this.selectedFilter = "";
-    this.filter = {type: "course", value: ["courseName1"]};
+    this.filter = {type: "location", value: ["location2","location1"]};
     console.log(staffData);
     this.showReportByLocation();
 
@@ -60,82 +59,50 @@ export class StaffPerformanceReport implements OnInit {
     //[TODO:Update better way to iterate data]
 
     if (staffData) { //check if we have data to show report
-      if (this.filter.value.length) {
-        //yes we have filter
-        this.reportData = this.getFilteredDataOfTypeLocation(staffData.location);
-        console.log("data after filter");
-        console.log(this.reportData);
-       
-      } else { //No filter is selected,get only location and their respective rating
-        this.reportData = this.getFinalData(staffData.location);
+      let result = this.getFilteredDataGroupByLocation(staffData.location);
+      if(result.length && this.filter && this.filter.type !='location'){
+        let _self = this;
+        result.forEach(function(item, index) {
+          if (index < result.length - 1) {
+            let next = result[index + 1];
+            if(item.location == next.location && item.filterValue == next.filterValue ){
+              //Match found , merge two object
+              Object.keys(item.rating).forEach(function(key) {
+                console.log(key,item.rating[key]);
+                item.rating[key]+=next.rating[key];
+              });
+              item.totalRating = _self.getTotalRating(item.rating);
+              item.ratingWeightage = _self.getRatingWeightage(item.rating);
+              item.averageRating = parseFloat((item.ratingWeightage / item.totalRating).toFixed(2));
+              result.splice(index+1, 1);
+            }
+
+          }
+        });
+        this.reportData = result;
+      }else{
+        this.reportData = result;
       }
     } else {
       //Not enough data to show report
+      this.reportData =[];
     }
 
   }
-
-  getFinalData(data) {
-    let result = [];
-    for (let i = 0; i < data.length; i++) {
-      let obj = {
-        location: "",
-        rating: {
-          "5": 0,
-          "4": 0,
-          "3": 0,
-          "2": 0,
-          "1": 0
-        },
-        totalRating: 0,
-        ratingWeightage: 0,
-        averageRating: 0,
-        id: "graph" + i
-      };
-
-      obj.location = data[i].locationName;
-      let categories = data[i].categories || [];
-      if (!categories.length) continue;
-      //iterate through all categories
-
-      for (let j = 0; j < categories.length; j++) {
-        let coursePlans = categories[j].coursePlans || [];
-        //iterate coursePlans under categories
-
-        for (let k = 0; k < coursePlans.length; k++) {
-          let courses = coursePlans[k].courses || [];
-          //iterate courses under coursePlans
-          courses.forEach(function (course) {
-            let rating = course.rating || [];
-            rating.forEach(function (value) {
-              obj.rating[value.type] += value.count;
-            });
-          });
-        }
-      }
-      obj.totalRating = Object.keys(obj.rating).reduce(function (sum, key) {
-        return sum + obj.rating[key];
-      }, 0);
-      obj.ratingWeightage = Object.keys(obj.rating).reduce(function (sum, key) {
-        return sum + obj.rating[key] * parseInt(key);
-      }, 0);
-      obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-      result.push(obj);
-    }
-    return result;
-  }
-
   /**
    * getFilteredDataOfTypeLocation:[filter data based on user selected values (groupBy location type)]
    * @param data
    */
-  getFilteredDataOfTypeLocation(data) {
+  getFilteredDataGroupByLocation(data) {
     let filter = this.filter;
     let _self = this;
     let res = [];
     switch (filter.type) {
       case "location":
-        res = filterDataByLocation(data);
+        data = data.filter(function (d) {
+          return filter.value.indexOf(d.locationName) > -1;
+        });
+        res = getLocationData(data);
         break;
       case "category":
         res = filterDataByCategory(data);
@@ -147,15 +114,13 @@ export class StaffPerformanceReport implements OnInit {
         res = filterDataByCourse(data);
         break;
       default:
-        res = this.getFinalData(data);
+        res = getLocationData(data);
 
     }
     return res;
-    function filterDataByLocation(data) {
+    function getLocationData(data) {
+      console.log(data);
       let result = [];
-      data = data.filter(function (d) {
-        return filter.value.indexOf(d.locationName) > -1;
-      });
       let obj = {
         location: "",
         rating: {
