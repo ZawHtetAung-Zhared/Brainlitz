@@ -35,7 +35,7 @@ export class StaffPerformanceReport implements OnInit {
     this.selectedFilter = "";
     this.filter = {};
     console.log(staffData);
-    this.showReportByCategory();
+    this.showReportByCoursePlan();
 
   }
 
@@ -496,6 +496,201 @@ export class StaffPerformanceReport implements OnInit {
     }
   }
 
+
+  getFilteredDataGroupByCoursePlan(data){
+    let filter = this.filter;
+    let _self = this;
+    let res = [];
+    switch (filter.type) {
+      case "location":
+        res = filterDataByLocation(data);
+        break;
+      case "category":
+        res = filterDataByCategory(data);
+        break;
+      case "coursePlan":
+        data = data.filter(function (d) {
+          return filter.value.indexOf(d.coursePlanName) > -1;
+        });
+        res = getCoursePlanData(data);
+        break;
+      case "course":
+        res = filterDataByCourse(data);
+        break;
+      default:
+        res = getCoursePlanData(data);
+
+    }
+    return res;
+
+    function getCoursePlanData(data) {
+      console.log(data);
+      let result = [];
+      data.forEach(function (coursePlan) {
+        let obj = {
+          groupTypeValue: coursePlan.coursePlanName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue:"",
+          id: "graph" + Math.floor(Math.random() * 100)
+        };
+        let categories = coursePlan.categories || [];
+        //iterate coursePlans under categories
+        categories.forEach(function (category) {
+          let courses = category.courses || [];
+          //iterate courses under coursePlans
+          courses.forEach(function (course) {
+            let rating = course.rating || [];
+            rating.forEach(function (value) {
+              obj.rating[value.type] += value.count;
+            });
+          });
+        });
+
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        result.push(obj);
+      });
+      return result;
+    }
+
+    function filterDataByCategory(data){
+        let result = [];
+        data.forEach(function (coursePlan) {
+          let categories = coursePlan.categories || [];
+          categories = categories.filter(function (d) {
+            return filter.value.indexOf(d.catName) > -1;
+          });
+          categories.forEach(function (category) {
+            let obj = {
+              groupTypeValue: coursePlan.coursePlanName,
+              rating: {
+                "5": 0,
+                "4": 0,
+                "3": 0,
+                "2": 0,
+                "1": 0
+              },
+              totalRating: 0,
+              ratingWeightage: 0,
+              averageRating: 0,
+              filterValue:"",
+              id: "graph" + Math.floor(Math.random() * 100)
+            };
+            let courses = category.courses || [];
+              //iterate courses under coursePlans
+              courses.forEach(function (course) {
+                let rating = course.rating || [];
+                rating.forEach(function (value) {
+                  obj.rating[value.type] += value.count;
+                });
+              });
+            obj.totalRating = _self.getTotalRating(obj.rating);
+            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+            obj.filterValue = category.catName;
+            result.push(obj);
+          });
+        });
+        return result;
+    }
+    function filterDataByLocation(data){
+      let result = [];
+      data.forEach(function (coursePlan) {
+        let categories = coursePlan.categories || [];
+        //iterate coursePlans under categories
+        categories.forEach(function (category) {
+          let courses = category.courses || [];
+          //iterate courses under coursePlans
+          courses = courses.filter(function (d) {
+            return filter.value.indexOf(d.location) > -1;
+          });
+          courses.forEach(function (course) {
+            let obj = {
+              groupTypeValue: coursePlan.coursePlanName,
+              rating: {
+                "5": 0,
+                "4": 0,
+                "3": 0,
+                "2": 0,
+                "1": 0
+              },
+              totalRating: 0,
+              ratingWeightage: 0,
+              averageRating: 0,
+              filterValue:"",
+              id: "graph" + Math.floor(Math.random() * 100)
+            };
+            let rating = course.rating || [];
+            rating.forEach(function (value) {
+              obj.rating[value.type] += value.count;
+            });
+            obj.totalRating = _self.getTotalRating(obj.rating);
+            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+            obj.filterValue = course.courseName;
+            result.push(obj);
+          });
+
+        });
+      });
+      return result;
+    }
+
+
+    function filterDataByCourse(data) {
+      let result = [];
+      data.forEach(function (coursePlan) {
+        let categories = coursePlan.categories || [];
+        //iterate coursePlans under categories
+        categories.forEach(function (category) {
+          let courses = category.courses || [];
+          //iterate courses under coursePlans
+          courses = courses.filter(function (d) {
+            return filter.value.indexOf(d.courseName) > -1;
+          });
+          courses.forEach(function (course) {
+            let obj = {
+              groupTypeValue: coursePlan.coursePlanName,
+              rating: {
+                "5": 0,
+                "4": 0,
+                "3": 0,
+                "2": 0,
+                "1": 0
+              },
+              totalRating: 0,
+              ratingWeightage: 0,
+              averageRating: 0,
+              filterValue:"",
+              id: "graph" + Math.floor(Math.random() * 100)
+            };
+            let rating = course.rating || [];
+            rating.forEach(function (value) {
+              obj.rating[value.type] += value.count;
+            });
+            obj.totalRating = _self.getTotalRating(obj.rating);
+            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+            obj.filterValue = course.courseName;
+            result.push(obj);
+          });
+
+        });
+      });
+      return result;
+    }
+  }
+
   /**
    * showReportByCategory :[fetch and create report groupBy Category]
    */
@@ -538,7 +733,38 @@ export class StaffPerformanceReport implements OnInit {
    * showReportByCoursePlan :[fetch and create report groupBy CoursePlan]
    */
   showReportByCoursePlan() {
+    if (staffData) { //check if we have data to show report
+      let result = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
+      console.log("result after filter");
+      console.log(result);
+      if(result.length && this.filter.type && this.filter.type !='category'){
+        let _self = this;
+        let finalRes =[];
+        result.forEach(function(value) {
+          var existing = finalRes.filter(function(v, i) {
+            return v.location == value.location && v.filterValue == value.filterValue;
+          });
 
+          if (existing.length) {
+            var existingIndex = finalRes.indexOf(existing[0]);
+            Object.keys(value.rating).forEach(function(key) {
+              finalRes[existingIndex].rating[key] += value.rating[key];
+            });
+            finalRes[existingIndex].totalRating = _self.getTotalRating(finalRes[existingIndex].rating);
+            finalRes[existingIndex].ratingWeightage = _self.getRatingWeightage(finalRes[existingIndex].rating);
+            finalRes[existingIndex].averageRating = parseFloat((finalRes[existingIndex].ratingWeightage / finalRes[existingIndex].totalRating).toFixed(2));
+          } else {
+            finalRes.push(value);
+          }
+        });
+        this.reportData = finalRes;
+      }else{
+        this.reportData = result;
+      }
+    } else {
+      //Not enough data to show report
+      this.reportData =[];
+    }
   }
 
   /**
