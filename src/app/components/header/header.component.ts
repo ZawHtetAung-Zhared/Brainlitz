@@ -79,7 +79,8 @@ export class HeaderComponent implements OnInit {
 
 
       let regionId  = localStorage.getItem('regionId');
-      if(!localStorage.getItem('locationId')){
+      console.log(localStorage.getItem('locationId'))
+      if(!localStorage.getItem('locationId') && localStorage.getItem('locationId')!= null){
         localStorage.setItem('locationId', this.headerlocationLists[0]._id);
         localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
         this.setPermission(this.headerlocationLists[0]._id);        

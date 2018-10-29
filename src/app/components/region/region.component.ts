@@ -20,6 +20,10 @@ export class RegionComponent implements OnInit {
   constructor(private _service: appService, private router: Router) { }
 
   ngOnInit() {
+    // localStorage.removeItem('locationId');
+    localStorage.removeItem('previousLID');
+    localStorage.removeItem('permission');
+    // localStorage.removeItem('regionId');
     this.accessToken = localStorage.getItem('token');
     if(this.accessToken != undefined){
       console.log('!undefined')
@@ -76,6 +80,12 @@ export class RegionComponent implements OnInit {
 
   setRegionID(id){
     console.log(id)
+    if(localStorage.getItem("regionId") == id){
+      console.log('same region id')
+    }else{
+      console.log('not same')
+      localStorage.removeItem('locationId');
+    }
     localStorage.setItem("regionId", id);
   }
 

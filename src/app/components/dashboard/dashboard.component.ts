@@ -48,6 +48,12 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(localStorage.getItem('locationId') == null){
+      console.log('hi')
+      this.permissionType = [];
+      this.checkPermission();
+      localStorage.setItem('permission', JSON.stringify([]))
+    }
     this._service.permissionList.subscribe((data) => {
       if(this.router.url === '/dashboard'){
         this.permissionType = data;
