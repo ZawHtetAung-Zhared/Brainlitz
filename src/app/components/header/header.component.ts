@@ -84,7 +84,16 @@ export class HeaderComponent implements OnInit {
         localStorage.setItem('locationId', this.headerlocationLists[0]._id);
         localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
         this.setPermission(this.headerlocationLists[0]._id);        
-      } 
+      }else{
+        console.log('no location has counter')
+      }
+      // else if(this.headerlocationLists.length != 0){
+      //   console.log('else')
+      //   localStorage.setItem('locationId', this.headerlocationLists[0]._id);
+      //   this.setPermission(this.headerlocationLists[0]._id);        
+      // }else{
+      //   console.log('no location has counter')
+      // } 
       
     }, err => {
       console.log(err)

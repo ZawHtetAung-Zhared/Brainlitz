@@ -11,6 +11,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 })
 export class LoginComponent implements OnInit {
   private loginUrl = environment.apiurl + '/dialog/authorize/';
+  private orgName:any;
   private clientId:any;
   private clientSecret:any;
   private redirectUri: any;  
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
     }
 
     console.log('~~~~~', str_res)
+    this.orgName = str_res
     // localStorage.setItem('slicePath', str_res);
     if(str_res == ''){
       console.log('no subdomain')
