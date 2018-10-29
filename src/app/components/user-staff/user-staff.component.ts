@@ -94,6 +94,7 @@ export class UserStaffComponent implements OnInit {
 
 		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
 			this.getAllUsers('staff', 20, 0);
+			this.getAllpermission();
 		}else{
 	      console.log('permission deny')
 	      this.staffLists = [];
@@ -328,6 +329,15 @@ export class UserStaffComponent implements OnInit {
 		this.staffLists = [];
 		this.getAllUsers('staff', 20, 0);
 	}	
+
+	getAllpermission(){
+		console.log('hi permission')
+		this._service.getAllPermission(this.regionID)
+		.subscribe((res:any) => {
+			this.permissionLists = res;
+			console.log('this.permissionLists', this.permissionLists)
+		})
+	}
 
 	checkUser(id, e){
 		console.log(e.target.checked)
