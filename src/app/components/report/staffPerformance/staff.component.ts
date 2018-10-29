@@ -158,7 +158,7 @@ export class StaffPerformanceReport implements OnInit {
           ratingWeightage: 0,
           averageRating: 0,
           filterValue: "",
-          id: "graph" + Math.floor(Math.random() * 100)
+          id: "graph" + Math.floor(Math.random() * 10000)
         };
         //if filter type is location, we will push to end of this loop
         let categories = location.categories || [];
@@ -206,7 +206,7 @@ export class StaffPerformanceReport implements OnInit {
             ratingWeightage: 0,
             averageRating: 0,
             filterValue: "",
-            id: "graph" + Math.floor(Math.random() * 100)
+            id: "graph" + Math.floor(Math.random() * 10000)
           };
           let coursePlans = category.coursePlans || [];
           //iterate coursePlans under categories
@@ -254,7 +254,7 @@ export class StaffPerformanceReport implements OnInit {
               ratingWeightage: 0,
               averageRating: 0,
               filterValue: '',
-              id: "graph" + Math.floor(Math.random() * 100)
+              id: "graph" + Math.floor(Math.random() * 10000)
             };
             let courses = coursePlan.courses || [];
             //iterate courses under coursePlans
@@ -302,7 +302,7 @@ export class StaffPerformanceReport implements OnInit {
                 ratingWeightage: 0,
                 averageRating: 0,
                 filterValue: "",
-                id: "graph" + Math.floor(Math.random() * 100)
+                id: "graph" + Math.floor(Math.random() * 10000)
               };
               let rating = course.rating || [];
               rating.forEach(function (value) {
@@ -370,7 +370,7 @@ export class StaffPerformanceReport implements OnInit {
           ratingWeightage: 0,
           averageRating: 0,
           filterValue: "",
-          id: "graph" + Math.floor(Math.random() * 100)
+          id: "graph" + Math.floor(Math.random() * 10000)
         };
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
@@ -419,7 +419,7 @@ export class StaffPerformanceReport implements OnInit {
               ratingWeightage: 0,
               averageRating: 0,
               filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 100)
+              id: "graph" + Math.floor(Math.random() * 10000)
             };
             let rating = course.rating || [];
             rating.forEach(function (value) {
@@ -459,7 +459,7 @@ export class StaffPerformanceReport implements OnInit {
             ratingWeightage: 0,
             averageRating: 0,
             filterValue: '',
-            id: "graph" + Math.floor(Math.random() * 100)
+            id: "graph" + Math.floor(Math.random() * 10000)
           };
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
@@ -504,7 +504,7 @@ export class StaffPerformanceReport implements OnInit {
               ratingWeightage: 0,
               averageRating: 0,
               filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 100)
+              id: "graph" + Math.floor(Math.random() * 10000)
             };
             let rating = course.rating || [];
             rating.forEach(function (value) {
@@ -571,7 +571,7 @@ export class StaffPerformanceReport implements OnInit {
           ratingWeightage: 0,
           averageRating: 0,
           filterValue: "",
-          id: "graph" + Math.floor(Math.random() * 100)
+          id: "graph" + Math.floor(Math.random() * 10000)
         };
         let categories = coursePlan.categories || [];
         //iterate coursePlans under categories
@@ -615,7 +615,7 @@ export class StaffPerformanceReport implements OnInit {
             ratingWeightage: 0,
             averageRating: 0,
             filterValue: "",
-            id: "graph" + Math.floor(Math.random() * 100)
+            id: "graph" + Math.floor(Math.random() * 10000)
           };
           let courses = category.courses || [];
           //iterate courses under coursePlans
@@ -660,7 +660,7 @@ export class StaffPerformanceReport implements OnInit {
               ratingWeightage: 0,
               averageRating: 0,
               filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 100)
+              id: "graph" + Math.floor(Math.random() * 10000)
             };
             let rating = course.rating || [];
             rating.forEach(function (value) {
@@ -704,7 +704,7 @@ export class StaffPerformanceReport implements OnInit {
               ratingWeightage: 0,
               averageRating: 0,
               filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 100)
+              id: "graph" + Math.floor(Math.random() * 10000)
             };
             let rating = course.rating || [];
             rating.forEach(function (value) {
