@@ -14,7 +14,10 @@
 <div *ngIf="!showFormCreate && !showCustDetail && customerPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 	<div class="d-flex mr-top-menu">
 		<div class="col-md-4 pad-0">
-			<h3>Customers</h3>
+			<div class="d-flex flex-row">
+				<h3>Customers</h3>
+				<span class="location-name">{{locationName}}</span>
+			</div>
 		</div>
 		<div class="col-md-8 pad-0">
 			<button *ngIf="customerDemo.createCustomer != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>

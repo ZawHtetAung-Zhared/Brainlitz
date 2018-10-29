@@ -194,7 +194,7 @@ li button{
 .card-columns {
     -webkit-column-count:3;
     -moz-column-count:3;
-    column-count:2;
+    column-count:1;
     margin-bottom: 70px;
 }
 .card-body{
@@ -1076,21 +1076,21 @@ button:disabled{
 /*For 1024px*/
 @media (max-width: 575px) { 
   .card-columns {
-    column-count: 2;
+    column-count: 1;
   }
 }
 
 /*Large devices (1025px t0 1999px)*/
 @media (min-width: 1025px) and (max-width: 1999px) { 
   .card-columns {
-    column-count: 3;
+    column-count: 1;
   }
 }
 
 /*Extra large devices (large desktops, 2000px and up)*/
 @media (min-width: 2000px) { 
   .card-columns {
-    column-count: 3;
+    column-count: 1;
   }
   .inner-wrapper{
     width: 1900px;

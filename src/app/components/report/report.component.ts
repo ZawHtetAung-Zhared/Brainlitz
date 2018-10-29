@@ -35,6 +35,7 @@ export class ReportComponent implements OnInit {
 	isSticky: boolean = false;
 	isdropdown: boolean = false;
 	locationID: any;
+	locationName: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
 	public isMidStick: boolean = false;
@@ -69,7 +70,8 @@ export class ReportComponent implements OnInit {
 		this.reportDemo['viewReport'] = (this.reportPermission.includes("VIEWREPORT")) ? 'VIEWREPORT' : '';
 		this.reportDemo['exportReport'] = (this.reportPermission.includes("EXPORTREPORT")) ? 'EXPORTREPORT' : '';
 		
-		if(this.reportPermission.includes('VIEWREPORT') != false){			
+		if(this.reportPermission.includes('VIEWREPORT') != false){	
+			this.locationName = localStorage.getItem('locationName');
 			this.getStaffRating(20,0);
 			this.hasReport = false;
 		}else{
