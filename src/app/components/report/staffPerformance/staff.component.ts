@@ -61,26 +61,7 @@ export class StaffPerformanceReport implements OnInit {
     if (staffData) { //check if we have data to show report
       let result = this.getFilteredDataGroupByLocation(staffData.location);
       if(result.length && this.filter.type && this.filter.type !='location'){
-        let _self = this;
-        let finalRes =[];
-        result.forEach(function(value) {
-          var existing = finalRes.filter(function(v, i) {
-            return v.location == value.location && v.filterValue == value.filterValue;
-          });
-
-          if (existing.length) {
-            var existingIndex = finalRes.indexOf(existing[0]);
-            Object.keys(value.rating).forEach(function(key) {
-              finalRes[existingIndex].rating[key] += value.rating[key];
-            });
-            finalRes[existingIndex].totalRating = _self.getTotalRating(finalRes[existingIndex].rating);
-            finalRes[existingIndex].ratingWeightage = _self.getRatingWeightage(finalRes[existingIndex].rating);
-            finalRes[existingIndex].averageRating = parseFloat((finalRes[existingIndex].ratingWeightage / finalRes[existingIndex].totalRating).toFixed(2));
-          } else {
-            finalRes.push(value);
-          }
-        });
-        this.reportData = finalRes;
+        this.reportData = this.mergeDuplicateObject(result);
       }else{
         this.reportData = result;
       }
@@ -90,6 +71,46 @@ export class StaffPerformanceReport implements OnInit {
     }
 
   }
+
+  /**
+   * showReportByCategory :[fetch and create report groupBy Category]
+   */
+  showReportByCategory() {
+    if (staffData) { //check if we have data to show report
+      let result = this.getFilteredDataGroupByCategory(staffData.category);
+      console.log("result after filter");
+      console.log(result);
+      if(result.length && this.filter.type && this.filter.type !='category'){
+        this.reportData = this.mergeDuplicateObject(result);
+      }else{
+        this.reportData = result;
+      }
+    } else {
+      //Not enough data to show report
+      this.reportData =[];
+    }
+  }
+
+  /**
+   * showReportByCoursePlan :[fetch and create report groupBy CoursePlan]
+   */
+  showReportByCoursePlan() {
+    if (staffData) { //check if we have data to show report
+      let result = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
+      console.log("result after filter");
+      console.log(result);
+      if(result.length && this.filter.type && this.filter.type !='coursePlan'){
+        this.reportData = this.mergeDuplicateObject(result);
+      }else{
+        this.reportData = result;
+      }
+    } else {
+      //Not enough data to show report
+      this.reportData =[];
+    }
+  }
+
+
   getFilteredDataGroupByCategory(data){
     let filter = this.filter;
     let _self = this;
@@ -692,82 +713,6 @@ export class StaffPerformanceReport implements OnInit {
   }
 
   /**
-   * showReportByCategory :[fetch and create report groupBy Category]
-   */
-  showReportByCategory() {
-    if (staffData) { //check if we have data to show report
-      let result = this.getFilteredDataGroupByCategory(staffData.category);
-      console.log("result after filter");
-      console.log(result);
-      if(result.length && this.filter.type && this.filter.type !='category'){
-        let _self = this;
-        let finalRes =[];
-        result.forEach(function(value) {
-          var existing = finalRes.filter(function(v, i) {
-            return v.location == value.location && v.filterValue == value.filterValue;
-          });
-
-          if (existing.length) {
-            var existingIndex = finalRes.indexOf(existing[0]);
-            Object.keys(value.rating).forEach(function(key) {
-              finalRes[existingIndex].rating[key] += value.rating[key];
-            });
-            finalRes[existingIndex].totalRating = _self.getTotalRating(finalRes[existingIndex].rating);
-            finalRes[existingIndex].ratingWeightage = _self.getRatingWeightage(finalRes[existingIndex].rating);
-            finalRes[existingIndex].averageRating = parseFloat((finalRes[existingIndex].ratingWeightage / finalRes[existingIndex].totalRating).toFixed(2));
-          } else {
-            finalRes.push(value);
-          }
-        });
-        this.reportData = finalRes;
-      }else{
-        this.reportData = result;
-      }
-    } else {
-      //Not enough data to show report
-      this.reportData =[];
-    }
-  }
-
-  /**
-   * showReportByCoursePlan :[fetch and create report groupBy CoursePlan]
-   */
-  showReportByCoursePlan() {
-    if (staffData) { //check if we have data to show report
-      let result = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
-      console.log("result after filter");
-      console.log(result);
-      if(result.length && this.filter.type && this.filter.type !='category'){
-        let _self = this;
-        let finalRes =[];
-        result.forEach(function(value) {
-          var existing = finalRes.filter(function(v, i) {
-            return v.location == value.location && v.filterValue == value.filterValue;
-          });
-
-          if (existing.length) {
-            var existingIndex = finalRes.indexOf(existing[0]);
-            Object.keys(value.rating).forEach(function(key) {
-              finalRes[existingIndex].rating[key] += value.rating[key];
-            });
-            finalRes[existingIndex].totalRating = _self.getTotalRating(finalRes[existingIndex].rating);
-            finalRes[existingIndex].ratingWeightage = _self.getRatingWeightage(finalRes[existingIndex].rating);
-            finalRes[existingIndex].averageRating = parseFloat((finalRes[existingIndex].ratingWeightage / finalRes[existingIndex].totalRating).toFixed(2));
-          } else {
-            finalRes.push(value);
-          }
-        });
-        this.reportData = finalRes;
-      }else{
-        this.reportData = result;
-      }
-    } else {
-      //Not enough data to show report
-      this.reportData =[];
-    }
-  }
-
-  /**
    * updateGraphUsingGroupBy:[handle change event in groupBy filter]
    * @param event
    */
@@ -798,17 +743,30 @@ export class StaffPerformanceReport implements OnInit {
     console.log(event);
   }
 
-  getObject(location, arr) {
-    let obj = {
-      location: location,
-      totalRating: this.getTotalRating(arr),
-      ratingWeightage: this.getRatingWeightage(arr),
-      averageRating: 0,
-      filterValue: "",
-      id: "graph" + Math.floor(Math.random() * 100)
-    };
-    obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-    return obj;
+  /**
+   * mergeDuplicateObject : [Merge Duplciate Object (same filter type and groupBy)]
+   * @param data
+     */
+  mergeDuplicateObject(data){
+    let _self = this,result =[];
+    data.forEach(function(value) {
+      var existing = result.filter(function(v, i) {
+        return v.location == value.location && v.filterValue == value.filterValue;
+      });
+
+      if (existing.length) {
+        var existingIndex = result.indexOf(existing[0]);
+        Object.keys(value.rating).forEach(function(key) {
+          result[existingIndex].rating[key] += value.rating[key];
+        });
+        result[existingIndex].totalRating = _self.getTotalRating(result[existingIndex].rating);
+        result[existingIndex].ratingWeightage = _self.getRatingWeightage(result[existingIndex].rating);
+        result[existingIndex].averageRating = parseFloat((result[existingIndex].ratingWeightage / result[existingIndex].totalRating).toFixed(2));
+      } else {
+        result.push(value);
+      }
+    });
+    return result;
   }
 
   getTotalRating(arr) {
