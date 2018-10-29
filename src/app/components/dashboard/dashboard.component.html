@@ -20,7 +20,7 @@
             </span>
           </button>
         </div>
-        <div [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">      
+        <div *ngIf="customSidebar.length > 0" [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('customfield')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'customfield'" class="setting-icon" src="./assets/images/profile@2x_a.png">

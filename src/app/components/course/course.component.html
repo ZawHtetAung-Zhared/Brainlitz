@@ -73,7 +73,7 @@
                       <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                         {{ day }}
                       </span>
-                      <div class="medium-font time-color">
+                      <div *ngIf="course.duration !=undefined" class="medium-font time-color">
                         {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
                       </div>
                     </div>
@@ -271,8 +271,24 @@
       <div class="activeTab-content" *ngIf="activeTab == 'Class'">
         <div class="timeline">
           <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
-            <b>{{timeline.startDate | timelineDate}}</b>
-            <p>{{timeline.startDate | timelineDay}}</p>
+            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
+            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+              <div>
+              <b>{{timeline.startDate | timelineDate}}</b>
+              <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
+            <div *ngIf="timeline.startDate > todayDate">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div class="mt-20">

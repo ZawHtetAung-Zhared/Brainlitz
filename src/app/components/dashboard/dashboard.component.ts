@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   public generalSidebar:any = [];
   public generalDemo:any = [];
   public locationSidebar:any = [];
-  public customSidebar:boolean = false;
+  public customSidebar:any = [];
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
@@ -80,7 +80,8 @@ export class DashboardComponent implements OnInit {
     console.log(this.permissionType)
     this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
     this.locationSidebar = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION' ];
-       
+    this.customSidebar = ["CREATECUSTOMFIELD","VIEWCUSTOMFIELD","EDITCUSTOMFIELD","DELETECUSTOMFIELD"];
+
     this.generalSidebar = this.generalSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
 
     this.generalDemo['regional'] = (this.generalSidebar.includes("UPDATEREGIONALSETTINGS")) ? 'UPDATEREGIONALSETTINGS' : '';
@@ -89,6 +90,10 @@ export class DashboardComponent implements OnInit {
 
     this.locationSidebar = this.locationSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     
+    this.customSidebar = this.customSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+
+    console.log(this.customSidebar)
+
     if(this.generalSidebar.includes('UPDATEREGIONALSETTINGS')){
       this.getAdministrator();
     }else if(this.generalSidebar.includes('UPDATEAPPSETTINGS')){

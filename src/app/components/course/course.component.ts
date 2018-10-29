@@ -349,6 +349,36 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  checkAttendance(targetDate){
+    console.log('hi', targetDate)
+    this.presentStudent = 0;
+    this.absentStudent = 0;
+    this.noStudent = 0;
+    let ACD = new Date(targetDate).getUTCDate()
+    let ACM = new Date(targetDate).getUTCMonth() + 1;
+    let ACY = new Date(targetDate).getUTCFullYear()
+    this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.blockUI.stop();
+      this.activeCourseInfo = res;
+
+      for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+        if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+          this.presentStudent += 1;
+        }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+          this.absentStudent += 1;
+        }else{
+          this.noStudent += 1;
+        }
+      }
+
+    },err =>{
+      this.blockUI.stop();
+      console.log(err);
+    });
+  }
+
   openRemoveModal(id, deleteModal){
     this.getSingleUser(id, 'withdraw')
     this.deleteId = id;
