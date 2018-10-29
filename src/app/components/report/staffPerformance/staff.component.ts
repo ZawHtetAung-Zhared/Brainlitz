@@ -19,6 +19,10 @@ import staffData from './sampleData';
 export class StaffPerformanceReport implements OnInit {
   staffGroupByList = ['Location', 'Category', 'Course Plan'];
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
+  categoryList:['Art & Science','Dance','Education','Sports','Technology'];
+  locationList:['Woodland','Yishun','Admiralty','Bedok','Sembawang'];
+  coursePlanList:['Advanced','Beginner','Individual','Weekend'];
+  searchResult:any;
   groupBy = "location";
   selectedFilter:any;
   filter:any;
@@ -751,7 +755,7 @@ export class StaffPerformanceReport implements OnInit {
    */
   showFilterModal(content) {
     console.log("i will show you filter modal");
-    this.modalReference = this.modalService.open(content, {backdrop: 'static', windowClass: 'animation-wrap'});
+    this.modalReference = this.modalService.open(content, {backdrop: 'static', windowClass: 'animation-wrap',size:'lg'});
     this.modalReference.result.then((result) => {
       console.log(result);
 
