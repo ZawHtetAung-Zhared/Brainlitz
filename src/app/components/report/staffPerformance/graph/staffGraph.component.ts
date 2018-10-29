@@ -12,6 +12,8 @@ export class StaffReportGraph implements OnInit {
   barColor:any;
 
   ngOnInit(){
+    console.log("ngonInit");
+    console.log(this.reportItem);
     this.echarts = require('echarts');
     this.barColor = [0,'#ffb6b3','#ffd2b3','#ffea80','#c3e6a1','#aaf2c8'];
     this.plotOption = {
