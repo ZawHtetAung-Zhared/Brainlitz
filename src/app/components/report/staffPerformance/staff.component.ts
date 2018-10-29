@@ -769,14 +769,14 @@ export class StaffPerformanceReport implements OnInit {
   }
 
   /**
-   * mergeDuplicateObject : [Merge Duplciate Object (same filter type and groupBy)]
+   * mergeDuplicateObject : [Merge Duplicate Object (same filter type and groupBy)]
    * @param data
    */
   mergeDuplicateObject(data) {
     let _self = this, result = [];
     data.forEach(function (value) {
       var existing = result.filter(function (v, i) {
-        return v.location == value.location && v.filterValue == value.filterValue;
+        return v.groupTypeValue == value.groupTypeValue && v.filterValue == value.filterValue;
       });
 
       if (existing.length) {
@@ -794,12 +794,22 @@ export class StaffPerformanceReport implements OnInit {
     return result;
   }
 
+  /**
+   * getTotalRating:[get total rating from rating array]
+   * @param arr
+   * @returns {number}
+     */
   getTotalRating(arr) {
     return Object.keys(arr).reduce(function (sum, key) {
       return sum + arr[key];
     }, 0);
   }
 
+  /**
+   * getRatingWeightage:[get rating weightage from rating array]
+   * @param arr
+   * @returns {number}
+     */
   getRatingWeightage(arr) {
     return Object.keys(arr).reduce(function (sum, key) {
       return sum + arr[key] * parseInt(key);
