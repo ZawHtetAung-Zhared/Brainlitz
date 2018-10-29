@@ -7,6 +7,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment-timezone';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ export class DashboardComponent implements OnInit {
   public token: any;
   public type: any;
   public admin: any;
+  public permissionType: Array<any> = [];
   public navIsFixed: boolean = false;
   public isMidStick: boolean = false;
   public item:any = {
@@ -33,17 +35,33 @@ export class DashboardComponent implements OnInit {
   public isEdit:boolean = false;
   public isUrlEdit:boolean = false;
   public temp:any;
-  public urlTemp:any;
+  public urlTemp:any;  
+  public generalSidebar:any = [];
+  public generalDemo:any = [];
+  public locationSidebar:any = [];
+  public customSidebar:any = [];
   @BlockUI() blockUI: NgBlockUI;
 
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0,0);
   }
 
   ngOnInit() {
-    this.getAdministrator();
-    this.isModuleList();
+    if(localStorage.getItem('locationId') == null){
+      console.log('hi')
+      this.permissionType = [];
+      this.checkPermission();
+      localStorage.setItem('permission', JSON.stringify([]))
+    }
+    this._service.permissionList.subscribe((data) => {
+      if(this.router.url === '/dashboard'){
+        this.permissionType = data;
+        console.log(this.permissionType)
+        this.checkPermission();
+        localStorage.setItem('permission', JSON.stringify(data))
+      }
+    });
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -55,13 +73,34 @@ export class DashboardComponent implements OnInit {
       console.log('less than 15')
       this.navIsFixed = false;
     }
+    this.isMidStick = (window.pageYOffset > 45 && window.pageYOffset < 81) ? true : false;
+  }
 
-    if (window.pageYOffset > 45 && window.pageYOffset < 81) {
-      this.isMidStick = true;
+  checkPermission(){
+    console.log(this.permissionType)
+    this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
+    this.locationSidebar = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION' ];
+    this.customSidebar = ["CREATECUSTOMFIELD","VIEWCUSTOMFIELD","EDITCUSTOMFIELD","DELETECUSTOMFIELD"];
+
+    this.generalSidebar = this.generalSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+
+    this.generalDemo['regional'] = (this.generalSidebar.includes("UPDATEREGIONALSETTINGS")) ? 'UPDATEREGIONALSETTINGS' : '';
+    this.generalDemo['appsetting'] = (this.generalSidebar.includes("UPDATEAPPSETTINGS")) ? 'UPDATEAPPSETTINGS' : '';
+    
+
+    this.locationSidebar = this.locationSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    
+    this.customSidebar = this.customSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+
+    console.log(this.customSidebar)
+
+    if(this.generalSidebar.includes('UPDATEREGIONALSETTINGS')){
+      this.getAdministrator();
+    }else if(this.generalSidebar.includes('UPDATEAPPSETTINGS')){
+      this.isModuleList(); 
     }else{
-      this.isMidStick = false;
+      console.log('permission deny')
     }
-
   }
 
   getAdministrator(){

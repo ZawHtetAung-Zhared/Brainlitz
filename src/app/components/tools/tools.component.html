@@ -2,7 +2,7 @@
 <div class="d-flex flex-row h-100 w-100 content-wrapper">
     <div class="noti-sidebar h-100">
 	    <div class="side-bar-wrap" [ngClass]="{'p-top' : isSticky == true, 'mid-top' : isMidStick == true}">
-	    	<div [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap">
+	    	<div *ngIf="notiSidebar.length > 0" [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap">
 	    		<button class="btn noti-tab w-100" (click)="clickTab('dropdown')">
 					<span class="btnSpan">
             		<img *ngIf="notiType == 'send' || notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
@@ -10,7 +10,7 @@
 						<span>Notification</span>
 					</span>
 				</button>
-				<ul [ngClass]="{'down': isdropdown == true && (notiType == 'send' || notiType == 'view')}" class="noti-dropdown">
+				<ul *ngIf="notiSidebar.length > 1" [ngClass]="{'down': isdropdown == true && (notiType == 'send' || notiType == 'view')}" class="noti-dropdown">
 					<li [ngClass]="{'activetab': notiType == 'send'}" (click)="clickTab('send')">Send notification</li>
 					<li [ngClass]="{'activetab': notiType == 'view'}" (click)="clickTab('view')">Sent history</li>
 				</ul>
@@ -33,7 +33,7 @@
 					</span>
 				</button>
 			</div> -->
-			<div [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
+			<div *ngIf="apgSidebar.length > 0" [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('apg')">
 					<span class="btnSpan">
             	<img *ngIf="notiType == 'apg'" class="setting-icon" src="./assets/images/sidebar-APG_a@2x.png">
@@ -42,7 +42,7 @@
 					</span>
 				</button>
 			</div>
-			<div [ngClass]="{'active': notiType == 'quizwerkz'}" class="tab-wrap">			
+			<div *ngIf="quizwerkzSidebar.length > 0" [ngClass]="{'active': notiType == 'quizwerkz'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('quizwerkz')">
 					<span class="btnSpan">
             	<img *ngIf="notiType == 'quizwerkz'" class="setting-icon" src="./assets/images/sidebar-quizwerkz_a@2x.png">
@@ -51,7 +51,7 @@
 					</span>
 				</button>
 			</div>
-			<div [ngClass]="{'active': notiType == 'calendar'}" class="tab-wrap">			
+			<div *ngIf="calendarSidebar.length > 0" [ngClass]="{'active': notiType == 'calendar'}" class="tab-wrap">			
 				<button class="btn noti-tab w-100" (click)="clickTab('calendar')">
 					<span class="btnSpan">
             	<img *ngIf="notiType == 'calendar'" class="setting-icon" src="./assets/images/calendar_a@2x.png">
@@ -63,7 +63,7 @@
 		</div>
     </div>
     <div class="heading-margin no-padding large-col">
-    	<div class="d-flex flex-column w-100 h-100 main-wrapper" *ngIf="notiType == 'send'">
+    	<div class="d-flex flex-column w-100 h-100 main-wrapper" *ngIf="notiType == 'send' && notiSidebarDemo.send != ''">
 				<h2 class="title-heading margin-heading">Send notification</h2>
 				<div class="d-flex flex-row">
 					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" >
@@ -311,7 +311,7 @@
 					</div>
 				</div>
     	</div>
-    	<div class="d-flex flex-column w-100 h-100 main-wrapper"  *ngIf="notiType == 'view'">
+    	<div class="d-flex flex-column w-100 h-100 main-wrapper"  *ngIf="notiType == 'view' && notiSidebarDemo.view != ''">
     		<h3 class="title-heading margin-heading">Sent history</h3>
     		<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
     			<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>

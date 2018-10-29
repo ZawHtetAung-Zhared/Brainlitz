@@ -1,11 +1,11 @@
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
-  <div class="card-container">
+  <div *ngIf="coursePermission.length > 0" class="card-container">
     <div class="title"><h3 class="header-font">Courses</h3></div>
     <div class="card-columns">
       <div class="card btn-card">
-        <button class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
+        <button *ngIf="courseDemo.createCP != ''" class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
           <p class="addCourseBtn">+</p>
           <p class="btn-largeLabel">Add new course plan</p>
         </button>
@@ -61,8 +61,8 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
-                    <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == true && courseDemo.viewCourse != ''" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == false && courseDemo.viewCourse != ''" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
                     <span *ngIf="course.teacher != undefined" class="staff-info medium-font">by {{ course.teacher.preferredName }} 
                     </span>
                     <span *ngIf="course.teacher == undefined" class="staff-info medium-font">-
@@ -73,12 +73,12 @@
                       <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                         {{ day }}
                       </span>
-                      <div class="medium-font time-color">
+                      <div *ngIf="course.duration !=undefined" class="medium-font time-color">
                         {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
                       </div>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
-                      <button *ngIf="course.seat_left != 0" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, 'outside', course._id)">
+                      <button *ngIf="course.seat_left != 0 && courseDemo.assignStudent != ''" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, 'outside', course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
                       </button>
@@ -89,7 +89,7 @@
             </div>
           </div>
           <div class="link-wrap">
-            <a class="link-btn" (click)="addNewCourse(courseGroup.coursePlan)">Add new course</a>
+            <a *ngIf="courseDemo.addCourse != ''" class="link-btn" (click)="addNewCourse(courseGroup.coursePlan)">Add new course</a>
           </div>
         </div>
       </div>
@@ -209,7 +209,7 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
+              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -248,7 +248,7 @@
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
-              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
+              <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -271,8 +271,24 @@
       <div class="activeTab-content" *ngIf="activeTab == 'Class'">
         <div class="timeline">
           <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
-            <b>{{timeline.startDate | timelineDate}}</b>
-            <p>{{timeline.startDate | timelineDay}}</p>
+            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
+            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+              <div>
+              <b>{{timeline.startDate | timelineDate}}</b>
+              <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
+            <div *ngIf="timeline.startDate > todayDate">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div class="mt-20">

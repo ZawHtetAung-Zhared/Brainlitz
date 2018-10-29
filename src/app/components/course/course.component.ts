@@ -43,6 +43,7 @@ export class CourseComponent implements OnInit {
   public deleteId:any = {};
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
   public pplLists:any;
   public removeUser:any;
   public currentCourse:any;
@@ -52,8 +53,9 @@ export class CourseComponent implements OnInit {
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
- 
-
+  public permissionType: any;
+  public coursePermission:any = [];
+  public courseDemo:any = [];
   
   public draft:boolean;
 
@@ -100,11 +102,47 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.getCourseLists(20, 0);
+  	
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
-    this.getCPlanList();
+    
     this.activeTab = 'People';
+
+    this._service.permissionList.subscribe((data) => {
+      if(this.router.url === '/course'){
+        this.permissionType = data;
+        this.checkPermission();
+      }
+    });
+
+  }
+
+
+  checkPermission(){
+    console.log(this.permissionType)
+    this.coursePermission = ["CREATECOURSE","VIEWCOURSE","EDITCOURSE","DELETECOURSE","ASSIGNTEACHER","ASSIGNSTUDENTS","CREATECOURSEPLAN","VIEWCOURSEPLAN","EDITCOURSEPLAN"];    
+    this.coursePermission = this.coursePermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    console.log(this.coursePermission.includes('VIEWCOURSE'))
+    
+    
+    this.courseDemo['addCourse'] = (this.coursePermission.includes("CREATECOURSE")) ? 'CREATECOURSE' : '';
+    this.courseDemo['viewCourse'] = (this.coursePermission.includes("VIEWCOURSE")) ? 'VIEWCOURSE' : '';
+    this.courseDemo['editCourse'] = (this.coursePermission.includes("EDITCOURSE")) ? 'EDITCOURSE' : '';
+    this.courseDemo['deleteCourse'] = (this.coursePermission.includes("DELETECOURSE")) ? 'DELETECOURSE' : '';
+    this.courseDemo['assignTeacher'] = (this.coursePermission.includes("ASSIGNTEACHER")) ? 'ASSIGNTEACHER' : '';
+    this.courseDemo['assignStudent'] = (this.coursePermission.includes("ASSIGNSTUDENTS")) ? 'ASSIGNSTUDENTS' : '';    
+    this.courseDemo['createCP'] = (this.coursePermission.includes("CREATECOURSEPLAN")) ? 'CREATECOURSEPLAN' : '';
+    this.courseDemo['viewCP'] = (this.coursePermission.includes("VIEWCOURSEPLAN")) ? 'VIEWCOURSEPLAN' : '';
+    this.courseDemo['editCP'] = (this.coursePermission.includes("EDITCOURSEPLAN")) ? 'EDITCOURSEPLAN' : '';
+    
+
+    if(this.coursePermission.includes('VIEWCOURSE') != false){      
+      this.getCPlanList();
+      this.getCourseLists(20, 0);
+    }else{
+        console.log('permission deny')
+        this.courseList = [];
+      }
   }
 
   ngAfterViewInit() {
@@ -180,7 +218,7 @@ export class CourseComponent implements OnInit {
   }
 
   getCourseDetail(id){
-    this._service.getSingleCourse(id)
+    this._service.getSingleCourse(id,this.locationID)
     .subscribe((res:any)=>{
       console.log(res)
       this.detailLists = res;
@@ -309,6 +347,36 @@ export class CourseComponent implements OnInit {
       this.presentStudent = 0;
       this.absentStudent = 0;
     }
+  }
+
+  checkAttendance(targetDate){
+    console.log('hi', targetDate)
+    this.presentStudent = 0;
+    this.absentStudent = 0;
+    this.noStudent = 0;
+    let ACD = new Date(targetDate).getUTCDate()
+    let ACM = new Date(targetDate).getUTCMonth() + 1;
+    let ACY = new Date(targetDate).getUTCFullYear()
+    this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.blockUI.stop();
+      this.activeCourseInfo = res;
+
+      for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+        if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+          this.presentStudent += 1;
+        }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+          this.absentStudent += 1;
+        }else{
+          this.noStudent += 1;
+        }
+      }
+
+    },err =>{
+      this.blockUI.stop();
+      console.log(err);
+    });
   }
 
   openRemoveModal(id, deleteModal){
@@ -490,7 +558,7 @@ export class CourseComponent implements OnInit {
        'userType': userType
      }
      console.log('~~~~' , body)
-    this._service.assignUser(this.regionId,body)
+    this._service.assignUser(this.regionId,body, this.locationID)
       .subscribe((res:any) => {
          console.log(res);
          this.modalReference.close();
@@ -537,7 +605,9 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/courseCreate']);
   }
   getCPlanList(){
-    this._service.getAllCoursePlan(this.regionId)
+    console.log(this.locationID)
+    console.log('----', localStorage.getItem('locationId'))
+    this._service.getAllCoursePlan(this.regionId,localStorage.getItem('locationId'))
     .subscribe((res:any) => {
       console.log("course plan list",res)
     })
@@ -550,7 +620,7 @@ export class CourseComponent implements OnInit {
 
   getCourseLists(limit, skip){
     this.blockUI.start('Loading...'); 
-    this._service.getAllCourse(this.regionId, limit, skip)
+    this._service.getAllCourse(this.regionId,this.locationID, limit, skip)
     .subscribe((res:any) => {
       console.log('Course List',res);
       this.result = res;

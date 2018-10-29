@@ -500,8 +500,8 @@
 				  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 				  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 				  				<div class="module-img">
-			            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
-			            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/images/{{module.name}}-type_a.png" class="img-fluid">
+			            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">
+			            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png" class="img-fluid">
 				  				</div>
 				  			  	<div class="label-checked"></div>
 				  			  	<input class="form-check-input"
@@ -518,7 +518,7 @@
 					<form class="form-wrap" #apgCreateForm="ngForm" novalidate>
 						<div class="inside-data-wrapper">
 							<div class="col-md-12">
-								<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Shared APGs</span></p>
+								<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Pick APG type</span></p>
 								<h3 class="all-title-font">Create APG</h3>
 							</div>
 							<div class="col-md-6" style="padding-top: 40px;">
