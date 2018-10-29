@@ -15,6 +15,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 export class TemplateComponent implements OnInit {
   @ViewChild('apForm') yourForm: NgModel;
   public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
   public isUpdate: boolean = false;
   public isempty: boolean = false;
   public ispublic: boolean = false;
@@ -225,7 +226,7 @@ export class TemplateComponent implements OnInit {
     console.log(moduleID)
     obj["moduleId"] = moduleID;
     console.log(obj)
-    this._service.createAP(this.regionID, obj)
+    this._service.createAP(this.regionID, this.locationID, obj)
     .subscribe((res:any) => {
        console.log(res)  
        this.toastr.success('Successfully Created.');

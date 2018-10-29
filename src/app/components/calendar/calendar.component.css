@@ -235,6 +235,7 @@ ul.calendar-year li:first-child{
 	font-size: 16px;
 	flex: auto;
 	text-align: center;
+  width: 72px;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
   cursor: pointer;
 }

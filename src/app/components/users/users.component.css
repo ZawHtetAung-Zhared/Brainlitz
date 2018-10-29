@@ -1,3 +1,6 @@
+.hide{
+    display: none;
+}
 .no-seat{
     background: #f2f4f5;
     color: #64707d;

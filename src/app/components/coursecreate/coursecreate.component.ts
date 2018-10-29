@@ -151,7 +151,7 @@ export class CoursecreateComponent implements OnInit {
     console.log("Function Works");
     this.getAllLocations();
     this.blockUI.start('Loading...');
-    this._service.getSingleCourse(cId)
+    this._service.getSingleCourse(cId, this.currentLocation)
     .subscribe((res:any) => {
       console.log("Course Detail",res);
       setTimeout(() => {
@@ -925,7 +925,7 @@ export class CoursecreateComponent implements OnInit {
     
     console.log("Course",this.courseObj);
     this.blockUI.start('Loading...');
-    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck)
+    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck, this.currentLocation)
     .subscribe((res:any) => {
       console.log(res);
       this.blockUI.stop();

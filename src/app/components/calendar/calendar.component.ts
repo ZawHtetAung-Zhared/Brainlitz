@@ -7,7 +7,7 @@ import { calendarField } from './calendar';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
-
+import { Router } from '@angular/router';
 declare var $:any;
 
 @Component({
@@ -21,6 +21,7 @@ export class CalendarComponent implements OnInit {
   modalReference: any;
 	closeResult: any;
 	public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
 	chosenHoliday: any;
   arrayHoliday: Array<any> = [];
 	holidayLists: any;
@@ -62,20 +63,49 @@ export class CalendarComponent implements OnInit {
   public testDate = {year: 2019, month: 1, day: 1};
   public navigation = 'Without select boxes';
   public sameDate:boolean = false;
+  public permissionType:any;
+  public calendarPermission:any = [];
+  public calendarDemo:any = [];
 
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar) { 
+  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar, private router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.locationID.subscribe((data) => {
+      if(this.router.url === '/tools'){
+        this._service.permissionList.subscribe((data) => {
+          console.log('from calendar')
+          this.permissionType = data;
+          this.checkPermission();
+        });
+  
+      }else{
+        console.log('====',this.router.url)
+      }
+    });
   }
 
-  ngOnInit() {
-    this.getAllHolidaysCalendar(20, 0);
-    this.currentYear = (new Date()).getFullYear();
-    console.log(this.currentYear)    
+  ngOnInit() {  
+    if(this.router.url === '/tools'){
+      this.permissionType = localStorage.getItem('permission');
+      this.checkPermission();
+    }  
   }
 
-  getContentHeight(){
-    let hit = $('.min-scroll').height();
-    return hit;
+  checkPermission(){
+    console.log(this.permissionType)
+    this.calendarPermission = ["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"];
+    this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    
+    this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
+    this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
+    this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
+    this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
+
+    if(this.calendarPermission.length > 0){
+      this.getAllHolidaysCalendar(20, 0);
+      this.currentYear = (new Date()).getFullYear();
+    }else{
+      this.calendarLists = [];
+    }
   }
 
   onDateSelect(e){
@@ -195,7 +225,7 @@ export class CalendarComponent implements OnInit {
 		console.log(dataObj);
     this.blockUI.start('Loading...');
     
-		this._service.createHolidaysCalendar(this.regionID,dataObj)
+		this._service.createHolidaysCalendar(this.regionID, this.locationID, dataObj)
     .subscribe((res:any) => {
       console.log('success holidayCalendar post',res)
       this.toastr.success('Successfully Created.');
@@ -433,7 +463,7 @@ export class CalendarComponent implements OnInit {
     console.log("create holiday works",object);
     this.modalReference.close();
     console.log("~calendarid~",this.calendarid)
-    this._service.createHolidays(this.regionID,object)
+    this._service.createHolidays(this.regionID, this.locationID, object)
     .subscribe((res:any) => {
       console.log(res);
       this.holidayTemp.push(res.id);
@@ -542,7 +572,7 @@ export class CalendarComponent implements OnInit {
     console.log("create holiday works",object);
     this.modalReference.close();
     console.log("~calendarid~",this.calendarid)
-    this._service.updateHoliday(this.model._id,object)
+    this._service.updateHoliday(this.model._id, this.locationID, object)
     .subscribe((res:any) => {
       console.log(res);
       // this.holidayTemp.push(res.id);
@@ -579,7 +609,7 @@ export class CalendarComponent implements OnInit {
     }
     this.modalReference.close();
     console.log("~calendarid~",this.calendarid)
-    this._service.deleteHoliday(this.model._id)
+    this._service.deleteHoliday(this.model._id, this.locationID)
     .subscribe((res:any) => {
       console.log(res);
       this.getSingleCalendar(this.currentID);
