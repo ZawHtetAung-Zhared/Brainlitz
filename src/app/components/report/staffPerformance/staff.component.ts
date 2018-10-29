@@ -35,7 +35,7 @@ export class StaffPerformanceReport implements OnInit {
     this.selectedFilter = "";
     this.filter = {};
     console.log(staffData);
-    this.showReportByCoursePlan();
+    this.showReportByLocation();
 
   }
 
@@ -60,7 +60,7 @@ export class StaffPerformanceReport implements OnInit {
 
     if (staffData) { //check if we have data to show report
       let result = this.getFilteredDataGroupByLocation(staffData.location);
-      if(result.length && this.filter && this.filter.type !='location'){
+      if(result.length && this.filter.type && this.filter.type !='location'){
         let _self = this;
         let finalRes =[];
         result.forEach(function(value) {
