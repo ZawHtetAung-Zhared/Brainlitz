@@ -37,6 +37,7 @@ export class CourseComponent implements OnInit {
   public selectedUserLists:any = [];
   public selectedUserId:any = [];
   public todayDate:any;
+  public locationName:any;
   public courseId:any;
   public locationId:any;
   public userType:any;
@@ -137,6 +138,7 @@ export class CourseComponent implements OnInit {
     
 
     if(this.coursePermission.includes('VIEWCOURSE') != false){      
+      this.locationName = localStorage.getItem('locationName');
       this.getCPlanList();
       this.getCourseLists(20, 0);
     }else{
