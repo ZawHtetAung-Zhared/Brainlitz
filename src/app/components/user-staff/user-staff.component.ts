@@ -16,6 +16,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
+	public returnProfile: boolean = false;
+	public isCrop: boolean = false;
+	public locationName: any;
 	public permissionType: any;
 	public staffPermission:any = [];
 	public staffDemo:any = [];
@@ -23,6 +26,7 @@ export class UserStaffComponent implements OnInit {
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
+  	isPasswordChange: boolean = false;
   	emailAlert: boolean = false;
   	public permissionCount: boolean = false;
   	public hideMenu: boolean = false;
@@ -66,6 +70,7 @@ export class UserStaffComponent implements OnInit {
 
   	ngOnInit() {
   		this.blankCrop = false; 
+		this.locationName = localStorage.getItem('locationName');
   		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/staff'){
 		    this.permissionType = data;
@@ -99,6 +104,34 @@ export class UserStaffComponent implements OnInit {
 	      console.log('permission deny')
 	      this.staffLists = [];
 	    }
+	}
+
+	getSingleInfo(ID){
+		console.log(ID);
+		console.log(this.isCrop);
+		this.isCrop = false;
+		this.staffLists = [];
+		this.getSingleUser(ID);
+	}
+
+	getSingleUser(ID){
+		console.log(this.formFields.details)
+		this._service.editProfile(this.regionID, ID)
+    	.subscribe((res:any) => {
+  			console.log("SingleUser",res);
+  			this.formFields = res;
+  			this.isupdate = true;
+  			this.returnProfile = res.profilePic;
+  			// console.log('~~~', this.returnProfile)
+  			this.showStaffDetail = false;
+			this.goCreateForm('edit');
+	    }, err => {	
+	    	console.log(err);
+	    });
+	}
+
+	changePassword(state){
+		this.isPasswordChange = !state;
 	}
 
   	showMore(type: any, skip: any){
@@ -164,19 +197,25 @@ export class UserStaffComponent implements OnInit {
 	    })
 	}
 
-	goCreateForm(){
+	goCreateForm(type){
 		this.staffLists = [];
 		this.showFormCreate = true;
 		this.permissionCount = false;
 		this.hideMenu = true;
+		this.isCrop = false;
 		console.log('create')
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
-	    this.getCustomFields();
+	    if(type == 'create' || !this.formFields.details){
+	    	console.log("CREATE")
+	    	this.getCustomFields('create');
+	    }else{
+	    	this.getCustomFields('update');
+	    }
 	}
 
-	getCustomFields(){
+	getCustomFields(type){
 		console.log('call getcustom fields')
 		this._service.getAllFields(this.regionID)
 		.subscribe((res:any) => {
@@ -188,6 +227,21 @@ export class UserStaffComponent implements OnInit {
 				// console.log("^^Test^^",fieldName);
 				this.customFields[i]["value"] = null;
 				console.log("test--",this.customFields);
+				if(type == 'create'){
+					console.log("No detail fields in Res")
+					this.customFields[i]["value"] = null;
+					console.log("name----",this.customFields);
+				}else{
+					console.log("EDIT RES",this.customFields[i]._id);
+					var findId = this.customFields[i]._id;
+					var test = this.formFields.details.filter(item=> item.permittedUserInfoId == findId);
+					console.log("Test",test);
+					if(test.length>0){
+						console.log("value",test[0].value);
+						this.customFields[i]["value"] = test[0].value;
+					}
+					console.log(this.formFields.details);
+				}
 			}
 		})
 	}
@@ -262,7 +316,7 @@ export class UserStaffComponent implements OnInit {
 		objData.append('orgId', this.orgID),
 		objData.append('regionId', this.regionID),
 		objData.append('fullName', obj.fullName)
-		objData.append('preferredName', obj.preferredname),
+		objData.append('preferredName', obj.preferredName),
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
 		objData.append('location', JSON.stringify(locationObj)),
@@ -301,15 +355,29 @@ export class UserStaffComponent implements OnInit {
 		    	console.log(err)
 		    })
 		}else{
+			this.blockUI.start('Loading...');
+			let getImg = document.getElementsByClassName("circular-profile");			
+			if(getImg != undefined){
+				$(".circular-profile img:last-child").attr("id", "blobUrl");
+			}
+			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;			
+			console.log('~~~> ',this.img)
+			console.log('==== ',this.isCrop)
+
+			this.ulFile = (this.isCrop == true) ? this.dataURItoBlob(this.img) : this.img;
+			
+			if(this.ulFile != undefined){
+				objData.append('profilePic', this.ulFile)
+			}
 			console.log('update')
 			this._service.updateUser(this.regionID, this.locationID, this.editId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
-	  			this.toastr.success('Successfully Created.');
+	  			this.toastr.success('Successfully Updated.');
 		  		this.blockUI.stop();
-		  		this.back();
+		  		this.backToDetails();
 		    }, err => {
-		    	this.toastr.error('Create Fail');
+		    	this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err)
 		    })
@@ -317,18 +385,31 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	back(){
+		this.hideMenu = false;
 		this.formFields = new Staff();
+		this.isupdate = false;
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
-		this.hideMenu = false;
 		this.imgDemoSlider = false;
-		this.isupdate = false;
 		this.isSearch = false;
 		$(".frame-upload").css('display', 'none');
 		this.staffLists = [];
-		this.getAllUsers('staff', 20, 0);
+		if(this.staffPermission.includes('VIEWSTAFFS') != false){					
+			this.getAllUsers('staff', 20, 0);
+		}
 	}	
+
+	backToDetails(){
+		this.hideMenu = false;
+		this.formFields = new Staff();
+		this.showFormCreate = false;
+		this.blankCrop = false;
+		this.imgDemoSlider = false;
+		$(".frame-upload").css('display', 'none');
+		this.staffLists = [];
+		this.showDetails(this.staffDetail.user, this.staffDetail.user.userId);
+	}
 
 	getAllpermission(){
 		console.log('hi permission')
@@ -374,39 +455,46 @@ export class UserStaffComponent implements OnInit {
 	    this.imgDemoSlider = true;
 	    $("#upload-demo img:first").remove();
 	    this.input = $event.target.files[0];
-	    if (this.input) {
+	    if (this.input.size <= 477732 && this.input) {
 	      	if (this.input && this.uploadCrop) {
 	        	this.uploadCrop.destroy();
 	      	}
-      	var reader = new FileReader();
-        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
-	        viewport: {
-	            width: 150,
-	            height: 150,
-	            type: 'circle'
-	          },
-	        boundary: {
-	            width: 300,
-	            height: 300
-	        },
-          	enableExif: true
-        });	
-        	
-	      	var $uploadCrop = this.uploadCrop;
-	      	reader.onload = function(e: any) {
-	      		$('.upload-demo').addClass('ready');
-		        $uploadCrop.bind({
-		            url: e.target.result
-		        })
-		          .then(function(e: any) {
-		        });
-	      	};
-	      reader.readAsDataURL($event.target.files[0]);
+	      	var reader = new FileReader();
+	        this.uploadCrop = new Croppie(document.getElementById("upload-demo"),{
+		        viewport: {
+		            width: 150,
+		            height: 150,
+		            type: 'circle'
+		          },
+		        boundary: {
+		            width: 300,
+		            height: 300
+		        },
+	          	enableExif: true
+	        });	
+	        	
+		      	var $uploadCrop = this.uploadCrop;
+		      	reader.onload = function(e: any) {
+		      		$('.upload-demo').addClass('ready');
+			        $uploadCrop.bind({
+			            url: e.target.result
+			        })
+			          .then(function(e: any) {
+			        });
+		      	};
+		    reader.readAsDataURL($event.target.files[0]);
+	    }else{
+	    	console.log('file size is too large')
+	    	this.toastr.error('file size is too large');
+	      	this.validProfile = false;
+			this.imgDemoSlider = false;
+			$(".frame-upload").css('display', 'none');
 	    }
   	}
 
   	cropResult(modal) {
   		this.validProfile = true;
+  		this.isCrop = true;
 	    let self = this;
 	    this.imgDemoSlider = false;
 	    setTimeout(function() {
@@ -453,16 +541,15 @@ export class UserStaffComponent implements OnInit {
 	backToUpload(){
 		this.validProfile = false;
 		this.imgDemoSlider = false;
-		this.hideMenu = false;
+		this.hideMenu = true;
 		$(".frame-upload").css('display', 'none');
 	}
 
 	showDetails(data,ID){
-		console.log('show detail')
 		this.staffLists = [];
-		console.log(ID);
 		this.editId = ID;
-		console.log("show Staff details");
+		console.log("show Staff details", data);
+		console.log(ID);
 		this.blockUI.start('Loading...');
 		this.showStaffDetail = true;
 		this._service.getUserDetail(this.regionID,data.userId,this.locationID)

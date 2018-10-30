@@ -14,10 +14,13 @@
 <div *ngIf="!showFormCreate && !showStaffDetail && staffPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 		<div class="display-flex mr-top-menu">
 			<div class="col-md-4 pad-0">
-				<h3>Staffs</h3>
+				<div class="d-flex flex-row">
+					<h3>Staffs</h3>
+					<span class="location-name">{{locationName}}</span>
+				</div>
 			</div>
 			<div class="col-md-8 pad-0">
-				<button *ngIf="staffDemo.addStaff != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
+				<button *ngIf="staffDemo.addStaff != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new staff</button>
 			</div>
 		</div>
 		<div *ngIf="staffPermission[0] != undefined" class="col-md-12 pad-0" style="margin-top: 35px;">
@@ -75,9 +78,9 @@
 			<div class="back" (click)="backToStaff()">
 				<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Staffs</span>
 			</div>
-			<!-- <div class="ml-auto">
+			<div class="ml-auto">
 				<span class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
-			</div> -->
+			</div>
 		</div>
 
 		<div class="user-info-wrap d-flex -justify-content-between">
@@ -151,9 +154,9 @@
 							<span>{{wordLength}}/60characters</span>
 						</div>
 		  	    	</div>	
-		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredname" [(ngModel)]="formFields.preferredname" #preferredname="ngModel" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" required>
-		  	    	<div *ngIf="preferredname.invalid && (preferredname.dirty || preferredname.touched)" class="alert alert-danger">
-				        <div [hidden]="!preferredname.errors.required">
+		  	    	<input type="text" class="form-control " placeholder="Type preferred name here" name="preferredName" [(ngModel)]="formFields.preferredName" #preferredName="ngModel" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" maxlength="60" (input)="changeMethod($event.target.value)" required>
+		  	    	<div *ngIf="preferredName.invalid && (preferredName.dirty || preferredName.touched)" class="alert alert-danger">
+				        <div [hidden]="!preferredName.errors.required">
 				          Display name is required!
 				        </div>
 				    </div>
@@ -178,7 +181,7 @@
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
 		  	    	<label for="" class="label-txt">Email address</label> 	
-		  	    	<input type="email" class="form-control" placeholder="Type email address here" (keyup)="validateEmail(formFields.email)" name="email" [(ngModel)]="formFields.email" #email="ngModel" required>
+		  	    	<input [readonly]="isupdate" type="email" class="form-control" placeholder="Type email address here" (keyup)="validateEmail(formFields.email)" name="email" [(ngModel)]="formFields.email" #email="ngModel" required>
 		  	    	<div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
 				        <div [hidden]="!email.errors.required">
 				          Email is required!
@@ -188,7 +191,7 @@
 		  	    		Please provide a valid email
 		  	    	</div>
 		  	  	</div>
-		  	  	<div class="form-group form-divider">
+		  	  	<div *ngIf="!isupdate" class="form-group form-divider">
 		  	    	<label for="" class="label-txt">Password</label> 	
 		  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFields.password" #password="ngModel" required>
 		  	    	<div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
@@ -196,6 +199,27 @@
 				          Password is required!
 				        </div>
 				    </div>
+		  	  	</div>
+		  	  	<div *ngIf="isupdate" class="form-group form-divider">
+		  	    	 
+		  	    	<div class="d-flex flex-row">
+		  	    		<label for="" class="label-txt">Change Password</label>
+		  	    		<div class="toggle-wrap">
+		  	    		  <label class="switch">
+		  	    		    <input type="checkbox" (change)="changePassword(isPasswordChange)" [checked]="false">
+		  	    		    <span class="slider round"></span>
+		  	    		  </label>
+		  	    		</div>
+		  	    	</div>
+
+		  	    	<div *ngIf="isPasswordChange">	
+			  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFields.password" #password="ngModel" required>
+			  	    	<div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
+					        <div [hidden]="!password.errors.required">
+					          Password is required!
+					        </div>
+					    </div>
+					</div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider" *ngFor="let field of customFields;">
 		  	  		<label for="guardmail" class="label-txt">{{ field.name }}</label>
@@ -209,7 +233,8 @@
 							<label for="upload" class="profile-label">Profile</label><br>
 							<div class="circular-wrap">
 								<div class="circular-profile">
-									<img src="assets/img/user.svg">
+									<img *ngIf="isupdate == false" src="assets/img/user.svg">
+									<img *ngIf="isupdate == true" src="{{returnProfile}}">
 								</div>	
 							</div>	
 						    <p>Update photo</p>							
@@ -245,7 +270,7 @@
           </div>
 				</div>
 			</div>
-			<div class="col-md-12 pad-bottom">
+			<div *ngIf="!isupdate" class="col-md-12 pad-bottom">
 				<div style="border-bottom: 1px solid #e3e4e6;"  class="form-group" ngFor="let user of permissionLists">
   	  	  	    	<label class="label-txt radio" style="padding-bottom: 10px">Permission as</label> 	
   	  	  	    	<div class="d-flex flex-wrap">
@@ -263,7 +288,8 @@
 			</div>
 		</div>
 		<div class="d-flex justify-content-end button-group">
-			<button type="button" class="bt cancel-button" (click)="back()">Cancel</button>
+			<button *ngIf="isupdate == false" type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+			<button *ngIf="isupdate == true" type="button" class="bt cancel-button" (click)="backToDetails()" >Cancel</button>
         	<button *ngIf="isupdate  == false" type="submit" (click)="createUser(formFields, 'create')" class="btn create-button" [disabled]="!createForm.form.valid || permissionCount== false">Create
 			</button>
 			<button *ngIf="isupdate  == true" type="submit" (click)="createUser(formFields, 'edit')" class="btn create-button" [disabled]="!createForm.form.valid">Update

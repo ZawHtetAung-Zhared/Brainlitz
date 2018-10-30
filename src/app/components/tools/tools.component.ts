@@ -36,6 +36,7 @@ export class ToolsComponent implements OnInit {
   public userLists:any;
   public courseLists:any;
   public dataLists:any;
+  public locationName:any;
   public userCount:any;
   public notiType:any;
   public notiLists: Array<any> = [];
@@ -122,6 +123,7 @@ export class ToolsComponent implements OnInit {
     
     if(this.notiSidebar.length > 0){
       console.log('noti')
+      this.locationName = localStorage.getItem('locationName');
       this.notiType =  (this.notiSidebar.includes("SENDNOTIFICATION")) ? 'send' : 'view';      
       if(this.notiType == 'view'){
         this.notiLists = [];

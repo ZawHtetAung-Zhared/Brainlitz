@@ -68,7 +68,7 @@ export class RegionComponent implements OnInit {
   		  this.regionLists = res;
       }else{
         localStorage.setItem("regionId", res[0]._id);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/customer']);
       }
       setTimeout(() => {
         this.blockUI.stop(); // Stop blocking

@@ -1,3 +1,17 @@
+.location-name{
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  color: #007bff;
+  line-height: 0.5;
+  position: relative;
+  margin-top: 28px;
+  font-size: 11px;
+  background: #f2f4f5;
+  margin-left: 5px;
+  padding: 9px;
+  margin-bottom: 0;
+  border-radius: 4px;
+  display: table;
+}
 .search-result-box{
   height: 300px;
   overflow: auto;
@@ -832,6 +846,13 @@ width: 50%;
   border-radius: 4px !important;
   color: #788796;
   cursor: pointer;
+}
+
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    padding-left: 15px;
 }
 
 /*//Small devices (landscape phones, 576px and up)*/

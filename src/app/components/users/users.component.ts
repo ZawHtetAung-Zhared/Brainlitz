@@ -34,6 +34,7 @@ export class UsersComponent implements OnInit {
 	public orgID = localStorage.getItem('OrgId');
 	public regionID = localStorage.getItem('regionId');	
 	public locationID = localStorage.getItem('locationId');	
+	public locationName: any;	
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
 	xxxx:any = {};	
@@ -100,6 +101,7 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
+		this.locationName = localStorage.getItem('locationName');
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/customer'){
@@ -238,15 +240,22 @@ export class UsersComponent implements OnInit {
 		for(var i=0; i<this.customFields.length; i++){
 			console.log('field value',this.customFields[i].value);
 			if(this.customFields[i].value){
-				if(this.customFields[i].value.trim().length){
-					var fieldObj:any = {};
-					fieldObj = {
-						"permittedUserInfoId": this.customFields[i]._id,
-						"value": this.customFields[i].value
-					}
-					console.log("fieldObj",fieldObj);
-					this.formFieldc.details.push(fieldObj);
+				var fieldObj:any = {};
+				fieldObj = {
+					"permittedUserInfoId": this.customFields[i]._id,
+					"value": this.customFields[i].value
 				}
+				console.log("fieldObj",fieldObj);
+				this.formFieldc.details.push(fieldObj);
+				// if(this.customFields[i].value.trim().length){
+				// 	var fieldObj:any = {};
+				// 	fieldObj = {
+				// 		"permittedUserInfoId": this.customFields[i]._id,
+				// 		"value": this.customFields[i].value
+				// 	}
+				// 	console.log("fieldObj",fieldObj);
+				// 	this.formFieldc.details.push(fieldObj);
+				// }
 			}
 		}	
 		console.log("formFieldc details",this.formFieldc.details);
@@ -292,7 +301,8 @@ export class UsersComponent implements OnInit {
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
 			if(this.img != undefined){
 				this.ulFile = this.dataURItoBlob(this.img)
-				objData.append('profilePic', this.ulFile)
+				objData.append('profilePic', this.ulFile);
+				console.log('profile pic',this.ulFile)
 			}
 
 			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
@@ -301,8 +311,9 @@ export class UsersComponent implements OnInit {
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
 
-			this.blockUI.start('Loading...');
+			
 			console.log("Data",objData)
+			this.blockUI.start('Loading...');
 			this._service.createUser(objData, this.locationID)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
@@ -523,7 +534,8 @@ export class UsersComponent implements OnInit {
 	    this.imgDemoSlider = true;
 	    $("#upload-demo img:first").remove();
 	    this.input = $event.target.files[0];
-	    if (this.input) {
+	    console.log(this.input.size)
+	    if (this.input.size <= 477732 && this.input) {
 	      	if (this.input && this.uploadCrop) {
 	        	this.uploadCrop.destroy();
 	      	}
@@ -551,6 +563,12 @@ export class UsersComponent implements OnInit {
               })
           }
 	    	reader.readAsDataURL($event.target.files[0]);
+	    }else{
+	    	console.log('file size is too large')
+	    	this.toastr.error('file size is too large');
+	      	this.validProfile = false;
+			this.imgDemoSlider = false;
+			$(".frame-upload").css('display', 'none');
 	    }
   	}
 
@@ -608,7 +626,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	backToUpload(){
-		this.hideMenu = false;
+		console.log('menu should be hidden')
+		this.hideMenu = true;
 		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');
