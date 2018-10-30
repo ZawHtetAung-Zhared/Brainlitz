@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   public courseMenu: any = [];
   public reportMenu: any = [];
   public toolsMenu: any = [];
+  public settingMenu: any = [];
   public previousLocation:any = '';
   
   constructor(private _router: Router, private _service: appService) {
@@ -70,6 +71,7 @@ export class HeaderComponent implements OnInit {
           if(this.headerlocationLists[i]._id == this.currentLocationID){
             this.headerlocationLists[i].selected = true;
             localStorage.setItem('locationId', this.headerlocationLists[i]._id);
+            localStorage.setItem('locationName', this.headerlocationLists[i].name);
           }
         }
         this.setPermission(this.currentLocationID);
@@ -82,6 +84,7 @@ export class HeaderComponent implements OnInit {
       console.log(localStorage.getItem('locationId'))
       if(!localStorage.getItem('locationId') && localStorage.getItem('locationId')!= null){
         localStorage.setItem('locationId', this.headerlocationLists[0]._id);
+        localStorage.setItem('locationName', this.headerlocationLists[0].name);
         localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
         this.setPermission(this.headerlocationLists[0]._id);        
       }else{
@@ -117,8 +120,19 @@ export class HeaderComponent implements OnInit {
   }
 
   selectLocation(e){
+    console.log('location select', this.headerlocationLists)
     let LocationId = e.target.value;
+
+    for(var i in this.headerlocationLists){
+      if(this.headerlocationLists[i]._id == LocationId){
+        console.log('same')
+        localStorage.setItem('locationName', this.headerlocationLists[i].name);
+      }
+    }
+    // let Locationname = e.target.value.name;
+
     localStorage.setItem('locationId', LocationId);
+    // localStorage.setItem('locationName', Locationname);
     if(this.currentLocationID != LocationId){
       console.log('different location')
       this.currentLocationID = LocationId
@@ -135,6 +149,7 @@ export class HeaderComponent implements OnInit {
     this.courseMenu = ['CREATECOURSE','VIEWCOURSE','EDITCOURSE','DELETECOURSE','ASSIGNTEACHER','ASSIGNSTUDENTS'];
     this.reportMenu = ['VIEWREPORT','EXPORTREPORT'];
     this.toolsMenu = ['SENDNOTIFICATION','VIEWSENDHISTORY'];
+    this.settingMenu = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS', 'ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION',"CREATECUSTOMFIELD","VIEWCUSTOMFIELD","EDITCUSTOMFIELD","DELETECUSTOMFIELD"];
 
     this.customerMenu = this.customerMenu.filter(value => -1 !== data.indexOf(value));
     this.staffMenu = this.staffMenu.filter(value => -1 !== data.indexOf(value));

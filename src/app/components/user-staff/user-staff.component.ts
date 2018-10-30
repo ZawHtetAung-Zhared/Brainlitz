@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
+	public locationName: any;
 	public permissionType: any;
 	public staffPermission:any = [];
 	public staffDemo:any = [];
@@ -94,6 +95,7 @@ export class UserStaffComponent implements OnInit {
 
 		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
 			this.getAllUsers('staff', 20, 0);
+			this.locationName = localStorage.getItem('locationName');
 			this.getAllpermission();
 		}else{
 	      console.log('permission deny')

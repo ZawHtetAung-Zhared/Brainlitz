@@ -1,3 +1,17 @@
+.location-name{
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    color: #007bff;
+    line-height: 0.5;
+    position: relative;
+    margin-top: 7px;
+    font-size: 11px;
+    background: #f2f4f5;
+    margin-left: 5px;
+    padding: 9px;
+    margin-bottom: 0;
+    border-radius: 4px;
+    display: table;
+}
 .hide{
     display: none;
 }

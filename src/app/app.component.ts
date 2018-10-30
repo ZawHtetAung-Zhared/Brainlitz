@@ -45,29 +45,29 @@ export class AppComponent implements OnInit{
         this.showHeader = (event.url == "/login" || event.url == "/" || event.url == "/category" || event.url == "/courseplan" ) ? this.showHeader = false : this.showHeader = true; 
      }
     })
-    // console.log(document.location.href)
-    // let str = document.location.href;
-    // var start_pos = str.indexOf('//') + 2;
-    // var end_pos = str.indexOf('/#',start_pos);
-    // var storeLocal = str.substring(start_pos,end_pos)    
-    // console.log('~~~~~', storeLocal)
-    // // var redirectURL = storeLocal.split("/").pop();
+    console.log(document.location.href)
+    let str = document.location.href;
+    var start_pos = str.indexOf('//') + 2;
+    var end_pos = str.indexOf('/#',start_pos);
+    var storeLocal = str.substring(start_pos,end_pos)    
+    console.log('~~~~~', storeLocal)
+    // var redirectURL = storeLocal.split("/").pop();
      
-    // if(storeLocal.includes('/')){
-    //   var str_temp = storeLocal.substr(storeLocal.lastIndexOf("/")+1);
-    //   this.str_res = str_temp.substring(0,str_temp.indexOf('.'));
-    // }else{
-    //   this.str_res = storeLocal.substring(0,storeLocal.indexOf('.'));
-    // }
+    if(storeLocal.includes('/')){
+      var str_temp = storeLocal.substr(storeLocal.lastIndexOf("/")+1);
+      this.str_res = str_temp.substring(0,str_temp.indexOf('.'));
+    }else{
+      this.str_res = storeLocal.substring(0,storeLocal.indexOf('.'));
+    }
 
-    // console.log('~~~~~', this.str_res)
+    console.log('~~~~~', this.str_res)
 
-    // // var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
-    // if((document.location.href.slice(-5)) == "login"){
-    //   localStorage.setItem('slicePath', this.str_res);      
-    //   this._service.getPathLocal();
-    //   this._router.navigateByUrl('/login', { skipLocationChange: true });
-    // }
+    // var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
+    if((document.location.href.slice(-5)) == "login"){
+      localStorage.setItem('slicePath', this.str_res);      
+      this._service.getPathLocal();
+      this._router.navigateByUrl('/login', { skipLocationChange: true });
+    }
 
     
 	}

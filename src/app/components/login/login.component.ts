@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   public randomKey: any;
   public host: any;
   public islogin: boolean = false;
+  public noOrginExit: boolean = false;
 
   constructor(private _service: appService, @Inject(DOCUMENT) private document: any) {
      //  this._service.slicePath.subscribe((nextValue) => {
@@ -96,8 +97,11 @@ export class LoginComponent implements OnInit {
       this.clientId = res.clientId
       this.clientSecret = res.clientSecret
       this.loginUrl = this.loginUrl + res.orgId;
+      this.noOrginExit = false;
     }, err => {
       console.log(err)
+      console.log(err.error.message)
+      this.noOrginExit = true;
     })
   }
 

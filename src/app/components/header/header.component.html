@@ -42,7 +42,7 @@
       <li *ngIf="staffMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/staff">Staffs</a></li>
       <li *ngIf="courseMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/course">Courses</a></li>
       <li *ngIf="reportMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/report">Report</a></li>
-      <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Setting</a></li>
+      <li *ngIf="settingMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Setting</a></li>
       <li *ngIf="toolsMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools">Tools</a></li>
     </ul>
   </div>
@@ -56,7 +56,7 @@
       <li *ngIf="staffMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/staff">Staffs</a></li>
       <li *ngIf="courseMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/course">Courses</a></li>
       <li *ngIf="reportMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/report">Report</a></li>
-      <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Setting</a></li>
+      <li *ngIf="settingMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Setting</a></li>
       <li *ngIf="toolsMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools">Tools</a></li>
     </ul>
   </div>

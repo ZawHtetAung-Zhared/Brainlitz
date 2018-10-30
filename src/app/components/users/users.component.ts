@@ -34,6 +34,7 @@ export class UsersComponent implements OnInit {
 	public orgID = localStorage.getItem('OrgId');
 	public regionID = localStorage.getItem('regionId');	
 	public locationID = localStorage.getItem('locationId');	
+	public locationName: any;	
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
 	xxxx:any = {};	
@@ -147,6 +148,7 @@ export class UsersComponent implements OnInit {
 
 		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
 			this.getAllUsers('customer', 20, 0);
+			this.locationName = localStorage.getItem('locationName');
 		}else{
 	      console.log('permission deny')
 	      this.customerLists = [];

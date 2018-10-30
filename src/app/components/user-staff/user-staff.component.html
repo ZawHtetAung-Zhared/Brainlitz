@@ -14,7 +14,10 @@
 <div *ngIf="!showFormCreate && !showStaffDetail && staffPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 		<div class="display-flex mr-top-menu">
 			<div class="col-md-4 pad-0">
-				<h3>Staffs</h3>
+				<div class="d-flex flex-row">
+					<h3>Staffs</h3>
+					<span class="location-name">{{locationName}}</span>
+				</div>
 			</div>
 			<div class="col-md-8 pad-0">
 				<button *ngIf="staffDemo.addStaff != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
