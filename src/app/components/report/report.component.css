@@ -824,7 +824,52 @@ h3.head-rating-count {
   font-family: Montserrat-SemiBold;
   padding:15px;
 }
-
-
-
+.confirm-filter{
+  float: right;
+  font-family: Montserrat-SemiBold;
+  font-size: 16px;
+  line-height: 20px;
+  background-color: #007fff !important;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.25;
+  color: #fff !important;
+  padding: 9px 13px ;
+}
+.cancel-filter{
+  font-family: Montserrat-SemiBold;
+  float: right;
+  color: #2e3d4d !important;
+  font-size: 16px;
+  font-weight: 500;
+  margin:0 10px;
+}
+.selected-filter-content{
+  font-family: Montserrat-Medium;
+}
+.selected-filter-value{
+  border-radius: 16px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  color:#2e3d4d;
+  padding: 6px 12px;
+  margin: 0 10px;
+}
+.remove-selected-filter{
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  color: #ff3d33;
+  border: 2px solid#ff3d33;
+  border-radius: 8px;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+}
+.remove-selected-filter span{
+  position: relative;
+  top: -7px;
+  font-weight: bold;
+}
 

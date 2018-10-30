@@ -49,7 +49,7 @@
   <div class="modal-body">
     <div class="slt-rpt-filter rpt-input-title">Select Filter</div>
     <div class="pd-top-15">
-      <select id="filterType" class="form-control" name="filterType" (change)="updateFilterType($event)">
+      <select id="filterType" class="form-control" name="filterType" (change)="updateFilterType($event.target.value)">
         <option [selected]="0" *ngFor="let filter of filterList; let i = index" value="{{filter}}">{{
           filter }}
         </option>
@@ -71,5 +71,22 @@
 		        </button>
 		     </span>
     </div>
+    <div style="" class="search-result-box" *ngIf="searchResult.show == true">
+      <div class="single-result"  *ngFor="let suggestedItem of searchResult.value" (click)="selectFilter(suggestedItem)">
+        {{suggestedItem}}
+      </div>
+    </div>
+    <div class="selected-filter-content">
+        <span *ngFor="let selectedItem of filter.value" class="selected-filter-value">
+          {{selectedItem}}
+          <div class="remove-selected-filter"  (click)="removeCurrentFilter(selectedItem)"><span>-</span></div>
+        </span>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <div>
+        <button class="btn btn-primary confirm-filter" (click)="applyFilters()">Confirm</button>
+        <button class="btn btn-default cancel-filter">Cancel</button>
+      </div>
   </div>
 </ng-template>
