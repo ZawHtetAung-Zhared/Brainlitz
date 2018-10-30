@@ -34,7 +34,7 @@ export class UsersComponent implements OnInit {
 	public orgID = localStorage.getItem('OrgId');
 	public regionID = localStorage.getItem('regionId');	
 	public locationID = localStorage.getItem('locationId');	
-	public locationName: any;	
+	public locationName :any;	
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
 	xxxx:any = {};	
@@ -101,7 +101,10 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.locationName = localStorage.getItem('locationName');
+		setTimeout(() => {
+			console.log('~~~', this.locationName)	
+			this.locationName = localStorage.getItem('locationName');
+	    }, 300);
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/customer'){
@@ -323,13 +326,19 @@ export class UsersComponent implements OnInit {
 		  		this.back();
 		    }, err => {		    	
 		    	this.blockUI.stop();
-		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// 	this.toastr.error('Email already exist');
+		    	// }
+		    	// else {
+		    	// 	this.toastr.error('Create Fail');
+		    	// }
+		    	console.log(err);
+		    	console.log(err.status)
+		    	if(err.status == 400){
 		    		this.toastr.error('Email already exist');
-		    	}
-		    	else {
+		    	}else{
 		    		this.toastr.error('Create Fail');
 		    	}
-		    	console.log(err);
 		    })
 		}else{
 			console.log('update');
@@ -371,9 +380,14 @@ export class UsersComponent implements OnInit {
 		  		this.blockUI.stop();
 		  		this.back();
 		    }, err => {
-		    	this.toastr.error('Update Fail');
+		    	// this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err);
+		    	if(err.status == 400){
+		    		this.toastr.error('Email already exist');
+		    	}else{
+		    		this.toastr.error('Create Fail');
+		    	}
 		    })
 		}
 	}
@@ -442,6 +456,11 @@ export class UsersComponent implements OnInit {
 	// 		console.log('this.locationLists', this.locationLists);
 	// 	})
 	// }
+
+	whateverEventHandler(e){
+		console.log(e)
+		this.validateEmail(e.target.value)
+	}
 
 	validateEmail(data){
 		
