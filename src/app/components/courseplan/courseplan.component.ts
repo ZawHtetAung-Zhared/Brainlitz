@@ -10,6 +10,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { feeOption } from './courseplan';
 
 declare var $: any;
 
@@ -24,6 +25,7 @@ export class CourseplanComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
+  public optionFee: boolean = false;
 	public showModal: boolean = false;
 	public showsubModal: boolean = true;
   public checked: boolean = false;
@@ -39,6 +41,7 @@ export class CourseplanComponent implements OnInit {
   checkedCatId: any;
   public courseplanLists: any;
   public showLoading: boolean = false;
+  // formField = {};
   formField: cPlanField = new cPlanField();
   formAPG: apgForm = new apgForm();
   depositLists: any;
@@ -47,6 +50,7 @@ export class CourseplanComponent implements OnInit {
   public updateButton: boolean = false;
   public createButton: boolean = true;
   public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
   editId: any;
   selectcPlan: any;
   viewCplan: any;
@@ -76,6 +80,7 @@ export class CourseplanComponent implements OnInit {
   public goBackCat: boolean = false;
   public focusCfee: boolean = false;
   public focusMisfee: boolean = false;
+  public focusOptionfee: boolean = false;
   step1FormaData: any;
   step2FormaData: any;
   step3FormaData: any;
@@ -251,6 +256,13 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
+
+    let obj:any={};
+    for(var i=0;i<this.optArr.length;i++){
+      obj[this.optArr[i].name] = this.optArr[i].fees;
+    }
+    console.log("Obj",obj);
+
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -282,9 +294,15 @@ export class CourseplanComponent implements OnInit {
       "holidayCalendarId": this.formField.holidayCalendarId,
       "accessPointGroup": this.selectedAPGidArray
     }
+
+    if(Object.keys(obj).length != 0){
+      console.log("lll");
+      data.paymentPolicy["courseFeeOptions"] = obj;
+    }
+
     console.log(data)
     this.blockUI.start('Loading...');
-    this._service.createCoursePlan(this.regionID,data)
+    this._service.createCoursePlan(this.regionID, this.locationID, data)
     .subscribe((res:any) => {
         console.log('success post',res);
         this.toastr.success('Successfully Created.');
@@ -451,7 +469,7 @@ export class CourseplanComponent implements OnInit {
 
   getAllCoursePlan(){
     this.blockUI.start('Loading...');
-    this._service.getAllCoursePlan(this.regionID)
+    this._service.getAllCoursePlan(this.regionID, this.locationID)
     .subscribe((res:any) => {
       this.courseplanLists = res;
       setTimeout(() => {
@@ -587,7 +605,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllPdf(){
-    this._service.getAllPdf(this.regionID, 20, 0)
+    this._service.getAllPdf(this.regionID, this.locationID, 20, 0)
     .subscribe((res:any) => {
       console.log('pdflists',res)
       this.pdfList = res;
@@ -888,13 +906,27 @@ export class CourseplanComponent implements OnInit {
     if(type == 'cFee'){
       this.focusCfee = true;
       $('.cfee-bg').addClass("focus-bg");
-    }
-    if(type == 'misFee'){
+    }else if(type == 'misFee'){
       this.focusMisfee = true;
       $('.misfee-bg').addClass("focus-bg");
     }
   }
 
+  showFocus(e, type){
+    console.log(type)
+    if (type == 'optionFee'){
+      this.optionFee = true;
+    }
+  }
+
+  hideFocus(e, type){
+    console.log(type)
+    if (type == 'optionFee'){
+      this.optionFee = false;
+    }
+  }
+
+    
   enterHover(e){
     console.log('mouse enter')
     $('.input-group-text').css('background', '#f7f9fa');
@@ -920,6 +952,8 @@ export class CourseplanComponent implements OnInit {
       this.step1 = false;
       this.step2 = true;
       this.step3 = false;
+      this.testObj.name = null;
+      this.testObj.fees = null;
       if(this.step2 == true){
         $("#step3").removeClass('active');
         $("#step2").removeClass('done');
@@ -1014,6 +1048,8 @@ export class CourseplanComponent implements OnInit {
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
+      this.testObj.name = null;
+      this.testObj.fees = null;
       if(this.step3 == false){
         $("#step3").removeClass('active');
         $("#step1").addClass('done');
@@ -1163,12 +1199,12 @@ export class CourseplanComponent implements OnInit {
       var templateID;
       var moduleId = localStorage.getItem('moduleID')
         data["moduleId"] = moduleId;
-         this._service.createAP(this.regionID, data)
+         this._service.createAP(this.regionID, this.locationID, data)
          .subscribe((res:any) => {
-           this.toastr.success('Successfully AP Created.');
+           // this.toastr.success('Successfully AP Created.');
            data["accessPoints"] = [res._id]
            console.log(data)
-           this._service.createAPG(this.regionID,data, templateID, moduleId)
+           this._service.createAPG(this.regionID, this.locationID,data, templateID, moduleId)
           .subscribe((response:any) => {
             this.toastr.success('Successfully APG Created.');
             console.log(response)
@@ -1188,6 +1224,42 @@ export class CourseplanComponent implements OnInit {
            this.toastr.error('Created AP Fail');
            console.log(err)
          });
+    }
+    public testObj:any={};
+    public optArr=[];
+    // addOptionFees(name,fees){
+    //   console.log("name&fee",name,fees);
+    //   let data = {
+    //     "name": name,
+    //     "fees": fees
+    //   }
+    //   console.log(data);
+    //   this.optArr.push(data);
+    //   console.log(this.optArr)
+    // }
+    addOption(){
+      console.log("option",this.testObj)
+      let data = {
+        "name": this.testObj.name,
+        "fees": this.testObj.fees
+      }
+      console.log(data);
+      this.optArr.push(data);
+      console.log(this.optArr)
+      this.testObj.name = "";
+      this.testObj.fees = ""; 
+    }
+
+    removeOpt(opt){
+      var index;
+      console.log("remove",opt)
+      for(let x in this.optArr){
+        if(this.optArr[x].name == opt.name && this.optArr[x].fees == opt.fees){
+          index = x;
+        }
+      }
+      this.optArr.splice(index,1);
+      console.log("arr",this.optArr);
     }
   
 }

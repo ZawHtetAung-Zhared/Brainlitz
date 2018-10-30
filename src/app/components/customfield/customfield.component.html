@@ -17,7 +17,11 @@
 					</div>
 				</div>
 				<div class="d-flex justify-content-between btn-section">
-					<div class="show-type font-semi">{{ field.dataType }} <span style="padding-left: 3px;">field</span></div>
+					<div class="show-type font-semi">
+						<span *ngIf="field.dataType == 'String'">Text</span> 
+						<span *ngIf="field.dataType != 'String'">{{ field.dataType }}</span> 
+						<span style="padding-left: 3px;">field</span>
+					</div>
 					<div class="d-flex font-medium">
 						<button class="btn-action cursor-on" (click)="editField(field)">Edit</button>
 						<span class="dot font-semi">.</span>
@@ -36,7 +40,8 @@
 		</div>
 	</div>
 	<div class="form-wrap">
-		<h3 class="field-h3 font-semi m-bottom">Create custom field</h3>
+		<h3 *ngIf="!isUpdate" class="field-h3 font-semi m-bottom">Create custom field</h3>
+		<h3 *ngIf="isUpdate" class="field-h3 font-semi m-bottom">Update custom field</h3>
 		<form novalidate #fieldForm="ngForm">
 			<div class="col-md-8 p-0">
 				<div class="form-group">
@@ -71,9 +76,11 @@
 					</label>
 					<div class="tool-box">
 		                <div class="form-check form-check-inline tool-checked" *ngFor="let list of testLists">
-		                    <label [ngClass]="{'selected': isChecked == list}" class="form-check-label">
+		                    <label [ngClass]="{'selected': isChecked == list}" class="form-check-label cursor-on">
 		                      <input class="form-check-input" type="radio" name="type" value="{{ list }}" [(ngModel)]="model.type" #type="ngModel" [checked]='true'
-		                      (click)="chooseType(list)"> {{list}}
+		                      (click)="chooseType(list)"> 
+		                      <span *ngIf="list == 'String'">Text</span>
+		                      <span *ngIf="list != 'String'">{{list}}</span>
 		                    </label>
 		                </div>
 		             </div>

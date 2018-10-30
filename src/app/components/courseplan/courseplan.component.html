@@ -222,6 +222,41 @@
 							</div>
 						</div>
 					</div>
+					<div>
+						<label class="all-title-font" style="padding-left: 15px;"> Course fee Options</label>
+						<div class="d-flex">
+							<div class="col-md-4">
+								<div>
+									<div class="input-group input-group-bg mb-2 mr-sm-2">
+										<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div>
+									<div class="input-group input-group-bg mb-2 mr-sm-2">
+										<div class="input-group-prepend">
+										  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">S$</div>
+										</div>
+										<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
+										(focus)="showFocus($event,'optionFee')"
+								  	(focusout)="hideFocus($event,'optionFee')"
+										>
+									</div>
+								</div>
+							</div>
+							<div>
+							<button [disabled]="!testObj.fees" type="button" class="add-fee-option" (click)="addOption()">
+								<div *ngIf="testObj.fees" class="circle1 plus"></div>
+								<div *ngIf="!testObj.fees" class="circle3 plus"></div>
+							</button>
+								<!-- <button type="button" (click)="addOptionFees(name.value,fees.value)">Add</button> -->
+							</div>
+						</div>
+						<div class="d-flex" *ngFor="let opt of optArr">
+							<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{opt.fees}}</p>
+						</div>
+					</div>
 				</div>
 				<div class="button-wrapper">
 					<button type="button" class="btn sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3',childForm3.value)">Continue</button>
@@ -465,8 +500,8 @@
 				  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 				  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 				  				<div class="module-img">
-			            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/images/{{module.name}}-type.png" class="img-fluid">
-			            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/images/{{module.name}}-type_a.png" class="img-fluid">
+			            			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">
+			            			<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png" class="img-fluid">
 				  				</div>
 				  			  	<div class="label-checked"></div>
 				  			  	<input class="form-check-input"
@@ -483,7 +518,7 @@
 					<form class="form-wrap" #apgCreateForm="ngForm" novalidate>
 						<div class="inside-data-wrapper">
 							<div class="col-md-12">
-								<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Shared APGs</span></p>
+								<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Pick APG type</span></p>
 								<h3 class="all-title-font">Create APG</h3>
 							</div>
 							<div class="col-md-6" style="padding-top: 40px;">

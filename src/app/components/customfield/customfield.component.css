@@ -167,7 +167,8 @@
   	font-family: 'Montserrat-Regular',Arial,sans-serif;
   	width: 110px;
 }
-.selected{
+.selected,
+.selectText{
 	background: #0080ff;
 	color: #fff!important;
 }

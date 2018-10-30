@@ -4,6 +4,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 // import * as moment from 'moment'; 
 declare var $: any;
 import * as moment from 'moment-timezone';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -12,7 +13,13 @@ import * as moment from 'moment-timezone';
 })
 export class ReportComponent implements OnInit {
 
-  constructor( private _service: appService) { 
+	//report permission
+	public reportPermission:any = [];
+	public reportDemo:any = [];
+	public permissionType: any;
+	public hasReport: boolean = false;
+
+  constructor( private _service: appService, private router: Router) { 
     this._service.itemValue.subscribe((nextValue) => {
          this.locationID = nextValue;
          this.getStaffRating(20,0);
@@ -28,6 +35,7 @@ export class ReportComponent implements OnInit {
 	isSticky: boolean = false;
 	isdropdown: boolean = false;
 	locationID: any;
+	locationName: any;
 	@BlockUI() blockUI: NgBlockUI;
 	noData: boolean = true;
 	public isMidStick: boolean = false;
@@ -42,10 +50,36 @@ export class ReportComponent implements OnInit {
 
   	ngOnInit() {
   		this.reportType = 'averageRating';
-  		this.getStaffRating(20,0);
+  		
   		window.addEventListener('scroll', this.scroll, true);
   		this.dropDownShow = false;
+
+  		this._service.permissionList.subscribe((data) => {
+  		  if(this.router.url === '/report'){
+  		    this.permissionType = data;
+  		    this.checkPermission();
+  		  }
+  		});
   	}
+
+  	checkPermission(){
+		console.log(this.permissionType)
+		this.reportPermission = ["VIEWREPORT","EXPORTREPORT"];
+		this.reportPermission = this.reportPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+		
+		this.reportDemo['viewReport'] = (this.reportPermission.includes("VIEWREPORT")) ? 'VIEWREPORT' : '';
+		this.reportDemo['exportReport'] = (this.reportPermission.includes("EXPORTREPORT")) ? 'EXPORTREPORT' : '';
+		
+		if(this.reportPermission.includes('VIEWREPORT') != false){	
+			this.locationName = localStorage.getItem('locationName');
+			this.getStaffRating(20,0);
+			this.hasReport = false;
+		}else{
+	      console.log('permission deny')
+	      this.ratingLists = [];
+	      this.hasReport = true;
+	    }
+	}
 
   	scroll = (e): void => {
   	};

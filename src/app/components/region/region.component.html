@@ -1,21 +1,3 @@
-<!-- <div class="inner-wrapper">
-	<div class="container h-100">
-	  <div class="row h-100 justify-content-center ">
-	  	<div class="col-12">
-	     	<h3 class="mb-30">Choose Region</h3>	
-	     	<ul> 
-	     		<li *ngFor="let region of regionLists; let i = index" [attr.data-index]="i">
-			      	<a routerLink="/dashboard" (click)="setRegionID(region._id)">
-			      	  {{region.name}}
-			      	</a> 
-		      	</li>
-	      	</ul>
-	    </div>  	
-	    <block-ui message="Deafult Message"></block-ui>  
-	  </div>  
-	</div>
-</div> -->
-
 <div class="inner-wrapper">
 	<header>
 		<div class="d-wrapper" [ngClass]="{'sticky' : navIsFixed == true}">			
@@ -28,7 +10,7 @@
 	<div class="row justify-content-start">
 		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 col-xl-3" *ngFor="let region of regionLists; let i = index" [attr.data-index]="i">
 			<div class="region-item">
-				<a routerLink="/dashboard" (click)="setRegionID(region._id)">
+				<a routerLink="/customer" (click)="setRegionID(region._id)">
 		      	  {{region.name}}
 		      	</a> 
 	      	</div>

@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { environment } from '../../../environments/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-region',
@@ -16,9 +17,13 @@ export class RegionComponent implements OnInit {
   public navIsFixed:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
 
-  constructor(private _service: appService) { }
+  constructor(private _service: appService, private router: Router) { }
 
   ngOnInit() {
+    // localStorage.removeItem('locationId');
+    localStorage.removeItem('previousLID');
+    localStorage.removeItem('permission');
+    // localStorage.removeItem('regionId');
     this.accessToken = localStorage.getItem('token');
     if(this.accessToken != undefined){
       console.log('!undefined')
@@ -29,17 +34,8 @@ export class RegionComponent implements OnInit {
     } 	
   }
 
-  @HostListener('window:scroll', ['$event']) onScroll($event){
-    // console.log($event);
-    // console.log("scrolling");
-    // console.log(window.pageYOffset)
-    if(window.pageYOffset > 90){
-      console.log('greater than 100')
-      this.navIsFixed = true;
-    }else{
-      console.log('less than 100')
-      this.navIsFixed = false;
-    }
+  @HostListener('window:scroll', ['$event']) onScroll($event){   
+    this.navIsFixed = (window.pageYOffset > 90) ? true : false;
   }
 
   getAccessToken(){
@@ -64,22 +60,32 @@ export class RegionComponent implements OnInit {
     console.log('start request')
     this.blockUI.start('Loading...');
     this.accessToken = localStorage.getItem('token');
-    this.tokenType = localStorage.getItem('tokenType');    
-  	this._service.getAllRegion(this.tokenType, this.accessToken)
+    this.tokenType = localStorage.getItem('tokenType'); 
+    this._service.getAllRegion(this.tokenType, this.accessToken)
   	.subscribe((res:any) => {
-      console.log('show the region lists')
-  		this.regionLists = res;
+      console.log(res)
+      if(res.length != 1){
+  		  this.regionLists = res;
+      }else{
+        localStorage.setItem("regionId", res[0]._id);
+        this.router.navigate(['/customer']);
+      }
       setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
       }, 300);
-  		console.log(this.regionLists);
     }, err => {
-    	console.log(err)
+      console.log(err)
     })
   }
 
   setRegionID(id){
-  	console.log(id)
+    console.log(id)
+    if(localStorage.getItem("regionId") == id){
+      console.log('same region id')
+    }else{
+      console.log('not same')
+      localStorage.removeItem('locationId');
+    }
     localStorage.setItem("regionId", id);
   }
 

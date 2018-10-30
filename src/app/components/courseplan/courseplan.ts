@@ -29,10 +29,15 @@ export class cPlanField {
 	public accessPointGroup: Array<any> = [];
 	public holidayCalendarName: string;
 	public depositAmount:any;
-	
+	public courseFeeOptions:any = {};
 }
 
 export class apgForm {
 	name: string;
 	description: string;
+}
+
+export class feeOption {
+	name: string;
+	fees: number;
 }

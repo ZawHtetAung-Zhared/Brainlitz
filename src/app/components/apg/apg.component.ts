@@ -9,6 +9,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-apg',
@@ -16,10 +17,6 @@ declare var $:any;
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-
-  	constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef) { 
-  		this.toastr.setRootViewContainerRef(vcr);
-  	}
 
     public model:any = {};
     public dataVal:any = {};
@@ -34,6 +31,7 @@ export class ApgComponent implements OnInit {
   	templateAPG: boolean = false;
   	viewType:any = 'apg';
   	public regionID = localStorage.getItem('regionId');
+    public locationID = localStorage.getItem('locationId');
   	apList: any;
   	moduleList: any[] = [];
   	templateList: Array<any> = [];
@@ -60,7 +58,11 @@ export class ApgComponent implements OnInit {
     moduleAPList: any;
     getAccessPoint: any;
     tempModuleId: any;
+    result: any;
     emptyAP: boolean = false;
+    isFirst:boolean = false;
+    searchWord:any;
+    itemtype:any;
 
     //
     public ismodule: boolean = false;
@@ -74,15 +76,57 @@ export class ApgComponent implements OnInit {
     public singleCheckedAPG: boolean = false;
     responseAP: any;
     wordLength:any = 0;
+    public permissionType:any;
+    public apgPermission:any = [];
+    public apgDemo:any = [];
 
-  	ngOnInit() {
-	  	this.getAllModule();
-	  	this.getAllAPG(20,0);
+
+    constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private router: Router) { 
+      this.toastr.setRootViewContainerRef(vcr);
+
+
+      this._service.locationID.subscribe((data) => {
+        if(this.router.url === '/tools'){
+          this._service.permissionList.subscribe((data) => {
+            console.log('from apg')
+            this.permissionType = data;
+            this.checkPermission();
+          });
+    
+        }else{
+          console.log('====',this.router.url)
+        }
+      });
+    }
+
+  	ngOnInit() {	  	
       this.dataVal = {
         '_id': '',
         'moduleId': '',
       }
-  	}
+
+      if(this.router.url === '/tools'){
+        this.permissionType = localStorage.getItem('permission');
+        this.checkPermission();
+      }  
+  	}    
+
+    checkPermission(){
+      console.log(this.permissionType)
+      this.apgPermission = ["CREATEAPG","CREATEAP"];
+      this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+      this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+      this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+      this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
+
+      console.log(this.apgDemo)
+      if(this.apgPermission.length > 0){
+        this.getAllModule();
+        this.getAllAPG(20,0);
+      }else{
+        this.apgList = [];
+      }
+    }
 
     
     getContentHeight(){
@@ -205,10 +249,10 @@ export class ApgComponent implements OnInit {
 
       
       console.log('~~~~', this.dataVal)
-      this._service.createAPG(this.regionID, emptyObj , this.dataVal._id, this.dataVal.moduleId)
+      this._service.createAPG(this.regionID, this.locationID, emptyObj , this.dataVal._id, this.dataVal.moduleId)
       .subscribe((res:any) => {
           console.log(res)
-          this.toastr.success('Successfully created.');
+          this.toastr.success('APG successfully created.');
           this.blockUI.stop();
           this.cancelapg();
       }, err => {
@@ -243,14 +287,14 @@ export class ApgComponent implements OnInit {
         console.log('create')
         var moduleId = localStorage.getItem('moduleID')
         data["moduleId"] = moduleId;
-         this._service.createAP(this.regionID,data)
+         this._service.createAP(this.regionID,this.locationID,data)
          .subscribe((res:any) => {
-           this.toastr.success('Successfully AP Created.');
+           // this.toastr.success('Successfully AP Created.');
            data["accessPoints"] = [res._id]
            console.log(data)
-           this._service.createAPG(this.regionID,data, templateID, moduleId)
+           this._service.createAPG(this.regionID, this.locationID,data, templateID, moduleId)
           .subscribe((res:any) => {
-            this.toastr.success('Successfully APG Created.');
+            this.toastr.success('APG successfully Created.');
             console.log(res)
             this.cancelapg();
           }, err => {
@@ -424,7 +468,7 @@ export class ApgComponent implements OnInit {
       	}
         this.customCheck = false;
         this.checkedAPid = [];
-      	this._service.createAP(this.regionID,data)
+      	this._service.createAP(this.regionID,this.locationID,data)
 		    .subscribe((res:any) => {
 		      	console.log('success post',res);
             this.responseAP = res;
@@ -606,27 +650,26 @@ export class ApgComponent implements OnInit {
   	}
 
     showMore(skip:any){
-      if(skip<=20){
-        skip = 0;
-      }
+      // if(skip<=20){
+      //   skip = 0;
+      // }
       console.log("skip",skip);
-      this.isFirst = false;
-      // this.getAllAPG(20,skip);
-      if(this.isFirst == false){
-        console.log("Apg Search");
-        this.getApgSearch(this.searchWord, this.itemtype, 20, skip)
+      // // this.isFirst = false;
+      // // this.getAllAPG(20,skip);
+      if(this.isFirst == true){
+        console.log("Apg Search by keyword");
+        this.getApgSearch(this.searchWord, this.itemtype, 20, 0)
       }else{
-        console.log("Not Apg search")
+        console.log("without keyword")
         this.getAllAPG(20,skip);
       }
+      // this.getAllAPG(20,skip);
     }
 
     showMoreTemplate(skip){
       this.getAllTemplate(20, skip);
     }
-    isFirst:boolean = false;
-    searchWord:any;
-    itemtype:any;
+    
     changeSearch(keyword, type){
       console.log(keyword)
       this.getApgSearch(keyword, type, 20, 0);
@@ -651,16 +694,17 @@ export class ApgComponent implements OnInit {
       this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
       .subscribe((res:any) => {
         console.log(res);
+        this.result = res;
         if(type == 'apg'){
-          // this.apgList = res;
-          if(this.isFirst == true){
-            console.log("First time searching");
-            this.apgList = [];
-            this.apgList = res;
-          }else{
-            console.log("Not First time searching")
-            this.apgList = this.apgList.concat(res);
-          }  
+          this.apgList = res;
+          // if(this.isFirst == true){
+          //   console.log("First time searching");
+          //   this.apgList = [];
+          //   this.apgList = res;
+          // }else{
+          //   console.log("Not First time searching")
+          //   this.apgList = this.apgList.concat(res);
+          // }  
         }else{
           this.templateList = res;
         }
@@ -670,11 +714,11 @@ export class ApgComponent implements OnInit {
     }
     
   	getAllAPG(limit,skip){
-
       this.blockUI.start('Loading...');
   		this._service.getAllAPG(this.regionID,limit,skip)
 	    .subscribe((res:any) => {
 	    	console.log('apgLists' ,res)
+        this.result = res;
         this.apgList = this.apgList.concat(res);
         if(res.length == 0){
           this.emptyAPG = true;
@@ -790,7 +834,7 @@ export class ApgComponent implements OnInit {
       .subscribe((res:any) => {
           console.log(res)
           this.getAllTemplate(20, 0);
-          this.toastr.success('Successfully shared.');
+          this.toastr.success('Successfully shared to public.');
           this.blockUI.stop();
       }, err => {
           this.toastr.success(status + ' Fail.');

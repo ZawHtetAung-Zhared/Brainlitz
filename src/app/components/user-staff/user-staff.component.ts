@@ -7,8 +7,8 @@ import { Bounds } from 'ng2-img-cropper/src/model/bounds';
 import { Staff } from './staff';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-import { environment } from '../../../environments/environment';
 declare var $: any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-staff',
@@ -16,12 +16,17 @@ declare var $: any;
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
-	public orgID = environment.orgID;
+	public locationName: any;
+	public permissionType: any;
+	public staffPermission:any = [];
+	public staffDemo:any = [];
+	public orgID = localStorage.getItem('OrgId');
   	public regionID = localStorage.getItem('regionId');
   	public staffLists: Array<any> = [];
   	showFormCreate: boolean = false;
   	emailAlert: boolean = false;
   	public permissionCount: boolean = false;
+  	public hideMenu: boolean = false;
   	public img: any;
   	public ulFile: any;
   	permissionLists: any;
@@ -56,14 +61,18 @@ export class UserStaffComponent implements OnInit {
 	result:any;
 	public customFields:any = [];
 
-	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef) {
+	constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,  private router: Router) {
 		this.toastr.setRootViewContainerRef(vcr);  		
    	}
 
   	ngOnInit() {
-  		this.getAllUsers('staff', 20, 0);
   		this.blankCrop = false; 
-		this.getAllpermission();
+  		this._service.permissionList.subscribe((data) => {
+		  if(this.router.url === '/staff'){
+		    this.permissionType = data;
+		    this.checkPermission();
+		  }
+		});
   	}
 
   	ngAfterViewInit() {
@@ -72,6 +81,26 @@ export class UserStaffComponent implements OnInit {
 				'about': ''
 			}
 		}
+	}
+
+	checkPermission(){
+		console.log(this.permissionType)
+		this.staffPermission = ['CREATESTAFFS','EDITSTAFFS','VIEWSTAFFS','DELETESTAFFS'];
+		this.staffPermission = this.staffPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+		
+		this.staffDemo['addStaff'] = (this.staffPermission.includes("CREATESTAFFS")) ? 'CREATESTAFFS' : '';
+		this.staffDemo['editStaff'] = (this.staffPermission.includes("EDITSTAFFS")) ? 'EDITSTAFFS' : '';
+		this.staffDemo['viewStaff'] = (this.staffPermission.includes("VIEWSTAFFS")) ? 'VIEWSTAFFS' : '';
+		this.staffDemo['deleteStaff'] = (this.staffPermission.includes("DELETESTAFFS")) ? 'DELETESTAFFS' : '';
+
+		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
+			this.getAllUsers('staff', 20, 0);
+			this.locationName = localStorage.getItem('locationName');
+			this.getAllpermission();
+		}else{
+	      console.log('permission deny')
+	      this.staffLists = [];
+	    }
 	}
 
   	showMore(type: any, skip: any){
@@ -141,11 +170,11 @@ export class UserStaffComponent implements OnInit {
 		this.staffLists = [];
 		this.showFormCreate = true;
 		this.permissionCount = false;
+		this.hideMenu = true;
 		console.log('create')
 		setTimeout(function() {
 	      $(".frame-upload").css('display', 'none');
 	    }, 10);
-	    this.getAllpermission();
 	    this.getCustomFields();
 	}
 
@@ -257,7 +286,7 @@ export class UserStaffComponent implements OnInit {
 			}
 			console.log('create')
 			this.blockUI.start('Loading...');
-			this._service.createUser(objData)
+			this._service.createUser(objData,this.locationID)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
@@ -275,7 +304,7 @@ export class UserStaffComponent implements OnInit {
 		    })
 		}else{
 			console.log('update')
-			this._service.updateUser(this.regionID, this.editId, objData)
+			this._service.updateUser(this.regionID, this.locationID, this.editId, objData)
 	    	.subscribe((res:any) => {
 	  			console.log(res)
 	  			this.toastr.success('Successfully Created.');
@@ -294,12 +323,14 @@ export class UserStaffComponent implements OnInit {
 		console.log('back')
 		this.showFormCreate = false;
 		this.blankCrop = false;
+		this.hideMenu = false;
 		this.imgDemoSlider = false;
 		this.isupdate = false;
+		this.isSearch = false;
 		$(".frame-upload").css('display', 'none');
 		this.staffLists = [];
 		this.getAllUsers('staff', 20, 0);
-	}
+	}	
 
 	getAllpermission(){
 		console.log('hi permission')
@@ -424,6 +455,7 @@ export class UserStaffComponent implements OnInit {
 	backToUpload(){
 		this.validProfile = false;
 		this.imgDemoSlider = false;
+		this.hideMenu = false;
 		$(".frame-upload").css('display', 'none');
 	}
 
@@ -435,7 +467,7 @@ export class UserStaffComponent implements OnInit {
 		console.log("show Staff details");
 		this.blockUI.start('Loading...');
 		this.showStaffDetail = true;
-		this._service.getUserDetail(this.regionID,data.userId)
+		this._service.getUserDetail(this.regionID,data.userId,this.locationID)
 		.subscribe((res:any) => {
 			this.staffDetail = res;
 			console.log("StaffDetail",res);
@@ -449,12 +481,14 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	backToStaff(){
+		this.hideMenu = false;
 		// this.formFieldc = new customer();
 		this.showStaffDetail = false;
 		this.isupdate = false;
 		this.showFormCreate = false;
 		this.blankCrop = false;
 		this.imgDemoSlider = false;
+		this.isSearch = false;
 		// this.selectedId =[];
 		
 		$(".frame-upload").css('display', 'none');

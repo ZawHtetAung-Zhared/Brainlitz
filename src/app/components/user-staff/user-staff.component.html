@@ -1,4 +1,4 @@
-<app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<app-header [ngClass]="{'stick': isSticky == true , 'hide': hideMenu}"></app-header>
 <!-- <div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
 		<div class="display-flex mr-top-menu">
@@ -11,16 +11,19 @@
 		</div>
 	</div>
 </div>	 -->
-<div *ngIf="!showFormCreate && !showStaffDetail" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+<div *ngIf="!showFormCreate && !showStaffDetail && staffPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 		<div class="display-flex mr-top-menu">
 			<div class="col-md-4 pad-0">
-				<h3>Staffs</h3>
+				<div class="d-flex flex-row">
+					<h3>Staffs</h3>
+					<span class="location-name">{{locationName}}</span>
+				</div>
 			</div>
 			<div class="col-md-8 pad-0">
-				<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
+				<button *ngIf="staffDemo.addStaff != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new staff</button>
 			</div>
 		</div>
-		<div class="col-md-12 pad-0" style="margin-top: 35px;">
+		<div *ngIf="staffPermission[0] != undefined" class="col-md-12 pad-0" style="margin-top: 35px;">
 			<div class="input-group col-md-12 pad-0">
 			    <input 
 			    	class="form-control py-2 input-search-bg" 
@@ -58,7 +61,7 @@
 							{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
 						</p>
 					</div>
-					<div class="right-arrow ml-auto">
+					<div *ngIf="staffDemo.viewStaff != ''" class="right-arrow ml-auto">
 						<i class="fa fa-angle-right"></i>
 					</div>
 				</div>

@@ -1,16 +1,16 @@
-<div class="content-wrapper" *ngIf="iscreate == false">
+<div class="content-wrapper" *ngIf="iscreate == false && locPermission.length >0">
   <div class="d-flex justify-content-between header-wrap">
     <div class="mr-auto pl-15">
       <h3 class="location-h3">Locations</h3>
     </div>
-    <button type="button" class="btn btn-create mr-15" (click)="creatnew()">Add new location</button>  
+    <button *ngIf="locationDemo.addLocation != ''" type="button" class="btn btn-create mr-15" (click)="creatnew()">Add new location</button>  
   </div>
   <div class="location-group">
     <div class="single-item" *ngFor="let location of locationLists; let i = index" [attr.data-index]="i">
       <div class="row">
         <h5 class="h5-title col-md-9">{{ location.name }}</h5>
         <div class="col-md-3 d-flex justify-content-end">
-          <button class="btn edit-btn" (click)="getSingleLocation(location._id)">Edit</button> <span class="sperator">|</span> <button (click)="deleteModal(deletemodal, location._id)" class="btn delete-btn">Delete</button>
+          <button *ngIf="locationDemo.editLocation != ''" class="btn edit-btn" (click)="getSingleLocation(location._id)">Edit</button> <span class="sperator">|</span> <button *ngIf="locationDemo.deleteLocation != ''" (click)="deleteModal(deletemodal, location._id)" class="btn delete-btn">Delete</button>
         </div>
       </div>
       <div class="d-flex">
@@ -21,7 +21,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="locationLists.length >=20 && iscreate == false" class="d-flex justify-content-center load-more">
+<div *ngIf="locationLists.length >=20 && iscreate == false && result.length != 0" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(locationLists.length)">load more</button>
 </div>
 
@@ -33,7 +33,8 @@
     </div>
   </div>
   <div class="location-group">
-    <h3 class="location-h3">Create Location</h3>
+    <h3 *ngIf="isUpdate == false" class="location-h3">Create Location</h3>
+    <h3 *ngIf="isUpdate == true" class="location-h3">Update Location</h3>
     <form novalidate #locationForm="ngForm" class="form-wrap" (keydown)="keyDownFunction($event)">
       <div class="form-group form-divider">
         <div class="d-flex justify-content-between">

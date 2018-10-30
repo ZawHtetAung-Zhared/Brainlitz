@@ -24,7 +24,6 @@ import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
-import { HolidaysComponent } from './components/holidays/holidays.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { RegionComponent } from './components/region/region.component';
 import { AssignuserComponent } from './components/assignuser/assignuser.component';
@@ -52,6 +51,7 @@ import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
+import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
 import { ttDayPipe } from './service/pipe/timetableday.pipe';
 import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
 import { ttTimePipe } from './service/pipe/timetabletime.pipe';
@@ -78,7 +78,6 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     CoursecreateComponent,
     CategoryComponent,
     CourseplanComponent,
-    HolidaysComponent,
     CalendarComponent,
     RegionComponent,
     AssignuserComponent,
@@ -98,6 +97,7 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     GetUtcDatePipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
+    attandanceDayPipe,
     ttDayPipe,
     ttMonthPipe,
     ttTimePipe,

@@ -16,8 +16,11 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public isvalidID:any = '';
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
+  activeToday:boolean = false;
+  todayIndex:any = '';
   isCourseCreate:boolean = false;
   isCategory:boolean = false;
   isPlan:boolean = false;
@@ -34,22 +37,26 @@ export class CourseComponent implements OnInit {
   public selectedUserLists:any = [];
   public selectedUserId:any = [];
   public todayDate:any;
+  public locationName:any;
   public courseId:any;
   public locationId:any;
   public userType:any;
   public deleteId:any = {};
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
   public pplLists:any;
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
+  public result:any;
   isSticky:boolean = false;
   showBtn:boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   public goBackCat: boolean = false;
- 
-
+  public permissionType: any;
+  public coursePermission:any = [];
+  public courseDemo:any = [];
   
   public draft:boolean;
 
@@ -96,11 +103,48 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.getCourseLists(20, 0);
+  	
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
-    this.getCPlanList();
+    
     this.activeTab = 'People';
+
+    this._service.permissionList.subscribe((data) => {
+      if(this.router.url === '/course'){
+        this.permissionType = data;
+        this.checkPermission();
+      }
+    });
+
+  }
+
+
+  checkPermission(){
+    console.log(this.permissionType)
+    this.coursePermission = ["CREATECOURSE","VIEWCOURSE","EDITCOURSE","DELETECOURSE","ASSIGNTEACHER","ASSIGNSTUDENTS","CREATECOURSEPLAN","VIEWCOURSEPLAN","EDITCOURSEPLAN"];    
+    this.coursePermission = this.coursePermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    console.log(this.coursePermission.includes('VIEWCOURSE'))
+    
+    
+    this.courseDemo['addCourse'] = (this.coursePermission.includes("CREATECOURSE")) ? 'CREATECOURSE' : '';
+    this.courseDemo['viewCourse'] = (this.coursePermission.includes("VIEWCOURSE")) ? 'VIEWCOURSE' : '';
+    this.courseDemo['editCourse'] = (this.coursePermission.includes("EDITCOURSE")) ? 'EDITCOURSE' : '';
+    this.courseDemo['deleteCourse'] = (this.coursePermission.includes("DELETECOURSE")) ? 'DELETECOURSE' : '';
+    this.courseDemo['assignTeacher'] = (this.coursePermission.includes("ASSIGNTEACHER")) ? 'ASSIGNTEACHER' : '';
+    this.courseDemo['assignStudent'] = (this.coursePermission.includes("ASSIGNSTUDENTS")) ? 'ASSIGNSTUDENTS' : '';    
+    this.courseDemo['createCP'] = (this.coursePermission.includes("CREATECOURSEPLAN")) ? 'CREATECOURSEPLAN' : '';
+    this.courseDemo['viewCP'] = (this.coursePermission.includes("VIEWCOURSEPLAN")) ? 'VIEWCOURSEPLAN' : '';
+    this.courseDemo['editCP'] = (this.coursePermission.includes("EDITCOURSEPLAN")) ? 'EDITCOURSEPLAN' : '';
+    
+
+    if(this.coursePermission.includes('VIEWCOURSE') != false){      
+      this.locationName = localStorage.getItem('locationName');
+      this.getCPlanList();
+      this.getCourseLists(20, 0);
+    }else{
+        console.log('permission deny')
+        this.courseList = [];
+      }
   }
 
   ngAfterViewInit() {
@@ -130,6 +174,7 @@ export class CourseComponent implements OnInit {
       'STAFF': [{}],
     };
     this.userLists = [{}];
+    
     
   }
 
@@ -175,7 +220,7 @@ export class CourseComponent implements OnInit {
   }
 
   getCourseDetail(id){
-    this._service.getSingleCourse(id)
+    this._service.getSingleCourse(id,this.locationID)
     .subscribe((res:any)=>{
       console.log(res)
       this.detailLists = res;
@@ -209,6 +254,9 @@ export class CourseComponent implements OnInit {
 
   clickTab(type){
     this.activeTab = type;
+    this.noStudent = 0;
+    this.presentStudent = 0;
+    this.absentStudent = 0;
     if(type == 'Class'){
       this.blockUI.start('Loading...'); 
       const today = new Date();
@@ -216,27 +264,66 @@ export class CourseComponent implements OnInit {
       var to_day = new Date(today).getUTCDate();
       var currentMonth =  new Date(today).getUTCMonth()+1;
       let lessonCount = this.detailLists.lessons;
+      console.log(lessonCount)
+      console.log(lessonCount.length)
       let finishedDate = [];
+      let unfinishedDate = [];
+      let xx = false;
       for(let i=0; i< lessonCount.length; i++){
         let strDate = lessonCount[i].startDate;
         let courseDate = new Date(strDate).getUTCDate();
-        let courseMonth = new Date(strDate).getUTCMonth()+1;
-        if(courseMonth <= currentMonth){
-          if(to_day >= courseDate){
+        let courseMonth = new Date(strDate).getUTCMonth()+1;        
+
+        if(courseMonth < currentMonth){
+          console.log('less than current month')
+          finishedDate.push(i)
+        }else if(courseMonth == currentMonth){
+          console.log('same with current month')
+          if(courseDate > to_day){
+            console.log('unfinished course => ', courseDate)
+            unfinishedDate.push(i);
+          }else if(courseDate == to_day){
+            console.log('same with today ', courseDate)
+            finishedDate.push(i)
+            this.activeToday = true;
+            this.todayIndex = i;
+          }else{
+            console.log('finished course => ', courseDate)
             finishedDate.push(i)
           }
         }else{
-          console.log('greater than current month')
+          console.log('grater than current month')
+          unfinishedDate.push(i)
         }
       }
-      let lastActiveDate = finishedDate.length -1;
-      console.log(lastActiveDate)
-      //LASD = lastActiceStartDate
-      this.LASD = lessonCount[lastActiveDate].startDate
+      console.log('finish', finishedDate.length)
+      console.log('unfinish' , unfinishedDate.length)
+      let lastActiveDate;
+      
+
+      if(finishedDate.length != 0){
+        console.log('hello in if')
+        if(this.activeToday == true){
+          this.LASD = lessonCount[this.todayIndex].startDate
+        }else{
+          lastActiveDate = finishedDate.length -1;
+          console.log(lastActiveDate)
+          //LASD = lastActiceStartDate
+          this.LASD = lessonCount[lastActiveDate].startDate
+          console.log(this.LASD)
+        }
+      }else{
+        console.log('hello in else')
+        lastActiveDate = 0;
+        this.LASD = lessonCount[0].startDate
+      }
+      
+
+      
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate()
-      let ACM = new Date(this.LASD).getUTCDate()
-      let ACY = new Date(this.LASD).getUTCDate()
+      let ACM = new Date(this.LASD).getUTCMonth() + 1;
+      let ACY = new Date(this.LASD).getUTCFullYear()
       this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
       .subscribe((res:any)=>{
         console.log(res)
@@ -257,7 +344,41 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop();
         console.log(err);
       });
+    }else{
+      this.noStudent = 0;
+      this.presentStudent = 0;
+      this.absentStudent = 0;
     }
+  }
+
+  checkAttendance(targetDate){
+    console.log('hi', targetDate)
+    this.presentStudent = 0;
+    this.absentStudent = 0;
+    this.noStudent = 0;
+    let ACD = new Date(targetDate).getUTCDate()
+    let ACM = new Date(targetDate).getUTCMonth() + 1;
+    let ACY = new Date(targetDate).getUTCFullYear()
+    this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.blockUI.stop();
+      this.activeCourseInfo = res;
+
+      for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+        if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+          this.presentStudent += 1;
+        }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+          this.absentStudent += 1;
+        }else{
+          this.noStudent += 1;
+        }
+      }
+
+    },err =>{
+      this.blockUI.stop();
+      console.log(err);
+    });
   }
 
   openRemoveModal(id, deleteModal){
@@ -265,16 +386,16 @@ export class CourseComponent implements OnInit {
     this.deleteId = id;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
-  isCourseId:boolean = false;
+  
 
-  addUserModal(type, userModal, courseID){
-    if(courseID != '' || this.detailLists.seat_left == null){
-      console.log('has courseID', courseID)
-      this.isCourseId = true;
+  addUserModal(type, userModal, state, id){
+    console.log('====', state)
+    this.isvalidID = state;
+    if(state != 'inside' || this.detailLists.seat_left == null){
+      console.log('has courseID', id)
       this.isSeatAvailable = true;
-      this.getCourseDetail(courseID);
+      this.getCourseDetail(id);
     }else{
-      this.isCourseId = false;
       console.log('no courseID', this.detailLists.seat_left)
       if(this.detailLists.seat_left == 0){
         this.isSeatAvailable = false;
@@ -404,12 +525,16 @@ export class CourseComponent implements OnInit {
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
     console.log(this.detailLists.seat_left - this.selectedUserLists.length == 0)
-    if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
-      console.log('cant add')
-      this.isSeatAvailable = false;
-    }else{
-      this.isSeatAvailable = true;
+    console.log(this.detailLists.seat_left)
+    if(this.detailLists.seat_left != null){
+      if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
+        console.log('cant add')
+        this.isSeatAvailable = false;
+      }else{
+        this.isSeatAvailable = true;
+      }
     }
+    
   }
 
   getSelectedUserId(){
@@ -425,7 +550,7 @@ export class CourseComponent implements OnInit {
   }
 
   enrollUserToCourse(courseId, userType){
-    console.log('call from enrolluser', this.isCourseId)
+    console.log('call from enrolluser', this.isvalidID)
     // let type = userType;
     // type = (userType == 'staff') ? 'teacher' : 'customer'
     this.getSelectedUserId();   
@@ -435,15 +560,21 @@ export class CourseComponent implements OnInit {
        'userType': userType
      }
      console.log('~~~~' , body)
-    this._service.assignUser(this.regionId,body)
+    this._service.assignUser(this.regionId,body, this.locationID)
       .subscribe((res:any) => {
          console.log(res);
          this.modalReference.close();
-         this.getUsersInCourse(courseId);
-         if(this.isCourseId == true){
-           // this.getCourseLists(20,0);
+         if(this.isvalidID == 'inside'){
+           console.log('hi')
            // this.cancel();
+           this.getUsersInCourse(courseId);
+         }else{
+           console.log('else hi')
+           this.cancel();
+           // this.getUsersInCourse(courseId);
          }
+           
+         
       }, err => {  
         console.log(err);
       });
@@ -476,7 +607,9 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/courseCreate']);
   }
   getCPlanList(){
-    this._service.getAllCoursePlan(this.regionId)
+    console.log(this.locationID)
+    console.log('----', localStorage.getItem('locationId'))
+    this._service.getAllCoursePlan(this.regionId,localStorage.getItem('locationId'))
     .subscribe((res:any) => {
       console.log("course plan list",res)
     })
@@ -489,9 +622,12 @@ export class CourseComponent implements OnInit {
 
   getCourseLists(limit, skip){
     this.blockUI.start('Loading...'); 
-    this._service.getAllCourse(this.regionId, limit, skip)
+    this._service.getAllCourse(this.regionId,this.locationID, limit, skip)
     .subscribe((res:any) => {
       console.log('Course List',res);
+      this.result = res;
+      console.log(this.result)
+      console.log(this.result.length)
       this.courseList = this.courseList.concat(res);
       if(this.courseList.length > 0 ){
         this.emptyCourse = false;
@@ -542,7 +678,8 @@ export class CourseComponent implements OnInit {
     let planObj={
       "name": plan.name,
       "id": plan.coursePlanId,
-      "duration": plan.lesson.duration
+      "duration": plan.lesson.duration,
+      "paymentPolicy": plan.paymentPolicy
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');

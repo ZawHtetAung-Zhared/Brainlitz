@@ -2,7 +2,7 @@
 <div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
     <div class="noti-sidebar h-100">
       <div class="side-bar-wrap" [ngClass]="{'p-top' : navIsFixed == true, 'mid-top' : isMidStick == true}">
-        <div [ngClass]="{'active': menuType == 'general'}" class="tab-wrap">     
+        <div *ngIf="generalSidebar.length > 0" [ngClass]="{'active': menuType == 'general'}" class="tab-wrap">     
           <button class="btn noti-tab w-100" (click)="clickTab('general')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'general'" class="setting-icon" src="./assets/images/sidebar-general_a@2x.png">
@@ -11,7 +11,7 @@
             </span>
           </button>
         </div>
-        <div [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
+        <div *ngIf="locationSidebar.length > 0" [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('location')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'location'" class="setting-icon" src="./assets/images/sidebar-location_a@2x.png">
@@ -20,7 +20,7 @@
             </span>
           </button>
         </div>
-        <div [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">      
+        <div *ngIf="customSidebar.length > 0" [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('customfield')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'customfield'" class="setting-icon" src="./assets/images/profile@2x_a.png">
@@ -29,7 +29,7 @@
             </span>
           </button>
         </div>
-        <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">      
+        <!-- <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">      
           <button class="btn noti-tab w-100" (click)="clickTab('email')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'email'" class="setting-icon" src="./assets/images/modify-template_a@2x.png">
@@ -37,17 +37,17 @@
               <span>Modify template</span>
             </span>
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
     <div *ngIf="menuType == 'general'" class="pl-zero large-col" >
       <div class="d-flex flex-column w-100 h-100 setting-wrapper">
         <div>
-          <div class="header-wrap">
+          <div *ngIf="generalSidebar.length > 0" class="header-wrap">
             <h3 class="general">General</h3>
           </div>
           <div class="card-columns">
-            <div class="card card-wrap region-wrap">
+            <div *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
                 Regional Settings
               </div>
@@ -97,7 +97,7 @@
                 <a (click)="updateRegionalInfo(item,'timezone')">Done</a>
               </div>
             </div>  
-            <div class="card card-wrap">
+            <div *ngIf="generalDemo.regional != ''" class="card card-wrap">
               <div class="title">
                 App Settings
               </div>

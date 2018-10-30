@@ -1,4 +1,4 @@
-<app-header *ngIf="!showFormCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
+<app-header [ngClass]="{'stick': isSticky == true, 'hide': hideMenu}"></app-header>
 <!-- <div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
 		<div class="display-flex mr-top-menu">
@@ -11,16 +11,19 @@
 		</div>
 	</div>
 </div>	 -->
-<div *ngIf="!showFormCreate && !showCustDetail" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+<div *ngIf="!showFormCreate && !showCustDetail && customerPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 	<div class="d-flex mr-top-menu">
 		<div class="col-md-4 pad-0">
-			<h3>Customers</h3>
+			<div class="d-flex flex-row">
+				<h3>Customers</h3>
+				<span class="location-name">{{locationName}}</span>
+			</div>
 		</div>
 		<div class="col-md-8 pad-0">
-			<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>
+			<button *ngIf="customerDemo.createCustomer != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>
 		</div>
 	</div>
-	<div class="col-md-12 pad-0" style="margin-top: 35px;">
+	<div *ngIf="customerDemo.viewCustomer != ''" class="col-md-12 pad-0" style="margin-top: 35px;">
 		<div class="input-group col-md-12 pad-0">
 		    <input 
 		    	class="form-control py-2 input-search-bg" 
@@ -40,7 +43,7 @@
 	</div>
 	<div class="row display-flex user-group">
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
-			<div class="box-design d-flex flex-row align-items-center" (click)="showDetails(customer, customer.userId)">
+			<div class="box-design d-flex flex-row align-items-center" (click)="showDetails( customer.userId)">
 				<div class="profileimg-wrap">
 					<div class="circular-image">
 						<img *ngIf="customer.profilePic == 'undefined'" src="assets/img/user.svg">
@@ -53,7 +56,7 @@
 					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
 					<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>40)? (customer.about | slice:0:40)+'..':(customer.about) }}</p>
 				</div>
-				<div class="ml-auto right-arrow">
+				<div *ngIf="customerDemo.viewCustomer != ''" class="ml-auto right-arrow">
 					<i class="fa fa-angle-right"></i>
 				</div>
 			</div>
@@ -72,7 +75,7 @@
 				<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Customers</span>
 			</div>
 			<div class="ml-auto">
-				<span class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
+				<span *ngIf="customerDemo.editCustomer != ''" class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
 			</div>
 		</div>
 		<div class="user-info-wrap d-flex -justify-content-between">
@@ -174,7 +177,7 @@
 				<div class="d-flex flex-column justify-content-center">
 					<h6 class="mb-0">Classes</h6>
 				</div>
-				<button (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)" class="ml-auto enroll-btn">Enroll new class</button>
+				<button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)" class="ml-auto enroll-btn">Enroll new class</button>
 			</div>
 			<div>
 				<div class="list-wrapper">
@@ -320,7 +323,8 @@
 		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt fl-txt-rt">Customers</p>
 	</button>
 	<div class="col-md-12 pad-0 mr-bt-top">
-		<h3>Create Customers account</h3>
+		<h3 *ngIf="isupdate == false">Create Customers account</h3>
+		<h3 *ngIf="isupdate == true">Update Customers account</h3>
 	</div>
 	<form class="form-wrap" novalidate #customerForm="ngForm">
 		<div class="row display-flex">
@@ -453,7 +457,8 @@
 			</div>
 		</div>
 		<div class="d-flex justify-content-end button-group">
-			<button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+			<button *ngIf="isupdate == false" type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
+			<button *ngIf="isupdate == true" type="button" class="bt cancel-button" (click)="backToDetails()" >Cancel</button>
         	<button type="button" *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid">Create
 			</button>
 			<button type="button" *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid">Update

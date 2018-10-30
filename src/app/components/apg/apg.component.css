@@ -206,6 +206,9 @@
     border: none;
     margin-bottom: 0;
 }
+.apg-box .input-label{
+    cursor: pointer;
+}
 .apg-box{
     padding: 24px;
     max-height: 152px;
@@ -214,10 +217,17 @@
 }
 .apg-box,
 .single-apg{
-    -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
-    -ms-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
-    box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+    transition: 0.3s all ease-out;
+}
+.apg-box:hover,
+.single-apg:hover{
+  -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
 }
 .single-apg{
     margin-bottom: 20px;
@@ -334,6 +344,13 @@
     box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.5);
     margin-bottom: 1.7em;
     border-radius: 3px;
+    transition: 0.3s all ease-out;
+}
+.module-input:hover label{
+    cursor: pointer;
+  -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
 }
 .module-input input[type="radio"],
 .share-input input[type="radio"]{
@@ -502,6 +519,7 @@
 }
 .pad-bottom{
     /*padding-bottom: 100px;*/
+    margin-bottom: 70px;
 }
 
 @media (max-width: 360px){

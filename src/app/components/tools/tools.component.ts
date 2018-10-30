@@ -11,10 +11,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 
-import { ApgComponent } from '../apg/apg.component';
-import { CalendarComponent } from '../calendar/calendar.component';
-import { QuizwerkzComponent } from '../quizwerkz/quizwerkz.component';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tools',
@@ -26,10 +23,6 @@ export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('mainScreen') elementView: ElementRef;
-
-  @ViewChild(ApgComponent) alertAPG: ApgComponent;
-  @ViewChild(CalendarComponent) alertCal: CalendarComponent;
-  @ViewChild(QuizwerkzComponent) alertQW: QuizwerkzComponent;
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
@@ -43,6 +36,7 @@ export class ToolsComponent implements OnInit {
   public userLists:any;
   public courseLists:any;
   public dataLists:any;
+  public locationName:any;
   public userCount:any;
   public notiType:any;
   public notiLists: Array<any> = [];
@@ -50,6 +44,7 @@ export class ToolsComponent implements OnInit {
   public selectedID:any;
   public isdropdown: boolean = false;
   public isFous: boolean = false;
+  public isSelected: boolean = false;
   public isFousCourse: boolean = false;
   public isFousCategory: boolean = false;
   public wordLength : number = 0;
@@ -70,80 +65,85 @@ export class ToolsComponent implements OnInit {
   public totalHeight:any;
   public yOffset:any;
   public todayDate:any;
-  // public yesterdayDate:any;
 
-  // test
-  public testParagraph = "This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count.This is UI testing for view sent history.'Read more' will show for over 175 word count."
+  public permissionType: Array<any> = [];
+  public notiSidebar:any = [];
+  public notiSidebarDemo:any = [];
+  public apgSidebar:any = [];
+  public quizwerkzSidebar:any = [];
+  public calendarSidebar:any = [];
 
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef, private datePipe: DatePipe ) { 
+  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private elementRef: ElementRef, private datePipe: DatePipe, private router: Router ) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
-        this.locationId = data;
+      if(this.router.url === '/tools'){
+        console.log('~~~~',this.router.url)
         console.log(this.locationId) 
+        this.locationId = data;
         this.setDefaultSelected();
+      }else{
+        console.log('====',this.router.url)
+      }
     });
+    
     window.scroll(0,0);
   }
 
   ngOnInit() {
+    console.log()
     this.locationId = localStorage.getItem('locationId');
-    this.notiType = 'send';
     this.setDefaultSelected();
     this.item.sendType = 'app';
-  }  
+
+
+    this._service.permissionList.subscribe((data) => {
+      if(this.router.url === '/tools'){
+        this.permissionType = data;
+        console.log(this.permissionType)
+        this.checkPermission();
+        localStorage.setItem('permission', JSON.stringify(data))
+      }
+    });
+  }
+
+  checkPermission(){
+    console.log(this.permissionType)
+    this.notiSidebar = ["SENDNOTIFICATION","VIEWSENDHISTORY"];    
+    this.apgSidebar = ["CREATEAPG"];
+    this.quizwerkzSidebar =["VIEWQUIZWERKZ","CREATEQUIZWERKZ","EDITQUIZWERKZ","DELETEQUIZWERKZ"]
+    this.calendarSidebar  =["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"]
+      
+    this.notiSidebar = this.notiSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.apgSidebar = this.apgSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.quizwerkzSidebar = this.quizwerkzSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.calendarSidebar = this.calendarSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+
+    this.notiSidebarDemo['send'] = (this.notiSidebar.includes("SENDNOTIFICATION")) ? 'SENDNOTIFICATION' : ''
+    this.notiSidebarDemo['view'] = (this.notiSidebar.includes("VIEWSENDHISTORY")) ? 'SENDNOTIFICATION' : ''
+    
+    if(this.notiSidebar.length > 0){
+      console.log('noti')
+      this.locationName = localStorage.getItem('locationName');
+      this.notiType =  (this.notiSidebar.includes("SENDNOTIFICATION")) ? 'send' : 'view';      
+      if(this.notiType == 'view'){
+        this.notiLists = [];
+        this.viewNoti(20, 0);
+      }
+    }else{
+      console.log('permission deny')
+    }
+  }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
     this.windowH = window.innerHeight;
-    // console.log(this.windowH)
-    if(this.notiType == 'apg'){
-      this.apgH= this.alertAPG.getContentHeight();
-      console.log('apg content =', this.apgH)  
-      if(this.windowH < (this.apgH + 107)){
-        this.totalHeight = this.apgH + 107
-        // console.log(totalH)
-        const diff = this.totalHeight - this.windowH
-        console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }else if(this.notiType == 'calendar'){
-      this.calH= this.alertCal.getContentHeight();
-      console.log('cal content =', this.calH)  
-      // console.log('cal content =', this.calH + 150)  
-      // console.log('windowH = ' , window.innerHeight)
-
-      if(this.windowH < (this.calH + 107)){
-        this.totalHeight = this.calH + 107
-        // console.log(totalHeight)
-        const diff = this.totalHeight - this.windowH
-        // console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }else if(this.notiType == 'quizwerkz'){
-      this.qwH= this.alertQW.getContentHeight();
-      console.log('qw content =', this.qwH)  
-      console.log(this.windowH)  
-      if(this.windowH < (this.qwH + 107)){
-        this.totalHeight = this.qwH + 107
-        const diff = this.totalHeight - this.windowH
-        console.log('content height is grater', diff);
-        this.scrollVal = diff;
-      }
-    }
-    console.log(window.pageYOffset)
-    if (window.pageYOffset > 81) {
-      console.log('if', window.pageYOffset)
+    if (window.pageYOffset > 81) {      
       this.isSticky = true;
       this.isMidStick = false;
-    } else {
-      console.log('else', window.pageYOffset)
+    } else {      
       this.isSticky = false;
     }
-    
-    if (window.pageYOffset > 45) {
-      this.isMidStick = true;
-    }else{
-      this.isMidStick = false;
-    }
+
+    this.isMidStick = (window.pageYOffset > 45) ? true : false;
   }
   
   clickTab(type){
@@ -174,7 +174,8 @@ export class ToolsComponent implements OnInit {
 
     }else if(type == 'dropdown'){
       this.isdropdown = !this.isdropdown;
-      this.notiType = 'send'
+      this.notiType =  (this.notiSidebar.includes("SENDNOTIFICATION")) ? 'send' : 'view';      
+      // this.notiType = 'send'
     }else if(type == 'apg'){
       console.log('apg ~~~')
       this.isdropdown = false;
@@ -209,6 +210,8 @@ export class ToolsComponent implements OnInit {
   changeSearch(searchWord, type){
     console.log(searchWord)
     console.log(this.active)
+    this.isSelected = false;
+    this.selectedID = (this.isSelected == false) ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
     this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
@@ -244,6 +247,7 @@ export class ToolsComponent implements OnInit {
   selectData(id, name, type){
     console.log(id)
     console.log('~~~', this.active.length)
+    this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
     if(type == 'user'){
@@ -335,7 +339,7 @@ export class ToolsComponent implements OnInit {
     this.showDayType();
 
     this.blockUI.start('Loading...');
-    this._service.viewNoti(limit, skip)
+    this._service.viewNoti(limit, skip, this.locationId)
     .subscribe((res:any) => {  
       console.log('~~~', this.notiLists);
       console.log(res);
@@ -443,8 +447,8 @@ export class ToolsComponent implements OnInit {
         console.log(err)
       })
     }else if(type == 'course'){
-      console.log('hi course')
-      this._service.getAllCourse(this.regionID, 20, 0)
+      console.log('hi course',this.locationId)
+      this._service.getAllCourse(this.regionID, this.locationId, 20, 0)
       .subscribe((res:any) => {
         console.log('~~~', res)
         this.courseLists = res;

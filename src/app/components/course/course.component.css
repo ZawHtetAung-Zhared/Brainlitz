@@ -1,3 +1,17 @@
+.location-name{
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  color: #007bff;
+  line-height: 0.5;
+  position: relative;
+  margin-top: 7px;
+  font-size: 11px;
+  background: #f2f4f5;
+  margin-left: 5px;
+  padding: 9px;
+  margin-bottom: 0;
+  border-radius: 4px;
+  display: table;
+}
 /*.timeline::-webkit-scrollbar-track
 {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -194,7 +208,7 @@ li button{
 .card-columns {
     -webkit-column-count:3;
     -moz-column-count:3;
-    column-count:2;
+    column-count:1;
     margin-bottom: 70px;
 }
 .card-body{
@@ -931,6 +945,7 @@ button:disabled{
     padding: 0 10px;
     width: 50px;
     position: absolute;
+    cursor: pointer;
 }
 .student-lists{
   margin-top: 20px;
@@ -939,6 +954,7 @@ button:disabled{
   border-radius: 28px;
   background-color: #f2f4f5;
   padding: 8px;
+  margin-bottom: 10px;
 }
 .single-student p{
   margin-bottom: 0;
@@ -971,10 +987,30 @@ button:disabled{
 }
 .present,
 .absent,
-.no-data{
+.no-data,
+.no-data-alert,
+.present-alert,
+.absent-alert
+{
   font-size: 16px;
   font-family: 'Montserrat-Medium',Arial,sans-serif;
   position: relative;
+}
+
+.single-student.no-data-alert{
+
+}
+.single-student.present-alert{
+  background: #c2f2d6;
+}
+.single-student.absent-alert{
+  background: #ffdbd9;
+}
+.single-student.present-alert p{
+  color: #004d20 !important;
+}
+.single-student.absent-alert p{
+  color: #7d1e19 !important;
 }
 .absent::before,
 .no-data::before {
@@ -1054,21 +1090,21 @@ button:disabled{
 /*For 1024px*/
 @media (max-width: 575px) { 
   .card-columns {
-    column-count: 2;
+    column-count: 1;
   }
 }
 
 /*Large devices (1025px t0 1999px)*/
 @media (min-width: 1025px) and (max-width: 1999px) { 
   .card-columns {
-    column-count: 3;
+    column-count: 1;
   }
 }
 
 /*Extra large devices (large desktops, 2000px and up)*/
 @media (min-width: 2000px) { 
   .card-columns {
-    column-count: 3;
+    column-count: 1;
   }
   .inner-wrapper{
     width: 1900px;

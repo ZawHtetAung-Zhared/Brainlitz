@@ -1,11 +1,14 @@
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
-  <div class="card-container">
-    <div class="title"><h3 class="header-font">Courses</h3></div>
+  <div *ngIf="coursePermission.length > 0" class="card-container">
+    <div class="d-flex flex-row title">
+      <h3 class="header-font">Courses</h3>
+      <span class="location-name">{{locationName}}</span>
+    </div>
     <div class="card-columns">
       <div class="card btn-card">
-        <button class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
+        <button *ngIf="courseDemo.createCP != ''" class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
           <p class="addCourseBtn">+</p>
           <p class="btn-largeLabel">Add new course plan</p>
         </button>
@@ -26,6 +29,7 @@
             </div>
           </div>
           <div>
+          <!-- <pre>{{courseGroup.courses |json}}</pre> -->
             <div *ngFor="let course of courseGroup.courses">
               <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
               <div class="d-flex course-wrap">
@@ -43,7 +47,6 @@
                     <span class="medium-font">From</span>
                     <div class="semibold">{{course.startDate | utcDate}}</div>
                   </div>
-                  <!-- 000000 {{course.endDate}} -->
                   <div *ngIf = "course.endDate">
                     <span class="medium-font">To</span>
                     <div class="semibold">{{course.endDate | utcDate}}</div>
@@ -61,10 +64,11 @@
                         <span>{{ course.location.name }}</span>
                       </label>
                     </div>
-                    <h5 *ngIf="course.draft == true" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
-                    <h5 *ngIf="course.draft == false" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
-                    <span class="staff-info medium-font">by {{ course.teacher.preferredName }} 
-                    <!-- <ul><li>0 staff</li></ul> -->
+                    <h5 *ngIf="course.draft == true && courseDemo.viewCourse != ''" (click)="goToConflict(course._id)" class="course-label">{{ course.name }}</h5>
+                    <h5 *ngIf="course.draft == false && courseDemo.viewCourse != ''" (click)="showCourseDetail(course._id)" class="course-label">{{ course.name }}</h5>
+                    <span *ngIf="course.teacher != undefined" class="staff-info medium-font">by {{ course.teacher.preferredName }} 
+                    </span>
+                    <span *ngIf="course.teacher == undefined" class="staff-info medium-font">-
                     </span>
                   </div>
                   <div class="second-info">
@@ -72,12 +76,12 @@
                       <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                         {{ day }}
                       </span>
-                      <div class="medium-font time-color">
-                        {{ course.courseDuration.starttime | convertTimeFormat }} - {{ course.courseDuration.endtime | convertTimeFormat }}
+                      <div *ngIf="course.duration !=undefined" class="medium-font time-color">
+                        {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
                       </div>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
-                      <button *ngIf="course.seat_left != 0" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, course._id)">
+                      <button *ngIf="course.seat_left != 0 && courseDemo.assignStudent != ''" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, 'outside', course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
                       </button>
@@ -88,7 +92,7 @@
             </div>
           </div>
           <div class="link-wrap">
-            <a class="link-btn" (click)="addNewCourse(courseGroup.coursePlan)">Add new course</a>
+            <a *ngIf="courseDemo.addCourse != ''" class="link-btn" (click)="addNewCourse(courseGroup.coursePlan)">Add new course</a>
           </div>
         </div>
       </div>
@@ -97,7 +101,7 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate" class="d-flex justify-content-center load-more">
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(courseList.length)">load more</button>
 </div>
 
@@ -147,7 +151,7 @@
             <b *ngIf="detailLists.paymentPolicy.deposit.amount == null">-</b>
           </div>
           <div class="mt-32">
-            <h5>Prorate class fee</h5>
+            <h5>Prorated class fee</h5>
             <div *ngIf="detailLists.paymentPolicy.proratedLessonFee != null">
               <sup>$</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
             </div>
@@ -208,7 +212,7 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'')">Add teacher</button>
+              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -247,7 +251,7 @@
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
-              <button type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'')">Enroll class</button>
+              <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -270,17 +274,33 @@
       <div class="activeTab-content" *ngIf="activeTab == 'Class'">
         <div class="timeline">
           <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
-            <b>{{timeline.startDate | timelineDate}}</b>
-            <p>{{timeline.startDate | timelineDay}}</p>
+            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
+            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+              <div>
+              <b>{{timeline.startDate | timelineDate}}</b>
+              <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
+            <div *ngIf="timeline.startDate > todayDate">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div class="mt-20">
           <div class="d-flex justify-content-between">
             <div class="mr-auto">
-              <p class="class-day">{{LASD | TTday}}</p>
+              <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
             </div>
-            <button type="button" class="btn btn-class-cancel" (click)="cancelClass()">Cancel class</button>
+            <!-- <button type="button" class="btn btn-class-cancel" (click)="cancelClass()">Cancel class</button> -->
           </div>
           <div>
             <label class="present">{{presentStudent}} present</label>
@@ -289,7 +309,7 @@
           </div>
           <div class="student-lists row">
             <div *ngFor="let user of activeCourseInfo.CUSTOMER" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
-              <div class="d-flex flex-row single-student align-items-center">
+              <div [ngClass]="{'no-data-alert': user.attendance == null, 'present-alert': user.attendance == true, 'absent-alert': user.attendance == false}" class="d-flex flex-row single-student align-items-center">
                 <div class="std-img-wrap">
                   <img src="{{user.profilePic}}">
                 </div>

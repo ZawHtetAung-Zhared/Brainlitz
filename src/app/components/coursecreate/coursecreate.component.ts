@@ -27,6 +27,8 @@ export class CoursecreateComponent implements OnInit {
   public isthereLC: boolean = false;
   public isSkipId: any;
   public isIgnoreId: any;
+  public courseFeess: any;
+  chooseFee:any = '';
   // hello = JSON.parse(localStorage.getItem('splan')) ;
   public courseObj:any = {};
   wordLength:any;
@@ -95,6 +97,8 @@ export class CoursecreateComponent implements OnInit {
   public coursePayment:any = {};
   public tempVar:any;
   public tempValue:any;
+  public feesOptions:any;
+  objectKeys = Object.keys;
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -117,6 +121,8 @@ export class CoursecreateComponent implements OnInit {
     if(this.courseID){
       console.log("Draft True",this.courseID);
       this.showDraftCourse(this.courseID);
+      // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
+      
     }else if(this.coursePlan){
       console.log("course Create");
       this.isChecked = 'end';
@@ -126,21 +132,33 @@ export class CoursecreateComponent implements OnInit {
       this.planName = this.coursePlan.name;
       this.model.duration = this.coursePlan.duration;
       this.createList(this.model.duration);
+      this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
+      // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
     }
     
   }
+
+  // feeOptList(feeOptions){
+  //   console.log(feeOptions);
+  //   var options = feeOptions;
+  //   for(var key in options){
+  //     console.log("--Options",options[key]);
+  //     // this.feesOptions = options[key].
+  //   }
+  // }
 
   showDraftCourse(cId){
     console.log("Function Works");
     this.getAllLocations();
     this.blockUI.start('Loading...');
-    this._service.getSingleCourse(cId)
+    this._service.getSingleCourse(cId, this.currentLocation)
     .subscribe((res:any) => {
       console.log("Course Detail",res);
       setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
       }, 300);
       this.model = res;
+      this.courseFeess = res.paymentPolicy.courseFee;
       this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
       this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
       this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
@@ -152,12 +170,16 @@ export class CoursecreateComponent implements OnInit {
       this.selectedDay = this.model.repeatDays;
       this.planId = this.model.coursePlan.coursePlanId;
       this.planName = this.model.coursePlan.name;
-      console.log("plan in draft",this.planName)
-      this.model.duration = this.model.coursePlan.lesson.duration;
+      console.log("plan in draft",this.planName);
+      console.log(this.model.coursePlan.lesson.duration*this.model.durationTimes);
+      this.model.duration = this.model.coursePlan.lesson.duration*this.model.durationTimes;
       console.log(this.model.duration);
       this.calculateDuration(this.model.starttime,this.model.duration);
-      this.createList(this.model.duration);
+      this.createList(this.model.coursePlan.lesson.duration);
       this.model.durationTimes = this.model.durationTimes;
+      this.startTime = this.model.starttime
+      // console.log(this.model.coursePlan.lesson.duration);
+      // console.log(this.model.starttime,this.model.duration);
       this.selectedTeacher = this.model.teacher;
       var assiatantsArr = this.model.assistants;
       for(var i in assiatantsArr){
@@ -174,6 +196,8 @@ export class CoursecreateComponent implements OnInit {
         this.tempVar = 'lesson';
         this.tempValue = res.lessonCount;
       }
+      this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
+      this.chooseFee = this.model.paymentPolicy.courseFee;
 
       // var selectedDays= this.model.repeatDays;
       this.temp["endDate"] = this.model.endDate;
@@ -268,7 +292,7 @@ export class CoursecreateComponent implements OnInit {
     }
     console.log("testList",this.testList);
     // this.model.duration = this.testList[0];
-    console.log("Duration Times",this.model.duration)
+    console.log("Duration Times",this.model.duration);
   }
 
   focusMethod(e, status, word){
@@ -480,6 +504,14 @@ export class CoursecreateComponent implements OnInit {
             this.searchMenuShow = false;
             $("#myInput").focus();
         }
+
+        //for coursefee options
+        if(this.feeOptShow == false){
+          $('.feeOpt-dropdown').css('display','none');
+        }else{
+          $('.feeOpt-dropdown').css('display','block');
+          this.feeOptShow = false;
+        }
   }
 
   dropDown(){
@@ -492,6 +524,7 @@ export class CoursecreateComponent implements OnInit {
        this.durationMenuShow = true;
     }
   }
+
   locationDropdown(){
     var y = document.getElementsByClassName('location-dropdown');
     if( (y[0]as HTMLElement).style.display == 'block'){
@@ -502,6 +535,27 @@ export class CoursecreateComponent implements OnInit {
        this.locationMenuShow = true;
     }
   }
+
+  feeOptShow:boolean = false;
+  feeOptDropdown(){
+    var xx = document.getElementsByClassName('feeOpt-dropdown');
+    if( (xx[0]as HTMLElement).style.display == 'block'){
+      (xx[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (xx[0]as HTMLElement).style.display = 'block';
+       this.feeOptShow = true;
+    }
+  }
+
+  showFees(){
+    // this.feeOptShow = true;
+  }
+
+  hideFees(){
+    // this.feeOptShow = false;
+  }
+
   showSearch:boolean = false;
   searchDropdown(){
     var z = document.getElementsByClassName('search-dropdown');
@@ -576,9 +630,18 @@ export class CoursecreateComponent implements OnInit {
 
   calculateDuration(time,duration){
     console.log("Calculate",time,duration)
+
+    let totalduration = duration/60;
+    let gethour = Math.floor( totalduration );
+    let getmin = duration%60;
+
+    console.log(gethour)
+    console.log(getmin)
+
+    // this.classend = time + 
     if(time){
       let piece = time.split(':');
-      let mins = Number(piece[0])*60 +Number(piece[1]) +this.model.duration;
+      let mins = Number(piece[0])*60 +Number(piece[1]) +duration;
       var endTime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
       console.log("Classend",endTime);
       var H = +endTime.substr(0,2);
@@ -763,8 +826,13 @@ export class CoursecreateComponent implements OnInit {
       "quizwerkz": [],
       "description": this.model.description,
       "skipLessons": JSON.stringify(this.skipArr),
-      "ignoreLessons": JSON.stringify(this.ignoreArr)
+      "ignoreLessons": JSON.stringify(this.ignoreArr),
     };
+
+    if(this.chooseFee !=''){
+      console.log("KKKK",this.chooseFee);
+      this.courseObj["courseFee"] = this.chooseFee;
+    }
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
     if(this.conflitCourseId == ""){
@@ -857,7 +925,7 @@ export class CoursecreateComponent implements OnInit {
     
     console.log("Course",this.courseObj);
     this.blockUI.start('Loading...');
-    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck)
+    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck, this.currentLocation)
     .subscribe((res:any) => {
       console.log(res);
       this.blockUI.stop();
@@ -892,6 +960,7 @@ export class CoursecreateComponent implements OnInit {
           console.log(this.model.lessonCount)
           this.toastr.error(err.error.message);
           this.conflitArr = err.error.lessons;
+          console.log(this.conflitArr)
           this.conflitCourseId = err.error.courseId;
           this.coursePayment = err.error.paymentPolicy;
           this.tempID =[];
@@ -904,6 +973,7 @@ export class CoursecreateComponent implements OnInit {
           console.log(this.ttCalendar)
           console.log(this.timetableLists[0].lessons[0])
           this.ttStartDate =this.timetableLists[0].lessons[0];
+          console.log(this.ttStartDate)
           const lastItem= this.timetableLists[this.timetableLists.length - 1].lessons.length - 1;
           console.log(lastItem)
           console.log(this.timetableLists[this.timetableLists.length - 1].lessons[lastItem])
@@ -1113,6 +1183,12 @@ export class CoursecreateComponent implements OnInit {
       // console.log('blank')
       endPicker.close();
     }
+  }
+  
+  chooseFeeOption(key,data){
+    this.chooseFee = data;
+    console.log(key,data);
+    // console.log("option",this.chooseFee);
   }
 
 }
