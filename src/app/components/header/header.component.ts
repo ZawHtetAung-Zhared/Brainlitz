@@ -47,8 +47,7 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit() {
     console.log('headerLocation work')
-    setTimeout(() => {
-      console.log('~~~', this.locationName)  
+    setTimeout(() => {  
       this.userName = localStorage.getItem('userName')
       }, 400);
     this.accessToken = localStorage.getItem('token');
