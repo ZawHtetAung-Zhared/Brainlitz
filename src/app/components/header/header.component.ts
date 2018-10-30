@@ -51,7 +51,10 @@ export class HeaderComponent implements OnInit {
     }
 
     if(this._router.url != '/dashboard'){
+      console.log(this._router.url)
       localStorage.removeItem('permission');
+    }else{
+      console.log(this._router.url)
     }
   }
 

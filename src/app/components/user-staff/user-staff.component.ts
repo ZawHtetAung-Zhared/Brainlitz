@@ -98,6 +98,7 @@ export class UserStaffComponent implements OnInit {
 		this.staffDemo['deleteStaff'] = (this.staffPermission.includes("DELETESTAFFS")) ? 'DELETESTAFFS' : '';
 
 		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
+			this.locationName = localStorage.getItem('locationName');
 			this.getAllUsers('staff', 20, 0);
 			this.getAllpermission();
 		}else{
