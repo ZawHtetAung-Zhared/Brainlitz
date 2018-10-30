@@ -70,6 +70,7 @@ export class UserStaffComponent implements OnInit {
 
   	ngOnInit() {
   		this.blankCrop = false; 
+		this.locationName = localStorage.getItem('locationName');
   		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/staff'){
 		    this.permissionType = data;
@@ -98,7 +99,6 @@ export class UserStaffComponent implements OnInit {
 
 		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
 			this.getAllUsers('staff', 20, 0);
-			this.locationName = localStorage.getItem('locationName');
 			this.getAllpermission();
 		}else{
 	      console.log('permission deny')
