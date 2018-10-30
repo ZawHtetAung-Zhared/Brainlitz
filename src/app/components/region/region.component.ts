@@ -20,14 +20,14 @@ export class RegionComponent implements OnInit {
   constructor(private _service: appService, private router: Router) { }
 
   ngOnInit() {
-    // localStorage.removeItem('locationId');
     localStorage.removeItem('previousLID');
     localStorage.removeItem('permission');
-    // localStorage.removeItem('regionId');
     this.accessToken = localStorage.getItem('token');
+    console.log(this.accessToken)
     if(this.accessToken != undefined){
       console.log('!undefined')
       this.getAllRegion();
+      this.getUserInfo();
     }else{
       console.log('==undefined')
       this.getAccessToken();
@@ -42,15 +42,27 @@ export class RegionComponent implements OnInit {
     console.log(this.orgID)
     this._service.getToken()
     .subscribe((res:any) => {
-      console.log('ready to call next request')
-      if(this.accessToken != undefined){
+      console.log('ready to call next request', res)
+      if(this.accessToken != undefined || localStorage.getItem('token')){
         console.log('access token genereated ~~~~', )
         this.blockUI.stop();
         this.getAllRegion();
+        this.getUserInfo();
       }else{
         console.log("dont't have token")
         this.getAllRegion();
       }
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  getUserInfo(){
+    console.log('~~~~')
+    this._service.userInfo(this.tokenType, this.accessToken)
+    .subscribe((res:any) => {
+      console.log(res)
+      localStorage.setItem('userName', res.email)
     }, err => {
       console.log(err)
     })

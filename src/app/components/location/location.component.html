@@ -35,6 +35,9 @@
   <div class="location-group">
     <h3 *ngIf="isUpdate == false" class="location-h3">Create Location</h3>
     <h3 *ngIf="isUpdate == true" class="location-h3">Update Location</h3>
+    <p class="input-recommend">
+      Add different locations of your training centres (if any). This will help to retrieve data/ information from any location.  
+    </p>
     <form novalidate #locationForm="ngForm" class="form-wrap" (keydown)="keyDownFunction($event)">
       <div class="form-group form-divider">
         <div class="d-flex justify-content-between">

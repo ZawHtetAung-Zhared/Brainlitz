@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../../../environments/environment';
 import { appService } from '../../service/app.service';
@@ -21,8 +22,10 @@ export class LoginComponent implements OnInit {
   public host: any;
   public islogin: boolean = false;
   public noOrginExit: boolean = false;
+  public appName :any;
 
-  constructor(private _service: appService, @Inject(DOCUMENT) private document: any) {
+
+  constructor(private titleService: Title,private _service: appService, @Inject(DOCUMENT) private document: any) {
      //  this._service.slicePath.subscribe((nextValue) => {
      //    this.slicePathName = nextValue;
      // })
@@ -36,10 +39,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.randomKey = localStorage.getItem('random');
     this.host = this.document.location.hostname;
+    console.log(this.randomKey)
     if(this.randomKey != undefined){
       console.log('key exit')
     }else{
-      console.log('no key')
+      console.log('key does not exit')
       this.generateRandom();
     }
     this.getSubdomain();
@@ -58,13 +62,22 @@ export class LoginComponent implements OnInit {
     if(storeLocal.includes('/')){
       var str_temp = storeLocal.substr(storeLocal.lastIndexOf("/")+1);
       str_res = str_temp.substring(0,str_temp.indexOf('.'));
+      this.appName = str_res;
+      this.setTitle(this.appName);
+      console.log(this.appName)
     }else{
       str_res = storeLocal.substring(0,storeLocal.indexOf('.'));
+      this.appName = str_res;
+      this.setTitle(this.appName);
+      console.log(this.appName)
     }
 
     console.log('~~~~~', str_res)
     this.orgName = str_res
     // localStorage.setItem('slicePath', str_res);
+    // this.appName = str_res;
+    // this.setTitle(this.appName);
+    localStorage.setItem('appname',str_res);
     if(str_res == ''){
       console.log('no subdomain')
       str_res = 'stgbl-cw1'
@@ -117,6 +130,10 @@ export class LoginComponent implements OnInit {
     this.redirectUri = localStorage.getItem('redirectURL');
     this.redirectUri = encodeURIComponent(this.redirectUri);
     window.location.href = this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri
+  }
+
+  public setTitle( newTitle: string) {
+    this.titleService.setTitle( newTitle );
   }
   
 }

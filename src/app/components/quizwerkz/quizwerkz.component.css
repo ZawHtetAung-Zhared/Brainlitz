@@ -325,6 +325,13 @@ ul.qwbook-lists li p{
 	font-weight: bold;
 }
 
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    padding-left: 15px;
+}
+
 @media (min-width: 2000px){
     .col-xxl-3 {
         -ms-flex: 0 0 33.333333%;

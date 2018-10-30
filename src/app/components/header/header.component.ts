@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
@@ -12,6 +12,9 @@ declare var $:any;
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  @ViewChild(LocationComponent) lnameChanges: LocationComponent;
+
+  public userName = localStorage.getItem('userName');
   public regionID = localStorage.getItem('regionId');
   public OrgLogo = localStorage.getItem('OrgLogo');
   public headerlocationLists: any;
@@ -24,6 +27,9 @@ export class HeaderComponent implements OnInit {
   public toolsMenu: any = [];
   public settingMenu: any = [];
   public previousLocation:any = '';
+  public dropMenuShow: boolean = false;
+  public locationDpShow: boolean = false;
+  public selectedLocation:any = {};
   
   constructor(private _router: Router, private _service: appService) {
     console.log(this.currentLocationID)
@@ -48,7 +54,10 @@ export class HeaderComponent implements OnInit {
     }
 
     if(this._router.url != '/dashboard'){
+      console.log(this._router.url)
       localStorage.removeItem('permission');
+    }else{
+      console.log(this._router.url)
     }
   }
 
@@ -61,67 +70,77 @@ export class HeaderComponent implements OnInit {
   getAllLocation(){
     this._service.getHeaderLocations(this.regionID, '', '', true)
     .subscribe((res:any) => {
-      this.headerlocationLists = res; 
+      this.headerlocationLists = res;
+      console.log(this.headerlocationLists.length) 
       
       this.currentLocationID  = localStorage.getItem('locationId');
       console.log(this.currentLocationID)
       localStorage.setItem('previousLID', this.currentLocationID);
-      if(this.currentLocationID){
-        for(var i = 0; i < this.headerlocationLists.length; i++){
-          if(this.headerlocationLists[i]._id == this.currentLocationID){
-            this.headerlocationLists[i].selected = true;
-            localStorage.setItem('locationId', this.headerlocationLists[i]._id);
-            localStorage.setItem('locationName', this.headerlocationLists[i].name);
+
+      if(this.headerlocationLists.length != 0){
+        if(this.currentLocationID != null){
+          console.log('current location is not null')
+          for(var i = 0; i < this.headerlocationLists.length; i++){
+            if(this.headerlocationLists[i]._id == this.currentLocationID){
+              this.headerlocationLists[i].selected = true;
+              localStorage.setItem('locationId', this.headerlocationLists[i]._id);
+              localStorage.setItem('locationName', this.headerlocationLists[i].name);
+              this.selectedLocation["id"] = this.headerlocationLists[i]._id;
+              this.selectedLocation["name"] = this.headerlocationLists[i].name;
+            }
           }
-        }
-        this.setPermission(this.currentLocationID);
+          this.setPermission(this.currentLocationID);
+        }else{
+          console.log('no location has choosen')
+          this.setLocation();
+        } 
       }else{
-        console.log('no location has choosen')
-      } 
-
-
-      let regionId  = localStorage.getItem('regionId');
-      console.log(localStorage.getItem('locationId'))
-      if(!localStorage.getItem('locationId') && localStorage.getItem('locationId')!= null){
-        localStorage.setItem('locationId', this.headerlocationLists[0]._id);
-        localStorage.setItem('locationName', this.headerlocationLists[0].name);
-        localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
-        this.setPermission(this.headerlocationLists[0]._id);        
-      }else{
-        console.log('no location has counter')
-      }
-      // else if(this.headerlocationLists.length != 0){
-      //   console.log('else')
-      //   localStorage.setItem('locationId', this.headerlocationLists[0]._id);
-      //   this.setPermission(this.headerlocationLists[0]._id);        
-      // }else{
-      //   console.log('no location has counter')
-      // } 
-      
+        console.log('no location in this region')
+      };
+            
     }, err => {
       console.log(err)
-    })
+    });
+
+  }
+
+  setLocation(){
+    console.log('... callback')
+    let regionId  = localStorage.getItem('regionId');
+    console.log(localStorage.getItem('locationId'))
+    if(!localStorage.getItem('locationId')){
+      console.log('~~~~~~')
+      localStorage.setItem('locationId', this.headerlocationLists[0]._id);
+      localStorage.setItem('locationName', this.headerlocationLists[0].name);
+      localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
+      this.setPermission(this.headerlocationLists[0]._id);  
+
+      this.selectedLocation["id"] = this.headerlocationLists[0]._id;
+      this.selectedLocation["name"] = this.headerlocationLists[0].name;      
+    }else if(localStorage.getItem('locationId') == null){
+      console.log('no location has counter')
+    }else{
+      console.log('no location has counter')
+    }
   }
 
   setPermission(id){
     this._service.getPermission(id)
     .subscribe((res:any) => {
       console.log(res)
-
-      // if(this.currentLocationID != localStorage.getItem('previousLID')){
-        
-        this.showMenuPerPermission(res)
-        this._service.showPermission(res);
-      
-      
+      this.showMenuPerPermission(res)
+      this._service.showPermission(res);
     }, err => {
       console.log(err)
     })
   }
 
-  selectLocation(e){
-    console.log('location select', this.headerlocationLists)
-    let LocationId = e.target.value;
+  selectLocation(data){
+    console.log('location select', data)
+    // let LocationId = e.target.value;
+    let LocationId = data._id;
+    this.selectedLocation["id"] = data._id;
+    this.selectedLocation["name"] = data.name;
 
     for(var i in this.headerlocationLists){
       if(this.headerlocationLists[i]._id == LocationId){
@@ -156,9 +175,8 @@ export class HeaderComponent implements OnInit {
     this.courseMenu = this.courseMenu.filter(value => -1 !== data.indexOf(value));
     this.reportMenu = this.reportMenu.filter(value => -1 !== data.indexOf(value));
     this.toolsMenu = this.toolsMenu.filter(value => -1 !== data.indexOf(value));
+    this.settingMenu = this.settingMenu.filter(value => -1 !== data.indexOf(value));
   }
-
-  dropMenuShow: boolean = false;
 
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
@@ -168,7 +186,13 @@ export class HeaderComponent implements OnInit {
         else {
             $('.dropdown-box').css('display', 'block');
             this.dropMenuShow = false;
+        }
 
+        if(this.locationDpShow == false){
+          $('.location-dp').css('display', 'none'); 
+        }else{
+            $('.location-dp').css('display', 'block');
+            this.locationDpShow = false;
         }
     }
     
@@ -180,6 +204,17 @@ export class HeaderComponent implements OnInit {
     else {
        (x[0]as HTMLElement).style.display = 'block';
        this.dropMenuShow = true;
+    }
+  }
+
+  locationDp(){
+    var y = document.getElementsByClassName('location-dp');
+    if( (y[0]as HTMLElement).style.display == 'block'){
+      (y[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (y[0]as HTMLElement).style.display = 'block';
+       this.locationDpShow = true;
     }
   }
 

@@ -242,3 +242,11 @@ input:invalid+span{
 input:valid+span:after {
   display: none;
 }
+
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    margin-top: 10px;
+}
+

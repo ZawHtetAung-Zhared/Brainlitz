@@ -20,6 +20,7 @@ declare var $:any;
 export class CoursecreateComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public currentLocation = localStorage.getItem('locationId');
+  public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   public courseID = localStorage.getItem('courseID');
   @BlockUI() blockUI: NgBlockUI;
@@ -133,6 +134,8 @@ export class CoursecreateComponent implements OnInit {
       this.model.duration = this.coursePlan.duration;
       this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
+      this.model.location = this.locationName;
+      this.locationId = this.currentLocation;
       // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
     }
     
@@ -485,13 +488,13 @@ export class CoursecreateComponent implements OnInit {
         }
 
         //for location dropdown
-        if(this.locationMenuShow == false){
-           $('.location-dropdown').css('display', 'none'); 
-        }
-        else {
-            $('.location-dropdown').css('display', 'block');
-            this.locationMenuShow = false;
-        }
+        // if(this.locationMenuShow == false){
+        //    $('.location-dropdown').css('display', 'none'); 
+        // }
+        // else {
+        //     $('.location-dropdown').css('display', 'block');
+        //     this.locationMenuShow = false;
+        // }
 
         // this.showSearch = false;
 
@@ -525,16 +528,16 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
-  locationDropdown(){
-    var y = document.getElementsByClassName('location-dropdown');
-    if( (y[0]as HTMLElement).style.display == 'block'){
-      (y[0]as HTMLElement).style.display = 'none';
-    }
-    else {
-       (y[0]as HTMLElement).style.display = 'block';
-       this.locationMenuShow = true;
-    }
-  }
+  // locationDropdown(){
+  //   var y = document.getElementsByClassName('location-dropdown');
+  //   if( (y[0]as HTMLElement).style.display == 'block'){
+  //     (y[0]as HTMLElement).style.display = 'none';
+  //   }
+  //   else {
+  //      (y[0]as HTMLElement).style.display = 'block';
+  //      this.locationMenuShow = true;
+  //   }
+  // }
 
   feeOptShow:boolean = false;
   feeOptDropdown(){

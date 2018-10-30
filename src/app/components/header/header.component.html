@@ -1,14 +1,28 @@
 <header id="header">
   <div class="d-flex first-row">
-    <div class="mr-auto">
+    <div class="mr-auto d-flex align-items-center">
     	<form  novalidate #chooseLocationForm="ngForm">
-    		<div class="form-group m-bottom">
+    		<!-- <div class="form-group m-bottom">
     		  <label for="inputState" class="location-label">Location</label>
     		  <i class="chevron-down"></i>
     		  <select id="inputState" class="form-control" name="location" (change)="selectLocation($event)">
     		    <option [selected]="location.selected" *ngFor="let location of headerlocationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
     		  </select>
-    		</div>
+    		</div> -->
+        <label for="inputState" class="location-label m-0">Location</label>
+        <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
+            <div (click)="locationDp()">
+                <div class="locbox">{{selectedLocation.name}}</div>
+                <i class="fa fa-chevron-down dropdown-arrow"></i>
+                <span class="caret"></span>
+            </div>
+            <div>
+              <ul class="location-dp">
+                <li class="test" *ngFor="let location of headerlocationLists" (click)="selectLocation(location)" [ngClass]="{'selected': selectedLocation.id == location._id}">
+                {{ location.name }}</li>
+              </ul>
+            </div>
+        </div>
     	</form> 
     </div>
     <div class="mr-auto">
@@ -19,7 +33,7 @@
     </div>
     <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
         <div (click)="dropDown()">
-          Admin <i class="fa fa-chevron-down dropdown-arrow"></i>
+          {{userName}} <i class="fa fa-chevron-down dropdown-arrow"></i>
         <span class="caret"></span></div>
         <div>
           <ul class="dropdown-box">

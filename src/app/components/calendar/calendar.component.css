@@ -594,3 +594,10 @@ ul.calendar-year li:first-child{
   padding: 7px;
   text-align: center;
 }
+
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    padding-left: 15px;
+}

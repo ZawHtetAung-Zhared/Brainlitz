@@ -557,8 +557,8 @@ h3.category-h3, .category-name, .d-wrapper {
 
 .small-caption {
   font-size: 14px;
-  position: absolute;
-  margin-left: 86px;
+  /*position: absolute;*/
+  /*margin-left: 86px;*/
   margin-top: 9px;
 }
 
@@ -1440,6 +1440,12 @@ ul.search-apg{
   background: #ff3d33;
   margin: auto 2px;
   height: 2px;
+}
+
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 
 @media only screen and (max-width: 768px){

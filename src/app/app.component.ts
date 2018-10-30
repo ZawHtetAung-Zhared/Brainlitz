@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { Http, Response, RequestOptions, Headers,URLSearchParams } from '@angular/http';
@@ -16,8 +17,10 @@ export class AppComponent implements OnInit{
   public showHeader: boolean = false;
   public str_res: any;
   public favicon = localStorage.getItem("favicon");
+  public appName = localStorage.getItem("appname");
+  // public appName = "Hello";
 
-  constructor(private http: Http, private _router: Router, private _service: appService, @Inject(DOCUMENT) private document: any) { 
+  constructor(private titleService: Title,private http: Http, private _router: Router, private _service: appService, @Inject(DOCUMENT) private document: any) { 
   	if (window.location.hash.indexOf("#") === 0) {
   		var data = {}, pairs, pair, separatorIndex, escapedKey, escapedValue;
         var queryString = window.location.search.substr(1);        
@@ -60,7 +63,8 @@ export class AppComponent implements OnInit{
       this.str_res = storeLocal.substring(0,storeLocal.indexOf('.'));
     }
 
-    console.log('~~~~~', this.str_res)
+    console.log('~~~~~', this.str_res);
+    localStorage.setItem('appname',this.str_res);
 
     // var storeLocal = document.location.href.substring(7, document.location.href.indexOf("."));
     if((document.location.href.slice(-5)) == "login"){
@@ -75,6 +79,12 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     console.log("favicon",this.favicon);
     this.document.getElementById('appFavicon').setAttribute('href',this.favicon);
+    // this.document.getElementById('appname').innerHTML = this.appName;
+    this.setTitle(this.appName);
+  }
+
+  public setTitle( newTitle: string) {
+    this.titleService.setTitle( newTitle );
   }
     
 }

@@ -34,7 +34,7 @@ export class UsersComponent implements OnInit {
 	public orgID = localStorage.getItem('OrgId');
 	public regionID = localStorage.getItem('regionId');	
 	public locationID = localStorage.getItem('locationId');	
-	public locationName: any;	
+	public locationName :any;	
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
 	xxxx:any = {};	
@@ -101,6 +101,10 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
+		setTimeout(() => {
+			console.log('~~~', this.locationName)	
+			this.locationName = localStorage.getItem('locationName');
+	    }, 300);
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/customer'){
@@ -240,15 +244,22 @@ export class UsersComponent implements OnInit {
 		for(var i=0; i<this.customFields.length; i++){
 			console.log('field value',this.customFields[i].value);
 			if(this.customFields[i].value){
-				if(this.customFields[i].value.trim().length){
-					var fieldObj:any = {};
-					fieldObj = {
-						"permittedUserInfoId": this.customFields[i]._id,
-						"value": this.customFields[i].value
-					}
-					console.log("fieldObj",fieldObj);
-					this.formFieldc.details.push(fieldObj);
+				var fieldObj:any = {};
+				fieldObj = {
+					"permittedUserInfoId": this.customFields[i]._id,
+					"value": this.customFields[i].value
 				}
+				console.log("fieldObj",fieldObj);
+				this.formFieldc.details.push(fieldObj);
+				// if(this.customFields[i].value.trim().length){
+				// 	var fieldObj:any = {};
+				// 	fieldObj = {
+				// 		"permittedUserInfoId": this.customFields[i]._id,
+				// 		"value": this.customFields[i].value
+				// 	}
+				// 	console.log("fieldObj",fieldObj);
+				// 	this.formFieldc.details.push(fieldObj);
+				// }
 			}
 		}	
 		console.log("formFieldc details",this.formFieldc.details);
@@ -294,7 +305,8 @@ export class UsersComponent implements OnInit {
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
 			if(this.img != undefined){
 				this.ulFile = this.dataURItoBlob(this.img)
-				objData.append('profilePic', this.ulFile)
+				objData.append('profilePic', this.ulFile);
+				console.log('profile pic',this.ulFile)
 			}
 
 			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
@@ -303,8 +315,9 @@ export class UsersComponent implements OnInit {
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
 
-			this.blockUI.start('Loading...');
+			
 			console.log("Data",objData)
+			this.blockUI.start('Loading...');
 			this._service.createUser(objData, this.locationID)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
@@ -313,13 +326,19 @@ export class UsersComponent implements OnInit {
 		  		this.back();
 		    }, err => {		    	
 		    	this.blockUI.stop();
-		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// 	this.toastr.error('Email already exist');
+		    	// }
+		    	// else {
+		    	// 	this.toastr.error('Create Fail');
+		    	// }
+		    	console.log(err);
+		    	console.log(err.status)
+		    	if(err.status == 400){
 		    		this.toastr.error('Email already exist');
-		    	}
-		    	else {
+		    	}else{
 		    		this.toastr.error('Create Fail');
 		    	}
-		    	console.log(err);
 		    })
 		}else{
 			console.log('update');
@@ -361,9 +380,14 @@ export class UsersComponent implements OnInit {
 		  		this.blockUI.stop();
 		  		this.back();
 		    }, err => {
-		    	this.toastr.error('Update Fail');
+		    	// this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err);
+		    	if(err.status == 400){
+		    		this.toastr.error('Email already exist');
+		    	}else{
+		    		this.toastr.error('Create Fail');
+		    	}
 		    })
 		}
 	}
@@ -432,6 +456,11 @@ export class UsersComponent implements OnInit {
 	// 		console.log('this.locationLists', this.locationLists);
 	// 	})
 	// }
+
+	whateverEventHandler(e){
+		console.log(e)
+		this.validateEmail(e.target.value)
+	}
 
 	validateEmail(data){
 		
@@ -525,7 +554,8 @@ export class UsersComponent implements OnInit {
 	    this.imgDemoSlider = true;
 	    $("#upload-demo img:first").remove();
 	    this.input = $event.target.files[0];
-	    if (this.input) {
+	    console.log(this.input.size)
+	    if (this.input.size <= 477732 && this.input) {
 	      	if (this.input && this.uploadCrop) {
 	        	this.uploadCrop.destroy();
 	      	}
@@ -553,6 +583,12 @@ export class UsersComponent implements OnInit {
               })
           }
 	    	reader.readAsDataURL($event.target.files[0]);
+	    }else{
+	    	console.log('file size is too large')
+	    	this.toastr.error('file size is too large');
+	      	this.validProfile = false;
+			this.imgDemoSlider = false;
+			$(".frame-upload").css('display', 'none');
 	    }
   	}
 
@@ -610,7 +646,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	backToUpload(){
-		this.hideMenu = false;
+		console.log('menu should be hidden')
+		this.hideMenu = true;
 		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');

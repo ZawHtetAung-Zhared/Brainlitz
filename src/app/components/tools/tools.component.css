@@ -243,6 +243,7 @@ img.setting-icon {
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
   color: #2e3e4d;
   margin-bottom: 0;
+  display: table;
 }
 .user-count{
 	padding: 25px 20px;
@@ -846,6 +847,15 @@ width: 50%;
   border-radius: 4px !important;
   color: #788796;
   cursor: pointer;
+}
+
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    padding-left: 15px;
+    padding-top: 15px;
+    margin: 0;
 }
 
 /*//Small devices (landscape phones, 576px and up)*/

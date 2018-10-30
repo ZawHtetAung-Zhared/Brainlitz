@@ -64,11 +64,21 @@
     </div>
     <div class="heading-margin no-padding large-col">
     	<div class="d-flex flex-column w-100 h-100 main-wrapper" *ngIf="notiType == 'send' && notiSidebarDemo.send != ''">
-				<div class="d-flex flex-row">
-					<h2 class="title-heading margin-heading">Send notification</h2>
+    			<!-- <div class="d-flex flex-column">
+    				<div class="d-flex flex-row">
+						<h2 class="title-heading margin-heading">Send notification</h2>
+						<span class="location-name">{{locationName}}</span>
+					</div>
+    			</div> -->
+				<div>
+					<h2 style="margin-right: 5px;" class="title-heading margin-heading pull-left">Send notification</h2>
 					<span class="location-name">{{locationName}}</span>
 				</div>
-				
+				<div>
+					<p class="input-recommend">
+						Send custom notifications to your users either as email or push notification via the app. 
+					</p>
+				</div>
 				<div class="d-flex flex-row">
 					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" >
 						<form novalidate #notiForm="ngForm" class="notif">
