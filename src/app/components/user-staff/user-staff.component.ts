@@ -298,15 +298,13 @@ export class UserStaffComponent implements OnInit {
 		for(var i=0; i<this.customFields.length; i++){
 			console.log('field value',this.customFields[i].value);
 			if(this.customFields[i].value){
-				if(this.customFields[i].value.trim().length){
-					var fieldObj:any = {};
-					fieldObj = {
-						"permittedUserInfoId": this.customFields[i]._id,
-						"value": this.customFields[i].value
-					}
-					console.log("fieldObj",fieldObj);
-					this.formFields.details.push(fieldObj);
+				var fieldObj:any = {};
+				fieldObj = {
+					"permittedUserInfoId": this.customFields[i]._id,
+					"value": this.customFields[i].value
 				}
+				console.log("fieldObj",fieldObj);
+				this.formFields.details.push(fieldObj);
 			}
 		}	
 		console.log("formFields details",this.formFields.details);

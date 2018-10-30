@@ -18,9 +18,6 @@
       </div>
       <button *ngIf="pdfDemo.addPdf != ''" type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
     </div> 
-    <p class="input-recommend">
-       Quizwerkz is like a library to upload and keep all your resources. Pair the resources to its relevant Course Plan and this will be visible to the users in their device under ‘Resources’ tab. 
-    </p> 
     <div *ngIf="pdfDemo.viewPdf != ''" class="row quizwerkz-group">
       <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3" *ngFor="let pdf of pdfList">
         <div class="d-flex single-quizwerkz">
@@ -52,6 +49,9 @@
     <div class="quizwerkz-form-wrap">
       <h3 *ngIf="!isEdit" class="title-heading">Create QuizWerkz</h3>
       <h3 *ngIf="isEdit" class="title-heading">Update QuizWerkz</h3>
+      <p class="input-recommend">
+         Quizwerkz is like a library to upload and keep all your resources. Pair the resources to its relevant Course Plan and this will be visible to the users in their device under ‘Resources’ tab. 
+      </p> 
       <div class="quizwerkz-form">
         <form novalidate #createqwForm="ngForm">
           <div class="col-md-8 input-wrap">
