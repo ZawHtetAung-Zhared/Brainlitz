@@ -385,9 +385,14 @@ export class UserStaffComponent implements OnInit {
 		  		this.blockUI.stop();
 		  		this.backToDetails();
 		    }, err => {
-		    	this.toastr.error('Update Fail');
+		    	// this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err);
+		    	if(err.status == 400){
+		    		this.toastr.error('Email already exist');
+		    	}else{
+		    		this.toastr.error('Create Fail');
+		    	}
 		    })
 		}
 	}
