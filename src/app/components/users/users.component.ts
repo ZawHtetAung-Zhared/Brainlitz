@@ -101,6 +101,7 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
+		this.locationName = localStorage.getItem('locationName');
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/customer'){
@@ -148,7 +149,6 @@ export class UsersComponent implements OnInit {
 
 		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
 			this.getAllUsers('customer', 20, 0);
-			this.locationName = localStorage.getItem('locationName');
 		}else{
 	      console.log('permission deny')
 	      this.customerLists = [];

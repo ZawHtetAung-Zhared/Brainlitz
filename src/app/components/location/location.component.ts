@@ -26,6 +26,7 @@ export class LocationComponent implements OnInit {
 	public limitno: Location;
 	public PHpattern: any;
 	public result: any;
+	public headerlocationLists: any;
 	public location: Location;
 	public regionID = localStorage.getItem('regionId');
 	public locationID = localStorage.getItem('locationId');
@@ -88,9 +89,19 @@ export class LocationComponent implements OnInit {
 
 	  if(this.locPermission.length > 0){
 		  this.getAllLocation(20,0);
+		  // this.getHeaderLoc();
 	  }else{
 	  	this.locationLists = [];
 	  }
+	}
+
+	getHeaderLoc(){
+		this._service.getHeaderLocations(this.regionID, '', '', true)
+	    .subscribe((res:any) => {
+	      this.headerlocationLists = res;
+	    }, err => {
+	      console.log(err)
+	    });
 	}
 
     
@@ -177,13 +188,25 @@ export class LocationComponent implements OnInit {
 		this.isvalid = false;
 		this.isrequired = true;
 		this.model = {};
-	}
+	}	
+
 	back(){
 		this.locationLists = [];
-    this.iscreate = false
-    this.isUpdate = false 
-    this.getAllLocation(20,0)	
+	    this.iscreate = false
+	    this.isUpdate = false 
+	    this.getAllLocation(20,0)	
 	}
+
+	updateHeaderLocation(id){
+		console.log(id)
+		console.log(this.headerlocationLists)
+		for(var i in this.headerlocationLists){
+          if(this.headerlocationLists[i]._id == id){
+            console.log('same')
+          }
+        }
+	}
+
 	keyDownFunction(e){
 		if(e.keyCode == 13) {
 		    console.log('you just clicked enter');
@@ -233,10 +256,6 @@ export class LocationComponent implements OnInit {
 	    })
 	}
 
-	create(){
-		console.log('i')
-	}
-
 	createLocation(obj, update, locationID) {
 		console.log("Location Obj",obj)
 		console.log(obj.phonenumber)
@@ -259,11 +278,12 @@ export class LocationComponent implements OnInit {
 			console.log(update)
 			this.blockUI.start('Loading...');
 			this._service.updateLocation(locationID, data, this.locationID)
-			 .subscribe((res:any) => {
+			.subscribe((res:any) => {
 	     		console.log(res)
 	     		this.model = {};
 	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
+	     		this.updateHeaderLocation(locationID)
 	     		this.back();
 	     	}, err => {
 	     		this.toastr.error('Update fail');
