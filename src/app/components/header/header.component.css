@@ -70,6 +70,7 @@ select {
 
 .location-label{
   color: #76818b;
+  font-family: 'Montserrat-Medium', Arial,sans-serif !important;
 }
 
 .first-row{
@@ -140,12 +141,14 @@ select {
   position: absolute;
   z-index: 99;
   /*padding: 0px 15px;*/
-  top: 55px;
-  left: 10px;
+  top: 70px;
+  left: 30px;
   display: none;
   background: #fff;
   color: #2e3d4d !important;
   cursor: pointer;
+  max-height: 250px;
+  overflow: auto;
 }
 .location-dp:after {
     content: "";
