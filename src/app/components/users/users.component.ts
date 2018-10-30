@@ -443,6 +443,11 @@ export class UsersComponent implements OnInit {
 	// 	})
 	// }
 
+	whateverEventHandler(e){
+		console.log(e)
+		this.validateEmail(e.target.value)
+	}
+
 	validateEmail(data){
 		
 		console.log(data);
