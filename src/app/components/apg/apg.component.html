@@ -96,6 +96,9 @@
   </div>
   <div class="location-group">
   	<h3 *ngIf="ismodule == true" class="title-heading">Pick APG type</h3>
+    <p *ngIf="ismodule == true" class="input-recommend" style="padding-left: 15px">
+       APG or Access Point Group is where a Teacher will be able to mark the progress or improvement of each student. APG serves as a central point to view the student’s progress by all parties. It can be in the form of Progress Bar or Badges.
+    </p>
   	<h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">Creating progress APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>

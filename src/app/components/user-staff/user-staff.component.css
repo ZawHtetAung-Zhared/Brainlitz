@@ -776,6 +776,12 @@ input[type=radio]:checked ~ label{
     padding: 15px 0px;
 }
 /*staff detail*/
+.input-recommend{
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    padding-top: 15px;
+}
 
 @media only screen and (max-width: 768px){
 

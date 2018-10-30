@@ -23,6 +23,9 @@
 				<button *ngIf="staffDemo.addStaff != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new staff</button>
 			</div>
 		</div>
+		<p class="input-recommend">
+			This is the list of your ‘Staffs’ that may include teachers, trainers etc. Click on a ‘staff’ to see their profile details
+		</p>
 		<div *ngIf="staffPermission[0] != undefined" class="col-md-12 pad-0" style="margin-top: 35px;">
 			<div class="input-group col-md-12 pad-0">
 			    <input 
