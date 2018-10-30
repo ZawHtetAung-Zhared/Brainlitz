@@ -31,6 +31,16 @@
     <div style="padding:15px;">
       <button class="btn btn-filter" (click)="showFilterModal(filterFields)">Filter Fields</button>
     </div>
+    <div class="selected-filter-content" style="background: #f2f4f5;padding: 15px 0;" *ngIf="filter.value.length">
+      <div style="padding:15px;padding: 15px;width: 100%;height: 50px;">
+      <div style="float:left;"><span style="text-transform: capitalize">{{filter.type}} </span>is</div>
+      <div style="float:right;" class="remove-selected-filter remove-all-filters"  (click)="removeAllFilters()"><span>-</span></div>
+      </div>
+      <div *ngFor="let selectedItem of filter.value" class="selected-filter-value" style="display:inline-block;">
+          {{selectedItem}}
+          <div class="remove-selected-filter"  (click)="removeCurrentFilter(selectedItem)"><span>-</span></div>
+        </div>
+    </div>
     <div class="rpt-content">
       <div *ngFor="let reportItem of reportData; let i = index">
         <staff-graph  [reportItem]="reportItem"></staff-graph>

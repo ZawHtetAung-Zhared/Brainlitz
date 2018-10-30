@@ -19,10 +19,10 @@ import staffData from './sampleData';
 export class StaffPerformanceReport implements OnInit {
   staffGroupByList = ['Location', 'Category', 'Course Plan'];
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
-  categoryList=['Art & Science','Dance','Education','Sports','Technology'];
-  locationList=['Woodland','Yishun','Admiralty','Bedok','Sembawang'];
-  coursePlanList=['Advanced','Beginner','Individual','Weekend'];
-  courseNameList=['Business Administration','Management Studies','3D Animation','Facebook Marketing','Cyber Security','Math Classes','Orchestra','Guitar','Hip Hop','Piano','Meditation & Yoga','Health & Fitness','Sports Science'];
+  categoryList = ['Art & Science', 'Dance', 'Education', 'Sports', 'Technology'];
+  locationList = ['Woodland', 'Yishun', 'Admiralty', 'Bedok', 'Sembawang'];
+  coursePlanList = ['Advanced', 'Beginner', 'Individual', 'Weekend'];
+  courseNameList = ['Business Administration', 'Management Studies', '3D Animation', 'Facebook Marketing', 'Cyber Security', 'Math Classes', 'Orchestra', 'Guitar', 'Hip Hop', 'Piano', 'Meditation & Yoga', 'Health & Fitness', 'Sports Science'];
   searchResult:any;
   groupBy = "location";
   selectedFilter:any;
@@ -740,24 +740,24 @@ export class StaffPerformanceReport implements OnInit {
    * @param event
    */
   updateGraphUsingGroupBy(event) {
-    this.filter={
-      value:[]
+    this.filter = {
+      value: []
     };
     switch (event.target.value) {
       case "Location":
-        this.groupBy  = "location";
+        this.groupBy = "location";
         this.showReportByLocation();
         break;
       case "Category":
-        this.groupBy  = "category";
+        this.groupBy = "category";
         this.showReportByCategory();
         break;
       case "Course Plan":
-        this.groupBy  = "coursePlan";
+        this.groupBy = "coursePlan";
         this.showReportByCoursePlan();
         break;
       default:
-        this.groupBy  = "location";
+        this.groupBy = "location";
         this.showReportByLocation();
 
 
@@ -799,8 +799,8 @@ export class StaffPerformanceReport implements OnInit {
     this.searchResult.show = false;
     this.searchResult.value = this.categoryList;
     this.filter = {
-      type:"category",
-      value:[]
+      type: "category",
+      value: []
     };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
@@ -820,8 +820,8 @@ export class StaffPerformanceReport implements OnInit {
    * @param event
    */
   updateFilterType(value) {
-    this.filter={
-      value:[]
+    this.filter = {
+      value: []
     };
     switch (value) {
       case "Category":
@@ -894,9 +894,20 @@ export class StaffPerformanceReport implements OnInit {
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
-    if(!this.filter.value.length){this.filter.type=""};
+    if (!this.filter.value.length) {
+      this.filter.type = ""
+    }
+    ;
+    this.applyFilters();
   }
 
+  removeAllFilters() {
+    this.filter = {
+      type: "",
+      value: []
+    }
+    this.applyFilters();
+  }
 
   clearSearch() {
 
@@ -910,7 +921,8 @@ export class StaffPerformanceReport implements OnInit {
       this.searchResult.show = false;
     }
   }
-  selectFilter(value){
+
+  selectFilter(value) {
     this.filter.value.push(value);
     this.searchResult.show = false;
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
@@ -918,24 +930,20 @@ export class StaffPerformanceReport implements OnInit {
 
   }
 
-  applyFilters(){
-      if(this.filter.value.length){
-        //we have some values , let's apply some filter here
-        switch(this.groupBy){
-          case "location":
-            console.log("calling showReportByLocation");
-            this.showReportByLocation();
-                break;
-          case "category":
-            this.showReportByCategory();
-            break;
-          case "coursePlan":
-            this.showReportByCoursePlan();
-            break;
-        }
-      }else{
-        //No filter value selected, just close popup
-      }
+  applyFilters() {
+    switch (this.groupBy) {
+      case "location":
+        console.log("calling showReportByLocation");
+        this.showReportByLocation();
+        break;
+      case "category":
+        this.showReportByCategory();
+        break;
+      case "coursePlan":
+        this.showReportByCoursePlan();
+        break;
+    }
+
     this.modalReference.close();
   }
 }
