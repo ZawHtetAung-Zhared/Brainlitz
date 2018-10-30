@@ -111,7 +111,7 @@ export class StaffPerformanceReport implements OnInit {
       let result = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
       console.log("result after filter");
       console.log(result);
-      if (result.length && this.filter.type && this.filter.type != 'coursePlan') {
+      if (result.length && this.filter.value && this.filter.value.length && this.filter.type != 'coursePlan') {
         this.reportData = this.mergeDuplicateObject(result);
       } else {
         this.reportData = result;
@@ -439,7 +439,7 @@ export class StaffPerformanceReport implements OnInit {
             obj.totalRating = _self.getTotalRating(obj.rating);
             obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
             obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-            obj.filterValue = course.courseName;
+            obj.filterValue = course.location;
             result.push(obj);
           });
 
@@ -647,6 +647,7 @@ export class StaffPerformanceReport implements OnInit {
     }
 
     function filterDataByLocation(data) {
+      console.log("going to filte data by location");
       let result = [];
       data.forEach(function (coursePlan) {
         let categories = coursePlan.categories || [];
@@ -680,7 +681,7 @@ export class StaffPerformanceReport implements OnInit {
             obj.totalRating = _self.getTotalRating(obj.rating);
             obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
             obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-            obj.filterValue = course.courseName;
+            obj.filterValue = course.location;
             result.push(obj);
           });
 
@@ -770,32 +771,37 @@ export class StaffPerformanceReport implements OnInit {
   showFilterModal(content) {
     console.log("i will show you filter modal");
     //check if any filter selected
-    if(!this.filter.value.length){
-      this.searchResult.value = this.categoryList;
-    }
-    switch (this.filter.type){
-      case "location":
-        this.selectedFilterType = "Location";
-        //document.getElementById('filterType').value = "Location";
-            break;
-      case "category":
-        this.selectedFilterType = "Category";
-        //document.getElementById('filterType').value = "Category";
-        break;
-      case "coursePlan":
-        this.selectedFilterType = "Course Plan";
-        //document.getElementById('filterType').value = "Course Plan";
-        break;
-      case "course":
-        this.selectedFilterType = "Course Name";
-        //document.getElementById('filterType').value = "Course Name";
-        break;
-      default:
-        this.selectedFilterType = "Category";
-      //document.getElementById('filterType').value = "Category";
-
-    }
+    // if(!this.filter.value.length){
+    //   this.searchResult.value = this.categoryList;
+    // }
+    // switch (this.filter.type){
+    //   case "location":
+    //     this.selectedFilterType = "Location";
+    //     //document.getElementById('filterType').value = "Location";
+    //         break;
+    //   case "category":
+    //     this.selectedFilterType = "Category";
+    //     //document.getElementById('filterType').value = "Category";
+    //     break;
+    //   case "coursePlan":
+    //     this.selectedFilterType = "Course Plan";
+    //     //document.getElementById('filterType').value = "Course Plan";
+    //     break;
+    //   case "course":
+    //     this.selectedFilterType = "Course Name";
+    //     //document.getElementById('filterType').value = "Course Name";
+    //     break;
+    //   default:
+    //     this.selectedFilterType = "Category";
+    //   //document.getElementById('filterType').value = "Category";
+    //
+    // }
     this.searchResult.show = false;
+    this.searchResult.value = this.categoryList;
+    this.filter = {
+      type:"category",
+      value:[]
+    };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
@@ -897,7 +903,6 @@ export class StaffPerformanceReport implements OnInit {
   }
 
   filterSearch(value) {
-    console.log(this.searchResult);
     if (value) {
       this.searchResult.show = true;
 
@@ -907,15 +912,13 @@ export class StaffPerformanceReport implements OnInit {
   }
   selectFilter(value){
     this.filter.value.push(value);
+    this.searchResult.show = false;
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
 
 
   }
 
   applyFilters(){
-    console.log("inside apply filters");
-    console.log(this.filter);
-    console.log(this.groupBy);
       if(this.filter.value.length){
         //we have some values , let's apply some filter here
         switch(this.groupBy){

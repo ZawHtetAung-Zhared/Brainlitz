@@ -872,4 +872,16 @@ h3.head-rating-count {
   top: -7px;
   font-weight: bold;
 }
+.search-result-box{
+  max-height: 200px;
+  overflow: auto;
+  position: absolute;
+  background: #fff;
+  width: calc(100% - 30px);
+  padding: 15px;
+}
+.single-result {
+  padding: 5px 0;
+  cursor: pointer;
+}
 
