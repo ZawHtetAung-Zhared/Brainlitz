@@ -154,6 +154,9 @@
 								</label>
 							</div>
 						</div>
+						<p class="input-recommend">
+							If you allow your students to catch up with their missed classes, Turn On the “Makeup Policy” option.
+						</p>
 						<div *ngIf="formField.makeupPolicy.allowMakeupPass != true" style="padding-top: 40px;">
 							<p class="option-text">Switch <span>on</span><br>to add Makeup class.</p>
 						</div>
@@ -270,6 +273,9 @@
 					<div class="col-md-12">
 						<p class="step-font">Step 4</p>
 						<h5 class="all-title-font text-font-align">Lesson</h5>
+						<p class="input-recommend">
+							Choose a calendar from here to set holidays. If you do not find a relevant calendar, go to Tools > Calendar and create a new one. 
+						</p>
 					</div>
 					<div class="display-style" style="padding-top: 40px;">
 						<div class="col-md-6">
@@ -346,6 +352,9 @@
 								</label> 
 							</div>
 						</div>
+						<p class="input-recommend">
+							 Select your books / resources for this Course Plan. If you do not see the required book here, go to Tools > ‘Create Quizwerkz’.
+						</p>
 						<div *ngIf="formField.allowPagewerkz != true" style="padding-top: 40px;">
 							<p class="option-text">Switch <span>on</span><br>to add QuizWerkz book.</p>
 						</div>
@@ -376,7 +385,15 @@
 				<div *ngIf="showSearchAPG" class="inside-data-wrapper"> 
 					<div class="col-md-12">
 						<p class="step-font">Step 6</p>
-						<h3 class="all-title-font" style="float: left;">APG</h3><span class="sticky-dot-large">&#183;</span><p class="small-caption">Access Point Group</p>	
+						<div class="d-flex">
+							<h3 class="all-title-font" style="float: left;">APG</h3><span class="sticky-dot-large">&#183;</span><p class="small-caption">Access Point Group</p>	
+						</div>
+					</div>
+					<div class="col-md-12">
+						<p class="input-recommend">
+							APG or Access Point Group is where a Teacher will be able to mark the progress or improvement of each student. It can be in the form of Progress Bar or Badges. This will be notified to the Parent or Student whose email ID is registered. Begin by clicking on the Search icon. 
+
+						</p>
 					</div>
 					<div class="custom-dropdown-width input-group col-md-12 all-title-font">
 						<ng-template #rt let-r="result" let-t="term">

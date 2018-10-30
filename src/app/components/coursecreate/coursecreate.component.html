@@ -15,9 +15,9 @@
 		<div class="d-flex justify-content-center flex-column">
 			<div>
 		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid ||  selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid ||  selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
 		</div>
 	</div>
@@ -333,20 +333,19 @@
 			<div class="col-md-7">
 				<div>
 					<label for="location" class="input-title font-medium">Location</label>
-					<!-- <input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.locationId" name="location" #location="ngModel" required>  -->
-					<div>
+					<input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.location" name="location" #location="ngModel" readonly> 
+					<!-- <div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
 					    	<input class="cursor-on form-control br-bshadow-none"  name="location"  type="text" placeholder="username" [(ngModel)]="model.location" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
 					     </div>
 					     <div class="dropdown-wrap">
-				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
 				          <ul class="location-dropdown">
 				            <li *ngFor="let item of locationList" (click)="chooseLocation(item)">
 				              <span>{{item.name}}</span>
 				            </li>
 				          </ul>
 				        </div>
-					</div>
+					</div> -->
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
@@ -589,8 +588,8 @@
 			</div>
 			<div>
 			
-		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || model.location == null || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
 	        </div>
         </div>
 	</form>

@@ -240,15 +240,22 @@ export class UsersComponent implements OnInit {
 		for(var i=0; i<this.customFields.length; i++){
 			console.log('field value',this.customFields[i].value);
 			if(this.customFields[i].value){
-				if(this.customFields[i].value.trim().length){
-					var fieldObj:any = {};
-					fieldObj = {
-						"permittedUserInfoId": this.customFields[i]._id,
-						"value": this.customFields[i].value
-					}
-					console.log("fieldObj",fieldObj);
-					this.formFieldc.details.push(fieldObj);
+				var fieldObj:any = {};
+				fieldObj = {
+					"permittedUserInfoId": this.customFields[i]._id,
+					"value": this.customFields[i].value
 				}
+				console.log("fieldObj",fieldObj);
+				this.formFieldc.details.push(fieldObj);
+				// if(this.customFields[i].value.trim().length){
+				// 	var fieldObj:any = {};
+				// 	fieldObj = {
+				// 		"permittedUserInfoId": this.customFields[i]._id,
+				// 		"value": this.customFields[i].value
+				// 	}
+				// 	console.log("fieldObj",fieldObj);
+				// 	this.formFieldc.details.push(fieldObj);
+				// }
 			}
 		}	
 		console.log("formFieldc details",this.formFieldc.details);
@@ -294,7 +301,8 @@ export class UsersComponent implements OnInit {
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : this.img = obj.profilePic;
 			if(this.img != undefined){
 				this.ulFile = this.dataURItoBlob(this.img)
-				objData.append('profilePic', this.ulFile)
+				objData.append('profilePic', this.ulFile);
+				console.log('profile pic',this.ulFile)
 			}
 
 			guardianArray = (obj.guardianEmail) ? obj.guardianEmail.split(',') : [] ;
@@ -303,8 +311,9 @@ export class UsersComponent implements OnInit {
 			objData.append('password', obj.password);
 			objData.append('location', JSON.stringify([]));
 
-			this.blockUI.start('Loading...');
+			
 			console.log("Data",objData)
+			this.blockUI.start('Loading...');
 			this._service.createUser(objData, this.locationID)
 	    	.subscribe((res:any) => {
 	  			console.log(res);
