@@ -12,7 +12,8 @@
         <label for="inputState" class="location-label m-0">Location</label>
         <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
             <div (click)="locationDp()">
-                {{selectedLocation.name}}<i class="fa fa-chevron-down dropdown-arrow"></i>
+                <div class="locbox">{{selectedLocation.name}}</div>
+                <i class="fa fa-chevron-down dropdown-arrow"></i>
                 <span class="caret"></span>
             </div>
             <div>
