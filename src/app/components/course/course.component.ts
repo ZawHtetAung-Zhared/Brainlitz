@@ -361,16 +361,20 @@ export class CourseComponent implements OnInit {
     let ACY = new Date(targetDate).getUTCFullYear()
     this._service.getAssignUser(this.regionId,this.currentCourse,ACD,ACM,ACY)
     .subscribe((res:any)=>{
+      this.presentStudent = 0;
+      this.absentStudent = 0;
+      this.noStudent = 0;
       console.log(res)
       this.blockUI.stop();
       this.activeCourseInfo = res;
-
+      console.log(this.noStudent)
       for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
         if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
           this.presentStudent += 1;
         }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
           this.absentStudent += 1;
         }else{
+
           this.noStudent += 1;
         }
       }

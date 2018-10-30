@@ -399,7 +399,7 @@ export class appService{
       if(all != false){
         url = this.baseUrl + '/' + id + '/locations?all=' + all;
       }else{
-        url = this.baseUrl + '/' + id + '/locations?user=true&limit=' + limit + '&skip=' + skip;       
+        url = this.baseUrl + '/' + id + '/locations?limit=' + limit + '&skip=' + skip;       
       }
       const httpOptions = {
           headers: new HttpHeaders({ 
