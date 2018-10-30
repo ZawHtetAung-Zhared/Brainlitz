@@ -64,62 +64,66 @@ export class HeaderComponent implements OnInit {
   getAllLocation(){
     this._service.getHeaderLocations(this.regionID, '', '', true)
     .subscribe((res:any) => {
-      this.headerlocationLists = res; 
+      this.headerlocationLists = res;
+      console.log(this.headerlocationLists.length) 
       
       this.currentLocationID  = localStorage.getItem('locationId');
       console.log(this.currentLocationID)
       localStorage.setItem('previousLID', this.currentLocationID);
-      if(this.currentLocationID){
-        for(var i = 0; i < this.headerlocationLists.length; i++){
-          if(this.headerlocationLists[i]._id == this.currentLocationID){
-            this.headerlocationLists[i].selected = true;
-            localStorage.setItem('locationId', this.headerlocationLists[i]._id);
-            localStorage.setItem('locationName', this.headerlocationLists[i].name);
-            this.selectedLocation["id"] = this.headerlocationLists[i]._id;
-            this.selectedLocation["name"] = this.headerlocationLists[i].name;
+
+      if(this.headerlocationLists.length != 0){
+        if(this.currentLocationID != null){
+          console.log('current location is not null')
+          for(var i = 0; i < this.headerlocationLists.length; i++){
+            if(this.headerlocationLists[i]._id == this.currentLocationID){
+              this.headerlocationLists[i].selected = true;
+              localStorage.setItem('locationId', this.headerlocationLists[i]._id);
+              localStorage.setItem('locationName', this.headerlocationLists[i].name);
+              this.selectedLocation["id"] = this.headerlocationLists[i]._id;
+              this.selectedLocation["name"] = this.headerlocationLists[i].name;
+            }
           }
-        }
-        this.setPermission(this.currentLocationID);
-        console.log("header Location",this.headerlocationLists)
+          this.setPermission(this.currentLocationID);
+        }else{
+          console.log('no location has choosen')
+          this.setLocation();
+        } 
       }else{
-        console.log('no location has choosen')
-      } 
-
-
-      let regionId  = localStorage.getItem('regionId');
-      console.log(localStorage.getItem('locationId'))
-      if(!localStorage.getItem('locationId') && localStorage.getItem('locationId')!= null){
-        localStorage.setItem('locationId', this.headerlocationLists[0]._id);
-        localStorage.setItem('locationName', this.headerlocationLists[0].name);
-        localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
-        this.setPermission(this.headerlocationLists[0]._id);        
-      }else{
-        console.log('no location has counter')
-      }
-      // else if(this.headerlocationLists.length != 0){
-      //   console.log('else')
-      //   localStorage.setItem('locationId', this.headerlocationLists[0]._id);
-      //   this.setPermission(this.headerlocationLists[0]._id);        
-      // }else{
-      //   console.log('no location has counter')
-      // } 
-      
+        console.log('no location in this region')
+      };
+            
     }, err => {
       console.log(err)
-    })
+    });
+
+  }
+
+  setLocation(){
+    console.log('... callback')
+    let regionId  = localStorage.getItem('regionId');
+    console.log(localStorage.getItem('locationId'))
+    if(!localStorage.getItem('locationId')){
+      console.log('~~~~~~')
+      localStorage.setItem('locationId', this.headerlocationLists[0]._id);
+      localStorage.setItem('locationName', this.headerlocationLists[0].name);
+      localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
+      this.setPermission(this.headerlocationLists[0]._id);  
+
+      this.selectedLocation["id"] = this.headerlocationLists[0]._id;
+      this.selectedLocation["name"] = this.headerlocationLists[0].name;      
+    }else if(localStorage.getItem('locationId') == null){
+      console.log('no location has counter')
+    }else{
+      console.log('no location has counter')
+    }
   }
 
   setPermission(id){
     this._service.getPermission(id)
     .subscribe((res:any) => {
       console.log(res)
-
-      // if(this.currentLocationID != localStorage.getItem('previousLID')){
-        
-        this.showMenuPerPermission(res)
-        this._service.showPermission(res);
-      
-      
+      this.showMenuPerPermission(res)
+      this._service.showPermission(res);
     }, err => {
       console.log(err)
     })
@@ -165,6 +169,7 @@ export class HeaderComponent implements OnInit {
     this.courseMenu = this.courseMenu.filter(value => -1 !== data.indexOf(value));
     this.reportMenu = this.reportMenu.filter(value => -1 !== data.indexOf(value));
     this.toolsMenu = this.toolsMenu.filter(value => -1 !== data.indexOf(value));
+    this.settingMenu = this.settingMenu.filter(value => -1 !== data.indexOf(value));
   }
 
   @HostListener('document:click', ['$event'])

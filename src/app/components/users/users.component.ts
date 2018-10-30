@@ -534,7 +534,8 @@ export class UsersComponent implements OnInit {
 	    this.imgDemoSlider = true;
 	    $("#upload-demo img:first").remove();
 	    this.input = $event.target.files[0];
-	    if (this.input) {
+	    console.log(this.input.size)
+	    if (this.input.size <= 477732 && this.input) {
 	      	if (this.input && this.uploadCrop) {
 	        	this.uploadCrop.destroy();
 	      	}
@@ -562,6 +563,12 @@ export class UsersComponent implements OnInit {
               })
           }
 	    	reader.readAsDataURL($event.target.files[0]);
+	    }else{
+	    	console.log('file size is too large')
+	    	this.toastr.error('file size is too large');
+	      	this.validProfile = false;
+			this.imgDemoSlider = false;
+			$(".frame-upload").css('display', 'none');
 	    }
   	}
 
@@ -619,7 +626,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	backToUpload(){
-		this.hideMenu = false;
+		console.log('menu should be hidden')
+		this.hideMenu = true;
 		this.validProfile = false;
 		this.imgDemoSlider = false;
 		$(".frame-upload").css('display', 'none');

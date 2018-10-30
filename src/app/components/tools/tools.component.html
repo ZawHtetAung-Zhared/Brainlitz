@@ -64,7 +64,10 @@
     </div>
     <div class="heading-margin no-padding large-col">
     	<div class="d-flex flex-column w-100 h-100 main-wrapper" *ngIf="notiType == 'send' && notiSidebarDemo.send != ''">
-				<h2 class="title-heading margin-heading">Send notification</h2>
+				<div class="d-flex flex-row">
+					<h2 class="title-heading margin-heading">Send notification</h2>
+					<span class="location-name">{{locationName}}</span>
+				</div>
 				<p class="input-recommend">
 					Send custom notifications to your users either as email or push notification via the app. 
 				</p>
@@ -76,12 +79,12 @@
 							  	<div class="d-flex tool-box">
 									<div class="form-check form-check-inline tool-checked">
 									  <label [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check-label">
-									    <input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> All customers
+									    <input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> Customers
 									  </label>
 									</div>
 									<div [ngClass]="{'selected': isChecked == 'allstaff'}" class="form-check form-check-inline tool-checked">
 									  <label class="form-check-label">
-									    <input class="form-check-input" type="radio" name="type" id="type2" value="allstaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allstaff')"> All staffs
+									    <input class="form-check-input" type="radio" name="type" id="type2" value="allstaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allstaff')"> Staffs
 									  </label>
 									</div>
 									<div [ngClass]="{'selected': isChecked == 'category'}" class="form-check form-check-inline tool-checked">
@@ -295,8 +298,8 @@
 								<div>
 									<div class="info-message">
 										The message will be sent to ({{userCount}}) of 
-										<span *ngIf="isChecked == 'allcustomer'">All customers</span>
-										<span *ngIf="isChecked == 'allstaff'">All staffs</span>
+										<span *ngIf="isChecked == 'allcustomer'">Customers</span>
+										<span *ngIf="isChecked == 'allstaff'">Staffs</span>
 										<span *ngIf="isChecked == 'category'">Category</span>
 										<span *ngIf="isChecked == 'course'">Selected course</span>
 										<span *ngIf="isChecked == 'user'">Selecte user</span>
