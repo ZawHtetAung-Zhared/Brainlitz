@@ -189,7 +189,7 @@ export class StaffPerformanceReport implements OnInit {
         });
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
         obj.groupTypeValue = location.locationName;
         result.push(obj);
       });
@@ -199,26 +199,27 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByCategory(data) {
       let result = [];
       data.forEach(function (location) {
+        let obj = {
+          groupTypeValue: location.locationName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: "",
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let categories = location.categories || [];
         categories = categories.filter(function (d) {
           return filter.value.indexOf(d.catName) > -1;
         });
         categories.forEach(function (category) {
-          let obj = {
-            groupTypeValue: location.locationName,
-            rating: {
-              "5": 0,
-              "4": 0,
-              "3": 0,
-              "2": 0,
-              "1": 0
-            },
-            totalRating: 0,
-            ratingWeightage: 0,
-            averageRating: 0,
-            filterValue: "",
-            id: "graph" + Math.floor(Math.random() * 10000)
-          };
+
           let coursePlans = category.coursePlans || [];
           //iterate coursePlans under categories
           coursePlans.forEach(function (coursePlan) {
@@ -231,12 +232,11 @@ export class StaffPerformanceReport implements OnInit {
               });
             });
           });
-          obj.totalRating = _self.getTotalRating(obj.rating);
-          obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-          obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-          obj.filterValue = category.catName;
-          result.push(obj);
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
+        result.push(obj);
       });
       return result;
     }
@@ -244,6 +244,21 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByCoursePlan(data) {
       let result = [];
       data.forEach(function (location) {
+        let obj = {
+          groupTypeValue: location.locationName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: '',
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let categories = location.categories || [];
         categories.forEach(function (category) {
           let coursePlans = category.coursePlans || [];
@@ -252,21 +267,7 @@ export class StaffPerformanceReport implements OnInit {
             return filter.value.indexOf(d.coursePlanName) > -1;
           });
           coursePlans.forEach(function (coursePlan) {
-            let obj = {
-              groupTypeValue: location.locationName,
-              rating: {
-                "5": 0,
-                "4": 0,
-                "3": 0,
-                "2": 0,
-                "1": 0
-              },
-              totalRating: 0,
-              ratingWeightage: 0,
-              averageRating: 0,
-              filterValue: '',
-              id: "graph" + Math.floor(Math.random() * 10000)
-            };
+
             let courses = coursePlan.courses || [];
             //iterate courses under coursePlans
             courses.forEach(function (course) {
@@ -275,13 +276,13 @@ export class StaffPerformanceReport implements OnInit {
                 obj.rating[value.type] += value.count;
               });
             });
-            obj.totalRating = _self.getTotalRating(obj.rating);
-            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-            obj.filterValue = coursePlan.coursePlanName;
-            result.push(obj);
+
           });
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
+        result.push(obj);
       });
       return result;
     }
@@ -289,6 +290,21 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByCourse(data) {
       let result = [];
       data.forEach(function (location) {
+        let obj = {
+          groupTypeValue: location.locationName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: "",
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let categories = location.categories || [];
         categories.forEach(function (category) {
           let coursePlans = category.coursePlans || [];
@@ -300,34 +316,20 @@ export class StaffPerformanceReport implements OnInit {
               return filter.value.indexOf(d.courseName) > -1;
             });
             courses.forEach(function (course) {
-              let obj = {
-                groupTypeValue: location.locationName,
-                rating: {
-                  "5": 0,
-                  "4": 0,
-                  "3": 0,
-                  "2": 0,
-                  "1": 0
-                },
-                totalRating: 0,
-                ratingWeightage: 0,
-                averageRating: 0,
-                filterValue: "",
-                id: "graph" + Math.floor(Math.random() * 10000)
-              };
+
               let rating = course.rating || [];
               rating.forEach(function (value) {
                 obj.rating[value.type] += value.count;
               });
-              obj.totalRating = _self.getTotalRating(obj.rating);
-              obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-              obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-              obj.filterValue = course.courseName;
-              result.push(obj);
+
             });
 
           });
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
+        result.push(obj);
       });
       return result;
     }
@@ -408,6 +410,21 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByLocation(data) {
       let result = [];
       data.forEach(function (category) {
+        let obj = {
+          groupTypeValue: category.catName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: "",
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
@@ -417,33 +434,17 @@ export class StaffPerformanceReport implements OnInit {
             return filter.value.indexOf(d.location) > -1;
           });
           courses.forEach(function (course) {
-            let obj = {
-              groupTypeValue: category.catName,
-              rating: {
-                "5": 0,
-                "4": 0,
-                "3": 0,
-                "2": 0,
-                "1": 0
-              },
-              totalRating: 0,
-              ratingWeightage: 0,
-              averageRating: 0,
-              filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 10000)
-            };
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
             });
-            obj.totalRating = _self.getTotalRating(obj.rating);
-            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-            obj.filterValue = course.location;
-            result.push(obj);
           });
 
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        result.push(obj);
       });
       return result;
     }
@@ -451,27 +452,27 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByCoursePlan(data) {
       let result = [];
       data.forEach(function (category) {
+        let obj = {
+          groupTypeValue: category.catName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: '',
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
         coursePlans = coursePlans.filter(function (d) {
           return filter.value.indexOf(d.coursePlanName) > -1;
         });
         coursePlans.forEach(function (coursePlan) {
-          let obj = {
-            groupTypeValue: category.catName,
-            rating: {
-              "5": 0,
-              "4": 0,
-              "3": 0,
-              "2": 0,
-              "1": 0
-            },
-            totalRating: 0,
-            ratingWeightage: 0,
-            averageRating: 0,
-            filterValue: '',
-            id: "graph" + Math.floor(Math.random() * 10000)
-          };
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
           courses.forEach(function (course) {
@@ -480,12 +481,11 @@ export class StaffPerformanceReport implements OnInit {
               obj.rating[value.type] += value.count;
             });
           });
-          obj.totalRating = _self.getTotalRating(obj.rating);
-          obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-          obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-          obj.filterValue = coursePlan.coursePlanName;
-          result.push(obj);
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        result.push(obj);
       });
       return result;
     }
@@ -493,6 +493,21 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByCourse(data) {
       let result = [];
       data.forEach(function (category) {
+        let obj = {
+          groupTypeValue: category.catName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: "",
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
@@ -502,33 +517,19 @@ export class StaffPerformanceReport implements OnInit {
             return filter.value.indexOf(d.courseName) > -1;
           });
           courses.forEach(function (course) {
-            let obj = {
-              groupTypeValue: category.catName,
-              rating: {
-                "5": 0,
-                "4": 0,
-                "3": 0,
-                "2": 0,
-                "1": 0
-              },
-              totalRating: 0,
-              ratingWeightage: 0,
-              averageRating: 0,
-              filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 10000)
-            };
+
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
             });
-            obj.totalRating = _self.getTotalRating(obj.rating);
-            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-            obj.filterValue = course.courseName;
-            result.push(obj);
+
           });
 
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        result.push(obj);
       });
       return result;
     }
@@ -608,26 +609,27 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByCategory(data) {
       let result = [];
       data.forEach(function (coursePlan) {
+        let obj = {
+          groupTypeValue: coursePlan.coursePlanName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: "",
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let categories = coursePlan.categories || [];
         categories = categories.filter(function (d) {
           return filter.value.indexOf(d.catName) > -1;
         });
         categories.forEach(function (category) {
-          let obj = {
-            groupTypeValue: coursePlan.coursePlanName,
-            rating: {
-              "5": 0,
-              "4": 0,
-              "3": 0,
-              "2": 0,
-              "1": 0
-            },
-            totalRating: 0,
-            ratingWeightage: 0,
-            averageRating: 0,
-            filterValue: "",
-            id: "graph" + Math.floor(Math.random() * 10000)
-          };
+
           let courses = category.courses || [];
           //iterate courses under coursePlans
           courses.forEach(function (course) {
@@ -636,12 +638,12 @@ export class StaffPerformanceReport implements OnInit {
               obj.rating[value.type] += value.count;
             });
           });
-          obj.totalRating = _self.getTotalRating(obj.rating);
-          obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-          obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-          obj.filterValue = category.catName;
-          result.push(obj);
+
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        result.push(obj);
       });
       return result;
     }
@@ -650,6 +652,21 @@ export class StaffPerformanceReport implements OnInit {
       console.log("going to filte data by location");
       let result = [];
       data.forEach(function (coursePlan) {
+        let obj = {
+          groupTypeValue: coursePlan.coursePlanName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: "",
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let categories = coursePlan.categories || [];
         //iterate coursePlans under categories
         categories.forEach(function (category) {
@@ -659,33 +676,17 @@ export class StaffPerformanceReport implements OnInit {
             return filter.value.indexOf(d.location) > -1;
           });
           courses.forEach(function (course) {
-            let obj = {
-              groupTypeValue: coursePlan.coursePlanName,
-              rating: {
-                "5": 0,
-                "4": 0,
-                "3": 0,
-                "2": 0,
-                "1": 0
-              },
-              totalRating: 0,
-              ratingWeightage: 0,
-              averageRating: 0,
-              filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 10000)
-            };
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
             });
-            obj.totalRating = _self.getTotalRating(obj.rating);
-            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-            obj.filterValue = course.location;
-            result.push(obj);
           });
 
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        result.push(obj);
       });
       return result;
     }
@@ -694,6 +695,21 @@ export class StaffPerformanceReport implements OnInit {
     function filterDataByCourse(data) {
       let result = [];
       data.forEach(function (coursePlan) {
+        let obj = {
+          groupTypeValue: coursePlan.coursePlanName,
+          rating: {
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+          },
+          totalRating: 0,
+          ratingWeightage: 0,
+          averageRating: 0,
+          filterValue: "",
+          id: "graph" + Math.floor(Math.random() * 10000)
+        };
         let categories = coursePlan.categories || [];
         //iterate coursePlans under categories
         categories.forEach(function (category) {
@@ -703,33 +719,17 @@ export class StaffPerformanceReport implements OnInit {
             return filter.value.indexOf(d.courseName) > -1;
           });
           courses.forEach(function (course) {
-            let obj = {
-              groupTypeValue: coursePlan.coursePlanName,
-              rating: {
-                "5": 0,
-                "4": 0,
-                "3": 0,
-                "2": 0,
-                "1": 0
-              },
-              totalRating: 0,
-              ratingWeightage: 0,
-              averageRating: 0,
-              filterValue: "",
-              id: "graph" + Math.floor(Math.random() * 10000)
-            };
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
             });
-            obj.totalRating = _self.getTotalRating(obj.rating);
-            obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
-            obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-            obj.filterValue = course.courseName;
-            result.push(obj);
           });
 
         });
+        obj.totalRating = _self.getTotalRating(obj.rating);
+        obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
+        obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
+        result.push(obj);
       });
       return result;
     }
