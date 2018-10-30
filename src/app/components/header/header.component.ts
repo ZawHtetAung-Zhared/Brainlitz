@@ -24,6 +24,9 @@ export class HeaderComponent implements OnInit {
   public toolsMenu: any = [];
   public settingMenu: any = [];
   public previousLocation:any = '';
+  public dropMenuShow: boolean = false;
+  public locationDpShow: boolean = false;
+  public selectedLocation:any = {};
   
   constructor(private _router: Router, private _service: appService) {
     console.log(this.currentLocationID)
@@ -76,6 +79,8 @@ export class HeaderComponent implements OnInit {
               this.headerlocationLists[i].selected = true;
               localStorage.setItem('locationId', this.headerlocationLists[i]._id);
               localStorage.setItem('locationName', this.headerlocationLists[i].name);
+              this.selectedLocation["id"] = this.headerlocationLists[i]._id;
+              this.selectedLocation["name"] = this.headerlocationLists[i].name;
             }
           }
           this.setPermission(this.currentLocationID);
@@ -102,7 +107,10 @@ export class HeaderComponent implements OnInit {
       localStorage.setItem('locationId', this.headerlocationLists[0]._id);
       localStorage.setItem('locationName', this.headerlocationLists[0].name);
       localStorage.setItem('previousLID', this.headerlocationLists[0]._id);
-      this.setPermission(this.headerlocationLists[0]._id);        
+      this.setPermission(this.headerlocationLists[0]._id);  
+
+      this.selectedLocation["id"] = this.headerlocationLists[0]._id;
+      this.selectedLocation["name"] = this.headerlocationLists[0].name;      
     }else if(localStorage.getItem('locationId') == null){
       console.log('no location has counter')
     }else{
@@ -121,9 +129,12 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  selectLocation(e){
-    console.log('location select', this.headerlocationLists)
-    let LocationId = e.target.value;
+  selectLocation(data){
+    console.log('location select', data)
+    // let LocationId = e.target.value;
+    let LocationId = data._id;
+    this.selectedLocation["id"] = data._id;
+    this.selectedLocation["name"] = data.name;
 
     for(var i in this.headerlocationLists){
       if(this.headerlocationLists[i]._id == LocationId){
@@ -161,8 +172,6 @@ export class HeaderComponent implements OnInit {
     this.settingMenu = this.settingMenu.filter(value => -1 !== data.indexOf(value));
   }
 
-  dropMenuShow: boolean = false;
-
   @HostListener('document:click', ['$event'])
     public documentClick(event): void {
         if(this.dropMenuShow == false){
@@ -171,7 +180,13 @@ export class HeaderComponent implements OnInit {
         else {
             $('.dropdown-box').css('display', 'block');
             this.dropMenuShow = false;
+        }
 
+        if(this.locationDpShow == false){
+          $('.location-dp').css('display', 'none'); 
+        }else{
+            $('.location-dp').css('display', 'block');
+            this.locationDpShow = false;
         }
     }
     
@@ -183,6 +198,17 @@ export class HeaderComponent implements OnInit {
     else {
        (x[0]as HTMLElement).style.display = 'block';
        this.dropMenuShow = true;
+    }
+  }
+
+  locationDp(){
+    var y = document.getElementsByClassName('location-dp');
+    if( (y[0]as HTMLElement).style.display == 'block'){
+      (y[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+       (y[0]as HTMLElement).style.display = 'block';
+       this.locationDpShow = true;
     }
   }
 

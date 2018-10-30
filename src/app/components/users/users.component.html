@@ -395,8 +395,9 @@
 		  	    	</div>
 		  	  	</div>
 		  	  	<div class="form-group form-divider" *ngFor="let field of customFields;">
-		  	  		<label for="guardmail" class="label-txt">{{ field.name }}</label>
-		  	  		<textarea class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
+		  	  		<label class="label-txt">{{ field.name }}</label>
+		  	  		<input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
+		  	  		<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
 		  	  	</div>
 		  	  	<!-- <div class="form-group form-divider" *ngFor="let field of formFieldc.details;">
 		  	  		<label for="guardmail" class="label-txt">{{ field.name }}</label>
