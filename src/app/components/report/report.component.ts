@@ -50,7 +50,10 @@ export class ReportComponent implements OnInit {
 
   	ngOnInit() {
   		this.reportType = 'averageRating';
-  		this.locationName = localStorage.getItem('locationName');
+  		setTimeout(() => {
+			console.log('~~~', this.locationName)	
+			this.locationName = localStorage.getItem('locationName');
+	    }, 300);
   		window.addEventListener('scroll', this.scroll, true);
   		this.dropDownShow = false;
 

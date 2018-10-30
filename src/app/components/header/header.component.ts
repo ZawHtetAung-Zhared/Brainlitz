@@ -96,6 +96,7 @@ export class HeaderComponent implements OnInit {
         } 
       }else{
         console.log('no location in this region')
+        localStorage.setItem('locationName', this.headerlocationLists[0].name);
       };
             
     }, err => {

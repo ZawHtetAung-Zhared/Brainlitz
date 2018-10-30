@@ -42,8 +42,8 @@ export class RegionComponent implements OnInit {
     console.log(this.orgID)
     this._service.getToken()
     .subscribe((res:any) => {
-      console.log('ready to call next request')
-      if(this.accessToken != undefined){
+      console.log('ready to call next request', res)
+      if(this.accessToken != undefined || localStorage.getItem('token')){
         console.log('access token genereated ~~~~', )
         this.blockUI.stop();
         this.getAllRegion();

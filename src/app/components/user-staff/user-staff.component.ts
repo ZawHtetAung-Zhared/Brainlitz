@@ -70,7 +70,10 @@ export class UserStaffComponent implements OnInit {
 
   	ngOnInit() {
   		this.blankCrop = false; 
-		this.locationName = localStorage.getItem('locationName');
+		setTimeout(() => {
+			console.log('~~~', this.locationName)	
+			this.locationName = localStorage.getItem('locationName');
+	    }, 300);
   		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/staff'){
 		    this.permissionType = data;

@@ -156,6 +156,7 @@ export class appService{
         localStorage.setItem("token", this.temp);
         localStorage.setItem("tokenType", res.token_type);
         localStorage.setItem("userId", res.userId);
+        return res;
       })
     }
 
