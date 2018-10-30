@@ -14,7 +14,7 @@ declare var $:any;
 export class HeaderComponent implements OnInit {
   @ViewChild(LocationComponent) lnameChanges: LocationComponent;
 
-  public userName = localStorage.getItem('userName');
+  public userName:any;
   public regionID = localStorage.getItem('regionId');
   public OrgLogo = localStorage.getItem('OrgLogo');
   public headerlocationLists: any;
@@ -47,6 +47,9 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit() {
     console.log('headerLocation work')
+    setTimeout(() => {  
+      this.userName = localStorage.getItem('userName')
+      }, 400);
     this.accessToken = localStorage.getItem('token');
     if(this.accessToken != undefined){
       console.log('!undefined')
