@@ -322,13 +322,19 @@ export class UsersComponent implements OnInit {
 		  		this.back();
 		    }, err => {		    	
 		    	this.blockUI.stop();
-		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// 	this.toastr.error('Email already exist');
+		    	// }
+		    	// else {
+		    	// 	this.toastr.error('Create Fail');
+		    	// }
+		    	console.log(err);
+		    	console.log(err.status)
+		    	if(err.status == 400){
 		    		this.toastr.error('Email already exist');
-		    	}
-		    	else {
+		    	}else{
 		    		this.toastr.error('Create Fail');
 		    	}
-		    	console.log(err);
 		    })
 		}else{
 			console.log('update');
@@ -370,9 +376,14 @@ export class UsersComponent implements OnInit {
 		  		this.blockUI.stop();
 		  		this.back();
 		    }, err => {
-		    	this.toastr.error('Update Fail');
+		    	// this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err);
+		    	if(err.status == 400){
+		    		this.toastr.error('Email already exist');
+		    	}else{
+		    		this.toastr.error('Create Fail');
+		    	}
 		    })
 		}
 	}
