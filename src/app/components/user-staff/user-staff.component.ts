@@ -98,6 +98,7 @@ export class UserStaffComponent implements OnInit {
 		this.staffDemo['deleteStaff'] = (this.staffPermission.includes("DELETESTAFFS")) ? 'DELETESTAFFS' : '';
 
 		if(this.staffPermission.includes('VIEWSTAFFS') != false){			
+			this.locationName = localStorage.getItem('locationName');
 			this.getAllUsers('staff', 20, 0);
 			this.getAllpermission();
 		}else{
@@ -317,7 +318,6 @@ export class UserStaffComponent implements OnInit {
 		objData.append('preferredName', obj.preferredName),
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
-		objData.append('location', JSON.stringify(locationObj)),
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);
 
@@ -328,6 +328,7 @@ export class UserStaffComponent implements OnInit {
 		}
 
 		if(state == 'create'){
+			objData.append('location', JSON.stringify(locationObj))
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;			
 			if(this.img != undefined){
@@ -389,6 +390,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	back(){
+		this.isPasswordChange = false;
 		this.hideMenu = false;
 		this.formFields = new Staff();
 		this.isupdate = false;
@@ -405,6 +407,7 @@ export class UserStaffComponent implements OnInit {
 	}	
 
 	backToDetails(){
+		this.isPasswordChange = false;
 		this.hideMenu = false;
 		this.formFields = new Staff();
 		this.showFormCreate = false;
@@ -550,6 +553,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	showDetails(data,ID){
+		this.isPasswordChange = false;
 		this.staffLists = [];
 		this.editId = ID;
 		console.log("show Staff details", data);

@@ -49,6 +49,10 @@ export class appService{
     goCourseCreate: Observable<any>;
     private backCC = new Subject<any>();
 
+
+    lnameChanges: Observable<any>;
+    private lnameUpdated = new Subject<any>();
+
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
@@ -62,6 +66,11 @@ export class appService{
       this.goCat = this.preCat.asObservable();
       this.goCourse = this.backCo.asObservable();
       this.goCourseCreate = this.backCC.asObservable();
+      this.lnameChanges = this.lnameUpdated.asObservable();
+    }
+
+    callnameUpdate(){
+      this.lnameUpdated.next()
     }
 
     getPathLocal(){
@@ -186,6 +195,22 @@ export class appService{
         })
       }
        
+    }
+
+    userInfo(type: any, token: any): Observable<any>{
+      this.getLocalstorage();
+      let url = this.baseUrl + '/userinfo';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': type + ' ' + token})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
     }
 
     getAllRegion(type: any, token: any): Observable<any>{
@@ -599,6 +624,7 @@ export class appService{
       return this.httpClient.put(apiUrl,body, httpOptions)
       .map((res:Response) => {
         let result = res; 
+        // this.sendParentToChild.next(result);
         return result;
       })
     }

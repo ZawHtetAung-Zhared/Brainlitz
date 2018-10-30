@@ -89,7 +89,7 @@ export class LocationComponent implements OnInit {
 
 	  if(this.locPermission.length > 0){
 		  this.getAllLocation(20,0);
-		  // this.getHeaderLoc();
+		  this.getHeaderLoc();
 	  }else{
 	  	this.locationLists = [];
 	  }
@@ -99,6 +99,11 @@ export class LocationComponent implements OnInit {
 		this._service.getHeaderLocations(this.regionID, '', '', true)
 	    .subscribe((res:any) => {
 	      this.headerlocationLists = res;
+	      for(var i = 0; i < this.headerlocationLists.length; i++){
+	        if(this.headerlocationLists[i]._id == this.locationID){
+	          this.headerlocationLists[i].selected = true;
+	        }
+	      }
 	    }, err => {
 	      console.log(err)
 	    });
@@ -197,12 +202,13 @@ export class LocationComponent implements OnInit {
 	    this.getAllLocation(20,0)	
 	}
 
-	updateHeaderLocation(id){
-		console.log(id)
+	updateHeaderLocation(id, data){
+		console.log(id, data)
 		console.log(this.headerlocationLists)
 		for(var i in this.headerlocationLists){
           if(this.headerlocationLists[i]._id == id){
             console.log('same')
+            this.headerlocationLists[i].name = data.name
           }
         }
 	}
@@ -283,7 +289,7 @@ export class LocationComponent implements OnInit {
 	     		this.model = {};
 	     		this.toastr.success('Successfully Updated.');
 	     		this.blockUI.stop();
-	     		this.updateHeaderLocation(locationID)
+	     		this.updateHeaderLocation(locationID, data)
 	     		this.back();
 	     	}, err => {
 	     		this.toastr.error('Update fail');

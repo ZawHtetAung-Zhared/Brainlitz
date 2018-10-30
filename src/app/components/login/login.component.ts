@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   public noOrginExit: boolean = false;
   public appName :any;
 
+
   constructor(private titleService: Title,private _service: appService, @Inject(DOCUMENT) private document: any) {
      //  this._service.slicePath.subscribe((nextValue) => {
      //    this.slicePathName = nextValue;
@@ -38,10 +39,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.randomKey = localStorage.getItem('random');
     this.host = this.document.location.hostname;
+    console.log(this.randomKey)
     if(this.randomKey != undefined){
       console.log('key exit')
     }else{
-      console.log('no key')
+      console.log('key does not exit')
       this.generateRandom();
     }
     this.getSubdomain();

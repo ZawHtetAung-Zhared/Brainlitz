@@ -149,6 +149,7 @@ export class UsersComponent implements OnInit {
 
 		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
 			this.getAllUsers('customer', 20, 0);
+			this.locationName = localStorage.getItem('locationName');
 		}else{
 	      console.log('permission deny')
 	      this.customerLists = [];
@@ -452,6 +453,11 @@ export class UsersComponent implements OnInit {
 	// 		console.log('this.locationLists', this.locationLists);
 	// 	})
 	// }
+
+	whateverEventHandler(e){
+		console.log(e)
+		this.validateEmail(e.target.value)
+	}
 
 	validateEmail(data){
 		
