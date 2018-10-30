@@ -70,7 +70,10 @@ export class UserStaffComponent implements OnInit {
 
   	ngOnInit() {
   		this.blankCrop = false; 
-		this.locationName = localStorage.getItem('locationName');
+		setTimeout(() => {
+			console.log('~~~', this.locationName)	
+			this.locationName = localStorage.getItem('locationName');
+	    }, 300);
   		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/staff'){
 		    this.permissionType = data;
@@ -318,7 +321,6 @@ export class UserStaffComponent implements OnInit {
 		objData.append('preferredName', obj.preferredName),
 		objData.append('email', obj.email),
 		objData.append('password', obj.password),
-		objData.append('location', JSON.stringify(locationObj)),
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);
 
@@ -329,6 +331,7 @@ export class UserStaffComponent implements OnInit {
 		}
 
 		if(state == 'create'){
+			objData.append('location', JSON.stringify(locationObj))
 			let getImg = document.getElementById("blobUrl");
 			this.img = (getImg != undefined) ? document.getElementById("blobUrl").getAttribute("src") : obj.profilePic;			
 			if(this.img != undefined){
@@ -345,13 +348,19 @@ export class UserStaffComponent implements OnInit {
 		  		this.back();
 		    }, err => {		    	
 		    	this.blockUI.stop();
-		    	if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
+		    	// 	this.toastr.error('Email already exist');
+		    	// }
+		    	// else {
+		    	// 	this.toastr.error('Create Fail');
+		    	// }
+		    	// console.log(err)
+		    	console.log(err.status)
+		    	if(err.status == 400){
 		    		this.toastr.error('Email already exist');
-		    	}
-		    	else {
+		    	}else{
 		    		this.toastr.error('Create Fail');
 		    	}
-		    	console.log(err)
 		    })
 		}else{
 			this.blockUI.start('Loading...');
@@ -376,14 +385,20 @@ export class UserStaffComponent implements OnInit {
 		  		this.blockUI.stop();
 		  		this.backToDetails();
 		    }, err => {
-		    	this.toastr.error('Update Fail');
+		    	// this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
-		    	console.log(err)
+		    	console.log(err);
+		    	if(err.status == 400){
+		    		this.toastr.error('Email already exist');
+		    	}else{
+		    		this.toastr.error('Create Fail');
+		    	}
 		    })
 		}
 	}
 
 	back(){
+		this.isPasswordChange = false;
 		this.hideMenu = false;
 		this.formFields = new Staff();
 		this.isupdate = false;
@@ -400,6 +415,7 @@ export class UserStaffComponent implements OnInit {
 	}	
 
 	backToDetails(){
+		this.isPasswordChange = false;
 		this.hideMenu = false;
 		this.formFields = new Staff();
 		this.showFormCreate = false;
@@ -545,6 +561,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	showDetails(data,ID){
+		this.isPasswordChange = false;
 		this.staffLists = [];
 		this.editId = ID;
 		console.log("show Staff details", data);

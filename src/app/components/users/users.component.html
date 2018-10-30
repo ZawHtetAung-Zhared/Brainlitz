@@ -382,7 +382,7 @@
 		  	  	</div>
 		  	  	<div class="form-group form-divider">
 		  	    	<label for="password" class="label-txt">Password</label> 	
-		  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.password" #password="ngModel">
+		  	    	<input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.password" #password="ngModel" (anyEventName)="whateverEventHandler($event)">
 		  	    	<div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
 				        <div [hidden]="!password.errors.required">
 				          Password is required!
@@ -463,9 +463,9 @@
 		<div class="d-flex justify-content-end button-group">
 			<button *ngIf="isupdate == false" type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
 			<button *ngIf="isupdate == true" type="button" class="bt cancel-button" (click)="backToDetails()" >Cancel</button>
-        	<button type="button" *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid">Create
+        	<button type="button" *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || emailAlert">Create
 			</button>
-			<button type="button" *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid">Update
+			<button type="button" *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || emailAlert">Update
 			</button>
 		</div>
 		<!-- <div class="d-flex justify-content-end button-group">
@@ -502,7 +502,7 @@
 	        <input 
 	          class="form-control py-2 input-search-bg" 
 	          type="search" 
-	          placeholder="Search customers" 
+	          placeholder="Search class" 
 	          id="example-search-input" 
 	          name="search" 
 	          #search="ngModel" 

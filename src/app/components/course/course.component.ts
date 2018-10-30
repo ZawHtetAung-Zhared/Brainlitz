@@ -106,7 +106,10 @@ export class CourseComponent implements OnInit {
   	
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
-    this.locationName = localStorage.getItem('locationName');
+    setTimeout(() => {
+      console.log('~~~', this.locationName)  
+      this.locationName = localStorage.getItem('locationName');
+      }, 300);
     this.activeTab = 'People';
 
     this._service.permissionList.subscribe((data) => {

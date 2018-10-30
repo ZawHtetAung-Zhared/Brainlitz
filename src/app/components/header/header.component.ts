@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
@@ -12,6 +12,9 @@ declare var $:any;
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  @ViewChild(LocationComponent) lnameChanges: LocationComponent;
+
+  public userName = localStorage.getItem('userName');
   public regionID = localStorage.getItem('regionId');
   public OrgLogo = localStorage.getItem('OrgLogo');
   public headerlocationLists: any;

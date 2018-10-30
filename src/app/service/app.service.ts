@@ -156,6 +156,7 @@ export class appService{
         localStorage.setItem("token", this.temp);
         localStorage.setItem("tokenType", res.token_type);
         localStorage.setItem("userId", res.userId);
+        return res;
       })
     }
 
@@ -195,6 +196,22 @@ export class appService{
         })
       }
        
+    }
+
+    userInfo(type: any, token: any): Observable<any>{
+      this.getLocalstorage();
+      let url = this.baseUrl + '/userinfo';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': type + ' ' + token})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
     }
 
     getAllRegion(type: any, token: any): Observable<any>{

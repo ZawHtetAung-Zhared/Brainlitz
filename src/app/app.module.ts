@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title} from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'; 
 import { Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
@@ -133,7 +133,8 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
   providers: [
     appService,
     DataService,
-    LoggedInGuard
+    LoggedInGuard,
+    Title
   ],
   bootstrap: [AppComponent]
 })
