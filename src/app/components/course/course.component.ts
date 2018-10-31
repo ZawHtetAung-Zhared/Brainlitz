@@ -26,6 +26,8 @@ export class CourseComponent implements OnInit {
   isPlan:boolean = false;
   isFous:boolean = false;
   isCourseDetail:boolean = false;
+  isCoursePlanDetail:boolean = false;
+  singlePlanData:any = {};
   public formData:any = {};
   public userLists:any = {};
   public detailLists:any = {};
@@ -106,7 +108,10 @@ export class CourseComponent implements OnInit {
   	
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
-    this.locationName = localStorage.getItem('locationName');
+    setTimeout(() => {
+      console.log('~~~', this.locationName)  
+      this.locationName = localStorage.getItem('locationName');
+      }, 300);
     this.activeTab = 'People';
 
     this._service.permissionList.subscribe((data) => {
@@ -194,6 +199,7 @@ export class CourseComponent implements OnInit {
 
   cancel(){
     this.isCourseDetail = false;
+    this.isCoursePlanDetail = false;
     this.courseList = [];
     this.getCourseLists(20,0);
     this.activeTab = 'People';
@@ -206,6 +212,30 @@ export class CourseComponent implements OnInit {
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
     console.log(this.detailLists.seat_left);
+  }
+
+  showCPDetail(planID){
+    console.log('hi', planID)
+    this.isCoursePlanDetail = true;
+    this.getCoursePlanDetail(planID)
+  }
+
+  getCoursePlanDetail(planID){
+    this.blockUI.start('Loading...'); 
+    this._service.getSinglePlan(planID, this.locationID)
+    .subscribe((res:any)=>{
+      this.blockUI.stop();
+      this.singlePlanData = res;
+    },err =>{
+      console.log(err);
+    });
+  }
+
+  goToCoursePlan(){
+    console.log('go to cp', this.singlePlanData)
+    this.isCoursePlanDetail = false;
+    this.isCategory = true;
+    this._service.dataParsing(this.singlePlanData);
   }
 
   goToConflict(courseId){

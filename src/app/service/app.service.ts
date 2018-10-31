@@ -131,6 +131,10 @@ export class appService{
       this.getpermissionList.next(data)
     }
 
+    dataParsing(data){
+      this.sendParentToChild.next(data); 
+    }
+
     getToken(){
       console.log('start...')
       this.tempToken = localStorage.getItem('code');
@@ -156,6 +160,7 @@ export class appService{
         localStorage.setItem("token", this.temp);
         localStorage.setItem("tokenType", res.token_type);
         localStorage.setItem("userId", res.userId);
+        return res;
       })
     }
 
@@ -693,6 +698,21 @@ export class appService{
         return result;
       })
     } 
+
+    getSinglePlan(planID: string, locationId: string){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/courseplan/' + planID + '?locationId=' + locationId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {    
+          return res;
+      })
+    }
 
     deleteCoursePlan(id){
       console.log(id)

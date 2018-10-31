@@ -70,7 +70,10 @@ export class UserStaffComponent implements OnInit {
 
   	ngOnInit() {
   		this.blankCrop = false; 
-		this.locationName = localStorage.getItem('locationName');
+		setTimeout(() => {
+			console.log('~~~', this.locationName)	
+			this.locationName = localStorage.getItem('locationName');
+	    }, 300);
   		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/staff'){
 		    this.permissionType = data;
@@ -382,9 +385,14 @@ export class UserStaffComponent implements OnInit {
 		  		this.blockUI.stop();
 		  		this.backToDetails();
 		    }, err => {
-		    	this.toastr.error('Update Fail');
+		    	// this.toastr.error('Update Fail');
 		    	this.blockUI.stop();
 		    	console.log(err);
+		    	if(err.status == 400){
+		    		this.toastr.error('Email already exist');
+		    	}else{
+		    		this.toastr.error('Create Fail');
+		    	}
 		    })
 		}
 	}

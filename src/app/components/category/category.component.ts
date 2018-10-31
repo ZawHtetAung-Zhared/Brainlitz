@@ -42,11 +42,17 @@ export class CategoryComponent implements OnInit {
     private el: ElementRef,
     private renderer: Renderer) { 
     this.toastr.setRootViewContainerRef(vcr);
+    console.log('constructure start ...')
+    this._service.permissionList.subscribe((data) => {
+      console.log('===' ,data);
+    })
   }
 
   ngOnInit() {
+    console.log('....')
     this.getAllCategories(20, 0, '');
     window.addEventListener('scroll', this.scroll, true);
+    
   }
 
   ngOnDestroy() {

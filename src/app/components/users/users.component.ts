@@ -34,7 +34,7 @@ export class UsersComponent implements OnInit {
 	public orgID = localStorage.getItem('OrgId');
 	public regionID = localStorage.getItem('regionId');	
 	public locationID = localStorage.getItem('locationId');	
-	public locationName: any;	
+	public locationName :any;	
 	// formFieldc: customer = new customer();
 	formFieldc:any = {};	
 	xxxx:any = {};	
@@ -101,7 +101,10 @@ export class UsersComponent implements OnInit {
 
 
 	ngOnInit() {
-		this.locationName = localStorage.getItem('locationName');
+		setTimeout(() => {
+			console.log('~~~', this.locationName)	
+			this.locationName = localStorage.getItem('locationName');
+	    }, 300);
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
 		  if(this.router.url === '/customer'){
