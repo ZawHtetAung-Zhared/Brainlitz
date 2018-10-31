@@ -1,10 +1,14 @@
 /**
  * Created By Ahtisham
  */
+
+
 import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import {appService} from '../../../service/app.service';
 import staffData from './sampleData';
+import { DaterangepickerConfig } from 'ng2-daterangepicker';
+import * as moment from 'moment';
 
 
 @Component({
@@ -30,14 +34,54 @@ export class StaffPerformanceReport implements OnInit {
   modalReference:any;
   reportData:any;
   selectedFilterType:any;
+  hoveredDate: any;
+  fromDate: any;
+  toDate: any;
+  daterange: any = {};
+
+  // see original project for full list of options
+  // can also be setup using the config service to apply to multiple pickers
+  options: any;
 
   /**
    * Initialize the StaffPerformanceReport
    */
-  constructor(private modalService:NgbModal, private _service:appService) {
+  constructor(private modalService:NgbModal,private daterangepickerOptions: DaterangepickerConfig, private _service:appService,calendar: NgbCalendar) {
     window.scroll(0, 0);
+    this.daterangepickerOptions.settings = {
+      locale: { format: 'YYYY-MM-DD' },
+      alwaysShowCalendars: true,
+      ranges: {
+        'Last Month': [moment().subtract(1, 'month'), moment()],
+        'Last 3 Months': [moment().subtract(4, 'month'), moment()],
+        'Last 6 Months': [moment().subtract(6, 'month'), moment()],
+        'Last 12 Months': [moment().subtract(12, 'month'), moment()],
+      }
+    };
   }
 
+  calendarCanceled(e:any) {
+    console.log(e);
+    // e.event
+    // e.picker
+  }
+
+  calendarApplied(e:any) {
+    console.log(e);
+    // e.event
+    // e.picker
+  }
+  togglePicker(e:any){
+    console.log(e.event.type);
+    if(e.event.type =="show"){
+
+
+    }
+  }
+  calendarEventsHandler(e:any) {
+    console.log(e);
+    //this.eventLog += '\nEvent Fired: ' + e.event.type;
+  }
   ngOnInit() {
     this.selectedFilter = "";
     this.selectedFilterType = '0';
@@ -46,9 +90,29 @@ export class StaffPerformanceReport implements OnInit {
       show: false,
       value: []
     };
+    this.options= {
+      startDate: moment().startOf('hour'),
+      endDate: moment().startOf('hour').add(32, 'hour'),
+      locale: { format: 'YYYY-MM-DD' },
+      alwaysShowCalendars: false,
+    };
     console.log(staffData);
     this.showReportByLocation();
 
+  }
+
+  selectedDate(value: any, datepicker?: any) {
+    // this is the date the iser selected
+    console.log(value);
+
+    // any object can be passed to the selected event and it will be passed back here
+    datepicker.start = value.start;
+    datepicker.end = value.end;
+
+    // or manupulat your own internal property
+    this.daterange.start = value.start;
+    this.daterange.end = value.end;
+    this.daterange.label = value.label;
   }
 
   //We have different data structure for each groupBy type - location, category and coursePlan

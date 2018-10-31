@@ -5,13 +5,14 @@
     <div class="rpt-input-title">
       Time
     </div>
-    <div style="padding-top: 15px">
+    <div style="padding-top: 15px;position:relative;">
 
       <!--<input name="reportTimeRange" placeholder="Hola" style="width:360px" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">-->
       <!--<ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">-->
       <!--</ngb-datepicker>-->
-
-
+          <span class="fa fa-calendar" id="calendarIcon"></span>
+          <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)"  (cancelDaterangepicker)="calendarCanceled($event)"
+                 (applyDaterangepicker)="calendarApplied($event)" (showDaterangepicker) ="togglePicker($event)" (hideDaterangepicker)="togglePicker($event)" style="padding-left:30px;" />
     </div>
   </div>
   <div class="report-location-input d-flex flex-column col-md-8">

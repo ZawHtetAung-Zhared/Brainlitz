@@ -8,6 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { Daterangepicker } from 'ng2-daterangepicker';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
@@ -126,6 +127,7 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),
+    Daterangepicker,
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
     ToastModule.forRoot(),
