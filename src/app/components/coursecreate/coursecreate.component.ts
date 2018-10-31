@@ -100,6 +100,7 @@ export class CoursecreateComponent implements OnInit {
   public tempValue:any;
   public feesOptions:any;
   objectKeys = Object.keys;
+  isEdit:boolean = false;
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -122,8 +123,7 @@ export class CoursecreateComponent implements OnInit {
     if(this.courseID){
       console.log("Draft True",this.courseID);
       this.showDraftCourse(this.courseID);
-      // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
-      
+      // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions; 
     }else if(this.coursePlan){
       console.log("course Create");
       this.isChecked = 'end';
@@ -214,7 +214,13 @@ export class CoursecreateComponent implements OnInit {
       this.save = true;
       this.addCheck = true;
       this.conflitCourseId = res._id;
-      this.createCourse('withDraf');
+      if(this.model.draft == true){
+        console.log("Draft ===>",this.model.draft);
+        this.createCourse('withDraf');
+        this.isEdit = false;
+      }else{
+        this.isEdit = true;
+      }    
     });
   }
 
@@ -517,14 +523,16 @@ export class CoursecreateComponent implements OnInit {
         }
   }
 
-  dropDown(){
-    var x = document.getElementsByClassName('duration-dropdown');
-    if( (x[0]as HTMLElement).style.display == 'block'){
-      (x[0]as HTMLElement).style.display = 'none';
-    }
-    else {
-       (x[0]as HTMLElement).style.display = 'block';
-       this.durationMenuShow = true;
+  dropDown(state){
+    if(state == false){
+      var x = document.getElementsByClassName('duration-dropdown');
+      if( (x[0]as HTMLElement).style.display == 'block'){
+        (x[0]as HTMLElement).style.display = 'none';
+      }
+      else {
+         (x[0]as HTMLElement).style.display = 'block';
+         this.durationMenuShow = true;
+      }
     }
   }
 
@@ -560,15 +568,17 @@ export class CoursecreateComponent implements OnInit {
   }
 
   showSearch:boolean = false;
-  searchDropdown(){
-    var z = document.getElementsByClassName('search-dropdown');
-    if( (z[0]as HTMLElement).style.display == 'block'){
-      (z[0]as HTMLElement).style.display = 'none';
-    }
-    else {
-       (z[0]as HTMLElement).style.display = 'block';
-       this.searchMenuShow = true;
-       $("#myInput").focus();
+  searchDropdown(item){
+    if(item == false){
+      var z = document.getElementsByClassName('search-dropdown');
+      if( (z[0]as HTMLElement).style.display == 'block'){
+        (z[0]as HTMLElement).style.display = 'none';
+      }
+      else {
+         (z[0]as HTMLElement).style.display = 'block';
+         this.searchMenuShow = true;
+         $("#myInput").focus();
+      }
     }
     // if(this.showSearch == false){
     //   this.showSearch = true;
@@ -998,6 +1008,38 @@ export class CoursecreateComponent implements OnInit {
           }
         }
       });
+  }
+
+  updateCourse(){
+    this.courseObj= {
+      "courseCode": this.model.courseCode,
+      "locationId": this.locationId,
+      "room": this.model.room,
+      "reservedNumberofSeat": this.model.reservedNumberofSeat,
+      "name": this.model.name,
+      "quizwerkz": [],
+      "description": this.model.description,
+    };
+    if(this.chooseFee !=''){
+      console.log("KKKK",this.chooseFee);
+      this.courseObj["courseFee"] = this.chooseFee;
+    }
+    console.log('update CourseObj',this.courseObj);
+    this.blockUI.start('Loading...');
+    this._service.updateCourse(this.conflitCourseId,this.courseObj, this.currentLocation)
+    .subscribe((res:any)=>{
+      console.log(res);
+      this.blockUI.stop();
+      this.backToCourses('');
+      setTimeout(() => {
+        this.toastr.success('Successfully Created.');
+      }, 300); 
+    },err=>{
+      this.blockUI.stop();
+      setTimeout(() => {
+        this.toastr.error('Update Fail');
+      }, 300); 
+    });
   }
 
   changeDateFormat(date,time){
