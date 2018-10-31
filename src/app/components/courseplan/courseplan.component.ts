@@ -115,6 +115,8 @@ export class CourseplanComponent implements OnInit {
   public holidayId:any;
   public depositAmount:any = "";
   public holidayName:any = "";
+  public editPlanId = localStorage.getItem("editCPId");
+  public isEditCP:boolean = true;
 
   ngOnInit() {
     this.showModal = true;
@@ -148,6 +150,19 @@ export class CourseplanComponent implements OnInit {
     this.step1 = true;
     this.getAllModule();
     this.showSearchAPG = true;
+    if(this.editPlanId){
+      this.isEditCP = false;
+      console.log("editPlan",this.editPlanId);
+      this.editCPlan(this.editPlanId);
+    }
+  }
+
+  editCPlan(planId){
+    this._service.getSinglePlan(planId,this.locationID)
+    .subscribe((res:any) => {
+      console.log("single plan",res);
+      this.formField = res;
+    })
   }
 
   @ViewChild('parentForm') mainForm;
@@ -231,12 +246,15 @@ export class CourseplanComponent implements OnInit {
 	back(){
     this.goBackCat = false;
     var data = localStorage.removeItem("categoryName");
+    localStorage.removeItem("cpCategory");
     this._service.backCat();
 	}
 
   cancel(){
     this.goBackCat = false;
     var data = localStorage.removeItem("categoryName");
+    localStorage.removeItem("cpCategory");
+    localStorage.removeItem("editCPId");
     this._service.backCourse();
   }
 
@@ -251,7 +269,7 @@ export class CourseplanComponent implements OnInit {
 
   categoryName: any;
 
-	createdPlan(formData) {
+	createdPlan(formData,type) {
     // if(formData.deposit == 'deposit'){
     //   console.log(formData.deposit)
     //   formData.deposit = '';
@@ -301,9 +319,12 @@ export class CourseplanComponent implements OnInit {
     }
 
     console.log(data)
-    this.blockUI.start('Loading...');
-    this._service.createCoursePlan(this.regionID, this.locationID, data)
-    .subscribe((res:any) => {
+
+    if(type == 'create'){
+      console.log("CreatePlan")
+      this.blockUI.start('Loading...');
+      this._service.createCoursePlan(this.regionID, this.locationID, data)
+      .subscribe((res:any) => {
         console.log('success post',res);
         this.toastr.success('Successfully Created.');
         this.blockUI.stop();
@@ -314,6 +335,9 @@ export class CourseplanComponent implements OnInit {
         this.blockUI.stop();
         console.log(err)
       })
+    }else{
+      console.log("editPlan");
+    }
       
       this.mainForm.reset();
       this.formField = new cPlanField();
