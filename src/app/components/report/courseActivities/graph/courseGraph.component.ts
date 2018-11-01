@@ -12,8 +12,6 @@ export class CourseActivitiesReportGraph implements OnInit {
   barColor:any;
 
   ngOnInit(){
-    console.log("ngonInit");
-    console.log(this.reportItems);
     let _self = this;
     this.echarts = require('echarts');
     this.plotOption ={
@@ -137,9 +135,7 @@ export class CourseActivitiesReportGraph implements OnInit {
   }
 
   ngAfterViewInit(){
-     var elem = document.getElementById('courseActiviesGraph');
-    console.log(elem);
-    console.log(this.plotOption);
+    var elem = document.getElementById('courseActiviesGraph');
     elem.style.height = (this.reportItems.length * 100) +'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);

@@ -909,3 +909,25 @@ h3.head-rating-count {
   font-size: 16px;
   color:#2e3d4d;
 }
+.course-rpt-att-header{
+  font-size: 14px;
+  color:#64707d;
+}
+.present-icon,.absent-icon,.nottaken-icon{
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 8px;
+  margin-right:10px;
+}
+.present-icon{
+  background: #91f2ba;
+}
+.absent-icon{
+  background: #ffaaa6;
+}
+.nottaken-icon{
+  background: #edeff0;
+}
+
