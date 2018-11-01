@@ -52,6 +52,8 @@ export class StaffPerformanceReport implements OnInit {
       locale: { format: 'd m YYYY' },
       alwaysShowCalendars: true,
       ranges: {
+        'Today':[moment()],
+        'Yesteday':[moment().subtract(1, 'days'), moment()],
         'Last Month': [moment().subtract(1, 'month'), moment()],
         'Last 3 Months': [moment().subtract(4, 'month'), moment()],
         'Last 6 Months': [moment().subtract(6, 'month'), moment()],
@@ -95,7 +97,7 @@ export class StaffPerformanceReport implements OnInit {
       startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour').add(32, 'hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
-      alwaysShowCalendars: false,
+      alwaysShowCalendars: true,
     };
     console.log(staffData);
     this.showReportByLocation();
