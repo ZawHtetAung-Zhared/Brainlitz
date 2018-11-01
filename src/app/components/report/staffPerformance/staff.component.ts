@@ -34,9 +34,6 @@ export class StaffPerformanceReport implements OnInit {
   modalReference:any;
   reportData:any;
   selectedFilterType:any;
-  hoveredDate: any;
-  fromDate: any;
-  toDate: any;
   daterange: any = {};
 
   // see original project for full list of options
