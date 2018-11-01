@@ -49,13 +49,14 @@ export class StaffPerformanceReport implements OnInit {
   constructor(private modalService:NgbModal,private daterangepickerOptions: DaterangepickerConfig, private _service:appService,calendar: NgbCalendar) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
-      locale: { format: 'YYYY-MM-DD' },
+      locale: { format: 'd m YYYY' },
       alwaysShowCalendars: true,
       ranges: {
         'Last Month': [moment().subtract(1, 'month'), moment()],
         'Last 3 Months': [moment().subtract(4, 'month'), moment()],
         'Last 6 Months': [moment().subtract(6, 'month'), moment()],
         'Last 12 Months': [moment().subtract(12, 'month'), moment()],
+        'Last 18 Months': [moment().subtract(18, 'month'), moment()],
       }
     };
   }
@@ -93,7 +94,7 @@ export class StaffPerformanceReport implements OnInit {
     this.options= {
       startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour').add(32, 'hour'),
-      locale: { format: 'YYYY-MM-DD' },
+      locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: false,
     };
     console.log(staffData);

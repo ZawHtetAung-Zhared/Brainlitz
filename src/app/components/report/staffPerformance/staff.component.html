@@ -12,7 +12,7 @@
       <!--</ngb-datepicker>-->
           <span class="fa fa-calendar" id="calendarIcon"></span>
           <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)"  (cancelDaterangepicker)="calendarCanceled($event)"
-                 (applyDaterangepicker)="calendarApplied($event)" (showDaterangepicker) ="togglePicker($event)" (hideDaterangepicker)="togglePicker($event)" style="padding-left:30px;" />
+                 (applyDaterangepicker)="calendarApplied($event)" (showDaterangepicker) ="togglePicker($event)" (hideDaterangepicker)="togglePicker($event)" style="padding-left:30px;width:100%;" />
     </div>
   </div>
   <div class="report-location-input d-flex flex-column col-md-8">
