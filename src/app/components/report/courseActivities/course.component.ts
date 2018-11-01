@@ -70,6 +70,12 @@ export class CourseActivitiesReport implements OnInit{
     }
     console.log(this.reportData);
   }
+  showReportByCategory(){
+
+  }
+  showReportByCoursePlan(){
+
+  }
   getFilteredDataGroupByLocation(data){
     let filter = this.filter;
     let _self = this;
@@ -144,8 +150,8 @@ export class CourseActivitiesReport implements OnInit{
     this.filter = {
       type: "",
       value: []
-    }
-    //this.applyFilters();
+    };
+    this.applyFilters();
   }
 
   clearSearch() {
@@ -164,5 +170,20 @@ export class CourseActivitiesReport implements OnInit{
     this.filter.value.push(value);
     this.searchResult.show = false;
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
+  }
+  applyFilters() {
+    switch (this.groupBy) {
+      case "location":
+        this.showReportByLocation();
+        break;
+      case "category":
+        this.showReportByCategory();
+        break;
+      case "coursePlan":
+        this.showReportByCoursePlan();
+        break;
+    }
+
+    this.modalReference.close();
   }
 }
