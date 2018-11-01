@@ -41,6 +41,8 @@ import { TimepickerModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
 import { StaffPerformanceReport } from './components/report/staffPerformance/staff.component';
 import {StaffReportGraph} from './components/report/staffPerformance/graph/staffGraph.component';
+import {CourseActivitiesReportGraph} from './components/report/courseActivities/graph/courseGraph.component';
+
 import { CourseActivitiesReport } from './components/report/courseActivities/course.component';
 import { StudentEnrollmentReport } from './components/report/studentEnrollment/enrollment.component';
 import { ApgComponent } from './components/apg/apg.component';
@@ -92,6 +94,7 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     ReportComponent,
     StaffPerformanceReport,
     StaffReportGraph,
+    CourseActivitiesReportGraph,
     CourseActivitiesReport,
     StudentEnrollmentReport,
     ApgComponent,
