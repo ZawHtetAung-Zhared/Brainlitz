@@ -202,7 +202,7 @@
       <div class="d-flex c-border">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
         <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class')">Class</button>
-        <!-- <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button> -->
+        <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">
         <div class="activeTab-header d-flex justify-content-center align-items-center">         
@@ -314,6 +314,30 @@
                   <img src="{{user.profilePic}}">
                 </div>
                 <p>{{user.preferredName}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="activeTab-content" *ngIf="activeTab == 'APG'">  
+        <div class="detail-info">
+          <label>Progress</label>
+          <h4>Piano Grade 1</h4>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3">
+            <div class="single-progress d-flex flex-column">
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <h4>Username</h4>
+                <div class="std-img-wrap">
+                  <img src="">
+                </div>
+              </div>
+              <div class="progress-wrap">
+                <div class="bar">
+                  <div class="show-progress"></div>
+                </div>
+                50% accomplished
               </div>
             </div>
           </div>
