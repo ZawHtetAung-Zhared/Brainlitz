@@ -332,6 +332,7 @@ export class CourseplanComponent implements OnInit {
   cancel(){
     this.goBackCat = false;
     var data = localStorage.removeItem("categoryName");
+    localStorage.removeItem("categoryID");
     localStorage.removeItem("cpCategory");
     localStorage.removeItem("editCPId");
     this._service.backCourse();
