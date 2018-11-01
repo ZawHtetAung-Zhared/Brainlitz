@@ -111,4 +111,58 @@ export class CourseActivitiesReport implements OnInit{
     });
     return res;
   }
+  showFilterModal(content) {
+    this.searchResult.show = false;
+    this.searchResult.value = this.categoryList;
+    this.filter = {
+      type: "category",
+      value: []
+    };
+    this.modalReference = this.modalService.open(content, {
+      backdrop: 'static',
+      windowClass: 'animation-wrap',
+      size: 'lg'
+    });
+
+    this.modalReference.result.then((result) => {
+      console.log(result);
+    }, (reason) => {
+      console.log(reason);
+    });
+  }
+  removeCurrentFilter(value) {
+    this.filter.value = this.filter.value.filter(e => e !== value);
+    this.searchResult.value.push(value);
+    if (!this.filter.value.length) {
+      this.filter.type = ""
+    }
+    ;
+    this.applyFilters();
+  }
+
+  removeAllFilters() {
+    this.filter = {
+      type: "",
+      value: []
+    }
+    //this.applyFilters();
+  }
+
+  clearSearch() {
+
+  }
+
+  filterSearch(value) {
+    if (value) {
+      this.searchResult.show = true;
+    } else {
+      this.searchResult.show = false;
+    }
+  }
+
+  selectFilter(value) {
+    this.filter.value.push(value);
+    this.searchResult.show = false;
+    this.searchResult.value = this.searchResult.value.filter(e => e !== value);
+  }
 }

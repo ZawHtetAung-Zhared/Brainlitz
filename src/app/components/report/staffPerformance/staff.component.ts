@@ -980,7 +980,6 @@ export class StaffPerformanceReport implements OnInit {
   filterSearch(value) {
     if (value) {
       this.searchResult.show = true;
-
     } else {
       this.searchResult.show = false;
     }
@@ -990,8 +989,6 @@ export class StaffPerformanceReport implements OnInit {
     this.filter.value.push(value);
     this.searchResult.show = false;
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
-
-
   }
 
   applyFilters() {
