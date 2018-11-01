@@ -730,6 +730,34 @@ export class appService{
       })
     }
 
+    // getSignlecPlan(id:string){
+    //   let apiUrl = this.baseUrl + '/courseplan/' + id;
+    //   const httpOptions = {
+    //       headers: new HttpHeaders({ 
+    //         'Content-Type': 'application/json', 
+    //         'authorization': this.tokenType + ' ' + this.accessToken})
+    //   };
+    //   return this.httpClient.get(apiUrl, httpOptions)
+    //   .map((res:Response) => {
+    //     let result = res; 
+    //     return result;
+    //   })
+    // }
+
+    updateSignlecPlan(id:string, data: object, locationId:string){
+      let apiUrl = this.baseUrl + '/courseplan/' + id + '?locationId=' + locationId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
     createCategory(data: object, id: string): Observable<any>{
       console.log(data);
       let apiUrl = this.baseUrl + '/' + id + '/category';
@@ -1162,34 +1190,6 @@ export class appService{
         console.log(result);        
         return result;
       }) 
-    }
-
-    getSignlecPlan(id:string){
-      let apiUrl = this.baseUrl + '/courseplan/' + id;
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.get(apiUrl, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        return result;
-      })
-    }
-
-    updateSignlecPlan(id:string, data: object){
-      let apiUrl = this.baseUrl + '/courseplan/' + id;
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.put(apiUrl, data, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        return result;
-      })
     }
 
     getAllPdf(regionId, locationid:string, limit: number, skip: number){

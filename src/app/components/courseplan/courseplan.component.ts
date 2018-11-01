@@ -115,8 +115,10 @@ export class CourseplanComponent implements OnInit {
   public holidayId:any;
   public depositAmount:any = "";
   public holidayName:any = "";
+  public testObj:any={};
+  public optArr=[];
   public editPlanId = localStorage.getItem("editCPId");
-  public isEditCP:boolean = true;
+  public isEditCP:boolean = false;
 
   ngOnInit() {
     this.showModal = true;
@@ -151,8 +153,9 @@ export class CourseplanComponent implements OnInit {
     this.getAllModule();
     this.showSearchAPG = true;
     if(this.editPlanId){
-      this.isEditCP = false;
+      this.isEditCP = true;
       console.log("editPlan",this.editPlanId);
+
       this.editCPlan(this.editPlanId);
     }
   }
@@ -162,7 +165,83 @@ export class CourseplanComponent implements OnInit {
     .subscribe((res:any) => {
       console.log("single plan",res);
       this.formField = res;
+
+      console.log(this.formField.lesson.duration)
+      this.convertMinsToHrsMins(this.formField.lesson.duration);
+      let optObj = this.formField.paymentPolicy.courseFeeOptions;
+      if(optObj){
+        this.setFeeOptionArray(optObj);
+      }
+      // this.getAllHolidaysCalendar();
+      console.log("calendar",this.holidayCalendarLists);
+      setTimeout(() => {
+        for( var i = 0; i < this.holidayCalendarLists.length; i++){
+          if(this.formField.holidayCalendarId == this.holidayCalendarLists[i]._id){
+            this.formField.holidayCalendarName = this.holidayCalendarLists[i].name;
+            console.log("~~~calendarName",this.formField.holidayCalendarName)
+          }
+        }
+      }, 300);
+      console.log("Quizwerkz",this.pdfList);
+      if(this.formField.quizwerkz.length > 0){
+        this.formField.allowPagewerkz = true;
+        this.pdfName = [];
+        setTimeout(() => {
+          for(var i= 0; i < this.formField.quizwerkz.length; i++){
+            for(var j= 0; j < this.pdfList.length; j++){
+              if(this.formField.quizwerkz[i] == this.pdfList[j]._id){
+                this.pdfId.push(this.pdfList[j]._id);
+              }
+            }
+          }
+        }, 300);
+      }
+
+      if(this.formField.accessPointGroup.length > 0){
+        this.selectedAPGlists = true;
+        for(var i = 0; i < this.formField.accessPointGroup.length; i++){
+          console.log("selectedAPG",this.formField.accessPointGroup[i]);
+          this.singleAPG(this.formField.accessPointGroup[i]);
+        }
+      }
+
+      if(this.formField.paymentPolicy.deposit){
+        setTimeout(() => {
+          if(this.depositLists.length>0){
+            for(var i = 0; i < this.depositLists.length; i++){
+              if(this.depositLists[i]._id == this.formField.paymentPolicy.deposit){
+                console.log("selectedDeposit",this.depositLists[i]);
+                this.formField.depositAmount = this.depositLists[i].amount;
+              }
+            }
+          }
+        }, 300)
+      }
+
     })
+  }
+
+  setFeeOptionArray(obj){
+    console.log("~~~obj",obj)
+    for (var key in obj) {
+      console.log(key, obj[key]);
+      let data = {
+        "name": key,
+        "fees": obj[key]
+      }
+      this.optArr.push(data);
+    }
+    console.log("optArr",this.optArr);
+  }
+
+  convertMinsToHrsMins(mins){
+    console.log("duration",mins)
+    let h = Math.floor(mins / 60);
+    let m = mins % 60;
+    console.log("hour",h);
+    console.log("min",m);
+    this.rangeHr = h;
+    this.rangeMin = m;
   }
 
   @ViewChild('parentForm') mainForm;
@@ -274,7 +353,7 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
-
+    console.log(this.step2FormaData)
     let obj:any={};
     for(var i=0;i<this.optArr.length;i++){
       obj[this.optArr[i].name] = this.optArr[i].fees;
@@ -301,7 +380,7 @@ export class CourseplanComponent implements OnInit {
       "lesson": {
         "min": formData.minDuration,
         "max": formData.maxDuration,
-        "duration": this.timeInminutes
+        "duration": this.formField.lesson.duration
       },
       "allowPagewerkz": this.step5FormaData.allowpagewerkz,
       "age": {
@@ -312,7 +391,7 @@ export class CourseplanComponent implements OnInit {
       "holidayCalendarId": this.formField.holidayCalendarId,
       "accessPointGroup": this.selectedAPGidArray
     }
-
+    
     if(Object.keys(obj).length != 0){
       console.log("lll");
       data.paymentPolicy["courseFeeOptions"] = obj;
@@ -330,6 +409,14 @@ export class CourseplanComponent implements OnInit {
         this.blockUI.stop();
         this.getAllCoursePlan();
         this.cancel();
+        this.mainForm.reset();
+        this.formField = new cPlanField();
+        this.pdfId = [];
+        this.timeInminutes = "";
+        this.selectedAPGidArray = [];
+        this.createdAPGstore = [];
+        this.model = '';
+        this.selectedAPGlists = false;
       }, err => {
         this.toastr.error('Create Fail');
         this.blockUI.stop();
@@ -337,56 +424,71 @@ export class CourseplanComponent implements OnInit {
       })
     }else{
       console.log("editPlan");
+      this.blockUI.start('Loading...');
+      this._service.updateSignlecPlan(this.editPlanId, data, this.locationID)
+      .subscribe((res:any) => {
+        console.log(res);
+        setTimeout(() => {
+          this.toastr.success('Successfully Updated.');
+        }, 300)
+        this.blockUI.stop();
+        this.cancel();
+        this.mainForm.reset();
+        this.formField = new cPlanField();
+        this.pdfId = [];
+        this.timeInminutes = "";
+        this.selectedAPGidArray = [];
+        this.createdAPGstore = [];
+        this.model = '';
+        this.selectedAPGlists = false;
+      }, err => {
+        console.log(err);
+        this.toastr.error('Update Fail');
+        this.blockUI.stop();
+      })
     }
       
-      this.mainForm.reset();
-      this.formField = new cPlanField();
-      this.pdfId = [];
-      this.timeInminutes = "";
-      this.selectedAPGidArray = [];
-      this.createdAPGstore = [];
-      this.model = '';
-      this.selectedAPGlists = false;
+      
   }
 
-  onclickDelete(cplan, confirmDelete1){
-    this.selectcPlan = cplan;
-    this.modalReference = this.modalService.open(confirmDelete1, { backdrop:'static', windowClass: 'animation-wrap'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Closed with: ${reason}`;
-    });
-  }
+ //  onclickDelete(cplan, confirmDelete1){
+ //    this.selectcPlan = cplan;
+ //    this.modalReference = this.modalService.open(confirmDelete1, { backdrop:'static', windowClass: 'animation-wrap'});
+ //    this.modalReference.result.then((result) => {
+ //      this.closeResult = `Closed with: ${result}`;
+ //    }, (reason) => {
+ //      this.closeResult = `Closed with: ${reason}`;
+ //    });
+ //  }
 
-  confirmDelete(selectcPlan ,confirmDelete2){
-    this.selectcPlan = selectcPlan;
-    this.modalReference.close();
-    this.modalReference1 = this.modalService.open(confirmDelete2, { backdrop:'static', windowClass: 'animation-wrap'});
-    this.modalReference1.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Closed with: ${reason}`;
-    });
-  }
+ //  confirmDelete(selectcPlan ,confirmDelete2){
+ //    this.selectcPlan = selectcPlan;
+ //    this.modalReference.close();
+ //    this.modalReference1 = this.modalService.open(confirmDelete2, { backdrop:'static', windowClass: 'animation-wrap'});
+ //    this.modalReference1.result.then((result) => {
+ //      this.closeResult = `Closed with: ${result}`;
+ //    }, (reason) => {
+ //      this.closeResult = `Closed with: ${reason}`;
+ //    });
+ //  }
 
-  deleteCoursePlan(id) {
-		console.log(id)
-    this.blockUI.start('Loading...');
-    this.modalReference1.close();
-		this._service.deleteCoursePlan(id)
-		.subscribe((res:any) => {
-			console.log(res);
-      setTimeout(() => {
-        this.blockUI.stop(); // Stop blocking
-      }, 300);
-      this.toastr.success('Successfully Deleted.');
-			this.getAllCoursePlan();
-		},err => {
-     this.toastr.error('Delete Fail');
-			console.log(err);
-		})
-	}
+ //  deleteCoursePlan(id) {
+	// 	console.log(id)
+ //    this.blockUI.start('Loading...');
+ //    this.modalReference1.close();
+	// 	this._service.deleteCoursePlan(id)
+	// 	.subscribe((res:any) => {
+	// 		console.log(res);
+ //      setTimeout(() => {
+ //        this.blockUI.stop(); // Stop blocking
+ //      }, 300);
+ //      this.toastr.success('Successfully Deleted.');
+	// 		this.getAllCoursePlan();
+	// 	},err => {
+ //     this.toastr.error('Delete Fail');
+	// 		console.log(err);
+	// 	})
+	// }
   
   ChangeValue(data, e, type){
     if(type == "pdf"){
@@ -423,73 +525,73 @@ export class CourseplanComponent implements OnInit {
     }
   }
 
-  viewPlan(view, id){
-    this.getAllAPG(20,0);
-    this.getAllHolidaysCalendar();
-    this.getAllDeposit();
-    this.getAllPdf();
-    this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap'});
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Closed with: ${reason}`;
-    });
-    this._service.getSignlecPlan(id)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.viewCplan = res;
-      if(!this.viewCplan.holidayCalendarId){
-        this.holidayCalendarName = "";
-      }
-      else {
-        for( var i = 0; i < this.holidayCalendarLists.length; i++){
-          if(this.viewCplan.holidayCalendarId == this.holidayCalendarLists[i]._id){
-            this.holidayCalendarName = this.holidayCalendarLists[i].name;
-          }
-        }
-      }
-      if(this.depositLists){
-        for( var j = 0; j < this.depositLists.length; j++){
-          if(this.viewCplan.paymentPolicy.deposit == this.depositLists[j]._id){
-            this.depositName = this.depositLists[j].amount;
-          }
-        }
-      }
-      if(this.pdfList){
-        this.pdfName = [];
-        for(var i= 0; i < this.viewCplan.quizwerkz.length; i++){
-          for(var j= 0; j < this.pdfList.length; j++){
-            if(this.viewCplan.quizwerkz[i] == this.pdfList[j]._id){
-              this.pdfName.push(this.pdfList[j].name);
-            }
-          }
-        }
-      }
-      if(this.apgList){
-        this.apgName = [];
-        for(var i= 0; i < this.viewCplan.accessPointGroup.length; i++){
-          for(var j= 0; j < this.apgList.length; j++){
-            if(this.viewCplan.accessPointGroup[i] == this.apgList[j]._id){
-              this.apgName.push(this.apgList[j].name);
-            }
-          }
-        }
-      }
-      this._service.getCategory(this.regionID, 20, 0)
-      .subscribe((res:any) => {
-        this.courseCategories = res;
-          for(var i=0; i < this.courseCategories.length; i++){
-            if(this.viewCplan.categoryId == this.courseCategories[i]._id){
-              this.checkedName = this.courseCategories[i].name;
-            }
-          }
-        }, err => {
-          console.log(err)
-        });
-    },err => {
-      console.log(err);
-    })
-  }
+  // viewPlan(view, id){
+  //   this.getAllAPG(20,0);
+  //   this.getAllHolidaysCalendar();
+  //   this.getAllDeposit();
+  //   this.getAllPdf();
+  //   this.modalReference = this.modalService.open(view, { backdrop:'static', windowClass: 'animation-wrap'});
+  //   this.modalReference.result.then((result) => {
+  //     this.closeResult = `Closed with: ${result}`;
+  //   }, (reason) => {
+  //     this.closeResult = `Closed with: ${reason}`;
+  //   });
+  //   this._service.getSignlecPlan(id)
+  //   .subscribe((res:any) => {
+  //     console.log(res);
+  //     this.viewCplan = res;
+  //     if(!this.viewCplan.holidayCalendarId){
+  //       this.holidayCalendarName = "";
+  //     }
+  //     else {
+  //       for( var i = 0; i < this.holidayCalendarLists.length; i++){
+  //         if(this.viewCplan.holidayCalendarId == this.holidayCalendarLists[i]._id){
+  //           this.holidayCalendarName = this.holidayCalendarLists[i].name;
+  //         }
+  //       }
+  //     }
+  //     if(this.depositLists){
+  //       for( var j = 0; j < this.depositLists.length; j++){
+  //         if(this.viewCplan.paymentPolicy.deposit == this.depositLists[j]._id){
+  //           this.depositName = this.depositLists[j].amount;
+  //         }
+  //       }
+  //     }
+  //     if(this.pdfList){
+  //       this.pdfName = [];
+  //       for(var i= 0; i < this.viewCplan.quizwerkz.length; i++){
+  //         for(var j= 0; j < this.pdfList.length; j++){
+  //           if(this.viewCplan.quizwerkz[i] == this.pdfList[j]._id){
+  //             this.pdfName.push(this.pdfList[j].name);
+  //           }
+  //         }
+  //       }
+  //     }
+  //     if(this.apgList){
+  //       this.apgName = [];
+  //       for(var i= 0; i < this.viewCplan.accessPointGroup.length; i++){
+  //         for(var j= 0; j < this.apgList.length; j++){
+  //           if(this.viewCplan.accessPointGroup[i] == this.apgList[j]._id){
+  //             this.apgName.push(this.apgList[j].name);
+  //           }
+  //         }
+  //       }
+  //     }
+  //     this._service.getCategory(this.regionID, 20, 0)
+  //     .subscribe((res:any) => {
+  //       this.courseCategories = res;
+  //         for(var i=0; i < this.courseCategories.length; i++){
+  //           if(this.viewCplan.categoryId == this.courseCategories[i]._id){
+  //             this.checkedName = this.courseCategories[i].name;
+  //           }
+  //         }
+  //       }, err => {
+  //         console.log(err)
+  //       });
+  //   },err => {
+  //     console.log(err);
+  //   })
+  // }
 
   getAllCoursePlan(){
     this.blockUI.start('Loading...');
@@ -534,15 +636,6 @@ export class CourseplanComponent implements OnInit {
       this.apgList = [];
       this.getAllAPG(20, 0)
     }
-
-    // console.log(keyword,type)
-    //   this.getApgSearch(keyword, type)
-    //   if(type == 'apg'){
-    //     if(keyword.length == 0){
-    //       this.apgList = [];
-    //       this.getAllAPG(20,0)
-    //     }
-    //   }
   }
 
   selectData(id, name){
@@ -572,7 +665,8 @@ export class CourseplanComponent implements OnInit {
       this.blockUI.stop();
       console.log('editapg' ,res) 
       this.clickedItem = res; 
-      this.createdAPGstore.push(this.clickedItem);   
+      this.createdAPGstore.push(this.clickedItem); 
+      console.log("selectedAPGList",this.createdAPGstore);  
     }, err => {
       this.blockUI.stop();
       console.log(err)
@@ -636,87 +730,6 @@ export class CourseplanComponent implements OnInit {
     }, err => {
       console.log(err)
     })
-  }
-
-  editcPlan(content, id){
-    console.log(id)
-    this.getAllPdf();
-    this.getAllAPG(20,0);
-    this.responseChecked = [];
-    this.pdfId = [];
-    this.apgId = [];
-    this.updateButton = true;
-    this.createButton = false;
-    this.getAllDeposit();
-    this.getAllHolidaysCalendar();
-    this.showModal = false;
-    this.showsubModal = true;
-    this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap', size: 'lg'});
-    this._service.getSignlecPlan(id)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.formField = res;
-      if(!this.formField.holidayCalendarId){
-        this.formField.holidayCalendarId = '';
-      }
-      this.pdfId = this.formField.quizwerkz; 
-      this.apgId =  this.formField.accessPointGroup;   
-      this.editId = res._id;
-    },err => {
-      console.log(err);
-    })
-  }
-
-  updatedPlan(formData){
-    console.log('updated', formData, this.pdfId)
-    if(formData.holidayCalendar == ''){
-      formData.holidayCalendar = undefined;
-    }
-    let data = {
-      "regionId": this.regionID,
-      "categoryId": this.categoryId,
-      "name": formData.coursename,
-      "description": formData.description,
-      "makeupPolicy": {
-        "allowMakeupPass": formData.allowmakeup,
-        "maxPassPerUser":  formData.makeupuser,
-        "maxDayPerPass": formData.makeuppass
-      },
-      "allowPagewerkz": formData.allowpagewerkz,
-      "paymentPolicy": {
-        "deposit": formData.deposit,
-        "courseFee": formData.courseFee,
-        "allowProrated": formData.allowProrated,
-        "proratedLessonFee": formData.proratedLessonFee,
-        "miscFee": formData.miscFee
-      },
-      "lesson": {
-        "min": formData.minDuration,
-        "max": formData.maxDuration,
-        "duration": formData.lesson_duration
-      },
-      "seats": formData.seats,
-      "age": {
-        "min": formData.minage,
-        "max": formData.maxage,
-      },
-      "quizwerkz": this.pdfId,
-      "holidayCalendarId": formData.holidayCalendar,
-      "accessPointGroup": this.apgId
-    }
-    this.blockUI.start('Loading...');
-    this.modalReference.close();
-    console.log('this.editId', this.editId)
-    this._service.updateSignlecPlan(this.editId, data)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.toastr.success('Successfully Updated.');
-      this.blockUI.stop();
-      this.getAllCoursePlan();
-    },err => {
-      console.log(err);
-    })
-    this.formField = new cPlanField();
   }
 
   restrictMinNumberInput(e, minValue, type){
@@ -892,6 +905,7 @@ export class CourseplanComponent implements OnInit {
     else {
       console.log('error')
     }
+    this.formField.lesson.duration = this.timeInminutes;
     console.log('durationMinutes',this.timeInminutes)
       
   }
@@ -963,7 +977,9 @@ export class CourseplanComponent implements OnInit {
   }
 
   backStep(type){
+
     if(type == 'step2'){
+      console.log(this.formField)
       this.step2 = false;
       this.step1 = true;
       if(this.step1 == true){
@@ -1046,11 +1062,21 @@ export class CourseplanComponent implements OnInit {
       this.step1FormaData = data;
       console.log(this.step1FormaData)
       this.step1 = false;
+      let nextKey = 'makeupPolicy'
       if(this.step1 == false){
         $("#step1").removeClass('active');
         $("#step1").addClass('done');
         $("#step2").addClass('active');
         this.step2 = true;
+        console.log(this.formField.makeupPolicy)
+        if(this.formField.makeupPolicy == undefined){
+          this.formField["makeupPolicy"] = {
+            allowMakeupPass: false,
+            maxDayPerPass: '',
+            maxPassPerUser: ''
+          };
+        }
+
       }
     }
     if(type == 'step2'){
@@ -1142,6 +1168,13 @@ export class CourseplanComponent implements OnInit {
         $("#step6").addClass('done');
         $("#step7").addClass('active');
         this.step7 = true;
+        if(this.formField.age == undefined){
+        console.log("age is undefined");
+         this.formField["age"] = {
+           "min": '',
+           "max": ''
+         }
+      }
       }
     }
     if(type == 'step7'){
@@ -1249,18 +1282,7 @@ export class CourseplanComponent implements OnInit {
            console.log(err)
          });
     }
-    public testObj:any={};
-    public optArr=[];
-    // addOptionFees(name,fees){
-    //   console.log("name&fee",name,fees);
-    //   let data = {
-    //     "name": name,
-    //     "fees": fees
-    //   }
-    //   console.log(data);
-    //   this.optArr.push(data);
-    //   console.log(this.optArr)
-    // }
+    
     addOption(){
       console.log("option",this.testObj)
       let data = {
