@@ -68,8 +68,47 @@ export class CourseActivitiesReport implements OnInit{
       //Not enough data to show report
       this.reportData = [];
     }
+    console.log(this.reportData);
   }
   getFilteredDataGroupByLocation(data){
-    
+    let filter = this.filter;
+    let _self = this;
+    let res = [];
+    if(filter.type == "location"){
+      data = data.filter(function (d) {
+        return filter.value.indexOf(d.locationName) > -1;
+      });
+    }
+    data.forEach(function (location) {
+      let obj = {
+        groupTypeValue: "",
+        lessons: {
+          "absent": 0,
+          "present": 0,
+          "notTaken": 0,
+          "count": 0
+        },
+        id: "graph" + Math.floor(Math.random() * 10000)
+      };
+      //if filter type is location, we will push to end of this loop
+      let categories = location.categories || [];
+      categories.forEach(function (category) {
+        let coursePlans = category.coursePlans || [];
+        //iterate coursePlans under categories
+        coursePlans.forEach(function (coursePlan) {
+          let courses = coursePlan.courses || [];
+          //iterate courses under coursePlans
+          courses.forEach(function (course) {
+            let lessons = course.lessons || [];
+            Object.keys(lessons).forEach(function(key,index) {
+              obj.lessons[key] += lessons[key];
+            });
+          });
+        });
+      });
+      obj.groupTypeValue = location.locationName;
+      res.push(obj);
+    });
+    return res;
   }
 }
