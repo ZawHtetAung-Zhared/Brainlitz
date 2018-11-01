@@ -112,7 +112,7 @@ export class CourseComponent implements OnInit {
       console.log('~~~', this.locationName)  
       this.locationName = localStorage.getItem('locationName');
       }, 300);
-    this.activeTab = 'People';
+    this.activeTab = 'APG';
 
     this._service.permissionList.subscribe((data) => {
       if(this.router.url === '/course'){
