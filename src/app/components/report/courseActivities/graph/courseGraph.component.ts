@@ -110,7 +110,12 @@ export class CourseActivitiesReportGraph implements OnInit {
         type: 'bar',
         stack: 'courseActivities',
         itemStyle: {
-          normal: {color: '#edeff0',shadowColor:'red' }
+          normal: {color: '#edeff0' }
+        },
+        emphasis:{
+          itemStyle:{
+            color:'#DFE3E4'
+          }
         },
         data: []
 
