@@ -34,7 +34,6 @@ export class CategoryComponent implements OnInit {
   public wordLength : number = 0;
   public createdCat:any = {};
   public isCreate:boolean = false;
-  // public editCPlanId = localStorage.getItem("editCPId");
   public cpCategory = JSON.parse(localStorage.getItem('cpCategory'));
 
   constructor( 
@@ -56,10 +55,16 @@ export class CategoryComponent implements OnInit {
     window.addEventListener('scroll', this.scroll, true);
     if(this.cpCategory){
       console.log("Category For Plan",this.cpCategory);
-      this.getAllCategories(20,0, 'planCat')
+      this.getAllCategories(20,0, 'planCat');
+      this.ischecked = this.cpCategory.categoryId;
       // this.somethingChanged(this.cpCategory.categoryId,this.cpCategory.name);
     }else{
       this.getAllCategories(20, 0, '');
+      let editCatID=localStorage.getItem("categoryID");
+      if(editCatID){
+        console.log("edit Category",editCatID);
+        this.ischecked = editCatID;
+      }
     }
   }
 

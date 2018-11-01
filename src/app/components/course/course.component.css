@@ -1087,6 +1087,10 @@ button:disabled{
   font-family: 'Montserrat-SemiBold',Arial,sans-serif;
 }
 
+.cursor-on{
+  cursor: pointer;
+}
+
 /*For 1024px*/
 @media (max-width: 575px) { 
   .card-columns {
