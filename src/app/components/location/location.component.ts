@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output, ViewChild, ElementRef, ViewContainerRef, HostListener,AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Location } from './location';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule,FormGroup,FormControl } from '@angular/forms';
@@ -13,16 +13,9 @@ import { Router } from '@angular/router';
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.css']
-  
 })
 
 export class LocationComponent implements OnInit {	
-	// @ViewChild('categoryForm') form: any;
-	@Input() fullValue: string;
-  	@Output() fullValueChange = new EventEmitter<string>();
-	@Input() value: string;
-	@Output() valueChange = new EventEmitter<string>();
-  	@ViewChild('intlInput') intlInput: ElementRef;
 	public limitno: Location;
 	public PHpattern: any;
 	public result: any;
@@ -108,9 +101,7 @@ export class LocationComponent implements OnInit {
 	    }, err => {
 	      console.log(err)
 	    });
-	}
-
-    
+	} 
 
   focusMethod(e, word){
   	this.wordLength = word.length;
@@ -128,64 +119,41 @@ export class LocationComponent implements OnInit {
   }
 
   charCheck(val){
-  	console.log(val)
-  	console.log(isNaN(val))
-  	if(isNaN(val) == true){
-  		this.isnumber = true;
-  	}else{
-  		this.isnumber = false;
-  	}
-  	// this.isnumber = true;
+  	this.isnumber = (isNaN(val) == true) ? true : false;
   }
 
 	telInputObject(obj) {
-	    console.log(obj);
-	    if(this.isUpdate != true){
-	    	console.log('create')
-	    	obj.intlTelInput('setCountry', 'sg');
-	    }else{
-	    	setTimeout(() => {
-	    		console.log('update', this.countryname)
-	    		obj.intlTelInput('setCountry', this.countryname);
-	    	}, 300);
-	    }
-  	}
-
-  	onCountryChange(e){
-  		console.log(e)
-  		this.countryname = e.iso2;
-  		this.countrycode = e.dialCode;
-  		console.log(this.countrycode,this.countryname)
-  	}
-  	getNumber(obj){
-  		console.log('hi getnumber')
-  		console.log(obj)
-  	}
-  	
-  	onSearchChange(searchValue : string, e ) {  
-	  	// console.log(searchValue);
-	  	// let intel = $('.intl-tel-input input');
-		// var str = intel[0].placeholder;
-		// var str = str.replace(/\s/g, '');
-		
-		// this.isrequired = true;
-		// this.isequal = (searchValue.length < str.length) ? false : true;
-		// console.log(this.isequal)
-		this.getNumber(e)
-		// this.hasError(e)
+    console.log(obj);
+    if(this.isUpdate != true){
+    	console.log('create')
+    	obj.intlTelInput('setCountry', 'sg');
+    }else{
+    	setTimeout(() => {
+    		console.log('update', this.countryname)
+    		obj.intlTelInput('setCountry', this.countryname);
+    	}, 300);
+    }
 	}
+
+	onCountryChange(e){
+		console.log(e)
+		this.countryname = e.iso2;
+		this.countrycode = e.dialCode;
+		console.log(this.countrycode,this.countryname)
+	}
+	getNumber(obj){
+		console.log('hi getnumber')
+		console.log(obj)
+	}
+	
+	onSearchChange(searchValue : string, e ) {  
+		this.getNumber(e)
+	}
+
 	hasError(e){
-		// console.log(e)
-		// let intel = $('.intl-tel-input input');
-		// console.log(intel[0].placeholder)
-		// var str = intel[0].placeholder;
-		// console.log( str.replace(/\s/g, '') );
-		// var str = str.replace(/\s/g, '');
-		// console.log( str.length );
 		this.isvalid = e;
 		this.isrequired = e;
 		console.log(this.isrequired)
-		// this.isequal = (this.isrequired == false) ? true : false;
 	}
 	creatnew(){
 		this.locationLists = [];
@@ -198,29 +166,22 @@ export class LocationComponent implements OnInit {
 
 	back(){
 		this.locationLists = [];
-	    this.iscreate = false
-	    this.isUpdate = false 
-	    this.getAllLocation(20,0)	
+    this.iscreate = false
+    this.isUpdate = false 
+    this.getAllLocation(20,0)	
 	}
 
 	updateHeaderLocation(id, data){
 		console.log(id, data)
 		console.log(this.headerlocationLists)
 		for(var i in this.headerlocationLists){
-          if(this.headerlocationLists[i]._id == id){
-            console.log('same')
-            this.headerlocationLists[i].name = data.name;
-            this.setTrue = "true";
-            localStorage.setItem('locationUpdate', this.setTrue);
-          }
-        }
-	}
-
-	keyDownFunction(e){
-		if(e.keyCode == 13) {
-		    console.log('you just clicked enter');
-		    // rest of your code
-		}
+      if(this.headerlocationLists[i]._id == id){
+        console.log('same')
+        this.headerlocationLists[i].name = data.name;
+        this.setTrue = "true";
+        localStorage.setItem('locationUpdate', this.setTrue);
+      }
+    }
 	}
 
 	private getDismissReason(reason: any): string {
@@ -242,16 +203,13 @@ export class LocationComponent implements OnInit {
 		this.blockUI.start('Loading...');
 		this._service.getLocations(this.regionID, limit, skip, false)
 		.subscribe((res:any) => {
-			console.log(res)
 			this.result = res;
 			setTimeout(() => {
-		        this.blockUI.stop(); // Stop blocking
-		      }, 300);
+	        	this.blockUI.stop(); // Stop blocking
+	      	}, 300);
     		this.locationLists = this.locationLists.concat(res);
     		console.log(this.locationLists)
-    		this.isempty = (res.length === 0) ? true : false;       
-	    	
-    		console.log(this.locationID)
+    		this.isempty = (res.length === 0) ? true : false; 
     		if(this.locationID){
     			for(var i in  this.locationLists){
     				if(this.locationID == this.locationLists[i]._id){
@@ -341,7 +299,6 @@ export class LocationComponent implements OnInit {
 
 	getSingleLocation(id){
 		this.iscreate = true;
-		// console.log(this.model)
 		this.isUpdate = true;		
 		this.isvalid = true;
 		this.isnumber = false;		
@@ -363,10 +320,10 @@ export class LocationComponent implements OnInit {
 			console.log(err);
 		})
 	}
-
-
-	deleteModal(deletemodal, id){
-		this.modalReference = this.modalService.open(deletemodal, {backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });
-		this.singleLocation(id);
+	
+	deleteModal(deletemodal, id, name){
+		this.modalReference = this.modalService.open(deletemodal, {backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });		
+		this.locationName = name;
+		this.currentID = id;
 	}
 }
