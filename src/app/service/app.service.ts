@@ -1046,6 +1046,7 @@ export class appService{
     }
 
     updateCourse(id, body,locationid){
+      console.log('body obj',body)
       let apiUrl = this.baseUrl + '/course/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 

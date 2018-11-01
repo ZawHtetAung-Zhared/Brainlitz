@@ -59,6 +59,8 @@ export class CourseComponent implements OnInit {
   public permissionType: any;
   public coursePermission:any = [];
   public courseDemo:any = [];
+  public editplanId:any;
+  public planCategory:any;
   
   public draft:boolean;
 
@@ -215,6 +217,7 @@ export class CourseComponent implements OnInit {
   }
 
   showCPDetail(planID){
+    this.editplanId = planID;
     console.log('hi', planID)
     this.isCoursePlanDetail = true;
     this.getCoursePlanDetail(planID)
@@ -226,16 +229,22 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
       this.blockUI.stop();
       this.singlePlanData = res;
+      this.planCategory = this.singlePlanData.category;
     },err =>{
       console.log(err);
     });
   }
 
-  goToCoursePlan(){
-    console.log('go to cp', this.singlePlanData)
+  goToCoursePlan(planId){
+    localStorage.setItem("editCPId",planId);
+    localStorage.setItem("cpCategory",JSON.stringify(this.planCategory));
     this.isCoursePlanDetail = false;
     this.isCategory = true;
-    this._service.dataParsing(this.singlePlanData);
+    this.goBackCat = false;
+    // console.log('go to cp', this.singlePlanData)
+    // this.isCoursePlanDetail = false;
+    // this.isCategory = true;
+    // this._service.dataParsing(this.singlePlanData);
   }
 
   goToConflict(courseId){
@@ -619,6 +628,8 @@ export class CourseComponent implements OnInit {
   changeRoute(){
     this.isCategory = true;
     this.goBackCat = false;
+    localStorage.removeItem("cpCategory");
+    localStorage.removeItem("editCPId");
     // console.log("Change Route")
     // localStorage.removeItem('coursePlanId');
     // localStorage.removeItem('courseId');

@@ -679,7 +679,9 @@
 			</div>
 			<!-- <hr class="limit-hr-100 mr-top-20"> -->
 			<div class="button-wrapper">
-				<button type="submit" class="btn sticky-create" (click)="createdPlan(parentForm.value)" [disabled]="!parentForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
+			***{{isEditCP}}
+				<button *ngIf="isEditCP == true" type="submit" class="btn sticky-create" (click)="createdPlan(parentForm.value,'create')" [disabled]="!parentForm.valid || timeInminutes == undefined || timeInminutes == 0">Create</button>
+				<button *ngIf="isEditCP == false" type="submit" class="btn sticky-create" (click)="createdPlan(parentForm.value,'update')" [disabled]="!parentForm.valid || timeInminutes == undefined || timeInminutes == 0">Update</button>
 				<div [hidden]="!step7" class="back-modal" (click)="backStep('step7')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
 			</div>
 		</div>

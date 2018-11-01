@@ -34,6 +34,8 @@ export class CategoryComponent implements OnInit {
   public wordLength : number = 0;
   public createdCat:any = {};
   public isCreate:boolean = false;
+  // public editCPlanId = localStorage.getItem("editCPId");
+  public cpCategory = JSON.parse(localStorage.getItem('cpCategory'));
 
   constructor( 
     private _service: appService, 
@@ -50,9 +52,15 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     console.log('....')
-    this.getAllCategories(20, 0, '');
+    // this.getAllCategories(20, 0, '');
     window.addEventListener('scroll', this.scroll, true);
-    
+    if(this.cpCategory){
+      console.log("Category For Plan",this.cpCategory);
+      this.getAllCategories(20,0, 'planCat')
+      // this.somethingChanged(this.cpCategory.categoryId,this.cpCategory.name);
+    }else{
+      this.getAllCategories(20, 0, '');
+    }
   }
 
   ngOnDestroy() {
@@ -192,8 +200,11 @@ export class CategoryComponent implements OnInit {
       this.categoryList = this.categoryList.concat(res);
       this.isempty = (res.length === 0) ? true : false;  
       if(state == 'create'){
-        console.log("category created")
+        console.log("category created");
         this.somethingChanged(this.categoryList[0]._id,this.categoryList[0].name)
+      }else if(state == 'planCat'){
+        console.log("plan Category");
+        this.somethingChanged(this.cpCategory.categoryId,this.cpCategory.name);
       }else{
         console.log("Not create")
       }
