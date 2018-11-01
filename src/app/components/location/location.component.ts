@@ -19,10 +19,10 @@ import { Router } from '@angular/router';
 export class LocationComponent implements OnInit {	
 	// @ViewChild('categoryForm') form: any;
 	@Input() fullValue: string;
-  @Output() fullValueChange = new EventEmitter<string>();
+  	@Output() fullValueChange = new EventEmitter<string>();
 	@Input() value: string;
 	@Output() valueChange = new EventEmitter<string>();
-  @ViewChild('intlInput') intlInput: ElementRef;
+  	@ViewChild('intlInput') intlInput: ElementRef;
 	public limitno: Location;
 	public PHpattern: any;
 	public result: any;
@@ -52,6 +52,7 @@ export class LocationComponent implements OnInit {
 	public permissionType:any;
 	public locPermission:any = [];
 	public locationDemo:any = [];
+	public setTrue:any = null;
 	
 	@BlockUI() blockUI: NgBlockUI;
 
@@ -75,7 +76,7 @@ export class LocationComponent implements OnInit {
 	    this.permissionType = localStorage.getItem('permission');
 	    this.checkPermission();
 	  }		
-		
+		localStorage.removeItem('locationUpdate');
 	}
 
 	checkPermission(){
@@ -143,8 +144,8 @@ export class LocationComponent implements OnInit {
 	    	console.log('create')
 	    	obj.intlTelInput('setCountry', 'sg');
 	    }else{
-	    	console.log('update', this.countryname)
 	    	setTimeout(() => {
+	    		console.log('update', this.countryname)
 	    		obj.intlTelInput('setCountry', this.countryname);
 	    	}, 300);
 	    }
@@ -208,7 +209,9 @@ export class LocationComponent implements OnInit {
 		for(var i in this.headerlocationLists){
           if(this.headerlocationLists[i]._id == id){
             console.log('same')
-            this.headerlocationLists[i].name = data.name
+            this.headerlocationLists[i].name = data.name;
+            this.setTrue = "true";
+            localStorage.setItem('locationUpdate', this.setTrue);
           }
         }
 	}
@@ -217,7 +220,7 @@ export class LocationComponent implements OnInit {
 		if(e.keyCode == 13) {
 		    console.log('you just clicked enter');
 		    // rest of your code
-		  }
+		}
 	}
 
 	private getDismissReason(reason: any): string {
