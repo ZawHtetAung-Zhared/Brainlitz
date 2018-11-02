@@ -1065,17 +1065,14 @@ export class appService{
 
     getSingleCourse(id:string, locationid:string): Observable<any>{
       this.getLocalstorage();
-      console.log(id);
       let apiUrl = this.baseUrl + '/course/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(apiUrl, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        console.log(result)
-        return result;
+      .map((res:Response) => { 
+        return res;
       })
     }
 
@@ -1146,9 +1143,7 @@ export class appService{
         })
     }
 
-    getAssignUser(regionid, courseid, date, month, year){
-      console.log('app service', regionid)
-      console.log('app service', courseid)
+    getAssignUser(regionid, courseid, date, month, year){      
       let url;
       if(date == null && month == null && year == null){
         url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
@@ -1161,10 +1156,8 @@ export class appService{
           'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(url, httpOptions)
-      .map((res:Response) => {
-        let result = res;
-        console.log(result);        
-        return result;
+      .map((res:Response) => {        
+        return res;
       }) 
     }
 

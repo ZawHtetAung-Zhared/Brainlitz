@@ -115,7 +115,7 @@ export class CourseComponent implements OnInit {
       console.log('~~~', this.locationName)  
       this.locationName = localStorage.getItem('locationName');
       }, 300);
-    this.activeTab = 'APG';
+    this.activeTab = 'People';
 
     this._service.permissionList.subscribe((data) => {
       if(this.router.url === '/course'){
@@ -188,11 +188,9 @@ export class CourseComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
     if(window.pageYOffset > 81){
-      console.log('greater than 30')
       this.isSticky = true;
       this.showBtn = true
     }else{
-      console.log('less than 30')
       this.isSticky = false;
       this.showBtn = false;
     }
@@ -209,7 +207,7 @@ export class CourseComponent implements OnInit {
   }
 
   showCourseDetail(courseId){
-    console.log(courseId)
+    console.log('~~~~~')
     this.currentCourse = courseId;
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
@@ -267,8 +265,8 @@ export class CourseComponent implements OnInit {
       this.courseId = res._id;
       this.locationId = res.locationId;
       this.draft = res.draft;
-      console.log("Draft",this.draft)
-      console.log(res.locationId)
+      // console.log("Draft",this.draft)
+      // console.log(res.locationId)
       // if(this.draft == true){
       //   this.router.navigate(['/courseCreate']);
       // }
@@ -280,7 +278,7 @@ export class CourseComponent implements OnInit {
 
   getUsersInCourse(courseId){
     console.log('hi call course', courseId)
-    this.getCourseDetail(courseId);
+    // this.getCourseDetail(courseId);
     this.blockUI.start('Loading...'); 
     this._service.getAssignUser(this.regionId,courseId,null,null,null)
     .subscribe((res:any)=>{

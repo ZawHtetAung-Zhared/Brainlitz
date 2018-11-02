@@ -180,9 +180,11 @@ export class UserStaffComponent implements OnInit {
 	          console.log(err);
 	        });
 	    }else{
-	    	this.staffLists = [];
-	    	this.getAllUsers('staff',20,0);
-	    	this.isSearch = false;
+	    	setTimeout(() => {
+		    	this.staffLists = [];
+		    	this.getAllUsers('staff',20,0);
+		    	this.isSearch = false;
+	    	}, 300);
 	    }
 	}
 

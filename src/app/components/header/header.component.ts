@@ -181,7 +181,7 @@ export class HeaderComponent implements OnInit {
   // }
 
   @HostListener('document:click', ['$event']) clickedOutside($event){      
-    console.log("CLICKED OUTSIDE");
+    // console.log("CLICKED OUTSIDE");
     this.dropMenuShow =  false;
     this.locationDpShow = false;
 
