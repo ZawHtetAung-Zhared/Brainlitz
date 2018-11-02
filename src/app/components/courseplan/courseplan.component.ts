@@ -242,6 +242,12 @@ export class CourseplanComponent implements OnInit {
     console.log("min",m);
     this.rangeHr = h;
     this.rangeMin = m;
+    if(h>0){
+      this.selectedHrRange = h;
+    }
+    if(m >0){
+      this.selectedMinRange = m;
+    }
   }
 
   @ViewChild('parentForm') mainForm;
@@ -332,6 +338,7 @@ export class CourseplanComponent implements OnInit {
   cancel(){
     this.goBackCat = false;
     var data = localStorage.removeItem("categoryName");
+    localStorage.removeItem("categoryID");
     localStorage.removeItem("cpCategory");
     localStorage.removeItem("editCPId");
     this._service.backCourse();
@@ -891,14 +898,17 @@ export class CourseplanComponent implements OnInit {
     }
 
     if(this.selectedHrRange && this.selectedMinRange){
+      console.log("selected Hr and Min");
       this.timeInminutes = (parseInt(this.selectedHrRange) * 60) +  parseInt(this.selectedMinRange);
       this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr' + ' ' +  parseInt(this.selectedMinRange) + ' ' + 'min';
     }
     else if(this.selectedHrRange){
+      console.log("selected only Hr");
       this.timeInminutes = (parseInt(this.selectedHrRange) * 60);
       this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr';
     }
     else if(this.selectedMinRange){
+      console.log("selected only Min");
       this.timeInminutes = parseInt(this.selectedMinRange);
       this.readyOnlyRange = parseInt(this.selectedMinRange) + ' ' + 'min';
     }
