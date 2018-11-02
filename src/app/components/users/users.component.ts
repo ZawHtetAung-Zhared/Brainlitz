@@ -732,7 +732,7 @@ export class UsersComponent implements OnInit {
 		if(searchWord.length != 0){
 			this.isSearch = true;
 			console.log(userType)
-			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip)
+			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
 	        .subscribe((res:any) => {
 				console.log(res);
 				this.result = res;

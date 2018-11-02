@@ -492,7 +492,13 @@ export class appService{
       }) 
     }
 
-    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number){
+    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number, selected:any){
+      console.log('selected',selected);
+      // if(selected != ""){
+      //   let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&nin=' + selected + '&limit=' + limit + '&skip=' + skip;
+      // }else{
+      //   let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
+      // }
       let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
       // let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
       const httpOptions = {

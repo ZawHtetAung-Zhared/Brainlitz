@@ -734,7 +734,7 @@ export class CoursecreateComponent implements OnInit {
     if(searchWord == ''){
       console.log("NULL")
     }else{
-      this._service.getSearchUser(this.regionID, searchWord, 'staff', 20 ,0)
+      this._service.getSearchUser(this.regionID, searchWord, 'staff', 20 ,0, '')
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;

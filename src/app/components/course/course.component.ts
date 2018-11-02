@@ -29,7 +29,7 @@ export class CourseComponent implements OnInit {
   isCoursePlanDetail:boolean = false;
   singlePlanData:any = {};
   public formData:any = {};
-  public userLists:any = {};
+  public userLists:any = [];
   public detailLists:any = {};
   public activeCourseInfo:any = {};
   public LASD:any; //lastActiceStartDate
@@ -61,6 +61,7 @@ export class CourseComponent implements OnInit {
   public courseDemo:any = [];
   public editplanId:any;
   public planCategory:any;
+  showList:boolean = false;
   
   public draft:boolean;
 
@@ -438,6 +439,7 @@ export class CourseComponent implements OnInit {
       console.log('has courseID', id)
       this.isSeatAvailable = true;
       this.getCourseDetail(id);
+      this.getUsersInCourse(id);
     }else{
       console.log('no courseID', this.detailLists.seat_left)
       if(this.detailLists.seat_left == 0){
@@ -477,6 +479,7 @@ export class CourseComponent implements OnInit {
   cancelModal(){
     this.modalReference.close();
     this.isSeatAvailable = true;
+    this.showList = false;
   }
 
   getAllUsers(type){
@@ -507,6 +510,7 @@ export class CourseComponent implements OnInit {
       console.log(res);
       if(state == 'search'){
         this.isFous = false;
+        this.showList = false;
         this.selectedUserLists.push(res);
         console.log(this.detailLists.seat_left)
         console.log(this.selectedUserLists.length)
@@ -529,8 +533,8 @@ export class CourseComponent implements OnInit {
     console.log(e)
     console.log(userType)
     this.isFous = true;
-    // this.userLists = [];
-    this.getAllUsers(userType);
+    this.userLists = [];
+    // this.getAllUsers(userType);
   }
 
   hideFocus(e){
@@ -545,16 +549,48 @@ export class CourseComponent implements OnInit {
     console.log(searchWord)
     let locationId = this.detailLists.locationId;
     if(searchWord.length != 0){
-        this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
-        .subscribe((res:any) => {
-          console.log(res);
-          this.userLists = res;
-        }, err => {  
-          console.log(err);
-        });
+        this.showList = true;
+        // this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
+        // .subscribe((res:any) => {
+        //   console.log(res);
+        //   this.userLists = res;
+        // }, err => {  
+        //   console.log(err);
+        // });
+        var selectedIdArr=[];
+        var pplListArr = [];
+        
+          if(this.pplLists.CUSTOMER.length > 0){
+              console.log("to send userIds PPLs");
+              for(let y in this.pplLists.CUSTOMER){
+                let id = this.pplLists.CUSTOMER[y].userId;
+                pplListArr.push(id)
+              }
+              console.log('pplListArr',pplListArr)
+              var pplListStr = pplListArr.toString();
+              console.log("pplListsStr",pplListStr);
+              
+              this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, pplListStr)
+              .subscribe((res:any) => {
+                console.log(res);
+                this.userLists = res;
+              }, err => {  
+                console.log(err);
+              });
+          }else{
+          console.log("not send");
+          this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, '')
+          .subscribe((res:any) => {
+            console.log(res);
+            this.userLists = res;
+          }, err => {  
+            console.log(err);
+          });
+        }
     }else if(searchWord.length == 0){
       this.userLists = [];
-      this.getAllUsers(userType);
+      this.showList = false;
+      // this.getAllUsers(userType);
     }
   }
 

@@ -450,7 +450,7 @@
           </button>
         </span>
       </div>
-      <div class="user-list-box" *ngIf="isFous == true">
+      <div class="user-list-box" *ngIf="showList == true">
         <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
           <div class="img-wrap">
             <img src="{{user.profilePic}}">

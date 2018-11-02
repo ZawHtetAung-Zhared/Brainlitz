@@ -216,7 +216,7 @@ export class ToolsComponent implements OnInit {
     this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
     if(type == 'user'){
-      this._service.getSearchUser(this.regionID, searchWord, 'all', 20, 0)
+      this._service.getSearchUser(this.regionID, searchWord, 'all', 20, 0, '')
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;
