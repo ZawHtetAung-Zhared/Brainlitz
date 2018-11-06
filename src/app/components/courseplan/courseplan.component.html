@@ -227,6 +227,7 @@
 								<div>
 									<div class="input-group input-group-bg mb-2 mr-sm-2">
 										<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
+										<hr class="limit-hr-length">
 									</div>
 								</div>
 							</div>
@@ -240,13 +241,14 @@
 										(focus)="showFocus($event,'optionFee')"
 								  	(focusout)="hideFocus($event,'optionFee')"
 										>
+										<hr class="limit-hr-length">
 									</div>
 								</div>
 							</div>
 							<div>
 							<button [disabled]="!testObj.fees" type="button" class="add-fee-option" (click)="addOption()">
-								<div *ngIf="testObj.fees" class="circle1 plus"></div>
-								<div *ngIf="!testObj.fees" class="circle3 plus"></div>
+								<div *ngIf="testObj.name && testObj.fees" class="circle1 plus"></div>
+								<div *ngIf="!testObj.fees || !testObj.name || !testObj" class="circle3 plus"></div>
 							</button>
 								<!-- <button type="button" (click)="addOptionFees(name.value,fees.value)">Add</button> -->
 							</div>
@@ -424,7 +426,7 @@
 					    </span> -->
 					    <div class="input-group w-100">
 			  			    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" 
-				            id="template-search-input" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
+				            id="search-apg" name="searchApg" [(ngModel)]="formField.searchText" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
 				            (input)="changeSearch($event.target.value, 'apg')"
 				            autocomplete="off"
 				            >

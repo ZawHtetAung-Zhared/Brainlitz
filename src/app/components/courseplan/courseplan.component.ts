@@ -626,7 +626,8 @@ export class CourseplanComponent implements OnInit {
 
   focusSearch(e){
     this.isfocus = true;
-    this.showfixedcreate = true
+    this.showfixedcreate = true;
+    this.apgList = [];
   }
 
   hideSearch(e){
@@ -638,10 +639,11 @@ export class CourseplanComponent implements OnInit {
 
   changeSearch(keyword,type){
     console.log(keyword)
-    this.getApgSearch(keyword, 'apg');
     if(keyword == 0){
       this.apgList = [];
-      this.getAllAPG(20, 0)
+      // this.getAllAPG(20, 0)
+    }else{
+      this.getApgSearch(keyword, 'apg');
     }
   }
 
@@ -652,7 +654,6 @@ export class CourseplanComponent implements OnInit {
     this.selectedAPGlists = true;
     this.isfocus = false;
     this.showfixedcreate = false;
-
     // const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
     // if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
     // else this.createdAPGstore.push(this.clickedItem);
@@ -673,7 +674,8 @@ export class CourseplanComponent implements OnInit {
       console.log('editapg' ,res) 
       this.clickedItem = res; 
       this.createdAPGstore.push(this.clickedItem); 
-      console.log("selectedAPGList",this.createdAPGstore);  
+      console.log("selectedAPGList",this.createdAPGstore); 
+      this.formField.searchText = "";
     }, err => {
       this.blockUI.stop();
       console.log(err)
@@ -689,20 +691,41 @@ export class CourseplanComponent implements OnInit {
       //   console.log(err);
       // });
       console.log("search APG",this.regionID,keyword,type);
-      this._service.getSearchApg(this.regionID, keyword, type, '', 20,  0)
-      .subscribe((res:any) => {
-        console.log("apg result",res);
-        this.apgList = res;
-        console.log("APG List",this.apgList);
-        // if(type == 'apg'){
-        //   this.apgList = res;
-        //   console.log("APG list",this.apgList)
-        // }else{
-        //   this.templateList = res;
-        // }
-      }, err => {  
-        console.log(err);
-      });
+      if(this.createdAPGstore.length > 0){
+        var selectedIdArr = [];
+        var selectedIdStr;
+        for(var i in this.createdAPGstore){
+          var id = this.createdAPGstore[i]._id;
+          selectedIdArr.push(id);
+        }
+        console.log("selectedId Array",selectedIdArr);
+        selectedIdStr = selectedIdArr.toString();
+        console.log('selectedIdStr',selectedIdStr);
+
+        this._service.getSearchApg(this.regionID, keyword, type, selectedIdStr, 20,  0)
+        .subscribe((res:any) => {
+          console.log("apg result",res);
+          this.apgList = res;
+          console.log("APG List",this.apgList);
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        this._service.getSearchApg(this.regionID, keyword, type, '', 20,  0)
+        .subscribe((res:any) => {
+          console.log("apg result",res);
+          this.apgList = res;
+          console.log("APG List",this.apgList);
+          // if(type == 'apg'){
+          //   this.apgList = res;
+          //   console.log("APG list",this.apgList)
+          // }else{
+          //   this.templateList = res;
+          // }
+        }, err => {  
+          console.log(err);
+        });
+      }
   }
 
   getAllAPG(skip,limit){
