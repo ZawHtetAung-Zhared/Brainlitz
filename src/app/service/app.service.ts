@@ -1422,9 +1422,13 @@ export class appService{
       })
     }
 
-    getSearchApg(regionID: string, keyword: string, type: string, nin, limit:number,skip:number){
+    getSearchApg(regionID: string, keyword: string, type: string, selectedStr:string, limit:number,skip:number){
       let apiUrl;
-      if(nin == ''){
+      console.log("keyword",keyword);
+      console.log("selected str",selectedStr);
+      if(selectedStr != ''){
+        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+      }else{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
       const httpOptions = {

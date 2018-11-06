@@ -445,13 +445,21 @@ export class CourseComponent implements OnInit {
 
   addUserModal(type, userModal, state, id){
     console.log('====', state)
+    
     this.isvalidID = state;
-    if(state != 'inside' || this.detailLists.seat_left == null){
+    if(state != 'inside'){
+       console.log("state",state)
       console.log('has courseID', id)
       this.isSeatAvailable = true;
       this.getCourseDetail(id);
       this.getUsersInCourse(id);
+    }else if(this.detailLists.seat_left == null){
+      console.log("detailLists.seat_left",this.detailLists.seat_left)
+      console.log('has courseID', id)
+      this.isSeatAvailable = true;
+      // this.getCourseDetail(id);
     }else{
+      console.log("state",state)
       console.log('no courseID', this.detailLists.seat_left)
       if(this.detailLists.seat_left == 0){
         this.isSeatAvailable = false;
@@ -459,6 +467,11 @@ export class CourseComponent implements OnInit {
         this.isSeatAvailable = true;
       }
     }
+
+    // if(state == 'outside'){
+    //   console.log("outside");
+    //   this.getUsersInCourse(id);
+    // }
     
     this.selectedUserLists = [];
     this.selectedUserId = [];
@@ -568,13 +581,35 @@ export class CourseComponent implements OnInit {
         // }, err => {  
         //   console.log(err);
         // });
+
         var selectedIdArr=[];
         var pplListArr = [];
+        var pplArr = [];
+        // pplArr = this.pplLists.CUSTOMER;
+        // pplArr = this.pplLists.STAFF
         
-          if(this.pplLists.CUSTOMER.length > 0){
+        switch(userType){
+          case 'customer':
+            pplArr = this.pplLists.CUSTOMER;
+            console.log("customer pplArr",pplArr)
+            break;
+          case 'staff':
+            // pplArr = this.pplLists.TEACHER;
+            for(var i in this.pplLists.TEACHER){
+              let ppl = this.pplLists.TEACHER[i];
+              pplArr.push(ppl);
+            }
+            for(var j in this.pplLists.STAFF){
+              let ppl = this.pplLists.STAFF[j];
+              pplArr.push(ppl);
+            }
+            console.log("staff pplArr",pplArr)
+        }
+
+          if(pplArr.length > 0){
               console.log("to send userIds PPLs");
-              for(let y in this.pplLists.CUSTOMER){
-                let id = this.pplLists.CUSTOMER[y].userId;
+              for(let y in pplArr){
+                let id = pplArr[y].userId;
                 pplListArr.push(id)
               }
               console.log('pplListArr',pplListArr)
