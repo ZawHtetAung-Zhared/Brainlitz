@@ -734,17 +734,6 @@ export class UsersComponent implements OnInit {
 			this.isSearch = true;
 			console.log(userType)
 
-			// this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
-	  //       .subscribe((res:any) => {
-			// 	console.log(res);
-			// 	this.result = res;
-			// 	if(isFirst == true){
-			// 		console.log("First time searching");
-			// 		this.customerLists = [];
-			// 		this.customerLists = res;
-			// 	}else{
-			// 		console.log("Not First time searching")
-
 			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
 		      .subscribe((res:any) => {
 						console.log(res);
@@ -757,12 +746,10 @@ export class UsersComponent implements OnInit {
 							console.log("Not First time searching")
 							this.customerLists = this.customerLists.concat(res);
 						}	      
-
-						this.customerLists = this.customerLists.concat(res);
 		      }, err => {  
 						console.log(err);
 		      });
-	  }else{
+	  	}else{
 	    	console.log('zero', searchWord.length)
 	    	setTimeout(() => {
 	    		console.log('wait')
@@ -770,7 +757,7 @@ export class UsersComponent implements OnInit {
 	    		this.getAllUsers('customer',20,0);
 	    		this.isSearch = false;
 	    	}, 300);
-	  }
+	  	}
 	}
 	
 	changeSearch(searchWord, userId, limit, skip){
