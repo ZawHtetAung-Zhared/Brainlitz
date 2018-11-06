@@ -48,6 +48,7 @@ export class CourseComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public pplLists:any;
+  public apgLists:any;
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
@@ -382,6 +383,18 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop();
         console.log(err);
       });
+    }else if(type == 'APG'){
+      this._service.getAssessment(this.regionId,this.currentCourse,true)
+      .subscribe((res:any)=>{
+        console.log(res)
+        this.apgLists = res;
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      });
+      this.noStudent = 0;
+      this.presentStudent = 0;
+      this.absentStudent = 0;
     }else{
       this.noStudent = 0;
       this.presentStudent = 0;

@@ -1161,6 +1161,18 @@ export class appService{
       }) 
     }
 
+    getAssessment(regionid, courseid, assessment){      
+      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid + '?assessment=' + assessment;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {        
+        return res;
+      }) 
+    }
+
     withdrawAssignUser(regionid,obj:any, locationid){
       console.log(regionid,obj);
       let apiUrl = this.baseUrl+ '/' + regionid + '/timetable?locationId=' + locationid;
