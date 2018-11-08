@@ -246,7 +246,7 @@
 								</div>
 							</div>
 							<div>
-							<button [disabled]="!testObj.fees" type="button" class="add-fee-option" (click)="addOption()">
+							<button [disabled]="!testObj.fees && testObj.name == '' && testObj.name == undefined && testObj.fees == undefined" type="button" class="add-fee-option" (click)="addOption()">
 								<div *ngIf="testObj.name && testObj.fees" class="circle1 plus"></div>
 								<div *ngIf="!testObj.fees || !testObj.name || !testObj" class="circle3 plus"></div>
 							</button>
