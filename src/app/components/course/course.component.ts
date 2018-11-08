@@ -26,8 +26,10 @@ export class CourseComponent implements OnInit {
   isPlan:boolean = false;
   isFous:boolean = false;
   isCourseDetail:boolean = false;
+  isCoursePlanDetail:boolean = false;
+  singlePlanData:any = {};
   public formData:any = {};
-  public userLists:any = {};
+  public userLists:any = [];
   public detailLists:any = {};
   public activeCourseInfo:any = {};
   public LASD:any; //lastActiceStartDate
@@ -46,6 +48,7 @@ export class CourseComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public pplLists:any;
+  public apgLists:any;
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
@@ -57,6 +60,9 @@ export class CourseComponent implements OnInit {
   public permissionType: any;
   public coursePermission:any = [];
   public courseDemo:any = [];
+  public editplanId:any;
+  public planCategory:any;
+  showList:boolean = false;
   
   public draft:boolean;
 
@@ -183,11 +189,9 @@ export class CourseComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
     if(window.pageYOffset > 81){
-      console.log('greater than 30')
       this.isSticky = true;
       this.showBtn = true
     }else{
-      console.log('less than 30')
       this.isSticky = false;
       this.showBtn = false;
     }
@@ -197,18 +201,50 @@ export class CourseComponent implements OnInit {
 
   cancel(){
     this.isCourseDetail = false;
+    this.isCoursePlanDetail = false;
     this.courseList = [];
     this.getCourseLists(20,0);
     this.activeTab = 'People';
   }
 
   showCourseDetail(courseId){
-    console.log(courseId)
+    console.log('~~~~~')
     this.currentCourse = courseId;
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
     console.log(this.detailLists.seat_left);
+  }
+
+  showCPDetail(planID){
+    this.editplanId = planID;
+    console.log('hi', planID)
+    this.isCoursePlanDetail = true;
+    this.getCoursePlanDetail(planID)
+  }
+
+  getCoursePlanDetail(planID){
+    this.blockUI.start('Loading...'); 
+    this._service.getSinglePlan(planID, this.locationID)
+    .subscribe((res:any)=>{
+      this.blockUI.stop();
+      this.singlePlanData = res;
+      this.planCategory = this.singlePlanData.category;
+    },err =>{
+      console.log(err);
+    });
+  }
+
+  goToCoursePlan(planId){
+    localStorage.setItem("editCPId",planId);
+    localStorage.setItem("cpCategory",JSON.stringify(this.planCategory));
+    this.isCoursePlanDetail = false;
+    this.isCategory = true;
+    this.goBackCat = false;
+    // console.log('go to cp', this.singlePlanData)
+    // this.isCoursePlanDetail = false;
+    // this.isCategory = true;
+    // this._service.dataParsing(this.singlePlanData);
   }
 
   goToConflict(courseId){
@@ -230,8 +266,8 @@ export class CourseComponent implements OnInit {
       this.courseId = res._id;
       this.locationId = res.locationId;
       this.draft = res.draft;
-      console.log("Draft",this.draft)
-      console.log(res.locationId)
+      // console.log("Draft",this.draft)
+      // console.log(res.locationId)
       // if(this.draft == true){
       //   this.router.navigate(['/courseCreate']);
       // }
@@ -243,7 +279,7 @@ export class CourseComponent implements OnInit {
 
   getUsersInCourse(courseId){
     console.log('hi call course', courseId)
-    this.getCourseDetail(courseId);
+    // this.getCourseDetail(courseId);
     this.blockUI.start('Loading...'); 
     this._service.getAssignUser(this.regionId,courseId,null,null,null)
     .subscribe((res:any)=>{
@@ -347,6 +383,18 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop();
         console.log(err);
       });
+    }else if(type == 'APG'){
+      this._service.getAssessment(this.regionId,this.currentCourse,true)
+      .subscribe((res:any)=>{
+        console.log(res)
+        this.apgLists = res;
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      });
+      this.noStudent = 0;
+      this.presentStudent = 0;
+      this.absentStudent = 0;
     }else{
       this.noStudent = 0;
       this.presentStudent = 0;
@@ -397,12 +445,21 @@ export class CourseComponent implements OnInit {
 
   addUserModal(type, userModal, state, id){
     console.log('====', state)
+    
     this.isvalidID = state;
-    if(state != 'inside' || this.detailLists.seat_left == null){
+    if(state != 'inside'){
+       console.log("state",state)
       console.log('has courseID', id)
       this.isSeatAvailable = true;
       this.getCourseDetail(id);
+      this.getUsersInCourse(id);
+    }else if(this.detailLists.seat_left == null){
+      console.log("detailLists.seat_left",this.detailLists.seat_left)
+      console.log('has courseID', id)
+      this.isSeatAvailable = true;
+      // this.getCourseDetail(id);
     }else{
+      console.log("state",state)
       console.log('no courseID', this.detailLists.seat_left)
       if(this.detailLists.seat_left == 0){
         this.isSeatAvailable = false;
@@ -410,6 +467,11 @@ export class CourseComponent implements OnInit {
         this.isSeatAvailable = true;
       }
     }
+
+    // if(state == 'outside'){
+    //   console.log("outside");
+    //   this.getUsersInCourse(id);
+    // }
     
     this.selectedUserLists = [];
     this.selectedUserId = [];
@@ -441,6 +503,7 @@ export class CourseComponent implements OnInit {
   cancelModal(){
     this.modalReference.close();
     this.isSeatAvailable = true;
+    this.showList = false;
   }
 
   getAllUsers(type){
@@ -471,6 +534,7 @@ export class CourseComponent implements OnInit {
       console.log(res);
       if(state == 'search'){
         this.isFous = false;
+        this.showList = false;
         this.selectedUserLists.push(res);
         console.log(this.detailLists.seat_left)
         console.log(this.selectedUserLists.length)
@@ -493,8 +557,8 @@ export class CourseComponent implements OnInit {
     console.log(e)
     console.log(userType)
     this.isFous = true;
-    // this.userLists = [];
-    this.getAllUsers(userType);
+    this.userLists = [];
+    // this.getAllUsers(userType);
   }
 
   hideFocus(e){
@@ -509,16 +573,70 @@ export class CourseComponent implements OnInit {
     console.log(searchWord)
     let locationId = this.detailLists.locationId;
     if(searchWord.length != 0){
-        this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
-        .subscribe((res:any) => {
-          console.log(res);
-          this.userLists = res;
-        }, err => {  
-          console.log(err);
-        });
+        this.showList = true;
+        // this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
+        // .subscribe((res:any) => {
+        //   console.log(res);
+        //   this.userLists = res;
+        // }, err => {  
+        //   console.log(err);
+        // });
+
+        var selectedIdArr=[];
+        var pplListArr = [];
+        var pplArr = [];
+        // pplArr = this.pplLists.CUSTOMER;
+        // pplArr = this.pplLists.STAFF
+        
+        switch(userType){
+          case 'customer':
+            pplArr = this.pplLists.CUSTOMER;
+            console.log("customer pplArr",pplArr)
+            break;
+          case 'staff':
+            // pplArr = this.pplLists.TEACHER;
+            for(var i in this.pplLists.TEACHER){
+              let ppl = this.pplLists.TEACHER[i];
+              pplArr.push(ppl);
+            }
+            for(var j in this.pplLists.STAFF){
+              let ppl = this.pplLists.STAFF[j];
+              pplArr.push(ppl);
+            }
+            console.log("staff pplArr",pplArr)
+        }
+
+          if(pplArr.length > 0){
+              console.log("to send userIds PPLs");
+              for(let y in pplArr){
+                let id = pplArr[y].userId;
+                pplListArr.push(id)
+              }
+              console.log('pplListArr',pplListArr)
+              var pplListStr = pplListArr.toString();
+              console.log("pplListsStr",pplListStr);
+              
+              this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, pplListStr)
+              .subscribe((res:any) => {
+                console.log(res);
+                this.userLists = res;
+              }, err => {  
+                console.log(err);
+              });
+          }else{
+          console.log("not send");
+          this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, '')
+          .subscribe((res:any) => {
+            console.log(res);
+            this.userLists = res;
+          }, err => {  
+            console.log(err);
+          });
+        }
     }else if(searchWord.length == 0){
       this.userLists = [];
-      this.getAllUsers(userType);
+      this.showList = false;
+      // this.getAllUsers(userType);
     }
   }
 
@@ -592,6 +710,8 @@ export class CourseComponent implements OnInit {
   changeRoute(){
     this.isCategory = true;
     this.goBackCat = false;
+    localStorage.removeItem("cpCategory");
+    localStorage.removeItem("editCPId");
     // console.log("Change Route")
     // localStorage.removeItem('coursePlanId');
     // localStorage.removeItem('courseId');

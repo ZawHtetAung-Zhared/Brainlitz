@@ -1,5 +1,5 @@
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
-<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate" [ngClass]="{'active': isSticky == true}">
+<div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate && !isCoursePlanDetail" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
   <div *ngIf="coursePermission.length > 0" class="card-container">
     <div class="d-flex flex-row title">
@@ -21,7 +21,7 @@
                 #{{ courseGroup.coursePlan.category.name }}
               </label>
             </div>
-            <h5 class="medium-font">{{ courseGroup.coursePlan.name }}</h5>
+            <h5 (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)" class="medium-font cursor-on">{{ courseGroup.coursePlan.name }}</h5>
             <div class="d-flex header-info light-font">
               <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} seats</label>
               <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats==null">unlimited seats</label>
@@ -101,7 +101,7 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0" class="d-flex justify-content-center load-more">
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0 && isCoursePlanDetail != true" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(courseList.length)">load more</button>
 </div>
 
@@ -115,7 +115,7 @@
       <i class="fa fa-angle-left"></i>
       <p>Courses</p>
     </div>
-    <!-- <button class="btn edit-course-btn" (click)="goToConflict(currentCourse)">Edit course</button> -->
+    <button class="btn edit-course-btn" (click)="goToConflict(currentCourse)">Edit course</button>
   </div>
   <div>
     <div class="d-flex flex-row row">
@@ -180,7 +180,7 @@
       <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
         <div class="cdetail">
           <p>Lesson count</p>
-          <h5 *ngIf="detailLists.lessonCount == null">-</h5>
+          <h5 *ngIf="detailLists.lessonCount == null">{{detailLists.actualLessonCount}}</h5>
           <h5 *ngIf="detailLists.lessonCount != null">{{ detailLists.lessonCount }} Lessons</h5>
         </div>
       </div>
@@ -202,7 +202,7 @@
       <div class="d-flex c-border">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
         <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class')">Class</button>
-        <!-- <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button> -->
+        <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">
         <div class="activeTab-header d-flex justify-content-center align-items-center">         
@@ -319,7 +319,41 @@
           </div>
         </div>
       </div>
+      <div class="activeTab-content" *ngIf="activeTab == 'APG'">  
+        <div class="detail-info">
+          <label>Progress</label>
+          <h4>Piano Grade 1</h4>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3" *ngFor="let apg of apgLists">
+            <div class="single-progress d-flex flex-column">
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <h4>{{apg.preferredName}}</h4>
+                <div class="std-img-wrap">
+                  <img src="{{apg.profilePic}}">
+                </div>
+              </div>
+              <div class="progress-wrap">
+                <div class="bar">
+                  <div class="show-progress"></div>
+                </div>
+                {{apg.score}} accomplished
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="inner-wrapper" *ngIf="isCoursePlanDetail == true">
+  <div class="back-wrap d-flex justify-content-between">
+    <div class="back-to" (click)="cancel()">
+      <i class="fa fa-angle-left"></i>
+      <p>Courses</p>
+    </div>
+    <button class="btn edit-course-btn" (click)="goToCoursePlan(editplanId)">Edit course plan</button>
   </div>
 </div>
 
@@ -416,7 +450,7 @@
           </button>
         </span>
       </div>
-      <div class="user-list-box" *ngIf="isFous == true">
+      <div class="user-list-box" *ngIf="showList == true">
         <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
           <div class="img-wrap">
             <img src="{{user.profilePic}}">

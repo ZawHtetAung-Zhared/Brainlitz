@@ -131,6 +131,10 @@ export class appService{
       this.getpermissionList.next(data)
     }
 
+    dataParsing(data){
+      this.sendParentToChild.next(data); 
+    }
+
     getToken(){
       console.log('start...')
       this.tempToken = localStorage.getItem('code');
@@ -488,7 +492,13 @@ export class appService{
       }) 
     }
 
-    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number){
+    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number, selected:any){
+      console.log('selected',selected);
+      // if(selected != ""){
+      //   let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&nin=' + selected + '&limit=' + limit + '&skip=' + skip;
+      // }else{
+      //   let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
+      // }
       let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
       // let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
       const httpOptions = {
@@ -695,6 +705,21 @@ export class appService{
       })
     } 
 
+    getSinglePlan(planID: string, locationId: string){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/courseplan/' + planID + '?locationId=' + locationId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {    
+          return res;
+      })
+    }
+
     deleteCoursePlan(id){
       console.log(id)
       let apiUrl = this.baseUrl  + '/courseplan/' + id;
@@ -707,6 +732,34 @@ export class appService{
       .map((res:Response) => {
         let result = res; 
         console.log(result)
+        return result;
+      })
+    }
+
+    // getSignlecPlan(id:string){
+    //   let apiUrl = this.baseUrl + '/courseplan/' + id;
+    //   const httpOptions = {
+    //       headers: new HttpHeaders({ 
+    //         'Content-Type': 'application/json', 
+    //         'authorization': this.tokenType + ' ' + this.accessToken})
+    //   };
+    //   return this.httpClient.get(apiUrl, httpOptions)
+    //   .map((res:Response) => {
+    //     let result = res; 
+    //     return result;
+    //   })
+    // }
+
+    updateSignlecPlan(id:string, data: object, locationId:string){
+      let apiUrl = this.baseUrl + '/courseplan/' + id + '?locationId=' + locationId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
         return result;
       })
     }
@@ -1012,21 +1065,19 @@ export class appService{
 
     getSingleCourse(id:string, locationid:string): Observable<any>{
       this.getLocalstorage();
-      console.log(id);
       let apiUrl = this.baseUrl + '/course/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(apiUrl, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        console.log(result)
-        return result;
+      .map((res:Response) => { 
+        return res;
       })
     }
 
     updateCourse(id, body,locationid){
+      console.log('body obj',body)
       let apiUrl = this.baseUrl + '/course/' + id + '?locationId=' + locationid;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -1092,9 +1143,7 @@ export class appService{
         })
     }
 
-    getAssignUser(regionid, courseid, date, month, year){
-      console.log('app service', regionid)
-      console.log('app service', courseid)
+    getAssignUser(regionid, courseid, date, month, year){      
       let url;
       if(date == null && month == null && year == null){
         url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid;
@@ -1107,10 +1156,20 @@ export class appService{
           'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.get(url, httpOptions)
-      .map((res:Response) => {
-        let result = res;
-        console.log(result);        
-        return result;
+      .map((res:Response) => {        
+        return res;
+      }) 
+    }
+
+    getAssessment(regionid, courseid, assessment){      
+      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid + '?assessment=' + assessment;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {        
+        return res;
       }) 
     }
 
@@ -1142,34 +1201,6 @@ export class appService{
         console.log(result);        
         return result;
       }) 
-    }
-
-    getSignlecPlan(id:string){
-      let apiUrl = this.baseUrl + '/courseplan/' + id;
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.get(apiUrl, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        return result;
-      })
-    }
-
-    updateSignlecPlan(id:string, data: object){
-      let apiUrl = this.baseUrl + '/courseplan/' + id;
-      const httpOptions = {
-          headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
-            'authorization': this.tokenType + ' ' + this.accessToken})
-      };
-      return this.httpClient.put(apiUrl, data, httpOptions)
-      .map((res:Response) => {
-        let result = res; 
-        return result;
-      })
     }
 
     getAllPdf(regionId, locationid:string, limit: number, skip: number){
@@ -1391,9 +1422,13 @@ export class appService{
       })
     }
 
-    getSearchApg(regionID: string, keyword: string, type: string, nin, limit:number,skip:number){
+    getSearchApg(regionID: string, keyword: string, type: string, selectedStr:string, limit:number,skip:number){
       let apiUrl;
-      if(nin == ''){
+      console.log("keyword",keyword);
+      console.log("selected str",selectedStr);
+      if(selectedStr != ''){
+        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+      }else{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
       const httpOptions = {

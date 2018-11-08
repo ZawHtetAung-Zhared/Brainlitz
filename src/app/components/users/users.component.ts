@@ -26,7 +26,9 @@ declare var $:any;
 })
 export class UsersComponent implements OnInit {
 
-	@ViewChild('stuffPic') stuffPic: ElementRef;		
+	@ViewChild('stuffPic') stuffPic: ElementRef;	
+	userid:any;
+	acResult:any;	
 	public hideMenu: boolean = false;
 	public img: any;
 	public ulFile: any;
@@ -723,17 +725,17 @@ export class UsersComponent implements OnInit {
 		this.usertype = userType;
 		console.log('hi hello');
 		if(skip == '' && limit == ''){
-			console.log("First time search")
 			var isFirst = true;
 			limit = 20;
 			skip = 0;
 		}
-		
+		this.customerLists = [];
 		if(searchWord.length != 0){
 			this.isSearch = true;
 			console.log(userType)
-			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip)
-	        .subscribe((res:any) => {
+
+			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
+		    .subscribe((res:any) => {
 				console.log(res);
 				this.result = res;
 				if(isFirst == true){
@@ -743,19 +745,21 @@ export class UsersComponent implements OnInit {
 				}else{
 					console.log("Not First time searching")
 					this.customerLists = this.customerLists.concat(res);
-				}	          
-	        }, err => {  
+				}	      
+	      	}, err => {  
 				console.log(err);
-	        });
-	    }else if(searchWord.length == 0){
+	      	});
+	  	}else{
 	    	console.log('zero', searchWord.length)
-	    	this.customerLists = [];
-	    	this.getAllUsers('customer',20,0);
-	    	this.isSearch = false;
-	    }
+	    	setTimeout(() => {
+	    		console.log('wait')
+	    		this.customerLists = [];
+	    		this.getAllUsers('customer',20,0);
+	    		this.isSearch = false;
+	    	}, 300);
+	  	}
 	}
-	userid:any;
-	acResult:any;
+	
 	changeSearch(searchWord, userId, limit, skip){
 		this.acWord = searchWord;
 		this.userid = userId;	

@@ -163,7 +163,7 @@ export class UserStaffComponent implements OnInit {
 
 		if(searchWord.length != 0){
 			this.isSearch = true;
-			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip)
+			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
 	        .subscribe((res:any) => {
 	          console.log(res);
 	          // this.staffLists = res;
@@ -180,9 +180,11 @@ export class UserStaffComponent implements OnInit {
 	          console.log(err);
 	        });
 	    }else{
-	    	this.staffLists = [];
-	    	this.getAllUsers('staff',20,0);
-	    	this.isSearch = false;
+	    	setTimeout(() => {
+		    	this.staffLists = [];
+		    	this.getAllUsers('staff',20,0);
+		    	this.isSearch = false;
+	    	}, 300);
 	    }
 	}
 
