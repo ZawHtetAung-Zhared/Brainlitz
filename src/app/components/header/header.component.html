@@ -11,12 +11,12 @@
     		</div> -->
         <label for="inputState" class="location-label m-0">Location</label>
         <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
-            <div (click)="locationDp()">
+            <div (click)="dropDown($event, 'loc')">
                 <div class="locbox">{{selectedLocation.name}}</div>
                 <i class="fa fa-chevron-down dropdown-arrow"></i>
                 <span class="caret"></span>
             </div>
-            <div>
+            <div *ngIf="locationDpShow">
               <ul class="location-dp">
                 <li class="test" *ngFor="let location of headerlocationLists" (click)="selectLocation(location)" [ngClass]="{'selected': selectedLocation.id == location._id}">
                 {{ location.name }}</li>
@@ -32,10 +32,10 @@
       </div>
     </div>
     <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
-        <div (click)="dropDown()">
+        <div (click)="dropDown($event, 'profile')">
           {{userName}} <i class="fa fa-chevron-down dropdown-arrow"></i>
         <span class="caret"></span></div>
-        <div>
+        <div *ngIf="dropMenuShow">
           <ul class="dropdown-box">
             <!-- <li>Profile</li> -->
             <li (click)="logoff()">Sign Out</li>

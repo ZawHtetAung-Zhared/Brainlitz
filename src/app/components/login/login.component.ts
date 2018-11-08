@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
     var end_index = str.lastIndexOf('/');
     var redirectURL = str.substr(0,end_index) + '/';
 
+    console.log(redirectURL)
     var start_pos = str.indexOf('//') + 2;
     var end_pos = str.indexOf('/#',start_pos);
     var storeLocal = str.substring(start_pos,end_pos)    

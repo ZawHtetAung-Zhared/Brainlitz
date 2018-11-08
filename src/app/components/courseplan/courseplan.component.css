@@ -1448,6 +1448,10 @@ ul.search-apg{
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 
+.pdLeft-15{
+  padding-left: 15px;
+}
+
 @media only screen and (max-width: 768px){
   .down-arrow1 {
     bottom: 45px;

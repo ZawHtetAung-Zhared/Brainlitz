@@ -1,3 +1,27 @@
+.progress-wrap{
+  color: #0080ff;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-size: 14px;
+  margin-top: 12px;
+}
+.bar{
+  background: #e3e4e6;
+  height: 6px;
+  border-radius: 50px;
+  margin-bottom: 8px;
+}
+.show-progress{
+  width: 50%;
+  background: #007fff;
+  height: inherit;
+  border-radius: 50px;
+}
+.single-progress {
+  background: #f2f4f5;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
 .location-name{
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
   color: #007bff;
@@ -420,6 +444,7 @@ li button{
 .modal-dfees h5,.modal-duration{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
+.single-progress h4,
 .back-to,
 .edit-course-btn,
 .course-time h5,
@@ -429,6 +454,7 @@ li button{
     font-size: 16px;
 }
 
+.single-progress h4,
 .cdetail h5,
 .course-time h5,
 .room-name,
@@ -1085,6 +1111,10 @@ button:disabled{
   color: #64707d;
   font-size: 28px;
   font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+}
+
+.cursor-on{
+  cursor: pointer;
 }
 
 /*For 1024px*/
