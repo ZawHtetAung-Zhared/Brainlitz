@@ -15,7 +15,7 @@ declare var $:any;
 })
 export class CourseComponent implements OnInit {
   iscourseSearch: boolean = false;
-  categoryLists: boolean = true;
+  categoryLists: any;
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
