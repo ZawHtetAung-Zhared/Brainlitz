@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
-import { cPlanField } from "../courseplan/courseplan";
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
@@ -7,18 +6,14 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { DOCUMENT } from "@angular/platform-browser";
-import { flatten } from '@angular/compiler';
 declare var $:any;
+
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
-
 export class CourseComponent implements OnInit {
-
-  gotoInvoice=true;
-  iscourseSearch: boolean = false;
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
@@ -70,10 +65,8 @@ export class CourseComponent implements OnInit {
   showList:boolean = false;
   
   public draft:boolean;
-  public selectedCustomer:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
-    
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {   
       console.log('goooo') 
@@ -116,7 +109,7 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
-  	
+    
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     setTimeout(() => {
@@ -190,6 +183,8 @@ export class CourseComponent implements OnInit {
       'STAFF': [{}],
     };
     this.userLists = [{}];
+    
+    
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -201,17 +196,6 @@ export class CourseComponent implements OnInit {
       this.showBtn = false;
     }
   }
-  //start course search
-
-  focusCourseSearch(e){
-    this.iscourseSearch = true;
-  }
-
-  hideCourseSearch(e){
-    this.iscourseSearch = false;
-  }
-
-  //end course search
 
   // start course detail
 
@@ -296,6 +280,7 @@ export class CourseComponent implements OnInit {
   getUsersInCourse(courseId){
     console.log('hi call course', courseId)
     // this.getCourseDetail(courseId);
+    this.courseId = courseId
     this.blockUI.start('Loading...'); 
     this._service.getAssignUser(this.regionId,courseId,null,null,null)
     .subscribe((res:any)=>{
@@ -498,12 +483,6 @@ export class CourseComponent implements OnInit {
     
   }
 
-  addCustomerModal(type, modal){
-    console.log("customer modal",type,modal);
-    this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
-    // this.getCourseDetail(id);
-  }
-
   withdrawUser(id){
     let userobj = {
       'courseId': this.courseId,
@@ -515,6 +494,7 @@ export class CourseComponent implements OnInit {
       console.log(res);
       this.toastr.success('User successfully withdrawled.');
       this.getUsersInCourse(this.courseId);
+      this.getCourseDetail(this.courseId)
     },err =>{
       this.toastr.error('Withdrawal user failed.');
       this.modalReference.close();
@@ -542,18 +522,13 @@ export class CourseComponent implements OnInit {
       })
   }
 
-  selectUser(state, id, type){
+  selectUser(state, id){
     console.log(this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log('hihi ~~')
-    if(type == 'customer'){
-      this.getSingleCustomer(id, state);
-    }else if(type == 'user'){
-      this.getSingleUser(id, state);
-    }
+    this.getSingleUser(id, state);
     this.formData = {};
   }
-
 
   getSingleUser(ID, state){
     this._service.editProfile(this.regionId, ID)
@@ -580,15 +555,6 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  getSingleCustomer(ID, state){
-    this._service.editProfile(this.regionId, ID)
-    .subscribe((res:any) => {
-      console.log('selected Customer',res);
-      this.selectedCustomer = res;
-      this.showList = false;
-    })
-  }
-
   focusMethod(e, userType){
     console.log(e)
     console.log(userType)
@@ -607,68 +573,67 @@ export class CourseComponent implements OnInit {
   changeMethod(searchWord, userType){
     console.log(this.detailLists.locationId)
     console.log(searchWord)
+    console.log(this.courseId)
     let locationId = this.detailLists.locationId;
     if(searchWord.length != 0){
         this.showList = true;
-        // this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
-        // .subscribe((res:any) => {
-        //   console.log(res);
-        //   this.userLists = res;
-        // }, err => {  
-        //   console.log(err);
-        // });
+        this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, this.courseId)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.userLists = res;
+        }, err => {  
+          console.log(err);
+        });
 
-        var selectedIdArr=[];
-        var pplListArr = [];
-        var pplArr = [];
-        // pplArr = this.pplLists.CUSTOMER;
-        // pplArr = this.pplLists.STAFF
+        // var selectedIdArr=[];
+        // var pplListArr = [];
+        // var pplArr = [];
         
-        switch(userType){
-          case 'customer':
-            pplArr = this.pplLists.CUSTOMER;
-            console.log("customer pplArr",pplArr)
-            break;
-          case 'staff':
-            // pplArr = this.pplLists.TEACHER;
-            for(var i in this.pplLists.TEACHER){
-              let ppl = this.pplLists.TEACHER[i];
-              pplArr.push(ppl);
-            }
-            for(var j in this.pplLists.STAFF){
-              let ppl = this.pplLists.STAFF[j];
-              pplArr.push(ppl);
-            }
-            console.log("staff pplArr",pplArr)
-        }
+        // switch(userType){
+        //   case 'customer':
+        //     pplArr = this.pplLists.CUSTOMER;
+        //     console.log("customer pplArr",pplArr)
+        //     break;
+        //   case 'staff':
+        //     // pplArr = this.pplLists.TEACHER;
+        //     for(var i in this.pplLists.TEACHER){
+        //       let ppl = this.pplLists.TEACHER[i];
+        //       pplArr.push(ppl);
+        //     }
+        //     for(var j in this.pplLists.STAFF){
+        //       let ppl = this.pplLists.STAFF[j];
+        //       pplArr.push(ppl);
+        //     }
+        //     console.log("staff pplArr",pplArr)
+        // }
 
-          if(pplArr.length > 0){
-              console.log("to send userIds PPLs");
-              for(let y in pplArr){
-                let id = pplArr[y].userId;
-                pplListArr.push(id)
-              }
-              console.log('pplListArr',pplListArr)
-              var pplListStr = pplListArr.toString();
-              console.log("pplListsStr",pplListStr);
+        //   if(pplArr.length > 0){
+        //       console.log("to send userIds PPLs");
+        //       for(let y in pplArr){
+        //         let id = pplArr[y].userId;
+        //         pplListArr.push(id)
+        //       }
+        //       console.log('pplListArr',pplListArr)
+        //       var pplListStr = pplListArr.toString();
+        //       console.log("pplListsStr",pplListStr);
               
-              this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, pplListStr)
-              .subscribe((res:any) => {
-                console.log(res);
-                this.userLists = res;
-              }, err => {  
-                console.log(err);
-              });
-          }else{
-          console.log("not send");
-          this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, '')
-          .subscribe((res:any) => {
-            console.log(res);
-            this.userLists = res;
-          }, err => {  
-            console.log(err);
-          });
-        }
+        //       this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, pplListStr)
+        //       .subscribe((res:any) => {
+        //         console.log(res);
+        //         this.userLists = res;
+        //       }, err => {  
+        //         console.log(err);
+        //       });
+        //   }else{
+        //   console.log("not send");
+        //   this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, '')
+        //   .subscribe((res:any) => {
+        //     console.log(res);
+        //     this.userLists = res;
+        //   }, err => {  
+        //     console.log(err);
+        //   });
+        // }
     }else if(searchWord.length == 0){
       this.userLists = [];
       this.showList = false;
@@ -709,17 +674,11 @@ export class CourseComponent implements OnInit {
     console.log(this.selectedUserId)
     this.selectedUserId = this.selectedUserId.toString();
   }
-  Invoice=false;
-  enrollUserToCourse1(){
-    this.gotoInvoice=false;
-    this.Invoice=true;
-  }
 
   enrollUserToCourse(courseId, userType){
     console.log('call from enrolluser', this.isvalidID)
-    this.gotoInvoice=false;
-    let type = userType;
-    type = (userType == 'staff') ? 'teacher' : 'customer'
+    // let type = userType;
+    // type = (userType == 'staff') ? 'teacher' : 'customer'
     this.getSelectedUserId();   
     let body = {
        'courseId': courseId,
@@ -734,6 +693,7 @@ export class CourseComponent implements OnInit {
          if(this.isvalidID == 'inside'){
            console.log('hi')
            // this.cancel();
+           this.getCourseDetail(courseId)
            this.getUsersInCourse(courseId);
          }else{
            console.log('else hi')
@@ -826,15 +786,15 @@ export class CourseComponent implements OnInit {
   D(data){ return (data<10? '0':'') + data};
 
   assignUser(course){
-  	console.log(course)
-  	this.router.navigate(['/assign']);
-  	let obj = {
-  		'courseid': course._id,
-  		'coursename': course.name,
-  		'coursecode': course.courseCode,
+    console.log(course)
+    this.router.navigate(['/assign']);
+    let obj = {
+      'courseid': course._id,
+      'coursename': course.name,
+      'coursecode': course.courseCode,
       'locationId': course.location.locationId
-  	}
-  	localStorage.setItem('courseObj',JSON.stringify(obj));
+    }
+    localStorage.setItem('courseObj',JSON.stringify(obj));
   }
 
   addNewCourse(plan){
@@ -853,5 +813,4 @@ export class CourseComponent implements OnInit {
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');
   }
-  
 }
