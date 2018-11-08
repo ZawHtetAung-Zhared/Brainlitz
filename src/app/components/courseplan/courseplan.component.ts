@@ -360,13 +360,14 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
+     console.log(formData)
     console.log(this.step2FormaData)
     let obj:any={};
     for(var i=0;i<this.optArr.length;i++){
       obj[this.optArr[i].name] = this.optArr[i].fees;
     }
     console.log("Obj",obj);
-
+    console.log('allow por',this.formField.paymentPolicy.allowProrated)
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -382,7 +383,8 @@ export class CourseplanComponent implements OnInit {
         "deposit": this.depositId,
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.allowProrated,
-        "miscFee": formData.miscFee
+        "miscFee": formData.miscFee,
+        "allowProrated": formData.allowProrated
       },
       "lesson": {
         "min": formData.minDuration,
@@ -1323,6 +1325,9 @@ export class CourseplanComponent implements OnInit {
         "fees": this.testObj.fees
       }
       console.log(data);
+      // if(testObj.name != '' && testObj.fees != ''){
+      //   this.optArr.push(data);
+      // }
       this.optArr.push(data);
       console.log(this.optArr)
       this.testObj.name = "";

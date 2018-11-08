@@ -8,7 +8,7 @@ export class cPlanField {
 		maxPassPerUser: ''
 	};
 	public paymentPolicy = {
-		allowProrated: '',
+		allowProrated: false,
 		courseFee: '',
 		proratedLessonFee: '',
 		miscFee: '',

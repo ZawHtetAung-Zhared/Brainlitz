@@ -196,7 +196,7 @@
 					</div>
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="input-title font-medium">Duration</label>
-						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi" (click)="dropDown(isEdit)">
+						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi" (click)="dropDown(isEdit)" [ngClass]="{'noCursor': isEdit== true}">
 							{{ model.duration }} min
 							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						</div>
@@ -215,7 +215,7 @@
 					<div>
 						<div>
 							<span *ngFor="let d of days">
-								<label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
+								<label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
 									<!-- <span><i class="fa fa-check"></i></span> -->
 									<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
 								    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
@@ -229,7 +229,7 @@
 				</div>
 				<div class="pad-b">
 					<label for="course_name" class="input-title font-medium">Teacher</label>
-				    <div class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown(isEdit)">
+				    <div [ngClass]="{'noCursor': isEdit== true}" class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown(isEdit)">
 						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
 						<div class="d-flex" *ngIf="selectedTeacher">
 							<span class="img-wrap"><img src="{{ selectedTeacher.profilePic || './assets/img/user.svg' }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
@@ -287,7 +287,7 @@
 							  (focus)="focusInputMethod($event, 'staff','assistant')"
 							  (focusout)="hideFocus($event,'assistant')"
 							  (input)="changeInputMethod($event.target.value)">
-							  <input *ngIf="isEdit == true" 
+						  	<input *ngIf="isEdit == true" [ngClass]="{'noCursor': isEdit== true}"
 							  class="form-control py-2 input-search-bg" 
 							  type="search" 
 							  autocomplete="off"
