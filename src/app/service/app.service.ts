@@ -492,7 +492,13 @@ export class appService{
       }) 
     }
 
-    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number){
+    getSearchUser(regionID: string, val: string,userType, limit: number, skip: number, selected:any){
+      console.log('selected',selected);
+      // if(selected != ""){
+      //   let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&nin=' + selected + '&limit=' + limit + '&skip=' + skip;
+      // }else{
+      //   let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
+      // }
       let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val + '&limit=' + limit + '&skip=' + skip;
       // let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
       const httpOptions = {
@@ -1155,6 +1161,18 @@ export class appService{
       }) 
     }
 
+    getAssessment(regionid, courseid, assessment){      
+      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid + '?assessment=' + assessment;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {        
+        return res;
+      }) 
+    }
+
     withdrawAssignUser(regionid,obj:any, locationid){
       console.log(regionid,obj);
       let apiUrl = this.baseUrl+ '/' + regionid + '/timetable?locationId=' + locationid;
@@ -1404,9 +1422,13 @@ export class appService{
       })
     }
 
-    getSearchApg(regionID: string, keyword: string, type: string, nin, limit:number,skip:number){
+    getSearchApg(regionID: string, keyword: string, type: string, selectedStr:string, limit:number,skip:number){
       let apiUrl;
-      if(nin == ''){
+      console.log("keyword",keyword);
+      console.log("selected str",selectedStr);
+      if(selectedStr != ''){
+        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+      }else{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
       const httpOptions = {

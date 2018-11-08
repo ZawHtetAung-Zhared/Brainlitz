@@ -8,7 +8,7 @@ export class cPlanField {
 		maxPassPerUser: ''
 	};
 	public paymentPolicy = {
-		allowProrated: '',
+		allowProrated: false,
 		courseFee: '',
 		proratedLessonFee: '',
 		miscFee: '',
@@ -31,6 +31,7 @@ export class cPlanField {
 	public holidayCalendarName: string;
 	public depositAmount:any;
 	public courseFeeOptions:any = {};
+	public searchText:string;
 }
 
 export class apgForm {

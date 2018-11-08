@@ -360,13 +360,14 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
+     console.log(formData)
     console.log(this.step2FormaData)
     let obj:any={};
     for(var i=0;i<this.optArr.length;i++){
       obj[this.optArr[i].name] = this.optArr[i].fees;
     }
     console.log("Obj",obj);
-
+    console.log('allow por',this.formField.paymentPolicy.allowProrated)
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
@@ -382,7 +383,8 @@ export class CourseplanComponent implements OnInit {
         "deposit": this.depositId,
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.allowProrated,
-        "miscFee": formData.miscFee
+        "miscFee": formData.miscFee,
+        "allowProrated": formData.allowProrated
       },
       "lesson": {
         "min": formData.minDuration,
@@ -626,7 +628,8 @@ export class CourseplanComponent implements OnInit {
 
   focusSearch(e){
     this.isfocus = true;
-    this.showfixedcreate = true
+    this.showfixedcreate = true;
+    this.apgList = [];
   }
 
   hideSearch(e){
@@ -638,10 +641,11 @@ export class CourseplanComponent implements OnInit {
 
   changeSearch(keyword,type){
     console.log(keyword)
-    this.getApgSearch(keyword, 'apg');
     if(keyword == 0){
       this.apgList = [];
-      this.getAllAPG(20, 0)
+      // this.getAllAPG(20, 0)
+    }else{
+      this.getApgSearch(keyword, 'apg');
     }
   }
 
@@ -652,7 +656,6 @@ export class CourseplanComponent implements OnInit {
     this.selectedAPGlists = true;
     this.isfocus = false;
     this.showfixedcreate = false;
-
     // const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
     // if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
     // else this.createdAPGstore.push(this.clickedItem);
@@ -673,7 +676,8 @@ export class CourseplanComponent implements OnInit {
       console.log('editapg' ,res) 
       this.clickedItem = res; 
       this.createdAPGstore.push(this.clickedItem); 
-      console.log("selectedAPGList",this.createdAPGstore);  
+      console.log("selectedAPGList",this.createdAPGstore); 
+      this.formField.searchText = "";
     }, err => {
       this.blockUI.stop();
       console.log(err)
@@ -689,20 +693,41 @@ export class CourseplanComponent implements OnInit {
       //   console.log(err);
       // });
       console.log("search APG",this.regionID,keyword,type);
-      this._service.getSearchApg(this.regionID, keyword, type, '', 20,  0)
-      .subscribe((res:any) => {
-        console.log("apg result",res);
-        this.apgList = res;
-        console.log("APG List",this.apgList);
-        // if(type == 'apg'){
-        //   this.apgList = res;
-        //   console.log("APG list",this.apgList)
-        // }else{
-        //   this.templateList = res;
-        // }
-      }, err => {  
-        console.log(err);
-      });
+      if(this.createdAPGstore.length > 0){
+        var selectedIdArr = [];
+        var selectedIdStr;
+        for(var i in this.createdAPGstore){
+          var id = this.createdAPGstore[i]._id;
+          selectedIdArr.push(id);
+        }
+        console.log("selectedId Array",selectedIdArr);
+        selectedIdStr = selectedIdArr.toString();
+        console.log('selectedIdStr',selectedIdStr);
+
+        this._service.getSearchApg(this.regionID, keyword, type, selectedIdStr, 20,  0)
+        .subscribe((res:any) => {
+          console.log("apg result",res);
+          this.apgList = res;
+          console.log("APG List",this.apgList);
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        this._service.getSearchApg(this.regionID, keyword, type, '', 20,  0)
+        .subscribe((res:any) => {
+          console.log("apg result",res);
+          this.apgList = res;
+          console.log("APG List",this.apgList);
+          // if(type == 'apg'){
+          //   this.apgList = res;
+          //   console.log("APG list",this.apgList)
+          // }else{
+          //   this.templateList = res;
+          // }
+        }, err => {  
+          console.log(err);
+        });
+      }
   }
 
   getAllAPG(skip,limit){
@@ -962,9 +987,9 @@ export class CourseplanComponent implements OnInit {
 
   showFocus(e, type){
     console.log(type)
-    if (type == 'optionFee'){
-      this.optionFee = true;
-    }
+    // if (type == 'optionFee'){
+    //   this.optionFee = true;
+    // }
   }
 
   hideFocus(e, type){
@@ -1300,10 +1325,20 @@ export class CourseplanComponent implements OnInit {
         "fees": this.testObj.fees
       }
       console.log(data);
-      this.optArr.push(data);
-      console.log(this.optArr)
-      this.testObj.name = "";
-      this.testObj.fees = ""; 
+      if(data.name != undefined && data.fees != undefined && data.name != '' && data.fees != ''){
+        this.optArr.push(data);
+        console.log(this.optArr)
+        this.testObj.name = "";
+        this.testObj.fees = ""; 
+      }
+
+      if(data.name == undefined || data.name == ''){
+        this.toastr.error('Course fee option name is empty');
+      }else if(data.fees == undefined || data.fees == ''){
+        this.toastr.error('Course fee option value is empty');
+      }else if(data.name == undefined && data.fees == undefined){
+        this.toastr.error('Please insert data to create course fee option');
+      }
     }
 
     removeOpt(opt){

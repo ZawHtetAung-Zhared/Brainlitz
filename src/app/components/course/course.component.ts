@@ -16,7 +16,10 @@ declare var $:any;
 })
 
 export class CourseComponent implements OnInit {
+
   gotoInvoice=true;
+  iscourseSearch: boolean = false;
+  categoryLists: any;
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
@@ -32,7 +35,7 @@ export class CourseComponent implements OnInit {
   isCoursePlanDetail:boolean = false;
   singlePlanData:any = {};
   public formData:any = {};
-  public userLists:any = {};
+  public userLists:any = [];
   public detailLists:any = {};
   public activeCourseInfo:any = {};
   public LASD:any; //lastActiceStartDate
@@ -51,6 +54,7 @@ export class CourseComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public pplLists:any;
+  public apgLists:any;
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
@@ -64,8 +68,10 @@ export class CourseComponent implements OnInit {
   public courseDemo:any = [];
   public editplanId:any;
   public planCategory:any;
+  showList:boolean = false;
   
   public draft:boolean;
+  public selectedCustomer:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     
@@ -185,8 +191,6 @@ export class CourseComponent implements OnInit {
       'STAFF': [{}],
     };
     this.userLists = [{}];
-    
-    
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -198,6 +202,23 @@ export class CourseComponent implements OnInit {
       this.showBtn = false;
     }
   }
+  //start course search
+
+  focusCourseSearch(e){
+    this.iscourseSearch = true;
+    this.getAllCategory(20, 0);
+  }
+
+  getAllCategory(limit, skip){
+    this._service.getCategory(this.regionId, limit, skip)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.categoryLists = res;
+    },err => {
+      console.log(err);
+    })
+  }
+  //end course search
 
   // start course detail
 
@@ -385,6 +406,18 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop();
         console.log(err);
       });
+    }else if(type == 'APG'){
+      this._service.getAssessment(this.regionId,this.currentCourse,true)
+      .subscribe((res:any)=>{
+        console.log(res)
+        this.apgLists = res;
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      });
+      this.noStudent = 0;
+      this.presentStudent = 0;
+      this.absentStudent = 0;
     }else{
       this.noStudent = 0;
       this.presentStudent = 0;
@@ -435,12 +468,21 @@ export class CourseComponent implements OnInit {
 
   addUserModal(type, userModal, state, id){
     console.log('====', state)
+    
     this.isvalidID = state;
-    if(state != 'inside' || this.detailLists.seat_left == null){
+    if(state != 'inside'){
+       console.log("state",state)
       console.log('has courseID', id)
       this.isSeatAvailable = true;
       this.getCourseDetail(id);
+      this.getUsersInCourse(id);
+    }else if(this.detailLists.seat_left == null){
+      console.log("detailLists.seat_left",this.detailLists.seat_left)
+      console.log('has courseID', id)
+      this.isSeatAvailable = true;
+      // this.getCourseDetail(id);
     }else{
+      console.log("state",state)
       console.log('no courseID', this.detailLists.seat_left)
       if(this.detailLists.seat_left == 0){
         this.isSeatAvailable = false;
@@ -448,6 +490,11 @@ export class CourseComponent implements OnInit {
         this.isSeatAvailable = true;
       }
     }
+
+    // if(state == 'outside'){
+    //   console.log("outside");
+    //   this.getUsersInCourse(id);
+    // }
     
     this.selectedUserLists = [];
     this.selectedUserId = [];
@@ -456,6 +503,12 @@ export class CourseComponent implements OnInit {
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     
+  }
+
+  addCustomerModal(type, modal){
+    console.log("customer modal",type,modal);
+    this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+    // this.getCourseDetail(id);
   }
 
   withdrawUser(id){
@@ -479,6 +532,7 @@ export class CourseComponent implements OnInit {
   cancelModal(){
     this.modalReference.close();
     this.isSeatAvailable = true;
+    this.showList = false;
   }
 
   getAllUsers(type){
@@ -495,13 +549,18 @@ export class CourseComponent implements OnInit {
       })
   }
 
-  selectUser(state, id){
+  selectUser(state, id, type){
     console.log(this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log('hihi ~~')
-    this.getSingleUser(id, state);
+    if(type == 'customer'){
+      this.getSingleCustomer(id, state);
+    }else if(type == 'user'){
+      this.getSingleUser(id, state);
+    }
     this.formData = {};
   }
+
 
   getSingleUser(ID, state){
     this._service.editProfile(this.regionId, ID)
@@ -509,6 +568,7 @@ export class CourseComponent implements OnInit {
       console.log(res);
       if(state == 'search'){
         this.isFous = false;
+        this.showList = false;
         this.selectedUserLists.push(res);
         console.log(this.detailLists.seat_left)
         console.log(this.selectedUserLists.length)
@@ -527,12 +587,21 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  getSingleCustomer(ID, state){
+    this._service.editProfile(this.regionId, ID)
+    .subscribe((res:any) => {
+      console.log('selected Customer',res);
+      this.selectedCustomer = res;
+      this.showList = false;
+    })
+  }
+
   focusMethod(e, userType){
     console.log(e)
     console.log(userType)
     this.isFous = true;
-    // this.userLists = [];
-    this.getAllUsers(userType);
+    this.userLists = [];
+    // this.getAllUsers(userType);
   }
 
   hideFocus(e){
@@ -547,16 +616,70 @@ export class CourseComponent implements OnInit {
     console.log(searchWord)
     let locationId = this.detailLists.locationId;
     if(searchWord.length != 0){
-        this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
-        .subscribe((res:any) => {
-          console.log(res);
-          this.userLists = res;
-        }, err => {  
-          console.log(err);
-        });
+        this.showList = true;
+        // this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0)
+        // .subscribe((res:any) => {
+        //   console.log(res);
+        //   this.userLists = res;
+        // }, err => {  
+        //   console.log(err);
+        // });
+
+        var selectedIdArr=[];
+        var pplListArr = [];
+        var pplArr = [];
+        // pplArr = this.pplLists.CUSTOMER;
+        // pplArr = this.pplLists.STAFF
+        
+        switch(userType){
+          case 'customer':
+            pplArr = this.pplLists.CUSTOMER;
+            console.log("customer pplArr",pplArr)
+            break;
+          case 'staff':
+            // pplArr = this.pplLists.TEACHER;
+            for(var i in this.pplLists.TEACHER){
+              let ppl = this.pplLists.TEACHER[i];
+              pplArr.push(ppl);
+            }
+            for(var j in this.pplLists.STAFF){
+              let ppl = this.pplLists.STAFF[j];
+              pplArr.push(ppl);
+            }
+            console.log("staff pplArr",pplArr)
+        }
+
+          if(pplArr.length > 0){
+              console.log("to send userIds PPLs");
+              for(let y in pplArr){
+                let id = pplArr[y].userId;
+                pplListArr.push(id)
+              }
+              console.log('pplListArr',pplListArr)
+              var pplListStr = pplListArr.toString();
+              console.log("pplListsStr",pplListStr);
+              
+              this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, pplListStr)
+              .subscribe((res:any) => {
+                console.log(res);
+                this.userLists = res;
+              }, err => {  
+                console.log(err);
+              });
+          }else{
+          console.log("not send");
+          this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, '')
+          .subscribe((res:any) => {
+            console.log(res);
+            this.userLists = res;
+          }, err => {  
+            console.log(err);
+          });
+        }
     }else if(searchWord.length == 0){
       this.userLists = [];
-      this.getAllUsers(userType);
+      this.showList = false;
+      // this.getAllUsers(userType);
     }
   }
 

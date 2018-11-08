@@ -1081,3 +1081,6 @@ button:disabled {
 .disabled-input{
   cursor: not-allowed;
 }
+.noCursor{
+  cursor: no-drop;
+}

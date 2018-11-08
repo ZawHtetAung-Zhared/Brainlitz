@@ -734,13 +734,45 @@ export class CoursecreateComponent implements OnInit {
     if(searchWord == ''){
       console.log("NULL")
     }else{
-      this._service.getSearchUser(this.regionID, searchWord, 'staff', 20 ,0)
-      .subscribe((res:any) => {
-        console.log(res);
-        this.userLists = res;
-      }, err => {  
-        console.log(err);
-      });
+      var pplArr = [];
+      var pplListArr = [];
+      if(this.selectedTeacher){
+        pplArr.push(this.selectedTeacher);
+      }
+      if(this.selectedUserLists.length > 0){
+        for(var i in this.selectedUserLists){
+          pplArr.push(this.selectedUserLists[i]);
+        }
+      }
+      console.log("pplArr",pplArr)
+
+      if(pplArr.length>0){
+        console.log("to send userIds PPLs");
+        for(let y in pplArr){
+          let id = pplArr[y].userId;
+          pplListArr.push(id)
+        }
+        console.log('pplListArr',pplListArr)
+        var pplListStr = pplListArr.toString();
+        console.log("pplListsStr",pplListStr);
+
+        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20 ,0, pplListStr)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.userLists = res;
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        console.log("not send");
+        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20 ,0, '')
+        .subscribe((res:any) => {
+          console.log(res);
+          this.userLists = res;
+        }, err => {  
+          console.log(err);
+        });
+      }
     }
   }
 
