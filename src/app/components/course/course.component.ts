@@ -14,6 +14,8 @@ declare var $:any;
   styleUrls: ['./course.component.css']
 })
 export class CourseComponent implements OnInit {
+  iscourseSearch: boolean = false;
+  categoryLists: boolean = true;
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
@@ -183,8 +185,6 @@ export class CourseComponent implements OnInit {
       'STAFF': [{}],
     };
     this.userLists = [{}];
-    
-    
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -196,6 +196,23 @@ export class CourseComponent implements OnInit {
       this.showBtn = false;
     }
   }
+  //start course search
+
+  focusCourseSearch(e){
+    this.iscourseSearch = true;
+    this.getAllCategory(20, 0);
+  }
+
+  getAllCategory(limit, skip){
+    this._service.getCategory(this.regionId, limit, skip)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.categoryLists = res;
+    },err => {
+      console.log(err);
+    })
+  }
+  //end course search
 
   // start course detail
 

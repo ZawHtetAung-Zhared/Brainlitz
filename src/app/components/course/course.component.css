@@ -1,3 +1,19 @@
+.course-search-wrap{
+  position: relative;
+}
+.course-search-down{
+  background: #f2f4f5;
+  padding: 10px;
+  border-radius: 0 4px 4px 0;
+}
+.course-search-view{
+  position: absolute;
+  top: 47px;
+  z-index: 99;
+  background: #fff;
+  width: 100%;
+  padding: 10px;
+}
 .progress-wrap{
   color: #0080ff;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
