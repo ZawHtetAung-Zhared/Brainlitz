@@ -65,6 +65,7 @@ export class CourseComponent implements OnInit {
   showList:boolean = false;
   
   public draft:boolean;
+  public selectedCustomer:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -482,6 +483,12 @@ export class CourseComponent implements OnInit {
     
   }
 
+  addCustomerModal(type, modal){
+    console.log("customer modal",type,modal);
+    this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+    // this.getCourseDetail(id);
+  }
+
   withdrawUser(id){
     let userobj = {
       'courseId': this.courseId,
@@ -520,13 +527,18 @@ export class CourseComponent implements OnInit {
       })
   }
 
-  selectUser(state, id){
+  selectUser(state, id, type){
     console.log(this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log('hihi ~~')
-    this.getSingleUser(id, state);
+    if(type == 'customer'){
+      this.getSingleCustomer(id, state);
+    }else if(type == 'user'){
+      this.getSingleUser(id, state);
+    }
     this.formData = {};
   }
+
 
   getSingleUser(ID, state){
     this._service.editProfile(this.regionId, ID)
@@ -551,6 +563,15 @@ export class CourseComponent implements OnInit {
     }, err => {  
       console.log(err);
     });
+  }
+
+  getSingleCustomer(ID, state){
+    this._service.editProfile(this.regionId, ID)
+    .subscribe((res:any) => {
+      console.log('selected Customer',res);
+      this.selectedCustomer = res;
+      this.showList = false;
+    })
   }
 
   focusMethod(e, userType){

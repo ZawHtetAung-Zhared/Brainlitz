@@ -708,13 +708,17 @@ label.room-name::before {
   width: 48px;
   height: 48px;
 }
+.user-img-wrap{
+  width: 60px;
+  height: 60px;
+}
 .std-img-wrap{
   width: 40px;
   height: 40px;
   border: 1px solid #fff;
 }
 .std-img-wrap,
-.img-wrap{
+.img-wrap,.user-img-wrap{
   display: inline-block;
   position: relative;
   overflow: hidden;
@@ -722,7 +726,8 @@ label.room-name::before {
   background: #ddd;
 }
 .img-wrap img,
-.std-img-wrap img{
+.std-img-wrap img,
+.user-img-wrap img{
   width: 100%;
   height: 100%;
   object-fit: contain
@@ -1116,6 +1121,11 @@ button:disabled{
 .cursor-on{
   cursor: pointer;
 }
+
+/*.user-imgwrap{
+  width: 60px;
+  height: 60px;
+}*/
 
 /*For 1024px*/
 @media (max-width: 575px) { 
