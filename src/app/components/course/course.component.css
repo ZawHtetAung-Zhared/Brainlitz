@@ -1,3 +1,15 @@
+.logo-wrap{
+  height: 50px;
+  width: auto;
+}
+
+.img-fluid{
+  height: 57px;
+}
+
+.payment{
+  background:#f2f4f5;
+}
 .progress-wrap{
   color: #0080ff;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;

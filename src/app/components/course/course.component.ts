@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
+import { cPlanField } from "../courseplan/courseplan";
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
@@ -6,14 +7,16 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { DOCUMENT } from "@angular/platform-browser";
+import { flatten } from '@angular/compiler';
 declare var $:any;
-
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
+
 export class CourseComponent implements OnInit {
+  gotoInvoice=true;
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
@@ -65,6 +68,7 @@ export class CourseComponent implements OnInit {
   public draft:boolean;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
+    
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {   
       console.log('goooo') 
@@ -589,11 +593,17 @@ export class CourseComponent implements OnInit {
     console.log(this.selectedUserId)
     this.selectedUserId = this.selectedUserId.toString();
   }
+  Invoice=false;
+  enrollUserToCourse1(){
+    this.gotoInvoice=false;
+    this.Invoice=true;
+  }
 
   enrollUserToCourse(courseId, userType){
     console.log('call from enrolluser', this.isvalidID)
-    // let type = userType;
-    // type = (userType == 'staff') ? 'teacher' : 'customer'
+    this.gotoInvoice=false;
+    let type = userType;
+    type = (userType == 'staff') ? 'teacher' : 'customer'
     this.getSelectedUserId();   
     let body = {
        'courseId': courseId,
@@ -727,4 +737,5 @@ export class CourseComponent implements OnInit {
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');
   }
+  
 }

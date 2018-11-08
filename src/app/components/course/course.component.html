@@ -21,7 +21,7 @@
                 #{{ courseGroup.coursePlan.category.name }}
               </label>
             </div>
-            <h5 (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)" class="medium-font cursor-on">{{ courseGroup.coursePlan.name }}</h5>
+            <h5 (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)" class="medium-font cursor-on">  </h5>
             <div class="d-flex header-info light-font">
               <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} seats</label>
               <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats==null">unlimited seats</label>
@@ -117,10 +117,11 @@
     </div>
     <button class="btn edit-course-btn" (click)="goToConflict(currentCourse)">Edit course</button>
   </div>
-  <div>
+  <div >
     <div class="d-flex flex-row row">
-      <div class="col-md-5 detail-info">
-        <label>Plan name</label>        
+      <div class="col-md-5 detail-info" >
+          <!-- *ngFor="let courseGroup of courseList" -->
+        <label>{{detailLists.name }}</label>        
         <h4>{{detailLists.name}}
         <span>{{detailLists.courseCode}}</span></h4>        
         <p>{{detailLists.description}}</p>
@@ -371,7 +372,7 @@
 </ng-template>
 
 <ng-template #userModal let-c="close" let-d="dismiss">
-  <div class="d-flex modal-header">
+  <div class="d-flex modal-header" *ngIf="gotoInvoice" >
     <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">Add teacher</h3>
     <h3 *ngIf="userType == 'customer'" class="modal-title d-flex mr-auto">Add customer</h3>
     <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
@@ -382,8 +383,8 @@
       <!-- <span aria-hidden="true" >×</span> -->
     </button>
   </div>
-  <form novalidate #cfees="ngForm">
-  <div class="modal-body confirm-text">
+  <form novalidate #cfees="ngForm" *ngIf="gotoInvoice" >
+  <div class="modal-body confirm-text"  >
     <div class="d-flex">
       <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
         <h5 class="mt-03">
@@ -486,7 +487,7 @@
             <img src="assets/images/add-customer-illustration@2x.png">
           </div>
         </div>
-        <div class="d-flex col-md-6">
+        <div class="d-flex col-md-6"> 
           <div class="txt-default">
             <h3 *ngIf="userType == 'staff'">Add Teacher to this Course</h3>
             <h3 *ngIf="userType == 'customer'">Add Customer to this Course</h3>
@@ -501,8 +502,51 @@
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
-      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
+      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse1(courseId, userType)">Confirm</button>
+      <!-- <button type="button" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse1(detailLists._id, userType)">Confirm</button> -->
   </div>
   </form>
+  <div class="d-flex w-100 flex-column" *ngIf="Invoice" >
+    <div class="d-flex modal-header justify-content-between w-100 mb-0">
+      <div class="d-flex flex-column">
+        <h3 class="modal-title d-flex mr-auto">Invoice</h3>
+        <p>#00001</p>
+      </div>
+      <div class="logo-wrap">
+        <img src="../../../assets/img/classWerkz_word@2x.png" alt="logo" class="img-fluid w-100">
+      </div>
+    </div>
+    <!-- header done -->
+    <div class="d-flex modal-body w-100 mb-0 pb-0 pt-0">
+      <div class="d-flex flex-column">
+        <h5 class="font-weight-bold">Invoice Date</h5>
+        <p>12 Jun 2018</p>
+      </div>
+      <div class="d-flex flex-column ml-2 mr-auto">
+        <h5>Due Date</h5>
+        <p>30 Aug 2018</p>
+      </div>
+      <div class="d-flex flex-column text-right">
+        <h4>CHIRSTOFORI MUSIC SCHOOL</h4>
+        <p class="mb-0">Blk 3014 Bedok  Industrial Park E #02-2148</p>
+        <p>Singapore $89980</p>
+        <p>billing@cristorfori.com</p>
+      </div>
+    </div>
+    <div class="d-flex flex-column modal-body">
+      <h4>Bill to</h4>
+      <p>emmawatson@amdon.com</p>
+    </div>
+    <div class="d-flex flex-row payment modal-body">
+      <h5 class="mr-auto pb-0">Course</h5>
+      <h5 class="pr-3 pl-3 pb-0">Quantity</h5>
+      <h5 class="pr-3 pl-3 pb-0">Unit Price</h5>
+      <h5 class="pr-3 pl-3 pb-0">Ammount</h5>
+    </div>
+    <div class="d-flex flex-column modal-body">
+        <h4>Bill to</h4>
+        <p>emmawatson@amdon.com</p>
+      </div>
+  </div>
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
