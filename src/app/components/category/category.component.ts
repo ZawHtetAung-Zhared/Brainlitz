@@ -34,6 +34,7 @@ export class CategoryComponent implements OnInit {
   public wordLength : number = 0;
   public createdCat:any = {};
   public isCreate:boolean = false;
+  public cpCategory = JSON.parse(localStorage.getItem('cpCategory'));
 
   constructor( 
     private _service: appService, 
@@ -42,11 +43,29 @@ export class CategoryComponent implements OnInit {
     private el: ElementRef,
     private renderer: Renderer) { 
     this.toastr.setRootViewContainerRef(vcr);
+    console.log('constructure start ...')
+    this._service.permissionList.subscribe((data) => {
+      console.log('===' ,data);
+    })
   }
 
   ngOnInit() {
-    this.getAllCategories(20, 0, '');
+    console.log('....')
+    // this.getAllCategories(20, 0, '');
     window.addEventListener('scroll', this.scroll, true);
+    if(this.cpCategory){
+      console.log("Category For Plan",this.cpCategory);
+      this.getAllCategories(20,0, 'planCat');
+      this.ischecked = this.cpCategory.categoryId;
+      // this.somethingChanged(this.cpCategory.categoryId,this.cpCategory.name);
+    }else{
+      this.getAllCategories(20, 0, '');
+      let editCatID=localStorage.getItem("categoryID");
+      if(editCatID){
+        console.log("edit Category",editCatID);
+        this.ischecked = editCatID;
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -186,8 +205,11 @@ export class CategoryComponent implements OnInit {
       this.categoryList = this.categoryList.concat(res);
       this.isempty = (res.length === 0) ? true : false;  
       if(state == 'create'){
-        console.log("category created")
+        console.log("category created");
         this.somethingChanged(this.categoryList[0]._id,this.categoryList[0].name)
+      }else if(state == 'planCat'){
+        console.log("plan Category");
+        this.somethingChanged(this.cpCategory.categoryId,this.cpCategory.name);
       }else{
         console.log("Not create")
       }

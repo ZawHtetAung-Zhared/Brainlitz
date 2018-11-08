@@ -32,14 +32,7 @@ export class HeaderComponent implements OnInit {
   public selectedLocation:any = {};
   
   constructor(private _router: Router, private _service: appService) {
-    console.log(this.currentLocationID)
-    console.log('.....',localStorage.getItem('locationId'))
-    // if(localStorage.getItem('locationId') != localStorage.getItem('previousLID')){
-    //   console.log('not same')
-      
-    // }else{
-    //   console.log('same')
-    // }
+    console.log('hi construc')
     this._service.sendData.subscribe((data) => {
         this.headerlocationLists = data; 
     })
@@ -59,6 +52,7 @@ export class HeaderComponent implements OnInit {
     if(this._router.url != '/dashboard'){
       console.log(this._router.url)
       localStorage.removeItem('permission');
+      localStorage.removeItem('locationUpdate');
     }else{
       console.log(this._router.url)
     }
@@ -104,7 +98,7 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     });
-
+    localStorage.removeItem('locationUpdate');
   }
 
   setLocation(){
@@ -181,47 +175,32 @@ export class HeaderComponent implements OnInit {
     this.settingMenu = this.settingMenu.filter(value => -1 !== data.indexOf(value));
   }
 
-  @HostListener('document:click', ['$event'])
-    public documentClick(event): void {
-        if(this.dropMenuShow == false){
-           $('.dropdown-box').css('display', 'none'); 
-        }
-        else {
-            $('.dropdown-box').css('display', 'block');
-            this.dropMenuShow = false;
-        }
+  // @HostListener('document:click', ['$event'])
+  //   public documentClick(event): void {
+  //     console.log('~~~~ hi ~~~~')
+  // }
 
-        if(this.locationDpShow == false){
-          $('.location-dp').css('display', 'none'); 
-        }else{
-            $('.location-dp').css('display', 'block');
-            this.locationDpShow = false;
-        }
-    }
+  @HostListener('document:click', ['$event']) clickedOutside($event){      
+    // console.log("CLICKED OUTSIDE");
+    this.dropMenuShow =  false;
+    this.locationDpShow = false;
+
+    setTimeout(() => {
+      console.log(localStorage.getItem('locationUpdate')) 
+      if(localStorage.getItem('locationUpdate')){
+        this.getAllLocation();
+      }     
+    }, 300);
+  }
     
-  dropDown(){
-    var x = document.getElementsByClassName('dropdown-box');
-    if( (x[0]as HTMLElement).style.display == 'block'){
-      (x[0]as HTMLElement).style.display = 'none';
-    }
-    else {
-       (x[0]as HTMLElement).style.display = 'block';
-       this.dropMenuShow = true;
-    }
+  dropDown($event: Event, state){
+    $event.preventDefault();
+    $event.stopPropagation();
+    console.log('000')
+    this.dropMenuShow = (state == 'profile') ? !this.dropMenuShow : false;
+    this.locationDpShow = (state == 'loc') ? !this.locationDpShow : false;
   }
 
-  locationDp(){
-    var y = document.getElementsByClassName('location-dp');
-    if( (y[0]as HTMLElement).style.display == 'block'){
-      (y[0]as HTMLElement).style.display = 'none';
-    }
-    else {
-       (y[0]as HTMLElement).style.display = 'block';
-       this.locationDpShow = true;
-    }
-  }
-
-  
 }
 
 
