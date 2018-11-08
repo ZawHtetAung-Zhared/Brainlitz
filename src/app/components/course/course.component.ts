@@ -19,7 +19,6 @@ export class CourseComponent implements OnInit {
 
   gotoInvoice=true;
   iscourseSearch: boolean = false;
-  categoryLists: any;
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
@@ -206,18 +205,12 @@ export class CourseComponent implements OnInit {
 
   focusCourseSearch(e){
     this.iscourseSearch = true;
-    this.getAllCategory(20, 0);
   }
 
-  getAllCategory(limit, skip){
-    this._service.getCategory(this.regionId, limit, skip)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.categoryLists = res;
-    },err => {
-      console.log(err);
-    })
+  hideCourseSearch(e){
+    this.iscourseSearch = false;
   }
+
   //end course search
 
   // start course detail

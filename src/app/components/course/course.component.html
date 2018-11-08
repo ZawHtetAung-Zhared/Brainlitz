@@ -1,3 +1,4 @@
+<div [ngClass]="{'overlay': iscourseSearch == true}"></div>
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate && !isCoursePlanDetail" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
@@ -5,6 +6,30 @@
     <div class="d-flex flex-row title">
       <h3 class="header-font">Courses</h3>
       <span class="location-name">{{locationName}}</span>
+    </div>
+    <div class="d-flex flex-column course-search-wrap">
+      <div class="input-group col-md-12 pd-zero">
+          <span class="input-group-append">
+              <button class="bt btn-design btn-outline-secondary" type="button">
+                  <i class="fa fa-search search-size"></i>
+              </button>
+          </span>
+          <input 
+            class="form-control py-2 course-search-input" 
+            type="search" 
+            placeholder="Search courses" 
+            id="course-search"
+            (focus)="focusCourseSearch($event)"
+            (focusout)="hideCourseSearch($event)"
+            autocomplete="off"
+          >
+          <span class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
+      </div>
+      <div *ngIf="iscourseSearch" class="course-search-view">
+        <div>
+          Recently search
+        </div>
+      </div>
     </div>
     <div class="card-columns">
       <div class="card btn-card">
@@ -21,7 +46,7 @@
                 #{{ courseGroup.coursePlan.category.name }}
               </label>
             </div>
-            <h5 (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)" class="medium-font cursor-on">  </h5>
+            <h5 (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)" class="medium-font cursor-on">{{ courseGroup.coursePlan.name }}</h5>
             <div class="d-flex header-info light-font">
               <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} seats</label>
               <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats==null">unlimited seats</label>
@@ -117,11 +142,10 @@
     </div>
     <button class="btn edit-course-btn" (click)="goToConflict(currentCourse)">Edit course</button>
   </div>
-  <div >
+  <div>
     <div class="d-flex flex-row row">
-      <div class="col-md-5 detail-info" >
-          <!-- *ngFor="let courseGroup of courseList" -->
-        <label>{{detailLists.name }}</label>        
+      <div class="col-md-5 detail-info">
+        <label>Plan name</label>        
         <h4>{{detailLists.name}}
         <span>{{detailLists.courseCode}}</span></h4>        
         <p>{{detailLists.description}}</p>
@@ -252,7 +276,7 @@
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
-              <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addCustomerModal('customer',customerModal)">Enroll class</button>
+              <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -372,7 +396,7 @@
 </ng-template>
 
 <ng-template #userModal let-c="close" let-d="dismiss">
-  <div class="d-flex modal-header" *ngIf="gotoInvoice" >
+  <div class="d-flex modal-header">
     <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">Add teacher</h3>
     <h3 *ngIf="userType == 'customer'" class="modal-title d-flex mr-auto">Add customer</h3>
     <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
@@ -383,8 +407,8 @@
       <!-- <span aria-hidden="true" >×</span> -->
     </button>
   </div>
-  <form novalidate #cfees="ngForm" *ngIf="gotoInvoice" >
-  <div class="modal-body confirm-text"  >
+  <form novalidate #cfees="ngForm">
+  <div class="modal-body confirm-text">
     <div class="d-flex">
       <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
         <h5 class="mt-03">
@@ -452,7 +476,7 @@
         </span>
       </div>
       <div class="user-list-box" *ngIf="showList == true">
-        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId, 'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
           <div class="img-wrap">
             <img src="{{user.profilePic}}">
           </div>
@@ -487,7 +511,7 @@
             <img src="assets/images/add-customer-illustration@2x.png">
           </div>
         </div>
-        <div class="d-flex col-md-6"> 
+        <div class="d-flex col-md-6">
           <div class="txt-default">
             <h3 *ngIf="userType == 'staff'">Add Teacher to this Course</h3>
             <h3 *ngIf="userType == 'customer'">Add Customer to this Course</h3>
@@ -502,172 +526,8 @@
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
-      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse1(courseId, userType)">Confirm</button>
-      <!-- <button type="button" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse1(detailLists._id, userType)">Confirm</button> -->
+      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
   </div>
-  </form>
-  <div class="d-flex w-100 flex-column" *ngIf="Invoice" >
-    <div class="d-flex modal-header justify-content-between w-100 mb-0">
-      <div class="d-flex flex-column">
-        <h3 class="modal-title d-flex mr-auto">Invoice</h3>
-        <p>#00001</p>
-      </div>
-      <div class="logo-wrap">
-        <img src="../../../assets/img/classWerkz_word@2x.png" alt="logo" class="img-fluid w-100">
-      </div>
-    </div>
-    <!-- header done -->
-    <div class="d-flex modal-body w-100 mb-0 pb-0 pt-0">
-      <div class="d-flex flex-column">
-        <h5 class="font-weight-bold">Invoice Date</h5>
-        <p>12 Jun 2018</p>
-      </div>
-      <div class="d-flex flex-column ml-2 mr-auto">
-        <h5>Due Date</h5>
-        <p>30 Aug 2018</p>
-      </div>
-      <div class="d-flex flex-column text-right">
-        <h4>CHIRSTOFORI MUSIC SCHOOL</h4>
-        <p class="mb-0">Blk 3014 Bedok  Industrial Park E #02-2148</p>
-        <p>Singapore $89980</p>
-        <p>billing@cristorfori.com</p>
-      </div>
-    </div>
-    <div class="d-flex flex-column modal-body">
-      <h4>Bill to</h4>
-      <p>emmawatson@amdon.com</p>
-    </div>
-    <div class="d-flex flex-row payment modal-body">
-      <h5 class="mr-auto pb-0">Course</h5>
-      <h5 class="pr-3 pl-3 pb-0">Quantity</h5>
-      <h5 class="pr-3 pl-3 pb-0">Unit Price</h5>
-      <h5 class="pr-3 pl-3 pb-0">Ammount</h5>
-    </div>
-    <div class="d-flex flex-column modal-body">
-        <h4>Bill to</h4>
-        <p>emmawatson@amdon.com</p>
-      </div>
-  </div>
-</ng-template>
-<ng-template #customerModal let-c="close" let-d="dismiss">
-  <div class="d-flex modal-header">
-    <h3 class="modal-title d-flex mr-auto">Add customer</h3>
-    <button (click)="cancelModal('customer')" aria-label="Close" class="modal-close ml-auto" type="button">
-      <span class="closemark">
-          <div class="closemark_stem"></div>
-          <div class="closemark_kick"></div>
-      </span>
-      <!-- <span aria-hidden="true" >×</span> -->
-    </button>
-  </div>
-  <form nonvalidate #custForm="ngForm">
-    <div class="modal-body confirm-text">
-      <div class="d-flex">
-        <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
-          <h5 class="mt-03">
-            <i class="fa fa-map-marker" style="font-size:15px"></i>
-            {{detailLists.location.name}}
-          </h5>
-          <b>{{detailLists.name}}</b>
-        </div>
-        <div class="col-md-4 col-lg-4 modal-ctime pr-zero">
-          <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
-            {{ day }}
-          </h5>
-          <!-- <p>11:00 AM - 12:00 AM</p> -->
-          <div class="modal-duration">{{ detailLists.duration.startDate | utcTime }} - {{ detailLists.duration.endDate | utcTime }}</div>
-        </div>
-        <div class="col-md-4 col-lg-4 modal-cdate">
-          <div class="d-flex">
-            <div class="col-md-6 pr-zero modal-dfees">
-              <h5 class="mt-03">From</h5>
-              <b>{{detailLists.startDate | utcDate}}</b>
-            </div>
-            <div class="col-md-6 pr-zero modal-dfees">
-              <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
-              <h5 *ngIf="detailLists.endDate == null" class="mt-03"></h5>
-              <b *ngIf="detailLists.endDate != null">{{detailLists.endDate | utcDate}}</b>
-              <div *ngIf="detailLists.endDate == null">
-                <b>{{ detailLists.lessonCount }} Lessons</b>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex flex-column mt-37" style="position: relative;">
-        <div class="d-flex">
-          <input
-            class="form-control py-2 input-search-bg" 
-            type="search" 
-            placeholder="Search customers" 
-            id="example-search-input" 
-            name="search" 
-            #search="ngModel" 
-            [(ngModel)]="formData.searchText" 
-            (focus)="focusMethod($event, 'customer')"
-            (focusout)="hideFocus($event)"
-            (input)="changeMethod($event.target.value, 'customer')"
-            autocomplete="off"
-            >
-          <span class="input-group-append">
-            <button class="bt btn-design btn-outline-secondary" type="button">
-                <i class="fa fa-search search-size"></i>
-            </button>
-          </span>
-        </div>
-        <div class="user-list-box" *ngIf="showList == true">
-          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
-            <div class="img-wrap">
-              <img src="{{user.profilePic}}">
-            </div>
-            <div class="single-user-info d-flex flex-column justify-content-center">
-              <h4>{{user.preferredName}}</h4>
-            </div>
-            <div class="ml-auto remover-wrap">
-              <div class="add-user d-flex justify-content-end"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mt-20 user-row-wrap">
-        <div class="d-flex" *ngIf="selectedCustomer">
-            <div class="user-img-wrap">
-              <img src="{{selectedCustomer.profilePic}}">
-            </div>
-            <div class="d-flex w-100">
-              <div class="col-md-6">
-                <div>
-                  <label>{{selectedCustomer.preferredName}}</label>
-                  <div>{{selectedCustomer.email}}</div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <label>Full name</label>
-                <div>{{selectedCustomer.fullName}}</div>
-              </div>
-            </div>         
-        </div>
-        <div *ngIf="!selectedCustomer" class="d-flex col-md-12 empty-ui-wrapper">
-          <div class="col-md-6 img-pos">
-            <div class="empty-wrapper">
-              <img src="assets/images/add-customer-illustration@2x.png">
-            </div>
-          </div>
-          <div class="d-flex col-md-6">
-            <div class="txt-default">
-              <h3>Add Customer to this Course</h3>
-            </div>
-            <div class="arrow-pos">
-              <img src="assets/img/arrow.png">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn modal-cancel-btn" (click)="cancelModal('customer')">Cancel</button>
-      <button type="submit" class="btn btn-submit">Confirm</button>
-    </div>
   </form>
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
