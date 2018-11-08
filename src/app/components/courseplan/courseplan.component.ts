@@ -987,9 +987,9 @@ export class CourseplanComponent implements OnInit {
 
   showFocus(e, type){
     console.log(type)
-    if (type == 'optionFee'){
-      this.optionFee = true;
-    }
+    // if (type == 'optionFee'){
+    //   this.optionFee = true;
+    // }
   }
 
   hideFocus(e, type){
@@ -1325,13 +1325,20 @@ export class CourseplanComponent implements OnInit {
         "fees": this.testObj.fees
       }
       console.log(data);
-      // if(testObj.name != '' && testObj.fees != ''){
-      //   this.optArr.push(data);
-      // }
-      this.optArr.push(data);
-      console.log(this.optArr)
-      this.testObj.name = "";
-      this.testObj.fees = ""; 
+      if(data.name != undefined && data.fees != undefined && data.name != '' && data.fees != ''){
+        this.optArr.push(data);
+        console.log(this.optArr)
+        this.testObj.name = "";
+        this.testObj.fees = ""; 
+      }
+
+      if(data.name == undefined || data.name == ''){
+        this.toastr.error('Course fee option name is empty');
+      }else if(data.fees == undefined || data.fees == ''){
+        this.toastr.error('Course fee option value is empty');
+      }else if(data.name == undefined && data.fees == undefined){
+        this.toastr.error('Please insert data to create course fee option');
+      }
     }
 
     removeOpt(opt){
