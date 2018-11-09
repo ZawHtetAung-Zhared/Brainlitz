@@ -8,34 +8,71 @@
       <span class="location-name">{{locationName}}</span>
     </div>
     <div class="d-flex flex-column course-search-wrap">
-      <div class="input-group col-md-12 pd-zero">
-          <!-- <span class="input-group-append">
-              <button class="bt btn-design btn-outline-secondary" type="button">
-                  <i class="fa fa-search search-size"></i>
-              </button>
-          </span> -->
-          <input 
-            class="form-control py-2 course-search-input" 
-            type="search" 
-            placeholder="Search courses" 
-            id="course-search"
-            (focus)="focusCourseSearch($event)"
-            (focusout)="hideCourseSearch($event)"
-            (input)="searchCourse($event.target.value)"
-            autocomplete="off"
-          >
-          <div *ngIf="iswordcount == true" class="close-search"></div>
-          <span class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
-      </div>
-      <div *ngIf="iscourseSearch" class="course-search-view">
-        <div>
-          Recently search
+      <div *ngIf="!isAdvancedSearch">
+        <div class="input-group col-md-12 pd-zero">
+            <input 
+              class="form-control py-2 course-search-input" 
+              type="search" 
+              placeholder="Search courses" 
+              id="course-search"
+              (focus)="focusCourseSearch($event)"
+              (focusout)="hideCourseSearch($event)"
+              (input)="searchCourse($event.target.value)"
+              autocomplete="off"
+              name="search"
+              (keyup)="searchStart($event)"
+              [(ngModel)]="courseVal.search" 
+              #csearch="ngModel"
+            >
+            <div *ngIf="iswordcount == true" class="close-search" (click)="clearSearch()"></div>
+            <span (click)="showAdvancedSearch()" class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
         </div>
+        <div *ngIf="iscourseSearch && recentLists.length > 0" class="course-search-view">
+          <p class="recent-search-title">Recently search</p>
+          <ul class="recent-lists">
+            <li *ngFor="let recent of recentLists">{{recent}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="isAdvancedSearch">
+        <div style="height: 53px;"></div>
+        <form class="as-section">
+          <div class="d-flex flex-column">
+            <div class="form-group">
+              <label for="address" class="sub-title col-md-4">Category</label>
+              <div class="col-md-8">
+                
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address" class="sub-title col-md-4">Course plan</label>
+              <div class="col-md-8">
+                
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address" class="sub-title col-md-4">Course</label>
+              <div class="col-md-8">
+                
+              </div>
+            </div>
+          </div>
+          <div class="d-flex">
+            <p>Course period</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <button type="btn" class="btn">Reset</button>
+            <div>
+              <button type="btn" class="btn">Cancel</button>
+              <button type="btn" class="btn">Search</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <div class="card-columns">
       <div class="card btn-card">
-        <button *ngIf="courseDemo.createCP != ''" class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">          
+        <button *ngIf="courseDemo.createCP != ''" class="btn btn-large d-flex align-items-center justify-content-center" (click)="changeRoute()">   
           <p class="addCourseBtn">+</p>
           <p class="btn-largeLabel">Add new course plan</p>
         </button>
