@@ -17,6 +17,7 @@ export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
+  public iscourseSearch:boolean = false;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
   activeToday:boolean = false;
@@ -196,6 +197,18 @@ export class CourseComponent implements OnInit {
       this.showBtn = false;
     }
   }
+
+  //start course search
+
+  focusCourseSearch(){
+    this.iscourseSearch = true;
+  }
+
+  hideCourseSearch(){
+    this.iscourseSearch = false;
+  }
+
+  //end course search
 
   // start course detail
 
