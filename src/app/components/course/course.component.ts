@@ -115,10 +115,10 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.recentLists = localStorage.getItem('recentSearchLists')
-    console.log(this.recentLists)
-
-    this.recentLists = (this.recentLists == null) ? [] : JSON.parse(this.recentLists);
+    let recentTemp = localStorage.getItem('recentSearchLists')
+    // this.recentLists = localStorage.getItem('recentSearchLists')
+    // console.log(this.recentLists)
+    this.recentLists = (recentTemp == null) ? [] : JSON.parse(recentTemp);
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     setTimeout(() => {
