@@ -1193,6 +1193,10 @@ button:disabled{
   padding: 15px 15px;
 }
 
+.modal-info-wrap{
+  padding: 15px 0px;
+}
+
 /*.user-imgwrap{
   width: 60px;
   height: 60px;

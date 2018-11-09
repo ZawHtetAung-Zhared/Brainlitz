@@ -505,7 +505,7 @@ export class CourseComponent implements OnInit {
 
   cancelModal(type){
     this.modalReference.close();
-    this.isSeatAvailable = true;
+    // this.isSeatAvailable = true;
     this.showList = false;
     this.selectedCustomer = {};
   }
@@ -524,11 +524,16 @@ export class CourseComponent implements OnInit {
       })
   }
 
-  selectUser(state, id){
+  selectUser(state, id, type){
     console.log(this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log('hihi ~~')
     this.getSingleUser(id, state);
+    this.formData = {};
+  }
+
+  selectCustomer(state, id, type){
+    this.getSingleCustomer(id, state);
     this.formData = {};
   }
 
@@ -578,6 +583,7 @@ export class CourseComponent implements OnInit {
   hideFocus(e){
     setTimeout(() => {
       this.isFous = false;
+      this.showList = false;
     }, 300);
     this.formData = {}
   }
@@ -625,6 +631,22 @@ export class CourseComponent implements OnInit {
         //         let id = pplArr[y].userId;
         //         pplListArr.push(id)
         //       }
+
+        //       if(this.selectedUserLists.length>0){
+        //         for(var i in this.selectedUserLists){
+        //           let id = this.selectedUserLists[i].userId;
+        //           pplListArr.push(id);
+        //         }
+        //       }
+        //       // console.log('Testing json',JSON.stringify(this.selectedCustomer))
+        //       if(JSON.stringify(this.selectedCustomer) != "{}"){
+        //         console.log("has selected customer",this.selectedCustomer.userId);
+        //         let id = this.selectedCustomer.userId;
+        //         pplListArr.push(id);
+        //       }else{
+        //         console.log("no selected customer")
+        //       }
+
         //       console.log('pplListArr',pplListArr)
         //       var pplListStr = pplListArr.toString();
         //       console.log("pplListsStr",pplListStr);
@@ -637,15 +659,15 @@ export class CourseComponent implements OnInit {
         //         console.log(err);
         //       });
         //   }else{
-        //   console.log("not send");
-        //   this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, '')
-        //   .subscribe((res:any) => {
-        //     console.log(res);
-        //     this.userLists = res;
-        //   }, err => {  
-        //     console.log(err);
-        //   });
-        // }
+        //     console.log("not send");
+        //     this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, '')
+        //     .subscribe((res:any) => {
+        //       console.log(res);
+        //       this.userLists = res;
+        //     }, err => {  
+        //       console.log(err);
+        //     });
+        //   }
     }else if(searchWord.length == 0){
       this.userLists = [];
       this.showList = false;
