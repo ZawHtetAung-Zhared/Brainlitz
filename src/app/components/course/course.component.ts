@@ -71,6 +71,8 @@ export class CourseComponent implements OnInit {
   
   public draft:boolean;
   public selectedCustomer:any = {};
+  public showInvoice:boolean = false;
+  public logo:any = localStorage.getItem("OrgLogo");
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -809,8 +811,11 @@ export class CourseComponent implements OnInit {
       });
   }
 
-  // end course detail
+  addCustomer(){
+    this.showInvoice = true; 
+  }
 
+  // end course detail
   changeRoute(){
     this.isCategory = true;
     this.goBackCat = false;
