@@ -457,7 +457,7 @@ li button{
 .single-user-info p,
 .btn-submit,
 .modal-ctime p,
-.modal-dfees h5,.modal-duration{
+.modal-dfees h5,.modal-duration,.modal-userInfo label{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 .single-progress h4,
@@ -470,6 +470,18 @@ li button{
     font-size: 16px;
 }
 
+.modal-userInfo h4{
+  font-size: 28px;
+  color: #2e3d4d;
+}
+
+.modal-userInfo .mail{
+  font-size: 16px;
+  color: #64707d;
+}
+
+.modal-userInfo h4,
+.modal-userInfo p,
 .single-progress h4,
 .cdetail h5,
 .course-time h5,
@@ -486,6 +498,10 @@ li button{
 .modal-ctime h5,
 .modal-dfees b{
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+
+.modal-userInfo{
+  margin-bottom: 10px;
 }
 
 .back-to{
@@ -516,7 +532,7 @@ li button{
 .detail-info label,
 .single-user-info p,
 .modal-ctime p,
-.modal-dfees h5,.modal-duration{
+.modal-dfees h5,.modal-duration,.modal-userInfo label{
   color: #64707d;
   font-size: 14px;
 }
@@ -549,7 +565,8 @@ li button{
 }
 .detail-fees b,
 .single-user-info h4,
-.modal-cfees b{
+.modal-cfees b,
+.modal-userInfo .modal-p{
   color: #2e3e4d;
   font-size: 18px;
 }
@@ -1136,6 +1153,14 @@ button:disabled{
 
 .cursor-on{
   cursor: pointer;
+}
+
+.img-div{
+  width: 70px;
+}
+
+.pad-15{
+  padding: 15px 15px;
 }
 
 /*.user-imgwrap{
