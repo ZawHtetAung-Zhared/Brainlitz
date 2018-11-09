@@ -251,7 +251,7 @@
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
-              <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addCustomerModal('customer',customerModal)">Enroll class</button>
+              <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addUserModal('customer',userModal,'inside', '')">Enroll class</button>
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -451,7 +451,7 @@
         </span>
       </div>
       <div class="user-list-box" *ngIf="showList == true">
-        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId, 'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId)" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
           <div class="img-wrap">
             <img src="{{user.profilePic}}">
           </div>
@@ -505,6 +505,7 @@
   </div>
   </form>
 </ng-template>
+
 <ng-template #customerModal let-c="close" let-d="dismiss">
   <div class="d-flex modal-header">
     <h3 class="modal-title d-flex mr-auto">Add customer</h3>
