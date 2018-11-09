@@ -530,4 +530,138 @@
   </div>
   </form>
 </ng-template>
+
+<ng-template #customerModal let-c="close" let-d="dismiss">
+  <div class="d-flex modal-header">
+    <h3 class="modal-title d-flex mr-auto">Add customer</h3>
+    <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
+      <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+      </span>
+      <!-- <span aria-hidden="true" >×</span> -->
+    </button>
+  </div>
+  <form nonvalidate #custForm="ngForm">
+    <div class="modal-body confirm-text">
+      <div class="d-flex">
+        <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
+          <h5 class="mt-03">
+            <i class="fa fa-map-marker" style="font-size:15px"></i>
+            {{detailLists.location.name}}
+          </h5>
+          <b>{{detailLists.name}}</b>
+        </div>
+        <div class="col-md-4 col-lg-4 modal-ctime pr-zero">
+          <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+            {{ day }}
+          </h5>
+          <!-- <p>11:00 AM - 12:00 AM</p> -->
+          <div class="modal-duration">{{ detailLists.duration.startDate | utcTime }} - {{ detailLists.duration.endDate | utcTime }}</div>
+        </div>
+        <div class="col-md-4 col-lg-4 modal-cdate">
+          <div class="d-flex">
+            <div class="col-md-6 pr-zero modal-dfees">
+              <h5 class="mt-03">From</h5>
+              <b>{{detailLists.startDate | utcDate}}</b>
+            </div>
+            <div class="col-md-6 pr-zero modal-dfees">
+              <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
+              <h5 *ngIf="detailLists.endDate == null" class="mt-03"></h5>
+              <b *ngIf="detailLists.endDate != null">{{detailLists.endDate | utcDate}}</b>
+              <div *ngIf="detailLists.endDate == null">
+                <b>{{ detailLists.lessonCount }} Lessons</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-column mt-37" style="position: relative;">
+        <div class="d-flex">
+          <input
+            class="form-control py-2 input-search-bg" 
+            type="search" 
+            placeholder="Search customers" 
+            id="example-search-input" 
+            name="search" 
+            #search="ngModel" 
+            [(ngModel)]="formData.searchText" 
+            (focus)="focusMethod($event, 'customer')"
+            (focusout)="hideFocus($event)"
+            (input)="changeMethod($event.target.value, 'customer')"
+            autocomplete="off"
+            >
+          <span class="input-group-append">
+            <button class="bt btn-design btn-outline-secondary" type="button">
+                <i class="fa fa-search search-size"></i>
+            </button>
+          </span>
+        </div>
+        <div class="user-list-box" *ngIf="showList == true">
+          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+            <div class="img-wrap">
+              <img src="{{user.profilePic}}">
+            </div>
+            <div class="single-user-info d-flex flex-column justify-content-center">
+              <h4>{{user.preferredName}}</h4>
+            </div>
+            <div class="ml-auto remover-wrap">
+              <div class="add-user d-flex justify-content-end"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-20 user-row-wrap">
+        <div class="d-flex" *ngIf = "(selectedCustomer|json) != '{}' ">
+            <div class="img-div">
+              <div class="user-img-wrap">
+                <img src="{{selectedCustomer.profilePic}}">
+              </div>
+            </div>
+            <div class="w-100">
+              <div class="d-flex">
+                <div class="col-md-6">
+                  <div class="modal-userInfo">
+                    <h4>{{selectedCustomer.preferredName}}</h4>
+                    <label class="mail">{{selectedCustomer.email}}</label>
+                  </div>
+                </div>
+                <div class="col-md-6 modal-userInfo">
+                  <label class="mb-0">Full name</label>
+                  <p class="modal-p">{{selectedCustomer.fullName}}</p>
+                </div>
+              </div>
+              <div class="row single-user-wrap pad-15">
+                <div *ngFor="let detail of selectedCustomer.details" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3 modal-userInfo">
+                  <label class="mb-0">{{ detail.name }}</label>
+                  <p class="modal-p">
+                    {{ detail.value }}
+                  </p>
+                </div>
+              </div>  
+            </div>       
+        </div>
+        <div *ngIf = "(selectedCustomer|json) == '{}' "  class="d-flex col-md-12 empty-ui-wrapper">
+          <div class="col-md-6 img-pos">
+            <div class="empty-wrapper">
+              <img src="assets/images/add-customer-illustration@2x.png">
+            </div>
+          </div>
+          <div class="d-flex col-md-6">
+            <div class="txt-default">
+              <h3>Add Customer to this Course</h3>
+            </div>
+            <div class="arrow-pos">
+              <img src="assets/img/arrow.png">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
+      <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}'" (click)="enrollUserToCourse(selectedCustomer.userId, 'customer')">Confirm</button>
+    </div>
+  </form>
+</ng-template>
 <block-ui message="Deafult Message"></block-ui>

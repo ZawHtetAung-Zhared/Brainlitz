@@ -66,6 +66,7 @@ export class CourseComponent implements OnInit {
   showList:boolean = false;
   
   public draft:boolean;
+  public selectedCustomer:any = {};
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -515,10 +516,11 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  cancelModal(){
+  cancelModal(type){
     this.modalReference.close();
     this.isSeatAvailable = true;
     this.showList = false;
+    this.selectedCustomer = {};
   }
 
   getAllUsers(type){
@@ -566,6 +568,16 @@ export class CourseComponent implements OnInit {
     }, err => {  
       console.log(err);
     });
+  }
+
+  getSingleCustomer(ID, state){
+    console.log("this.selectedCustomer",this.selectedCustomer)
+    this._service.editProfile(this.regionId, ID)
+    .subscribe((res:any) => {
+      console.log('selected Customer',res);
+      this.selectedCustomer = res;
+      this.showList = false;
+    })
   }
 
   focusMethod(e, userType){
