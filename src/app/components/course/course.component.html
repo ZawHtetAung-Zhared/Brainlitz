@@ -1,3 +1,4 @@
+<div [ngClass]="{'overlay': iscourseSearch == true}"></div>
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate && !isCoursePlanDetail" [ngClass]="{'active': isSticky == true}">
   <block-ui message="Deafult Message"></block-ui>
@@ -5,6 +6,30 @@
     <div class="d-flex flex-row title">
       <h3 class="header-font">Courses</h3>
       <span class="location-name">{{locationName}}</span>
+    </div>
+    <div class="d-flex flex-column course-search-wrap">
+      <div class="input-group col-md-12 pd-zero">
+          <!-- <span class="input-group-append">
+              <button class="bt btn-design btn-outline-secondary" type="button">
+                  <i class="fa fa-search search-size"></i>
+              </button>
+          </span> -->
+          <input 
+            class="form-control py-2 course-search-input" 
+            type="search" 
+            placeholder="Search courses" 
+            id="course-search"
+            (focus)="focusCourseSearch($event)"
+            (focusout)="hideCourseSearch($event)"
+            autocomplete="off"
+          >
+          <span class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
+      </div>
+      <div *ngIf="iscourseSearch" class="course-search-view">
+        <div>
+          Recently search
+        </div>
+      </div>
     </div>
     <div class="card-columns">
       <div class="card btn-card">
