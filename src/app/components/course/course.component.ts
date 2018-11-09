@@ -17,8 +17,11 @@ export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
+  public courseVal:any = {};
+  public recentLists: Array<any> = [];
   public iswordcount:boolean = false;
   public iscourseSearch:boolean = false;
+  public isAdvancedSearch:boolean = false;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
   activeToday:boolean = false;
@@ -114,7 +117,10 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.recentLists = localStorage.getItem('recentSearchLists')
+    console.log(this.recentLists)
+
+    this.recentLists = (this.recentLists == null) ? [] : JSON.parse(this.recentLists);
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     setTimeout(() => {
@@ -205,20 +211,59 @@ export class CourseComponent implements OnInit {
   //start course search
 
   focusCourseSearch(){
-    this.iscourseSearch = true;
-    this.iswordcount = true;
+    this.iscourseSearch = true;    
   }
 
   hideCourseSearch(){
-    this.iscourseSearch = false;
+    console.log(this.iswordcount)
+    // this.iswordcount = true;
+    if(this.iswordcount != true){
+      this.iscourseSearch = false;
+    }
+  }
+
+  clearSearch(){
+    console.log('clear')
+    this.courseVal = {};
+    this.iswordcount = false;
+    this.iscourseSearch = false;  
+    this.getCourseLists(20, 0);
   }
 
   searchCourse(val){
-    // if(val.length > 0){
-    //   this.iswordcount = true;
-    // }else{
-    //   this.iswordcount = false;
-    // }
+    // this.courseVal = val
+    if(val.length > 0){
+      this.iswordcount = true;
+    }else{
+      this.iswordcount = false;
+    }
+  }
+
+  searchStart(e){
+    if(e.keyCode == 13){
+      this.recentLists.unshift(e.target.value)
+      this.blockUI.start('Loading...');    
+      this._service.getSearchCourse(this.regionId, e.target.value ,this.locationId)
+      .subscribe((res:any)=>{
+          this.blockUI.stop();
+          console.log(res)
+          this.iscourseSearch = false;
+        },err =>{
+          console.log(err);
+      });
+
+      if(this.recentLists.length > 3){
+        console.log('if', this.recentLists)
+        this.recentLists = this.recentLists.slice(0, 3);
+      }else{
+        console.log('else')
+      }
+      localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));      
+    }
+  }
+
+  showAdvancedSearch(){
+    this.isAdvancedSearch = true;
   }
 
   //end course search

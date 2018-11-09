@@ -185,12 +185,14 @@ export class HeaderComponent implements OnInit {
     this.dropMenuShow =  false;
     this.locationDpShow = false;
 
-    setTimeout(() => {
-      console.log(localStorage.getItem('locationUpdate')) 
-      if(localStorage.getItem('locationUpdate')){
-        this.getAllLocation();
-      }     
-    }, 300);
+    if(this._router.url === '/dashboard'){
+      setTimeout(() => {
+        console.log(localStorage.getItem('locationUpdate')) 
+        if(localStorage.getItem('locationUpdate')){
+          this.getAllLocation();
+        }     
+      }, 300);
+    }
   }
     
   dropDown($event: Event, state){
