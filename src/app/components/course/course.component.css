@@ -523,7 +523,8 @@ li button{
 .single-user-info p,
 .btn-submit,
 .modal-ctime p,
-.modal-dfees h5,.modal-duration,.modal-userInfo label{
+.modal-dfees h5,.modal-duration,.modal-userInfo label,
+.invoice-label{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 .single-progress h4,
@@ -632,7 +633,8 @@ li button{
 .detail-fees b,
 .single-user-info h4,
 .modal-cfees b,
-.modal-userInfo .modal-p{
+.modal-userInfo .modal-p,
+.invoice-label{
   color: #2e3e4d;
   font-size: 18px;
 }
@@ -1233,10 +1235,40 @@ button:disabled{
   padding: 15px 0px;
 }
 
-/*.user-imgwrap{
-  width: 60px;
-  height: 60px;
-}*/
+
+.invoice-container{
+  padding: 32px 32px 0 32px;
+}
+
+.logo-wrapper{
+  width: 100px;
+}
+
+.logo-wrapper img{
+  width: 100%;
+}
+
+.send-btn{
+  background: #f2f4f5;
+  height: 44px;
+  border: none;
+  border-radius: 3px;
+  padding: 0px 10px;
+  font-family: Montserrat-Medium;
+  font-size: 16px;
+}
+
+.amount-result{
+  background: #fff080;
+}
+
+.pad-10{
+  padding: 10px 0px;
+}
+
+.bg-label{
+  background: #f2f4f5;
+}
 
 /*For 1024px*/
 @media (max-width: 575px) { 
