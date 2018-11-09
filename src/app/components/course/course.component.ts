@@ -17,6 +17,7 @@ export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
+  public iswordcount:boolean = false;
   public iscourseSearch:boolean = false;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
@@ -203,10 +204,19 @@ export class CourseComponent implements OnInit {
 
   focusCourseSearch(){
     this.iscourseSearch = true;
+    this.iswordcount = true;
   }
 
   hideCourseSearch(){
     this.iscourseSearch = false;
+  }
+
+  searchCourse(val){
+    // if(val.length > 0){
+    //   this.iswordcount = true;
+    // }else{
+    //   this.iswordcount = false;
+    // }
   }
 
   //end course search

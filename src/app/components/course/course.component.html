@@ -21,8 +21,10 @@
             id="course-search"
             (focus)="focusCourseSearch($event)"
             (focusout)="hideCourseSearch($event)"
+            (input)="searchCourse($event.target.value)"
             autocomplete="off"
           >
+          <div *ngIf="iswordcount == true" class="close-search"></div>
           <span class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
       </div>
       <div *ngIf="iscourseSearch" class="course-search-view">
