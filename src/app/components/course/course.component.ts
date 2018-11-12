@@ -71,8 +71,12 @@ export class CourseComponent implements OnInit {
   
   public draft:boolean;
   public selectedCustomer:any = {};
-  public showInvoice:boolean = false;
+  public showInvoice:boolean = true;
   public logo:any = localStorage.getItem("OrgLogo");
+  public showBox:boolean = false;
+  public discount:number;
+  public value;
+  public showMailPopup:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -135,6 +139,8 @@ export class CourseComponent implements OnInit {
         this.checkPermission();
       }
     });
+
+    this.discount = 0;
 
   }
 
@@ -920,4 +926,25 @@ export class CourseComponent implements OnInit {
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');
   }
+
+  showPopup(){
+    console.log("show popup");
+    this.showBox = true;
+  }
+
+  cancelPopup(){
+    console.log("hide popup")
+    this.showBox = false;
+  }
+
+  addDiscount(data){
+    console.log("Discount",data);
+    this.discount = data;
+    this.showBox = false;
+  }
+
+  showAssociatePopup(){
+    this.showMailPopup = true;
+  }
+
 }

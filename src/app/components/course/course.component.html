@@ -710,51 +710,73 @@
         <div class="logo-wrapper">
           <img src="{{logo}}">
         </div>
-        <div>
+        <div class="text-right">
           <h3 class="modal-title">Invoice</h3>
-          <label class="mr-auto mb-0">#00001</label>
+          <label class="mr-auto mb-0 invoice-info">#00001</label>
         </div>
       </div>
       <div class="pt-4">
-        <h5>CRISTOFORI Music School</h5>
+        <h5 class="invoice-label">CRISTOFORI Music School</h5>
         <div class="d-flex">
           <div class="col-md-6 col-lg-6 pl-zero">
-            <p>Blk 3014 Bedok Industrial Park E #02-2148 Singapore 489980</p>
+            <p class="invoice-info">Blk 3014 Bedok Industrial Park E #02-2148 Singapore 489980</p>
           </div>
           <div class="col-md-3 col-lg-3 text-right">
-            <label>Invoice date</label>
-            <p>12 Jun 2018</p>
+            <label class="invoice-label">Invoice date</label>
+            <p class="invoice-info">12 Jun 2018</p>
           </div>
           <div class="col-md-3 col-lg-3 text-right">
-            <label>Due date</label>
-            <p>30 Aug 2018</p>
+            <label class="invoice-label">Due date</label>
+            <p class="invoice-info">30 Aug 2018</p>
           </div>
         </div>
-        <p>billing@cristofori.com<p>
+        <p class="invoice-info">billing@cristofori.com<p>
       </div>
-      <div>
-        <label class="invoice-label">Bill to</label>
+      <div class="pb-4"> 
+        <label class="invoice-label mb-0">Bill to</label>
         <div class="d-flex">
-          <p>emmawatson@amdon.com</p>
-          <button>Add associated mail</button>
+          <p class="invoice-info label-height mb-0">emmawatson@amdon.com</p>
+          <button class="btn-associate" (click)="showAssociatePopup()">Add associated mail</button>
+        </div>
+        <div *ngIf="showMailPopup == true" class="mails-box">
+          <div id="top-rectangle"></div>
+          <div>
+            <h4 class="modal-title">Pick associated mail</h4>
+            <div class="d-flex flex-column" style="position: relative;">
+              <div class="d-flex">
+                <span class="input-group-append">
+                  <button class="bt btn-design btn-outline-secondary" type="button">
+                      <i class="fa fa-search search-size"></i>
+                  </button>
+                </span>
+                <input 
+                  class="form-control py-2 input-search-bg" 
+                  type="search" 
+                  autocomplete="off"
+                  placeholder="Search associated email" 
+                  id="example-search-input" 
+                  name="search" >
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="d-flex invoice-label pad-10 bg-label">
-        <div class="col-md-5 p-0">Course</div>
+        <div class="col-md-5">Course</div>
         <div class="col-md-1 p-0 text-right">Quantity</div>
         <div class="col-md-4 p-0 text-center">Unit price</div>
         <div class="col-md-2 text-right">Amount</div>
       </div>
-      <div class="d-flex pad-10">
-        <div class="col-md-5 p-0">Piano Grade 1</div>
-        <div class="col-md-1 p-0 text-right">1</div>
-        <div class="col-md-4 p-0 text-center">S$ 230.20</div>
-        <div class="col-md-2 text-right">S$ 230.20</div>
+      <div class="d-flex pad-10 mt-2">
+        <div class="col-md-5 price-info">Piano Grade 1</div>
+        <div class="col-md-1 p-0 text-right price-info">1</div>
+        <div class="col-md-4 p-0 text-center price-info">S$ 230.20</div>
+        <div class="col-md-2 text-right price-info">S$ 230.20</div>
       </div>
       <hr>
       <div class="d-flex justify-content-end">
         <div class="w-50">
-          <div class="d-flex pad-10">
+          <div class="d-flex pad-10 price-info">
             <!-- <div class="col-md-8 p-0 text-center">Sub total</div> -->
             <div class="col-md-8 d-flex p-0">
               <div class="col-sm-7 text-right p-0">
@@ -765,7 +787,7 @@
             </div>
             <div class="col-md-4 text-right">S$ 230.20</div>
           </div>
-          <div class="d-flex pad-10">
+          <div class="d-flex pad-10 price-info">
             <div class="col-md-8 d-flex p-0">
               <div class="col-sm-7 text-right p-0">
                 GST
@@ -774,20 +796,58 @@
                 (20%)
               </div>
             </div>
-            <div class="col-md-4 text-right">S$ 20.00</div>
+            <div class="col-md-4 text-right price-info">S$ 20.00</div>
           </div>
-          <div class="d-flex pad-10">
+          <div class="d-flex pad-10 price-info">
+            <div class="col-md-8 d-flex p-0">
+              <div class="col-sm-7 text-right p-0">
+                <p class="mb-0" style="color: #0080ff;" *ngIf="discount==0">Add discount</p>
+                <div class="mb-0 d-flex float-right" *ngIf="discount>0"><div class="discount-info">(Less)</div><div>Discount</div></div>
+              </div>
+              <div class="col-sm-5 text-right p-0">
+                <div *ngIf="showBox == true" class="popup-box text-left">
+                  <div id="rectangle"></div>
+                  <div class="p-3">
+                    <h5>Discount</h5>
+                    <div class="d-flex popup-input">
+                      <div class="input-sign">
+                        S$
+                      </div>
+                      <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value">
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="showBox == true" class="d-flex btns-wrap">
+                  <button type="submit" class="btn" (click)="cancelPopup()">
+                    <span class="closemark">
+                        <div class="closemark_stem"></div>
+                        <div class="closemark_kick"></div>
+                    </span>
+                  </button>
+                  <button type="submit" class="btn" (click)="addDiscount(value)" [disabled]="value == undefined || value == ''">
+                    <span class="checkmark">
+                        <div class="checkmark_stem"></div>
+                        <div class="checkmark_kick"></div>
+                    </span>
+                  </button>
+                </div>
+                <p class="mb-0" (click)="showPopup()"><span *ngIf="discount>0">S$</span>{{discount}}</p>
+              </div>
+            </div>
+            <div class="col-md-4 text-right"></div>
+          </div>
+          <!-- <div class="d-flex pad-10 price-info">
             <div class="col-md-8 d-flex p-0">
               <div class="col-sm-7 text-right p-0">
                 (Less)Discount
               </div>
-              <div class="col-sm-5 text-right p-0">
+              <div class="col-sm-5 text-right p-0 ">
                 $S 10
               </div>
             </div>
             <div class="col-md-4 text-right">$S 10.00</div>
-          </div>
-          <div class="d-flex invoice-label amount-result pad-10">
+          </div> -->
+          <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
             <div class="col-md-8 d-flex p-0">
               <div class="col-sm-7 text-right p-0">
                 Amount due
