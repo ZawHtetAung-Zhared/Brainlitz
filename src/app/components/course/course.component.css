@@ -15,14 +15,21 @@
   position: relative;
   z-index: 110;
 }
+.course-search-down,
+.search-downicon{
+  font-size: 23px;
+  cursor: pointer;
+}
 .course-search-down{
+  border: 1px solid #eee;  
   background: #fff;
   padding: 10px;
   border-radius: 0 4px 4px 0;
-  border: 1px solid #eee;
   border-left: none;
-  font-size: 23px;
-  cursor: pointer;
+}
+.search-downicon{
+  border-radius: 4px;
+  text-align: right;
 }
 .course-search-view{
   position: absolute;
@@ -135,6 +142,7 @@ ul.recent-lists li:last-child {
 }
 .search-btns{
   border-top: 1px solid #edeff0;
+  padding: 20px 24px;
 }
 .as-section label {
   color: #2e3d4d;
@@ -154,6 +162,7 @@ ul.recent-lists li:last-child {
 }
 .reset-as{
   color: #0080ff;
+  padding: 0;
 }
 .cancel-as,
 .search-as{
@@ -168,7 +177,56 @@ ul.recent-lists li:last-child {
   background: #007fff;
   color: #fff;
 }
-
+ul.data-listing{
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  height: 250px;
+  overflow: auto;
+}
+.data-dropbox{
+  position: absolute;
+  background: #fff;
+  width: inherit;
+  padding: 5px;
+  z-index: 9;
+  border-radius: 0 0 4px 4px;
+  border: 1px solid #ddd;
+  height: 300px;
+}
+.search-box{
+  height: 42px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: .25rem .75rem;
+  background: #f2f4f5;
+}
+.overflow-x{
+  overflow-x: scroll;
+}
+.single-category {
+  border-radius: 16px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  margin-right: 10px;
+  font-size: 12px;
+  padding: 8px 16px;
+  color: #64707d;
+  flex: 0 0 auto;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
+}
+.remove-data{
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+}
+.placeholder-text{
+  color: #788796;
+  font-size: 16px;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  line-height: 2;
+}
 
 
 .progress-wrap{
@@ -967,16 +1025,20 @@ label.room-name::before {
   margin: auto 2px;
   height: 2px;
 }
-.remove-user{
+.remove-user,
+.remove-data{
   border: 2px solid #ff3d33;
-  width: 20px;
-  height: 20px;
   border-radius: 100%;
   position: relative;
   display: inline-block;
   cursor: pointer;
 }
-.remove-user::before{
+.remove-user{
+  width: 20px;
+  height: 20px;
+}
+.remove-user::before, 
+.remove-data::before{
   content: '';
   position: absolute;
   top: 0;

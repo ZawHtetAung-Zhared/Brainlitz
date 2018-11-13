@@ -17,10 +17,16 @@ export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
   public isvalidID:any = '';
+  public categoryList:any;
+  public planList:any;
   public courseVal:any = {};
   public recentLists: Array<any> = [];
+  public tempCategory: Array<any> = [];
+  public tempPlan: Array<any> = [];
   public iswordcount:boolean = false;
   public iscourseSearch:boolean = false;
+  public categorySearch:boolean = false;
+  public planSearch:boolean = false;
   public isAdvancedSearch:boolean = false;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
@@ -226,6 +232,13 @@ export class CourseComponent implements OnInit {
     if(this.iswordcount != true){
       this.iscourseSearch = false;
     }
+    this.isAdvancedSearch = false;
+  }
+
+  cancelAS(){
+    console.log('close')
+    this.isAdvancedSearch = false;
+    this.clearSearch();
   }
 
   clearSearch(){
@@ -236,6 +249,23 @@ export class CourseComponent implements OnInit {
     this.getCourseLists(20, 0);
   }
 
+  getAllCategories(limit, skip){
+    this.blockUI.start('Loading...');
+    this._service.getCategory(this.regionId, limit, skip)
+    .subscribe((res:any) => {
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
+      this.categoryList = res;
+      console.log(res);
+    })
+  }
+
+  showDropBoxData(state){
+    this.categorySearch = (state == 'category') ? !this.categorySearch : false;
+    this.planSearch = (state == 'plan') ? !this.planSearch : false;
+  }
+
   searchCourse(val){
     // this.courseVal = val
     if(val.length > 0){
@@ -243,6 +273,20 @@ export class CourseComponent implements OnInit {
     }else{
       this.iswordcount = false;
     }
+  }
+
+  selectedList(obj, state){
+    let temp = {
+      'name': obj.name,
+      'id': obj._id
+    }
+    if(state == 'plan'){
+      this.tempPlan.push(temp)
+    }else{
+      this.tempCategory.push(temp)
+    }
+    console.log(this.tempCategory)
+    console.log(this.tempPlan)
   }
 
   searchStart(e){
@@ -270,6 +314,7 @@ export class CourseComponent implements OnInit {
 
   showAdvancedSearch(){
     this.isAdvancedSearch = true;
+    this.getAllCategories(20, 0);
   }
 
   //end course search
@@ -866,6 +911,7 @@ export class CourseComponent implements OnInit {
     console.log('----', localStorage.getItem('locationId'))
     this._service.getAllCoursePlan(this.regionId,localStorage.getItem('locationId'))
     .subscribe((res:any) => {
+      this.planList = res;
       console.log("course plan list",res)
     })
   }
