@@ -759,25 +759,25 @@
         </div>
         <div class="text-right">
           <h3 class="modal-title">Invoice</h3>
-          <label class="mr-auto mb-0 invoice-info">#00001</label>
+          <label class="mr-auto mb-0 invoice-info">{{ invoiceInfo.invoiceId }}</label>
         </div>
       </div>
       <div class="pt-4">
-        <h5 class="invoice-label">CRISTOFORI Music School</h5>
+        <h5 class="invoice-label">{{ invoiceInfo.companyName }}</h5>
         <div class="d-flex">
           <div class="col-md-6 col-lg-6 pl-zero">
-            <p class="invoice-info">Blk 3014 Bedok Industrial Park E #02-2148 Singapore 489980</p>
+            <p class="invoice-info">{{ invoiceInfo.address }}</p>
           </div>
           <div class="col-md-3 col-lg-3 text-right">
             <label class="invoice-label">Invoice date</label>
-            <p class="invoice-info">12 Jun 2018</p>
+            <p class="invoice-info">{{ updatedDate }}</p>
           </div>
           <div class="col-md-3 col-lg-3 text-right">
             <label class="invoice-label">Due date</label>
-            <p class="invoice-info">30 Aug 2018</p>
+            <p class="invoice-info">{{ dueDate }}</p>
           </div>
         </div>
-        <p class="invoice-info">billing@cristofori.com<p>
+        <p class="invoice-info">{{ invoiceInfo.email }}<p>
       </div>
       <div class="pb-4"> 
         <label class="invoice-label mb-0">Bill to</label>
@@ -817,94 +817,108 @@
         <div class="col-md-4 p-0 text-center">Unit price</div>
         <div class="col-md-2 text-right">Amount</div>
       </div>
-      <div class="d-flex pad-10 mt-2">
-        <div class="col-md-5 price-info">Piano Grade 1</div>
-        <div class="col-md-1 p-0 text-right price-info">1</div>
-        <div class="col-md-4 p-0 text-center price-info">S$ 230.20</div>
-        <div class="col-md-2 text-right price-info">S$ 230.20</div>
-      </div>
-      <hr>
-      <div class="d-flex justify-content-end">
-        <div class="w-50">
-          <div class="d-flex pad-10 price-info">
-            <!-- <div class="col-md-8 p-0 text-center">Sub total</div> -->
-            <div class="col-md-8 d-flex p-0">
-              <div class="col-sm-7 text-right p-0">
-                Sub total
+      <div *ngFor="let data of invoice">
+        <div class="d-flex pad-10 mt-2" >
+          <div class="col-md-5 price-info">{{data.courseId}}</div>
+          <div class="col-md-1 p-0 text-right price-info">1</div>
+          <div class="col-md-4 p-0 text-center price-info">{{data.courseFee}}</div>
+          <div class="col-md-2 text-right price-info">S$ {{data.courseFee}}</div>
+        </div>
+        <div class="d-flex pad-10 mt-2" >
+          <div class="col-md-5 price-info">Registration Fee</div>
+          <div class="col-md-1 p-0 text-right price-info">1</div>
+          <div class="col-md-4 p-0 text-center price-info">{{data.registrationFee}}</div>
+          <div class="col-md-2 text-right price-info">S$ {{data.registrationFee}}</div>
+        </div>
+        <div class="d-flex pad-10 mt-2" >
+          <div class="col-md-5 price-info">Deposit</div>
+          <div class="col-md-1 p-0 text-right price-info">1</div>
+          <div class="col-md-4 p-0 text-center price-info">{{data.deposit}}</div>
+          <div class="col-md-2 text-right price-info">S$ {{data.deposit}}</div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-end">
+          <div class="w-50">
+            <div class="d-flex pad-10 price-info">
+              <!-- <div class="col-md-8 p-0 text-center">Sub total</div> -->
+              <div class="col-md-8 d-flex p-0">
+                <div class="col-sm-7 text-right p-0">
+                  Sub total
+                </div>
+                <div class="col-sm-5 p-0">
+                </div>
               </div>
-              <div class="col-sm-5 p-0">
-              </div>
+              <div class="col-md-4 text-right">S$ {{ subTotal }}</div>
             </div>
-            <div class="col-md-4 text-right">S$ 230.20</div>
-          </div>
-          <div class="d-flex pad-10 price-info">
-            <div class="col-md-8 d-flex p-0">
-              <div class="col-sm-7 text-right p-0">
-                GST
+            <div class="d-flex pad-10 price-info">
+              <div class="col-md-8 d-flex p-0">
+                <div class="col-sm-7 text-right p-0">
+                  GST
+                </div>
+                <div class="col-sm-5 text-right p-0">
+                  ({{ data.taxRate }})
+                </div>
               </div>
-              <div class="col-sm-5 text-right p-0">
-                (20%)
-              </div>
+              <div class="col-md-4 text-right price-info">S$ {{totalTax}}</div>
             </div>
-            <div class="col-md-4 text-right price-info">S$ 20.00</div>
-          </div>
-          <div class="d-flex pad-10 price-info">
-            <div class="col-md-8 d-flex p-0">
-              <div class="col-sm-7 text-right p-0">
-                <p class="mb-0" style="color: #0080ff;" *ngIf="discount==0">Add discount</p>
-                <div class="mb-0 d-flex float-right" *ngIf="discount>0"><div class="discount-info">(Less)</div><div>Discount</div></div>
-              </div>
-              <div class="col-sm-5 text-right p-0">
-                <div *ngIf="showBox == true" class="popup-box text-left">
-                  <div id="rectangle"></div>
-                  <div class="p-3">
-                    <h5>Discount</h5>
-                    <div class="d-flex popup-input">
-                      <div class="input-sign">
-                        S$
+            <div class="d-flex pad-10 price-info">
+              <div class="col-md-8 d-flex p-0">
+                <div class="col-sm-7 text-right p-0">
+                  <p class="mb-0" style="color: #0080ff;" *ngIf="discount==0">Add discount</p>
+                  <div class="mb-0 d-flex float-right" *ngIf="discount>0"><div class="discount-info">(Less)</div><div>Discount</div></div>
+                </div>
+                <div class="col-sm-5 text-right p-0">
+                  <div *ngIf="showBox == true" class="popup-box text-left">
+                    <div id="rectangle"></div>
+                    <div class="p-3">
+                      <h5>Discount</h5>
+                      <div class="d-flex popup-input">
+                        <div class="input-sign">
+                          S$
+                        </div>
+                        <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value">
                       </div>
-                      <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value">
                     </div>
                   </div>
+                  <div *ngIf="showBox == true" class="d-flex btns-wrap">
+                    <button type="submit" class="btn" (click)="cancelPopup()">
+                      <span class="closemark">
+                          <div class="closemark_stem"></div>
+                          <div class="closemark_kick"></div>
+                      </span>
+                    </button>
+                    <button type="submit" class="btn" (click)="addDiscount(value)" [disabled]="value == undefined || value == ''">
+                      <span class="checkmark">
+                          <div class="checkmark_stem"></div>
+                          <div class="checkmark_kick"></div>
+                      </span>
+                    </button>
+                  </div>
+                  <p class="mb-0" (click)="showPopup()"><span *ngIf="discount>0">S$</span>{{discount}}</p>
                 </div>
-                <div *ngIf="showBox == true" class="d-flex btns-wrap">
-                  <button type="submit" class="btn" (click)="cancelPopup()">
-                    <span class="closemark">
-                        <div class="closemark_stem"></div>
-                        <div class="closemark_kick"></div>
-                    </span>
-                  </button>
-                  <button type="submit" class="btn" (click)="addDiscount(value)" [disabled]="value == undefined || value == ''">
-                    <span class="checkmark">
-                        <div class="checkmark_stem"></div>
-                        <div class="checkmark_kick"></div>
-                    </span>
-                  </button>
+              </div>
+              <div class="col-md-4 text-right"></div>
+            </div>
+            <!-- <div class="d-flex pad-10 price-info">
+              <div class="col-md-8 d-flex p-0">
+                <div class="col-sm-7 text-right p-0">
+                  (Less)Discount
                 </div>
-                <p class="mb-0" (click)="showPopup()"><span *ngIf="discount>0">S$</span>{{discount}}</p>
+                <div class="col-sm-5 text-right p-0 ">
+                  $S 10
+                </div>
               </div>
+              <div class="col-md-4 text-right">$S 10.00</div>
+            </div> -->
+            <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
+              <div class="col-md-8 d-flex p-0">
+                <div class="col-sm-7 text-right p-0">
+                  Amount due
+                </div>
+                <div class="col-sm-5 text-right p-0"></div>
+              </div>
+              <div class="col-md-4 text-right">S$ {{ data.total }}</div>
             </div>
-            <div class="col-md-4 text-right"></div>
-          </div>
-          <!-- <div class="d-flex pad-10 price-info">
-            <div class="col-md-8 d-flex p-0">
-              <div class="col-sm-7 text-right p-0">
-                (Less)Discount
-              </div>
-              <div class="col-sm-5 text-right p-0 ">
-                $S 10
-              </div>
-            </div>
-            <div class="col-md-4 text-right">$S 10.00</div>
-          </div> -->
-          <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
-            <div class="col-md-8 d-flex p-0">
-              <div class="col-sm-7 text-right p-0">
-                Amount due
-              </div>
-              <div class="col-sm-5 text-right p-0"></div>
-            </div>
-            <div class="col-md-4 text-right">S$ 250.00</div>
           </div>
         </div>
       </div>
