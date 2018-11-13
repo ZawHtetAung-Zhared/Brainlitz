@@ -609,7 +609,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   formatTime(){
-    console.log()
+    console.log("this.selected",this.selectedHrRange,this.selectedMinRange)
     if(this.selectedHrRange > 0 ){
       if(this.selectedHrRange<10){
         var hrFormat = 0 + this.selectedHrRange;
@@ -622,8 +622,15 @@ export class CoursecreateComponent implements OnInit {
     }
     if(this.selectedMinRange > 0){
       if(this.selectedMinRange<10){
+        this.selectedMinRange = parseInt(this.selectedMinRange);
+        this.selectedMinRange = this.selectedMinRange.toString();
+        console.log('if',this.selectedMinRange)
+        // var minFormat = this.selectedMinRange.concat('0',this.selectedMinRange);
         var minFormat = 0 + this.selectedMinRange;
+        // console.log(this.selectedMinRange.concat('0',this.selectedMinRange));
+        console.log(minFormat)
       }else{
+        console.log('else',this.selectedMinRange)
         var minFormat = this.selectedMinRange;
       }
     }else{
@@ -631,6 +638,7 @@ export class CoursecreateComponent implements OnInit {
       var minFormat = this.selectedMinRange;
     }
     this.showFormat = hrFormat + ':' + minFormat;
+    console.log(this.showFormat)
     this.startFormat = hrFormat + ':' + minFormat +''+ this.isSelected;
     console.log('Start Format',this.startFormat);
     // this.model.starttime = this.startFormat;  

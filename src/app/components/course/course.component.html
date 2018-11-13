@@ -747,7 +747,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
-        <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}'" (click)="addCustomer()">Confirm</button>
+        <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}'" (click)="addCustomer(detailLists._id, userType)">Confirm</button>
       </div>
     </form>
   </div>
@@ -785,9 +785,9 @@
           <p class="invoice-info label-height mb-0">emmawatson@amdon.com</p>
           <button class="btn-associate" (click)="showAssociatePopup()">Add associated mail</button>
         </div>
-        <div *ngIf="showMailPopup == true" class="mails-box">
-          <div id="top-rectangle"></div>
-          <div>
+        <!-- <div *ngIf="showMailPopup == true" class="bg-box">
+          <div id="toprectangle"></div>
+          <div class="pickMail-wrapper">
             <h4 class="modal-title">Pick associated mail</h4>
             <div class="d-flex flex-column" style="position: relative;">
               <div class="d-flex">
@@ -802,11 +802,14 @@
                   autocomplete="off"
                   placeholder="Search associated email" 
                   id="example-search-input" 
-                  name="search" >
+                  name="searchMail" [(ngModel)]="model.assistantSearch" 
+                  (focus)="focusMailInput($event, 'customer')"
+                  (focusout)="hideMailFocus($event)"
+                  (input)="changeMail($event.target.value)" #searchMail="ngModel">
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="d-flex invoice-label pad-10 bg-label">
         <div class="col-md-5">Course</div>
