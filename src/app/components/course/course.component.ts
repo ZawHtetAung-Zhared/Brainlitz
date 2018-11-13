@@ -6,6 +6,8 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { DOCUMENT } from "@angular/platform-browser";
+import * as moment from 'moment-timezone';
+import {DatePipe} from '@angular/common';
 declare var $:any;
 
 @Component({
@@ -83,6 +85,12 @@ export class CourseComponent implements OnInit {
   public discount:number;
   public value;
   public showMailPopup:boolean = false;
+  public invoiceInfo:any;
+  public invoice:any;
+  public updatedDate;
+  public dueDate;
+  public subTotal;
+  public totalTax;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -863,6 +871,7 @@ export class CourseComponent implements OnInit {
   }
 
   addCustomer(courseId, userType){
+    
     console.log("call from addCustomer",this.selectedCustomer);
     let body = {
        'courseId': courseId,
@@ -873,10 +882,36 @@ export class CourseComponent implements OnInit {
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
        console.log("res Assign customer",res);
+       this.invoiceInfo = res.invoiceInfo;
+       this.invoice = res.invoice;
        this.showInvoice = true; 
+
+       for(var i in this.invoice){
+         this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
+         this.dueDate = this.dateFormat(this.invoice[i].dueDate);
+         this.totalTax = this.invoice[i].taxOnCourseFee + this.invoice[i].taxOnRegistrationFee;
+         console.log("total tax",this.totalTax);
+         this.subTotal = this.invoice[i].total - this.totalTax;
+         console.log("unit Price",this.subTotal);
+       }
+       
      })
     // this.showInvoice = true; 
 
+  }
+
+  dateFormat(dateStr){
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ]; 
+     var d = new Date(dateStr);
+     var month = monthNames[d.getUTCMonth()];
+     var year = d.getUTCFullYear();
+     var date = d.getUTCDate();
+     console.log(date,month,year)
+     var dFormat = date + ' ' + month + ' ' + year;
+     console.log("DD MM YYYY",dFormat);
+     return dFormat;
   }
 
   // end course detail
