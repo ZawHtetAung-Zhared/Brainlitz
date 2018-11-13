@@ -124,9 +124,51 @@ ul.recent-lists li:last-child {
   width: 100%;
   background: #fff;
   top: 0;
-  padding: 20px 0px;
   box-shadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
+.search-data-section{
+  padding: 20px 24px;
+}
+.search-data-one {
+  border-bottom: 1px solid #edeff0;
+  margin-bottom: 24px;
+}
+.search-btns{
+  border-top: 1px solid #edeff0;
+}
+.as-section label {
+  color: #2e3d4d;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-size: 18px;
+}
+.as-section p{
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  color: #64707d;
+  font-size: 16px;
+}
+.reset-as,
+.cancel-as,
+.search-as{
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-size: 16px;
+}
+.reset-as{
+  color: #0080ff;
+}
+.cancel-as,
+.search-as{
+  padding: 11px 20px;
+  border-radius: 3px;
+}
+.cancel-as{
+  background: #f2f4f5;
+  color: #2e3d4d;
+}
+.search-as{
+  background: #007fff;
+  color: #fff;
+}
+
 
 
 .progress-wrap{
