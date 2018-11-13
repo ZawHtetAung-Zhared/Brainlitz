@@ -297,6 +297,12 @@ export class CourseComponent implements OnInit {
     console.log(this.tempPlan)
   }
 
+  resetAS(){
+    this.tempCategory = []
+    this.tempPlan = []
+    this.courseVal = {}
+  }
+
   searchStart(e){
     if(e.keyCode == 13){
       this.recentLists.unshift(e.target.value)
