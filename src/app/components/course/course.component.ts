@@ -71,7 +71,7 @@ export class CourseComponent implements OnInit {
   
   public draft:boolean;
   public selectedCustomer:any = {};
-  public showInvoice:boolean = true;
+  public showInvoice:boolean = false;
   public logo:any = localStorage.getItem("OrgLogo");
   public showBox:boolean = false;
   public discount:number;
@@ -817,8 +817,21 @@ export class CourseComponent implements OnInit {
       });
   }
 
-  addCustomer(){
-    this.showInvoice = true; 
+  addCustomer(courseId, userType){
+    console.log("call from addCustomer",this.selectedCustomer);
+    let body = {
+       'courseId': courseId,
+       'userId': this.selectedCustomer.userId,
+       'userType': userType
+     }
+     console.log("body",body);
+     this._service.assignUser(this.regionId,body, this.locationID)
+     .subscribe((res:any) => {
+       console.log("res Assign customer",res);
+       this.showInvoice = true; 
+     })
+    // this.showInvoice = true; 
+
   }
 
   // end course detail
