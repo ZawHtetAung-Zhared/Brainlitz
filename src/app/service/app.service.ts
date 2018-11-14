@@ -1624,10 +1624,9 @@ export class appService{
       })
     }
 
-    invoiceOption(regionid,invoiceId,option){
+    invoiceOption(regionid, invoiceId, body, option){
       console.log(regionid)
       this.getLocalstorage();
-      let body = ''
       let apiUrl = this.baseUrl + '/invoices' + '/' + invoiceId + '/' + option;
 
       const httpOptions = {
