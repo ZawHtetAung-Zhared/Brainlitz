@@ -108,6 +108,9 @@ export class CourseComponent implements OnInit {
   public subTotal;
   public totalTax;
   public invoiceID;
+  public showPayment:boolean = false;
+  public selectedPayment:any;
+  public paymentItem = {};
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -766,11 +769,12 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  cancelModal(type){
+  cancelModal(){
     this.modalReference.close();
     // this.isSeatAvailable = true;
     this.showList = false;
     this.selectedCustomer = {};
+    this.showInvoice = false;
   }
 
   getAllUsers(type){
@@ -1019,7 +1023,6 @@ export class CourseComponent implements OnInit {
        this.invoiceInfo = res.invoiceInfo;
        this.invoice = res.invoice;
        this.showInvoice = true; 
-
        for(var i in this.invoice){
          this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
          this.dueDate = this.dateFormat(this.invoice[i].dueDate);
@@ -1186,14 +1189,39 @@ export class CourseComponent implements OnInit {
 
   sendInvoice(){
     console.log("send Invoice",this.invoiceID);
-
-    this._service.invoiceOption(this.regionId,this.invoiceID,'send')
+    var mailArr = [];
+    mailArr.push(this.selectedCustomer.email);
+    for(var i in this.selectedCustomer.guardianEmail){
+      mailArr.push(this.selectedCustomer.guardianEmail[i]);
+    }
+    console.log("mailArr",mailArr);
+    let body = {
+      "associatedMails": mailArr
+    }
+    console.log("body",body);
+    this._service.invoiceOption(this.regionId, this.invoiceID, body, 'send')
     .subscribe((res:any) => {
       console.log(res);
-      this.showInvoice = false;
+      this.toastr.success("Successfully sent the Invoice.");
+      // this.modalReference.close();
+      this.getCourseDetail(this.detailLists._id)
+      this.getUsersInCourse(this.detailLists._id);
+      this.cancelModal();
     }, err => {  
       console.log(err);
+      this.toastr.error('Fail to sent the Invoice.');
     })
+  }
+
+  showPayOption(){
+    console.log("pay option");
+    this.showPayment = true;
+    this.showInvoice = false;
+  }
+
+  choosePayment(type){
+    console.log("choosePayment",type);
+    this.selectedPayment = type;
   }
 
 }
