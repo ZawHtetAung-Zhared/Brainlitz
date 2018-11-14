@@ -48,7 +48,7 @@
                       <div class="d-flex flex-nowrap" *ngIf="tempCategory.length > 0">
                         <div *ngFor="let temp of tempCategory" class="single-category d-flex flex-row">
                           <span>{{temp.name}}</span>
-                          <div class="remove-data d-flex justify-content-end"></div>
+                          <div (click)="removeTempData(temp.id, 'category')" class="remove-data d-flex justify-content-end"></div>
                         </div>
                       </div>
                     </div>
@@ -78,7 +78,7 @@
                       <div class="d-flex flex-nowrap" *ngIf="tempPlan.length > 0"> 
                         <div *ngFor="let temp of tempPlan" class="single-category d-flex flex-row">
                           <span>{{temp.name}}</span>
-                          <div class="remove-data d-flex justify-content-end"></div>
+                          <div (click)="removeTempData(temp.id, 'plan')" class="remove-data d-flex justify-content-end"></div>
                         </div>
                       </div>
                     </div>
@@ -136,7 +136,20 @@
               <div class="form-group d-flex">
                 <label for="day" class="sub-title col-md-2 pl-zero">Repeated days</label>
                 <div class="col-md-10 pr-zero pl-zero">
-                  
+                  <div class="d-flex flex-row">
+                    <div [ngClass]="{'selected': ischecked==true}" class="single-day" *ngFor="let day of days">
+                      <label class="form-check-label cat-label d-flex flex-column justify-content-center">
+                        <div>
+                          <div class="label-checked"></div>
+                          <input class="form-check-input"
+                            type="radio" 
+                            name="inlineRadioOptions"         
+                            (click)="selectTheDay(day.val)"
+                            value="{{day.val}}"> {{day.day}}
+                        </div>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
