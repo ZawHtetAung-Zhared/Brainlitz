@@ -85,17 +85,20 @@ export class CourseComponent implements OnInit {
   public dueDate;
   public subTotal;
   public totalTax;
+  public invoiceID;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {   
       console.log('goooo') 
+      this.courseList = []
       this.isCategory = false;
       window.scroll(0,0);
     });
 
     this._service.goCourseCreate.subscribe(() => {   
       console.log('go to cc') 
+      this.courseList = []
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
@@ -105,6 +108,7 @@ export class CourseComponent implements OnInit {
    
     this._service.goplan.subscribe(() => {
      console.log('muuuu')
+     this.courseList = []
      this.isCategory = false;
       this.isPlan = true;
       this.goBackCat = true;
@@ -115,6 +119,7 @@ export class CourseComponent implements OnInit {
       this.goBackCat = false;
       this.isCategory = true;
       this.isPlan = false;
+      this.courseList = []
     });
 
     this._service.goCourse.subscribe(() => {   
@@ -124,7 +129,7 @@ export class CourseComponent implements OnInit {
       this.goBackCat = false;
       this.isCourseCreate = false;
       this.courseList = []
-      this.getCourseLists(20, 0)
+      console.log(this.courseList.length)
     });
   }
 
@@ -172,6 +177,7 @@ export class CourseComponent implements OnInit {
     
 
     if(this.coursePermission.includes('VIEWCOURSE') != false){      
+      console.log('hi permission')
       this.locationName = localStorage.getItem('locationName');
       this.getCPlanList();
       this.getCourseLists(20, 0);
@@ -803,7 +809,7 @@ export class CourseComponent implements OnInit {
        'userId': this.selectedUserId,
        'userType': userType
      }
-     console.log('~~~~' , body)
+    console.log('~~~~' , body)
     this._service.assignUser(this.regionId,body, this.locationID)
       .subscribe((res:any) => {
          console.log(res);
@@ -848,9 +854,15 @@ export class CourseComponent implements OnInit {
          console.log("total tax",this.totalTax);
          this.subTotal = this.invoice[i].total - this.totalTax;
          console.log("unit Price",this.subTotal);
+         this.invoiceID = this.invoice[i]._id;
+         if(this.invoice[i].deposit>0){
+           this.subTotal = this.subTotal - this.invoice[i].deposit;
+         }
        }
        
-     })
+     }, err => {  
+        console.log(err);
+      })
     // this.showInvoice = true; 
 
   }
@@ -918,7 +930,10 @@ export class CourseComponent implements OnInit {
       this.result = res;
       console.log(this.result)
       console.log(this.result.length)
+      console.log(this.courseList)
       this.courseList = this.courseList.concat(res);
+      console.log(this.courseList)
+      console.log(this.courseList.length)
       if(this.courseList.length > 0 ){
         this.emptyCourse = false;
         for (var i in this.courseList) {
@@ -993,6 +1008,18 @@ export class CourseComponent implements OnInit {
 
   showAssociatePopup(){
     this.showMailPopup = true;
+  }
+
+  sendInvoice(){
+    console.log("send Invoice",this.invoiceID);
+
+    this._service.invoiceOption(this.regionId,this.invoiceID,'send')
+    .subscribe((res:any) => {
+      console.log(res);
+      this.showInvoice = false;
+    }, err => {  
+      console.log(err);
+    })
   }
 
 }
