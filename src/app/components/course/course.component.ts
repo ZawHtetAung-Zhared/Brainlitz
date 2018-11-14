@@ -68,13 +68,15 @@ export class CourseComponent implements OnInit {
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
-    this._service.goback.subscribe(() => {   
+    this._service.goback.subscribe(() => {  
+      this.courseList = []; 
       console.log('goooo') 
       this.isCategory = false;
       window.scroll(0,0);
     });
 
-    this._service.goCourseCreate.subscribe(() => {   
+    this._service.goCourseCreate.subscribe(() => {
+      this.courseList = [];   
       console.log('go to cc') 
       this.isCategory = false;
       this.isPlan = false;
@@ -84,13 +86,15 @@ export class CourseComponent implements OnInit {
     });
    
     this._service.goplan.subscribe(() => {
+      this.courseList = [];
      console.log('muuuu')
      this.isCategory = false;
       this.isPlan = true;
       this.goBackCat = true;
     })
 
-    this._service.goCat.subscribe(() => {   
+    this._service.goCat.subscribe(() => {  
+      this.courseList = []; 
       console.log('goback22', this.goBackCat) 
       this.goBackCat = false;
       this.isCategory = true;
@@ -103,8 +107,8 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
-      this.courseList = []
-      this.getCourseLists(20, 0)
+      this.courseList = [];
+      // this.getCourseLists(20, 0)
     });
   }
 
