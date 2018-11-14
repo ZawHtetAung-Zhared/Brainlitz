@@ -829,8 +829,12 @@
       <div class="pb-4"> 
         <label class="invoice-label mb-0">Bill to</label>
         <div class="d-flex">
-          <p class="invoice-info label-height mb-0">emmawatson@amdon.com</p>
-          <button class="btn-associate" (click)="showAssociatePopup()">Add associated mail</button>
+          <p class="invoice-info label-height mb-0">
+            <span *ngIf="selectedCustomer.email != ''">{{ selectedCustomer.email }}</span>
+            <span *ngFor="let mail of selectedCustomer.guardianEmail">{{ mail }}</span>
+            <span *ngIf="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0">-</span>
+          </p>
+          <!-- <button class="btn-associate" (click)="showAssociatePopup()">Add associated mail</button> -->
         </div>
         <!-- <div *ngIf="showMailPopup == true" class="bg-box">
           <div id="toprectangle"></div>
@@ -869,19 +873,19 @@
           <div class="col-md-5 price-info">{{data.courseId}}</div>
           <div class="col-md-1 p-0 text-right price-info">1</div>
           <div class="col-md-4 p-0 text-center price-info">{{data.courseFee}}</div>
-          <div class="col-md-2 text-right price-info">S$ {{data.courseFee}}</div>
+          <div class="col-md-2 text-right price-info">{{data.currency}} {{data.courseFee}}</div>
         </div>
         <div class="d-flex pad-10 mt-2" >
           <div class="col-md-5 price-info">Registration Fee</div>
           <div class="col-md-1 p-0 text-right price-info">1</div>
           <div class="col-md-4 p-0 text-center price-info">{{data.registrationFee}}</div>
-          <div class="col-md-2 text-right price-info">S$ {{data.registrationFee}}</div>
+          <div class="col-md-2 text-right price-info">{{data.currency}} {{data.registrationFee}}</div>
         </div>
         <div class="d-flex pad-10 mt-2" >
           <div class="col-md-5 price-info">Deposit</div>
           <div class="col-md-1 p-0 text-right price-info">1</div>
           <div class="col-md-4 p-0 text-center price-info">{{data.deposit}}</div>
-          <div class="col-md-2 text-right price-info">S$ {{data.deposit}}</div>
+          <div class="col-md-2 text-right price-info">{{data.currency}} {{data.deposit}}</div>
         </div>
         <hr>
         <div class="d-flex justify-content-end">
@@ -895,18 +899,18 @@
                 <div class="col-sm-5 p-0">
                 </div>
               </div>
-              <div class="col-md-4 text-right">S$ {{ subTotal }}</div>
+              <div class="col-md-4 text-right">{{data.currency}} {{ data.subtotal }}</div>
             </div>
             <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
-                  GST
+                  {{ data.taxName }}
                 </div>
                 <div class="col-sm-5 text-right p-0">
                   ({{ data.taxRate }})
                 </div>
               </div>
-              <div class="col-md-4 text-right price-info">S$ {{totalTax}}</div>
+              <div class="col-md-4 text-right price-info">{{data.currency}}  {{ data.tax }}</div>
             </div>
             <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
@@ -921,7 +925,7 @@
                       <h5>Discount</h5>
                       <div class="d-flex popup-input">
                         <div class="input-sign">
-                          S$
+                          {{data.currency}} 
                         </div>
                         <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value">
                       </div>
@@ -941,7 +945,7 @@
                       </span>
                     </button>
                   </div>
-                  <p class="mb-0" (click)="showPopup()"><span *ngIf="discount>0">S$</span>{{discount}}</p>
+                  <p class="mb-0" (click)="showPopup()"><span *ngIf="discount>0">{{data.currency}}</span>{{discount}}</p>
                 </div>
               </div>
               <div class="col-md-4 text-right"></div>
@@ -964,15 +968,15 @@
                 </div>
                 <div class="col-sm-5 text-right p-0"></div>
               </div>
-              <div class="col-md-4 text-right">S$ {{ data.total }}</div>
+              <div class="col-md-4 text-right">{{data.currency}}  {{ data.total }}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn send-btn">Send invoice</button>
-      <button class="btn btn-submit">Pay now</button>
+      <button class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="sendInvoice()">Send invoice</button>
+      <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0">Pay now</button>
     </div>
   </div>
 </ng-template>
