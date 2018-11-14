@@ -25,6 +25,16 @@ export class CourseComponent implements OnInit {
   public recentLists: Array<any> = [];
   public tempCategory: Array<any> = [];
   public tempPlan: Array<any> = [];
+  public ischecked:boolean = true;
+  public days = [
+    {"day":"Sun", "val": 0},
+    {"day":"Mon", "val": 1},
+    {"day":"Tue", "val": 2},
+    {"day":"Wed", "val": 3},
+    {"day":"Thu", "val": 4},
+    {"day":"Fri ", "val": 5},
+    {"day":"Sat", "val": 6},
+  ];
   public iswordcount:boolean = false;
   public iscourseSearch:boolean = false;
   public categorySearch:boolean = false;
@@ -304,6 +314,29 @@ export class CourseComponent implements OnInit {
     }
     console.log(this.tempCategory)
     console.log(this.tempPlan)
+  }
+
+  removeTempData(id, state){
+    console.log('remove list ..', id)
+    let dataIndex;
+    if(state == 'category'){
+      for(let x in this.tempCategory){
+        if(this.tempCategory[x].id == id){
+          console.log('if')
+          dataIndex = x;
+        }
+      }
+      console.log(dataIndex)
+      console.log(dataIndex,1)
+      this.tempCategory.splice(dataIndex,1);
+      console.log(this.tempCategory);
+    }else{
+      
+    }
+  }
+
+  selectTheDay(val){
+    
   }
 
   resetAS(){
