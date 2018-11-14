@@ -182,13 +182,34 @@
                           <div class="d-flex flex-column justify-content-center">
                             11
                           </div>
-                          <div>
-                            <div class="time-box">
-                              <label *ngFor="let time of moment" [ngClass]="{'selected':isSelected == 'AM'}" class="mb-0 font-semi">
-                                <input type="radio" name="prop"> {{time.name}}
+                          <div class="time-box">
+                            <div *ngFor="let time of timeFrame" class="form-check form-check-inline time-checked">
+                              <label [ngClass]="{'checked':isChecked == time}" class="mb-0 font-semi">
+                                <input 
+                                  type="radio" 
+                                  name="moment"
+                                  [(ngModel)]="courseVal.moment"
+                                  #moment="ngModel"
+                                  [checked]='true'
+                                  (click)="chooseMoment(time)"
+                                  > 
+                                {{time}}
                               </label>
                             </div>
                           </div>
+                        </div>
+                        <div class="gap-box">
+                          <label class="d-flex">
+                            <div class="col-md-4 max-range">Hour</div>
+                            <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedTimeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
+                            
+                          </label>
+                        </div>
+                        <div class="gap-range-min">
+                          <label class="d-flex">
+                            <div class="col-md-4 min-range">Minute</div>
+                            <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedTimeValue($event.target.value, 'min')" [(ngModel)]="rangeMin">
+                          </label>
                         </div>
                       </div>
                     </div>

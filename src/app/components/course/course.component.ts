@@ -28,10 +28,8 @@ export class CourseComponent implements OnInit {
   public tempPlan: Array<any> = [];  
   public startTime:boolean = false;
   public endTime:boolean = false;  
-  public moment:Array<any> = [
-    {'name': 'AM'},
-    {'name': 'PM'}
-  ];
+  public isChecked:boolean = false;  
+  public timeFrame:Array<any> = ['AM','PM'];
   public days = [
     {"day":"Sun", "val": 0, 'checked': true},
     {"day":"Mon", "val": 1, 'checked': true},
@@ -428,9 +426,17 @@ export class CourseComponent implements OnInit {
     ];
   }
 
+  chooseMoment(obj){
+    this.isChecked = obj;
+  }
+
   startTimeConfigure(state){
     this.startTime = (state == 'start') ? true : false;
     this.endTime = (state == 'end') ? true : false;
+  }
+
+  ChangedTimeValue(obj, state){
+    
   }
 
   searchStart(e){

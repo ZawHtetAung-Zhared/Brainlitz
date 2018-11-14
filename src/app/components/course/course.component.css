@@ -282,6 +282,58 @@ ul.data-listing{
   position: absolute;  
   z-index: 9;
 }
+.time-box{
+  display: table;
+  border: 2px solid #0080ff;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  margin-top: 13px;
+}
+.time-checked{  
+  margin-right: 0;
+  flex: auto;
+  border-right: 2px solid #0080ff;
+}
+.time-checked:last-child{
+  border-right: none;
+}
+.time-checked label{  
+  border-right: 0;  
+  color: #0080ff;  
+  flex: auto;
+  text-align: center;  
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  cursor: pointer;
+  width: 45px;
+  padding: 5px 0px;
+  font-size: 14px;
+}
+.time-checked.checked,
+.time-checked label.checked{
+  background: #0080ff;
+  color: #fff;
+}
+.checked label{
+  color: #fff !important; 
+}
+.time-checked input[type="radio"] {
+    display:none;
+}
+/*.min-range-box {
+  position: absolute; 
+  bottom: 3px; 
+  left: 100px;
+}
+
+.max-range-box {
+  position: absolute; 
+  bottom: 52px; 
+  left: 100px;
+}*/
+
+.max-range-box:hover, .min-range-box:hover {
+  background: none;
+}
 
 
 .progress-wrap{
@@ -1665,12 +1717,12 @@ button:disabled{
   display: none;
 }
 
-.selected{
+/*.selected{
   background: #007fff;
   color: #fff;
   pointer-events: none;
   border-radius: 4px;
-}
+}*/
 
 .mt-40{
   margin-top: 40px;
