@@ -70,12 +70,14 @@ export class CourseComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {   
       console.log('goooo') 
+      this.courseList = [];
       this.isCategory = false;
       window.scroll(0,0);
     });
 
     this._service.goCourseCreate.subscribe(() => {   
       console.log('go to cc') 
+      this.courseList = [];
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
@@ -85,6 +87,7 @@ export class CourseComponent implements OnInit {
    
     this._service.goplan.subscribe(() => {
      console.log('muuuu')
+     this.courseList = [];
      this.isCategory = false;
       this.isPlan = true;
       this.goBackCat = true;
@@ -92,6 +95,7 @@ export class CourseComponent implements OnInit {
 
     this._service.goCat.subscribe(() => {   
       console.log('goback22', this.goBackCat) 
+      this.courseList = [];
       this.goBackCat = false;
       this.isCategory = true;
       this.isPlan = false;
@@ -103,8 +107,8 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
-      this.courseList = []
-      this.getCourseLists(20, 0)
+      this.courseList = [];
+      // this.getCourseLists(20, 0)
     });
   }
 
