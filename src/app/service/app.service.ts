@@ -1624,6 +1624,29 @@ export class appService{
       })
     }
 
+    invoiceOption(regionid,invoiceId,option){
+      console.log(regionid)
+      this.getLocalstorage();
+      let body = ''
+      let apiUrl = this.baseUrl + '/invoices' + '/' + invoiceId + '/' + option;
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      console.log(httpOptions)
+      console.log("authorization",this.tokenType + ' ' + this.accessToken)
+
+      return this.httpClient.post(apiUrl, body, httpOptions)
+        .map((res:Response) => {
+          let result = res; 
+          console.log(result)
+          return result;
+        })
+    }
+
 }
 
 
