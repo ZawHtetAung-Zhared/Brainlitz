@@ -228,12 +228,14 @@ ul.data-listing{
   line-height: 2;
 }
 .single-day {
-  padding: 10px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   margin-right: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 .single-day label{
+  padding: 10px;
   color: #2e3d4d;
   font-size: 16px;
   line-height: 1;
@@ -248,6 +250,14 @@ ul.data-listing{
 .single-day input[type="radio"]{
   display: none;
 }
+.selected .label-checked{
+  border: 2px solid #fff;
+  background: url('/assets/img/blue-checked@2x.png') no-repeat center #fff;
+  /*background-image: url('/assets/img/blue-checked@2x.png');*/
+  /*background-repeat: no-repeat;*/
+  background-size: 10px;
+  /*background-position: center;*/
+}
 .label-checked {
   background: #fff;
   border: 2px solid #3d5266;
@@ -255,9 +265,24 @@ ul.data-listing{
   margin-right: 10px;
   width: 16px;
   height: 16px;
-  /*margin-top: 4px;*/
   float: left;
 }
+.xxx-start input, 
+.xxx-end input{
+  background-color: #f2f4f5;
+  border: none;
+  color: #788796;
+  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  padding: 10px;
+}
+.duration-progress {
+  background: #fff; 
+  box-shadow: 0px 4px 31px 1px rgba(1,0,0,0.3);
+  width: 362px;
+  position: absolute;  
+  z-index: 9;
+}
+
 
 .progress-wrap{
   color: #0080ff;
