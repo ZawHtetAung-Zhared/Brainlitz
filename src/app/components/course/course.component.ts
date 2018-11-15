@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewIni
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { DOCUMENT } from "@angular/platform-browser";
@@ -13,7 +13,8 @@ declare var $:any;
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.css']
+  styleUrls: ['./course.component.css'],
+  providers: [NgbDatepickerConfig]
 })
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
@@ -24,16 +25,19 @@ export class CourseComponent implements OnInit {
   public courseVal:any = {};
   public recentLists: Array<any> = [];
   public tempCategory: Array<any> = [];
-  public tempPlan: Array<any> = [];
-  public ischecked:boolean = false;
+  public tempPlan: Array<any> = [];  
+  public startTime:boolean = false;
+  public endTime:boolean = false;  
+  public isChecked:boolean = false;  
+  public timeFrame:Array<any> = ['AM','PM'];
   public days = [
-    {"day":"Sun", "val": 0},
-    {"day":"Mon", "val": 1},
-    {"day":"Tue", "val": 2},
-    {"day":"Wed", "val": 3},
-    {"day":"Thu", "val": 4},
-    {"day":"Fri ", "val": 5},
-    {"day":"Sat", "val": 6},
+    {"day":"Sun", "val": 0, 'checked': true},
+    {"day":"Mon", "val": 1, 'checked': true},
+    {"day":"Tue", "val": 2, 'checked': true},
+    {"day":"Wed", "val": 3, 'checked': true},
+    {"day":"Thu", "val": 4, 'checked': true},
+    {"day":"Fri ", "val": 5, 'checked': true},
+    {"day":"Sat", "val": 6, 'checked': true},
   ];
   public iswordcount:boolean = false;
   public iscourseSearch:boolean = false;
@@ -109,7 +113,7 @@ export class CourseComponent implements OnInit {
   public regBox:boolean = false;
   public prefixInvId:any;
 
-  constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef ) {
+  constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {   
       console.log('goooo') 
@@ -277,6 +281,7 @@ export class CourseComponent implements OnInit {
     this.courseVal = {};
     this.iswordcount = false;
     this.iscourseSearch = false;  
+    this.courseList = [];
     this.getCourseLists(20, 0);
   }
 
@@ -326,37 +331,127 @@ export class CourseComponent implements OnInit {
     if(state == 'category'){
       for(let x in this.tempCategory){
         if(this.tempCategory[x].id == id){
-          console.log('if')
           dataIndex = x;
         }
       }
-      console.log(dataIndex)
-      console.log(dataIndex,1)
       this.tempCategory.splice(dataIndex,1);
       console.log(this.tempCategory);
+    }else if(state == 'plan'){
+      for(let x in this.tempPlan){
+        if(this.tempPlan[x].id == id){
+          dataIndex = x;
+        }
+      }
+      this.tempPlan.splice(dataIndex,1);
+      console.log(this.tempPlan);
     }else{
-      
+      for(let x in this.days){
+        if(this.days[x].val == id){
+          this.days[x].checked = !this.days[x].checked;
+        }
+      }
+      // this.days.splice(dataIndex,1);
+      console.log(this.days);
+    }
+
+    
+  }
+
+  setMinDate(event){
+    console.log("setMinDate",event);
+    this.minDate = event;
+    this.showText = false;
+  }
+
+  setMaxDate(date){
+    console.log("setMaxDate",date);
+    this.maxDate =  date;
+  }
+
+  closeFix(event, datePicker) {
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "xxx-start col-md-6 pl-zero"
+    })
+    console.log('~~~ ', parentWrap.length)
+    if(parentWrap.length == 0){
+      console.log('blank')
+      datePicker.close();
+    }
+    
+    // if(event.target.id == "dpStart" || event.target.nodeName == 'SELECT' || event.target.className =='ngb-dp-navigation-chevron' || event.target.nodeName == 'ngb-datepicker-navigation'){
+    //       console.log('in the if')
+    //       datePicker.open();
+    // }else if(event.target.id != "dpStart"){
+    //   console.log('in the else if')
+    //   datePicker.close();
+    // }
+  }
+
+  closeFixEnd(event, endPicker){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "xxx-end col-md-6"
+    })
+    console.log('~~~ ', parentWrap.length)
+    if(parentWrap.length == 0){
+      console.log('blank')
+      endPicker.close();
     }
   }
 
-  selectTheDay(val){
-    
+  currentMonth(event){
+    console.log(event.next.month) 
+    let vim = event;
+    if(vim.next.month == 12){
+      console.log(vim.next.month)
+      $('.datepicker-wrap').addClass('hideRight');
+    }else{
+      $('.datepicker-wrap').removeClass('hideRight');
+    }
+    if(vim.next.month == 1){
+      console.log(vim.next.month)
+      $('.datepicker-wrap').addClass('hideLeft');
+    }else{
+      $('.datepicker-wrap').removeClass('hideLeft');
+    }
   }
 
   resetAS(){
     this.tempCategory = []
     this.tempPlan = []
     this.courseVal = {}
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': true},
+      {"day":"Mon", "val": 1, 'checked': true},
+      {"day":"Tue", "val": 2, 'checked': true},
+      {"day":"Wed", "val": 3, 'checked': true},
+      {"day":"Thu", "val": 4, 'checked': true},
+      {"day":"Fri ", "val": 5, 'checked': true},
+      {"day":"Sat", "val": 6, 'checked': true},
+    ];
+  }
+
+  chooseMoment(obj){
+    this.isChecked = obj;
+  }
+
+  startTimeConfigure(state){
+    this.startTime = (state == 'start') ? true : false;
+    this.endTime = (state == 'end') ? true : false;
+  }
+
+  ChangedTimeValue(obj, state){
+    
   }
 
   searchStart(e){
     if(e.keyCode == 13){
       this.recentLists.unshift(e.target.value)
       this.blockUI.start('Loading...');    
-      this._service.getSearchCourse(this.regionId, e.target.value ,this.locationId)
+      this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID)
       .subscribe((res:any)=>{
           this.blockUI.stop();
           console.log(res)
+          this.courseList = res;
           this.iscourseSearch = false;
         },err =>{
           console.log(err);
