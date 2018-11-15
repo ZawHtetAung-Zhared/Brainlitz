@@ -338,7 +338,7 @@
                       </div>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
-                      <button *ngIf="course.seat_left != 0 && courseDemo.assignStudent != ''" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',userModal, 'outside', course._id)">
+                      <button *ngIf="course.seat_left != 0 && courseDemo.assignStudent != ''" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',customerModal, 'outside', course._id)">
                         <p class="btn-plusicon"> + </p> 
                         <p>Add customer</p>
                       </button>

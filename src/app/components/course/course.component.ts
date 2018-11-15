@@ -482,6 +482,9 @@ export class CourseComponent implements OnInit {
     this.courseList = [];
     this.getCourseLists(20,0);
     this.activeTab = 'People';
+    this.showList = false;
+    this.selectedCustomer = {};
+    this.showInvoice = false;
   }
 
   showCourseDetail(courseId){
@@ -1037,7 +1040,7 @@ export class CourseComponent implements OnInit {
          this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
          this.dueDate = this.dateFormat(this.invoice[i].dueDate);
          this.invoiceID = this.invoice[i]._id;
-         this.prefixInvId = this.invoice[i]._id;
+         this.prefixInvId = this.invoice[i].invoiceId;
          // this.totalTax = this.invoice[i].taxOnCourseFee + this.invoice[i].taxOnRegistrationFee;
          // console.log("total tax",this.totalTax);
          // this.subTotal = this.invoice[i].total - this.totalTax;
@@ -1243,9 +1246,22 @@ export class CourseComponent implements OnInit {
       console.log(res);
       this.toastr.success("Successfully sent the Invoice.");
       // this.modalReference.close();
-      this.getCourseDetail(this.detailLists._id)
-      this.getUsersInCourse(this.detailLists._id);
-      this.cancelModal();
+      // this.getCourseDetail(this.detailLists._id)
+      // this.getUsersInCourse(this.detailLists._id);
+      // this.cancelModal();
+      if(this.isvalidID == 'inside'){
+           console.log('hi')
+           // this.cancel();
+           this.getCourseDetail(this.detailLists._id)
+           this.getUsersInCourse(this.detailLists._id);
+           this.cancelModal();
+         }else{
+           console.log('else hi')
+           this.cancel();
+           this.modalReference.close();
+           // this.cancelModal();
+           // this.getUsersInCourse(courseId);
+         }
     }, err => {  
       console.log(err);
       this.toastr.error('Fail to sent the Invoice.');
