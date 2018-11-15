@@ -101,7 +101,7 @@ export class UsersComponent implements OnInit {
 	public showInvoice:boolean = false;
 	public logo:any = localStorage.getItem("OrgLogo");
 	public showBox:boolean = false;
-	public discount:number;
+	public discount:number = 0;
 	public value:any = {};
 	public showMailPopup:boolean = false;
 	public invoiceInfo:any;
@@ -894,6 +894,47 @@ export class UsersComponent implements OnInit {
 	     console.log("DD MM YYYY",dFormat);
 	     return dFormat;
 	  }
+
+	showPopup(type,value){
+		console.log("show popup");
+		if(type == 'discount'){
+		  this.showBox = true;
+		  this.value.discountFee = value;
+		}else if(type == 'courseFee'){
+		  this.feesBox = true;
+		  this.value.courseFee = value;
+		}else if(type == 'deposit'){
+		  this.depositBox = true;
+		  this.value.deposit = value;
+		}else if(type == 'reg'){
+		  this.regBox = true;
+		  this.value.regFee = value;
+		}
+	}
+
+	cancelPopup(type){
+		console.log("hide popup")
+		// this.showBox = false;
+		if(type == 'discount'){
+		  this.showBox = false;
+		  this.value.discountFee = '';
+		}else if(type == 'courseFee'){
+		  this.feesBox = false;
+		  this.value.courseFee = '';
+		}else if(type == 'deposit'){
+		  this.depositBox = false;
+		  this.value.deposit = '';
+		}else if(type == 'reg'){
+		  this.regBox = false;
+		  this.value.regFee = '';
+		}
+	}
+
+	addDiscount(data){
+		console.log("Discount",data);
+		this.discount = data;
+		this.showBox = false;
+	}
 
 	closeModel(){
 		this.modalReference.close();
