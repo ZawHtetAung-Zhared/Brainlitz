@@ -23,21 +23,36 @@ export class CourseComponent implements OnInit {
   public categoryList:any;
   public planList:any;
   public courseVal:any = {};
+  public minDate:any;
+  public maxDate:any;
   public recentLists: Array<any> = [];
-  public tempCategory: Array<any> = [];
+  public tempCategory: Array<any> = []; 
   public tempPlan: Array<any> = [];  
+  public planIDArray: Array<any> = [];  
+  public categoryIDArray: Array<any> = [];  
   public startTime:boolean = false;
   public endTime:boolean = false;  
-  public isChecked:boolean = false;  
+  public isChecked:any;  
   public timeFrame:Array<any> = ['AM','PM'];
+  public rangeHr; 
+  public rangeMin; 
+  public rangeEndHr; 
+  public rangeEndMin; 
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public selectedEndHrRange: any;
+  public selectedEndMinRange: any;
+  public timeRange:any; 
+  public showStartFormat:any;
+  public showEndFormat:any;
   public days = [
-    {"day":"Sun", "val": 0, 'checked': true},
-    {"day":"Mon", "val": 1, 'checked': true},
-    {"day":"Tue", "val": 2, 'checked': true},
-    {"day":"Wed", "val": 3, 'checked': true},
-    {"day":"Thu", "val": 4, 'checked': true},
-    {"day":"Fri ", "val": 5, 'checked': true},
-    {"day":"Sat", "val": 6, 'checked': true},
+    {"day":"Sun", "val": 0, 'checked': false},
+    {"day":"Mon", "val": 1, 'checked': false},
+    {"day":"Tue", "val": 2, 'checked': false},
+    {"day":"Wed", "val": 3, 'checked': false},
+    {"day":"Thu", "val": 4, 'checked': false},
+    {"day":"Fri ", "val": 5, 'checked': false},
+    {"day":"Sat", "val": 6, 'checked': false},
   ];
   public iswordcount:boolean = false;
   public iscourseSearch:boolean = false;
@@ -251,6 +266,13 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  @HostListener('document:click', ['$event']) clickedOutside($event){
+    console.log('hello')
+    
+    // this.categorySearch = false;
+    // this.planSearch = false;
+  }
+
   //start course search
 
   focusCourseSearch(){
@@ -293,10 +315,21 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  showDropBoxData(state){
+  dropDown($event: Event, state){
+    $event.preventDefault();
+    $event.stopPropagation();
+    console.log('000')
     this.categorySearch = (state == 'category') ? !this.categorySearch : false;
     this.planSearch = (state == 'plan') ? !this.planSearch : false;
   }
+
+  // dropDown($event: Event, state){
+  //   $event.preventDefault();
+  //   $event.stopPropagation();
+  //   console.log('000')
+  //   this.dropMenuShow = (state == 'profile') ? !this.dropMenuShow : false;
+  //   this.locationDpShow = (state == 'loc') ? !this.locationDpShow : false;
+  // }
 
   searchCourse(val){
     // this.courseVal = val
@@ -314,10 +347,13 @@ export class CourseComponent implements OnInit {
     }
     if(state == 'plan'){
       this.tempPlan.push(temp)
+      this.planIDArray.push(obj._id)
     }else{
       this.tempCategory.push(temp)
+      this.categoryIDArray.push(obj._id)
     }
     console.log(this.tempCategory)
+    console.log(this.planIDArray)
     console.log(this.tempPlan)
   }
 
@@ -332,6 +368,17 @@ export class CourseComponent implements OnInit {
       }
       this.tempCategory.splice(dataIndex,1);
       console.log(this.tempCategory);
+      if(this.tempCategory.length > 0){
+        this.categoryIDArray= [];
+        for(let j=0; j< this.tempCategory.length; j++){
+          this.categoryIDArray.push(this.tempCategory[j].id)
+        }
+      }else{
+        this.categoryIDArray = []
+      }
+      
+      console.log(this.categoryIDArray)
+
     }else if(state == 'plan'){
       for(let x in this.tempPlan){
         if(this.tempPlan[x].id == id){
@@ -340,6 +387,16 @@ export class CourseComponent implements OnInit {
       }
       this.tempPlan.splice(dataIndex,1);
       console.log(this.tempPlan);
+      if(this.tempPlan.length > 0){
+        this.planIDArray= [];
+        for(let j=0; j< this.tempPlan.length; j++){
+          this.planIDArray.push(this.tempPlan[j].id)
+        }
+      }else{
+        this.planIDArray = []
+      }
+      
+      console.log(this.planIDArray)
     }else{
       for(let x in this.days){
         if(this.days[x].val == id){
@@ -356,41 +413,54 @@ export class CourseComponent implements OnInit {
   setMinDate(event){
     console.log("setMinDate",event);
     this.minDate = event;
-    this.showText = false;
   }
 
   setMaxDate(date){
-    console.log("setMaxDate",date);
     this.maxDate =  date;
   }
 
   closeFix(event, datePicker) {
     var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-start col-md-6 pl-zero"
+      return res.className == "xxx-start col-md-6 pr-12 pl-zero"
     })
-    console.log('~~~ ', parentWrap.length)
     if(parentWrap.length == 0){
-      console.log('blank')
       datePicker.close();
     }
-    
-    // if(event.target.id == "dpStart" || event.target.nodeName == 'SELECT' || event.target.className =='ngb-dp-navigation-chevron' || event.target.nodeName == 'ngb-datepicker-navigation'){
-    //       console.log('in the if')
-    //       datePicker.open();
-    // }else if(event.target.id != "dpStart"){
-    //   console.log('in the else if')
-    //   datePicker.close();
-    // }
   }
 
   closeFixEnd(event, endPicker){
     var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-end col-md-6"
+      return res.className == "xxx-end col-md-6 pl-12"
     })
-    console.log('~~~ ', parentWrap.length)
     if(parentWrap.length == 0){
-      console.log('blank')
       endPicker.close();
+    }
+  }
+
+  closeTimeRange(event, state){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == state 
+    })
+    if(parentWrap.length == 0){
+      if(state == 'startRange'){
+        this.startTime = false;
+      }else{
+        this.endTime = false;
+      }
+    }
+  }
+
+  closeDataBox(event, state){
+    console.log('.... ....')
+    var parentWrap = event.path.filter(function(res){
+      return res.className == 'search-box d-flex flex-row' 
+    })
+    if(parentWrap.length == 0){
+      if(state == 'category'){
+        this.categorySearch = false;
+      }else{
+        this.planSearch = false;
+      }
     }
   }
 
@@ -416,26 +486,103 @@ export class CourseComponent implements OnInit {
     this.tempPlan = []
     this.courseVal = {}
     this.days = [
-      {"day":"Sun", "val": 0, 'checked': true},
-      {"day":"Mon", "val": 1, 'checked': true},
-      {"day":"Tue", "val": 2, 'checked': true},
-      {"day":"Wed", "val": 3, 'checked': true},
-      {"day":"Thu", "val": 4, 'checked': true},
-      {"day":"Fri ", "val": 5, 'checked': true},
-      {"day":"Sat", "val": 6, 'checked': true},
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
     ];
-  }
-
-  chooseMoment(obj){
-    this.isChecked = obj;
-  }
+  }  
 
   startTimeConfigure(state){
+    // console.log('~~~~')
+    
     this.startTime = (state == 'start') ? true : false;
     this.endTime = (state == 'end') ? true : false;
   }
 
-  ChangedTimeValue(obj, state){
+  showAdvancedSearch(){
+    this.isAdvancedSearch = true;
+    this.isChecked = 'AM';
+    this.rangeHr = '0';
+    this.rangeMin = '0';
+    this.selectedHrRange = '0';
+    this.selectedMinRange = '0';
+    this.showStartFormat = "00:00";
+    this.showEndFormat = "00:00";
+    this.rangeEndHr = '0';
+    this.rangeEndMin = '0';
+    this.selectedEndHrRange = '0';
+    this.selectedEndMinRange = '0';
+    this.getAllCategories(20, 0);
+  }
+
+  ChangedTimeValue(obj, val, state){
+    console.log(val, state)
+    if(val == 'hr'){
+      this.selectedHrRange = obj;
+    }else if(val == 'min'){      
+      this.selectedMinRange = obj;
+    }else if(val == 'endhr'){
+      this.selectedEndHrRange = obj;
+    }else{
+      this.selectedEndMinRange = obj;
+    }
+    console.log('~~~',this.selectedEndMinRange)
+    this.formatTime(state);
+  }
+
+  chooseTimeOpt(type, state){
+    console.log(type);
+    this.isChecked = type;
+    this.formatTime(state);
+  }
+
+  formatTime(state){
+    console.log(state,this.selectedHrRange,this.selectedMinRange)
+    console.log(state,this.selectedEndHrRange,this.selectedEndMinRange)
+    let tempHr, tempMin;
+    tempHr = (state == 'start') ? this.selectedHrRange : this.selectedEndHrRange;
+    tempMin = (state == 'start') ? this.selectedMinRange : this.selectedEndMinRange;
+    console.log(tempHr)
+    console.log(tempMin)
+    if(tempHr > 0 ){
+      if(tempHr<10){
+        var hrFormat = 0 + tempHr;
+      }else{
+        var hrFormat = tempHr;
+      }
+    }else{
+      tempHr = "00";
+      var hrFormat = tempHr;
+    }
+
+    if(tempMin > 0){
+      console.log('~~~ if')
+      if(tempMin<10){
+        tempMin = parseInt(tempMin);
+        tempMin = tempMin.toString();
+        var minFormat = 0 + tempMin;
+      }else{
+        var minFormat = tempMin;
+      }
+    }else{
+      console.log('~~~ else')
+      tempMin = "00";
+      var minFormat = tempMin;
+    }
+
+    if(state == 'start'){
+      this.showStartFormat = hrFormat + ':' + minFormat;
+      this.courseVal.startTime = this.showStartFormat + ' ' + this.isChecked;
+      console.log(this.showStartFormat)
+    }else{
+      this.showEndFormat = hrFormat + ':' + minFormat;
+      this.courseVal.endTime = this.showEndFormat + ' ' + this.isChecked;
+      console.log(this.showEndFormat)
+    }  
     
   }
 
@@ -463,9 +610,8 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  showAdvancedSearch(){
-    this.isAdvancedSearch = true;
-    this.getAllCategories(20, 0);
+  advancedSearch(obj){
+    console.log(obj)
   }
 
   //end course search

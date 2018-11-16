@@ -19,9 +19,9 @@
               (focusout)="hideCourseSearch($event)"
               (input)="searchCourse($event.target.value)"
               autocomplete="off"
-              name="search"
+              name="keyword"
               (keyup)="searchStart($event)"
-              [(ngModel)]="courseVal.search" 
+              [(ngModel)]="courseVal.keyword" 
               #csearch="ngModel"
             >
             <div *ngIf="iswordcount == true" class="close-search" (click)="clearSearch()"></div>
@@ -41,7 +41,7 @@
             <div class="d-flex flex-column search-data-one">
               <div class="form-group d-flex">
                 <label for="category" class="sub-title col-md-2 pl-zero">Category</label>
-                <div class="col-md-8 pr-zero pl-zero">
+                <div class="col-md-7 pr-zero pl-zero">
                   <div class="search-box d-flex flex-row">
                     <div class="d-flex flex-row w-100 flex-nowrap overflow-x">
                       <span *ngIf="tempCategory.length == 0" class="placeholder-text">All</span>
@@ -52,26 +52,26 @@
                         </div>
                       </div>
                     </div>
-                    <span (click)="showDropBoxData('category')" class="fa fa-angle-down pull-right icon search-downicon"></span>
-                  </div>
-                  <div *ngIf="categorySearch == true" class="data-dropbox">
-                    <input 
-                      class="form-control input-dropdown" 
-                      type="search" 
-                      id="myInput" 
-                      name="categoryAS" 
-                      #categoryAS="ngModel" 
-                      [(ngModel)]="courseVal.category" 
-                      >
-                    <ul class="data-listing">
-                      <li (click)="selectedList(category, 'category')" *ngFor="let category of categoryList">{{category.name}}</li>
-                    </ul>
+                    <span (click)="dropDown($event,'category')" (document:click)="closeDataBox($event,'category')"class="fa fa-angle-down pull-right icon search-downicon"></span>
+                    <div *ngIf="categorySearch" class="data-dropbox">
+                      <input 
+                        class="form-control input-dropdown" 
+                        type="search" 
+                        id="myInput" 
+                        name="categoryAS" 
+                        #categoryAS="ngModel" 
+                        [(ngModel)]="courseVal.category" 
+                        >
+                      <ul class="data-listing">
+                        <li [ngClass]="(categoryIDArray.indexOf(category._id) > -1) ? 'disabled' :''" (click)="selectedList(category, 'category')" *ngFor="let category of categoryList">{{category.name}}</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="form-group d-flex">
                 <label for="plan" class="sub-title col-md-2 pl-zero">Course plan</label>
-                <div class="col-md-8 pr-zero pl-zero">
+                <div class="col-md-7 pr-zero pl-zero">
                   <div class="search-box d-flex flex-row">
                     <div class="d-flex flex-row w-100 flex-nowrap overflow-x">
                       <span *ngIf="tempPlan.length == 0" class="placeholder-text">All</span>
@@ -82,57 +82,57 @@
                         </div>
                       </div>
                     </div>
-                    <span (click)="showDropBoxData('plan')" class="fa fa-angle-down pull-right icon search-downicon"></span>
-                  </div>
-                  <div *ngIf="planSearch == true" class="data-dropbox">
-                    <input 
-                      class="form-control py-2 input-dropdown" 
-                      type="search" 
-                      id="plansearchInput" 
-                      name="planAS" 
-                      #planAS="ngModel" 
-                      [(ngModel)]="courseVal.plan" 
-                    >
-                    <ul class="data-listing">
-                      <li (click)="selectedList(plan, 'plan')" *ngFor="let plan of planList">{{plan.name}}</li>
-                    </ul>
+                    <span (click)="dropDown($event,'plan')" (document:click)="closeDataBox($event,'plan')" class="fa fa-angle-down pull-right icon search-downicon"></span>
+                    <div *ngIf="planSearch == true" class="data-dropbox">
+                      <input 
+                        class="form-control input-dropdown" 
+                        type="search" 
+                        id="plansearchInput" 
+                        name="planAS" 
+                        #planAS="ngModel" 
+                        [(ngModel)]="courseVal.plan" 
+                      >
+                      <ul class="data-listing">
+                        <li [ngClass]="(planIDArray.indexOf(plan._id) > -1) ? 'disabled' :''" (click)="selectedList(plan, 'plan')" *ngFor="let plan of planList">
+                        {{plan.name}}</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="form-group d-flex">
                 <label for="course" class="sub-title col-md-2 pl-zero">Course</label>
-                <div class="col-md-8 pr-zero pl-zero">
+                <div class="col-md-7 pr-zero pl-zero">
                   <input 
                     class="form-control search-box" 
                     type="search" 
                     placeholder="Type a word that relates part of the course name" 
                     id="course-search"
                     (focus)="focusCourseSearch($event)"
-                    (focusout)="hideCourseSearch($event)"
                     (input)="searchCourse($event.target.value)"
                     autocomplete="off"
-                    name="search"
+                    name="keyword"
                     (keyup)="searchStart($event)"
-                    [(ngModel)]="courseVal.search" 
+                    [(ngModel)]="courseVal.keyword" 
                     #csearch="ngModel"
                   >
                 </div>
               </div>
             </div>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column search-data-two">
               <p>Course period</p>
               <div class="form-group d-flex">
                 <label for="date" class="sub-title col-md-2 pl-zero pl-zero">Date</label>
-                <div class="col-md-8 pr-zero">
+                <div class="col-md-7 pr-zero">
                   <div class="datepicker-wrap row">
-                    <div class="xxx-start col-md-6 pl-zero">
+                    <div class="xxx-start col-md-6 pr-12 pl-zero">
                       <input 
                       id="dpStart"
                       class="input-day text-container form-control" 
                       type="text" 
                       placeholder="From" 
                       name="start"  
-                      [(ngModel)]="courseVal.start" 
+                      [(ngModel)]="courseVal.startDate" 
                       (click)="start.toggle()" 
                       (ngModelChange)="setMinDate($event)" 
                       [maxDate]="maxDate"
@@ -143,7 +143,7 @@
                       (document:click)="closeFix($event, start)"
                       readonly>
                     </div>
-                    <div class="xxx-end col-md-6">
+                    <div class="xxx-end col-md-6 pl-12">
                       <input 
                       id="dpEnd"
                       class="input-day form-control" type="test" placeholder="To"  
@@ -151,7 +151,7 @@
                       [minDate]="minDate" 
                       [autoClose]="true" 
                       name="end" 
-                      [(ngModel)]="courseVal.end" 
+                      [(ngModel)]="courseVal.endDate" 
                       (click)="end.toggle()" 
                       ngbDatepicker 
                       #end="ngbDatepicker" 
@@ -164,10 +164,10 @@
               </div>
               <div class="form-group d-flex">
                 <label for="time" class="sub-title col-md-2 pl-zero">Time</label>
-                <div class="col-md-8 pr-zero">
+                <div class="col-md-7 pr-zero">
                   <div class="row">
-                    <div class="col-md-6 pl-zero">
-                      <div>
+                    <div class="col-md-6 pl-zero pr-12">
+                      <div class="startRange">
                         <input 
                           type="text" 
                           placeholder="From" 
@@ -175,46 +175,47 @@
                           name="starttime"  
                           [(ngModel)]="courseVal.startTime" 
                           (click)="startTimeConfigure('start')" 
+                          (document:click)="closeTimeRange($event, 'startRange')"
                           readonly >
-                      </div>
-                      <div *ngIf="startTime" class="duration-progress">
-                        <div class="d-flex justify-content-center">
-                          <div class="d-flex flex-column justify-content-center">
-                            11
-                          </div>
-                          <div class="time-box">
-                            <div *ngFor="let time of timeFrame" class="form-check form-check-inline time-checked">
-                              <label [ngClass]="{'checked':isChecked == time}" class="mb-0 font-semi">
-                                <input 
-                                  type="radio" 
-                                  name="moment"
-                                  [(ngModel)]="courseVal.moment"
-                                  #moment="ngModel"
-                                  [checked]='true'
-                                  (click)="chooseMoment(time)"
-                                  > 
-                                {{time}}
-                              </label>
+                        <div *ngIf="startTime" class="duration-progress">
+                          <div class="d-flex justify-content-center">
+                            <div class="d-flex flex-column justify-content-center time-range">
+                              {{showStartFormat}}
+                            </div>
+                            <div class="time-box">
+                              <div *ngFor="let time of timeFrame" class="form-check form-check-inline time-checked">
+                                <label [ngClass]="{'checked':isChecked == time}" class="mb-0 font-semi">
+                                  <input 
+                                    type="radio" 
+                                    name="moment"
+                                    [(ngModel)]="courseVal.moment"
+                                    #moment="ngModel"
+                                    [checked]='true'
+                                    (click)="chooseTimeOpt(time, 'start')"
+                                    > 
+                                  {{time}}
+                                </label>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="gap-box">
-                          <label class="d-flex">
-                            <div class="col-md-4 max-range">Hour</div>
-                            <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedTimeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
-                            
-                          </label>
-                        </div>
-                        <div class="gap-range-min">
-                          <label class="d-flex">
-                            <div class="col-md-4 min-range">Minute</div>
-                            <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedTimeValue($event.target.value, 'min')" [(ngModel)]="rangeMin">
-                          </label>
+                          <div class="gap-box">
+                            <label class="d-flex">
+                              <div class="col-md-4 max-range">Hour</div>
+                              <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedTimeValue($event.target.value, 'hr', 'start')" [(ngModel)]="rangeHr">
+                            </label>
+                          </div>
+                          <div class="gap-range-min">
+                            <label class="d-flex">
+                              <div class="col-md-4 min-range">Minute</div>
+                              <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedTimeValue($event.target.value, 'min', 'start')" [(ngModel)]="rangeMin">
+                            </label>
+                          </div>
                         </div>
                       </div>
+                      
                     </div>
-                    <div class="col-md-6">
-                      <div>
+                    <div class="col-md-6 pl-12">
+                      <div class="endRange">
                         <input 
                           type="text" 
                           placeholder="To" 
@@ -222,10 +223,42 @@
                           name="endtime"  
                           [(ngModel)]="courseVal.endTime" 
                           (click)="startTimeConfigure('end')" 
+                          (document:click)="closeTimeRange($event, 'endRange')"
                           readonly >
-                      </div>
-                      <div *ngIf="endTime" class="duration-progress">
-                        Hello
+                        <div *ngIf="endTime" class="duration-progress">
+                          <div class="d-flex justify-content-center">
+                            <div class="d-flex flex-column justify-content-center time-range">
+                              --{{showEndFormat}}
+                            </div>
+                            <div class="time-box">
+                              <div *ngFor="let time of timeFrame" class="form-check form-check-inline time-checked">
+                                <label [ngClass]="{'checked':isChecked == time}" class="mb-0 font-semi">
+                                  <input 
+                                    type="radio" 
+                                    name="moment"
+                                    [(ngModel)]="courseVal.moment"
+                                    #moment="ngModel"
+                                    [checked]='true'
+                                    (click)="chooseTimeOpt(time, 'end')"
+                                    > 
+                                  {{time}}
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="gap-box">
+                            <label class="d-flex">
+                              <div class="col-md-4 max-range">Hour</div>
+                              <input class="max-range-box" type="range" id="hrDuration" name="pointsEndHr" min="0" max="12" (input)="ChangedTimeValue($event.target.value, 'endhr', 'end')" [(ngModel)]="rangeEndHr">
+                            </label>
+                          </div>
+                          <div class="gap-range-min">
+                            <label class="d-flex">
+                              <div class="col-md-4 min-range">Minute</div>
+                              <input class="min-range-box" type="range" id='minDuration' name="pointsEndMin" min="0" max="59" step="1" (input)="ChangedTimeValue($event.target.value, 'endmin', 'end')" [(ngModel)]="rangeEndMin">
+                            </label>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -257,7 +290,7 @@
             <button (click)="resetAS()" type="button" class="btn reset-as">Reset</button>
             <div>
               <button type="button" class="btn cancel-as" (click)="cancelAS()">Cancel</button>
-              <button type="button" class="btn search-as">Search</button>
+              <button type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
             </div>
           </div>
         </form>
