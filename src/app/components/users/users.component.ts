@@ -97,6 +97,27 @@ export class UsersComponent implements OnInit {
 	acWord:any;
 	public permissionType: any;
 
+	/*for invoice*/
+	public showInvoice:boolean = false;
+	public logo:any = localStorage.getItem("OrgLogo");
+	public showBox:boolean = false;
+	public discount:number = 0;
+	public value:any = {};
+	public showMailPopup:boolean = false;
+	public invoiceInfo:any;
+	public invoice:any;
+	public updatedDate;
+	public dueDate;
+	public invoiceID;
+	public showPayment:boolean = false;
+	public selectedPayment:any;
+	public paymentItem = {};
+	public invoiceCourse:any;
+	public feesBox:boolean = false;
+	public depositBox:boolean = false;
+	public regBox:boolean = false;
+	public prefixInvId:any;
+
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 	}
@@ -825,10 +846,11 @@ export class UsersComponent implements OnInit {
 	    });
 	}
 
-	enrollUser(courseId){
+	enrollUser(course){
 		console.log(this.custDetail);
+		let courseId = course._id;
 		let body = {
-		   'courseId': courseId,
+		   'courseId': course._id,
 		   'userId': this.custDetail.user.userId,
 		   'userType': 'customer'
 		}
@@ -836,13 +858,82 @@ export class UsersComponent implements OnInit {
 		  	.subscribe((res:any) => {
 		     	console.log(res);
 		     	this.toastr.success('Successfully Enrolled.');
-		     	this.showDetails(this.custDetail.user.userId);
-		     	this.closeModel();
+		     	// this.showDetails(this.custDetail.user.userId);
+		     	// this.closeModel();
+		     	/* for invoice*/
+		     	this.showInvoice = true;
+		     	this.invoiceInfo = res.invoiceSettings;
+				this.invoice = res.invoice;
+				this.showInvoice = true; 
+				for(var i in this.invoice){
+				 this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
+				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
+				 this.invoiceID = this.invoice[i]._id;
+				 this.prefixInvId = this.invoice[i].invoiceId;
+				 if(this.invoice[i].courseId == course._id){
+				   this.invoiceCourse = course.name;
+				 }
+				}
 		     	// this.modalReference.close();
 		     	// this.availableCourses = [];
 		  	}, err => {  
 		    	console.log(err);
 		  	});
+	}
+
+	dateFormat(dateStr){
+	    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	    ]; 
+	     var d = new Date(dateStr);
+	     var month = monthNames[d.getUTCMonth()];
+	     var year = d.getUTCFullYear();
+	     var date = d.getUTCDate();
+	     console.log(date,month,year)
+	     var dFormat = date + ' ' + month + ' ' + year;
+	     console.log("DD MM YYYY",dFormat);
+	     return dFormat;
+	  }
+
+	showPopup(type,value){
+		console.log("show popup");
+		if(type == 'discount'){
+		  this.showBox = true;
+		  this.value.discountFee = value;
+		}else if(type == 'courseFee'){
+		  this.feesBox = true;
+		  this.value.courseFee = value;
+		}else if(type == 'deposit'){
+		  this.depositBox = true;
+		  this.value.deposit = value;
+		}else if(type == 'reg'){
+		  this.regBox = true;
+		  this.value.regFee = value;
+		}
+	}
+
+	cancelPopup(type){
+		console.log("hide popup")
+		// this.showBox = false;
+		if(type == 'discount'){
+		  this.showBox = false;
+		  this.value.discountFee = '';
+		}else if(type == 'courseFee'){
+		  this.feesBox = false;
+		  this.value.courseFee = '';
+		}else if(type == 'deposit'){
+		  this.depositBox = false;
+		  this.value.deposit = '';
+		}else if(type == 'reg'){
+		  this.regBox = false;
+		  this.value.regFee = '';
+		}
+	}
+
+	addDiscount(data){
+		console.log("Discount",data);
+		this.discount = data;
+		this.showBox = false;
 	}
 
 	closeModel(){

@@ -112,18 +112,21 @@ export class CourseComponent implements OnInit {
   public logo:any = localStorage.getItem("OrgLogo");
   public showBox:boolean = false;
   public discount:number;
-  public value;
+  public value:any = {};
   public showMailPopup:boolean = false;
   public invoiceInfo:any;
   public invoice:any;
   public updatedDate;
   public dueDate;
-  public subTotal;
-  public totalTax;
   public invoiceID;
   public showPayment:boolean = false;
   public selectedPayment:any;
   public paymentItem = {};
+  public invoiceCourse:any;
+  public feesBox:boolean = false;
+  public depositBox:boolean = false;
+  public regBox:boolean = false;
+  public prefixInvId:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -192,6 +195,7 @@ export class CourseComponent implements OnInit {
     });
 
     this.discount = 0;
+    this.selectedPayment = 'cash';
 
   }
 
@@ -624,6 +628,9 @@ export class CourseComponent implements OnInit {
     this.courseList = [];
     this.getCourseLists(20,0);
     this.activeTab = 'People';
+    this.showList = false;
+    this.selectedCustomer = {};
+    this.showInvoice = false;
   }
 
   showCourseDetail(courseId){
@@ -1172,19 +1179,23 @@ export class CourseComponent implements OnInit {
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
        console.log("res Assign customer",res);
-       this.invoiceInfo = res.invoiceInfo;
+       this.invoiceInfo = res.invoiceSettings;
        this.invoice = res.invoice;
        this.showInvoice = true; 
        for(var i in this.invoice){
          this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
          this.dueDate = this.dateFormat(this.invoice[i].dueDate);
-         this.totalTax = this.invoice[i].taxOnCourseFee + this.invoice[i].taxOnRegistrationFee;
-         console.log("total tax",this.totalTax);
-         this.subTotal = this.invoice[i].total - this.totalTax;
-         console.log("unit Price",this.subTotal);
          this.invoiceID = this.invoice[i]._id;
-         if(this.invoice[i].deposit>0){
-           this.subTotal = this.subTotal - this.invoice[i].deposit;
+         this.prefixInvId = this.invoice[i].invoiceId;
+         // this.totalTax = this.invoice[i].taxOnCourseFee + this.invoice[i].taxOnRegistrationFee;
+         // console.log("total tax",this.totalTax);
+         // this.subTotal = this.invoice[i].total - this.totalTax;
+         // console.log("unit Price",this.subTotal);
+         // if(this.invoice[i].deposit>0){
+         //   this.subTotal = this.subTotal - this.invoice[i].deposit;
+         // }
+         if(this.invoice[i].courseId == courseId){
+           this.invoiceCourse = this.detailLists.name;
          }
        }
        
@@ -1319,14 +1330,39 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('courseID');
   }
 
-  showPopup(){
+  showPopup(type,value){
     console.log("show popup");
-    this.showBox = true;
+    if(type == 'discount'){
+      this.showBox = true;
+      this.value.discountFee = value;
+    }else if(type == 'courseFee'){
+      this.feesBox = true;
+      this.value.courseFee = value;
+    }else if(type == 'deposit'){
+      this.depositBox = true;
+      this.value.deposit = value;
+    }else if(type == 'reg'){
+      this.regBox = true;
+      this.value.regFee = value;
+    }
   }
 
-  cancelPopup(){
+  cancelPopup(type){
     console.log("hide popup")
-    this.showBox = false;
+    // this.showBox = false;
+    if(type == 'discount'){
+      this.showBox = false;
+      this.value.discountFee = '';
+    }else if(type == 'courseFee'){
+      this.feesBox = false;
+      this.value.courseFee = '';
+    }else if(type == 'deposit'){
+      this.depositBox = false;
+      this.value.deposit = '';
+    }else if(type == 'reg'){
+      this.regBox = false;
+      this.value.regFee = '';
+    }
   }
 
   addDiscount(data){
@@ -1356,9 +1392,22 @@ export class CourseComponent implements OnInit {
       console.log(res);
       this.toastr.success("Successfully sent the Invoice.");
       // this.modalReference.close();
-      this.getCourseDetail(this.detailLists._id)
-      this.getUsersInCourse(this.detailLists._id);
-      this.cancelModal();
+      // this.getCourseDetail(this.detailLists._id)
+      // this.getUsersInCourse(this.detailLists._id);
+      // this.cancelModal();
+      if(this.isvalidID == 'inside'){
+           console.log('hi')
+           // this.cancel();
+           this.getCourseDetail(this.detailLists._id)
+           this.getUsersInCourse(this.detailLists._id);
+           this.cancelModal();
+         }else{
+           console.log('else hi')
+           this.cancel();
+           this.modalReference.close();
+           // this.cancelModal();
+           // this.getUsersInCourse(courseId);
+         }
     }, err => {  
       console.log(err);
       this.toastr.error('Fail to sent the Invoice.');
@@ -1375,5 +1424,27 @@ export class CourseComponent implements OnInit {
     console.log("choosePayment",type);
     this.selectedPayment = type;
   }
+
+  cancelInvoiceModal(){
+    this.modalReference.close();
+    this.showList = false;
+    this.selectedCustomer = {};
+    this.showInvoice = false;
+    this.showPayment = false;
+    this.getCourseDetail(this.detailLists._id)
+    this.getUsersInCourse(this.detailLists._id);
+  }
+
+  // cancelInvoice(){
+  //   console.log("Cancel Invoice",this.invoiceID);
+  //   let body = '';
+  //   this._service.invoiceOption(this.regionId, this.invoiceID, body, 'cancel')
+  //   .subscribe((res:any) => {
+  //     console.log("res",res);
+  //     this.getCourseDetail(this.detailLists._id)
+  //     this.getUsersInCourse(this.detailLists._id);
+  //     this.cancelModal();
+  //   })
+  // }
 
 }
