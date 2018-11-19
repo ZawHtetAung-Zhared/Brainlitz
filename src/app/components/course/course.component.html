@@ -302,21 +302,21 @@
         <ul class="as-loop">
           <li *ngFor="let cat of tempCategory">{{cat.name}} <span> or</span></li>
         </ul>
-        <div (click)="removeTempData1()" class="remove-data d-flex justify-content-end"></div>
+        <div (click)="updateASCall('cat')" class="remove-data d-flex justify-content-end"></div>
       </div>
       <div *ngIf="planIDArray.length > 0" class="d-flex flex-row as-result">
         <span>Course plan is</span>
         <ul class="as-loop">
           <li *ngFor="let plan of tempPlan">{{plan.name}} <span> or</span></li>
         </ul>
-        <div (click)="removeTempData1()" class="remove-data d-flex justify-content-end"></div>
+        <div (click)="updateASCall('plan')" class="remove-data d-flex justify-content-end"></div>
       </div>
       <div *ngIf="repeatedDaysTemp.length > 0" class="d-flex flex-row as-result">
         <span>Repeated days is </span>
         <ul class="as-loop"> 
           <li *ngFor="let day of daysLoop">{{day.day}} <span> or</span></li>
         </ul>
-        <div (click)="removeTempData1()" class="remove-data d-flex justify-content-end"></div>
+        <div (click)="updateASCall('day')" class="remove-data d-flex justify-content-end"></div>
       </div>
     </div>
     <div class="card-columns">

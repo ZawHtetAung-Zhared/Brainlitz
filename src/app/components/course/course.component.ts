@@ -644,6 +644,26 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  updateASCall(state){
+    if(state == 'day'){
+      this.days = [
+        {"day":"Sun", "val": 0, 'checked': false},
+        {"day":"Mon", "val": 1, 'checked': false},
+        {"day":"Tue", "val": 2, 'checked': false},
+        {"day":"Wed", "val": 3, 'checked': false},
+        {"day":"Thu", "val": 4, 'checked': false},
+        {"day":"Fri ", "val": 5, 'checked': false},
+        {"day":"Sat", "val": 6, 'checked': false},
+      ];
+      this.repeatedDaysTemp = [];
+    }else if(state == 'cat'){
+      this.categoryIDArray = [];
+    }else{
+      this.planIDArray = [];
+    }
+    this.advancedSearch(this.courseVal);
+  }
+
   advancedSearch(obj){
     console.log(obj)
     console.log(this.days)
@@ -700,7 +720,7 @@ export class CourseComponent implements OnInit {
     console.log(this.categoryIDArray)
     this.recentLists.unshift(obj.keyword)
     this.advancedSearchOn = (this.planIDArray != null || this.categoryIDArray != null || repeatedDays != null) ? true : false;
-
+    this.blockUI.start('Loading...');
     this._service.advanceCourseSearch(this.regionId ,this.locationID, obj.keyword, repeatedDays,eventStart, eventEnd, plans, cats)
     .subscribe((res:any)=>{
         this.blockUI.stop();
