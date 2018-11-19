@@ -1063,9 +1063,20 @@ export class appService{
       }) 
     }
 
-    advanceCourseSearch(regionID: string, keyword: string, locationID: string){
+    advanceCourseSearch(regionID: string, locationID: string, keyword: string, repeatedDays, eventStart, eventEnd, planIDArray, categoryIDArray){
       this.getLocalstorage();
+
+      console.log(planIDArray)
+      console.log(categoryIDArray)
       let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword;
+
+      url = (repeatedDays != '') ? url + '&repeatedDays=' + repeatedDays : url;
+      url = (eventStart != null) ? url + '&startDate=' + eventStart : url; 
+      url = (eventEnd != null) ? url + '&endDate=' + eventEnd : url;
+      url = (categoryIDArray != null)  ? url + '&categoryId=' + categoryIDArray : url;
+      url = (planIDArray != null) ? url + '&coursePlanId='+ planIDArray : url;
+
+      console.log(url)
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})

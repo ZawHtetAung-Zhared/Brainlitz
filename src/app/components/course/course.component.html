@@ -249,7 +249,7 @@
                           <div class="gap-box">
                             <label class="d-flex">
                               <div class="col-md-4 max-range">Hour</div>
-                              <input class="max-range-box" type="range" id="hrDuration" name="pointsEndHr" min="0" max="12" (input)="ChangedTimeValue($event.target.value, 'endhr', 'end')" [(ngModel)]="rangeEndHr">
+                              <input class="max-range-box" type="range" id="hrDuration" name="pointsEndHr" min="0" max="11" (input)="ChangedTimeValue($event.target.value, 'endhr', 'end')" [(ngModel)]="rangeEndHr">
                             </label>
                           </div>
                           <div class="gap-range-min">
@@ -294,6 +294,29 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+    <div *ngIf="advancedSearchOn" class="d-flex flex-row w-100 flex-nowrap overflow-x">
+      <div *ngIf="categoryIDArray.length > 0" class="d-flex flex-row as-result">
+        <span>Category is</span>
+        <ul class="as-loop">
+          <li *ngFor="let cat of tempCategory">{{cat.name}} <span> or</span></li>
+        </ul>
+        <div (click)="removeTempData1()" class="remove-data d-flex justify-content-end"></div>
+      </div>
+      <div *ngIf="planIDArray.length > 0" class="d-flex flex-row as-result">
+        <span>Course plan is</span>
+        <ul class="as-loop">
+          <li *ngFor="let plan of tempPlan">{{plan.name}} <span> or</span></li>
+        </ul>
+        <div (click)="removeTempData1()" class="remove-data d-flex justify-content-end"></div>
+      </div>
+      <div *ngIf="repeatedDaysTemp.length > 0" class="d-flex flex-row as-result">
+        <span>Repeated days is </span>
+        <ul class="as-loop"> 
+          <li *ngFor="let day of daysLoop">{{day.day}} <span> or</span></li>
+        </ul>
+        <div (click)="removeTempData1()" class="remove-data d-flex justify-content-end"></div>
       </div>
     </div>
     <div class="card-columns">

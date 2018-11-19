@@ -32,6 +32,7 @@ export class CourseComponent implements OnInit {
   public categoryIDArray: Array<any> = [];  
   public startTime:boolean = false;
   public endTime:boolean = false;  
+  
   public isChecked:any;  
   public timeFrame:Array<any> = ['AM','PM'];
   public rangeHr; 
@@ -45,6 +46,10 @@ export class CourseComponent implements OnInit {
   public timeRange:any; 
   public showStartFormat:any;
   public showEndFormat:any;
+  public start24HourFormat:any;
+  public end24HourFormat:any;
+  public repeatedDaysTemp: Array<any> = [];
+  public daysLoop:any;
   public days = [
     {"day":"Sun", "val": 0, 'checked': false},
     {"day":"Mon", "val": 1, 'checked': false},
@@ -54,6 +59,7 @@ export class CourseComponent implements OnInit {
     {"day":"Fri ", "val": 5, 'checked': false},
     {"day":"Sat", "val": 6, 'checked': false},
   ];
+  public advancedSearchOn: boolean = false;
   public iswordcount:boolean = false;
   public iscourseSearch:boolean = false;
   public categorySearch:boolean = false;
@@ -270,13 +276,6 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  @HostListener('document:click', ['$event']) clickedOutside($event){
-    console.log('hello')
-    
-    // this.categorySearch = false;
-    // this.planSearch = false;
-  }
-
   //start course search
 
   focusCourseSearch(){
@@ -304,6 +303,21 @@ export class CourseComponent implements OnInit {
     this.iswordcount = false;
     this.iscourseSearch = false;  
     this.courseList = [];
+    this.advancedSearchOn = false;
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.planIDArray = [];
+    this.categoryIDArray = [];
+    this.repeatedDaysTemp = [];
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     this.getCourseLists(20, 0);
   }
 
@@ -455,7 +469,7 @@ export class CourseComponent implements OnInit {
   }
 
   closeDataBox(event, state){
-    console.log('.... ....')
+    // console.log('.... ....')
     var parentWrap = event.path.filter(function(res){
       return res.className == 'search-box d-flex flex-row' 
     })
@@ -580,14 +594,30 @@ export class CourseComponent implements OnInit {
 
     if(state == 'start'){
       this.showStartFormat = hrFormat + ':' + minFormat;
-      this.courseVal.startTime = this.showStartFormat + ' ' + this.isChecked;
-      console.log(this.showStartFormat)
+      this.courseVal.startTime = this.showStartFormat + ' ' + this.isChecked;      
+      this.start24HourFormat = this.convert24HourFormat(this.courseVal.startTime);
+      console.log(this.start24HourFormat)
     }else{
       this.showEndFormat = hrFormat + ':' + minFormat;
-      this.courseVal.endTime = this.showEndFormat + ' ' + this.isChecked;
-      console.log(this.showEndFormat)
+      this.courseVal.endTime = this.showEndFormat + ' ' + this.isChecked;      
+      this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
+      console.log(this.end24HourFormat)
     }  
     
+  }
+
+  convert24HourFormat(time){
+    var hours = Number(time.match(/^(\d+)/)[1]);
+    var minutes = Number(time.match(/:(\d+)/)[1]);
+    var AMPM = time.match(/\s(.*)$/)[1];
+    if(AMPM == "PM" && hours<12) hours = hours+12;
+    if(AMPM == "AM" && hours==12) hours = hours-12;
+    var sHours = hours.toString();
+    var sMinutes = minutes.toString();
+    if(hours<10) sHours = "0" + sHours;
+    if(minutes<10) sMinutes = "0" + sMinutes;
+    console.log(sHours + ":" + sMinutes);
+    return sHours + ":" + sMinutes ;
   }
 
   searchStart(e){
@@ -602,7 +632,7 @@ export class CourseComponent implements OnInit {
           this.iscourseSearch = false;
         },err =>{
           console.log(err);
-      });
+      }); 
 
       if(this.recentLists.length > 3){
         console.log('if', this.recentLists)
@@ -616,6 +646,79 @@ export class CourseComponent implements OnInit {
 
   advancedSearch(obj){
     console.log(obj)
+    console.log(this.days)
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    if(obj.startDate != undefined){
+      var tempStart = obj.startDate.day + ' ' + monthNames[obj.startDate.month -1] + ' ' + obj.startDate.year + ' ' + this.start24HourFormat + ' UTC'
+      var eventStartTemp = new Date(tempStart);
+      var eventStart = eventStartTemp.toISOString();
+    }else{
+      eventStart = null;
+    }
+
+    if(obj.endDate != undefined){
+      var tempEnd = obj.endDate.day + ' ' + monthNames[obj.endDate.month -1] + ' ' + obj.endDate.year + ' ' + this.end24HourFormat + ' UTC'
+      var eventEndTemp = new Date(tempEnd);
+      var eventEnd = eventEndTemp.toISOString();
+    }else{
+      eventEnd = null;
+    }
+
+
+    this.daysLoop =  this.days.filter(function(repeat) {
+      return repeat.checked == true;
+    });
+    if(this.daysLoop.length > 0){
+      this.repeatedDaysTemp = []
+      for(let i = 0; i < this.daysLoop.length ; i++){
+        console.log(this.daysLoop[i].val)
+        this.repeatedDaysTemp.push(this.daysLoop[i].val)
+      }
+      var repeatedDays = this.repeatedDaysTemp.toString()
+
+    }else{
+      var repeatedDays = ''
+    }
+
+    console.log(this.planIDArray)
+    console.log(this.categoryIDArray)
+
+    var tempPlans = this.planIDArray;
+    var tempCats = this.categoryIDArray;
+
+    console.log(this.planIDArray.length >0)
+    var plans = (this.planIDArray.length >0) ? tempPlans.toString() : null;
+    var cats = (this.categoryIDArray.length >0) ? tempCats.toString() : null;
+
+    console.log(repeatedDays)
+    console.log(eventStart);
+    console.log(eventEnd);
+    console.log(obj.keyword);
+    console.log(this.planIDArray)
+    console.log(this.categoryIDArray)
+    this.recentLists.unshift(obj.keyword)
+    this.advancedSearchOn = (this.planIDArray != null || this.categoryIDArray != null || repeatedDays != null) ? true : false;
+
+    this._service.advanceCourseSearch(this.regionId ,this.locationID, obj.keyword, repeatedDays,eventStart, eventEnd, plans, cats)
+    .subscribe((res:any)=>{
+        this.blockUI.stop();
+        console.log(res)
+        this.courseList = res;
+        this.iscourseSearch = false;
+        this.isAdvancedSearch = false;
+
+        if(this.recentLists.length > 3){
+          console.log('if', this.recentLists)
+          this.recentLists = this.recentLists.slice(0, 3);
+        }else{
+          console.log('else')
+        }
+        localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));
+      },err =>{
+        console.log(err);
+    });
   }
 
   //end course search

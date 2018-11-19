@@ -366,6 +366,7 @@ ul.data-listing li.disabled{
   display: flex;
   overflow: hidden;
   width: 215px;
+  padding-right: 0;
   cursor: pointer;
 }
 
@@ -400,6 +401,32 @@ ul.data-listing li.disabled{
 }
 .max-range-box:hover, .min-range-box:hover {
   background: none;
+}
+.as-result{
+  border-radius: 16px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #f2f4f5;
+  margin-right: 10px;
+  font-size: 12px;
+  padding: 8px 16px;
+  color: #64707d;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+}
+ul.as-loop{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: inherit;
+}
+ul.as-loop li{
+  margin-left: 5px;  
+}
+ul.as-loop li:last-child span{
+  display: none;
 }
 
 
