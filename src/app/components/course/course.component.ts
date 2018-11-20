@@ -19,6 +19,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public isvalid:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
   public planList:any;
@@ -34,6 +35,7 @@ export class CourseComponent implements OnInit {
   public endTime:boolean = false;  
   
   public isChecked:any;  
+  public isEndChecked:any;  
   public timeFrame:Array<any> = ['AM','PM'];
   public rangeHr; 
   public rangeMin; 
@@ -283,6 +285,7 @@ export class CourseComponent implements OnInit {
   //start course search
 
   focusCourseSearch(){
+    console.log('focusing ...')
     this.iscourseSearch = true;    
   }
 
@@ -303,25 +306,11 @@ export class CourseComponent implements OnInit {
 
   clearSearch(){
     console.log('clear')
-    this.courseVal = {};
     this.iswordcount = false;
     this.iscourseSearch = false;  
-    this.courseList = [];
     this.advancedSearchOn = false;
-    this.tempCategory = [];
-    this.tempPlan = [];
-    this.planIDArray = [];
-    this.categoryIDArray = [];
-    this.repeatedDaysTemp = [];
-    this.days = [
-      {"day":"Sun", "val": 0, 'checked': false},
-      {"day":"Mon", "val": 1, 'checked': false},
-      {"day":"Tue", "val": 2, 'checked': false},
-      {"day":"Wed", "val": 3, 'checked': false},
-      {"day":"Thu", "val": 4, 'checked': false},
-      {"day":"Fri ", "val": 5, 'checked': false},
-      {"day":"Sat", "val": 6, 'checked': false},
-    ];
+    this.courseList = [];
+    this.resetAS();
     this.getCourseLists(20, 0);
   }
 
@@ -359,6 +348,10 @@ export class CourseComponent implements OnInit {
       this.iswordcount = true;
     }else{
       this.iswordcount = false;
+      this.courseList = [];
+      setTimeout(() => {
+        this.getCourseLists(20, 0);
+      }, 300);
     }
   }
 
@@ -433,12 +426,15 @@ export class CourseComponent implements OnInit {
   }
 
   setMinDate(event){
-    console.log("setMinDate",event);
     this.minDate = event;
+    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    console.log(this.isvalid)
   }
 
   setMaxDate(date){
     this.maxDate =  date;
+    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? true : false;
+    console.log(this.isvalid)
   }
 
   closeFix(event, datePicker) {
@@ -456,6 +452,18 @@ export class CourseComponent implements OnInit {
     })
     if(parentWrap.length == 0){
       endPicker.close();
+    }
+  }
+
+  closeSimpleSearch(event){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "simple-search input-group col-md-12 pd-zero"
+    })
+    if(parentWrap.length == 0){
+      if(this.iswordcount != true){
+        this.iscourseSearch = false;
+      }
+      this.isAdvancedSearch = false;
     }
   }
 
@@ -504,9 +512,12 @@ export class CourseComponent implements OnInit {
   }
 
   resetAS(){
-    this.tempCategory = []
-    this.tempPlan = []
-    this.courseVal = {}
+    this.courseVal = {};
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.planIDArray = [];
+    this.categoryIDArray = [];
+    this.repeatedDaysTemp = [];
     this.days = [
       {"day":"Sun", "val": 0, 'checked': false},
       {"day":"Mon", "val": 1, 'checked': false},
@@ -528,6 +539,7 @@ export class CourseComponent implements OnInit {
   showAdvancedSearch(){
     this.isAdvancedSearch = true;
     this.isChecked = 'AM';
+    this.isEndChecked = 'AM';
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.selectedHrRange = '0';
@@ -543,6 +555,10 @@ export class CourseComponent implements OnInit {
 
   ChangedTimeValue(obj, val, state){
     console.log(val, state)
+    console.log(this.courseVal.startTime)
+    console.log(this.courseVal.endTime)
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    console.log(this.isvalid)
     if(val == 'hr'){
       this.selectedHrRange = obj;
     }else if(val == 'min'){      
@@ -558,7 +574,11 @@ export class CourseComponent implements OnInit {
 
   chooseTimeOpt(type, state){
     console.log(type);
-    this.isChecked = type;
+    if(state == 'start'){
+      this.isChecked = type;
+    }else{
+      this.isEndChecked = type;
+    }
     this.formatTime(state);
   }
 
@@ -603,7 +623,7 @@ export class CourseComponent implements OnInit {
       console.log(this.start24HourFormat)
     }else{
       this.showEndFormat = hrFormat + ':' + minFormat;
-      this.courseVal.endTime = this.showEndFormat + ' ' + this.isChecked;      
+      this.courseVal.endTime = this.showEndFormat + ' ' + this.isEndChecked;      
       this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
       console.log(this.end24HourFormat)
     }  
@@ -624,6 +644,20 @@ export class CourseComponent implements OnInit {
     return sHours + ":" + sMinutes ;
   }
 
+  recentSearch(val){
+    this.courseVal.keyword = val;
+    this.iswordcount = true;
+    this._service.simpleCourseSearch(this.regionId, val ,this.locationID)
+    .subscribe((res:any)=>{
+        this.blockUI.stop();
+        console.log(res)
+        this.courseList = res;
+        this.iscourseSearch = false;
+      },err =>{
+        console.log(err);
+    });
+  }
+
   searchStart(e){
     if(e.keyCode == 13){
       this.recentLists.unshift(e.target.value)
@@ -633,6 +667,7 @@ export class CourseComponent implements OnInit {
           this.blockUI.stop();
           console.log(res)
           this.courseList = res;
+          $("#course-search").blur();
           this.iscourseSearch = false;
         },err =>{
           console.log(err);
@@ -645,6 +680,35 @@ export class CourseComponent implements OnInit {
         console.log('else')
       }
       localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));      
+    }
+  }
+
+  changeAdvancedSearch(val, type){
+    if(type == 'category'){
+      if(val.length > 0){
+        this._service.getSearchCategory(this.regionId, val, this.locationID)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.categoryList = res;
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        console.log('~~~ hi')
+        this.categoryList = [];
+        setTimeout(() => {
+          this.getAllCategories(20, 0);
+        }, 300);
+      }
+    }else{
+      if(val.length){
+        console.log('search plan in progress ..')
+      }else{
+        this.planList = [];
+        setTimeout(() => {
+          this.getCPlanList();
+        }, 300);
+      }
     }
   }
 
@@ -661,8 +725,10 @@ export class CourseComponent implements OnInit {
       ];
       this.repeatedDaysTemp = [];
     }else if(state == 'cat'){
+      this.tempCategory = [];
       this.categoryIDArray = [];
     }else{
+      this.tempPlan = [];
       this.planIDArray = [];
     }
     this.advancedSearch(this.courseVal);
