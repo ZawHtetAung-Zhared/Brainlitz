@@ -61,6 +61,8 @@
                         name="categoryAS" 
                         #categoryAS="ngModel" 
                         [(ngModel)]="courseVal.category" 
+                        (input)="changeAdvancedSearch($event.target.value, 'category')"
+                        autocomplete="off"
                         >
                       <ul class="data-listing">
                         <li [ngClass]="(categoryIDArray.indexOf(category._id) > -1) ? 'disabled' :''" (click)="selectedList(category, 'category')" *ngFor="let category of categoryList">{{category.name}}</li>

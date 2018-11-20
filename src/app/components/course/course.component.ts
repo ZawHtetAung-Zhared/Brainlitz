@@ -644,6 +644,29 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  changeAdvancedSearch(val, type){
+
+    if(type == 'category'){
+      if(val.length > 0){
+        this._service.getSearchCategory(this.regionId, val, this.locationID)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.categoryList = res;
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        console.log('~~~ hi')
+        this.categoryList = [];
+        setTimeout(() => {
+          this.getAllCategories(20, 0);
+        }, 300);
+      }
+    }else{
+
+    }
+  }
+
   updateASCall(state){
     if(state == 'day'){
       this.days = [
