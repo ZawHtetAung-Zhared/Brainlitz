@@ -427,13 +427,13 @@ export class CourseComponent implements OnInit {
 
   setMinDate(event){
     this.minDate = event;
-    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
   setMaxDate(date){
     this.maxDate =  date;
-    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
@@ -563,8 +563,6 @@ export class CourseComponent implements OnInit {
     console.log(val, state)
     console.log(this.courseVal.startTime)
     console.log(this.courseVal.endTime)
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
-    console.log(this.isvalid)
     if(val == 'hr'){
       this.selectedHrRange = obj;
     }else if(val == 'min'){      
@@ -633,7 +631,8 @@ export class CourseComponent implements OnInit {
       this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
       console.log(this.end24HourFormat)
     }  
-    
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    console.log(this.isvalid)
   }
 
   convert24HourFormat(time){
