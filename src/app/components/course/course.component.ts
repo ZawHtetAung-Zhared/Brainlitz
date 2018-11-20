@@ -1673,6 +1673,7 @@ export class CourseComponent implements OnInit {
            this.getCourseDetail(this.detailLists._id)
            this.getUsersInCourse(this.detailLists._id);
            this.cancelInvoiceModal();
+           this.toastr.success(res.message);
          }else{
            console.log('else hi')
            this.cancel();
