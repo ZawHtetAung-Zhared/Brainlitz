@@ -24,7 +24,7 @@ export class GetUtcTimePipe implements PipeTransform {
     
     var utcTime;
     if(utcString2 == 0){
-  	  utcTime = utcString1 + ':' + utcString2 + '0 ' + time;
+      utcTime = utcString1 + ':' + utcString2 + '0 ' + time;
     }else{
       utcTime = (utcString2 >= 10) ? utcString1 + ':' + utcString2 + ' ' + time : utcString1 + ':' + '0' + utcString2 + ' ' + time;
     }

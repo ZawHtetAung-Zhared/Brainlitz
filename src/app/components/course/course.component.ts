@@ -142,14 +142,16 @@ export class CourseComponent implements OnInit {
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
-    this._service.goback.subscribe(() => {   
+    this._service.goback.subscribe(() => {  
+      this.courseList = []; 
       console.log('goooo') 
       this.courseList = []
       this.isCategory = false;
       window.scroll(0,0);
     });
 
-    this._service.goCourseCreate.subscribe(() => {   
+    this._service.goCourseCreate.subscribe(() => {
+      this.courseList = [];   
       console.log('go to cc') 
       this.courseList = []
       this.isCategory = false;
@@ -160,6 +162,7 @@ export class CourseComponent implements OnInit {
     });
    
     this._service.goplan.subscribe(() => {
+      this.courseList = [];
      console.log('muuuu')
      this.courseList = []
      this.isCategory = false;
@@ -167,7 +170,8 @@ export class CourseComponent implements OnInit {
       this.goBackCat = true;
     })
 
-    this._service.goCat.subscribe(() => {   
+    this._service.goCat.subscribe(() => {  
+      this.courseList = []; 
       console.log('goback22', this.goBackCat) 
       this.goBackCat = false;
       this.isCategory = true;
@@ -181,8 +185,13 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
+<<<<<<< HEAD
       this.courseList = []
       console.log(this.courseList.length)
+=======
+      this.courseList = [];
+      // this.getCourseLists(20, 0)
+>>>>>>> demo
     });
   }
 
