@@ -436,7 +436,7 @@ export class CourseComponent implements OnInit {
 
   setMaxDate(date){
     this.maxDate =  date;
-    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? true : false;
+    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
@@ -515,6 +515,12 @@ export class CourseComponent implements OnInit {
   }
 
   resetAS(){
+    this.rangeHr = '0';
+    this.rangeMin = '0';
+    this.rangeEndHr = '0';
+    this.rangeEndMin = '0';
+    this.showStartFormat = "00:00";
+    this.showEndFormat = "00:00";
     this.courseVal = {};
     this.tempCategory = [];
     this.tempPlan = [];

@@ -113,10 +113,10 @@
                     placeholder="Type a word that relates part of the course name" 
                     id="course-search"
                     (focus)="focusCourseSearch($event)"
-                    (input)="searchCourse($event.target.value)"
+                    
                     autocomplete="off"
                     name="keyword"
-                    (keyup)="searchStart($event)"
+                    
                     [(ngModel)]="courseVal.keyword" 
                     #csearch="ngModel"
                   >
@@ -232,7 +232,7 @@
                         <div *ngIf="endTime" class="duration-progress">
                           <div class="d-flex justify-content-center">
                             <div class="d-flex flex-column justify-content-center time-range">
-                              --{{showEndFormat}}
+                              {{showEndFormat}}
                             </div>
                             <div class="time-box">
                               <div *ngFor="let time of timeFrame" class="form-check form-check-inline time-checked">
@@ -293,9 +293,12 @@
           <div class="d-flex justify-content-between search-btns">
             <button (click)="resetAS()" type="button" class="btn reset-as">Reset</button>
             <div>
+              <!-- **{{!courseVal.keyword}}
+              **{{isvalid}}
+              **{{!courseVal.keyword || isvalid }} -->
               <button type="button" class="btn cancel-as" (click)="cancelAS()">Cancel</button>
-              <!-- <button [disabled]="!courseVal.keyword || isvalid == true" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button> -->
-              <button [disabled]="!courseVal.keyword" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
+              <button [disabled]="!courseVal.keyword || isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
+              <!-- <button [disabled]="!courseVal.keyword" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button> -->
             </div>
           </div>
         </form>
