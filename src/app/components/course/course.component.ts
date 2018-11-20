@@ -257,7 +257,10 @@ export class CourseComponent implements OnInit {
         'startDate' : '',
         'endDate' : ''
       },
-      'repeatDays': []
+      'repeatDays': [],
+      'coursePlan':{
+        'name': ''
+      }
     }
 
     this.pplLists = {
