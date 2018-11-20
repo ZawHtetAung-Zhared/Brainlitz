@@ -127,12 +127,16 @@ export class CourseComponent implements OnInit {
   public invoiceID;
   public showPayment:boolean = false;
   public selectedPayment:any;
-  public paymentItem = {};
+  public paymentItem:any = {};
   public invoiceCourse:any;
   public feesBox:boolean = false;
   public depositBox:boolean = false;
   public regBox:boolean = false;
   public prefixInvId:any;
+  public token:any;
+  public type:any;
+  public paymentProviders:any;
+  public refInvID:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -201,7 +205,7 @@ export class CourseComponent implements OnInit {
     });
 
     this.discount = 0;
-    this.selectedPayment = 'cash';
+    this.selectedPayment = 'Cash';
 
   }
 
@@ -754,6 +758,8 @@ export class CourseComponent implements OnInit {
     this.showList = false;
     this.selectedCustomer = {};
     this.showInvoice = false;
+    this.showPayment = false;
+    this.paymentItem = {};
   }
 
   showCourseDetail(courseId){
@@ -1309,7 +1315,7 @@ export class CourseComponent implements OnInit {
          this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
          this.dueDate = this.dateFormat(this.invoice[i].dueDate);
          this.invoiceID = this.invoice[i]._id;
-         this.prefixInvId = this.invoice[i].invoiceId;
+         this.refInvID = this.invoice[i].refInvoiceId;
          // this.totalTax = this.invoice[i].taxOnCourseFee + this.invoice[i].taxOnRegistrationFee;
          // console.log("total tax",this.totalTax);
          // this.subTotal = this.invoice[i].total - this.totalTax;
@@ -1537,25 +1543,75 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  showPayOption(){
-    console.log("pay option");
-    this.showPayment = true;
-    this.showInvoice = false;
-  }
-
-  choosePayment(type){
-    console.log("choosePayment",type);
-    this.selectedPayment = type;
-  }
-
   cancelInvoiceModal(){
     this.modalReference.close();
     this.showList = false;
     this.selectedCustomer = {};
     this.showInvoice = false;
     this.showPayment = false;
+    this.paymentItem = {};
     this.getCourseDetail(this.detailLists._id)
     this.getUsersInCourse(this.detailLists._id);
+  }
+
+  showPayOption(){
+    console.log("pay option");
+    this.showPayment = true;
+    this.showInvoice = false;
+    this.getRegionInfo();
+  }
+
+  getRegionInfo(){
+    this.token = localStorage.getItem('token');
+    this.type = localStorage.getItem('tokenType');
+    this.blockUI.start('Loading...');
+    this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
+    .subscribe((res:any) => {
+      console.log("regional info",res);
+      this.blockUI.stop();
+      this.paymentProviders = res.paymentSettings.paymentProviders;
+      console.log(this.paymentProviders)
+    })
+  }
+
+  choosePayment(type){
+      console.log("choosePayment",type);
+      this.selectedPayment = type;
+      console.log('pItem',this.paymentItem);
+  }
+
+  payNow(type){
+    if(type == 'Cash'){
+      console.log("Cash",this.paymentItem.amount);
+      let body = {
+        'refInvoiceId': this.refInvID,
+        'amount': this.paymentItem.amount.toString(),
+        'paymentMethod': this.selectedPayment.toLowerCase()
+      }
+      console.log("data",body);
+      this._service.makePayment(this.regionId,body)
+      .subscribe((res:any) => {
+        console.log(res);
+        if(this.isvalidID == 'inside'){
+           console.log('hi')
+           // this.cancel();
+           this.getCourseDetail(this.detailLists._id)
+           this.getUsersInCourse(this.detailLists._id);
+           this.cancelInvoiceModal();
+         }else{
+           console.log('else hi')
+           this.cancel();
+           this.modalReference.close();
+           // this.cancelModal();
+           // this.getUsersInCourse(courseId);
+         }
+        this.toastr.success(res.message);
+      },err => {
+        this.toastr.error("Payment Fail");
+      })
+    }else{
+      console.log("Payment Type",type);
+    }
   }
 
   // cancelInvoice(){

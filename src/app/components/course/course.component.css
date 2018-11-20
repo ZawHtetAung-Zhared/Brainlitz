@@ -1776,7 +1776,7 @@ button:disabled{
 }
 
 .input-sign{
-  line-height: 1.7;
+  line-height: 2.7;
   color: #788796;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
 }
@@ -1830,12 +1830,12 @@ button:disabled{
   display: none;
 }
 
-/*.selected{
+.selectedItem{
   background: #007fff;
   color: #fff;
   pointer-events: none;
   border-radius: 4px;
-}*/
+}
 
 .mt-40{
   margin-top: 40px;

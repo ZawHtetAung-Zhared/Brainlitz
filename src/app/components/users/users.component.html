@@ -602,7 +602,7 @@
 	        </div>
 	        <div class="text-right">
 	          <h3 class="modal-title">Invoice</h3>
-	          <label class="mr-auto mb-0 invoice-info">{{ prefixInvId }}</label>
+	          <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label>
 	        </div>
 	      </div>
 	      <div class="pt-4">
@@ -703,7 +703,7 @@
 	                </span>
 	              </button>
 	            </div>
-	            <p (click)="showPopup('reg',data.registrationFee)">{{data.registrationFee}}</p>
+	            <p class="mb-0" (click)="showPopup('reg',data.registrationFee)">{{data.registrationFee}}</p>
 	          </div>
 	          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.registrationFee}}</div>
 	        </div>
@@ -737,7 +737,7 @@
 	                </span>
 	              </button>
 	            </div>
-	            <p (click)="showPopup('deposit',data.deposit)">{{data.deposit}}</p>
+	            <p class="mb-0" (click)="showPopup('deposit',data.deposit)">{{data.deposit}}</p>
 	          </div>
 	          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.deposit}}</div>
 	        </div>
@@ -842,6 +842,58 @@
 	      </div>
 	    </div>
 	</div>
+	<div *ngIf="showPayment == true">
+	    <div class="invoice-container">
+	      <div class="logo-wrapper">
+	        <img src="{{logo}}">
+	      </div>
+	      <div class="mt-40">
+	        <label class="payment-label">Choose payment method</label>
+	        <!-- <div class="d-flex mt-1">
+	          <div class="payment-item">
+	            <label [ngClass]="{'selectedItem': selectedPayment == 'cash'}" class="form-check-label">
+	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="Cash" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment('cash')"> Cash
+	            </label>
+	          </div>
+	          <div class="payment-item">
+	            <label [ngClass]="{'selectedItem': selectedPayment == 'card'}" class="form-check-label">
+	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="Credit or debit card" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment('card')"> Credit or debit card
+	            </label>
+	          </div>
+	        </div> -->
+	        <div class="d-flex mt-1">
+	          <div class="payment-item" *ngFor="let provider of paymentProviders">
+	            <label [ngClass]="{'selectedItem': selectedPayment == provider.name}" class="form-check-label">
+	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="provider.name" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment(provider.name)"> {{provider.name}}
+	            </label>
+	          </div>
+	        </div>
+	        <div *ngIf="selectedPayment == 'Cash'">
+	          <div class="mt-30">
+	            <label class="payment-label">Reference number</label>
+	            <div>
+	              <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="refInvID" readonly>
+	            </div>
+	          </div>
+	          <div class="mt-30">
+	            <label class="payment-label">Amount</label>
+	            <div class="d-flex popup-input w-75">
+	              <div class="input-sign">
+	                S$
+	              </div>
+	              <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount">
+	            </div>
+	          </div>
+	        </div>
+	        <div *ngIf="selectedPayment != 'Cash'">
+	        	<h2>Test</h2>
+	        </div>
+	      </div>
+	    </div>
+	    <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
+	      <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)">Pay now</button>
+	    </div>
+  	</div>
 </ng-template>
 
 

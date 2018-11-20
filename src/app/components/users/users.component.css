@@ -881,7 +881,7 @@ h3, h5 {
 .class-body-one b,.invoice-info{
     font-size: 16px;
     color: #2e3d4d;
-    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 .class-body-two b{
     font-size: 14px;
@@ -1152,7 +1152,7 @@ h3, h5 {
 }
 
 .input-sign{
-  line-height: 1.7;
+  line-height: 2.7;
   color: #788796;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
 }
@@ -1206,12 +1206,12 @@ h3, h5 {
   display: none;
 }
 
-/*.selected{
+.selectedItem{
   background: #007fff;
   color: #fff;
   pointer-events: none;
   border-radius: 4px;
-}*/
+}
 
 .mt-40{
   margin-top: 40px;
@@ -1252,11 +1252,11 @@ h3, h5 {
   border-left: 1px solid #edeff0;
 }
 
-.price-info,.btn-submit{
+.price-info,.btn-submit,.payment-label,.payment-item{
     font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 
-.price-info{
+.price-info,.payment-label{
     color: #2e3e4d;
     font-size: 18px;
 }
@@ -1269,6 +1269,10 @@ h3, h5 {
     color: #fff;
     background-color: #1682fb;
     margin-left: 15px;
+}
+
+.cursor-on{
+  cursor: pointer;
 }
 
 /*enroll new class modal*/
