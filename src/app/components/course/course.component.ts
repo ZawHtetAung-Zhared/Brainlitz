@@ -35,6 +35,7 @@ export class CourseComponent implements OnInit {
   public endTime:boolean = false;  
   
   public isChecked:any;  
+  public isEndChecked:any;  
   public timeFrame:Array<any> = ['AM','PM'];
   public rangeHr; 
   public rangeMin; 
@@ -421,18 +422,15 @@ export class CourseComponent implements OnInit {
   }
 
   setMinDate(event){
-    console.log("setMinDate",this.courseVal.startDate);
-    console.log(this.courseVal.startDate!= undefined && this.courseVal.endDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined);
     this.minDate = event;
-
-    this.isvalid = (this.courseVal.startDate!= undefined && this.courseVal.endDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    console.log(this.isvalid)
   }
 
   setMaxDate(date){
-    console.log("setMinDate",this.courseVal.startDate);
     this.maxDate =  date;
-
-    this.isvalid = (this.courseVal.startDate!= undefined && this.courseVal.endDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? true : false;
+    console.log(this.isvalid)
   }
 
   closeFix(event, datePicker) {
@@ -537,6 +535,7 @@ export class CourseComponent implements OnInit {
   showAdvancedSearch(){
     this.isAdvancedSearch = true;
     this.isChecked = 'AM';
+    this.isEndChecked = 'AM';
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.selectedHrRange = '0';
@@ -552,7 +551,10 @@ export class CourseComponent implements OnInit {
 
   ChangedTimeValue(obj, val, state){
     console.log(val, state)
-    this.isvalid = (this.courseVal.startDate!= undefined && this.courseVal.endDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    console.log(this.courseVal.startTime)
+    console.log(this.courseVal.endTime)
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    console.log(this.isvalid)
     if(val == 'hr'){
       this.selectedHrRange = obj;
     }else if(val == 'min'){      
@@ -568,7 +570,11 @@ export class CourseComponent implements OnInit {
 
   chooseTimeOpt(type, state){
     console.log(type);
-    this.isChecked = type;
+    if(state == 'start'){
+      this.isChecked = type;
+    }else{
+      this.isEndChecked = type;
+    }
     this.formatTime(state);
   }
 
@@ -613,7 +619,7 @@ export class CourseComponent implements OnInit {
       console.log(this.start24HourFormat)
     }else{
       this.showEndFormat = hrFormat + ':' + minFormat;
-      this.courseVal.endTime = this.showEndFormat + ' ' + this.isChecked;      
+      this.courseVal.endTime = this.showEndFormat + ' ' + this.isEndChecked;      
       this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
       console.log(this.end24HourFormat)
     }  

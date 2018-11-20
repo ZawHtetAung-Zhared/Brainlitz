@@ -236,7 +236,7 @@
                             </div>
                             <div class="time-box">
                               <div *ngFor="let time of timeFrame" class="form-check form-check-inline time-checked">
-                                <label [ngClass]="{'checked':isChecked == time}" class="mb-0 font-semi">
+                                <label [ngClass]="{'checked':isEndChecked == time}" class="mb-0 font-semi">
                                   <input 
                                     type="radio" 
                                     name="moment"
@@ -294,7 +294,8 @@
             <button (click)="resetAS()" type="button" class="btn reset-as">Reset</button>
             <div>
               <button type="button" class="btn cancel-as" (click)="cancelAS()">Cancel</button>
-              <button [disabled]="!courseVal.keyword || isvalid" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
+              <!-- <button [disabled]="!courseVal.keyword || isvalid == true" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button> -->
+              <button [disabled]="!courseVal.keyword" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
             </div>
           </div>
         </form>
