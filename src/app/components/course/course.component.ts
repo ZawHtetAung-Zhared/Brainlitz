@@ -185,13 +185,8 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
-<<<<<<< HEAD
       this.courseList = []
       console.log(this.courseList.length)
-=======
-      this.courseList = [];
-      // this.getCourseLists(20, 0)
->>>>>>> demo
     });
   }
 
