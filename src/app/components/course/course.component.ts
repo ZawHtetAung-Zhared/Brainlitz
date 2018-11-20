@@ -299,25 +299,11 @@ export class CourseComponent implements OnInit {
 
   clearSearch(){
     console.log('clear')
-    this.courseVal = {};
     this.iswordcount = false;
     this.iscourseSearch = false;  
-    this.courseList = [];
     this.advancedSearchOn = false;
-    this.tempCategory = [];
-    this.tempPlan = [];
-    this.planIDArray = [];
-    this.categoryIDArray = [];
-    this.repeatedDaysTemp = [];
-    this.days = [
-      {"day":"Sun", "val": 0, 'checked': false},
-      {"day":"Mon", "val": 1, 'checked': false},
-      {"day":"Tue", "val": 2, 'checked': false},
-      {"day":"Wed", "val": 3, 'checked': false},
-      {"day":"Thu", "val": 4, 'checked': false},
-      {"day":"Fri ", "val": 5, 'checked': false},
-      {"day":"Sat", "val": 6, 'checked': false},
-    ];
+    this.courseList = [];
+    this.resetAS();
     this.getCourseLists(20, 0);
   }
 
@@ -500,9 +486,12 @@ export class CourseComponent implements OnInit {
   }
 
   resetAS(){
-    this.tempCategory = []
-    this.tempPlan = []
-    this.courseVal = {}
+    this.courseVal = {};
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.planIDArray = [];
+    this.categoryIDArray = [];
+    this.repeatedDaysTemp = [];
     this.days = [
       {"day":"Sun", "val": 0, 'checked': false},
       {"day":"Mon", "val": 1, 'checked': false},
@@ -645,7 +634,6 @@ export class CourseComponent implements OnInit {
   }
 
   changeAdvancedSearch(val, type){
-
     if(type == 'category'){
       if(val.length > 0){
         this._service.getSearchCategory(this.regionId, val, this.locationID)
@@ -663,7 +651,14 @@ export class CourseComponent implements OnInit {
         }, 300);
       }
     }else{
-
+      if(val.length){
+        console.log('search plan in progress ..')
+      }else{
+        this.planList = [];
+        setTimeout(() => {
+          this.getCPlanList();
+        }, 300);
+      }
     }
   }
 
@@ -680,8 +675,10 @@ export class CourseComponent implements OnInit {
       ];
       this.repeatedDaysTemp = [];
     }else if(state == 'cat'){
+      this.tempCategory = [];
       this.categoryIDArray = [];
     }else{
+      this.tempPlan = [];
       this.planIDArray = [];
     }
     this.advancedSearch(this.courseVal);

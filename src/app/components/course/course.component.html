@@ -93,6 +93,8 @@
                         name="planAS" 
                         #planAS="ngModel" 
                         [(ngModel)]="courseVal.plan" 
+                        (input)="changeAdvancedSearch($event.target.value, 'plan')"
+                        autocomplete="off"
                       >
                       <ul class="data-listing">
                         <li [ngClass]="(planIDArray.indexOf(plan._id) > -1) ? 'disabled' :''" (click)="selectedList(plan, 'plan')" *ngFor="let plan of planList">
