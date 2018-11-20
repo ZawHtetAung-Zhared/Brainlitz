@@ -1048,6 +1048,47 @@ export class appService{
             
     }
 
+    simpleCourseSearch(regionID: string, keyword: string, locationID: string){
+      this.getLocalstorage();
+      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
+    advanceCourseSearch(regionID: string, locationID: string, keyword: string, repeatedDays, eventStart, eventEnd, planIDArray, categoryIDArray){
+      this.getLocalstorage();
+
+      console.log(planIDArray)
+      console.log(categoryIDArray)
+      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword;
+
+      url = (repeatedDays != '') ? url + '&repeatedDays=' + repeatedDays : url;
+      url = (eventStart != null) ? url + '&startDate=' + eventStart : url; 
+      url = (eventEnd != null) ? url + '&endDate=' + eventEnd : url;
+      url = (categoryIDArray != null)  ? url + '&categoryId=' + categoryIDArray : url;
+      url = (planIDArray != null) ? url + '&coursePlanId='+ planIDArray : url;
+
+      console.log(url)
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
     getAllCourse(id: string, locationid:string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl+ '/' + id + '/course?locationId=' + locationid +'&limit=' + limit + '&skip=' + skip;
@@ -1620,6 +1661,45 @@ export class appService{
       .map((res:Response) => {
         let result = res; 
         console.log(result)
+        return result;
+      })
+    }
+
+    invoiceOption(regionid, invoiceId, body, option){
+      console.log(regionid)
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/invoices' + '/' + invoiceId + '/' + option;
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      console.log(httpOptions)
+      console.log("authorization",this.tokenType + ' ' + this.accessToken)
+
+      return this.httpClient.post(apiUrl, body, httpOptions)
+        .map((res:Response) => {
+          let result = res; 
+          console.log(result)
+          return result;
+        })
+    }
+
+    makePayment(regionId:string,body:any){
+      let apiUrl = this.baseUrl + '/' + regionId + '/payments';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);
         return result;
       })
     }

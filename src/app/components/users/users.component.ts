@@ -97,6 +97,31 @@ export class UsersComponent implements OnInit {
 	acWord:any;
 	public permissionType: any;
 
+	/*for invoice*/
+	public showInvoice:boolean = false;
+	public logo:any = localStorage.getItem("OrgLogo");
+	public showBox:boolean = false;
+	public discount:number = 0;
+	public value:any = {};
+	public showMailPopup:boolean = false;
+	public invoiceInfo:any;
+	public invoice:any;
+	public updatedDate;
+	public dueDate;
+	public invoiceID;
+	public showPayment:boolean = false;
+	public selectedPayment:any;
+	public paymentItem:any = {};
+	public invoiceCourse:any;
+	public feesBox:boolean = false;
+	public depositBox:boolean = false;
+	public regBox:boolean = false;
+	public prefixInvId:any;
+	public token:any;
+	public type:any;
+	public paymentProviders:any;
+	public refInvID:any;
+
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 	}
@@ -114,6 +139,7 @@ export class UsersComponent implements OnInit {
 		    this.checkPermission();
 		  }
 		});
+		this.selectedPayment = 'Cash';
 	}
 
 	ngAfterViewInit() {
@@ -825,10 +851,11 @@ export class UsersComponent implements OnInit {
 	    });
 	}
 
-	enrollUser(courseId){
+	enrollUser(course){
 		console.log(this.custDetail);
+		let courseId = course._id;
 		let body = {
-		   'courseId': courseId,
+		   'courseId': course._id,
 		   'userId': this.custDetail.user.userId,
 		   'userType': 'customer'
 		}
@@ -836,8 +863,23 @@ export class UsersComponent implements OnInit {
 		  	.subscribe((res:any) => {
 		     	console.log(res);
 		     	this.toastr.success('Successfully Enrolled.');
-		     	this.showDetails(this.custDetail.user.userId);
-		     	this.closeModel();
+		     	// this.showDetails(this.custDetail.user.userId);
+		     	// this.closeModel();
+		     	/* for invoice*/
+		     	this.showInvoice = true;
+		     	this.invoiceInfo = res.invoiceSettings;
+				this.invoice = res.invoice;
+				this.showInvoice = true; 
+				for(var i in this.invoice){
+				 this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
+				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
+				 this.invoiceID = this.invoice[i]._id;
+				 this.refInvID = this.invoice[i].refInvoiceId;
+				 this.prefixInvId = this.invoice[i].invoiceId;
+				 if(this.invoice[i].courseId == course._id){
+				   this.invoiceCourse = course.name;
+				 }
+				}
 		     	// this.modalReference.close();
 		     	// this.availableCourses = [];
 		  	}, err => {  
@@ -845,9 +887,147 @@ export class UsersComponent implements OnInit {
 		  	});
 	}
 
+	dateFormat(dateStr){
+	    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	    ]; 
+	     var d = new Date(dateStr);
+	     var month = monthNames[d.getUTCMonth()];
+	     var year = d.getUTCFullYear();
+	     var date = d.getUTCDate();
+	     console.log(date,month,year)
+	     var dFormat = date + ' ' + month + ' ' + year;
+	     console.log("DD MM YYYY",dFormat);
+	     return dFormat;
+	  }
+
+	showPopup(type,value){
+		console.log("show popup");
+		if(type == 'discount'){
+		  this.showBox = true;
+		  this.value.discountFee = value;
+		}else if(type == 'courseFee'){
+		  this.feesBox = true;
+		  this.value.courseFee = value;
+		}else if(type == 'deposit'){
+		  this.depositBox = true;
+		  this.value.deposit = value;
+		}else if(type == 'reg'){
+		  this.regBox = true;
+		  this.value.regFee = value;
+		}
+	}
+
+	cancelPopup(type){
+		console.log("hide popup")
+		// this.showBox = false;
+		if(type == 'discount'){
+		  this.showBox = false;
+		  this.value.discountFee = '';
+		}else if(type == 'courseFee'){
+		  this.feesBox = false;
+		  this.value.courseFee = '';
+		}else if(type == 'deposit'){
+		  this.depositBox = false;
+		  this.value.deposit = '';
+		}else if(type == 'reg'){
+		  this.regBox = false;
+		  this.value.regFee = '';
+		}
+	}
+
+	addDiscount(data){
+		console.log("Discount",data);
+		this.discount = data;
+		this.showBox = false;
+	}
+
+	sendInvoice(){
+	    console.log("send Invoice",this.invoiceID);
+	    var mailArr = [];
+	    mailArr.push(this.custDetail.user.email);
+	    for(var i in this.custDetail.user.guardians){
+	      mailArr.push(this.custDetail.user.guardians[i].email);
+	    }
+	    console.log("mailArr",mailArr);
+	    let body = {
+	      "associatedMails": mailArr
+	    }
+	    console.log("body",body);
+	    this._service.invoiceOption(this.regionID, this.invoiceID, body, 'send')
+	    .subscribe((res:any) => {
+	      console.log(res);
+	      this.toastr.success("Successfully sent the Invoice.");
+	      this.showDetails(this.custDetail.user.userId);
+		  this.closeModel();
+	    }, err => {  
+	      console.log(err);
+	      this.toastr.error('Fail to sent the Invoice.');
+	    })
+	}
+
+	cancelInvoiceModal(){
+	    this.modalReference.close();
+	    this.availableCourses = [];
+	    this.showInvoice = false;
+	    this.showPayment = false;
+	    this.paymentItem = {};
+	    this.showDetails(this.custDetail.user.userId);
+	  }
+
 	closeModel(){
 		this.modalReference.close();
 		this.availableCourses = [];
+		this.showInvoice = false;
+		this.showPayment = false;
+		this.paymentItem = {};
+	}
+
+	showPayOption(){
+		console.log("pay option");
+		this.showPayment = true;
+		this.showInvoice = false;
+		this.getRegionInfo();
+	}
+
+	getRegionInfo(){
+		this.token = localStorage.getItem('token');
+    	this.type = localStorage.getItem('tokenType');
+		this._service.getRegionalAdministrator(this.regionID, this.token, this.type)
+		.subscribe((res:any) => {
+			console.log("regional info",res);
+			this.paymentProviders = res.paymentSettings.paymentProviders;
+			console.log(this.paymentProviders)
+		})
+	}
+
+	choosePayment(type){
+	    console.log("choosePayment",type);
+	    this.selectedPayment = type;
+	    console.log('pItem',this.paymentItem);
+	}
+
+	payNow(type){
+		if(type == 'Cash'){
+			console.log("Cash",this.paymentItem.amount);
+			let body = {
+				'refInvoiceId': this.refInvID,
+				'amount': this.paymentItem.amount.toString(),
+				'paymentMethod': this.selectedPayment.toLowerCase()
+			}
+			console.log("data",body);
+			this._service.makePayment(this.regionID,body)
+			.subscribe((res:any) => {
+				console.log(res);
+				this.showDetails(this.custDetail.user.userId);
+		  		this.closeModel();
+		  		this.toastr.success(res.message);
+			},err => {
+				this.toastr.error("Payment Fail");
+			})
+		}else{
+			console.log("Payment Type",type);
+		}
 	}
 
 	allCourseLists(){
