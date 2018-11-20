@@ -1687,6 +1687,23 @@ export class appService{
         })
     }
 
+    makePayment(regionId:string,body:any){
+      let apiUrl = this.baseUrl + '/' + regionId + '/payments';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      })
+    }
+
 }
 
 

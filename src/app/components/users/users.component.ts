@@ -111,12 +111,16 @@ export class UsersComponent implements OnInit {
 	public invoiceID;
 	public showPayment:boolean = false;
 	public selectedPayment:any;
-	public paymentItem = {};
+	public paymentItem:any = {};
 	public invoiceCourse:any;
 	public feesBox:boolean = false;
 	public depositBox:boolean = false;
 	public regBox:boolean = false;
 	public prefixInvId:any;
+	public token:any;
+	public type:any;
+	public paymentProviders:any;
+	public refInvID:any;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -135,6 +139,7 @@ export class UsersComponent implements OnInit {
 		    this.checkPermission();
 		  }
 		});
+		this.selectedPayment = 'Cash';
 	}
 
 	ngAfterViewInit() {
@@ -869,6 +874,7 @@ export class UsersComponent implements OnInit {
 				 this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
 				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
 				 this.invoiceID = this.invoice[i]._id;
+				 this.refInvID = this.invoice[i].refInvoiceId;
 				 this.prefixInvId = this.invoice[i].invoiceId;
 				 if(this.invoice[i].courseId == course._id){
 				   this.invoiceCourse = course.name;
@@ -936,9 +942,92 @@ export class UsersComponent implements OnInit {
 		this.showBox = false;
 	}
 
+	sendInvoice(){
+	    console.log("send Invoice",this.invoiceID);
+	    var mailArr = [];
+	    mailArr.push(this.custDetail.user.email);
+	    for(var i in this.custDetail.user.guardians){
+	      mailArr.push(this.custDetail.user.guardians[i].email);
+	    }
+	    console.log("mailArr",mailArr);
+	    let body = {
+	      "associatedMails": mailArr
+	    }
+	    console.log("body",body);
+	    this._service.invoiceOption(this.regionID, this.invoiceID, body, 'send')
+	    .subscribe((res:any) => {
+	      console.log(res);
+	      this.toastr.success("Successfully sent the Invoice.");
+	      this.showDetails(this.custDetail.user.userId);
+		  this.closeModel();
+	    }, err => {  
+	      console.log(err);
+	      this.toastr.error('Fail to sent the Invoice.');
+	    })
+	}
+
+	cancelInvoiceModal(){
+	    this.modalReference.close();
+	    this.availableCourses = [];
+	    this.showInvoice = false;
+	    this.showPayment = false;
+	    this.paymentItem = {};
+	    this.showDetails(this.custDetail.user.userId);
+	  }
+
 	closeModel(){
 		this.modalReference.close();
 		this.availableCourses = [];
+		this.showInvoice = false;
+		this.showPayment = false;
+		this.paymentItem = {};
+	}
+
+	showPayOption(){
+		console.log("pay option");
+		this.showPayment = true;
+		this.showInvoice = false;
+		this.getRegionInfo();
+	}
+
+	getRegionInfo(){
+		this.token = localStorage.getItem('token');
+    	this.type = localStorage.getItem('tokenType');
+		this._service.getRegionalAdministrator(this.regionID, this.token, this.type)
+		.subscribe((res:any) => {
+			console.log("regional info",res);
+			this.paymentProviders = res.paymentSettings.paymentProviders;
+			console.log(this.paymentProviders)
+		})
+	}
+
+	choosePayment(type){
+	    console.log("choosePayment",type);
+	    this.selectedPayment = type;
+	    console.log('pItem',this.paymentItem);
+	}
+
+	payNow(type){
+		if(type == 'Cash'){
+			console.log("Cash",this.paymentItem.amount);
+			let body = {
+				'refInvoiceId': this.refInvID,
+				'amount': this.paymentItem.amount.toString(),
+				'paymentMethod': this.selectedPayment.toLowerCase()
+			}
+			console.log("data",body);
+			this._service.makePayment(this.regionID,body)
+			.subscribe((res:any) => {
+				console.log(res);
+				this.showDetails(this.custDetail.user.userId);
+		  		this.closeModel();
+		  		this.toastr.success(res.message);
+			},err => {
+				this.toastr.error("Payment Fail");
+			})
+		}else{
+			console.log("Payment Type",type);
+		}
 	}
 
 	allCourseLists(){
