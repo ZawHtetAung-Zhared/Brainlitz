@@ -533,7 +533,7 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
+              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('teacher',userModal,'inside', '')">Swap teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -547,6 +547,15 @@
                   </div>
                 </div>
               </div>
+              
+            </div>
+          </div>
+          <div class="teacher-section">
+            <div class="d-flex justify-content-between user-header">
+              <h2 class="title-heading">Assistant Teachers</h2>
+              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
+            </div>
+            <div class="row">
               <div *ngFor="let user of pplLists.STAFF" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div class="d-flex flex-row single-user align-items-center">
                   <div class="img-wrap">
@@ -557,7 +566,7 @@
                     <h4>{{user.preferredName}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div>
                   </div>
                 </div>
               </div>
@@ -584,7 +593,7 @@
                     <h4>{{user.preferredName}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div>
                   </div>
                 </div>
               </div>
@@ -752,7 +761,7 @@
           (input)="changeMethod($event.target.value, userType)"
           autocomplete="off"
           >
-        <input *ngIf="userType == 'staff'"
+        <input *ngIf="userType == 'staff' || userType == 'teacher'"
           class="form-control py-2 input-search-bg" 
           type="search" 
           placeholder="Search teachers" 
@@ -772,23 +781,8 @@
         </span>
       </div>
       <div class="user-list-box" *ngIf="showList == true">
-        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
-          <div class="img-wrap">
-            <img src="{{user.profilePic}}">
-          </div>
-          <div class="single-user-info d-flex flex-column justify-content-center">
-            <h4>{{user.preferredName}}</h4>
-          </div>
-          <div class="ml-auto remover-wrap">
-            <div class="add-user d-flex justify-content-end"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mt-20 user-row-wrap">
-      <div class="row single-user-wrap" *ngIf="selectedUserLists.length > 0">
-        <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-          <div class="d-flex flex-row single-user justify-content-center align-items-center">
+        <div *ngIf="userType != 'teacher'">
+          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('user',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
             <div class="img-wrap">
               <img src="{{user.profilePic}}">
             </div>
@@ -796,12 +790,59 @@
               <h4>{{user.preferredName}}</h4>
             </div>
             <div class="ml-auto remover-wrap">
-              <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+              <div class="add-user d-flex justify-content-end"></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="userType == 'teacher'">
+          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('teacher',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+            <div class="img-wrap">
+              <img src="{{user.profilePic}}">
+            </div>
+            <div class="single-user-info d-flex flex-column justify-content-center">
+              <h4>{{user.preferredName}}</h4>
+            </div>
+            <div class="ml-auto remover-wrap">
+              <div class="add-user d-flex justify-content-end"></div>
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="selectedUserLists.length <= 0" class="d-flex col-md-12 empty-ui-wrapper">
+    </div>
+    <div class="mt-20 user-row-wrap">
+      <div *ngIf="userType != 'teacher'">
+        <div class="row single-user-wrap" *ngIf="selectedUserLists.length > 0">
+          <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+            <div class="d-flex flex-row single-user justify-content-center align-items-center">
+              <div class="img-wrap">
+                <img src="{{user.profilePic}}">
+              </div>
+              <div class="single-user-info d-flex flex-column justify-content-center">
+                <h4>{{user.preferredName}}</h4>
+              </div>
+              <div class="ml-auto remover-wrap">
+                <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="userType == 'teacher'">
+        <div class="row single-user-wrap" *ngIf="selectedTeacherLists != ''">
+          <div *ngFor="let teacher of selectedTeacherLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+            <div class="d-flex flex-row single-user">
+              <div class="img-wrap">
+                <img src="{{teacher.profilePic}}">
+              </div>
+              <div class="single-user-info d-flex flex-column justify-content-center">
+                <h4>{{teacher.preferredName}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedUserLists.length <= 0 && selectedTeacherLists == ''" class="d-flex col-md-12 empty-ui-wrapper">
         <div class="col-md-6 img-pos">
           <div class="empty-wrapper">
             <img src="assets/images/add-customer-illustration@2x.png">
@@ -822,7 +863,8 @@
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
-      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
+      <button *ngIf="userType != 'teacher'" type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
+      <button *ngIf="userType == 'teacher'" type="submit" class="btn btn-submit" [disabled]="selectedTeacherLists.length == 0" (click)="swapTeacherToCourse(detailLists._id, selectedTeacherLists[0].userId)">Confirm</button>
   </div>
   </form>
 </ng-template>
@@ -895,7 +937,7 @@
             </span>
           </div>
           <div class="user-list-box" *ngIf="showList == true">
-            <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectCustomer('search',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+            <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
               <div class="img-wrap">
                 <img src="{{user.profilePic}}">
               </div>

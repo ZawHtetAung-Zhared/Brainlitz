@@ -87,6 +87,7 @@ export class CourseComponent implements OnInit {
   public absentStudent:number = 0;
   public noStudent:number = 0;
   public selectedUserLists:any = [];
+  public selectedTeacherLists:any = [];
   public selectedUserId:any = [];
   public todayDate:any;
   public locationName:any;
@@ -263,7 +264,8 @@ export class CourseComponent implements OnInit {
       },
       'repeatDays': [],
       'coursePlan':{
-        'name': ''
+        'name': '',
+        'seats': ''
       }
     }
 
@@ -1070,9 +1072,11 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  openRemoveModal(id, deleteModal){
-    this.getSingleUser(id, 'withdraw')
+  openRemoveModal(id, deleteModal, n){
+    // this.getSingleUser(id, 'withdraw')
+    console.log('__', n)
     this.deleteId = id;
+    this.removeUser= n;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
   
@@ -1136,10 +1140,12 @@ export class CourseComponent implements OnInit {
   }
 
   cancelModal(){
+    console.log('....')
     this.modalReference.close();
     // this.isSeatAvailable = true;
     this.showList = false;
     this.selectedCustomer = {};
+    this.selectedTeacherLists = []
     this.showInvoice = false;
   }
 
@@ -1171,10 +1177,12 @@ export class CourseComponent implements OnInit {
   }
 
   getSingleUser(ID, state){
+    console.log('~~~ ' , state)
+    this.blockUI.start('Loading...');
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       console.log(res);
-      if(state == 'search'){
+      if(state == 'user'){
         this.isFous = false;
         this.showList = false;
         this.selectedUserLists.push(res);
@@ -1188,8 +1196,17 @@ export class CourseComponent implements OnInit {
           this.isSeatAvailable = true;
         }
       }else{
-        this.removeUser = res.preferredName;
+        console.log(':)', res)
+        this.isFous = false;
+        this.showList = false;
+        if (this.selectedTeacherLists.length == 1) {
+            this.selectedTeacherLists[0] = res;
+        }else{
+          this.selectedTeacherLists.unshift(res);
+        }
+        // this.removeUser = res.preferredName;
       }
+      this.blockUI.stop();
     }, err => {  
       console.log(err);
     });
@@ -1342,6 +1359,27 @@ export class CourseComponent implements OnInit {
     this.selectedUserId = this.selectedUserId.toString();
   }
 
+  swapTeacherToCourse(courseId, teacherId){
+    let body = {
+       'newTeacherId': teacherId
+    }
+    this.blockUI.start('Loading...');    
+    this._service.swapTeacher(courseId, body)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      this.toastr.success("Teacher successfully swaped.");
+      console.log(res)
+      this.modalReference.close();
+      // this.getCourseDetail(courseId)
+      this.getUsersInCourse(courseId);
+    }, err => {  
+      this.modalReference.close();
+      this.blockUI.stop();
+      this.toastr.error("Swap teacher failed.");
+      console.log(err);
+    });
+  }
+
   enrollUserToCourse(courseId, userType){
     console.log('call from enrolluser', this.isvalidID)
     // let type = userType;
@@ -1353,25 +1391,28 @@ export class CourseComponent implements OnInit {
        'userType': userType
      }
     console.log('~~~~' , body)
+    this.blockUI.start('Loading...'); 
     this._service.assignUser(this.regionId,body, this.locationID)
       .subscribe((res:any) => {
-         console.log(res);
-         this.modalReference.close();
-         if(this.isvalidID == 'inside'){
-           console.log('hi')
-           // this.cancel();
-           this.getCourseDetail(courseId)
-           this.getUsersInCourse(courseId);
-         }else{
-           console.log('else hi')
-           this.cancel();
-           // this.getUsersInCourse(courseId);
-         }
-           
-         
-      }, err => {  
-        console.log(err);
-      });
+       console.log(res);
+       this.blockUI.stop();
+       this.toastr.success("Assistant successfully assigned.");
+       this.modalReference.close();
+       if(this.isvalidID == 'inside'){
+         console.log('hi')
+         this.getCourseDetail(courseId)
+         this.getUsersInCourse(courseId);
+       }else{
+         console.log('else hi')
+         this.cancel();
+         // this.getUsersInCourse(courseId);
+       }
+    }, err => {  
+      this.modalReference.close();
+      this.blockUI.stop();
+      this.toastr.error("Assign teacher failed.");
+      console.log(err);
+    });
   }
 
   addCustomer(courseId, userType){
@@ -1630,6 +1671,8 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.getCourseDetail(this.detailLists._id)
     this.getUsersInCourse(this.detailLists._id);
+    // this.courseList = [];
+    // this.getCourseLists(20,0);
   }
 
   showPayOption(){
