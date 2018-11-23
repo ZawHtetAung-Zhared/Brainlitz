@@ -19,6 +19,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public showStudentOption:any = '';
   public isvalid:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
@@ -87,6 +88,7 @@ export class CourseComponent implements OnInit {
   public absentStudent:number = 0;
   public noStudent:number = 0;
   public selectedUserLists:any = [];
+  public selectedTeacherLists:any = [];
   public selectedUserId:any = [];
   public todayDate:any;
   public locationName:any;
@@ -145,14 +147,16 @@ export class CourseComponent implements OnInit {
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
-    this._service.goback.subscribe(() => {   
+    this._service.goback.subscribe(() => {  
+      this.courseList = []; 
       console.log('goooo') 
       this.courseList = []
       this.isCategory = false;
       window.scroll(0,0);
     });
 
-    this._service.goCourseCreate.subscribe(() => {   
+    this._service.goCourseCreate.subscribe(() => {
+      this.courseList = [];   
       console.log('go to cc') 
       this.courseList = []
       this.isCategory = false;
@@ -163,6 +167,7 @@ export class CourseComponent implements OnInit {
     });
    
     this._service.goplan.subscribe(() => {
+      this.courseList = [];
      console.log('muuuu')
      this.courseList = []
      this.isCategory = false;
@@ -170,7 +175,8 @@ export class CourseComponent implements OnInit {
       this.goBackCat = true;
     })
 
-    this._service.goCat.subscribe(() => {   
+    this._service.goCat.subscribe(() => {  
+      this.courseList = []; 
       console.log('goback22', this.goBackCat) 
       this.goBackCat = false;
       this.isCategory = true;
@@ -262,7 +268,8 @@ export class CourseComponent implements OnInit {
       },
       'repeatDays': [],
       'coursePlan':{
-        'name': ''
+        'name': '',
+        'seats': ''
       }
     }
 
@@ -433,13 +440,13 @@ export class CourseComponent implements OnInit {
 
   setMinDate(event){
     this.minDate = event;
-    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
   setMaxDate(date){
     this.maxDate =  date;
-    this.isvalid = (this.minDate != undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
@@ -470,6 +477,15 @@ export class CourseComponent implements OnInit {
         this.iscourseSearch = false;
       }
       this.isAdvancedSearch = false;
+    }
+  }
+
+  closeOptionsBox(event){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "ml-auto remover-wrap"
+    })
+    if(parentWrap.length == 0){
+      this.showStudentOption = '';
     }
   }
 
@@ -569,8 +585,6 @@ export class CourseComponent implements OnInit {
     console.log(val, state)
     console.log(this.courseVal.startTime)
     console.log(this.courseVal.endTime)
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.courseVal.startTime != undefined && this.courseVal.endTime != undefined) ? false : true;
-    console.log(this.isvalid)
     if(val == 'hr'){
       this.selectedHrRange = obj;
     }else if(val == 'min'){      
@@ -639,7 +653,8 @@ export class CourseComponent implements OnInit {
       this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
       console.log(this.end24HourFormat)
     }  
-    
+    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    console.log(this.isvalid)
   }
 
   convert24HourFormat(time){
@@ -1070,9 +1085,11 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  openRemoveModal(id, deleteModal){
-    this.getSingleUser(id, 'withdraw')
+  openRemoveModal(id, deleteModal, n){
+    // this.getSingleUser(id, 'withdraw')
+    console.log('__', n)
     this.deleteId = id;
+    this.removeUser= n;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
   
@@ -1116,6 +1133,10 @@ export class CourseComponent implements OnInit {
     
   }
 
+  showOptions(id){
+    this.showStudentOption = id;
+  }
+
   withdrawUser(id){
     let userobj = {
       'courseId': this.courseId,
@@ -1127,7 +1148,6 @@ export class CourseComponent implements OnInit {
       console.log(res);
       this.toastr.success('User successfully withdrawled.');
       this.getUsersInCourse(this.courseId);
-      this.getCourseDetail(this.courseId)
     },err =>{
       this.toastr.error('Withdrawal user failed.');
       this.modalReference.close();
@@ -1136,10 +1156,12 @@ export class CourseComponent implements OnInit {
   }
 
   cancelModal(){
+    console.log('....')
     this.modalReference.close();
     // this.isSeatAvailable = true;
     this.showList = false;
     this.selectedCustomer = {};
+    this.selectedTeacherLists = []
     this.showInvoice = false;
   }
 
@@ -1171,10 +1193,12 @@ export class CourseComponent implements OnInit {
   }
 
   getSingleUser(ID, state){
+    console.log('~~~ ' , state)
+    this.blockUI.start('Loading...');
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       console.log(res);
-      if(state == 'search'){
+      if(state == 'user'){
         this.isFous = false;
         this.showList = false;
         this.selectedUserLists.push(res);
@@ -1188,8 +1212,17 @@ export class CourseComponent implements OnInit {
           this.isSeatAvailable = true;
         }
       }else{
-        this.removeUser = res.preferredName;
+        console.log(':)', res)
+        this.isFous = false;
+        this.showList = false;
+        if (this.selectedTeacherLists.length == 1) {
+            this.selectedTeacherLists[0] = res;
+        }else{
+          this.selectedTeacherLists.unshift(res);
+        }
+        // this.removeUser = res.preferredName;
       }
+      this.blockUI.stop();
     }, err => {  
       console.log(err);
     });
@@ -1342,6 +1375,27 @@ export class CourseComponent implements OnInit {
     this.selectedUserId = this.selectedUserId.toString();
   }
 
+  swapTeacherToCourse(courseId, teacherId){
+    let body = {
+       'newTeacherId': teacherId
+    }
+    this.blockUI.start('Loading...');    
+    this._service.swapTeacher(courseId, body)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      this.toastr.success("Teacher successfully swaped.");
+      console.log(res)
+      this.modalReference.close();
+      // this.getCourseDetail(courseId)
+      this.getUsersInCourse(courseId);
+    }, err => {  
+      this.modalReference.close();
+      this.blockUI.stop();
+      this.toastr.error("Swap teacher failed.");
+      console.log(err);
+    });
+  }
+
   enrollUserToCourse(courseId, userType){
     console.log('call from enrolluser', this.isvalidID)
     // let type = userType;
@@ -1353,25 +1407,28 @@ export class CourseComponent implements OnInit {
        'userType': userType
      }
     console.log('~~~~' , body)
+    this.blockUI.start('Loading...'); 
     this._service.assignUser(this.regionId,body, this.locationID)
       .subscribe((res:any) => {
-         console.log(res);
-         this.modalReference.close();
-         if(this.isvalidID == 'inside'){
-           console.log('hi')
-           // this.cancel();
-           this.getCourseDetail(courseId)
-           this.getUsersInCourse(courseId);
-         }else{
-           console.log('else hi')
-           this.cancel();
-           // this.getUsersInCourse(courseId);
-         }
-           
-         
-      }, err => {  
-        console.log(err);
-      });
+       console.log(res);
+       this.blockUI.stop();
+       this.toastr.success("Assistant successfully assigned.");
+       this.modalReference.close();
+       if(this.isvalidID == 'inside'){
+         console.log('hi')
+         // this.getCourseDetail(courseId)
+         this.getUsersInCourse(courseId);
+       }else{
+         console.log('else hi')
+         this.cancel();
+         // this.getUsersInCourse(courseId);
+       }
+    }, err => {  
+      this.modalReference.close();
+      this.blockUI.stop();
+      this.toastr.error("Assign teacher failed.");
+      console.log(err);
+    });
   }
 
   addCustomer(courseId, userType){
@@ -1635,7 +1692,10 @@ export class CourseComponent implements OnInit {
     this.hideReg = false;
     this.hideDeposit = false;
     this.getCourseDetail(this.detailLists._id)
+    // this.getCourseDetail(this.detailLists._id)
     this.getUsersInCourse(this.detailLists._id);
+    // this.courseList = [];
+    // this.getCourseLists(20,0);
   }
 
   showPayOption(){
