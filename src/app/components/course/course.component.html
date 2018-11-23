@@ -979,11 +979,11 @@
           <div class="col-md-6 col-lg-6 pl-zero">
             <p class="invoice-info">{{ invoiceInfo.address }}</p>
           </div>
-          <div class="col-md-3 col-lg-3 text-right">
+          <div class="col-md-3 col-lg-3 p-0 text-right">
             <label class="invoice-label">Invoice date</label>
             <p class="invoice-info">{{ updatedDate }}</p>
           </div>
-          <div class="col-md-3 col-lg-3 text-right">
+          <div class="col-md-3 col-lg-3 p-0 text-right">
             <label class="invoice-label">Due date</label>
             <p class="invoice-info">{{ dueDate }}</p>
           </div>
@@ -991,7 +991,7 @@
         <p class="invoice-info">{{ invoiceInfo.email }}<p>
       </div>
       <div class="pb-4"> 
-        <label class="invoice-label mb-0">Bill to</label>
+        <label class="invoice-label mb-0">Bill to: <span class="p2 price-info">{{ selectedCustomer.preferredName }}</span></label>
         <div class="d-flex">
           <p class="invoice-info label-height mb-0">
             <span *ngIf="selectedCustomer.email != ''">{{ selectedCustomer.email }}</span>
@@ -1027,115 +1027,94 @@
         </div> -->
       </div>
       <div class="d-flex invoice-label pad-10 bg-label">
-        <div class="col-md-5">Course</div>
+        <div class="col-md-5 pl-35">Course</div>
         <div class="col-md-1 p-0 text-right">Quantity</div>
-        <div class="col-md-4 p-0 text-center">Unit price</div>
-        <div class="col-md-2 text-right">Amount</div>
+        <div class="col-md-2 p-0 text-right">Unit price</div>
+        <div class="col-md-2 p-0 text-right">Tax({{invTaxName}})</div>
+        <div class="col-md-2 p-0 text-right">Amount</div>
       </div>
       <div *ngFor="let data of invoice">
-        <div class="d-flex pad-10 mt-2" >
-          <div class="col-md-5 price-info">{{invoiceCourse}}</div>
-          <div class="col-md-1 p-0 text-right price-info">1</div>
-          <div class="col-md-4 p-0 text-center price-info">
-            <div *ngIf="feesBox == true" class="popup-box price-box text-left">
-              <div id="rectangle"></div>
-              <div class="p-3">
-                <h5>CourseFee</h5>
-                <div class="d-flex popup-input">
-                  <div class="input-sign">
-                   {{ data.currency.sign }}
-                  </div>
-                  <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
-                </div>
-              </div>
+        <div>
+          <div class="inv-Cname">
+            {{ invoiceCourse.name }} 
+            <div> 
+              <span>From: {{ invoiceCourse.startDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.endDate">To: {{ invoiceCourse.endDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.lessonCount">{{ invoiceCourse.lessonCount }} lessons</span>
             </div>
-            <div *ngIf="feesBox == true" class="d-flex btns-wrap">
-              <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
-                <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
-                </span>
-              </button>
-              <button type="submit" class="btn" (click)="addDiscount(value)" [disabled]="value.courseFee || value.courseFee == ''">
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-              </button>
-            </div>
-            <p class="mb-0" (click)="showPopup('courseFee',data.courseFee)">{{data.courseFee}}</p>
           </div>
-          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.courseFee}}</div>
-        </div>
-        <div class="d-flex pad-10 mt-2" >
-          <div class="col-md-5 price-info">Registration Fee</div>
-          <div class="col-md-1 p-0 text-right price-info">1</div>
-          <div class="col-md-4 p-0 text-center price-info">
-            <div *ngIf="regBox == true" class="popup-box price-box text-left">
-              <div id="rectangle"></div>
-              <div class="p-3">
-                <h5>Registration Fee</h5>
-                <div class="d-flex popup-input">
-                  <div class="input-sign">
-                   {{ data.currency.sign }}
+          <div class="d-flex inv-courseFee">
+            <div class="cFee-w"></div>
+            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true}" >
+              <div class="col-md-5 p-0 price-info">Course Fee</div>
+              <div class="col-md-1 p-0 text-right price-info">1</div>
+              <div class="col-md-2 p-0 text-right price-info">
+                <div *ngIf="feesBox == true" class="popup-box price-box text-left">
+                  <div id="rectangle"></div>
+                  <div class="p-3">
+                    <h5>CourseFee</h5>
+                    <div class="d-flex popup-input">
+                      <div class="input-sign">
+                       {{ data.currency.sign }}
+                      </div>
+                      <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
+                    </div>
                   </div>
-                  <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.regFee">
                 </div>
-              </div>
-            </div>
-            <div *ngIf="regBox == true" class="d-flex btns-wrap">
-              <button type="submit" class="btn" (click)="cancelPopup('reg')">
-                <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
-                </span>
-              </button>
-              <button type="submit" class="btn" [disabled]="value.regFee == undefined || value.regFee == ''">
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-              </button>
-            </div>
-            <p (click)="showPopup('reg',data.registrationFee)">{{data.registrationFee}}</p>
-          </div>
-          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.registrationFee}}</div>
-        </div>
-        <div class="d-flex pad-10 mt-2" >
-          <div class="col-md-5 price-info">Deposit</div>
-          <div class="col-md-1 p-0 text-right price-info">1</div>
-          <div class="col-md-4 p-0 text-center price-info">
-            <div *ngIf="depositBox == true" class="popup-box price-box text-left">
-              <div id="rectangle"></div>
-              <div class="p-3">
-                <h5>Deposit</h5>
-                <div class="d-flex popup-input">
-                  <div class="input-sign">
-                   {{ data.currency.sign }}
-                  </div>
-                  <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.deposit">
+                <div *ngIf="feesBox == true" class="d-flex btns-wrap">
+                  <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
+                    <span class="closemark">
+                        <div class="closemark_stem"></div>
+                        <div class="closemark_kick"></div>
+                    </span>
+                  </button>
+                  <button type="submit" class="btn" (click)="addDiscount(value)" [disabled]="value.courseFee || value.courseFee == ''">
+                    <span class="checkmark">
+                        <div class="checkmark_stem"></div>
+                        <div class="checkmark_kick"></div>
+                    </span>
+                  </button>
                 </div>
+                <p class="mb-0" (click)="showPopup('courseFee',data.courseFee)">{{data.courseFee}}</p>
               </div>
+              <div class="col-md-2 p-0 text-right price-info">
+                {{data.taxOnCourseFee}}
+              </div>
+              <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.courseFee}}</div>
             </div>
-            <div *ngIf="depositBox == true" class="d-flex btns-wrap">
-              <button type="submit" class="btn" (click)="cancelPopup('deposit')">
-                <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
-                </span>
-              </button>
-              <button type="submit" class="btn" [disabled]="value.deposit == undefined || value.deposit == ''">
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-              </button>
-            </div>
-            <p (click)="showPopup('deposit',data.deposit)">{{data.deposit}}</p>
           </div>
-          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.deposit}}</div>
         </div>
-        <hr>
+        <div *ngIf="hideReg == false" class="d-flex inv-row">
+          <div class="row-icon" (click)="hideInvoiceRow('reg')">
+            <img src="./assets/images/withdraw-ico@2x.png">
+          </div>
+          <div class="d-flex w-100 b-bottom mlr-15">
+            <div class="col-md-5 p-0 price-info">
+              Registration Fee
+            </div>
+            <div class="col-md-1 p-0 text-right price-info">1</div>
+            <div class="col-md-2 p-0 text-right price-info">
+              <p class="mb-0">{{data.registrationFee}}</p>
+            </div>
+            <div class="col-md-2 p-0 text-right price-info">
+              {{data.taxOnRegistrationFee}}
+            </div>
+            <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.registrationFee}}</div>
+          </div>
+        </div>
+        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
+          <div class="row-icon" (click)="hideInvoiceRow('deposit')">
+            <img src="./assets/images/withdraw-ico@2x.png">
+          </div>
+          <div class="d-flex w-100 mlr-15">
+            <div class="col-md-5 p-0 price-info">Deposit</div>
+            <div class="col-md-1 p-0 text-right price-info">1</div>
+            <div class="col-md-2 p-0 text-right price-info">
+              <p class="mb-0">{{data.deposit}}</p>
+            </div>
+            <div class="col-md-2 p-0 text-right price-info"></div>
+            <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.deposit}}</div>
+          </div>
+        </div>
+        <hr class="invoice-hr">
         <div class="d-flex justify-content-end">
           <div class="w-50">
             <div class="d-flex pad-10 price-info">
@@ -1149,7 +1128,7 @@
               </div>
               <div class="col-md-4 text-right">{{data.currency.sign}} {{ data.subtotal }}</div>
             </div>
-            <div class="d-flex pad-10 price-info">
+            <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
                   {{ data.taxName }}
@@ -1159,8 +1138,8 @@
                 </div>
               </div>
               <div class="col-md-4 text-right price-info">{{data.currency.sign}}  {{ data.tax }}</div>
-            </div>
-            <div class="d-flex pad-10 price-info">
+            </div> -->
+            <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
                   <p class="mb-0" style="color: #0080ff;" *ngIf="discount==0">Add discount</p>
@@ -1197,7 +1176,7 @@
                 </div>
               </div>
               <div class="col-md-4 text-right"></div>
-            </div>
+            </div> -->
             
             <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
@@ -1225,7 +1204,7 @@
     </div>
     <div class="modal-footer justify-content-between">
       <div class="d-flex">
-        <button type="button" class="btn invModal-cancel" (click)="cancelInvoiceModal()">Cancel</button>
+        <button type="button" class="btn invModal-cancel" (click)="cancelInvoiceModal()">Close</button>
         <div class="l-border">
           <button class="btn-print cursor-on"><img src="./assets/images/print@2x.png"></button>
         </div>
@@ -1285,7 +1264,7 @@
         </div>
       </div>
       <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
-        <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)">Pay now</button>
+        <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined">Pay now</button>
       </div>
     </div>
 </ng-template>

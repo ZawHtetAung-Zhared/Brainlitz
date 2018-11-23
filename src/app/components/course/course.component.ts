@@ -130,7 +130,7 @@ export class CourseComponent implements OnInit {
   public showPayment:boolean = false;
   public selectedPayment:any;
   public paymentItem:any = {};
-  public invoiceCourse:any;
+  public invoiceCourse:any = {};
   public feesBox:boolean = false;
   public depositBox:boolean = false;
   public regBox:boolean = false;
@@ -139,6 +139,9 @@ export class CourseComponent implements OnInit {
   public type:any;
   public paymentProviders:any;
   public refInvID:any;
+  public invTaxName:any;
+  public hideReg:boolean = false;
+  public hideDeposit:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -1391,6 +1394,7 @@ export class CourseComponent implements OnInit {
          this.dueDate = this.dateFormat(this.invoice[i].dueDate);
          this.invoiceID = this.invoice[i]._id;
          this.refInvID = this.invoice[i].refInvoiceId;
+         this.invTaxName = this.invoice[i].taxName;
          // this.totalTax = this.invoice[i].taxOnCourseFee + this.invoice[i].taxOnRegistrationFee;
          // console.log("total tax",this.totalTax);
          // this.subTotal = this.invoice[i].total - this.totalTax;
@@ -1399,7 +1403,10 @@ export class CourseComponent implements OnInit {
          //   this.subTotal = this.subTotal - this.invoice[i].deposit;
          // }
          if(this.invoice[i].courseId == courseId){
-           this.invoiceCourse = this.detailLists.name;
+           this.invoiceCourse["name"] = this.detailLists.name;
+           this.invoiceCourse["startDate"] = this.detailLists.startDate;
+           this.invoiceCourse["endDate"] = this.detailLists.endDate;
+           this.invoiceCourse["lessonCount"] = this.detailLists.lessonCount;
          }
        }
        
@@ -1625,6 +1632,8 @@ export class CourseComponent implements OnInit {
     this.showInvoice = false;
     this.showPayment = false;
     this.paymentItem = {};
+    this.hideReg = false;
+    this.hideDeposit = false;
     this.getCourseDetail(this.detailLists._id)
     this.getUsersInCourse(this.detailLists._id);
   }
@@ -1687,6 +1696,14 @@ export class CourseComponent implements OnInit {
       })
     }else{
       console.log("Payment Type",type);
+    }
+  }
+ 
+  hideInvoiceRow(type){
+    if(type == 'reg'){
+      this.hideReg = true;
+    }else{
+      this.hideDeposit = true;
     }
   }
 
