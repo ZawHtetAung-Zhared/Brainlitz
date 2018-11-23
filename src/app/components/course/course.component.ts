@@ -1131,7 +1131,6 @@ export class CourseComponent implements OnInit {
       console.log(res);
       this.toastr.success('User successfully withdrawled.');
       this.getUsersInCourse(this.courseId);
-      this.getCourseDetail(this.courseId)
     },err =>{
       this.toastr.error('Withdrawal user failed.');
       this.modalReference.close();
@@ -1400,7 +1399,7 @@ export class CourseComponent implements OnInit {
        this.modalReference.close();
        if(this.isvalidID == 'inside'){
          console.log('hi')
-         this.getCourseDetail(courseId)
+         // this.getCourseDetail(courseId)
          this.getUsersInCourse(courseId);
        }else{
          console.log('else hi')
@@ -1669,7 +1668,7 @@ export class CourseComponent implements OnInit {
     this.showInvoice = false;
     this.showPayment = false;
     this.paymentItem = {};
-    this.getCourseDetail(this.detailLists._id)
+    // this.getCourseDetail(this.detailLists._id)
     this.getUsersInCourse(this.detailLists._id);
     // this.courseList = [];
     // this.getCourseLists(20,0);

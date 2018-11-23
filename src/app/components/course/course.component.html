@@ -355,7 +355,7 @@
               <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
               <div class="d-flex course-wrap">
                 <div [hidden]="course.draft == true" *ngIf="course.seat_left > 0" class="absolute">
-                  {{ course.seat_left }} seats left
+                  {{ course.seat_left }} seats left 
                 </div>
                 <div [hidden]="course.draft == true" *ngIf="course.seat_left == null" class="absolute">
                   unlimited seats
@@ -577,7 +577,7 @@
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
                 <div>
-                  <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.seat_left}} seats left</p>
+                  <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.coursePlan.seats - pplLists.CUSTOMER.length}} seats left</p>
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
