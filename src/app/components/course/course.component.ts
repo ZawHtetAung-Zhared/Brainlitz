@@ -19,6 +19,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public showStudentOption:any = '';
   public isvalid:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
@@ -473,6 +474,15 @@ export class CourseComponent implements OnInit {
         this.iscourseSearch = false;
       }
       this.isAdvancedSearch = false;
+    }
+  }
+
+  closeOptionsBox(event){
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "ml-auto remover-wrap"
+    })
+    if(parentWrap.length == 0){
+      this.showStudentOption = '';
     }
   }
 
@@ -1118,6 +1128,10 @@ export class CourseComponent implements OnInit {
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     
+  }
+
+  showOptions(id){
+    this.showStudentOption = id;
   }
 
   withdrawUser(id){

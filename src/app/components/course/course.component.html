@@ -523,7 +523,7 @@
       <div class="d-flex c-border">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
         <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class')">Class</button>
-       <!--  <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button> -->
+        <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">
         <div class="activeTab-header d-flex justify-content-center align-items-center">         
@@ -593,7 +593,14 @@
                     <h4>{{user.preferredName}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div>
+                    <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
+                    <ul *ngIf="showStudentOption == user.userId" class="options-box">
+                      <li>Cancel class</li>
+                      <li>Class transfer</li>
+                      <li>View invoice</li>
+                      <li>Refund bill</li>
+                    </ul>
+                    <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                   </div>
                 </div>
               </div>

@@ -1223,7 +1223,7 @@ export class appService{
     }
 
     getAssessment(regionid, courseid, assessment){      
-      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid + '?assessment=' + assessment;
+      let url = this.baseUrl+ '/' + regionid + '/course/assessment/' + courseid ;
       const httpOptions = {
           headers: new HttpHeaders({ 
           'authorization': this.tokenType + ' ' + this.accessToken})
