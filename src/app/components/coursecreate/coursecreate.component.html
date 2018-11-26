@@ -92,23 +92,44 @@
 					<textarea class="form-control br-bshadow-none all-left-box-10" rows="5" id="description" [(ngModel)]="model.description" name="description" #description="ngModel" (focus)="focusMethod($event, 'msg', $event.target.value)" (blur)="blurMethod($event, 'msg')" maxlength="280" (input)="changeMethod($event.target.value)" placeholder="Type description here"></textarea>
 					<hr *ngIf="feesOptions" class="limit-hr-length">
 				</div>
-				<div *ngIf="feesOptions">
-					<label class="input-title font-medium">CourseFee Options</label>
-					<div>
-						 <div (click)="feeOptDropdown()" class="form-group has-feedback">
-					    	<input class="cursor-on form-control br-bshadow-none"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off"
-					    	(focus)="showFees()"
-					    	(focusOut)="hideFees()" readonly 
-					    	><span class="fa fa-angle-down down-icon"></span>
-					     </div>
-					     <div class="dropdown-wrap">
-				          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
-				          <ul class="feeOpt-dropdown">
-				            <li *ngFor="let key of objectKeys(feesOptions)">
-				              <span (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ feesOptions[key]}}</span>
-				            </li>
-				          </ul>
-				        </div>
+				<div class="d-flex">
+					<div class="col-md-6 p-feeOpt" *ngIf="feesOptions">
+						<label class="input-title font-medium">CourseFee Options</label>
+						<div>
+							 <div (click)="feeOptDropdown()" class="form-group has-feedback">
+						    	<input class="cursor-on form-control br-bshadow-none"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off"
+						    	(focus)="showFees()"
+						    	(focusOut)="hideFees()" readonly 
+						    	><span class="fa fa-angle-down down-icon"></span>
+						     </div>
+						     <div class="dropdown-wrap">
+					          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+					          <ul class="feeOpt-dropdown">
+					            <li *ngFor="let key of objectKeys(feesOptions)">
+					              <span (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ feesOptions[key]}}</span>
+					            </li>
+					          </ul>
+					        </div>
+						</div>
+					</div>
+					<div class="col-md-6 p-0">
+						<label class="input-title font-medium">Tax Options</label>
+						<div>
+							<div class="form-group has-feedback">
+						    	<input class="cursor-on form-control br-bshadow-none"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off"
+						    	(focus)="showFees()"
+						    	(focusOut)="hideFees()" readonly 
+						    	><span class="fa fa-angle-down down-icon"></span>
+						     </div>
+						     <div class="dropdown-wrap">
+					          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+					          <ul class="feeOpt-dropdown">
+					            <li *ngFor="let key of objectKeys(feesOptions)">
+					              <span (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ feesOptions[key]}}</span>
+					            </li>
+					          </ul>
+					        </div>
+						</div>
 					</div>
 				</div>
 			</div>

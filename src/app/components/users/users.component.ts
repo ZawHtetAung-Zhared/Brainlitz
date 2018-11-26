@@ -112,7 +112,7 @@ export class UsersComponent implements OnInit {
 	public showPayment:boolean = false;
 	public selectedPayment:any;
 	public paymentItem:any = {};
-	public invoiceCourse:any;
+	public invoiceCourse:any = {};
 	public feesBox:boolean = false;
 	public depositBox:boolean = false;
 	public regBox:boolean = false;
@@ -121,6 +121,10 @@ export class UsersComponent implements OnInit {
 	public type:any;
 	public paymentProviders:any;
 	public refInvID:any;
+	public invTaxName:any;
+	public hideReg:boolean = false;
+  	public hideDeposit:boolean = false;
+  	public total:any;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -837,7 +841,7 @@ export class UsersComponent implements OnInit {
 
 	callEnrollModal(enrollModal, userId){
 		console.log(userId)
-		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});		
+		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});		
 		this.getAC(20, 0, userId)
 	}
 
@@ -875,9 +879,17 @@ export class UsersComponent implements OnInit {
 				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
 				 this.invoiceID = this.invoice[i]._id;
 				 this.refInvID = this.invoice[i].refInvoiceId;
-				 this.prefixInvId = this.invoice[i].invoiceId;
+				 // this.prefixInvId = this.invoice[i].invoiceId;
+				 this.invTaxName = this.invoice[i].taxName;
+				 var n = this.invoice[i].total;
+				 this.total = n.toFixed(2);
+				 console.log('n and total',n,this.total);
 				 if(this.invoice[i].courseId == course._id){
-				   this.invoiceCourse = course.name;
+				   // this.invoiceCourse = course.name;
+				   this.invoiceCourse["name"] = course.name;
+		           this.invoiceCourse["startDate"] = course.startDate;
+		           this.invoiceCourse["endDate"] = course.endDate;
+		           this.invoiceCourse["lessonCount"] = course.lessonCount;
 				 }
 				}
 		     	// this.modalReference.close();
@@ -958,29 +970,33 @@ export class UsersComponent implements OnInit {
 	    .subscribe((res:any) => {
 	      console.log(res);
 	      this.toastr.success("Successfully sent the Invoice.");
-	      this.showDetails(this.custDetail.user.userId);
-		  this.closeModel();
+	      this.closeModal('closeInv');
 	    }, err => {  
 	      console.log(err);
 	      this.toastr.error('Fail to sent the Invoice.');
 	    })
 	}
 
-	cancelInvoiceModal(){
-	    this.modalReference.close();
-	    this.availableCourses = [];
-	    this.showInvoice = false;
-	    this.showPayment = false;
-	    this.paymentItem = {};
-	    this.showDetails(this.custDetail.user.userId);
-	  }
+	// cancelInvoiceModal(){
+	//     this.modalReference.close();
+	//     this.availableCourses = [];
+	//     this.showInvoice = false;
+	//     this.showPayment = false;
+	//     this.paymentItem = {};
+	//     this.showDetails(this.custDetail.user.userId);
+	//   }
 
-	closeModel(){
+	closeModal(type){
 		this.modalReference.close();
 		this.availableCourses = [];
 		this.showInvoice = false;
 		this.showPayment = false;
 		this.paymentItem = {};
+		this.hideReg = false;
+    	this.hideDeposit = false;
+		if(type == 'closeInv'){
+			this.showDetails(this.custDetail.user.userId);
+		}
 	}
 
 	showPayOption(){
@@ -1020,7 +1036,7 @@ export class UsersComponent implements OnInit {
 			.subscribe((res:any) => {
 				console.log(res);
 				this.showDetails(this.custDetail.user.userId);
-		  		this.closeModel();
+		  		this.closeModal('closeInv');
 		  		this.toastr.success(res.message);
 			},err => {
 				this.toastr.error("Payment Fail");
@@ -1028,6 +1044,18 @@ export class UsersComponent implements OnInit {
 		}else{
 			console.log("Payment Type",type);
 		}
+	}
+
+	hideInvoiceRow(type){
+		if(type == 'reg'){
+		  this.hideReg = true;
+		}else{
+		  this.hideDeposit = true;
+		}
+	}
+
+	printInvoice(){
+		window.print();
 	}
 
 	allCourseLists(){
