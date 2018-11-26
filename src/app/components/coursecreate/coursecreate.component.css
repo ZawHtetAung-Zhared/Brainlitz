@@ -1078,9 +1078,16 @@ button:disabled {
   font-size: 20px;
   padding: 2px;
 }
+
 .disabled-input{
   cursor: not-allowed;
 }
+
 .noCursor{
   cursor: no-drop;
+}
+
+.p-feeOpt{
+  padding-left: 0px;
+  padding-right: 35px;
 }

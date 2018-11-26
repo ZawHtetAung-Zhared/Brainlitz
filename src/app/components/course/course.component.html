@@ -430,7 +430,7 @@
 <app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
 <app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
 
-<div class="inner-wrapper" *ngIf="isCourseDetail == true">
+<div class="inner-wrapper" *ngIf="isCourseDetail == true" >
   <div class="back-wrap d-flex justify-content-between">
     <div class="back-to" (click)="cancel()">
       <i class="fa fa-angle-left"></i>
@@ -597,7 +597,8 @@
                     <ul *ngIf="showStudentOption == user.userId" class="options-box">
                       <li>Cancel class</li>
                       <li>Class transfer</li>
-                      <li>View invoice</li>
+                      <!-- <li (click)="addUserModal('customer',customerModal,'invoice', '')">View invoice</li> -->
+                      <li (click)="viewInvoice(customerModal,user)">View invoice</li>
                       <li>Refund bill</li>
                     </ul>
                     <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
@@ -1011,7 +1012,7 @@
     </form>
   </div>
   <div *ngIf="showInvoice == true">
-    <div *ngIf="showBox == true" class="overlayInv"></div>
+    <div *ngIf="feesBox == true" class="overlayInv"></div>
     <div class="invoice-container">
       <div class="d-flex justify-content-between">
         <div class="logo-wrapper">
@@ -1245,7 +1246,7 @@
                 </div>
                 <div class="col-sm-5 text-right p-0"></div>
               </div>
-              <div class="col-md-4 text-right">{{data.currency.sign}}  {{ data.total }}</div>
+              <div class="col-md-4 text-right">{{data.currency.sign}}  {{ total }}</div>
             </div>
           </div>
         </div>
@@ -1255,7 +1256,7 @@
       <div class="d-flex">
         <button type="button" class="btn invModal-cancel" (click)="cancelInvoiceModal()">Close</button>
         <div class="l-border">
-          <button class="btn-print cursor-on"><img src="./assets/images/print@2x.png"></button>
+          <button class="btn-print cursor-on" (click)="printInvoice()"><img src="./assets/images/print@2x.png"></button>
         </div>
       </div>
       <div>

@@ -1252,7 +1252,7 @@ h3, h5 {
   border-left: 1px solid #edeff0;
 }
 
-.price-info,.btn-submit,.payment-label,.payment-item{
+.price-info,.btn-submit,.payment-label,.payment-item,.inv-Cname{
     font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 
@@ -1274,6 +1274,51 @@ h3, h5 {
 .cursor-on{
   cursor: pointer;
 }
+
+.row-icon img,.cFee-w{
+  width: 20px;
+}
+
+.mlr-15{
+  margin: 0px 15px;
+}
+
+.b-bottom{
+  border-bottom: 1px solid #edeff0;
+}
+
+.invoice-hr{
+  border-top: 2px solid #edeff0;
+}
+
+.inv-row{
+  line-height: 60px;
+}
+
+.pl-35{
+  padding-left: 35px; 
+}
+
+.inv-Cname{
+  margin: 15px 35px 0px 35px;
+  font-size: 16px;
+  color: #64707d;
+}
+
+.inv-courseFee{
+  line-height: 45px;
+}
+
+.hide-border{
+  border: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 
 /*enroll new class modal*/
 
