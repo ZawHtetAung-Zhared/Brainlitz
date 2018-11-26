@@ -8,6 +8,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
+import * as currency from 'currency-symbol-map/map';
+// import currencyToSymbolMap from 'currency-symbol-map/map'
 
 @Component({
   selector: 'app-dashboard',
@@ -40,6 +42,12 @@ export class DashboardComponent implements OnInit {
   public generalDemo:any = [];
   public locationSidebar:any = [];
   public customSidebar:any = [];
+  public option:any;
+  public invoice:any = {};
+  public payment:any = {};
+  public isOnline:boolean = false;
+  public online:any = {};
+  public currency_symbol:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
@@ -177,5 +185,35 @@ export class DashboardComponent implements OnInit {
 
   clickTab(type){
     this.menuType = type;
+  }
+
+  editSetting(type){
+    console.log('hi')
+    this.option = type;
+    // var data = require('currency-codes/data');
+    console.log(currency)
+    this.currency_symbol = currency;
+  }
+
+  cancel(){
+    this.option = '';
+    this.payment = {};
+    this.invoice = {};
+    this.online = {};
+    this.isOnline = false;
+  }
+
+  numberOnly(event, type){
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if(event.target.value.search(/^0/) != -1){
+      event.target.value = '';  
+    }
+  }
+
+  onlinePayment(){
+    this.isOnline = !this.isOnline;
   }
 }
