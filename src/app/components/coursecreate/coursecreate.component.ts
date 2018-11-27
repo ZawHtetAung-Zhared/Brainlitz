@@ -101,6 +101,9 @@ export class CoursecreateComponent implements OnInit {
   public feesOptions:any;
   objectKeys = Object.keys;
   isEdit:boolean = false;
+  taxOptShow:boolean = false;
+  feeOptShow:boolean = false;
+  chooseTax:any;
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -482,112 +485,80 @@ export class CoursecreateComponent implements OnInit {
         }
         this.focusMisfee = false;
 
-
-
-        // for duration dropdown
-        if(this.durationMenuShow == false){
-           $('.duration-dropdown').css('display', 'none'); 
-        }
-        else {
-            $('.duration-dropdown').css('display', 'block');
-            this.durationMenuShow = false;
-        }
-
-        //for location dropdown
-        // if(this.locationMenuShow == false){
-        //    $('.location-dropdown').css('display', 'none'); 
+        // for search dropdown
+        // if(this.searchMenuShow == false){
+        //    $('.search-dropdown').css('display', 'none'); 
         // }
         // else {
-        //     $('.location-dropdown').css('display', 'block');
-        //     this.locationMenuShow = false;
+        //     $('.search-dropdown').css('display', 'block');
+        //     this.searchMenuShow = false;
+        //     $("#myInput").focus();
         // }
-
-        // this.showSearch = false;
-
-        // for search dropdown
-        if(this.searchMenuShow == false){
-           $('.search-dropdown').css('display', 'none'); 
-        }
-        else {
-            $('.search-dropdown').css('display', 'block');
-            this.searchMenuShow = false;
-            $("#myInput").focus();
-        }
-
-        //for coursefee options
-        if(this.feeOptShow == false){
-          $('.feeOpt-dropdown').css('display','none');
-        }else{
-          $('.feeOpt-dropdown').css('display','block');
-          this.feeOptShow = false;
-        }
   }
 
-  dropDown(state){
-    if(state == false){
-      var x = document.getElementsByClassName('duration-dropdown');
-      if( (x[0]as HTMLElement).style.display == 'block'){
-        (x[0]as HTMLElement).style.display = 'none';
+  showDropdown(type,state){
+    console.log(type,state)
+    if(type == 'feeOpt'){
+      this.feeOptShow = true;
+    }else if(type == 'taxOpt'){
+      this.taxOptShow = true;
+    }else if(type == 'duration'){
+      if(state == false){
+        this.durationMenuShow = true;
       }
-      else {
-         (x[0]as HTMLElement).style.display = 'block';
-         this.durationMenuShow = true;
+    }else if(type == 'search'){
+      if(state == false){
+        this.searchMenuShow = true;
+      }
+    }
+  }
+  closeDropdown(event,type){
+    if(type == 'feeOpt'){
+      var parentWrap = event.path.filter(function(res){
+        return res.className == "form-group has-feedback feeOpt-wrap"
+      })
+      if(parentWrap.length == 0){
+        this.feeOptShow = false;
+      }
+    }else if(type == 'taxOpt'){
+      var parentWrap = event.path.filter(function(res){
+        return res.className == "form-group has-feedback taxOpt-wrap"
+      })
+      if(parentWrap.length == 0){
+        this.taxOptShow = false;
+      }
+    }else if(type == 'duration'){
+      var parentWrap = event.path.filter(function(res){
+        return res.className == "cursor-on d-flex justify-content-between time-dropdown font-semi durationDp"
+      })
+      if(parentWrap.length == 0){
+        this.durationMenuShow = false;
+      }
+    }else if(type == 'search'){
+      var parentWrap = event.path.filter(function(res){
+        return res.className == "search-wrap"
+      })
+      if(parentWrap.length == 0){
+        this.searchMenuShow = false;
+        $("#myInput").focus();
       }
     }
   }
 
-  // locationDropdown(){
-  //   var y = document.getElementsByClassName('location-dropdown');
-  //   if( (y[0]as HTMLElement).style.display == 'block'){
-  //     (y[0]as HTMLElement).style.display = 'none';
-  //   }
-  //   else {
-  //      (y[0]as HTMLElement).style.display = 'block';
-  //      this.locationMenuShow = true;
+  // showSearch:boolean = false;
+  // searchDropdown(item){
+  //   if(item == false){
+  //     var z = document.getElementsByClassName('search-dropdown');
+  //     if( (z[0]as HTMLElement).style.display == 'block'){
+  //       (z[0]as HTMLElement).style.display = 'none';
+  //     }
+  //     else {
+  //        (z[0]as HTMLElement).style.display = 'block';
+  //        this.searchMenuShow = true;
+  //        $("#myInput").focus();
+  //     }
   //   }
   // }
-
-  feeOptShow:boolean = false;
-  feeOptDropdown(){
-    var xx = document.getElementsByClassName('feeOpt-dropdown');
-    if( (xx[0]as HTMLElement).style.display == 'block'){
-      (xx[0]as HTMLElement).style.display = 'none';
-    }
-    else {
-       (xx[0]as HTMLElement).style.display = 'block';
-       this.feeOptShow = true;
-    }
-  }
-
-  showFees(){
-    // this.feeOptShow = true;
-  }
-
-  hideFees(){
-    // this.feeOptShow = false;
-  }
-
-  showSearch:boolean = false;
-  searchDropdown(item){
-    if(item == false){
-      var z = document.getElementsByClassName('search-dropdown');
-      if( (z[0]as HTMLElement).style.display == 'block'){
-        (z[0]as HTMLElement).style.display = 'none';
-      }
-      else {
-         (z[0]as HTMLElement).style.display = 'block';
-         this.searchMenuShow = true;
-         $("#myInput").focus();
-      }
-    }
-    // if(this.showSearch == false){
-    //   this.showSearch = true;
-    //    console.log("TRUE",this.showSearch)
-    // }else if(this.showSearch == true){
-    //   this.showSearch = false;
-    //   console.log("False",this.showSearch)
-    // }
-  }
 
   ChangedRangeValue(e, type){
     // console.log(e)
@@ -1274,6 +1245,11 @@ export class CoursecreateComponent implements OnInit {
     this.chooseFee = data;
     console.log(key,data);
     // console.log("option",this.chooseFee);
+  }
+
+  chooseTaxOption(type){
+    this.chooseTax = type;
+    console.log("choose Tax",type);
   }
 
 }
