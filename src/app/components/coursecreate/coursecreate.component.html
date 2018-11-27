@@ -246,17 +246,19 @@
 				</div>
 				<div class="pad-b">
 					<label for="course_name" class="input-title font-medium">Teacher</label>
-				    <div [ngClass]="{'noCursor': isEdit== true}" class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="searchDropdown(isEdit)">
-						<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
-						<div class="d-flex" *ngIf="selectedTeacher">
-							<span class="img-wrap"><img src="{{ selectedTeacher.profilePic || './assets/img/user.svg' }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
+					<div class="search-wrap">
+					    <div [ngClass]="{'noCursor': isEdit== true}" class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="showDropdown('search',isEdit)" (document:click)="closeDropdown($event,'search')">
+							<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
+							<div class="d-flex" *ngIf="selectedTeacher">
+								<span class="img-wrap"><img src="{{ selectedTeacher.profilePic || './assets/img/user.svg' }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
+							</div>
+							<span *ngIf="!selectedTeacher" class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+							<span *ngIf="selectedTeacher" class="d-flex justify-content-center flex-column">	
+								<img src="./assets/images/swap-ico.png">		
+							</span>
 						</div>
-						<span *ngIf="!selectedTeacher" class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
-						<span *ngIf="selectedTeacher" class="d-flex justify-content-center flex-column">	
-							<img src="./assets/images/swap-ico.png">		
-						</span>
 					</div>
-					<div class="search-dropdown">
+					<div class="search-dropdown" *ngIf="searchMenuShow == true">
 						<div class="d-flex flex-column">
 							<div class="teacher-list-box">
 								<div class="d-flex">

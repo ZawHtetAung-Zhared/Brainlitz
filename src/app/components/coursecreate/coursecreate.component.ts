@@ -486,14 +486,14 @@ export class CoursecreateComponent implements OnInit {
         this.focusMisfee = false;
 
         // for search dropdown
-        if(this.searchMenuShow == false){
-           $('.search-dropdown').css('display', 'none'); 
-        }
-        else {
-            $('.search-dropdown').css('display', 'block');
-            this.searchMenuShow = false;
-            $("#myInput").focus();
-        }
+        // if(this.searchMenuShow == false){
+        //    $('.search-dropdown').css('display', 'none'); 
+        // }
+        // else {
+        //     $('.search-dropdown').css('display', 'block');
+        //     this.searchMenuShow = false;
+        //     $("#myInput").focus();
+        // }
   }
 
   showDropdown(type,state){
@@ -505,6 +505,10 @@ export class CoursecreateComponent implements OnInit {
     }else if(type == 'duration'){
       if(state == false){
         this.durationMenuShow = true;
+      }
+    }else if(type == 'search'){
+      if(state == false){
+        this.searchMenuShow = true;
       }
     }
   }
@@ -530,23 +534,31 @@ export class CoursecreateComponent implements OnInit {
       if(parentWrap.length == 0){
         this.durationMenuShow = false;
       }
+    }else if(type == 'search'){
+      var parentWrap = event.path.filter(function(res){
+        return res.className == "search-wrap"
+      })
+      if(parentWrap.length == 0){
+        this.searchMenuShow = false;
+        $("#myInput").focus();
+      }
     }
   }
 
-  showSearch:boolean = false;
-  searchDropdown(item){
-    if(item == false){
-      var z = document.getElementsByClassName('search-dropdown');
-      if( (z[0]as HTMLElement).style.display == 'block'){
-        (z[0]as HTMLElement).style.display = 'none';
-      }
-      else {
-         (z[0]as HTMLElement).style.display = 'block';
-         this.searchMenuShow = true;
-         $("#myInput").focus();
-      }
-    }
-  }
+  // showSearch:boolean = false;
+  // searchDropdown(item){
+  //   if(item == false){
+  //     var z = document.getElementsByClassName('search-dropdown');
+  //     if( (z[0]as HTMLElement).style.display == 'block'){
+  //       (z[0]as HTMLElement).style.display = 'none';
+  //     }
+  //     else {
+  //        (z[0]as HTMLElement).style.display = 'block';
+  //        this.searchMenuShow = true;
+  //        $("#myInput").focus();
+  //     }
+  //   }
+  // }
 
   ChangedRangeValue(e, type){
     // console.log(e)
