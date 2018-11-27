@@ -265,6 +265,33 @@ export class appService{
       }) 
     }
 
+    invoiceSetting(regionId: any, type): Observable<any>{
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + regionId + '/setting/payment-invoice?option=' + type;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    updateInvoiceSetting(regionId:string, body: object){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/setting/payment-invoice';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body, httpOptions)
+      .map((res:Response) => {
+        return res;
+      })
+    }
+
     updateRegionalInfo(regionId:string, body: object, token: any, type: any){
       let apiUrl = this.baseUrl  + '/regions/' + regionId;
       const httpOptions = {

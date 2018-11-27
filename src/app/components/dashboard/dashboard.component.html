@@ -119,36 +119,36 @@
                     </div>
                     <label class="labelTitle">Company name</label>
                   </div>
-                  <label class="labelName"></label>
+                  <label class="labelName">{{invoiceData.companyName}}</label>
                 </div>
-                <div>
+                <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                       <p class="dot">...</p>
                     </div>
                     <label class="labelTitle">Registration number</label>
                   </div>
-                  <label class="labelName"></label>
+                  <label class="labelName">{{invoiceData.registration}}</label>
                 </div>
-                <div>
+                <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                         <img src="./assets/images/map.png">
                     </div>
                     <label class="labelTitle">Address</label>
                   </div>
-                  <label class="labelName"></label>
+                  <label class="labelName">{{invoiceData.address}} {{invoiceData.city}}</label>
                 </div>
-                <div>
+                <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                         <img src="./assets/images/email.png">
                     </div>
                     <label class="labelTitle">Email</label>
                   </div>
-                  <label class="labelName"></label>
+                  <label class="labelName">{{invoiceData.email}}</label>
                 </div>
-                <div>
+                <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                       <p class="currency">$</p>
@@ -246,16 +246,16 @@
                     </div>
                     <label class="labelTitle">Currency code</label>
                   </div>
-                  <label class="labelName"></label>
+                  <label class="labelName">{{paymentData.currencyCode}}</label>
                 </div>
-                <div>
+                <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                         <img src="./assets/images/currency-sign.png">
                     </div>
                     <label class="labelTitle">Tax setting</label>
                   </div>
-                  <label class="labelName"></label>
+                  <label class="labelName">{{paymentData.tax.name}} ({{paymentData.tax.rate}}%)</label>
                 </div>
                 <div class="sectionWrap">
                   <label class="sectionTitle">Online payment</label>
@@ -284,25 +284,31 @@
                     <div class="d-flex justify-content-between">
                       <label class="input-label" for="name">Company name</label>
                     </div>  
-                    <input type="text" class="form-control create-input" placeholder="Type company name here" name="name" [(ngModel)]="invoice.name" #name="ngModel">
+                    <input type="text" class="form-control create-input" placeholder="Type company name here" name="companyName" [(ngModel)]="invoiceData.companyName" #name="ngModel">
+                  </div>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <label class="input-label" for="name">Prefix</label>
+                    </div>  
+                    <input type="text" class="form-control create-input" placeholder="Type company name here" name="prefix" [(ngModel)]="invoiceData.prefix" #prefix="ngModel">
                   </div>
                   <div class="form-group">
                     <div class="d-flex justify-content-between">
                       <label class="input-label" for="name">Registration number</label>
                     </div>  
-                    <input type="text" class="form-control create-input" placeholder="Type registration number here" name="registration" [(ngModel)]="invoice.registration" #registration="ngModel">
+                    <input type="text" class="form-control create-input" placeholder="Type registration number here" name="registration" [(ngModel)]="invoiceData.registration" #registration="ngModel">
                   </div>
                   <div class="form-group">
                     <div class="d-flex justify-content-between">
                       <label class="input-label" for="name">Address</label>
                     </div>  
-                    <textarea class="form-control create-textarea" rows="3" placeholder="Street" name="street" [(ngModel)]="invoice.street" #street="ngModel"></textarea>
+                    <textarea class="form-control create-textarea" rows="3" placeholder="Street" name="street" [(ngModel)]="invoiceData.address" #street="ngModel"></textarea>
                     <div class="row">
                       <div class="col-md-6">
-                        <input type="text" class="form-control tax-input" placeholder="City" name="city" [(ngModel)]="invoice.city" #city="ngModel">
+                        <input type="text" class="form-control tax-input" placeholder="City" name="city" [(ngModel)]="invoiceData.city" #city="ngModel">
                       </div>
                       <div class="col-md-6">
-                        <input type="text" class="form-control tax-input" placeholder="Post code" name="postal" [(ngModel)]="invoice.postal" #postal="ngModel">
+                        <input type="text" class="form-control tax-input" placeholder="Post code" name="postal" [(ngModel)]="invoiceData.postal" #postal="ngModel">
                       </div>
                     </div>
                   </div>
@@ -310,20 +316,29 @@
                     <div class="d-flex justify-content-between">
                       <label class="input-label" for="name">Email</label>
                     </div>  
-                    <input type="email" class="form-control create-input" placeholder="Type email address here"  name="email" [(ngModel)]="invoice.email" #email="ngModel">
+                    <input type="email" class="form-control create-input" placeholder="Type email address here"  name="email" [(ngModel)]="invoiceData.email" #email="ngModel">
                   </div>
-                  <div class="form-group">
-                    <div class="d-flex justify-content-between">
+                  <div class="form-group ">
+                    <div class="currency-wrap">
                       <label class="input-label" for="name">Currency sign</label>
-                      <div>{{currency_symbol}}</div>
-                      <div class="currency-flag currency-flag-ars"></div>
+                      <div (click)="showCurrencyBox($event)" class="current-currency d-flex justify-content-between">
+                          <div class="locbox">
+                          <div class="currency-flag currency-flag-{{selectedFlag}}"></div> {{selectedCurrency}}</div>
+                          <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+                      </div>
+                      <div *ngIf="showDropdown" class="currency-dropdown">
+                        <div (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)">
+                          <div class="currency-flag currency-flag-{{key}}"></div>
+                          {{newCurrency[key]}}
+                        </div>
+                      </div>
                     </div>  
                     
                   </div>
                 </div>
                 <div class="d-flex justify-content-end form-footer">
                   <button type="submit" class="btn btn-cancel" (click)="cancel()">Cancel</button>
-                  <button type="submit" class="btn btn-submit" (click)="updateInvoice(invoice)">Done</button>
+                  <button type="submit" class="btn btn-submit" (click)="updateInvoice(invoiceData)">Done</button>
                 </div>
               </form>
 

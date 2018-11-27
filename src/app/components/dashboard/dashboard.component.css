@@ -17,6 +17,7 @@
 .sectionWrap{
   border-top: 1px solid #edeff0;
   padding-top: 20px;
+  margin-top: 24px;
 }
 .back-to{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
@@ -107,6 +108,29 @@
     color: #fff;
     background-color: #1682fb;
     margin-left: 15px;
+}
+.currency-dropdown {
+  height: 250px;
+  overflow: auto;
+  padding: 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border: none;
+  position: absolute;
+  z-index: 9;
+  width: 100%;
+  top: 90px;
+  background: #fff;
+}
+.currency-wrap{
+  position: relative;
+  padding-bottom: 50%;
+}
+
+.current-currency{
+  padding: 12px;
+  background: #f2f4f5;
+  border-radius: 4px;
+  margin-bottom: 24px;
 }
 
 /*payment*/
