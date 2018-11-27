@@ -146,6 +146,8 @@ export class CourseComponent implements OnInit {
   public hideDeposit:boolean = false;
   public total:any;
   public singleInv:any = [];
+  public isEditInv:any = false;
+  public updateInvData:any = {};
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -1149,9 +1151,8 @@ export class CourseComponent implements OnInit {
     // })
     this.getSingleCustomer(data.userId,'user');
     this.getRegionInfo();
-    console.log(this.invoiceInfo)
-    // var invoiceId = '5bfb835682f93c7364f46c1e';//waddy (Invoice Testing 2)
-    var invoiceId = '5bfbafd682f93c7364f46c4f';//New User KKK (Invoice Testing 2,GGWP00119)
+    console.log(this.invoiceInfo);
+    var invoiceId = '5bfcf2f74832cf504ae19996';
     this._service.getSingleInvoice(invoiceId)
     .subscribe((res:any) => {
       console.log('invoice detail',res);
@@ -1174,6 +1175,7 @@ export class CourseComponent implements OnInit {
        var n = invoice[i].total;
        this.total = n.toFixed(2);
        console.log('n and total',n,this.total);
+       this.invoiceCourse["fees"] = invoice[i].courseFee;
        if(invoice[i].courseId == this.detailLists._id){
          this.invoiceCourse["name"] = this.detailLists.name;
          this.invoiceCourse["startDate"] = this.detailLists.startDate;
@@ -1646,6 +1648,7 @@ export class CourseComponent implements OnInit {
   }
 
   showPopup(type,value){
+    this.isEditInv = true;
     console.log("show popup");
     if(type == 'discount'){
       this.showBox = true;
@@ -1663,6 +1666,11 @@ export class CourseComponent implements OnInit {
   }
 
   cancelPopup(type){
+    if((this.hideReg == true && this.hideDeposit == true) || this.hideReg == true || this.hideDeposit == true){
+      this.isEditInv = true;
+    }else{
+      this.isEditInv = false;
+    }
     console.log("hide popup")
     // this.showBox = false;
     if(type == 'discount'){
@@ -1680,10 +1688,20 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  addDiscount(data){
-    console.log("Discount",data);
-    this.discount = data;
-    this.showBox = false;
+  updateCfee(data){
+    console.log("updateCfee",data);
+    this.feesBox = false;
+    for(var i in this.invoice){
+      if(this.invoice[i].courseFee != data){
+        console.log("===not same");
+        this.updateInvData["courseFee"] = data;
+        this.invoice[i].courseFee = data;
+      }else{
+        console.log("===same");
+      } 
+    }
+    // this.discount = data;
+    // this.showBox = false;
   }
 
   showAssociatePopup(){
@@ -1738,9 +1756,10 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.hideReg = false;
     this.hideDeposit = false;
+    this.isEditInv = false;
     this.singleInv = [];
-    this.getCourseDetail(this.detailLists._id)
-    // this.getCourseDetail(this.detailLists._id)
+    this.updateInvData = {};
+    this.getCourseDetail(this.detailLists._id);
     this.getUsersInCourse(this.detailLists._id);
     // this.courseList = [];
     // this.getCourseLists(20,0);
@@ -1809,15 +1828,43 @@ export class CourseComponent implements OnInit {
   }
  
   hideInvoiceRow(type){
+    this.isEditInv = true;
     if(type == 'reg'){
       this.hideReg = true;
+      this.updateInvData["registrationFee"] = null;
     }else{
       this.hideDeposit = true;
+      this.updateInvData["deposit"] = null;
     }
   }
 
   printInvoice(){
     window.print();
+  }
+
+  updateInvoice(){
+    // let data = {};
+    // if(this.hideReg == true){
+    //   data["registrationFee"] = null;
+    // }else if(this.hideDeposit == true){
+    //   data["deposit"] = null;
+    // }else if(this.invoiceCourse.fees != this.value.courseFee){
+    //   data["courseFee"] = this.value.courseFee;
+    // }
+    console.log("Inv Update Data",this.updateInvData);
+    this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.isEditInv = false;
+      //for updating invoice ui
+      this.singleInv = [];
+      this.singleInv.push(res);
+      this.invoice = this.singleInv;
+      console.log("invoice",this.invoice);
+      this.showOneInvoice(this.invoice);
+    },err => {
+      console.log(err);
+    })
   }
 
   // cancelInvoice(){

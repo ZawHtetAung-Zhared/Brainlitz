@@ -614,7 +614,7 @@
 							</select>
 							<i class="fa fa-chevron-down down-arrow1"></i>
 						</div> -->
-						<div class="col-md-4" style="padding: 0;">
+						<div class="col-md-6" style="padding: 0;">
 							<label class="all-title-font">Deposit</label>
 							<div>
 								 <div class="form-group has-feedback" (click)="depositDropdown()">
@@ -632,7 +632,7 @@
 						        </div>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<label class="all-title-font" style="padding-left: 10px;"> Miscellaneous fee </label>
 						    <div class="inner-divleft-pad">
 						    	<label class="sr-only" for="inlineFormInputGroupmisFee">0</label>
@@ -644,7 +644,9 @@
 								</div>
 						    </div>
 						</div>
-						<div class="col-md-4">
+					</div>
+					<div class="d-flex">
+						<div class="col-md-6 p-0">
 							<div class="display-style">
 								<label class="all-title-font">Prorate class fee</label> <br />
 								<div class="radio-pos-payment">
@@ -653,6 +655,34 @@
 										<span class="slider round" [ngClass]="{'activeRadio': formField.paymentPolicy.allowProrated == true}"></span>
 									</label>
 								</div>	
+							</div>
+							<div class="inner-divleft-pad">
+						    	<!-- <label class="sr-only" for="inlineFormInputGroupmisFee">0</label> -->
+								<div *ngIf="formField.paymentPolicy.allowProrated == true" class="input-group input-group-bg mb-2 mr-sm-2 all-left-box-10">
+								    <div class="input-group-prepend">
+								      <div class="input-group-text profee-bg">S$</div>
+								    </div>
+								    <input type="number" class="form-control" id="inlineFormInputGroupmisFee" (click)='toKnowFocus("prorateFee")' (keypress)="numberOnly($event, 'prorateFee')" placeholder="0" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" [(ngModel)]="formField.paymentPolicy.proratedLessonFee" min="0" name="proratedLessonFee" #proratedLessonFee="ngModel">
+								</div>
+						    </div>
+						</div>
+						<div class="col-md-6">
+							<label class="all-title-font" style="padding-left: 10px;">Tax Options</label>
+							<div>
+								<div class="form-group has-feedback taxOpt-wrap" (click)="showDropdown('taxOpt','')" (document:click)="closeDropdown($event,'taxOpt')">
+							    	<input class="cursor-on form-control br-bshadow-none"  name="taxName" type="text" placeholder="username" [(ngModel)]="chooseTax" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down tax-downicon"></span>
+							     </div>
+							     <div class="dropdown-wrap" *ngIf="taxOptShow == true">
+						          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+						          <ul class="taxOpt-dropdown">
+						            <li>
+						              <span (click)="chooseTaxOption('inclusive')">Inclusive</span>
+						            </li>
+						            <li>
+						            	<span (click)="chooseTaxOption('exclusive')">Exclusive</span>
+						            </li>
+						          </ul>
+						        </div>
 							</div>
 						</div>
 					</div>

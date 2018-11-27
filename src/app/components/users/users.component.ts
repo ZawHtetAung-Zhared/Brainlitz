@@ -125,6 +125,9 @@ export class UsersComponent implements OnInit {
 	public hideReg:boolean = false;
   	public hideDeposit:boolean = false;
   	public total:any;
+  	public singleInv:any = [];
+	public isEditInv:any = false;
+	public updateInvData:any = {};
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -879,21 +882,17 @@ export class UsersComponent implements OnInit {
 				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
 				 this.invoiceID = this.invoice[i]._id;
 				 this.refInvID = this.invoice[i].refInvoiceId;
-				 // this.prefixInvId = this.invoice[i].invoiceId;
 				 this.invTaxName = this.invoice[i].taxName;
 				 var n = this.invoice[i].total;
 				 this.total = n.toFixed(2);
 				 console.log('n and total',n,this.total);
 				 if(this.invoice[i].courseId == course._id){
-				   // this.invoiceCourse = course.name;
 				   this.invoiceCourse["name"] = course.name;
 		           this.invoiceCourse["startDate"] = course.startDate;
 		           this.invoiceCourse["endDate"] = course.endDate;
 		           this.invoiceCourse["lessonCount"] = course.lessonCount;
 				 }
 				}
-		     	// this.modalReference.close();
-		     	// this.availableCourses = [];
 		  	}, err => {  
 		    	console.log(err);
 		  	});
@@ -915,43 +914,38 @@ export class UsersComponent implements OnInit {
 
 	showPopup(type,value){
 		console.log("show popup");
-		if(type == 'discount'){
-		  this.showBox = true;
-		  this.value.discountFee = value;
-		}else if(type == 'courseFee'){
+		this.isEditInv = true;
+		if(type == 'courseFee'){
 		  this.feesBox = true;
 		  this.value.courseFee = value;
-		}else if(type == 'deposit'){
-		  this.depositBox = true;
-		  this.value.deposit = value;
-		}else if(type == 'reg'){
-		  this.regBox = true;
-		  this.value.regFee = value;
 		}
 	}
 
 	cancelPopup(type){
+		if((this.hideReg == true && this.hideDeposit == true) || this.hideReg == true || this.hideDeposit == true){
+	      this.isEditInv = true;
+	    }else{
+	      this.isEditInv = false;
+	    }
 		console.log("hide popup")
-		// this.showBox = false;
-		if(type == 'discount'){
-		  this.showBox = false;
-		  this.value.discountFee = '';
-		}else if(type == 'courseFee'){
+		if(type == 'courseFee'){
 		  this.feesBox = false;
 		  this.value.courseFee = '';
-		}else if(type == 'deposit'){
-		  this.depositBox = false;
-		  this.value.deposit = '';
-		}else if(type == 'reg'){
-		  this.regBox = false;
-		  this.value.regFee = '';
 		}
 	}
 
-	addDiscount(data){
-		console.log("Discount",data);
-		this.discount = data;
-		this.showBox = false;
+	updateCfee(data){
+		console.log("updateCfee",data);
+		this.feesBox = false;
+		for(var i in this.invoice){
+		  if(this.invoice[i].courseFee != data){
+		    console.log("===not same");
+		    this.updateInvData["courseFee"] = data;
+		    this.invoice[i].courseFee = data;
+		  }else{
+		    console.log("===same");
+		  } 
+		}
 	}
 
 	sendInvoice(){
@@ -994,6 +988,9 @@ export class UsersComponent implements OnInit {
 		this.paymentItem = {};
 		this.hideReg = false;
     	this.hideDeposit = false;
+		this.isEditInv = false;
+		this.singleInv = [];
+		this.updateInvData = {};
 		if(type == 'closeInv'){
 			this.showDetails(this.custDetail.user.userId);
 		}
@@ -1047,15 +1044,35 @@ export class UsersComponent implements OnInit {
 	}
 
 	hideInvoiceRow(type){
+		this.isEditInv = true;
 		if(type == 'reg'){
-		  this.hideReg = true;
+			this.hideReg = true;
+			this.updateInvData["registrationFee"] = null;
 		}else{
-		  this.hideDeposit = true;
+			this.hideDeposit = true;
+			this.updateInvData["deposit"] = null;
 		}
 	}
 
 	printInvoice(){
 		window.print();
+	}
+
+	updateInvoice(){
+		console.log("Inv Update Data",this.updateInvData);
+		this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
+		.subscribe((res:any) => {
+		  console.log(res);
+		  this.isEditInv = false;
+		  //for updating invoice ui
+		  this.singleInv = [];
+		  this.singleInv.push(res);
+		  this.invoice = this.singleInv;
+		  console.log("invoice",this.invoice);
+		  // this.showOneInvoice(this.invoice);
+		},err => {
+		  console.log(err);
+		})
 	}
 
 	allCourseLists(){
