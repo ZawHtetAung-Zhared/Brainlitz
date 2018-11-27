@@ -44,10 +44,37 @@ export class DashboardComponent implements OnInit {
   public customSidebar:any = [];
   public option:any;
   public invoice:any = {};
-  public payment:any = {};
+  
   public isOnline:boolean = false;
+  public showDropdown:boolean = false;
   public online:any = {};
   public currency_symbol:any;
+  public newCurrency:any = {};
+  public objectKeys: any;
+  public selectedCurrency: any;
+  public selectedFlag: any;
+  public invoiceData: any ={
+    "companyName" : "",
+    "address" : "",
+    "email" : "",
+    "prefix"  : "",
+    "currencySign"  : "",
+  };
+  public payment:any = {}
+  public paymentData:any = {
+    "tax": {
+      "rate": "",
+      "name": ""
+    },
+    "paymentProviders": [
+      {
+        "id": 0,
+        "name": "",
+        "Mcptid": ""
+      }
+    ],
+    "currencyCode": ""
+  };
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
@@ -70,6 +97,9 @@ export class DashboardComponent implements OnInit {
         localStorage.setItem('permission', JSON.stringify(data))
       }
     });
+
+    this.getInvoiceSetting('invoiceSettings')
+    this.getPaymentSetting('paymentSettings')
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -131,6 +161,26 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  getInvoiceSetting(type){
+    this._service.invoiceSetting(this.regionId, type)
+    .subscribe((res:any) => {
+      console.log(res)
+      this.invoiceData = res;
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  getPaymentSetting(type){
+    this._service.invoiceSetting(this.regionId, type)
+    .subscribe((res:any) => {
+      console.log(res)
+      this.paymentData = res;
+    }, err => {
+      console.log(err)
+    })
+  }
+
   isModuleList(){
     this._service.getAllModule(this.regionId)
     .subscribe((res:any) => {
@@ -185,6 +235,7 @@ export class DashboardComponent implements OnInit {
 
   clickTab(type){
     this.menuType = type;
+    this.cancel();
   }
 
   editSetting(type){
@@ -192,7 +243,46 @@ export class DashboardComponent implements OnInit {
     this.option = type;
     // var data = require('currency-codes/data');
     console.log(currency)
+    this.objectKeys = Object.keys;
+    console.log(this.objectKeys)
     this.currency_symbol = currency;
+    // console.log(Object.keys(this.currency_symbol));
+    var key, keys = Object.keys(this.currency_symbol);
+    var n = keys.length;
+    var newobj={}
+    while (n--) {
+      key = keys[n];
+      this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+    }
+    console.log(this.newCurrency)
+  }
+
+  showCurrencyBox(){
+    this.showDropdown = true;
+  }
+
+  selectCurrency(data, key){
+    console.log(data)
+    this.selectedCurrency = data;
+    this.selectedFlag = key;
+  }
+
+  updateInvoice(data){
+    let body = {
+      'invoiceSettings': data
+    }
+    console.log(body)
+    this.blockUI.start('Loading...');
+    this._service.updateInvoiceSetting(this.regionId, body)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      console.log(res)
+      this.invoiceData = res.invoiceSettings;
+      this.cancel();
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
   }
 
   cancel(){
