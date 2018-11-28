@@ -184,6 +184,11 @@ export class CoursecreateComponent implements OnInit {
       this.createList(this.model.coursePlan.lesson.duration);
       this.model.durationTimes = this.model.durationTimes;
       this.startTime = this.model.starttime
+      // if(this.model.taxInclusive == true){
+      //   this.chooseTax = "Inclusive"; 
+      // }else{
+      //   this.chooseTax = "Exclusive"; 
+      // }
       // console.log(this.model.coursePlan.lesson.duration);
       // console.log(this.model.starttime,this.model.duration);
       this.selectedTeacher = this.model.teacher;
@@ -856,6 +861,16 @@ export class CoursecreateComponent implements OnInit {
     if(this.chooseFee !=''){
       console.log("KKKK",this.chooseFee);
       this.courseObj["courseFee"] = this.chooseFee;
+    }
+
+    if(this.chooseTax != ''){
+      console.log("TTT",this.chooseTax);
+      if(this.chooseTax == 'inclusive'){
+        this.courseObj["taxInclusive"] = true;
+      }else{
+        this.courseObj["taxInclusive"] = false;
+      }
+      
     }
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
