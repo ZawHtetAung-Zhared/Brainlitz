@@ -272,8 +272,13 @@
                 </div>
                 <div class="sectionWrap">
                   <label class="sectionTitle">Online payment</label>
-                  <div class="provider-list" *ngFor="let provider of paymentData.paymentProviders">
-                    {{provider.name}}
+                  <div *ngIf="paymentData.paymentProviders.length > 0">
+                    <div class="provider-list" *ngFor="let provider of paymentData.paymentProviders">
+                      {{provider.name}}
+                    </div>
+                  </div>
+                  <div *ngIf="paymentData.paymentProviders.length == 0">
+                    <div class="provider-list">none</div>
                   </div>
                 </div>
               </div>
