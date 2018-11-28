@@ -47,8 +47,10 @@ export class DashboardComponent implements OnInit {
   
   public isOnline:boolean = false;
   public showDropdown:boolean = false;
+  public showProvider:boolean = false;
   public online:any = {};
   public currency_symbol:any;
+  public providers:any = {};
   public newCurrency:any = {};
   public objectKeys: any;
   public selectedCurrency: any;
@@ -241,12 +243,25 @@ export class DashboardComponent implements OnInit {
   editSetting(type){
     console.log('hi')
     this.option = type;
-    // var data = require('currency-codes/data');
-    console.log(currency)
+    this.getCurrency();
+    this.selectedCurrency = this.invoiceData.currencySign;
+    this.selectedFlag = this.invoiceData.currencyCode;
+    
+    this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
+    if(this.isOnline == true){
+      this._service.paymentProvider()
+      .subscribe((res:any) => {
+        console.log(res)
+        this.providers = res;
+      }, err => {
+        console.log(err)
+      })
+    }
+  }
+
+  getCurrency(){
     this.objectKeys = Object.keys;
-    console.log(this.objectKeys)
     this.currency_symbol = currency;
-    // console.log(Object.keys(this.currency_symbol));
     var key, keys = Object.keys(this.currency_symbol);
     var n = keys.length;
     var newobj={}
@@ -257,20 +272,89 @@ export class DashboardComponent implements OnInit {
     console.log(this.newCurrency)
   }
 
-  showCurrencyBox(){
-    this.showDropdown = true;
+  search(val){
+    console.log(this.newCurrency.hasOwnProperty(val))
+    if(val.length > 0){
+      if(this.newCurrency.hasOwnProperty(val)){
+        var keyObj = val
+        this.newCurrency = {[keyObj]: this.newCurrency[val]}      
+      }
+    }else{
+      this.getCurrency();
+    }
+    
+  }
+
+  showCurrencyBox(type){
+    if(type == 'currency'){
+      this.showDropdown = true;
+      this.getCurrency();
+    }else{
+      this.showProvider = true;
+    }
+  }
+
+  closeBox(event) {
+    console.log('~~~ :P')
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "currency-wrap"
+    })
+    if(parentWrap.length == 0){
+      this.showDropdown = false;
+    }
+  }
+
+  closeProvider(event) {
+    console.log('~~~ :P')
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "provider-wrap"
+    })
+    if(parentWrap.length == 0){
+      this.showProvider = false;
+    }
+  }
+
+  removeTempData(id){
+    let dataIndex;
+    for(let x in this.paymentData.paymentProviders){
+      if(this.paymentData.paymentProviders[x].id == id){
+        dataIndex = x;
+      }
+    }
+    this.paymentData.paymentProviders.splice(dataIndex,1);
+    console.log(this.paymentData.paymentProviders);
   }
 
   selectCurrency(data, key){
+    console.log(key)
     console.log(data)
     this.selectedCurrency = data;
     this.selectedFlag = key;
   }
 
-  updateInvoice(data){
-    let body = {
-      'invoiceSettings': data
+  updateInvoice(data, type){
+    var body;
+    data['currencyCode'] = this.selectedFlag;
+    data['currencySign'] = this.selectedCurrency;
+    if(type == 'invoice'){
+      console.log('if')
+      this.paymentData['currencyCode'] = this.selectedFlag;
+      this.paymentData['currencySign'] = this.selectedCurrency;
+      
+      body = {
+        'invoiceSettings': data,
+        'paymentSettings': this.paymentData
+      }
+    }else{
+      console.log('else')
+      this.invoiceData['currencyCode'] = this.selectedFlag;
+      this.invoiceData['currencySign'] = this.selectedCurrency;
+      body = {
+        'invoiceSettings': this.invoiceData,
+        'paymentSettings': data
+      }
     }
+    
     console.log(body)
     this.blockUI.start('Loading...');
     this._service.updateInvoiceSetting(this.regionId, body)
@@ -305,5 +389,6 @@ export class DashboardComponent implements OnInit {
 
   onlinePayment(){
     this.isOnline = !this.isOnline;
+    
   }
 }

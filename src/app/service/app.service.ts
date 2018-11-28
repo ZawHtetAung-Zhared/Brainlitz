@@ -265,6 +265,20 @@ export class appService{
       }) 
     }
 
+    paymentProvider(): Observable<any>{
+      this.getLocalstorage();
+      let url = this.baseUrl + '/payment-providers';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
     invoiceSetting(regionId: any, type): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl + '/' + regionId + '/setting/payment-invoice?option=' + type;
