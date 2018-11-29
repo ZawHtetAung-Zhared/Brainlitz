@@ -47,11 +47,16 @@ export class DashboardComponent implements OnInit {
   
   public isOnline:boolean = false;
   public showDropdown:boolean = false;
+  public showProvider:boolean = false;
   public online:any = {};
   public currency_symbol:any;
+  public providers:any = {};
+  public providerTemp:any = {};
+  public providerArray:Array<any> = [];
   public newCurrency:any = {};
   public objectKeys: any;
   public selectedCurrency: any;
+  public selectedProvider: any= '';
   public selectedFlag: any;
   public invoiceData: any ={
     "companyName" : "",
@@ -176,6 +181,16 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.paymentData = res;
+      this.providerTemp = this.paymentData.paymentProviders;      
+
+      if(this.providerTemp.length > 0){
+        this.providerArray= [];
+        for(let j=0; j< this.providerTemp.length; j++){
+          this.providerArray.push(this.providerTemp[j].name)
+        }
+      }else{
+        this.providerArray = []
+      }
     }, err => {
       console.log(err)
     })
@@ -241,12 +256,25 @@ export class DashboardComponent implements OnInit {
   editSetting(type){
     console.log('hi')
     this.option = type;
-    // var data = require('currency-codes/data');
-    console.log(currency)
+    this.getCurrency();
+    this.selectedCurrency = this.invoiceData.currencySign;
+    this.selectedFlag = this.invoiceData.currencyCode;
+    
+    this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
+    if(this.isOnline == true){
+      this._service.paymentProvider()
+      .subscribe((res:any) => {
+        console.log(res)
+        this.providers = res;
+      }, err => {
+        console.log(err)
+      })
+    }
+  }
+
+  getCurrency(){
     this.objectKeys = Object.keys;
-    console.log(this.objectKeys)
     this.currency_symbol = currency;
-    // console.log(Object.keys(this.currency_symbol));
     var key, keys = Object.keys(this.currency_symbol);
     var n = keys.length;
     var newobj={}
@@ -257,20 +285,116 @@ export class DashboardComponent implements OnInit {
     console.log(this.newCurrency)
   }
 
-  showCurrencyBox(){
-    this.showDropdown = true;
+  search(val){
+    console.log(this.newCurrency.hasOwnProperty(val))
+    if(val.length > 0){
+      if(this.newCurrency.hasOwnProperty(val)){
+        var keyObj = val
+        this.newCurrency = {[keyObj]: this.newCurrency[val]}      
+      }
+    }else{
+      this.getCurrency();
+    }
+    
+  }
+
+  showCurrencyBox(type){
+    console.log('hiii')
+    if(type == 'currency'){
+      this.showDropdown = true;
+      this.getCurrency();
+    }else{
+      this.showProvider = true;
+    }
+  }
+
+  closeBox(event) {
+    console.log('~~~ :P')
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "currency-wrap"
+    })
+    if(parentWrap.length == 0){
+      this.showDropdown = false;
+    }
+  }
+
+  closeProvider(event) {
+    console.log('~~~ :P')
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "current-currency d-flex justify-content-between"
+    })
+    if(parentWrap.length == 0){
+      this.showProvider = false;
+    }
+  }
+
+  removeTempData(id){
+    let dataIndex;
+    for(let x in this.providerTemp){
+      if(this.providerTemp[x].id == id){
+        dataIndex = x;
+      }
+    }
+    this.providerTemp.splice(dataIndex,1);
+    console.log(this.providerTemp);
+    console.log(this.paymentData.paymentProviders);
+    if(this.providerTemp == 0){
+      this.payment = {}
+    }
   }
 
   selectCurrency(data, key){
+    console.log(key)
     console.log(data)
     this.selectedCurrency = data;
     this.selectedFlag = key;
   }
 
-  updateInvoice(data){
-    let body = {
-      'invoiceSettings': data
+  selectProvider(id, name){
+    console.log(id, '-' ,name)
+    this.selectedProvider = name
+    this.payment.name = name
+  }
+
+  updateInvoice(data, type){
+    console.log(data)
+    var body;
+    data['currencyCode'] = this.selectedFlag;
+    data['currencySign'] = this.selectedCurrency;
+    if(type == 'invoice'){
+      console.log('if')
+      this.paymentData['currencyCode'] = this.selectedFlag;
+      this.paymentData['currencySign'] = this.selectedCurrency;
+      
+      body = {
+        'invoiceSettings': data,
+        'paymentSettings': this.paymentData
+      }
+    }else{
+      console.log('else')
+      this.invoiceData['currencyCode'] = this.selectedFlag;
+      this.invoiceData['currencySign'] = this.selectedCurrency;
+      if(this.isOnline == true){
+        console.log(this.payment)
+        if(this.providerTemp.length > 0){
+          console.log('no', this.providerTemp)
+          data.paymentProviders = this.providerTemp;
+        }else{
+          if(this.payment.hasOwnProperty('name') == true){
+            data.paymentProviders.push(this.payment);
+          }else{
+            data.paymentProviders = []
+          }       
+        }
+      }else{
+        data.paymentProviders = []
+      }
+      body = {
+        'invoiceSettings': this.invoiceData,
+        'paymentSettings': data
+      }
     }
+    
     console.log(body)
     this.blockUI.start('Loading...');
     this._service.updateInvoiceSetting(this.regionId, body)
@@ -278,6 +402,7 @@ export class DashboardComponent implements OnInit {
       this.blockUI.stop();
       console.log(res)
       this.invoiceData = res.invoiceSettings;
+      this.paymentData = res.paymentSettings;
       this.cancel();
     }, err => {
       this.blockUI.stop();
@@ -291,6 +416,9 @@ export class DashboardComponent implements OnInit {
     this.invoice = {};
     this.online = {};
     this.isOnline = false;
+    this.selectedProvider= '';
+    this.getInvoiceSetting('invoiceSettings')
+    this.getPaymentSetting('paymentSettings')
   }
 
   numberOnly(event, type){
@@ -305,5 +433,16 @@ export class DashboardComponent implements OnInit {
 
   onlinePayment(){
     this.isOnline = !this.isOnline;
+    if(this.isOnline == true){
+      this._service.paymentProvider()
+      .subscribe((res:any) => {
+        console.log(res)
+        this.providers = res;
+      }, err => {
+        console.log(err)
+      })
+    }else{
+      this.payment = {}
+    }
   }
 }
