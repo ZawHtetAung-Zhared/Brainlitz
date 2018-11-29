@@ -289,6 +289,9 @@ export class CourseComponent implements OnInit {
     this.invoiceInfo = {
       'companyName': ''
     }
+
+    this.paymentProviders = '';
+    this.invoiceInfo = '';
     
   }
 
@@ -1146,15 +1149,10 @@ export class CourseComponent implements OnInit {
     console.log("user data in view inv",data)
     this.showInvoice = true;
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    // this.viewInvoice();
-    // this._service.editProfile(this.regionId, data.userId)
-    // .subscribe((res:any) => {
-    //   console.log('user',res);
-    // })
     this.getSingleCustomer(data.userId,'user');
     this.getRegionInfo();
     console.log(this.invoiceInfo);
-    var invoiceId = '5bfcf2f74832cf504ae19996';
+    var invoiceId = data.invoiceId;
     this._service.getSingleInvoice(invoiceId)
     .subscribe((res:any) => {
       console.log('invoice detail',res);
@@ -1798,6 +1796,7 @@ export class CourseComponent implements OnInit {
     if(type == 'Cash'){
       console.log("Cash",this.paymentItem.amount);
       let body = {
+        'regionId': this.regionId,
         'refInvoiceId': this.refInvID,
         'amount': this.paymentItem.amount.toString(),
         'paymentMethod': this.selectedPayment.toLowerCase()

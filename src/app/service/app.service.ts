@@ -1749,6 +1749,7 @@ export class appService{
     }
 
     makePayment(regionId:string,body:any){
+      console.log(regionId,body)
       let apiUrl = this.baseUrl + '/' + regionId + '/payments';
 
       const httpOptions = {
