@@ -718,11 +718,13 @@ export class CourseComponent implements OnInit {
   }
 
   changeAdvancedSearch(val, type){
+    console.log(val,type);
     if(type == 'category'){
       if(val.length > 0){
         this._service.getSearchCategory(this.regionId, val, this.locationID)
         .subscribe((res:any) => {
           console.log(res);
+          
           this.categoryList = res;
         }, err => {  
           console.log(err);
