@@ -299,6 +299,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showCurrencyBox(type){
+    console.log('hiii')
     if(type == 'currency'){
       this.showDropdown = true;
       this.getCurrency();
@@ -375,12 +376,15 @@ export class DashboardComponent implements OnInit {
       this.invoiceData['currencySign'] = this.selectedCurrency;
       if(this.isOnline == true){
         console.log(this.payment)
-        if(this.payment.hasOwnProperty('name') == true){
-          console.log('no')
-          data.paymentProviders.push(this.payment);
+        if(this.providerTemp.length > 0){
+          console.log('no', this.providerTemp)
+          data.paymentProviders = this.providerTemp;
         }else{
-          data.paymentProviders = []
-          console.log('yes')
+          if(this.payment.hasOwnProperty('name') == true){
+            data.paymentProviders.push(this.payment);
+          }else{
+            data.paymentProviders = []
+          }       
         }
       }else{
         data.paymentProviders = []

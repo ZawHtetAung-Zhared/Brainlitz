@@ -256,7 +256,7 @@
                   <div class="labelName d-flex">
                     <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
                     <div class="c-sign">
-                      <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div>
+                      <!-- <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div> -->
                       {{paymentData.currencyCode}}
                     </div>
                   </div>
@@ -380,7 +380,6 @@
                       <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between" (document:click)="closeBox($event)">
                           <div class="d-flex">
                             <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
-                            <div class="sectionTitle" *ngIf="selectedFlag == 'sgd'">S</div>
                             <div class="c-input">{{selectedFlag}}</div>
                           </div>
                           <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
@@ -391,7 +390,6 @@
                           <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)" >
                             <div class="currency-flag currency-flag-{{key}}"></div>
                             <div class="c-sign">
-                              <div class="pull-left" *ngIf="key == 'sgd'">S</div>
                               {{key}}
                             </div>
                           </div>
@@ -403,7 +401,7 @@
                     <label class="input-label" for="tax">Tax setting</label>
                     <div class="row">
                       <div class="col-md-6">
-                        <input type="text" class="form-control tax-input" placeholder="E.g. GST" name="taxname" [(ngModel)]="paymentData.tax.name" #name="ngModel" readonly>
+                        <input type="text" class="form-control tax-input" placeholder="E.g. GST" name="taxname" [(ngModel)]="paymentData.tax.name" #name="ngModel">
                       </div>
                       <div class="col-md-6 d-flex">
                         <input type="number" class="form-control tax-input" placeholder="0" name="taxamount" min="0" (keypress)="numberOnly($event, 'tax')" [(ngModel)]="paymentData.tax.rate" #name="ngModel">
@@ -434,15 +432,14 @@
                           <div (click)="showCurrencyBox('provider')" class="current-currency d-flex justify-content-between" (document:click)="closeProvider($event)">
                             <input type="text" class="form-control" placeholder="selected provider" name="name" [(ngModel)]="payment.name" #name="ngModel" readonly>
                             <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
-                            <div *ngIf="showProvider" class="currency-dropdown">
-                              <div class="provider-listing">
-                                <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers" [ngClass]="(providerArray.indexOf(item.name) > -1) ? 'disabled-provider' :''">
-                                  {{item.name}} 
-                                </div>
+                          </div> 
+                          <div *ngIf="showProvider" class="currency-dropdown">
+                            <div class="provider-listing">
+                              <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers" [ngClass]="(providerArray.indexOf(item.name) > -1) ? 'disabled-provider' :''">
+                                {{item.name}} 
                               </div>
                             </div>
-                          </div> 
-                          
+                          </div>
                         </div> 
 
                       </div>
