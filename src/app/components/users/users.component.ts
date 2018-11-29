@@ -1024,6 +1024,7 @@ export class UsersComponent implements OnInit {
 		if(type == 'Cash'){
 			console.log("Cash",this.paymentItem.amount);
 			let body = {
+				'regionId': this.regionID,
 				'refInvoiceId': this.refInvID,
 				'amount': this.paymentItem.amount.toString(),
 				'paymentMethod': this.selectedPayment.toLowerCase()
