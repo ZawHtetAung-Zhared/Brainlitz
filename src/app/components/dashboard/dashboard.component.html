@@ -415,15 +415,15 @@
                     <div class="d-flex">
                       <div class="toggle-wrap" (click)="onlinePayment()">
                         <label class="switch">
-                          <input type="checkbox" (change)="onlinePayment()" [checked]="false">
+                          <input type="checkbox" (change)="onlinePayment()" [checked]="isOnline">
                           <span class="slider round"></span>
                         </label>
                       </div>
                       <label class="switch-label" for="online">Accept online payment</label>
                     </div>
                     <div *ngIf="isOnline" class="online-wrap">
-                      <div *ngIf="paymentData.paymentProviders.length > 0" class="d-flex flex-nowrap provider-group">
-                        <div *ngFor="let provider of paymentData.paymentProviders" class="single-provider d-flex flex-row">
+                      <div *ngIf="providerTemp.length > 0" class="d-flex flex-nowrap provider-group">
+                        <div *ngFor="let provider of providerTemp" class="single-provider d-flex flex-row">
                           <span>{{provider.name}}</span>
                           <div (click)="removeTempData(provider.id)" class="remove-data d-flex justify-content-end"></div>
                         </div>
@@ -432,16 +432,17 @@
                         <div class="provider-wrap">
                           <label class="input-label" for="merchant">Payment provider</label>
                           <div (click)="showCurrencyBox('provider')" class="current-currency d-flex justify-content-between" (document:click)="closeProvider($event)">
-                            xxx
+                            <input type="text" class="form-control" placeholder="selected provider" name="name" [(ngModel)]="payment.name" #name="ngModel" readonly>
                             <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
-                          </div> 
-                          <div *ngIf="showProvider" class="currency-dropdown">
-                            <div class="provider-listing">
-                              <div class="sectionTitle d-flex" (click)="selectCurrency()" *ngFor="let item of providers" >
-                                {{item.name}}
+                            <div *ngIf="showProvider" class="currency-dropdown">
+                              <div class="provider-listing">
+                                <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers" [ngClass]="(providerArray.indexOf(item.name) > -1) ? 'disabled-provider' :''">
+                                  {{item.name}} 
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          </div> 
+                          
                         </div> 
 
                       </div>
@@ -449,13 +450,13 @@
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="merchant">Merchant ID</label>
                         </div>  
-                        <input type="text" class="form-control create-input" placeholder="Type merchant ID here" name="merchant" [(ngModel)]="online.merchant" #merchant="ngModel">
+                        <input type="text" class="form-control create-input" placeholder="Type merchant ID here" name="merchant" [(ngModel)]="payment.Mcptid" #merchant="ngModel">
                       </div>
                       <div class="form-group no-border">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="apikey">API key</label>
                         </div>  
-                        <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="online.apikey" #apikey="ngModel">
+                        <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
                       </div>
                     </div>
                   </div>

@@ -51,9 +51,12 @@ export class DashboardComponent implements OnInit {
   public online:any = {};
   public currency_symbol:any;
   public providers:any = {};
+  public providerTemp:any = {};
+  public providerArray:Array<any> = [];
   public newCurrency:any = {};
   public objectKeys: any;
   public selectedCurrency: any;
+  public selectedProvider: any= '';
   public selectedFlag: any;
   public invoiceData: any ={
     "companyName" : "",
@@ -178,6 +181,16 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.paymentData = res;
+      this.providerTemp = this.paymentData.paymentProviders;      
+
+      if(this.providerTemp.length > 0){
+        this.providerArray= [];
+        for(let j=0; j< this.providerTemp.length; j++){
+          this.providerArray.push(this.providerTemp[j].name)
+        }
+      }else{
+        this.providerArray = []
+      }
     }, err => {
       console.log(err)
     })
@@ -307,7 +320,7 @@ export class DashboardComponent implements OnInit {
   closeProvider(event) {
     console.log('~~~ :P')
     var parentWrap = event.path.filter(function(res){
-      return res.className == "provider-wrap"
+      return res.className == "current-currency d-flex justify-content-between"
     })
     if(parentWrap.length == 0){
       this.showProvider = false;
@@ -316,13 +329,17 @@ export class DashboardComponent implements OnInit {
 
   removeTempData(id){
     let dataIndex;
-    for(let x in this.paymentData.paymentProviders){
-      if(this.paymentData.paymentProviders[x].id == id){
+    for(let x in this.providerTemp){
+      if(this.providerTemp[x].id == id){
         dataIndex = x;
       }
     }
-    this.paymentData.paymentProviders.splice(dataIndex,1);
+    this.providerTemp.splice(dataIndex,1);
+    console.log(this.providerTemp);
     console.log(this.paymentData.paymentProviders);
+    if(this.providerTemp == 0){
+      this.payment = {}
+    }
   }
 
   selectCurrency(data, key){
@@ -332,7 +349,14 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = key;
   }
 
+  selectProvider(id, name){
+    console.log(id, '-' ,name)
+    this.selectedProvider = name
+    this.payment.name = name
+  }
+
   updateInvoice(data, type){
+    console.log(data)
     var body;
     data['currencyCode'] = this.selectedFlag;
     data['currencySign'] = this.selectedCurrency;
@@ -349,6 +373,18 @@ export class DashboardComponent implements OnInit {
       console.log('else')
       this.invoiceData['currencyCode'] = this.selectedFlag;
       this.invoiceData['currencySign'] = this.selectedCurrency;
+      if(this.isOnline == true){
+        console.log(this.payment)
+        if(this.payment.hasOwnProperty('name') == true){
+          console.log('no')
+          data.paymentProviders.push(this.payment);
+        }else{
+          data.paymentProviders = []
+          console.log('yes')
+        }
+      }else{
+        data.paymentProviders = []
+      }
       body = {
         'invoiceSettings': this.invoiceData,
         'paymentSettings': data
@@ -362,6 +398,7 @@ export class DashboardComponent implements OnInit {
       this.blockUI.stop();
       console.log(res)
       this.invoiceData = res.invoiceSettings;
+      this.paymentData = res.paymentSettings;
       this.cancel();
     }, err => {
       this.blockUI.stop();
@@ -375,6 +412,9 @@ export class DashboardComponent implements OnInit {
     this.invoice = {};
     this.online = {};
     this.isOnline = false;
+    this.selectedProvider= '';
+    this.getInvoiceSetting('invoiceSettings')
+    this.getPaymentSetting('paymentSettings')
   }
 
   numberOnly(event, type){
@@ -389,6 +429,16 @@ export class DashboardComponent implements OnInit {
 
   onlinePayment(){
     this.isOnline = !this.isOnline;
-    
+    if(this.isOnline == true){
+      this._service.paymentProvider()
+      .subscribe((res:any) => {
+        console.log(res)
+        this.providers = res;
+      }, err => {
+        console.log(err)
+      })
+    }else{
+      this.payment = {}
+    }
   }
 }
