@@ -453,13 +453,13 @@ export class CourseComponent implements OnInit {
 
   setMinDate(event){
     this.minDate = event;
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    // this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
   setMaxDate(date){
     this.maxDate =  date;
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    // this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
@@ -666,7 +666,7 @@ export class CourseComponent implements OnInit {
       this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
       console.log(this.end24HourFormat)
     }  
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    // this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
@@ -724,11 +724,13 @@ export class CourseComponent implements OnInit {
   }
 
   changeAdvancedSearch(val, type){
+    console.log(val,type);
     if(type == 'category'){
       if(val.length > 0){
         this._service.getSearchCategory(this.regionId, val, this.locationID)
         .subscribe((res:any) => {
           console.log(res);
+          
           this.categoryList = res;
         }, err => {  
           console.log(err);
@@ -781,19 +783,41 @@ export class CourseComponent implements OnInit {
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
     if(obj.startDate != undefined){
-      var tempStart = obj.startDate.day + ' ' + monthNames[obj.startDate.month -1] + ' ' + obj.startDate.year + ' ' + this.start24HourFormat + ' UTC'
+      console.log(this.start24HourFormat)
+      console.log(obj.startDate)
+      this.start24HourFormat = (this.start24HourFormat != undefined) ? this.start24HourFormat : '00:00:00';
+      var tempStart = obj.startDate.day + ' ' + monthNames[obj.startDate.month -1] + ' ' + obj.startDate.year + ' ' + this.start24HourFormat + ' UTC';
+      console.log(tempStart)
       var eventStartTemp = new Date(tempStart);
       var eventStart = eventStartTemp.toISOString();
     }else{
-      eventStart = null;
+      console.log(this.selectedEndHrRange)
+      console.log(this.selectedEndMinRange)
+      if(this.start24HourFormat != undefined){
+        var eventStartTemp = new Date(Date.UTC(0, 0, 0, this.start24HourFormat.substring(0, 2), this.start24HourFormat.substring(3), 0));
+        console.log(eventStartTemp)
+        var eventStart = eventStartTemp.toISOString();
+      }else{
+        eventStart = null;
+      }      
     }
 
     if(obj.endDate != undefined){
+      console.log(this.end24HourFormat)
+      this.end24HourFormat = (this.end24HourFormat != undefined) ? this.end24HourFormat : '23:59:59';
       var tempEnd = obj.endDate.day + ' ' + monthNames[obj.endDate.month -1] + ' ' + obj.endDate.year + ' ' + this.end24HourFormat + ' UTC'
       var eventEndTemp = new Date(tempEnd);
       var eventEnd = eventEndTemp.toISOString();
     }else{
-      eventEnd = null;
+      if(this.end24HourFormat != undefined){
+        var tempEnd = '9999-01-01' + ' ' + this.end24HourFormat + ' UTC';
+        console.log(tempEnd)
+        var eventEndTemp = new Date(tempEnd);
+        console.log(eventEndTemp)
+        var eventEnd = eventEndTemp.toISOString();
+      }else{
+        eventEnd = null;
+      }
     }
 
 
@@ -842,6 +866,7 @@ export class CourseComponent implements OnInit {
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
+          this.iswordcount = true;
         }else{
           console.log('else')
         }

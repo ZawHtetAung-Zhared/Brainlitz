@@ -9,6 +9,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { CourseComponent } from './components/course/course.component';
+import { ScheduleComponent } from "./components/schedule/schedule.component";
 import { ToolsComponent } from './components/tools/tools.component';
 import { ReportComponent } from './components/report/report.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
@@ -44,6 +45,11 @@ export const routes: Routes = [
     {
         path: 'customer',
         component: UsersComponent,
+        canActivate: [LoggedInGuard]
+    },
+    {
+        path: 'schedule',
+        component: ScheduleComponent,
         canActivate: [LoggedInGuard]
     },
     {

@@ -1107,10 +1107,11 @@ export class appService{
     advanceCourseSearch(regionID: string, locationID: string, keyword: string, repeatedDays, eventStart, eventEnd, planIDArray, categoryIDArray){
       this.getLocalstorage();
 
-      console.log(planIDArray)
+      console.log(keyword)
       console.log(categoryIDArray)
-      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword;
+      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID ;
 
+      url = (keyword != undefined) ? url +'&keyword=' + keyword : url;
       url = (repeatedDays != '') ? url + '&repeatedDays=' + repeatedDays : url;
       url = (eventStart != null) ? url + '&startDate=' + eventStart : url; 
       url = (eventEnd != null) ? url + '&endDate=' + eventEnd : url;

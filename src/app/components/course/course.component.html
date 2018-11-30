@@ -297,7 +297,7 @@
               **{{isvalid}}
               **{{!courseVal.keyword || isvalid }} -->
               <button type="button" class="btn cancel-as" (click)="cancelAS()">Cancel</button>
-              <button [disabled]="!courseVal.keyword || isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
+              <button [disabled]="isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
               <!-- <button [disabled]="!courseVal.keyword" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button> -->
             </div>
           </div>
