@@ -19,7 +19,7 @@
               (input)="searchCourse($event.target.value)"
               autocomplete="off"
               name="keyword"
-              (keyup)="searchStart($event)"
+              (keyup)="searchStart($event, 20, 0)"
               [(ngModel)]="courseVal.keyword" 
               #csearch="ngModel"
               (document:click)="closeSimpleSearch($event)"
@@ -29,7 +29,7 @@
             <div *ngIf="iscourseSearch && recentLists.length > 0" class="course-search-view">
               <p class="recent-search-title">Recently search</p>
               <ul class="recent-lists">
-                <li *ngFor="let recent of recentLists" (click)="recentSearch(recent)">{{recent}}</li>
+                <li *ngFor="let recent of recentLists" (click)="recentSearch(recent, 20, 0)">{{recent}}</li>
               </ul>
             </div>
         </div>
@@ -297,7 +297,7 @@
               **{{isvalid}}
               **{{!courseVal.keyword || isvalid }} -->
               <button type="button" class="btn cancel-as" (click)="cancelAS()">Cancel</button>
-              <button [disabled]="isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
+              <button [disabled]="isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal, 20,0)">Search</button>
               <!-- <button [disabled]="!courseVal.keyword" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button> -->
             </div>
           </div>

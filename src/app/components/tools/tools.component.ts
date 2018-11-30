@@ -205,6 +205,7 @@ export class ToolsComponent implements OnInit {
       this.isFousCourse = false;
       this.isFousCategory = false;
     }, 300);
+
   }
 
   changeSearch(searchWord, type){
@@ -259,11 +260,19 @@ export class ToolsComponent implements OnInit {
       }
       
     }else if(type == 'category'){
+// <<<<<<< HEAD
+//       this._service.getSearchCategory(this.regionID, searchWord, this.locationId)
+//       // this._service.getSearchCategory(this.regionID, searchWord, 'all', 20, 0, '')
+//       .subscribe((res:any) => {
+//         console.log(res);
+//         this.categoryLists = res;
+// =======
       if(searchWord.length != 0){
         this._service.getSearchCategory(this.regionID, searchWord, this.locationId)
         .subscribe((res:any) => {
           console.log(res);
           this.categoryLists = res;
+// >>>>>>> 7f7d5ab9199d560503b054b5130f4612d80b725d
 
         }, err => {  
           console.log(err);
@@ -282,8 +291,8 @@ export class ToolsComponent implements OnInit {
   }
 
   selectData(id, name, type){
-    console.log(id)
-    console.log('~~~', this.active.length)
+    console.log(id,name,type)
+    console.log('~~~~~', this.active.length)
     this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
