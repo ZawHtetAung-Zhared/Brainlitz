@@ -883,7 +883,7 @@ export class UsersComponent implements OnInit {
 				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
 				 this.invoiceID = this.invoice[i]._id;
 				 this.refInvID = this.invoice[i].refInvoiceId;
-				 this.invTaxName = this.invoice[i].taxName;
+				 this.invTaxName = this.invoice[i].tax.name;
 				 var n = this.invoice[i].total;
 				 this.total = n.toFixed(2);
 				 console.log('n and total',n,this.total);
@@ -1050,9 +1050,11 @@ export class UsersComponent implements OnInit {
 		if(type == 'reg'){
 			this.hideReg = true;
 			this.updateInvData["registrationFee"] = null;
+			this.calculateHideFees('reg');
 		}else{
 			this.hideDeposit = true;
 			this.updateInvData["deposit"] = null;
+			this.calculateHideFees('deposit');
 		}
 	}
 

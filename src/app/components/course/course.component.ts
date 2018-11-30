@@ -1197,11 +1197,11 @@ export class CourseComponent implements OnInit {
        this.dueDate = this.dateFormat(invoice[i].dueDate);
        this.invoiceID = invoice[i]._id;
        this.refInvID = invoice[i].refInvoiceId;
-       this.invTaxName = invoice[i].taxName;
+       this.invTaxName = invoice[i].tax.name;
        var n = invoice[i].total;
        this.total = n.toFixed(2);
        console.log('n and total',n,this.total);
-       this.invoiceCourse["fees"] = invoice[i].courseFee;
+       this.invoiceCourse["fees"] = invoice[i].courseFee.fee;
        if(invoice[i].courseId == this.detailLists._id){
          this.invoiceCourse["name"] = this.detailLists.name;
          this.invoiceCourse["startDate"] = this.detailLists.startDate;
@@ -1718,10 +1718,15 @@ export class CourseComponent implements OnInit {
     console.log("updateCfee",data);
     this.feesBox = false;
     for(var i in this.invoice){
-      if(this.invoice[i].courseFee != data){
+      if(this.invoice[i].courseFee.fee != data){
         console.log("===not same");
         this.updateInvData["courseFee"] = data;
-        this.invoice[i].courseFee = data;
+        this.invoice[i].courseFee.fee = data;
+        var taxRate = Number(this.invoice[i].tax.rate)/100;
+        console.log("taxRate",taxRate);
+        this.invoice[i].courseFee.tax = (this.invoice[i].courseFee.fee * taxRate).toFixed(2);
+        console.log(this.invoice[i].courseFee.tax)
+        this.calculateHideFees('cFees')
       }else{
         console.log("===same");
       } 
@@ -1859,9 +1864,42 @@ export class CourseComponent implements OnInit {
     if(type == 'reg'){
       this.hideReg = true;
       this.updateInvData["registrationFee"] = null;
+      // for (var i in this.invoice) {
+      //   var regFee = this.invoice[i].registrationFee;
+      //   var regTax = this.invoice[i].taxOnRegistrationFee;
+      // }
+      this.calculateHideFees(type);
     }else{
       this.hideDeposit = true;
       this.updateInvData["deposit"] = null;
+      this.calculateHideFees(type);
+    }
+  }
+
+  calculateHideFees(type){
+    console.log("calculateHideFees");
+    for (var i in this.invoice) {
+      if(this.hideReg == true){
+        var regFees = 0;
+        var regTax = 0;
+      }else{
+        var regFees = this.invoice[i].registrationFee.fee;
+        var regTax = this.invoice[i].registrationFee.tax;
+      }
+
+      if(this.hideDeposit == true){
+        var deposit = 0;
+      }else{
+        var deposit = this.invoice[i].deposit;
+      }
+      var totalTaxes = regTax+this.invoice[i].courseFee.tax;
+      this.invoice[i].subtotal = regFees + deposit + this.invoice[i].courseFee.fee;
+      this.total = Number(this.invoice[i].subtotal)+ Number(totalTaxes);
+      // this.invoice[i].total = Number(totalPrice).toFixed(2);
+      // this.total = Number(this.invoice[i].total).toFixed(2);
+      console.log("Subtotal",this.invoice[i].subtotal);
+      console.log("Total",this.total);
+      // console.log("TTT",this.invoice[i].subtotal+totalTaxes)
     }
   }
 

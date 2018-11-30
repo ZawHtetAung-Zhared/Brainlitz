@@ -1768,6 +1768,7 @@ export class appService{
     }
 
     getSingleInvoice(invoiceId:string){
+      console.log('invID',invoiceId)
       let apiUrl = this.baseUrl + '/invoices/' + invoiceId;
 
       const httpOptions = {
