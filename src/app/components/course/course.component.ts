@@ -21,6 +21,7 @@ export class CourseComponent implements OnInit {
   code:any ;
   public showStudentOption:any = '';
   public isvalid:boolean = false;
+  public searchMore:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
   public planList:any;
@@ -67,6 +68,10 @@ export class CourseComponent implements OnInit {
   public iscourseSearch:boolean = false;
   public categorySearch:boolean = false;
   public planSearch:boolean = false;
+  public searchVal:any = '';
+  public searchObj:any = '';
+  public simple:boolean = false;
+  public advance:boolean = false;
   public isAdvancedSearch:boolean = false;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
@@ -329,9 +334,11 @@ export class CourseComponent implements OnInit {
 
   clearSearch(){
     console.log('clear')
+    this.searchVal = '';
     this.iswordcount = false;
     this.iscourseSearch = false;  
     this.advancedSearchOn = false;
+    this.searchMore = false;
     this.courseList = [];
     this.resetAS();
     this.getCourseLists(20, 0);
@@ -575,6 +582,8 @@ export class CourseComponent implements OnInit {
   }
 
   showAdvancedSearch(){
+    this.searchVal = '';
+    this.simple = false;
     this.isAdvancedSearch = true;
     this.isChecked = 'AM';
     this.isEndChecked = 'AM';
@@ -681,13 +690,15 @@ export class CourseComponent implements OnInit {
     return sHours + ":" + sMinutes ;
   }
 
-  recentSearch(val){
+  recentSearch(val, limit, skip){
+    this.searchVal = val;
     this.courseVal.keyword = val;
     this.iswordcount = true;
-    this._service.simpleCourseSearch(this.regionId, val ,this.locationID)
+    this._service.simpleCourseSearch(this.regionId, val ,this.locationID, limit, skip)
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
+        this.searchMore = (res.length > 20) ? true : false;
         this.courseList = res;
         this.iscourseSearch = false;
       },err =>{
@@ -695,17 +706,21 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  searchStart(e){
+  searchStart(e, limit, skip){
+    this.searchVal = e.target.value;
     if(e.keyCode == 13){
       this.recentLists.unshift(e.target.value)
       this.blockUI.start('Loading...');    
-      this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID)
+      this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID, limit, skip)
       .subscribe((res:any)=>{
           this.blockUI.stop();
           console.log(res)
           this.courseList = res;
           $("#course-search").blur();
           this.iscourseSearch = false;
+          this.searchMore = (res.length > 20) ? true : false;
+          this.advance = false;
+          this.simple = true;
         },err =>{
           console.log(err);
       }); 
@@ -773,9 +788,10 @@ export class CourseComponent implements OnInit {
     this.advancedSearch(this.courseVal);
   }
 
-  advancedSearch(obj){
+  advancedSearch(obj, limit, skip){
     console.log(obj)
     console.log(this.days)
+    this.searchObj = obj;
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
@@ -843,6 +859,8 @@ export class CourseComponent implements OnInit {
     var plans = (this.planIDArray.length >0) ? tempPlans.toString() : null;
     var cats = (this.categoryIDArray.length >0) ? tempCats.toString() : null;
 
+    this.searchVal = obj.keyword;
+
     console.log(repeatedDays)
     console.log(eventStart);
     console.log(eventEnd);
@@ -852,14 +870,16 @@ export class CourseComponent implements OnInit {
     this.recentLists.unshift(obj.keyword)
     this.advancedSearchOn = (this.planIDArray != null || this.categoryIDArray != null || repeatedDays != null) ? true : false;
     this.blockUI.start('Loading...');
-    this._service.advanceCourseSearch(this.regionId ,this.locationID, obj.keyword, repeatedDays,eventStart, eventEnd, plans, cats)
+    this._service.advanceCourseSearch(this.regionId ,this.locationID, obj.keyword, repeatedDays,eventStart, eventEnd, plans, cats, limit, skip)
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
+        this.searchMore = (res.length > 20) ? true : false;
         this.courseList = res;
         this.iscourseSearch = false;
         this.isAdvancedSearch = false;
-
+        this.advance = true;
+        this.simple = false;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
@@ -887,6 +907,8 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.showInvoice = false;
     this.showPayment = false;
+    this.searchMore = false;
+    this.iswordcount = false;
     this.paymentItem = {};
   }
 
@@ -1599,7 +1621,19 @@ export class CourseComponent implements OnInit {
 
   showMore(skip: any){
     console.log(skip)
-    this.getCourseLists(20, skip);
+    console.log(this.simple)
+    console.log(this.searchMore)
+    if(this.searchMore == true){
+      if(this.simple == true){
+        console.log('in the if')
+        this.recentSearch(this.searchVal, 20, skip);
+      }else{
+        console.log('in the else')
+        this.advancedSearch(this.searchObj, 20, skip);
+      }
+    }else{
+      this.getCourseLists(20, skip);
+    }
   }
 
   getCourseLists(limit, skip){
