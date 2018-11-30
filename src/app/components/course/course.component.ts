@@ -788,7 +788,7 @@ export class CourseComponent implements OnInit {
       this.tempPlan = [];
       this.planIDArray = [];
     }
-    this.advancedSearch(this.courseVal);
+    this.advancedSearch(this.courseVal, 20,0);
   }
 
   advancedSearch(obj, limit, skip){
