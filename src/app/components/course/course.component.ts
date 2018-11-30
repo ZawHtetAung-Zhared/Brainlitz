@@ -104,6 +104,7 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public currency = JSON.parse(localStorage.getItem('currency'));
   public pplLists:any;
   public apgLists:any;
   public removeUser:any;
@@ -129,7 +130,7 @@ export class CourseComponent implements OnInit {
   public discount:number;
   public value:any = {};
   public showMailPopup:boolean = false;
-  public invoiceInfo:any;
+  public invoiceInfo:any = {};
   public invoice:any;
   public updatedDate;
   public dueDate;
@@ -292,11 +293,13 @@ export class CourseComponent implements OnInit {
     this.userLists = [{}];
     
     this.invoiceInfo = {
-      'companyName': ''
+      'companyName': '',
+      'tax':{
+        'name': ''
+      }
     }
 
     this.paymentProviders = '';
-    this.invoiceInfo = '';
     
   }
 

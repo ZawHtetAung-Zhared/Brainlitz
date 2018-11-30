@@ -235,7 +235,7 @@
 								<div>
 									<div class="input-group input-group-bg mb-2 mr-sm-2">
 										<div class="input-group-prepend">
-										  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">S$</div>
+										  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">{{ currency.invCurrencySign }}</div>
 										</div>
 										<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
 										(focus)="showFocus($event,'optionFee')"
@@ -254,7 +254,7 @@
 							</div>
 						</div>
 						<div class="d-flex pdLeft-15" *ngFor="let opt of optArr">
-							<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{opt.fees}}</p>
+							<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{ currency.invCurrencySign }} {{opt.fees}}</p>
 						</div>
 					</div>
 				</div>
@@ -619,7 +619,7 @@
 							<div>
 								 <div class="form-group has-feedback" (click)="depositDropdown()">
 								 	<div>
-								 		<span class="deposit-sign">S$</span>
+								 		<span class="deposit-sign">{{ currency.invCurrencySign }}</span>
 							    		<input class="cursor-on form-control br-bshadow-none all-left-box-10 pad-left-40"  name="UserName"  type="text" [(ngModel)]="formField.depositAmount" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
 						    		</div>
 							     </div>
@@ -638,7 +638,7 @@
 						    	<label class="sr-only" for="inlineFormInputGroupmisFee">0</label>
 								<div class="input-group input-group-bg mb-2 mr-sm-2">
 								    <div class="input-group-prepend">
-								      <div class="input-group-text misfee-bg">S$</div>
+								      <div class="input-group-text misfee-bg">{{ currency.invCurrencySign }}</div>
 								    </div>
 								    <input type="number" class="form-control" id="inlineFormInputGroupmisFee" (click)='toKnowFocus("misFee")' (keypress)="numberOnly($event, 'miscelFee')" placeholder="0" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" [(ngModel)]="formField.paymentPolicy.miscFee" min="0" name="miscFee" #miscfee="ngModel">
 								</div>
@@ -660,7 +660,7 @@
 						    	<!-- <label class="sr-only" for="inlineFormInputGroupmisFee">0</label> -->
 								<div *ngIf="formField.paymentPolicy.allowProrated == true" class="input-group input-group-bg mb-2 mr-sm-2 all-left-box-10">
 								    <div class="input-group-prepend">
-								      <div class="input-group-text profee-bg">S$</div>
+								      <div class="input-group-text profee-bg">{{ currency.invCurrencySign }}</div>
 								    </div>
 								    <input type="number" class="form-control" id="inlineFormInputGroupmisFee" (click)='toKnowFocus("prorateFee")' (keypress)="numberOnly($event, 'prorateFee')" placeholder="0" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" [(ngModel)]="formField.paymentPolicy.proratedLessonFee" min="0" name="proratedLessonFee" #proratedLessonFee="ngModel">
 								</div>

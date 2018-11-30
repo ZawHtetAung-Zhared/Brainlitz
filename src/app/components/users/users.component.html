@@ -536,23 +536,23 @@
 				    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
 				    					<div *ngIf="course.paymentPolicy.courseFee != null">
 				    						<h5>Course fee</h5>
-				    						<sup>$</sup><b>{{course.paymentPolicy.courseFee}}</b>
+				    						<sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.courseFee}}</b>
 				    					</div>
 				    					<div *ngIf="course.paymentPolicy.proratedLessonFee != null" class="mt-16">
 				    						<h5>Prorate class fee</h5>
-				    						<sup>$</sup><b>{{course.paymentPolicy.proratedLessonFee}}</b>
+				    						<sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.proratedLessonFee}}</b>
 				    					</div>
 				    				</div>
 				    				<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
 					    				<div>
 					    					<div *ngIf="course.paymentPolicy.deposit">
 					    						<h5>Deposit</h5>
-					    						<sup>$</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
+					    						<sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
 					    					</div>
 					    				</div>
 				    					<div class="mt-16" *ngIf="course.paymentPolicy.miscFee != null">
 				    						<h5>Miscellaneous fee</h5>
-				    						<sup>$</sup><b>{{course.paymentPolicy.miscFee}}</b>
+				    						<sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.miscFee}}</b>
 				    					</div>
 				    				</div>
 				    			</div>
@@ -659,7 +659,7 @@
 	                    <h5>CourseFee</h5>
 	                    <div class="d-flex popup-input">
 	                      <div class="input-sign">
-	                       {{ data.currency.sign }}
+	                       {{ currency.invCurrencySign }}
 	                      </div>
 	                      <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
 	                    </div>
@@ -684,7 +684,7 @@
 	              <div class="col-md-2 p-0 text-right price-info">
 	                {{data.taxOnCourseFee}}
 	              </div>
-	              <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.courseFee}}</div>
+	              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.courseFee}}</div>
 	            </div>
 	          </div>
 	        </div>
@@ -703,7 +703,7 @@
 	            <div class="col-md-2 p-0 text-right price-info">
 	              {{data.taxOnRegistrationFee}}
 	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.registrationFee}}</div>
+	            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee}}</div>
 	          </div>
 	        </div>
 	        <div *ngIf="hideDeposit == false && data.deposit != null" class="d-flex inv-row">
@@ -717,7 +717,7 @@
 	              <p class="mb-0">{{data.deposit}}</p>
 	            </div>
 	            <div class="col-md-2 p-0 text-right price-info"></div>
-	            <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.deposit}}</div>
+	            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.deposit}}</div>
 	          </div>
 	        </div>
 	        <hr class="invoice-hr">
@@ -732,7 +732,7 @@
 	                <div class="col-sm-5 p-0">
 	                </div>
 	              </div>
-	              <div class="col-md-4 text-right">{{data.currency.sign}} {{ data.subtotal }}</div>
+	              <div class="col-md-4 text-right">{{ currency.invCurrencySign }} {{ data.subtotal }}</div>
 	            </div>
 	            <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
 	              <div class="col-md-8 d-flex p-0">
@@ -741,7 +741,7 @@
 	                </div>
 	                <div class="col-sm-5 text-right p-0"></div>
 	              </div>
-	              <div class="col-md-4 text-right">{{data.currency.sign}}  {{ total }}</div>
+	              <div class="col-md-4 text-right">{{ currency.invCurrencySign }}  {{ total }}</div>
 	            </div>
 	          </div>
 	        </div>
@@ -798,7 +798,7 @@
 	            <label class="payment-label">Amount</label>
 	            <div class="d-flex popup-input w-75">
 	              <div class="input-sign">
-	                S$
+	                {{ currency.invCurrencySign }}
 	              </div>
 	              <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount">
 	            </div>
