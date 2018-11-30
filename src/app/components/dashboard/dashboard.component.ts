@@ -403,6 +403,12 @@ export class DashboardComponent implements OnInit {
       console.log(res)
       this.invoiceData = res.invoiceSettings;
       this.paymentData = res.paymentSettings;
+      let currency = {
+      'invCurrencyCode': res.invoiceSettings.currencyCode,
+      'invCurrencySign': res.invoiceSettings.currencySign
+    };
+    console.log(currency);
+    localStorage.setItem('currency',JSON.stringify(currency))
       this.cancel();
     }, err => {
       this.blockUI.stop();

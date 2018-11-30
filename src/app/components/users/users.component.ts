@@ -99,6 +99,7 @@ export class UsersComponent implements OnInit {
 
 	/*for invoice*/
 	public showInvoice:boolean = false;
+	public currency = JSON.parse(localStorage.getItem('currency'));
 	public logo:any = localStorage.getItem("OrgLogo");
 	public showBox:boolean = false;
 	public discount:number = 0;

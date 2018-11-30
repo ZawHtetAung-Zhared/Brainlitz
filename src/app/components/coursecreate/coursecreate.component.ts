@@ -23,6 +23,7 @@ export class CoursecreateComponent implements OnInit {
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   public courseID = localStorage.getItem('courseID');
+  public currency = JSON.parse(localStorage.getItem('currency'));
   @BlockUI() blockUI: NgBlockUI;
   public addCheck: boolean = false;
   public isthereLC: boolean = false;
@@ -114,6 +115,7 @@ export class CoursecreateComponent implements OnInit {
   ngOnInit() { 
     console.log("CPLan",this.coursePlan)
     console.log("CourseID",this.courseID);
+    console.log("Currency",this.currency);
     // this.isChecked = 'end';
     this.isSelected = 'AM';
     this.rangeHr = '0';
