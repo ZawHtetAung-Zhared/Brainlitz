@@ -102,7 +102,7 @@
 						     <div class="dropdown-wrap" *ngIf="feeOptShow == true">
 					          <ul class="feeOpt-dropdown">
 					            <li *ngFor="let key of objectKeys(feesOptions)">
-					              <span (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ feesOptions[key]}}</span>
+					              <span (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ currency.invCurrencySign }} {{ feesOptions[key]}}</span>
 					            </li>
 					          </ul>
 					        </div>
@@ -560,7 +560,7 @@
 						<div class="name-label font-medium">{{timetable.lessons_count}}</div>
 					</div>
 					<div *ngIf="courseFeess" class="flex-item2" [ngClass]="{'borderL': courseFeess}">
-						<sup class="font-semi sup-sign">S$</sup><span class="font-medium font-20">{{courseFeess}}</span>
+						<sup class="font-semi sup-sign">{{ currency.invCurrencySign }}</sup><span class="font-medium font-20">{{courseFeess}}</span>
 					</div>
 				</div>
 				<hr class="hr-line">
@@ -579,7 +579,7 @@
 						</div>
 					</div>
 					<div *ngIf="courseFeess" class="table-item">
-						<sup class="font-semi sup-detail-sign">S$</sup><span class="font-medium font-20">{{ courseFeess }}</span>
+						<sup class="font-semi sup-detail-sign">{{ currency.invCurrencySign }}</sup><span class="font-medium font-20">{{ courseFeess }}</span>
 					</div>
 				</div>
 				<div class="table-body">

@@ -21,6 +21,7 @@ export class CourseComponent implements OnInit {
   code:any ;
   public showStudentOption:any = '';
   public isvalid:boolean = false;
+  public searchMore:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
   public planList:any;
@@ -67,6 +68,10 @@ export class CourseComponent implements OnInit {
   public iscourseSearch:boolean = false;
   public categorySearch:boolean = false;
   public planSearch:boolean = false;
+  public searchVal:any = '';
+  public searchObj:any = '';
+  public simple:boolean = false;
+  public advance:boolean = false;
   public isAdvancedSearch:boolean = false;
   public isSeatAvailable:boolean = true;
   emptyCourse:boolean = false;
@@ -99,6 +104,7 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public currency = JSON.parse(localStorage.getItem('currency'));
   public pplLists:any;
   public apgLists:any;
   public removeUser:any;
@@ -124,7 +130,7 @@ export class CourseComponent implements OnInit {
   public discount:number;
   public value:any = {};
   public showMailPopup:boolean = false;
-  public invoiceInfo:any;
+  public invoiceInfo:any = {};
   public invoice:any;
   public updatedDate;
   public dueDate;
@@ -287,11 +293,13 @@ export class CourseComponent implements OnInit {
     this.userLists = [{}];
     
     this.invoiceInfo = {
-      'companyName': ''
+      'companyName': '',
+      'tax':{
+        'name': ''
+      }
     }
 
     this.paymentProviders = '';
-    this.invoiceInfo = '';
     
   }
 
@@ -329,9 +337,11 @@ export class CourseComponent implements OnInit {
 
   clearSearch(){
     console.log('clear')
+    this.searchVal = '';
     this.iswordcount = false;
     this.iscourseSearch = false;  
     this.advancedSearchOn = false;
+    this.searchMore = false;
     this.courseList = [];
     this.resetAS();
     this.getCourseLists(20, 0);
@@ -450,13 +460,13 @@ export class CourseComponent implements OnInit {
 
   setMinDate(event){
     this.minDate = event;
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    // this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
   setMaxDate(date){
     this.maxDate =  date;
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    // this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
@@ -575,6 +585,8 @@ export class CourseComponent implements OnInit {
   }
 
   showAdvancedSearch(){
+    this.searchVal = '';
+    this.simple = false;
     this.isAdvancedSearch = true;
     this.isChecked = 'AM';
     this.isEndChecked = 'AM';
@@ -663,7 +675,7 @@ export class CourseComponent implements OnInit {
       this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
       console.log(this.end24HourFormat)
     }  
-    this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
+    // this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
 
@@ -681,13 +693,15 @@ export class CourseComponent implements OnInit {
     return sHours + ":" + sMinutes ;
   }
 
-  recentSearch(val){
+  recentSearch(val, limit, skip){
+    this.searchVal = val;
     this.courseVal.keyword = val;
     this.iswordcount = true;
-    this._service.simpleCourseSearch(this.regionId, val ,this.locationID)
+    this._service.simpleCourseSearch(this.regionId, val ,this.locationID, limit, skip)
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
+        this.searchMore = (res.length > 20) ? true : false;
         this.courseList = res;
         this.iscourseSearch = false;
       },err =>{
@@ -695,17 +709,21 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  searchStart(e){
+  searchStart(e, limit, skip){
+    this.searchVal = e.target.value;
     if(e.keyCode == 13){
       this.recentLists.unshift(e.target.value)
       this.blockUI.start('Loading...');    
-      this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID)
+      this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID, limit, skip)
       .subscribe((res:any)=>{
           this.blockUI.stop();
           console.log(res)
           this.courseList = res;
           $("#course-search").blur();
           this.iscourseSearch = false;
+          this.searchMore = (res.length > 20) ? true : false;
+          this.advance = false;
+          this.simple = true;
         },err =>{
           console.log(err);
       }); 
@@ -770,29 +788,52 @@ export class CourseComponent implements OnInit {
       this.tempPlan = [];
       this.planIDArray = [];
     }
-    this.advancedSearch(this.courseVal);
+    this.advancedSearch(this.courseVal, 20,0);
   }
 
-  advancedSearch(obj){
+  advancedSearch(obj, limit, skip){
     console.log(obj)
     console.log(this.days)
+    this.searchObj = obj;
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
     if(obj.startDate != undefined){
-      var tempStart = obj.startDate.day + ' ' + monthNames[obj.startDate.month -1] + ' ' + obj.startDate.year + ' ' + this.start24HourFormat + ' UTC'
+      console.log(this.start24HourFormat)
+      console.log(obj.startDate)
+      this.start24HourFormat = (this.start24HourFormat != undefined) ? this.start24HourFormat : '00:00:00';
+      var tempStart = obj.startDate.day + ' ' + monthNames[obj.startDate.month -1] + ' ' + obj.startDate.year + ' ' + this.start24HourFormat + ' UTC';
+      console.log(tempStart)
       var eventStartTemp = new Date(tempStart);
       var eventStart = eventStartTemp.toISOString();
     }else{
-      eventStart = null;
+      console.log(this.selectedEndHrRange)
+      console.log(this.selectedEndMinRange)
+      if(this.start24HourFormat != undefined){
+        var eventStartTemp = new Date(Date.UTC(0, 0, 0, this.start24HourFormat.substring(0, 2), this.start24HourFormat.substring(3), 0));
+        console.log(eventStartTemp)
+        var eventStart = eventStartTemp.toISOString();
+      }else{
+        eventStart = null;
+      }      
     }
 
     if(obj.endDate != undefined){
+      console.log(this.end24HourFormat)
+      this.end24HourFormat = (this.end24HourFormat != undefined) ? this.end24HourFormat : '23:59:59';
       var tempEnd = obj.endDate.day + ' ' + monthNames[obj.endDate.month -1] + ' ' + obj.endDate.year + ' ' + this.end24HourFormat + ' UTC'
       var eventEndTemp = new Date(tempEnd);
       var eventEnd = eventEndTemp.toISOString();
     }else{
-      eventEnd = null;
+      if(this.end24HourFormat != undefined){
+        var tempEnd = '9999-01-01' + ' ' + this.end24HourFormat + ' UTC';
+        console.log(tempEnd)
+        var eventEndTemp = new Date(tempEnd);
+        console.log(eventEndTemp)
+        var eventEnd = eventEndTemp.toISOString();
+      }else{
+        eventEnd = null;
+      }
     }
 
 
@@ -821,6 +862,8 @@ export class CourseComponent implements OnInit {
     var plans = (this.planIDArray.length >0) ? tempPlans.toString() : null;
     var cats = (this.categoryIDArray.length >0) ? tempCats.toString() : null;
 
+    this.searchVal = obj.keyword;
+
     console.log(repeatedDays)
     console.log(eventStart);
     console.log(eventEnd);
@@ -830,17 +873,20 @@ export class CourseComponent implements OnInit {
     this.recentLists.unshift(obj.keyword)
     this.advancedSearchOn = (this.planIDArray != null || this.categoryIDArray != null || repeatedDays != null) ? true : false;
     this.blockUI.start('Loading...');
-    this._service.advanceCourseSearch(this.regionId ,this.locationID, obj.keyword, repeatedDays,eventStart, eventEnd, plans, cats)
+    this._service.advanceCourseSearch(this.regionId ,this.locationID, obj.keyword, repeatedDays,eventStart, eventEnd, plans, cats, limit, skip)
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
+        this.searchMore = (res.length > 20) ? true : false;
         this.courseList = res;
         this.iscourseSearch = false;
         this.isAdvancedSearch = false;
-
+        this.advance = true;
+        this.simple = false;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
+          this.iswordcount = true;
         }else{
           console.log('else')
         }
@@ -864,6 +910,8 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.showInvoice = false;
     this.showPayment = false;
+    this.searchMore = false;
+    this.iswordcount = false;
     this.paymentItem = {};
   }
 
@@ -1576,7 +1624,19 @@ export class CourseComponent implements OnInit {
 
   showMore(skip: any){
     console.log(skip)
-    this.getCourseLists(20, skip);
+    console.log(this.simple)
+    console.log(this.searchMore)
+    if(this.searchMore == true){
+      if(this.simple == true){
+        console.log('in the if')
+        this.recentSearch(this.searchVal, 20, skip);
+      }else{
+        console.log('in the else')
+        this.advancedSearch(this.searchObj, 20, skip);
+      }
+    }else{
+      this.getCourseLists(20, skip);
+    }
   }
 
   getCourseLists(limit, skip){

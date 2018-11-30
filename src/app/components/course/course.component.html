@@ -19,7 +19,7 @@
               (input)="searchCourse($event.target.value)"
               autocomplete="off"
               name="keyword"
-              (keyup)="searchStart($event)"
+              (keyup)="searchStart($event, 20, 0)"
               [(ngModel)]="courseVal.keyword" 
               #csearch="ngModel"
               (document:click)="closeSimpleSearch($event)"
@@ -29,7 +29,7 @@
             <div *ngIf="iscourseSearch && recentLists.length > 0" class="course-search-view">
               <p class="recent-search-title">Recently search</p>
               <ul class="recent-lists">
-                <li *ngFor="let recent of recentLists" (click)="recentSearch(recent)">{{recent}}</li>
+                <li *ngFor="let recent of recentLists" (click)="recentSearch(recent, 20, 0)">{{recent}}</li>
               </ul>
             </div>
         </div>
@@ -297,7 +297,7 @@
               **{{isvalid}}
               **{{!courseVal.keyword || isvalid }} -->
               <button type="button" class="btn cancel-as" (click)="cancelAS()">Cancel</button>
-              <button [disabled]="!courseVal.keyword || isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
+              <button [disabled]="isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal, 20,0)">Search</button>
               <!-- <button [disabled]="!courseVal.keyword" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button> -->
             </div>
           </div>
@@ -451,14 +451,14 @@
           <div>
             <h5>Course fee</h5>
             <div *ngIf="detailLists.paymentPolicy.courseFee != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
+              <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.courseFee == null">-</b>
           </div>
           <div class="mt-32">
             <h5>Miscellaneous fee</h5>
             <div *ngIf="detailLists.paymentPolicy.miscFee != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
+              <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.miscFee == null">-</b>
           </div>
@@ -467,14 +467,14 @@
           <div>
             <h5>Deposit</h5>
             <div *ngIf="detailLists.paymentPolicy.deposit.amount != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+              <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.deposit.amount == null">-</b>
           </div>
           <div class="mt-32">
             <h5>Prorated class fee</h5>
             <div *ngIf="detailLists.paymentPolicy.proratedLessonFee != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+              <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.proratedLessonFee == null">-</b>
           </div>
@@ -1104,7 +1104,7 @@
                     <h5>CourseFee</h5>
                     <div class="d-flex popup-input">
                       <div class="input-sign">
-                       {{ data.currency.sign }}
+                       {{ currency.invCurrencySign }}
                       </div>
                       <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
                     </div>
@@ -1129,7 +1129,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.taxOnCourseFee}}
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.courseFee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.courseFee}}</div>
             </div>
           </div>
         </div>
@@ -1148,7 +1148,7 @@
             <div class="col-md-2 p-0 text-right price-info">
               {{data.taxOnRegistrationFee}}
             </div>
-            <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.registrationFee}}</div>
+            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee}}</div>
           </div>
         </div>
         <div *ngIf="hideDeposit == false && data.deposit != null" class="d-flex inv-row">
@@ -1162,7 +1162,7 @@
               <p class="mb-0">{{data.deposit}}</p>
             </div>
             <div class="col-md-2 p-0 text-right price-info"></div>
-            <div class="col-md-2 p-0 text-right price-info">{{data.currency.sign}} {{data.deposit}}</div>
+            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.deposit}}</div>
           </div>
         </div>
         <hr class="invoice-hr">
@@ -1177,7 +1177,7 @@
                 <div class="col-sm-5 p-0">
                 </div>
               </div>
-              <div class="col-md-4 text-right">{{data.currency.sign}} {{ data.subtotal }}</div>
+              <div class="col-md-4 text-right">{{ currency.invCurrencySign }} {{ data.subtotal }}</div>
             </div>
             <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
@@ -1247,7 +1247,7 @@
                 </div>
                 <div class="col-sm-5 text-right p-0"></div>
               </div>
-              <div class="col-md-4 text-right">{{data.currency.sign}}  {{ total }}</div>
+              <div class="col-md-4 text-right">{{ currency.invCurrencySign }}  {{ total }}</div>
             </div>
           </div>
         </div>
@@ -1304,7 +1304,7 @@
               <label class="payment-label">Amount</label>
               <div class="d-flex popup-input w-75">
                 <div class="input-sign">
-                  S$
+                  {{ currency.invCurrencySign }}
                 </div>
                 <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount">
               </div>

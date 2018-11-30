@@ -51,6 +51,7 @@ export class CourseplanComponent implements OnInit {
   public createButton: boolean = true;
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public currency = JSON.parse(localStorage.getItem('currency'));
   editId: any;
   selectcPlan: any;
   viewCplan: any;

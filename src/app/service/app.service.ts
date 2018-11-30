@@ -1089,13 +1089,14 @@ export class appService{
             
     }
 
-    simpleCourseSearch(regionID: string, keyword: string, locationID: string){
+    simpleCourseSearch(regionID: string, keyword: string, locationID: string, limit, skip){
       this.getLocalstorage();
-      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword;
+      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
+
       return this.httpClient.get(url, httpOptions)
       .map((res:Response) => {
         let result = res;
@@ -1104,18 +1105,21 @@ export class appService{
       }) 
     }
 
-    advanceCourseSearch(regionID: string, locationID: string, keyword: string, repeatedDays, eventStart, eventEnd, planIDArray, categoryIDArray){
+    advanceCourseSearch(regionID: string, locationID: string, keyword: string, repeatedDays, eventStart, eventEnd, planIDArray, categoryIDArray, limit, skip){
       this.getLocalstorage();
 
-      console.log(planIDArray)
+      console.log(keyword)
       console.log(categoryIDArray)
-      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword;
+      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID ;
 
+      url = (keyword != undefined) ? url +'&keyword=' + keyword : url;
       url = (repeatedDays != '') ? url + '&repeatedDays=' + repeatedDays : url;
       url = (eventStart != null) ? url + '&startDate=' + eventStart : url; 
       url = (eventEnd != null) ? url + '&endDate=' + eventEnd : url;
       url = (categoryIDArray != null)  ? url + '&categoryId=' + categoryIDArray : url;
       url = (planIDArray != null) ? url + '&coursePlanId='+ planIDArray : url;
+
+      url = url + '&limit=' + limit + '&skip=' + skip;
 
       console.log(url)
       const httpOptions = {
