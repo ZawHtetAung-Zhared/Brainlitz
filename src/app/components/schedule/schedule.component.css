@@ -36,6 +36,16 @@
     padding: 10px;
     box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
+  .day-checkbox{
+    width: 48px;
+    height: 44px;
+    border-radius: 4px;
+    margin: 16px 10px 5px 0px;
+    color: #2e3e4d;
+    padding: 10px 0px 10px 0px;
+    box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+    text-align: center;
+  }
 .round-tick{
   width: 20px;
   height: 20px;
@@ -74,8 +84,12 @@
 .box-label{
   margin-top: 10px;
 }
+.schedule-box-label{
+  /* text-align: center; */
+}
 .checkboxes-wrapper{
  margin-bottom: 32px;
+ margin-left: 20px;
 }
 
 
@@ -86,6 +100,27 @@
     background: #f2f4f5;
     border: none;
     z-index: auto !important;
+}
+
+.input-search-dropdown-bg {
+  width: 280px!important;
+  height: 44px;
+  display: block;
+  border-radius: 4px;
+  border:0px;
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  background-color: #ffffff;
+}
+.scheduleList-dropdown>.form-control {
+  position: relative;
+  flex: none;
+  width: 280px!important;
+  margin-bottom: 0;
+}
+
+.form-control[_ngcontent-c1]:focus {
+  outline: 0;
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3)!important;
 }
 .btn-design{
     padding: 12px;
@@ -133,4 +168,94 @@ ul.data-listing{
 ul.data-listing li.disabled{
   opacity: 0.4;
   pointer-events: none;
+}
+.scedule-data-listing{
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  display: block;
+  width: 280px;
+  background: #fff;
+  height: 300px;
+  position: absolute;
+  margin: 0;
+  top:50px;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+  margin-top: 3px;
+  cursor: pointer;
+  padding-left: 20px;
+}
+ul.scedule-data-listing li.disabled{
+  opacity: 0.4;
+  pointer-events: none;
+}
+.back-to{
+	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-size: 16px;
+    color: #2e3d4d !important;
+	padding-left: 0 !important;
+	cursor: pointer;
+}
+.back-to i,
+.back-to p{
+	float: left;
+}
+.back-to i{
+	float: left;
+    font-size: 23px;
+}
+.back-to p{
+  float: left;
+  font-size: 16px;
+  color: #2e3d4d;
+  font-family: Montserrat-Medium;
+	margin-bottom: 0;
+	line-height: 1.6;
+	margin-left: 4px;
+}
+.course-search-down,
+.search-downicon,
+.user-down{
+  font-size: 23px;
+  cursor: pointer;
+}
+.course-search-down{
+  height: 44px;
+  position: absolute;
+  left: 260px;
+  /* padding: 15px; */
+  border-left: none;
+}
+.teacher-list{
+  width:145px; 
+  height:32px;
+  background:#f2f4f5;
+  border-radius:16px; 
+  padding-left:4px; 
+  margin-left:20px; 
+  margin-right:16px;
+}
+.teacher-pic{
+  height:24px;
+  width:24px; 
+  border-radius: 100%;
+}
+.text-teacher-name{
+  color: #64707d;
+  font-size:12px;
+}
+
+.teacher-list-wrapper{
+  width: 85%;
+  height: 50px;
+  overflow-x: scroll;
+}
+.teacher-more-view{
+  width:87px;
+  height:33px;
+  border-radius: 16px; 
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+}
+.dad{
+  width: 300px;
 }
