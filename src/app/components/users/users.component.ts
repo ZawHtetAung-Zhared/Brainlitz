@@ -1050,11 +1050,11 @@ export class UsersComponent implements OnInit {
 		if(type == 'reg'){
 			this.hideReg = true;
 			this.updateInvData["registrationFee"] = null;
-			this.calculateHideFees('reg');
+			// this.calculateHideFees('reg');
 		}else{
 			this.hideDeposit = true;
 			this.updateInvData["deposit"] = null;
-			this.calculateHideFees('deposit');
+			// this.calculateHideFees('deposit');
 		}
 	}
 

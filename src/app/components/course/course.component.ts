@@ -1913,18 +1913,22 @@ export class CourseComponent implements OnInit {
   calculateHideFees(type){
     console.log("calculateHideFees");
     for (var i in this.invoice) {
+      var regFees:number;
+      var regTax:number;
+      var deposit:number;
+
       if(this.hideReg == true){
-        var regFees = 0;
-        var regTax = 0;
+        regFees = 0;
+        regTax = 0;
       }else{
-        var regFees = this.invoice[i].registrationFee.fee;
-        var regTax = this.invoice[i].registrationFee.tax;
+        regFees = this.invoice[i].registrationFee.fee;
+        regTax = this.invoice[i].registrationFee.tax;
       }
 
       if(this.hideDeposit == true){
-        var deposit = 0;
+        deposit = 0;
       }else{
-        var deposit = this.invoice[i].deposit;
+        deposit = this.invoice[i].deposit;
       }
       var totalTaxes = regTax+this.invoice[i].courseFee.tax;
       this.invoice[i].subtotal = regFees + deposit + this.invoice[i].courseFee.fee;
