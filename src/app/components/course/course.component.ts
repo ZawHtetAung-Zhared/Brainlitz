@@ -1843,10 +1843,11 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.hideReg = false;
     this.hideDeposit = false;
-    this.hideMisc == false;
+    this.hideMisc = false;
     this.isEditInv = false;
     this.singleInv = [];
     this.updateInvData = {};
+    console.log("hideMisc",this.hideMisc)
     this.getCourseDetail(this.detailLists._id);
     this.getUsersInCourse(this.detailLists._id);
     // this.courseList = [];
@@ -1924,10 +1925,6 @@ export class CourseComponent implements OnInit {
       // this.updateInvData["registrationFee"] = {
       //   'fee': null
       // };
-      // for (var i in this.invoice) {
-      //   var regFee = this.invoice[i].registrationFee;
-      //   var regTax = this.invoice[i].taxOnRegistrationFee;
-      // }
       this.calculateHideFees(type);
     }else if(type == 'deposit'){
       this.hideDeposit = true;
@@ -1968,7 +1965,6 @@ export class CourseComponent implements OnInit {
         miscFees = this.invoice[i].miscFee.fee;
         miscTax = this.invoice[i].miscFee.tax;
       }
-
 
       if(this.hideDeposit == true){
         deposit = 0;

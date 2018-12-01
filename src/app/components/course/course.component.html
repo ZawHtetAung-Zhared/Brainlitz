@@ -1094,7 +1094,7 @@
           </div>
           <div class="d-flex inv-courseFee">
             <div class="cFee-w"></div>
-            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': (hideReg == true && hideDeposit == true) || (data.registrationFee.fee == null && data.deposit == null) }" >
+            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': (hideReg == true && hideDeposit == true && hideMisc == true) || (data.registrationFee.fee == null && data.deposit == null && data.miscFee.fee == null) }" >
               <div class="col-md-5 p-0 price-info">Course Fee</div>
               <div class="col-md-1 p-0 text-right price-info">1</div>
               <div class="col-md-2 p-0 text-right price-info">
@@ -1117,7 +1117,7 @@
                         <div class="closemark_kick"></div>
                     </span>
                   </button>
-                  <button type="submit" class="btn" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee">
+                  <button type="submit" class="btn" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
                     <span class="checkmark">
                         <div class="checkmark_stem"></div>
                         <div class="checkmark_kick"></div>

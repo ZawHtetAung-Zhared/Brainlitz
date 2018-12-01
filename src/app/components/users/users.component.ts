@@ -129,6 +129,7 @@ export class UsersComponent implements OnInit {
   	public singleInv:any = [];
 	public isEditInv:any = false;
 	public updateInvData:any = {};
+	public hideMisc:boolean = false; 
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -886,7 +887,9 @@ export class UsersComponent implements OnInit {
 				 this.invTaxName = this.invoice[i].tax.name;
 				 var n = this.invoice[i].total;
 				 this.total = n.toFixed(2);
+				 this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
 				 console.log('n and total',n,this.total);
+				 this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
 				 if(this.invoice[i].courseId == course._id){
 				   this.invoiceCourse["name"] = course.name;
 		           this.invoiceCourse["startDate"] = course.startDate;
@@ -923,7 +926,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	cancelPopup(type){
-		if((this.hideReg == true && this.hideDeposit == true) || this.hideReg == true || this.hideDeposit == true){
+		if((this.hideReg == true && this.hideDeposit == true && this.hideMisc == true) || this.hideReg == true || this.hideDeposit == true || this.hideMisc == true){
 	      this.isEditInv = true;
 	    }else{
 	      this.isEditInv = false;
@@ -939,15 +942,78 @@ export class UsersComponent implements OnInit {
 		console.log("updateCfee",data);
 		this.feesBox = false;
 		for(var i in this.invoice){
-		  if(this.invoice[i].courseFee != data){
+		  if(this.invoice[i].courseFee.fee != data){
 		    console.log("===not same");
 		    this.updateInvData["courseFee"] = data;
-		    this.invoice[i].courseFee = data;
+		    this.invoice[i].courseFee.fee = Number(data);
+	        console.log(this.invoice[i].courseFee.fee)
+	        // formula for calculating the inclusive tax
+	        // Product price x RATE OF TAX/ (100+RATE OF TAX);
+	        if(this.invoice[i].courseFee.taxInclusive == true){
+	          var taxRate = this.invoice[i].tax.rate;
+	          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+	          this.invoice[i].courseFee.tax =Number(taxAmount);
+	          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+	          var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
+	          this.invoice[i].courseFee.fee = Number(cFee);
+	          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee)
+	        }else if(this.invoice[i].courseFee.taxInclusive == false){
+	          var taxRate = this.invoice[i].tax.rate;
+	          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+	          this.invoice[i].courseFee.tax =Number(taxAmount);
+	          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+	          // var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
+	          // this.invoice[i].courseFee.fee = Number(cFee);
+	          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee)
+	        }
+	        
+	        this.calculateHideFees('cFees')
 		  }else{
 		    console.log("===same");
 		  } 
 		}
 	}
+
+	calculateHideFees(type){
+	    console.log("calculateHideFees");
+	    for (var i in this.invoice) {
+	      var regFees:number;
+	      var regTax:number;
+	      var miscFees:number;
+	      var miscTax:number;
+	      var deposit:number;
+	      var totalTaxes:number;
+
+	      if(this.hideReg == true){
+	        regFees = 0;
+	        regTax = 0;
+	      }else{
+	        regFees = this.invoice[i].registrationFee.fee;
+	        regTax = this.invoice[i].registrationFee.tax;
+	      }
+
+	      if(this.hideMisc == true){
+	        miscFees = 0;
+	        miscTax = 0;
+	      }else{
+	        miscFees = this.invoice[i].miscFee.fee;
+	        miscTax = this.invoice[i].miscFee.tax;
+	      }
+
+	      if(this.hideDeposit == true){
+	        deposit = 0;
+	      }else{
+	        deposit = this.invoice[i].deposit;
+	      }
+
+	      totalTaxes = regTax + miscTax + Number(this.invoice[i].courseFee.tax);
+	      console.log("Total taxes and deposit",totalTaxes,deposit)
+	      this.invoice[i].subtotal = (regFees + miscFees + deposit + this.invoice[i].courseFee.fee).toFixed(2);
+	      this.total = Number((Number(this.invoice[i].subtotal)+ totalTaxes).toFixed(2));
+	      console.log("Subtotal",this.invoice[i].subtotal);
+	      console.log("Total",this.total);
+	    }
+    }
 
 	sendInvoice(){
 	    console.log("send Invoice",this.invoiceID);
@@ -989,6 +1055,7 @@ export class UsersComponent implements OnInit {
 		this.paymentItem = {};
 		this.hideReg = false;
     	this.hideDeposit = false;
+    	this.hideMisc = false;
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
@@ -1048,13 +1115,17 @@ export class UsersComponent implements OnInit {
 	hideInvoiceRow(type){
 		this.isEditInv = true;
 		if(type == 'reg'){
-			this.hideReg = true;
-			this.updateInvData["registrationFee"] = null;
-			// this.calculateHideFees('reg');
-		}else{
-			this.hideDeposit = true;
-			this.updateInvData["deposit"] = null;
-			// this.calculateHideFees('deposit');
+		  this.hideReg = true;
+		  this.updateInvData["registrationFee"] = null;
+		  this.calculateHideFees(type);
+		}else if(type == 'deposit'){
+		  this.hideDeposit = true;
+		  this.updateInvData["deposit"] = null;
+		  this.calculateHideFees(type);
+		}else if(type == 'misc'){
+		  this.hideMisc = true;
+		  this.updateInvData["miscFee"] = null;
+		  this.calculateHideFees(type);
 		}
 	}
 
@@ -1073,6 +1144,11 @@ export class UsersComponent implements OnInit {
 		  this.singleInv.push(res);
 		  this.invoice = this.singleInv;
 		  console.log("invoice",this.invoice);
+		  for(var i in this.invoice){
+			var n = this.invoice[i].total;
+			this.total = n.toFixed(2);
+			this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
+		  }
 		  // this.showOneInvoice(this.invoice);
 		},err => {
 		  console.log(err);
