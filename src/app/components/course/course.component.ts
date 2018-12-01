@@ -150,10 +150,11 @@ export class CourseComponent implements OnInit {
   public invTaxName:any;
   public hideReg:boolean = false;
   public hideDeposit:boolean = false;
-  public total:any;
+  public total:number;
   public singleInv:any = [];
   public isEditInv:any = false;
   public updateInvData:any = {};
+  public hideMisc:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -1222,6 +1223,7 @@ export class CourseComponent implements OnInit {
        this.invTaxName = invoice[i].tax.name;
        var n = invoice[i].total;
        this.total = n.toFixed(2);
+       this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
        console.log('n and total',n,this.total);
        this.invoiceCourse["fees"] = invoice[i].courseFee.fee;
        if(invoice[i].courseId == this.detailLists._id){
@@ -1726,7 +1728,7 @@ export class CourseComponent implements OnInit {
   }
 
   cancelPopup(type){
-    if((this.hideReg == true && this.hideDeposit == true) || this.hideReg == true || this.hideDeposit == true){
+    if((this.hideReg == true && this.hideDeposit == true && this.hideMisc == true) || this.hideReg == true || this.hideDeposit == true || this.hideMisc == true){
       this.isEditInv = true;
     }else{
       this.isEditInv = false;
@@ -1754,12 +1756,32 @@ export class CourseComponent implements OnInit {
     for(var i in this.invoice){
       if(this.invoice[i].courseFee.fee != data){
         console.log("===not same");
-        this.updateInvData["courseFee"] = data;
-        this.invoice[i].courseFee.fee = data;
-        var taxRate = Number(this.invoice[i].tax.rate)/100;
-        console.log("taxRate",taxRate);
-        this.invoice[i].courseFee.tax = (this.invoice[i].courseFee.fee * taxRate).toFixed(2);
-        console.log(this.invoice[i].courseFee.tax)
+        this.updateInvData["courseFee"] = data
+        // this.updateInvData["courseFee"] = {
+        //   'fee': Number(data)
+        // };
+        this.invoice[i].courseFee.fee = Number(data);
+        console.log(this.invoice[i].courseFee.fee)
+        // formula for calculating the inclusive tax
+        // Product price x RATE OF TAX/ (100+RATE OF TAX);
+        if(this.invoice[i].courseFee.taxInclusive == true){
+          var taxRate = this.invoice[i].tax.rate;
+          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+          this.invoice[i].courseFee.tax =Number(taxAmount);
+          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+          var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
+          this.invoice[i].courseFee.fee = Number(cFee);
+          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee)
+        }else if(this.invoice[i].courseFee.taxInclusive == false){
+          var taxRate = this.invoice[i].tax.rate;
+          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+          this.invoice[i].courseFee.tax =Number(taxAmount);
+          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+          // var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
+          // this.invoice[i].courseFee.fee = Number(cFee);
+          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee)
+        }
+        
         this.calculateHideFees('cFees')
       }else{
         console.log("===same");
@@ -1821,6 +1843,7 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.hideReg = false;
     this.hideDeposit = false;
+    this.hideMisc == false;
     this.isEditInv = false;
     this.singleInv = [];
     this.updateInvData = {};
@@ -1898,14 +1921,24 @@ export class CourseComponent implements OnInit {
     if(type == 'reg'){
       this.hideReg = true;
       this.updateInvData["registrationFee"] = null;
+      // this.updateInvData["registrationFee"] = {
+      //   'fee': null
+      // };
       // for (var i in this.invoice) {
       //   var regFee = this.invoice[i].registrationFee;
       //   var regTax = this.invoice[i].taxOnRegistrationFee;
       // }
       this.calculateHideFees(type);
-    }else{
+    }else if(type == 'deposit'){
       this.hideDeposit = true;
       this.updateInvData["deposit"] = null;
+      this.calculateHideFees(type);
+    }else if(type == 'misc'){
+      this.hideMisc = true;
+      this.updateInvData["miscFee"] = null;
+      // this.updateInvData["miscFee"] = {
+      //   'fee': null
+      // };
       this.calculateHideFees(type);
     }
   }
@@ -1915,7 +1948,10 @@ export class CourseComponent implements OnInit {
     for (var i in this.invoice) {
       var regFees:number;
       var regTax:number;
+      var miscFees:number;
+      var miscTax:number;
       var deposit:number;
+      var totalTaxes:number;
 
       if(this.hideReg == true){
         regFees = 0;
@@ -1925,14 +1961,25 @@ export class CourseComponent implements OnInit {
         regTax = this.invoice[i].registrationFee.tax;
       }
 
+      if(this.hideMisc == true){
+        miscFees = 0;
+        miscTax = 0;
+      }else{
+        miscFees = this.invoice[i].miscFee.fee;
+        miscTax = this.invoice[i].miscFee.tax;
+      }
+
+
       if(this.hideDeposit == true){
         deposit = 0;
       }else{
         deposit = this.invoice[i].deposit;
       }
-      var totalTaxes = regTax+this.invoice[i].courseFee.tax;
-      this.invoice[i].subtotal = regFees + deposit + this.invoice[i].courseFee.fee;
-      this.total = Number(this.invoice[i].subtotal)+ Number(totalTaxes);
+
+      totalTaxes = regTax + miscTax + Number(this.invoice[i].courseFee.tax);
+      console.log("Total taxes and deposit",totalTaxes,deposit)
+      this.invoice[i].subtotal = (regFees + miscFees + deposit + this.invoice[i].courseFee.fee).toFixed(2);
+      this.total = Number((Number(this.invoice[i].subtotal)+ totalTaxes).toFixed(2));
       // this.invoice[i].total = Number(totalPrice).toFixed(2);
       // this.total = Number(this.invoice[i].total).toFixed(2);
       console.log("Subtotal",this.invoice[i].subtotal);
