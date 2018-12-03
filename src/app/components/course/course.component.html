@@ -19,7 +19,7 @@
               (input)="searchCourse($event.target.value)"
               autocomplete="off"
               name="keyword"
-              (keyup)="searchStart($event)"
+              (keyup)="searchStart($event, 20, 0)"
               [(ngModel)]="courseVal.keyword" 
               #csearch="ngModel"
               (document:click)="closeSimpleSearch($event)"
@@ -29,7 +29,7 @@
             <div *ngIf="iscourseSearch && recentLists.length > 0" class="course-search-view">
               <p class="recent-search-title">Recently search</p>
               <ul class="recent-lists">
-                <li *ngFor="let recent of recentLists" (click)="recentSearch(recent)">{{recent}}</li>
+                <li *ngFor="let recent of recentLists" (click)="recentSearch(recent, 20, 0)">{{recent}}</li>
               </ul>
             </div>
         </div>
@@ -297,7 +297,7 @@
               **{{isvalid}}
               **{{!courseVal.keyword || isvalid }} -->
               <button type="button" class="btn cancel-as" (click)="cancelAS()">Cancel</button>
-              <button [disabled]="!courseVal.keyword || isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button>
+              <button [disabled]="isvalid " type="button" class="btn search-as" (click)="advancedSearch(courseVal, 20,0)">Search</button>
               <!-- <button [disabled]="!courseVal.keyword" type="button" class="btn search-as" (click)="advancedSearch(courseVal)">Search</button> -->
             </div>
           </div>
@@ -355,7 +355,7 @@
               <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
               <div class="d-flex course-wrap">
                 <div [hidden]="course.draft == true" *ngIf="course.seat_left > 0" class="absolute">
-                  {{ course.seat_left }} seats left
+                  {{ course.seat_left }} seats left 
                 </div>
                 <div [hidden]="course.draft == true" *ngIf="course.seat_left == null" class="absolute">
                   unlimited seats
@@ -430,7 +430,7 @@
 <app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
 <app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
 
-<div class="inner-wrapper" *ngIf="isCourseDetail == true">
+<div class="inner-wrapper" *ngIf="isCourseDetail == true" >
   <div class="back-wrap d-flex justify-content-between">
     <div class="back-to" (click)="cancel()">
       <i class="fa fa-angle-left"></i>
@@ -451,14 +451,14 @@
           <div>
             <h5>Course fee</h5>
             <div *ngIf="detailLists.paymentPolicy.courseFee != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
+              <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.courseFee == null">-</b>
           </div>
           <div class="mt-32">
             <h5>Miscellaneous fee</h5>
             <div *ngIf="detailLists.paymentPolicy.miscFee != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
+              <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.miscFee == null">-</b>
           </div>
@@ -467,14 +467,14 @@
           <div>
             <h5>Deposit</h5>
             <div *ngIf="detailLists.paymentPolicy.deposit.amount != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+              <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.deposit.amount == null">-</b>
           </div>
           <div class="mt-32">
             <h5>Prorated class fee</h5>
             <div *ngIf="detailLists.paymentPolicy.proratedLessonFee != null">
-              <sup>$</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+              <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
             </div>
             <b *ngIf="detailLists.paymentPolicy.proratedLessonFee == null">-</b>
           </div>
@@ -523,7 +523,7 @@
       <div class="d-flex c-border">
         <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People')">People</button>
         <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class')">Class</button>
-       <!--  <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button> -->
+        <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG')">APG</button>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'People'">
         <div class="activeTab-header d-flex justify-content-center align-items-center">         
@@ -533,7 +533,7 @@
           <div class="teacher-section">
             <div class="d-flex justify-content-between user-header">
               <h2 class="title-heading">Teachers</h2>
-              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
+              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('teacher',userModal,'inside', '')">Swap teacher</button>
             </div>
             <div class="row">
               <div *ngFor="let user of pplLists.TEACHER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -547,6 +547,15 @@
                   </div>
                 </div>
               </div>
+              
+            </div>
+          </div>
+          <div class="teacher-section">
+            <div class="d-flex justify-content-between user-header">
+              <h2 class="title-heading">Assistant Teachers</h2>
+              <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
+            </div>
+            <div class="row">
               <div *ngFor="let user of pplLists.STAFF" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div class="d-flex flex-row single-user align-items-center">
                   <div class="img-wrap">
@@ -557,7 +566,7 @@
                     <h4>{{user.preferredName}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div>
                   </div>
                 </div>
               </div>
@@ -568,7 +577,7 @@
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
                 <div>
-                  <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.seat_left}} seats left</p>
+                  <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.coursePlan.seats - pplLists.CUSTOMER.length}} seats left</p>
                   <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
                 </div>
               </div>
@@ -584,7 +593,15 @@
                     <h4>{{user.preferredName}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal)"></div>
+                    <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
+                    <ul *ngIf="showStudentOption == user.userId" class="options-box">
+                      <li>Cancel class</li>
+                      <li>Class transfer</li>
+                      <!-- <li (click)="addUserModal('customer',customerModal,'invoice', '')">View invoice</li> -->
+                      <li (click)="viewInvoice(customerModal,user)">View invoice</li>
+                      <li>Refund bill</li>
+                    </ul>
+                    <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                   </div>
                 </div>
               </div>
@@ -752,7 +769,7 @@
           (input)="changeMethod($event.target.value, userType)"
           autocomplete="off"
           >
-        <input *ngIf="userType == 'staff'"
+        <input *ngIf="userType == 'staff' || userType == 'teacher'"
           class="form-control py-2 input-search-bg" 
           type="search" 
           placeholder="Search teachers" 
@@ -772,23 +789,8 @@
         </span>
       </div>
       <div class="user-list-box" *ngIf="showList == true">
-        <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('search',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
-          <div class="img-wrap">
-            <img src="{{user.profilePic}}">
-          </div>
-          <div class="single-user-info d-flex flex-column justify-content-center">
-            <h4>{{user.preferredName}}</h4>
-          </div>
-          <div class="ml-auto remover-wrap">
-            <div class="add-user d-flex justify-content-end"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mt-20 user-row-wrap">
-      <div class="row single-user-wrap" *ngIf="selectedUserLists.length > 0">
-        <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-          <div class="d-flex flex-row single-user justify-content-center align-items-center">
+        <div *ngIf="userType != 'teacher'">
+          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('user',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
             <div class="img-wrap">
               <img src="{{user.profilePic}}">
             </div>
@@ -796,12 +798,59 @@
               <h4>{{user.preferredName}}</h4>
             </div>
             <div class="ml-auto remover-wrap">
-              <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+              <div class="add-user d-flex justify-content-end"></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="userType == 'teacher'">
+          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('teacher',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+            <div class="img-wrap">
+              <img src="{{user.profilePic}}">
+            </div>
+            <div class="single-user-info d-flex flex-column justify-content-center">
+              <h4>{{user.preferredName}}</h4>
+            </div>
+            <div class="ml-auto remover-wrap">
+              <div class="add-user d-flex justify-content-end"></div>
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="selectedUserLists.length <= 0" class="d-flex col-md-12 empty-ui-wrapper">
+    </div>
+    <div class="mt-20 user-row-wrap">
+      <div *ngIf="userType != 'teacher'">
+        <div class="row single-user-wrap" *ngIf="selectedUserLists.length > 0">
+          <div *ngFor="let user of selectedUserLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+            <div class="d-flex flex-row single-user justify-content-center align-items-center">
+              <div class="img-wrap">
+                <img src="{{user.profilePic}}">
+              </div>
+              <div class="single-user-info d-flex flex-column justify-content-center">
+                <h4>{{user.preferredName}}</h4>
+              </div>
+              <div class="ml-auto remover-wrap">
+                <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="userType == 'teacher'">
+        <div class="row single-user-wrap" *ngIf="selectedTeacherLists != ''">
+          <div *ngFor="let teacher of selectedTeacherLists" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+            <div class="d-flex flex-row single-user">
+              <div class="img-wrap">
+                <img src="{{teacher.profilePic}}">
+              </div>
+              <div class="single-user-info d-flex flex-column justify-content-center">
+                <h4>{{teacher.preferredName}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedUserLists.length <= 0 && selectedTeacherLists == ''" class="d-flex col-md-12 empty-ui-wrapper">
         <div class="col-md-6 img-pos">
           <div class="empty-wrapper">
             <img src="assets/images/add-customer-illustration@2x.png">
@@ -822,7 +871,8 @@
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
-      <button type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
+      <button *ngIf="userType != 'teacher'" type="submit" class="btn btn-submit" [disabled]="selectedUserLists.length == 0" (click)="enrollUserToCourse(detailLists._id, userType)">Confirm</button>
+      <button *ngIf="userType == 'teacher'" type="submit" class="btn btn-submit" [disabled]="selectedTeacherLists.length == 0" (click)="swapTeacherToCourse(detailLists._id, selectedTeacherLists[0].userId)">Confirm</button>
   </div>
   </form>
 </ng-template>
@@ -895,7 +945,7 @@
             </span>
           </div>
           <div class="user-list-box" *ngIf="showList == true">
-            <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectCustomer('search',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+            <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
               <div class="img-wrap">
                 <img src="{{user.profilePic}}">
               </div>
@@ -962,7 +1012,7 @@
     </form>
   </div>
   <div *ngIf="showInvoice == true">
-    <div *ngIf="showBox == true" class="overlayInv"></div>
+    <div *ngIf="feesBox == true" class="overlayInv"></div>
     <div class="invoice-container">
       <div class="d-flex justify-content-between">
         <div class="logo-wrapper">
@@ -979,19 +1029,20 @@
           <div class="col-md-6 col-lg-6 pl-zero">
             <p class="invoice-info">{{ invoiceInfo.address }}</p>
           </div>
-          <div class="col-md-3 col-lg-3 text-right">
+          <div class="col-md-3 col-lg-3 p-0 text-right">
             <label class="invoice-label">Invoice date</label>
             <p class="invoice-info">{{ updatedDate }}</p>
           </div>
-          <div class="col-md-3 col-lg-3 text-right">
+          <div class="col-md-3 col-lg-3 p-0 text-right">
             <label class="invoice-label">Due date</label>
             <p class="invoice-info">{{ dueDate }}</p>
           </div>
         </div>
+        <label class="invoice-info">{{ invoiceInfo.tax.name }} Reg No: {{ invoiceInfo.registration }}</label>
         <p class="invoice-info">{{ invoiceInfo.email }}<p>
       </div>
       <div class="pb-4"> 
-        <label class="invoice-label mb-0">Bill to</label>
+        <label class="invoice-label mb-0">Bill to: <span class="p2 price-info">{{ selectedCustomer.preferredName }}</span></label>
         <div class="d-flex">
           <p class="invoice-info label-height mb-0">
             <span *ngIf="selectedCustomer.email != ''">{{ selectedCustomer.email }}</span>
@@ -1026,116 +1077,113 @@
           </div>
         </div> -->
       </div>
-      <div class="d-flex invoice-label pad-10 bg-label">
-        <div class="col-md-5">Course</div>
+      <div class="d-flex invoice-label fees-header bg-label">
+        <div class="col-md-5 p-0">Course</div>
         <div class="col-md-1 p-0 text-right">Quantity</div>
-        <div class="col-md-4 p-0 text-center">Unit price</div>
-        <div class="col-md-2 text-right">Amount</div>
+        <div class="col-md-2 p-0 text-right">Unit price</div>
+        <div class="col-md-2 p-0 text-right">Tax({{invTaxName}})</div>
+        <div class="col-md-2 p-0 text-right">Amount</div>
       </div>
       <div *ngFor="let data of invoice">
-        <div class="d-flex pad-10 mt-2" >
-          <div class="col-md-5 price-info">{{invoiceCourse}}</div>
-          <div class="col-md-1 p-0 text-right price-info">1</div>
-          <div class="col-md-4 p-0 text-center price-info">
-            <div *ngIf="feesBox == true" class="popup-box price-box text-left">
-              <div id="rectangle"></div>
-              <div class="p-3">
-                <h5>CourseFee</h5>
-                <div class="d-flex popup-input">
-                  <div class="input-sign">
-                   {{ data.currency.sign }}
-                  </div>
-                  <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
-                </div>
-              </div>
+        <div>
+          <div class="inv-Cname">
+            {{ invoiceCourse.name }} 
+            <div> 
+              <span>From: {{ invoiceCourse.startDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.endDate">To: {{ invoiceCourse.endDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.lessonCount">{{ invoiceCourse.lessonCount }} lessons</span>
             </div>
-            <div *ngIf="feesBox == true" class="d-flex btns-wrap">
-              <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
-                <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
-                </span>
-              </button>
-              <button type="submit" class="btn" (click)="addDiscount(value)" [disabled]="value.courseFee || value.courseFee == ''">
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-              </button>
-            </div>
-            <p class="mb-0" (click)="showPopup('courseFee',data.courseFee)">{{data.courseFee}}</p>
           </div>
-          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.courseFee}}</div>
-        </div>
-        <div class="d-flex pad-10 mt-2" >
-          <div class="col-md-5 price-info">Registration Fee</div>
-          <div class="col-md-1 p-0 text-right price-info">1</div>
-          <div class="col-md-4 p-0 text-center price-info">
-            <div *ngIf="regBox == true" class="popup-box price-box text-left">
-              <div id="rectangle"></div>
-              <div class="p-3">
-                <h5>Registration Fee</h5>
-                <div class="d-flex popup-input">
-                  <div class="input-sign">
-                   {{ data.currency.sign }}
+          <div class="d-flex inv-courseFee">
+            <div class="cFee-w"></div>
+            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true && hideMisc == true}" >
+              <div class="col-md-5 p-0 price-info">Course Fee</div>
+              <div class="col-md-1 p-0 text-right price-info">1</div>
+              <div class="col-md-2 p-0 text-right price-info">
+                <div *ngIf="feesBox == true" class="popup-box price-box text-left">
+                  <div id="rectangle"></div>
+                  <div class="p-3">
+                    <h5>CourseFee</h5>
+                    <div class="d-flex popup-input">
+                      <div class="input-sign">
+                       {{ currency.invCurrencySign }}
+                      </div>
+                      <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
+                    </div>
                   </div>
-                  <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.regFee">
                 </div>
-              </div>
-            </div>
-            <div *ngIf="regBox == true" class="d-flex btns-wrap">
-              <button type="submit" class="btn" (click)="cancelPopup('reg')">
-                <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
-                </span>
-              </button>
-              <button type="submit" class="btn" [disabled]="value.regFee == undefined || value.regFee == ''">
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-              </button>
-            </div>
-            <p (click)="showPopup('reg',data.registrationFee)">{{data.registrationFee}}</p>
-          </div>
-          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.registrationFee}}</div>
-        </div>
-        <div class="d-flex pad-10 mt-2" >
-          <div class="col-md-5 price-info">Deposit</div>
-          <div class="col-md-1 p-0 text-right price-info">1</div>
-          <div class="col-md-4 p-0 text-center price-info">
-            <div *ngIf="depositBox == true" class="popup-box price-box text-left">
-              <div id="rectangle"></div>
-              <div class="p-3">
-                <h5>Deposit</h5>
-                <div class="d-flex popup-input">
-                  <div class="input-sign">
-                   {{ data.currency.sign }}
-                  </div>
-                  <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.deposit">
+                <div *ngIf="feesBox == true" class="d-flex btns-wrap">
+                  <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
+                    <span class="closemark">
+                        <div class="closemark_stem"></div>
+                        <div class="closemark_kick"></div>
+                    </span>
+                  </button>
+                  <button type="submit" class="btn" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
+                    <span class="checkmark">
+                        <div class="checkmark_stem"></div>
+                        <div class="checkmark_kick"></div>
+                    </span>
+                  </button>
                 </div>
+                <p class="mb-0" (click)="showPopup('courseFee',data.courseFee.fee)">{{data.courseFee.fee}}</p>
               </div>
+              <div class="col-md-2 p-0 text-right price-info">
+                {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+              </div>
+              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.courseFee.fee}}</div>
             </div>
-            <div *ngIf="depositBox == true" class="d-flex btns-wrap">
-              <button type="submit" class="btn" (click)="cancelPopup('deposit')">
-                <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
-                </span>
-              </button>
-              <button type="submit" class="btn" [disabled]="value.deposit == undefined || value.deposit == ''">
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-              </button>
-            </div>
-            <p (click)="showPopup('deposit',data.deposit)">{{data.deposit}}</p>
           </div>
-          <div class="col-md-2 text-right price-info">{{data.currency.sign}} {{data.deposit}}</div>
         </div>
-        <hr>
+        <div *ngIf="hideReg == false" class="d-flex inv-row">
+          <div class="row-icon" (click)="hideInvoiceRow('reg')">
+            <img src="./assets/images/withdraw-ico@2x.png">
+          </div>
+          <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
+            <div class="col-md-5 p-0 price-info">
+              Registration Fee
+            </div>
+            <div class="col-md-1 p-0 text-right price-info">1</div>
+            <div class="col-md-2 p-0 text-right price-info">
+              <p class="mb-0">{{data.registrationFee.fee}}</p>
+            </div>
+            <div class="col-md-2 p-0 text-right price-info">
+              {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+            </div>
+            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee.fee}}</div>
+          </div>
+        </div>
+        <div *ngIf="hideMisc == false" class="d-flex inv-row">
+          <div class="row-icon" (click)="hideInvoiceRow('misc')">
+            <img src="./assets/images/withdraw-ico@2x.png">
+          </div>
+          <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
+            <div class="col-md-5 p-0 price-info">
+              Miscellaneous fee
+            </div>
+            <div class="col-md-1 p-0 text-right price-info">1</div>
+            <div class="col-md-2 p-0 text-right price-info">
+              <p class="mb-0">{{data.miscFee.fee}}</p>
+            </div>
+            <div class="col-md-2 p-0 text-right price-info">
+              {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+            </div>
+            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.miscFee.fee}}</div>
+          </div>
+        </div>
+        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
+          <div class="row-icon" (click)="hideInvoiceRow('deposit')">
+            <img src="./assets/images/withdraw-ico@2x.png">
+          </div>
+          <div class="d-flex w-100 mlr-15">
+            <div class="col-md-5 p-0 price-info">Deposit</div>
+            <div class="col-md-1 p-0 text-right price-info">1</div>
+            <div class="col-md-2 p-0 text-right price-info">
+              <p class="mb-0">{{data.deposit}}</p>
+            </div>
+            <div class="col-md-2 p-0 text-right price-info"></div>
+            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.deposit}}</div>
+          </div>
+        </div>
+        <hr class="invoice-hr">
         <div class="d-flex justify-content-end">
           <div class="w-50">
             <div class="d-flex pad-10 price-info">
@@ -1147,9 +1195,9 @@
                 <div class="col-sm-5 p-0">
                 </div>
               </div>
-              <div class="col-md-4 text-right">{{data.currency.sign}} {{ data.subtotal }}</div>
+              <div class="col-md-4 text-right">{{ currency.invCurrencySign }} {{ data.subtotal }}</div>
             </div>
-            <div class="d-flex pad-10 price-info">
+            <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
                   {{ data.taxName }}
@@ -1159,8 +1207,8 @@
                 </div>
               </div>
               <div class="col-md-4 text-right price-info">{{data.currency.sign}}  {{ data.tax }}</div>
-            </div>
-            <div class="d-flex pad-10 price-info">
+            </div> -->
+            <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
                   <p class="mb-0" style="color: #0080ff;" *ngIf="discount==0">Add discount</p>
@@ -1197,7 +1245,7 @@
                 </div>
               </div>
               <div class="col-md-4 text-right"></div>
-            </div>
+            </div> -->
             
             <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
@@ -1217,7 +1265,7 @@
                 </div>
                 <div class="col-sm-5 text-right p-0"></div>
               </div>
-              <div class="col-md-4 text-right">{{data.currency.sign}}  {{ data.total }}</div>
+              <div class="col-md-4 text-right">{{ currency.invCurrencySign }}  {{ total }}</div>
             </div>
           </div>
         </div>
@@ -1225,13 +1273,14 @@
     </div>
     <div class="modal-footer justify-content-between">
       <div class="d-flex">
-        <button type="button" class="btn invModal-cancel" (click)="cancelInvoiceModal()">Cancel</button>
+        <button type="button" class="btn invModal-cancel" (click)="cancelInvoiceModal()">Close</button>
         <div class="l-border">
-          <button class="btn-print cursor-on"><img src="./assets/images/print@2x.png"></button>
+          <button class="btn-print cursor-on" (click)="printInvoice()"><img src="./assets/images/print@2x.png"></button>
         </div>
       </div>
       <div>
-        <button class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="sendInvoice()">Send invoice</button>
+        <button *ngIf="isEditInv == false" class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="sendInvoice()">Send invoice</button>
+        <button *ngIf="isEditInv == true" class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="updateInvoice()">Save</button>
         <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="showPayOption()">Pay now</button>
       </div>
     </div>
@@ -1273,7 +1322,7 @@
               <label class="payment-label">Amount</label>
               <div class="d-flex popup-input w-75">
                 <div class="input-sign">
-                  S$
+                  {{ currency.invCurrencySign }}
                 </div>
                 <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount">
               </div>
@@ -1285,7 +1334,7 @@
         </div>
       </div>
       <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
-        <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)">Pay now</button>
+        <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined">Pay now</button>
       </div>
     </div>
 </ng-template>

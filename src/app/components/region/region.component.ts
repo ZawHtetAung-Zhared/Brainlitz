@@ -90,7 +90,8 @@ export class RegionComponent implements OnInit {
     })
   }
 
-  setRegionID(id){
+  setRegionID(data){
+    let id = data._id;
     console.log(id)
     if(localStorage.getItem("regionId") == id){
       console.log('same region id')
@@ -99,6 +100,13 @@ export class RegionComponent implements OnInit {
       localStorage.removeItem('locationId');
     }
     localStorage.setItem("regionId", id);
+
+    let currency = {
+      'invCurrencyCode': data.invoiceSettings.currencyCode,
+      'invCurrencySign': data.invoiceSettings.currencySign
+    };
+    console.log(currency);
+    localStorage.setItem('currency',JSON.stringify(currency))
   }
 
 }

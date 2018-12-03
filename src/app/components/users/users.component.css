@@ -1039,13 +1039,13 @@ h3, h5 {
   position: absolute;
   z-index: 9;
   right: 30px;
-  top: -55px;
+  top: -40px;
  /* top: 71%;*/
   border-radius: 3px;
 }
 
 .price-box{
-  right: 60%;
+  right: 40%;
 }
 
 .show-box{
@@ -1123,7 +1123,7 @@ h3, h5 {
 .btns-wrap{
   position: absolute;
   z-index: 9;
-  top: 58px;
+  top: 90px;
   /*top: 83%;
   right: 25%;*/
 }
@@ -1252,7 +1252,7 @@ h3, h5 {
   border-left: 1px solid #edeff0;
 }
 
-.price-info,.btn-submit,.payment-label,.payment-item{
+.price-info,.btn-submit,.payment-label,.payment-item,.inv-Cname{
     font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 
@@ -1274,6 +1274,60 @@ h3, h5 {
 .cursor-on{
   cursor: pointer;
 }
+
+.row-icon img,.cFee-w{
+  width: 20px;
+}
+
+.mlr-15{
+  margin: 0px 15px;
+}
+
+.b-bottom{
+  border-bottom: 1px solid #edeff0;
+}
+
+.invoice-hr{
+  border-top: 2px solid #edeff0;
+}
+
+.inv-row{
+  line-height: 60px;
+}
+
+.pl-35{
+  padding-left: 35px; 
+}
+
+.inv-Cname{
+  margin: 15px 35px 0px 35px;
+  font-size: 16px;
+  color: #64707d;
+}
+
+.inv-courseFee{
+  line-height: 45px;
+}
+
+.hide-border{
+  border: 0;
+}
+
+.fees-header{
+    padding: 10px 15px 10px 30px;
+}
+
+.tax-status{
+  font-size: 12px;
+  color: #64707d;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 
 /*enroll new class modal*/
 
