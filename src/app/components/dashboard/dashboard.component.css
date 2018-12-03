@@ -121,7 +121,7 @@
   top: 90px;
   background: #fff;
 }
-.currency-list div,
+.currency-list .flag-wrap,
 .provider-listing div {
   margin-bottom: 10px;
 }
