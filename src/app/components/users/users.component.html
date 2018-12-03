@@ -649,7 +649,7 @@
 	          </div>
 	          <div class="d-flex inv-courseFee">
 	            <div class="cFee-w"></div>
-	            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': (hideReg == true && hideDeposit == true && hideMisc == true) || (data.registrationFee.fee == null && data.deposit == null && data.miscFee.fee == null) }" >
+	            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true && hideMisc == true}" >
 	              <div class="col-md-5 p-0 price-info">Course Fee</div>
 	              <div class="col-md-1 p-0 text-right price-info">1</div>
 	              <div class="col-md-2 p-0 text-right price-info">
@@ -688,7 +688,7 @@
 	            </div>
 	          </div>
 	        </div>
-	        <div *ngIf="hideReg == false && data.registrationFee != null" class="d-flex inv-row">
+	        <div *ngIf="hideReg == false" class="d-flex inv-row">
 	          <div class="row-icon" (click)="hideInvoiceRow('reg')">
 	            <img src="./assets/images/withdraw-ico@2x.png">
 	          </div>
@@ -706,7 +706,7 @@
 	            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee.fee}}</div>
 	          </div>
 	        </div>
-	        <div *ngIf="hideMisc == false && data.miscFee.fee != null" class="d-flex inv-row">
+	        <div *ngIf="hideMisc == false" class="d-flex inv-row">
 	          <div class="row-icon" (click)="hideInvoiceRow('misc')">
 	            <img src="./assets/images/withdraw-ico@2x.png">
 	          </div>
@@ -724,7 +724,7 @@
 	            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.miscFee.fee}}</div>
 	          </div>
 	        </div>
-	        <div *ngIf="hideDeposit == false && data.deposit != null" class="d-flex inv-row">
+	        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
 	          <div class="row-icon" (click)="hideInvoiceRow('deposit')">
 	            <img src="./assets/images/withdraw-ico@2x.png">
 	          </div>

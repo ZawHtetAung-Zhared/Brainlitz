@@ -1225,6 +1225,16 @@ export class CourseComponent implements OnInit {
        this.total = n.toFixed(2);
        this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
        console.log('n and total',n,this.total);
+       if(this.invoice[i].registrationFee.fee == null){
+         this.hideReg = true;
+       }
+       if(this.invoice[i].miscFee.fee == null){
+         this.hideMisc = true;
+       }
+       if(this.invoice[i].deposit == null){
+         this.hideDeposit = true;
+       }
+
        this.invoiceCourse["fees"] = invoice[i].courseFee.fee;
        if(invoice[i].courseId == this.detailLists._id){
          this.invoiceCourse["name"] = this.detailLists.name;
