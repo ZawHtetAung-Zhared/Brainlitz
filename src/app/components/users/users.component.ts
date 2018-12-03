@@ -1148,8 +1148,18 @@ export class UsersComponent implements OnInit {
 			var n = this.invoice[i].total;
 			this.total = n.toFixed(2);
 			this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
+			if(this.invoice[i].registrationFee.fee == null){
+				this.hideReg = true;
+			}
+
+			if(this.invoice[i].miscFee.fee == null){
+				this.hideMisc = true;
+			}
+
+			if(this.invoice[i].deposit == null){
+				this.hideDeposit = true;
+			}
 		  }
-		  // this.showOneInvoice(this.invoice);
 		},err => {
 		  console.log(err);
 		})
