@@ -363,9 +363,12 @@
                         <input type="text" name="" class="form-control" (input) = "search($event.target.value)">
                         <div class="currency-list">
                           <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)" >
-                            <div class="c-sign">
-                              <div class="pull-left" *ngIf="key == 'sgd'">S</div>
-                              {{newCurrency[key]}}
+                            <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
+                              <div class="currency-flag currency-flag-{{key}}"></div>
+                              <div class="c-sign">
+                                <div class="pull-left" *ngIf="key == 'sgd'">S</div>
+                                {{newCurrency[key]}}
+                              </div>
                             </div>
                           </div>
                         </div>
