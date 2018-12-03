@@ -119,7 +119,8 @@
                     </div>
                     <label class="labelTitle">Company name</label>
                   </div>
-                  <label class="labelName">{{invoiceData.companyName}}</label>
+                  <label *ngIf="invoiceData.companyName != ''" class="labelName">{{invoiceData.companyName}}</label>
+                  <label *ngIf="invoiceData.companyName == ''" class="labelName">-</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -128,7 +129,8 @@
                     </div>
                     <label class="labelTitle">Registration number</label>
                   </div>
-                  <label class="labelName">{{invoiceData.registration}}</label>
+                  <label *ngIf="invoiceData.registration != ''" class="labelName">{{invoiceData.registration}}</label>
+                  <label *ngIf="invoiceData.registration == ''" class="labelName">-</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -137,7 +139,8 @@
                     </div>
                     <label class="labelTitle">Address</label>
                   </div>
-                  <label class="labelName">{{invoiceData.address}} {{invoiceData.city}}</label>
+                  <label *ngIf="invoiceData.address != '' || invoiceData.city != ''" class="labelName">{{invoiceData.address}} {{invoiceData.city}}</label>
+                  <label *ngIf="invoiceData.address == '' && invoiceData.city == ''" class="labelName">-</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -146,7 +149,8 @@
                     </div>
                     <label class="labelTitle">Email</label>
                   </div>
-                  <label class="labelName">{{invoiceData.email}}</label>
+                  <label *ngIf="invoiceData.email != ''" class="labelName">{{invoiceData.email}}</label>
+                  <label *ngIf="invoiceData.email == ''" class="labelName">{{invoiceData.email}}</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -268,7 +272,12 @@
                     </div>
                     <label class="labelTitle">Tax setting</label>
                   </div>
-                  <label class="labelName">{{paymentData.tax.name}} ({{paymentData.tax.rate}}%)</label>
+                  <label class="labelName">
+                    <span *ngIf="paymentData.tax.name != ''" >{{paymentData.tax.name}} </span>
+                    <span *ngIf="paymentData.tax.name == ''" >- </span>
+                    <span *ngIf="paymentData.tax.rate != null">{{paymentData.tax.rate}}</span>
+                    <span *ngIf="paymentData.tax.rate == null">(-)</span>
+                  </label>
                 </div>
                 <div class="sectionWrap">
                   <label class="sectionTitle">Online payment</label>
