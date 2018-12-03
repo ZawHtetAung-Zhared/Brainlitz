@@ -119,7 +119,8 @@
                     </div>
                     <label class="labelTitle">Company name</label>
                   </div>
-                  <label class="labelName">{{invoiceData.companyName}}</label>
+                  <label *ngIf="invoiceData.companyName != ''" class="labelName">{{invoiceData.companyName}}</label>
+                  <label *ngIf="invoiceData.companyName == ''" class="labelName">-</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -128,7 +129,8 @@
                     </div>
                     <label class="labelTitle">Registration number</label>
                   </div>
-                  <label class="labelName">{{invoiceData.registration}}</label>
+                  <label *ngIf="invoiceData.registration != ''" class="labelName">{{invoiceData.registration}}</label>
+                  <label *ngIf="invoiceData.registration == ''" class="labelName">-</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -137,7 +139,8 @@
                     </div>
                     <label class="labelTitle">Address</label>
                   </div>
-                  <label class="labelName">{{invoiceData.address}} {{invoiceData.city}}</label>
+                  <label *ngIf="invoiceData.address != '' || invoiceData.city != ''" class="labelName">{{invoiceData.address}} {{invoiceData.city}}</label>
+                  <label *ngIf="invoiceData.address == '' && invoiceData.city == ''" class="labelName">-</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -146,7 +149,8 @@
                     </div>
                     <label class="labelTitle">Email</label>
                   </div>
-                  <label class="labelName">{{invoiceData.email}}</label>
+                  <label *ngIf="invoiceData.email != ''" class="labelName">{{invoiceData.email}}</label>
+                  <label *ngIf="invoiceData.email == ''" class="labelName">{{invoiceData.email}}</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -171,7 +175,7 @@
 
             <div *ngIf="generalDemo.regional != ''" class="card card-wrap">
               <div class="title">
-                App Settings
+                App Settings 
               </div>
               <div class="setting-container">
                 <div class="setting-info" [ngClass]="{'blur': isUrlEdit}">
@@ -268,7 +272,12 @@
                     </div>
                     <label class="labelTitle">Tax setting</label>
                   </div>
-                  <label class="labelName">{{paymentData.tax.name}} ({{paymentData.tax.rate}}%)</label>
+                  <label class="labelName">
+                    <span *ngIf="paymentData.tax.name != ''" >{{paymentData.tax.name}} </span>
+                    <span *ngIf="paymentData.tax.name == ''" >- </span>
+                    <span *ngIf="paymentData.tax.rate != null">{{paymentData.tax.rate}}</span>
+                    <span *ngIf="paymentData.tax.rate == null">(-)</span>
+                  </label>
                 </div>
                 <div class="sectionWrap">
                   <label class="sectionTitle">Online payment</label>
@@ -354,17 +363,19 @@
                         <input type="text" name="" class="form-control" (input) = "search($event.target.value)">
                         <div class="currency-list">
                           <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)" >
-                            <div class="currency-flag currency-flag-{{key}}"></div>
-                            <div class="c-sign">
-                              <div class="pull-left" *ngIf="key == 'sgd'">S</div>
-                              {{newCurrency[key]}}
+                            <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
+                              <div class="currency-flag currency-flag-{{key}}"></div>
+                              <div class="c-sign">
+                                <div class="pull-left" *ngIf="key == 'sgd'">S</div>
+                                {{newCurrency[key]}}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>  
-                    
-                  </div>
+                    </div>
+                  </div> 
+                  <!-- </div> -->
                 </div>
                 <div class="d-flex justify-content-end form-footer">
                   <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
@@ -388,9 +399,11 @@
                         <input type="text" name="" class="form-control" (input) = "search($event.target.value)">
                         <div class="currency-list">
                           <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)" >
-                            <div class="currency-flag currency-flag-{{key}}"></div>
-                            <div class="c-sign">
-                              {{key}}
+                            <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
+                              <div class="currency-flag currency-flag-{{key}}"></div>
+                              <div class="c-sign">
+                                {{key}}
+                              </div>
                             </div>
                           </div>
                         </div>

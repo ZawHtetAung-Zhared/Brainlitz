@@ -718,7 +718,12 @@ export class CoursecreateComponent implements OnInit {
     // let locationId = this.detailLists.locationId;
     console.log('searchword',searchWord);
     if(searchWord == ''){
-      console.log("NULL")
+      console.log("NULL");
+       this._service.getAllUsers(this.regionID, 'staff', 20 , 0)
+       .subscribe((res:any) => {
+         this.userLists = res;
+         console.log("userLists",this.userLists);
+       })
     }else{
       var pplArr = [];
       var pplListArr = [];
