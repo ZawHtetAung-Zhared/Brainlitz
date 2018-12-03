@@ -51,6 +51,7 @@ export class CourseplanComponent implements OnInit {
   public createButton: boolean = true;
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public currency = JSON.parse(localStorage.getItem('currency'));
   editId: any;
   selectcPlan: any;
   viewCplan: any;
@@ -80,6 +81,7 @@ export class CourseplanComponent implements OnInit {
   public goBackCat: boolean = false;
   public focusCfee: boolean = false;
   public focusMisfee: boolean = false;
+  public focusProFee:boolean = false;
   public focusOptionfee: boolean = false;
   step1FormaData: any;
   step2FormaData: any;
@@ -119,6 +121,8 @@ export class CourseplanComponent implements OnInit {
   public optArr=[];
   public editPlanId = localStorage.getItem("editCPId");
   public isEditCP:boolean = false;
+  public taxOptShow:boolean = false;
+  public chooseTax;
 
   ngOnInit() {
     this.showModal = true;
@@ -150,6 +154,7 @@ export class CourseplanComponent implements OnInit {
     }, 200)
 
     this.step1 = true;
+    // this.step7 = true;
     this.getAllModule();
     this.showSearchAPG = true;
     if(this.editPlanId){
@@ -382,7 +387,7 @@ export class CourseplanComponent implements OnInit {
       "paymentPolicy": {
         "deposit": this.depositId,
         "courseFee": this.step3FormaData.courseFee,
-        "proratedLessonFee": formData.allowProrated,
+        "proratedLessonFee": formData.proratedLessonFee,
         "miscFee": formData.miscFee,
         "allowProrated": formData.allowProrated
       },
@@ -404,6 +409,16 @@ export class CourseplanComponent implements OnInit {
     if(Object.keys(obj).length != 0){
       console.log("lll");
       data.paymentPolicy["courseFeeOptions"] = obj;
+    }
+
+    if(this.chooseTax != ''){
+      console.log("TTT",this.chooseTax);
+      if(this.chooseTax == 'inclusive'){
+        data.paymentPolicy["taxInclusive"] = true;
+      }else{
+        data.paymentPolicy["taxInclusive"] = false;
+      }
+      
     }
 
     console.log(data)
@@ -849,6 +864,14 @@ export class CourseplanComponent implements OnInit {
         }
         this.focusMisfee = false;
 
+        if(this.focusProFee == true){
+          $('.profee-bg').addClass("focus-bg");
+        }
+        else {
+          $('.profee-bg').removeClass("focus-bg");
+        }
+        this.focusProFee = false;
+
         // for deposit dropdown
         if(this.depositMenuShow == false){
            $('.new-dropdown').css('display', 'none'); 
@@ -869,6 +892,23 @@ export class CourseplanComponent implements OnInit {
 
   }
 
+  showDropdown(type,state){
+    console.log(type,state)
+    if(type == 'taxOpt'){
+      this.taxOptShow = true;
+    }
+  }
+  closeDropdown(event,type){
+    if(type == 'taxOpt'){
+      var parentWrap = event.path.filter(function(res){
+        return res.className == "form-group has-feedback taxOpt-wrap"
+      })
+      if(parentWrap.length == 0){
+        this.taxOptShow = false;
+      }
+    }
+  }
+
   depositDropdown(){
     var y = document.getElementsByClassName('new-dropdown');
     if( (y[0]as HTMLElement).style.display == 'block'){
@@ -886,6 +926,11 @@ export class CourseplanComponent implements OnInit {
     // this.depositId = item._id;
     this.formField.depositAmount = item.amount;
     this.depositId = item._id;
+  }
+
+  chooseTaxOption(type){
+    this.chooseTax = type;
+    console.log("choose Tax",type);
   }
 
  holidayDropdown(){
@@ -946,6 +991,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   numberOnly(event, type){
+    console.log('hhh')
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -982,6 +1028,9 @@ export class CourseplanComponent implements OnInit {
     }else if(type == 'misFee'){
       this.focusMisfee = true;
       $('.misfee-bg').addClass("focus-bg");
+    }else if(type == 'prorateFee'){
+      this.focusProFee = true;
+      $('.profee-bg').addClass("focus-bg");
     }
   }
 

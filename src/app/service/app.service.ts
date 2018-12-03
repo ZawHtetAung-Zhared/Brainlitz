@@ -265,6 +265,47 @@ export class appService{
       }) 
     }
 
+    paymentProvider(): Observable<any>{
+      this.getLocalstorage();
+      let url = this.baseUrl + '/payment-providers';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    invoiceSetting(regionId: any, type): Observable<any>{
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + regionId + '/setting/payment-invoice?option=' + type;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    updateInvoiceSetting(regionId:string, body: object){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/setting/payment-invoice';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body, httpOptions)
+      .map((res:Response) => {
+        return res;
+      })
+    }
+
     updateRegionalInfo(regionId:string, body: object, token: any, type: any){
       let apiUrl = this.baseUrl  + '/regions/' + regionId;
       const httpOptions = {
@@ -1048,6 +1089,51 @@ export class appService{
             
     }
 
+    simpleCourseSearch(regionID: string, keyword: string, locationID: string, limit, skip){
+      this.getLocalstorage();
+      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID +'&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
+    advanceCourseSearch(regionID: string, locationID: string, keyword: string, repeatedDays, eventStart, eventEnd, planIDArray, categoryIDArray, limit, skip){
+      this.getLocalstorage();
+
+      console.log(keyword)
+      console.log(categoryIDArray)
+      let url = this.baseUrl+ '/' + regionID + '/course?locationId=' + locationID ;
+
+      url = (keyword != undefined) ? url +'&keyword=' + keyword : url;
+      url = (repeatedDays != '') ? url + '&repeatedDays=' + repeatedDays : url;
+      url = (eventStart != null) ? url + '&startDate=' + eventStart : url; 
+      url = (eventEnd != null) ? url + '&endDate=' + eventEnd : url;
+      url = (categoryIDArray != null)  ? url + '&categoryId=' + categoryIDArray : url;
+      url = (planIDArray != null) ? url + '&coursePlanId='+ planIDArray : url;
+
+      url = url + '&limit=' + limit + '&skip=' + skip;
+
+      console.log(url)
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
     getAllCourse(id: string, locationid:string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
       let url = this.baseUrl+ '/' + id + '/course?locationId=' + locationid +'&limit=' + limit + '&skip=' + skip;
@@ -1122,6 +1208,26 @@ export class appService{
       })
     }
 
+    swapTeacher(courseId: string, body){
+      console.log(body)
+      let apiUrl = this.baseUrl + '/' + courseId + '/swap/teacher';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      console.log(httpOptions)
+
+      return this.httpClient.post(apiUrl, body, httpOptions)
+        .map((res:Response) => {
+          let result = res; 
+          console.log(result)
+          return result;
+        })
+    }
+
     assignUser(regionid,body,locationid){
       console.log(regionid)
       console.log(body)
@@ -1162,7 +1268,7 @@ export class appService{
     }
 
     getAssessment(regionid, courseid, assessment){      
-      let url = this.baseUrl+ '/' + regionid + '/course/user/' + courseid + '?assessment=' + assessment;
+      let url = this.baseUrl+ '/' + regionid + '/course/assessment/' + courseid ;
       const httpOptions = {
           headers: new HttpHeaders({ 
           'authorization': this.tokenType + ' ' + this.accessToken})
@@ -1620,6 +1726,80 @@ export class appService{
       .map((res:Response) => {
         let result = res; 
         console.log(result)
+        return result;
+      })
+    }
+
+    invoiceOption(regionid, invoiceId, body, option){
+      console.log(regionid)
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/invoices' + '/' + invoiceId + '/' + option;
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      console.log(httpOptions)
+      console.log("authorization",this.tokenType + ' ' + this.accessToken)
+
+      return this.httpClient.post(apiUrl, body, httpOptions)
+        .map((res:Response) => {
+          let result = res; 
+          console.log(result)
+          return result;
+        })
+    }
+
+    makePayment(regionId:string,body:any){
+      console.log(regionId,body)
+      let apiUrl = this.baseUrl + '/' + regionId + '/payments';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      })
+    }
+
+    getSingleInvoice(invoiceId:string){
+      console.log('invID',invoiceId)
+      let apiUrl = this.baseUrl + '/invoices/' + invoiceId;
+
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    updateInvoiceInfo(invoiceId:string,body:any){
+      console.log(body);
+      let apiUrl = this.baseUrl + '/invoices/' + invoiceId;
+
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.put(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
         return result;
       })
     }

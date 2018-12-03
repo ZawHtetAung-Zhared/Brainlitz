@@ -64,6 +64,7 @@ import { UserStaffComponent } from './components/user-staff/user-staff.component
 import { HomeComponent } from './components/home/home.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     MapToIterable,
     FilterPipe,
     CustomfieldComponent,
-    EmailtemplateComponent
+    EmailtemplateComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,

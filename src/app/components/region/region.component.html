@@ -10,7 +10,7 @@
 	<div class="row justify-content-start">
 		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 col-xl-3" *ngFor="let region of regionLists; let i = index" [attr.data-index]="i">
 			<div class="region-item">
-				<a routerLink="/customer" (click)="setRegionID(region._id)">
+				<a routerLink="/customer" (click)="setRegionID(region)">
 		      	  {{region.name}}
 		      	</a> 
 	      	</div>

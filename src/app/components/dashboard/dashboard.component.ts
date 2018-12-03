@@ -8,6 +8,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
+import * as currency from 'currency-symbol-map/map';
+// import currencyToSymbolMap from 'currency-symbol-map/map'
 
 @Component({
   selector: 'app-dashboard',
@@ -40,6 +42,45 @@ export class DashboardComponent implements OnInit {
   public generalDemo:any = [];
   public locationSidebar:any = [];
   public customSidebar:any = [];
+  public option:any;
+  public invoice:any = {};
+  
+  public isOnline:boolean = false;
+  public showDropdown:boolean = false;
+  public showProvider:boolean = false;
+  public online:any = {};
+  public currency_symbol:any;
+  public providers:any = {};
+  public providerTemp:any = {};
+  public providerArray:Array<any> = [];
+  public newCurrency:any = {};
+  public objectKeys: any;
+  public selectedCurrency: any;
+  public selectedProvider: any= '';
+  public selectedFlag: any;
+  public invoiceData: any ={
+    "companyName" : "",
+    "address" : "",
+    "email" : "",
+    "prefix"  : "",
+    "currencySign"  : "",
+  };
+  public payment:any = {}
+  public paymentData:any = {
+    "tax": {
+      "rate": "",
+      "name": ""
+    },
+    "paymentProviders": [
+      {
+        "id": 0,
+        "name": "",
+        "Mcptid": ""
+      }
+    ],
+    "currencyCode": ""
+  };
+  public flags = ['aed','afn','all','amd','ang','aoa','ars','aud','awg','azn','bam','bbd','bdt','bgn','bhd','bif','bmd','bnd','bob','brl','bsd','btn','bwp','byn','bzd','cad','cdf','chf','clp','cny','cop','crc','cup','cve','czk','djf','dkk','dop','dzd','egp','ern','etb','eur','fjd','fkp','gbp','gel','ghs','gip','gmd','gnf','gtq','gyd','hkd','hnl','hrk','htg','huf','idr','ils','inr','iqd','irr','isk','jmd','jod','jpy','kes','kgs','khr','kmf','kpw','krw','kwd','kyd','kzt','lak','lbp','lkr','lrd','ltl','lyd','mad','mdl','mga','mkd','mmk','mnt','mop','mro','mur','mvr','mwk','mxn','myr','mzn','nad','ngn','nio','nok','npr','nzd','omr','pen','pgk','php','pkr','pln','pyg','qar','ron','rsd','rub','rwf','sar','sbd','scr','sek','sgd','shp','sll','sos','srd','std','svc','syp','szl','thb','tjs','tnd','top','try','ttd','twd','tzs','uah','ugx','usd','uyu','uzs','vef','vnd','vuv','wst','xaf','xcd','xof','xpf','yer','zar','zmw']
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
@@ -62,6 +103,9 @@ export class DashboardComponent implements OnInit {
         localStorage.setItem('permission', JSON.stringify(data))
       }
     });
+
+    this.getInvoiceSetting('invoiceSettings')
+    this.getPaymentSetting('paymentSettings')
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -123,6 +167,36 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  getInvoiceSetting(type){
+    this._service.invoiceSetting(this.regionId, type)
+    .subscribe((res:any) => {
+      console.log(res)
+      this.invoiceData = res;
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  getPaymentSetting(type){
+    this._service.invoiceSetting(this.regionId, type)
+    .subscribe((res:any) => {
+      console.log(res)
+      this.paymentData = res;
+      this.providerTemp = this.paymentData.paymentProviders;      
+
+      if(this.providerTemp.length > 0){
+        this.providerArray= [];
+        for(let j=0; j< this.providerTemp.length; j++){
+          this.providerArray.push(this.providerTemp[j].name)
+        }
+      }else{
+        this.providerArray = []
+      }
+    }, err => {
+      console.log(err)
+    })
+  }
+
   isModuleList(){
     this._service.getAllModule(this.regionId)
     .subscribe((res:any) => {
@@ -177,5 +251,205 @@ export class DashboardComponent implements OnInit {
 
   clickTab(type){
     this.menuType = type;
+    this.cancel();
+  }
+
+  editSetting(type){
+    console.log('hi')
+    this.option = type;
+    this.getCurrency();
+    this.selectedCurrency = this.invoiceData.currencySign;
+    this.selectedFlag = this.invoiceData.currencyCode;
+    
+    this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
+    if(this.isOnline == true){
+      this._service.paymentProvider()
+      .subscribe((res:any) => {
+        console.log(res)
+        this.providers = res;
+      }, err => {
+        console.log(err)
+      })
+    }
+  }
+
+  getCurrency(){
+    this.objectKeys = Object.keys;
+    this.currency_symbol = currency;
+    var key, keys = Object.keys(this.currency_symbol);
+    var n = keys.length;
+    var newobj={}
+    while (n--) {
+      key = keys[n];
+      this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+    }
+    console.log(this.newCurrency)
+  }
+
+  search(val){
+    console.log(this.newCurrency.hasOwnProperty(val))
+    if(val.length > 0){
+      if(this.newCurrency.hasOwnProperty(val)){
+        var keyObj = val
+        this.newCurrency = {[keyObj]: this.newCurrency[val]}      
+      }
+    }else{
+      this.getCurrency();
+    }
+    
+  }
+
+  showCurrencyBox(type){
+    console.log('hiii')
+    if(type == 'currency'){
+      this.showDropdown = true;
+      this.getCurrency();
+    }else{
+      this.showProvider = true;
+    }
+  }
+
+  closeBox(event) {
+    console.log('~~~ :P')
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "currency-wrap"
+    })
+    if(parentWrap.length == 0){
+      this.showDropdown = false;
+    }
+  }
+
+  closeProvider(event) {
+    console.log('~~~ :P')
+    var parentWrap = event.path.filter(function(res){
+      return res.className == "current-currency d-flex justify-content-between"
+    })
+    if(parentWrap.length == 0){
+      this.showProvider = false;
+    }
+  }
+
+  removeTempData(id){
+    let dataIndex;
+    for(let x in this.providerTemp){
+      if(this.providerTemp[x].id == id){
+        dataIndex = x;
+      }
+    }
+    this.providerTemp.splice(dataIndex,1);
+    console.log(this.providerTemp);
+    console.log(this.paymentData.paymentProviders);
+    if(this.providerTemp == 0){
+      this.payment = {}
+    }
+  }
+
+  selectCurrency(data, key){
+    console.log(key)
+    console.log(data)
+    this.selectedCurrency = data;
+    this.selectedFlag = key;
+  }
+
+  selectProvider(id, name){
+    console.log(id, '-' ,name)
+    this.selectedProvider = name
+    this.payment.name = name
+  }
+
+  updateInvoice(data, type){
+    console.log(data)
+    var body;
+    data['currencyCode'] = this.selectedFlag;
+    data['currencySign'] = this.selectedCurrency;
+    if(type == 'invoice'){
+      console.log('if')
+      this.paymentData['currencyCode'] = this.selectedFlag;
+      this.paymentData['currencySign'] = this.selectedCurrency;
+      
+      body = {
+        'invoiceSettings': data,
+        'paymentSettings': this.paymentData
+      }
+    }else{
+      console.log('else')
+      this.invoiceData['currencyCode'] = this.selectedFlag;
+      this.invoiceData['currencySign'] = this.selectedCurrency;
+      if(this.isOnline == true){
+        console.log(this.payment)
+        if(this.providerTemp.length > 0){
+          console.log('no', this.providerTemp)
+          data.paymentProviders = this.providerTemp;
+        }else{
+          if(this.payment.hasOwnProperty('name') == true){
+            data.paymentProviders.push(this.payment);
+          }else{
+            data.paymentProviders = []
+          }       
+        }
+      }else{
+        data.paymentProviders = []
+      }
+      body = {
+        'invoiceSettings': this.invoiceData,
+        'paymentSettings': data
+      }
+    }
+    
+    console.log(body)
+    this.blockUI.start('Loading...');
+    this._service.updateInvoiceSetting(this.regionId, body)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      console.log(res)
+      this.invoiceData = res.invoiceSettings;
+      this.paymentData = res.paymentSettings;
+      let currency = {
+      'invCurrencyCode': res.invoiceSettings.currencyCode,
+      'invCurrencySign': res.invoiceSettings.currencySign
+    };
+    console.log(currency);
+    localStorage.setItem('currency',JSON.stringify(currency))
+      this.cancel();
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
+  }
+
+  cancel(){
+    this.option = '';
+    this.payment = {};
+    this.invoice = {};
+    this.online = {};
+    this.isOnline = false;
+    this.selectedProvider= '';
+    this.getInvoiceSetting('invoiceSettings')
+    this.getPaymentSetting('paymentSettings')
+  }
+
+  numberOnly(event, type){
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if(event.target.value.search(/^0/) != -1){
+      event.target.value = '';  
+    }
+  }
+
+  onlinePayment(){
+    this.isOnline = !this.isOnline;
+    if(this.isOnline == true){
+      this._service.paymentProvider()
+      .subscribe((res:any) => {
+        console.log(res)
+        this.providers = res;
+      }, err => {
+        console.log(err)
+      })
+    }else{
+      this.payment = {}
+    }
   }
 }

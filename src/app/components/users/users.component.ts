@@ -97,6 +97,40 @@ export class UsersComponent implements OnInit {
 	acWord:any;
 	public permissionType: any;
 
+	/*for invoice*/
+	public showInvoice:boolean = false;
+	public currency = JSON.parse(localStorage.getItem('currency'));
+	public logo:any = localStorage.getItem("OrgLogo");
+	public showBox:boolean = false;
+	public discount:number = 0;
+	public value:any = {};
+	public showMailPopup:boolean = false;
+	public invoiceInfo:any;
+	public invoice:any;
+	public updatedDate;
+	public dueDate;
+	public invoiceID;
+	public showPayment:boolean = false;
+	public selectedPayment:any;
+	public paymentItem:any = {};
+	public invoiceCourse:any = {};
+	public feesBox:boolean = false;
+	public depositBox:boolean = false;
+	public regBox:boolean = false;
+	public prefixInvId:any;
+	public token:any;
+	public type:any;
+	public paymentProviders:any;
+	public refInvID:any;
+	public invTaxName:any;
+	public hideReg:boolean = false;
+  	public hideDeposit:boolean = false;
+  	public total:any;
+  	public singleInv:any = [];
+	public isEditInv:any = false;
+	public updateInvData:any = {};
+	public hideMisc:boolean = false; 
+
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 	}
@@ -114,6 +148,7 @@ export class UsersComponent implements OnInit {
 		    this.checkPermission();
 		  }
 		});
+		this.selectedPayment = 'Cash';
 	}
 
 	ngAfterViewInit() {
@@ -811,7 +846,7 @@ export class UsersComponent implements OnInit {
 
 	callEnrollModal(enrollModal, userId){
 		console.log(userId)
-		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});		
+		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});		
 		this.getAC(20, 0, userId)
 	}
 
@@ -825,10 +860,11 @@ export class UsersComponent implements OnInit {
 	    });
 	}
 
-	enrollUser(courseId){
+	enrollUser(course){
 		console.log(this.custDetail);
+		let courseId = course._id;
 		let body = {
-		   'courseId': courseId,
+		   'courseId': course._id,
 		   'userId': this.custDetail.user.userId,
 		   'userType': 'customer'
 		}
@@ -836,18 +872,297 @@ export class UsersComponent implements OnInit {
 		  	.subscribe((res:any) => {
 		     	console.log(res);
 		     	this.toastr.success('Successfully Enrolled.');
-		     	this.showDetails(this.custDetail.user.userId);
-		     	this.closeModel();
-		     	// this.modalReference.close();
-		     	// this.availableCourses = [];
+		     	// this.showDetails(this.custDetail.user.userId);
+		     	// this.closeModel();
+		     	/* for invoice*/
+		     	this.showInvoice = true;
+		     	this.invoiceInfo = res.invoiceSettings;
+				this.invoice = res.invoice;
+				this.showInvoice = true; 
+				for(var i in this.invoice){
+				 this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
+				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
+				 this.invoiceID = this.invoice[i]._id;
+				 this.refInvID = this.invoice[i].refInvoiceId;
+				 this.invTaxName = this.invoice[i].tax.name;
+				 var n = this.invoice[i].total;
+				 this.total = n.toFixed(2);
+				 this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
+				 console.log('n and total',n,this.total);
+				 this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
+				 if(this.invoice[i].courseId == course._id){
+				   this.invoiceCourse["name"] = course.name;
+		           this.invoiceCourse["startDate"] = course.startDate;
+		           this.invoiceCourse["endDate"] = course.endDate;
+		           this.invoiceCourse["lessonCount"] = course.lessonCount;
+				 }
+				}
 		  	}, err => {  
 		    	console.log(err);
 		  	});
 	}
 
-	closeModel(){
+	dateFormat(dateStr){
+	    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	    ]; 
+	     var d = new Date(dateStr);
+	     var month = monthNames[d.getUTCMonth()];
+	     var year = d.getUTCFullYear();
+	     var date = d.getUTCDate();
+	     console.log(date,month,year)
+	     var dFormat = date + ' ' + month + ' ' + year;
+	     console.log("DD MM YYYY",dFormat);
+	     return dFormat;
+	  }
+
+	showPopup(type,value){
+		console.log("show popup");
+		this.isEditInv = true;
+		if(type == 'courseFee'){
+		  this.feesBox = true;
+		  this.value.courseFee = value;
+		}
+	}
+
+	cancelPopup(type){
+		if((this.hideReg == true && this.hideDeposit == true && this.hideMisc == true) || this.hideReg == true || this.hideDeposit == true || this.hideMisc == true){
+	      this.isEditInv = true;
+	    }else{
+	      this.isEditInv = false;
+	    }
+		console.log("hide popup")
+		if(type == 'courseFee'){
+		  this.feesBox = false;
+		  this.value.courseFee = '';
+		}
+	}
+
+	updateCfee(data){
+		console.log("updateCfee",data);
+		this.feesBox = false;
+		for(var i in this.invoice){
+		  if(this.invoice[i].courseFee.fee != data){
+		    console.log("===not same");
+		    this.updateInvData["courseFee"] = data;
+		    this.invoice[i].courseFee.fee = Number(data);
+	        console.log(this.invoice[i].courseFee.fee)
+	        // formula for calculating the inclusive tax
+	        // Product price x RATE OF TAX/ (100+RATE OF TAX);
+	        if(this.invoice[i].courseFee.taxInclusive == true){
+	          var taxRate = this.invoice[i].tax.rate;
+	          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+	          this.invoice[i].courseFee.tax =Number(taxAmount);
+	          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+	          var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
+	          this.invoice[i].courseFee.fee = Number(cFee);
+	          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee)
+	        }else if(this.invoice[i].courseFee.taxInclusive == false){
+	          var taxRate = this.invoice[i].tax.rate;
+	          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+	          this.invoice[i].courseFee.tax =Number(taxAmount);
+	          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+	          // var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
+	          // this.invoice[i].courseFee.fee = Number(cFee);
+	          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee)
+	        }
+	        
+	        this.calculateHideFees('cFees')
+		  }else{
+		    console.log("===same");
+		  } 
+		}
+	}
+
+	calculateHideFees(type){
+	    console.log("calculateHideFees");
+	    for (var i in this.invoice) {
+	      var regFees:number;
+	      var regTax:number;
+	      var miscFees:number;
+	      var miscTax:number;
+	      var deposit:number;
+	      var totalTaxes:number;
+
+	      if(this.hideReg == true){
+	        regFees = 0;
+	        regTax = 0;
+	      }else{
+	        regFees = this.invoice[i].registrationFee.fee;
+	        regTax = this.invoice[i].registrationFee.tax;
+	      }
+
+	      if(this.hideMisc == true){
+	        miscFees = 0;
+	        miscTax = 0;
+	      }else{
+	        miscFees = this.invoice[i].miscFee.fee;
+	        miscTax = this.invoice[i].miscFee.tax;
+	      }
+
+	      if(this.hideDeposit == true){
+	        deposit = 0;
+	      }else{
+	        deposit = this.invoice[i].deposit;
+	      }
+
+	      totalTaxes = regTax + miscTax + Number(this.invoice[i].courseFee.tax);
+	      console.log("Total taxes and deposit",totalTaxes,deposit)
+	      this.invoice[i].subtotal = (regFees + miscFees + deposit + this.invoice[i].courseFee.fee).toFixed(2);
+	      this.total = Number((Number(this.invoice[i].subtotal)+ totalTaxes).toFixed(2));
+	      console.log("Subtotal",this.invoice[i].subtotal);
+	      console.log("Total",this.total);
+	    }
+    }
+
+	sendInvoice(){
+	    console.log("send Invoice",this.invoiceID);
+	    var mailArr = [];
+	    mailArr.push(this.custDetail.user.email);
+	    for(var i in this.custDetail.user.guardians){
+	      mailArr.push(this.custDetail.user.guardians[i].email);
+	    }
+	    console.log("mailArr",mailArr);
+	    let body = {
+	      "associatedMails": mailArr
+	    }
+	    console.log("body",body);
+	    this._service.invoiceOption(this.regionID, this.invoiceID, body, 'send')
+	    .subscribe((res:any) => {
+	      console.log(res);
+	      this.toastr.success("Successfully sent the Invoice.");
+	      this.closeModal('closeInv');
+	    }, err => {  
+	      console.log(err);
+	      this.toastr.error('Fail to sent the Invoice.');
+	    })
+	}
+
+	// cancelInvoiceModal(){
+	//     this.modalReference.close();
+	//     this.availableCourses = [];
+	//     this.showInvoice = false;
+	//     this.showPayment = false;
+	//     this.paymentItem = {};
+	//     this.showDetails(this.custDetail.user.userId);
+	//   }
+
+	closeModal(type){
 		this.modalReference.close();
 		this.availableCourses = [];
+		this.showInvoice = false;
+		this.showPayment = false;
+		this.paymentItem = {};
+		this.hideReg = false;
+    	this.hideDeposit = false;
+    	this.hideMisc = false;
+		this.isEditInv = false;
+		this.singleInv = [];
+		this.updateInvData = {};
+		if(type == 'closeInv'){
+			this.showDetails(this.custDetail.user.userId);
+		}
+	}
+
+	showPayOption(){
+		console.log("pay option");
+		this.showPayment = true;
+		this.showInvoice = false;
+		this.getRegionInfo();
+	}
+
+	getRegionInfo(){
+		this.token = localStorage.getItem('token');
+    	this.type = localStorage.getItem('tokenType');
+		this._service.getRegionalAdministrator(this.regionID, this.token, this.type)
+		.subscribe((res:any) => {
+			console.log("regional info",res);
+			this.paymentProviders = res.paymentSettings.paymentProviders;
+			console.log(this.paymentProviders)
+		})
+	}
+
+	choosePayment(type){
+	    console.log("choosePayment",type);
+	    this.selectedPayment = type;
+	    console.log('pItem',this.paymentItem);
+	}
+
+	payNow(type){
+		if(type == 'Cash'){
+			console.log("Cash",this.paymentItem.amount);
+			let body = {
+				'regionId': this.regionID,
+				'refInvoiceId': this.refInvID,
+				'amount': this.paymentItem.amount.toString(),
+				'paymentMethod': this.selectedPayment.toLowerCase()
+			}
+			console.log("data",body);
+			this._service.makePayment(this.regionID,body)
+			.subscribe((res:any) => {
+				console.log(res);
+				this.showDetails(this.custDetail.user.userId);
+		  		this.closeModal('closeInv');
+		  		this.toastr.success(res.message);
+			},err => {
+				this.toastr.error("Payment Fail");
+			})
+		}else{
+			console.log("Payment Type",type);
+		}
+	}
+
+	hideInvoiceRow(type){
+		this.isEditInv = true;
+		if(type == 'reg'){
+		  this.hideReg = true;
+		  this.updateInvData["registrationFee"] = null;
+		  this.calculateHideFees(type);
+		}else if(type == 'deposit'){
+		  this.hideDeposit = true;
+		  this.updateInvData["deposit"] = null;
+		  this.calculateHideFees(type);
+		}else if(type == 'misc'){
+		  this.hideMisc = true;
+		  this.updateInvData["miscFee"] = null;
+		  this.calculateHideFees(type);
+		}
+	}
+
+	printInvoice(){
+		window.print();
+	}
+
+	updateInvoice(){
+		console.log("Inv Update Data",this.updateInvData);
+		this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
+		.subscribe((res:any) => {
+		  console.log(res);
+		  this.isEditInv = false;
+		  //for updating invoice ui
+		  this.singleInv = [];
+		  this.singleInv.push(res);
+		  this.invoice = this.singleInv;
+		  console.log("invoice",this.invoice);
+		  for(var i in this.invoice){
+			var n = this.invoice[i].total;
+			this.total = n.toFixed(2);
+			this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
+			if(this.invoice[i].registrationFee.fee == null){
+				this.hideReg = true;
+			}
+
+			if(this.invoice[i].miscFee.fee == null){
+				this.hideMisc = true;
+			}
+
+			if(this.invoice[i].deposit == null){
+				this.hideDeposit = true;
+			}
+		  }
+		},err => {
+		  console.log(err);
+		})
 	}
 
 	allCourseLists(){
