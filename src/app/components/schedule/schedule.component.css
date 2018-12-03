@@ -1,4 +1,11 @@
 
+.checkboxes-wrapper{
+  margin: 0 0 32px 0!important;
+}
+.schedule-checkboxes-wrapper{
+  margin-bottom: 32px;
+  margin-left: 20px;
+}
 .schedule-title {
     width: 135px;
     height: 34px;  
@@ -120,7 +127,7 @@
 
 .form-control[_ngcontent-c1]:focus {
   outline: 0;
-  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3)!important;
+  box-shadow:none!important;
 }
 .btn-design{
     padding: 12px;
@@ -231,23 +238,50 @@ ul.scedule-data-listing li.disabled{
   height:32px;
   background:#f2f4f5;
   border-radius:16px; 
-  padding-left:4px; 
-  margin-left:20px; 
+  padding: 0px 43px 0px 9px;
+  /* margin-left:0px;  */
   margin-right:16px;
 }
+.modal-teacher-list{
+  width:207px; 
+  height:48px;
+  background:#ffffff;
+  border-radius:24px; 
+  margin: 0px 20px 20px 0px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  padding-left:4px; 
+}
+/* .teacher-pic{
+  width: 100%;
+  height: 100%;
+ 
+  object-fit: contain;
+} */
 .teacher-pic{
-  height:24px;
-  width:24px; 
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+
+.modal-teacher-pic{
+  height:32px;
+  width:32px; 
   border-radius: 100%;
+  padding-left: 8px;
 }
 .text-teacher-name{
   color: #64707d;
   font-size:12px;
 }
-
+.text-teacher-name{
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Montserrat-SemiBold;
+}
 .teacher-list-wrapper{
   width: 85%;
-  height: 50px;
+  /* height: 50px; */
   overflow-x: scroll;
 }
 .teacher-more-view{
@@ -258,4 +292,59 @@ ul.scedule-data-listing li.disabled{
 }
 .dad{
   width: 300px;
+}
+
+.close{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f2f4f5;
+}
+
+.closemark {
+  display:inline-block;
+  width: 30px;
+  height: 16px;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 24px;
+  background-color: #3d5266;
+  left: 7px;
+}
+
+.closemark_kick {
+  transform: rotate(90deg);
+}
+.modal-title{
+  font-family: Montserrat-SemiBold;
+  font-size: 28px;
+  font-weight: 600;
+  color: #2e3d4d;
+}
+
+.form-control[_ngcontent-c1][_ngcontent-c1]:focus {
+    outline: 0;
+    -webkit-box-shadow:none!important; 
+     box-shadow:none!important;
+}
+/* .modal-techerlist-wraper{
+  overflow: auto;
+  height: 250px!important;
+} */
+
+/* .profile-img-wrap{
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+} */
+
+.close:focus {
+ 
+  outline: 0px auto -webkit-focus-ring-color!important;
 }

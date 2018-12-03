@@ -3,7 +3,7 @@
   <div class="d-flex flex-column align-items-start  mt-5">
     <h3 class="schedule-title ">Schedule</h3>
     <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>      
-    <div class="checkboxes-wrapper ">
+    <div class="checkboxes-wrapper">
       <span *ngFor="let d of days">
         <label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
           <div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
@@ -44,19 +44,19 @@
 
 <!-- Schedule List -->
 <div *ngIf="!scheduleList" >
-  <div class="d-flex" >
-    <div class="mr-auto p-2 pl-0 pb-0">
+  <div class="d-flex ml-3">
+    <div class="p-2 pl-0 pb-0 ">
       <div class="back-to" (click)="backtoSchedule()">
         <i class="fa fa-angle-left"></i>
         <p>Courses</p>
       </div>
     </div>  
   </div>
-  <div class="checkboxes-wrapper d-flex flex-wrap">
+  <div class="schedule-checkboxes-wrapper d-flex flex-wrap">
     <div>
       <span *ngFor="let d of days">
         <label class="cursor-on day-checkbox" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
-          <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true">
+          <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val ,$event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true" >
           <div class="schedule-box-label">{{d.day}}</div>
         </label>
       </span>
@@ -65,7 +65,7 @@
       <input 
         class="form-control py-2 input-search-dropdown-bg" 
         type="search" 
-        placeholder="Search category" 
+        value="{{item.itemID}}" 
         name="itemID"
         [(ngModel)]="item.itemID"
         #itemID="ngModel"
@@ -82,13 +82,55 @@
       </ul>
     </div>
   </div>
-  <div class="d-flex flex-wrap w-100 ">
+
+  <div class="d-flex flex-wrap w-100  ml-3">
     <div class="teacher-list-wrapper d-flex">
       <div class="d-flex align-items-center teacher-list" *ngFor="let teacher of teachers">
-        <img src="https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg" alt=""  class="teacher-pic">
+        <div class="profile-img-wrap">
+          <img src="https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg" alt=""  class="teacher-pic">
+        </div>
         <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.name}}</p>
       </div>
     </div>
-    <div class=" ml-2 text-center pt-1 teacher-more-view">View33+</div>
+    <div class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View33+</div>
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+          <div class="checkboxes-wrapper ">
+              <span *ngFor="let d of test">
+                {{d}}
+              </span>
+          </div>
+            <p class="modal-title">Teachers</p>
+          <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
+            <span class="closemark">
+              <div class="closemark_stem"></div>
+              <div class="closemark_kick"></div>
+            </span>
+          </button>
+        
+      </div>
+      <div class="modal-body">
+        <div class="input-group mt-3">
+          <input 
+            class="form-control py-2 input-search-bg" 
+            type="search" 
+            placeholder="Search teachers"      
+          >
+          <span class="input-group-append">
+            <button class="btn btn-design btn-outline-secondary" type="button">
+              <i class="fa fa-search search-size"></i>
+            </button>
+          </span> 
+        </div>
+      </div>
+      <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper">
+        <div *ngFor="let teacher of teachers" class="d-flex align-items-center modal-teacher-list">
+            <img src="https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg" alt=""  class="modal-teacher-pic">
+            <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.name}}</p>
+        </div>      
+      </div>
+    </ng-template>
+    <!-- <button (click)=test(content)>Click</button> -->
   </div>
 </div>

@@ -583,7 +583,7 @@ ul.options-box {
     transform: rotate(90deg);
 }
 
-.load-more{
+.load-more{ 
     position: fixed;
     z-index: 99;
     bottom: 0;
