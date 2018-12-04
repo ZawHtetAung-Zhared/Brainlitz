@@ -42,6 +42,7 @@ import { ReportComponent } from './components/report/report.component';
 import { StaffPerformanceReport } from './components/report/staffPerformance/staff.component';
 import {StaffReportGraph} from './components/report/staffPerformance/graph/staffGraph.component';
 import {CourseActivitiesReportGraph} from './components/report/courseActivities/graph/courseGraph.component';
+import {StdEnrolmentReportGraph} from './components/report/studentEnrollment/graph/stdEnrolment.component';
 
 import { CourseActivitiesReport } from './components/report/courseActivities/course.component';
 import { StudentEnrollmentReport } from './components/report/studentEnrollment/enrollment.component';
@@ -95,6 +96,7 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     StaffPerformanceReport,
     StaffReportGraph,
     CourseActivitiesReportGraph,
+    StdEnrolmentReportGraph,
     CourseActivitiesReport,
     StudentEnrollmentReport,
     ApgComponent,

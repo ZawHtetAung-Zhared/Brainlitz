@@ -56,6 +56,7 @@ export class StudentEnrollmentReport implements OnInit {
       locale: {format: 'ddd, DD MMM YYYY'},
       alwaysShowCalendars: true,
     };
+    this.reportData = [];
   }
   updateGraphUsingGroupBy(event) {
     this.filter = {
