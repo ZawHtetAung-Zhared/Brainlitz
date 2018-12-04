@@ -105,6 +105,7 @@ export class CoursecreateComponent implements OnInit {
   taxOptShow:boolean = false;
   feeOptShow:boolean = false;
   chooseTax:any;
+  public flexiOn:boolean = false;
   
   @ViewChild("myInput") inputEl: ElementRef;
 
@@ -167,11 +168,15 @@ export class CoursecreateComponent implements OnInit {
       }, 300);
       this.model = res;
       this.courseFeess = res.paymentPolicy.courseFee;
-      this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
-      this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
-      this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
-      this.setToTimerange(this.model.starttime);
-      this.minDate = this.model.start;
+      if(this.model.type == "FLEXY"){
+        this.flexiOn = true;
+      }else{
+        this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
+        this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
+        this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
+        this.setToTimerange(this.model.starttime);
+        this.minDate = this.model.start;
+      }
       this.model.location = this.model.location.name;
       this.locationId = this.model.locationId;
       console.log("this location",this.locationId);
@@ -883,9 +888,13 @@ export class CoursecreateComponent implements OnInit {
     // console.log("Temp Obj",this.temp);
     if(this.conflitCourseId == ""){
       console.log("First Time");
-      this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+      // this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       this.courseObj["repeatDays"] = this.selectedDay;
-      if(this.model.end){
+      
+      if(this.flexiOn == false){
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+      }
+      if(this.model.end && this.flexiOn == false){
         console.log("Is end date???",this.model.end)
         this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
         this.temp["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
@@ -968,10 +977,15 @@ export class CoursecreateComponent implements OnInit {
         localStorage.setItem("tempObj",JSON.stringify(this.temp));
       }
     }
+
+    if(this.flexiOn == true){
+      var flexy:boolean;
+      flexy = true;
+    }
     
     console.log("Course",this.courseObj);
     this.blockUI.start('Loading...');
-    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck, this.currentLocation)
+    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck, this.currentLocation, flexy)
     .subscribe((res:any) => {
       console.log(res);
       this.blockUI.stop();
@@ -1272,6 +1286,16 @@ export class CoursecreateComponent implements OnInit {
   chooseTaxOption(type){
     this.chooseTax = type;
     console.log("choose Tax",type);
+  }
+
+  flexiOnOff(){
+    console.log("Flexible timetable")
+    if(this.flexiOn==false){
+      this.flexiOn = true;
+    }else{
+      this.flexiOn = false;
+    }
+    
   }
 
 }
