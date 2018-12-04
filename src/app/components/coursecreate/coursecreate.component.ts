@@ -104,7 +104,7 @@ export class CoursecreateComponent implements OnInit {
   isEdit:boolean = false;
   taxOptShow:boolean = false;
   feeOptShow:boolean = false;
-  chooseTax:any;
+  chooseTax:any = '';
   public flexiOn:boolean = false;
   
   @ViewChild("myInput") inputEl: ElementRef;
@@ -514,14 +514,10 @@ export class CoursecreateComponent implements OnInit {
       this.feeOptShow = true;
     }else if(type == 'taxOpt'){
       this.taxOptShow = true;
-    }else if(type == 'duration'){
-      if(state == false){
+    }else if(type == 'duration'){      
         this.durationMenuShow = true;
-      }
     }else if(type == 'search'){
-      if(state == false){
         this.searchMenuShow = true;
-      }
     }
   }
   closeDropdown(event,type){
@@ -1057,37 +1053,37 @@ export class CoursecreateComponent implements OnInit {
       });
   }
 
-  updateCourse(){
-    this.courseObj= {
-      "courseCode": this.model.courseCode,
-      "locationId": this.locationId,
-      "room": this.model.room,
-      "reservedNumberofSeat": this.model.reservedNumberofSeat,
-      "name": this.model.name,
-      "quizwerkz": [],
-      "description": this.model.description,
-    };
-    if(this.chooseFee !=''){
-      console.log("KKKK",this.chooseFee);
-      this.courseObj["courseFee"] = this.chooseFee;
-    }
-    console.log('update CourseObj',this.courseObj);
-    this.blockUI.start('Loading...');
-    this._service.updateCourse(this.conflitCourseId,this.courseObj, this.currentLocation)
-    .subscribe((res:any)=>{
-      console.log(res);
-      this.blockUI.stop();
-      this.backToCourses('');
-      setTimeout(() => {
-        this.toastr.success('Successfully Created.');
-      }, 300); 
-    },err=>{
-      this.blockUI.stop();
-      setTimeout(() => {
-        this.toastr.error('Update Fail');
-      }, 300); 
-    });
-  }
+  // updateCourse(){
+  //   this.courseObj= {
+  //     "courseCode": this.model.courseCode,
+  //     "locationId": this.locationId,
+  //     "room": this.model.room,
+  //     "reservedNumberofSeat": this.model.reservedNumberofSeat,
+  //     "name": this.model.name,
+  //     "quizwerkz": [],
+  //     "description": this.model.description,
+  //   };
+  //   if(this.chooseFee !=''){
+  //     console.log("KKKK",this.chooseFee);
+  //     this.courseObj["courseFee"] = this.chooseFee;
+  //   }
+  //   console.log('update CourseObj',this.courseObj);
+  //   this.blockUI.start('Loading...');
+  //   this._service.updateCourse(this.conflitCourseId,this.courseObj, this.currentLocation)
+  //   .subscribe((res:any)=>{
+  //     console.log(res);
+  //     this.blockUI.stop();
+  //     this.backToCourses('');
+  //     setTimeout(() => {
+  //       this.toastr.success('Successfully Created.');
+  //     }, 300); 
+  //   },err=>{
+  //     this.blockUI.stop();
+  //     setTimeout(() => {
+  //       this.toastr.error('Update Fail');
+  //     }, 300); 
+  //   });
+  // }
 
   changeDateFormat(date,time){
       if (date == null) {
