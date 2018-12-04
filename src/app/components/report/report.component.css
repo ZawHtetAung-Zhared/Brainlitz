@@ -744,7 +744,7 @@ h3.head-rating-count {
   border:0;
   padding:0;
 }
-#staffGroupBy,#courseGroupBy{
+.rpt-groupBy-opt{
   width: 240px;
   height: 44px;
   border-radius: 4px;

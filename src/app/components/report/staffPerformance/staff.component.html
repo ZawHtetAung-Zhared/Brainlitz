@@ -20,7 +20,7 @@
       Group by
     </div>
     <div style="padding-top: 15px">
-      <select id="staffGroupBy" class="form-control" name="staffGroupBy" (change)="updateGraphUsingGroupBy($event)">
+      <select id="staffGroupBy" class="form-control rpt-groupBy-opt" name="staffGroupBy" (change)="updateGraphUsingGroupBy($event)">
         <option [selected]="0" *ngFor="let staffGroupBy of staffGroupByList; let i = index" value="{{staffGroupBy}}">{{
           staffGroupBy }}
         </option>
