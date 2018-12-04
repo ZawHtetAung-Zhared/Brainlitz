@@ -29,6 +29,7 @@ export class UsersComponent implements OnInit {
 	@ViewChild('stuffPic') stuffPic: ElementRef;	
 	userid:any;
 	acResult:any;	
+	public activeTab: any;
 	public hideMenu: boolean = false;
 	public img: any;
 	public ulFile: any;
@@ -692,6 +693,7 @@ export class UsersComponent implements OnInit {
 
 
 	showDetails(ID){
+		this.activeTab = 'class';
 		this.hideMenu = false;
 		this.customerLists = [];
 		console.log(ID);
@@ -1173,6 +1175,10 @@ export class UsersComponent implements OnInit {
 	    },err =>{
 	      console.log(err);
 	    });
+	}
+
+	clickTab(val){
+		this.activeTab = val;
 	}
 
 }
