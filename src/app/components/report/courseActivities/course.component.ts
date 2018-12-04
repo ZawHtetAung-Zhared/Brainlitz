@@ -193,6 +193,29 @@ export class CourseActivitiesReport implements OnInit{
 
     }
   }
+  updateFilterType(value) {
+    this.filter = {
+      value: []
+    };
+    switch (value) {
+      case "Category":
+        this.filter.type = "category";
+        this.searchResult.value = this.categoryList;
+        break;
+      case "Course Plan":
+        this.filter.type = "coursePlan";
+        this.searchResult.value = this.coursePlanList;
+        break;
+      case "Course Name":
+        this.filter.type = "course";
+        this.searchResult.value = this.courseNameList;
+        break;
+      case "Location":
+        this.filter.type = "location";
+        this.searchResult.value = this.locationList;
+        break;
+    }
+  }
   showFilterModal(content) {
     this.searchResult.show = false;
     this.searchResult.value = this.categoryList;
