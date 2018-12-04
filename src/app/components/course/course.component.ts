@@ -1701,14 +1701,14 @@ export class CourseComponent implements OnInit {
             if(date){
               let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
               // console.log(date);
-              // console.log('starttime',starttime);
-              let piece = starttime.split(':');
-              let mins = piece[0]*60 + +piece[1] + +duration;
-              let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
-              // console.log('endtime',endtime)
-              this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
+
+            // console.log('starttime',starttime);
+            let piece = starttime.split(':');
+            let mins = piece[0]*60 + +piece[1] + +duration;
+            let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+            // console.log('endtime',endtime)
+            this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
             }
-            // let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
             // // console.log(date);
             // // console.log('starttime',starttime);
             // let piece = starttime.split(':');
