@@ -13,7 +13,7 @@ import courseSampleData from './sampleData';
 
 
 export class CourseActivitiesReport implements OnInit{
-  staffGroupByList = ['Location', 'Category', 'Course Plan'];
+  courseGroupByList = ['Location', 'Category', 'Course Plan'];
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
   categoryList = ['Art & Science', 'Dance', 'Education', 'Sports', 'Technology'];
   locationList = ['Woodland', 'Yishun', 'Admiralty', 'Bedok', 'Sembawang'];
@@ -71,7 +71,9 @@ export class CourseActivitiesReport implements OnInit{
   }
   showReportByCategory(){
     if (courseSampleData) { //check if we have data to show report
+      console.log("show Report by category");
       console.log(courseSampleData.category);
+      this.reportData = [];
       this.reportData = this.getFilteredDataGroupByCategory(courseSampleData.category);
       console.log(this.reportData);
     } else {
