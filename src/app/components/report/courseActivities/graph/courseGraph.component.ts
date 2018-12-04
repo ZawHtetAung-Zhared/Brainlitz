@@ -136,6 +136,7 @@ export class CourseActivitiesReportGraph implements OnInit {
 
   ngAfterViewInit(){
     var elem = document.getElementById('courseActiviesGraph');
+    elem.innerHTML ="";
     elem.style.height = (this.reportItems.length * 100) +'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);

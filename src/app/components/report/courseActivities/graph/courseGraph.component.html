@@ -1,1 +1,6 @@
-<div id="courseActiviesGraph" style="width:100%;margin:20px;"></div>
+<div id="courseActiviesGraph" style="width:100%;margin:20px;" *ngIf="reportItems && reportItems.length">
+
+</div>
+<div style="display: none" *ngFor="let reportItem of reportItems">
+  <span>{{reportItem.groupByTypeValue}}</span>
+</div>

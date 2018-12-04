@@ -68,13 +68,24 @@ export class CourseActivitiesReport implements OnInit{
       //Not enough data to show report
       this.reportData = [];
     }
-    console.log(this.reportData);
   }
   showReportByCategory(){
-
+    if (courseSampleData) { //check if we have data to show report
+      console.log(courseSampleData.category);
+      this.reportData = this.getFilteredDataGroupByCategory(courseSampleData.category);
+      console.log(this.reportData);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
   }
   showReportByCoursePlan(){
-
+    if (courseSampleData) { //check if we have data to show report
+      this.reportData = this.getFilteredDataGroupByCoursePlan(courseSampleData.coursePlan);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
   }
   getFilteredDataGroupByLocation(data){
     let filter = this.filter;
@@ -93,8 +104,7 @@ export class CourseActivitiesReport implements OnInit{
           "present": 0,
           "notTaken": 0,
           "count": 0
-        },
-        id: "graph" + Math.floor(Math.random() * 10000)
+        }
       };
       //if filter type is location, we will push to end of this loop
       let categories = location.categories || [];
@@ -117,6 +127,70 @@ export class CourseActivitiesReport implements OnInit{
     });
     return res;
   }
+
+  getFilteredDataGroupByCategory(data){
+    let filter = this.filter;
+    let _self = this;
+    let result = [];
+    if(filter.type == "category"){
+      data = data.filter(function (d) {
+        return filter.value.indexOf(d.catName) > -1;
+      });
+    }
+    data.forEach(function (category) {
+      let obj = {
+        groupTypeValue: category.catName,
+        lessons: {
+          "absent": 0,
+          "present": 0,
+          "notTaken": 0,
+          "count": 0
+        }
+      };
+      let coursePlans = category.coursePlans || [];
+      //iterate coursePlans under categories
+      coursePlans.forEach(function (coursePlan) {
+        let courses = coursePlan.courses || [];
+        //iterate courses under coursePlans
+        courses.forEach(function (course) {
+          let lessons = course.lessons || [];
+          Object.keys(lessons).forEach(function(key) {
+            obj.lessons[key] += lessons[key];
+          });
+        });
+      });
+      result.push(obj);
+    });
+    return result;
+  }
+
+  getFilteredDataGroupByCoursePlan(data){
+
+  }
+  updateGraphUsingGroupBy(event) {
+    this.filter = {
+      value: []
+    };
+    switch (event.target.value) {
+      case "Location":
+        this.groupBy = "location";
+        this.showReportByLocation();
+        break;
+      case "Category":
+        this.groupBy = "category";
+        this.showReportByCategory();
+        break;
+      case "Course Plan":
+        this.groupBy = "coursePlan";
+        this.showReportByCoursePlan();
+        break;
+      default:
+        this.groupBy = "location";
+        this.showReportByLocation();
+
+
+    }
+  }
   showFilterModal(content) {
     this.searchResult.show = false;
     this.searchResult.value = this.categoryList;
@@ -136,6 +210,7 @@ export class CourseActivitiesReport implements OnInit{
       console.log(reason);
     });
   }
+
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
