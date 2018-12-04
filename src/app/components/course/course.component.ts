@@ -1049,7 +1049,7 @@ export class CourseComponent implements OnInit {
       console.log('unfinish' , unfinishedDate.length)
       let lastActiveDate;
       
-
+      console.log(finishedDate)
       if(finishedDate.length != 0){
         console.log('hello in if')
         if(this.activeToday == true){
