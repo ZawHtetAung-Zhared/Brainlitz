@@ -126,8 +126,10 @@
       </div>
       <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper">
         <div *ngFor="let teacher of teachers" class="d-flex align-items-center modal-teacher-list">
+          <div >
             <img src="https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg" alt=""  class="modal-teacher-pic">
             <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.name}}</p>
+          </div>
         </div>      
       </div>
     </ng-template>

@@ -20,6 +20,7 @@ export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
   public showStudentOption:any = '';
+  public currentDateObj:any = '';
   public isvalid:boolean = false;
   public searchMore:boolean = false;
   public isvalidID:any = '';
@@ -88,7 +89,7 @@ export class CourseComponent implements OnInit {
   public userLists:any = [];
   public detailLists:any = {};
   public activeCourseInfo:any = {};
-  public LASD:any; //lastActiceStartDate
+  public LASD:any; //lastActiveStartDate
   public presentStudent:number = 0;
   public absentStudent:number = 0;
   public noStudent:number = 0;
@@ -1112,8 +1113,12 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  checkAttendance(targetDate){
+  checkAttendance(targetDate, sss){
     console.log('hi', targetDate)
+    this.currentDateObj = sss._id;
+    console.log(this.currentDateObj)
+    console.log('hi', sss)
+    console.log('testing',sss)
     this.presentStudent = 0;
     this.absentStudent = 0;
     this.noStudent = 0;
@@ -1275,6 +1280,29 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
     this.showInvoice = false;
+    this.currentDateObj = '';
+  }
+  cancelClass(content,id){
+    console.log(id)
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+ 
+  }
+
+  cancelClassFun(user,type, lessonId){
+    console.log(lessonId)
+  }
+
+  modalClose(user,type){
+    if(type=="done"){
+      // this.activeCourseInfo.CUSTOMER.splice(user)
+      console.log(this.activeCourseInfo.CUSTOMER)
+      console.log(user,type)
+      this.modalReference.close();
+    }
+    else{
+      this.modalReference.close();
+    }
+    this.currentDateObj = '';
   }
 
   getAllUsers(type){
@@ -1670,14 +1698,24 @@ export class CourseComponent implements OnInit {
           // console.log(duration);
           for(var j in this.courseList[i].courses){
             let date = this.courseList[i].courses[j].startDate;
-            let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
-            // console.log(date);
-            // console.log('starttime',starttime);
-            let piece = starttime.split(':');
-            let mins = piece[0]*60 + +piece[1] + +duration;
-            let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
-            // console.log('endtime',endtime)
-            this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
+            if(date){
+              let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
+              // console.log(date);
+              // console.log('starttime',starttime);
+              let piece = starttime.split(':');
+              let mins = piece[0]*60 + +piece[1] + +duration;
+              let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+              // console.log('endtime',endtime)
+              this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
+            }
+            // let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
+            // // console.log(date);
+            // // console.log('starttime',starttime);
+            // let piece = starttime.split(':');
+            // let mins = piece[0]*60 + +piece[1] + +duration;
+            // let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+            // // console.log('endtime',endtime)
+            // this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
           }
         }
       }else{

@@ -20,6 +20,7 @@ export class ScheduleComponent implements OnInit {
   public scheduleList:boolean=true;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public selectedTeacher:any = {};
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model:any = {};
@@ -150,6 +151,7 @@ export class ScheduleComponent implements OnInit {
     this.item.itemID = name;
     this.test.push(name)
     console.log(id, name)
+    console.log
   }
 
 
@@ -160,6 +162,8 @@ export class ScheduleComponent implements OnInit {
 
   openTeacherList(content){
   this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+  this.selectedTeacher = this.teachers[0];
+  console.log(this.selectedTeacher);
   }
   cancelModal(){
     this.modalReference.close();

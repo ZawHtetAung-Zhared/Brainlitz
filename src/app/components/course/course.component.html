@@ -612,21 +612,23 @@
       <div class="activeTab-content" *ngIf="activeTab == 'Class'">
         <div class="timeline">
           <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
-            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate)">
-              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
-                <b>{{timeline.startDate | timelineDate}}</b>
+            <!-- <pre>{{timeline | json}}</pre> -->
+           
+            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate, timeline)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+                <b>{{timeline.startDate | timelineDate}} </b>
                 <p>{{timeline.startDate | timelineDay}}</p>
               </div>
             </div>
-            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
+            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
               <div>
               <b>{{timeline.startDate | timelineDate}}</b>
               <p>{{timeline.startDate | timelineDay}}</p>
               </div>
             </div>
             <div *ngIf="timeline.startDate > todayDate">
-              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate)">
-                <b>{{timeline.startDate | timelineDate}}</b>
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+               ** <b>{{timeline.startDate | timelineDate}}</b>
                 <p>{{timeline.startDate | timelineDay}}</p>
               </div>
             </div>
@@ -638,7 +640,50 @@
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
             </div>
-            <!-- <button type="button" class="btn btn-class-cancel" (click)="cancelClass()">Cancel class</button> -->
+            {{LASD}}<br>
+            {{LASD | timelineDate}} <br>
+            {{todayDate | timelineDate}} <br>
+            {{(LASD | timelineDate) > (todayDate | timelineDate)}} <br>
+            {{(LASD | timelineDate) == (todayDate | timelineDate)}} <br>
+            {{(LASD>todayDate)}}
+            <!-- {{detailLists | json}} -->
+            <button type="button"  *ngIf="(LASD | timelineDate) == (todayDate | timelineDate) || (LASD | timelineDate) > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+            <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
+            <ng-template #content let-modal>
+              <div class="modal-header">
+                  <div class="d-flex flex-column ">
+                     <h3 class="makeup-pass-title">Give makeup pass</h3>
+                     <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                  </div>   
+                  <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
+                    <span class="closemark">
+                      <div class="closemark_stem"></div>
+                      <div class="closemark_kick"></div>
+                    </span>
+                  </button>
+                
+              </div>
+              <div class="modal-body">
+                  <div class="d-flex flex-wrap ">
+                    <div *ngFor="let user of activeCourseInfo.CUSTOMER" >
+                        <div class="d-flex flex-row justify-content-between single-student align-items-center bg-primary text-white" style="margin:0px 20px 20px 0px!important; width: 200px!important;">
+                              <span class="checkmark">
+                                  <div class="checkmark_stem"></div>
+                                  <div class="checkmark_kick"></div>
+                              </span>
+                              <p class="text-white mr-auto " style="font-size:14px!important;">{{user.preferredName}}</p>
+                            <div class="std-img-wrap1">
+                              <img src="{{user.profilePic}}" class="user-pic">
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+             <div class="modal-footer">
+               <button class="btn btn-cancel-crt" (click)="modalClose(activeCourseInfo.CUSTOMER,'cancel')">Cancel</button>
+               <button class="btn btn-done-crt" (click)="cancelClassFun(activeCourseInfo.CUSTOMER,'done', currentDateObj)">Done</button>
+            </div>
+            </ng-template>
           </div>
           <div>
             <label class="present">{{presentStudent}} present</label>
@@ -656,7 +701,7 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
       <div class="activeTab-content" *ngIf="activeTab == 'APG'">  
         <div class="detail-info">
           <label>Progress</label>

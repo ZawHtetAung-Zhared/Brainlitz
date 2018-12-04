@@ -338,11 +338,11 @@ ul.scedule-data-listing li.disabled{
   height: 250px!important;
 } */
 
-/* .profile-img-wrap{
+.profile-img-wrap{
   border-radius: 50%;
   width: 24px;
   height: 24px;
-} */
+}
 
 .close:focus {
  
