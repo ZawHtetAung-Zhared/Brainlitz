@@ -1060,15 +1060,22 @@ export class appService{
     // }
 
 
-    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean, locationid:string): Observable<any>{
-      console.log("APP Service");
+    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean, locationid:string, flexy:boolean): Observable<any>{
+      console.log("APP Service",flexy);
       console.log(courseID);
       if(courseID == ""){
         console.log("tttt");
         var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&draft=' + save;
+        url = (flexy == true) ? url + '&flexy=' + flexy : url;
+        // if(flexy == true){
+        //   var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&draft=' + save + 'flexy=' + flexy;
+        // }else{
+        //   var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&draft=' + save;
+        // }
       }else{
         var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&courseId=' + courseID + '&draft=' + save;
         url = (isCheck == true) ? url + '&check=' + isCheck : url;
+        url = (flexy == true) ? url + '&flexy=' + flexy : url;
       }
 
       const httpOptions: any = {
