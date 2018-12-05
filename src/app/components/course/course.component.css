@@ -1,3 +1,22 @@
+.input-label{
+  font-size: 18px;
+  color: #2e3e4d;
+  margin-bottom: 0;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+.input-wrap .form-group{
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.create-input {
+    font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+    border-radius: .25rem;
+    border: none;
+    margin-bottom: 15px;
+    padding: .6rem .75rem;
+    margin-left: -.75rem;
+    width: 103%;
+    margin-top: 4px;
+}
 .current-user{
   border: 2px solid #fff;
   box-shadow: 0 0 0 2px #00cc55;

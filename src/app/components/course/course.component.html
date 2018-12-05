@@ -1391,8 +1391,8 @@
           <img src="{{singleUserData.profilePic}}">
         </div>
         <div class="single-user-info d-flex flex-column justify-content-center">
-          <p>{{singleUserData.preferredName}}</p>
           <h4>{{singleUserData.preferredName}}</h4>
+          <p>{{singleUserData.preferredName}}</p>
         </div>
       </div>
       <button (click)="cancelTabsModal()" aria-label="Close" class="modal-close ml-auto" type="button">
@@ -1410,12 +1410,20 @@
   </div>
   <form *ngIf="activeTab == 'makeup'" class="form-wrap" novalidate #customerForm="ngForm">
     <div class="modal-body">
-        makeup
-      
+      <div class="col-md-8 input-wrap">
+        <div class="form-group">
+          <label for="name" class="input-label">Name</label> 
+          <input type="text" class="form-control create-input" placeholder="Type makeup pass name here" name="name" [(ngModel)]="makeupForm.name" required #name="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="reason" class="input-label">Reason</label> 
+          <textarea class="form-control create-input" rows="4" placeholder="Got any reasons?" name="reason" [(ngModel)]="makeupForm.reason" #reason="ngModel"></textarea>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
-      <button type="submit" class="btn btn-submit">Confirm</button>
+      <button type="submit" class="btn btn-submit" (click)="issuePass(makeupForm, singleUserData.userId)">Confirm</button>
     </div>
   </form>
 
