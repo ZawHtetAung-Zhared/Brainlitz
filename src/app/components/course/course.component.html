@@ -1408,22 +1408,27 @@
       <button [ngClass]="{'active': activeTab == 'invoice'}" class="btn course-tab active" (click)="clickTab('invoice')">View invoice</button>
     </div>
   </div>
-  <div class="modal-body">
-    <div *ngIf="activeTab == 'makeup'">
-      makeup
+  <form *ngIf="activeTab == 'makeup'" class="form-wrap" novalidate #customerForm="ngForm">
+    <div class="modal-body">
+        makeup
+      
     </div>
-    <div *ngIf="activeTab == 'transfer'">
-      transfer
-    </div>
-  </div>
-  <div class="modal-footer">
-    <div *ngIf="activeTab == 'makeup'">
+    <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
       <button type="submit" class="btn btn-submit">Confirm</button>
     </div>
-    <div *ngIf="activeTab == 'transfer'">
+  </form>
+
+  <form *ngIf="activeTab == 'transfer'" class="form-wrap" novalidate #customerForm="ngForm">
+    <div class="modal-body">
+      
+      transfer
+      
+    </div>
+    <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
     </div>
-  </div>
+  </form>
+  
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
