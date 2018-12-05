@@ -639,15 +639,19 @@
             <div class="mr-auto">
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
+              <!-- <p class="class-day">{{lastActiceStartDate | attandanceDay}}</p>
+              <p class="class-date">{{lastActiceStartDate | utcDate}}</p> -->
             </div>
-            {{LASD}}<br>
+            <!-- {{LASD}}<br>
             {{LASD | timelineDate}} <br>
             {{todayDate | timelineDate}} <br>
             {{(LASD | timelineDate) > (todayDate | timelineDate)}} <br>
             {{(LASD | timelineDate) == (todayDate | timelineDate)}} <br>
-            {{(LASD>todayDate)}}
+            {{(LASD>todayDate)}} -->
             <!-- {{detailLists | json}} -->
-            <button type="button"  *ngIf="(LASD | timelineDate) == (todayDate | timelineDate) || (LASD | timelineDate) > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+
+            <!-- <button type="button"  *ngIf="LASD  == (todayDate | timelineDate) || LASD  > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button> -->
+            <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content,currentDateObj)">Cancel class</button>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
             <ng-template #content let-modal>
               <div class="modal-header">
