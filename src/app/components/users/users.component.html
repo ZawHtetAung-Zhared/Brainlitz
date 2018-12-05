@@ -263,7 +263,7 @@
 							<div class="left-scoope1"></div>
 							<div class="right-scoope1"></div>
 							<div class="makeup-footer d-flex justify-content-center">
-								<p (click)="openClaimModal(claimModal)" class="view-invoice">Claim this pass</p>
+								<p (click)="openClaimModal(claimModal, '5c07ba633cc46a20797b75d3')" class="view-invoice">Claim this pass</p>
 							</div>
 						</div>
 					</div>
@@ -917,7 +917,7 @@
 			<p class="valid-until">Valid until <span>12 Mar 2019</span></p>
 		    <h3 class="modal-title">MoePiano101</h3>
 	    </div>
-	    <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
+	    <button type="button" class="close" aria-label="Close" (click)="closeModal('close')">
 	        <span class="closepass">
 	          <div class="closepass_stem"></div>
 	          <div class="closepass_kick"></div>
@@ -930,40 +930,43 @@
 		</div>
 		<div class="mt-20 class-group">
 			<div class="card-columns pd-zero">
-				<div class="card">
+				<div class="card" *ngFor="let course of claimCourses; let i = index">
 	    		<div class="single-class">
-	    			<div class="seat-left"> seats left</div>
+	    			<div class="no-seat" *ngIf="course.seat_left == 0">All seat taken</div>
+			    	<div class="seat-left" *ngIf="course.seat_left != 0 && course.seat_left != null">{{course.seat_left}} seats left</div>
+			    	<div class="seat-left" *ngIf="course.seat_left == null">unlimited seats</div>
 	    			<div class="class-info-head">
   						<h5 class="mt-03">
   				      <i class="fa fa-map-marker" style="font-size:15px"></i>
-  				      location name
+  				      {{course.location.name}}
   				    </h5>
-  				    <b>course.name</b><br>
+  				    <b>{{course.name}}</b><br>
   				    <label class="makeup-plan">11:00 AM - 12:00 AM</label>
 	    			</div>
-	    			<div class="d-flex flex-column">
+	    			<div class="d-flex flex-column count-wrap">
 	    				<div class="d-flex justify-content-between">
-	    					<p>Pick a date to claim makeup pass</p>
+	    					<p class="valid-until">Pick a date to claim makeup pass</p>
 	    					<div></div>
 	    				</div>
-	    				<div class="">
-	    					<div class="single-date">
-	    						<p>30 May</p>
-	    						<label class="makeup-plan">Mon</label>
+	    				<div class="d-flex flex-row w-100 flex-nowrap overflow-x">
+	    					<div class="tool-box d-flex flex-nowrap">
+	    					  <div *ngFor="let lesson of course.lessons" class="form-check form-check-inline tool-checked">
+    					      <label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
+    					        <input class="form-check-input" type="radio" name="passForm" id="course" value="{{lesson}}" [(ngModel)]="passForm.lesson" #course="ngModel" [checked]='false' (click)="chooseDate(lesson)"> 
+    					        <p class="xxxdate">{{lesson.startDate | timelineDate}}</p>
+    					        <p class="xxxday">{{lesson.startDate | timelineDay}}</p>
+    					      </label>
+    					    </div>
 	    					</div>
 	    				</div>
 	    			</div>
 	    			<div class="row d-flex justify-content-center class-info-footer">
-	    				<button type="button" class="btn" (click)="enrollUser(course)">Enroll on this course</button>
+	    				<button type="button" class="btn" (click)="enrollPass(course, '5c07ba633cc46a20797b75d3')" [disabled]="isChecked == ''">Enroll class</button>
 	    			</div>
 	    		</div>
 	    	</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
-	    <button type="button" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
-	    <button type="submit" class="btn modal-delete-btn" (click)="withdrawUser(deleteId)">Withdraw</button>
 	</div>
 </ng-template>
 

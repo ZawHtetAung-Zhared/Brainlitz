@@ -1825,6 +1825,36 @@ export class appService{
       }) 
     }
 
+    getClaimPassCourses(courseid:string){
+      let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons';
+
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    enrollPass(body){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + body.courseId + '/makeup/class';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
 }
 
 

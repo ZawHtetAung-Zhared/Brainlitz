@@ -2099,6 +2099,7 @@ export class CourseComponent implements OnInit {
       this.modalReference.close();
       this.activeTab = 'People';
       this.toastr.success('res.message');
+      this.makeupForm = {};
     },err =>{
       this.modalReference.close();
       this.toastr.error('Fail to issue makeup pass.');
