@@ -1181,5 +1181,9 @@ export class UsersComponent implements OnInit {
 		this.activeTab = val;
 	}
 
+	openClaimModal(claimModal){
+	    this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+	}
+
 }
 

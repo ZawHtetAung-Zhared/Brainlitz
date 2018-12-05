@@ -1387,33 +1387,51 @@
     </div>
 </ng-template>
 <ng-template #tabsModal let-c="close" let-d="dismiss">
-  <div class="d-flex modal-header header-shadow">
-    <div>
-      <div class="d-flex">
-        <div>
-          
+  <div class="d-flex modal-header flex-column header-shadow">
+    <div class="d-flex justify-content-between w-100 modal-headone">
+      <div class="d-flex flex-row align-items-center">
+        <div class="img-wrap current-user">
+          <img src="{{singleUserData.profilePic}}">
         </div>
-        <div>
-          
+        <div class="single-user-info d-flex flex-column justify-content-center">
+          <p>{{singleUserData.preferredName}}</p>
+          <h4>{{singleUserData.preferredName}}</h4>
         </div>
       </div>
-    </div>
-    <div>
       <button (click)="cancelTabsModal()" aria-label="Close" class="modal-close ml-auto" type="button">
         <span class="closemark">
             <div class="closemark_stem"></div>
             <div class="closemark_kick"></div>
         </span>
-        <!-- <span aria-hidden="true" >×</span> -->
       </button>
     </div>
+    <div class="d-flex tab-section">
+      <button [ngClass]="{'active': activeTab == 'makeup'}" class="btn course-tab active" (click)="clickTab('makeup')">Issue makeup</button>
+      <button [ngClass]="{'active': activeTab == 'transfer'}" class="btn course-tab active" (click)="clickTab('transfer')">Transfer class</button>
+      <button [ngClass]="{'active': activeTab == 'invoice'}" class="btn course-tab active" (click)="clickTab('invoice')">View invoice</button>
+    </div>
   </div>
-  <div class="modal-body">
-    <h2>Test</h2>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
-    <button type="submit" class="btn btn-submit">Confirm</button>
-  </div>
+  <form *ngIf="activeTab == 'makeup'" class="form-wrap" novalidate #customerForm="ngForm">
+    <div class="modal-body">
+        makeup
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
+      <button type="submit" class="btn btn-submit">Confirm</button>
+    </div>
+  </form>
+
+  <form *ngIf="activeTab == 'transfer'" class="form-wrap" novalidate #customerForm="ngForm">
+    <div class="modal-body">
+      
+      transfer
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
+    </div>
+  </form>
+  
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>

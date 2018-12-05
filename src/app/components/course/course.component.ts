@@ -19,7 +19,8 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
-  public showStudentOption:any = '';
+  public singleUserData:any = '';
+  public showStudentOption:any;
   public currentDateObj:any = '';
   public isvalid:boolean = false;
   public searchMore:boolean = false;
@@ -2074,7 +2075,9 @@ export class CourseComponent implements OnInit {
   // }
 
   showTabsModal(modal,type,data){
-    console.log("show Tabs Modal")
+    console.log("show Tabs Modal", data)
+    this.activeTab = 'makeup';
+    this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data)
   }
