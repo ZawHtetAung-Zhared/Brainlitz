@@ -2055,8 +2055,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .closemark {
   display:inline-block;
-  width: 30px;
-  height: 16px;
+  /*width: 30px;
+  height: 16px;*/
   -ms-transform: rotate(45deg); /* IE 9 */
   -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
   transform: rotate(45deg);
@@ -2068,7 +2068,7 @@ input[type=number]::-webkit-outer-spin-button {
   height: 24px;
   background-color: #3d5266;
   left: 7px;
-  top: -16px;
+  top: 12px;
 }
 
 .makeup-pass-title{
@@ -2089,4 +2089,8 @@ input[type=number]::-webkit-outer-spin-button {
   height: 100%;
   object-fit: contain;
 
+}
+
+.header-shadow{
+  box-shadow: 0 7px 7px -4px rgba(0, 0, 0, 0.1);
 }

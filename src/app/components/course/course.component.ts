@@ -2073,4 +2073,15 @@ export class CourseComponent implements OnInit {
   //   })
   // }
 
+  showTabsModal(modal,type,data){
+    console.log("show Tabs Modal")
+    this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+    console.log("user data",data)
+  }
+
+  cancelTabsModal(){
+    console.log("cancelTabsModal");
+    this.modalReference.close();
+  }
+
 }
