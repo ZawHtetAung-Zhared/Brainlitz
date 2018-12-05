@@ -20,6 +20,7 @@ export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
   public singleUserData:any = '';
+  public makeupForm:any = {};
   public showStudentOption:any;
   public currentDateObj:any = '';
   public isvalid:boolean = false;
@@ -2175,6 +2176,26 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
       console.log("res",res);
     })
+  }
+
+  issuePass(obj, userId){
+    console.log(obj)
+    console.log(userId)
+    console.log(this.detailLists._id)
+    this._service.makeupPassIssue(obj, this.detailLists._id, userId)
+    .subscribe((res:any) => { 
+      console.log(res)     
+      this.blockUI.stop(); 
+      this.modalReference.close();
+      this.activeTab = 'People';
+      this.toastr.success('res.message');
+      this.makeupForm = {};
+    },err =>{
+      this.modalReference.close();
+      this.toastr.error('Fail to issue makeup pass.');
+      this.blockUI.stop(); 
+      console.log(err);
+    });
   }
 
 }

@@ -29,6 +29,9 @@ export class UsersComponent implements OnInit {
 	@ViewChild('stuffPic') stuffPic: ElementRef;	
 	userid:any;
 	acResult:any;	
+	public passForm: any = {};
+	public isChecked: any = '';
+	public passObjData: any;
 	public activeTab: any;
 	public hideMenu: boolean = false;
 	public img: any;
@@ -39,6 +42,7 @@ export class UsersComponent implements OnInit {
 	public locationID = localStorage.getItem('locationId');	
 	public locationName :any;	
 	// formFieldc: customer = new customer();
+	claimCourses:any = {};	
 	formFieldc:any = {};	
 	xxxx:any = {};	
 	@ViewChild("cropper", undefined)
@@ -1050,6 +1054,7 @@ export class UsersComponent implements OnInit {
 	//   }
 
 	closeModal(type){
+		this.isChecked = ''
 		this.modalReference.close();
 		this.availableCourses = [];
 		this.showInvoice = false;
@@ -1181,9 +1186,42 @@ export class UsersComponent implements OnInit {
 		this.activeTab = val;
 	}
 
-	openClaimModal(claimModal){
-	    this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+	openClaimModal(claimModal, courseid){
+		this._service.getClaimPassCourses(courseid)
+		.subscribe((res:any)=>{
+	    	this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+	      	console.log(res)
+	      	this.claimCourses = res;
+	    },err =>{
+	      	console.log(err);
+	    });
 	}
+
+	enrollPass(data, courseid){
+		console.log(data)
+		console.log(this.passObjData)
+		let body = {
+			"_id": courseid,
+		  	"startDate": this.passObjData.startDate,
+		  	"endDate": this.passObjData.endDate,
+		  	"teacherId": this.passObjData.teacherId,
+		  	"courseId": courseid,
+		  	"passId": this.passObjData._id
+		}
+		this._service.enrollPass(body)
+		.subscribe((res:any)=>{
+	      	console.log(res)
+	    },err =>{
+	      	console.log(err);
+	    });
+	}
+
+	chooseDate(obj){
+		console.log(obj)
+		this.passObjData = obj;
+		this.isChecked = obj.startDate;
+	}
+
 
 }
 
