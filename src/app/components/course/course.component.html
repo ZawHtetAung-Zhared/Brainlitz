@@ -1417,8 +1417,13 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
-    <button type="submit" class="btn btn-submit">Confirm</button>
+    <div *ngIf="activeTab == 'makeup'">
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
+      <button type="submit" class="btn btn-submit">Confirm</button>
+    </div>
+    <div *ngIf="activeTab == 'transfer'">
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
+    </div>
   </div>
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
