@@ -393,13 +393,16 @@
                     </span>
                   </div>
                   <div class="second-info">
-                    <div class="time-wrap">
+                    <div *ngIf="course.type == null" class="time-wrap">
                       <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                         {{ day }}
                       </span>
                       <div *ngIf="course.duration.startDate != null && course.duration.endDate != null" class="medium-font time-color">
                         {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
                       </div>
+                    </div>
+                    <div *ngIf="course.type == 'FLEXY'" class="time-wrap flexy-status">
+                      <span>Flexible timetable</span>
                     </div>
                     <div *ngIf="!course.draft" class="btnCustomer-wrap">
                       <button *ngIf="course.seat_left != 0 && courseDemo.assignStudent != ''" class="btn-addC d-flex justify-content-center align-items-center" (click)="addUserModal('customer',customerModal, 'outside', course._id)">
