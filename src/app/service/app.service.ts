@@ -1811,6 +1811,23 @@ export class appService{
       })
     }
 
+    transferClass(body:object){
+      console.log("body",body);
+      let apiUrl = this.baseUrl + '/class/actions/transfer';
+
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })      
+    }
+
 }
 
 
