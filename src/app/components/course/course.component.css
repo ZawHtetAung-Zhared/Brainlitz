@@ -1,4 +1,7 @@
-
+.current-user{
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #00cc55;
+}
 .logo-wrap{
   height: 50px;
   width: auto;
@@ -2093,4 +2096,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .header-shadow{
   box-shadow: 0 7px 7px -4px rgba(0, 0, 0, 0.1);
+}
+.modal-headone{
+  border-bottom: 1px solid #edeff0;
+  padding-bottom: 20px;
 }
