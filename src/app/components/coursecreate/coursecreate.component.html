@@ -241,7 +241,7 @@
 				        <div *ngIf="classend" class="msg font-medium">It will end at {{ classend }}</div>
 					</div>
 				</div>
-				<div class="checkboxes-wrapper">
+				<div *ngIf="flexiOn == false" class="checkboxes-wrapper">
 					<label class="all-title-font" [ngClass]="{'changeColor': selectedDay?.length > 0}">Repeated days</label>
 					<div>
 						<div>

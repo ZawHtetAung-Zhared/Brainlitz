@@ -595,11 +595,11 @@
                   <div class="ml-auto remover-wrap">
                     <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
                     <ul *ngIf="showStudentOption == user.userId" class="options-box">
-                      <li>Cancel class</li>
-                      <li>Class transfer</li>
+                      <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
+                      <li>Transfer class</li>
                       <!-- <li (click)="addUserModal('customer',customerModal,'invoice', '')">View invoice</li> -->
-                      <li (click)="viewInvoice(customerModal,user)">View invoice</li>
-                      <li>Refund bill</li>
+                      <li>View invoice</li>
+                      <!-- <li>Refund bill</li> -->
                     </ul>
                     <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                   </div>
@@ -1382,5 +1382,35 @@
         <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined">Pay now</button>
       </div>
     </div>
+</ng-template>
+<ng-template #tabsModal let-c="close" let-d="dismiss">
+  <div class="d-flex modal-header header-shadow">
+    <div>
+      <div class="d-flex">
+        <div>
+          
+        </div>
+        <div>
+          
+        </div>
+      </div>
+    </div>
+    <div>
+      <button (click)="cancelTabsModal()" aria-label="Close" class="modal-close ml-auto" type="button">
+        <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+        </span>
+        <!-- <span aria-hidden="true" >×</span> -->
+      </button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <h2>Test</h2>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
+    <button type="submit" class="btn btn-submit">Confirm</button>
+  </div>
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
