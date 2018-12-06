@@ -589,11 +589,22 @@
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div class="d-flex flex-row single-user justify-content-center align-items-center">
-                  <div class="img-wrap">
-                    <img src="{{user.profilePic}}">
+                  <div *ngIf="user.invoice != null">
+                    <div [ngClass]="{'paid-status': user.invoice.status == 'PAID', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
+                      <img src="{{user.profilePic}}">
+                    </div>
+                  </div>
+                  <div *ngIf="user.invoice == null">
+                    <div class="img-wrap">
+                      <img src="{{user.profilePic}}">
+                    </div>
                   </div>
                   <div class="single-user-info d-flex flex-column justify-content-center">
                     <h4>{{user.preferredName}}</h4>
+                    <p *ngIf="user.invoice != null">
+                      <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>
+                      <span *ngIf="user.invoice.status == 'UNPAID'" class="unpaid">Unpaid</span>
+                    </p>
                   </div>
                   <div class="ml-auto remover-wrap">
                     <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
