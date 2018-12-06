@@ -30,10 +30,11 @@ export class UsersComponent implements OnInit {
 	userid:any;
 	acResult:any;
 	public activePass: any = '';	
+	public currentPassObj: any;
 	public makeupLists: any;
 	public passForm: any = {};
 	public isChecked: any = '';
-	public passObjData: any;
+	public lessonData: any;
 	public activeTab: any;
 	public hideMenu: boolean = false;
 	public img: any;
@@ -1225,8 +1226,9 @@ export class UsersComponent implements OnInit {
 	    });
 	}
 
-	openClaimModal(claimModal, courseid){
-		this._service.getClaimPassCourses(courseid)
+	openClaimModal(claimModal, passObj){
+		this.currentPassObj = passObj;
+		this._service.getClaimPassCourses(passObj.course.courseId)
 		.subscribe((res:any)=>{
 	    	this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
 	      	console.log(res)
@@ -1238,14 +1240,14 @@ export class UsersComponent implements OnInit {
 
 	enrollPass(data, courseid){
 		console.log(data)
-		console.log(this.passObjData)
+		console.log(this.lessonData)
 		let body = {
-			"_id": courseid,
-		  	"startDate": this.passObjData.startDate,
-		  	"endDate": this.passObjData.endDate,
-		  	"teacherId": this.passObjData.teacherId,
+			"_id": this.lessonData._id,
+		  	"startDate": this.lessonData.startDate,
+		  	"endDate": this.lessonData.endDate,
+		  	"teacherId": this.lessonData.teacherId,
 		  	"courseId": courseid,
-		  	"passId": this.passObjData._id
+		  	"passId": this.currentPassObj.passId
 		}
 		this._service.enrollPass(body)
 		.subscribe((res:any)=>{
@@ -1257,7 +1259,7 @@ export class UsersComponent implements OnInit {
 
 	chooseDate(obj){
 		console.log(obj)
-		this.passObjData = obj;
+		this.lessonData = obj;
 		this.isChecked = obj.startDate;
 	}
 

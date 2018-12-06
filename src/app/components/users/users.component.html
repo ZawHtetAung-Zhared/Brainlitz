@@ -264,13 +264,13 @@
 								<h5 class="makeup-title">{{list.name}}</h5>
 								<p class="makeup-desc">{{list.reason}}</p>
 								<div class="makeup-box">
-									<p>Issued on 12 Aug 2018</p>
+									<p>Issued on {{list.issueDate.day}} {{list.issueDate.month -1 | TTmonth}} {{list.issueDate.year}}</p>
 									<div class="issue-box d-flex flex-column">
 										<strong>{{list.course.name}}</strong>
 										<label><span>{{list.course.startTime.hr}} : {{list.course.startTime.min}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr}} : {{list.course.endTime.min}} {{list.course.endTime.meridiem}}</span></label>
 									</div>
 									<div *ngIf="activePass == 'claimed' || activePass == 'expired'">
-										<p>Claimed on 12 Aug 2018</p>
+										<p>Claimed on {{list.filingDate.day}} {{list.filingDate.month -1 | TTmonth}} {{list.filingDate.year}}</p>
 										<div class="claimed-box">
 											<strong>From Piano Grade 2 SATURDAY</strong>
 											<label>11:00 AM - 12:00 AM</label>
@@ -281,7 +281,7 @@
 							<div class="left-scoope"></div>
 							<div class="right-scoope"></div>
 							<div *ngIf="activePass == 'available'" class="makeup-footer d-flex justify-content-center">
-								<p (click)="openClaimModal(claimModal, list.course.courseId)" class="claim-text">Claim this pass</p>
+								<p (click)="openClaimModal(claimModal, list)" class="claim-text">Claim this pass</p>
 							</div>
 							<div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
 								<p class="pass-text">Claimed pass</p>
@@ -980,8 +980,8 @@
 <ng-template #claimModal let-c="close" let-d="dismiss">
 	<div class="modal-header d-flex justify-content-between">
 		<div>
-			<p class="valid-until">Valid until <span>12 Mar 2019</span></p>
-		    <h3 class="modal-title">MoePiano101</h3>
+			<p class="valid-until">Valid until <span>{{currentPassObj.expirationDate.day}} {{currentPassObj.expirationDate.month -1 | TTmonth}} {{currentPassObj.expirationDate.year}}</span></p>
+		    <h3 class="modal-title">{{currentPassObj.name}}</h3>
 	    </div>
 	    <button type="button" class="close" aria-label="Close" (click)="closeModal('close')">
 	        <span class="closepass">
@@ -1027,7 +1027,7 @@
 	    				</div>
 	    			</div>
 	    			<div class="row d-flex justify-content-center class-info-footer">
-	    				<button type="button" class="btn" (click)="enrollPass(course, '5c07ba633cc46a20797b75d3')" [disabled]="isChecked == ''">Enroll class</button>
+	    				<button type="button" class="btn" (click)="enrollPass(course, currentPassObj.course.courseId)" [disabled]="isChecked == ''">Enroll class</button>
 	    			</div>
 	    		</div>
 	    	</div>
