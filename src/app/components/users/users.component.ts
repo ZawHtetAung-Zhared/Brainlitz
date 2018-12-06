@@ -135,6 +135,7 @@ export class UsersComponent implements OnInit {
 	public isEditInv:any = false;
 	public updateInvData:any = {};
 	public hideMisc:boolean = false; 
+	public paymentId:any;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -160,8 +161,20 @@ export class UsersComponent implements OnInit {
 		this.custDetail = {
 			'user': {
 				'about': ''
-			}
+			},
+			'courses': [
+				{
+					'name': ''
+				}
+			]
 		}
+
+		this.invoiceInfo = {
+	      'companyName': '',
+	      'tax':{
+	        'name': ''
+	      }
+	    }
 	}
 
 	@HostListener('window:scroll', ['$event']) onScroll($event){    
@@ -885,24 +898,25 @@ export class UsersComponent implements OnInit {
 		     	this.invoiceInfo = res.invoiceSettings;
 				this.invoice = res.invoice;
 				this.showInvoice = true; 
-				for(var i in this.invoice){
-				 this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
-				 this.dueDate = this.dateFormat(this.invoice[i].dueDate);
-				 this.invoiceID = this.invoice[i]._id;
-				 this.refInvID = this.invoice[i].refInvoiceId;
-				 this.invTaxName = this.invoice[i].tax.name;
-				 var n = this.invoice[i].total;
-				 this.total = n.toFixed(2);
-				 this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
-				 console.log('n and total',n,this.total);
-				 this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
-				 if(this.invoice[i].courseId == course._id){
-				   this.invoiceCourse["name"] = course.name;
-		           this.invoiceCourse["startDate"] = course.startDate;
-		           this.invoiceCourse["endDate"] = course.endDate;
-		           this.invoiceCourse["lessonCount"] = course.lessonCount;
-				 }
-				}
+				this.showOneInvoice(course,this.invoice)
+				// for(var i in this.invoice){
+				//  this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
+				//  this.dueDate = this.dateFormat(this.invoice[i].dueDate);
+				//  this.invoiceID = this.invoice[i]._id;
+				//  this.refInvID = this.invoice[i].refInvoiceId;
+				//  this.invTaxName = this.invoice[i].tax.name;
+				//  var n = this.invoice[i].total;
+				//  this.total = n.toFixed(2);
+				//  this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
+				//  console.log('n and total',n,this.total);
+				//  this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
+				//  if(this.invoice[i].courseId == course._id){
+				//    this.invoiceCourse["name"] = course.name;
+		  //          this.invoiceCourse["startDate"] = course.startDate;
+		  //          this.invoiceCourse["endDate"] = course.endDate;
+		  //          this.invoiceCourse["lessonCount"] = course.lessonCount;
+				//  }
+				// }
 		  	}, err => {  
 		    	console.log(err);
 		  	});
@@ -1075,7 +1089,11 @@ export class UsersComponent implements OnInit {
 		console.log("pay option");
 		this.showPayment = true;
 		this.showInvoice = false;
-		this.getRegionInfo();
+		this._service.getPaymentMethod()
+		.subscribe((res:any) => {
+			console.log(res);
+			this.paymentProviders = res;
+		})
 	}
 
 	getRegionInfo(){
@@ -1084,39 +1102,44 @@ export class UsersComponent implements OnInit {
 		this._service.getRegionalAdministrator(this.regionID, this.token, this.type)
 		.subscribe((res:any) => {
 			console.log("regional info",res);
-			this.paymentProviders = res.paymentSettings.paymentProviders;
-			console.log(this.paymentProviders)
+			// this.paymentProviders = res.invoiceSettings.paymentProviders;
+			// console.log(this.paymentProviders);
+			this.invoiceInfo = res.invoiceSettings;
+			console.log(this.getRegionInfo);
 		})
 	}
 
 	choosePayment(type){
 	    console.log("choosePayment",type);
-	    this.selectedPayment = type;
-	    console.log('pItem',this.paymentItem);
+	    this.selectedPayment = type.name;
+	    this.paymentId = type._id;
+	    // console.log('pItem',this.paymentItem);
 	}
 
 	payNow(type){
-		if(type == 'Cash'){
-			console.log("Cash",this.paymentItem.amount);
-			let body = {
-				'regionId': this.regionID,
-				'refInvoiceId': this.refInvID,
-				'amount': this.paymentItem.amount.toString(),
-				'paymentMethod': this.selectedPayment.toLowerCase()
-			}
-			console.log("data",body);
-			this._service.makePayment(this.regionID,body)
-			.subscribe((res:any) => {
-				console.log(res);
-				this.showDetails(this.custDetail.user.userId);
-		  		this.closeModal('closeInv');
-		  		this.toastr.success(res.message);
-			},err => {
-				this.toastr.error("Payment Fail");
-			})
-		}else{
-			console.log("Payment Type",type);
+		console.log("Pay Now",this.paymentItem);
+		let body = {
+			'regionId': this.regionID,
+			'refInvoiceId': this.refInvID,
+			'amount': this.paymentItem.amount.toString(),
+			'paymentMethod': this.paymentId
 		}
+		// if(this.paymentItem.refNumber){
+		// 	body["refNumber"] = this.paymentItem.refNumber;
+		// }
+		// console.log("data",body);
+		this._service.makePayment(this.regionID,body)
+		.subscribe((res:any) => {
+			console.log(res);
+			this.showDetails(this.custDetail.user.userId);
+	  		this.closeModal('closeInv');
+	  		this.toastr.success(res.message);
+		},err => {
+			if(err.message == "Amount is overpaid."){
+				this.toastr.success("Amount is overpaid.")
+			}
+			this.toastr.error("Payment Fail");
+		})
 	}
 
 	hideInvoiceRow(type){
@@ -1222,6 +1245,59 @@ export class UsersComponent implements OnInit {
 		this.isChecked = obj.startDate;
 	}
 
+	viewInvoice(enrollModal,course){
+		console.log("View Invoice",course);
+		console.log(this.custDetail);
+		this.showInvoice = true;
+		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+		this.getRegionInfo();
+	    console.log(this.invoiceInfo);
+	    if(course.invoice != null){
+	    	var invoiceId = course.invoice._id;
+	    	console.log("has invoice ID",invoiceId)
+	    }else{
+	    	console.log("no invoice id")
+	    }
+	    // var invoiceId = '5c08bf20ac9b4c4bfdf6dc62';//moana, View Invoice Course 001,GGWP00100032
+	    this._service.getSingleInvoice(invoiceId)
+	    .subscribe((res:any) => {
+	      console.log('invoice detail',res);
+	      this.singleInv.push(res);
+	      this.invoice = this.singleInv;
+	      console.log("invoice",this.invoice);
+	      this.showOneInvoice(course,this.invoice);
+	    }, err => {
+	      console.log(err);
+	    })
+	}
+
+	showOneInvoice(course,invoice){
+		console.log('showOneInvoice',course);
+		for(var i in this.invoice){
+			this.updatedDate = this.dateFormat(invoice[i].updatedDate);
+			this.dueDate = this.dateFormat(invoice[i].dueDate);
+			this.invoiceID = invoice[i]._id;
+			this.refInvID = invoice[i].refInvoiceId;
+			this.invTaxName = invoice[i].tax.name;
+			var n = invoice[i].total;
+			this.total = n.toFixed(2);
+			this.invoice[i].subtotal = Number(Number(invoice[i].subtotal).toFixed(2));
+			console.log('n and total',n,this.total);
+			this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
+			if(invoice[i].courseId == course._id){
+				this.invoiceCourse["name"] = course.name;
+				this.invoiceCourse["startDate"] = course.startDate;
+				this.invoiceCourse["endDate"] = course.endDate;
+				this.invoiceCourse["lessonCount"] = course.lessonCount;
+			}
+		}
+	}
+
+	backToInvoice(){
+		console.log("Back To Invoice")
+		this.showPayment = false;
+		this.showInvoice = true;
+	}
 
 }
 
