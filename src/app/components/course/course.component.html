@@ -631,19 +631,22 @@
             <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
               <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline ,cancelUI)">
                 <b>{{timeline.startDate | timelineDate}} </b>
-                <p>{{timeline.startDate | timelineDay}}</p>
+                <p>{{timeline.startDate | timelineDay}} <span *ngIf="timeline.cancel== true" class="makeup-icon">M</span></p>
+                
               </div>
             </div>
             <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
               <div>
               <b>{{timeline.startDate | timelineDate}}</b>
-              <p>{{timeline.startDate | timelineDay}}</p>
+              <p>{{timeline.startDate | timelineDay}} <span *ngIf="timeline.cancel== true" class="makeup-icon">M</span></p>
+              
               </div>
             </div>
             <div *ngIf="timeline.startDate > todayDate">
               <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
-               ** <b>{{timeline.startDate | timelineDate}}</b>
-                <p>{{timeline.startDate | timelineDay}}</p>
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}} <span *ngIf="timeline.cancel== true" class="makeup-icon">M</span></p>
+                
               </div>
             </div>
           </div>
@@ -653,19 +656,8 @@
             <div class="mr-auto">
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
-              <!-- <p class="class-day">{{lastActiceStartDate | attandanceDay}}</p>
-              <p class="class-date">{{lastActiceStartDate | utcDate}}</p> -->
             </div>
-            <!-- {{LASD}}<br>
-            {{LASD | timelineDate}} <br>
-            {{todayDate | timelineDate}} <br>
-            {{(LASD | timelineDate) > (todayDate | timelineDate)}} <br>
-            {{(LASD | timelineDate) == (todayDate | timelineDate)}} <br>
-            {{(LASD>todayDate)}} -->
-            <!-- {{detailLists | json}} -->
-
-            <!-- <button type="button"  *ngIf="LASD  == (todayDate | timelineDate) || LASD  > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button> -->
-            <div *ngIf="!cancelUI">
+            <div>
               <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
             </div>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->

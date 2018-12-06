@@ -1375,6 +1375,8 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       // Success function
       this.cancelUI=true;
+      let lessonCount = this.detailLists.lessons;
+      console.log(lessonCount)
       console.info("cancle user from class api calling is done");
       console.log(res)
       this.modalReference.close();
