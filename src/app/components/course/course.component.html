@@ -610,9 +610,9 @@
                     <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
                     <ul *ngIf="showStudentOption == user.userId" class="options-box">
                       <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
-                      <li>Transfer class</li>
+                      <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
                       <!-- <li (click)="addUserModal('customer',customerModal,'invoice', '')">View invoice</li> -->
-                      <li>View invoice</li>
+                      <li (click)="showTabsModal(tabsModal,'invoice',user)">View invoice</li>
                       <!-- <li>Refund bill</li> -->
                     </ul>
                     <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
@@ -653,15 +653,19 @@
             <div class="mr-auto">
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
+              <!-- <p class="class-day">{{lastActiceStartDate | attandanceDay}}</p>
+              <p class="class-date">{{lastActiceStartDate | utcDate}}</p> -->
             </div>
-            {{LASD}}<br>
+            <!-- {{LASD}}<br>
             {{LASD | timelineDate}} <br>
             {{todayDate | timelineDate}} <br>
             {{(LASD | timelineDate) > (todayDate | timelineDate)}} <br>
             {{(LASD | timelineDate) == (todayDate | timelineDate)}} <br>
-            {{(LASD>todayDate)}}
+            {{(LASD>todayDate)}} -->
             <!-- {{detailLists | json}} -->
-            <button type="button"  *ngIf="(LASD | timelineDate) == (todayDate | timelineDate) || (LASD | timelineDate) > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+
+            <!-- <button type="button"  *ngIf="LASD  == (todayDate | timelineDate) || LASD  > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button> -->
+            <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content,currentDateObj)">Cancel class</button>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
             <ng-template #content let-modal>
               <div class="modal-header">
@@ -1441,16 +1445,118 @@
     </div>
   </form>
 
-  <form *ngIf="activeTab == 'transfer'" class="form-wrap" novalidate #customerForm="ngForm">
+  <div *ngIf="activeTab == 'transfer'">
     <div class="modal-body">
-      
-      transfer
-      
+      <div class="d-flex">
+        <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
+        <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
+            <div class="user-image">
+              <img *ngIf="singleUserData.profilePic == undefined" src="assets/img/user.svg">
+              <img *ngIf="singleUserData.profilePic != undefined" src="{{ singleUserData.profilePic }}">
+            </div>      
+          <p class="user-name">{{ singleUserData.preferredName }}</p>
+        </div>
+        <!-- <button (click)="closeModal('close')" aria-label="Close" class="modal-close ml-auto" type="button">
+          <span class="closemark">
+              <div class="closemark_stem"></div>
+              <div class="closemark_kick"></div>
+          </span>
+        </button> -->
+      </div>
+      <form novalidate #cfees="ngForm">
+        <div>
+          <div class="d-flex flex-column mt-37" style="position: relative;">
+            <div class="d-flex">
+              <input class="form-control py-2 input-search-bg" type="search" 
+              placeholder="Search class" 
+              id="example-search-input" 
+              name="search" 
+              #search="ngModel" 
+              [(ngModel)]="searchData.searchText" 
+              (input)="changeSearch($event.target.value, singleUserData.userId, '','')">
+              <span class="input-group-append">
+                <button class="bt btn-design btn-outline-secondary btn-right-radius" type="button">
+                    <i class="fa fa-search search-size"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="mt-20 class-group">
+            <div class="card-columns p-0">
+              <div class="card" *ngFor="let course of availableCourses; let i = index">
+                <div class="single-class">
+                  <!-- <div class="no-seat" *ngIf="course.seat_left == 0">All seat taken</div>
+                  <div class="absolute" *ngIf="course.seat_left != 0 && course.seat_left != null">{{course.seat_left}} seats left</div> -->
+                  <div class="class-info-head">
+                    <h5 class="mt-03">
+                      <i class="fa fa-map-marker" style="font-size:15px"></i>
+                      {{course.location.name}}
+                    </h5>
+                    <b>{{course.name}}</b>
+                  </div>
+                  <div class="class-info-body">
+                    <div [hidden]="!course.paymentPolicy.courseFee && !course.paymentPolicy.deposit && !course.paymentPolicy.miscFee && !course.paymentPolicy.proratedLessonFee" class="class-body-one row">
+                      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <div *ngIf="course.paymentPolicy.courseFee != null">
+                          <h5>Course fee</h5>
+                          <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.courseFee}}</b>
+                        </div>
+                        <div *ngIf="course.paymentPolicy.proratedLessonFee != null" class="mt-16">
+                          <h5>Prorate class fee</h5>
+                          <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.proratedLessonFee}}</b>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-0">
+                        <div>
+                          <div *ngIf="course.paymentPolicy.deposit">
+                            <h5>Deposit</h5>
+                            <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
+                          </div>
+                        </div>
+                        <div class="mt-16" *ngIf="course.paymentPolicy.miscFee != null">
+                          <h5>Miscellaneous fee</h5>
+                          <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.miscFee}}</b>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="class-body-two row">
+                      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <b *ngFor="let day of course.repeatDays | weekDays">{{day}}</b>
+                        <h5>{{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}</h5>
+                      </div>
+                      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero"> 
+                        <div class="d-flex detail-fees">
+                          <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-03">
+                            <h5>From</h5>
+                            <b>{{course.startDate | utcDate}}</b>
+                          </div>
+                          <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-zero">
+                            
+                            <h5 *ngIf="course.endDate != null" class="mt-03">To</h5>
+                            <h5 *ngIf="course.endDate == null" class="pt-13"></h5>
+                            <b *ngIf="course.endDate">{{course.endDate | utcDate}}</b>
+                            
+                            <b *ngIf="course.endDate == null">{{ course.lessonCount }} Lessons</b>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row d-flex justify-content-center class-info-footer">
+                    <button type="button" class="btn" (click)="transferClass(course,singleUserData.userId)" [disabled]="course.seat_left == 0">Enroll on this course</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="availableCourses.length >= 20 || acResult?.length > 0" class="load-more1 d-flex justify-content-center">
+              <button type="button" class="btn" (click)="showMoreAC(availableCourses.length, singleUserData.userId)">load more</button>
+            </div>
+          </div>
+        </div>    
+      </form>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
-    </div>
-  </form>
+  </div>
   
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>

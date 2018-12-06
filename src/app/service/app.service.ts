@@ -1811,6 +1811,41 @@ export class appService{
       })
     }
 
+    cancelUsersFromClass(classId:string, data): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl =  `${this.baseUrl}/${classId}/cancel/class`; 
+      let headers = new Headers();
+
+      headers.append('Content-Type', 'application/json');
+      headers.append('authorization', this.tokenType + ' ' + this.accessToken);
+      let options = new RequestOptions({ headers: headers });
+      return this._http.post(apiUrl, data, options)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+
+
+
+    transferClass(body:object){
+      console.log("body",body);
+      let apiUrl = this.baseUrl + '/class/actions/transfer';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+
+    }
+
     makeupPassIssue(body, courseId, userId){
       this.getLocalstorage();
       let url = this.baseUrl + '/' + courseId + '/makeup-pass/user/' + userId;
@@ -1827,13 +1862,11 @@ export class appService{
 
     getClaimPassCourses(courseid:string){
       let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons';
-
       const httpOptions = {
         headers: new HttpHeaders({ 
             'Content-Type': 'application/json',  
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-
       return this.httpClient.get(apiUrl,httpOptions)
       .map((res:Response) => {
         let result = res;
@@ -1856,5 +1889,4 @@ export class appService{
     }
 
 }
-
 
