@@ -930,7 +930,7 @@ export class CoursecreateComponent implements OnInit {
         }
       }
 
-      if(this.model.lessonCount){
+      if(this.model.lessonCount && this.flexiOn == false){
         console.log("LessonCount KKK");
         if(testObj.lessonCount != this.model.lessonCount){
           console.log("Not Same",testObj.lessonCount,"&&&",this.model.lessonCount);
@@ -944,7 +944,16 @@ export class CoursecreateComponent implements OnInit {
           this.tempValue = this.model.lessonCount;
           this.model.end = null;
         }
+      }else if(this.model.lessonCount && this.flexiOn == true){
+          this.courseObj["lessonCount"] = this.model.lessonCount;
+          this.temp["lessonCount"] = this.model.lessonCount;
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+          this.courseObj["repeatDays"] = this.selectedDay;
+          localStorage.setItem("tempObj",JSON.stringify(this.temp));
+          this.tempVar = "lesson";
+          this.tempValue = this.model.lessonCount;
       }
+      
       var startD = this.changeDateFormat(this.model.start,this.model.starttime);
       if(testObj.startDate != startD){
         console.log("Not Same StartD",testObj.lessonCount,"&&&",this.model.lessonCount);

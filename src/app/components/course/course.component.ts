@@ -20,7 +20,9 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
-  public showStudentOption:any = '';
+  public singleUserData:any = '';
+  public makeupForm:any = {};
+  public showStudentOption:any;
   public currentDateObj:any = '';
   public isvalid:boolean = false;
   public searchMore:boolean = false;
@@ -160,6 +162,12 @@ export class CourseComponent implements OnInit {
   public isEditInv:any = false;
   public updateInvData:any = {};
   public hideMisc:boolean = false;
+  public availableCourses:any = [];
+  public isACSearch:boolean = false;
+  public acWord:any;
+  public userid:any;
+  public acResult:any;
+  public searchData: any={};
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -2107,5 +2115,122 @@ export class CourseComponent implements OnInit {
   //     this.cancelModal();
   //   })
   // }
+
+  showTabsModal(modal,type,data){
+    console.log("show Tabs Modal",type, data)
+    this.activeTab = type;
+    this.singleUserData = data;
+    this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+    console.log("user data",data);
+    if(type == 'transfer'){
+      this.getAllAC(20, 0, data.userId);
+    }
+  }
+
+  getAllAC(limit, skip, userId){
+    console.log("...XXD",this.availableCourses);
+    this._service.getAvailabelCourse(this.regionId, this.singleUserData.userId, limit, skip)
+    .subscribe((res:any)=>{
+      // console.log("Available C",res);
+      this.availableCourses = this.availableCourses.concat(res);
+      console.log("Available C",this.availableCourses);
+    })
+  }
+
+  cancelTabsModal(){
+    console.log("cancelTabsModal");
+    this.modalReference.close();
+    this.showList = false;
+    this.selectedCustomer = {};
+    this.selectedTeacherLists = []
+    this.showInvoice = false;
+    this.currentDateObj = '';
+    this.getCourseDetail(this.detailLists._id);
+    this.getUsersInCourse(this.detailLists._id);
+  }
+
+  changeSearch(searchWord, userId, limit, skip){
+    this.acWord = searchWord;
+    this.userid = userId;  
+    console.log(searchWord);
+    console.log('userid',userId)
+    if(skip == '' && limit == ''){
+      console.log("First time search")
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+    if(searchWord.length != 0){
+      this.isACSearch = true
+      this._service.getSearchAvailableCourse(this.regionId, searchWord, userId, limit, skip)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.acResult = res;
+          // this.availableCourses = res;
+          if(isFirst == true){
+          console.log("First time searching");
+          this.availableCourses = [];
+          this.availableCourses = res;
+          console.log("Search AC",this.availableCourses);
+        }else{
+          console.log("Not First time searching")
+          this.availableCourses = this.availableCourses.concat(res);
+          console.log("Search AC",this.availableCourses);
+        }
+        }, err => {  
+          console.log(err);
+        });
+    }else{
+        console.log('zero', searchWord.length)
+        this.availableCourses = [];
+        this.getAllAC(20, 0, this.singleUserData.userId);
+        this.isACSearch = false;
+    }
+  }
+
+  showMoreAC(skip, userId){
+    console.log(skip)
+    // this.getAC(20, skip, userId);
+    if(this.isACSearch == true){
+      console.log("AC Search");
+      this.changeSearch(this.acWord, this.userid, 20, skip)
+    }else{
+      console.log("Not AC search")
+      this.getAllAC(20, skip, userId);
+    }
+  }
+
+  transferClass(course,userid){
+    console.log("transfer class",course,userid);
+    let body = {
+      "from": this.detailLists._id,
+      "to": course._id,
+      "userId": userid
+    }
+    this._service.transferClass(body)
+    .subscribe((res:any)=>{
+      console.log("res",res);
+    })
+  }
+
+  issuePass(obj, userId){
+    console.log(obj)
+    console.log(userId)
+    console.log(this.detailLists._id)
+    this._service.makeupPassIssue(obj, this.detailLists._id, userId)
+    .subscribe((res:any) => { 
+      console.log(res)     
+      this.blockUI.stop(); 
+      this.modalReference.close();
+      this.activeTab = 'People';
+      this.toastr.success('res.message');
+      this.makeupForm = {};
+    },err =>{
+      this.modalReference.close();
+      this.toastr.error('Fail to issue makeup pass.');
+      this.blockUI.stop(); 
+      console.log(err);
+    });
+  }
 
 }

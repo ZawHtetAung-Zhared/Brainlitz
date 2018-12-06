@@ -1825,6 +1825,68 @@ export class appService{
         return result;
       })
     }
-}
 
+
+
+
+    transferClass(body:object){
+      console.log("body",body);
+      let apiUrl = this.baseUrl + '/class/actions/transfer';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+
+    }
+
+    makeupPassIssue(body, courseId, userId){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + courseId + '/makeup-pass/user/' + userId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    getClaimPassCourses(courseid:string){
+      let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons';
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    enrollPass(body){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + body.courseId + '/makeup/class';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+}
 

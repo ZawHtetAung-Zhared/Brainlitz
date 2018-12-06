@@ -14,11 +14,12 @@
 		</div>
 		<div class="d-flex justify-content-center flex-column">
 			<div>
-		        <!-- <button type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || toggleBool  ||!model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button> -->
-		        <!-- <button type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid" (click)="publishCourse()">Publish</button> -->
-		        <button *ngIf="isEdit == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button *ngIf="isEdit == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
-		        <button *ngIf="isEdit == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft fl</button>
+		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish Fl</button>
+		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
+		        <button *ngIf="isEdit == true && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
 	        </div>
 		</div>
 	</div>
@@ -183,7 +184,7 @@
 				</div>
 				<div class="d-flex step-wrapper">
 					<div class="col-md-6 p-0" *ngIf="flexiOn == false">
-						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': showFormat == ''}">Starting Time</label>
+						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.startT == '' || model.startT == undefined}">Starting Time</label>
 						<div class="input-wrap">
 							<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly (click)="durationProgress($event)" style="background: none;">
 							<!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
@@ -241,8 +242,8 @@
 				        <div *ngIf="classend" class="msg font-medium">It will end at {{ classend }}</div>
 					</div>
 				</div>
-				<div class="checkboxes-wrapper">
-					<label class="all-title-font" [ngClass]="{'changeColor': selectedDay?.length > 0}">Repeated days</label>
+				<div *ngIf="flexiOn == false" class="checkboxes-wrapper">
+					<label class="input-title font-medium" [ngClass]="{'changeColor': selectedDay?.length > 0 == false}">Repeated days</label>
 					<div>
 						<div>
 							<span *ngFor="let d of days">
@@ -259,7 +260,7 @@
 					</div>
 				</div>
 				<div class="pad-b">
-					<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.teacherSearch == '' || model.teacherSearch == undefined}">Teacher</label>
+					<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': selectedTeacher.preferredName == '' || selectedTeacher.preferredName == undefined}">Teacher</label>
 					<div class="search-wrap">
 					    <div class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="showDropdown('search',isEdit)" (document:click)="closeDropdown($event,'search')">
 							<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
@@ -306,7 +307,7 @@
 					</div>
 				</div>
 				<div>
-					<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.assistantSearch == '' || model.assistantSearch == undefined}">Assistants</label>
+					<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': userLists?.length > 0 == false}">Assistants</label>
 					<div class="d-flex flex-column" style="position: relative;">
 						<div class="d-flex">
 							<input 
@@ -381,7 +382,7 @@
 			</div>
 			<div class="col-md-7">
 				<div>
-					<label for="location" class="input-title font-medium">Location</label>
+					<label for="location" class="input-title font-medium" [ngClass]="{'changeColor': model.location == '' || model.location == undefined}">Location</label>
 					<input type="text" class="form-control br-bshadow-none all-left-box-10" [(ngModel)]="model.location" name="location" #location="ngModel" readonly> 
 					<!-- <div>
 						 <div class="form-group has-feedback" (click)="locationDropdown()">
@@ -398,7 +399,7 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
-					<label for="room" class="input-title font-medium">Room</label>
+					<label for="room" class="input-title font-medium" [ngClass]="{'changeColor': model.room == '' || model.room == undefined}">Room</label>
 					<input type="text" class="form-control br-bshadow-none all-left-box-10" placeholder="Type room name" id="room" name="room" [(ngModel)]="model.room" #room="ngModel"> 
 					<!-- <div *ngIf="room.invalid && (room.dirty || room.touched)" class="alert alert-danger alert-m-right">
 				        <div [hidden]="!room.errors.required">
@@ -408,7 +409,7 @@
 					<hr class="limit-hr-length">
 				</div> 
 				<div>
-					<label for="seat" class="input-title font-medium">Reserved seat</label>
+					<label for="seat" class="input-title font-medium" [ngClass]="{'changeColor': model.reservedNumberofSeat == '' || model.reservedNumberofSeat == undefined}">Reserved seat</label>
 					<input type="number" class="form-control br-bshadow-none all-left-box-10" placeholder="0" id="seat" [(ngModel)]="model.reservedNumberofSeat" name="seat" (keypress)="numberOnly($event)" #seat="ngModel"> 
 					<div [hidden]="!testChar" class="alert alert-danger">
 						Only Numbers Allowed
@@ -636,9 +637,12 @@
 				</div>
 			</div>
 			<div>	
-		        <button *ngIf="isEdit == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button *ngIf="isEdit == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
-		        <button *ngIf="isEdit == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft fl</button>
+		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish Fl</button>
+		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
+		        <button *ngIf="isEdit == true && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
 	        </div>
         </div>
 	</form>
