@@ -942,7 +942,7 @@ li button{
 .btn-submit,
 .modal-ctime p,
 .modal-dfees h5,.modal-duration,.modal-userInfo label,
-.invoice-info,.user-name{
+.invoice-info,.user-name,.back-inv{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 .single-progress h4,
@@ -951,7 +951,7 @@ li button{
 .course-time h5,
 .cdetail h5,
 .room-name,
-.invoice-info,.payment-item{
+.invoice-info,.payment-item,.back-inv{
     color: #2e3d4d !important;
     font-size: 16px;
 }
@@ -2282,6 +2282,21 @@ input[type=number]::-webkit-outer-spin-button {
     max-height: 470px;
     overflow: auto;
 }
+
+.back-inv{
+    border: none;
+    outline: none;
+}
+
+.back-inv i{
+    padding-right: 5px;
+    font-size: 20px;
+}
+
+.payment-footer{
+    padding: 20px 32px;
+}
+
 /*=============*/
 
 .modal-headone{

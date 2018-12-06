@@ -172,6 +172,7 @@ export class CourseComponent implements OnInit {
   public userid:any;
   public acResult:any;
   public searchData: any={};
+  public paymentId:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -1990,9 +1991,11 @@ export class CourseComponent implements OnInit {
     this.isEditInv = false;
     this.singleInv = [];
     this.updateInvData = {};
+    this.availableCourses = [];
     console.log("hideMisc",this.hideMisc)
     this.getCourseDetail(this.detailLists._id);
     this.getUsersInCourse(this.detailLists._id);
+    this.activeTab = "People";
     // this.courseList = [];
     // this.getCourseLists(20,0);
   }
@@ -2001,7 +2004,13 @@ export class CourseComponent implements OnInit {
     console.log("pay option");
     this.showPayment = true;
     this.showInvoice = false;
-    this.getRegionInfo();
+    this._service.getPaymentMethod()
+    .subscribe((res:any) => {
+      console.log(res);
+      this.paymentProviders = res;
+      this.selectedPayment = this.paymentProviders[0].name;
+        this.paymentId = this.paymentProviders[0].id;
+    })
   }
 
   getRegionInfo(){
@@ -2012,52 +2021,39 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log("regional info",res);
       this.blockUI.stop();
-      this.paymentProviders = res.paymentSettings.paymentProviders;
-      console.log(this.paymentProviders);
       this.invoiceInfo = res.invoiceSettings;
     })
   }
 
   choosePayment(type){
       console.log("choosePayment",type);
-      this.selectedPayment = type;
-      console.log('pItem',this.paymentItem);
+      this.selectedPayment = type.name;
+      this.paymentId = type.id;
   }
 
   payNow(type){
-    if(type == 'Cash'){
-      console.log("Cash",this.paymentItem.amount);
-      let body = {
-        'regionId': this.regionId,
-        'refInvoiceId': this.refInvID,
-        'amount': this.paymentItem.amount.toString(),
-        'paymentMethod': this.selectedPayment.toLowerCase()
-      }
-      console.log("data",body);
-      this._service.makePayment(this.regionId,body)
-      .subscribe((res:any) => {
-        console.log(res);
-        if(this.isvalidID == 'inside'){
-           console.log('hi')
-           // this.cancel();
-           this.getCourseDetail(this.detailLists._id)
-           this.getUsersInCourse(this.detailLists._id);
-           this.cancelInvoiceModal();
-           this.toastr.success(res.message);
-         }else{
-           console.log('else hi')
-           this.cancel();
-           this.modalReference.close();
-           // this.cancelModal();
-           // this.getUsersInCourse(courseId);
-         }
-        this.toastr.success(res.message);
-      },err => {
-        this.toastr.error("Payment Fail");
-      })
-    }else{
-      console.log("Payment Type",type);
+    console.log("Pay Now",this.paymentItem,this.paymentId);
+    let body = {
+      'regionId': this.regionId,
+      'refInvoiceId': this.refInvID,
+      'amount': this.paymentItem.amount.toString(),
+      'paymentMethod': this.paymentId.toString()
     }
+    // if(this.paymentItem.refNumber){
+    //   body["refNumber"] = this.paymentItem.refNumber;
+    // }
+    // console.log("data",body);
+    this._service.makePayment(this.regionId,body)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.toastr.success(res.message);
+      this.cancelInvoiceModal();
+    },err => {
+      if(err.message == "Amount is overpaid."){
+        this.toastr.success("Amount is overpaid.")
+      }
+      this.toastr.error("Payment Fail");
+    })
   }
 
   hideInvoiceRow(type){
@@ -2191,19 +2187,19 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  cancelTabsModal(){
-    console.log("cancelTabsModal");
-    this.modalReference.close();
-    this.showList = false;
-    // this.selectedCustomer = {};
-    // this.selectedTeacherLists = []
-    this.showInvoice = false;
-    this.currentDateObj = '';
-    this.availableCourses = [];
-    this.activeTab = 'People';
-    this.getCourseDetail(this.detailLists._id);
-    this.getUsersInCourse(this.detailLists._id);
-  }
+  // cancelTabsModal(){
+  //   console.log("cancelTabsModal");
+  //   this.modalReference.close();
+  //   this.showList = false;
+  //   // this.selectedCustomer = {};
+  //   // this.selectedTeacherLists = []
+  //   this.showInvoice = false;
+  //   this.currentDateObj = '';
+  //   this.availableCourses = [];
+  //   this.activeTab = 'People';
+  //   this.getCourseDetail(this.detailLists._id);
+  //   this.getUsersInCourse(this.detailLists._id);
+  // }
 
   changeSearch(searchWord, userId, limit, skip){
     this.acWord = searchWord;
@@ -2267,7 +2263,8 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
       console.log("res",res);
       this.toastr.success(res.message);
-      this.cancelTabsModal();
+      this.cancelInvoiceModal();
+      // this.cancelTabsModal();
     },err=>{
       console.log(err);
     })
@@ -2292,5 +2289,12 @@ export class CourseComponent implements OnInit {
       console.log(err);
     });
   }
+
+  backToInvoice(){
+    console.log("Back To Invoice")
+    this.showPayment = false;
+    this.showInvoice = true;
+  }
+
 
 }

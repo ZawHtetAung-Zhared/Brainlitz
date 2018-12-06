@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class WeekDaysPipe implements PipeTransform {
   transform(arr){
-    console.log("arr",arr);
     let day="";
     let dayArr=[];
     let newArr=[];
