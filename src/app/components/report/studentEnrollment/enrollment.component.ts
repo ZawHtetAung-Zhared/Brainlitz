@@ -3,6 +3,8 @@ import {DaterangepickerConfig} from 'ng2-daterangepicker';
 import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {appService} from '../../../service/app.service';
+import courseSampleData from './sampleData';
+
 @Component({
   selector: 'student-enrollment-report',
   templateUrl: './enrollment.component.html',
@@ -57,6 +59,111 @@ export class StudentEnrollmentReport implements OnInit {
       alwaysShowCalendars: true,
     };
     this.reportData = [];
+    this.showReportByLocation();
+  }
+  showReportByLocation(){
+    if (courseSampleData) { //check if we have data to show report
+      this.reportData = this.getFilteredDataGroupByLocation(courseSampleData.location);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
+  }
+  showReportByCategory(){
+    if (courseSampleData) { //check if we have data to show report
+      console.log("show Report by category");
+      console.log(courseSampleData.category);
+      this.reportData = [];
+      this.reportData = this.getFilteredDataGroupByCategory(courseSampleData.category);
+      console.log(this.reportData);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
+  }
+  showReportByCoursePlan(){
+    if (courseSampleData) { //check if we have data to show report
+      this.reportData = this.getFilteredDataGroupByCoursePlan(courseSampleData.coursePlan);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
+  }
+  getFilteredDataGroupByLocation(data){
+    let filter = this.filter;
+    let _self = this;
+    let res = [];
+    if(filter.type == "location"){
+      data = data.filter(function (d) {
+        return filter.value.indexOf(d.locationName) > -1;
+      });
+    }
+    data.forEach(function (location) {
+      let obj = {
+        groupTypeValue: location.locationName,
+        students: 0
+      };
+      //if filter type is location, we will push to end of this loop
+      let categories = location.categories || [];
+      categories.forEach(function (category) {
+        let coursePlans = category.coursePlans || [];
+        //iterate coursePlans under categories
+        coursePlans.forEach(function (coursePlan) {
+          let courses = coursePlan.courses || [];
+          //iterate courses under coursePlans
+          if(filter.type == "course"){
+            courses = courses.filter(function (d) {
+              return filter.value.indexOf(d.locationName) > -1;
+            });
+          }
+
+          courses.forEach(function (course) {
+            obj.students += course.students;
+          });
+        });
+      });
+      obj.groupTypeValue = location.locationName;
+      res.push(obj);
+    });
+    return res;
+  }
+
+  getFilteredDataGroupByCategory(data){
+    let filter = this.filter;
+    let _self = this;
+    let result = [];
+    if(filter.type == "category"){
+      data = data.filter(function (d) {
+        return filter.value.indexOf(d.catName) > -1;
+      });
+    }
+    data.forEach(function (category) {
+      let obj = {
+        groupTypeValue: category.catName,
+        students: 0
+      };
+      let coursePlans = category.coursePlans || [];
+      //iterate coursePlans under categories
+      coursePlans.forEach(function (coursePlan) {
+        let courses = coursePlan.courses || [];
+        //iterate courses under coursePlans
+
+        if(filter.type == "course"){
+          courses = courses.filter(function (d) {
+            return filter.value.indexOf(d.locationName) > -1;
+          });
+        }
+        courses.forEach(function (course) {
+          obj.students += course.students;
+        });
+      });
+      result.push(obj);
+    });
+    return result;
+  }
+
+  getFilteredDataGroupByCoursePlan(data){
+
   }
   updateGraphUsingGroupBy(event) {
     this.filter = {
@@ -65,21 +172,19 @@ export class StudentEnrollmentReport implements OnInit {
     switch (event.target.value) {
       case "Location":
         this.groupBy = "location";
-        //this.showReportByLocation();
+        this.showReportByLocation();
         break;
       case "Category":
         this.groupBy = "category";
-        //this.showReportByCategory();
+        this.showReportByCategory();
         break;
       case "Course Plan":
         this.groupBy = "coursePlan";
-        //this.showReportByCoursePlan();
+        this.showReportByCoursePlan();
         break;
       default:
         this.groupBy = "location";
-        //this.showReportByLocation();
-
-
+        this.showReportByLocation();
     }
   }
   updateFilterType(value) {
