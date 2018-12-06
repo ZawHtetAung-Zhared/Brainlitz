@@ -1891,6 +1891,20 @@ export class appService{
       })
     }
 
+    getMakeupLists(userid, type, regionid){
+      let apiUrl = this.baseUrl + '/' + regionid + '/' + 'user/makeup-pass/' + userid + '?filter=' + type;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
     enrollPass(body){
       this.getLocalstorage();
       let url = this.baseUrl + '/' + body.courseId + '/makeup/class';

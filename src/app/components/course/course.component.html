@@ -628,20 +628,20 @@
           <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
             <!-- <pre>{{timeline | json}}</pre> -->
            
-            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate, timeline)">
-              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline ,cancelUI)">
                 <b>{{timeline.startDate | timelineDate}} </b>
                 <p>{{timeline.startDate | timelineDay}}</p>
               </div>
             </div>
-            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
               <div>
               <b>{{timeline.startDate | timelineDate}}</b>
               <p>{{timeline.startDate | timelineDay}}</p>
               </div>
             </div>
             <div *ngIf="timeline.startDate > todayDate">
-              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
                ** <b>{{timeline.startDate | timelineDate}}</b>
                 <p>{{timeline.startDate | timelineDay}}</p>
               </div>
@@ -665,7 +665,9 @@
             <!-- {{detailLists | json}} -->
 
             <!-- <button type="button"  *ngIf="LASD  == (todayDate | timelineDate) || LASD  > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button> -->
-            <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content,currentDateObj)">Cancel class</button>
+            <div *ngIf="!cancelUI">
+              <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+            </div>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
             <ng-template #content let-modal>
               <div class="modal-header">
@@ -698,12 +700,15 @@
                   </div>
               </div>
              <div class="modal-footer">
-               <button class="btn btn-cancel-crt" (click)="modalClose(activeCourseInfo.CUSTOMER,'cancel')">Cancel</button>
-               <button class="btn btn-done-crt" (click)="cancelClassFun(activeCourseInfo.CUSTOMER,'done', currentDateObj)">Done</button>
+               <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
+               <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)">Done</button>
             </div>
             </ng-template>
           </div>
-          <div>
+          <div *ngIf="cancelUI" style="font-size:16px; font-family:Montserrat-Medium;color:#64707d;line-height:20px; padding:12px 0px 36px 0px;">
+            Cancelled class
+          </div>
+          <div *ngIf="!cancelUI">
             <label class="present">{{presentStudent}} present</label>
             <label class="absent">{{absentStudent}} absent</label>
             <label class="no-data">{{noStudent}} no data</label>
@@ -725,8 +730,8 @@
           <label>Progress</label>
           <h4>Piano Grade 1</h4>
         </div>
-        <div class="row">
-          <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3" *ngFor="let apg of apgLists">
+        <div *ngIf="apgLists" class="row">
+          <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3" *ngFor="let apg of apgLists.students">
             <div class="single-progress d-flex flex-column">
               <div class="d-flex flex-row justify-content-between align-items-center">
                 <h4>{{apg.preferredName}}</h4>
@@ -734,11 +739,11 @@
                   <img src="{{apg.profilePic}}">
                 </div>
               </div>
-              <div class="progress-wrap">
+              <div  class="progress-wrap">
                 <div class="bar">
-                  <div class="show-progress"></div>
+                  <div [ngStyle]="{'width': apg.assessment.score +'%'}" class="show-progress"></div>
                 </div>
-                {{apg.score}} accomplished
+                {{apg.assessment.score}} accomplished
               </div>
             </div>
           </div>

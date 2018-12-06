@@ -9,6 +9,7 @@ import { DOCUMENT } from "@angular/platform-browser";
 import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
+import { last } from 'rxjs/operator/last';
 declare var $:any;
 
 @Component({
@@ -94,9 +95,12 @@ export class CourseComponent implements OnInit {
   public activeCourseInfo:any = {};
   public todayDate:any;
   public LASD:any; //lastActiveStartDate
+
   public momentTodayDate:any;
   public showCancelButton:any;
   public lastActiveStartDate:any;
+  public cancelUi:boolean;
+  public cancelUI:any='';
   public presentStudent:number = 0;
   public absentStudent:number = 0;
   public noStudent:number = 0;
@@ -1132,16 +1136,61 @@ export class CourseComponent implements OnInit {
   }
 
   cancelButtonShowHide() {
-    this.lastActiveStartDate = moment(this.LASD).utc();
-    this.momentTodayDate = moment().utc();
-    this.showCancelButton = this.momentTodayDate <= this.lastActiveStartDate;
+  
+    // this.lastActiveStartDate = this.LASD;
+    // this.momentTodayDate = moment().utc();
+    // this.momentTodayDate =new Date();
+    // this.showCancelButton = this.momentTodayDate <= this.lastActiveStartDate;
+    // console.log(this.LASD)
+    // console.log(this.momentTodayDate)
+    // console.log(this.lastActiveStartDate)
+
+ 
+    let onlyTime = this.LASD.toLocaleString().substring(11, 19)
+    let onlyDate = this.LASD.toLocaleString().substring(0,10);
+    // console.warn(onlyTime)
+    // console.warn(onlyDate)
+
+    var todaydate = new Date();
+    let onlytodayTime = todaydate.toString().substring(16,24);
+    let onlytodayDate = todaydate.toISOString().substring(0,10);
+    // console.error(onlytodayTime)
+    // console.error(onlytodayDate)
+
+    if(onlyDate == onlytodayDate && onlytodayTime < onlyTime || (onlyDate > onlytodayDate)){
+      console.log('same as today and not grater than today time')
+      this.showCancelButton=true;
+    }
+    else if(onlyDate == onlytodayDate && onlytodayTime > onlyTime || (onlyDate < onlytodayDate )){
+      console.log('same as today and not grater than today time')
+      this.showCancelButton=false;
+    }
+
+
+    // if(onlyDate > onlytodayDate){
+    //   console.log("larger than today")
+    //   this.showCancelButton=true;
+    // }
+
+    // if(onlyDate < onlytodayDate ){
+    //   console.error("smaller than today")
+    //   this.showCancelButton=false;
+    // }
+    // console.log(utcday)
+    // console.log(utcmin)
+    // console.error(lasd)
+    // console.log(d)
+    // console.warn(this.LASD)
+    // console.error(d)
+    // console.log(d)
   }
 
-  checkAttendance(targetDate, classInfo){
+  checkAttendance(targetDate, classInfo,codition){
     console.log('hi', targetDate)
     this.currentDateObj = classInfo._id;
     console.log(this.currentDateObj)
-
+    this.cancelUI= false;
+    console.log(this.cancelUI)
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
 
@@ -1311,21 +1360,20 @@ export class CourseComponent implements OnInit {
     this.showInvoice = false;
     this.currentDateObj = '';
   }
-  cancelClass(content,id){
-    console.log(id)
+  cancelClass(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-
   }
 
-  cancelClassFun(user, type, lessonId){
+  cancelClassFun( lessonId){
     let data = {
       "lessonId": lessonId
     }
-    
+    console.log(lessonId)
     // Call cancel class api service
     this._service.cancelUsersFromClass(this.courseId, data)
     .subscribe((res:any) => {
       // Success function
+      this.cancelUI=true;
       console.info("cancle user from class api calling is done");
       console.log(res)
       this.modalReference.close();
@@ -1336,7 +1384,7 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    
+ 
   }
 
   modalClose(user,type){
