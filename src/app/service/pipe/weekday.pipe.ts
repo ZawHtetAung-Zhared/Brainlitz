@@ -5,6 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class WeekDaysPipe implements PipeTransform {
   transform(arr){
+    console.log("arr",arr);
     let day="";
     let dayArr=[];
     let newArr=[];
@@ -13,31 +14,58 @@ export class WeekDaysPipe implements PipeTransform {
     let weekDays="SunMonTueWedThuFriSat";
     // console.log('~~~', arr)
     // let weekDays = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
-    for (let i = 0; i < arr.length; i++) {
-      switch (arr[i]) {
-        case 0:
-        day = "Sun";
-        break;
-        case 1:
-        day = "Mon";
-        break;
-        case 2:
-        day = "Tue";
-        break;
-        case 3:
-        day = "Wed";
-        break;
-        case 4:
-        day = "Thu";
-        break;
-        case 5:
-        day = "Fri";
-        break;
-        case  6:
-        day = "Sat";
+    if(arr != undefined){
+      for (let i = 0; i < arr.length; i++) {
+        switch (arr[i]) {
+          case 0:
+          day = "Sun";
+          break;
+          case 1:
+          day = "Mon";
+          break;
+          case 2:
+          day = "Tue";
+          break;
+          case 3:
+          day = "Wed";
+          break;
+          case 4:
+          day = "Thu";
+          break;
+          case 5:
+          day = "Fri";
+          break;
+          case  6:
+          day = "Sat";
+        }
+        dayArr.push(day) 
       }
-      dayArr.push(day) 
     }
+    // for (let i = 0; i < arr.length; i++) {
+    //   switch (arr[i]) {
+    //     case 0:
+    //     day = "Sun";
+    //     break;
+    //     case 1:
+    //     day = "Mon";
+    //     break;
+    //     case 2:
+    //     day = "Tue";
+    //     break;
+    //     case 3:
+    //     day = "Wed";
+    //     break;
+    //     case 4:
+    //     day = "Thu";
+    //     break;
+    //     case 5:
+    //     day = "Fri";
+    //     break;
+    //     case  6:
+    //     day = "Sat";
+    //   }
+    //   dayArr.push(day) 
+    // }
 
     for (var i = 0; i < dayArr.length; i++) {
       d += dayArr[i];
