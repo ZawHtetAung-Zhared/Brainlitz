@@ -497,7 +497,7 @@ ul.options-box {
   margin-bottom: 8px;
 }
 .show-progress{
-  width: 50%;
+  /*width: 50%;*/
   background: #007fff;
   height: inherit;
   border-radius: 50px;

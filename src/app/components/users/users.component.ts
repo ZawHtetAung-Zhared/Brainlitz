@@ -30,6 +30,7 @@ export class UsersComponent implements OnInit {
 	userid:any;
 	acResult:any;
 	public activePass: any = '';	
+	public makeupLists: any;
 	public passForm: any = {};
 	public isChecked: any = '';
 	public passObjData: any;
@@ -1186,6 +1187,19 @@ export class UsersComponent implements OnInit {
 	clickTab(val){
 		this.activeTab = val;
 		this.activePass = 'available';
+		if(val == 'makeup'){
+			this.callMakeupLists();
+		}
+	}
+
+	callMakeupLists(){
+		this._service.getMakeupLists(this.custDetail.user.userId, this.activePass, this.regionID)
+		.subscribe((res:any)=>{
+	      	console.log(res)
+	      	this.makeupLists = res;
+	    },err =>{
+	      	console.log(err);
+	    });
 	}
 
 	openClaimModal(claimModal, courseid){
@@ -1226,6 +1240,7 @@ export class UsersComponent implements OnInit {
 
 	clickPass(type){
 		this.activePass = type;
+		this.callMakeupLists();
 	}
 }
 

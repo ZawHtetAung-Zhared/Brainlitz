@@ -225,7 +225,10 @@
 										<div class="ml-12">
 											<label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
 											<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
-											<p class="fees">s$4500</p>
+											<p class="fees">
+												<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
+												{{course.invoice.total}}
+											</p>
 										</div>
 									</div>
 								</div>
@@ -242,11 +245,6 @@
 				</div>
 			</div>
 			<div *ngIf="activeTab == 'makeup'">
-				<!-- <div class="d-flex title-space">
-					<div class="d-flex flex-column justify-content-center">
-						<h4 class="mb-0 tab-title">Available makeup passes</h4>
-					</div>
-				</div> -->
 				<div class="d-flex justify-content-center">
 					<ul class="pass-list">
 						<li [ngClass]="{'active': activePass == 'available'}" (click)="clickPass('available')">Available</li>
@@ -254,55 +252,68 @@
 						<li [ngClass]="{'active': activePass == 'expired'}" (click)="clickPass('expired')">Expired</li>
 					</ul>
 				</div>
-				<div *ngIf="activePass == 'available'" class="d-flex makeup-wrap">
-					<div class="col-md-4">
+				<div *ngIf="makeupLists" class="row makeup-wrap">
+					<div class="col-md-4" *ngFor="let list of makeupLists.res;">
 						<div class="single-makeup">
-							<div class="makeup-head">
-								<p>Valid until <span class="valid-date">12 Mar 2019</span></p>
+							<div *ngIf="activePass == 'available'" class="makeup-head">
+								<p>Valid until <span class="valid-date">{{list.expirationDate.day}} {{list.expirationDate.month -1 | TTmonth}} {{list.expirationDate.year}}</span></p>
 							</div>
 							<div class="makeup-body">
-								<label class="makeup-plan">Plan</label>
-								<h5 class="makeup-title">MoeGuitar101</h5>
-								<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+								<h5 class="makeup-title">{{list.name}}</h5>
+								<p class="makeup-desc">{{list.reason}}</p>
 								<div class="makeup-box">
-									<div class="issue-box">
-										<strong>From Piano Grade 2 SATURDAY</strong>
-										<p>On 12 Aug 2018</p>
+									<p>Issued on 12 Aug 2018</p>
+									<div class="issue-box d-flex flex-column">
+										<strong>{{list.course.name}}</strong>
+										<label><span>{{list.course.startTime.hr}} : {{list.course.startTime.min}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr}} : {{list.course.endTime.min}} {{list.course.endTime.meridiem}}</span></label>
 									</div>
-									<div class="claimed-box">
-										<strong>From Piano Grade 2 SATURDAY</strong>
-										<p>On 12 Aug 2018</p>
+									<div *ngIf="activePass == 'claimed' || activePass == 'expired'">
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div class="left-scoope1"></div>
-							<div class="right-scoope1"></div>
-							<div class="makeup-footer d-flex justify-content-center">
-								<p (click)="openClaimModal(claimModal, '5c07ba633cc46a20797b75d3')" class="view-invoice">Claim this pass</p>
+							<div class="left-scoope"></div>
+							<div class="right-scoope"></div>
+							<div *ngIf="activePass == 'available'" class="makeup-footer d-flex justify-content-center">
+								<p (click)="openClaimModal(claimModal, list.course.courseId)" class="claim-text">Claim this pass</p>
+							</div>
+							<div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
+								<p class="pass-text">Claimed pass</p>
+							</div>
+							<div *ngIf="activePass == 'expired'" class="makeup-footer d-flex justify-content-center">
+								<p class="expired-text">Expired</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div *ngIf="activePass == 'claimed'" class="d-flex makeup-wrap flex-column">
+				<!-- <div *ngIf="activePass == 'claimed'" class="d-flex makeup-wrap flex-column">
 					<div class="d-flex makeup-wrap">
 						<div class="col-md-4">
 							<div class="single-expired">
-								<!-- <div class="makeup-head">
-									<p>Valid until <span class="valid-date">12 Mar 2019</span></p>
-								</div> -->
 								<div class="makeup-body">
-									<label class="makeup-plan">Plan</label>
 									<h5 class="makeup-title">MoeGuitar101</h5>
 									<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 									<div class="makeup-box">
-										<strong>From Piano Grade 2 SATURDAY</strong>
-										<p>On 12 Aug 2018</p>
+										<p>Issued on 12 Aug 2018</p>
+										<div class="issue-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
 									</div>
 								</div>
 								<div class="left-scoope"></div>
 								<div class="right-scoope"></div>
 								<div class="makeup-footer d-flex justify-content-center">
-									<p class="expired-text">Claimed pass</p>
+									<p class="pass-text">Claimed pass</p>
 								</div>
 							</div>
 						</div>
@@ -313,16 +324,20 @@
 					<div class="d-flex makeup-wrap">
 						<div class="col-md-4">
 							<div class="single-expired">
-								<!-- <div class="makeup-head">
-									<p>Valid until <span class="valid-date">12 Mar 2019</span></p>
-								</div> -->
 								<div class="makeup-body">
-									<label class="makeup-plan">Plan</label>
 									<h5 class="makeup-title">MoeGuitar101</h5>
 									<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 									<div class="makeup-box">
-										<strong>From Piano Grade 2 SATURDAY</strong>
-										<p>On 12 Aug 2018</p>
+										<p>Issued on 12 Aug 2018</p>
+										<div class="issue-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
 									</div>
 								</div>
 								<div class="left-scoope"></div>
@@ -333,7 +348,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<div class="d-flex">
