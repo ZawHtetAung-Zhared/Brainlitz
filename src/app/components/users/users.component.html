@@ -216,15 +216,17 @@
 								</div>
 							</div>
 							<div class="d-flex justify-content-between section-two">
-								<div class="d-flex flex-row align-items-center">
-									<div>
-										<img src="./assets/img/paid-indicator.png">
-										<img src="./assets/img/unpaid-indicator.png">
-									</div>
-									<div class="ml-12">
-										<label class="unpaid-text">Unpaid</label>
-										<label class="paid-text">Paid</label>
-										<p class="fees">s$4500</p>
+								<div>
+									<div class="d-flex flex-row align-items-center" *ngIf="course.invoice != null">
+										<div>
+											<img *ngIf="course.invoice.status == 'UNPAID'" src="./assets/img/paid-indicator.png">
+											<img *ngIf="course.invoice.status == 'PAID'"src="./assets/img/unpaid-indicator.png">
+										</div>
+										<div class="ml-12">
+											<label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+											<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
+											<p class="fees">s$4500</p>
+										</div>
 									</div>
 								</div>
 								<button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
@@ -242,12 +244,19 @@
 				</div>
 			</div>
 			<div *ngIf="activeTab == 'makeup'">
-				<div class="d-flex title-space">
+				<!-- <div class="d-flex title-space">
 					<div class="d-flex flex-column justify-content-center">
 						<h4 class="mb-0 tab-title">Available makeup passes</h4>
 					</div>
+				</div> -->
+				<div class="d-flex justify-content-center">
+					<ul class="pass-list">
+						<li [ngClass]="{'active': activePass == 'available'}" (click)="clickPass('available')">Available</li>
+						<li [ngClass]="{'active': activePass == 'claimed'}" (click)="clickPass('claimed')">Claimed</li>
+						<li [ngClass]="{'active': activePass == 'expired'}" (click)="clickPass('expired')">Expired</li>
+					</ul>
 				</div>
-				<div class="d-flex makeup-wrap">
+				<div *ngIf="activePass == 'available'" class="d-flex makeup-wrap">
 					<div class="col-md-4">
 						<div class="single-makeup">
 							<div class="makeup-head">
@@ -258,8 +267,14 @@
 								<h5 class="makeup-title">MoeGuitar101</h5>
 								<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 								<div class="makeup-box">
-									<strong>From Piano Grade 2 SATURDAY</strong>
-									<p>On 12 Aug 2018</p>
+									<div class="issue-box">
+										<strong>From Piano Grade 2 SATURDAY</strong>
+										<p>On 12 Aug 2018</p>
+									</div>
+									<div class="claimed-box">
+										<strong>From Piano Grade 2 SATURDAY</strong>
+										<p>On 12 Aug 2018</p>
+									</div>
 								</div>
 							</div>
 							<div class="left-scoope1"></div>
@@ -270,8 +285,33 @@
 						</div>
 					</div>
 				</div>
-				<div class="d-flex makeup-wrap flex-column">
-					<h4 class="title-space expired-title">Expired pass</h4>
+				<div *ngIf="activePass == 'claimed'" class="d-flex makeup-wrap flex-column">
+					<div class="d-flex makeup-wrap">
+						<div class="col-md-4">
+							<div class="single-expired">
+								<!-- <div class="makeup-head">
+									<p>Valid until <span class="valid-date">12 Mar 2019</span></p>
+								</div> -->
+								<div class="makeup-body">
+									<label class="makeup-plan">Plan</label>
+									<h5 class="makeup-title">MoeGuitar101</h5>
+									<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+									<div class="makeup-box">
+										<strong>From Piano Grade 2 SATURDAY</strong>
+										<p>On 12 Aug 2018</p>
+									</div>
+								</div>
+								<div class="left-scoope"></div>
+								<div class="right-scoope"></div>
+								<div class="makeup-footer d-flex justify-content-center">
+									<p class="expired-text">Claimed pass</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div *ngIf="activePass == 'expired'" class="d-flex makeup-wrap flex-column">
 					<div class="d-flex makeup-wrap">
 						<div class="col-md-4">
 							<div class="single-expired">

@@ -1828,6 +1828,23 @@ export class appService{
       })
     }
 
+    cancelUsersFromClass(classId:string, data): Observable<any>{
+      this.getLocalstorage();
+      let apiUrl =  `${this.baseUrl}/${classId}/cancel/class`; 
+      let headers = new Headers();
+
+      headers.append('Content-Type', 'application/json');
+      headers.append('authorization', this.tokenType + ' ' + this.accessToken);
+      let options = new RequestOptions({ headers: headers });
+      return this._http.post(apiUrl, data, options)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+
+
 
     transferClass(body:object){
       console.log("body",body);
@@ -1889,5 +1906,4 @@ export class appService{
     }
 
 }
-
 

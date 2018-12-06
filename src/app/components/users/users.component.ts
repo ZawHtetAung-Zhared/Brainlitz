@@ -28,7 +28,8 @@ export class UsersComponent implements OnInit {
 
 	@ViewChild('stuffPic') stuffPic: ElementRef;	
 	userid:any;
-	acResult:any;	
+	acResult:any;
+	public activePass: any = '';	
 	public passForm: any = {};
 	public isChecked: any = '';
 	public passObjData: any;
@@ -1207,6 +1208,7 @@ export class UsersComponent implements OnInit {
 
 	clickTab(val){
 		this.activeTab = val;
+		this.activePass = 'available';
 	}
 
 	openClaimModal(claimModal, courseid){
@@ -1297,6 +1299,11 @@ export class UsersComponent implements OnInit {
 		console.log("Back To Invoice")
 		this.showPayment = false;
 		this.showInvoice = true;
+	}
+
+
+	clickPass(type){
+		this.activePass = type;
 	}
 
 }

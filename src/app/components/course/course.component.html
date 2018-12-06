@@ -589,11 +589,22 @@
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div class="d-flex flex-row single-user justify-content-center align-items-center">
-                  <div class="img-wrap">
-                    <img src="{{user.profilePic}}">
+                  <div *ngIf="user.invoice != null">
+                    <div [ngClass]="{'paid-status': user.invoice.status == 'PAID', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
+                      <img src="{{user.profilePic}}">
+                    </div>
+                  </div>
+                  <div *ngIf="user.invoice == null">
+                    <div class="img-wrap">
+                      <img src="{{user.profilePic}}">
+                    </div>
                   </div>
                   <div class="single-user-info d-flex flex-column justify-content-center">
                     <h4>{{user.preferredName}}</h4>
+                    <p *ngIf="user.invoice != null">
+                      <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>
+                      <span *ngIf="user.invoice.status == 'UNPAID'" class="unpaid">Unpaid</span>
+                    </p>
                   </div>
                   <div class="ml-auto remover-wrap">
                     <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
@@ -642,15 +653,19 @@
             <div class="mr-auto">
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
+              <!-- <p class="class-day">{{lastActiceStartDate | attandanceDay}}</p>
+              <p class="class-date">{{lastActiceStartDate | utcDate}}</p> -->
             </div>
-            {{LASD}}<br>
+            <!-- {{LASD}}<br>
             {{LASD | timelineDate}} <br>
             {{todayDate | timelineDate}} <br>
             {{(LASD | timelineDate) > (todayDate | timelineDate)}} <br>
             {{(LASD | timelineDate) == (todayDate | timelineDate)}} <br>
-            {{(LASD>todayDate)}}
+            {{(LASD>todayDate)}} -->
             <!-- {{detailLists | json}} -->
-            <button type="button"  *ngIf="(LASD | timelineDate) == (todayDate | timelineDate) || (LASD | timelineDate) > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+
+            <!-- <button type="button"  *ngIf="LASD  == (todayDate | timelineDate) || LASD  > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button> -->
+            <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content,currentDateObj)">Cancel class</button>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
             <ng-template #content let-modal>
               <div class="modal-header">
