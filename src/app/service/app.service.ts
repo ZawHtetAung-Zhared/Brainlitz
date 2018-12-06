@@ -1759,6 +1759,23 @@ export class appService{
         })
     }
 
+    getPaymentMethod(){
+      let apiUrl = this.baseUrl + '/payment-methods';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      })
+    }
+
     makePayment(regionId:string,body:any){
       console.log(regionId,body)
       let apiUrl = this.baseUrl + '/' + regionId + '/payments';
@@ -1862,6 +1879,20 @@ export class appService{
 
     getClaimPassCourses(courseid:string){
       let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons';
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    getMakeupLists(userid, type, regionid){
+      let apiUrl = this.baseUrl + '/' + regionid + '/' + 'user/makeup-pass/' + userid + '?filter=' + type;
       const httpOptions = {
         headers: new HttpHeaders({ 
             'Content-Type': 'application/json',  

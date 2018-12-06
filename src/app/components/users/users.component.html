@@ -216,18 +216,25 @@
 								</div>
 							</div>
 							<div class="d-flex justify-content-between section-two">
-								<div class="d-flex flex-row align-items-center">
-									<div>
-										<img src="./assets/img/paid-indicator.png">
-										<img src="./assets/img/unpaid-indicator.png">
-									</div>
-									<div class="ml-12">
-										<label class="unpaid-text">Unpaid</label>
-										<label class="paid-text">Paid</label>
-										<p class="fees">s$4500</p>
+								<div>
+									<div class="d-flex flex-row align-items-center" *ngIf="course.invoice != null">
+										<div>
+											<img *ngIf="course.invoice.status == 'UNPAID'" src="./assets/img/paid-indicator.png">
+											<img *ngIf="course.invoice.status == 'PAID'"src="./assets/img/unpaid-indicator.png">
+										</div>
+										<div class="ml-12">
+											<label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+											<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
+											<p class="fees">
+												<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
+												{{course.invoice.total}}
+											</p>
+										</div>
 									</div>
 								</div>
-								<p class="view-invoice">View invoice</p>
+								<button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
+									View invoice
+								</button> 
 							</div>
 						</div>
 					</div>
@@ -240,49 +247,99 @@
 				</div>
 			</div>
 			<div *ngIf="activeTab == 'makeup'">
-				<div class="d-flex title-space">
-					<div class="d-flex flex-column justify-content-center">
-						<h4 class="mb-0 tab-title">Available makeup passes</h4>
-					</div>
+				<div class="d-flex justify-content-center">
+					<ul class="pass-list">
+						<li [ngClass]="{'active': activePass == 'available'}" (click)="clickPass('available')">Available</li>
+						<li [ngClass]="{'active': activePass == 'claimed'}" (click)="clickPass('claimed')">Claimed</li>
+						<li [ngClass]="{'active': activePass == 'expired'}" (click)="clickPass('expired')">Expired</li>
+					</ul>
 				</div>
-				<div class="d-flex makeup-wrap">
-					<div class="col-md-4">
+				<div *ngIf="makeupLists" class="row makeup-wrap">
+					<div class="col-md-4" *ngFor="let list of makeupLists.res;">
 						<div class="single-makeup">
-							<div class="makeup-head">
-								<p>Valid until <span class="valid-date">12 Mar 2019</span></p>
+							<div *ngIf="activePass == 'available'" class="makeup-head">
+								<p>Valid until <span class="valid-date">{{list.expirationDate.day}} {{list.expirationDate.month -1 | TTmonth}} {{list.expirationDate.year}}</span></p>
 							</div>
 							<div class="makeup-body">
-								<label class="makeup-plan">Plan</label>
-								<h5 class="makeup-title">MoeGuitar101</h5>
-								<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+								<h5 class="makeup-title">{{list.name}}</h5>
+								<p class="makeup-desc">{{list.reason}}</p>
 								<div class="makeup-box">
-									<strong>From Piano Grade 2 SATURDAY</strong>
-									<p>On 12 Aug 2018</p>
+									<p>Issued on 12 Aug 2018</p>
+									<div class="issue-box d-flex flex-column">
+										<strong>{{list.course.name}}</strong>
+										<label><span>{{list.course.startTime.hr}} : {{list.course.startTime.min}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr}} : {{list.course.endTime.min}} {{list.course.endTime.meridiem}}</span></label>
+									</div>
+									<div *ngIf="activePass == 'claimed' || activePass == 'expired'">
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="left-scoope1"></div>
-							<div class="right-scoope1"></div>
-							<div class="makeup-footer d-flex justify-content-center">
-								<p (click)="openClaimModal(claimModal, '5c07ba633cc46a20797b75d3')" class="view-invoice">Claim this pass</p>
+							<div class="left-scoope"></div>
+							<div class="right-scoope"></div>
+							<div *ngIf="activePass == 'available'" class="makeup-footer d-flex justify-content-center">
+								<p (click)="openClaimModal(claimModal, list.course.courseId)" class="claim-text">Claim this pass</p>
+							</div>
+							<div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
+								<p class="pass-text">Claimed pass</p>
+							</div>
+							<div *ngIf="activePass == 'expired'" class="makeup-footer d-flex justify-content-center">
+								<p class="expired-text">Expired</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="d-flex makeup-wrap flex-column">
-					<h4 class="title-space expired-title">Expired pass</h4>
+				<!-- <div *ngIf="activePass == 'claimed'" class="d-flex makeup-wrap flex-column">
 					<div class="d-flex makeup-wrap">
 						<div class="col-md-4">
 							<div class="single-expired">
-								<!-- <div class="makeup-head">
-									<p>Valid until <span class="valid-date">12 Mar 2019</span></p>
-								</div> -->
 								<div class="makeup-body">
-									<label class="makeup-plan">Plan</label>
 									<h5 class="makeup-title">MoeGuitar101</h5>
 									<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 									<div class="makeup-box">
-										<strong>From Piano Grade 2 SATURDAY</strong>
-										<p>On 12 Aug 2018</p>
+										<p>Issued on 12 Aug 2018</p>
+										<div class="issue-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+									</div>
+								</div>
+								<div class="left-scoope"></div>
+								<div class="right-scoope"></div>
+								<div class="makeup-footer d-flex justify-content-center">
+									<p class="pass-text">Claimed pass</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div *ngIf="activePass == 'expired'" class="d-flex makeup-wrap flex-column">
+					<div class="d-flex makeup-wrap">
+						<div class="col-md-4">
+							<div class="single-expired">
+								<div class="makeup-body">
+									<h5 class="makeup-title">MoeGuitar101</h5>
+									<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+									<div class="makeup-box">
+										<p>Issued on 12 Aug 2018</p>
+										<div class="issue-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
 									</div>
 								</div>
 								<div class="left-scoope"></div>
@@ -293,7 +350,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<div class="d-flex">
@@ -864,49 +921,58 @@
 	      </div>
 	      <div class="mt-40">
 	        <label class="payment-label">Choose payment method</label>
-	        <!-- <div class="d-flex mt-1">
-	          <div class="payment-item">
-	            <label [ngClass]="{'selectedItem': selectedPayment == 'cash'}" class="form-check-label">
-	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="Cash" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment('cash')"> Cash
-	            </label>
-	          </div>
-	          <div class="payment-item">
-	            <label [ngClass]="{'selectedItem': selectedPayment == 'card'}" class="form-check-label">
-	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="Credit or debit card" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment('card')"> Credit or debit card
-	            </label>
-	          </div>
-	        </div> -->
 	        <div class="d-flex mt-1">
 	          <div class="payment-item" *ngFor="let provider of paymentProviders">
 	            <label [ngClass]="{'selectedItem': selectedPayment == provider.name}" class="form-check-label">
-	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="provider.name" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment(provider.name)"> {{provider.name}}
+	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="provider.name" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment(provider)"> {{provider.name}}
 	            </label>
 	          </div>
 	        </div>
-	        <div *ngIf="selectedPayment == 'Cash'">
-	          <div class="mt-30">
-	            <label class="payment-label">Reference number</label>
-	            <div>
-	              <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="refInvID" readonly>
-	            </div>
-	          </div>
-	          <div class="mt-30">
-	            <label class="payment-label">Amount</label>
-	            <div class="d-flex popup-input w-75">
-	              <div class="input-sign">
-	                {{ currency.invCurrencySign }}
-	              </div>
-	              <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount">
-	            </div>
-	          </div>
+	        <div>
+	          <form #paymentForm="ngForm" nonvalidate>
+		          <div class="mt-30">
+		            <label class="payment-label">Reference number</label>
+		            <div>
+		              <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="paymentItem.refNumber" #refNumber="ngModel">
+		            </div>
+		          </div>
+		          <div class="mt-30">
+		            <label class="payment-label">Amount</label>
+		            <div class="d-flex popup-input w-75">
+		              <div class="input-sign">
+		                {{ currency.invCurrencySign }}
+		              </div>
+		              <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount" #amount="ngModel" required>
+		            </div>
+					<div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert alert-danger alert-m-right w-75 mt-3">
+					    <div [hidden]="!amount.errors.required">
+					      Amount is required!
+					    </div>
+					    <!-- <div *ngIf="paymentItem.amount <= 0 && !amount.errors.required">
+					    	Amount should be grater than 0;
+					    </div> -->
+					</div>
+		          </div>
+		      </form>
 	        </div>
-	        <div *ngIf="selectedPayment != 'Cash'">
-	        	<h2>Test</h2>
-	        </div>
+	        <!-- <div *ngIf="selectedPayment != 'Cash'">
+				<div class="mt-30">
+					<label class="payment-label">Reference number</label>
+					<div>
+					  <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="refInvID" readonly>
+					</div>
+				</div>
+	        </div> -->
 	      </div>
 	    </div>
-	    <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
-	      <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined">Pay now</button>
+	    <div *ngIf="selectedPayment != ''" class="modal-footer d-flex justify-content-between payment-footer">
+	      <button class="back-inv cursor-on" (click)="backToInvoice()">
+	      	<i class="fa fa-angle-left"></i><span>Back</span>
+	      </button>
+	      <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Pay now</button>
+	      <!-- <button *ngIf="selectedPayment != 'Cash'" class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)">
+	      	Pay now
+	      </button> -->
 	    </div>
   	</div>
 </ng-template>
