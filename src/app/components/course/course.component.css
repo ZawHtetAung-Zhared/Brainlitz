@@ -2276,6 +2276,12 @@ input[type=number]::-webkit-outer-spin-button {
 .mt-16{
     margin-top: 16px;
 }
+
+.tabs-inv{
+    min-height: 470px;
+    max-height: 470px;
+    overflow: auto;
+}
 /*=============*/
 
 .modal-headone{

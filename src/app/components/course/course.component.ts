@@ -1120,10 +1120,14 @@ export class CourseComponent implements OnInit {
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
-    }else{
+    }else if(type == 'People'){
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
+    }else if(type == 'transfer'){
+      this.getAllAC(20, 0, this.singleUserData.userId);
+    }else if(type == 'invoice'){
+      this.viewInvoice(this.singleUserData.userId);
     }
   }
 
@@ -1224,14 +1228,14 @@ export class CourseComponent implements OnInit {
 
   }
 
-  viewInvoice(userModal,data){
+  viewInvoice(data){
     console.log("user data in view inv",data)
     this.showInvoice = true;
-    this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+    // this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     this.getSingleCustomer(data.userId,'user');
     this.getRegionInfo();
     console.log(this.invoiceInfo);
-    var invoiceId = data.invoiceId;
+    var invoiceId = data.invoice._id;
     this._service.getSingleInvoice(invoiceId)
     .subscribe((res:any) => {
       console.log('invoice detail',res);
@@ -2124,6 +2128,8 @@ export class CourseComponent implements OnInit {
     console.log("user data",data);
     if(type == 'transfer'){
       this.getAllAC(20, 0, data.userId);
+    }else if(type == 'invoice'){
+      this.viewInvoice(data);
     }
   }
 
@@ -2141,10 +2147,12 @@ export class CourseComponent implements OnInit {
     console.log("cancelTabsModal");
     this.modalReference.close();
     this.showList = false;
-    this.selectedCustomer = {};
-    this.selectedTeacherLists = []
+    // this.selectedCustomer = {};
+    // this.selectedTeacherLists = []
     this.showInvoice = false;
     this.currentDateObj = '';
+    this.availableCourses = [];
+    this.activeTab = 'People';
     this.getCourseDetail(this.detailLists._id);
     this.getUsersInCourse(this.detailLists._id);
   }
@@ -2210,6 +2218,10 @@ export class CourseComponent implements OnInit {
     this._service.transferClass(body)
     .subscribe((res:any)=>{
       console.log("res",res);
+      this.toastr.success(res.message);
+      this.cancelTabsModal();
+    },err=>{
+      console.log(err);
     })
   }
 

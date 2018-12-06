@@ -1759,6 +1759,23 @@ export class appService{
         })
     }
 
+    getPaymentMethod(){
+      let apiUrl = this.baseUrl + '/payment-methods';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      })
+    }
+
     makePayment(regionId:string,body:any){
       console.log(regionId,body)
       let apiUrl = this.baseUrl + '/' + regionId + '/payments';

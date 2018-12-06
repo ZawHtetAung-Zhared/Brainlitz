@@ -322,6 +322,7 @@ ul.pass-list li {
     display: table;
     cursor: pointer;
 }
+
 .section-one{
     border-bottom: 2px dotted #8fa1b3;
     padding-bottom: 20px;
@@ -1212,7 +1213,7 @@ h3, h5 {
     color: #64707d;
     font-family: 'Montserrat-Regular', Arial,sans-serif;
 }
-.class-body-one b,.invoice-info{
+.class-body-one b,.invoice-info,.back-inv{
     font-size: 16px;
     color: #2e3d4d;
     font-family: 'Montserrat-Medium', Arial,sans-serif;
@@ -1644,6 +1645,22 @@ h3, h5 {
   font-size: 12px;
   color: #64707d;
 }
+
+.back-inv{
+    border: none;
+    outline: none;
+}
+
+.back-inv i{
+    padding-right: 5px;
+    font-size: 20px;
+}
+
+.payment-footer{
+    padding: 20px 32px;
+}
+
+
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
