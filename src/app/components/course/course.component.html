@@ -628,20 +628,20 @@
           <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
             <!-- <pre>{{timeline | json}}</pre> -->
            
-            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate, timeline)">
-              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+            <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline ,cancelUI)">
                 <b>{{timeline.startDate | timelineDate}} </b>
                 <p>{{timeline.startDate | timelineDay}}</p>
               </div>
             </div>
-            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+            <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
               <div>
               <b>{{timeline.startDate | timelineDate}}</b>
               <p>{{timeline.startDate | timelineDay}}</p>
               </div>
             </div>
             <div *ngIf="timeline.startDate > todayDate">
-              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline)">
+              <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
                ** <b>{{timeline.startDate | timelineDate}}</b>
                 <p>{{timeline.startDate | timelineDay}}</p>
               </div>
@@ -665,7 +665,9 @@
             <!-- {{detailLists | json}} -->
 
             <!-- <button type="button"  *ngIf="LASD  == (todayDate | timelineDate) || LASD  > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button> -->
-            <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content,currentDateObj)">Cancel class</button>
+            <div *ngIf="!cancelUI">
+              <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+            </div>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
             <ng-template #content let-modal>
               <div class="modal-header">
@@ -698,12 +700,15 @@
                   </div>
               </div>
              <div class="modal-footer">
-               <button class="btn btn-cancel-crt" (click)="modalClose(activeCourseInfo.CUSTOMER,'cancel')">Cancel</button>
-               <button class="btn btn-done-crt" (click)="cancelClassFun(activeCourseInfo.CUSTOMER,'done', currentDateObj)">Done</button>
+               <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
+               <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)">Done</button>
             </div>
             </ng-template>
           </div>
-          <div>
+          <div *ngIf="cancelUI" style="font-size:16px; font-family:Montserrat-Medium;color:#64707d;line-height:20px; padding:12px 0px 36px 0px;">
+            Cancelled class
+          </div>
+          <div *ngIf="!cancelUI">
             <label class="present">{{presentStudent}} present</label>
             <label class="absent">{{absentStudent}} absent</label>
             <label class="no-data">{{noStudent}} no data</label>

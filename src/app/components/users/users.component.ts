@@ -157,7 +157,7 @@ export class UsersComponent implements OnInit {
 		    this.checkPermission();
 		  }
 		});
-		this.selectedPayment = 'Cash';
+		// this.selectedPayment = 'Cash';
 	}
 
 	ngAfterViewInit() {
@@ -167,10 +167,18 @@ export class UsersComponent implements OnInit {
 			},
 			'courses': [
 				{
-					'name': ''
+					'name': '',
+					'location':{
+						'name': ''
+					},
+					'startDate': '',
+					'duration':{
+						'startDate': ''
+					}
 				}
 			]
 		}
+
 
 		this.invoiceInfo = {
 	      'companyName': '',
@@ -1096,6 +1104,8 @@ export class UsersComponent implements OnInit {
 		.subscribe((res:any) => {
 			console.log(res);
 			this.paymentProviders = res;
+			this.selectedPayment = this.paymentProviders[0].name;
+	    	this.paymentId = this.paymentProviders[0].id;
 		})
 	}
 
@@ -1115,17 +1125,17 @@ export class UsersComponent implements OnInit {
 	choosePayment(type){
 	    console.log("choosePayment",type);
 	    this.selectedPayment = type.name;
-	    this.paymentId = type._id;
+	    this.paymentId = type.id;
 	    // console.log('pItem',this.paymentItem);
 	}
 
 	payNow(type){
-		console.log("Pay Now",this.paymentItem);
+		console.log("Pay Now",this.paymentItem,this.paymentId);
 		let body = {
 			'regionId': this.regionID,
 			'refInvoiceId': this.refInvID,
 			'amount': this.paymentItem.amount.toString(),
-			'paymentMethod': this.paymentId
+			'paymentMethod': this.paymentId.toString()
 		}
 		// if(this.paymentItem.refNumber){
 		// 	body["refNumber"] = this.paymentItem.refNumber;
