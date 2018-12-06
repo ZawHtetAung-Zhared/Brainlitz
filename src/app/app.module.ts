@@ -44,6 +44,7 @@ import {StaffReportGraph} from './components/report/staffPerformance/graph/staff
 import {CourseActivitiesReportGraph} from './components/report/courseActivities/graph/courseGraph.component';
 import {StdEnrolmentReportGraph} from './components/report/studentEnrollment/graph/stdEnrolment.component';
 import {MonthlyActiveStdReportGraph} from './components/report/monthlyActiveStudents/graph/masGraph.component';
+import {StaffTeachingReportGraph} from './components/report/staffTeachingSchedule/graph/staffTeachingGraph.component';
 
 import { CourseActivitiesReport } from './components/report/courseActivities/course.component';
 import { StudentEnrollmentReport } from './components/report/studentEnrollment/enrollment.component';
@@ -102,6 +103,7 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
     CourseActivitiesReportGraph,
     StdEnrolmentReportGraph,
     MonthlyActiveStdReportGraph,
+    StaffTeachingReportGraph,
     CourseActivitiesReport,
     StudentEnrollmentReport,
     MonthlyActiveStudentsReport,
