@@ -941,7 +941,7 @@ export class CourseComponent implements OnInit {
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
     console.log(this.detailLists.seat_left);
-    this.cancelButtonShowHide();
+   
   
   }
 
@@ -1176,7 +1176,7 @@ export class CourseComponent implements OnInit {
     console.log(this.cancelUI)
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
-    this.cancelUi=true;
+    // this.cancelUi=true;
     // Validate the cancel button whether show or hide
     this.cancelButtonShowHide();
 
@@ -1357,11 +1357,12 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       // Success function
       this.cancelUI=true;
-      let lessonCount = this.detailLists.lessons;
-      console.log(lessonCount)
+      // let lessonCount = this.detailLists.lessons;
+      // console.log(lessonCount)
       console.info("cancle user from class api calling is done");
       console.log(res)
       this.modalReference.close();
+      this.getCourseDetail(this.courseId);
       // Close Dialog box
       // Show the canceled users
     },err => {
@@ -1369,7 +1370,7 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    
+  
   }
 
   modalClose(user,type){
