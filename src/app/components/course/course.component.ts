@@ -1051,6 +1051,7 @@ export class CourseComponent implements OnInit {
       this.todayDate = today.toISOString();
       var to_day = new Date(today).getUTCDate();
       var currentMonth =  new Date(today).getUTCMonth()+1;
+      var currentYear =  new Date(today).getUTCFullYear();
       let lessonCount = this.detailLists.lessons;
       console.log(lessonCount)
       console.log(lessonCount.length)
@@ -1061,28 +1062,38 @@ export class CourseComponent implements OnInit {
         let strDate = lessonCount[i].startDate;
         let courseDate = new Date(strDate).getUTCDate();
         let courseMonth = new Date(strDate).getUTCMonth()+1;
+        let courseYear = new Date(strDate).getUTCFullYear();
 
-        if(courseMonth < currentMonth){
-          console.log('less than current month')
-          finishedDate.push(i)
-        }else if(courseMonth == currentMonth){
-          console.log('same with current month')
-          if(courseDate > to_day){
-            console.log('unfinished course => ', courseDate)
-            unfinishedDate.push(i);
-          }else if(courseDate == to_day){
-            console.log('same with today ', courseDate)
-            finishedDate.push(i)
-            this.activeToday = true;
-            this.todayIndex = i;
-          }else{
-            console.log('finished course => ', courseDate)
-            finishedDate.push(i)
-          }
-        }else{
-          console.log('grater than current month')
+        console.log(courseYear, currentYear)
+        if(courseYear > currentYear){
           unfinishedDate.push(i)
+        }else if(courseYear < currentYear){
+          finishedDate.push(i)
+        }else{
+          if(courseMonth < currentMonth){
+            console.log('less than current month')
+            finishedDate.push(i)
+          }else if(courseMonth == currentMonth){
+            console.log( courseDate, to_day)
+            if(courseDate > to_day){
+              console.log('if ', courseDate)
+              unfinishedDate.push(i);
+            }else if(courseDate == to_day){
+              console.log('else if ', courseDate)
+              finishedDate.push(i)
+              this.activeToday = true;
+              this.todayIndex = i;
+            }else{
+              console.log('else ', courseDate)
+              finishedDate.push(i)
+            }
+          }else{
+            console.log('grater than current month')
+            unfinishedDate.push(i)
+          }
         }
+
+        
       }
       console.log('finish', finishedDate.length)
       console.log('unfinish' , unfinishedDate.length)
