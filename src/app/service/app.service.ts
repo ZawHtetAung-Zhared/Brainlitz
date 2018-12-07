@@ -1919,5 +1919,19 @@ export class appService{
       }) 
     }
 
+    searchMakeupCourse(keyword, courseid, limit, skip){
+      let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons?keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 }
 

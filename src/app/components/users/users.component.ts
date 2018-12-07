@@ -46,7 +46,7 @@ export class UsersComponent implements OnInit {
 	public locationID = localStorage.getItem('locationId');	
 	public locationName :any;	
 	// formFieldc: customer = new customer();
-	claimCourses:any = {};	
+	claimCourses:any;	
 	formFieldc:any = {};	
 	xxxx:any = {};	
 	@ViewChild("cropper", undefined)
@@ -732,9 +732,11 @@ export class UsersComponent implements OnInit {
 		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
 		this.showCustDetail = true;
+		this.blockUI.start('Loading...');
 		this._service.getUserDetail(this.regionID,ID, this.locationID)
 		.subscribe((res:any) => {
 			this.custDetail = res;
+			this.blockUI.stop();
 			console.log("CustDetail",res);
 			for(var i = 0; i < this.custDetail.ratings.length; i++){
 				var tempData = this.custDetail.ratings[i].updatedDate;
@@ -742,6 +744,9 @@ export class UsersComponent implements OnInit {
 				console.log(this.custDetail.ratings[i].updatedDate)
 				this.custDetail.ratings[i].updatedDate = moment(d, format).tz(zone).format(format);
 			}
+		},err => {
+			console.log(err);
+			this.blockUI.stop();
 		})
 	}	
 
@@ -1082,7 +1087,8 @@ export class UsersComponent implements OnInit {
 	//   }
 
 	closeModal(type){
-		this.isChecked = ''
+		this.isChecked = '';
+		this.checkCourse = '';
 		this.modalReference.close();
 		this.availableCourses = [];
 		this.showInvoice = false;
@@ -1244,12 +1250,19 @@ export class UsersComponent implements OnInit {
 
 	openClaimModal(claimModal, passObj){
 		this.currentPassObj = passObj;
-		this._service.getClaimPassCourses(passObj.course.courseId)
+	    this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+		this.getClaimCourses(this.currentPassObj.course.courseId);
+	}
+
+	getClaimCourses(id){
+		this.blockUI.start('Loading...');
+		this._service.getClaimPassCourses(id)
 		.subscribe((res:any)=>{
-	    	this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+			this.blockUI.stop();
 	      	console.log(res)
 	      	this.claimCourses = res;
 	    },err =>{
+	    	this.blockUI.stop();
 	      	console.log(err);
 	    });
 	}
@@ -1272,14 +1285,16 @@ export class UsersComponent implements OnInit {
 	      	console.log(res)
 	      	this.modalReference.close();
 	      	this.blockUI.stop();
-	      	this.isChecked = ''
+	      	this.isChecked = '';
+	      	this.checkCourse = '';
 	      	this.toastr.success('Successfully passed.');
 	    	this.callMakeupLists();
 	    },err =>{
 	      	console.log(err);
 	      	this.toastr.error('Claim pass failed.');
 	      	this.blockUI.stop();
-	      	this.isChecked = ''
+	      	this.isChecked = '';
+	      	this.checkCourse = '';
 	      	this.modalReference.close();
 	    });
 	}
@@ -1289,7 +1304,7 @@ export class UsersComponent implements OnInit {
 		console.log(data)
 		this.lessonData = obj;
 		this.isChecked = obj.startDate;
-		// this.checkCourse = courseId;
+		this.checkCourse = data.courseId;
 		// console.log(this.checkCourse)
 	}
 
@@ -1367,6 +1382,24 @@ export class UsersComponent implements OnInit {
 		$('#'+target).animate({
 	    	scrollLeft: "-=200px"
 	  	}, "slow");
+	}
+
+	searchMakeup(keyword){
+		if(keyword.length > 0){
+			this.blockUI.start('Loading...');
+			this._service.searchMakeupCourse(keyword, this.currentPassObj.course.courseId, 20, 0)
+			.subscribe((res:any) => {
+		      	console.log(res);
+		      	this.blockUI.stop();
+		      	this.claimCourses = res;
+		    }, err => {
+		    	this.blockUI.stop();
+		      	console.log(err);
+		    })
+		}else{
+			this.claimCourses ='';
+			this.getClaimCourses(this.currentPassObj.course.courseId);
+		}
 	}
 
 }

@@ -289,9 +289,11 @@
 								<p (click)="openClaimModal(claimModal, list)" class="claim-text">Claim this pass</p>
 							</div>
 							<div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
+								<img src="./assets/img/badge-tick.png" class="claim-img">
 								<p class="pass-text">Claimed pass</p>
 							</div>
 							<div *ngIf="activePass == 'expired'" class="makeup-footer d-flex justify-content-center">
+								<img src="./assets/img/badge-minus.png" class="claim-img">
 								<p class="expired-text">Expired</p>
 							</div>
 						</div>
@@ -997,10 +999,10 @@
 	</div>
 	<div class="modal-body confirm-text">
 		<div>
-			<input type="search" name="" class="form-control course-search-input" placeholder="Search courses">
+			<input type="search" name="" class="form-control course-search-input" placeholder="Search courses" (input)="searchMakeup($event.target.value)">
 		</div>
 		<div class="mt-20 class-group">
-			<div class="card-columns pd-zero">
+			<div class="card-columns pd-zero" *ngIf="claimCourses">
 				<div class="card" *ngFor="let claim of claimCourses; let i = index">
 	    		<div class="single-class">
 	    			<div class="no-seat" *ngIf="claim.seat_left == 0">All seat taken</div>
@@ -1012,28 +1014,19 @@
   				      {{claim.location.name}}
   				    </h5>
   				    <b>{{claim.name}}</b><br>
-  				    <label class="makeup-plan">11:00 AM - 12:00 AM</label>
+  				    <label class="makeup-plan">
+  				    	<span *ngIf="claim.startTime">{{claim.startTime.hr}} : {{claim.startTime.min}} {{claim.startTime.meridiem}}</span> - 
+  				    	<span *ngIf="claim.endTime">{{claim.endTime.hr}} : {{claim.endTime.min}} {{claim.endTime.meridiem}}</span>
+  				    </label>
 	    			</div>
 	    			<div class="d-flex flex-column count-wrap">
 	    				<div class="d-flex justify-content-between">
 	    					<p class="valid-until">Pick a date to claim makeup pass</p>
 	    					<div>
-	    						<i class="fa fa-arrow-left" (click)="backward('timeline-'+i)"></i>
-	    						<i class="fa fa-arrow-right" (click)="forward('timeline-'+i)"></i>
+	    						<img src="./assets/img/chevron-right-s.png" (click)="backward('timeline-'+i)" class="mr-32">
+	    						<img src="./assets/img/chevron-left-s.png" (click)="forward('timeline-'+i)">
 	    					</div>
 	    				</div>
-	    				<!-- <div class="d-flex flex-row w-100 flex-nowrap overflow-x">
-	    					<div class="tool-box d-flex flex-nowrap">
-	    					  <div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
-    					      <label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
-    					        <input class="form-check-input" type="radio" name="passForm" id="course" value="{{lesson}}" [(ngModel)]="passForm.lesson" #course="ngModel" [checked]='false' (click)="chooseDate(lesson)"> 
-    					        <p class="xxxdate">{{lesson.startDate | timelineDate}}</p>
-    					        <p class="xxxday">{{lesson.startDate | timelineDay}}</p>
-    					      </label>
-    					    </div>
-	    					</div>
-	    				</div>
- -->
 	    				<div id="timeline-{{i}}" class="timeline">
 	    					<div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
 	    						<label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
@@ -1045,8 +1038,7 @@
 	    				</div>
 	    			</div>
 	    			<div class="row d-flex justify-content-center class-info-footer">
-	    				<!-- --{{checkCourse}} -->
-	    				<button type="button" class="btn" (click)="enrollPass(claim, currentPassObj.course.courseId)">Enroll class</button>
+	    				<button type="button" class="btn" (click)="enrollPass(claim, currentPassObj.course.courseId)" [disabled]="checkCourse != claim.courseId">Enroll class</button>
 	    			
 	    			</div>
 	    		</div>

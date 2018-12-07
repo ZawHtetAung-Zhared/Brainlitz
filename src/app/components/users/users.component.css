@@ -41,7 +41,9 @@ ul.pass-list li,
     font-size: 12px;
     font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
-
+.mr-32{
+    margin-right: 32px;
+}
 ul.pass-list {
     list-style: none;
     padding: 0;
@@ -93,7 +95,7 @@ ul.pass-list li {
 
 .timeline {
     border-radius: 4px;
-    padding: 16px 20px;
+    padding: 16px 0px;
     white-space: nowrap;
     overflow-x: scroll;
     position: relative;
@@ -218,6 +220,12 @@ ul.pass-list li {
     font-family: 'Montserrat-Semibold', Arial,sans-serif;
     color: #0080ff;
     font-size: 16px;
+}
+.claim-img{
+    max-width: 100%;
+    height: 100%;
+    margin-top: 2px;
+    margin-right: 8px;
 }
 .makeup-footer {
     padding: 16px;
