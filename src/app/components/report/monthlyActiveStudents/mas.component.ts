@@ -60,8 +60,50 @@ export class MonthlyActiveStudentsReport implements OnInit {
     };
     this.reportData = [];
     console.clear();
-    
-    console.log(masSampleData);
+
+    console.log(masSampleData[0]);
+    this.getfilteredData(masSampleData);
+  }
+  getfilteredData(inputData){
+    Object.keys(inputData).forEach(function(k, i) {
+      console.log(k,i,inputData[k]);
+    });
+    // let filter = this.filter;
+    // let _self = this;
+    // let res = [];
+    // if(filter.type == "location"){
+    //   data = data.filter(function (d) {
+    //     return filter.value.indexOf(d.locationName) > -1;
+    //   });
+    // }
+    // data.forEach(function (location) {
+    //   let obj = {
+    //     groupTypeValue: location.locationName,
+    //     students: 0
+    //   };
+    //   //if filter type is location, we will push to end of this loop
+    //   let categories = location.categories || [];
+    //   categories.forEach(function (category) {
+    //     let coursePlans = category.coursePlans || [];
+    //     //iterate coursePlans under categories
+    //     coursePlans.forEach(function (coursePlan) {
+    //       let courses = coursePlan.courses || [];
+    //       //iterate courses under coursePlans
+    //       if(filter.type == "course"){
+    //         courses = courses.filter(function (d) {
+    //           return filter.value.indexOf(d.locationName) > -1;
+    //         });
+    //       }
+    //
+    //       courses.forEach(function (course) {
+    //         obj.students += course.students;
+    //       });
+    //     });
+    //   });
+    //   obj.groupTypeValue = location.locationName;
+    //   res.push(obj);
+    // });
+    // return res;
   }
   updateGraphUsingGroupBy(event) {
     this.filter = {
