@@ -100,6 +100,7 @@ export class CourseComponent implements OnInit {
   public showCancelButton:any;
   public lastActiveStartDate:any;
   public cancelUi:any;
+  public cancelUItext:any;
   public cancelUI:any='';
   public presentStudent:number = 0;
   public absentStudent:number = 0;
@@ -933,6 +934,8 @@ export class CourseComponent implements OnInit {
     this.searchMore = false;
     this.iswordcount = false;
     this.paymentItem = {};
+    this.cancelUItext=false;
+    this.cancelUI=false;
   }
 
   showCourseDetail(courseId){
@@ -944,7 +947,7 @@ export class CourseComponent implements OnInit {
     console.log(this.detailLists.seat_left);
     this.cancelUi=false;
     this.showCancelButton=false;
-    this.cancelUI=true;
+    this.cancelUItext= true;
   }
 
   showCPDetail(planID){
@@ -1028,6 +1031,8 @@ export class CourseComponent implements OnInit {
     this.noStudent = 0;
     this.presentStudent = 0;
     this.absentStudent = 0;
+    this.cancelUItext=false;
+    this.cancelUI=false;
     if(type == 'Class'){
       this.blockUI.start('Loading...');
       const today = new Date();
@@ -1133,6 +1138,7 @@ export class CourseComponent implements OnInit {
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
+      this.currentDateObj = '';
     }else if(type == 'transfer'){
       this.getAllAC(20, 0, this.singleUserData.userId);
     }else if(type == 'invoice'){
@@ -1148,17 +1154,17 @@ export class CourseComponent implements OnInit {
 
     let onlyTime = this.LASD.toLocaleString().substring(11, 19)
     let onlyDate = this.LASD.toLocaleString().substring(0,10);
-    console.error(this.LASD)
+    // console.error(this.LASD)
     
-    console.warn(onlyTime)
-    console.warn(onlyDate)
+    // console.warn(onlyTime)
+    // console.warn(onlyDate)
 
     var todaydate = new Date();
     let onlytodayTime = todaydate.toString().substring(16,24);
     let onlytodayDate = todaydate.toISOString().substring(0,10);
-    console.log(this.todayDate ,'today')
-    console.error(onlytodayTime)
-    console.error(onlytodayDate)
+    // console.log(this.todayDate ,'today')
+    // console.error(onlytodayTime)
+    // console.error(onlytodayDate)
 
     if(onlyDate == onlytodayDate && onlytodayTime < onlyTime || (onlyDate > onlytodayDate) ){
       console.log('same as today and not grater than today time')
@@ -1180,6 +1186,7 @@ export class CourseComponent implements OnInit {
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
     this.cancelUi=true;
+    this.cancelUItext=true;
     // Validate the cancel button whether show or hide
     this.cancelButtonShowHide();
 
@@ -1355,16 +1362,16 @@ export class CourseComponent implements OnInit {
       "lessonId": lessonId
     }
     console.log(lessonId)
+
     // Call cancel class api service
     this._service.cancelUsersFromClass(this.courseId, data)
     .subscribe((res:any) => {
       // Success function
-      this.cancelUI=true;
-      // let lessonCount = this.detailLists.lessons;
-      // console.log(lessonCount)
+      this.cancelUI=false;
+      this.cancelUi=false;
       console.info("cancle user from class api calling is done");
       console.log(res)
-      this.modalReference.close();
+      
       this.getCourseDetail(this.courseId);
       // Close Dialog box
       // Show the canceled users
@@ -1373,20 +1380,14 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    
-  
+    this.modalReference.close();
+    this.cancelUItext= false;
   }
 
-  modalClose(user,type){
-    if(type=="done"){
-      // this.activeCourseInfo.CUSTOMER.splice(user)
-      console.log(this.activeCourseInfo.CUSTOMER)
-      console.log(user,type)
-      this.modalReference.close();
-    }
-    else{
-      this.modalReference.close();
-    }
+  modalClose(){
+    this.cancelUItext= false;
+    this.cancelUI=false;
+    this.modalReference.close();
     this.currentDateObj = '';
   }
 
