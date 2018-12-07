@@ -1442,14 +1442,14 @@
   <div *ngIf="activeTab == 'transfer'">
     <div class="modal-body">
       <div class="d-flex">
-        <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
+        <!-- <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
         <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
             <div class="user-image">
               <img *ngIf="singleUserData.profilePic == undefined" src="assets/img/user.svg">
               <img *ngIf="singleUserData.profilePic != undefined" src="{{ singleUserData.profilePic }}">
             </div>      
           <p class="user-name">{{ singleUserData.preferredName }}</p>
-        </div>
+        </div> -->
         <!-- <button (click)="closeModal('close')" aria-label="Close" class="modal-close ml-auto" type="button">
           <span class="closemark">
               <div class="closemark_stem"></div>
@@ -1580,7 +1580,7 @@
               <p class="invoice-info">{{ dueDate }}</p>
             </div>
           </div>
-          <label class="invoice-info">{{ invoiceInfo.tax.name }} Reg No: {{ invoiceInfo.registration }}</label>
+          <label class="invoice-info" *ngIf="invoiceInfo.tax">{{ invoiceInfo.tax.name }} Reg No: {{ invoiceInfo.registration }}</label>
           <p class="invoice-info">{{ invoiceInfo.email }}<p>
         </div>
         <div class="pb-4"> 
