@@ -34,6 +34,7 @@ export class UsersComponent implements OnInit {
 	public makeupLists: any;
 	public passForm: any = {};
 	public isChecked: any = '';
+	public checkCourse: any = '';
 	public lessonData: any;
 	public activeTab: any;
 	public hideMenu: boolean = false;
@@ -881,10 +882,12 @@ export class UsersComponent implements OnInit {
 	}
 
 	getAC(limit, skip, userId){
-		this._service.getAvailabelCourse(this.regionID, userId, 20, 0)
+		console.log("limit,skip,userId",limit, skip, userId)
+		this._service.getAvailabelCourse(this.regionID, userId, limit, skip)
 	    .subscribe((res:any)=>{
-	      console.log(res)
+	      this.acResult = res;
 	      this.availableCourses = this.availableCourses.concat(res);
+	      console.log("Available C",this.availableCourses);
 	    },err =>{
 	      console.log(err);
 	    });
@@ -1091,6 +1094,7 @@ export class UsersComponent implements OnInit {
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
+		this.searchData.searchText = '';
 		if(type == 'closeInv'){
 			this.showDetails(this.custDetail.user.userId);
 		}
@@ -1227,8 +1231,10 @@ export class UsersComponent implements OnInit {
 	}
 
 	callMakeupLists(){
+		this.blockUI.start('Loading...');
 		this._service.getMakeupLists(this.custDetail.user.userId, this.activePass, this.regionID)
 		.subscribe((res:any)=>{
+			this.blockUI.stop();
 	      	console.log(res)
 	      	this.makeupLists = res;
 	    },err =>{
@@ -1256,21 +1262,35 @@ export class UsersComponent implements OnInit {
 		  	"startDate": this.lessonData.startDate,
 		  	"endDate": this.lessonData.endDate,
 		  	"teacherId": this.lessonData.teacherId,
-		  	"courseId": courseid,
+		  	"makeupCourseId": data.courseId,
 		  	"passId": this.currentPassObj.passId
 		}
-		this._service.enrollPass(body)
+		console.log(body)
+		this.blockUI.start('Loading...');
+		this._service.enrollPass(body, this.custDetail.user.userId, this.currentPassObj.course.courseId)
 		.subscribe((res:any)=>{
 	      	console.log(res)
+	      	this.modalReference.close();
+	      	this.blockUI.stop();
+	      	this.isChecked = ''
+	      	this.toastr.success('Successfully passed.');
+	    	this.callMakeupLists();
 	    },err =>{
 	      	console.log(err);
+	      	this.toastr.error('Claim pass failed.');
+	      	this.blockUI.stop();
+	      	this.isChecked = ''
+	      	this.modalReference.close();
 	    });
 	}
 
-	chooseDate(obj){
+	chooseDate(obj, data){
 		console.log(obj)
+		console.log(data)
 		this.lessonData = obj;
 		this.isChecked = obj.startDate;
+		// this.checkCourse = courseId;
+		// console.log(this.checkCourse)
 	}
 
 	viewInvoice(enrollModal,course){
@@ -1331,6 +1351,22 @@ export class UsersComponent implements OnInit {
 	clickPass(type){
 		this.activePass = type;
 		this.callMakeupLists();
+	}
+
+	forward(target){
+		console.log('----',target)		
+		event.preventDefault();		
+		$('#'+target).animate({
+	    	scrollLeft: "+=150px"
+	  	}, "slow");
+	}
+
+	backward(target){
+		console.log('----',target)		
+		event.preventDefault();		
+		$('#'+target).animate({
+	    	scrollLeft: "-=200px"
+	  	}, "slow");
 	}
 
 }

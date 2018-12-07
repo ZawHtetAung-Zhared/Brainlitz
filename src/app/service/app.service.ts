@@ -1905,9 +1905,9 @@ export class appService{
       })
     }
 
-    enrollPass(body){
+    enrollPass(body, userid, courseid){
       this.getLocalstorage();
-      let url = this.baseUrl + '/' + body.courseId + '/makeup/class';
+      let url = this.baseUrl + '/' + courseid + '/makeup/user/' + userid;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

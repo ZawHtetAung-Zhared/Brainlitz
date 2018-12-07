@@ -590,7 +590,7 @@
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div class="d-flex flex-row single-user justify-content-center align-items-center">
                   <div *ngIf="user.invoice != null">
-                    <div [ngClass]="{'paid-status': user.invoice.status == 'PAID', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
+                    <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
                       <img src="{{user.profilePic}}">
                     </div>
                   </div>
@@ -604,6 +604,7 @@
                     <p *ngIf="user.invoice != null">
                       <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>
                       <span *ngIf="user.invoice.status == 'UNPAID'" class="unpaid">Unpaid</span>
+                      <span *ngIf="user.invoice.status == 'PAID[PARTIAL]'" class="paid">Paid[Partial]</span>
                     </p>
                   </div>
                   <div class="ml-auto remover-wrap">
@@ -1386,13 +1387,11 @@
         </div>
       </div>
     </div>
-    <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
-      <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
-        <button class="back-inv cursor-on" (click)="backToInvoice()">
-          <i class="fa fa-angle-left"></i><span>Back</span>
-        </button>
-        <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Pay now</button>
-      </div>
+    <div *ngIf="selectedPayment != ''" class="modal-footer justify-content-between">
+      <button class="back-inv cursor-on" (click)="backToInvoice()">
+        <i class="fa fa-angle-left"></i><span>Back</span>
+      </button>
+      <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Pay now</button>
     </div>
   </div>
 </ng-template>
@@ -1408,7 +1407,7 @@
           <p>{{singleUserData.preferredName}}</p>
         </div>
       </div>
-      <button (click)="cancelTabsModal()" aria-label="Close" class="modal-close ml-auto" type="button">
+      <button (click)="cancelInvoiceModal()" aria-label="Close" class="modal-close close-tabModal" type="button">
         <span class="closemark">
             <div class="closemark_stem"></div>
             <div class="closemark_kick"></div>
@@ -1435,7 +1434,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn modal-cancel-btn" (click)="cancelTabsModal()">Cancel</button>
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelInvoiceModal()">Cancel</button>
       <button type="submit" class="btn btn-submit" (click)="issuePass(makeupForm, singleUserData.userId)">Confirm</button>
     </div>
   </form>
@@ -1544,7 +1543,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="availableCourses.length >= 20 || acResult?.length > 0" class="load-more1 d-flex justify-content-center">
+            <div *ngIf="availableCourses.length >= 20 && acResult?.length > 0" class="load-more1 d-flex justify-content-center">
               <button type="button" class="btn" (click)="showMoreAC(availableCourses.length, singleUserData.userId)">load more</button>
             </div>
           </div>
@@ -1628,13 +1627,13 @@
                     </div>
                   </div>
                   <div *ngIf="feesBox == true" class="d-flex btns-wrap">
-                    <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
+                    <button type="submit" class="btn fee-box" (click)="cancelPopup('courseFee')">
                       <span class="closemark">
                           <div class="closemark_stem"></div>
                           <div class="closemark_kick"></div>
                       </span>
                     </button>
-                    <button type="submit" class="btn" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
+                    <button type="submit" class="btn fee-box" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
                       <span class="checkmark">
                           <div class="checkmark_stem"></div>
                           <div class="checkmark_kick"></div>
@@ -1777,7 +1776,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
+      <div *ngIf="selectedPayment != ''" class="modal-footer justify-content-between">
         <button class="back-inv cursor-on" (click)="backToInvoice()">
           <i class="fa fa-angle-left"></i><span>Back</span>
         </button>
