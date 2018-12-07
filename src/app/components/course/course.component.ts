@@ -1138,6 +1138,7 @@ export class CourseComponent implements OnInit {
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
+      this.currentDateObj = '';
     }else if(type == 'transfer'){
       this.getAllAC(20, 0, this.singleUserData.userId);
     }else if(type == 'invoice'){
@@ -1361,16 +1362,16 @@ export class CourseComponent implements OnInit {
       "lessonId": lessonId
     }
     console.log(lessonId)
+
     // Call cancel class api service
     this._service.cancelUsersFromClass(this.courseId, data)
     .subscribe((res:any) => {
       // Success function
-      this.cancelUI=true;
-      // let lessonCount = this.detailLists.lessons;
-      // console.log(lessonCount)
+      this.cancelUI=false;
+      this.cancelUi=false;
       console.info("cancle user from class api calling is done");
       console.log(res)
-      this.modalReference.close();
+      
       this.getCourseDetail(this.courseId);
       // Close Dialog box
       // Show the canceled users
@@ -1379,20 +1380,14 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    
-  
+    this.modalReference.close();
+    this.cancelUItext= false;
   }
 
-  modalClose(user,type){
-    if(type=="done"){
-      // this.activeCourseInfo.CUSTOMER.splice(user)
-      console.log(this.activeCourseInfo.CUSTOMER)
-      console.log(user,type)
-      this.modalReference.close();
-    }
-    else{
-      this.modalReference.close();
-    }
+  modalClose(){
+    this.cancelUItext= false;
+    this.cancelUI=false;
+    this.modalReference.close();
     this.currentDateObj = '';
   }
 
