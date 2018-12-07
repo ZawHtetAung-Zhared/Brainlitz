@@ -7,6 +7,7 @@ import {Component, OnInit,Input} from '@angular/core';
 export class MonthlyActiveStdReportGraph implements OnInit {
   @Input() reportItems: any;
   ngOnInit(){
+    console.log("inside graph component");
     console.log(this.reportItems);
   }
   ngAfterViewInit(){
