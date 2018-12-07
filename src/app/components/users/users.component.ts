@@ -1259,30 +1259,35 @@ export class UsersComponent implements OnInit {
 		  	"startDate": this.lessonData.startDate,
 		  	"endDate": this.lessonData.endDate,
 		  	"teacherId": this.lessonData.teacherId,
-		  	"courseId": data.courseId,
+		  	"makeupCourseId": data.courseId,
 		  	"passId": this.currentPassObj.passId
 		}
 		console.log(body)
 		this.blockUI.start('Loading...');
-		this._service.enrollPass(body, this.custDetail.user.userId)
+		this._service.enrollPass(body, this.custDetail.user.userId, this.currentPassObj.course.courseId)
 		.subscribe((res:any)=>{
 	      	console.log(res)
 	      	this.modalReference.close();
 	      	this.blockUI.stop();
+	      	this.isChecked = ''
 	      	this.toastr.success('Successfully passed.');
+	    	this.callMakeupLists();
 	    },err =>{
 	      	console.log(err);
 	      	this.toastr.error('Claim pass failed.');
 	      	this.blockUI.stop();
+	      	this.isChecked = ''
 	      	this.modalReference.close();
 	    });
 	}
 
-	chooseDate(obj, courseId){
+	chooseDate(obj, data){
 		console.log(obj)
+		console.log(data)
 		this.lessonData = obj;
 		this.isChecked = obj.startDate;
-		this.checkCourse = courseId;
+		// this.checkCourse = courseId;
+		// console.log(this.checkCourse)
 	}
 
 	viewInvoice(enrollModal,course){
