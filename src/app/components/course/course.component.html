@@ -655,8 +655,8 @@
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
             </div>
-            <div>
-              <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+            <div *ngIf="showCancelButton" >
+              <button type="button"  *ngIf="!cancelUI" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
             </div>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
             <ng-template #content let-modal>
