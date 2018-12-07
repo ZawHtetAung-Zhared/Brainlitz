@@ -1782,55 +1782,6 @@ button:disabled{
   bottom: 50px solid transparent;*/
 }
 
-.closemark {
-    display:inline-block;
-    width: 11px;
-    height: 15px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
-}
-.closemark_stem ,
-.closemark_kick {
-  position: absolute;
-  width: 2px;
-  height: 13px;
-  background-color: #425568;
-  left: 5px;
-  top: 3px;
-}
-
-.closemark_kick {
-    transform: rotate(90deg);
-}
-
-.checkmark {
-    display:inline-block;
-    width: 11px;
-    height: 15px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
-}
-
-.checkmark_stem {
-    position: absolute;
-    width: 2px;
-    height: 13px;
-    background-color: #425568;
-    left: 6px;
-    top: 1px;
-}
-
-.checkmark_kick {
-    position: absolute;
-    width: 6px;
-    height: 2px;
-    background-color: #425568;
-    left: 2px;
-    top: 12px;
-}
-
 .btns-wrap{
   position: absolute;
   z-index: 9;
@@ -1842,6 +1793,55 @@ button:disabled{
 
 .btns-wrap .btn:first-child{
   margin-right: 13px;
+}
+
+.fee-box .closemark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.fee-box .closemark_stem ,
+.fee-box .closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: #425568;
+  left: 5px;
+  top: 3px;
+}
+
+.fee-box .closemark_kick {
+    transform: rotate(90deg);
+}
+
+.fee-box .checkmark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.fee-box .checkmark_stem {
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background-color: #425568;
+    left: 6px;
+    top: 1px;
+}
+
+.fee-box .checkmark_kick {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: #425568;
+    left: 2px;
+    top: 12px;
 }
 
 .input-txt,.cash-input{
@@ -2278,8 +2278,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .tabs-inv{
-    min-height: 470px;
-    max-height: 470px;
+    min-height: 670px;
+    max-height: 670px;
     overflow: auto;
 }
 
@@ -2295,6 +2295,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 .payment-footer{
     padding: 20px 32px;
+}
+
+.close-tabModal{
+  width: 40px;
+}
+
+.close-tabModal span{
+  float: right;
 }
 
 /*=============*/
