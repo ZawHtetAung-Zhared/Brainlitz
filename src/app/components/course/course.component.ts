@@ -97,11 +97,11 @@ export class CourseComponent implements OnInit {
   public LASD:any; //lastActiveStartDate
 
   public momentTodayDate:any;
-  public showCancelButton:any;
+  public showCancelButton:boolean = false;
   public lastActiveStartDate:any;
-  public cancelUi:any;
+  public cancelUi:boolean = false;
   public cancelUItext:any;
-  public cancelUI:any='';
+  public cancelUI:boolean = false;
   public presentStudent:number = 0;
   public absentStudent:number = 0;
   public noStudent:number = 0;
@@ -953,6 +953,9 @@ export class CourseComponent implements OnInit {
 
   showCourseDetail(courseId){
     console.log('~~~~~')
+    console.log(this.showCancelButton)
+    console.log(this.cancelUI)
+    console.log(this.cancelUi)
     this.currentCourse = courseId;
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
@@ -1065,31 +1068,29 @@ export class CourseComponent implements OnInit {
         let courseMonth = new Date(strDate).getUTCMonth()+1;
         let courseYear = new Date(strDate).getUTCFullYear();
 
-        console.log(courseYear, currentYear)
+        // console.log(courseYear, currentYear)
         if(courseYear > currentYear){
           unfinishedDate.push(i)
         }else if(courseYear < currentYear){
           finishedDate.push(i)
         }else{
           if(courseMonth < currentMonth){
-            console.log('less than current month')
             finishedDate.push(i)
           }else if(courseMonth == currentMonth){
             console.log( courseDate, to_day)
             if(courseDate > to_day){
-              console.log('if ', courseDate)
+              // console.log('if ', courseDate)
               unfinishedDate.push(i);
             }else if(courseDate == to_day){
-              console.log('else if ', courseDate)
+              // console.log('else if ', courseDate)
               finishedDate.push(i)
               this.activeToday = true;
               this.todayIndex = i;
             }else{
-              console.log('else ', courseDate)
+              // console.log('else ', courseDate)
               finishedDate.push(i)
             }
           }else{
-            console.log('grater than current month')
             unfinishedDate.push(i)
           }
         }
@@ -1105,8 +1106,10 @@ export class CourseComponent implements OnInit {
 
         // moment1.isSameOrAfter(moment2);
 
+        this.cancelUi = (lessonCount[this.todayIndex].cancel == true ) ? false : true;
         if(this.activeToday == true){
           this.LASD = lessonCount[this.todayIndex].startDate
+
         }else{
           lastActiveDate = finishedDate.length -1;
           console.log(lastActiveDate)
@@ -1118,9 +1121,10 @@ export class CourseComponent implements OnInit {
         console.log('hello in else')
         lastActiveDate = 0;
         this.LASD = lessonCount[0].startDate
+        this.cancelUi = (lessonCount[0].cancel == true ) ? false : true;
       }
 
-      this.cancelButtonShowHide();
+      
 
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate()
@@ -1140,7 +1144,7 @@ export class CourseComponent implements OnInit {
             this.noStudent += 1;
           }
         }
-
+        this.cancelButtonShowHide();
         $('.timeline').scrollLeft( 80*(lastActiveDate-1) );
       },err =>{
         this.blockUI.stop();
@@ -1172,7 +1176,7 @@ export class CourseComponent implements OnInit {
   }
 
   cancelButtonShowHide() {
-
+    // this.cancelUi=true;
     // let onlyTime = this.LASD.toString().substring(11, 19)
     // let onlyDate = this.LASD.toString().substring(0,10);
 
@@ -1186,7 +1190,9 @@ export class CourseComponent implements OnInit {
     var todaydate = new Date();
     let onlytodayTime = todaydate.toString().substring(16,24);
     let onlytodayDate = todaydate.toISOString().substring(0,10);
-    // console.log(this.todayDate ,'today')
+    console.log(this.todayDate ,'today')
+    console.log('.....',onlytodayTime)
+    console.log('.....',this.cancelUi)
     // console.error(onlytodayTime)
     // console.error(onlytodayDate)
 
