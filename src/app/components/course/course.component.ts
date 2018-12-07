@@ -173,6 +173,7 @@ export class CourseComponent implements OnInit {
   public acResult:any;
   public searchData: any={};
   public paymentId:any;
+  public showPaidInvoice:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -1264,10 +1265,13 @@ export class CourseComponent implements OnInit {
   }
 
   viewInvoice(data){
-    console.log("user data in view inv",data)
-    this.showInvoice = true;
-    // this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    // this.getSingleCustomer(data.userId,'user');
+    this.singleInv = [];
+    console.log("user data in view inv",data);
+    if(data.invoice.status == "PAID"){
+      this.showPaidInvoice = true;
+    }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
+      this.showInvoice = true;
+    }
     this.getRegionInfo();
     console.log(this.invoiceInfo);
     var invoiceId = data.invoice._id;
@@ -1973,6 +1977,7 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.showInvoice = false;
     this.showPayment = false;
+    this.showPaidInvoice = false;
     this.paymentItem = {};
     this.hideReg = false;
     this.hideDeposit = false;
