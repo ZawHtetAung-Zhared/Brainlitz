@@ -1192,7 +1192,7 @@ export class CourseComponent implements OnInit {
     console.log('hi', targetDate)
     this.currentDateObj = classInfo._id;
     console.log(this.currentDateObj)
-    this.cancelUI= false;
+    this.cancelUI= classInfo.cancel;
     console.log(this.cancelUI)
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
@@ -1377,6 +1377,8 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       // Success function
       this.cancelUI=true;
+      let lessonCount = this.detailLists.lessons;
+      console.log(lessonCount)
       console.info("cancle user from class api calling is done");
       console.log(res)
       this.modalReference.close();

@@ -609,16 +609,14 @@
                   </div>
                   <div class="ml-auto remover-wrap">
                     <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
-                    <ul *ngIf="showStudentOption == user.userId" class="options-box">
-                      <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
-                      <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
-                      <!-- <li (click)="addUserModal('customer',customerModal,'invoice', '')">View invoice</li> -->
-                      <li (click)="showTabsModal(tabsModal,'invoice',user)">View invoice</li>
-                      <!-- <li>Refund bill</li> -->
-                    </ul>
                     <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                   </div>
                 </div>
+                <ul *ngIf="showStudentOption == user.userId" class="options-box">
+                  <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
+                  <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
+                  <li (click)="showTabsModal(tabsModal,'invoice',user)">View invoice</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -632,19 +630,22 @@
             <div *ngIf="timeline.startDate < todayDate" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
               <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline ,cancelUI)">
                 <b>{{timeline.startDate | timelineDate}} </b>
-                <p>{{timeline.startDate | timelineDay}}</p>
+                <p>{{timeline.startDate | timelineDay}} <span *ngIf="timeline.cancel== true" class="makeup-icon">M</span></p>
+                
               </div>
             </div>
             <div *ngIf="(timeline.startDate | timelineDate) == (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
               <div>
               <b>{{timeline.startDate | timelineDate}}</b>
-              <p>{{timeline.startDate | timelineDay}}</p>
+              <p>{{timeline.startDate | timelineDay}} <span *ngIf="timeline.cancel== true" class="makeup-icon">M</span></p>
+              
               </div>
             </div>
             <div *ngIf="timeline.startDate > todayDate">
               <div *ngIf="(timeline.startDate | timelineDate) != (todayDate | timelineDate)" (click)="checkAttendance(timeline.startDate, timeline,cancelUI)">
-               ** <b>{{timeline.startDate | timelineDate}}</b>
-                <p>{{timeline.startDate | timelineDay}}</p>
+                <b>{{timeline.startDate | timelineDate}}</b>
+                <p>{{timeline.startDate | timelineDay}} <span *ngIf="timeline.cancel== true" class="makeup-icon">M</span></p>
+                
               </div>
             </div>
           </div>
@@ -654,20 +655,9 @@
             <div class="mr-auto">
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
-              <!-- <p class="class-day">{{lastActiceStartDate | attandanceDay}}</p>
-              <p class="class-date">{{lastActiceStartDate | utcDate}}</p> -->
             </div>
-            <!-- {{LASD}}<br>
-            {{LASD | timelineDate}} <br>
-            {{todayDate | timelineDate}} <br>
-            {{(LASD | timelineDate) > (todayDate | timelineDate)}} <br>
-            {{(LASD | timelineDate) == (todayDate | timelineDate)}} <br>
-            {{(LASD>todayDate)}} -->
-            <!-- {{detailLists | json}} -->
-
-            <!-- <button type="button"  *ngIf="LASD  == (todayDate | timelineDate) || LASD  > (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button> -->
-            <div *ngIf="!cancelUI">
-              <button type="button"  *ngIf="showCancelButton" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
+            <div *ngIf="showCancelButton" >
+              <button type="button"  *ngIf="!cancelUI" class="btn btn-class-cancel"  (click)="cancelClass(content)">Cancel class</button>
             </div>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
             <ng-template #content let-modal>
