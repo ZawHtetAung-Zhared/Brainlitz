@@ -397,8 +397,10 @@
                       <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                         {{ day }}
                       </span>
-                      <div *ngIf="course.duration.startDate != null && course.duration.endDate != null" class="medium-font time-color">
-                        {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
+                      <div *ngIf="course.duration">
+                        <div *ngIf="course.duration.startDate != null && course.duration.endDate != null" class="medium-font time-color">
+                          {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
+                        </div>
                       </div>
                     </div>
                     <div *ngIf="course.type == 'FLEXY'" class="time-wrap flexy-status">
@@ -425,7 +427,7 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0 && !isCoursePlanDetail" class="d-flex justify-content-center load-more">
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0 && !isCoursePlanDetail && searchMore" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(courseList.length)">load more</button>
 </div>
 

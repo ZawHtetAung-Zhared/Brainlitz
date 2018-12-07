@@ -722,9 +722,12 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
-        this.searchMore = (res.length > 20) ? true : false;
-        this.courseList = res;
+        this.courseList = this.courseList.concat(res);
+        console.log('----- ', this.courseList)
+        this.searchMore = (res.length == 0) ? false : true;        
         this.iscourseSearch = false;
+        this.simple = true;
+        this.advance = false;
       },err =>{
         console.log(err);
     });
@@ -732,19 +735,23 @@ export class CourseComponent implements OnInit {
 
   searchStart(e, limit, skip){
     this.searchVal = e.target.value;
+    this.searchObj = e.target.value;
     if(e.keyCode == 13){
+      this.courseList = [];
       this.recentLists.unshift(e.target.value)
       this.blockUI.start('Loading...');
       this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID, limit, skip)
       .subscribe((res:any)=>{
           this.blockUI.stop();
-          console.log(res)
-          this.courseList = res;
+          
+          this.courseList = this.courseList.concat(res);
+          console.log(this.courseList)
           $("#course-search").blur();
           this.iscourseSearch = false;
-          this.searchMore = (res.length > 20) ? true : false;
-          this.advance = false;
+          this.result = (res.length >= 20) ? res : {};
+          this.searchMore = (res.length == 0) ? false : true;
           this.simple = true;
+          this.advance = false;
         },err =>{
           console.log(err);
       });
@@ -816,6 +823,7 @@ export class CourseComponent implements OnInit {
     console.log(obj)
     console.log(this.days)
     this.searchObj = obj;
+    this.courseList = [];
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
@@ -898,18 +906,22 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
-        this.searchMore = (res.length > 20) ? true : false;
-        this.courseList = res;
+        this.searchMore = (res.length == 0) ? false : true;
+        this.courseList = this.courseList.concat(res);
+        console.log(this.courseList)
         this.iscourseSearch = false;
         this.isAdvancedSearch = false;
         this.advance = true;
         this.simple = false;
+        console.log('~~~~ ', this.recentLists)
+        this.iswordcount = (obj.keyword == undefined) ? false : true;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
-          this.iswordcount = true;
+          // this.iswordcount = true;
         }else{
           console.log('else')
+          // this.iswordcount = false;
         }
         localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));
       },err =>{
@@ -1752,6 +1764,7 @@ export class CourseComponent implements OnInit {
     console.log(skip)
     console.log(this.simple)
     console.log(this.searchMore)
+    console.log(this.searchObj)
     if(this.searchMore == true){
       if(this.simple == true){
         console.log('in the if')
@@ -1761,6 +1774,7 @@ export class CourseComponent implements OnInit {
         this.advancedSearch(this.searchObj, 20, skip);
       }
     }else{
+      console.log('else else')
       this.getCourseLists(20, skip);
     }
   }
