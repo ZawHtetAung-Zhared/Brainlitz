@@ -941,8 +941,9 @@ export class CourseComponent implements OnInit {
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
     console.log(this.detailLists.seat_left);
-   
-  
+    this.cancelUi=false;
+    this.showCancelButton=false;
+    this.cancelUI=true;
   }
 
   showCPDetail(planID){
@@ -1176,7 +1177,7 @@ export class CourseComponent implements OnInit {
     console.log(this.cancelUI)
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
-    // this.cancelUi=true;
+    this.cancelUi=true;
     // Validate the cancel button whether show or hide
     this.cancelButtonShowHide();
 
@@ -1370,6 +1371,7 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
+    
   
   }
 
