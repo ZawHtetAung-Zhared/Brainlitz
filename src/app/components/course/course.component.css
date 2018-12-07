@@ -2350,3 +2350,12 @@ input[type=number]::-webkit-outer-spin-button {
   
   font-weight: 600;
 }
+.cancel-text{
+  font-size:16px;
+  font-family:Montserrat-Medium;
+  color:#64707d;
+  position: relative;
+  margin-bottom: 1.75rem!important;
+  /* line-height:20px; */
+    /* padding:12px 0px 36px 0px; */
+}

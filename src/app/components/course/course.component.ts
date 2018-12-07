@@ -100,6 +100,7 @@ export class CourseComponent implements OnInit {
   public showCancelButton:any;
   public lastActiveStartDate:any;
   public cancelUi:any;
+  public cancelUItext:any;
   public cancelUI:any='';
   public presentStudent:number = 0;
   public absentStudent:number = 0;
@@ -722,9 +723,12 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
-        this.searchMore = (res.length > 20) ? true : false;
-        this.courseList = res;
+        this.courseList = this.courseList.concat(res);
+        console.log('----- ', this.courseList)
+        this.searchMore = (res.length == 0) ? false : true;        
         this.iscourseSearch = false;
+        this.simple = true;
+        this.advance = false;
       },err =>{
         console.log(err);
     });
@@ -732,19 +736,23 @@ export class CourseComponent implements OnInit {
 
   searchStart(e, limit, skip){
     this.searchVal = e.target.value;
+    this.searchObj = e.target.value;
     if(e.keyCode == 13){
+      this.courseList = [];
       this.recentLists.unshift(e.target.value)
       this.blockUI.start('Loading...');
       this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID, limit, skip)
       .subscribe((res:any)=>{
           this.blockUI.stop();
-          console.log(res)
-          this.courseList = res;
+          
+          this.courseList = this.courseList.concat(res);
+          console.log(this.courseList)
           $("#course-search").blur();
           this.iscourseSearch = false;
-          this.searchMore = (res.length > 20) ? true : false;
-          this.advance = false;
+          this.result = (res.length >= 20) ? res : {};
+          this.searchMore = (res.length == 0) ? false : true;
           this.simple = true;
+          this.advance = false;
         },err =>{
           console.log(err);
       });
@@ -816,6 +824,7 @@ export class CourseComponent implements OnInit {
     console.log(obj)
     console.log(this.days)
     this.searchObj = obj;
+    this.courseList = [];
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
@@ -898,18 +907,22 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
-        this.searchMore = (res.length > 20) ? true : false;
-        this.courseList = res;
+        this.searchMore = (res.length == 0) ? false : true;
+        this.courseList = this.courseList.concat(res);
+        console.log(this.courseList)
         this.iscourseSearch = false;
         this.isAdvancedSearch = false;
         this.advance = true;
         this.simple = false;
+        console.log('~~~~ ', this.recentLists)
+        this.iswordcount = (obj.keyword == undefined) ? false : true;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
-          this.iswordcount = true;
+          // this.iswordcount = true;
         }else{
           console.log('else')
+          // this.iswordcount = false;
         }
         localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));
       },err =>{
@@ -934,6 +947,8 @@ export class CourseComponent implements OnInit {
     this.searchMore = false;
     this.iswordcount = false;
     this.paymentItem = {};
+    this.cancelUItext=false;
+    this.cancelUI=false;
   }
 
   showCourseDetail(courseId){
@@ -945,7 +960,7 @@ export class CourseComponent implements OnInit {
     console.log(this.detailLists.seat_left);
     this.cancelUi=false;
     this.showCancelButton=false;
-    this.cancelUI=true;
+    this.cancelUItext= true;
   }
 
   showCPDetail(planID){
@@ -1029,6 +1044,8 @@ export class CourseComponent implements OnInit {
     this.noStudent = 0;
     this.presentStudent = 0;
     this.absentStudent = 0;
+    this.cancelUItext=false;
+    this.cancelUI=false;
     if(type == 'Class'){
       this.blockUI.start('Loading...');
       const today = new Date();
@@ -1134,6 +1151,7 @@ export class CourseComponent implements OnInit {
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
+      this.currentDateObj = '';
     }else if(type == 'transfer'){
       this.getAllAC(20, 0, this.singleUserData.userId);
     }else if(type == 'invoice'){
@@ -1149,17 +1167,17 @@ export class CourseComponent implements OnInit {
 
     let onlyTime = this.LASD.toLocaleString().substring(11, 19)
     let onlyDate = this.LASD.toLocaleString().substring(0,10);
-    console.error(this.LASD)
+    // console.error(this.LASD)
     
-    console.warn(onlyTime)
-    console.warn(onlyDate)
+    // console.warn(onlyTime)
+    // console.warn(onlyDate)
 
     var todaydate = new Date();
     let onlytodayTime = todaydate.toString().substring(16,24);
     let onlytodayDate = todaydate.toISOString().substring(0,10);
-    console.log(this.todayDate ,'today')
-    console.error(onlytodayTime)
-    console.error(onlytodayDate)
+    // console.log(this.todayDate ,'today')
+    // console.error(onlytodayTime)
+    // console.error(onlytodayDate)
 
     if(onlyDate == onlytodayDate && onlytodayTime < onlyTime || (onlyDate > onlytodayDate) ){
       console.log('same as today and not grater than today time')
@@ -1181,6 +1199,7 @@ export class CourseComponent implements OnInit {
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
     this.cancelUi=true;
+    this.cancelUItext=true;
     // Validate the cancel button whether show or hide
     this.cancelButtonShowHide();
 
@@ -1359,16 +1378,16 @@ export class CourseComponent implements OnInit {
       "lessonId": lessonId
     }
     console.log(lessonId)
+
     // Call cancel class api service
     this._service.cancelUsersFromClass(this.courseId, data)
     .subscribe((res:any) => {
       // Success function
-      this.cancelUI=true;
-      // let lessonCount = this.detailLists.lessons;
-      // console.log(lessonCount)
+      this.cancelUI=false;
+      this.cancelUi=false;
       console.info("cancle user from class api calling is done");
       console.log(res)
-      this.modalReference.close();
+      
       this.getCourseDetail(this.courseId);
       // Close Dialog box
       // Show the canceled users
@@ -1377,20 +1396,14 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    
-  
+    this.modalReference.close();
+    this.cancelUItext= false;
   }
 
-  modalClose(user,type){
-    if(type=="done"){
-      // this.activeCourseInfo.CUSTOMER.splice(user)
-      console.log(this.activeCourseInfo.CUSTOMER)
-      console.log(user,type)
-      this.modalReference.close();
-    }
-    else{
-      this.modalReference.close();
-    }
+  modalClose(){
+    this.cancelUItext= false;
+    this.cancelUI=false;
+    this.modalReference.close();
     this.currentDateObj = '';
   }
 
@@ -1755,6 +1768,7 @@ export class CourseComponent implements OnInit {
     console.log(skip)
     console.log(this.simple)
     console.log(this.searchMore)
+    console.log(this.searchObj)
     if(this.searchMore == true){
       if(this.simple == true){
         console.log('in the if')
@@ -1764,6 +1778,7 @@ export class CourseComponent implements OnInit {
         this.advancedSearch(this.searchObj, 20, skip);
       }
     }else{
+      console.log('else else')
       this.getCourseLists(20, skip);
     }
   }

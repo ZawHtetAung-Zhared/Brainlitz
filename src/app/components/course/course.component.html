@@ -397,8 +397,10 @@
                       <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                         {{ day }}
                       </span>
-                      <div *ngIf="course.duration.startDate != null && course.duration.endDate != null" class="medium-font time-color">
-                        {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
+                      <div *ngIf="course.duration">
+                        <div *ngIf="course.duration.startDate != null && course.duration.endDate != null" class="medium-font time-color">
+                          {{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}
+                        </div>
                       </div>
                     </div>
                     <div *ngIf="course.type == 'FLEXY'" class="time-wrap flexy-status">
@@ -425,7 +427,7 @@
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
 </div> 
 
-<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0 && !isCoursePlanDetail" class="d-flex justify-content-center load-more">
+<div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0 && !isCoursePlanDetail && searchMore" class="d-flex justify-content-center load-more">
   <button class="btn" (click)="showMore(courseList.length)">load more</button>
 </div>
 
@@ -656,7 +658,7 @@
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
             </div>
-            <div *ngIf="showCancelButton && !cancelUI" >
+            <div *ngIf="showCancelButton && !cancelUI  && cancelUi" >
               <button type="button"  class="btn btn-class-cancel" [disabled]=" cancelUi == false" (click)="cancelClass(content)">Cancel class</button>
             </div>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
@@ -696,7 +698,7 @@
             </div>
             </ng-template>
           </div>
-          <div *ngIf="cancelUI && showCancelButton" style="font-size:16px; font-family:Montserrat-Medium;color:#64707d;line-height:20px; padding:12px 0px 36px 0px;">
+          <div *ngIf="cancelUI  && cancelUItext" class="cancel-text">
             Cancelled class
           </div>
           <div *ngIf="cancelUI == false">
