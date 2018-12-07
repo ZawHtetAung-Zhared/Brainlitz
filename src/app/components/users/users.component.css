@@ -90,6 +90,31 @@ ul.pass-list li {
     color: #64707d;
     font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
+
+.timeline {
+    border-radius: 4px;
+    padding: 16px 20px;
+    white-space: nowrap;
+    overflow-x: scroll;
+    position: relative;
+    /*height: 75px;*/
+}
+
+.timeline::-webkit-scrollbar-track{
+  /*-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);*/
+  /*border-radius: 10px;*/
+  background-color: #F5F5F5;
+}
+
+.timeline::-webkit-scrollbar{
+  height: 5px;
+  background-color: #F5F5F5;
+}
+
+.timeline::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #0080ff;
+}
 .tool-box{
     display: table;    
     margin-top: 20px;    

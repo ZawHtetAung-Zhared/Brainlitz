@@ -608,16 +608,14 @@
                   </div>
                   <div class="ml-auto remover-wrap">
                     <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
-                    <ul *ngIf="showStudentOption == user.userId" class="options-box">
-                      <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
-                      <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
-                      <!-- <li (click)="addUserModal('customer',customerModal,'invoice', '')">View invoice</li> -->
-                      <li (click)="showTabsModal(tabsModal,'invoice',user)">View invoice</li>
-                      <!-- <li>Refund bill</li> -->
-                    </ul>
                     <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                   </div>
                 </div>
+                <ul *ngIf="showStudentOption == user.userId" class="options-box">
+                  <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
+                  <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
+                  <li (click)="showTabsModal(tabsModal,'invoice',user)">View invoice</li>
+                </ul>
               </div>
             </div>
           </div>
