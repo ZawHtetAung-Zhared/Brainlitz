@@ -881,10 +881,12 @@ export class UsersComponent implements OnInit {
 	}
 
 	getAC(limit, skip, userId){
-		this._service.getAvailabelCourse(this.regionID, userId, 20, 0)
+		console.log("limit,skip,userId",limit, skip, userId)
+		this._service.getAvailabelCourse(this.regionID, userId, limit, skip)
 	    .subscribe((res:any)=>{
-	      console.log(res)
+	      this.acResult = res;
 	      this.availableCourses = this.availableCourses.concat(res);
+	      console.log("Available C",this.availableCourses);
 	    },err =>{
 	      console.log(err);
 	    });
@@ -1091,6 +1093,7 @@ export class UsersComponent implements OnInit {
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
+		this.searchData.searchText = '';
 		if(type == 'closeInv'){
 			this.showDetails(this.custDetail.user.userId);
 		}

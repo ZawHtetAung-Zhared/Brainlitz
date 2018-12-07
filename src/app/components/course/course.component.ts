@@ -315,7 +315,8 @@ export class CourseComponent implements OnInit {
       'companyName': '',
       'tax':{
         'name': ''
-      }
+      },
+      'registration': ''
     }
 
     this.paymentProviders = '';
@@ -1132,7 +1133,8 @@ export class CourseComponent implements OnInit {
     }else if(type == 'transfer'){
       this.getAllAC(20, 0, this.singleUserData.userId);
     }else if(type == 'invoice'){
-      this.viewInvoice(this.singleUserData.userId);
+      console.log("tab inv user id",this.singleUserData)
+      this.viewInvoice(this.singleUserData);
     }
   }
 
@@ -1282,7 +1284,7 @@ export class CourseComponent implements OnInit {
     console.log("user data in view inv",data)
     this.showInvoice = true;
     // this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    this.getSingleCustomer(data.userId,'user');
+    // this.getSingleCustomer(data.userId,'user');
     this.getRegionInfo();
     console.log(this.invoiceInfo);
     var invoiceId = data.invoice._id;
@@ -1992,6 +1994,7 @@ export class CourseComponent implements OnInit {
     this.singleInv = [];
     this.updateInvData = {};
     this.availableCourses = [];
+    this.makeupForm = {};
     console.log("hideMisc",this.hideMisc)
     this.getCourseDetail(this.detailLists._id);
     this.getUsersInCourse(this.detailLists._id);
@@ -2022,6 +2025,7 @@ export class CourseComponent implements OnInit {
       console.log("regional info",res);
       this.blockUI.stop();
       this.invoiceInfo = res.invoiceSettings;
+      console.log(this.invoiceInfo)
     })
   }
 
@@ -2182,6 +2186,7 @@ export class CourseComponent implements OnInit {
     this._service.getAvailabelCourse(this.regionId, this.singleUserData.userId, limit, skip)
     .subscribe((res:any)=>{
       // console.log("Available C",res);
+      this.acResult = res;
       this.availableCourses = this.availableCourses.concat(res);
       console.log("Available C",this.availableCourses);
     })
@@ -2197,6 +2202,7 @@ export class CourseComponent implements OnInit {
   //   this.currentDateObj = '';
   //   this.availableCourses = [];
   //   this.activeTab = 'People';
+  //   this.makeupForm = {};
   //   this.getCourseDetail(this.detailLists._id);
   //   this.getUsersInCourse(this.detailLists._id);
   // }
