@@ -99,7 +99,7 @@ export class CourseComponent implements OnInit {
   public momentTodayDate:any;
   public showCancelButton:any;
   public lastActiveStartDate:any;
-  public cancelUi:boolean;
+  public cancelUi:any;
   public cancelUI:any='';
   public presentStudent:number = 0;
   public absentStudent:number = 0;
@@ -942,6 +942,9 @@ export class CourseComponent implements OnInit {
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
     console.log(this.detailLists.seat_left);
+    this.cancelUi=false;
+    this.showCancelButton=false;
+    this.cancelUI=true;
   }
 
   showCPDetail(planID){
@@ -1139,28 +1142,25 @@ export class CourseComponent implements OnInit {
   }
 
   cancelButtonShowHide() {
-  
-    // this.lastActiveStartDate = this.LASD;
-    // this.momentTodayDate = moment().utc();
-    // this.momentTodayDate =new Date();
-    // this.showCancelButton = this.momentTodayDate <= this.lastActiveStartDate;
-    // console.log(this.LASD)
-    // console.log(this.momentTodayDate)
-    // console.log(this.lastActiveStartDate)
 
- 
+    // let onlyTime = this.LASD.toString().substring(11, 19)
+    // let onlyDate = this.LASD.toString().substring(0,10);
+
     let onlyTime = this.LASD.toLocaleString().substring(11, 19)
     let onlyDate = this.LASD.toLocaleString().substring(0,10);
-    // console.warn(onlyTime)
-    // console.warn(onlyDate)
+    console.error(this.LASD)
+    
+    console.warn(onlyTime)
+    console.warn(onlyDate)
 
     var todaydate = new Date();
     let onlytodayTime = todaydate.toString().substring(16,24);
     let onlytodayDate = todaydate.toISOString().substring(0,10);
-    // console.error(onlytodayTime)
-    // console.error(onlytodayDate)
+    console.log(this.todayDate ,'today')
+    console.error(onlytodayTime)
+    console.error(onlytodayDate)
 
-    if(onlyDate == onlytodayDate && onlytodayTime < onlyTime || (onlyDate > onlytodayDate)){
+    if(onlyDate == onlytodayDate && onlytodayTime < onlyTime || (onlyDate > onlytodayDate) ){
       console.log('same as today and not grater than today time')
       this.showCancelButton=true;
     }
@@ -1169,26 +1169,9 @@ export class CourseComponent implements OnInit {
       this.showCancelButton=false;
     }
 
-
-    // if(onlyDate > onlytodayDate){
-    //   console.log("larger than today")
-    //   this.showCancelButton=true;
-    // }
-
-    // if(onlyDate < onlytodayDate ){
-    //   console.error("smaller than today")
-    //   this.showCancelButton=false;
-    // }
-    // console.log(utcday)
-    // console.log(utcmin)
-    // console.error(lasd)
-    // console.log(d)
-    // console.warn(this.LASD)
-    // console.error(d)
-    // console.log(d)
   }
 
-  checkAttendance(targetDate, classInfo,codition){
+  checkAttendance(targetDate, classInfo){
     console.log('hi', targetDate)
     this.currentDateObj = classInfo._id;
     console.log(this.currentDateObj)
@@ -1196,7 +1179,7 @@ export class CourseComponent implements OnInit {
     console.log(this.cancelUI)
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
-
+    this.cancelUi=true;
     // Validate the cancel button whether show or hide
     this.cancelButtonShowHide();
 
@@ -1377,11 +1360,12 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       // Success function
       this.cancelUI=true;
-      let lessonCount = this.detailLists.lessons;
-      console.log(lessonCount)
+      // let lessonCount = this.detailLists.lessons;
+      // console.log(lessonCount)
       console.info("cancle user from class api calling is done");
       console.log(res)
       this.modalReference.close();
+      this.getCourseDetail(this.courseId);
       // Close Dialog box
       // Show the canceled users
     },err => {
@@ -1389,7 +1373,8 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
- 
+    
+  
   }
 
   modalClose(user,type){
