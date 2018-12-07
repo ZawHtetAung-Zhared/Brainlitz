@@ -1333,5 +1333,21 @@ export class UsersComponent implements OnInit {
 		this.callMakeupLists();
 	}
 
+	forward(target){
+		console.log('----',target)		
+		event.preventDefault();		
+		$('#'+target).animate({
+	    	scrollLeft: "+=150px"
+	  	}, "slow");
+	}
+
+	backward(target){
+		console.log('----',target)		
+		event.preventDefault();		
+		$('#'+target).animate({
+	    	scrollLeft: "-=150px"
+	  	}, "slow");
+	}
+
 }
 
