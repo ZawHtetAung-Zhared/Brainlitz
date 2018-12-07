@@ -1657,7 +1657,10 @@ h3, h5 {
 }
 
 .inv-Cname{
-  margin: 15px 35px 0px 35px;
+    margin: 15px 35px 0px 35px;
+}
+
+.inv-Cname,.c-label{
   font-size: 16px;
   color: #64707d;
 }
@@ -1693,7 +1696,33 @@ h3, h5 {
     padding: 20px 32px;
 }
 
+.dotted-text{
+  line-height: 0.5;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+.paid-amount,.c-label{
+  font-family: 'Montserrat-Medium', Arial,sans-serif; 
+}
 
+.paid-amount span{
+  font-size: 20px;
+  line-height: 3.2;
+}
+
+.paid-amount div{
+  font-size: 36px;
+  line-height: 2;
+}
+
+.paid-header{
+  text-align: center;
+  color: #009940;
+  background: #c2f2d6;
+  padding: 5px 0px;
+  font-size: 24px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;    
+}
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 

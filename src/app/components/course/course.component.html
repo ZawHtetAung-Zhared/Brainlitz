@@ -1173,7 +1173,7 @@
                 </div>
                 <div *ngIf="feesBox == true" class="d-flex btns-wrap">
                   <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
-                    <span class="closemark">
+                    <span class="closemark fee-box">
                         <div class="closemark_stem"></div>
                         <div class="closemark_kick"></div>
                     </span>
@@ -1811,7 +1811,7 @@
           </div>
           <p class="invoice-info">{{ invoiceInfo.email }}<p>
         </div>
-        <div class="d-flex pb-4">
+        <!-- <div class="d-flex pb-4">
           <div class="col-md-4 p-0 d-flex paid-amount">
             <span>{{ currency.invCurrencySign }}</span>
             <div>{{ total }}</div>
@@ -1837,6 +1837,38 @@
               </div>
             </div>
           </div>
+        </div> -->
+        <div *ngIf="invPayment != undefined || invPayment != []">
+          <div *ngFor="let payment of invPayment">
+            <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
+              <div class="col-md-4 p-0 d-flex paid-amount">
+                <span>{{ currency.invCurrencySign }}</span>
+                <div>{{ payment.amount }}</div>
+              </div>
+              <div class="col-md-4">
+                <label class="invoice-label">Billed paid</label>
+                <p class="invoice-info">{{payment.updatedDate | dateFormat}}</p>
+              </div>
+              <div class="col-md-4">
+                <label class="invoice-label">Payment method</label>
+                <div class="d-flex">
+                  <div style="width: 55px;padding-top: 7px;">
+                    <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg">
+                  </div>
+                  <div class="pl-3">
+                    <label class="mb-0 c-label">{{ payment.brandName }}</label>
+                    <div class="d-flex price-info">
+                      {{ payment.cardNumber }}
+                      <!-- <div class="semibold dotted-text">
+                        .... .... ....
+                      </div>
+                      <div class="semibold" style="font-size: 14px; color: #2e3d4d; padding-left: 6px;">8012</div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="d-flex invoice-label fees-header bg-label">
           <div class="col-md-5 p-0">Course</div>
@@ -1858,32 +1890,6 @@
                 <div class="col-md-5 p-0 price-info">Course Fee</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
-                  <!-- <div *ngIf="feesBox == true" class="popup-box price-box text-left">
-                    <div id="rectangle"></div>
-                    <div class="p-3">
-                      <h5>CourseFee</h5>
-                      <div class="d-flex popup-input">
-                        <div class="input-sign">
-                         {{ currency.invCurrencySign }}
-                        </div>
-                        <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
-                      </div>
-                    </div>
-                  </div>
-                  <div *ngIf="feesBox == true" class="d-flex btns-wrap">
-                    <button type="submit" class="btn fee-box" (click)="cancelPopup('courseFee')">
-                      <span class="closemark">
-                          <div class="closemark_stem"></div>
-                          <div class="closemark_kick"></div>
-                      </span>
-                    </button>
-                    <button type="submit" class="btn fee-box" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
-                      <span class="checkmark">
-                          <div class="checkmark_stem"></div>
-                          <div class="checkmark_kick"></div>
-                      </span>
-                    </button>
-                  </div> -->
                   <p class="mb-0">{{data.courseFee.fee}}</p>
                 </div>
                 <div class="col-md-2 p-0 text-right price-info">
@@ -1961,16 +1967,8 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer justify-content-between">
-        <div class="d-flex">
-          <button type="button" class="btn invModal-cancel" (click)="cancelInvoiceModal()">Close</button>
-          <div class="l-border">
-            <button class="btn-print cursor-on" (click)="printInvoice()"><img src="./assets/images/print@2x.png"></button>
-          </div>
-        </div>
-        <div>
-          <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="cancelInvoiceModal()">Done</button>
-        </div>
+      <div class="modal-footer justify-content-end">
+        <button class="btn btn-submit" (click)="cancelInvoiceModal()">Done</button>
       </div>
     </div>
   </div>

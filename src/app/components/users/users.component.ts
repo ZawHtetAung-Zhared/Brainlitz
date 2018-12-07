@@ -140,6 +140,8 @@ export class UsersComponent implements OnInit {
 	public updateInvData:any = {};
 	public hideMisc:boolean = false; 
 	public paymentId:any;
+	public showPaidInvoice:boolean = false;
+	public invPayment:any = [];
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -1100,6 +1102,7 @@ export class UsersComponent implements OnInit {
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
+		this.invPayment = [];
 		this.searchData.searchText = '';
 		if(type == 'closeInv'){
 			this.showDetails(this.custDetail.user.userId);
@@ -1309,9 +1312,15 @@ export class UsersComponent implements OnInit {
 	}
 
 	viewInvoice(enrollModal,course){
+		this.singleInv = [];
+		if(course.invoice.status == "PAID"){
+	      this.showPaidInvoice = true;
+	    }else if(course.invoice.status == "UNPAID"  || course.invoice.status == "PAID[PARTIAL]"){
+	      this.showInvoice = true;
+	    }
 		console.log("View Invoice",course);
 		console.log(this.custDetail);
-		this.showInvoice = true;
+		// this.showInvoice = true;
 		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
 		this.getRegionInfo();
 	    console.log(this.invoiceInfo);
@@ -1321,7 +1330,6 @@ export class UsersComponent implements OnInit {
 	    }else{
 	    	console.log("no invoice id")
 	    }
-	    // var invoiceId = '5c08bf20ac9b4c4bfdf6dc62';//moana, View Invoice Course 001,GGWP00100032
 	    this._service.getSingleInvoice(invoiceId)
 	    .subscribe((res:any) => {
 	      console.log('invoice detail',res);
@@ -1342,6 +1350,8 @@ export class UsersComponent implements OnInit {
 			this.invoiceID = invoice[i]._id;
 			this.refInvID = invoice[i].refInvoiceId;
 			this.invTaxName = invoice[i].tax.name;
+			this.invPayment = invoice[i].payments;
+			console.log(this.invPayment)
 			var n = invoice[i].total;
 			this.total = n.toFixed(2);
 			this.invoice[i].subtotal = Number(Number(invoice[i].subtotal).toFixed(2));
