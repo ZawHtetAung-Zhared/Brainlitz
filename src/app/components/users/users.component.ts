@@ -34,6 +34,7 @@ export class UsersComponent implements OnInit {
 	public makeupLists: any;
 	public passForm: any = {};
 	public isChecked: any = '';
+	public checkCourse: any = '';
 	public lessonData: any;
 	public activeTab: any;
 	public hideMenu: boolean = false;
@@ -1227,8 +1228,10 @@ export class UsersComponent implements OnInit {
 	}
 
 	callMakeupLists(){
+		this.blockUI.start('Loading...');
 		this._service.getMakeupLists(this.custDetail.user.userId, this.activePass, this.regionID)
 		.subscribe((res:any)=>{
+			this.blockUI.stop();
 	      	console.log(res)
 	      	this.makeupLists = res;
 	    },err =>{
@@ -1256,21 +1259,30 @@ export class UsersComponent implements OnInit {
 		  	"startDate": this.lessonData.startDate,
 		  	"endDate": this.lessonData.endDate,
 		  	"teacherId": this.lessonData.teacherId,
-		  	"courseId": courseid,
+		  	"courseId": data.courseId,
 		  	"passId": this.currentPassObj.passId
 		}
-		this._service.enrollPass(body)
+		console.log(body)
+		this.blockUI.start('Loading...');
+		this._service.enrollPass(body, this.custDetail.user.userId)
 		.subscribe((res:any)=>{
 	      	console.log(res)
+	      	this.modalReference.close();
+	      	this.blockUI.stop();
+	      	this.toastr.success('Successfully passed.');
 	    },err =>{
 	      	console.log(err);
+	      	this.toastr.error('Claim pass failed.');
+	      	this.blockUI.stop();
+	      	this.modalReference.close();
 	    });
 	}
 
-	chooseDate(obj){
+	chooseDate(obj, courseId){
 		console.log(obj)
 		this.lessonData = obj;
 		this.isChecked = obj.startDate;
+		this.checkCourse = courseId;
 	}
 
 	viewInvoice(enrollModal,course){
@@ -1345,7 +1357,7 @@ export class UsersComponent implements OnInit {
 		console.log('----',target)		
 		event.preventDefault();		
 		$('#'+target).animate({
-	    	scrollLeft: "-=150px"
+	    	scrollLeft: "-=200px"
 	  	}, "slow");
 	}
 
