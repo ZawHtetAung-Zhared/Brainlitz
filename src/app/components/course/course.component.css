@@ -1,4 +1,44 @@
-
+.paid{
+  color: #009940;
+}
+.unpaid{
+  color: #f23a30;
+}
+.paid-status,
+.unpaid-status{
+  border: 2px solid #fff;
+}
+.paid-status{
+  -webkit-box-shadow: 0 0 0 2px #00cc55;
+  box-shadow: 0 0 0 2px #00cc55;
+}
+.unpaid-status{
+  -webkit-box-shadow: 0 0 0 2px #ff3d33;
+  box-shadow: 0 0 0 2px #ff3d33;
+}
+.input-label{
+  font-size: 18px;
+  color: #2e3e4d;
+  margin-bottom: 0;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+.input-wrap .form-group{
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.create-input {
+    font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+    border-radius: .25rem;
+    border: none;
+    margin-bottom: 15px;
+    padding: .6rem .75rem;
+    margin-left: -.75rem;
+    width: 103%;
+    margin-top: 4px;
+}
+.current-user{
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #00cc55;
+}
 .logo-wrap{
   height: 50px;
   width: auto;
@@ -457,7 +497,7 @@ ul.options-box {
   margin-bottom: 8px;
 }
 .show-progress{
-  width: 50%;
+  /*width: 50%;*/
   background: #007fff;
   height: inherit;
   border-radius: 50px;
@@ -538,7 +578,7 @@ ul.options-box {
   margin-bottom: 20px;
 }
 .disable-add{
-  pointer-events: none;
+  /* pointer-events: none; */
   opacity: 0.7;
   cursor: none;
 }
@@ -583,7 +623,7 @@ ul.options-box {
     transform: rotate(90deg);
 }
 
-.load-more{
+.load-more{ 
     position: fixed;
     z-index: 99;
     bottom: 0;
@@ -592,11 +632,25 @@ ul.options-box {
     border-top: 1px solid #eee;
     padding: 10px;
 }
+
+.load-more1{
+    position: absolute;
+    z-index: 99;
+    bottom: 15px;
+    width: 93%;
+    background: #fff;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.load-more1 button,
 .load-more button{
-  background: #fff;
+    background: #fff;
   color: #0080ff;
   font-size: 14px;
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  outline: none;
+  border: none;
 }
 .inner-wrapper.active{
   /*padding-top: 90px;*/
@@ -888,7 +942,7 @@ li button{
 .btn-submit,
 .modal-ctime p,
 .modal-dfees h5,.modal-duration,.modal-userInfo label,
-.invoice-info{
+.invoice-info,.user-name,.back-inv{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 .single-progress h4,
@@ -897,7 +951,7 @@ li button{
 .course-time h5,
 .cdetail h5,
 .room-name,
-.invoice-info,.payment-item{
+.invoice-info,.payment-item,.back-inv{
     color: #2e3d4d !important;
     font-size: 16px;
 }
@@ -964,7 +1018,7 @@ li button{
 .detail-info label,
 .single-user-info p,
 .modal-ctime p,
-.modal-dfees h5,.modal-duration,.modal-userInfo label{
+.modal-dfees h5,.modal-duration,.modal-userInfo label,.user-name{
   color: #64707d;
   font-size: 14px;
 }
@@ -1183,6 +1237,24 @@ label.room-name::before {
   height: 40px;
   border: 1px solid #fff;
 }
+.std-img-wrap1{
+  width: 32px;
+  height: 32px;
+  border: 1px solid #fff;
+}
+
+.std-img-wrap1{
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ddd;
+}
+.std-img-wrap1 img,{
+  width: 100%;
+  height: 100%;
+  object-fit: contain
+}
 .std-img-wrap,
 .img-wrap,.user-img-wrap{
   display: inline-block;
@@ -1193,7 +1265,7 @@ label.room-name::before {
 }
 .img-wrap img,
 .std-img-wrap img,
-.user-img-wrap img{
+.user-img-wrap img,.user-image img{
   width: 100%;
   height: 100%;
   object-fit: contain
@@ -1710,55 +1782,6 @@ button:disabled{
   bottom: 50px solid transparent;*/
 }
 
-.closemark {
-    display:inline-block;
-    width: 11px;
-    height: 15px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
-}
-.closemark_stem ,
-.closemark_kick {
-  position: absolute;
-  width: 2px;
-  height: 13px;
-  background-color: #425568;
-  left: 5px;
-  top: 3px;
-}
-
-.closemark_kick {
-    transform: rotate(90deg);
-}
-
-.checkmark {
-    display:inline-block;
-    width: 11px;
-    height: 15px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
-}
-
-.checkmark_stem {
-    position: absolute;
-    width: 2px;
-    height: 13px;
-    background-color: #425568;
-    left: 6px;
-    top: 1px;
-}
-
-.checkmark_kick {
-    position: absolute;
-    width: 6px;
-    height: 2px;
-    background-color: #425568;
-    left: 2px;
-    top: 12px;
-}
-
 .btns-wrap{
   position: absolute;
   z-index: 9;
@@ -1770,6 +1793,55 @@ button:disabled{
 
 .btns-wrap .btn:first-child{
   margin-right: 13px;
+}
+
+.fee-box .closemark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.fee-box .closemark_stem ,
+.fee-box .closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: #425568;
+  left: 5px;
+  top: 3px;
+}
+
+.fee-box .closemark_kick {
+    transform: rotate(90deg);
+}
+
+.fee-box .checkmark {
+    display:inline-block;
+    width: 11px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.fee-box .checkmark_stem {
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background-color: #425568;
+    left: 6px;
+    top: 1px;
+}
+
+.fee-box .checkmark_kick {
+    position: absolute;
+    width: 6px;
+    height: 2px;
+    background-color: #425568;
+    left: 2px;
+    top: 12px;
 }
 
 .input-txt,.cash-input{
@@ -1968,3 +2040,286 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+
+.btn-cancel-crt{
+  width: 96px;
+  height: 44px;
+  border-radius: 3px;
+  background: #f2f4f5;
+  font-family: Montserrat-SemiBold;
+  font-size:16px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #2e3d4d;
+}
+.btn-done-crt{
+  width: 96px;
+  height: 44px;
+  border-radius: 3px;
+  font-family: Montserrat-SemiBold;
+  font-size:16px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #ffffff;
+  background: #007fff;
+}
+
+
+
+
+
+
+
+.checkmark {
+  display:inline-block;
+  width: 16px;
+  height:16px;
+  border-radius: 50%;
+  background: white;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.checkmark_stem {
+  position: absolute;
+  width:3px;
+  height:9px;
+  background-color:#007fff;
+  left: 7px;
+  top: 3px;
+}
+
+.checkmark_kick {
+  position: absolute;
+  width:3px;
+  height:3px;
+  background-color:#007fff;
+  left: 5px;
+  top: 9px;;
+}
+
+
+
+
+.close{
+  width: 48px;
+  height: 48px;
+}
+
+.closemark {
+  display:inline-block;
+  /*width: 30px;
+  height: 16px;*/
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 24px;
+  background-color: #3d5266;
+  left: 7px;
+  top: 12px;
+}
+
+.makeup-pass-title{
+  font-family: Montserrat-SemiBold;
+  font-size: 28px;
+  font-weight: 600;
+  color: #2e3d4d;
+}
+.makeup-pass-text{
+  font-family: Montserrat-Medium;
+  font-size: 14px;
+  color: #64707d;
+  font-weight: 500;
+}
+
+.user-pic{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+}
+
+.header-shadow{
+  box-shadow: 0 7px 7px -4px rgba(0, 0, 0, 0.1);
+}
+
+.flexy-status{
+  line-height: 3.3;
+}
+
+.flexy-status span{
+  background: #f2f4f5;
+  border-radius: 45px;
+  color: #64707d;
+  font-size: 14px;
+  line-height: 2.2;
+  text-align: center;
+  padding: 8px 12px;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+}
+
+.user-image {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.user-image{
+  width: 36px;
+  height: 36px;
+}
+
+/*===available courses===*/
+.class-group{
+  min-height: 385px;
+  max-height: 385px;
+  overflow: overlay;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.class-group .card-columns{
+  -webkit-column-count:2;
+  -moz-column-count:2;
+  column-count:2;
+  column-gap: 1.9rem;
+  padding: 10px 15px;
+}
+
+.card{
+    border: 0;
+}
+
+.single-class{
+  /*cursor: pointer;*/
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  padding: 16px;
+  margin-left: 0;
+  margin-right: 0;
+  -ms-transition: 0.3s all ease;
+  -webkit-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+
+.single-class:hover {
+  -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.class-info-head h5{
+    font-size: 12px;
+    color: #64707d;
+    margin-bottom: 3px;
+}
+.class-info-head b,.invoice-label{
+    color: #2e3e4d;
+    font-size: 18px;
+    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.class-body-one sup{
+    font-size: 12px;
+    color: #2e3d4d;
+    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.class-body-one h5,
+.class-body-two h5{
+    margin-bottom: 3px;
+    font-size: 14px;
+    color: #64707d;
+    font-family: 'Montserrat-Regular', Arial,sans-serif;
+}
+.class-body-one b,.invoice-info{
+    font-size: 16px;
+    color: #2e3d4d;
+    font-family: 'Montserrat-Medium', Arial,sans-serif;
+}
+.class-body-two b{
+    font-size: 14px;
+    color: #2e3e4d;
+    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.class-info-footer{
+    padding-top: 16px;
+    border-top: 1px solid #edeff0;
+    margin-top: 20px;
+}
+.class-info-footer button{
+    color: #0080ff;
+    font-size: 14px;
+    font-family: 'Montserrat-Semibold', Arial,sans-serif;    
+    padding: 0;
+    background: none;
+}
+.class-body-one{
+    margin: auto;
+    margin: 16px 0;
+    background: #f2f4f5;
+    padding: 16px 0;
+    border-radius: 4px;
+    margin-top: 16px;
+}
+
+.mt-16{
+    margin-top: 16px;
+}
+
+.tabs-inv{
+    min-height: 670px;
+    max-height: 670px;
+    overflow: auto;
+}
+
+.back-inv{
+    border: none;
+    outline: none;
+}
+
+.back-inv i{
+    padding-right: 5px;
+    font-size: 20px;
+}
+
+.payment-footer{
+    padding: 20px 32px;
+}
+
+.close-tabModal{
+  width: 40px;
+}
+
+.close-tabModal span{
+  float: right;
+}
+
+/*=============*/
+
+.modal-headone{
+  border-bottom: 1px solid #edeff0;
+  padding-bottom: 20px;
+}
+
+.makeup-icon{
+  width: 20px;
+  height: 20px;
+  background: #8fa1b3;
+  border-radius: 100%;
+  color:#ffffff;
+  font-size: 12px;
+  font-family: Montserrat-SemiBold;
+  margin-left: 6px;
+  padding: 2px;
+}

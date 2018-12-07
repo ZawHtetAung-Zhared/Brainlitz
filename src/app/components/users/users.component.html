@@ -175,47 +175,187 @@
 		<div class="btn-wrap">
 			<div></div>
 		</div>
-		<div>
-			<div class="d-flex title-space">
-				<div class="d-flex flex-column justify-content-center">
-					<h6 class="mb-0">Classes</h6>
-				</div>
-				<button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)" class="ml-auto enroll-btn">Enroll new class</button>
+		<div class="section-wrap">
+			<div class="d-flex tab-section">
+				<button [ngClass]="{'active': activeTab == 'class'}" class="btn tab-btn" (click)="clickTab('class')">Class</button>
+				<button [ngClass]="{'active': activeTab == 'makeup'}" class="btn tab-btn" (click)="clickTab('makeup')">Makeup pass</button>
 			</div>
-			<div>
-				<div class="list-wrapper">
-					<div class="btn-wrap no-item" *ngIf="custDetail.courses?.length<=0">
-						There is no course for this customer!
+			<div *ngIf="activeTab == 'class'">
+				<div class="d-flex title-space">
+					<div class="d-flex flex-column justify-content-center">
+						<h4 class="mb-0 tab-title">Attending Classes</h4>
 					</div>
-					<div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
-						<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
-						<p class="info-p">{{ course.name }}</p>
-						<div class="d-flex info-wrap">
-							<div class="timetable-col">
-								<label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
-								<p class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}</p>
-							</div>
-							<div class="d-flex timetable-col day-wrap info-wrap">
-								<div class="timetable-col">
-									<label class="medium-label-14 mb-0">From</label>
-									<p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
+					<button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)" class="ml-auto enroll-btn">Enroll new class</button>
+				</div>
+				<div>
+					<div class="list-wrapper">
+						<div class="btn-wrap no-item" *ngIf="custDetail.courses?.length<=0">
+							There is no course for this customer!
+						</div>
+						<div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
+							<div class="section-one">
+								<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
+								<p class="info-p">{{ course.name }}</p>
+								<div class="d-flex info-wrap">
+									<div class="timetable-col">
+										<label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
+										<p class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}</p>
+									</div>
+									<div class="d-flex timetable-col day-wrap info-wrap">
+										<div class="timetable-col">
+											<label class="medium-label-14 mb-0">From</label>
+											<p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
+										</div>
+										<div class="timetable-col">
+											<label *ngIf = "course.endDate" class="medium-label-14 mb-0">To</label>
+											<label *ngIf = "course.lessonCount" class="medium-label-14 mb-0"></label>
+											<p *ngIf = "course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
+											<p *ngIf = "course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
+										</div>
+									</div>
 								</div>
-								<div class="timetable-col">
-									<label *ngIf = "course.endDate" class="medium-label-14 mb-0">To</label>
-									<label *ngIf = "course.lessonCount" class="medium-label-14 mb-0"></label>
-									<p *ngIf = "course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
-									<p *ngIf = "course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
+							</div>
+							<div class="d-flex justify-content-between section-two">
+								<div>
+									<div class="d-flex flex-row align-items-center" *ngIf="course.invoice != null">
+										<div>
+											<img *ngIf="course.invoice.status == 'UNPAID'" src="./assets/img/paid-indicator.png">
+											<img *ngIf="course.invoice.status == 'PAID'"src="./assets/img/unpaid-indicator.png">
+										</div>
+										<div class="ml-12">
+											<label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+											<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
+											<p class="fees">
+												<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
+												{{course.invoice.total}}
+											</p>
+										</div>
+									</div>
+								</div>
+								<button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
+									View invoice
+								</button> 
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div *ngIf="custDetail.courses?.length>2">
+						<button *ngIf="selectedId.indexOf('course') == -1" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+					</div>
+					<div></div>
+				</div>
+			</div>
+			<div *ngIf="activeTab == 'makeup'">
+				<div class="d-flex justify-content-center">
+					<ul class="pass-list">
+						<li [ngClass]="{'active': activePass == 'available'}" (click)="clickPass('available')">Available</li>
+						<li [ngClass]="{'active': activePass == 'claimed'}" (click)="clickPass('claimed')">Claimed</li>
+						<li [ngClass]="{'active': activePass == 'expired'}" (click)="clickPass('expired')">Expired</li>
+					</ul>
+				</div>
+				<div *ngIf="makeupLists" class="row makeup-wrap">
+					<div class="col-md-4" *ngFor="let list of makeupLists;">
+						<div class="single-makeup">
+							<div *ngIf="activePass == 'available'" class="makeup-head">
+								<p>Valid until <span class="valid-date">{{list.expirationDate.day}} {{list.expirationDate.month -1 | TTmonth}} {{list.expirationDate.year}}</span></p>
+							</div>
+							<div class="makeup-body">
+								<h5 class="makeup-title">{{list.name}}</h5>
+								<p class="makeup-desc">{{list.reason}}</p>
+								<div class="makeup-box">
+									<p>Issued on {{list.issueDate.day}} {{list.issueDate.month -1 | TTmonth}} {{list.issueDate.year}}</p>
+									<div class="issue-box d-flex flex-column">
+										<strong>{{list.course.name}}</strong>
+										<label><span>{{list.course.startTime.hr}} : {{list.course.startTime.min}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr}} : {{list.course.endTime.min}} {{list.course.endTime.meridiem}}</span></label>
+									</div>
+									<div *ngIf="activePass == 'claimed' || activePass == 'expired'">
+										<p>Claimed on {{list.filingDate.day}} {{list.filingDate.month -1 | TTmonth}} {{list.filingDate.year}}</p>
+										<div class="claimed-box d-flex flex-column" *ngIf="list.makeupCourse">
+											<strong>{{list.makeupCourse.name}}</strong>
+											<label *ngIf="list.makeupCourse.startTime">
+												<span>{{list.makeupCourse.startTime.hr}} : {{list.makeupCourse.startTime.min}} {{list.makeupCourse.startTime.meridiem}}</span> - 
+												<span>
+													{{list.makeupCourse.endTime.hr}} : {{list.makeupCourse.endTime.min}} {{list.makeupCourse.endTime.meridiem}}
+												</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="left-scoope"></div>
+							<div class="right-scoope"></div>
+							<div *ngIf="activePass == 'available'" class="makeup-footer d-flex justify-content-center">
+								<p (click)="openClaimModal(claimModal, list)" class="claim-text">Claim this pass</p>
+							</div>
+							<div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
+								<p class="pass-text">Claimed pass</p>
+							</div>
+							<div *ngIf="activePass == 'expired'" class="makeup-footer d-flex justify-content-center">
+								<p class="expired-text">Expired</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div *ngIf="activePass == 'claimed'" class="d-flex makeup-wrap flex-column">
+					<div class="d-flex makeup-wrap">
+						<div class="col-md-4">
+							<div class="single-expired">
+								<div class="makeup-body">
+									<h5 class="makeup-title">MoeGuitar101</h5>
+									<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+									<div class="makeup-box">
+										<p>Issued on 12 Aug 2018</p>
+										<div class="issue-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+									</div>
+								</div>
+								<div class="left-scoope"></div>
+								<div class="right-scoope"></div>
+								<div class="makeup-footer d-flex justify-content-center">
+									<p class="pass-text">Claimed pass</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="btn-wrap">
-				<div *ngIf="custDetail.courses?.length>2">
-					<button *ngIf="selectedId.indexOf('course') == -1" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
-				</div>
-				<div></div>
+
+				<div *ngIf="activePass == 'expired'" class="d-flex makeup-wrap flex-column">
+					<div class="d-flex makeup-wrap">
+						<div class="col-md-4">
+							<div class="single-expired">
+								<div class="makeup-body">
+									<h5 class="makeup-title">MoeGuitar101</h5>
+									<p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+									<div class="makeup-box">
+										<p>Issued on 12 Aug 2018</p>
+										<div class="issue-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+										<p>Claimed on 12 Aug 2018</p>
+										<div class="claimed-box">
+											<strong>From Piano Grade 2 SATURDAY</strong>
+											<label>11:00 AM - 12:00 AM</label>
+										</div>
+									</div>
+								</div>
+								<div class="left-scoope"></div>
+								<div class="right-scoope"></div>
+								<div class="makeup-footer d-flex justify-content-center">
+									<p class="expired-text">Expired</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
 			</div>
 		</div>
 		<div class="d-flex">
@@ -786,52 +926,134 @@
 	      </div>
 	      <div class="mt-40">
 	        <label class="payment-label">Choose payment method</label>
-	        <!-- <div class="d-flex mt-1">
-	          <div class="payment-item">
-	            <label [ngClass]="{'selectedItem': selectedPayment == 'cash'}" class="form-check-label">
-	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="Cash" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment('cash')"> Cash
-	            </label>
-	          </div>
-	          <div class="payment-item">
-	            <label [ngClass]="{'selectedItem': selectedPayment == 'card'}" class="form-check-label">
-	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="Credit or debit card" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment('card')"> Credit or debit card
-	            </label>
-	          </div>
-	        </div> -->
 	        <div class="d-flex mt-1">
 	          <div class="payment-item" *ngFor="let provider of paymentProviders">
 	            <label [ngClass]="{'selectedItem': selectedPayment == provider.name}" class="form-check-label">
-	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="provider.name" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment(provider.name)"> {{provider.name}}
+	              <input class="form-check-input" type="radio" name="payment" id="payment1" value="provider.name" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment(provider)"> {{provider.name}}
 	            </label>
 	          </div>
 	        </div>
-	        <div *ngIf="selectedPayment == 'Cash'">
-	          <div class="mt-30">
-	            <label class="payment-label">Reference number</label>
-	            <div>
-	              <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="refInvID" readonly>
-	            </div>
-	          </div>
-	          <div class="mt-30">
-	            <label class="payment-label">Amount</label>
-	            <div class="d-flex popup-input w-75">
-	              <div class="input-sign">
-	                {{ currency.invCurrencySign }}
-	              </div>
-	              <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount">
-	            </div>
-	          </div>
+	        <div>
+	          <form #paymentForm="ngForm" nonvalidate>
+		          <div class="mt-30">
+		            <label class="payment-label">Reference number</label>
+		            <div>
+		              <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="paymentItem.refNumber" #refNumber="ngModel">
+		            </div>
+		          </div>
+		          <div class="mt-30">
+		            <label class="payment-label">Amount</label>
+		            <div class="d-flex popup-input w-75">
+		              <div class="input-sign">
+		                {{ currency.invCurrencySign }}
+		              </div>
+		              <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount" #amount="ngModel" required>
+		            </div>
+					<div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert alert-danger alert-m-right w-75 mt-3">
+					    <div [hidden]="!amount.errors.required">
+					      Amount is required!
+					    </div>
+					    <!-- <div *ngIf="paymentItem.amount <= 0 && !amount.errors.required">
+					    	Amount should be grater than 0;
+					    </div> -->
+					</div>
+		          </div>
+		      </form>
 	        </div>
-	        <div *ngIf="selectedPayment != 'Cash'">
-	        	<h2>Test</h2>
-	        </div>
+	        <!-- <div *ngIf="selectedPayment != 'Cash'">
+				<div class="mt-30">
+					<label class="payment-label">Reference number</label>
+					<div>
+					  <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="refInvID" readonly>
+					</div>
+				</div>
+	        </div> -->
 	      </div>
 	    </div>
-	    <div *ngIf="selectedPayment != ''" class="modal-footer" style="justify-content: flex-start;">
-	      <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined">Pay now</button>
+	    <div *ngIf="selectedPayment != ''" class="modal-footer d-flex justify-content-between payment-footer">
+	      <button class="back-inv cursor-on" (click)="backToInvoice()">
+	      	<i class="fa fa-angle-left"></i><span>Back</span>
+	      </button>
+	      <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Pay now</button>
+	      <!-- <button *ngIf="selectedPayment != 'Cash'" class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)">
+	      	Pay now
+	      </button> -->
 	    </div>
   	</div>
 </ng-template>
 
+<ng-template #claimModal let-c="close" let-d="dismiss">
+	<div class="modal-header d-flex justify-content-between">
+		<div>
+			<p class="valid-until">Valid until <span>{{currentPassObj.expirationDate.day}} {{currentPassObj.expirationDate.month -1 | TTmonth}} {{currentPassObj.expirationDate.year}}</span></p>
+		    <h3 class="modal-title">{{currentPassObj.name}}</h3>
+	    </div>
+	    <button type="button" class="close" aria-label="Close" (click)="closeModal('close')">
+	        <span class="closepass">
+	          <div class="closepass_stem"></div>
+	          <div class="closepass_kick"></div>
+	        </span>
+      	</button>
+	</div>
+	<div class="modal-body confirm-text">
+		<div>
+			<input type="search" name="" class="form-control course-search-input" placeholder="Search courses">
+		</div>
+		<div class="mt-20 class-group">
+			<div class="card-columns pd-zero">
+				<div class="card" *ngFor="let claim of claimCourses; let i = index">
+	    		<div class="single-class">
+	    			<div class="no-seat" *ngIf="claim.seat_left == 0">All seat taken</div>
+			    	<div class="seat-left" *ngIf="claim.seat_left != 0 && claim.seat_left != null">{{claim.seat_left}} seats left</div>
+			    	<div class="seat-left" *ngIf="claim.seat_left == null">unlimited seats</div>
+	    			<div class="class-info-head">
+  						<h5 class="mt-03">
+  				      <i class="fa fa-map-marker" style="font-size:15px"></i>
+  				      {{claim.location.name}}
+  				    </h5>
+  				    <b>{{claim.name}}</b><br>
+  				    <label class="makeup-plan">11:00 AM - 12:00 AM</label>
+	    			</div>
+	    			<div class="d-flex flex-column count-wrap">
+	    				<div class="d-flex justify-content-between">
+	    					<p class="valid-until">Pick a date to claim makeup pass</p>
+	    					<div>
+	    						<i class="fa fa-arrow-left" (click)="backward('timeline-'+i)"></i>
+	    						<i class="fa fa-arrow-right" (click)="forward('timeline-'+i)"></i>
+	    					</div>
+	    				</div>
+	    				<!-- <div class="d-flex flex-row w-100 flex-nowrap overflow-x">
+	    					<div class="tool-box d-flex flex-nowrap">
+	    					  <div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
+    					      <label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
+    					        <input class="form-check-input" type="radio" name="passForm" id="course" value="{{lesson}}" [(ngModel)]="passForm.lesson" #course="ngModel" [checked]='false' (click)="chooseDate(lesson)"> 
+    					        <p class="xxxdate">{{lesson.startDate | timelineDate}}</p>
+    					        <p class="xxxday">{{lesson.startDate | timelineDay}}</p>
+    					      </label>
+    					    </div>
+	    					</div>
+	    				</div>
+ -->
+	    				<div id="timeline-{{i}}" class="timeline">
+	    					<div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
+	    						<label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
+	    						  <input class="form-check-input" type="radio" name="passForm" id="course" value="{{lesson}}" [(ngModel)]="passForm.lesson" #course="ngModel" [checked]='false' (click)="chooseDate(lesson, claim)"> 
+	    						  <p class="xxxdate">{{lesson.startDate | timelineDate}}</p>
+	    						  <p class="xxxday">{{lesson.startDate | timelineDay}}</p>
+	    						</label>
+	    					</div>
+	    				</div>
+	    			</div>
+	    			<div class="row d-flex justify-content-center class-info-footer">
+	    				<!-- --{{checkCourse}} -->
+	    				<button type="button" class="btn" (click)="enrollPass(claim, currentPassObj.course.courseId)">Enroll class</button>
+	    			
+	    			</div>
+	    		</div>
+	    	</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
 
 <block-ui message="Deafult Message"></block-ui> 
