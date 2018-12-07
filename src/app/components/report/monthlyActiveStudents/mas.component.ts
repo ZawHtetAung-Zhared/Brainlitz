@@ -3,6 +3,8 @@ import {DaterangepickerConfig} from 'ng2-daterangepicker';
 import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {appService} from '../../../service/app.service';
+import masSampleData from './sampleData';
+
 @Component({
   selector: 'monthly-active-std-report',
   templateUrl: './mas.component.html',
@@ -57,6 +59,9 @@ export class MonthlyActiveStudentsReport implements OnInit {
       alwaysShowCalendars: true,
     };
     this.reportData = [];
+    console.clear();
+    
+    console.log(masSampleData);
   }
   updateGraphUsingGroupBy(event) {
     this.filter = {
