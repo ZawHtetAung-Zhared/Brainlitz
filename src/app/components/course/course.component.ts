@@ -1190,7 +1190,7 @@ export class CourseComponent implements OnInit {
     console.log('hi', targetDate)
     this.currentDateObj = classInfo._id;
     console.log(this.currentDateObj)
-    this.cancelUI= false;
+    this.cancelUI= classInfo.cancel;
     console.log(this.cancelUI)
     // Adding the class Start Date into LASD
     this.LASD = classInfo.startDate;
