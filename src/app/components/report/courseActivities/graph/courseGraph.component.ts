@@ -1,4 +1,4 @@
-import {Component, OnInit,Input} from '@angular/core';
+import {Component, OnInit,Input,OnChanges, SimpleChanges, SimpleChange} from '@angular/core';
 @Component({
   selector: 'course-graph',
   templateUrl: './courseGraph.component.html',
@@ -7,18 +7,24 @@ import {Component, OnInit,Input} from '@angular/core';
 
 export class CourseActivitiesReportGraph implements OnInit {
   @Input() reportItems: any;
+  private _name: string;
   plotOption:any;
   echarts:any;
   barColor:any;
 
-  ngOnInit(){
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("ngchange called");
+    console.log(this.reportItems);
+    this.setupOption();
+  }
+  setupOption(){
     let _self = this;
     this.echarts = require('echarts');
     this.plotOption ={
       tooltip: {},
       grid: {
         top: 60,
-        bottom: 10
+        left:120
       },
       textStyle:{
         fontFamily:'Montserrat-Medium',
@@ -131,15 +137,29 @@ export class CourseActivitiesReportGraph implements OnInit {
     this.plotOption.series[0].data = presentData;
     this.plotOption.series[1].data = absentData;
     this.plotOption.series[2].data = notTakenData;
+    this.plotGraph();
+
+  }
+  plotGraph(){
+    console.log("plotGraph");
+    var elem = document.getElementById('courseActiviesGraph');
+    console.log(elem);
+    console.log(this.plotOption);
+    elem.removeAttribute("_echarts_instance_");
+    elem.innerHTML ="";
+    elem.style.height = (this.reportItems.length * 125) +'px';
+    let graph = this.echarts.init(elem);
+    graph.setOption(this.plotOption);
+  }
+  ngOnInit(){
+    console.log("ngOnInit");
+    console.log(this.reportItems);
 
   }
 
   ngAfterViewInit(){
-    var elem = document.getElementById('courseActiviesGraph');
-    elem.innerHTML ="";
-    elem.style.height = (this.reportItems.length * 100) +'px';
-    let graph = this.echarts.init(elem);
-    graph.setOption(this.plotOption);
+    console.log("calling ngAfterViewInit");
+
   }
 
 }

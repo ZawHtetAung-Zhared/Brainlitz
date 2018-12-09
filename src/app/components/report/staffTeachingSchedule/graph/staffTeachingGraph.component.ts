@@ -19,6 +19,7 @@ export class StaffTeachingReportGraph implements OnInit {
     this.plotOption = {
       tooltip : {
         trigger: 'item',
+        padding:8,
         formatter: "{a} <br/>{b} : {c} ({d}%)"
       },
       textStyle:{
