@@ -3,6 +3,7 @@ import {DaterangepickerConfig} from 'ng2-daterangepicker';
 import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {appService} from '../../../service/app.service';
+import courseSampleData from './sampleData';
 @Component({
   selector: 'staff-teaching-report',
   templateUrl: './staffTeaching.component.html',
@@ -57,6 +58,109 @@ export class StaffTeachingScheduleReport implements OnInit {
       alwaysShowCalendars: true,
     };
     this.reportData = [];
+    console.log(courseSampleData);
+    this.showReportByLocation();
+  }
+
+  showReportByLocation(){
+    if (courseSampleData) { //check if we have data to show report
+      this.reportData = this.getFilteredDataGroupByLocation(courseSampleData.location);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
+  }
+
+  showReportByCategory(){
+    if (courseSampleData) { //check if we have data to show report
+      console.log("show Report by category");
+      console.log(courseSampleData.category);
+      this.reportData = [];
+      this.reportData = this.getFilteredDataGroupByCategory(courseSampleData.category);
+      console.log(this.reportData);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
+  }
+
+  showReportByCoursePlan(){
+    if (courseSampleData) { //check if we have data to show report
+      this.reportData = this.getFilteredDataGroupByCoursePlan(courseSampleData.coursePlan);
+    } else {
+      //Not enough data to show report
+      this.reportData = [];
+    }
+  }
+  getFilteredDataGroupByLocation(data){
+    let filter = this.filter;
+    let _self = this;
+    let res = [];
+    if(filter.type == "location"){
+      data = data.filter(function (d) {
+        return filter.value.indexOf(d.locationName) > -1;
+      });
+    }
+    data.forEach(function (location) {
+      let obj = {
+        groupTypeValue: "",
+        staffCount:0,
+        staffHours:0
+      };
+      //if filter type is location, we will push to end of this loop
+      let categories = location.categories || [];
+      categories.forEach(function (category) {
+        let coursePlans = category.coursePlans || [];
+        //iterate coursePlans under categories
+        coursePlans.forEach(function (coursePlan) {
+          let courses = coursePlan.courses || [];
+          //iterate courses under coursePlans
+          courses.forEach(function (course) {
+            let staff = course.staff || [];
+            obj.staffCount +=1;
+            obj.staffHours += staff.hours;
+          });
+        });
+      });
+      obj.groupTypeValue = location.locationName;
+      res.push(obj);
+    });
+    return res;
+  }
+
+  getFilteredDataGroupByCategory(data){
+    let filter = this.filter;
+    let _self = this;
+    let result = [];
+    if(filter.type == "category"){
+      data = data.filter(function (d) {
+        return filter.value.indexOf(d.catName) > -1;
+      });
+    }
+    data.forEach(function (category) {
+      let obj = {
+        groupTypeValue: "",
+        staffCount:0,
+        staffHours:0
+      };
+      let coursePlans = category.coursePlans || [];
+      //iterate coursePlans under categories
+      coursePlans.forEach(function (coursePlan) {
+        let courses = coursePlan.courses || [];
+        //iterate courses under coursePlans
+        courses.forEach(function (course) {
+          let staff = course.staff || [];
+          obj.staffCount +=1;
+          obj.staffHours += staff.hours;
+        });
+      });
+      result.push(obj);
+    });
+    return result;
+  }
+
+  getFilteredDataGroupByCoursePlan(data){
+
   }
   updateGraphUsingGroupBy(event) {
     this.filter = {
