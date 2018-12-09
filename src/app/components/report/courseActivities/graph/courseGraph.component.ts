@@ -1,4 +1,4 @@
-import {Component, OnInit,Input,OnChanges, SimpleChanges, SimpleChange} from '@angular/core';
+import {Component, OnInit,Input,OnChanges} from '@angular/core';
 @Component({
   selector: 'course-graph',
   templateUrl: './courseGraph.component.html',
@@ -12,9 +12,7 @@ export class CourseActivitiesReportGraph implements OnInit {
   echarts:any;
   barColor:any;
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log("ngchange called");
-    console.log(this.reportItems);
+  ngOnChanges() {
     this.setupOption();
   }
   setupOption(){
@@ -23,7 +21,6 @@ export class CourseActivitiesReportGraph implements OnInit {
     this.plotOption ={
       tooltip: {},
       grid: {
-        top: 60,
         left:120
       },
       textStyle:{
@@ -141,10 +138,7 @@ export class CourseActivitiesReportGraph implements OnInit {
 
   }
   plotGraph(){
-    console.log("plotGraph");
     var elem = document.getElementById('courseActiviesGraph');
-    console.log(elem);
-    console.log(this.plotOption);
     elem.removeAttribute("_echarts_instance_");
     elem.innerHTML ="";
     elem.style.height = (this.reportItems.length * 125) +'px';
@@ -152,14 +146,6 @@ export class CourseActivitiesReportGraph implements OnInit {
     graph.setOption(this.plotOption);
   }
   ngOnInit(){
-    console.log("ngOnInit");
-    console.log(this.reportItems);
 
   }
-
-  ngAfterViewInit(){
-    console.log("calling ngAfterViewInit");
-
-  }
-
 }

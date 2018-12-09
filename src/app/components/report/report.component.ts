@@ -52,13 +52,10 @@ export class ReportComponent implements OnInit {
   };
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
-    console.log(window.pageYOffset)
     if (window.pageYOffset > 81) {
-      console.log('true')
       this.navIsFixed = true;
       this.isMidStick = false
     } else {
-      console.log('false')
       this.navIsFixed = false;
     }
 
