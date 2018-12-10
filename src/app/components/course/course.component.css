@@ -1,3 +1,83 @@
+/*==== toggle button ====*/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 33px;
+  height: 20px;
+  margin-top: 8px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "\2012";
+    color: #d8dbde;
+    height: 14px;
+    width: 14px;
+    left: 1px;
+    top: 1px;
+    background-color: #64707d;
+    -webkit-transition: .4s;
+     transition: .4s; 
+    text-align: center;
+    vertical-align: middle;
+    background-position: center;
+    line-height: 1;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+input:checked + .slider {
+  border: 2px solid #0080ff;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+  background: #0080ff;
+  content: "";
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+
+/* Rounded sliders */
+.switch-label{
+  line-height: 1.8;
+  margin-left: 16px;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-size: 18px;
+  color: #2e3e4d;
+  margin-bottom: 0;
+}
+.slider.round {
+  border-radius: 34px;
+  border: 2px solid #64707d;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
 .paid{
   color: #009940;
 }
@@ -24,6 +104,9 @@
 }
 .input-wrap .form-group{
   border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.create-input:focus{
+  box-shadow: none;
 }
 .create-input {
     font-family: 'Montserrat-Regular','Arial', sans-serif !important;
@@ -476,13 +559,46 @@ ul.options-box {
   background: #fff;
   z-index: 9;
   list-style: none;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  padding: 0 20px;
   margin: 0;
   right: 15px;
   top: 100px;
+  border-radius: 4px;
 }
-
+.carret-box {
+  width: 20px;
+  height: 20px;
+  border-bottom: solid 10px #fff;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+  -webkit-filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
+  filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
+  position: absolute;
+  right: 15px;
+  top: -19px;
+}
+ul.options-box li {
+  color: #2e3d4d;
+  font-size: 16px;
+  border-bottom: 1px solid #edeff0;
+  padding: 16px 0;
+  cursor: pointer;
+  transition: 0.2s ease-out all;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+ul.options-box li:hover{
+  color: #64707d;
+}
+ul.options-box li:first-child {
+  padding-top: 0;
+}
+ul.options-box li:last-child {
+  border-bottom: none;
+  /*padding-bottom: 0;*/
+}
 
 .progress-wrap{
   color: #0080ff;
@@ -606,8 +722,8 @@ ul.options-box {
     display:inline-block;
     width: 30px;
     height: 16px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    -ms-transform: rotate(45deg); 
+    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
 .closemark_stem ,
@@ -616,8 +732,8 @@ ul.options-box {
     width: 2px;
     height: 24px;
     background-color: #3d5266;
-    left: 16px;
-    top: -2px;
+    left: 5px;
+    top: -25px;
 }
 .closemark_kick {
     transform: rotate(90deg);
@@ -677,6 +793,13 @@ ul.options-box {
 }*/
 li button{
     margin-left: 20px !important;
+}
+
+.view-li button{
+  margin-left: 0!important;
+  padding: 0;
+  border: none;
+  color: #212529;
 }
 
 .scrollable
@@ -942,7 +1065,7 @@ li button{
 .btn-submit,
 .modal-ctime p,
 .modal-dfees h5,.modal-duration,.modal-userInfo label,
-.invoice-info,.user-name,.back-inv{
+.invoice-info,.user-name,.back-inv,.c-label,.paid-amount{
   font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 .single-progress h4,
@@ -961,7 +1084,7 @@ li button{
   color: #2e3d4d;
 }
 
-.modal-userInfo .mail,.inv-Cname{
+.modal-userInfo .mail,.inv-Cname,.c-label{
   font-size: 16px;
   color: #64707d;
 }
@@ -1427,7 +1550,9 @@ label.room-name::before {
 .mt-37{
   margin-top: 37px;
 }
-.input-search-bg:focus{
+.input-search-bg:focus,
+.modal-cancel-btn:focus,
+.modal-delete-btn:focus{
   outline: none;
   box-shadow: none;
 }
@@ -2107,12 +2232,10 @@ input[type=number]::-webkit-outer-spin-button {
   height: 48px;
 }
 
-.closemark {
+/*.closemark {
   display:inline-block;
-  /*width: 30px;
-  height: 16px;*/
-  -ms-transform: rotate(45deg); /* IE 9 */
-  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 .closemark_stem ,
@@ -2123,7 +2246,7 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: #3d5266;
   left: 7px;
   top: 12px;
-}
+}*/
 
 .makeup-pass-title{
   font-family: Montserrat-SemiBold;
@@ -2305,6 +2428,31 @@ input[type=number]::-webkit-outer-spin-button {
   float: right;
 }
 
+.dotted-text{
+  line-height: 0.5;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.paid-amount span{
+  font-size: 20px;
+  line-height: 3.2;
+}
+
+.paid-amount div{
+  font-size: 36px;
+  line-height: 2;
+}
+
+.paid-header{
+  text-align: center;
+  color: #009940;
+  background: #c2f2d6;
+  padding: 5px 0px;
+  font-size: 24px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;    
+}
+
 /*=============*/
 
 .modal-headone{
@@ -2324,4 +2472,13 @@ input[type=number]::-webkit-outer-spin-button {
   font-family: Montserrat-SemiBold;
   
   font-weight: 600;
+}
+.cancel-text{
+  font-size:16px;
+  font-family:Montserrat-Medium;
+  color:#64707d;
+  position: relative;
+  margin-bottom: 1.75rem!important;
+  /* line-height:20px; */
+    /* padding:12px 0px 36px 0px; */
 }

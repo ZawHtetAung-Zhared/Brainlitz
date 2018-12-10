@@ -1828,9 +1828,10 @@ export class appService{
       })
     }
 
-    cancelUsersFromClass(classId:string, data): Observable<any>{
+    cancelUsersFromClass(classId:string, data, global): Observable<any>{
+      console.log(global)
       this.getLocalstorage();
-      let apiUrl =  `${this.baseUrl}/${classId}/cancel/class`; 
+      let apiUrl =  `${this.baseUrl}/${classId}/cancel/class?passes=${global}`; 
       let headers = new Headers();
 
       headers.append('Content-Type', 'application/json');
@@ -1917,6 +1918,20 @@ export class appService{
         .map((res:Response) => {       
           return res;
       }) 
+    }
+
+    searchMakeupCourse(keyword, courseid, limit, skip){
+      let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons?keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
     }
 
 }

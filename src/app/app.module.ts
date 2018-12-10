@@ -47,6 +47,7 @@ import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { GroupByPipe } from './service/pipe/groupby.pipe';
 import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
+import { GetFormatData } from './service/pipe/timeformat.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
@@ -65,6 +66,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { DateFormatPipe } from './service/pipe/dateformat.pipe'
 
 @NgModule({
   declarations: [
@@ -95,6 +97,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     ConvertTimeFormatPipe,
     GetDayPipe,
     GetUtcTimePipe,
+    GetFormatData,
     GetUtcDatePipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
@@ -110,7 +113,8 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     FilterPipe,
     CustomfieldComponent,
     EmailtemplateComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    DateFormatPipe
   ],
   imports: [
     BrowserModule,

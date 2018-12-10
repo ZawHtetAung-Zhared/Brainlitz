@@ -225,6 +225,7 @@
 										<div class="ml-12">
 											<label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
 											<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
+											<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label>
 											<p class="fees">
 												<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
 												{{course.invoice.total}}
@@ -267,16 +268,17 @@
 									<p>Issued on {{list.issueDate.day}} {{list.issueDate.month -1 | TTmonth}} {{list.issueDate.year}}</p>
 									<div class="issue-box d-flex flex-column">
 										<strong>{{list.course.name}}</strong>
-										<label><span>{{list.course.startTime.hr}} : {{list.course.startTime.min}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr}} : {{list.course.endTime.min}} {{list.course.endTime.meridiem}}</span></label>
+										<label>
+										<span>{{list.course.startTime.hr | timeFormat}} : {{list.course.startTime.min | timeFormat}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr | timeFormat}} : {{list.course.endTime.min | timeFormat}} {{list.course.endTime.meridiem}}</span></label>
 									</div>
-									<div *ngIf="activePass == 'claimed' || activePass == 'expired'">
+									<div *ngIf="activePass == 'claimed'">
 										<p>Claimed on {{list.filingDate.day}} {{list.filingDate.month -1 | TTmonth}} {{list.filingDate.year}}</p>
 										<div class="claimed-box d-flex flex-column" *ngIf="list.makeupCourse">
 											<strong>{{list.makeupCourse.name}}</strong>
 											<label *ngIf="list.makeupCourse.startTime">
-												<span>{{list.makeupCourse.startTime.hr}} : {{list.makeupCourse.startTime.min}} {{list.makeupCourse.startTime.meridiem}}</span> - 
+												<span>{{list.makeupCourse.startTime.hr | timeFormat}} : {{list.makeupCourse.startTime.min | timeFormat}} {{list.makeupCourse.startTime.meridiem}}</span> - 
 												<span>
-													{{list.makeupCourse.endTime.hr}} : {{list.makeupCourse.endTime.min}} {{list.makeupCourse.endTime.meridiem}}
+													{{list.makeupCourse.endTime.hr | timeFormat}} : {{list.makeupCourse.endTime.min | timeFormat}} {{list.makeupCourse.endTime.meridiem}}
 												</span>
 											</label>
 										</div>
@@ -289,9 +291,11 @@
 								<p (click)="openClaimModal(claimModal, list)" class="claim-text">Claim this pass</p>
 							</div>
 							<div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
+								<img src="./assets/img/badge-tick.png" class="claim-img">
 								<p class="pass-text">Claimed pass</p>
 							</div>
 							<div *ngIf="activePass == 'expired'" class="makeup-footer d-flex justify-content-center">
+								<img src="./assets/img/badge-minus.png" class="claim-img">
 								<p class="expired-text">Expired</p>
 							</div>
 						</div>
@@ -618,7 +622,7 @@
 	</form>
 </div>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
-  	<div *ngIf="showInvoice == false && showPayment == false">
+  	<div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
 		<div class="d-flex modal-header">
 			<h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
 			<div class="d-flex flex-column justify-content-center align-items-center mr-auto">
@@ -733,8 +737,11 @@
 			</div>  	
 		</form>
 	</div>
-	<div *ngIf="showInvoice == true">
+	<div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false">
 	    <div *ngIf="feesBox == true" class="overlayInv"></div>
+	    <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL] 
+	    	<span class="invoice-label" style="background: #f2f4f5;padding: 2px;">{{ invCurrency.sign }} {{ payment.amount }}</span>
+	    </div>
 	    <div class="invoice-container">
 	      <div class="d-flex justify-content-between">
 	        <div class="logo-wrapper">
@@ -799,7 +806,7 @@
 	                    <h5>CourseFee</h5>
 	                    <div class="d-flex popup-input">
 	                      <div class="input-sign">
-	                       {{ currency.invCurrencySign }}
+	                       {{ invCurrency.sign }}
 	                      </div>
 	                      <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
 	                    </div>
@@ -824,7 +831,7 @@
 	              <div class="col-md-2 p-0 text-right price-info">
 	                {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
 	              </div>
-	              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.courseFee.fee}}</div>
+	              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.courseFee.fee}}</div>
 	            </div>
 	          </div>
 	        </div>
@@ -843,7 +850,7 @@
 	            <div class="col-md-2 p-0 text-right price-info">
 	              {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
 	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee.fee}}</div>
+	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.registrationFee.fee}}</div>
 	          </div>
 	        </div>
 	        <div *ngIf="hideMisc == false" class="d-flex inv-row">
@@ -861,7 +868,7 @@
 	            <div class="col-md-2 p-0 text-right price-info">
 	              {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
 	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.miscFee.fee}}</div>
+	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.fee}}</div>
 	          </div>
 	        </div>
 	        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
@@ -875,7 +882,7 @@
 	              <p class="mb-0">{{data.deposit}}</p>
 	            </div>
 	            <div class="col-md-2 p-0 text-right price-info"></div>
-	            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.deposit}}</div>
+	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
 	          </div>
 	        </div>
 	        <hr class="invoice-hr">
@@ -890,7 +897,7 @@
 	                <div class="col-sm-5 p-0">
 	                </div>
 	              </div>
-	              <div class="col-md-4 text-right">{{ currency.invCurrencySign }} {{ data.subtotal }}</div>
+	              <div class="col-md-4 text-right">{{invCurrency.sign}} {{ data.subtotal }}</div>
 	            </div>
 	            <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
 	              <div class="col-md-8 d-flex p-0">
@@ -899,7 +906,7 @@
 	                </div>
 	                <div class="col-sm-5 text-right p-0"></div>
 	              </div>
-	              <div class="col-md-4 text-right">{{ currency.invCurrencySign }}  {{ total }}</div>
+	              <div class="col-md-4 text-right">{{invCurrency.sign}}  {{ total }}</div>
 	            </div>
 	          </div>
 	        </div>
@@ -980,6 +987,164 @@
 	      </button> -->
 	    </div>
   	</div>
+  	<div *ngIf="showPaidInvoice == true">
+      <div class="paid-header">PAID</div>
+      <div class="invoice-container">
+        <div class="d-flex justify-content-between">
+          <div class="logo-wrapper">
+            <img src="{{logo}}">
+          </div>
+          <div class="text-right">
+            <h3 class="modal-title">Invoice</h3>
+            <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label>
+          </div>
+        </div>
+        <div class="pt-4">
+          <h5 class="invoice-label mb-0">{{ invoiceInfo.companyName }}</h5>
+          <div class="d-flex">
+            <div class="col-md-6 col-lg-6 pl-zero">
+              <p class="invoice-info">{{ invoiceInfo.address }}</p>
+            </div>
+            <div class="col-md-6 col-lg-6 p-0 text-right">
+              <label class="invoice-label">Billed By</label>
+              <p class="invoice-info mb-0">{{ custDetail.user.preferredName }}</p>
+            </div>
+          </div>
+          <!-- <p class="invoice-info">{{ invoiceInfo.email }}<p> -->
+        </div>
+        <!-- <div *ngIf="payment != undefined || payment != []"> -->
+	        <!-- <div *ngFor="let payment of invPayment"> -->
+				<div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
+					<div class="col-md-4 p-0 d-flex paid-amount">
+						<span>{{invCurrency.sign}}</span>
+						<div>{{ payment.amount }}</div>
+					</div>
+					<div class="col-md-4">
+						<label class="invoice-label">Billed paid</label>
+						<p class="invoice-info">{{payment.updatedDate}}</p>
+					</div>
+					<div class="col-md-4">
+						<label class="invoice-label">Payment method</label>
+						<div class="d-flex">
+						  <div style="width: 55px;padding-top: 7px;">
+						    <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg">
+						  </div>
+						  <div class="pl-3">
+						    <label class="mb-0 c-label">{{ payment.brandName }}</label>
+						    <div class="d-flex price-info">
+						    	{{ payment.cardNumber }}
+						      <!-- <div class="semibold dotted-text">
+						        .... .... ....
+						      </div>
+						      <div class="semibold" style="font-size: 14px; color: #2e3d4d; padding-left: 6px;">8012</div> -->
+						    </div>
+						  </div>
+						</div>
+					</div>
+				</div>
+	        <!-- </div> -->
+	    <!-- </div> -->
+        <div class="d-flex invoice-label fees-header bg-label">
+          <div class="col-md-5 p-0">Course</div>
+          <div class="col-md-1 p-0 text-right">Quantity</div>
+          <div class="col-md-2 p-0 text-right">Unit price</div>
+          <div class="col-md-2 p-0 text-right">Tax({{invTaxName}})</div>
+          <div class="col-md-2 p-0 text-right">Amount</div>
+        </div>
+        <div *ngFor="let data of invoice">
+          <div>
+            <div class="c-label pt-2 mlr-15">
+              {{ invoiceCourse.name }} 
+              <div> 
+                <span>From: {{ invoiceCourse.startDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.endDate">To: {{ invoiceCourse.endDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.lessonCount">{{ invoiceCourse.lessonCount }} lessons</span>
+              </div>
+            </div>
+            <div class="d-flex inv-courseFee">
+              <div class="d-flex w-100 b-bottom mlr-15">
+                <div class="col-md-5 p-0 price-info">Course Fee</div>
+                <div class="col-md-1 p-0 text-right price-info">1</div>
+                <div class="col-md-2 p-0 text-right price-info">
+                  <p class="mb-0">{{data.courseFee.fee}}</p>
+                </div>
+                <div class="col-md-2 p-0 text-right price-info">
+                  {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+                </div>
+                <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.courseFee.fee}}</div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="hideReg == false" class="d-flex inv-row">
+            <div class="d-flex w-100 b-bottom mlr-15">
+              <div class="col-md-5 p-0 price-info">
+                Registration Fee
+              </div>
+              <div class="col-md-1 p-0 text-right price-info">1</div>
+              <div class="col-md-2 p-0 text-right price-info">
+                <p class="mb-0">{{data.registrationFee.fee}}</p>
+              </div>
+              <div class="col-md-2 p-0 text-right price-info">
+                {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+              </div>
+              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.registrationFee.fee}}</div>
+            </div>
+          </div>
+          <div *ngIf="hideMisc == false" class="d-flex inv-row">
+            <div class="d-flex w-100 b-bottom mlr-15">
+              <div class="col-md-5 p-0 price-info">
+                Miscellaneous fee
+              </div>
+              <div class="col-md-1 p-0 text-right price-info">1</div>
+              <div class="col-md-2 p-0 text-right price-info">
+                <p class="mb-0">{{data.miscFee.fee}}</p>
+              </div>
+              <div class="col-md-2 p-0 text-right price-info">
+                {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+              </div>
+              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.fee}}</div>
+            </div>
+          </div>
+          <div *ngIf="hideDeposit == false" class="d-flex inv-row">
+            <div class="d-flex w-100 mlr-15">
+              <div class="col-md-5 p-0 price-info">Deposit</div>
+              <div class="col-md-1 p-0 text-right price-info">1</div>
+              <div class="col-md-2 p-0 text-right price-info">
+                <p class="mb-0">{{data.deposit}}</p>
+              </div>
+              <div class="col-md-2 p-0 text-right price-info"></div>
+              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
+            </div>
+          </div>
+          <hr class="invoice-hr">
+          <div class="d-flex justify-content-end">
+            <div class="w-50">
+              <div class="d-flex pad-10 price-info">
+                <!-- <div class="col-md-8 p-0 text-center">Sub total</div> -->
+                <div class="col-md-8 d-flex p-0">
+                  <div class="col-sm-7 text-right p-0">
+                    Sub total
+                  </div>
+                  <div class="col-sm-5 p-0">
+                  </div>
+                </div>
+                <div class="col-md-4 text-right">{{invCurrency.sign}} {{ data.subtotal }}</div>
+              </div>
+              <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
+                <div class="col-md-8 d-flex p-0">
+                  <div class="col-sm-7 text-right p-0">
+                    Amount due
+                  </div>
+                  <div class="col-sm-5 text-right p-0"></div>
+                </div>
+                <div class="col-md-4 text-right">{{invCurrency.sign}}  {{ total }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-end">
+          <button class="btn btn-submit" (click)="closeModal()">Done</button>
+      </div>
+    </div>
 </ng-template>
 
 <ng-template #claimModal let-c="close" let-d="dismiss">
@@ -997,10 +1162,10 @@
 	</div>
 	<div class="modal-body confirm-text">
 		<div>
-			<input type="search" name="" class="form-control course-search-input" placeholder="Search courses">
+			<input type="search" name="" class="form-control course-search-input" placeholder="Search courses" (input)="searchMakeup($event.target.value)">
 		</div>
 		<div class="mt-20 class-group">
-			<div class="card-columns pd-zero">
+			<div class="card-columns pd-zero" *ngIf="claimCourses">
 				<div class="card" *ngFor="let claim of claimCourses; let i = index">
 	    		<div class="single-class">
 	    			<div class="no-seat" *ngIf="claim.seat_left == 0">All seat taken</div>
@@ -1012,28 +1177,19 @@
   				      {{claim.location.name}}
   				    </h5>
   				    <b>{{claim.name}}</b><br>
-  				    <label class="makeup-plan">11:00 AM - 12:00 AM</label>
+  				    <label class="makeup-plan">
+  				    	<span *ngIf="claim.startTime">{{claim.startTime.hr}} : {{claim.startTime.min}} {{claim.startTime.meridiem}}</span> - 
+  				    	<span *ngIf="claim.endTime">{{claim.endTime.hr}} : {{claim.endTime.min}} {{claim.endTime.meridiem}}</span>
+  				    </label>
 	    			</div>
 	    			<div class="d-flex flex-column count-wrap">
 	    				<div class="d-flex justify-content-between">
 	    					<p class="valid-until">Pick a date to claim makeup pass</p>
 	    					<div>
-	    						<i class="fa fa-arrow-left" (click)="backward('timeline-'+i)"></i>
-	    						<i class="fa fa-arrow-right" (click)="forward('timeline-'+i)"></i>
+	    						<img src="./assets/img/chevron-right-s.png" (click)="backward('timeline-'+i)" class="mr-32">
+	    						<img src="./assets/img/chevron-left-s.png" (click)="forward('timeline-'+i)">
 	    					</div>
 	    				</div>
-	    				<!-- <div class="d-flex flex-row w-100 flex-nowrap overflow-x">
-	    					<div class="tool-box d-flex flex-nowrap">
-	    					  <div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
-    					      <label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
-    					        <input class="form-check-input" type="radio" name="passForm" id="course" value="{{lesson}}" [(ngModel)]="passForm.lesson" #course="ngModel" [checked]='false' (click)="chooseDate(lesson)"> 
-    					        <p class="xxxdate">{{lesson.startDate | timelineDate}}</p>
-    					        <p class="xxxday">{{lesson.startDate | timelineDay}}</p>
-    					      </label>
-    					    </div>
-	    					</div>
-	    				</div>
- -->
 	    				<div id="timeline-{{i}}" class="timeline">
 	    					<div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
 	    						<label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
@@ -1045,8 +1201,7 @@
 	    				</div>
 	    			</div>
 	    			<div class="row d-flex justify-content-center class-info-footer">
-	    				<!-- --{{checkCourse}} -->
-	    				<button type="button" class="btn" (click)="enrollPass(claim, currentPassObj.course.courseId)">Enroll class</button>
+	    				<button type="button" class="btn" (click)="enrollPass(claim, currentPassObj.course.courseId)" [disabled]="checkCourse != claim.courseId">Enroll class</button>
 	    			
 	    			</div>
 	    		</div>

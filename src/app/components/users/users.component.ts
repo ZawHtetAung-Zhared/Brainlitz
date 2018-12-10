@@ -46,7 +46,7 @@ export class UsersComponent implements OnInit {
 	public locationID = localStorage.getItem('locationId');	
 	public locationName :any;	
 	// formFieldc: customer = new customer();
-	claimCourses:any = {};	
+	claimCourses:any;	
 	formFieldc:any = {};	
 	xxxx:any = {};	
 	@ViewChild("cropper", undefined)
@@ -140,6 +140,11 @@ export class UsersComponent implements OnInit {
 	public updateInvData:any = {};
 	public hideMisc:boolean = false; 
 	public paymentId:any;
+	public showPaidInvoice:boolean = false;
+	public payment:any = {};
+	public invStatus:any;
+	public invCurrency:any = {}
+	// public invPayment:any = [];
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -186,6 +191,14 @@ export class UsersComponent implements OnInit {
 	      'tax':{
 	        'name': ''
 	      }
+	    }
+
+	    this.payment = {
+	    	'amount': '',
+	    }
+
+	    this.invCurrency = {
+	      'sign': ''
 	    }
 	}
 
@@ -732,9 +745,11 @@ export class UsersComponent implements OnInit {
 		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
 		this.showCustDetail = true;
+		this.blockUI.start('Loading...');
 		this._service.getUserDetail(this.regionID,ID, this.locationID)
 		.subscribe((res:any) => {
 			this.custDetail = res;
+			this.blockUI.stop();
 			console.log("CustDetail",res);
 			for(var i = 0; i < this.custDetail.ratings.length; i++){
 				var tempData = this.custDetail.ratings[i].updatedDate;
@@ -742,6 +757,9 @@ export class UsersComponent implements OnInit {
 				console.log(this.custDetail.ratings[i].updatedDate)
 				this.custDetail.ratings[i].updatedDate = moment(d, format).tz(zone).format(format);
 			}
+		},err => {
+			console.log(err);
+			this.blockUI.stop();
 		})
 	}	
 
@@ -1082,7 +1100,8 @@ export class UsersComponent implements OnInit {
 	//   }
 
 	closeModal(type){
-		this.isChecked = ''
+		this.isChecked = '';
+		this.checkCourse = '';
 		this.modalReference.close();
 		this.availableCourses = [];
 		this.showInvoice = false;
@@ -1094,6 +1113,9 @@ export class UsersComponent implements OnInit {
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
+		this.invStatus = ''
+		// this.invPayment = [];
+		this.payment = {};
 		this.searchData.searchText = '';
 		if(type == 'closeInv'){
 			this.showDetails(this.custDetail.user.userId);
@@ -1244,12 +1266,19 @@ export class UsersComponent implements OnInit {
 
 	openClaimModal(claimModal, passObj){
 		this.currentPassObj = passObj;
-		this._service.getClaimPassCourses(passObj.course.courseId)
+	    this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+		this.getClaimCourses(this.currentPassObj.course.courseId);
+	}
+
+	getClaimCourses(id){
+		this.blockUI.start('Loading...');
+		this._service.getClaimPassCourses(id)
 		.subscribe((res:any)=>{
-	    	this.modalReference = this.modalService.open(claimModal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+			this.blockUI.stop();
 	      	console.log(res)
 	      	this.claimCourses = res;
 	    },err =>{
+	    	this.blockUI.stop();
 	      	console.log(err);
 	    });
 	}
@@ -1272,14 +1301,16 @@ export class UsersComponent implements OnInit {
 	      	console.log(res)
 	      	this.modalReference.close();
 	      	this.blockUI.stop();
-	      	this.isChecked = ''
+	      	this.isChecked = '';
+	      	this.checkCourse = '';
 	      	this.toastr.success('Successfully passed.');
 	    	this.callMakeupLists();
 	    },err =>{
 	      	console.log(err);
 	      	this.toastr.error('Claim pass failed.');
 	      	this.blockUI.stop();
-	      	this.isChecked = ''
+	      	this.isChecked = '';
+	      	this.checkCourse = '';
 	      	this.modalReference.close();
 	    });
 	}
@@ -1289,14 +1320,23 @@ export class UsersComponent implements OnInit {
 		console.log(data)
 		this.lessonData = obj;
 		this.isChecked = obj.startDate;
-		// this.checkCourse = courseId;
+		this.checkCourse = data.courseId;
 		// console.log(this.checkCourse)
 	}
 
 	viewInvoice(enrollModal,course){
+		this.singleInv = [];
+		console.log("zzz",course.invoice.status);
+		if(course.invoice.status == "PAID"){
+	      this.showPaidInvoice = true;
+	    }else if(course.invoice.status == "UNPAID"  || course.invoice.status == "PAID[PARTIAL]"){
+	      this.showInvoice = true;
+	    }
+
+	    this.invStatus = course.invoice.status;
 		console.log("View Invoice",course);
 		console.log(this.custDetail);
-		this.showInvoice = true;
+		// this.showInvoice = true;
 		this.modalReference = this.modalService.open(enrollModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
 		this.getRegionInfo();
 	    console.log(this.invoiceInfo);
@@ -1306,7 +1346,6 @@ export class UsersComponent implements OnInit {
 	    }else{
 	    	console.log("no invoice id")
 	    }
-	    // var invoiceId = '5c08bf20ac9b4c4bfdf6dc62';//moana, View Invoice Course 001,GGWP00100032
 	    this._service.getSingleInvoice(invoiceId)
 	    .subscribe((res:any) => {
 	      console.log('invoice detail',res);
@@ -1327,6 +1366,18 @@ export class UsersComponent implements OnInit {
 			this.invoiceID = invoice[i]._id;
 			this.refInvID = invoice[i].refInvoiceId;
 			this.invTaxName = invoice[i].tax.name;
+			// this.invStatus = invoice[i].status;
+			this.invCurrency = invoice[i].currency;
+			// this.invPayment = invoice[i].payments;
+			if(invoice[i].payments){
+		         var invPayment = invoice[i].payments;
+		         for(var j in invPayment){
+		           if(invPayment[i].status == 'COMPLETE'){
+		             this.payment = invPayment[i];
+		             console.log("Payment",this.payment)
+		           }
+		         }
+		       }
 			var n = invoice[i].total;
 			this.total = n.toFixed(2);
 			this.invoice[i].subtotal = Number(Number(invoice[i].subtotal).toFixed(2));
@@ -1367,6 +1418,24 @@ export class UsersComponent implements OnInit {
 		$('#'+target).animate({
 	    	scrollLeft: "-=200px"
 	  	}, "slow");
+	}
+
+	searchMakeup(keyword){
+		if(keyword.length > 0){
+			this.blockUI.start('Loading...');
+			this._service.searchMakeupCourse(keyword, this.currentPassObj.course.courseId, 20, 0)
+			.subscribe((res:any) => {
+		      	console.log(res);
+		      	this.blockUI.stop();
+		      	this.claimCourses = res;
+		    }, err => {
+		    	this.blockUI.stop();
+		      	console.log(err);
+		    })
+		}else{
+			this.claimCourses ='';
+			this.getClaimCourses(this.currentPassObj.course.courseId);
+		}
 	}
 
 }
