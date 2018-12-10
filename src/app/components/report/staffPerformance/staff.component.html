@@ -60,8 +60,8 @@
   <div class="modal-body">
     <div class="slt-rpt-filter rpt-input-title">Select Filter</div>
     <div class="pd-top-15">
-      <select id="filterType" class="form-control" name="filterType" (change)="updateFilterType($event.target.value)">
-        <option [selected]="0" *ngFor="let filter of filterList; let i = index" value="{{filter}}">{{
+      <select id="filterType" class="form-control" name="filterType" [(ngModel)]="filterModel" (change)="updateFilterType($event.target.value)">
+        <option *ngFor="let filter of filterList; let i = index" value="{{filter}}">{{
           filter }}
         </option>
       </select>

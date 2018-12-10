@@ -29,13 +29,11 @@ export class StaffPerformanceReport implements OnInit {
   courseNameList = ['Business Administration', 'Management Studies', '3D Animation', 'Facebook Marketing', 'Cyber Security', 'Math Classes', 'Orchestra', 'Guitar', 'Hip Hop', 'Piano', 'Meditation & Yoga', 'Health & Fitness', 'Sports Science'];
   searchResult:any;
   groupBy = "location";
-  selectedFilter:any;
   filter:any;
   modalReference:any;
   reportData:any;
-  selectedFilterType:any;
   daterange: any = {};
-
+  filterModel:any;
   // see original project for full list of options
   // can also be setup using the config service to apply to multiple pickers
   options: any;
@@ -83,12 +81,11 @@ export class StaffPerformanceReport implements OnInit {
     //this.eventLog += '\nEvent Fired: ' + e.event.type;
   }
   ngOnInit() {
-    this.selectedFilter = "";
-    this.selectedFilterType = '0';
-    this.filter = {type: "", 'value': []};
+    this.filterModel = 'Category';
+    this.filter = {type: "Category", 'value': []};
     this.searchResult = {
       show: false,
-      value: []
+      value: this.categoryList
     };
     this.options= {
       startDate: moment().startOf('hour'),
@@ -833,49 +830,21 @@ export class StaffPerformanceReport implements OnInit {
    * @param content
    */
   showFilterModal(content) {
-    console.log("i will show you filter modal");
-    //check if any filter selected
-    // if(!this.filter.value.length){
-    //   this.searchResult.value = this.categoryList;
-    // }
-    // switch (this.filter.type){
-    //   case "location":
-    //     this.selectedFilterType = "Location";
-    //     //document.getElementById('filterType').value = "Location";
-    //         break;
-    //   case "category":
-    //     this.selectedFilterType = "Category";
-    //     //document.getElementById('filterType').value = "Category";
-    //     break;
-    //   case "coursePlan":
-    //     this.selectedFilterType = "Course Plan";
-    //     //document.getElementById('filterType').value = "Course Plan";
-    //     break;
-    //   case "course":
-    //     this.selectedFilterType = "Course Name";
-    //     //document.getElementById('filterType').value = "Course Name";
-    //     break;
-    //   default:
-    //     this.selectedFilterType = "Category";
-    //   //document.getElementById('filterType').value = "Category";
-    //
-    // }
     this.searchResult.show = false;
-    this.searchResult.value = this.categoryList;
-    this.filter = {
-      type: "category",
-      value: []
-    };
+    // this.searchResult.value = this.categoryList;
+    // this.filter = {
+    //   type: "category",
+    //   value: []
+    // };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
       size: 'lg'
     });
-
     this.modalReference.result.then((result) => {
-      console.log(result);
+      //console.log(result);
     }, (reason) => {
-      console.log(reason);
+      //console.log(reason);
     });
   }
 
@@ -884,6 +853,7 @@ export class StaffPerformanceReport implements OnInit {
    * @param event
    */
   updateFilterType(value) {
+    this.filterModel = value;
     this.filter = {
       value: []
     };
@@ -958,10 +928,6 @@ export class StaffPerformanceReport implements OnInit {
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
-    if (!this.filter.value.length) {
-      this.filter.type = ""
-    }
-    ;
     this.applyFilters();
   }
 
@@ -969,7 +935,7 @@ export class StaffPerformanceReport implements OnInit {
     this.filter = {
       type: "",
       value: []
-    }
+    };
     this.applyFilters();
   }
 
