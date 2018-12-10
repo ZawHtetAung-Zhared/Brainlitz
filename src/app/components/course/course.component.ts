@@ -21,6 +21,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public yPosition:any;
   public singleUserData:any = '';
   public makeupForm:any = {};
   public showStudentOption:any;
@@ -1409,7 +1410,10 @@ export class CourseComponent implements OnInit {
      }
   }
 
-  showOptions(id){
+  showOptions(id, e){
+    console.log(e)
+    console.log(e.layerY)
+    this.yPosition = e.layerY;
     this.showStudentOption = id;
   }
 
