@@ -1113,7 +1113,8 @@ export class UsersComponent implements OnInit {
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
-		this.invStatus = ''
+		this.invStatus = '';
+		this.showPaidInvoice = false;
 		// this.invPayment = [];
 		this.payment = {};
 		this.searchData.searchText = '';
