@@ -141,7 +141,10 @@ export class UsersComponent implements OnInit {
 	public hideMisc:boolean = false; 
 	public paymentId:any;
 	public showPaidInvoice:boolean = false;
-	public invPayment:any = [];
+	public payment:any = {};
+	public invStatus:any;
+	public invCurrency:any = {}
+	// public invPayment:any = [];
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -188,6 +191,14 @@ export class UsersComponent implements OnInit {
 	      'tax':{
 	        'name': ''
 	      }
+	    }
+
+	    this.payment = {
+	    	'amount': '',
+	    }
+
+	    this.invCurrency = {
+	      'sign': ''
 	    }
 	}
 
@@ -1102,7 +1113,9 @@ export class UsersComponent implements OnInit {
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
-		this.invPayment = [];
+		this.invStatus = ''
+		// this.invPayment = [];
+		this.payment = {};
 		this.searchData.searchText = '';
 		if(type == 'closeInv'){
 			this.showDetails(this.custDetail.user.userId);
@@ -1313,11 +1326,14 @@ export class UsersComponent implements OnInit {
 
 	viewInvoice(enrollModal,course){
 		this.singleInv = [];
+		console.log("zzz",course.invoice.status);
 		if(course.invoice.status == "PAID"){
 	      this.showPaidInvoice = true;
 	    }else if(course.invoice.status == "UNPAID"  || course.invoice.status == "PAID[PARTIAL]"){
 	      this.showInvoice = true;
 	    }
+
+	    this.invStatus = course.invoice.status;
 		console.log("View Invoice",course);
 		console.log(this.custDetail);
 		// this.showInvoice = true;
@@ -1350,8 +1366,18 @@ export class UsersComponent implements OnInit {
 			this.invoiceID = invoice[i]._id;
 			this.refInvID = invoice[i].refInvoiceId;
 			this.invTaxName = invoice[i].tax.name;
-			this.invPayment = invoice[i].payments;
-			console.log(this.invPayment)
+			// this.invStatus = invoice[i].status;
+			this.invCurrency = invoice[i].currency;
+			// this.invPayment = invoice[i].payments;
+			if(invoice[i].payments){
+		         var invPayment = invoice[i].payments;
+		         for(var j in invPayment){
+		           if(invPayment[i].status == 'COMPLETE'){
+		             this.payment = invPayment[i];
+		             console.log("Payment",this.payment)
+		           }
+		         }
+		       }
 			var n = invoice[i].total;
 			this.total = n.toFixed(2);
 			this.invoice[i].subtotal = Number(Number(invoice[i].subtotal).toFixed(2));
