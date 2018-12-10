@@ -196,6 +196,12 @@
 							<div class="section-one">
 								<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
 								<p class="info-p">{{ course.name }}</p>
+								<div class="d-flex align-items-center">
+									<div class="tr-img-wrap">
+										<img src="">
+									</div>
+									<p class="tr-name" *ngIf="course.teacher">{{ course.teacher.preferredName }}</p>
+								</div>
 								<div class="d-flex info-wrap">
 									<div class="timetable-col">
 										<label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
@@ -1178,8 +1184,8 @@
   				    </h5>
   				    <b>{{claim.name}}</b><br>
   				    <label class="makeup-plan">
-  				    	<span *ngIf="claim.startTime">{{claim.startTime.hr}} : {{claim.startTime.min}} {{claim.startTime.meridiem}}</span> - 
-  				    	<span *ngIf="claim.endTime">{{claim.endTime.hr}} : {{claim.endTime.min}} {{claim.endTime.meridiem}}</span>
+  				    	<span *ngIf="claim.startTime">{{claim.startTime.hr | timeFormat}} : {{claim.startTime.min | timeFormat}} {{claim.startTime.meridiem}}</span> - 
+  				    	<span *ngIf="claim.endTime">{{claim.endTime.hr | timeFormat}} : {{claim.endTime.min | timeFormat}} {{claim.endTime.meridiem}}</span>
   				    </label>
 	    			</div>
 	    			<div class="d-flex flex-column count-wrap">
