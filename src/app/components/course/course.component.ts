@@ -327,10 +327,6 @@ export class CourseComponent implements OnInit {
 
     this.paymentProviders = '';
 
-    this.payment = {
-        'amount': '',
-      }
-
     this.invCurrency = {
       'sign': ''
     }
