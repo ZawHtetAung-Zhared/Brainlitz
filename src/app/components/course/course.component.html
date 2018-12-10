@@ -1564,10 +1564,11 @@
     </div>
   </div>
 
+  <!-- for view invoice -->
   <div *ngIf="activeTab == 'invoice'" class="tabs-inv">
     <div *ngIf="showInvoice == true">
       <div *ngIf="feesBox == true" class="overlayInv"></div>
-      <div *ngIf="singleUserData.invoice.status == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL] <span *ngIf="invCurrency.sign != '' || invCurrency.sign != undefined" class="invoice-label" style="background: #f2f4f5;padding: 2px;">{{ invCurrency.sign }} {{ payment.amount }}</span></div>
+      <div *ngIf="singleUserData.invoice.status == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>
       <div class="invoice-container">
         <div class="d-flex justify-content-between">
           <div class="logo-wrapper">
@@ -1604,6 +1605,57 @@
               <span *ngFor="let mail of selectedCustomer.guardianEmail">{{ mail }}</span>
               <span *ngIf="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0">-</span>
             </p>
+          </div>
+        </div>
+        <div *ngIf="invPayment?.length > 0">
+          <div class="d-flex">
+            <div class="col-md-4 p-0">
+              <label class="invoice-label">Amount</label>
+            </div>
+            <div class="col-md-4">
+              <label class="invoice-label">Billed paid</label>
+            </div>
+            <div class="col-md-4">
+              <label class="invoice-label">Payment method</label>
+            </div>
+          </div>
+          <div *ngFor="let payment of invPayment">
+            <!-- {{payment|json}} -->
+            <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
+              <div class="col-md-4 p-0 d-flex invoice-label">
+                <span>{{invCurrency.sign}}</span>
+                <div>{{ payment.amount }}</div>
+              </div>
+              <div class="col-md-4">
+                <p class="invoice-info">{{payment.updatedDate | dateFormat}}</p>
+              </div>
+              <div class="col-md-4">
+                <div class="d-flex">
+                  <div style="width: 55px;">
+                    <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
+                    <i class="fa fa-credit-card" style="font-size: 30px;"></i>
+                  </div> 
+                  <div class="pl-3" *ngIf="payment.brandName || payment.cardNumber">
+                    <label class="mb-0 c-label">{{ payment.brandName }}</label>
+                    <div class="d-flex price-info">
+                      {{ payment.cardNumber }}
+                    </div>
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 0">
+                    Cash
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 1">
+                    Credit/Debit Card
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 2">
+                    Cheque
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 3">
+                    Others
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="d-flex invoice-label fees-header bg-label">
@@ -1849,38 +1901,57 @@
             </div>
           </div>
         </div> -->
-        <!-- <div *ngIf="payment != undefined || payment != []"> -->
-          <!-- <div *ngFor="let payment of invPayment"> -->
+        <div *ngIf="invPayment?.length > 0">
+          <div class="d-flex">
+            <div class="col-md-4 p-0">
+              <label class="invoice-label">Amount</label>
+            </div>
+            <div class="col-md-4">
+              <label class="invoice-label">Billed paid</label>
+            </div>
+            <div class="col-md-4">
+              <label class="invoice-label">Payment method</label>
+            </div>
+          </div>
+          <div *ngFor="let payment of invPayment">
+            <!-- {{payment|json}} -->
             <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
-              <div class="col-md-4 p-0 d-flex paid-amount">
-                <span>{{ currency.invCurrencySign }}</span>
+              <div class="col-md-4 p-0 d-flex invoice-label">
+                <span>{{invCurrency.sign}}</span>
                 <div>{{ payment.amount }}</div>
               </div>
               <div class="col-md-4">
-                <label class="invoice-label">Billed paid</label>
                 <p class="invoice-info">{{payment.updatedDate | dateFormat}}</p>
               </div>
               <div class="col-md-4">
-                <label class="invoice-label">Payment method</label>
                 <div class="d-flex">
-                  <div style="width: 55px;padding-top: 7px;">
-                    <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg">
-                  </div>
-                  <div class="pl-3">
+                  <div style="width: 55px;">
+                    <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
+                    <i class="fa fa-credit-card" style="font-size: 30px;"></i>
+                  </div> 
+                  <div class="pl-3" *ngIf="payment.brandName || payment.cardNumber">
                     <label class="mb-0 c-label">{{ payment.brandName }}</label>
                     <div class="d-flex price-info">
                       {{ payment.cardNumber }}
-                      <!-- <div class="semibold dotted-text">
-                        .... .... ....
-                      </div>
-                      <div class="semibold" style="font-size: 14px; color: #2e3d4d; padding-left: 6px;">8012</div> -->
                     </div>
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 0">
+                    Cash
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 1">
+                    Credit/Debit Card
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 2">
+                    Cheque
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 3">
+                    Others
                   </div>
                 </div>
               </div>
             </div>
-          <!-- </div> -->
-        <!-- </div> -->
+          </div>
+        </div>
         <div class="d-flex invoice-label fees-header bg-label">
           <div class="col-md-5 p-0">Course</div>
           <div class="col-md-1 p-0 text-right">Quantity</div>
