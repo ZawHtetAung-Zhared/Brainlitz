@@ -177,8 +177,7 @@ export class CourseComponent implements OnInit {
   public searchData: any={};
   public paymentId:any;
   public showPaidInvoice:boolean = false;
-  public payment = {};
-  // public invPayment = [];
+  public invPayment = [];
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -1376,15 +1375,16 @@ export class CourseComponent implements OnInit {
        this.refInvID = invoice[i].refInvoiceId;
        this.invTaxName = invoice[i].tax.name;
        this.invCurrency = invoice[i].currency;
-       if(invoice[i].payments){
-         var invPayment = invoice[i].payments;
-         for(var j in invPayment){
-           if(invPayment[i].status == 'COMPLETE'){
-             this.payment = invPayment[i];
-             console.log("Payment",this.payment)
-           }
-         }
-       }
+       this.invPayment = invoice[i].payments;
+       // if(invoice[i].payments){
+       //   var invPayment = invoice[i].payments;
+       //   for(var j in invPayment){
+       //     if(invPayment[i].status == 'COMPLETE'){
+       //       this.payment = invPayment[i];
+       //       console.log("Payment",this.payment)
+       //     }
+       //   }
+       // }
        var n = invoice[i].total;
        this.total = n.toFixed(2);
        this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
@@ -2078,8 +2078,7 @@ export class CourseComponent implements OnInit {
     this.updateInvData = {};
     this.availableCourses = [];
     this.makeupForm = {};
-    // this.invPayment = [];
-    this.payment = {};
+    this.invPayment = [];
     console.log("hideMisc",this.hideMisc)
     this.getCourseDetail(this.detailLists._id);
     this.getUsersInCourse(this.detailLists._id);
