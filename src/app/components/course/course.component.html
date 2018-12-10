@@ -616,7 +616,7 @@
                 </div>
                 <ul *ngIf="showStudentOption == user.userId" class="options-box">
                   <div class="carret-box"></div>
-                  <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
+                  <li *ngIf="detailLists.type != 'FLEXY'" (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
                   <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
                   <li (click)="showTabsModal(tabsModal,'invoice',user)" class="view-li"><button [disabled]="user.invoice == null">View invoice</button></li>
                   <li (click)="openRemoveModal(user.userId, deleteModal,user.preferredName)">Withdraw User</li>
