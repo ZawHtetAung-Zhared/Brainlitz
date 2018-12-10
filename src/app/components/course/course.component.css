@@ -105,6 +105,9 @@ input:checked + .slider:before {
 .input-wrap .form-group{
   border-bottom: 1px solid rgba(0,0,0,.1);
 }
+.create-input:focus{
+  box-shadow: none;
+}
 .create-input {
     font-family: 'Montserrat-Regular','Arial', sans-serif !important;
     border-radius: .25rem;
@@ -729,8 +732,8 @@ ul.options-box li:last-child {
     width: 2px;
     height: 24px;
     background-color: #3d5266;
-    left: 16px;
-    top: -2px;
+    left: 5px;
+    top: -25px;
 }
 .closemark_kick {
     transform: rotate(90deg);
@@ -1547,7 +1550,9 @@ label.room-name::before {
 .mt-37{
   margin-top: 37px;
 }
-.input-search-bg:focus{
+.input-search-bg:focus,
+.modal-cancel-btn:focus,
+.modal-delete-btn:focus{
   outline: none;
   box-shadow: none;
 }
