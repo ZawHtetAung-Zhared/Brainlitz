@@ -555,7 +555,7 @@ ul.as-loop li:last-child span{
 
 ul.options-box {
   position: absolute;
-  width: 60%;
+  width: 40%;
   background: #fff;
   z-index: 9;
   list-style: none;
@@ -564,8 +564,7 @@ ul.options-box {
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   padding: 0 20px;
   margin: 0;
-  right: 15px;
-  top: 100px;
+  /*bottom: -60px;*/
   border-radius: 4px;
 }
 .carret-box {
@@ -1283,6 +1282,8 @@ li button{
     padding: 16px 20px;
     border-radius: 0 0 4px 4px;
     border: 1px solid #edeff0;
+    margin-bottom: 180px;
+    position: relative;
 }
 
 .class-room{
@@ -1326,6 +1327,12 @@ label.room-name::before {
   font-size: 20px;
   color: #2e3e4d;
 }
+.student-section{
+  position: relative;
+}
+.option-wrap{
+  position: static;
+}
 .teacher-section{
   border-bottom: 1px solid #edeff0;
   padding-bottom: 20px;
@@ -1333,6 +1340,7 @@ label.room-name::before {
 }
 .single-user{
   /*cursor: pointer;*/
+  background: #fff;
   -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -1628,7 +1636,9 @@ label.room-name::before {
 }
 .customer-row{
   max-height: 280px;
+  height: 280px;
   overflow: scroll;
+  position: static;
 }
 
 button:disabled{
