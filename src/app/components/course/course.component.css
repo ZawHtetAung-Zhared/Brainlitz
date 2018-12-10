@@ -556,13 +556,46 @@ ul.options-box {
   background: #fff;
   z-index: 9;
   list-style: none;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  padding: 0 20px;
   margin: 0;
   right: 15px;
   top: 100px;
+  border-radius: 4px;
 }
-
+.carret-box {
+  width: 20px;
+  height: 20px;
+  border-bottom: solid 10px #fff;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+  -webkit-filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
+  filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
+  position: absolute;
+  right: 15px;
+  top: -19px;
+}
+ul.options-box li {
+  color: #2e3d4d;
+  font-size: 16px;
+  border-bottom: 1px solid #edeff0;
+  padding: 16px 0;
+  cursor: pointer;
+  transition: 0.2s ease-out all;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+}
+ul.options-box li:hover{
+  color: #64707d;
+}
+ul.options-box li:first-child {
+  padding-top: 0;
+}
+ul.options-box li:last-child {
+  border-bottom: none;
+  /*padding-bottom: 0;*/
+}
 
 .progress-wrap{
   color: #0080ff;

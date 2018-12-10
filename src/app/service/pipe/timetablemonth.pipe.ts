@@ -10,7 +10,7 @@ export class ttMonthPipe implements PipeTransform {
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];    
     var mth = monthNames[getDate];
-    console.log(mth)
+    // console.log(mth)
     return mth;
   }
 }

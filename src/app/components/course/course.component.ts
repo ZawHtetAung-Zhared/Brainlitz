@@ -536,7 +536,8 @@ export class CourseComponent implements OnInit {
 
   closeOptionsBox(event){
     var parentWrap = event.path.filter(function(res){
-      return res.className == "ml-auto remover-wrap"
+      // return res.className == "ml-auto remover-wrap"
+      return res.className == "col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
     })
     if(parentWrap.length == 0){
       this.showStudentOption = '';
@@ -728,6 +729,7 @@ export class CourseComponent implements OnInit {
   }
 
   recentSearch(val, limit, skip){
+    this.courseList = [];
     this.searchVal = val;
     this.courseVal.keyword = val;
     this.iswordcount = true;
@@ -742,6 +744,29 @@ export class CourseComponent implements OnInit {
         this.simple = true;
         this.advance = false;
       },err =>{
+        console.log(err);
+    });
+  }
+
+
+  recentSearch1(val, limit, skip){
+    this.searchVal = val;
+    this.courseVal.keyword = val;
+    this.iswordcount = true;
+    this.blockUI.start('Loading...');
+    this._service.simpleCourseSearch(this.regionId, val ,this.locationID, limit, skip)
+    .subscribe((res:any)=>{
+        this.blockUI.stop();
+        console.log(res)
+        this.blockUI.stop(); // Stop blocking
+        this.courseList = this.courseList.concat(res);
+        console.log('----- ', this.courseList)
+        this.searchMore = (res.length == 0) ? false : true;        
+        this.iscourseSearch = false;
+        this.simple = true;
+        this.advance = false;
+      },err =>{
+        this.blockUI.stop(); // Stop blocking
         console.log(err);
     });
   }
@@ -1118,8 +1143,8 @@ export class CourseComponent implements OnInit {
 
         // moment1.isSameOrAfter(moment2);
 
-        this.cancelUi = (lessonCount[this.todayIndex].cancel == true ) ? false : true;
         if(this.activeToday == true){
+          this.cancelUi = (lessonCount[this.todayIndex].cancel == true ) ? false : true;
           this.LASD = lessonCount[this.todayIndex].startDate
 
         }else{
@@ -1127,6 +1152,7 @@ export class CourseComponent implements OnInit {
           console.log(lastActiveDate)
           //LASD = lastActiveStartDate
           this.LASD = lessonCount[lastActiveDate].startDate
+          this.cancelUi = (lessonCount[lastActiveDate].cancel == true ) ? false : true;
           console.log(this.LASD)
         }
       }else{
@@ -1156,7 +1182,9 @@ export class CourseComponent implements OnInit {
             this.noStudent += 1;
           }
         }
-        this.cancelButtonShowHide();
+        if(this.LASD != null ){
+          this.cancelButtonShowHide();
+        }
         $('.timeline').scrollLeft( 80*(lastActiveDate-1) );
       },err =>{
         this.blockUI.stop();
@@ -1191,7 +1219,7 @@ export class CourseComponent implements OnInit {
     // this.cancelUi=true;
     // let onlyTime = this.LASD.toString().substring(11, 19)
     // let onlyDate = this.LASD.toString().substring(0,10);
-
+    console.log(this.LASD)
     let onlyTime = this.LASD.toLocaleString().substring(11, 19)
     let onlyDate = this.LASD.toLocaleString().substring(0,10);
     // console.error(this.LASD)
@@ -1262,6 +1290,10 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop();
       console.log(err);
     });
+  }
+
+  hixxx(){
+    console.log('helo')
   }
 
   openRemoveModal(id, deleteModal, n){
@@ -1402,6 +1434,7 @@ export class CourseComponent implements OnInit {
     console.log('....')
     this.modalReference.close();
     // this.isSeatAvailable = true;
+    this.isGlobal = false;
     this.showList = false;
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
@@ -1442,6 +1475,7 @@ export class CourseComponent implements OnInit {
   }
 
   modalClose(){
+    this.isGlobal = false;
     this.cancelUItext= false;
     this.cancelUI=false;
     this.modalReference.close();
@@ -1813,7 +1847,7 @@ export class CourseComponent implements OnInit {
     if(this.searchMore == true){
       if(this.simple == true){
         console.log('in the if')
-        this.recentSearch(this.searchVal, 20, skip);
+        this.recentSearch1(this.searchVal, 20, skip);
       }else{
         console.log('in the else')
         this.advancedSearch(this.searchObj, 20, skip);
