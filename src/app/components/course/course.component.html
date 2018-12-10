@@ -1566,7 +1566,7 @@
   <div *ngIf="activeTab == 'invoice'" class="tabs-inv">
     <div *ngIf="showInvoice == true">
       <div *ngIf="feesBox == true" class="overlayInv"></div>
-      <div *ngIf="singleUserData.invoice.status == 'PAID[PARTIAL]'" class="paid-header">PARTIAL PAID <span *ngIf="invCurrency.sign != '' || invCurrency.sign != undefined" class="invoice-label" style="background: #f2f4f5;padding: 2px;">{{ invCurrency.sign }} {{ payment.amount }}</span></div>
+      <div *ngIf="singleUserData.invoice.status == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL] <span *ngIf="invCurrency.sign != '' || invCurrency.sign != undefined" class="invoice-label" style="background: #f2f4f5;padding: 2px;">{{ invCurrency.sign }} {{ payment.amount }}</span></div>
       <div class="invoice-container">
         <div class="d-flex justify-content-between">
           <div class="logo-wrapper">
@@ -1848,7 +1848,7 @@
             </div>
           </div>
         </div> -->
-        <div *ngIf="invPayment != undefined || invPayment != []">
+        <!-- <div *ngIf="payment != undefined || payment != []"> -->
           <!-- <div *ngFor="let payment of invPayment"> -->
             <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
               <div class="col-md-4 p-0 d-flex paid-amount">
@@ -1879,7 +1879,7 @@
               </div>
             </div>
           <!-- </div> -->
-        </div>
+        <!-- </div> -->
         <div class="d-flex invoice-label fees-header bg-label">
           <div class="col-md-5 p-0">Course</div>
           <div class="col-md-1 p-0 text-right">Quantity</div>
