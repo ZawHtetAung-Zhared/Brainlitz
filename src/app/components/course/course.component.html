@@ -618,7 +618,7 @@
                   <div class="carret-box"></div>
                   <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
                   <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
-                  <li (click)="showTabsModal(tabsModal,'invoice',user)">View invoice</li>
+                  <li (click)="showTabsModal(tabsModal,'invoice',user)" class="view-li"><button [disabled]="user.invoice == null">View invoice</button></li>
                   <li (click)="openRemoveModal(user.userId, deleteModal,user.preferredName)">Withdraw User</li>
                 </ul>
               </div>
@@ -1175,7 +1175,7 @@
                     <h5>CourseFee</h5>
                     <div class="d-flex popup-input">
                       <div class="input-sign">
-                       {{ currency.invCurrencySign }}
+                       {{ invCurrency.sign }}
                       </div>
                       <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
                     </div>
@@ -1200,7 +1200,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.courseFee.fee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.courseFee.fee}}</div>
             </div>
           </div>
         </div>
@@ -1219,7 +1219,7 @@
             <div class="col-md-2 p-0 text-right price-info">
               {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
             </div>
-            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee.fee}}</div>
+            <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.registrationFee.fee}}</div>
           </div>
         </div>
         <div *ngIf="hideMisc == false" class="d-flex inv-row">
@@ -1237,7 +1237,7 @@
             <div class="col-md-2 p-0 text-right price-info">
               {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
             </div>
-            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.miscFee.fee}}</div>
+            <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.miscFee.fee}}</div>
           </div>
         </div>
         <div *ngIf="hideDeposit == false" class="d-flex inv-row">
@@ -1251,7 +1251,7 @@
               <p class="mb-0">{{data.deposit}}</p>
             </div>
             <div class="col-md-2 p-0 text-right price-info"></div>
-            <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.deposit}}</div>
+            <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.deposit}}</div>
           </div>
         </div>
         <hr class="invoice-hr">
@@ -1266,7 +1266,7 @@
                 <div class="col-sm-5 p-0">
                 </div>
               </div>
-              <div class="col-md-4 text-right">{{ currency.invCurrencySign }} {{ data.subtotal }}</div>
+              <div class="col-md-4 text-right">{{ invCurrency.sign }} {{ data.subtotal }}</div>
             </div>
             <!-- <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
@@ -1336,7 +1336,7 @@
                 </div>
                 <div class="col-sm-5 text-right p-0"></div>
               </div>
-              <div class="col-md-4 text-right">{{ currency.invCurrencySign }}  {{ total }}</div>
+              <div class="col-md-4 text-right">{{ invCurrency.sign }}  {{ total }}</div>
             </div>
           </div>
         </div>
@@ -1429,7 +1429,7 @@
     <div class="d-flex tab-section">
       <button [ngClass]="{'active': activeTab == 'makeup'}" class="btn course-tab active" (click)="clickTab('makeup')">Issue makeup</button>
       <button [ngClass]="{'active': activeTab == 'transfer'}" class="btn course-tab active" (click)="clickTab('transfer')">Transfer class</button>
-      <button [ngClass]="{'active': activeTab == 'invoice'}" class="btn course-tab active" (click)="clickTab('invoice')">View invoice</button>
+      <button [ngClass]="{'active': activeTab == 'invoice'}" class="btn course-tab active" (click)="clickTab('invoice')" [disabled]="singleUserData.invoice == null">View invoice</button>
     </div>
   </div>
   <form *ngIf="activeTab == 'makeup'" class="form-wrap" novalidate #customerForm="ngForm">
@@ -1567,6 +1567,7 @@
   <div *ngIf="activeTab == 'invoice'" class="tabs-inv">
     <div *ngIf="showInvoice == true">
       <div *ngIf="feesBox == true" class="overlayInv"></div>
+      <div *ngIf="singleUserData.invoice.status == 'PAID[PARTIAL]'" class="paid-header">PARTIAL PAID <span *ngIf="invCurrency.sign != '' || invCurrency.sign != undefined" class="invoice-label" style="background: #f2f4f5;padding: 2px;">{{ invCurrency.sign }} {{ payment.amount }}</span></div>
       <div class="invoice-container">
         <div class="d-flex justify-content-between">
           <div class="logo-wrapper">
@@ -1632,7 +1633,7 @@
                       <h5>CourseFee</h5>
                       <div class="d-flex popup-input">
                         <div class="input-sign">
-                         {{ currency.invCurrencySign }}
+                         {{ invCurrency.sign }}
                         </div>
                         <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
                       </div>
@@ -1657,7 +1658,7 @@
                 <div class="col-md-2 p-0 text-right price-info">
                   {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
                 </div>
-                <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.courseFee.fee}}</div>
+                <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.courseFee.fee}}</div>
               </div>
             </div>
           </div>
@@ -1676,7 +1677,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee.fee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.registrationFee.fee}}</div>
             </div>
           </div>
           <div *ngIf="hideMisc == false" class="d-flex inv-row">
@@ -1694,7 +1695,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.miscFee.fee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.miscFee.fee}}</div>
             </div>
           </div>
           <div *ngIf="hideDeposit == false" class="d-flex inv-row">
@@ -1708,7 +1709,7 @@
                 <p class="mb-0">{{data.deposit}}</p>
               </div>
               <div class="col-md-2 p-0 text-right price-info"></div>
-              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.deposit}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.deposit}}</div>
             </div>
           </div>
           <hr class="invoice-hr">
@@ -1723,7 +1724,7 @@
                   <div class="col-sm-5 p-0">
                   </div>
                 </div>
-                <div class="col-md-4 text-right">{{ currency.invCurrencySign }} {{ data.subtotal }}</div>
+                <div class="col-md-4 text-right">{{ invCurrency.sign }} {{ data.subtotal }}</div>
               </div>
               <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
                 <div class="col-md-8 d-flex p-0">
@@ -1732,7 +1733,7 @@
                   </div>
                   <div class="col-sm-5 text-right p-0"></div>
                 </div>
-                <div class="col-md-4 text-right">{{ currency.invCurrencySign }}  {{ total }}</div>
+                <div class="col-md-4 text-right">{{ invCurrency.sign }}  {{ total }}</div>
               </div>
             </div>
           </div>
@@ -1849,7 +1850,7 @@
           </div>
         </div> -->
         <div *ngIf="invPayment != undefined || invPayment != []">
-          <div *ngFor="let payment of invPayment">
+          <!-- <div *ngFor="let payment of invPayment"> -->
             <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
               <div class="col-md-4 p-0 d-flex paid-amount">
                 <span>{{ currency.invCurrencySign }}</span>
@@ -1878,7 +1879,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          <!-- </div> -->
         </div>
         <div class="d-flex invoice-label fees-header bg-label">
           <div class="col-md-5 p-0">Course</div>
@@ -1905,7 +1906,7 @@
                 <div class="col-md-2 p-0 text-right price-info">
                   {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
                 </div>
-                <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.courseFee.fee}}</div>
+                <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.courseFee.fee}}</div>
               </div>
             </div>
           </div>
@@ -1921,7 +1922,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.registrationFee.fee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.registrationFee.fee}}</div>
             </div>
           </div>
           <div *ngIf="hideMisc == false" class="d-flex inv-row">
@@ -1936,7 +1937,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.miscFee.fee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.miscFee.fee}}</div>
             </div>
           </div>
           <div *ngIf="hideDeposit == false" class="d-flex inv-row">
@@ -1947,7 +1948,7 @@
                 <p class="mb-0">{{data.deposit}}</p>
               </div>
               <div class="col-md-2 p-0 text-right price-info"></div>
-              <div class="col-md-2 p-0 text-right price-info">{{ currency.invCurrencySign }} {{data.deposit}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{ invCurrency.sign }} {{data.deposit}}</div>
             </div>
           </div>
           <hr class="invoice-hr">
@@ -1962,7 +1963,7 @@
                   <div class="col-sm-5 p-0">
                   </div>
                 </div>
-                <div class="col-md-4 text-right">{{ currency.invCurrencySign }} {{ data.subtotal }}</div>
+                <div class="col-md-4 text-right">{{ invCurrency.sign }} {{ data.subtotal }}</div>
               </div>
               <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
                 <div class="col-md-8 d-flex p-0">
@@ -1971,7 +1972,7 @@
                   </div>
                   <div class="col-sm-5 text-right p-0"></div>
                 </div>
-                <div class="col-md-4 text-right">{{ currency.invCurrencySign }}  {{ total }}</div>
+                <div class="col-md-4 text-right">{{ invCurrency.sign }}  {{ total }}</div>
               </div>
             </div>
           </div>

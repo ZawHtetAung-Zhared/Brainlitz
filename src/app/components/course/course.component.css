@@ -719,8 +719,8 @@ ul.options-box li:last-child {
     display:inline-block;
     width: 30px;
     height: 16px;
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    -ms-transform: rotate(45deg); 
+    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
 .closemark_stem ,
@@ -790,6 +790,13 @@ ul.options-box li:last-child {
 }*/
 li button{
     margin-left: 20px !important;
+}
+
+.view-li button{
+  margin-left: 0!important;
+  padding: 0;
+  border: none;
+  color: #212529;
 }
 
 .scrollable
@@ -2220,12 +2227,10 @@ input[type=number]::-webkit-outer-spin-button {
   height: 48px;
 }
 
-.closemark {
+/*.closemark {
   display:inline-block;
-  /*width: 30px;
-  height: 16px;*/
-  -ms-transform: rotate(45deg); /* IE 9 */
-  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 .closemark_stem ,
@@ -2236,7 +2241,7 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: #3d5266;
   left: 7px;
   top: 12px;
-}
+}*/
 
 .makeup-pass-title{
   font-family: Montserrat-SemiBold;

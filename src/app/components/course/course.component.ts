@@ -118,6 +118,7 @@ export class CourseComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public currency = JSON.parse(localStorage.getItem('currency'));
+  public invCurrency : any ={};
   public pplLists:any;
   public apgLists:any;
   public removeUser:any;
@@ -176,7 +177,8 @@ export class CourseComponent implements OnInit {
   public searchData: any={};
   public paymentId:any;
   public showPaidInvoice:boolean = false;
-  public invPayment = [];
+  public payment = {};
+  // public invPayment = [];
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -324,6 +326,10 @@ export class CourseComponent implements OnInit {
     }
 
     this.paymentProviders = '';
+
+    this.invCurrency = {
+      'sign': ''
+    }
 
   }
 
@@ -1340,7 +1346,16 @@ export class CourseComponent implements OnInit {
        this.invoiceID = invoice[i]._id;
        this.refInvID = invoice[i].refInvoiceId;
        this.invTaxName = invoice[i].tax.name;
-       this.invPayment = invoice[i].payments;
+       this.invCurrency = invoice[i].currency;
+       if(invoice[i].payments){
+         var invPayment = invoice[i].payments;
+         for(var j in invPayment){
+           if(invPayment[i].status == 'COMPLETE'){
+             this.payment = invPayment[i];
+             console.log("Payment",this.payment)
+           }
+         }
+       }
        var n = invoice[i].total;
        this.total = n.toFixed(2);
        this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
@@ -2034,7 +2049,8 @@ export class CourseComponent implements OnInit {
     this.updateInvData = {};
     this.availableCourses = [];
     this.makeupForm = {};
-    this.invPayment = [];
+    // this.invPayment = [];
+    this.payment = {};
     console.log("hideMisc",this.hideMisc)
     this.getCourseDetail(this.detailLists._id);
     this.getUsersInCourse(this.detailLists._id);
