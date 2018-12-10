@@ -54,6 +54,7 @@ import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
 import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
 import { ttDayPipe } from './service/pipe/timetableday.pipe';
+import { yearPipe } from './service/pipe/utcYear.pipe';
 import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
 import { ttTimePipe } from './service/pipe/timetabletime.pipe';
 import { AmPmPipe } from './service/pipe/timetablename.pipe';
@@ -102,6 +103,7 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe'
     GetTimelineDatePipe,
     GetTimelineDayPipe,
     attandanceDayPipe,
+    yearPipe,
     ttDayPipe,
     ttMonthPipe,
     ttTimePipe,
