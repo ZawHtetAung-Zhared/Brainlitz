@@ -537,7 +537,7 @@ export class CourseComponent implements OnInit {
   closeOptionsBox(event){
     var parentWrap = event.path.filter(function(res){
       // return res.className == "ml-auto remover-wrap"
-      return res.className == "col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+      return res.className == "option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
     })
     if(parentWrap.length == 0){
       this.showStudentOption = '';
@@ -993,6 +993,7 @@ export class CourseComponent implements OnInit {
     console.log(this.showCancelButton)
     console.log(this.cancelUI)
     console.log(this.cancelUi)
+    this.activeTab = 'People';
     this.currentCourse = courseId;
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);

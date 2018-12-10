@@ -589,7 +589,7 @@
               <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addUserModal('customer',customerModal,'inside', '')">Enroll class</button>
             </div>
             <div class="row customer-row">
-              <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div *ngFor="let user of pplLists.CUSTOMER" class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="d-flex flex-row single-user justify-content-center align-items-center">
                   <div *ngIf="user.invoice != null">
                     <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
@@ -746,7 +746,7 @@
                 <div class="bar">
                   <div [ngStyle]="{'width': apg.assessment.score +'%'}" class="show-progress"></div>
                 </div>
-                {{apg.assessment.score}} accomplished
+                {{apg.assessment.score}}% accomplished
               </div>
             </div>
           </div>
