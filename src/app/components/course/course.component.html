@@ -590,7 +590,7 @@
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-                <div class="d-flex flex-row single-user justify-content-center align-items-center">
+                <div (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="d-flex flex-row single-user justify-content-center align-items-center">
                   <div *ngIf="user.invoice != null">
                     <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
                       <img src="{{user.profilePic}}">
@@ -610,11 +610,12 @@
                     </p>
                   </div>
                   <div class="ml-auto remover-wrap">
-                    <span (click)="showOptions(user.userId)" (document:click)="closeOptionsBox($event)" class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
+                    <span class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
                     <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                   </div>
                 </div>
                 <ul *ngIf="showStudentOption == user.userId" class="options-box">
+                  <div class="carret-box"></div>
                   <li (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
                   <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
                   <li (click)="showTabsModal(tabsModal,'invoice',user)">View invoice</li>
@@ -626,7 +627,7 @@
         </div>
       </div>
       <div class="activeTab-content" *ngIf="activeTab == 'Class'">
-        <div class="timeline">
+        <div *ngIf="LASD != null" class="timeline">
           <div [ngStyle]="{'left': i*80 +'px'}" class="single-date" *ngFor="let timeline of detailLists.lessons; let i = index" [ngClass]="{'today': (timeline.startDate | timelineDate) == (todayDate | timelineDate), 'disable-add': timeline.startDate > todayDate}">
             <!-- <pre>{{timeline | json}}</pre> -->
            
@@ -655,7 +656,7 @@
         </div>
         <div class="mt-20">
           <div class="d-flex justify-content-between">
-            <div class="mr-auto">
+            <div *ngIf="LASD != null" class="mr-auto">
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
             </div>
@@ -684,7 +685,7 @@
                         <span class="slider round"></span>
                       </label>
                     </div>
-                    <label class="switch-label" for="online">Global makeup pass</label>
+                    <label class="switch-label" for="online">Issue makeup pass</label>
                   </div>
                   <div class="d-flex flex-wrap ">
                     <div *ngFor="let user of activeCourseInfo.CUSTOMER" >
@@ -703,7 +704,7 @@
               </div>
              <div class="modal-footer">
                <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
-               <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)">Done</button>
+               <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)">Confirm</button>
             </div>
             </ng-template>
           </div>

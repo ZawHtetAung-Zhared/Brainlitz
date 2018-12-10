@@ -526,7 +526,8 @@ export class CourseComponent implements OnInit {
 
   closeOptionsBox(event){
     var parentWrap = event.path.filter(function(res){
-      return res.className == "ml-auto remover-wrap"
+      // return res.className == "ml-auto remover-wrap"
+      return res.className == "col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
     })
     if(parentWrap.length == 0){
       this.showStudentOption = '';
@@ -1108,8 +1109,8 @@ export class CourseComponent implements OnInit {
 
         // moment1.isSameOrAfter(moment2);
 
-        this.cancelUi = (lessonCount[this.todayIndex].cancel == true ) ? false : true;
         if(this.activeToday == true){
+          this.cancelUi = (lessonCount[this.todayIndex].cancel == true ) ? false : true;
           this.LASD = lessonCount[this.todayIndex].startDate
 
         }else{
@@ -1117,6 +1118,7 @@ export class CourseComponent implements OnInit {
           console.log(lastActiveDate)
           //LASD = lastActiveStartDate
           this.LASD = lessonCount[lastActiveDate].startDate
+          this.cancelUi = (lessonCount[lastActiveDate].cancel == true ) ? false : true;
           console.log(this.LASD)
         }
       }else{
@@ -1146,7 +1148,9 @@ export class CourseComponent implements OnInit {
             this.noStudent += 1;
           }
         }
-        this.cancelButtonShowHide();
+        if(this.LASD != null ){
+          this.cancelButtonShowHide();
+        }
         $('.timeline').scrollLeft( 80*(lastActiveDate-1) );
       },err =>{
         this.blockUI.stop();
@@ -1181,7 +1185,7 @@ export class CourseComponent implements OnInit {
     // this.cancelUi=true;
     // let onlyTime = this.LASD.toString().substring(11, 19)
     // let onlyDate = this.LASD.toString().substring(0,10);
-
+    console.log(this.LASD)
     let onlyTime = this.LASD.toLocaleString().substring(11, 19)
     let onlyDate = this.LASD.toLocaleString().substring(0,10);
     // console.error(this.LASD)
@@ -1252,6 +1256,10 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop();
       console.log(err);
     });
+  }
+
+  hixxx(){
+    console.log('helo')
   }
 
   openRemoveModal(id, deleteModal, n){
@@ -1383,6 +1391,7 @@ export class CourseComponent implements OnInit {
     console.log('....')
     this.modalReference.close();
     // this.isSeatAvailable = true;
+    this.isGlobal = false;
     this.showList = false;
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
@@ -1423,6 +1432,7 @@ export class CourseComponent implements OnInit {
   }
 
   modalClose(){
+    this.isGlobal = false;
     this.cancelUItext= false;
     this.cancelUI=false;
     this.modalReference.close();

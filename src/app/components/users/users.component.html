@@ -267,16 +267,17 @@
 									<p>Issued on {{list.issueDate.day}} {{list.issueDate.month -1 | TTmonth}} {{list.issueDate.year}}</p>
 									<div class="issue-box d-flex flex-column">
 										<strong>{{list.course.name}}</strong>
-										<label><span>{{list.course.startTime.hr}} : {{list.course.startTime.min}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr}} : {{list.course.endTime.min}} {{list.course.endTime.meridiem}}</span></label>
+										<label>
+										<span>{{list.course.startTime.hr | timeFormat}} : {{list.course.startTime.min | timeFormat}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr | timeFormat}} : {{list.course.endTime.min | timeFormat}} {{list.course.endTime.meridiem}}</span></label>
 									</div>
-									<div *ngIf="activePass == 'claimed' || activePass == 'expired'">
+									<div *ngIf="activePass == 'claimed'">
 										<p>Claimed on {{list.filingDate.day}} {{list.filingDate.month -1 | TTmonth}} {{list.filingDate.year}}</p>
 										<div class="claimed-box d-flex flex-column" *ngIf="list.makeupCourse">
 											<strong>{{list.makeupCourse.name}}</strong>
 											<label *ngIf="list.makeupCourse.startTime">
-												<span>{{list.makeupCourse.startTime.hr}} : {{list.makeupCourse.startTime.min}} {{list.makeupCourse.startTime.meridiem}}</span> - 
+												<span>{{list.makeupCourse.startTime.hr | timeFormat}} : {{list.makeupCourse.startTime.min | timeFormat}} {{list.makeupCourse.startTime.meridiem}}</span> - 
 												<span>
-													{{list.makeupCourse.endTime.hr}} : {{list.makeupCourse.endTime.min}} {{list.makeupCourse.endTime.meridiem}}
+													{{list.makeupCourse.endTime.hr | timeFormat}} : {{list.makeupCourse.endTime.min | timeFormat}} {{list.makeupCourse.endTime.meridiem}}
 												</span>
 											</label>
 										</div>
