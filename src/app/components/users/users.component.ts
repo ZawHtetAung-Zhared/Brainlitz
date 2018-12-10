@@ -1006,7 +1006,7 @@ export class UsersComponent implements OnInit {
 	          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee)
 	        }else if(this.invoice[i].courseFee.taxInclusive == false){
 	          var taxRate = this.invoice[i].tax.rate;
-	          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+	          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / 100).toFixed(2);
 	          this.invoice[i].courseFee.tax =Number(taxAmount);
 	          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
 	          // var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
@@ -1368,6 +1368,16 @@ export class UsersComponent implements OnInit {
 			this.total = n.toFixed(2);
 			this.invoice[i].subtotal = Number(Number(invoice[i].subtotal).toFixed(2));
 			console.log('n and total',n,this.total);
+			if(this.invoice[i].registrationFee.fee == null){
+				this.hideReg = true;
+			}
+			if(this.invoice[i].miscFee.fee == null){
+				this.hideMisc = true;
+			}
+			if(this.invoice[i].deposit == null){
+				this.hideDeposit = true;
+			}
+			
 			this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
 			if(invoice[i].courseId == course._id){
 				this.invoiceCourse["name"] = course.name;

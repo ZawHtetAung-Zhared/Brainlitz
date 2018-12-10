@@ -600,6 +600,10 @@ ul.options-box li:last-child {
   /*padding-bottom: 0;*/
 }
 
+ul.options-box li button:hover{
+  color: #64707d;
+}
+
 .progress-wrap{
   color: #0080ff;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;

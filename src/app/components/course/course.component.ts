@@ -1998,7 +1998,7 @@ export class CourseComponent implements OnInit {
           console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee)
         }else if(this.invoice[i].courseFee.taxInclusive == false){
           var taxRate = this.invoice[i].tax.rate;
-          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / 100).toFixed(2);
           this.invoice[i].courseFee.tax =Number(taxAmount);
           console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
           // var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);

@@ -1387,6 +1387,11 @@ h3, h5 {
     font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
 
+.invModal-cancel{
+    padding: 0;
+    margin-right: 30px;
+}
+
 .amount-result{
   background: #fff080;
 }
