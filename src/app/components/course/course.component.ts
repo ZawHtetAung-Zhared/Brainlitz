@@ -725,6 +725,7 @@ export class CourseComponent implements OnInit {
   }
 
   recentSearch(val, limit, skip){
+    this.courseList = [];
     this.searchVal = val;
     this.courseVal.keyword = val;
     this.iswordcount = true;
@@ -739,6 +740,29 @@ export class CourseComponent implements OnInit {
         this.simple = true;
         this.advance = false;
       },err =>{
+        console.log(err);
+    });
+  }
+
+
+  recentSearch1(val, limit, skip){
+    this.searchVal = val;
+    this.courseVal.keyword = val;
+    this.iswordcount = true;
+    this.blockUI.start('Loading...');
+    this._service.simpleCourseSearch(this.regionId, val ,this.locationID, limit, skip)
+    .subscribe((res:any)=>{
+        this.blockUI.stop();
+        console.log(res)
+        this.blockUI.stop(); // Stop blocking
+        this.courseList = this.courseList.concat(res);
+        console.log('----- ', this.courseList)
+        this.searchMore = (res.length == 0) ? false : true;        
+        this.iscourseSearch = false;
+        this.simple = true;
+        this.advance = false;
+      },err =>{
+        this.blockUI.stop(); // Stop blocking
         console.log(err);
     });
   }
@@ -1819,7 +1843,7 @@ export class CourseComponent implements OnInit {
     if(this.searchMore == true){
       if(this.simple == true){
         console.log('in the if')
-        this.recentSearch(this.searchVal, 20, skip);
+        this.recentSearch1(this.searchVal, 20, skip);
       }else{
         console.log('in the else')
         this.advancedSearch(this.searchObj, 20, skip);
