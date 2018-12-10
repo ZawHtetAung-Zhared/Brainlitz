@@ -738,7 +738,6 @@
 		</form>
 	</div>
 	<div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false">
-		{{invStatus}}
 	    <div *ngIf="feesBox == true" class="overlayInv"></div>
 	    <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL] 
 	    	<span class="invoice-label" style="background: #f2f4f5;padding: 2px;">{{ invCurrency.sign }} {{ payment.amount }}</span>
