@@ -26,6 +26,7 @@ export class CourseComponent implements OnInit {
   public showStudentOption:any;
   public currentDateObj:any = '';
   public isvalid:boolean = false;
+  public isGlobal:boolean = false;
   public searchMore:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
@@ -1397,21 +1398,23 @@ export class CourseComponent implements OnInit {
       "lessonId": lessonId
     }
     console.log(lessonId)
+    console.log(this.isGlobal)
 
     // Call cancel class api service
-    this._service.cancelUsersFromClass(this.courseId, data)
+    this._service.cancelUsersFromClass(this.courseId, data, this.isGlobal)
     .subscribe((res:any) => {
       // Success function
       this.cancelUI=false;
       this.cancelUi=false;
       console.info("cancle user from class api calling is done");
       console.log(res)
-      
+      this.isGlobal = false;
       this.getCourseDetail(this.courseId);
       // Close Dialog box
       // Show the canceled users
     },err => {
       // Error function  
+      this.isGlobal = false;
       console.error('cancle user from class has got error',  err);
       // Do something
     })
@@ -2329,5 +2332,8 @@ export class CourseComponent implements OnInit {
     this.showInvoice = true;
   }
 
+  globalMakeupPass(){
+    //this.isGlobal = true;
+  }
 
 }

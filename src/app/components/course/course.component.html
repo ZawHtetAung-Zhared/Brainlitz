@@ -675,9 +675,17 @@
                       <div class="closemark_kick"></div>
                     </span>
                   </button>
-                
               </div>
               <div class="modal-body">
+                  <div class="d-flex mb-4">
+                    <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+                      <label class="switch">
+                        <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <label class="switch-label" for="online">Global makeup pass</label>
+                  </div>
                   <div class="d-flex flex-wrap ">
                     <div *ngFor="let user of activeCourseInfo.CUSTOMER" >
                         <div class="d-flex flex-row justify-content-between single-student align-items-center bg-primary text-white" style="margin:0px 20px 20px 0px!important; width: 200px!important;">
