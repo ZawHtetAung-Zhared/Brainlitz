@@ -82,7 +82,7 @@ export class StaffPerformanceReport implements OnInit {
   }
   ngOnInit() {
     this.filterModel = 'Category';
-    this.filter = {type: "Category", 'value': []};
+    this.filter = {type: "category", 'value': []};
     this.searchResult = {
       show: false,
       value: this.categoryList
@@ -132,12 +132,12 @@ export class StaffPerformanceReport implements OnInit {
     //[TODO:Update better way to iterate data]
 
     if (staffData) { //check if we have data to show report
-      let result = this.getFilteredDataGroupByLocation(staffData.location);
-      if (result.length && this.filter.type && this.filter.type != 'location') {
-        this.reportData = this.mergeDuplicateObject(result);
-      } else {
-        this.reportData = result;
-      }
+      this.reportData = this.getFilteredDataGroupByLocation(staffData.location);
+      // if (result.length && this.filter.type && this.filter.type != 'location') {
+      //   this.reportData = this.mergeDuplicateObject(result);
+      // } else {
+      //   this.reportData = result;
+      // }
     } else {
       //Not enough data to show report
       this.reportData = [];
@@ -150,14 +150,14 @@ export class StaffPerformanceReport implements OnInit {
    */
   showReportByCategory() {
     if (staffData) { //check if we have data to show report
-      let result = this.getFilteredDataGroupByCategory(staffData.category);
+      this.reportData = this.getFilteredDataGroupByCategory(staffData.category);
       console.log("result after filter");
-      console.log(result);
-      if (result.length && this.filter.type && this.filter.type != 'category') {
-        this.reportData = this.mergeDuplicateObject(result);
-      } else {
-        this.reportData = result;
-      }
+      //console.log(result);
+      // if (result.length && this.filter.type && this.filter.type != 'category') {
+      //   this.reportData = this.mergeDuplicateObject(result);
+      // } else {
+      //   this.reportData = result;
+      // }
     } else {
       //Not enough data to show report
       this.reportData = [];
@@ -169,14 +169,14 @@ export class StaffPerformanceReport implements OnInit {
    */
   showReportByCoursePlan() {
     if (staffData) { //check if we have data to show report
-      let result = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
+      this.reportData = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
       console.log("result after filter");
-      console.log(result);
-      if (result.length && this.filter.value && this.filter.value.length && this.filter.type != 'coursePlan') {
-        this.reportData = this.mergeDuplicateObject(result);
-      } else {
-        this.reportData = result;
-      }
+      //console.log(result);
+      // if (result.length && this.filter.value && this.filter.value.length && this.filter.type != 'coursePlan') {
+      //   this.reportData = this.mergeDuplicateObject(result);
+      // } else {
+      //   this.reportData = result;
+      // }
     } else {
       //Not enough data to show report
       this.reportData = [];
@@ -194,9 +194,11 @@ export class StaffPerformanceReport implements OnInit {
     let res = [];
     switch (filter.type) {
       case "location":
-        data = data.filter(function (d) {
-          return filter.value.indexOf(d.locationName) > -1;
-        });
+        if(filter.value.length){
+          data = data.filter(function (d) {
+            return filter.value.indexOf(d.locationName) > -1;
+          });
+        }
         res = getLocationData(data);
         break;
       case "category":
@@ -276,9 +278,13 @@ export class StaffPerformanceReport implements OnInit {
           id: "graph" + Math.floor(Math.random() * 10000)
         };
         let categories = location.categories || [];
-        categories = categories.filter(function (d) {
-          return filter.value.indexOf(d.catName) > -1;
-        });
+        if(filter.value.length){
+          categories = categories.filter(function (d) {
+            return filter.value.indexOf(d.catName) > -1;
+          });
+        }
+        console.log("category filter groupBy location");
+        console.log(categories);
         categories.forEach(function (category) {
 
           let coursePlans = category.coursePlans || [];
@@ -324,9 +330,11 @@ export class StaffPerformanceReport implements OnInit {
         categories.forEach(function (category) {
           let coursePlans = category.coursePlans || [];
           //iterate coursePlans under categories
-          coursePlans = coursePlans.filter(function (d) {
-            return filter.value.indexOf(d.coursePlanName) > -1;
-          });
+          if(filter.value.length) {
+            coursePlans = coursePlans.filter(function (d) {
+              return filter.value.indexOf(d.coursePlanName) > -1;
+            });
+          }
           coursePlans.forEach(function (coursePlan) {
 
             let courses = coursePlan.courses || [];
@@ -373,9 +381,11 @@ export class StaffPerformanceReport implements OnInit {
           coursePlans.forEach(function (coursePlan) {
             let courses = coursePlan.courses || [];
             //iterate courses under coursePlans
-            courses = courses.filter(function (d) {
-              return filter.value.indexOf(d.courseName) > -1;
-            });
+            if(filter.value.length) {
+              courses = courses.filter(function (d) {
+                return filter.value.indexOf(d.courseName) > -1;
+              });
+            }
             courses.forEach(function (course) {
 
               let rating = course.rating || [];
@@ -410,9 +420,11 @@ export class StaffPerformanceReport implements OnInit {
         res = filterDataByLocation(data);
         break;
       case "category":
-        data = data.filter(function (d) {
-          return filter.value.indexOf(d.catName) > -1;
-        });
+        if(filter.value.length) {
+          data = data.filter(function (d) {
+            return filter.value.indexOf(d.catName) > -1;
+          });
+        }
         res = getCategoryData(data);
         break;
       case "coursePlan":
@@ -491,9 +503,11 @@ export class StaffPerformanceReport implements OnInit {
         coursePlans.forEach(function (coursePlan) {
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
-          courses = courses.filter(function (d) {
-            return filter.value.indexOf(d.location) > -1;
-          });
+          if(filter.value.length) {
+            courses = courses.filter(function (d) {
+              return filter.value.indexOf(d.location) > -1;
+            });
+          }
           courses.forEach(function (course) {
             let rating = course.rating || [];
             rating.forEach(function (value) {
@@ -530,9 +544,11 @@ export class StaffPerformanceReport implements OnInit {
         };
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
-        coursePlans = coursePlans.filter(function (d) {
-          return filter.value.indexOf(d.coursePlanName) > -1;
-        });
+        if(filter.value.length) {
+          coursePlans = coursePlans.filter(function (d) {
+            return filter.value.indexOf(d.coursePlanName) > -1;
+          });
+        }
         coursePlans.forEach(function (coursePlan) {
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
@@ -574,9 +590,11 @@ export class StaffPerformanceReport implements OnInit {
         coursePlans.forEach(function (coursePlan) {
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
-          courses = courses.filter(function (d) {
-            return filter.value.indexOf(d.courseName) > -1;
-          });
+          if(filter.value.length) {
+            courses = courses.filter(function (d) {
+              return filter.value.indexOf(d.courseName) > -1;
+            });
+          }
           courses.forEach(function (course) {
 
             let rating = course.rating || [];
@@ -613,9 +631,11 @@ export class StaffPerformanceReport implements OnInit {
         res = filterDataByCategory(data);
         break;
       case "coursePlan":
-        data = data.filter(function (d) {
-          return filter.value.indexOf(d.coursePlanName) > -1;
-        });
+        if(filter.value.length) {
+          data = data.filter(function (d) {
+            return filter.value.indexOf(d.coursePlanName) > -1;
+          });
+        }
         res = getCoursePlanData(data);
         break;
       case "course":
@@ -686,9 +706,11 @@ export class StaffPerformanceReport implements OnInit {
           id: "graph" + Math.floor(Math.random() * 10000)
         };
         let categories = coursePlan.categories || [];
-        categories = categories.filter(function (d) {
-          return filter.value.indexOf(d.catName) > -1;
-        });
+        if(filter.value.length) {
+          categories = categories.filter(function (d) {
+            return filter.value.indexOf(d.catName) > -1;
+          });
+        }
         categories.forEach(function (category) {
 
           let courses = category.courses || [];
@@ -733,9 +755,11 @@ export class StaffPerformanceReport implements OnInit {
         categories.forEach(function (category) {
           let courses = category.courses || [];
           //iterate courses under coursePlans
-          courses = courses.filter(function (d) {
-            return filter.value.indexOf(d.location) > -1;
-          });
+          if(filter.value.length) {
+            courses = courses.filter(function (d) {
+              return filter.value.indexOf(d.location) > -1;
+            });
+          }
           courses.forEach(function (course) {
             let rating = course.rating || [];
             rating.forEach(function (value) {
@@ -776,9 +800,11 @@ export class StaffPerformanceReport implements OnInit {
         categories.forEach(function (category) {
           let courses = category.courses || [];
           //iterate courses under coursePlans
-          courses = courses.filter(function (d) {
-            return filter.value.indexOf(d.courseName) > -1;
-          });
+          if(filter.value.length) {
+            courses = courses.filter(function (d) {
+              return filter.value.indexOf(d.courseName) > -1;
+            });
+          }
           courses.forEach(function (course) {
             let rating = course.rating || [];
             rating.forEach(function (value) {
@@ -932,10 +958,8 @@ export class StaffPerformanceReport implements OnInit {
   }
 
   removeAllFilters() {
-    this.filter = {
-      type: "",
-      value: []
-    };
+    this.filter.value = [];
+    this.searchResult.value = this.categoryList;
     this.applyFilters();
   }
 
@@ -958,6 +982,8 @@ export class StaffPerformanceReport implements OnInit {
   }
 
   applyFilters() {
+    console.log("inside applyFilters");
+    console.log(this.filter);
     switch (this.groupBy) {
       case "location":
         console.log("calling showReportByLocation");
