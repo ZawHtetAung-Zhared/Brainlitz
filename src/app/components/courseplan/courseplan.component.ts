@@ -346,7 +346,11 @@ export class CourseplanComponent implements OnInit {
     localStorage.removeItem("categoryID");
     localStorage.removeItem("cpCategory");
     localStorage.removeItem("editCPId");
-    this._service.backCourse();
+    if(this.isEditCP == true){
+      this._service.backPlanDetail();
+    }else{
+      this._service.backCourse();
+    }
   }
 
 	checkedData(id){

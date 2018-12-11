@@ -52,6 +52,9 @@ export class appService{
     goCourseDetail: Observable<any>;
     private backCDetail = new Subject<any>();
 
+    goPlanDetail: Observable<any>;
+    private backCPdetail = new Subject<any>();
+
     lnameChanges: Observable<any>;
     private lnameUpdated = new Subject<any>();
 
@@ -69,6 +72,7 @@ export class appService{
       this.goCourse = this.backCo.asObservable();
       this.goCourseCreate = this.backCC.asObservable();
       this.goCourseDetail = this.backCDetail.asObservable();
+      this.goPlanDetail = this.backCPdetail.asObservable();
       this.lnameChanges = this.lnameUpdated.asObservable();
     }
 
@@ -103,6 +107,10 @@ export class appService{
 
     backCourseDetail(){
       this.backCDetail.next(false)
+    }
+
+    backPlanDetail(){
+      this.backCPdetail.next(false)
     }
 
     gotoplan(){

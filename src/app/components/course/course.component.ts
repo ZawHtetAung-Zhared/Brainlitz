@@ -243,6 +243,16 @@ export class CourseComponent implements OnInit {
       this.showCourseDetail(this.courseId);
       this.courseList = []
     })
+
+    this._service.goPlanDetail.subscribe(() => {
+      console.log("go back PlanDetail",this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCoursePlanDetail = true;
+      this.courseList = []
+    })
   }
 
   ngOnInit() {
