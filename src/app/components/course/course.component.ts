@@ -182,7 +182,7 @@ export class CourseComponent implements OnInit {
   public paymentId:any;
   public showPaidInvoice:boolean = false;
   public invPayment = [];
-  public invStatus;any;
+  public invStatus:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -232,6 +232,17 @@ export class CourseComponent implements OnInit {
       this.courseList = []
       console.log(this.courseList.length)
     });
+
+    this._service.goCourseDetail.subscribe(() => {
+      console.log("go back CDetail",this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCourseDetail = true;
+      this.showCourseDetail(this.courseId);
+      this.courseList = []
+    })
   }
 
   ngOnInit() {

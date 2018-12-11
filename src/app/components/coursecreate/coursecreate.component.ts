@@ -346,9 +346,16 @@ export class CoursecreateComponent implements OnInit {
   }
 
   backToCourses(ToCourses){
-    console.log('backtocourse')
+    // console.log('backtocourse')
     // this.router.navigate(['/course']);
-    this._service.backCourse();
+    if(this.isEdit == true){
+      console.log('backtocourseDetail');
+      this._service.backCourseDetail();
+    }else{
+      console.log('backtocourse')
+      this._service.backCourse();
+    }
+    
     localStorage.removeItem('cPlan');
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
