@@ -347,6 +347,12 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  @HostListener('document:click', ['$event']) clickedOutside($event){
+     // here you can hide your menu
+     this.xxxhello = '';
+     console.log("CLICKED OUTSIDE");
+   }
+
   //start course search
 
   focusCourseSearch(){
@@ -1441,6 +1447,8 @@ export class CourseComponent implements OnInit {
   }
 
   showOptionsBox(stdID, e){
+    e.preventDefault();
+    e.stopPropagation();
     console.log("stdID",stdID);
     console.log(e)
     console.log(e.layerY)
