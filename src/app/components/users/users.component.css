@@ -1808,3 +1808,10 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: none!important;
     outline: none!important;
 }
+
+.inv-bordered div.inv-row .b-bottom{
+  border-bottom: 1px solid #edeff0;
+}
+.inv-bordered div:last-child.inv-row .b-bottom {
+    border-bottom: 1px solid transparent;
+}

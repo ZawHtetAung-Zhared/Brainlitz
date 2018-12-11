@@ -2104,6 +2104,9 @@ button:disabled{
 .inv-bordered div:last-child.inv-row .b-bottom {
     border-bottom: 1px solid transparent;
 }
+.b-bottom{
+  border-bottom: 1px solid #edeff0;
+}
 
 .invoice-hr{
   border-top: 2px solid #edeff0;
