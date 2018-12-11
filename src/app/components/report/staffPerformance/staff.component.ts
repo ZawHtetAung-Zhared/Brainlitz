@@ -254,7 +254,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
         obj.groupTypeValue = location.locationName;
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -303,7 +305,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -351,7 +355,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -400,7 +406,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2)) || 0;
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -474,7 +482,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -519,7 +529,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -562,7 +574,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -608,7 +622,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -682,7 +698,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -726,7 +744,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -771,7 +791,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
@@ -816,7 +838,9 @@ export class StaffPerformanceReport implements OnInit {
         obj.totalRating = _self.getTotalRating(obj.rating);
         obj.ratingWeightage = _self.getRatingWeightage(obj.rating);
         obj.averageRating = parseFloat((obj.ratingWeightage / obj.totalRating).toFixed(2));
-        result.push(obj);
+        if(obj.totalRating>0){
+          result.push(obj);
+        }
       });
       return result;
     }
