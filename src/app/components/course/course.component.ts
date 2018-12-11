@@ -24,7 +24,8 @@ export class CourseComponent implements OnInit {
   public yPosition:any;
   public singleUserData:any = '';
   public makeupForm:any = {};
-  public showStudentOption:any;
+  public showStudentOption:any = '';
+  public xxxhello:any = '';
   public currentDateObj:any = '';
   public isvalid:boolean = false;
   public isGlobal:boolean = false;
@@ -125,6 +126,7 @@ export class CourseComponent implements OnInit {
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
+  public activeUserTab:any = '';
   public result:any;
   isSticky:boolean = false;
   showBtn:boolean = false;
@@ -532,12 +534,14 @@ export class CourseComponent implements OnInit {
   }
 
   closeOptionsBox(event){
+    console.log('~~~')
     var parentWrap = event.path.filter(function(res){
       // return res.className == "ml-auto remover-wrap"
       return res.className == "option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
     })
     if(parentWrap.length == 0){
       this.showStudentOption = '';
+      this.xxxhello = '';
     }
   }
 
@@ -969,6 +973,8 @@ export class CourseComponent implements OnInit {
   // start course detail
 
   cancel(){
+    this.xxxhello = '';
+    this.showStudentOption = '';
     this.isCourseDetail = false;
     this.isCoursePlanDetail = false;
     this.courseList = [];
@@ -990,6 +996,8 @@ export class CourseComponent implements OnInit {
     console.log(this.showCancelButton)
     console.log(this.cancelUI)
     console.log(this.cancelUi)
+    this.xxxhello = '';
+    this.showStudentOption = '';
     this.activeTab = 'People';
     this.currentCourse = courseId;
     this.isCourseDetail = true;
@@ -1077,8 +1085,13 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  clickTab(type){
-    this.activeTab = type;
+  clickTab(type, state){
+    if(state == 'course'){
+      this.activeTab = type;
+    }else if(state == 'user'){
+      this.makeupForm = {};
+      this.activeUserTab = type;
+    }
     this.noStudent = 0;
     this.presentStudent = 0;
     this.absentStudent = 0;
@@ -1297,6 +1310,8 @@ export class CourseComponent implements OnInit {
   openRemoveModal(id, deleteModal, n){
     // this.getSingleUser(id, 'withdraw')
     console.log('__', n)
+    this.showStudentOption = '';
+    this.xxxhello = '';
     this.deleteId = id;
     this.removeUser= n;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
@@ -1408,12 +1423,15 @@ export class CourseComponent implements OnInit {
      }
   }
 
-  showOptions(id, e){
-    console.log("id",id);
+  showOptionsBox(stdID, e){
+    console.log("stdID",stdID);
     console.log(e)
     console.log(e.layerY)
-    this.yPosition = e.layerY;
-    this.showStudentOption = id;
+    this.yPosition = e.layerY + 40;
+    // this.yPosition = e.offsetY - 30;
+    this.showStudentOption = stdID;
+    this.xxxhello = stdID;
+    console.log(this.showStudentOption)
   }
 
   withdrawUser(id){
@@ -1444,6 +1462,8 @@ export class CourseComponent implements OnInit {
     this.selectedTeacherLists = []
     this.showInvoice = false;
     this.currentDateObj = '';
+    this.showStudentOption = '';
+    this.xxxhello = '';
   }
   cancelClass(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
@@ -2029,6 +2049,8 @@ export class CourseComponent implements OnInit {
   }
 
   sendInvoice(){
+    this.showStudentOption = '';
+    this.xxxhello = '';
     console.log("send Invoice",this.invoiceID);
     var mailArr = [];
     mailArr.push(this.selectedCustomer.email);
@@ -2068,6 +2090,8 @@ export class CourseComponent implements OnInit {
   }
 
   cancelInvoiceModal(){
+    this.showStudentOption = '';
+    this.xxxhello = '';
     this.modalReference.close();
     this.showList = false;
     this.selectedCustomer = {};
@@ -2138,6 +2162,8 @@ export class CourseComponent implements OnInit {
   }
 
   payNow(type){
+    this.showStudentOption = '';
+    this.xxxhello = '';
     console.log("Pay Now",this.paymentItem,this.paymentId);
     let body = {
       'regionId': this.regionId,
@@ -2272,7 +2298,9 @@ export class CourseComponent implements OnInit {
 
   showTabsModal(modal,type,data){
     console.log("show Tabs Modal",type, data)
-    this.activeTab = type;
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    this.activeUserTab = type;
     this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data);
@@ -2361,6 +2389,8 @@ export class CourseComponent implements OnInit {
   }
 
   transferClass(course,userid){
+    this.showStudentOption = '';
+    this.xxxhello = '';
     console.log("transfer class",course,userid);
     let body = {
       "from": this.detailLists._id,
@@ -2382,6 +2412,8 @@ export class CourseComponent implements OnInit {
     console.log(obj)
     console.log(userId)
     console.log(this.detailLists._id)
+    this.showStudentOption = '';
+    this.xxxhello = '';
     this._service.makeupPassIssue(obj, this.detailLists._id, userId)
     .subscribe((res:any) => { 
       console.log(res)     
