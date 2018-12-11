@@ -49,7 +49,7 @@ export class CourseActivitiesReport implements OnInit{
     this.filterModel = 'Category';
     this.selectedFilter = "";
     this.selectedFilterType = '0';
-    this.filter = {type: "", 'value': []};
+    this.filter = {type: "category", 'value': []};
     this.searchResult = {
       show: false,
       value: this.categoryList
@@ -146,7 +146,9 @@ export class CourseActivitiesReport implements OnInit{
         });
       });
       obj.groupTypeValue = location.locationName;
-      res.push(obj);
+      if(obj.lessons.count>0){
+        res.push(obj);
+      }
     });
     return res;
   }
@@ -199,7 +201,9 @@ export class CourseActivitiesReport implements OnInit{
           });
         });
       });
-      result.push(obj);
+      if(obj.lessons.count>0){
+        result.push(obj);
+      }
     });
     return result;
   }
@@ -252,7 +256,9 @@ export class CourseActivitiesReport implements OnInit{
           });
         });
       });
-      result.push(obj);
+      if(obj.lessons.count>0){
+        result.push(obj);
+      }
     });
     return result;
   }
