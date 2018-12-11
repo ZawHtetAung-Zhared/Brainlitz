@@ -1001,6 +1001,10 @@ export class CourseComponent implements OnInit {
     console.log(this.showCancelButton)
     console.log(this.cancelUI)
     console.log(this.cancelUi)
+    this.categoryIDArray = [];
+    this.planIDArray = [];
+    this.repeatedDaysTemp = [];
+    this.courseVal.keyword = '';
     this.xxxhello = '';
     this.showStudentOption = '';
     this.activeTab = 'People';
@@ -1015,6 +1019,11 @@ export class CourseComponent implements OnInit {
   }
 
   showCPDetail(planID){
+    console.log('cp')
+    this.categoryIDArray = [];
+    this.planIDArray = [];
+    this.repeatedDaysTemp = [];
+    this.courseVal.keyword = '';
     this.editplanId = planID;
     console.log('hi', planID)
     this.isCoursePlanDetail = true;
@@ -1835,6 +1844,10 @@ export class CourseComponent implements OnInit {
 
   // end course detail
   changeRoute(){
+    this.categoryIDArray = [];
+    this.planIDArray = [];
+    this.repeatedDaysTemp = [];
+    this.courseVal.keyword = '';
     this.isCategory = true;
     this.goBackCat = false;
     localStorage.removeItem("cpCategory");
