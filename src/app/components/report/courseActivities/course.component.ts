@@ -28,6 +28,7 @@ export class CourseActivitiesReport implements OnInit{
   selectedFilterType:any;
   daterange: any = {};
   options: any;
+  filterModel:any;
   constructor(private daterangepickerOptions: DaterangepickerConfig,private modalService:NgbModal,private _service:appService) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -45,12 +46,13 @@ export class CourseActivitiesReport implements OnInit{
     };
   }
   ngOnInit() {
+    this.filterModel = 'Category';
     this.selectedFilter = "";
     this.selectedFilterType = '0';
     this.filter = {type: "", 'value': []};
     this.searchResult = {
       show: false,
-      value: []
+      value: this.categoryList
     };
     this.options= {
       startDate: moment().startOf('hour'),
@@ -279,6 +281,7 @@ export class CourseActivitiesReport implements OnInit{
     }
   }
   updateFilterType(value) {
+    this.filterModel = value;
     this.filter = {
       value: []
     };
@@ -303,11 +306,6 @@ export class CourseActivitiesReport implements OnInit{
   }
   showFilterModal(content) {
     this.searchResult.show = false;
-    this.searchResult.value = this.categoryList;
-    this.filter = {
-      type: "category",
-      value: []
-    };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
@@ -315,27 +313,21 @@ export class CourseActivitiesReport implements OnInit{
     });
 
     this.modalReference.result.then((result) => {
-      console.log(result);
+      //console.log(result);
     }, (reason) => {
-      console.log(reason);
+      //console.log(reason);
     });
   }
 
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
-    if (!this.filter.value.length) {
-      this.filter.type = ""
-    }
-    ;
     this.applyFilters();
   }
 
   removeAllFilters() {
-    this.filter = {
-      type: "",
-      value: []
-    };
+    this.filter.value = [];
+    this.searchResult.value = this.categoryList;
     this.applyFilters();
   }
 
