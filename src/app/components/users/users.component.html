@@ -205,7 +205,7 @@
 								<div class="d-flex info-wrap">
 									<div class="timetable-col">
 										<label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
-										<p class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}</p>
+										<p *ngIf="course.duration" class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}</p>
 									</div>
 									<div class="d-flex timetable-col day-wrap info-wrap">
 										<div *ngIf="course.startDate" class="timetable-col">
@@ -844,14 +844,14 @@
 	      </div>
 	      <div *ngFor="let data of invoice">
 	        <div>
-	          <div class="inv-Cname">
+	          <div class="inv-Cname" [ngClass]="{'invC-m': invStatus == 'PAID[PARTIAL]'}">
 	            {{ invoiceCourse.name }} 
 	            <div> 
 	              <span>From: {{ invoiceCourse.startDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.endDate">To: {{ invoiceCourse.endDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.lessonCount">{{ invoiceCourse.lessonCount }} lessons</span>
 	            </div>
 	          </div>
 	          <div class="d-flex inv-courseFee">
-	            <div class="cFee-w"></div>
+	            <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="cFee-w"></div>
 	            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true && hideMisc == true}" >
 	              <div class="col-md-5 p-0 price-info">Course Fee</div>
 	              <div class="col-md-1 p-0 text-right price-info">1</div>
@@ -882,7 +882,9 @@
 	                    </span>
 	                  </button>
 	                </div>
-	                <p class="mb-0" (click)="showPopup('courseFee',data.courseFee.fee)">{{data.courseFee.fee}}</p>
+	                <p *ngIf="invStatus != 'PAID[PARTIAL]'" class="mb-0" (click)="showPopup('courseFee',data.courseFee.fee)">{{data.courseFee.fee}}</p>
+	                <p *ngIf="invStatus == 'PAID[PARTIAL]'">
+                    {{data.courseFee.fee}}
 	              </div>
 	              <div class="col-md-2 p-0 text-right price-info">
 	                {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
@@ -892,7 +894,7 @@
 	          </div>
 	        </div>
 	        <div *ngIf="hideReg == false" class="d-flex inv-row">
-	          <div class="row-icon" (click)="hideInvoiceRow('reg')">
+	          <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="row-icon" (click)="hideInvoiceRow('reg')">
 	            <img src="./assets/images/withdraw-ico@2x.png">
 	          </div>
 	          <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
@@ -910,7 +912,7 @@
 	          </div>
 	        </div>
 	        <div *ngIf="hideMisc == false" class="d-flex inv-row">
-	          <div class="row-icon" (click)="hideInvoiceRow('misc')">
+	          <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="row-icon" (click)="hideInvoiceRow('misc')">
 	            <img src="./assets/images/withdraw-ico@2x.png">
 	          </div>
 	          <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
@@ -928,7 +930,7 @@
 	          </div>
 	        </div>
 	        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
-	          <div class="row-icon" (click)="hideInvoiceRow('deposit')">
+	          <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="row-icon" (click)="hideInvoiceRow('deposit')">
 	            <img src="./assets/images/withdraw-ico@2x.png">
 	          </div>
 	          <div class="d-flex w-100 mlr-15">

@@ -721,28 +721,6 @@ ul.options-box li button:hover{
     border: none;
     cursor: pointer;
 }
-.closemark {
-    display:inline-block;
-    width: 30px;
-    height: 16px;
-    -ms-transform: rotate(45deg); 
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-.closemark_stem ,
-.closemark_kick {
-    position: absolute;
-    width: 2px;
-    height: 24px;
-    background-color: #3d5266;
-    /*left: 5px;
-    top: -25px;*/
-    left: 7px;
-    top: 12px;
-}
-.closemark_kick {
-    transform: rotate(90deg);
-}
 
 .load-more{ 
     position: fixed;
@@ -2254,29 +2232,32 @@ input[type=number]::-webkit-outer-spin-button {
   top: 9px;;
 }
 
-
+.closemark {
+    display:inline-block;
+    width: 30px;
+    height: 16px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+    position: absolute;
+    width: 2px;
+    height: 24px;
+    background-color: #3d5266;
+    left: 16px;
+    top: -2px;
+}
+.closemark_kick {
+    transform: rotate(90deg);
+}
 
 
 .close{
   width: 48px;
   height: 48px;
 }
-
-/*.closemark {
-  display:inline-block;
-  -ms-transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-.closemark_stem ,
-.closemark_kick {
-  position: absolute;
-  width: 2px;
-  height: 24px;
-  background-color: #3d5266;
-  left: 7px;
-  top: 12px;
-}*/
 
 .makeup-pass-title{
   font-family: Montserrat-SemiBold;
