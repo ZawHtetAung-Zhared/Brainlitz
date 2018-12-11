@@ -186,7 +186,7 @@ export class CourseComponent implements OnInit {
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
-    this._service.goback.subscribe(() => {
+  this._service.goback.subscribe(() => {
       this.courseList = [];
       console.log('goooo')
       this.courseList = []
@@ -1001,6 +1001,7 @@ export class CourseComponent implements OnInit {
     console.log(this.showCancelButton)
     console.log(this.cancelUI)
     console.log(this.cancelUi)
+    window.scroll(0,0);
     this.categoryIDArray = [];
     this.planIDArray = [];
     this.repeatedDaysTemp = [];
