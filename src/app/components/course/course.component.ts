@@ -2167,9 +2167,24 @@ export class CourseComponent implements OnInit {
     this.makeupForm = {};
     this.invPayment = [];
     console.log("hideMisc",this.hideMisc)
-    this.getCourseDetail(this.detailLists._id);
-    this.getUsersInCourse(this.detailLists._id);
+    // this.getCourseDetail(this.detailLists._id);
+    // this.getUsersInCourse(this.detailLists._id);
     this.activeTab = "People";
+    if(this.isvalidID == 'inside'){
+       console.log('hi')
+       // this.cancel();
+       this.getCourseDetail(this.detailLists._id)
+       this.getUsersInCourse(this.detailLists._id);
+       // this.cancelModal();
+     }else{
+       console.log('else hi')
+       // this.cancel();
+       this.modalReference.close();
+       this.courseList = [];
+       this.getCourseLists(20,0);
+       // this.cancelModal();
+       // this.getUsersInCourse(courseId);
+     }
     // this.courseList = [];
     // this.getCourseLists(20,0);
   }

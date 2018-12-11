@@ -1375,7 +1375,7 @@
       <div>
         <button *ngIf="isEditInv == false" class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="sendInvoice()">Send invoice</button>
         <button *ngIf="isEditInv == true" class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="updateInvoice()">Save</button>
-        <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="showPayOption()">Pay now</button>
+        <!-- <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="showPayOption()">Pay now</button> -->
       </div>
     </div>
   </div>
@@ -1830,7 +1830,7 @@
         <div>
           <button *ngIf="isEditInv == false" class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="sendInvoice()">Send invoice</button>
           <button *ngIf="isEditInv == true" class="btn send-btn" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="updateInvoice()">Save</button>
-          <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="showPayOption()">Pay now</button>
+          <!-- <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="showPayOption()">Pay now</button> -->
         </div>
       </div>
     </div>
