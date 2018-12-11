@@ -896,7 +896,7 @@
 	              <div class="col-md-2 p-0 text-right price-info">
 	                {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
 	              </div>
-	              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.courseFee.fee}}</div>
+	              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.courseFee.amount}}</div>
 	            </div>
 	          </div>
 	        </div>
@@ -915,7 +915,7 @@
 	            <div class="col-md-2 p-0 text-right price-info">
 	              {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
 	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.registrationFee.fee}}</div>
+	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.registrationFee.amount}}</div>
 	          </div>
 	        </div>
 	        <div *ngIf="hideMisc == false" class="d-flex inv-row">
@@ -933,7 +933,7 @@
 	            <div class="col-md-2 p-0 text-right price-info">
 	              {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
 	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.fee}}</div>
+	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
 	          </div>
 	        </div>
 	        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
@@ -1075,7 +1075,7 @@
               <p class="invoice-info mb-0">{{ custDetail.user.preferredName }}</p>
             </div>
           </div>
-          <!-- <p class="invoice-info">{{ invoiceInfo.email }}<p> -->
+          <p class="invoice-info">{{ invoiceInfo.email }}<p>
         </div>
         <div *ngIf="invPayment?.length > 0">
 			<div class="d-flex">
@@ -1102,7 +1102,7 @@
 						<div class="d-flex">
 							<div style="width: 55px;">
 							<!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
-								<i class="fa fa-credit-card" style="font-size: 30px;line-height: 3;"></i>
+								<i class="fa fa-credit-card" style="font-size: 30px"></i>
 							</div> 
 							<div class="pl-3" *ngIf="payment.brandName || payment.cardNumber">
 								<label class="mb-0 c-label">{{ payment.brandName }}</label>
@@ -1152,7 +1152,7 @@
                 <div class="col-md-2 p-0 text-right price-info">
                   {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
                 </div>
-                <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.courseFee.fee}}</div>
+                <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.courseFee.amount}}</div>
               </div>
             </div>
           </div>
@@ -1168,7 +1168,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.registrationFee.fee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.registrationFee.amount}}</div>
             </div>
           </div>
           <div *ngIf="hideMisc == false" class="d-flex inv-row">
@@ -1183,7 +1183,7 @@
               <div class="col-md-2 p-0 text-right price-info">
                 {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.fee}}</div>
+              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
             </div>
           </div>
           <div *ngIf="hideDeposit == false" class="d-flex inv-row">

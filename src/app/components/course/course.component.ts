@@ -181,6 +181,7 @@ export class CourseComponent implements OnInit {
   public paymentId:any;
   public showPaidInvoice:boolean = false;
   public invPayment = [];
+  public invStatus;any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -1357,8 +1358,10 @@ export class CourseComponent implements OnInit {
   }
 
   viewInvoice(data){
+    this.isvalidID = 'inside';
     this.singleInv = [];
     console.log("user data in view inv",data);
+    this.invStatus = data.invoice.status;
     if(data.invoice.status == "PAID"){
       this.showPaidInvoice = true;
     }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
@@ -2118,6 +2121,19 @@ export class CourseComponent implements OnInit {
     console.log("pay option");
     this.showPayment = true;
     this.showInvoice = false;
+    if(this.invStatus == 'PAID[PARTIAL]'){
+      var totalPaid = 0;
+      for(var i in this.invPayment){
+        console.log("each payment",this.invPayment[i]);
+        totalPaid = totalPaid + this.invPayment[i].amount;
+      }
+      console.log("total paid",totalPaid);
+      this.paymentItem.amount = Number((this.total - totalPaid).toFixed(2));
+      console.log("Total Amount for Pay",this.paymentItem.amount)
+    }else{
+      this.paymentItem.amount = this.total;
+    }
+
     this._service.getPaymentMethod()
     .subscribe((res:any) => {
       console.log(res);
@@ -2156,9 +2172,9 @@ export class CourseComponent implements OnInit {
       'amount': this.paymentItem.amount.toString(),
       'paymentMethod': this.paymentId.toString()
     }
-    // if(this.paymentItem.refNumber){
-    //   body["refNumber"] = this.paymentItem.refNumber;
-    // }
+    if(this.paymentItem.refNumber){
+      body["refNo"] = this.paymentItem.refNumber;
+    }
     // console.log("data",body);
     this._service.makePayment(this.regionId,body)
     .subscribe((res:any) => {
@@ -2419,6 +2435,7 @@ export class CourseComponent implements OnInit {
     console.log("Back To Invoice")
     this.showPayment = false;
     this.showInvoice = true;
+    this.paymentItem = {};
   }
 
   globalMakeupPass(){
