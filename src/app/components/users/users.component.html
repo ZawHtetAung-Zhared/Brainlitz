@@ -276,7 +276,16 @@
 										<strong>{{list.course.name}}</strong>
 										<label>
 										<span>{{list.course.startTime.hr | timeFormat}} : {{list.course.startTime.min | timeFormat}} {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr | timeFormat}} : {{list.course.endTime.min | timeFormat}} {{list.course.endTime.meridiem}}</span></label>
-										<strong *ngIf="list.cancelledLesson">{{list.cancelledLesson.startDate | timelineDate}} {{ list.cancelledLesson.startDate | yearFormat}}</strong>
+
+										 
+
+										<div *ngIf="list.cancelledLesson">
+											<strong *ngIf="list.cancelledLesson.startDate != undefined">
+											<span>{{list.cancelledLesson.startDate | timelineDate}}</span> <span>{{ list.cancelledLesson.startDate | yearFormat}}</span>
+											</strong>
+
+											<strong *ngIf="list.cancelledLesson.startDate == undefined">-</strong>
+										</div>
 										<strong *ngIf="!list.cancelledLesson">-</strong>
 									</div>
 									<div *ngIf="activePass == 'claimed'">

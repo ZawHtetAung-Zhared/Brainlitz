@@ -346,6 +346,12 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  @HostListener('document:click', ['$event']) clickedOutside($event){
+    // here you can hide your menu
+    this.xxxhello = '';
+  }
+
+
   //start course search
 
   focusCourseSearch(){
@@ -533,12 +539,12 @@ export class CourseComponent implements OnInit {
     }
   }
 
-  closeOptionsBox(event){
-    console.log('~~~')
-    var parentWrap = event.path.filter(function(res){
-      // return res.className == "ml-auto remover-wrap"
+  closeClose(event){
+    console.log('~~~', event)
+    var parentWrap = event.path.filter(function(res){            
       return res.className == "option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
     })
+    console.log(parentWrap)
     if(parentWrap.length == 0){
       this.showStudentOption = '';
       this.xxxhello = '';
@@ -1425,6 +1431,8 @@ export class CourseComponent implements OnInit {
   }
 
   showOptionsBox(stdID, e){
+    e.preventDefault();
+    e.stopPropagation();
     console.log("stdID",stdID);
     console.log(e)
     console.log(e.layerY)
@@ -2050,8 +2058,6 @@ export class CourseComponent implements OnInit {
   }
 
   sendInvoice(){
-    this.showStudentOption = '';
-    this.xxxhello = '';
     console.log("send Invoice",this.invoiceID);
     var mailArr = [];
     mailArr.push(this.selectedCustomer.email);
@@ -2067,23 +2073,17 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res);
       this.toastr.success("Successfully sent the Invoice.");
-      // this.modalReference.close();
-      // this.getCourseDetail(this.detailLists._id)
-      // this.getUsersInCourse(this.detailLists._id);
       // this.cancelModal();
       if(this.isvalidID == 'inside'){
-           console.log('hi')
-           // this.cancel();
-           this.getCourseDetail(this.detailLists._id)
-           this.getUsersInCourse(this.detailLists._id);
-           this.cancelModal();
-         }else{
-           console.log('else hi')
-           this.cancel();
-           this.modalReference.close();
-           // this.cancelModal();
-           // this.getUsersInCourse(courseId);
-         }
+         console.log('hi')
+         this.getCourseDetail(this.detailLists._id)
+         this.getUsersInCourse(this.detailLists._id);
+         this.cancelModal();
+      }else{
+       console.log('else hi')
+       this.modalReference.close();
+       this.cancel();
+      }
     }, err => {
       console.log(err);
       this.toastr.error('Fail to sent the Invoice.');
