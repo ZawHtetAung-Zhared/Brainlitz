@@ -1358,6 +1358,7 @@ export class CourseComponent implements OnInit {
   }
 
   viewInvoice(data){
+    this.isvalidID = 'inside';
     this.singleInv = [];
     console.log("user data in view inv",data);
     this.invStatus = data.invoice.status;
