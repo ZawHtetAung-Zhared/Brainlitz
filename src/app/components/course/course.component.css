@@ -2097,8 +2097,12 @@ button:disabled{
   margin: 0px 15px;
 }
 
-.b-bottom{
+
+.inv-bordered div.inv-row .b-bottom{
   border-bottom: 1px solid #edeff0;
+}
+.inv-bordered div:last-child.inv-row .b-bottom {
+    border-bottom: 1px solid transparent;
 }
 
 .invoice-hr{
