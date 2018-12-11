@@ -21,6 +21,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public searching:boolean = false;
   public yPosition:any;
   public singleUserData:any = '';
   public makeupForm:any = {};
@@ -629,6 +630,7 @@ export class CourseComponent implements OnInit {
   showAdvancedSearch(){
     this.searchVal = '';
     this.simple = false;
+    this.searching = false;
     this.isAdvancedSearch = true;
     this.isChecked = 'AM';
     this.isEndChecked = 'AM';
@@ -867,8 +869,11 @@ export class CourseComponent implements OnInit {
   advancedSearch(obj, limit, skip){
     console.log(obj)
     console.log(this.days)
+    console.log(this.searching)
     this.searchObj = obj;
-    this.courseList = [];
+    if(this.searching == false){
+      this.courseList = [];
+    }
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
@@ -1883,6 +1888,7 @@ export class CourseComponent implements OnInit {
         this.recentSearch1(this.searchVal, 20, skip);
       }else{
         console.log('in the else')
+        this.searching = true;
         this.advancedSearch(this.searchObj, 20, skip);
       }
     }else{
