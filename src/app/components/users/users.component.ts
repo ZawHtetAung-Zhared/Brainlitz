@@ -1173,9 +1173,9 @@ export class UsersComponent implements OnInit {
 			'amount': this.paymentItem.amount.toString(),
 			'paymentMethod': this.paymentId.toString()
 		}
-		// if(this.paymentItem.refNumber){
-		// 	body["refNumber"] = this.paymentItem.refNumber;
-		// }
+		if(this.paymentItem.refNumber){
+	      body["refNo"] = this.paymentItem.refNumber;
+	    }
 		// console.log("data",body);
 		this._service.makePayment(this.regionID,body)
 		.subscribe((res:any) => {
