@@ -590,7 +590,7 @@
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER; let i = index" class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-                <div (click)="showOptions(user.userId, $event)" (document:click)="closeOptionsBox($event)" class="d-flex flex-row single-user justify-content-center align-items-center">
+                <div (click)="showOptionsBox(user.userId, $event)" (document:click)="closeOptionsBox($event)" class="d-flex flex-row single-user justify-content-center align-items-center">
                   <div *ngIf="user.invoice != null">
                     <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
                       <img src="{{user.profilePic}}">
@@ -613,8 +613,7 @@
                     <span class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
                     <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                   </div>
-
-                  <ul id="user.userId" [ngStyle]="{'top': yPosition + 'px'}" *ngIf="showStudentOption == user.userId" class="options-box">
+                  <ul id="user.userId" [ngStyle]="{'top': yPosition + 'px'}" *ngIf="xxxhello == user.userId" class="options-box">
                   <!-- <ul id="user.userId" *ngIf="showStudentOption == user.userId" class="options-box"> -->
                     <div class="carret-box"></div>
                     <li *ngIf="detailLists.type != 'FLEXY'" (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
@@ -1174,7 +1173,7 @@
           </div>
           <div class="d-flex inv-courseFee">
             <div class="cFee-w"></div>
-            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true && hideMisc == true}" >
+            <div class="d-flex w-100 b-bottom" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true && hideMisc == true, 'mlr-15': invStatus != 'PAID[PARTIAL]'}" >
               <div class="col-md-5 p-0 price-info">Course Fee</div>
               <div class="col-md-1 p-0 text-right price-info">1</div>
               <div class="col-md-2 p-0 text-right price-info">
@@ -1191,13 +1190,13 @@
                   </div>
                 </div>
                 <div *ngIf="feesBox == true" class="d-flex btns-wrap">
-                  <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
-                    <span class="closemark fee-box">
+                  <button type="submit" class="btn fee-box" (click)="cancelPopup('courseFee')">
+                    <span class="closemark">
                         <div class="closemark_stem"></div>
                         <div class="closemark_kick"></div>
                     </span>
                   </button>
-                  <button type="submit" class="btn" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
+                  <button type="submit" class="btn fee-box" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
                     <span class="checkmark">
                         <div class="checkmark_stem"></div>
                         <div class="checkmark_kick"></div>
@@ -1425,7 +1424,8 @@
         </div>
         <div class="single-user-info d-flex flex-column justify-content-center">
           <h4>{{singleUserData.preferredName}}</h4>
-          <p>{{singleUserData.preferredName}}</p>
+          <p *ngIf="singleUserData.email">{{singleUserData.email}}</p>
+          <p *ngIf="!singleUserData.email">-</p>
         </div>
       </div>
       <button (click)="cancelInvoiceModal()" aria-label="Close" class="modal-close close-tabModal" type="button">
@@ -1441,7 +1441,7 @@
       <button [ngClass]="{'active': activeUserTab == 'invoice'}" class="btn course-tab active" (click)="clickTab('invoice', 'user')" [disabled]="singleUserData.invoice == null">View invoice</button>
     </div>
   </div>
-  <form *ngIf="activeUserTab == 'makeup'" class="form-wrap" novalidate #customerForm="ngForm">
+  <form *ngIf="activeUserTab == 'makeup'" class="form-wrap" novalidate #makeupF="ngForm">
     <div class="modal-body">
       <div class="col-md-8 input-wrap">
         <div class="form-group">
@@ -1450,13 +1450,13 @@
         </div>
         <div class="form-group">
           <label for="reason" class="input-label">Reason</label> 
-          <textarea class="form-control create-input" rows="4" placeholder="Got any reasons?" name="reason" [(ngModel)]="makeupForm.reason" #reason="ngModel"></textarea>
+          <textarea class="form-control create-input" rows="4" placeholder="Got any reasons?" name="reason" [(ngModel)]="makeupForm.reason" #reason="ngModel" required></textarea>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn modal-cancel-btn" (click)="cancelInvoiceModal()">Cancel</button>
-      <button type="submit" class="btn btn-submit" (click)="issuePass(makeupForm, singleUserData.userId)">Confirm</button>
+      <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
+      <button type="submit" class="btn btn-submit" [disabled]="!makeupF.valid" (click)="issuePass(makeupForm, singleUserData.userId)">Confirm</button>
     </div>
   </form>
 
@@ -1577,7 +1577,7 @@
   <div *ngIf="activeUserTab == 'invoice'" class="tabs-inv">
     <div *ngIf="showInvoice == true">
       <div *ngIf="feesBox == true" class="overlayInv"></div>
-      <div *ngIf="singleUserData.invoice.status == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>
+      <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>
       <div class="invoice-container">
         <div class="d-flex justify-content-between">
           <div class="logo-wrapper">
@@ -1676,14 +1676,14 @@
         </div>
         <div *ngFor="let data of invoice">
           <div>
-            <div class="inv-Cname">
+            <div class="inv-Cname" [ngClass]="{'invC-m': invStatus == 'PAID[PARTIAL]'}">
               {{ invoiceCourse.name }} 
               <div> 
                 <span>From: {{ invoiceCourse.startDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.endDate">To: {{ invoiceCourse.endDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.lessonCount">{{ invoiceCourse.lessonCount }} lessons</span>
               </div>
             </div>
             <div class="d-flex inv-courseFee">
-              <div class="cFee-w"></div>
+              <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="cFee-w"></div>
               <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true && hideMisc == true}" >
                 <div class="col-md-5 p-0 price-info">Course Fee</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
@@ -1714,7 +1714,10 @@
                       </span>
                     </button>
                   </div>
-                  <p class="mb-0" (click)="showPopup('courseFee',data.courseFee.fee)">{{data.courseFee.fee}}</p>
+                  <p *ngIf="invStatus != 'PAID[PARTIAL]'" class="mb-0" (click)="showPopup('courseFee',data.courseFee.fee)">{{data.courseFee.fee}}</p>
+                  <p *ngIf="invStatus == 'PAID[PARTIAL]'">
+                    {{data.courseFee.fee}}
+                  </p>
                 </div>
                 <div class="col-md-2 p-0 text-right price-info">
                   {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
@@ -1724,7 +1727,7 @@
             </div>
           </div>
           <div *ngIf="hideReg == false" class="d-flex inv-row">
-            <div class="row-icon" (click)="hideInvoiceRow('reg')">
+            <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="row-icon" (click)="hideInvoiceRow('reg')">
               <img src="./assets/images/withdraw-ico@2x.png">
             </div>
             <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
@@ -1742,7 +1745,7 @@
             </div>
           </div>
           <div *ngIf="hideMisc == false" class="d-flex inv-row">
-            <div class="row-icon" (click)="hideInvoiceRow('misc')">
+            <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="row-icon" (click)="hideInvoiceRow('misc')">
               <img src="./assets/images/withdraw-ico@2x.png">
             </div>
             <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
@@ -1760,7 +1763,7 @@
             </div>
           </div>
           <div *ngIf="hideDeposit == false" class="d-flex inv-row">
-            <div class="row-icon" (click)="hideInvoiceRow('deposit')">
+            <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="row-icon" (click)="hideInvoiceRow('deposit')">
               <img src="./assets/images/withdraw-ico@2x.png">
             </div>
             <div class="d-flex w-100 mlr-15">
@@ -2059,7 +2062,7 @@
         </div>
       </div>
       <div class="modal-footer justify-content-end">
-        <button class="btn btn-submit" (click)="cancelInvoiceModal()">Done</button>
+        <button class="btn btn-submit" (click)="cancelModal()">Done</button>
       </div>
     </div>
   </div>
