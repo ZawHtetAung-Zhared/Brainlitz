@@ -288,7 +288,8 @@ ul.pass-list li {
     margin-bottom: 4px;
 }
 .makeup-wrap{
-    padding: 20px;
+    padding: 0 20px 20px 20px;
+    margin-top: 20px;
     max-height: 726px;
     overflow: scroll;
 }
