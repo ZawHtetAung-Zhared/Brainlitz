@@ -1378,7 +1378,13 @@ export class CourseComponent implements OnInit {
     }else{
       console.log("state",state)
       console.log('no courseID', this.detailLists.seat_left)
-      if(this.detailLists.seat_left == 0){
+      // if(this.detailLists.seat_left == 0){
+      //   this.isSeatAvailable = false;
+      // }else{
+      //   this.isSeatAvailable = true;
+      // }
+
+      if(this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats){
         this.isSeatAvailable = false;
       }else{
         this.isSeatAvailable = true;
@@ -1396,6 +1402,7 @@ export class CourseComponent implements OnInit {
     this.userType = type;
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
+    console.log(this.isSeatAvailable)
 
   }
 

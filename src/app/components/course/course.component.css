@@ -702,6 +702,11 @@ ul.options-box li button:hover{
   opacity: 0.7;
   cursor: none;
 }
+.disable-add1{
+   pointer-events: none; 
+  opacity: 0.7;
+  cursor: none;
+}
 .seat-taken{
   position: absolute;
   left: 0;
