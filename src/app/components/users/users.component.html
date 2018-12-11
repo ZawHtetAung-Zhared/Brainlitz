@@ -198,7 +198,7 @@
 								<p class="info-p">{{ course.name }}</p>
 								<div class="d-flex align-items-center">
 									<div class="tr-img-wrap">
-										<img src="">
+										<img src="{{course.teacher.profilePic}}">
 									</div>
 									<p class="tr-name" *ngIf="course.teacher">{{ course.teacher.preferredName }}</p>
 								</div>
@@ -224,18 +224,20 @@
 							<div class="d-flex justify-content-between section-two">
 								<div>
 									<div class="d-flex flex-row align-items-center" *ngIf="course.invoice != null">
-										<div>
+										<!-- Paid/Unpaid -->
+										<!-- <div>
 											<img *ngIf="course.invoice.status == 'UNPAID'" src="./assets/img/paid-indicator.png">
 											<img *ngIf="course.invoice.status == 'PAID'"src="./assets/img/unpaid-indicator.png">
-										</div>
+										</div> -->
 										<div class="ml-12">
-											<label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+											<!-- Paid/Unpaid -->
+											<!-- <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
 											<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
-											<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label>
+											<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label> 
 											<p class="fees">
 												<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
 												{{course.invoice.total}}
-											</p>
+											</p>-->
 										</div>
 									</div>
 								</div>
@@ -299,14 +301,14 @@
 												</span>
 											</label>
 
-											<!-- <div *ngIf="list.issueDateFor">
-												<strong *ngIf="list.issueDateFor.day != null">
-													{{list.issueDateFor.day}} {{list.issueDateFor.month -1 | TTmonth}} {{list.issueDateFor.year}}
+											<div *ngIf="list.claimedDateFor">
+												<strong *ngIf="list.claimedDateFor.day != null">
+													{{list.claimedDateFor.day}} {{list.claimedDateFor.month -1 | TTmonth}} {{list.claimedDateFor.year}}
 												</strong>
-												<strong *ngIf="list.issueDateFor.day == null">
+												<strong *ngIf="list.claimedDateFor.day == null">
 													-
 												</strong>
-											</div> -->
+											</div>
 										</div>
 									</div>
 								</div>

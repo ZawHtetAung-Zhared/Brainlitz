@@ -1259,6 +1259,8 @@ export class UsersComponent implements OnInit {
 		this.activePass = 'available';
 		if(val == 'makeup'){
 			this.callMakeupLists();
+		}else if(val == 'class'){
+			this.showDetails(this.custDetail.user.userId);
 		}
 	}
 

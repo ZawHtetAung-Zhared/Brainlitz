@@ -592,7 +592,12 @@
               <div *ngFor="let user of pplLists.CUSTOMER; let i = index" class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
                 <div (click)="showOptionsBox(user.userId, $event)" class="d-flex flex-row single-user justify-content-center align-items-center">
                   <div *ngIf="user.invoice != null">
-                    <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
+                    <!-- Paid/Unpaid -->
+                    <!-- <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
+                      <img src="{{user.profilePic}}">
+                    </div> -->
+
+                    <div class="img-wrap">
                       <img src="{{user.profilePic}}">
                     </div>
                   </div>
@@ -603,11 +608,12 @@
                   </div>
                   <div class="single-user-info d-flex flex-column justify-content-center">
                     <h4>{{user.preferredName}}</h4>
-                    <p *ngIf="user.invoice != null">
+                    <!-- Paid/Unpaid -->
+                    <!-- <p *ngIf="user.invoice != null">
                       <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>
                       <span *ngIf="user.invoice.status == 'UNPAID'" class="unpaid">Unpaid</span>
                       <span *ngIf="user.invoice.status == 'PAID[PARTIAL]'" class="paid">Paid[Partial]</span>
-                    </p>
+                    </p> -->
                   </div>
                   <div class="ml-auto remover-wrap">
                     <span class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
