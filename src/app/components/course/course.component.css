@@ -2157,6 +2157,9 @@ input[type=number]::-webkit-outer-spin-button {
     width: 1900px;
     margin: 0 auto;
   }
+  .options-box{
+    width: 25% !important;
+  }
 }
 
 
