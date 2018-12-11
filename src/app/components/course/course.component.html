@@ -582,8 +582,13 @@
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
                 <div>
-                  <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.coursePlan.seats - pplLists.CUSTOMER.length}} seats left</p>
-                  <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
+                  <div *ngIf="pplLists.CUSTOMER.length > detailLists.coursePlan.seats">
+                    <p class="seat">0 seat left</p>
+                  </div>
+                  <div *ngIf="pplLists.CUSTOMER.length <= detailLists.coursePlan.seats">
+                    <p *ngIf="detailLists.seat_left !=null " class="seat">{{detailLists.coursePlan.seats - pplLists.CUSTOMER.length}} seats left</p>
+                    <p *ngIf="detailLists.seat_left == null " class="seat">unlimited seat</p>
+                  </div>
                 </div>
               </div>
               <button *ngIf="courseDemo.assignStudent != ''" type="button" class="btn btn-create" (click)="addUserModal('customer',customerModal,'inside', '')">Enroll class</button>
@@ -877,7 +882,7 @@
       </div>
       <div class="user-list-box" *ngIf="showList == true">
         <div *ngIf="userType != 'teacher'">
-          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('user',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+          <div [ngClass]="{'disable-add1': !isSeatAvailable && userType =='customer'}" (click)="selectUser('user',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
             <div class="img-wrap">
               <img src="{{user.profilePic}}">
             </div>
@@ -1032,7 +1037,7 @@
             </span>
           </div>
           <div class="user-list-box" *ngIf="showList == true">
-            <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+            <div [ngClass]="{'disable-add1': !isSeatAvailable && userType =='customer'}" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
               <div class="img-wrap">
                 <img src="{{user.profilePic}}">
               </div>
