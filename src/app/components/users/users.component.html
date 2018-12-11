@@ -197,7 +197,7 @@
 								<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
 								<p class="info-p">{{ course.name }}</p>
 								<div class="d-flex align-items-center">
-									<div class="tr-img-wrap">
+									<div *ngIf="course.teacher" class="tr-img-wrap">
 										<img src="{{course.teacher.profilePic}}">
 									</div>
 									<p class="tr-name" *ngIf="course.teacher">{{ course.teacher.preferredName }}</p>
