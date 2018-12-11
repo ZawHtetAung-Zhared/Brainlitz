@@ -93,7 +93,7 @@ export class CourseActivitiesReport implements OnInit{
     let filter = this.filter;
     let _self = this;
     let res = [];
-    if(filter.type == "location"){
+    if(filter.type == "location" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.locationName) > -1;
       });
@@ -110,11 +110,30 @@ export class CourseActivitiesReport implements OnInit{
       };
       //if filter type is location, we will push to end of this loop
       let categories = location.categories || [];
+
+      if(filter.type == "category" && filter.value.length){
+        categories = categories.filter(function (d) {
+          return filter.value.indexOf(d.catName) > -1;
+        });
+      }
       categories.forEach(function (category) {
         let coursePlans = category.coursePlans || [];
+
+        if(filter.type == "coursePlan" && filter.value.length){
+          coursePlans = coursePlans.filter(function (d) {
+            return filter.value.indexOf(d.coursePlanName) > -1;
+          });
+        }
+
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
           let courses = coursePlan.courses || [];
+
+          if(filter.type == "course" && filter.value.length){
+            courses = courses.filter(function (d) {
+              return filter.value.indexOf(d.courseName) > -1;
+            });
+          }
           //iterate courses under coursePlans
           courses.forEach(function (course) {
             let lessons = course.lessons || [];
@@ -134,7 +153,7 @@ export class CourseActivitiesReport implements OnInit{
     let filter = this.filter;
     let _self = this;
     let result = [];
-    if(filter.type == "category"){
+    if(filter.type == "category" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.catName) > -1;
       });
@@ -150,9 +169,26 @@ export class CourseActivitiesReport implements OnInit{
         }
       };
       let coursePlans = category.coursePlans || [];
+      if(filter.type == "coursePlan" && filter.value.length){
+        coursePlans = coursePlans.filter(function (d) {
+          return filter.value.indexOf(d.coursePlanName) > -1;
+        });
+      }
+
       //iterate coursePlans under categories
       coursePlans.forEach(function (coursePlan) {
         let courses = coursePlan.courses || [];
+        if(filter.type == "course" && filter.value.length){
+          courses = courses.filter(function (d) {
+            return filter.value.indexOf(d.courseName) > -1;
+          });
+        }
+        if(filter.type == "location" && filter.value.length){
+          courses = courses.filter(function (d) {
+            return filter.value.indexOf(d.location) > -1;
+          });
+        }
+
         //iterate courses under coursePlans
         courses.forEach(function (course) {
           let lessons = course.lessons || [];
@@ -167,6 +203,8 @@ export class CourseActivitiesReport implements OnInit{
   }
 
   getFilteredDataGroupByCoursePlan(data){
+    
+    
 
   }
   updateGraphUsingGroupBy(event) {
