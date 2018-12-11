@@ -45,7 +45,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196F3!important;
 }
 
 input:checked + .slider:before {
@@ -90,11 +90,11 @@ input:checked + .slider:before {
 }
 .paid-status{
   -webkit-box-shadow: 0 0 0 2px #00cc55;
-  box-shadow: 0 0 0 2px #00cc55;
+  box-shadow: 0 0 0 2px #00cc55!important;
 }
 .unpaid-status{
   -webkit-box-shadow: 0 0 0 2px #ff3d33;
-  box-shadow: 0 0 0 2px #ff3d33;
+  box-shadow: 0 0 0 2px #ff3d33!important;
 }
 .input-label{
   font-size: 18px;
@@ -120,7 +120,7 @@ input:checked + .slider:before {
 }
 .current-user{
   border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #00cc55;
+  box-shadow: 0 0 0 2px #00cc55!important;
 }
 .logo-wrap{
   height: 50px;
@@ -210,7 +210,7 @@ input:checked + .slider:before {
 }
 .close-search:hover,
 .close-search:focus{
-  box-shadow: 0 0 0 11px #f2f4f5;
+  box-shadow: 0 0 0 11px #f2f4f5!important;
 }
 .close-search:before, .close-search:after {
   position: absolute;
@@ -259,7 +259,7 @@ ul.recent-lists li:last-child {
   width: 100%;
   background: #fff;
   top: 0;
-  box-shadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.15)!important;
 }
 .search-data-section{
   padding: 20px 24px;
@@ -359,7 +359,7 @@ ul.data-listing li.disabled{
 }
 .single-category {
   border-radius: 16px;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1)!important;
   background-color: #ffffff;
   margin-right: 10px;
   font-size: 12px;
@@ -380,7 +380,7 @@ ul.data-listing li.disabled{
   line-height: 2;
 }
 .single-day {
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1)!important;
   border-radius: 25px;
   margin-right: 16px;
   margin-bottom: 10px;
@@ -471,7 +471,7 @@ ul.data-listing li.disabled{
 }
 .duration-progress {
   background: #fff; 
-  box-shadow: 0px 4px 31px 1px rgba(1,0,0,0.3);
+  box-shadow: 0px 4px 31px 1px rgba(1,0,0,0.3)!important;
   width: 362px;
   position: absolute;  
   z-index: 9;
@@ -803,6 +803,7 @@ li button{
   padding: 0;
   border: none;
   color: #212529;
+  background: #fff;
 }
 
 .scrollable
@@ -1527,6 +1528,7 @@ label.room-name::before {
   border-radius: 3px;
   height: 44px;
   padding: 0;
+  background: #fff;
   margin-right: 30px;
 }
 .modal-delete-btn{
@@ -1535,6 +1537,7 @@ label.room-name::before {
 }
 .modal-cancel-btn{
     color: #2e3d4d;
+    background: #fff;
 }
 .modal-cancel-btn:hover{
   background: #f2f4f5;
@@ -1589,6 +1592,7 @@ label.room-name::before {
     color: #fff;
     background-color: #1682fb;
     margin-left: 15px;
+    box-shadow: none;
 }
 .modal-cfees h5,.discount-info{
   color: #64707d;
@@ -2187,6 +2191,20 @@ input[type=number]::-webkit-outer-spin-button {
   line-height: 20px;
   color: #2e3d4d;
 }
+.cancel-btn-create{
+  width: 96px;
+  height: 44px;
+  border-radius: 3px;
+  background: #fff;
+  font-family: Montserrat-SemiBold;
+  font-size:16px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #2e3d4d;
+}
+/* .btn-cancel-crt,.btn-done-crt{
+  box-shadow: none!important;
+} */
 .btn-done-crt{
   width: 96px;
   height: 44px;
@@ -2418,6 +2436,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .back-inv{
     border: none;
+    background: #fff;
     outline: none;
 }
 
@@ -2491,4 +2510,23 @@ input[type=number]::-webkit-outer-spin-button {
   margin-bottom: 1.75rem!important;
   /* line-height:20px; */
     /* padding:12px 0px 36px 0px; */
+}
+
+
+
+
+
+/* Remove Button Outline */
+
+button:focus {
+  outline: 1px dotted white;
+  /* outline: 5px auto -webkit-focus-ring-color; */
+}
+
+.btn:focus{
+  outline: none;
+  box-shadow: none;
+}
+.input:focus{
+
 }
