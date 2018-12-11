@@ -125,6 +125,7 @@ export class CourseComponent implements OnInit {
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
+  public activeUserTab:any = '';
   public result:any;
   isSticky:boolean = false;
   showBtn:boolean = false;
@@ -1076,8 +1077,12 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  clickTab(type){
-    this.activeTab = type;
+  clickTab(type, state){
+    if(state == 'course'){
+      this.activeTab = type;
+    }else if(state == 'user'){
+      this.activeUserTab = type;
+    }
     this.noStudent = 0;
     this.presentStudent = 0;
     this.absentStudent = 0;
@@ -1410,7 +1415,8 @@ export class CourseComponent implements OnInit {
     console.log("id",id);
     console.log(e)
     console.log(e.layerY)
-    this.yPosition = e.layerY;
+    this.yPosition = e.layerY + 40;
+    // this.yPosition = e.offsetY - 30;
     this.showStudentOption = id;
   }
 
@@ -2257,7 +2263,8 @@ export class CourseComponent implements OnInit {
 
   showTabsModal(modal,type,data){
     console.log("show Tabs Modal",type, data)
-    this.activeTab = type;
+    this.showStudentOption = '';
+    this.activeUserTab = type;
     this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data);
