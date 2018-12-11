@@ -1123,6 +1123,19 @@ export class UsersComponent implements OnInit {
 		console.log("pay option");
 		this.showPayment = true;
 		this.showInvoice = false;
+		if(this.invStatus == 'PAID[PARTIAL]'){
+			var totalPaid = 0;
+			for(var i in this.invPayment){
+				console.log("each payment",this.invPayment[i]);
+				totalPaid = totalPaid + this.invPayment[i].amount;
+			}
+			console.log("total paid",totalPaid);
+			this.paymentItem.amount = Number((this.total - totalPaid).toFixed(2));
+			console.log("Total Amount for Pay",this.paymentItem.amount)
+		}else{
+			this.paymentItem.amount = this.total;
+		}
+		
 		this._service.getPaymentMethod()
 		.subscribe((res:any) => {
 			console.log(res);
@@ -1394,6 +1407,7 @@ export class UsersComponent implements OnInit {
 		console.log("Back To Invoice")
 		this.showPayment = false;
 		this.showInvoice = true;
+		this.paymentItem = {};
 	}
 
 
