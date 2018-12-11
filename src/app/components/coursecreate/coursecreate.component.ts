@@ -913,6 +913,7 @@ export class CoursecreateComponent implements OnInit {
       var testObj = JSON.parse(localStorage.getItem("tempObj"));
       console.log("Temp obj",testObj)
       console.log("Not First Time");
+
       if(this.model.end){
         console.log("this.model.end",this.model.end)
         var endD = this.changeDateFormat(this.model.end,"23:59:59:999");
@@ -981,6 +982,20 @@ export class CoursecreateComponent implements OnInit {
         this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
         localStorage.setItem("tempObj",JSON.stringify(this.temp));
       }
+
+      if(testObj.durationTimes != this.model.durationTimes){
+        console.log("Change Duration")
+        this.temp["durationTimes"] = this.model.durationTimes;
+        if(this.model.end){
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+        }else if(this.model.lessonCount){
+          this.courseObj["lessonCount"] = this.model.lessonCount;
+        }
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+        this.courseObj["repeatDays"] = this.selectedDay;
+        localStorage.setItem("tempObj",JSON.stringify(this.temp));
+      }
+
     }
 
     if(this.flexiOn == true){

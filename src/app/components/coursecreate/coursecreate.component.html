@@ -548,7 +548,7 @@
 				<div class="d-flex timetable">
 					<div class="d-flex justify-content-between flex-item1">
 						<div>
-							<div class="name-label font-medium">{{ttStartDate.date}} {{ttStartDate.month | TTmonth}} 2018</div>
+							<div class="name-label font-medium">{{ttStartDate.date}} {{ttStartDate.month | TTmonth}} {{ttStartDate.year}}</div>
 							<div class="label-12 font-medium">
 								{{ ttStartDate.startTime.hour | TTtime}}:<span *ngIf="ttStartDate.startTime.minute == 0">{{ ttStartDate.startTime.minute}}0</span><span *ngIf="ttStartDate.startTime.minute != 0">{{ ttStartDate.startTime.minute}}</span>
 								<span>{{ttStartDate.startTime.hour | AMPM}}</span>
