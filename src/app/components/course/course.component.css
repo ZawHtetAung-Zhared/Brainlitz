@@ -564,7 +564,7 @@ ul.options-box {
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   padding: 0 20px;
   margin: 0;
-  /*bottom: -60px;*/
+  /*bottom: 0px;*/
   border-radius: 4px;
 }
 .carret-box {
@@ -1639,9 +1639,9 @@ label.room-name::before {
   z-index: 9;
 }
 .customer-row{
-  max-height: 280px;
-  height: 280px;
-  overflow: scroll;
+  /*max-height: 320px;
+  height: 320px;
+  overflow: scroll;*/
   position: static;
 }
 
