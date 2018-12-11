@@ -1407,6 +1407,7 @@ export class CourseComponent implements OnInit {
   }
 
   showOptions(id, e){
+    console.log("id",id);
     console.log(e)
     console.log(e.layerY)
     this.yPosition = e.layerY;
@@ -1999,15 +2000,17 @@ export class CourseComponent implements OnInit {
           console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
           var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
           this.invoice[i].courseFee.fee = Number(cFee);
-          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee)
+          this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee);
+          console.log("Amount without inclusive tax",this.invoice[i].courseFee.amount);
         }else if(this.invoice[i].courseFee.taxInclusive == false){
           var taxRate = this.invoice[i].tax.rate;
           var taxAmount = (this.invoice[i].courseFee.fee * taxRate / 100).toFixed(2);
           this.invoice[i].courseFee.tax =Number(taxAmount);
           console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
-          // var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
-          // this.invoice[i].courseFee.fee = Number(cFee);
-          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee)
+          this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee);
+          console.log("Fee amount with exclusive tax",this.invoice[i].courseFee.amount);
         }
 
         this.calculateHideFees('cFees')
