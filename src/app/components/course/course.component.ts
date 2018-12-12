@@ -1764,6 +1764,7 @@ export class CourseComponent implements OnInit {
   }
 
   removeSelectedUser(id){
+    this.trArrayLists = [];
     let getIndex;
     for(let x in this.selectedUserLists){
       if(id == this.selectedUserLists[x].userId){
@@ -1772,6 +1773,14 @@ export class CourseComponent implements OnInit {
     }
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
+
+    for (var i in this.selectedUserLists) {
+      console.log(this.selectedUserLists[i])
+      this.trArrayLists.push(this.selectedUserLists[i].userId)
+    }
+    console.log(this.trArrayLists)
+
+
     console.log(this.detailLists.seat_left - this.selectedUserLists.length == 0)
     console.log(this.detailLists.seat_left)
     if(this.detailLists.seat_left != null){
