@@ -21,6 +21,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public stdLists: Array<any> = []
   public searching:boolean = false;
   public yPosition:any;
   public singleUserData:any = '';
@@ -111,6 +112,7 @@ export class CourseComponent implements OnInit {
   public noStudent:number = 0;
   public selectedUserLists:any = [];
   public selectedTeacherLists:any = [];
+  public trArrayLists:any = [];
   public selectedUserId:any = [];
   public locationName:any;
   public courseId:any;
@@ -1386,6 +1388,12 @@ export class CourseComponent implements OnInit {
       //   this.isSeatAvailable = true;
       // }
 
+      // for (var i in this.pplLists.CUSTOMER) {
+      //   console.log(this.pplLists.CUSTOMER[i])
+      //   this.stdLists.push(this.pplLists.CUSTOMER[i].userId)
+      // }
+      // console.log(this.stdLists)
+
       if(this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats){
         this.isSeatAvailable = false;
       }else{
@@ -1523,6 +1531,8 @@ export class CourseComponent implements OnInit {
     // this.currentDateObj = '';
     this.showStudentOption = '';
     this.xxxhello = '';
+    this.stdLists = [];
+    this.trArrayLists = [];
   }
   cancelClass(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
@@ -1607,6 +1617,12 @@ export class CourseComponent implements OnInit {
         console.log(this.detailLists.seat_left)
         console.log(this.selectedUserLists.length)
 
+        for (var i in this.selectedUserLists) {
+          console.log(this.selectedUserLists[i])
+          this.trArrayLists.push(this.selectedUserLists[i].userId)
+        }
+        console.log(this.trArrayLists)
+
         if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
           console.log('cant add')
           this.isSeatAvailable = false;
@@ -1621,6 +1637,7 @@ export class CourseComponent implements OnInit {
             this.selectedTeacherLists[0] = res;
         }else{
           this.selectedTeacherLists.unshift(res);
+          console.log(this.selectedTeacherLists)
         }
         // this.removeUser = res.preferredName;
       }
@@ -1637,6 +1654,8 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop();
       console.log('selected Customer',res);
       this.selectedCustomer = res;
+      this.stdLists = this.selectedCustomer.userId;
+      console.log(this.stdLists)
       this.showList = false;
     })
   }
@@ -1745,6 +1764,7 @@ export class CourseComponent implements OnInit {
   }
 
   removeSelectedUser(id){
+    this.trArrayLists = [];
     let getIndex;
     for(let x in this.selectedUserLists){
       if(id == this.selectedUserLists[x].userId){
@@ -1753,6 +1773,14 @@ export class CourseComponent implements OnInit {
     }
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
+
+    for (var i in this.selectedUserLists) {
+      console.log(this.selectedUserLists[i])
+      this.trArrayLists.push(this.selectedUserLists[i].userId)
+    }
+    console.log(this.trArrayLists)
+
+
     console.log(this.detailLists.seat_left - this.selectedUserLists.length == 0)
     console.log(this.detailLists.seat_left)
     if(this.detailLists.seat_left != null){
@@ -1835,7 +1863,7 @@ export class CourseComponent implements OnInit {
   }
 
   addCustomer(courseId, userType){
-
+    this.stdLists = [];
     console.log("call from addCustomer",this.selectedCustomer);
     let body = {
        'courseId': courseId,

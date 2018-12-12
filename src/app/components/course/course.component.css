@@ -1,3 +1,8 @@
+.hide-user{
+  display: none !important;
+  /*pointer-events: none;
+  opacity: 0.5;*/
+}
 /*==== toggle button ====*/
 .switch {
   position: relative;

@@ -631,7 +631,7 @@
                     <!-- <ul id="user.userId" *ngIf="showStudentOption == user.userId" class="options-box"> -->
                     <div class="carret-box"></div>
                     <li *ngIf="detailLists.type != 'FLEXY'" (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
-                    <!-- <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li> -->
+                    <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
                     <li (click)="showTabsModal(tabsModal,'invoice',user)" class="view-li"><button [disabled]="user.invoice == null">View invoice</button></li>
                     <li (click)="openRemoveModal(user.userId, deleteModal,user.preferredName)">Withdraw User</li>
                   </ul>
@@ -890,7 +890,7 @@
       </div>
       <div class="user-list-box" *ngIf="showList == true">
         <div *ngIf="userType != 'teacher'">
-          <div [ngClass]="{'disable-add1': !isSeatAvailable && userType =='customer'}" (click)="selectUser('user',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+          <div [ngClass]="[(trArrayLists.indexOf(user.userId) > -1) ? 'hide-user' :'', (!isSeatAvailable && userType =='customer') ? 'disable-add1' : '']" (click)="selectUser('user',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
             <div class="img-wrap">
               <img src="{{user.profilePic}}">
             </div>
@@ -1045,7 +1045,7 @@
             </span>
           </div>
           <div class="user-list-box" *ngIf="showList == true">
-            <div [ngClass]="{'disable-add1': !isSeatAvailable && userType =='customer'}" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+            <div [ngClass]="[(stdLists.indexOf(user.userId) > -1) ? 'hide-user' :'', (!isSeatAvailable && userType =='customer') ? 'disable-add1' : '']" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">              
               <div class="img-wrap">
                 <img src="{{user.profilePic}}">
               </div>
@@ -1453,14 +1453,14 @@
       </div>
       <button (click)="cancelInvoiceModal()" aria-label="Close" class="modal-close close-tabModal" type="button">
         <span class="closemark">
-            <div class="closemark_stem1"></div>
-            <div class="closemark_kick1"></div>
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
         </span>
       </button>
     </div>
     <div class="d-flex tab-section">
       <button [ngClass]="{'active': activeUserTab == 'makeup'}" class="btn course-tab active" (click)="clickTab('makeup', 'user')">Issue makeup</button>
-     <!--  <button [ngClass]="{'active': activeUserTab == 'transfer'}" class="btn course-tab active" (click)="clickTab('transfer', 'user')">Transfer class</button> -->
+      <button [ngClass]="{'active': activeUserTab == 'transfer'}" class="btn course-tab active" (click)="clickTab('transfer', 'user')">Transfer class</button>
       <button [ngClass]="{'active': activeUserTab == 'invoice'}" class="btn course-tab active" (click)="clickTab('invoice', 'user')" [disabled]="singleUserData.invoice == null">View invoice</button>
     </div>
   </div>
