@@ -251,6 +251,7 @@ export class CourseComponent implements OnInit {
       this.goBackCat = false;
       this.isCourseCreate = false;
       this.isCoursePlanDetail = true;
+      this.getCoursePlanDetail(this.editplanId);
       this.courseList = []
     })
   }
@@ -1128,6 +1129,7 @@ export class CourseComponent implements OnInit {
   }
 
   clickTab(type, state){
+    this.currentDateObj = '';
     if(state == 'course'){
       this.activeTab = type;
     }else if(state == 'user'){
@@ -1514,7 +1516,7 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
     this.showInvoice = false;
-    this.currentDateObj = '';
+    // this.currentDateObj = '';
     this.showStudentOption = '';
     this.xxxhello = '';
   }
@@ -1556,7 +1558,7 @@ export class CourseComponent implements OnInit {
     this.cancelUItext= false;
     this.cancelUI=false;
     this.modalReference.close();
-    this.currentDateObj = '';
+    // this.currentDateObj = '';
   }
 
   getAllUsers(type){

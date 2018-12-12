@@ -180,10 +180,12 @@ export class CourseplanComponent implements OnInit {
       // this.getAllHolidaysCalendar();
       console.log("calendar",this.holidayCalendarLists);
       setTimeout(() => {
-        for( var i = 0; i < this.holidayCalendarLists.length; i++){
-          if(this.formField.holidayCalendarId == this.holidayCalendarLists[i]._id){
-            this.formField.holidayCalendarName = this.holidayCalendarLists[i].name;
-            console.log("~~~calendarName",this.formField.holidayCalendarName)
+        if(this.holidayCalendarLists != undefined){
+          for( var i = 0; i < this.holidayCalendarLists.length; i++){
+            if(this.formField.holidayCalendarId == this.holidayCalendarLists[i]._id){
+              this.formField.holidayCalendarName = this.holidayCalendarLists[i].name;
+              console.log("~~~calendarName",this.formField.holidayCalendarName)
+            }
           }
         }
       }, 300);
