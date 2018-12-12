@@ -88,8 +88,8 @@ export class StaffPerformanceReport implements OnInit {
       value: this.categoryList
     };
     this.options= {
-      startDate: moment().startOf('hour'),
-      endDate: moment().startOf('hour').add(32, 'hour'),
+      startDate: moment('04-01-2018').startOf('hour'),
+      endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true,
     };

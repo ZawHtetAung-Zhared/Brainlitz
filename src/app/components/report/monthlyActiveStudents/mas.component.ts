@@ -51,9 +51,9 @@ export class MonthlyActiveStudentsReport implements OnInit {
       value: this.categoryList
     };
     this.options = {
-      startDate: moment().startOf('hour'),
-      endDate: moment().startOf('hour').add(32, 'hour'),
-      locale: {format: 'ddd, DD MMM YYYY'},
+      startDate: moment('04-01-2018').startOf('hour'),
+      endDate: moment('11-30-2018').startOf('hour'),
+      locale: {format: 'MMM YYYY'},
       alwaysShowCalendars: true,
     };
     this.reportData = [];
