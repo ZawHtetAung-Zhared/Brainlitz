@@ -1325,7 +1325,8 @@ export class UsersComponent implements OnInit {
 	    	this.callMakeupLists();
 	    },err =>{
 	      	console.log(err);
-	      	this.toastr.error('Claim pass failed.');
+	      	// this.toastr.error('Claim pass failed.');
+	      	this.toastr.error(err.error.message);
 	      	this.blockUI.stop();
 	      	this.isChecked = '';
 	      	this.checkCourse = '';

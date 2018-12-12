@@ -581,7 +581,10 @@
             <div class="d-flex justify-content-between user-header">  
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
-                <div>
+                <div *ngIf="detailLists.seat_left == null ">
+                  <p class="seat">unlimited seat</p>
+                </div>
+                <div *ngIf="detailLists.seat_left != null">
                   <div *ngIf="pplLists.CUSTOMER.length > detailLists.coursePlan.seats">
                     <p class="seat">0 seat left</p>
                   </div>
