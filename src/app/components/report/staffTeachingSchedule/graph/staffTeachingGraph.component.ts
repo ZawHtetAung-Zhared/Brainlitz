@@ -1,4 +1,4 @@
-import {Component, OnInit,Input} from '@angular/core';
+import {Component, OnInit,Input,OnChanges} from '@angular/core';
 @Component({
   selector: 'staff-teaching-graph',
   templateUrl: './staffTeachingGraph.component.html',
@@ -9,9 +9,10 @@ export class StaffTeachingReportGraph implements OnInit {
   plotOption:any;
   echarts:any;
   barColor:any;
-  ngOnInit(){
-    console.log("data inside graph component");
-    console.log(this.reportItems);
+  ngOnChanges() {
+    this.setupOption();
+  }
+  setupOption(){
     this.barColor = ['#EC407F','#F8BF45','#70F7BF','#4BBEF8','#C052F8','#2C32B7'];
 
     let _self = this;
@@ -67,38 +68,43 @@ export class StaffTeachingReportGraph implements OnInit {
     });
     let obj = {
       type:"pie",
-        radius : ['30%', '30%'],
+      radius : ['30%', '30%'],
       label: {
-      normal: {
-        position: 'center',
+        normal: {
+          position: 'center',
           formatter:function(params){
-              let value = '{a|'+totalHours+' Hours}\n \n';
-              value += '{b|'+totalStaff+' teachers}';
-              return value;
+            let value = '{a|'+totalHours+' Hours}\n \n';
+            value += '{b|'+totalStaff+' teachers}';
+            return value;
           },
-        rich:{
-          a:{
-            fontFamily:'Montserrat-SemiBold',
-            color:'#2e3d4d',
-            fontSize:16
+          rich:{
+            a:{
+              fontFamily:'Montserrat-SemiBold',
+              color:'#2e3d4d',
+              fontSize:16
+            },
+            b:{
+              fontFamily:'Montserrat-medium',
+              color:'#64707d',
+              fontSize:12
+            }
           },
-          b:{
-            fontFamily:'Montserrat-medium',
-            color:'#64707d',
-            fontSize:12
-          }
-        },
 
-      }
-    },
+        }
+      },
       tooltip:{
         show:false
       },
       data:[{value:0}]
     };
     _self.plotOption.series.push(obj);
+    this.plotGraph();
+
   }
-  ngAfterViewInit(){
+  ngOnInit(){
+
+  }
+  plotGraph(){
     var elem = document.getElementById('staffTeachingGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);

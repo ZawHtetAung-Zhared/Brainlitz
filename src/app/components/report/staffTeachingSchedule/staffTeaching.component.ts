@@ -333,13 +333,13 @@ export class StaffTeachingScheduleReport implements OnInit {
   applyFilters() {
     switch (this.groupBy) {
       case "location":
-        //this.showReportByLocation();
+        this.showReportByLocation();
         break;
       case "category":
-        //this.showReportByCategory();
+        this.showReportByCategory();
         break;
       case "coursePlan":
-        //this.showReportByCoursePlan();
+        this.showReportByCoursePlan();
         break;
     }
 
