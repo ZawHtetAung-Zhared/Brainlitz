@@ -144,6 +144,13 @@ export class CoursecreateComponent implements OnInit {
       this.locationId = this.currentLocation;
       // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
     }
+
+    if(this.currency == undefined || this.currency == null){
+      this.currency ={
+        'invCurrencySign': ''
+      }
+      console.log("undefined currency",this.currency);
+    }
     
   }
 

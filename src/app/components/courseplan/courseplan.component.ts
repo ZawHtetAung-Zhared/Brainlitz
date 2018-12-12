@@ -163,6 +163,14 @@ export class CourseplanComponent implements OnInit {
 
       this.editCPlan(this.editPlanId);
     }
+
+    if(this.currency == undefined || this.currency == null){
+      this.currency ={
+        'invCurrencySign': ''
+      }
+      console.log("undefined currency",this.currency);
+    }
+
   }
 
   editCPlan(planId){

@@ -122,6 +122,7 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  // public currency:any = {};
   public currency = JSON.parse(localStorage.getItem('currency'));
   public invCurrency : any ={};
   public pplLists:any;
@@ -280,7 +281,6 @@ export class CourseComponent implements OnInit {
 
     this.discount = 0;
     this.selectedPayment = 'Cash';
-
   }
 
 
@@ -1047,6 +1047,12 @@ export class CourseComponent implements OnInit {
     this.cancelUi=false;
     this.showCancelButton=false;
     this.cancelUItext= true;
+    if(this.currency == undefined || this.currency == null){
+      this.currency ={
+        'invCurrencySign': ''
+      }
+      console.log("undefined currency",this.currency);
+    }
   }
 
   showCPDetail(planID){

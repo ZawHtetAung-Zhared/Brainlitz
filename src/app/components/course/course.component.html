@@ -628,7 +628,7 @@
                     <!-- <ul id="user.userId" *ngIf="showStudentOption == user.userId" class="options-box"> -->
                     <div class="carret-box"></div>
                     <li *ngIf="detailLists.type != 'FLEXY'" (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
-                    <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li>
+                    <!-- <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li> -->
                     <li (click)="showTabsModal(tabsModal,'invoice',user)" class="view-li"><button [disabled]="user.invoice == null">View invoice</button></li>
                     <li (click)="openRemoveModal(user.userId, deleteModal,user.preferredName)">Withdraw User</li>
                   </ul>
@@ -1457,7 +1457,7 @@
     </div>
     <div class="d-flex tab-section">
       <button [ngClass]="{'active': activeUserTab == 'makeup'}" class="btn course-tab active" (click)="clickTab('makeup', 'user')">Issue makeup</button>
-      <button [ngClass]="{'active': activeUserTab == 'transfer'}" class="btn course-tab active" (click)="clickTab('transfer', 'user')">Transfer class</button>
+      <!-- <button [ngClass]="{'active': activeUserTab == 'transfer'}" class="btn course-tab active" (click)="clickTab('transfer', 'user')">Transfer class</button> -->
       <button [ngClass]="{'active': activeUserTab == 'invoice'}" class="btn course-tab active" (click)="clickTab('invoice', 'user')" [disabled]="singleUserData.invoice == null">View invoice</button>
     </div>
   </div>

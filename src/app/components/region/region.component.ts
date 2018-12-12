@@ -100,13 +100,15 @@ export class RegionComponent implements OnInit {
       localStorage.removeItem('locationId');
     }
     localStorage.setItem("regionId", id);
-
-    let currency = {
-      'invCurrencyCode': data.invoiceSettings.currencyCode,
-      'invCurrencySign': data.invoiceSettings.currencySign
-    };
-    console.log(currency);
-    localStorage.setItem('currency',JSON.stringify(currency))
+    if(data.invoiceSettings){
+      let currency = {
+        'invCurrencyCode': data.invoiceSettings.currencyCode,
+        'invCurrencySign': data.invoiceSettings.currencySign
+      };
+      console.log(currency);
+      localStorage.setItem('currency',JSON.stringify(currency))
+    }
+    
   }
 
 }
