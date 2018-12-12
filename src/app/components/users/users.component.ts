@@ -1358,8 +1358,10 @@ export class UsersComponent implements OnInit {
 	    }else{
 	    	console.log("no invoice id")
 	    }
+	    this.blockUI.start('Loading...');
 	    this._service.getSingleInvoice(invoiceId)
 	    .subscribe((res:any) => {
+	    	this.blockUI.stop();
 	      console.log('invoice detail',res);
 	      this.singleInv.push(res);
 	      this.invoice = this.singleInv;
