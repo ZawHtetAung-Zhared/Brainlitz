@@ -785,6 +785,11 @@
     </div>
     <button class="btn edit-course-btn" (click)="goToCoursePlan(editplanId)">Edit course plan</button>
   </div>
+  <div *ngIf="singlePlanData">
+    <div class="detail-info">
+      <h4>{{singlePlanData.name}}</h4>
+    </div>
+  </div>
 </div>
 
 <ng-template #deleteModal let-c="close" let-d="dismiss">

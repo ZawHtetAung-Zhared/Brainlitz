@@ -251,6 +251,7 @@ export class CourseComponent implements OnInit {
       this.goBackCat = false;
       this.isCourseCreate = false;
       this.isCoursePlanDetail = true;
+      this.getCoursePlanDetail(this.editplanId);
       this.courseList = []
     })
   }
