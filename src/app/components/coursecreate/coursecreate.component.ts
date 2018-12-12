@@ -222,6 +222,7 @@ export class CoursecreateComponent implements OnInit {
       this.temp["startDate"] = this.model.startDate;
       this.temp["lessonCount"] = this.model.lessonCount;
       this.temp["repeatDays"] = this.selectedDay;
+      this.temp["durationTimes"] = this.model.durationTimes;
       localStorage.setItem("tempObj",JSON.stringify(this.temp));
       // setTimeout(() => {
       //    this.createCourse();
@@ -911,8 +912,8 @@ export class CoursecreateComponent implements OnInit {
         this.tempVar = "lesson";
           this.tempValue = this.model.lessonCount;
           this.model.end = null;
-      }
-      
+      } 
+      this.temp["durationTimes"] = this.model.durationTimes;
       this.temp["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       this.temp["repeatDays"] = this.selectedDay;
       localStorage.setItem("tempObj",JSON.stringify(this.temp));
@@ -991,7 +992,8 @@ export class CoursecreateComponent implements OnInit {
       }
 
       if(testObj.durationTimes != this.model.durationTimes){
-        console.log("Change Duration")
+        console.log("Change Duration",testObj);
+        console.log("duration",this.model.durationTimes)
         this.temp["durationTimes"] = this.model.durationTimes;
         if(this.model.end){
           this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
