@@ -1,4 +1,4 @@
-import {Component, OnInit,Input} from '@angular/core';
+import {Component, OnInit,Input,OnChanges} from '@angular/core';
 @Component({
   selector: 'std-enrolment-graph',
   templateUrl: './stdEnrolment.component.html',
@@ -9,9 +9,10 @@ export class StdEnrolmentReportGraph implements OnInit {
   plotOption:any;
   echarts:any;
   barColor:any;
-  ngOnInit(){
-    console.log("data inside graph component");
-    console.log(this.reportItems);
+  ngOnChanges() {
+    this.setupOption();
+  }
+  setupOption(){
     this.barColor = ['#EC407F','#FDEAC5','#C4FBEB','#C5EBFC','#EBC5FC'];
     let _self = this;
     this.echarts = require('echarts');
@@ -20,12 +21,11 @@ export class StdEnrolmentReportGraph implements OnInit {
         trigger: 'item',
         formatter: "{a} <br/>{b}: {c} ({d}%)"
       },
-
       legend: {
         orient: 'vertical',
         axis:'right',
-        right:50,
         top:10,
+        right:0,
         data:[],
         textStyle:{
           fontFamily:'Montserrat-Medium',
@@ -70,11 +70,15 @@ export class StdEnrolmentReportGraph implements OnInit {
       }
       _self.plotOption.legend.data.push(item.groupTypeValue);
     });
-
+    this.plotGraph();
   }
-  ngAfterViewInit(){
+  plotGraph(){
     var elem = document.getElementById('stdEnrolmentGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+  }
+  ngOnInit(){
+
+
   }
 }
