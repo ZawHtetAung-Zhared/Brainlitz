@@ -26,6 +26,7 @@ export class StudentEnrollmentReport implements OnInit {
   selectedFilterType:any;
   daterange:any = {};
   options:any;
+  filterModel:any;
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
@@ -45,12 +46,13 @@ export class StudentEnrollmentReport implements OnInit {
   }
 
   ngOnInit() {
+    this.filterModel = 'Category';
     this.selectedFilter = "";
     this.selectedFilterType = '0';
-    this.filter = {type: "", 'value': []};
+    this.filter = {type: "category", 'value': []};
     this.searchResult = {
       show: false,
-      value: []
+      value: this.categoryList
     };
     this.options = {
       startDate: moment().startOf('hour'),
@@ -281,11 +283,6 @@ export class StudentEnrollmentReport implements OnInit {
   }
   showFilterModal(content) {
     this.searchResult.show = false;
-    this.searchResult.value = this.categoryList;
-    this.filter = {
-      type: "category",
-      value: []
-    };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
@@ -302,18 +299,12 @@ export class StudentEnrollmentReport implements OnInit {
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
-    if (!this.filter.value.length) {
-      this.filter.type = ""
-    }
-    ;
     this.applyFilters();
   }
 
   removeAllFilters() {
-    this.filter = {
-      type: "",
-      value: []
-    };
+    this.filter.value = [];
+    this.searchResult.value = this.categoryList;
     this.applyFilters();
   }
   clearSearch() {
@@ -335,13 +326,13 @@ export class StudentEnrollmentReport implements OnInit {
   applyFilters() {
     switch (this.groupBy) {
       case "location":
-        //this.showReportByLocation();
+        this.showReportByLocation();
         break;
       case "category":
-        //this.showReportByCategory();
+        this.showReportByCategory();
         break;
       case "coursePlan":
-        //this.showReportByCoursePlan();
+        this.showReportByCoursePlan();
         break;
     }
 
