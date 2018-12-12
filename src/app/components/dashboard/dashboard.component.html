@@ -1,4 +1,5 @@
 <app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
+<div [ngClass]="{'mainOverlay': (isEdit == true || isUrlEdit == true)}"></div>
 <div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
     <div class="noti-sidebar h-100">
       <div class="side-bar-wrap" [ngClass]="{'p-top' : navIsFixed == true, 'mid-top' : isMidStick == true}">
@@ -47,7 +48,7 @@
             <h3 class="general">General</h3>
           </div>
           <div class="card-columns">
-            <div *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+            <div [ngClass]="{'showZindex': isEdit, 'blur': isUrlEdit}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
                 Regional Settings
               </div>
@@ -88,7 +89,7 @@
                     </ng2-timezone-picker>
                   </div>
                 </div>
-                <div class="timezone-wrap ease">
+                <!-- <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                         <img src="./assets/images/map.png">
@@ -96,7 +97,7 @@
                     <label class="labelTitle">Operating hour</label>
                   </div>
                   <label class="labelName">8:00 AM - 9:00 AM</label>
-                </div>
+                </div> -->
               </div>
               <div *ngIf="!isEdit">
                 <a class="link-btn" (click)="editRegion()">Edit</a>
@@ -107,7 +108,7 @@
               </div>
             </div>  
              
-            <div *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+            <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
                 Invoice Settings
               </div>
@@ -168,12 +169,12 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!isEdit">
+              <div>
                 <a class="link-btn" (click)="editSetting('Invoice')">Edit</a>
               </div>
             </div> 
 
-            <div *ngIf="generalDemo.regional != ''" class="card card-wrap">
+            <div [ngClass]="{'blur': isEdit, 'showZindex': isUrlEdit}" *ngIf="generalDemo.regional != ''" class="card card-wrap">
               <div class="title">
                 App Settings 
               </div>
@@ -244,7 +245,7 @@
               </div>
             </div>
 
-            <div *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+            <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
                 Payment Settings
               </div>
@@ -291,7 +292,7 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!isEdit">
+              <div>
                 <a class="link-btn" (click)="editSetting('Payment')">Edit</a>
               </div>
             </div>

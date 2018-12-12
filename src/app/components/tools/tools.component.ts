@@ -296,11 +296,11 @@ export class ToolsComponent implements OnInit {
     this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
-    // if(type == 'user'){
-    //   this.userCount = 1;
-    // }else{
-    //   this.getUserCount(type)
-    // }
+    if(type == 'user'){
+      this.userCount = 1;
+    }else{
+      this.getUserCount(type)
+    }
   }
 
 

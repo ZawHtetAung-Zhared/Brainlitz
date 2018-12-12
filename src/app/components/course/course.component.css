@@ -564,6 +564,7 @@ ul.options-box {
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   padding: 0 20px;
   margin: 0;
+  margin-left: 40px;
   /*bottom: 0px;*/
   border-radius: 4px;
 }
@@ -698,6 +699,11 @@ ul.options-box li button:hover{
 }
 .disable-add{
   /* pointer-events: none; */
+  opacity: 0.7;
+  cursor: none;
+}
+.disable-add1{
+   pointer-events: none; 
   opacity: 0.7;
   cursor: none;
 }
@@ -1263,7 +1269,7 @@ li button{
     padding: 16px 20px;
     border-radius: 0 0 4px 4px;
     border: 1px solid #edeff0;
-    margin-bottom: 180px;
+    margin-bottom: 200px;
     position: relative;
 }
 
@@ -2091,6 +2097,16 @@ button:disabled{
   margin: 0px 15px;
 }
 
+
+.inv-bordered div.inv-row .b-bottom{
+  border-bottom: 1px solid #edeff0;
+}
+.inv-bordered div:last-child.inv-row .b-bottom {
+    border-bottom: 1px solid transparent;
+}
+.inv-bordered div:first-child.inv-row .b-bottom {
+  border-top: 1px solid #edeff0;
+}
 .b-bottom{
   border-bottom: 1px solid #edeff0;
 }
@@ -2141,10 +2157,21 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+@media (max-width: 768px){
+  .options-box{
+    margin-left: 20px !important;
+  }
+}
+
 /*Large devices (1025px t0 1999px)*/
 @media (min-width: 1025px) and (max-width: 1999px) { 
   .card-columns {
     column-count: 1;
+  }
+}
+@media (min-width: 1200px) { 
+  .options-box{
+    width: 25% !important;
   }
 }
 

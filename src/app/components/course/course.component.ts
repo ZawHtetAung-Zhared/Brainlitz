@@ -182,7 +182,7 @@ export class CourseComponent implements OnInit {
   public paymentId:any;
   public showPaidInvoice:boolean = false;
   public invPayment = [];
-  public invStatus;any;
+  public invStatus:any;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -232,6 +232,28 @@ export class CourseComponent implements OnInit {
       this.courseList = []
       console.log(this.courseList.length)
     });
+
+    this._service.goCourseDetail.subscribe(() => {
+      console.log("go back CDetail",this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCourseDetail = true;
+      this.showCourseDetail(this.courseId);
+      this.courseList = []
+    })
+
+    this._service.goPlanDetail.subscribe(() => {
+      console.log("go back PlanDetail",this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCoursePlanDetail = true;
+      this.getCoursePlanDetail(this.editplanId);
+      this.courseList = []
+    })
   }
 
   ngOnInit() {
@@ -1357,7 +1379,13 @@ export class CourseComponent implements OnInit {
     }else{
       console.log("state",state)
       console.log('no courseID', this.detailLists.seat_left)
-      if(this.detailLists.seat_left == 0){
+      // if(this.detailLists.seat_left == 0){
+      //   this.isSeatAvailable = false;
+      // }else{
+      //   this.isSeatAvailable = true;
+      // }
+
+      if(this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats){
         this.isSeatAvailable = false;
       }else{
         this.isSeatAvailable = true;
@@ -1375,6 +1403,7 @@ export class CourseComponent implements OnInit {
     this.userType = type;
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
+    console.log(this.isSeatAvailable)
 
   }
 
@@ -2139,9 +2168,24 @@ export class CourseComponent implements OnInit {
     this.makeupForm = {};
     this.invPayment = [];
     console.log("hideMisc",this.hideMisc)
-    this.getCourseDetail(this.detailLists._id);
-    this.getUsersInCourse(this.detailLists._id);
+    // this.getCourseDetail(this.detailLists._id);
+    // this.getUsersInCourse(this.detailLists._id);
     this.activeTab = "People";
+    if(this.isvalidID == 'inside'){
+       console.log('hi')
+       // this.cancel();
+       this.getCourseDetail(this.detailLists._id)
+       this.getUsersInCourse(this.detailLists._id);
+       // this.cancelModal();
+     }else{
+       console.log('else hi')
+       // this.cancel();
+       this.modalReference.close();
+       this.courseList = [];
+       this.getCourseLists(20,0);
+       // this.cancelModal();
+       // this.getUsersInCourse(courseId);
+     }
     // this.courseList = [];
     // this.getCourseLists(20,0);
   }

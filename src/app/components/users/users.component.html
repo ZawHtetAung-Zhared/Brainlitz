@@ -197,8 +197,8 @@
 								<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
 								<p class="info-p">{{ course.name }}</p>
 								<div class="d-flex align-items-center">
-									<div class="tr-img-wrap">
-										<img src="">
+									<div *ngIf="course.teacher" class="tr-img-wrap">
+										<img src="{{course.teacher.profilePic}}">
 									</div>
 									<p class="tr-name" *ngIf="course.teacher">{{ course.teacher.preferredName }}</p>
 								</div>
@@ -224,18 +224,20 @@
 							<div class="d-flex justify-content-between section-two">
 								<div>
 									<div class="d-flex flex-row align-items-center" *ngIf="course.invoice != null">
-										<div>
+										<!-- Paid/Unpaid -->
+										<!-- <div>
 											<img *ngIf="course.invoice.status == 'UNPAID'" src="./assets/img/paid-indicator.png">
 											<img *ngIf="course.invoice.status == 'PAID'"src="./assets/img/unpaid-indicator.png">
-										</div>
+										</div> -->
 										<div class="ml-12">
-											<label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+											<!-- Paid/Unpaid -->
+											<!-- <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
 											<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
-											<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label>
+											<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label> 
 											<p class="fees">
 												<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
 												{{course.invoice.total}}
-											</p>
+											</p>-->
 										</div>
 									</div>
 								</div>
@@ -299,14 +301,14 @@
 												</span>
 											</label>
 
-											<!-- <div *ngIf="list.issueDateFor">
-												<strong *ngIf="list.issueDateFor.day != null">
-													{{list.issueDateFor.day}} {{list.issueDateFor.month -1 | TTmonth}} {{list.issueDateFor.year}}
+											<div *ngIf="list.claimedDateFor">
+												<strong *ngIf="list.claimedDateFor.day != null">
+													{{list.claimedDateFor.day}} {{list.claimedDateFor.month -1 | TTmonth}} {{list.claimedDateFor.year}}
 												</strong>
-												<strong *ngIf="list.issueDateFor.day == null">
+												<strong *ngIf="list.claimedDateFor.day == null">
 													-
 												</strong>
-											</div> -->
+											</div>
 										</div>
 									</div>
 								</div>
@@ -870,7 +872,7 @@
 	          </div>
 	          <div class="d-flex inv-courseFee">
 	            <div class="cFee-w"></div>
-	            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideReg == true && hideDeposit == true && hideMisc == true}" >
+	            <div class="d-flex w-100 mlr-15">
 	              <div class="col-md-5 p-0 price-info">Course Fee</div>
 	              <div class="col-md-1 p-0 text-right price-info">1</div>
 	              <div class="col-md-2 p-0 text-right price-info">
@@ -909,56 +911,58 @@
 	            </div>
 	          </div>
 	        </div>
-	        <div *ngIf="hideReg == false" class="d-flex inv-row">
-	          <div class="row-icon" (click)="hideInvoiceRow('reg')">
-	            <img src="./assets/images/withdraw-ico@2x.png">
-	          </div>
-	          <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
-	            <div class="col-md-5 p-0 price-info">
-	              Registration Fee
-	            </div>
-	            <div class="col-md-1 p-0 text-right price-info">1</div>
-	            <div class="col-md-2 p-0 text-right price-info">
-	              <p class="mb-0">{{data.registrationFee.fee}}</p>
-	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">
-	              {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.registrationFee.amount}}</div>
-	          </div>
-	        </div>
-	        <div *ngIf="hideMisc == false" class="d-flex inv-row">
-	          <div class="row-icon" (click)="hideInvoiceRow('misc')">
-	            <img src="./assets/images/withdraw-ico@2x.png">
-	          </div>
-	          <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true || data.deposit == null }">
-	            <div class="col-md-5 p-0 price-info">
-	              Miscellaneous fee
-	            </div>
-	            <div class="col-md-1 p-0 text-right price-info">1</div>
-	            <div class="col-md-2 p-0 text-right price-info">
-	              <p class="mb-0">{{data.miscFee.fee}}</p>
-	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">
-	              {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-	            </div>
-	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
-	          </div>
-	        </div>
-	        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
-	          <div class="row-icon" (click)="hideInvoiceRow('deposit')">
-	            <img src="./assets/images/withdraw-ico@2x.png">
-	          </div>
-	          <div class="d-flex w-100 mlr-15">
-	            <div class="col-md-5 p-0 price-info">Deposit</div>
-	            <div class="col-md-1 p-0 text-right price-info">1</div>
-	            <div class="col-md-2 p-0 text-right price-info">
-	              <p class="mb-0">{{data.deposit}}</p>
-	            </div>
-	            <div class="col-md-2 p-0 text-right price-info"></div>
-	            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
-	          </div>
-	        </div>
+	        <div class="inv-bordered">
+		        <div *ngIf="hideReg == false" class="d-flex inv-row">
+		          <div class="row-icon" (click)="hideInvoiceRow('reg')">
+		            <img src="./assets/images/withdraw-ico@2x.png">
+		          </div>
+		          <div class="d-flex w-100 b-bottom mlr-15">
+		            <div class="col-md-5 p-0 price-info">
+		              Registration Fee
+		            </div>
+		            <div class="col-md-1 p-0 text-right price-info">1</div>
+		            <div class="col-md-2 p-0 text-right price-info">
+		              <p class="mb-0">{{data.registrationFee.fee}}</p>
+		            </div>
+		            <div class="col-md-2 p-0 text-right price-info">
+		              {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+		            </div>
+		            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.registrationFee.amount}}</div>
+		          </div>
+		        </div>
+		        <div *ngIf="hideMisc == false" class="d-flex inv-row">
+		          <div class="row-icon" (click)="hideInvoiceRow('misc')">
+		            <img src="./assets/images/withdraw-ico@2x.png">
+		          </div>
+		          <div class="d-flex w-100 b-bottom mlr-15">
+		            <div class="col-md-5 p-0 price-info">
+		              Miscellaneous fee
+		            </div>
+		            <div class="col-md-1 p-0 text-right price-info">1</div>
+		            <div class="col-md-2 p-0 text-right price-info">
+		              <p class="mb-0">{{data.miscFee.fee}}</p>
+		            </div>
+		            <div class="col-md-2 p-0 text-right price-info">
+		              {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+		            </div>
+		            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
+		          </div>
+		        </div>
+		        <div *ngIf="hideDeposit == false" class="d-flex inv-row">
+		          <div class="row-icon" (click)="hideInvoiceRow('deposit')">
+		            <img src="./assets/images/withdraw-ico@2x.png">
+		          </div>
+		          <div class="d-flex w-100 b-bottom mlr-15">
+		            <div class="col-md-5 p-0 price-info">Deposit</div>
+		            <div class="col-md-1 p-0 text-right price-info">1</div>
+		            <div class="col-md-2 p-0 text-right price-info">
+		              <p class="mb-0">{{data.deposit}}</p>
+		            </div>
+		            <div class="col-md-2 p-0 text-right price-info"></div>
+		            <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
+		          </div>
+		        </div>
+		    </div>
 	        <hr class="invoice-hr">
 	        <div class="d-flex justify-content-end">
 	          <div class="w-50">
@@ -996,7 +1000,7 @@
 	      <div>
 	        <button *ngIf="isEditInv == false" class="btn send-btn" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0" (click)="sendInvoice()">Send invoice</button>
 	        <button *ngIf="isEditInv == true" class="btn send-btn" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0" (click)="updateInvoice()">Save</button>
-	        <button class="btn btn-submit" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0" (click)="showPayOption()">Pay now</button>
+	        <!-- <button class="btn btn-submit" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0" (click)="showPayOption()">Pay now</button> -->
 	      </div>
 	    </div>
 	</div>
@@ -1152,7 +1156,7 @@
               </div>
             </div>
             <div class="d-flex inv-courseFee">
-              <div class="d-flex w-100 b-bottom mlr-15">
+              <div class="d-flex w-100 mlr-15">
                 <div class="col-md-5 p-0 price-info">Course Fee</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
@@ -1165,46 +1169,48 @@
               </div>
             </div>
           </div>
-          <div *ngIf="hideReg == false" class="d-flex inv-row">
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">
-                Registration Fee
-              </div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.registrationFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.registrationFee.amount}}</div>
-            </div>
-          </div>
-          <div *ngIf="hideMisc == false" class="d-flex inv-row">
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">
-                Miscellaneous fee
-              </div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.miscFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
-            </div>
-          </div>
-          <div *ngIf="hideDeposit == false" class="d-flex inv-row">
-            <div class="d-flex w-100 mlr-15">
-              <div class="col-md-5 p-0 price-info">Deposit</div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.deposit}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info"></div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
-            </div>
+          <div class="inv-bordered">
+	          <div *ngIf="hideReg == false" class="d-flex inv-row">
+	            <div class="d-flex w-100 b-bottom mlr-15">
+	              <div class="col-md-5 p-0 price-info">
+	                Registration Fee
+	              </div>
+	              <div class="col-md-1 p-0 text-right price-info">1</div>
+	              <div class="col-md-2 p-0 text-right price-info">
+	                <p class="mb-0">{{data.registrationFee.fee}}</p>
+	              </div>
+	              <div class="col-md-2 p-0 text-right price-info">
+	                {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+	              </div>
+	              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.registrationFee.amount}}</div>
+	            </div>
+	          </div>
+	          <div *ngIf="hideMisc == false" class="d-flex inv-row">
+	            <div class="d-flex w-100 b-bottom mlr-15">
+	              <div class="col-md-5 p-0 price-info">
+	                Miscellaneous fee
+	              </div>
+	              <div class="col-md-1 p-0 text-right price-info">1</div>
+	              <div class="col-md-2 p-0 text-right price-info">
+	                <p class="mb-0">{{data.miscFee.fee}}</p>
+	              </div>
+	              <div class="col-md-2 p-0 text-right price-info">
+	                {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span> <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
+	              </div>
+	              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
+	            </div>
+	          </div>
+	          <div *ngIf="hideDeposit == false" class="d-flex inv-row">
+	            <div class="d-flex w-100 b-bottom mlr-15">
+	              <div class="col-md-5 p-0 price-info">Deposit</div>
+	              <div class="col-md-1 p-0 text-right price-info">1</div>
+	              <div class="col-md-2 p-0 text-right price-info">
+	                <p class="mb-0">{{data.deposit}}</p>
+	              </div>
+	              <div class="col-md-2 p-0 text-right price-info"></div>
+	              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
+	            </div>
+	          </div>
           </div>
           <hr class="invoice-hr">
           <div class="d-flex justify-content-end">
