@@ -851,9 +851,7 @@ export class StaffPerformanceReport implements OnInit {
    * @param event
    */
   updateGraphUsingGroupBy(event) {
-    this.filter = {
-      value: []
-    };
+    this.filter.value = [];
     switch (event.target.value) {
       case "Location":
         this.groupBy = "location";

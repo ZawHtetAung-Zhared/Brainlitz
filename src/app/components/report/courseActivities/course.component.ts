@@ -263,9 +263,7 @@ export class CourseActivitiesReport implements OnInit{
     return result;
   }
   updateGraphUsingGroupBy(event) {
-    this.filter = {
-      value: []
-    };
+    this.filter.value = [];
     switch (event.target.value) {
       case "Location":
         this.groupBy = "location";
