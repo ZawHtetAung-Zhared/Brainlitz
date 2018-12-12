@@ -1421,7 +1421,9 @@ export class CourseComponent implements OnInit {
     this.isvalidID = 'inside';
     this.singleInv = [];
     console.log("user data in view inv",data);
-    this.invStatus = data.invoice.status;
+    if(data.invoice != null){
+      this.invStatus = data.invoice.status;
+    }
     if(data.invoice.status == "PAID"){
       this.showPaidInvoice = true;
     }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
@@ -1430,8 +1432,10 @@ export class CourseComponent implements OnInit {
     this.getRegionInfo();
     console.log(this.invoiceInfo);
     var invoiceId = data.invoice._id;
+    this.blockUI.start('Loading...');
     this._service.getSingleInvoice(invoiceId)
     .subscribe((res:any) => {
+      this.blockUI.stop();
       console.log('invoice detail',res);
       this.singleInv.push(res);
       this.invoice = this.singleInv;
@@ -1540,11 +1544,12 @@ export class CourseComponent implements OnInit {
     }
     console.log(lessonId)
     console.log(this.isGlobal)
-
     // Call cancel class api service
+    this.blockUI.start('Loading...');
     this._service.cancelUsersFromClass(this.courseId, data, this.isGlobal)
     .subscribe((res:any) => {
       // Success function
+      this.blockUI.stop();
       this.cancelUI=false;
       this.cancelUi=false;
       console.info("cancle user from class api calling is done");
@@ -1603,6 +1608,7 @@ export class CourseComponent implements OnInit {
     this.blockUI.start('Loading...');
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
+        this.blockUI.stop();
       console.log(res);
       if(state == 'user'){
         this.isFous = false;
@@ -1635,16 +1641,17 @@ export class CourseComponent implements OnInit {
         }
         // this.removeUser = res.preferredName;
       }
-      this.blockUI.stop();
     }, err => {
       console.log(err);
     });
   }
 
   getSingleCustomer(ID){
+    this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
+      this.blockUI.stop();
       console.log('selected Customer',res);
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
@@ -1855,8 +1862,10 @@ export class CourseComponent implements OnInit {
        'userType': userType
      }
      console.log("body",body);
+     this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
+       this.blockUI.stop();
        console.log("res Assign customer",res);
        this.invoiceInfo = res.invoiceSettings;
        this.invoice = res.invoice;
@@ -2154,11 +2163,13 @@ export class CourseComponent implements OnInit {
            // this.cancel();
            this.getCourseDetail(this.detailLists._id)
            this.getUsersInCourse(this.detailLists._id);
-           this.cancelModal();
+           // this.cancelModal();
+           this.cancelInvoiceModal();
          }else{
            console.log('else hi')
-           this.cancel();
+           // this.cancel();
            this.modalReference.close();
+           this.cancelInvoiceModal();
            // this.cancelModal();
            // this.getUsersInCourse(courseId);
          }
@@ -2362,9 +2373,11 @@ export class CourseComponent implements OnInit {
     // }else if(this.invoiceCourse.fees != this.value.courseFee){
     //   data["courseFee"] = this.value.courseFee;
     // }
+    this.blockUI.start('Loading...');
     console.log("Inv Update Data",this.updateInvData);
     this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
     .subscribe((res:any) => {
+      this.blockUI.stop();
       console.log(res);
       this.isEditInv = false;
       //for updating invoice ui

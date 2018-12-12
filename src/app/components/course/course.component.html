@@ -581,7 +581,10 @@
             <div class="d-flex justify-content-between user-header">  
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
-                <div>
+                <div *ngIf="detailLists.seat_left == null ">
+                  <p class="seat">unlimited seat</p>
+                </div>
+                <div *ngIf="detailLists.seat_left != null ">
                   <div *ngIf="pplLists.CUSTOMER.length > detailLists.coursePlan.seats">
                     <p class="seat">0 seat left</p>
                   </div>
@@ -595,7 +598,7 @@
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER; let i = index" class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-                <div (click)="showOptionsBox(user.userId, $event)" class="d-flex flex-row single-user justify-content-center align-items-center">
+                <div (click)="showOptionsBox(user.userId, $event)" class="d-flex flex-row single-user justify-content-center align-items-center cursor-on">
                   <div *ngIf="user.invoice != null">
                     <!-- Paid/Unpaid -->
                     <!-- <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
