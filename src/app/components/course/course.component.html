@@ -581,10 +581,7 @@
             <div class="d-flex justify-content-between user-header">  
               <div class="d-flex flex-row">
                 <h2 class="title-heading">Customers</h2>
-                <div *ngIf="detailLists.seat_left == null ">
-                  <p class="seat">unlimited seat</p>
-                </div>
-                <div *ngIf="detailLists.seat_left != null ">
+                <div>
                   <div *ngIf="pplLists.CUSTOMER.length > detailLists.coursePlan.seats">
                     <p class="seat">0 seat left</p>
                   </div>
@@ -598,7 +595,7 @@
             </div>
             <div class="row customer-row">
               <div *ngFor="let user of pplLists.CUSTOMER; let i = index" class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-                <div (click)="showOptionsBox(user.userId, $event)" class="d-flex flex-row single-user justify-content-center align-items-center cursor-on">
+                <div (click)="showOptionsBox(user.userId, $event)" class="d-flex flex-row single-user justify-content-center align-items-center">
                   <div *ngIf="user.invoice != null">
                     <!-- Paid/Unpaid -->
                     <!-- <div [ngClass]="{'paid-status': user.invoice.status == 'PAID' || user.invoice.status == 'PAID[PARTIAL]', 'unpaid-status': user.invoice.status == 'UNPAID'}" class="img-wrap">
@@ -1453,8 +1450,8 @@
       </div>
       <button (click)="cancelInvoiceModal()" aria-label="Close" class="modal-close close-tabModal" type="button">
         <span class="closemark">
-            <div class="closemark_stem"></div>
-            <div class="closemark_kick"></div>
+            <div class="closemark_stem1"></div>
+            <div class="closemark_kick1"></div>
         </span>
       </button>
     </div>
