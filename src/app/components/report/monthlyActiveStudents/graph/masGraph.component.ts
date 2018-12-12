@@ -1,4 +1,4 @@
-import {Component, OnInit,Input} from '@angular/core';
+import {Component, OnInit,Input,OnChanges} from '@angular/core';
 @Component({
   selector: 'mas-graph',
   templateUrl: './masGraph.component.html',
@@ -9,7 +9,11 @@ export class MonthlyActiveStdReportGraph implements OnInit {
   plotOption:any;
   echarts:any;
   barColor:any;
-  ngOnInit(){
+  
+  ngOnChanges() {
+    this.setupOption();
+  }
+  setupOption(){
     console.log("inside graph component");
     console.log(this.reportItems);
     this.echarts = require('echarts');
@@ -69,20 +73,13 @@ export class MonthlyActiveStdReportGraph implements OnInit {
       _self.plotOption.yAxis.data.push(item.groupTypeValue);
       _self.plotOption.series[0].data.push(item.students);
     });
-    // for (var key in this.reportItems.rating) {
-    //   let obj = {
-    //     value: this.reportItems.rating[key],
-    //     name: 'Hola',
-    //     itemStyle: {
-    //       color: this.barColor[key],
-    //
-    //     }
-    //   };
-    //   this.plotOption.series[0].data.push(obj);
-    //
-    // }
+    this.plotGraph();
   }
-  ngAfterViewInit(){
+  ngOnInit(){
+
+
+  }
+  plotGraph(){
     var elem = document.getElementById('masGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
