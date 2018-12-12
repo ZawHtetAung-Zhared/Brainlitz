@@ -2104,6 +2104,9 @@ button:disabled{
 .inv-bordered div:last-child.inv-row .b-bottom {
     border-bottom: 1px solid transparent;
 }
+.inv-bordered div:first-child.inv-row .b-bottom {
+  border-top: 1px solid #edeff0;
+}
 .b-bottom{
   border-bottom: 1px solid #edeff0;
 }

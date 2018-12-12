@@ -1105,7 +1105,7 @@
   </div>
   <div *ngIf="showInvoice == true">
     <div *ngIf="feesBox == true" class="overlayInv"></div>
-    <div class="invoice-container">
+    <div class="invoice-container tabs-inv">
       <div class="d-flex justify-content-between">
         <div class="logo-wrapper">
           <img src="{{logo}}">
@@ -1186,7 +1186,7 @@
           </div>
           <div class="d-flex inv-courseFee">
             <div class="cFee-w"></div>
-            <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true && hideReg == true && hideMisc == true}">
+            <div class="d-flex w-100 mlr-15">
               <div class="col-md-5 p-0 price-info">Course Fee</div>
               <div class="col-md-1 p-0 text-right price-info">1</div>
               <div class="col-md-2 p-0 text-right price-info">
@@ -1266,7 +1266,7 @@
             <div class="row-icon" (click)="hideInvoiceRow('deposit')">
               <img src="./assets/images/withdraw-ico@2x.png">
             </div>
-            <div class="d-flex w-100 mlr-15">
+            <div class="d-flex w-100 b-bottom mlr-15">
               <div class="col-md-5 p-0 price-info">Deposit</div>
               <div class="col-md-1 p-0 text-right price-info">1</div>
               <div class="col-md-2 p-0 text-right price-info">
@@ -1380,7 +1380,7 @@
     </div>
   </div>
   <div *ngIf="showPayment == true">
-    <div class="invoice-container">
+    <div class="invoice-container tabs-inv">
       <div class="logo-wrapper">
         <img src="{{logo}}">
       </div>
@@ -1699,7 +1699,7 @@
             </div>
             <div class="d-flex inv-courseFee">
               <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="cFee-w"></div>
-              <div class="d-flex w-100 b-bottom mlr-15" [ngClass]="{'hide-border': hideDeposit == true && hideReg == true && hideMisc == true}">
+              <div class="d-flex w-100 mlr-15">
                 <div class="col-md-5 p-0 price-info">Course Fee</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
@@ -1782,7 +1782,7 @@
               <div *ngIf="invStatus != 'PAID[PARTIAL]'" class="row-icon" (click)="hideInvoiceRow('deposit')">
                 <img src="./assets/images/withdraw-ico@2x.png">
               </div>
-              <div class="d-flex w-100 mlr-15">
+              <div class="d-flex w-100 b-bottom mlr-15">
                 <div class="col-md-5 p-0 price-info">Deposit</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
@@ -1997,7 +1997,7 @@
               </div>
             </div>
             <div class="d-flex inv-courseFee">
-              <div class="d-flex w-100 b-bottom mlr-15">
+              <div class="d-flex w-100 mlr-15">
                 <div class="col-md-5 p-0 price-info">Course Fee</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
@@ -2042,7 +2042,7 @@
               </div>
             </div>
             <div *ngIf="hideDeposit == false" class="d-flex inv-row">
-              <div class="d-flex w-100 mlr-15">
+              <div class="d-flex w-100 b-bottom mlr-15">
                 <div class="col-md-5 p-0 price-info">Deposit</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
