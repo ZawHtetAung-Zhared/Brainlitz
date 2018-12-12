@@ -1,4 +1,5 @@
 <app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
+<div [ngClass]="{'mainOverlay': (isEdit == true || isUrlEdit == true)}"></div>
 <div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
     <div class="noti-sidebar h-100">
       <div class="side-bar-wrap" [ngClass]="{'p-top' : navIsFixed == true, 'mid-top' : isMidStick == true}">
@@ -42,12 +43,12 @@
     </div>
     <div *ngIf="menuType == 'general'" class="pl-zero large-col" >
       <div class="d-flex flex-column w-100 h-100 setting-wrapper">
-        <div>
+        <div *ngIf="option != 'Invoice' && option != 'Payment'">
           <div *ngIf="generalSidebar.length > 0" class="header-wrap">
             <h3 class="general">General</h3>
           </div>
           <div class="card-columns">
-            <div *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+            <div [ngClass]="{'showZindex': isEdit, 'blur': isUrlEdit}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
                 Regional Settings
               </div>
@@ -88,6 +89,15 @@
                     </ng2-timezone-picker>
                   </div>
                 </div>
+                <!-- <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent">
+                        <img src="./assets/images/map.png">
+                    </div>
+                    <label class="labelTitle">Operating hour</label>
+                  </div>
+                  <label class="labelName">8:00 AM - 9:00 AM</label>
+                </div> -->
               </div>
               <div *ngIf="!isEdit">
                 <a class="link-btn" (click)="editRegion()">Edit</a>
@@ -97,9 +107,76 @@
                 <a (click)="updateRegionalInfo(item,'timezone')">Done</a>
               </div>
             </div>  
-            <div *ngIf="generalDemo.regional != ''" class="card card-wrap">
+             
+            <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
-                App Settings
+                Invoice Settings
+              </div>
+              <div class="region-info">
+                <div>
+                  <div class="title-wrap">
+                    <div id="parent">
+                        <img src="./assets/images/profile.png">
+                    </div>
+                    <label class="labelTitle">Company name</label>
+                  </div>
+                  <label *ngIf="invoiceData.companyName != ''" class="labelName">{{invoiceData.companyName}}</label>
+                  <label *ngIf="invoiceData.companyName == ''" class="labelName">-</label>
+                </div>
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent">
+                      <p class="dot">...</p>
+                    </div>
+                    <label class="labelTitle">Registration number</label>
+                  </div>
+                  <label *ngIf="invoiceData.registration != ''" class="labelName">{{invoiceData.registration}}</label>
+                  <label *ngIf="invoiceData.registration == ''" class="labelName">-</label>
+                </div>
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent">
+                        <img src="./assets/images/map.png">
+                    </div>
+                    <label class="labelTitle">Address</label>
+                  </div>
+                  <label *ngIf="invoiceData.address != '' || invoiceData.city != ''" class="labelName">{{invoiceData.address}} {{invoiceData.city}}</label>
+                  <label *ngIf="invoiceData.address == '' && invoiceData.city == ''" class="labelName">-</label>
+                </div>
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent">
+                        <img src="./assets/images/email.png">
+                    </div>
+                    <label class="labelTitle">Email</label>
+                  </div>
+                  <label *ngIf="invoiceData.email != ''" class="labelName">{{invoiceData.email}}</label>
+                  <label *ngIf="invoiceData.email == ''" class="labelName">{{invoiceData.email}}</label>
+                </div>
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent">
+                      <p class="currency">$</p>
+                    </div>
+                    <label class="labelTitle">Currency sign</label>
+                  </div>
+                  <div class="labelName d-flex">
+                    <div class="currency-flag currency-flag-{{invoiceData.currencyCode}}"></div>
+                    <div class="c-sign">
+                      <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div>
+                      {{invoiceData.currencySign}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <a class="link-btn" (click)="editSetting('Invoice')">Edit</a>
+              </div>
+            </div> 
+
+            <div [ngClass]="{'blur': isEdit, 'showZindex': isUrlEdit}" *ngIf="generalDemo.regional != ''" class="card card-wrap">
+              <div class="title">
+                App Settings 
               </div>
               <div class="setting-container">
                 <div class="setting-info" [ngClass]="{'blur': isUrlEdit}">
@@ -166,8 +243,243 @@
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>
+
+            <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+              <div class="title">
+                Payment Settings
+              </div>
+              <div class="region-info">
+                <div>
+                  <div class="title-wrap">
+                    <div id="parent">
+                        <img src="./assets/images/currency.png">
+                    </div>
+                    <label class="labelTitle">Currency code</label>
+                  </div>
+                  <!-- <label class="labelName">{{paymentData.currencyCode}}</label> -->
+                  <div class="labelName d-flex">
+                    <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
+                    <div class="c-sign">
+                      <!-- <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div> -->
+                      {{paymentData.currencyCode}}
+                    </div>
+                  </div>
+                </div>
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent">
+                        <img src="./assets/images/currency-sign.png">
+                    </div>
+                    <label class="labelTitle">Tax setting</label>
+                  </div>
+                  <label class="labelName">
+                    <span *ngIf="paymentData.tax.name != ''" >{{paymentData.tax.name}} </span>
+                    <span *ngIf="paymentData.tax.name == ''" >- </span>
+                    <span *ngIf="paymentData.tax.rate != null">{{paymentData.tax.rate}}</span>
+                    <span *ngIf="paymentData.tax.rate == null">(-)</span>
+                  </label>
+                </div>
+                <div class="sectionWrap">
+                  <label class="sectionTitle">Online payment</label>
+                  <div *ngIf="paymentData.paymentProviders.length > 0">
+                    <div class="provider-list" *ngFor="let provider of paymentData.paymentProviders">
+                      {{provider.name}}
+                    </div>
+                  </div>
+                  <div *ngIf="paymentData.paymentProviders.length == 0">
+                    <div class="provider-list">none</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <a class="link-btn" (click)="editSetting('Payment')">Edit</a>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div *ngIf="option == 'Invoice' || option == 'Payment'">
+          <div class="content-wrapper">
+            <div class="back-wrap d-flex" *ngIf="option == 'Invoice' || option == 'Payment'">
+              <div class="back-to" (click)="cancel()">
+                <i class="fa fa-angle-left"></i>
+                <p>General</p>
+              </div>
+            </div>
+            <div class="setting-edit-wrap">
+              <h3 class="heading-h3">{{option}} setting</h3>
+              <form *ngIf="option == 'Invoice'" novalidate #invoiceForm="ngForm" class="form-wrap">
+                <div class="col-md-8 input-wrap">
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <label class="input-label" for="name">Company name</label>
+                    </div>  
+                    <input type="text" class="form-control create-input" placeholder="Type company name here" name="companyName" [(ngModel)]="invoiceData.companyName" #name="ngModel">
+                  </div>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <label class="input-label" for="name">Prefix</label>
+                    </div>  
+                    <input type="text" class="form-control create-input" placeholder="Type company name here" name="prefix" [(ngModel)]="invoiceData.prefix" #prefix="ngModel">
+                  </div>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <label class="input-label" for="name">Registration number</label>
+                    </div>  
+                    <input type="text" class="form-control create-input" placeholder="Type registration number here" name="registration" [(ngModel)]="invoiceData.registration" #registration="ngModel">
+                  </div>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <label class="input-label" for="name">Address</label>
+                    </div>  
+                    <textarea class="form-control create-textarea" rows="3" placeholder="Street" name="street" [(ngModel)]="invoiceData.address" #street="ngModel"></textarea>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <input type="text" class="form-control tax-input" placeholder="City" name="city" [(ngModel)]="invoiceData.city" #city="ngModel">
+                      </div>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control tax-input" placeholder="Post code" name="postal" [(ngModel)]="invoiceData.postal" #postal="ngModel">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="d-flex justify-content-between">
+                      <label class="input-label" for="name">Email</label>
+                    </div>  
+                    <input type="email" class="form-control create-input" placeholder="Type email address here"  name="email" [(ngModel)]="invoiceData.email" #email="ngModel">
+                  </div>
+                  <div class="form-group mb-45">
+                    <div class="currency-wrap">
+                      <label class="input-label" for="name">Currency sign</label>
+                      <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between" (document:click)="closeBox($event)">
+                          <div class="d-flex">
+                            <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
+                            <div class="sectionTitle" *ngIf="selectedFlag == 'sgd'">S</div>
+                            <div class="c-input">{{selectedCurrency}}</div>
+                          </div>
+                          <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+                      </div>
+                      <div *ngIf="showDropdown" class="currency-dropdown">
+                        <input type="text" name="" class="form-control" (input) = "search($event.target.value)">
+                        <div class="currency-list">
+                          <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)" >
+                            <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
+                              <div class="currency-flag currency-flag-{{key}}"></div>
+                              <div class="c-sign">
+                                <div class="pull-left" *ngIf="key == 'sgd'">S</div>
+                                {{newCurrency[key]}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+                  <!-- </div> -->
+                </div>
+                <div class="d-flex justify-content-end form-footer">
+                  <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+                  <button type="button" class="btn btn-submit" (click)="updateInvoice(invoiceData, 'invoice')">Done</button>
+                </div>
+              </form>
+
+              <form *ngIf="option == 'Payment'" novalidate #paymentForm="ngForm" class="form-wrap">
+                <div class="col-md-8 input-wrap">
+                  <div class="form-group">
+                    <div class="currency-wrap">
+                      <label class="input-label" for="code">Currency Code</label>
+                      <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between" (document:click)="closeBox($event)">
+                          <div class="d-flex">
+                            <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
+                            <div class="c-input">{{selectedFlag}}</div>
+                          </div>
+                          <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+                      </div>
+                      <div *ngIf="showDropdown" class="currency-dropdown">
+                        <input type="text" name="" class="form-control" (input) = "search($event.target.value)">
+                        <div class="currency-list">
+                          <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)" >
+                            <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
+                              <div class="currency-flag currency-flag-{{key}}"></div>
+                              <div class="c-sign">
+                                {{key}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                  <div class="form-group">
+                    <label class="input-label" for="tax">Tax setting</label>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <input type="text" class="form-control tax-input" placeholder="E.g. GST" name="taxname" [(ngModel)]="paymentData.tax.name" #name="ngModel">
+                      </div>
+                      <div class="col-md-6 d-flex">
+                        <input type="number" class="form-control tax-input" placeholder="0" name="taxamount" min="0" (keypress)="numberOnly($event, 'tax')" [(ngModel)]="paymentData.tax.rate" #name="ngModel">
+                        <div class="tax-option">%</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="d-flex">
+                      <div class="toggle-wrap" (click)="onlinePayment()">
+                        <label class="switch">
+                          <input type="checkbox" (change)="onlinePayment()" [checked]="isOnline">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <label class="switch-label" for="online">Accept online payment</label>
+                    </div>
+                    <div *ngIf="isOnline" class="online-wrap">
+                      <div *ngIf="providerTemp.length > 0" class="d-flex flex-nowrap provider-group">
+                        <div *ngFor="let provider of providerTemp" class="single-provider d-flex flex-row">
+                          <span>{{provider.name}}</span>
+                          <div (click)="removeTempData(provider.id)" class="remove-data d-flex justify-content-end"></div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="provider-wrap">
+                          <label class="input-label" for="merchant">Payment provider</label>
+                          <div (click)="showCurrencyBox('provider')" class="current-currency d-flex justify-content-between" (document:click)="closeProvider($event)">
+                            <input type="text" class="form-control" placeholder="selected provider" name="name" [(ngModel)]="payment.name" #name="ngModel" readonly>
+                            <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+                          </div> 
+                          <div *ngIf="showProvider" class="currency-dropdown">
+                            <div class="provider-listing">
+                              <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers" [ngClass]="(providerArray.indexOf(item.name) > -1) ? 'disabled-provider' :''">
+                                {{item.name}} 
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+
+                      </div>
+                      <div class="form-group">
+                        <div class="d-flex justify-content-between">
+                          <label class="input-label" for="merchant">Merchant ID</label>
+                        </div>  
+                        <input type="text" class="form-control create-input" placeholder="Type merchant ID here" name="merchant" [(ngModel)]="payment.Mcptid" #merchant="ngModel">
+                      </div>
+                      <div class="form-group no-border">
+                        <div class="d-flex justify-content-between">
+                          <label class="input-label" for="apikey">API key</label>
+                        </div>  
+                        <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end form-footer">
+                  <button type="submit" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+                  <button type="submit" class="btn btn-submit" (click)="updateInvoice(paymentData, 'payment')">Done</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>

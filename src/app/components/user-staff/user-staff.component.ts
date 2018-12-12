@@ -287,7 +287,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	isValidateEmail($email) {
-	  var emailReg = /^([A-Za-z0-9\.\+])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+	  var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
 	  if($email != ''){
 	  	return emailReg.test( $email );
 	  }
@@ -322,7 +322,7 @@ export class UserStaffComponent implements OnInit {
 		objData.append('fullName', obj.fullName)
 		objData.append('preferredName', obj.preferredName),
 		objData.append('email', obj.email),
-		objData.append('password', obj.password),
+		// objData.append('password', obj.password),
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);
 
@@ -330,6 +330,10 @@ export class UserStaffComponent implements OnInit {
 		if(this.formFields.details.length>0){
 			console.log("Has Details",this.formFields.details)
 			objData.append('details', JSON.stringify(obj.details));
+		}
+
+		if(this.isPasswordChange == true){
+			objData.append('password', obj.password);
 		}
 
 		if(state == 'create'){

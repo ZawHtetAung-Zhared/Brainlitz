@@ -1,0 +1,350 @@
+
+.checkboxes-wrapper{
+  margin: 0 0 32px 0!important;
+}
+.schedule-checkboxes-wrapper{
+  margin-bottom: 32px;
+  margin-left: 20px;
+}
+.schedule-title {
+    width: 135px;
+    height: 34px;  
+    margin-bottom: 36px; 
+    font-family: Montserrat-SemiBold;
+    font-size: 28px;
+    font-weight: 600;
+    color: #2e3d4d;
+  }
+  .category-title{
+    width: 100%;
+    height: 22px;
+    font-size: 18px;
+    font-family: Montserrat-SemiBold;
+    font-weight: 600;
+    color: #2e3e4d;
+  }
+.pick-day-of-the-week{
+  width: 193px;
+  height: 22px;
+  font-family: Montserrat-SemiBold;
+  
+  font-size: 18px;
+  font-weight: 600;
+  color: #2e3e4d;
+}
+
+  .day{
+    width: 62px;
+    height: 62px;
+    padding: 2px;
+    border-radius: 4px;
+    margin: 16px 10px 5px 0px;
+    color: #2e3e4d;
+    padding: 10px;
+    box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+}
+  .day-checkbox{
+    width: 48px;
+    height: 44px;
+    border-radius: 4px;
+    margin: 16px 10px 5px 0px;
+    color: #2e3e4d;
+    padding: 10px 0px 10px 0px;
+    box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+    text-align: center;
+  }
+.round-tick{
+  width: 20px;
+  height: 20px;
+  border: 2px solid #788796;
+  border-radius: 50%;
+}
+.regular-checkbox{
+  display: none;
+}
+.rounded-box{
+  line-height: 12px;
+  text-align: center;
+  width: 17px;
+  height: 17px;
+  border: 2px solid #788796;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.rounded-checked{
+  line-height: 15px;
+  text-align: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #ffffff;
+} 
+.rounded-checked i{
+  font-size: 12px;
+  color: #007fff;
+}
+.active-label{
+  background-color: #007fff;
+  color: #ffffff;
+}
+.box-label{
+  margin-top: 10px;
+}
+.schedule-box-label{
+  /* text-align: center; */
+}
+.checkboxes-wrapper{
+ margin-bottom: 32px;
+ margin-left: 20px;
+}
+
+
+
+/* Input search bg */
+.input-search-bg{
+    padding: 12px 0 12px 12px !important;
+    background: #f2f4f5;
+    border: none;
+    z-index: auto !important;
+}
+
+.input-search-dropdown-bg {
+  width: 280px!important;
+  height: 44px;
+  display: block;
+  border-radius: 4px;
+  border:0px;
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  background-color: #ffffff;
+}
+.scheduleList-dropdown>.form-control {
+  position: relative;
+  flex: none;
+  width: 280px!important;
+  margin-bottom: 0;
+}
+
+.form-control[_ngcontent-c1]:focus {
+  outline: 0;
+  box-shadow:none!important;
+}
+.btn-design{
+    padding: 12px;
+    background: #f2f4f5;
+    border: none;
+    border-radius: 4px !important;
+    color: #788796;
+    cursor: pointer;
+  }
+.btn-primary{
+    background: #007bff!important;
+    color: white!important;
+    min-width: 114px!important;
+}
+
+.form-control:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0 rgba(0,123,255,.25)!important;
+}
+.btn-outline-secondary:focus {
+  box-shadow: 0 0 0 0rem rgba(108,117,125,.5)!important;
+}
+.btn-outline-secondary:not(:disabled):not(.disabled):active{
+  color: #6c757d!important;
+  background-color: #f2f4f5!important;
+  border-color: #6c757d!important;
+}
+
+ul.data-listing{
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  display: block;
+  width: 100%;
+  background: #fff;
+  height: 300px;
+  position: absolute;
+  margin: 0;
+  top:50px;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+  margin-top: 3px;
+  cursor: pointer;
+  padding-left: 20px;
+}
+ul.data-listing li.disabled{
+  opacity: 0.4;
+  pointer-events: none;
+}
+.scedule-data-listing{
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  display: block;
+  width: 280px;
+  background: #fff;
+  height: 300px;
+  position: absolute;
+  margin: 0;
+  top:50px;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+  margin-top: 3px;
+  cursor: pointer;
+  padding-left: 20px;
+}
+ul.scedule-data-listing li.disabled{
+  opacity: 0.4;
+  pointer-events: none;
+}
+.back-to{
+	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-size: 16px;
+    color: #2e3d4d !important;
+	padding-left: 0 !important;
+	cursor: pointer;
+}
+.back-to i,
+.back-to p{
+	float: left;
+}
+.back-to i{
+	float: left;
+    font-size: 23px;
+}
+.back-to p{
+  float: left;
+  font-size: 16px;
+  color: #2e3d4d;
+  font-family: Montserrat-Medium;
+	margin-bottom: 0;
+	line-height: 1.6;
+	margin-left: 4px;
+}
+.course-search-down,
+.search-downicon,
+.user-down{
+  font-size: 23px;
+  cursor: pointer;
+}
+.course-search-down{
+  height: 44px;
+  position: absolute;
+  left: 260px;
+  /* padding: 15px; */
+  border-left: none;
+}
+.teacher-list{
+  width:145px; 
+  height:32px;
+  background:#f2f4f5;
+  border-radius:16px; 
+  padding: 0px 43px 0px 9px;
+  /* margin-left:0px;  */
+  margin-right:16px;
+}
+.modal-teacher-list{
+  width:207px; 
+  height:48px;
+  background:#ffffff;
+  border-radius:24px; 
+  margin: 0px 20px 20px 0px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  padding-left:4px; 
+}
+/* .teacher-pic{
+  width: 100%;
+  height: 100%;
+ 
+  object-fit: contain;
+} */
+.teacher-pic{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+
+.modal-teacher-pic{
+  height:32px;
+  width:32px; 
+  border-radius: 100%;
+  padding-left: 8px;
+}
+.text-teacher-name{
+  color: #64707d;
+  font-size:12px;
+}
+.text-teacher-name{
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Montserrat-SemiBold;
+}
+.teacher-list-wrapper{
+  width: 85%;
+  /* height: 50px; */
+  overflow-x: scroll;
+}
+.teacher-more-view{
+  width:87px;
+  height:33px;
+  border-radius: 16px; 
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+}
+.dad{
+  width: 300px;
+}
+
+.close{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f2f4f5;
+}
+
+.closemark {
+  display:inline-block;
+  width: 30px;
+  height: 16px;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+.closemark_stem ,
+.closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 24px;
+  background-color: #3d5266;
+  left: 7px;
+}
+
+.closemark_kick {
+  transform: rotate(90deg);
+}
+.modal-title{
+  font-family: Montserrat-SemiBold;
+  font-size: 28px;
+  font-weight: 600;
+  color: #2e3d4d;
+}
+
+.form-control[_ngcontent-c1][_ngcontent-c1]:focus {
+    outline: 0;
+    -webkit-box-shadow:none!important; 
+     box-shadow:none!important;
+}
+/* .modal-techerlist-wraper{
+  overflow: auto;
+  height: 250px!important;
+} */
+
+.profile-img-wrap{
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+}
+
+.close:focus {
+ 
+  outline: 0px auto -webkit-focus-ring-color!important;
+}

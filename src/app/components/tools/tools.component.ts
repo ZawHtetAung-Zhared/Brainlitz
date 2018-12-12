@@ -205,6 +205,7 @@ export class ToolsComponent implements OnInit {
       this.isFousCourse = false;
       this.isFousCategory = false;
     }, 300);
+
   }
 
   changeSearch(searchWord, type){
@@ -216,37 +217,82 @@ export class ToolsComponent implements OnInit {
     this.selectedID = (searchWord.length == 0 ) ? undefined : this.selectedID;
     this.userCount = (searchWord.length == 0 ) ? 0 : 0;
     if(type == 'user'){
-      this._service.getSearchUser(this.regionID, searchWord, 'all', 20, 0, '')
-      .subscribe((res:any) => {
-        console.log(res);
-        this.userLists = res;
-      }, err => {  
-        console.log(err);
-      });
+      if(searchWord.length != 0){
+        this._service.getSearchUser(this.regionID, searchWord, 'all', 20, 0, '')
+        .subscribe((res:any) => {
+          console.log(res);
+          this.userLists = res;
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        this._service.getAllUsers(this.regionID, 'all', 20, 0)
+        .subscribe((res:any) =>{
+          this.userLists = res;
+        },err => {
+          console.log(err)
+        })
+      }
     }else if(type == 'course'){
-      this._service.getSearchCourse(this.regionID, searchWord, this.locationId)
-      .subscribe((res:any) => {
-        console.log(res);
-        this.courseLists = res;
-      }, err => {  
-        console.log(err);
-      });
+      if(searchWord.length != 0){
+        this._service.getSearchCourse(this.regionID, searchWord, this.locationId)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.courseLists = res;
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        console.log("zero keyword")
+        this._service.getAllCourse(this.regionID, this.locationId, 20, 0)
+        .subscribe((res:any) => {
+          this.courseLists = res;
+            for(var key in this.courseLists){
+              for(var i in this.courseLists[key].courses){
+                  this.tempList.push(this.courseLists[key].courses[i]);
+              }
+          }
+          console.log('templist',this.tempList)
+          this.courseLists = this.tempList;
+        },err => {
+          console.log(err);
+        })
+      }
+      
     }else if(type == 'category'){
-      this._service.getSearchCategory(this.regionID, searchWord, this.locationId)
-      .subscribe((res:any) => {
-        console.log(res);
-        this.categoryLists = res;
+// <<<<<<< HEAD
+//       this._service.getSearchCategory(this.regionID, searchWord, this.locationId)
+//       // this._service.getSearchCategory(this.regionID, searchWord, 'all', 20, 0, '')
+//       .subscribe((res:any) => {
+//         console.log(res);
+//         this.categoryLists = res;
+// =======
+      if(searchWord.length != 0){
+        this._service.getSearchCategory(this.regionID, searchWord, this.locationId)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.categoryLists = res;
+// >>>>>>> 7f7d5ab9199d560503b054b5130f4612d80b725d
 
-      }, err => {  
-        console.log(err);
-      });
+        }, err => {  
+          console.log(err);
+        });
+      }else{
+        console.log("zero");
+        this._service.getCategory(this.regionID, 20, 0)
+        .subscribe((res:any) => {
+          this.categoryLists = res;
+        },err => {
+          console.log(err);
+        })
+      }
     }
     
   }
 
   selectData(id, name, type){
-    console.log(id)
-    console.log('~~~', this.active.length)
+    console.log(id,name,type)
+    console.log('~~~~~', this.active.length)
     this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
