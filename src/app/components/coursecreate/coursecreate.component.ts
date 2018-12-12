@@ -190,7 +190,7 @@ export class CoursecreateComponent implements OnInit {
       this.calculateDuration(this.model.starttime,this.model.duration);
       this.createList(this.model.coursePlan.lesson.duration);
       this.model.durationTimes = this.model.durationTimes;
-      this.startTime = this.model.starttime
+      this.startTime = this.model.starttime;
       // if(this.model.taxInclusive == true){
       //   this.chooseTax = "Inclusive"; 
       // }else{
@@ -227,6 +227,7 @@ export class CoursecreateComponent implements OnInit {
       // setTimeout(() => {
       //    this.createCourse();
       //  }, 300);
+      this.maxDate = this.changeDateStrtoObj(res.endDate,"end");
       this.save = true;
       this.addCheck = true;
       this.conflitCourseId = res._id;
