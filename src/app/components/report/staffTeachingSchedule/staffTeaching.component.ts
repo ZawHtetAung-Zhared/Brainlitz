@@ -139,7 +139,9 @@ export class StaffTeachingScheduleReport implements OnInit {
           });
         });
       });
-      res.push(obj);
+      if(obj.staffHours>0){
+        res.push(obj);
+      }
     });
     return res;
   }
@@ -189,7 +191,9 @@ export class StaffTeachingScheduleReport implements OnInit {
           obj.staffHours += staff.hours;
         });
       });
-      result.push(obj);
+      if(obj.staffHours>0) {
+        result.push(obj);
+      }
     });
     return result;
   }
@@ -237,7 +241,9 @@ export class StaffTeachingScheduleReport implements OnInit {
           obj.staffHours += staff.hours;
         });
       });
-      result.push(obj);
+      if(obj.staffHours>0) {
+        result.push(obj);
+      }
     });
     return result;
   }
