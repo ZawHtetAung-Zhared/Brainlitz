@@ -1530,7 +1530,6 @@ export class CourseComponent implements OnInit {
     }
     console.log(lessonId)
     console.log(this.isGlobal)
-
     // Call cancel class api service
     this._service.cancelUsersFromClass(this.courseId, data, this.isGlobal)
     .subscribe((res:any) => {
