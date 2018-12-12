@@ -2135,11 +2135,13 @@ export class CourseComponent implements OnInit {
            // this.cancel();
            this.getCourseDetail(this.detailLists._id)
            this.getUsersInCourse(this.detailLists._id);
-           this.cancelModal();
+           // this.cancelModal();
+           this.cancelInvoiceModal();
          }else{
            console.log('else hi')
-           this.cancel();
+           // this.cancel();
            this.modalReference.close();
+           this.cancelInvoiceModal();
            // this.cancelModal();
            // this.getUsersInCourse(courseId);
          }
