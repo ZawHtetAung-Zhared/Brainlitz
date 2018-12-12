@@ -1534,7 +1534,6 @@ export class CourseComponent implements OnInit {
     }
     console.log(lessonId)
     console.log(this.isGlobal)
-
     // Call cancel class api service
     this.blockUI.start('Loading...');
     this._service.cancelUsersFromClass(this.courseId, data, this.isGlobal)
