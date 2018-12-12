@@ -740,6 +740,12 @@ export class UsersComponent implements OnInit {
 		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
 		this.showCustDetail = true;
+		if(this.currency == undefined || this.currency == null){
+	      this.currency = {
+	        'invCurrencySign': ''
+	      }
+	      console.log("undefined currency",this.currency);
+	    }
 		this.blockUI.start('Loading...');
 		this._service.getUserDetail(this.regionID,ID, this.locationID)
 		.subscribe((res:any) => {
@@ -1319,7 +1325,8 @@ export class UsersComponent implements OnInit {
 	    	this.callMakeupLists();
 	    },err =>{
 	      	console.log(err);
-	      	this.toastr.error('Claim pass failed.');
+	      	// this.toastr.error('Claim pass failed.');
+	      	this.toastr.error(err.error.message);
 	      	this.blockUI.stop();
 	      	this.isChecked = '';
 	      	this.checkCourse = '';
