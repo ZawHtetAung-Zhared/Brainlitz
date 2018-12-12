@@ -19,13 +19,12 @@ export class MonthlyActiveStudentsReport implements OnInit {
   courseNameList = ['Business Administration', 'Management Studies', '3D Animation', 'Facebook Marketing', 'Cyber Security', 'Math Classes', 'Orchestra', 'Guitar', 'Hip Hop', 'Piano', 'Meditation & Yoga', 'Health & Fitness', 'Sports Science'];
   searchResult:any;
   groupBy = "location";
-  selectedFilter:any;
   filter:any;
   modalReference:any;
   reportData:any;
-  selectedFilterType:any;
   daterange:any = {};
   options:any;
+  filterModel:any;
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
@@ -45,9 +44,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedFilter = "";
-    this.selectedFilterType = '0';
-    this.filter = {type: "", 'value': []};
+    this.filterModel = 'Category';
+    this.filter = {type: "category", 'value': []};
     this.searchResult = {
       show: false,
       value: []
@@ -147,11 +145,6 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   showFilterModal(content) {
     this.searchResult.show = false;
-    this.searchResult.value = this.categoryList;
-    this.filter = {
-      type: "category",
-      value: []
-    };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
@@ -159,27 +152,21 @@ export class MonthlyActiveStudentsReport implements OnInit {
     });
 
     this.modalReference.result.then((result) => {
-      console.log(result);
+     // console.log(result);
     }, (reason) => {
-      console.log(reason);
+     // console.log(reason);
     });
   }
 
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
-    if (!this.filter.value.length) {
-      this.filter.type = ""
-    }
-    ;
     this.applyFilters();
   }
 
   removeAllFilters() {
-    this.filter = {
-      type: "",
-      value: []
-    };
+    this.filter.value = [];
+    this.searchResult.value = this.categoryList;
     this.applyFilters();
   }
   clearSearch() {
@@ -199,18 +186,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
   }
   applyFilters() {
-    switch (this.groupBy) {
-      case "location":
-        //this.showReportByLocation();
-        break;
-      case "category":
-        //this.showReportByCategory();
-        break;
-      case "coursePlan":
-        //this.showReportByCoursePlan();
-        break;
-    }
-
+    this.showReport();
     this.modalReference.close();
   }
 }
