@@ -793,3 +793,13 @@ input[type=radio]:checked ~ label{
         max-width: 12.666667%;
     }   
 }
+input[_ngcontent-c6]:focus {
+    /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
+    box-shadow: 0 1px 3px 2px white;
+    outline: none;
+}
+.form-wrap[_ngcontent-c1] textarea[_ngcontent-c1]:focus, .form-wrap[_ngcontent-c1] input[_ngcontent-c1]:focus {
+    -webkit-box-shadow: 0 1px 3px 2px #fff;
+    box-shadow: 0 1px 3px 2px#fff;
+    outline: none;
+}
