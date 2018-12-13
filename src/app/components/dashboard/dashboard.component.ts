@@ -172,6 +172,20 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.invoiceData = res;
+      console.log('this.invoiceData', this.invoiceData)
+      console.log(Object.keys(this.invoiceData).length)
+      if(Object.keys(this.invoiceData).length == 0){
+        this.invoiceData = {
+            "companyName" : "",
+            "registration" : "",
+            "address" : "",
+            "city": "",
+            "email" : "",
+            "prefix"  : "",
+            "currencySign"  : "",
+            "currencyCode"  : "",
+          };
+      }
     }, err => {
       console.log(err)
     })
@@ -182,6 +196,24 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.paymentData = res;
+      console.log('this.paymentData', this.paymentData)
+      if(Object.keys(this.paymentData).length == 0){
+        this.paymentData = {
+          "tax": {
+            "rate": "",
+            "name": ""
+          },
+          "paymentProviders": [
+            {
+              "id": 0,
+              "name": "",
+              "Mcptid": ""
+            }
+          ],
+          "currencyCode": ""
+        };
+      }
+
       this.providerTemp = this.paymentData.paymentProviders;      
 
       if(this.providerTemp.length > 0){
