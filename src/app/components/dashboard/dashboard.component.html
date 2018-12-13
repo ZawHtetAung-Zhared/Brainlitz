@@ -289,7 +289,8 @@
                   <label class="sectionTitle">Online payment</label>
                   <div *ngIf="paymentData.paymentProviders.length > 0">
                     <div class="provider-list" *ngFor="let provider of paymentData.paymentProviders">
-                      {{provider.name}}
+                      <span *ngIf="provider.name != ''">{{provider.name}}</span>
+                      <span *ngIf="provider.name == ''">-</span>
                     </div>
                   </div>
                   <div *ngIf="paymentData.paymentProviders.length == 0">
