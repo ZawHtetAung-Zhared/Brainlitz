@@ -1406,6 +1406,7 @@ label.room-name::before {
 }
 .single-user-info h4{
   margin-bottom: 0;
+  word-break: break-all;
 }
 .remover-wrap{
   padding: 15px 0 15px 15px;
