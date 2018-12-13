@@ -989,7 +989,7 @@ export class CourseComponent implements OnInit {
         this.advance = true;
         this.simple = false;
         console.log('~~~~ ', this.recentLists)
-        this.iswordcount = (obj.keyword == undefined) ? false : true;
+        this.iswordcount = (obj.keyword == undefined || obj.keyword == '' || obj.keyword == ' ') ? false : true;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
