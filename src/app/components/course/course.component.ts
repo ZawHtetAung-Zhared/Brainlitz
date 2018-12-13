@@ -2624,7 +2624,7 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop(); 
       this.modalReference.close();
       this.activeTab = 'People';
-      this.toastr.success(res.message);
+      this.toastr.success("Makeup pass successfully created.");
       this.makeupForm = {};
     },err =>{
       this.modalReference.close();
