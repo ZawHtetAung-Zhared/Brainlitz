@@ -332,7 +332,7 @@ export class UserStaffComponent implements OnInit {
 			objData.append('details', JSON.stringify(obj.details));
 		}
 
-		if(this.isPasswordChange == true){
+		if(state == 'create' ||this.isPasswordChange == true){
 			objData.append('password', obj.password);
 		}
 
