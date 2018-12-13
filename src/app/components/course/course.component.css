@@ -362,7 +362,7 @@ ul.data-listing li.disabled{
   background: #f2f4f5;
 }
 .overflow-x{
-  overflow-x: scroll;
+  overflow-x: overlay;
   padding: .25rem .75rem;
 }
 .single-category {
