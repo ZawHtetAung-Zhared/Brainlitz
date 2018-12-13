@@ -84,14 +84,7 @@ export class RegionComponent implements OnInit {
         localStorage.setItem("regionId", res[0]._id);
         this.router.navigate(['/customer']);
         console.log(res[0].invoiceSetings);
-        if(res[0].invoiceSettings){
-          let currency = {
-            'invCurrencyCode': res[0].invoiceSettings.currencyCode,
-            'invCurrencySign': res[0].invoiceSettings.currencySign
-          };
-          console.log(currency);
-          localStorage.setItem('currency',JSON.stringify(currency))
-        }
+        this.setCurrencySign(res[0])
       }
       setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
@@ -111,8 +104,11 @@ export class RegionComponent implements OnInit {
       localStorage.removeItem('locationId');
     }
     localStorage.setItem("regionId", id);
+    this.setCurrencySign(data);
+  }
+
+  setCurrencySign(data){
     console.log(data);
-    console.log(data.invoiceSetings);
     if(data.invoiceSettings){
       if(data.invoiceSettings.currencyCode == ""){
         data.invoiceSettings.currencyCode = "$"
@@ -126,9 +122,7 @@ export class RegionComponent implements OnInit {
       };
       console.log(currency);
       localStorage.setItem('currency',JSON.stringify(currency))
-      console.log("Json currency",JSON.stringify(currency))
     }
-    
   }
 
 }
