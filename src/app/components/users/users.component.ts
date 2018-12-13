@@ -89,7 +89,8 @@ export class UsersComponent implements OnInit {
   	public showCustDetail:boolean = false;
   	public isFous:boolean = false;
   	public custDetail:any = {};
-  	public wordLength:number = 0;
+	public wordLength:number = 0;
+	public wordLength1:number = 0;
   	divHeight:any;
   	public customFields:any = [];
   	public customerPermission:any = [];
@@ -293,23 +294,36 @@ export class UsersComponent implements OnInit {
 	    if(status == 'name'){
 	      this.wordLength = word.length;
 	      $('.limit-wordcount').show('slow'); 
-	    }else{
-	      this.wordLength = word.length;
+		}
+		else if(status == 'fullname'){
+			this.wordLength = word.length;
+			$('.limit-wordcount2').show('slow'); 
+		  }
+		else{
+		  this.wordLength = word.length;
+		 
 	      $('.limit-wordcount1').show('slow'); 
 	    }
 	}
+	
 	  
 	blurMethod(e, status){
 	    if(status == 'name'){
 	      $('.limit-wordcount').hide('slow'); 
-	    }else{
+		}
+		else if(status == 'fullname'){
+			$('.limit-wordcount2').hide('slow'); 
+		  }
+		else{
 	      $('.limit-wordcount1').hide('slow'); 
 	    }
 	    this.wordLength = 0;
 	}
+	
 
 	changeMethod(val : string){
 		this.wordLength = val.length;
+		
 	}
 
 	createUser(obj, apiState){
