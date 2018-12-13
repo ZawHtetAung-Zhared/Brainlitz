@@ -1047,9 +1047,10 @@ export class CourseComponent implements OnInit {
     this.cancelUi=false;
     this.showCancelButton=false;
     this.cancelUItext= true;
+    console.log("undefined currency",this.currency);
     if(this.currency == undefined || this.currency == null){
       this.currency ={
-        'invCurrencySign': ''
+        'invCurrencySign': '$'
       }
       console.log("undefined currency",this.currency);
     }

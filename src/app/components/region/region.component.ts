@@ -77,10 +77,21 @@ export class RegionComponent implements OnInit {
   	.subscribe((res:any) => {
       console.log(res)
       if(res.length != 1){
+        console.log("more than 1")
   		  this.regionLists = res;
       }else{
+        console.log("only 1")
         localStorage.setItem("regionId", res[0]._id);
         this.router.navigate(['/customer']);
+        console.log(res[0].invoiceSetings);
+        if(res[0].invoiceSettings){
+          let currency = {
+            'invCurrencyCode': res[0].invoiceSettings.currencyCode,
+            'invCurrencySign': res[0].invoiceSettings.currencySign
+          };
+          console.log(currency);
+          localStorage.setItem('currency',JSON.stringify(currency))
+        }
       }
       setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
@@ -100,13 +111,22 @@ export class RegionComponent implements OnInit {
       localStorage.removeItem('locationId');
     }
     localStorage.setItem("regionId", id);
+    console.log(data);
+    console.log(data.invoiceSetings);
     if(data.invoiceSettings){
+      if(data.invoiceSettings.currencyCode == ""){
+        data.invoiceSettings.currencyCode = "$"
+      }
+      if(data.invoiceSettings.currencySign == ""){
+        data.invoiceSettings.currencySign = "$"
+      }
       let currency = {
         'invCurrencyCode': data.invoiceSettings.currencyCode,
         'invCurrencySign': data.invoiceSettings.currencySign
       };
       console.log(currency);
       localStorage.setItem('currency',JSON.stringify(currency))
+      console.log("Json currency",JSON.stringify(currency))
     }
     
   }
