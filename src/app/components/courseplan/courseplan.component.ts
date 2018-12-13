@@ -166,7 +166,7 @@ export class CourseplanComponent implements OnInit {
 
     if(this.currency == undefined || this.currency == null){
       this.currency ={
-        'invCurrencySign': ''
+        'invCurrencySign': '$'
       }
       console.log("undefined currency",this.currency);
     }

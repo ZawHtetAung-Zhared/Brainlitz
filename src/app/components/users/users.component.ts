@@ -745,7 +745,7 @@ export class UsersComponent implements OnInit {
 		this.showCustDetail = true;
 		if(this.currency == undefined || this.currency == null){
 	      this.currency = {
-	        'invCurrencySign': ''
+	        'invCurrencySign': '$'
 	      }
 	      console.log("undefined currency",this.currency);
 	    }

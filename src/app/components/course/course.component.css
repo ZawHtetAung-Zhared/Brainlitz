@@ -1,3 +1,6 @@
+.warning-text{
+  color: red !important;
+}
 .hide-user{
   display: none !important;
   /*pointer-events: none;
