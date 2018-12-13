@@ -90,7 +90,7 @@ input:checked + .slider:before {
 .hide{
     display: none;
 }
-.limit-wordcount,.limit-wordcount1{
+.limit-wordcount,.limit-wordcount1,.limit-wordcount2{
   display: none;
   font-size: 14px;
   font-family: 'Montserrat-Medium','Arial', sans-serif !important;

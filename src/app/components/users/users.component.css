@@ -20,6 +20,7 @@ ul.pass-list li,
 .valid-until,
 .limit-wordcount,
 .limit-wordcount1,
+.limit-wordcount2,
 .info-mail,
 .info-about,
 .medium-label-14,
@@ -459,7 +460,8 @@ ul.pass-list li {
     padding: 4px;
 }
 .limit-wordcount,
-.limit-wordcount1{
+.limit-wordcount1,
+.limit-wordcount2{
   display: none;
   color: #0080ff;
   position: absolute;

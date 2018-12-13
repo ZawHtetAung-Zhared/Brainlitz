@@ -1414,7 +1414,7 @@ export class CourseComponent implements OnInit {
 
 
   addUserModal(type, userModal, state, id){
-    console.log('====', state)
+    console.log('====', state, type)
 
     this.isvalidID = state;
     if(state != 'inside'){
@@ -1689,6 +1689,8 @@ export class CourseComponent implements OnInit {
           this.selectedTeacherLists.unshift(res);
           console.log(this.selectedTeacherLists)
         }
+        this.trArrayLists.push(this.selectedTeacherLists[0].userId)
+        console.log(this.trArrayLists)
         // this.removeUser = res.preferredName;
       }
     }, err => {

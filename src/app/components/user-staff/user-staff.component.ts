@@ -259,7 +259,12 @@ export class UserStaffComponent implements OnInit {
 	    if(status == 'name'){
 	      this.wordLength = word.length;
 	      $('.limit-wordcount').show('slow'); 
-	    }else{
+		}
+	    else if(status == 'fullname'){
+	      this.wordLength = word.length;
+	      $('.limit-wordcount2').show('slow'); 
+		}
+		else{
 	      this.wordLength = word.length;
 	      $('.limit-wordcount1').show('slow'); 
 	    }
@@ -271,7 +276,11 @@ export class UserStaffComponent implements OnInit {
 		  console.log('blur', e);
 		    if(status == 'name'){
 		      $('.limit-wordcount').hide('slow'); 
-		    }else{
+			}
+		    else if(status == 'fullname'){
+		      $('.limit-wordcount2').hide('slow'); 
+			}
+			else{
 		      $('.limit-wordcount1').hide('slow'); 
 		    }
 		    this.wordLength = 0;
