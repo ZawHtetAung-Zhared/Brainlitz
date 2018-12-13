@@ -298,8 +298,11 @@ export class UserStaffComponent implements OnInit {
 
 	createUser(obj, state){
 		console.log(obj);
+		console.log(this.customFields);
+
 
 		this.formFields.details = [];
+
 		for(var i=0; i<this.customFields.length; i++){
 			console.log('field value',this.customFields[i].value);
 			if(this.customFields[i].value){
@@ -326,9 +329,13 @@ export class UserStaffComponent implements OnInit {
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);
 
+		console.log(this.formFields.details)
 		// objData
 		if(this.formFields.details.length>0){
 			console.log("Has Details",this.formFields.details)
+			objData.append('details', JSON.stringify(obj.details));
+		}else{
+			obj.details = [];
 			objData.append('details', JSON.stringify(obj.details));
 		}
 

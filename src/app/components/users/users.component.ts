@@ -369,6 +369,9 @@ export class UsersComponent implements OnInit {
 		if(this.formFieldc.details.length>0){
 			console.log("Has Details",this.formFieldc.details)
 			objData.append('details', JSON.stringify(obj.details));
+		}else{
+			obj.details = [];
+			objData.append('details', JSON.stringify(obj.details));
 		}	
 
 		this.customerLists = [];
