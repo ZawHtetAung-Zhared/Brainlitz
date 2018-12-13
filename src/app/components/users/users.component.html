@@ -578,7 +578,7 @@
 		  	  	</div>
 		  	  	<div class="form-group form-divider" *ngFor="let field of customFields;">
 		  	  		<label class="label-txt">{{ field.name }}</label>
-		  	  		<input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
+		  	  		<input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value" class="date-field">
 		  	  		<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
 		  	  	</div>
 		  	  	<!-- <div class="form-group form-divider" *ngFor="let field of formFieldc.details;">

@@ -54,14 +54,14 @@
 					</div>
 					<div class="info-side d-flex flex-column justify-content-center">
 						<div><label class="staff-label">Staff</label></div>
-						<h5 *ngIf="staff.preferredName">{{ (staff.preferredName.length > 20)? (staff.preferredName | slice:0:20)+'...':(staff.preferredName) }}</h5>
+						<h5>{{staff.preferredName}}</h5>
 						<p class="info-mail">{{staff.email}}</p>
 						<p class="info-about" *ngIf="staff.about == 'undefined'">
 							-
 						</p>
 						<p class="info-about" *ngIf="staff.about != 'undefined'">
 							<!-- <span>{{staff.about}}</span> -->
-							{{ (staff.about.length>25)? (staff.about | slice:0:25)+'...' : (staff.about) }}
+							{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
 						</p>
 					</div>
 					<div *ngIf="staffDemo.viewStaff != ''" class="right-arrow ml-auto">
