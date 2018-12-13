@@ -728,7 +728,7 @@
               </div>
              <div class="modal-footer">
                <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
-               <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)">Confirm</button>
+               <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)" [disabled]="activeCourseInfo.CUSTOMER.length == 0">Confirm</button>
             </div>
             </ng-template>
           </div>
