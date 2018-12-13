@@ -277,13 +277,13 @@
                     </div>
                     <label class="labelTitle">Tax setting</label>
                   </div>
-                  <label *ngIf="paymentData.tax.rate != null || paymentData.tax.name != ''" class="labelName">
+                  <label *ngIf="emptyPaymentData == false" class="labelName">
                     <span *ngIf="paymentData.tax.name != ''" >{{paymentData.tax.name}} </span>
                     <span *ngIf="paymentData.tax.name == ''" >- </span>
                     <span *ngIf="paymentData.tax.rate != null">( {{paymentData.tax.rate}}% )</span>
                     <span *ngIf="paymentData.tax.rate == null">(-)</span>
                   </label>
-                  <label *ngIf="paymentData.tax.rate == null && paymentData.tax.name == ''" class="labelName">
+                  <label *ngIf="emptyPaymentData == true" class="labelName">
                     <span>-</span>
                   </label>
                 </div>

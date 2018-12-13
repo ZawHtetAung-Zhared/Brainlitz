@@ -1305,8 +1305,8 @@ export class CourseComponent implements OnInit {
     let lessonDate = this.LASD.toLocaleString().substring(0,10);
     // console.error(this.LASD)
     
-    console.warn(lsessonTime)
-    console.warn(lessonDate)
+    // console.warn(lsessonTime)
+    // console.warn(lessonDate)
 
     var todaydate = new Date();
     let onlytodayTime = todaydate.toString().substring(16,24);
@@ -1314,8 +1314,8 @@ export class CourseComponent implements OnInit {
     console.log(this.todayDate ,'today')
     console.log('.....',onlytodayTime)
     console.log('.....',this.cancelUi)
-    console.error(onlytodayTime)
-    console.error(onlytodayDate)
+    // console.error(onlytodayTime)
+    // console.error(onlytodayDate)
 
 
     if(lessonDate >= onlytodayDate){
@@ -1731,8 +1731,11 @@ export class CourseComponent implements OnInit {
   changeMethod(searchWord, userType){
     console.log(this.detailLists.locationId)
     console.log(searchWord)
+    console.log(userType)
     console.log(this.courseId)
     let locationId = this.detailLists.locationId;
+    
+    userType = (userType == 'teacher') ? 'staff' : userType;
     if(searchWord.length != 0){
         this.showList = true;
         this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, this.courseId)

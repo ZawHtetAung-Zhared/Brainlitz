@@ -1,3 +1,7 @@
+.users-wrap-box{
+  max-height: 350px;
+  overflow: scroll;
+}
 .warning-text{
   color: red !important;
 }
