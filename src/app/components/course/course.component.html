@@ -684,53 +684,13 @@
               <p class="class-day">{{LASD | attandanceDay}}</p>
               <p class="class-date">{{LASD | utcDate}}</p>
             </div>
-            <div *ngIf="showCancelButton && !cancelUI  && cancelUi" >
-              <button type="button"  class="btn btn-class-cancel" [disabled]=" cancelUi == false" (click)="cancelClass(content)">Cancel class</button>
+            <!-- {{showCancelButton}} -->
+            <!-- {{cancelUI}} -->
+            <!-- {{cancelUi}} -->
+            <div *ngIf="showCancelButton == true">
+              <button type="button" [disabled]=" disableCancel == true" class="btn btn-class-cancel" (click)="cancelClass(content)">Cancel class</button>
             </div>
             <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
-            <ng-template #content let-modal>
-              <div class="modal-header">
-                  <div class="d-flex flex-column ">
-                     <h3 class="makeup-pass-title">Give makeup pass</h3>
-                     <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                  </div>   
-                  <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
-                    <span class="closemark">
-                      <div class="closemark_stem"></div>
-                      <div class="closemark_kick"></div>
-                    </span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <div class="d-flex mb-4">
-                    <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
-                      <label class="switch">
-                        <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
-                        <span class="slider round"></span>
-                      </label>
-                    </div>
-                    <label class="switch-label" for="online">Issue makeup pass</label>
-                  </div>
-                  <div class="d-flex flex-wrap ">
-                    <div *ngFor="let user of activeCourseInfo.CUSTOMER" >
-                        <div class="d-flex flex-row justify-content-between single-student align-items-center bg-primary text-white" style="margin:0px 20px 20px 0px!important; width: 200px!important;">
-                              <span class="checkmark">
-                                  <div class="checkmark_stem"></div>
-                                  <div class="checkmark_kick"></div>
-                              </span>
-                              <p class="text-white mr-auto " style="font-size:14px!important;">{{user.preferredName}}</p>
-                            <div class="std-img-wrap1">
-                              <img src="{{user.profilePic}}" class="user-pic">
-                            </div>
-                        </div>
-                      </div>
-                  </div>
-              </div>
-             <div class="modal-footer">
-               <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
-               <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)" [disabled]="activeCourseInfo.CUSTOMER.length == 0">Confirm</button>
-            </div>
-            </ng-template>
           </div>
           <div *ngIf="cancelUI  && cancelUItext" class="cancel-text">
             Cancelled class
@@ -2094,5 +2054,50 @@
     </div>
   </div>
   
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+      <div class="d-flex flex-column ">
+         <h3 class="makeup-pass-title">Give makeup pass</h3>
+         <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+         <p *ngIf="pplLists.CUSTOMER.length == 0" class="makeup-pass-text warning-text">Please register students into the class to issue and makeup pass</p>
+      </div>   
+      <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
+        <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+        </span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div class="d-flex mb-4">
+        <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+          <label class="switch">
+            <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <label class="switch-label" for="online">Issue makeup pass</label>
+      </div>
+      <div class="d-flex flex-wrap ">
+        <div *ngFor="let user of activeCourseInfo.CUSTOMER" >
+            <div class="d-flex flex-row justify-content-between single-student align-items-center bg-primary text-white" style="margin:0px 20px 20px 0px!important; width: 200px!important;">
+                  <span class="checkmark">
+                      <div class="checkmark_stem"></div>
+                      <div class="checkmark_kick"></div>
+                  </span>
+                  <p class="text-white mr-auto " style="font-size:14px!important;">{{user.preferredName}}</p>
+                <div class="std-img-wrap1">
+                  <img src="{{user.profilePic}}" class="user-pic">
+                </div>
+            </div>
+          </div>
+      </div>
+  </div>
+ <div class="modal-footer">
+   <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
+   <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)" [disabled]="activeCourseInfo.CUSTOMER.length == 0">Confirm</button>
+</div>
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
