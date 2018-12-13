@@ -1054,7 +1054,12 @@ export class CourseComponent implements OnInit {
         'invCurrencySign': '$'
       }
       console.log("undefined currency",this.currency);
-    }
+    }else{
+      if(this.currency.invCurrencySign == ""){
+        console.log("has currency but sign null",this.currency);
+        this.currency.invCurrencySign = '$';
+      }
+    }  
   }
 
   showCPDetail(planID){
