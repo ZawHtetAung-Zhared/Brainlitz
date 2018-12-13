@@ -934,7 +934,7 @@
       </div>
     </div>
     <div *ngIf="isSeatAvailable == false && userType == 'customer'" class="seat-taken">All seat taken. Can't add user anymore.</div>
-    <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
+    <div *ngIf="noSetting == true && userType != 'teacher'" class="seat-taken">You should set invoice setting and payment setting first.</div>
   </div>
   <div class="modal-footer">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>

@@ -695,6 +695,7 @@
 		        </span>
 		      </div>
 		    </div>
+		    <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
 		    <!-- <h2 style="color: green">{{availableCourses?.length}}</h2> -->
 		    <div class="mt-20 class-group">
 			    <div class="card-columns pd-zero">
@@ -760,7 +761,7 @@
 				    			</div>
 			    			</div>
 			    			<div class="row d-flex justify-content-center class-info-footer">
-			    				<button type="button" class="btn" (click)="enrollUser(course)" [disabled]="course.seat_left == 0">Enroll on this course</button>
+			    				<button type="button" class="btn" (click)="enrollUser(course)" [disabled]="course.seat_left == 0 || noSetting == true">Enroll on this course</button>
 			    			</div>
 			    		</div>
 			    	</div>

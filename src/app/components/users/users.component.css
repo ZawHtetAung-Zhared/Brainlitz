@@ -1823,3 +1823,12 @@ input[type=number]::-webkit-outer-spin-button {
 .inv-bordered div:first-child.inv-row .b-bottom {
   border-top: 1px solid #edeff0;
 }
+.seat-taken{
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: red;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
