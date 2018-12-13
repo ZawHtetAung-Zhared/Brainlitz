@@ -937,7 +937,20 @@ export class UsersComponent implements OnInit {
 		     	// this.closeModel();
 		     	/* for invoice*/
 		     	this.showInvoice = true;
-		     	this.invoiceInfo = res.invoiceSettings;
+		     	if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+					console.log("no invoice setting");
+					this.invoiceInfo = {
+					'address': "",
+					'city': "",
+					'companyName': "",
+					'email': "",
+					'prefix': "",
+					'registration': ""
+					}
+				}else{
+					console.log("has invoice setting");
+					this.invoiceInfo = res.invoiceSettings;
+				}
 				this.invoice = res.invoice;
 				this.showInvoice = true; 
 				this.showOneInvoice(course,this.invoice)
@@ -1168,7 +1181,20 @@ export class UsersComponent implements OnInit {
 			console.log("regional info",res);
 			// this.paymentProviders = res.invoiceSettings.paymentProviders;
 			// console.log(this.paymentProviders);
-			this.invoiceInfo = res.invoiceSettings;
+			if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+				console.log("no invoice setting");
+				this.invoiceInfo = {
+				'address': "",
+				'city': "",
+				'companyName': "",
+				'email': "",
+				'prefix': "",
+				'registration': ""
+				}
+			}else{
+				console.log("has invoice setting");
+				this.invoiceInfo = res.invoiceSettings;
+			}
 			console.log(this.getRegionInfo);
 		})
 	}

@@ -1090,10 +1090,12 @@
         </div>
       </div>
       <div class="pt-4">
-        <h5 class="invoice-label">{{ invoiceInfo.companyName }}</h5>
+        <h5 *ngIf="invoiceInfo.companyName != ''" class="invoice-label">{{ invoiceInfo.companyName }}</h5>
+        <h5 *ngIf="invoiceInfo.companyName == ''" class="invoice-label"> - </h5>
         <div class="d-flex">
           <div class="col-md-6 col-lg-6 pl-zero">
-            <p class="invoice-info">{{ invoiceInfo.address }}</p>
+            <p *ngIf="invoiceInfo.address != ''" class="invoice-info">{{ invoiceInfo.address }}</p>
+            <p *ngIf="invoiceInfo.address == ''" class="invoice-info"> - </p>
           </div>
           <div class="col-md-3 col-lg-3 p-0 text-right">
             <label class="invoice-label">Invoice date</label>
@@ -1578,10 +1580,12 @@
           </div>
         </div>
         <div class="pt-4">
-          <h5 class="invoice-label">{{ invoiceInfo.companyName }}</h5>
+          <h5 *ngIf="invoiceInfo.companyName != ''" class="invoice-label">{{ invoiceInfo.companyName }}</h5>
+          <h5 *ngIf="invoiceInfo.companyName == ''" class="invoice-label"> - </h5>
           <div class="d-flex">
             <div class="col-md-6 col-lg-6 pl-zero">
-              <p class="invoice-info">{{ invoiceInfo.address }}</p>
+              <p *ngIf="invoiceInfo.address != ''" class="invoice-info">{{ invoiceInfo.address }}</p>
+              <p *ngIf="invoiceInfo.address == ''" class="invoice-info"> - </p>
             </div>
             <div class="col-md-3 col-lg-3 p-0 text-right">
               <label class="invoice-label">Invoice date</label>
@@ -1865,10 +1869,12 @@
           </div>
         </div>
         <div class="pt-4">
-          <h5 class="invoice-label mb-0">{{ invoiceInfo.companyName }}</h5>
+          <h5 *ngIf="invoiceInfo.companyName != ''" class="invoice-label">{{ invoiceInfo.companyName }}</h5>
+          <h5 *ngIf="invoiceInfo.companyName == ''" class="invoice-label"> - </h5>
           <div class="d-flex">
             <div class="col-md-6 col-lg-6 pl-zero">
-              <p class="invoice-info">{{ invoiceInfo.address }}</p>
+              <p *ngIf="invoiceInfo.address != ''" class="invoice-info">{{ invoiceInfo.address }}</p>
+              <p *ngIf="invoiceInfo.address == ''" class="invoice-info"> - </p>
             </div>
             <div class="col-md-6 col-lg-6 p-0 text-right">
               <label class="invoice-label">Billed By</label>
