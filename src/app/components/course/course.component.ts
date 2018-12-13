@@ -1731,8 +1731,11 @@ export class CourseComponent implements OnInit {
   changeMethod(searchWord, userType){
     console.log(this.detailLists.locationId)
     console.log(searchWord)
+    console.log(userType)
     console.log(this.courseId)
     let locationId = this.detailLists.locationId;
+    
+    userType = (userType == 'teacher') ? 'staff' : userType;
     if(searchWord.length != 0){
         this.showList = true;
         this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, this.courseId)
