@@ -1823,3 +1823,19 @@ input[type=number]::-webkit-outer-spin-button {
 .inv-bordered div:first-child.inv-row .b-bottom {
   border-top: 1px solid #edeff0;
 }
+
+.seat-taken{
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: red;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+
+input[_ngcontent-c1]:focus {
+    /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
+    box-shadow: 0 1px 3px 2px white;
+    outline: none;
+}

@@ -54,7 +54,7 @@
 					</div>
 				</div>
 				<div class="info-side d-flex flex-column justify-content-center">
-					<h5 style="margin-bottom: 0.3rem">{{ (customer.preferredName.length > 20)? (customer.preferredName | slice:0:20)+'...':(customer.preferredName) }}</h5>
+					<h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">{{ (customer.preferredName.length > 20)? (customer.preferredName | slice:0:20)+'...':(customer.preferredName) }}</h5>
 					<p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
 					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
 					<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>25)? (customer.about | slice:0:25)+'...':(customer.about) }}</p>
@@ -443,7 +443,7 @@
 										</div>
 										<div class="padL-5">
 											<label class="medium-label-12 mb-0">Teacher</label>
-											<p class="teacher-label-12 mb-0">{{ (rating.teacher_info.preferredName.length>20)? (rating.teacher_info.preferredName | slice:0:20)+'...':(rating.teacher_info.preferredName) }}</p>
+											<p *ngIf="rating.teacher_info.preferredName" class="teacher-label-12 mb-0">{{ (rating.teacher_info.preferredName.length>20)? (rating.teacher_info.preferredName | slice:0:20)+'...':(rating.teacher_info.preferredName) }}</p>
 										</div>
 									</div>
 									<div class="timetable-col course-wrap info-wrap">
@@ -578,7 +578,7 @@
 		  	  	</div>
 		  	  	<div class="form-group form-divider" *ngFor="let field of customFields;">
 		  	  		<label class="label-txt">{{ field.name }}</label>
-		  	  		<input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
+		  	  		<input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value" class="date-field">
 		  	  		<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
 		  	  	</div>
 		  	  	<!-- <div class="form-group form-divider" *ngFor="let field of formFieldc.details;">
@@ -695,6 +695,7 @@
 		        </span>
 		      </div>
 		    </div>
+		    <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
 		    <!-- <h2 style="color: green">{{availableCourses?.length}}</h2> -->
 		    <div class="mt-20 class-group">
 			    <div class="card-columns pd-zero">
@@ -760,7 +761,7 @@
 				    			</div>
 			    			</div>
 			    			<div class="row d-flex justify-content-center class-info-footer">
-			    				<button type="button" class="btn" (click)="enrollUser(course)" [disabled]="course.seat_left == 0">Enroll on this course</button>
+			    				<button type="button" class="btn" (click)="enrollUser(course)" [disabled]="course.seat_left == 0 || noSetting == true">Enroll on this course</button>
 			    			</div>
 			    		</div>
 			    	</div>

@@ -1685,6 +1685,7 @@ button:disabled{
   background-color: #f2f4f5;
   padding: 6px;
   margin-bottom: 10px;
+  height: 48px;
 }
 /* .single-student p{
   margin-bottom: 0;

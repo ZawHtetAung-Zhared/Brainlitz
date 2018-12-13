@@ -145,6 +145,7 @@ export class UsersComponent implements OnInit {
 	public invStatus:any;
 	public invCurrency:any = {}
 	public invPayment:any = [];
+	public noSetting:boolean = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -756,6 +757,7 @@ export class UsersComponent implements OnInit {
 		const format = 'DD MMM YYYY';
 		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
+		this.getRegionInfo();
 		this.showCustDetail = true;
 		if(this.currency == undefined || this.currency == null){
 	      this.currency ={
@@ -1195,7 +1197,7 @@ export class UsersComponent implements OnInit {
 			console.log("regional info",res);
 			// this.paymentProviders = res.invoiceSettings.paymentProviders;
 			// console.log(this.paymentProviders);
-			if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+			if(res.invoiceSettings == {} || res.invoiceSettings == undefined || res.paymentSettings == {} || res.paymentSettings == undefined){
 				console.log("no invoice setting");
 				this.invoiceInfo = {
 				'address': "",
@@ -1205,9 +1207,11 @@ export class UsersComponent implements OnInit {
 				'prefix': "",
 				'registration': ""
 				}
+				this.noSetting = true;
 			}else{
 				console.log("has invoice setting");
 				this.invoiceInfo = res.invoiceSettings;
+				this.noSetting = false;
 			}
 			console.log(this.getRegionInfo);
 		})
