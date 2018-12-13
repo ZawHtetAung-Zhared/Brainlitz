@@ -187,6 +187,7 @@ export class CourseComponent implements OnInit {
   public showPaidInvoice:boolean = false;
   public invPayment = [];
   public invStatus:any;
+  public noSetting:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -282,6 +283,8 @@ export class CourseComponent implements OnInit {
 
     this.discount = 0;
     this.selectedPayment = 'Cash';
+
+    this.getRegionInfo();
   }
 
 
@@ -1044,6 +1047,7 @@ export class CourseComponent implements OnInit {
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
+    // this.getRegionInfo();
     console.log(this.detailLists.seat_left);
     this.cancelUi=false;
     this.showCancelButton=false;
@@ -2332,8 +2336,9 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log("regional info",res);
       this.blockUI.stop();
-      if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
-          console.log("no invoice setting");
+      if(res.invoiceSettings == {} || res.invoiceSettings == undefined || res.paymentSettings == {} || res.paymentSettings == undefined){
+          console.log("no invoice setting",res.invoiceSettings);
+          console.log("no invoice setting",res.paymentSettings);
           this.invoiceInfo = {
             'address': "",
             'city': "",
@@ -2342,9 +2347,11 @@ export class CourseComponent implements OnInit {
             'prefix': "",
             'registration': ""
           }
+          this.noSetting = true;
        }else{
          console.log("has invoice setting");
          this.invoiceInfo = res.invoiceSettings;
+         this.noSetting = false;
        }
       console.log(this.invoiceInfo)
     })
