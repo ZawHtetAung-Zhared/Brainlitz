@@ -41,6 +41,9 @@ ul.pass-list li,
     font-size: 12px;
     font-family: 'Montserrat-Medium', Arial,sans-serif;
 }
+.pb-20{
+    padding-bottom: 20px;
+}
 .tr-img-wrap{
     display: inline-block;
     position: relative;

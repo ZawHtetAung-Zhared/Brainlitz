@@ -187,8 +187,8 @@ export class DashboardComponent implements OnInit {
             "city": "",
             "email" : "",
             "prefix"  : "",
-            "currencySign"  : "",
-            "currencyCode"  : "",
+            "currencySign"  : undefined,
+            "currencyCode"  : undefined
           };
       }
     }, err => {
@@ -211,7 +211,8 @@ export class DashboardComponent implements OnInit {
             "name": ""
           },
           "paymentProviders": [],
-          "currencyCode": ""
+          "currencyCode": undefined,
+          "currencySign": undefined
         };
       }
 
@@ -401,6 +402,7 @@ export class DashboardComponent implements OnInit {
       this.paymentData['currencySign'] = this.selectedCurrency;
       
       this.paymentData = (this.emptyPaymentData == true) ? {} : this.paymentData;
+      console.log(this.paymentData)
       body = {
         'invoiceSettings': data,
         'paymentSettings': this.paymentData
@@ -425,7 +427,13 @@ export class DashboardComponent implements OnInit {
         data.paymentProviders = []
       }
 
+      data['currencyCode'] = this.selectedFlag;
+      data['currencySign'] = this.selectedCurrency;
+
       this.invoiceData = (this.emptyInvoiceData == true) ? {} : this.invoiceData;
+      console.log(this.invoiceData)
+      console.log(data)
+      
       body = {
         'invoiceSettings': this.invoiceData,
         'paymentSettings': data

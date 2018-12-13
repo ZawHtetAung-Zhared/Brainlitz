@@ -989,7 +989,7 @@ export class CourseComponent implements OnInit {
         this.advance = true;
         this.simple = false;
         console.log('~~~~ ', this.recentLists)
-        this.iswordcount = (obj.keyword == undefined) ? false : true;
+        this.iswordcount = (obj.keyword == undefined || obj.keyword == '' || obj.keyword == ' ') ? false : true;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
@@ -1926,7 +1926,20 @@ export class CourseComponent implements OnInit {
      .subscribe((res:any) => {
        this.blockUI.stop();
        console.log("res Assign customer",res);
-       this.invoiceInfo = res.invoiceSettings;
+       if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+          console.log("no invoice setting");
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+       }else{
+         console.log("has invoice setting");
+         this.invoiceInfo = res.invoiceSettings;
+       }
        this.invoice = res.invoice;
        this.showInvoice = true;
        this.showOneInvoice(this.invoice);
@@ -2314,7 +2327,20 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log("regional info",res);
       this.blockUI.stop();
-      this.invoiceInfo = res.invoiceSettings;
+      if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+          console.log("no invoice setting");
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+       }else{
+         console.log("has invoice setting");
+         this.invoiceInfo = res.invoiceSettings;
+       }
       console.log(this.invoiceInfo)
     })
   }

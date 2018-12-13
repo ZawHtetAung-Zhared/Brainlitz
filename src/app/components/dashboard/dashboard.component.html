@@ -160,14 +160,14 @@
                     </div>
                     <label class="labelTitle">Currency sign</label>
                   </div>
-                  <div *ngIf="invoiceData.currencyCode != '' && invoiceData.currencySign != ''" class="labelName d-flex">
+                  <div *ngIf="invoiceData.currencyCode != undefined && invoiceData.currencySign != undefined" class="labelName d-flex">
                     <div class="currency-flag currency-flag-{{invoiceData.currencyCode}}"></div>
                     <div class="c-sign">
                       <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div>
                       {{invoiceData.currencySign}}
                     </div>
                   </div>
-                  <div *ngIf="invoiceData.currencyCode == '' && invoiceData.currencySign == ''" class="labelName d-flex">
+                  <div *ngIf="invoiceData.currencyCode == undefined && invoiceData.currencySign == undefined" class="labelName d-flex">
                     -
                   </div>
                 </div>
@@ -260,13 +260,15 @@
                     </div>
                     <label class="labelTitle">Currency code</label>
                   </div>
-                  <div *ngIf="paymentData.currencyCode != ''" class="labelName d-flex">
-                    <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
-                    <div class="c-sign">
-                      {{paymentData.currencyCode}}
+                  <div>
+                    <div *ngIf="paymentData.currencyCode != undefined" class="labelName d-flex">
+                      <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
+                      <div class="c-sign">
+                        {{paymentData.currencyCode}}
+                      </div>
                     </div>
+                    <div *ngIf="paymentData.currencyCode == undefined" class="labelName d-flex">-</div>
                   </div>
-                  <div *ngIf="paymentData.currencyCode == ''" class="labelName d-flex">-</div>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -278,7 +280,7 @@
                   <label *ngIf="paymentData.tax.rate != null || paymentData.tax.name != ''" class="labelName">
                     <span *ngIf="paymentData.tax.name != ''" >{{paymentData.tax.name}} </span>
                     <span *ngIf="paymentData.tax.name == ''" >- </span>
-                    <span *ngIf="paymentData.tax.rate != null">{{paymentData.tax.rate}}</span>
+                    <span *ngIf="paymentData.tax.rate != null">( {{paymentData.tax.rate}}% )</span>
                     <span *ngIf="paymentData.tax.rate == null">(-)</span>
                   </label>
                   <label *ngIf="paymentData.tax.rate == null && paymentData.tax.name == ''" class="labelName">
