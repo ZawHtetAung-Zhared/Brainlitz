@@ -211,7 +211,8 @@ export class DashboardComponent implements OnInit {
             "name": ""
           },
           "paymentProviders": [],
-          "currencyCode": ""
+          "currencyCode": "",
+          "currencySign": ""
         };
       }
 
@@ -401,6 +402,7 @@ export class DashboardComponent implements OnInit {
       this.paymentData['currencySign'] = this.selectedCurrency;
       
       this.paymentData = (this.emptyPaymentData == true) ? {} : this.paymentData;
+      console.log(this.paymentData)
       body = {
         'invoiceSettings': data,
         'paymentSettings': this.paymentData
@@ -426,6 +428,7 @@ export class DashboardComponent implements OnInit {
       }
 
       this.invoiceData = (this.emptyInvoiceData == true) ? {} : this.invoiceData;
+      console.log(this.invoiceData)
       body = {
         'invoiceSettings': this.invoiceData,
         'paymentSettings': data
