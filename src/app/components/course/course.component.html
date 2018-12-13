@@ -870,7 +870,7 @@
         </div>
 
         <div *ngIf="userType == 'teacher'">
-          <div [ngClass]="{'disable-add': !isSeatAvailable && userType =='customer'}" (click)="selectUser('teacher',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
+          <div [ngClass]="[(trArrayLists.indexOf(user.userId) > -1) ? 'hide-user' :'', (!isSeatAvailable && userType =='customer') ? 'disable-add1' : '']" (click)="selectUser('teacher',user.userId,'user')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
             <div class="img-wrap">
               <img src="{{user.profilePic}}">
             </div>
