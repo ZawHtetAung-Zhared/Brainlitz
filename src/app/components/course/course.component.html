@@ -570,7 +570,7 @@
                   </div>
                   <div class="single-user-info d-flex flex-column justify-content-center">
                     <p>{{user.userType}} </p>
-                    <h4>{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
+                    <h4 *ngIf="user.preferredName">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
                     <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div>
@@ -617,7 +617,7 @@
                     </div>
                   </div>
                   <div class="single-user-info d-flex flex-column justify-content-center">
-                    <h4>{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
+                    <h4 *ngIf="user.preferredName">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
                     <!-- Paid/Unpaid -->
                     <!-- <p *ngIf="user.invoice != null">
                       <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>
@@ -711,7 +711,7 @@
                   </div>
                 </div>
                 <div class="single-user-info d-flex flex-column mt-1 justify-content-center">
-                  <h4>{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
+                  <h4 *ngIf="user.preferredName">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
                 </div>
               </div>
             </div>

@@ -54,7 +54,7 @@
 					</div>
 					<div class="info-side d-flex flex-column justify-content-center">
 						<div><label class="staff-label">Staff</label></div>
-						<h5>{{ (staff.preferredName.length > 20)? (staff.preferredName | slice:0:20)+'...':(staff.preferredName) }}</h5>
+						<h5 *ngIf="staff.preferredName">{{ (staff.preferredName.length > 20)? (staff.preferredName | slice:0:20)+'...':(staff.preferredName) }}</h5>
 						<p class="info-mail">{{staff.email}}</p>
 						<p class="info-about" *ngIf="staff.about == 'undefined'">
 							-
