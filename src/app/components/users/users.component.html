@@ -545,11 +545,11 @@
 		  	  	</div> -->
 		  	  	<div class="form-group form-divider">
 		  	  		<div class="d-flex justify-content-between">
-						<label for="about" class="label-txt">About</label> 	
-						<div class="limit-wordcount1">
-							<span>{{wordLength}}/280characters</span>
-						</div>
-					</div>
+								<label for="about" class="label-txt">About</label> 	
+								<div class="limit-wordcount1">
+									<span>{{wordLength}}/280characters</span>
+								</div>
+							</div>
 		  	    	<textarea class="form-control" rows="3" placeholder="Type about here" name="about" (focus)="focusMethod($event, 'about', $event.target.value)" (blur)="blurMethod($event, 'about')" maxlength="280" (input)="changeMethod($event.target.value)" [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
 		  	  	</div>
 		  	  	<div class="form-group form-divider">

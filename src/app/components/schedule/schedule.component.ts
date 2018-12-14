@@ -8,7 +8,9 @@ import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDate
 })
 export class ScheduleComponent implements OnInit {
   public test:any=[];
-  public selectedDay = [];
+  public selectedDay =[];
+  public SelectedDate = [];
+
   public categoryList:any;
   public planList:any;
   public courseVal:any = {};
@@ -20,9 +22,12 @@ export class ScheduleComponent implements OnInit {
   public scheduleList:boolean=true;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  // public daysOfWeek = localStorage.getItem('daysofWeek');
+  // public categoryId = localStorage.getItem('categoryId');
   public selectedTeacher:any = {};
   public selectedCategory:any = {};
   public selectedCat:boolean=true;
+  public staffList:any;
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model:any = {};
@@ -70,14 +75,14 @@ export class ScheduleComponent implements OnInit {
 
   //https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg
 
-  gotoScheduleList(){
-    this.scheduleList=false;
-  }
+  // gotoScheduleList(){
+  //   this.scheduleList=false;
+  // }
   backtoSchedule(){
     this.scheduleList=true;
   }
   // Selected Day //
-  selectDay(data,event): void {
+  selectDay(data,event,day): void {
     // this.clickInit = true;
     console.log(this.selectDay);
     console.log("Day",data,event);
@@ -86,11 +91,14 @@ export class ScheduleComponent implements OnInit {
     if (event.target.checked) {
         if(dayIdx < 0 )
           this.selectedDay.push(data);
-         
+         this.SelectedDate.push(day);
+        
           // this.toggleBool= false;
     } else {
         if(dayIdx >= 0 )
         this.selectedDay.splice(dayIdx,1);
+        this.SelectedDate.splice(day,1);
+      
         if(this.selectedDay.length>0){
           // this.toggleBool= false;
         }else{
@@ -98,7 +106,9 @@ export class ScheduleComponent implements OnInit {
         }
     }
     this.selectedDay.sort();
+    // this.SelectedDate.sort();
     console.log(this.selectedDay);
+    console.log(this.SelectedDate);
   }
   
 
@@ -137,6 +147,9 @@ export class ScheduleComponent implements OnInit {
       }, err => {  
         console.log(err);
       });
+
+    val.preventDefault();
+    val.stopPropagation();
      this.isFousCategory=true;
   }
   //  Hide Search
@@ -147,6 +160,7 @@ export class ScheduleComponent implements OnInit {
   }
   // single Select Data
   selectData(id, name){
+   
     console.log(id)
     this.isSelected = true;
     this.selectedID = id;
@@ -157,24 +171,46 @@ export class ScheduleComponent implements OnInit {
     console.log(id, name)
     console.log
   }
-  
 
-  constructor(private _service:appService, private modalService: NgbModal) { }
-
-  ngOnInit() {
-    this.selectedTeacher = this.teachers[0];
-  }
 
   openTeacherList(content){
-  this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-  this.selectedTeacher = this.teachers[0];
-  console.log(this.selectedTeacher);
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+    this.selectedTeacher = this.staffList[0];
+    console.log(this.selectedTeacher);
+    console.log(this.selectedDay)
+    }
+    cancelModal(){
+      this.modalReference.close();
+    }
+    activeTeacher(teacher){
+     this.selectedTeacher=teacher
+     console.log(this.selectedTeacher)
+    }
+
+
+
+
+  getscheulestaff(regionId,daysOfWeek,categoryId){
+    console.log(this.selectedDay);
+    this.scheduleList=false;
+    this._service.getscheduleStaffList(regionId,this.selectedDay.toString(),categoryId)
+    .subscribe((res:any) => {
+      setTimeout(() => {
+        
+      },300)
+      console.warn(res,'sdajdhgashgd');
+      this.staffList=res;
+      console.log(regionId)
+      console.log(daysOfWeek)
+      console.log(categoryId)
+    })
   }
-  cancelModal(){
-    this.modalReference.close();
+
+  constructor(private _service:appService, private modalService: NgbModal) { }
+  ngOnInit() {
+    this.selectedTeacher = this.teachers[0];
+    console.log(this.regionId)
+    
   }
-  activeTeacher(teacher){
-   this.selectedTeacher=teacher
-   console.log(this.selectedTeacher)
-  }
+
 }
