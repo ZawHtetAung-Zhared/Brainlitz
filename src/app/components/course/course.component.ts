@@ -32,6 +32,7 @@ export class CourseComponent implements OnInit {
   public isvalid:boolean = false;
   public isGlobal:boolean = false;
   public searchMore:boolean = false;
+  public hideSearch:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
   public planList:any;
@@ -405,6 +406,7 @@ export class CourseComponent implements OnInit {
 
   clearSearch(){
     console.log('clear')
+    this.hideSearch = false;
     this.searchVal = '';
     this.iswordcount = false;
     this.iscourseSearch = false;
@@ -776,7 +778,8 @@ export class CourseComponent implements OnInit {
         console.log(res)
         this.courseList = this.courseList.concat(res);
         console.log('----- ', this.courseList)
-        this.searchMore = (res.length == 0) ? false : true;        
+        this.searchMore = (res.length == 0) ? false : true;   
+        this.hideSearch = true;     
         this.iscourseSearch = false;
         this.simple = true;
         this.advance = false;
@@ -798,7 +801,8 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop(); // Stop blocking
         this.courseList = this.courseList.concat(res);
         console.log('----- ', this.courseList)
-        this.searchMore = (res.length == 0) ? false : true;        
+        this.searchMore = (res.length == 0) ? false : true; 
+        this.hideSearch = true;       
         this.iscourseSearch = false;
         this.simple = true;
         this.advance = false;
@@ -823,8 +827,8 @@ export class CourseComponent implements OnInit {
           console.log(this.courseList)
           $("#course-search").blur();
           this.iscourseSearch = false;
-          this.result = (res.length >= 20) ? res : {};
           this.searchMore = (res.length == 0) ? false : true;
+          this.hideSearch = true;
           this.simple = true;
           this.advance = false;
         },err =>{
@@ -873,6 +877,7 @@ export class CourseComponent implements OnInit {
   }
 
   updateASCall(state){
+    console.log('call updates ...')
     if(state == 'day'){
       this.days = [
         {"day":"Sun", "val": 0, 'checked': false},
@@ -891,7 +896,24 @@ export class CourseComponent implements OnInit {
       this.tempPlan = [];
       this.planIDArray = [];
     }
-    this.advancedSearch(this.courseVal, 20,0);
+    console.log(this.repeatedDaysTemp.length == 0)
+    console.log(this.tempCategory.length == 0)
+    console.log(this.tempPlan.length == 0)
+    console.log(this.searchVal)
+    // console.log(this.searchVal.length == 0)
+    if(this.searchVal == undefined){
+      this.searchVal = ''
+    }
+    console.log(this.repeatedDaysTemp.length == 0 && this.tempCategory.length == 0 && this.tempPlan.length == 0 && this.searchVal.length == 0)
+    if(this.repeatedDaysTemp.length == 0 && this.tempCategory.length == 0 && this.tempPlan.length == 0 && this.searchVal.length == 0){
+      console.log('hide advanced search')
+      this.courseList = [];
+      this.hideSearch = false;
+      this.getCourseLists(20, 0);
+    }else{
+      console.log('call advanced search')
+      this.advancedSearch(this.courseVal, 20,0);
+    }
   }
 
   advancedSearch(obj, limit, skip){
@@ -985,6 +1007,7 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop();
         console.log(res)
         this.searchMore = (res.length == 0) ? false : true;
+        this.hideSearch = true;
         this.courseList = this.courseList.concat(res);
         console.log(this.courseList)
         this.iscourseSearch = false;
@@ -1024,6 +1047,7 @@ export class CourseComponent implements OnInit {
     this.showInvoice = false;
     this.showPayment = false;
     this.searchMore = false;
+    this.hideSearch = false;
     this.iswordcount = false;
     this.paymentItem = {};
     this.cancelUItext=false;
@@ -1031,6 +1055,22 @@ export class CourseComponent implements OnInit {
   }
 
   showCourseDetail(courseId){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     console.log('~~~~~')
     console.log(this.showCancelButton)
     console.log(this.cancelUI)
@@ -1067,6 +1107,24 @@ export class CourseComponent implements OnInit {
   }
 
   showCPDetail(planID){
+
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
+
     console.log('cp')
     this.categoryIDArray = [];
     this.planIDArray = [];
@@ -1993,6 +2051,22 @@ export class CourseComponent implements OnInit {
 
   // end course detail
   changeRoute(){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     this.categoryIDArray = [];
     this.planIDArray = [];
     this.repeatedDaysTemp = [];
@@ -2114,6 +2188,22 @@ export class CourseComponent implements OnInit {
   }
 
   addNewCourse(plan){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
     this.goBackCat = false;
