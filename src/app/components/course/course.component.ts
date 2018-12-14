@@ -1054,6 +1054,22 @@ export class CourseComponent implements OnInit {
   }
 
   showCourseDetail(courseId){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     console.log('~~~~~')
     console.log(this.showCancelButton)
     console.log(this.cancelUI)
@@ -1090,6 +1106,24 @@ export class CourseComponent implements OnInit {
   }
 
   showCPDetail(planID){
+
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
+
     console.log('cp')
     this.categoryIDArray = [];
     this.planIDArray = [];
@@ -1499,12 +1533,13 @@ export class CourseComponent implements OnInit {
     console.log("user data in view inv",data);
     if(data.invoice != null){
       this.invStatus = data.invoice.status;
+      if(data.invoice.status == "PAID"){
+        this.showPaidInvoice = true;
+      }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
+        this.showInvoice = true;
+      }
     }
-    if(data.invoice.status == "PAID"){
-      this.showPaidInvoice = true;
-    }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
-      this.showInvoice = true;
-    }
+    
     this.getRegionInfo();
     console.log(this.invoiceInfo);
     var invoiceId = data.invoice._id;
@@ -2015,6 +2050,22 @@ export class CourseComponent implements OnInit {
 
   // end course detail
   changeRoute(){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     this.categoryIDArray = [];
     this.planIDArray = [];
     this.repeatedDaysTemp = [];
@@ -2136,6 +2187,22 @@ export class CourseComponent implements OnInit {
   }
 
   addNewCourse(plan){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
     this.goBackCat = false;
@@ -2534,7 +2601,9 @@ export class CourseComponent implements OnInit {
     if(type == 'transfer'){
       this.getAllAC(20, 0, data.userId);
     }else if(type == 'invoice'){
-      this.viewInvoice(data);
+      if(data.invoice != null){
+        this.viewInvoice(data);
+      }
     }
   }
 

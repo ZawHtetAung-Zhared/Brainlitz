@@ -425,6 +425,7 @@
     </div>
   </div>
   <!-- <span class="scrollup" [ngClass]="{'show': showBtn}" (click)="scrollTop()"><i class="fa fa-chevron-up" style="color: #fff;"></i></span> -->
+
 </div>
 
 <!-- <div *ngIf="!searchMore">  
@@ -444,6 +445,8 @@
     <button class="btn" (click)="showMore(courseList.length)">load more</button>
   </div>
 </div>
+
+
 
 
 <app-category class="category-content" *ngIf="isCategory == true"></app-category>
@@ -649,7 +652,7 @@
                     <div class="carret-box"></div>
                     <li *ngIf="detailLists.type != 'FLEXY'" (click)="showTabsModal(tabsModal,'makeup',user)">Issue makeup pass</li>
                     <!-- <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li> -->
-                    <li (click)="showTabsModal(tabsModal,'invoice',user)" class="view-li"><button [disabled]="user.invoice == null">View invoice</button></li>
+                    <li (click)="showTabsModal(tabsModal,'invoice',user)" class="view-li"><button class="cursor-on" [disabled]="user.invoice == null">View invoice</button></li>
                     <li (click)="openRemoveModal(user.userId, deleteModal,user.preferredName)">Withdraw User</li>
                   </ul>
                 </div>
