@@ -4,7 +4,7 @@
     <div class="noti-sidebar h-100">
       <div class="side-bar-wrap" [ngClass]="{'p-top' : navIsFixed == true, 'mid-top' : isMidStick == true}">
         <div *ngIf="generalSidebar.length > 0" [ngClass]="{'active': menuType == 'general'}" class="tab-wrap">     
-          <button class="btn noti-tab w-100" (click)="clickTab('general')">
+          <button type="button" class="btn noti-tab w-100" (click)="clickTab('general')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'general'" class="setting-icon" src="./assets/images/sidebar-general_a@2x.png">
               <img *ngIf="menuType != 'general'" class="setting-icon" src="./assets/images/sidebar-general@2x.png">
@@ -13,7 +13,7 @@
           </button>
         </div>
         <div *ngIf="locationSidebar.length > 0" [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('location')">
+          <button type="button" class="btn noti-tab w-100" (click)="clickTab('location')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'location'" class="setting-icon" src="./assets/images/sidebar-location_a@2x.png">
               <img *ngIf="menuType != 'location'" class="setting-icon" src="./assets/images/sidebar-location@2x.png">
@@ -22,7 +22,7 @@
           </button>
         </div>
         <div *ngIf="customSidebar.length > 0" [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">      
-          <button class="btn noti-tab w-100" (click)="clickTab('customfield')">
+          <button type="button" class="btn noti-tab w-100" (click)="clickTab('customfield')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'customfield'" class="setting-icon" src="./assets/images/profile@2x_a.png">
               <img *ngIf="menuType != 'customfield'" class="setting-icon" src="./assets/images/profile@2x.png">
@@ -151,7 +151,7 @@
                     <label class="labelTitle">Email</label>
                   </div>
                   <label *ngIf="invoiceData.email != ''" class="labelName">{{invoiceData.email}}</label>
-                  <label *ngIf="invoiceData.email == ''" class="labelName">{{invoiceData.email}}</label>
+                  <label *ngIf="invoiceData.email == ''" class="labelName">-</label>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
@@ -160,12 +160,15 @@
                     </div>
                     <label class="labelTitle">Currency sign</label>
                   </div>
-                  <div class="labelName d-flex">
+                  <div *ngIf="invoiceData.currencyCode != undefined && invoiceData.currencySign != undefined" class="labelName d-flex">
                     <div class="currency-flag currency-flag-{{invoiceData.currencyCode}}"></div>
                     <div class="c-sign">
                       <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div>
                       {{invoiceData.currencySign}}
                     </div>
+                  </div>
+                  <div *ngIf="invoiceData.currencyCode == undefined && invoiceData.currencySign == undefined" class="labelName d-flex">
+                    -
                   </div>
                 </div>
               </div>
@@ -257,13 +260,14 @@
                     </div>
                     <label class="labelTitle">Currency code</label>
                   </div>
-                  <!-- <label class="labelName">{{paymentData.currencyCode}}</label> -->
-                  <div class="labelName d-flex">
-                    <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
-                    <div class="c-sign">
-                      <!-- <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div> -->
-                      {{paymentData.currencyCode}}
+                  <div>
+                    <div *ngIf="paymentData.currencyCode != undefined" class="labelName d-flex">
+                      <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
+                      <div class="c-sign">
+                        {{paymentData.currencyCode}}
+                      </div>
                     </div>
+                    <div *ngIf="paymentData.currencyCode == undefined" class="labelName d-flex">-</div>
                   </div>
                 </div>
                 <div class="timezone-wrap ease">
@@ -273,18 +277,22 @@
                     </div>
                     <label class="labelTitle">Tax setting</label>
                   </div>
-                  <label class="labelName">
+                  <label *ngIf="emptyPaymentData == false" class="labelName">
                     <span *ngIf="paymentData.tax.name != ''" >{{paymentData.tax.name}} </span>
                     <span *ngIf="paymentData.tax.name == ''" >- </span>
-                    <span *ngIf="paymentData.tax.rate != null">{{paymentData.tax.rate}}</span>
+                    <span *ngIf="paymentData.tax.rate != null">( {{paymentData.tax.rate}}% )</span>
                     <span *ngIf="paymentData.tax.rate == null">(-)</span>
+                  </label>
+                  <label *ngIf="emptyPaymentData == true" class="labelName">
+                    <span>-</span>
                   </label>
                 </div>
                 <div class="sectionWrap">
                   <label class="sectionTitle">Online payment</label>
                   <div *ngIf="paymentData.paymentProviders.length > 0">
                     <div class="provider-list" *ngFor="let provider of paymentData.paymentProviders">
-                      {{provider.name}}
+                      <span *ngIf="provider.name != ''">{{provider.name}}</span>
+                      <span *ngIf="provider.name == ''">-</span>
                     </div>
                   </div>
                   <div *ngIf="paymentData.paymentProviders.length == 0">
@@ -473,8 +481,8 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-end form-footer">
-                  <button type="submit" class="btn btn-cancel" (click)="cancel()">Cancel</button>
-                  <button type="submit" class="btn btn-submit" (click)="updateInvoice(paymentData, 'payment')">Done</button>
+                  <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+                  <button type="button" class="btn btn-submit" (click)="updateInvoice(paymentData, 'payment')">Done</button>
                 </div>
               </form>
             </div>

@@ -104,6 +104,7 @@ export class CourseComponent implements OnInit {
   public momentTodayDate:any;
   public showCancelButton:boolean = false;
   public lastActiveStartDate:any;
+  public disableCancel:boolean = false;
   public cancelUi:boolean = false;
   public cancelUItext:any;
   public cancelUI:boolean = false;
@@ -122,6 +123,7 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  // public currency:any = {};
   public currency = JSON.parse(localStorage.getItem('currency'));
   public invCurrency : any ={};
   public pplLists:any;
@@ -185,6 +187,7 @@ export class CourseComponent implements OnInit {
   public showPaidInvoice:boolean = false;
   public invPayment = [];
   public invStatus:any;
+  public noSetting:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -281,6 +284,7 @@ export class CourseComponent implements OnInit {
     this.discount = 0;
     this.selectedPayment = 'Cash';
 
+    this.getRegionInfo();
   }
 
 
@@ -988,7 +992,7 @@ export class CourseComponent implements OnInit {
         this.advance = true;
         this.simple = false;
         console.log('~~~~ ', this.recentLists)
-        this.iswordcount = (obj.keyword == undefined) ? false : true;
+        this.iswordcount = (obj.keyword == undefined || obj.keyword == '' || obj.keyword == ' ') ? false : true;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
@@ -1043,10 +1047,23 @@ export class CourseComponent implements OnInit {
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
+    // this.getRegionInfo();
     console.log(this.detailLists.seat_left);
     this.cancelUi=false;
     this.showCancelButton=false;
     this.cancelUItext= true;
+    console.log("undefined currency",this.currency);
+    if(this.currency == undefined || this.currency == null){
+      this.currency ={
+        'invCurrencySign': '$'
+      }
+      console.log("undefined currency",this.currency);
+    }else{
+      if(this.currency.invCurrencySign == ""){
+        console.log("has currency but sign null",this.currency);
+        this.currency.invCurrencySign = '$';
+      }
+    }  
   }
 
   showCPDetail(planID){
@@ -1197,29 +1214,40 @@ export class CourseComponent implements OnInit {
 
       console.log(finishedDate)
       if(finishedDate.length != 0){
-
+        console.log('~~~~ if')
         // moment1.isSameOrAfter(moment2);
 
         if(this.activeToday == true){
+          console.log('~~~~ active', lessonCount[this.todayIndex])
           this.cancelUi = (lessonCount[this.todayIndex].cancel == true ) ? false : true;
           this.LASD = lessonCount[this.todayIndex].startDate
+          this.currentDateObj = lessonCount[this.todayIndex]._id
+          console.log('~~ currentDateObj ~~' , this.currentDateObj)
 
+          this.disableCancel = (lessonCount[this.todayIndex].cancel == true) ? true : false;
         }else{
+          console.log('~~~~ last active')
           lastActiveDate = finishedDate.length -1;
           console.log(lastActiveDate)
           //LASD = lastActiveStartDate
           this.LASD = lessonCount[lastActiveDate].startDate
           this.cancelUi = (lessonCount[lastActiveDate].cancel == true ) ? false : true;
           console.log(this.LASD)
+          this.currentDateObj = lessonCount[lastActiveDate]._id
+          this.disableCancel = (lessonCount[lastActiveDate].cancel == true) ? true : false;
+          console.log('~~ dateID ~~' , this.currentDateObj)
         }
       }else{
         console.log('hello in else')
         lastActiveDate = 0;
         this.LASD = lessonCount[0].startDate
+        this.currentDateObj = lessonCount[0]._id
         this.cancelUi = (lessonCount[0].cancel == true ) ? false : true;
+        this.disableCancel = (lessonCount[0].cancel == true) ? true : false;
+        console.log('~~ dateID ~~' , this.currentDateObj)
       }
 
-      
+      console.log(this.LASD)
 
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate()
@@ -1277,12 +1305,12 @@ export class CourseComponent implements OnInit {
     // let onlyTime = this.LASD.toString().substring(11, 19)
     // let onlyDate = this.LASD.toString().substring(0,10);
     console.log(this.LASD)
-    let onlyTime = this.LASD.toLocaleString().substring(11, 19)
-    let onlyDate = this.LASD.toLocaleString().substring(0,10);
+    let lsessonTime = this.LASD.toLocaleString().substring(11, 19)
+    let lessonDate = this.LASD.toLocaleString().substring(0,10);
     // console.error(this.LASD)
     
-    // console.warn(onlyTime)
-    // console.warn(onlyDate)
+    // console.warn(lsessonTime)
+    // console.warn(lessonDate)
 
     var todaydate = new Date();
     let onlytodayTime = todaydate.toString().substring(16,24);
@@ -1293,19 +1321,44 @@ export class CourseComponent implements OnInit {
     // console.error(onlytodayTime)
     // console.error(onlytodayDate)
 
-    if(onlyDate == onlytodayDate && onlytodayTime < onlyTime || (onlyDate > onlytodayDate) ){
-      console.log('same as today and not grater than today time')
-      this.showCancelButton=true;
+
+    if(lessonDate >= onlytodayDate){
+      console.log('lesson date is grater than and equal to today')
+      if(lessonDate == onlytodayDate){
+        if(onlytodayTime >= lsessonTime){
+           console.log('current time is grater')
+           this.showCancelButton = false;
+        }else{
+          console.log('~~~')
+          this.showCancelButton = true;
+        }
+      }else{
+        console.log('===')
+        this.showCancelButton = true;
+      }
+    }else{
+      console.log('noooooo')
+      this.showCancelButton = false;
     }
-    else if(onlyDate == onlytodayDate && onlytodayTime > onlyTime || (onlyDate < onlytodayDate )){
-      console.log('same as today and not grater than today time')
-      this.showCancelButton=false;
-    }
+
+    console.log(this.showCancelButton)
+    // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
+    //   console.log('same as today and not grater than today time')
+    //   this.showCancelButton=true;
+    // }
+    // else if(lessonDate == onlytodayDate && onlytodayTime > lsessonTime || (lessonDate < onlytodayDate )){
+    //   console.log('same as today and not grater than today time')
+    //   this.showCancelButton=false;
+    // }
 
   }
 
-  checkAttendance(targetDate, classInfo){
+  checkAttendance(targetDate, classInfo, status){
     console.log('hi', targetDate)
+    console.log('....', classInfo)
+
+    this.disableCancel = (classInfo.cancel == true ) ? true : false;
+
     this.currentDateObj = classInfo._id;
     console.log(this.currentDateObj)
     this.cancelUI= classInfo.cancel;
@@ -1365,7 +1418,7 @@ export class CourseComponent implements OnInit {
 
 
   addUserModal(type, userModal, state, id){
-    console.log('====', state)
+    console.log('====', state, type)
 
     this.isvalidID = state;
     if(state != 'inside'){
@@ -1555,6 +1608,7 @@ export class CourseComponent implements OnInit {
       console.info("cancle user from class api calling is done");
       console.log(res)
       this.isGlobal = false;
+      this.disableCancel = true;
       this.getCourseDetail(this.courseId);
       // Close Dialog box
       // Show the canceled users
@@ -1639,6 +1693,8 @@ export class CourseComponent implements OnInit {
           this.selectedTeacherLists.unshift(res);
           console.log(this.selectedTeacherLists)
         }
+        this.trArrayLists.push(this.selectedTeacherLists[0].userId)
+        console.log(this.trArrayLists)
         // this.removeUser = res.preferredName;
       }
     }, err => {
@@ -1679,8 +1735,11 @@ export class CourseComponent implements OnInit {
   changeMethod(searchWord, userType){
     console.log(this.detailLists.locationId)
     console.log(searchWord)
+    console.log(userType)
     console.log(this.courseId)
     let locationId = this.detailLists.locationId;
+    
+    userType = (userType == 'teacher') ? 'staff' : userType;
     if(searchWord.length != 0){
         this.showList = true;
         this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, this.courseId)
@@ -1876,7 +1935,20 @@ export class CourseComponent implements OnInit {
      .subscribe((res:any) => {
        this.blockUI.stop();
        console.log("res Assign customer",res);
-       this.invoiceInfo = res.invoiceSettings;
+       if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+          console.log("no invoice setting");
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+       }else{
+         console.log("has invoice setting");
+         this.invoiceInfo = res.invoiceSettings;
+       }
        this.invoice = res.invoice;
        this.showInvoice = true;
        this.showOneInvoice(this.invoice);
@@ -2264,7 +2336,23 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log("regional info",res);
       this.blockUI.stop();
-      this.invoiceInfo = res.invoiceSettings;
+      if(res.invoiceSettings == {} || res.invoiceSettings == undefined || res.paymentSettings == {} || res.paymentSettings == undefined){
+          console.log("no invoice setting",res.invoiceSettings);
+          console.log("no invoice setting",res.paymentSettings);
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+          this.noSetting = true;
+       }else{
+         console.log("has invoice setting");
+         this.invoiceInfo = res.invoiceSettings;
+         this.noSetting = false;
+       }
       console.log(this.invoiceInfo)
     })
   }
@@ -2536,7 +2624,7 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop(); 
       this.modalReference.close();
       this.activeTab = 'People';
-      this.toastr.success(res.message);
+      this.toastr.success("Makeup pass successfully created.");
       this.makeupForm = {};
     },err =>{
       this.modalReference.close();
