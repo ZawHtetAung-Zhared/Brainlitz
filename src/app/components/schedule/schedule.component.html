@@ -95,6 +95,9 @@
     <div class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View33+</div>
     <!-- <button (click)=test(content)>Click</button> -->
   </div>
+  <div class="pt-3">
+    <button (click)="addEnrollModal(enrollModal)" class="btn btn-primary">show enroll existing course</button>
+  </div>
 </div>
 
 <ng-template #content let-modal>
@@ -134,5 +137,139 @@
         <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.name}}</p>
       </div>
     </div>      
+  </div>
+</ng-template>
+<ng-template #enrollModal let-c="close" let-d="dismiss">
+  <div class="d-flex flex-column header-wrapper">
+    <div class="d-flex justify-content-between info-wrapper">
+      <div>
+        <label class="info-label">PG2</label>
+        <h4 class="info-header">Piano Grade 2</h4>
+        <div class="d-flex date-label">
+          <label>20 lessons</label>
+          <ul><li>End at 26 Nov 2018</li></ul>
+        </div>
+      </div>
+      <button class="modal-close" (click)="cancelModal()">
+        <span class="closemark">
+          <div class="closemark_stem1"></div>
+          <div class="closemark_kick1"></div>
+        </span>
+      </button>
+    </div>
+    <div class="d-flex tabs-wrapper tab-name">
+      <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'enroll'}" (click)="onClickModalTab('enroll')">Enroll new customer</button>
+      <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'view'}" (click)="onClickModalTab('view')">View Student</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="body-wrap pt-2" *ngIf="activeTab == 'enroll'">
+      <!-- <form nonvalidate #custForm="ngForm">
+        <div class="confirm-text">
+          <div class="d-flex flex-column mt-37" style="position: relative;">
+            <div class="d-flex">
+              <input
+                class="form-control py-2 input-search-bg" 
+                type="search" 
+                placeholder="Search customers" 
+                id="example-search-input" 
+                name="search" 
+                #search="ngModel" 
+                [(ngModel)]="formData.searchText" 
+                (focus)="focusMethod($event, 'customer')"
+                (focusout)="hideFocus($event)"
+                (input)="changeMethod($event.target.value, 'customer')"
+                autocomplete="off"
+                >
+              <span class="input-group-append">
+                <button class="bt btn-design btn-outline-secondary" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+            <div class="user-list-box" *ngIf="showList == true">
+              <div [ngClass]="[(stdLists.indexOf(user.userId) > -1) ? 'hide-user' :'', (!isSeatAvailable && userType =='customer') ? 'disable-add1' : '']" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">              
+                <div class="img-wrap">
+                  <img src="{{user.profilePic}}">
+                </div>
+                <div class="single-user-info d-flex flex-column justify-content-center">
+                  <h4>{{user.preferredName}}</h4>
+                </div>
+                <div class="ml-auto remover-wrap">
+                  <div class="add-user d-flex justify-content-end"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-20 user-row-wrap">
+            <div class="d-flex modal-info-wrap" *ngIf = "(selectedCustomer|json) != '{}' ">
+                <div class="img-div">
+                  <div class="user-img-wrap">
+                    <img src="{{selectedCustomer.profilePic}}">
+                  </div>
+                </div>
+                <div class="w-100">
+                  <div class="d-flex">
+                    <div class="col-md-6">
+                      <div class="modal-userInfo">
+                        <h4>{{selectedCustomer.preferredName}}</h4>
+                        <label class="mail">{{selectedCustomer.email}}</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 modal-userInfo">
+                      <label class="mb-0">Full name</label>
+                      <p class="modal-p">{{selectedCustomer.fullName}}</p>
+                    </div>
+                  </div>
+                  <div class="row single-user-wrap pad-15">
+                    <div *ngFor="let detail of selectedCustomer.details" class="col-sm-6 col-md-6 modal-userInfo">
+                      <label class="mb-0">{{ detail.name }}</label>
+                      <p class="modal-p">
+                        {{ detail.value }}
+                      </p>
+                    </div>
+                  </div>  
+                </div>       
+            </div>
+            <div *ngIf = "(selectedCustomer|json) == '{}' "  class="d-flex col-md-12 empty-ui-wrapper">
+              <div class="col-md-6 img-pos">
+                <div class="empty-wrapper">
+                  <img src="assets/images/add-customer-illustration@2x.png">
+                </div>
+              </div>
+              <div class="d-flex col-md-6">
+                <div class="txt-default">
+                  <h3>Add Customer to this Course</h3>
+                </div>
+                <div class="arrow-pos">
+                  <img src="assets/img/arrow.png">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
+          <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true" (click)="addCustomer(detailLists._id, userType)">Confirm</button>
+        </div>
+      </form> -->
+    </div>
+    <div class="body-wrap pt-2" *ngIf="activeTab == 'view'">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
+          <div class="d-flex flex-row single-student">
+            <div class="img-div">
+              <div class="img-wrap">
+                <img src="{{student.profilePic}}">
+              </div>
+            </div>
+            <div class="d-flex justify-content-center flex-column">
+              <p class="mb-0 student-name pl-2">{{ student.preferredName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>

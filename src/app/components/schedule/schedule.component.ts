@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
+  @BlockUI() blockUI: NgBlockUI;
   public test:any=[];
   public selectedDay = [];
   public categoryList:any;
@@ -23,6 +26,12 @@ export class ScheduleComponent implements OnInit {
   public selectedTeacher:any = {};
   public selectedCategory:any = {};
   public selectedCat:boolean=true;
+  public activeTab:any;
+  public studentLists:any =[];
+  public showList:boolean = false;
+  public userLists:any = [];
+  public isFous:boolean = false;
+  public formData:any = {};
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model:any = {};
@@ -163,6 +172,7 @@ export class ScheduleComponent implements OnInit {
 
   ngOnInit() {
     this.selectedTeacher = this.teachers[0];
+    this.activeTab = 'enroll';
   }
 
   openTeacherList(content){
@@ -175,6 +185,67 @@ export class ScheduleComponent implements OnInit {
   }
   activeTeacher(teacher){
    this.selectedTeacher=teacher
-   console.log(this.selectedTeacher)
+   console.log(this.selectedTeacher);
   }
+
+  addEnrollModal(modal){
+    this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'})
+  }
+
+  onClickModalTab(type){
+    this.activeTab = type;
+    if(type == 'enroll'){
+      
+    }else if(type == 'view'){
+      this.getUserInCourse();
+    }
+  }
+
+  getUserInCourse(){
+    //temp api for testing UI
+    let courseId = "5beb8c7d1f893164fff2c31d";
+    this.blockUI.start('Loading...');
+    this._service.getAssignUser(this.regionId,courseId,null,null,null)
+    .subscribe((res:any)=>{
+      this.blockUI.stop();
+      console.log(res)
+      this.studentLists = res.CUSTOMER;
+    },err =>{
+      console.log(err);
+    });
+  }
+
+  focusMethod(e, userType){
+    console.log(e)
+    console.log(userType)
+    this.isFous = true;
+    this.userLists = [];
+    // this.getAllUsers(userType);
+  }
+
+  hideFocus(e){
+    setTimeout(() => {
+      this.isFous = false;
+      this.showList = false;
+    }, 300);
+    this.formData = {}
+  }
+
+  // changeMethod(searchWord, userType){
+  //   userType = (userType == 'teacher') ? 'staff' : userType;
+  //   if(searchWord.length != 0){
+  //     this.showList = true;
+  //     this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, courseId)
+  //     .subscribe((res:any) => {
+  //       console.log(res);
+  //       this.userLists = res;
+  //     }, err => {
+  //       console.log(err);
+  //     });
+  //   }else if(searchWord.length == 0){
+  //     this.userLists = [];
+  //     this.showList = false;
+  //   }
+  // }
+
 }
