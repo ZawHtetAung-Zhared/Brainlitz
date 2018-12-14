@@ -496,28 +496,30 @@ export class ScheduleComponent implements OnInit {
   }
 
   hideFocus(e){
-    setTimeout(() => {
-      this.isFous = false;
-      this.showList = false;
-    }, 300);
+    // setTimeout(() => {
+    //   this.isFous = false;
+    //   this.showList = false;
+    // }, 300);
     this.formData = {}
   }
 
-  // changeMethod(searchWord, userType){
-  //   userType = (userType == 'teacher') ? 'staff' : userType;
-  //   if(searchWord.length != 0){
-  //     this.showList = true;
-  //     this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, courseId)
-  //     .subscribe((res:any) => {
-  //       console.log(res);
-  //       this.userLists = res;
-  //     }, err => {
-  //       console.log(err);
-  //     });
-  //   }else if(searchWord.length == 0){
-  //     this.userLists = [];
-  //     this.showList = false;
-  //   }
-  // }
+  changeMethod(searchWord, userType){
+    let courseId = "5beb8c7d1f893164fff2c31d";
+    userType = (userType == 'teacher') ? 'staff' : userType;
+    console.log(userType)
+    if(searchWord.length != 0){
+      this.showList = true;
+      this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, courseId)
+      .subscribe((res:any) => {
+        console.log(res);
+        this.userLists = res;
+      }, err => {
+        console.log(err);
+      });
+    }else if(searchWord.length == 0){
+      this.userLists = [];
+      this.showList = false;
+    }
+  }
 
 }

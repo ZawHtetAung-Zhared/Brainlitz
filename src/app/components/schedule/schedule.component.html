@@ -215,7 +215,7 @@
   </div>
   <div class="modal-body">
     <div class="body-wrap pt-2" *ngIf="activeTab == 'enroll'">
-      <!-- <form nonvalidate #custForm="ngForm">
+      <form nonvalidate #custForm="ngForm">
         <div class="confirm-text">
           <div class="d-flex flex-column mt-37" style="position: relative;">
             <div class="d-flex">
@@ -239,7 +239,7 @@
               </span>
             </div>
             <div class="user-list-box" *ngIf="showList == true">
-              <div [ngClass]="[(stdLists.indexOf(user.userId) > -1) ? 'hide-user' :'', (!isSeatAvailable && userType =='customer') ? 'disable-add1' : '']" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">              
+              <div (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">              
                 <div class="img-wrap">
                   <img src="{{user.profilePic}}">
                 </div>
@@ -252,7 +252,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-20 user-row-wrap">
+          <!-- <div class="mt-20 user-row-wrap">
             <div class="d-flex modal-info-wrap" *ngIf = "(selectedCustomer|json) != '{}' ">
                 <div class="img-div">
                   <div class="user-img-wrap">
@@ -298,20 +298,20 @@
               </div>
             </div>
           </div>
-          <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
+          <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div> -->
         </div>
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
           <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true" (click)="addCustomer(detailLists._id, userType)">Confirm</button>
-        </div>
-      </form> -->
+        </div> -->
+      </form>
     </div>
     <div class="body-wrap pt-2" *ngIf="activeTab == 'view'">
       <div class="row">
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
           <div class="d-flex flex-row single-student">
-            <div class="img-div">
-              <div class="img-wrap">
+            <div class="image-div">
+              <div class="image-wrap">
                 <img src="{{student.profilePic}}">
               </div>
             </div>
