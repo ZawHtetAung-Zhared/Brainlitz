@@ -1476,12 +1476,13 @@ export class CourseComponent implements OnInit {
     console.log("user data in view inv",data);
     if(data.invoice != null){
       this.invStatus = data.invoice.status;
+      if(data.invoice.status == "PAID"){
+        this.showPaidInvoice = true;
+      }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
+        this.showInvoice = true;
+      }
     }
-    if(data.invoice.status == "PAID"){
-      this.showPaidInvoice = true;
-    }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
-      this.showInvoice = true;
-    }
+    
     this.getRegionInfo();
     console.log(this.invoiceInfo);
     var invoiceId = data.invoice._id;
@@ -2511,7 +2512,9 @@ export class CourseComponent implements OnInit {
     if(type == 'transfer'){
       this.getAllAC(20, 0, data.userId);
     }else if(type == 'invoice'){
-      this.viewInvoice(data);
+      if(data.invoice != null){
+        this.viewInvoice(data);
+      }
     }
   }
 
