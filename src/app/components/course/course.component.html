@@ -338,7 +338,7 @@
         <div class="card card-wrap">
           <div class="header">
             <div>
-              <label class="category semibold">
+              <label *ngIf="courseGroup.coursePlan.catagory" class="category semibold">
                 #{{ courseGroup.coursePlan.category.name }}
               </label>
             </div>
