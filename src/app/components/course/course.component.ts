@@ -907,6 +907,7 @@ export class CourseComponent implements OnInit {
     console.log(this.repeatedDaysTemp.length == 0 && this.tempCategory.length == 0 && this.tempPlan.length == 0 && this.searchVal.length == 0)
     if(this.repeatedDaysTemp.length == 0 && this.tempCategory.length == 0 && this.tempPlan.length == 0 && this.searchVal.length == 0){
       console.log('hide advanced search')
+      this.courseList = [];
       this.hideSearch = false;
       this.getCourseLists(20, 0);
     }else{
