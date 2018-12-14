@@ -20,6 +20,7 @@ ul.pass-list li,
 .valid-until,
 .limit-wordcount,
 .limit-wordcount1,
+.limit-wordcount2,
 .info-mail,
 .info-about,
 .medium-label-14,
@@ -40,6 +41,9 @@ ul.pass-list li,
 .medium-label-12{    
     font-size: 12px;
     font-family: 'Montserrat-Medium', Arial,sans-serif;
+}
+.pb-20{
+    padding-bottom: 20px;
 }
 .tr-img-wrap{
     display: inline-block;
@@ -456,7 +460,8 @@ ul.pass-list li {
     padding: 4px;
 }
 .limit-wordcount,
-.limit-wordcount1{
+.limit-wordcount1,
+.limit-wordcount2{
   display: none;
   color: #0080ff;
   position: absolute;
@@ -1817,4 +1822,20 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .inv-bordered div:first-child.inv-row .b-bottom {
   border-top: 1px solid #edeff0;
+}
+
+.seat-taken{
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: red;
+  font-size: 14px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+
+input[_ngcontent-c1]:focus {
+    /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
+    box-shadow: 0 1px 3px 2px white;
+    outline: none;
 }

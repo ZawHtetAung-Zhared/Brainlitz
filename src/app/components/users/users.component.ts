@@ -89,7 +89,8 @@ export class UsersComponent implements OnInit {
   	public showCustDetail:boolean = false;
   	public isFous:boolean = false;
   	public custDetail:any = {};
-  	public wordLength:number = 0;
+	public wordLength:number = 0;
+	public wordLength1:number = 0;
   	divHeight:any;
   	public customFields:any = [];
   	public customerPermission:any = [];
@@ -144,6 +145,7 @@ export class UsersComponent implements OnInit {
 	public invStatus:any;
 	public invCurrency:any = {}
 	public invPayment:any = [];
+	public noSetting:boolean = false;
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
@@ -293,23 +295,36 @@ export class UsersComponent implements OnInit {
 	    if(status == 'name'){
 	      this.wordLength = word.length;
 	      $('.limit-wordcount').show('slow'); 
-	    }else{
-	      this.wordLength = word.length;
+		}
+		else if(status == 'fullname'){
+			this.wordLength = word.length;
+			$('.limit-wordcount2').show('slow'); 
+		  }
+		else{
+		  this.wordLength = word.length;
+		 
 	      $('.limit-wordcount1').show('slow'); 
 	    }
 	}
+	
 	  
 	blurMethod(e, status){
 	    if(status == 'name'){
 	      $('.limit-wordcount').hide('slow'); 
-	    }else{
+		}
+		else if(status == 'fullname'){
+			$('.limit-wordcount2').hide('slow'); 
+		  }
+		else{
 	      $('.limit-wordcount1').hide('slow'); 
 	    }
 	    this.wordLength = 0;
 	}
+	
 
 	changeMethod(val : string){
 		this.wordLength = val.length;
+		
 	}
 
 	createUser(obj, apiState){
@@ -368,6 +383,9 @@ export class UsersComponent implements OnInit {
 		// objData
 		if(this.formFieldc.details.length>0){
 			console.log("Has Details",this.formFieldc.details)
+			objData.append('details', JSON.stringify(obj.details));
+		}else{
+			obj.details = [];
 			objData.append('details', JSON.stringify(obj.details));
 		}	
 
@@ -739,13 +757,20 @@ export class UsersComponent implements OnInit {
 		const format = 'DD MMM YYYY';
 		const zone = localStorage.getItem('timezone');
 		// this.showCustDetail = true;
+		this.getRegionInfo();
 		this.showCustDetail = true;
 		if(this.currency == undefined || this.currency == null){
-	      this.currency = {
-	        'invCurrencySign': ''
+	      this.currency ={
+	        'invCurrencySign': '$'
 	      }
 	      console.log("undefined currency",this.currency);
+	    }else{
+	      if(this.currency.invCurrencySign == ""){
+	        console.log("has currency but sign null",this.currency);
+	        this.currency.invCurrencySign = '$';
+	      }
 	    }
+
 		this.blockUI.start('Loading...');
 		this._service.getUserDetail(this.regionID,ID, this.locationID)
 		.subscribe((res:any) => {
@@ -928,7 +953,20 @@ export class UsersComponent implements OnInit {
 		     	// this.closeModel();
 		     	/* for invoice*/
 		     	this.showInvoice = true;
-		     	this.invoiceInfo = res.invoiceSettings;
+		     	if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+					console.log("no invoice setting");
+					this.invoiceInfo = {
+					'address': "",
+					'city': "",
+					'companyName': "",
+					'email': "",
+					'prefix': "",
+					'registration': ""
+					}
+				}else{
+					console.log("has invoice setting");
+					this.invoiceInfo = res.invoiceSettings;
+				}
 				this.invoice = res.invoice;
 				this.showInvoice = true; 
 				this.showOneInvoice(course,this.invoice)
@@ -1159,7 +1197,22 @@ export class UsersComponent implements OnInit {
 			console.log("regional info",res);
 			// this.paymentProviders = res.invoiceSettings.paymentProviders;
 			// console.log(this.paymentProviders);
-			this.invoiceInfo = res.invoiceSettings;
+			if(res.invoiceSettings == {} || res.invoiceSettings == undefined || res.paymentSettings == {} || res.paymentSettings == undefined){
+				console.log("no invoice setting");
+				this.invoiceInfo = {
+				'address': "",
+				'city': "",
+				'companyName': "",
+				'email': "",
+				'prefix': "",
+				'registration': ""
+				}
+				this.noSetting = true;
+			}else{
+				console.log("has invoice setting");
+				this.invoiceInfo = res.invoiceSettings;
+				this.noSetting = false;
+			}
 			console.log(this.getRegionInfo);
 		})
 	}
