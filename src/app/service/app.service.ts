@@ -745,6 +745,25 @@ export class appService{
           return result;
       }) 
     }
+    getscheduleStaffList(regionid: string, daysOfWeek: string, categoryId: string): Observable<any>{
+      console.warn(regionid);
+      console.warn(daysOfWeek);
+      console.warn(categoryId);
+      this.getLocalstorage()
+      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
     
     createCoursePlan(id: string, locationid: string, data: object): Observable<any>{
       let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + locationid;

@@ -1,6 +1,8 @@
 <app-header [ngClass]="{'stick': isSticky == true , 'hide': hideMenu}" *ngIf="scheduleList"></app-header>
+
 <div class="d-flex justify-content-center" *ngIf="scheduleList">
   <div class="d-flex flex-column align-items-start  mt-5">
+    <form class="form-wrap d-flex flex-column align-items-start" novalidate #customerForm="ngForm">
     <h3 class="schedule-title ">Schedule</h3>
     <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>      
     <div class="checkboxes-wrapper">
@@ -8,7 +10,7 @@
         <label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
           <div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
           <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div>              
-          <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true">
+          <input type="checkbox" required class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event,d.day,d)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true">
           <div class="box-label">{{d.day}}</div>
         </label>
       </span>
@@ -24,6 +26,7 @@
         name="itemID"
         [(ngModel)]="item.itemID"
         #itemID="ngModel"
+        required
         id="example-search-input"
         (focus)="focusSearch($event, 'category')"
         (focusout)="hideSearch($event)"
@@ -38,14 +41,14 @@
         <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
       </ul>
     </div>
-    <button type="button" class="align-self-end btn btn-primary mt-4" (click)="gotoScheduleList()">Show</button>
+    <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff(regionId,selectedayId,selectedID)" [disabled]="!customerForm.valid">Show</button>
+    </form>
   </div>
 </div>
 
 <!-- Schedule List -->
-<div class="d-flex flex-column" *ngIf="!scheduleList" >
-  <div>
-  <div class="d-flex ml-3">
+<div *ngIf="!scheduleList" >
+  <div class="d-flex pl-3">
     <div class="p-2 pl-0 pb-0 ">
       <div class="back-to" (click)="backtoSchedule()">
         <i class="fa fa-angle-left"></i>
@@ -57,12 +60,13 @@
     <div>
       <span *ngFor="let d of days">
         <label class="cursor-on day-checkbox" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
-          <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val ,$event)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true" >
+          <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val ,$event,d.day,d)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true" >
           <div class="schedule-box-label">{{d.day}}</div>
         </label>
       </span>
     </div>
     <div class="input-group mt-3 scheduleList-dropdown  dad">
+      
       <input 
         class="form-control py-2 input-search-dropdown-bg" 
         type="search" 
@@ -74,64 +78,87 @@
         (focus)="focusSearch($event, 'category')"
         (focusout)="hideSearch($event)"
         (input)="searchCategoryList($event.target.value, 'category')"
+        
       >
       <!-- <span (click)="showAdvancedSearch()" class="fa fa-angle-down fa-2x d-flex justify-content-center flex-column icon course-search-down"></span> -->
      
-        <span  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span> 
+        <span  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"
+        (focus)="focusSearch($event, 'category')"
+        (focusout)="hideSearch($event)"
+        (click)="focusSearch($event, 'category')"
+        ></span> 
         <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
         <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
       </ul>
     </div>
   </div>
 
-  <div class="d-flex flex-wrap w-100">
+
+  <div class="d-flex flex-wrap w-100  pl-3">
     <div class="teacher-list-wrapper d-flex">
-      <div class="d-flex align-items-center teacher-list" *ngFor="let teacher of teachers" [class.selectedteacher]="teacher==selectedTeacher" (click)="activeTeacher(teacher)" >
-        <div class="profile-img-wrap">
-          <img src="https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg" alt=""  class="teacher-pic">
+      <div class="d-flex align-items-center teacher-list" *ngFor="let teacher of staffList" [class.selectedteacher]="teacher==selectedTeacher" (click)="activeTeacher(teacher)" >
+        <div>
+          <div class="profile-img-wrap">
+            <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
+          </div>
         </div>
-        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.name}}</p>
+        <div>
+
+          <p  class="pt-3 pr-2 pl-2 text-teacher-name" style=" word-break: break-all;">{{teacher.preferredName}}</p>
+        </div>
       </div>
     </div>
     <div class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View33+</div>
     <!-- <button (click)=test(content)>Click</button> -->
   </div>
-  </div>
+  
 
   <div class="v-wrapper1">
-  <table class="timeline-table">
-    <thead>
-      <tr>
-        <th></th>
-        <th *ngFor="let time of operationTime">{{time.name}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th></th>
-        <td *ngFor="let time of operationTime">{{time.name}}</td>
-      </tr>
-      <tr *ngFor="let list of timetableLists; let i = index">
-        <th>{{list.date.day}} {{list.date.month - 1 | TTmonth}}</th>
-        <td *ngFor="let course of list.timetable;">
-          {{course.coursecode}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="timeline-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th *ngFor="let time of operationTime">{{time.name}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th></th>
+          <td *ngFor="let time of operationTime">{{time.name}}</td>
+        </tr>
+        <tr *ngFor="let list of timetableLists; let i = index">
+          <th>{{list.date.day}} {{list.date.month - 1 | TTmonth}}</th>
+          <td *ngFor="let course of list.timetable;">
+            {{course.coursecode}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pt-3">
+    <button (click)="addEnrollModal(enrollModal)" class="btn btn-primary">show enroll existing course</button>
+  </div>
 </div>
 
-</div>
+
+
+
+
+
+
+
+
+
 
 <ng-template #content let-modal>
   <div class="modal-header">
-      <!-- <div class="checkboxes-wrapper ">
-          <span *ngFor="let d of test">
-            {{d}}
-          </span>
-      </div> -->
-      <p *ngIf="!selectedCat" style="display:block;">{{selectedCategory}}</p>
-    <p class="modal-title">Teachers</p>
+    <div class="selected-day d-flex ">
+      <div  *ngFor="let d of SelectedDate">
+        {{d}} 
+      </div>
+    </div>
+    <p *ngIf="!selectedCat" class="selectedCatName">{{selectedCategory}}</p>
     <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
       <span class="closemark">
         <div class="closemark_stem"></div>
@@ -140,6 +167,7 @@
     </button>
   </div>
   <div class="modal-body">
+    <p class="modal-title c">Teachers</p>
     <div class="input-group mt-3">
       <input 
         class="form-control py-2 input-search-bg" 
@@ -154,11 +182,145 @@
     </div>
   </div>
   <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper">
-    <div *ngFor="let teacher of teachers" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
+    <div *ngFor="let teacher of staffList" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
       <div class="d-flex justify-content-center">
-        <img src="https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg" alt=""  class="modal-teacher-pic align-self-center">
-        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.name}}</p>
+        <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic align-self-center">
+        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.preferredName}}</p>
       </div>
     </div>      
+  </div>
+</ng-template>
+<ng-template #enrollModal let-c="close" let-d="dismiss">
+  <div class="d-flex flex-column header-wrapper">
+    <div class="d-flex justify-content-between info-wrapper">
+      <div>
+        <label class="info-label">PG2</label>
+        <h4 class="info-header">Piano Grade 2</h4>
+        <div class="d-flex date-label">
+          <label>20 lessons</label>
+          <ul><li>End at 26 Nov 2018</li></ul>
+        </div>
+      </div>
+      <button class="modal-close" (click)="cancelModal()">
+        <span class="closemark">
+          <div class="closemark_stem1"></div>
+          <div class="closemark_kick1"></div>
+        </span>
+      </button>
+    </div>
+    <div class="d-flex tabs-wrapper tab-name">
+      <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'enroll'}" (click)="onClickModalTab('enroll')">Enroll new customer</button>
+      <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'view'}" (click)="onClickModalTab('view')">View Student</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="body-wrap pt-2" *ngIf="activeTab == 'enroll'">
+      <!-- <form nonvalidate #custForm="ngForm">
+        <div class="confirm-text">
+          <div class="d-flex flex-column mt-37" style="position: relative;">
+            <div class="d-flex">
+              <input
+                class="form-control py-2 input-search-bg" 
+                type="search" 
+                placeholder="Search customers" 
+                id="example-search-input" 
+                name="search" 
+                #search="ngModel" 
+                [(ngModel)]="formData.searchText" 
+                (focus)="focusMethod($event, 'customer')"
+                (focusout)="hideFocus($event)"
+                (input)="changeMethod($event.target.value, 'customer')"
+                autocomplete="off"
+                >
+              <span class="input-group-append">
+                <button class="bt btn-design btn-outline-secondary" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+            <div class="user-list-box" *ngIf="showList == true">
+              <div [ngClass]="[(stdLists.indexOf(user.userId) > -1) ? 'hide-user' :'', (!isSeatAvailable && userType =='customer') ? 'disable-add1' : '']" (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">              
+                <div class="img-wrap">
+                  <img src="{{user.profilePic}}">
+                </div>
+                <div class="single-user-info d-flex flex-column justify-content-center">
+                  <h4>{{user.preferredName}}</h4>
+                </div>
+                <div class="ml-auto remover-wrap">
+                  <div class="add-user d-flex justify-content-end"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-20 user-row-wrap">
+            <div class="d-flex modal-info-wrap" *ngIf = "(selectedCustomer|json) != '{}' ">
+                <div class="img-div">
+                  <div class="user-img-wrap">
+                    <img src="{{selectedCustomer.profilePic}}">
+                  </div>
+                </div>
+                <div class="w-100">
+                  <div class="d-flex">
+                    <div class="col-md-6">
+                      <div class="modal-userInfo">
+                        <h4>{{selectedCustomer.preferredName}}</h4>
+                        <label class="mail">{{selectedCustomer.email}}</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 modal-userInfo">
+                      <label class="mb-0">Full name</label>
+                      <p class="modal-p">{{selectedCustomer.fullName}}</p>
+                    </div>
+                  </div>
+                  <div class="row single-user-wrap pad-15">
+                    <div *ngFor="let detail of selectedCustomer.details" class="col-sm-6 col-md-6 modal-userInfo">
+                      <label class="mb-0">{{ detail.name }}</label>
+                      <p class="modal-p">
+                        {{ detail.value }}
+                      </p>
+                    </div>
+                  </div>  
+                </div>       
+            </div>
+            <div *ngIf = "(selectedCustomer|json) == '{}' "  class="d-flex col-md-12 empty-ui-wrapper">
+              <div class="col-md-6 img-pos">
+                <div class="empty-wrapper">
+                  <img src="assets/images/add-customer-illustration@2x.png">
+                </div>
+              </div>
+              <div class="d-flex col-md-6">
+                <div class="txt-default">
+                  <h3>Add Customer to this Course</h3>
+                </div>
+                <div class="arrow-pos">
+                  <img src="assets/img/arrow.png">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
+          <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true" (click)="addCustomer(detailLists._id, userType)">Confirm</button>
+        </div>
+      </form> -->
+    </div>
+    <div class="body-wrap pt-2" *ngIf="activeTab == 'view'">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
+          <div class="d-flex flex-row single-student">
+            <div class="img-div">
+              <div class="img-wrap">
+                <img src="{{student.profilePic}}">
+              </div>
+            </div>
+            <div class="d-flex justify-content-center flex-column">
+              <p class="mb-0 student-name pl-2">{{ student.preferredName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>
