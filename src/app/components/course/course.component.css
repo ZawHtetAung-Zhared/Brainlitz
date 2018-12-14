@@ -797,12 +797,13 @@ li button{
 }
 
 .view-li button{
-  cursor: pointer;
   margin-left: 0!important;
   padding: 0;
   border: none;
   color: #212529;
   background: #fff;
+  width: 100%;
+  text-align: left;
 }
 
 .scrollable
