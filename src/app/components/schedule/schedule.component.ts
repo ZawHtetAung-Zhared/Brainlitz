@@ -26,6 +26,237 @@ export class ScheduleComponent implements OnInit {
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model:any = {};
+  public operationTime = [
+    {'name': '8:00 AM'},
+    {'name': '8:30 AM'},
+    {'name': '9:00 AM'},
+    {'name': '9:30 AM'},
+    {'name': '10:00 AM'},
+    {'name': '10:30 AM'},
+    {'name': '11:00 AM'},
+    {'name': '11:30 AM'},
+    {'name': '12:00 AM'},
+    {'name': '12:30 AM'},
+    {'name': '1:00 PM'},
+    {'name': '1:30 PM'},
+    {'name': '2:30 PM'},
+  ];
+  public timetableLists = [
+    {
+      "date": {
+        "day": 3,
+        "month": 9,
+        "year": 2018
+      },
+      "timetable": [
+        {
+          "coursecode": "BPC",
+          "category": {
+            "id": 0,
+            "name": "name"
+          },
+          "special_case": null,
+          "seat_left": 0,
+          "available": false,
+          "start": {
+            "hr": 8,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 8,
+            "min": 45,
+            "meridian": "AM"
+          }
+        },
+        {
+          "coursecode": "PG2",
+          "category": {
+            "id": 0,
+            "name": "name"
+          },
+          "special_case": null,
+          "seat_left": 0,
+          "available": true,
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        },
+        {
+          "coursecode": null,
+          "category": {
+            "id": null,
+            "name": null
+          },
+          "seat_left": null,
+          "available": false,
+          "special_case": {
+            "leave": true
+          },
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        }
+      ]
+    },
+    {
+      "date": {
+        "day": 5,
+        "month": 9,
+        "year": 2018
+      },
+      "timetable": [
+        {
+          "coursecode": "PG1",
+          "category": {
+            "id": 0,
+            "name": "name"
+          },
+          "special_case": null,
+          "seat_left": 0,
+          "available": false,
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        },
+        {
+          "coursecode": "PG3",
+          "category": {
+            "id": 0,
+            "name": "name"
+          },
+          "special_case": null,
+          "seat_left": 0,
+          "available": true,
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        },
+        {
+          "coursecode": 'PG4',
+          "category": {
+            "id": null,
+            "name": null
+          },
+          "seat_left": null,
+          "available": false,
+          "special_case": {
+            "leave": true
+          },
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        }
+      ]
+    },
+    {
+      "date": {
+        "day": 5,
+        "month": 11,
+        "year": 2018
+      },
+      "timetable": [
+        {
+          "coursecode": "PG2",
+          "category": {
+            "id": 0,
+            "name": "name"
+          },
+          "special_case": null,
+          "seat_left": 0,
+          "available": false,
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        },
+        {
+          "coursecode": "PG3",
+          "category": {
+            "id": 0,
+            "name": "name"
+          },
+          "special_case": null,
+          "seat_left": 0,
+          "available": true,
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        },
+        {
+          "coursecode": null,
+          "category": {
+            "id": null,
+            "name": null
+          },
+          "seat_left": null,
+          "available": false,
+          "special_case": {
+            "leave": true
+          },
+          "start": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          },
+          "end": {
+            "hr": 0,
+            "min": 0,
+            "meridian": "AM"
+          }
+        }
+      ]
+    }
+  ]
+
 
   public days = [
     {"day":"Sun", "val": 0},

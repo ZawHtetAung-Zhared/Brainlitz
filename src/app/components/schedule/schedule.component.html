@@ -43,7 +43,8 @@
 </div>
 
 <!-- Schedule List -->
-<div *ngIf="!scheduleList" >
+<div class="d-flex flex-column" *ngIf="!scheduleList" >
+  <div>
   <div class="d-flex ml-3">
     <div class="p-2 pl-0 pb-0 ">
       <div class="back-to" (click)="backtoSchedule()">
@@ -83,7 +84,7 @@
     </div>
   </div>
 
-  <div class="d-flex flex-wrap w-100  ml-3">
+  <div class="d-flex flex-wrap w-100">
     <div class="teacher-list-wrapper d-flex">
       <div class="d-flex align-items-center teacher-list" *ngFor="let teacher of teachers" [class.selectedteacher]="teacher==selectedTeacher" (click)="activeTeacher(teacher)" >
         <div class="profile-img-wrap">
@@ -95,6 +96,31 @@
     <div class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View33+</div>
     <!-- <button (click)=test(content)>Click</button> -->
   </div>
+  </div>
+
+  <div class="v-wrapper1">
+  <table class="timeline-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th *ngFor="let time of operationTime">{{time.name}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th></th>
+        <td *ngFor="let time of operationTime">{{time.name}}</td>
+      </tr>
+      <tr *ngFor="let list of timetableLists; let i = index">
+        <th>{{list.date.day}} {{list.date.month - 1 | TTmonth}}</th>
+        <td *ngFor="let course of list.timetable;">
+          {{course.coursecode}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </div>
 
 <ng-template #content let-modal>

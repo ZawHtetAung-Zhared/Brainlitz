@@ -355,3 +355,56 @@ ul.scedule-data-listing li.disabled{
   color: #fff!important;
   border: 1px solid #fff;
 }
+
+
+
+/* //timeline table*/
+.v-wrapper1 {
+  width: 100%;
+  margin-top: 50px;
+  max-height: 150px;
+  overflow: scroll;
+  position: relative;
+}
+
+table {
+  position: relative;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 0.25em;
+  min-width: 112px;
+}
+
+thead th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+  background: #fff;
+  color: #2e3d4d;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  padding: 12px;
+  border: 1px solid #edeff0;
+  border-bottom: none;
+}
+
+thead th:first-child {
+  left: 0;
+  z-index: 1;
+  border: none;
+}
+
+tbody th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #FFF;
+  border-right: 1px solid #edeff0;
+}
+tbody td{
+  padding: 0.25em;
+  min-width: 52px;
+  width: 52px;
+  max-width: 52px;
+}
