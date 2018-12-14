@@ -80,6 +80,8 @@ export class DashboardComponent implements OnInit {
     ],
     "currencyCode": ""
   };
+  public emptyPaymentData: boolean = false;
+  public emptyInvoiceData: boolean = false;
   public flags = ['aed','afn','all','amd','ang','aoa','ars','aud','awg','azn','bam','bbd','bdt','bgn','bhd','bif','bmd','bnd','bob','brl','bsd','btn','bwp','byn','bzd','cad','cdf','chf','clp','cny','cop','crc','cup','cve','czk','djf','dkk','dop','dzd','egp','ern','etb','eur','fjd','fkp','gbp','gel','ghs','gip','gmd','gnf','gtq','gyd','hkd','hnl','hrk','htg','huf','idr','ils','inr','iqd','irr','isk','jmd','jod','jpy','kes','kgs','khr','kmf','kpw','krw','kwd','kyd','kzt','lak','lbp','lkr','lrd','ltl','lyd','mad','mdl','mga','mkd','mmk','mnt','mop','mro','mur','mvr','mwk','mxn','myr','mzn','nad','ngn','nio','nok','npr','nzd','omr','pen','pgk','php','pkr','pln','pyg','qar','ron','rsd','rub','rwf','sar','sbd','scr','sek','sgd','shp','sll','sos','srd','std','svc','syp','szl','thb','tjs','tnd','top','try','ttd','twd','tzs','uah','ugx','usd','uyu','uzs','vef','vnd','vuv','wst','xaf','xcd','xof','xpf','yer','zar','zmw']
   @BlockUI() blockUI: NgBlockUI;
 
@@ -172,6 +174,23 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.invoiceData = res;
+      console.log('this.invoiceData', this.invoiceData)
+      console.log(Object.keys(this.invoiceData).length)
+
+      this.emptyInvoiceData = (Object.keys(this.invoiceData).length == 0) ? true : false;
+
+      if(Object.keys(this.invoiceData).length == 0){
+        this.invoiceData = {
+            "companyName" : "",
+            "registration" : "",
+            "address" : "",
+            "city": "",
+            "email" : "",
+            "prefix"  : "",
+            "currencySign"  : undefined,
+            "currencyCode"  : undefined
+          };
+      }
     }, err => {
       console.log(err)
     })
@@ -182,6 +201,21 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.paymentData = res;
+      console.log('this.paymentData', this.paymentData)
+      this.emptyPaymentData = (Object.keys(this.paymentData).length == 0) ? true : false;
+
+      if(Object.keys(this.paymentData).length == 0){
+        this.paymentData = {
+          "tax": {
+            "rate": "",
+            "name": ""
+          },
+          "paymentProviders": [],
+          "currencyCode": undefined,
+          "currencySign": undefined
+        };
+      }
+
       this.providerTemp = this.paymentData.paymentProviders;      
 
       if(this.providerTemp.length > 0){
@@ -262,7 +296,7 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = this.invoiceData.currencyCode;
     
     this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
-    if(this.isOnline == true){
+    if(this.isOnline == true && this.option == 'Payment'){
       this._service.paymentProvider()
       .subscribe((res:any) => {
         console.log(res)
@@ -367,6 +401,8 @@ export class DashboardComponent implements OnInit {
       this.paymentData['currencyCode'] = this.selectedFlag;
       this.paymentData['currencySign'] = this.selectedCurrency;
       
+      this.paymentData = (this.emptyPaymentData == true) ? {} : this.paymentData;
+      console.log(this.paymentData)
       body = {
         'invoiceSettings': data,
         'paymentSettings': this.paymentData
@@ -390,6 +426,14 @@ export class DashboardComponent implements OnInit {
       }else{
         data.paymentProviders = []
       }
+
+      data['currencyCode'] = this.selectedFlag;
+      data['currencySign'] = this.selectedCurrency;
+
+      this.invoiceData = (this.emptyInvoiceData == true) ? {} : this.invoiceData;
+      console.log(this.invoiceData)
+      console.log(data)
+      
       body = {
         'invoiceSettings': this.invoiceData,
         'paymentSettings': data

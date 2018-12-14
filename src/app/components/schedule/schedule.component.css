@@ -91,9 +91,9 @@
 .box-label{
   margin-top: 10px;
 }
-.schedule-box-label{
-  /* text-align: center; */
-}
+/* .schedule-box-label{
+  text-align: center;
+} */
 .checkboxes-wrapper{
  margin-bottom: 32px;
  margin-left: 20px;
@@ -241,6 +241,7 @@ ul.scedule-data-listing li.disabled{
   padding: 0px 43px 0px 9px;
   /* margin-left:0px;  */
   margin-right:16px;
+  color: #64707d;
 }
 .modal-teacher-list{
   width:207px; 
@@ -268,10 +269,10 @@ ul.scedule-data-listing li.disabled{
   height:32px;
   width:32px; 
   border-radius: 100%;
-  padding-left: 8px;
+  margin-left: 8px;
 }
 .text-teacher-name{
-  color: #64707d;
+  /* color: #64707d; */
   font-size:12px;
 }
 .text-teacher-name{
@@ -316,6 +317,7 @@ ul.scedule-data-listing li.disabled{
   height: 24px;
   background-color: #3d5266;
   left: 7px;
+  top: -2px;
 }
 
 .closemark_kick {
@@ -344,7 +346,12 @@ ul.scedule-data-listing li.disabled{
   height: 24px;
 }
 
-.close:focus {
- 
+.close:focus { 
   outline: 0px auto -webkit-focus-ring-color!important;
+}
+
+.selectedteacher{
+  background: #007bff;
+  color: #fff!important;
+  border: 1px solid #fff;
 }

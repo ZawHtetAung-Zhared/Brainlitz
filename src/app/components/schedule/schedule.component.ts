@@ -21,6 +21,8 @@ export class ScheduleComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public selectedTeacher:any = {};
+  public selectedCategory:any = {};
+  public selectedCat:boolean=true;
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model:any = {};
@@ -150,14 +152,17 @@ export class ScheduleComponent implements OnInit {
     this.selectedID = id;
     this.item.itemID = name;
     this.test.push(name)
+    this.selectedCategory=name;
+    this.selectedCat=false;
     console.log(id, name)
     console.log
   }
-
+  
 
   constructor(private _service:appService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.selectedTeacher = this.teachers[0];
   }
 
   openTeacherList(content){
@@ -167,5 +172,9 @@ export class ScheduleComponent implements OnInit {
   }
   cancelModal(){
     this.modalReference.close();
+  }
+  activeTeacher(teacher){
+   this.selectedTeacher=teacher
+   console.log(this.selectedTeacher)
   }
 }
