@@ -136,6 +136,42 @@
     </table>
   </div>
 
+  <div class="v-wrapper1">
+    <div class="timeline-table1"> 
+      <div class="time-range">        
+          <div class="single-range"></div>
+          <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : {{time.start.min}} {{time.start.meridian}}</div>        
+      </div>
+      <div class="lessons-range">
+        <div *ngFor="let list of timetableLists; let i = index">
+          <div class="xxx-count" *ngFor="let monthlylist of list.month;let b = index">
+            <div id="" class="single-slot">
+              <p>{{monthlylist.date.day}} {{monthlylist.date.month - 1 | TTmonth}} {{i}} {{b}} </p>
+              <span>{{monthlylist.date.dayOfWeek}} --- {{list.month.length}}</span>
+            </div> 
+            <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
+              <div class="slot-wrap" *ngIf="j%2 == 0">
+                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]">
+                </div>
+              </div> 
+              <div class="slot-wrap" *ngIf="j%2 != 0">
+                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of [30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59]">
+                </div>
+              </div>         
+            </div>         
+            <div *ngFor="let timetable of monthlylist.timetable; let k = index">
+              <div class="lesson-slot" [ngStyle]="{'top': ((b * 42) + (i * 42)) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
+                <h6>{{timetable.course.courseCode}}</h6>
+                <p *ngIf="timetable.seat != null">{{timetable.seat.left}} - {{k}}</p>
+                <p *ngIf="timetable.seat == null">{{k}}</p>
+              </div>
+            </div>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="pt-3">
     <button (click)="addEnrollModal(enrollModal)" class="btn btn-primary">show enroll existing course</button>
   </div>

@@ -399,7 +399,8 @@ th {
   min-width: 112px;
 }
 
-thead th {
+thead th,
+.time-range .single-range {
   position: -webkit-sticky; /* for Safari */
   position: sticky;
   top: 0;
@@ -409,14 +410,39 @@ thead th {
   padding: 12px;
   border: 1px solid #edeff0;
   border-bottom: none;
+  border-left: none;
 }
 
-thead th:first-child {
+thead th:first-child,
+.single-range:first-child {
   left: 0;
   z-index: 1;
   border: none;
 }
 
+.single-range{
+  min-width: 121px;
+  display: table-cell;
+}
+.single-slot{
+  display: table-cell;
+}
+.single-slot:first-child{
+  min-width: 121px;
+}
+.single-slot p {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  color: #2e3d4d;
+}
+.single-slot span {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  color: #64707d;
+}
+.single-slot:first-child,
 tbody th {
   position: -webkit-sticky; /* for Safari */
   position: sticky;
@@ -430,6 +456,42 @@ tbody td{
   width: 52px;
   max-width: 52px;
 }
+.slot-wrap{
+  border-right: 1px solid #edeff0;
+}
+.one-slot {
+  width: 4px;
+  /*background: red;*/
+  outline: 1px solid #eee;
+  height: 42px;
+  display: table-cell;
+}
+.lesson-slot {
+  position: absolute;
+  z-index: 99;
+  /*top: 0;*/
+  left: 249px;
+  width: 123px;
+  height: 40px;
+  background: #c2f2d6;
+  border-radius: 2px;
+  padding: 6px 8px;
+}
+.lesson-slot h6{
+  color: #2e3d4d;
+  margin-bottom: 0;
+  font-size: 12px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.lesson-slot p{
+  color: #009940;
+  font-size: 12px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+.lessons-range{
+  position: relative;
+}
+
 .cursor-on{
   cursor: pointer;
 }
