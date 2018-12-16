@@ -24,6 +24,7 @@ export class ScheduleComponent implements OnInit {
   public isSelected:boolean = false;
   public scheduleList:boolean=true;
   public regionId = localStorage.getItem('regionId');
+  
   public locationID = localStorage.getItem('locationId');
   // public daysOfWeek = localStorage.getItem('daysofWeek');
   // public categoryId = localStorage.getItem('categoryId');
@@ -436,7 +437,7 @@ export class ScheduleComponent implements OnInit {
     this.activeTab = 'enroll';
     const todayDay = new Date().getDay();
     this.selectedDay.push(todayDay);
-    this.SelectedDate.push(this.days[todayDay].val);
+    this.SelectedDate.push(this.days[todayDay].day);
     console.warn(todayDay)
   }
 
@@ -447,10 +448,9 @@ export class ScheduleComponent implements OnInit {
   // Selected Day //
   selectDay(data,event,day): void {
     // this.clickInit = true;
-    console.log(this.selectDay);
-    console.log("Day",data,event);
+    
     var dayIdx = this.selectedDay.indexOf(data);
-    console.log(dayIdx);
+    
     if (event.target.checked) {
         if(dayIdx < 0 )
          this.selectedDay.push(data);
@@ -470,8 +470,8 @@ export class ScheduleComponent implements OnInit {
     }
     this.selectedDay.sort();
     // this.SelectedDate.sort();
-    console.log(this.selectedDay);
-    console.log(this.SelectedDate);
+    console.group(this.selectedDay,'Check');
+    console.groupEnd();
   }
   
 
@@ -521,9 +521,14 @@ export class ScheduleComponent implements OnInit {
       this.isFousCategory = false;
     }, 300);
   }
+  selectDataApiCall(id, name){
+    this.selectData(id,name);
+    
+    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID)
+  }
+
   // single Select Data
   selectData(id, name){
-   
     console.log(id)
     this.isSelected = true;
     this.selectedID = id;
@@ -544,21 +549,24 @@ export class ScheduleComponent implements OnInit {
     
   }
 
-
   getscheulestaff(regionId,daysOfWeek,categoryId){
-    console.log(this.selectedDay);
-    this.scheduleList=false;
-    this._service.getscheduleStaffList(regionId,this.selectedDay.toString(),categoryId)
-    .subscribe((res:any) => {
-      setTimeout(() => {
-        
-      },300)
-      console.warn(res,'sdajdhgashgd');
-      this.staffList=res;
-      console.log(regionId)
-      console.log(daysOfWeek)
-      console.log(categoryId)
-    })
+   
+    // Api calling should after checking the date 
+    // need to wait a bit delay 
+    const _this = this
+    setTimeout(function(){
+      console.group(_this.selectedDay,daysOfWeek,'Api Call')
+      console.groupEnd()
+      _this.scheduleList=false;
+      _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
+      // this._service.getscheduleStaffList(regionId,this.selectedDay.toString(),categoryId)
+      .subscribe((res:any) => {
+        _this.staffList=res;
+        }, (err:any) => {
+        console.log(err)
+        _this.staffList=[];
+      })
+     }, 0);  
   }
 
   

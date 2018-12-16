@@ -50,7 +50,7 @@
         <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
       </ul>
     </div>
-    <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff(regionId,selectedayId,selectedID)" [disabled]="!customerForm.valid">Show</button>
+    <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff(regionId,selectedDay,selectedID)" [disabled]="!customerForm.valid">Show</button>
     </form>
   </div>
 </div>
@@ -69,8 +69,8 @@
   <div class="schedule-checkboxes-wrapper d-flex flex-wrap">
     <div>
       <span *ngFor="let d of days">
-        <label class="cursor-on day-checkbox" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
-          <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val ,$event,d.day,d)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true" >
+        <label class="cursor-on day-checkbox"[ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
+          <input type="checkbox" class="regular-checkbox"  (click)="getscheulestaff(regionId,selectedDay,selectedID)" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val ,$event,d.day,d)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true" >
           <div class="schedule-box-label">{{d.day}}</div>
         </label>
       </span>
@@ -98,7 +98,7 @@
         (click)="focusSearch($event, 'category')"
         ></span> 
         <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
-        <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
+        <li *ngFor="let category of categoryList" (click)="selectDataApiCall(category._id, category.name)">{{category.name}}</li>
       </ul>
     </div>
   </div>
@@ -117,7 +117,7 @@
         </div>
       </div>
     </div>
-    <div class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
+    <div  *ngIf="staffList && staffList.length" class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
     <!-- <button (click)=test(content)>Click</button> -->
   </div>
 <!--   
