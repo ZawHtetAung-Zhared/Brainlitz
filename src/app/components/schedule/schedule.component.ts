@@ -42,233 +42,340 @@ export class ScheduleComponent implements OnInit {
   // clickInit:boolean = false;
   model:any = {};
   public operationTime = [
-    {'name': '8:00 AM'},
-    {'name': '8:30 AM'},
-    {'name': '9:00 AM'},
-    {'name': '9:30 AM'},
-    {'name': '10:00 AM'},
-    {'name': '10:30 AM'},
-    {'name': '11:00 AM'},
-    {'name': '11:30 AM'},
-    {'name': '12:00 AM'},
-    {'name': '12:30 AM'},
-    {'name': '1:00 PM'},
-    {'name': '1:30 PM'},
-    {'name': '2:30 PM'},
+    {
+      "start": {
+        "hr": 8,
+        "min": 0,
+        "meridian": "AM"
+      }
+    },
+    {
+      "start": {
+        "hr": 8,
+        "min": 30,
+        "meridian": "AM"
+      }
+    },
+    {
+      "start": {
+        "hr": 9,
+        "min": 0,
+        "meridian": "AM"
+      }
+    },
+    {
+      "start": {
+        "hr": 9,
+        "min": 30,
+        "meridian": "AM"
+      }
+    },
+    {
+      "start": {
+        "hr": 10,
+        "min": 0,
+        "meridian": "AM"
+      }
+    },
+    {
+      "start": {
+        "hr": 10,
+        "min": 30,
+        "meridian": "AM"
+      }
+    },
+    {
+      "start": {
+        "hr": 11,
+        "min": 0,
+        "meridian": "AM"
+      }
+    },
   ];
   public timetableLists = [
     {
-      "date": {
-        "day": 3,
-        "month": 9,
-        "year": 2018
-      },
-      "timetable": [
+      "month": [
         {
-          "coursecode": "BPC",
-          "category": {
-            "id": 0,
-            "name": "name"
-          },
-          "special_case": null,
-          "seat_left": 0,
-          "available": false,
-          "start": {
-            "hr": 8,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 8,
-            "min": 45,
-            "meridian": "AM"
+          "timetable": [
+            {
+              "course": null,
+              "seat": null,
+              "category": null,
+              "special_case": null,
+              "available": true,
+              "dayOfWeek": null,
+              "start": {
+                "hr": 8,
+                "min": 0,
+                "meridiem": "AM"
+              },
+              "end": {
+                "hr": 9,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+            {
+              "course": {
+                "coursePlanId": "5bebc2b65dccdb75024bf65f",
+                "courseCode": "inv-003",
+                "name": "Testing For Invoice 001",
+                "courseId": "5bfcb0357ef97856510d5a61"
+              },
+              "seat": {
+                "taken": 21,
+                "total": 30,
+                "left": 9
+              },
+              "category": {
+                "name": "   test category A-001",
+                "categoryId": "5be9586d8c6e2975b6b6359e"
+              },
+              "special_case": null,
+              "available": false,
+              "dayOfWeek": 4,
+              "start": {
+                "hr": 8,
+                "min": 0,
+                "meridiem": "PM"
+              },
+              "end": {
+                "hr": 9,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+            {
+              "course": {
+                "coursePlanId": "5bebc2b65dccdb75024bf65f",
+                "courseCode": "inv-004",
+                "name": "Testing For Invoice 001",
+                "courseId": "5bfcb0357ef97856510d5a61"
+              },
+              "seat": {
+                "taken": 21,
+                "total": 30,
+                "left": 9
+              },
+              "category": {
+                "name": "   test category A-001",
+                "categoryId": "5be9586d8c6e2975b6b6359e"
+              },
+              "special_case": null,
+              "available": false,
+              "dayOfWeek": 4,
+              "start": {
+                "hr": 9,
+                "min": 0,
+                "meridiem": "PM"
+              },
+              "end": {
+                "hr": 10,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+            {
+              "course": null,
+              "seat": null,
+              "category": null,
+              "special_case": null,
+              "available": true,
+              "dayOfWeek": null,
+              "start": {
+                "hr": 5,
+                "min": 0,
+                "meridiem": "PM"
+              },
+              "end": {
+                "hr": 11,
+                "min": 59,
+                "meridiem": "PM"
+              }
+            }
+          ],
+          "date": {
+            "year": 2018,
+            "month": 12,
+            "day": 19,
+            "dayOfWeek": "Wed"
           }
         },
         {
-          "coursecode": "PG2",
-          "category": {
-            "id": 0,
-            "name": "name"
-          },
-          "special_case": null,
-          "seat_left": 0,
-          "available": true,
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          }
-        },
-        {
-          "coursecode": null,
-          "category": {
-            "id": null,
-            "name": null
-          },
-          "seat_left": null,
-          "available": false,
-          "special_case": {
-            "leave": true
-          },
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
+          "timetable": [
+            {
+              "course": null,
+              "seat": null,
+              "category": null,
+              "special_case": null,
+              "available": true,
+              "dayOfWeek": null,
+              "start": {
+                "hr": 8,
+                "min": 0,
+                "meridiem": "AM"
+              },
+              "end": {
+                "hr": 4,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+            {
+              "course": {
+                "coursePlanId": "5bebc2b65dccdb75024bf65f",
+                "courseCode": "inv-003",
+                "name": "Testing For Invoice 001",
+                "courseId": "5bfcb0357ef97856510d5a61"
+              },
+              "seat": {
+                "taken": 21,
+                "total": 30,
+                "left": 9
+              },
+              "category": {
+                "name": "   test category A-001",
+                "categoryId": "5be9586d8c6e2975b6b6359e"
+              },
+              "special_case": null,
+              "available": false,
+              "dayOfWeek": 4,
+              "start": {
+                "hr": 8,
+                "min": 0,
+                "meridiem": "PM"
+              },
+              "end": {
+                "hr": 9,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+            {
+              "course": {
+                "coursePlanId": "5bebc2b65dccdb75024bf65f",
+                "courseCode": "inv-003",
+                "name": "Testing For Invoice 001",
+                "courseId": "5bfcb0357ef97856510d5a61"
+              },
+              "seat": {
+                "taken": 21,
+                "total": 30,
+                "left": 9
+              },
+              "category": {
+                "name": "   test category A-001",
+                "categoryId": "5be9586d8c6e2975b6b6359e"
+              },
+              "special_case": null,
+              "available": false,
+              "dayOfWeek": 4,
+              "start": {
+                "hr": 8,
+                "min": 0,
+                "meridiem": "PM"
+              },
+              "end": {
+                "hr": 9,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+            {
+              "course": null,
+              "seat": null,
+              "category": null,
+              "special_case": null,
+              "available": true,
+              "dayOfWeek": null,
+              "start": {
+                "hr": 8,
+                "min": 0,
+                "meridiem": "PM"
+              },
+              "end": {
+                "hr": 9,
+                "min": 59,
+                "meridiem": "PM"
+              }
+            }
+          ],
+          "date": {
+            "year": 2018,
+            "month": 12,
+            "day": 26,
+            "dayOfWeek": "Wed"
           }
         }
-      ]
+      ],
+      "date": {
+        "year": 2018,
+        "month": 12
+      }
     },
     {
-      "date": {
-        "day": 5,
-        "month": 9,
-        "year": 2018
-      },
-      "timetable": [
+      "month": [
         {
-          "coursecode": "PG1",
-          "category": {
-            "id": 0,
-            "name": "name"
-          },
-          "special_case": null,
-          "seat_left": 0,
-          "available": false,
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          }
-        },
-        {
-          "coursecode": "PG3",
-          "category": {
-            "id": 0,
-            "name": "name"
-          },
-          "special_case": null,
-          "seat_left": 0,
-          "available": true,
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          }
-        },
-        {
-          "coursecode": 'PG4',
-          "category": {
-            "id": null,
-            "name": null
-          },
-          "seat_left": null,
-          "available": false,
-          "special_case": {
-            "leave": true
-          },
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
+          "timetable": [
+            {
+              "course": {
+                "coursePlanId": "5bebc2b65dccdb75024bf65f",
+                "courseCode": "JAN-2",
+                "name": "Testing For Invoice 001",
+                "courseId": "5bfcb0357ef97856510d5a61"
+              },
+              "seat": null,
+              "category": null,
+              "special_case": null,
+              "available": true,
+              "dayOfWeek": null,
+              "start": {
+                "hr": 9,
+                "min": 0,
+                "meridiem": "AM"
+              },
+              "end": {
+                "hr": 10,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+            {
+              "course": {
+                "coursePlanId": "5bebc2b65dccdb75024bf65f",
+                "courseCode": "JAN-2-1",
+                "name": "Testing For Invoice 001",
+                "courseId": "5bfcb0357ef97856510d5a61"
+              },
+              "seat": null,
+              "category": null,
+              "special_case": null,
+              "available": true,
+              "dayOfWeek": null,
+              "start": {
+                "hr": 10,
+                "min": 0,
+                "meridiem": "AM"
+              },
+              "end": {
+                "hr": 10,
+                "min": 0,
+                "meridiem": "PM"
+              }
+            },
+          ],
+          "date": {
+            "year": 2019,
+            "month": 1,
+            "day": 2,
+            "dayOfWeek": "Wed"
           }
         }
-      ]
-    },
-    {
+      ],
       "date": {
-        "day": 5,
-        "month": 11,
-        "year": 2018
-      },
-      "timetable": [
-        {
-          "coursecode": "PG2",
-          "category": {
-            "id": 0,
-            "name": "name"
-          },
-          "special_case": null,
-          "seat_left": 0,
-          "available": false,
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          }
-        },
-        {
-          "coursecode": "PG3",
-          "category": {
-            "id": 0,
-            "name": "name"
-          },
-          "special_case": null,
-          "seat_left": 0,
-          "available": true,
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          }
-        },
-        {
-          "coursecode": null,
-          "category": {
-            "id": null,
-            "name": null
-          },
-          "seat_left": null,
-          "available": false,
-          "special_case": {
-            "leave": true
-          },
-          "start": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          },
-          "end": {
-            "hr": 0,
-            "min": 0,
-            "meridian": "AM"
-          }
-        }
-      ]
+        "year": 2019,
+        "month": 1
+      }
     }
   ]
 
@@ -529,4 +636,7 @@ export class ScheduleComponent implements OnInit {
   }
 
 
+  getSlotNumber(hr, min){
+    console.log(hr , ':', min);
+  }
 }
