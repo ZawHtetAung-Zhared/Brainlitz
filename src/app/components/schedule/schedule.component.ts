@@ -280,8 +280,10 @@ export class ScheduleComponent implements OnInit {
     {"day":"Wed", "val": 3},
     {"day":"Thu", "val": 4},
     {"day":"Fri ", "val": 5},
-    {"day":"Sat", "val": 6},
+    {"day":"Sat", "val": 6}
   ];
+
+  
 
   public teachers = [
     {"name":'Aldous',"id":0},
@@ -325,12 +327,16 @@ export class ScheduleComponent implements OnInit {
   ngOnInit() {
     this.selectedTeacher = this.teachers[0];
     this.activeTab = 'enroll';
+    const todayDay = new Date().getDay();
+    this.selectedDay.push(todayDay);
+    this.SelectedDate.push(this.days[todayDay].val);
+    console.warn(todayDay)
   }
 
   backtoSchedule(){
     this.scheduleList=true;
   }
-
+  
   // Selected Day //
   selectDay(data,event,day): void {
     // this.clickInit = true;
@@ -340,7 +346,7 @@ export class ScheduleComponent implements OnInit {
     console.log(dayIdx);
     if (event.target.checked) {
         if(dayIdx < 0 )
-          this.selectedDay.push(data);
+         this.selectedDay.push(data);
          this.SelectedDate.push(day);
         
           // this.toggleBool= false;
@@ -521,5 +527,6 @@ export class ScheduleComponent implements OnInit {
       this.showList = false;
     }
   }
+
 
 }

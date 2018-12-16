@@ -7,14 +7,23 @@
     <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>      
     <div class="checkboxes-wrapper">
       <span *ngFor="let d of days">
-        <label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
-          <div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
-          <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div>              
-          <input type="checkbox" required class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event,d.day,d)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true">
+        <label class="cursor-on day"  [ngClass]="{'active-label': (selectedDay.indexOf(d.val) != -1),'noCursor': isEdit== true}">
+          <div *ngIf="selectedDay.indexOf(d.val) == -1 " class="rounded-box"></div> 
+          <div *ngIf="selectedDay.indexOf(d.val) != -1 " class="rounded-checked"><i  class="fa fa-check"></i></div>              
+          <input type="checkbox" required class="regular-checkbox" (change)="selectDay(d.val, $event,d.day)" name="{{d.day}}" value={{d.val}} [checked]="selectedDay.indexOf(d.val) != -1 " [disabled]="isEdit == true">
           <div class="box-label">{{d.day}}</div>
         </label>
       </span>
+      <!-- <span *ngFor="let d of days">
+        <label class="cursor-on day"  [ngClass]="{'active-label': (selectedDay.indexOf(d.val) != -1) || d.val == todayDay,'noCursor': isEdit== true}">
+          <div *ngIf="selectedDay.indexOf(d.val) == -1 &&  d.val == !todayDay" class="rounded-box"></div> 
+          <div *ngIf="selectedDay.indexOf(d.val) != -1 || d.val == todayDay" class="rounded-checked"><i  class="fa fa-check"></i></div>              
+          <input type="checkbox" required class="regular-checkbox" name="{{d.day}}" value={{d.val}} [checked]="selectedDay.indexOf(d.val) != -1 " [disabled]="isEdit == true">
+          <div class="box-label">{{d.day}}</div>
+        </label>
+      </span> -->
     </div>
+    <!-- (change)="selectDay(d.val, $event,d.day)" -->
     <div class="d-flex">
       <h3 class="category-title">Pick Category</h3>
     </div>
@@ -46,13 +55,14 @@
   </div>
 </div>
 
-<!-- Schedule List -->
+
+<!-- Schedule List (when click show button) -->
 <div *ngIf="!scheduleList" >
   <div class="d-flex pl-3">
     <div class="p-2 pl-0 pb-0 ">
       <div class="back-to" (click)="backtoSchedule()">
         <i class="fa fa-angle-left"></i>
-        <p>Courses</p>
+        <p class="mb-0">Courses</p>
       </div>
     </div>  
   </div>
@@ -103,15 +113,14 @@
           </div>
         </div>
         <div>
-
           <p  class="pt-3 pr-2 pl-2 text-teacher-name" style=" word-break: break-all;">{{teacher.preferredName}}</p>
         </div>
       </div>
     </div>
-    <div class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View33+</div>
+    <div class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
     <!-- <button (click)=test(content)>Click</button> -->
   </div>
-  
+<!--   
 
   <div class="v-wrapper1">
     <table class="timeline-table">
@@ -142,7 +151,7 @@
 </div>
 
 
-
+ -->
 
 
 
