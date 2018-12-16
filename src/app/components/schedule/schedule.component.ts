@@ -435,14 +435,21 @@ export class ScheduleComponent implements OnInit {
   ngOnInit() {
     this.selectedTeacher = this.teachers[0];
     this.activeTab = 'enroll';
+    this.getAutoSelectDate();
+  }
+   
+  getAutoSelectDate(){
     const todayDay = new Date().getDay();
     this.selectedDay.push(todayDay);
     this.SelectedDate.push(this.days[todayDay].day);
-    console.warn(todayDay)
   }
 
   backtoSchedule(){
-    this.scheduleList=true;
+    // reset the initial values  
+    this.scheduleList = true;
+    this.item.itemID = '';
+    this.selectedDay = [];
+    this.getAutoSelectDate();
   }
   
   // Selected Day //
@@ -469,9 +476,7 @@ export class ScheduleComponent implements OnInit {
         }
     }
     this.selectedDay.sort();
-    // this.SelectedDate.sort();
-    console.group(this.selectedDay,'Check');
-    console.groupEnd();
+    
   }
   
 
@@ -536,35 +541,28 @@ export class ScheduleComponent implements OnInit {
     this.test.push(name)
     this.selectedCategory=name;
     this.selectedCat=false;
-    console.log(id, name)
-    console.log
   }
 
 
   openTeacherList(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     this.selectedTeacher = this.staffList[0];
-    console.log(this.selectedTeacher);
-    console.log(this.selectedDay)
-    
   }
 
   getscheulestaff(regionId,daysOfWeek,categoryId){
-   
+    // Declare _this variable which represents the current component not to conflict with setTimeOut this keyword
+    const _this = this
     // Api calling should after checking the date 
     // need to wait a bit delay 
-    const _this = this
     setTimeout(function(){
-      console.group(_this.selectedDay,daysOfWeek,'Api Call')
-      console.groupEnd()
       _this.scheduleList=false;
       _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
       // this._service.getscheduleStaffList(regionId,this.selectedDay.toString(),categoryId)
       .subscribe((res:any) => {
-        _this.staffList=res;
+          _this.staffList=res;
         }, (err:any) => {
-        console.log(err)
-        _this.staffList=[];
+          // catch the error response from api         
+          _this.staffList=[];
       })
      }, 0);  
   }
