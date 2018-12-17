@@ -309,6 +309,7 @@ export class ScheduleComponent implements OnInit {
           }
         }
       ],
+      "count": '2',
       "date": {
         "year": 2018,
         "month": 12
@@ -373,6 +374,7 @@ export class ScheduleComponent implements OnInit {
           }
         }
       ],
+      "count": '1',
       "date": {
         "year": 2019,
         "month": 1
