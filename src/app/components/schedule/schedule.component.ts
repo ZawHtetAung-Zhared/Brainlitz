@@ -433,7 +433,7 @@ export class ScheduleComponent implements OnInit {
   constructor(private _service:appService, private modalService: NgbModal) { }
 
   ngOnInit() {
-    this.selectedTeacher = this.teachers[0];
+   
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
   }
@@ -546,7 +546,6 @@ export class ScheduleComponent implements OnInit {
   }
   selectDataApiCall(id, name){
     this.selectData(id,name);
-    
     this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID)
   }
 
@@ -568,16 +567,16 @@ export class ScheduleComponent implements OnInit {
 
   getscheulestaff(regionId,daysOfWeek,categoryId){
     // Declare _this variable which represents the current component not to conflict with setTimeOut this keyword
-    const _this = this
+    const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
     setTimeout(function(){
       _this.selectedDayy();
       _this.scheduleList=false;
       _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
-      // this._service.getscheduleStaffList(regionId,this.selectedDay.toString(),categoryId)
       .subscribe((res:any) => {
           _this.staffList=res;
+          _this.selectedTeacher = _this.staffList[0];
         }, (err:any) => {
           // catch the error response from api         
           _this.staffList=[];
