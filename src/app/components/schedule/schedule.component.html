@@ -104,13 +104,14 @@
 
   <div class="d-flex flex-wrap w-100 align-items-center pl-3">
     <div class="d-flex  teacher-list-wrapper ">
-      <div *ngFor="let teacher of staffList" class="d-flex align-items-center teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
+      <div *ngFor="let teacher of staffList" class="d-flex align-items-center mr-2 teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
         <div class="d-flex justify-content-center">
           <div  class="align-self-center tchr-img-wraper">
             <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
           </div>
           <div>
-            <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.preferredName}}</p>
+            <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:6) + '...':(teacher.preferredName)}}</p>
+            <!-- {{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}} -->
           </div>
         </div>
       </div>      
@@ -242,7 +243,7 @@
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
         </div>
-        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.preferredName}}</p>
+        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:6) + '...':(teacher.preferredName)}}</p>
       </div>
     </div>      
   </div>
