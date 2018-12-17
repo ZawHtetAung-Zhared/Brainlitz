@@ -746,11 +746,12 @@ export class appService{
       }) 
     }
     getscheduleStaffList(regionid: string, daysOfWeek: string, categoryId: string): Observable<any>{
-      console.warn(regionid);
+      
       console.warn(daysOfWeek);
-      console.warn(categoryId);
+      
       this.getLocalstorage()
       let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+      console.warn(url)
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -760,7 +761,7 @@ export class appService{
         return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
-          console.log(result);        
+          console.error(result);        
           return result;
       }) 
     }

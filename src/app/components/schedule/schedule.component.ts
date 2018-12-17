@@ -13,7 +13,7 @@ export class ScheduleComponent implements OnInit {
   public test:any=[];
   public selectedDay =[];
   public SelectedDate = [];
-
+  public showSelectedDays = '-'
   public categoryList:any;
   public planList:any;
   public courseVal:any = {};
@@ -24,6 +24,7 @@ export class ScheduleComponent implements OnInit {
   public isSelected:boolean = false;
   public scheduleList:boolean=true;
   public regionId = localStorage.getItem('regionId');
+  
   public locationID = localStorage.getItem('locationId');
   // public daysOfWeek = localStorage.getItem('daysofWeek');
   // public categoryId = localStorage.getItem('categoryId');
@@ -389,8 +390,10 @@ export class ScheduleComponent implements OnInit {
     {"day":"Wed", "val": 3},
     {"day":"Thu", "val": 4},
     {"day":"Fri ", "val": 5},
-    {"day":"Sat", "val": 6},
+    {"day":"Sat", "val": 6}
   ];
+
+  
 
   public teachers = [
     {"name":'Aldous',"id":0},
@@ -434,22 +437,50 @@ export class ScheduleComponent implements OnInit {
   ngOnInit() {
     this.selectedTeacher = this.teachers[0];
     this.activeTab = 'enroll';
+    this.getAutoSelectDate();
+  }
+
+  selectedDayy(){
+    console.warn(this.selectedDay)
+    const sortTheDays = this.selectedDay.sort();
+    const length = sortTheDays.length-1;
+    if(length == 6){
+      this.showSelectedDays = 'Sun ~ Sat';
+    } else {
+      this.showSelectedDays = sortTheDays.map(x => this.days[x].day+' & ').join('').slice(0,-2);
+      // this.showSelectedDays = sortTheDays.map((v,i) => {
+      //   let str = this.days[v].day
+      //   if (length !== i) {
+      //     str += ' & '
+      //   }
+      //   return str;
+      // }).join("");
+    }
+  }
+   
+  getAutoSelectDate(){
+    const todayDay = new Date().getDay();
+    this.selectedDay.push(todayDay);
+    this.SelectedDate.push(this.days[todayDay].day);
   }
 
   backtoSchedule(){
-    this.scheduleList=true;
+    // reset the initial values  
+    this.scheduleList = true;
+    this.item.itemID = '';
+    this.selectedDay = [];
+    this.getAutoSelectDate();
   }
-
+  
   // Selected Day //
   selectDay(data,event,day): void {
     // this.clickInit = true;
-    console.log(this.selectDay);
-    console.log("Day",data,event);
+    
     var dayIdx = this.selectedDay.indexOf(data);
-    console.log(dayIdx);
+    
     if (event.target.checked) {
         if(dayIdx < 0 )
-          this.selectedDay.push(data);
+         this.selectedDay.push(data);
          this.SelectedDate.push(day);
         
           // this.toggleBool= false;
@@ -465,9 +496,7 @@ export class ScheduleComponent implements OnInit {
         }
     }
     this.selectedDay.sort();
-    // this.SelectedDate.sort();
-    console.log(this.selectedDay);
-    console.log(this.SelectedDate);
+    
   }
   
 
@@ -517,9 +546,14 @@ export class ScheduleComponent implements OnInit {
       this.isFousCategory = false;
     }, 300);
   }
+  selectDataApiCall(id, name){
+    this.selectData(id,name);
+    
+    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID)
+  }
+
   // single Select Data
   selectData(id, name){
-   
     console.log(id)
     this.isSelected = true;
     this.selectedID = id;
@@ -527,38 +561,31 @@ export class ScheduleComponent implements OnInit {
     this.test.push(name)
     this.selectedCategory=name;
     this.selectedCat=false;
-    console.log(id, name)
-    console.log
   }
-
 
   openTeacherList(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     this.selectedTeacher = this.staffList[0];
-    console.log(this.selectedTeacher);
-    console.log(this.selectedDay)
-    
   }
-
 
   getscheulestaff(regionId,daysOfWeek,categoryId){
-    console.log(this.selectedDay);
-    this.scheduleList=false;
-    this._service.getscheduleStaffList(regionId,this.selectedDay.toString(),categoryId)
-    .subscribe((res:any) => {
-      setTimeout(() => {
-        
-      },300)
-      console.warn(res,'sdajdhgashgd');
-      this.staffList=res;
-      console.log(regionId)
-      console.log(daysOfWeek)
-      console.log(categoryId)
-    })
+    // Declare _this variable which represents the current component not to conflict with setTimeOut this keyword
+    const _this = this
+    // Api calling should after checking the date 
+    // need to wait a bit delay 
+    setTimeout(function(){
+      _this.selectedDayy();
+      _this.scheduleList=false;
+      _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
+      // this._service.getscheduleStaffList(regionId,this.selectedDay.toString(),categoryId)
+      .subscribe((res:any) => {
+          _this.staffList=res;
+        }, (err:any) => {
+          // catch the error response from api         
+          _this.staffList=[];
+      })
+     }, 0);  
   }
-
-  
- 
 
   cancelModal(){
     this.modalReference.close();
@@ -631,8 +658,8 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
+
   getSlotNumber(hr, min){
     console.log(hr , ':', min);
   }
-
 }

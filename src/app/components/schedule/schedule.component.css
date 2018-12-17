@@ -187,6 +187,7 @@ ul.data-listing{
   margin: 0;
   top:50px;
   padding: 0;
+  z-index: 99;
   list-style: none;
   overflow: auto;
   margin-top: 3px;
@@ -204,6 +205,7 @@ ul.data-listing li.disabled{
   background: #fff;
   height: 300px;
   position: absolute;
+  z-index: 99;
   margin: 0;
   top:50px;
   padding: 0;
@@ -255,14 +257,23 @@ ul.scedule-data-listing li.disabled{
   border-left: none;
 }
 .teacher-list{
+  /* width:145px;   */
+   /* height:32px; */
+  /* padding: 8px 16px 8px 0px; */
+  /* margin-left:0px;  */
+  /* background:#f2f4f5;
+  border-radius:16px; 
+  cursor: pointer;
+  margin-right:16px;
+  color: #64707d; */
+
   width:145px; 
   height:32px;
-  background:#f2f4f5;
-  border-radius:16px; 
-  padding: 0px 43px 0px 9px;
-  /* margin-left:0px;  */
-  margin-right:16px;
   color: #64707d;
+  background:#f2f4f5;
+  border-radius:24px; 
+  padding-left:4px; 
+  cursor: pointer;
 }
 .modal-teacher-list{
   width:207px; 
@@ -272,44 +283,59 @@ ul.scedule-data-listing li.disabled{
   margin: 0px 20px 20px 0px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   padding-left:4px; 
+  cursor: pointer;
 }
-/* .teacher-pic{
+.tchr-img-wraper{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  position:relative;
+  overflow:hidden;
+}
+.teacher-pic{
   width: 100%;
   height: 100%;
- 
+  object-fit: contain;
+}
+/* .modal-teacher-pic{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   object-fit: contain;
 } */
-.teacher-pic{
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-}
 
 
 .modal-teacher-pic{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.modal-img-wraper{
+  margin-left: 8px;
   height:32px;
   width:32px; 
   border-radius: 100%;
-  margin-left: 8px;
+  position:relative;
+  overflow:hidden;
 }
+
+
 .text-teacher-name{
-  /* color: #64707d; */
   font-size:12px;
-}
-.text-teacher-name{
+  word-break: break-all;
   font-size: 14px;
   font-weight: 600;
   font-family: Montserrat-SemiBold;
 }
 .teacher-list-wrapper{
-  width: 85%;
-
+  max-width: 85%;
   overflow-y: hidden;
   overflow-x: scroll;
 }
 .teacher-more-view{
   width:87px;
   height:33px;
+  cursor: pointer;
   border-radius: 16px; 
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
@@ -364,6 +390,8 @@ ul.scedule-data-listing li.disabled{
 
 .profile-img-wrap{
   border-radius: 50%;
+  position: relative;
+  display: inline-block;
   width: 24px;
   height: 24px;
 }
@@ -623,4 +651,10 @@ tbody td{
   font-size: 14px;
   font-weight: 600;
   color: #64707d;
+}
+
+
+.todayDate{
+  color:red;
+  background: green;
 }
