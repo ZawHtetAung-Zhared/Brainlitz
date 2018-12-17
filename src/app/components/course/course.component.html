@@ -395,6 +395,7 @@
                   <div class="second-info">
                     <div *ngIf="course.type == null" class="time-wrap">
                       <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
+                        {{course.repeatDays |json}}
                         {{ day }}
                       </span>
                       <div *ngIf="course.duration">
