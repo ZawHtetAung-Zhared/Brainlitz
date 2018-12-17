@@ -12,8 +12,9 @@ export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   public test:any=[];
   public selectedDay =[];
-  public SelectedDate = [];
-  public showSelectedDays = '-'
+  // public SelectedDate = [];
+  public showSelectedDays = '~'
+  public showSelectedDays1 = '0,1,2,3,4,5,6'
   public categoryList:any;
   public planList:any;
   public courseVal:any = {};
@@ -440,20 +441,66 @@ export class ScheduleComponent implements OnInit {
     this.getAutoSelectDate();
   }
 
-  selectedDayy(){
-    const sortTheDays = this.selectedDay.sort();
-    const length = sortTheDays.length-1;
-    if(length == 6){
-      this.showSelectedDays = 'Sun ~ Sat';
-    } else {
-      this.showSelectedDays = sortTheDays.map(x => this.days[x].day+' & ').join('').slice(0,-2);
-    }
-  }
+  // selectedDayy(){
+  //   const _this =this;
+  //   const sortTheDays = this.selectedDay.sort();
+  //   const length = sortTheDays.length-1;
+  //   if(length == 6){
+  //     this.showSelectedDays = 'Sun ~ Sat';
+  //     return this.showSelectedDays;
+  //   } 
+  //   else if(this.selectedDay.length  == 3){;
+  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
+  //     console.log(a)
+  //     const b = a.substr(0,3);
+  //     const c = a.substr(10,17)
+  //     this.showSelectedDays = b + c;
+  //     console.log(b,c)
+  //     console.error( this.showSelectedDays )
+  //   }
+  //   else if(this.selectedDay.length  == 4){;
+  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
+  //     console.log(a)
+  //     const b = a.substr(0,3);
+  //     const c = a.substr(17,24)
+  //     this.showSelectedDays = b + c;
+  //     // console.log(b,'sdd',c)
+  //     console.error( this.showSelectedDays )
+  //   }
+  //   else if(this.selectedDay.length  == 5){;
+  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
+  //     console.log(a)
+  //     const b = a.substr(0,3);
+  //     const c = a.substr(24,31)
+  //     this.showSelectedDays = b + c;
+  //     // console.log(b,'sdd',c)
+  //     console.error( this.showSelectedDays )
+  //   }
+  //   else if(this.selectedDay.length  == 6){;
+  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
+  //     console.log(a)
+  //     const b = a.substr(0,3);
+  //     const c = a.substr(31,38)
+  //     this.showSelectedDays = b + c;
+  //     // console.log(b,'sdd',c)
+  //     console.error( this.showSelectedDays )
+  //   }
+
+  //   else if(this.selectedDay.length == 0){
+  //     this.showSelectedDays = 'Sun to Sat';
+  //     return this.showSelectedDays;
+
+  //   }
+  //   else {
+  //     this.showSelectedDays = sortTheDays.map(x => this.days[x].day+' & ').join('').slice(0,-2);
+  //     return this.showSelectedDays;
+  //   }
+  // }
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
     this.selectedDay.push(todayDay);
-    this.SelectedDate.push(this.days[todayDay].day);
+    // this.SelectedDate.push(this.days[todayDay].day); 
   }
 
   backtoSchedule(){
@@ -467,28 +514,21 @@ export class ScheduleComponent implements OnInit {
   // Selected Day //
   selectDay(data,event,day): void {
     // this.clickInit = true;
-    
-    var dayIdx = this.selectedDay.indexOf(data);
-    
-    if (event.target.checked) {
-        if(dayIdx < 0 )
-         this.selectedDay.push(data);
-         this.SelectedDate.push(day);
-        
-          // this.toggleBool= false;
-    } else {
-        if(dayIdx >= 0 )
-        this.selectedDay.splice(dayIdx,1);
-        this.SelectedDate.splice(day,1);
+      var dayIdx = this.selectedDay.indexOf(data);
       
-        if(this.selectedDay.length>0){
-          // this.toggleBool= false;
-        }else{
-          // this.toggleBool= true;
+      if (event.target.checked) {
+          if(dayIdx < 0 )
+           this.selectedDay.push(data);
+          //  this.SelectedDate.push(day);
+          
+            // this.toggleBool= false;
+      } else {
+          if(dayIdx >= 0 ){
+          this.selectedDay.splice(dayIdx,1);
+          // this.SelectedDate.splice(day,1);
         }
-    }
+    }    
     this.selectedDay.sort();
-    
   }
   
 
@@ -563,35 +603,41 @@ export class ScheduleComponent implements OnInit {
     const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-    setTimeout(function(){
-    if(_this.selectedDay.length == 0){
-      const sortTheDays = _this.selectedDay.sort();
-      const length = sortTheDays.length-1;
-        _this.showSelectedDays = _this.days.map((x,i) => _this.days[i].val).toString();
-        setTimeout(function(){
+    
+    setTimeout(() => {
+      if(_this.selectedDay.length == 0){
+        // const sortTheDays = _this.selectedDay.sort();
+        // const length = sortTheDays.length-1;
+        // _this.showSelectedDays = _this.days.map((x,i) => _this.days[i].val).join();
+        // _this.selectedDayy()
         _this.scheduleList=false;
-        _this._service.getscheduleStaffList(regionId,_this.showSelectedDays.toString(),categoryId)
+        _this._service.getscheduleStaffList(regionId,_this.showSelectedDays1.toString(),categoryId)
         .subscribe((res:any) => {
             _this.staffList=res;
             _this.selectedTeacher = _this.staffList[0];
           }, (err:any) => {
             // catch the error response from api         
             _this.staffList=[];
-        })
-        }, 0);  
+          })
+          console.warn(_this.selectedDay)
+          return;
+        }
+        else{
+          setTimeout(() => {
+            // _this.selectedDayy();
+            _this.scheduleList=false;
+            _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
+            .subscribe((res:any) => {
+                _this.staffList=res;
+                _this.selectedTeacher = _this.staffList[0];
+              }, (err:any) => {
+                // catch the error response from api         
+                _this.staffList=[];
+            })
+        }, 0);
       }
-      else{
-      _this.selectedDayy();
-      _this.scheduleList=false;
-      _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
-      .subscribe((res:any) => {
-          _this.staffList=res;
-          _this.selectedTeacher = _this.staffList[0];
-        }, (err:any) => {
-          // catch the error response from api         
-          _this.staffList=[];
-      })}
-    }, 0);  
+    }, 0);
+    return;
   }
 
   cancelModal(){

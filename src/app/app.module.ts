@@ -44,6 +44,7 @@ import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/pipe/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/pipe/weekday.pipe';
+import { ScheduleWeekDaysPipe } from './service/pipe/scheduleWeekDays.pipe';
 import { GroupByPipe } from './service/pipe/groupby.pipe';
 import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
@@ -94,6 +95,7 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe'
     ModuleComponent,
     MinuteSecondsPipe,
     WeekDaysPipe,
+    ScheduleWeekDaysPipe,
     GroupByPipe,
     ConvertTimeFormatPipe,
     GetDayPipe,
