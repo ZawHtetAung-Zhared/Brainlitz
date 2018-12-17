@@ -46,7 +46,7 @@
           <i class="fa fa-search search-size"></i>
         </button>
       </span> 
-      <ul class="data-listing" *ngIf="isFousCategory == true">
+      <ul class="data-listing" *ngIf="isFousCategory == true" >
         <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
       </ul>
     </div>
@@ -90,8 +90,6 @@
         (input)="searchCategoryList($event.target.value, 'category')"
         
       >
-      <!-- <span (click)="showAdvancedSearch()" class="fa fa-angle-down fa-2x d-flex justify-content-center flex-column icon course-search-down"></span> -->
-     
         <span  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"
         (focus)="focusSearch($event, 'category')"
         (focusout)="hideSearch($event)"
@@ -104,21 +102,20 @@
   </div>
 
 
-  <div class="d-flex flex-wrap w-100  pl-3">
-    <div class="teacher-list-wrapper d-flex">
-      <div class="d-flex align-items-center teacher-list" *ngFor="let teacher of staffList" [class.selectedteacher]="teacher==selectedTeacher" (click)="activeTeacher(teacher)" >
-        <div>
-          <div class="profile-img-wrap">
+  <div class="d-flex flex-wrap w-100 align-items-center pl-3">
+    <div class="d-flex  teacher-list-wrapper ">
+      <div *ngFor="let teacher of staffList" class="d-flex align-items-center teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
+        <div class="d-flex justify-content-center">
+          <div  class="align-self-center tchr-img-wraper">
             <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
           </div>
+          <div>
+            <p  class="pt-3 pr-2 pl-2 text-teacher-name" style="">{{teacher.preferredName}}</p>
+          </div>
         </div>
-        <div>
-          <p  class="pt-3 pr-2 pl-2 text-teacher-name" style=" word-break: break-all;">{{teacher.preferredName}}</p>
-        </div>
-      </div>
+      </div>      
     </div>
-    <div  *ngIf="staffList && staffList.length" class=" ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
-    <!-- <button (click)=test(content)>Click</button> -->
+    <div  *ngIf="staffList && staffList.length" class=" mb-2 ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
   </div>
 <!--   
 
@@ -199,8 +196,8 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <div class="selected-day d-flex ">
-      <div  *ngFor="let d of SelectedDate">
-        {{d}} 
+      <div>
+        {{ showSelectedDays }} 
       </div>
     </div>
     <p *ngIf="!selectedCat" class="selectedCatName">{{selectedCategory}}</p>
@@ -228,8 +225,10 @@
   </div>
   <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper">
     <div *ngFor="let teacher of staffList" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
-      <div class="d-flex justify-content-center">
-        <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic align-self-center">
+      <div class="d-flex justify-content-center ">
+        <div class="modal-img-wraper align-self-center">
+          <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
+        </div>
         <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{teacher.preferredName}}</p>
       </div>
     </div>      
