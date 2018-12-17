@@ -1,4 +1,4 @@
-.info-label,.info-header,.tab-name,.student-name{
+.info-label,.info-header,.tab-name,.student-name,.single-user-info h4{
   font-family: 'Montserrat-Semibold', Arial,sans-serif;    
 }
 .date-label{
@@ -19,6 +19,10 @@
 .student-name{
   font-size: 14px;
   color: #2e3d4d;
+}
+.single-user-info h4{
+  color: #2e3e4d;
+  font-size: 18px;
 }
 .checkboxes-wrapper{
   margin: 0 0 32px 0!important;
