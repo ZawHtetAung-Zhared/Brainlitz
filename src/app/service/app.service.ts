@@ -730,7 +730,6 @@ export class appService{
 
     getCategory(regionid: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      console.log(regionid)
       let url = this.baseUrl + '/' + regionid + '/category?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -746,12 +745,8 @@ export class appService{
       }) 
     }
     getscheduleStaffList(regionid: string, daysOfWeek: string, categoryId: string): Observable<any>{
-      
-      console.warn(daysOfWeek);
-      
       this.getLocalstorage()
       let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
-      console.warn(url)
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -760,8 +755,7 @@ export class appService{
 
         return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
-          let result = res;
-          console.error(result);        
+          let result = res;      
           return result;
       }) 
     }

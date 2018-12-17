@@ -441,20 +441,12 @@ export class ScheduleComponent implements OnInit {
   }
 
   selectedDayy(){
-    console.warn(this.selectedDay)
     const sortTheDays = this.selectedDay.sort();
     const length = sortTheDays.length-1;
     if(length == 6){
       this.showSelectedDays = 'Sun ~ Sat';
     } else {
       this.showSelectedDays = sortTheDays.map(x => this.days[x].day+' & ').join('').slice(0,-2);
-      // this.showSelectedDays = sortTheDays.map((v,i) => {
-      //   let str = this.days[v].day
-      //   if (length !== i) {
-      //     str += ' & '
-      //   }
-      //   return str;
-      // }).join("");
     }
   }
    
@@ -557,7 +549,6 @@ export class ScheduleComponent implements OnInit {
     this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
-    this.test.push(name)
     this.selectedCategory=name;
     this.selectedCat=false;
   }
@@ -573,6 +564,23 @@ export class ScheduleComponent implements OnInit {
     // Api calling should after checking the date 
     // need to wait a bit delay 
     setTimeout(function(){
+    if(_this.selectedDay.length == 0){
+      const sortTheDays = _this.selectedDay.sort();
+      const length = sortTheDays.length-1;
+        _this.showSelectedDays = _this.days.map((x,i) => _this.days[i].val).toString();
+        setTimeout(function(){
+        _this.scheduleList=false;
+        _this._service.getscheduleStaffList(regionId,_this.showSelectedDays.toString(),categoryId)
+        .subscribe((res:any) => {
+            _this.staffList=res;
+            _this.selectedTeacher = _this.staffList[0];
+          }, (err:any) => {
+            // catch the error response from api         
+            _this.staffList=[];
+        })
+        }, 0);  
+      }
+      else{
       _this.selectedDayy();
       _this.scheduleList=false;
       _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
@@ -582,8 +590,8 @@ export class ScheduleComponent implements OnInit {
         }, (err:any) => {
           // catch the error response from api         
           _this.staffList=[];
-      })
-     }, 0);  
+      })}
+    }, 0);  
   }
 
   cancelModal(){
