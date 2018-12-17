@@ -144,6 +144,7 @@
       </div>
       <div class="lessons-range">
         <div *ngFor="let list of timetableLists; let i = index">
+          <!-- -**- {{timetableLists[i].count}} -->
           <div class="xxx-count" *ngFor="let monthlylist of list.month;let b = index">
             <div id="" class="single-slot">
               <p>{{monthlylist.date.day}} {{monthlylist.date.month - 1 | TTmonth}} {{i}} {{b}} </p>
@@ -160,10 +161,22 @@
               </div>         
             </div>         
             <div *ngFor="let timetable of monthlylist.timetable; let k = index">
-              <div class="lesson-slot" [ngStyle]="{'top': ((b * 42) + (i * 42)) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
-                <h6>{{timetable.course.courseCode}}</h6>
-                <p *ngIf="timetable.seat != null">{{timetable.seat.left}} - {{k}}</p>
-                <p *ngIf="timetable.seat == null">{{k}}</p>
+              
+              <div *ngIf="i == 0">
+                <div class="lesson-slot" [ngStyle]="{'top': ((b * 42) + (i * 42)) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
+                  <h6>{{timetable.course.courseCode}}</h6>
+                  <p *ngIf="timetable.seat != null">{{timetable.seat.left}} - {{k}}</p>
+                  <p *ngIf="timetable.seat == null">{{k}}</p>
+                </div>
+              </div>
+              <div *ngIf="i != 0">
+                <div class="lesson-slot" [ngStyle]="{'top': ((timetableLists[i-1].count * 42) + (b * 42)) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
+                  <h6>{{timetable.course.courseCode}}</h6>
+                  <h6>{{timetableLists[i-1].count}}</h6>
+
+                  <p *ngIf="timetable.seat != null">{{timetable.seat.left}} - {{timetableLists[i-1].counts}}</p>
+                  <p *ngIf="timetable.seat == null">{{timetableLists[i-1].count}}</p>
+                </div>
               </div>
             </div>          
           </div>
