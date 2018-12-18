@@ -827,7 +827,7 @@ thead th,
   position: -webkit-sticky; /* for Safari */
   position: sticky;
   top: 0;
-  background: transparent;
+  background: #fff;
   color: #2e3d4d;
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
   padding: 12px;
@@ -870,8 +870,9 @@ tbody th {
   position: -webkit-sticky; /* for Safari */
   position: sticky;
   left: 0;
-  background: transparent;
+  background: #fff;
   border-right: 1px solid #edeff0;
+  z-index: 999 !important;
 }
 .lesson-slot.slot-top42,
 .single-row.top20{
