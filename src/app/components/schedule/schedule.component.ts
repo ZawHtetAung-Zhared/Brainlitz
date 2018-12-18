@@ -78,6 +78,23 @@ export class ScheduleComponent implements OnInit {
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model:any = {};
+  public listings = [
+    {
+      'name' : 'Dec'
+    },
+    {
+      'name' : 'Dec'
+    },
+    {
+      'name' : 'JAN'
+    },
+    {
+      'name' : 'JAN'
+    },
+    {
+      'name' : 'Feb'
+    }
+  ]
   public operationTime = [
     {
       "start": {
@@ -417,6 +434,446 @@ export class ScheduleComponent implements OnInit {
       }
     }
   ]
+
+  public finalLists = [
+    {
+      "timetable": [
+        {
+          "course": null,
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 8,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "inv-003",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": {
+            "taken": 21,
+            "total": 30,
+            "left": 9
+          },
+          "category": {
+            "name": "   test category A-001",
+            "categoryId": "5be9586d8c6e2975b6b6359e"
+          },
+          "special_case": null,
+          "available": false,
+          "dayOfWeek": 4,
+          "start": {
+            "hr": 8,
+            "min": 0,
+            "meridiem": "PM"
+          },
+          "end": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "inv-004",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": {
+            "taken": 21,
+            "total": 30,
+            "left": 9
+          },
+          "category": {
+            "name": "   test category A-001",
+            "categoryId": "5be9586d8c6e2975b6b6359e"
+          },
+          "special_case": null,
+          "available": false,
+          "dayOfWeek": 4,
+          "start": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "PM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": null,
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 5,
+            "min": 0,
+            "meridiem": "PM"
+          },
+          "end": {
+            "hr": 11,
+            "min": 59,
+            "meridiem": "PM"
+          }
+        }
+      ],
+      "date": {
+        "year": 2018,
+        "month": 12,
+        "day": 19,
+        "dayOfWeek": "Wed"
+      }
+    },
+    {
+      "timetable": [
+        {
+          "course": null,
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 8,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 4,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "inv-003",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": {
+            "taken": 21,
+            "total": 30,
+            "left": 9
+          },
+          "category": {
+            "name": "   test category A-001",
+            "categoryId": "5be9586d8c6e2975b6b6359e"
+          },
+          "special_case": null,
+          "available": false,
+          "dayOfWeek": 4,
+          "start": {
+            "hr": 8,
+            "min": 0,
+            "meridiem": "PM"
+          },
+          "end": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "inv-003",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": {
+            "taken": 21,
+            "total": 30,
+            "left": 9
+          },
+          "category": {
+            "name": "   test category A-001",
+            "categoryId": "5be9586d8c6e2975b6b6359e"
+          },
+          "special_case": null,
+          "available": false,
+          "dayOfWeek": 4,
+          "start": {
+            "hr": 8,
+            "min": 0,
+            "meridiem": "PM"
+          },
+          "end": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": null,
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 8,
+            "min": 0,
+            "meridiem": "PM"
+          },
+          "end": {
+            "hr": 9,
+            "min": 59,
+            "meridiem": "PM"
+          }
+        }
+      ],
+      "date": {
+        "year": 2018,
+        "month": 12,
+        "day": 26,
+        "dayOfWeek": "Wed"
+      }
+    },
+    {
+      "timetable": [
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2-1",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+      ],
+      "date": {
+        "year": 2019,
+        "month": 1,
+        "day": 2,
+        "dayOfWeek": "Wed"
+      }
+    },
+    {
+      "timetable": [
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2-1",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+      ],
+      "date": {
+        "year": 2019,
+        "month": 2,
+        "day": 2,
+        "dayOfWeek": "Wed"
+      }
+    },
+    {
+      "timetable": [
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2-1",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+      ],
+      "date": {
+        "year": 2019,
+        "month": 2,
+        "day": 3,
+        "dayOfWeek": "Wed"
+      }
+    },
+    {
+      "timetable": [
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 9,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+        {
+          "course": {
+            "coursePlanId": "5bebc2b65dccdb75024bf65f",
+            "courseCode": "JAN-2-1",
+            "name": "Testing For Invoice 001",
+            "courseId": "5bfcb0357ef97856510d5a61"
+          },
+          "seat": null,
+          "category": null,
+          "special_case": null,
+          "available": true,
+          "dayOfWeek": null,
+          "start": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "AM"
+          },
+          "end": {
+            "hr": 10,
+            "min": 0,
+            "meridiem": "PM"
+          }
+        },
+      ],
+      "date": {
+        "year": 2019,
+        "month": 2,
+        "day": 3,
+        "dayOfWeek": "Wed"
+      }
+    }
+  ]
+
 
 
   public days = [
