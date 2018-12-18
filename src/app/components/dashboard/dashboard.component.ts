@@ -27,7 +27,11 @@ export class DashboardComponent implements OnInit {
   public item:any = {
     name: '',
     timezone: '',
-    url: ''
+    url: '',
+    operatingHour: {
+      start : '',
+      end : ''
+    }
   };
   // public menuType:any = "location";
   public menuType:any = "general";
@@ -535,3 +539,45 @@ export class DashboardComponent implements OnInit {
     }
   }
 }
+
+//24hours to 12 hours format
+// function tConv24(time24) {
+//   var ts = time24;
+//   var H = +ts.substr(0, 2);
+//   var h = (H % 12) || 12;
+//   h = (h < 10)?("0"+h):h;  // leading 0 at the left for 1 digit hours
+//   var ampm = H < 12 ? " AM" : " PM";
+//   ts = h + ts.substr(2, 3) + ampm;
+//   return ts;
+// };
+
+// document.write(tConv24('08:00') + " :-) " + tConv24('16:00'));
+
+
+// (function () {
+
+//   function tConvert (time) {
+//    // Check correct time format and split into components
+//    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+//     if (time.length > 1) { // If time format correct
+//       time = time.slice (1);  // Remove full string match value
+//       time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+//       time[0] = +time[0] % 12 || 12; // Adjust hours
+//     }
+//     return time.join (''); // return adjusted time or original string
+//   }
+    
+//   var tel = document.getElementById ('tests');
+    
+//     tel.innerHTML = tel.innerHTML.split (/\r*\n|\n\r*|\r/).map (function (v) {
+//         return  v ? v + ' => "' + tConvert (v.trim ()) + '"' : v;       
+//     }).join ('\n');
+// }) ();    
+    
+// var timeString = "21:00:00";
+// var H = +timeString.substr(0, 2);
+// var h = (H % 12) || 12;
+// var ampm = H < 12 ? "AM" : "PM";
+// timeString = h + timeString.substr(2, 3) + ampm;
+// document.write(timeString);
