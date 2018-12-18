@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import { Component, OnInit,AfterViewInit  } from '@angular/core';
-=======
-import { Component, OnInit, ViewContainerRef, EventEmitter } from '@angular/core';
->>>>>>> 80d9d1fd65203b6d6384a34a5f11df43e9984662
+import { Component, OnInit, ViewContainerRef, EventEmitter,AfterViewInit } from '@angular/core';
+
 import { appService } from '../../service/app.service';
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
