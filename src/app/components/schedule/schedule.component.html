@@ -100,12 +100,12 @@
             </div>
           </div>            
           <div class="align-self-center">
-            <p  class=" mb-0 text-teacher-name align-self-center">{{(teacher.preferredName.length > 15)?(teacher.preferredName|slice:0:15) + '...':(teacher.preferredName)}}</p>
+            <p  class=" mb-0 text-teacher-name align-self-center">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:10) + '...':(teacher.preferredName)}}</p>
           </div>
         </div>
       </div>      
     </div>
-    <div  *ngIf="staffList.staff && staffList.staff.length" class=" mb-2 ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
+    <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
   </div>
 
 
@@ -235,7 +235,7 @@
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
         </div>
-        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:6) + '...':(teacher.preferredName)}}</p>
+        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:20) + '...':(teacher.preferredName)}}</p>
       </div>
     </div>      
   </div>
@@ -261,6 +261,7 @@
     <div class="d-flex tabs-wrapper tab-name">
       <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'enroll'}" (click)="onClickModalTab('enroll')">Enroll new customer</button>
       <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'view'}" (click)="onClickModalTab('view')">View Student</button>
+      <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button>
     </div>
   </div>
   <div>
@@ -612,6 +613,40 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab == 'cancelClass'" >
+      <div class="modal-body student-lists">
+          <div class="d-flex mb-4">
+            <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+              <label class="switch">
+                <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <label class="switch-label" for="online">Issue makeup pass</label>
+          </div>
+        <div class="row mt-3 mb-3 ">
+          <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
+            <div class="d-flex flex-row bg-primary single-student">
+              <div class="image-div">
+                <div class="image-wrap">
+                  <img src="{{student.profilePic}}">
+                </div>
+              </div>
+              <div class="d-flex justify-content-center flex-column">
+                <p class="mb-0 student-name text-white pl-2">{{ student.preferredName }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+          <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
+          <button type="button" class="btn btn-submit"  (click)="cancelClassFun(courseId)">Confirm</button>
+         
       </div>
     </div>
   </div>

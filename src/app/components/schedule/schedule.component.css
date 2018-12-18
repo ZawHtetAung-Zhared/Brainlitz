@@ -1070,3 +1070,88 @@ p{
   -webkit-box-shadow: none!important; 
   box-shadow: none!important;
 } */
+
+.btn-outline-secondary[_ngcontent-c1]:focus {
+  box-shadow: 2px 2px 2px 2px rgba(213, 213, 213, 0.3)!important;
+}
+.student-lists{
+  height: 300px;
+  overflow: auto;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 33px;
+  height: 20px;
+  margin-top: 8px;
+}
+
+.slider {
+  position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "\2012";
+    color: #d8dbde;
+    height: 14px;
+    width: 14px;
+    left: 1px;
+    top: 1px;
+    background-color: #64707d;
+    -webkit-transition: .4s;
+     transition: .4s; 
+    text-align: center;
+    vertical-align: middle;
+    background-position: center;
+    line-height: 1;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+input:checked + .slider {
+  border: 2px solid #0080ff;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3!important;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+  background: #0080ff;
+  content: "";
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.switch input {
+  display:none;
+}
+
+.slider.round {
+  border-radius: 34px;
+  border: 2px solid #64707d;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+.switch-label{
+  line-height: 1.8;
+  margin-left: 16px;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-size: 18px;
+  color: #2e3e4d;
+  margin-bottom: 0;
+}

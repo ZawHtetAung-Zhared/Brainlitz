@@ -27,7 +27,8 @@ export class DashboardComponent implements OnInit {
   public item:any = {
     name: '',
     timezone: '',
-    url: ''
+    url: '',
+    date:'8:00Am to 9:00Pm'
   };
   // public menuType:any = "location";
   public menuType:any = "general";
