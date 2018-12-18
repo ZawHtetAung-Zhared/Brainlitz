@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import { Component, OnInit,AfterViewInit  } from '@angular/core';
+=======
+import { Component, OnInit, ViewContainerRef, EventEmitter } from '@angular/core';
+>>>>>>> 80d9d1fd65203b6d6384a34a5f11df43e9984662
 import { appService } from '../../service/app.service';
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
   selector: 'app-schedule',
@@ -10,6 +15,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 })
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
+  public logo:any = localStorage.getItem("OrgLogo");
+  public currency = JSON.parse(localStorage.getItem('currency'));
   public test:any=[];
   public selectedDay =[];
   // public SelectedDate = [];
@@ -39,6 +46,35 @@ export class ScheduleComponent implements OnInit {
   public isFous:boolean = false;
   public formData:any = {};
   public staffList:any;
+  public selectedCustomer:any = {};
+  public stdLists:Array<any> = [];
+  public courseId:any;
+  // for invoice
+  public invoiceInfo:any = {};
+  public invoice:any;
+  public showInvoice:boolean = false;
+  public invoiceID:any;
+  public refInvID:any;
+  public invTaxName:any;
+  public invCurrency:any = {};
+  public invPayment = [];
+  public total:number;
+  public hideMisc:boolean = false;
+  public hideReg:boolean = false;
+  public hideDeposit:boolean = false;
+  public invoiceCourse:any = {};
+  public feesBox:boolean = false;
+  public courseDetail:any = {};
+  public isEditInv:boolean = false;
+  public value:any = {};
+  public updateInvData:any = {};
+  public singleInv = [];
+  public showPayment = false;
+  public invStatus:any;
+  public paymentItem:any = {};
+  public paymentProviders:any;
+  public selectedPayment:any;
+  public paymentId:any;
 
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
@@ -433,12 +469,26 @@ export class ScheduleComponent implements OnInit {
   //   this.scheduleList=false;
   // }
 
-  constructor(private _service:appService, private modalService: NgbModal) { }
+  constructor(private _service:appService, private modalService: NgbModal, public toastr: ToastsManager,public vcr: ViewContainerRef) {
+      this.toastr.setRootViewContainerRef(vcr);
+   }
 
   ngOnInit() {
    
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
+    console.log("undefined currency",this.currency);
+    if(this.currency == undefined || this.currency == null){
+      this.currency ={
+        'invCurrencySign': '$'
+      }
+      console.log("undefined currency",this.currency);
+    }else{
+      if(this.currency.invCurrencySign == ""){
+        console.log("has currency but sign null",this.currency);
+        this.currency.invCurrencySign = '$';
+      }
+    } 
   }
 
   // selectedDayy(){
@@ -649,8 +699,24 @@ export class ScheduleComponent implements OnInit {
     return;
   }
 
-  cancelModal(){
+  cancelModal(type){
     this.modalReference.close();
+    if(type == 'enrollModal'){
+      this.selectedCustomer = {};
+      this.stdLists = [];
+      this.showList = false;
+      this.showInvoice = false;
+      this.showPayment = false;
+      // this.showPaidInvoice = false;
+      this.paymentItem = {};
+      this.hideReg = false;
+      this.hideDeposit = false;
+      this.hideMisc = false;
+      this.isEditInv = false;
+      this.singleInv = [];
+      this.updateInvData = {};
+
+    }
   }
 
   activeTeacher(teacher){
@@ -659,7 +725,19 @@ export class ScheduleComponent implements OnInit {
   }
 
   addEnrollModal(modal){
-      this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'})
+      this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
+      this.courseId = "5beb8c7d1f893164fff2c31d";
+      this.getCourseDetail(this.courseId);
+  }
+
+  getCourseDetail(id){
+    this._service.getSingleCourse(id,this.locationID)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.courseDetail = res;
+    },err =>{
+      console.log(err);
+    });
   }
 
   onClickModalTab(type){
@@ -673,9 +751,8 @@ export class ScheduleComponent implements OnInit {
 
   getUserInCourse(){
     //temp api for testing UI
-    let courseId = "5beb8c7d1f893164fff2c31d";
     this.blockUI.start('Loading...');
-    this._service.getAssignUser(this.regionId,courseId,null,null,null)
+    this._service.getAssignUser(this.regionId,this.courseId,null,null,null)
     .subscribe((res:any)=>{
       this.blockUI.stop();
       console.log(res)
@@ -686,7 +763,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   focusMethod(e, userType){
-    console.log(e)
+    // console.log(e)
     console.log(userType)
     this.isFous = true;
     this.userLists = [];
@@ -694,20 +771,20 @@ export class ScheduleComponent implements OnInit {
   }
 
   hideFocus(e){
-    // setTimeout(() => {
-    //   this.isFous = false;
-    //   this.showList = false;
-    // }, 300);
+    setTimeout(() => {
+      this.isFous = false;
+      this.showList = false;
+    }, 300);
     this.formData = {}
   }
 
   changeMethod(searchWord, userType){
-    let courseId = "5beb8c7d1f893164fff2c31d";
+    // let courseId = "5beb8c7d1f893164fff2c31d";
     userType = (userType == 'teacher') ? 'staff' : userType;
     console.log(userType)
     if(searchWord.length != 0){
       this.showList = true;
-      this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, courseId)
+      this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, this.courseId)
       .subscribe((res:any) => {
         console.log(res);
         this.userLists = res;
@@ -720,6 +797,361 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
+  selectCustomer(state, id, type){
+    this.getSingleCustomer(id);
+    this.formData = {};
+  }
+
+  getSingleCustomer(ID){
+    this.blockUI.start('Loading...');
+    console.log("this.selectedCustomer",this.selectedCustomer)
+    this._service.editProfile(this.regionId, ID)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      console.log('selected Customer',res);
+      this.selectedCustomer = res;
+      this.stdLists = this.selectedCustomer.userId;
+      console.log(this.stdLists)
+      this.showList = false;
+    })
+  }
+
+  closeDropdown(event,type){
+    console.log('close dropdown',type)
+    if(type == 'search'){
+      var parentWrap = event.path.filter(function(res){
+        return res.className == "search-wrap"
+      })
+      if(parentWrap.length == 0){
+        this.showList = false;
+      }
+    }
+  }
+
+  addCustomer(courseId, userType){
+    this.stdLists = [];
+    console.log("call from addCustomer",this.selectedCustomer);
+    let body = {
+       'courseId': courseId,
+       'userId': this.selectedCustomer.userId,
+       'userType': userType
+     }
+     console.log("body",body);
+     this.blockUI.start('Loading...');
+     this._service.assignUser(this.regionId,body, this.locationID)
+     .subscribe((res:any) => {
+       this.blockUI.stop();
+       console.log("res Assign customer",res);
+       if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+          console.log("no invoice setting");
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+       }else{
+         console.log("has invoice setting");
+         this.invoiceInfo = res.invoiceSettings;
+       }
+       this.invoice = res.invoice;
+       this.showInvoice = true;
+       this.showOneInvoice(this.invoice);
+     }, err => {
+        console.log(err);
+      })
+    // this.showInvoice = true;
+
+  }
+
+  showOneInvoice(invoice){
+    for(var i in invoice){
+       // this.updatedDate = invoice[i].updatedDate;
+       // this.dueDate = invoice[i].dueDate;
+       this.invoiceID = invoice[i]._id;
+       this.refInvID = invoice[i].refInvoiceId;
+       this.invTaxName = invoice[i].tax.name;
+       this.invCurrency = invoice[i].currency;
+       this.invPayment = invoice[i].payments;
+       var n = invoice[i].total;
+       this.total = n.toFixed(2);
+       this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
+       console.log('n and total',n,this.total);
+       if(this.invoice[i].registrationFee.fee == null){
+         this.hideReg = true;
+       }
+       if(this.invoice[i].miscFee.fee == null){
+         this.hideMisc = true;
+       }
+       if(this.invoice[i].deposit == null){
+         this.hideDeposit = true;
+       }
+
+       this.invoiceCourse["fees"] = invoice[i].courseFee.fee;
+       if(invoice[i].courseId == this.courseDetail._id){
+         this.invoiceCourse["name"] = this.courseDetail.name;
+         this.invoiceCourse["startDate"] = this.courseDetail.startDate;
+         this.invoiceCourse["endDate"] = this.courseDetail.endDate;
+         this.invoiceCourse["lessonCount"] = this.courseDetail.lessonCount;
+       }
+     }
+  }
+
+  showPopup(type,value){
+    this.isEditInv = true;
+    if(type == 'courseFee'){
+      this.feesBox = true;
+      this.value.courseFee = value;
+    }
+  }
+
+  cancelPopup(type){
+    if((this.hideReg == true && this.hideDeposit == true && this.hideMisc == true) || this.hideReg == true || this.hideDeposit == true || this.hideMisc == true){
+      this.isEditInv = true;
+    }else{
+      this.isEditInv = false;
+    }
+    console.log("hide popup")
+    // this.showBox = false;
+    if(type == 'courseFee'){
+      this.feesBox = false;
+      this.value.courseFee = '';
+    }
+  }
+
+  updateCfee(data){
+    console.log("updateCfee",data);
+    this.feesBox = false;
+    for(var i in this.invoice){
+      if(this.invoice[i].courseFee.fee != data){
+        console.log("===not same");
+        this.updateInvData["courseFee"] = data
+        // this.updateInvData["courseFee"] = {
+        //   'fee': Number(data)
+        // };
+        this.invoice[i].courseFee.fee = Number(data);
+        console.log(this.invoice[i].courseFee.fee)
+        // formula for calculating the inclusive tax
+        // Product price x RATE OF TAX/ (100+RATE OF TAX);
+        if(this.invoice[i].courseFee.taxInclusive == true){
+          var taxRate = this.invoice[i].tax.rate;
+          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+          this.invoice[i].courseFee.tax =Number(taxAmount);
+          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+          var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
+          this.invoice[i].courseFee.fee = Number(cFee);
+          this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee);
+          console.log("Amount without inclusive tax",this.invoice[i].courseFee.amount);
+        }else if(this.invoice[i].courseFee.taxInclusive == false){
+          var taxRate = this.invoice[i].tax.rate;
+          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / 100).toFixed(2);
+          this.invoice[i].courseFee.tax =Number(taxAmount);
+          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
+          this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee);
+          console.log("Fee amount with exclusive tax",this.invoice[i].courseFee.amount);
+        }
+
+        this.calculateHideFees('cFees')
+      }else{
+        console.log("===same");
+      }
+    }
+    // this.discount = data;
+    // this.showBox = false;
+  }
+
+  hideInvoiceRow(type){
+    this.isEditInv = true;
+    if(type == 'reg'){
+      this.hideReg = true;
+      this.updateInvData["registrationFee"] = null;
+      // this.updateInvData["registrationFee"] = {
+      //   'fee': null
+      // };
+      this.calculateHideFees(type);
+    }else if(type == 'deposit'){
+      this.hideDeposit = true;
+      this.updateInvData["deposit"] = null;
+      this.calculateHideFees(type);
+    }else if(type == 'misc'){
+      this.hideMisc = true;
+      this.updateInvData["miscFee"] = null;
+      // this.updateInvData["miscFee"] = {
+      //   'fee': null
+      // };
+      this.calculateHideFees(type);
+    }
+  }
+
+  calculateHideFees(type){
+    console.log("calculateHideFees");
+    for (var i in this.invoice) {
+      var regFees:number;
+      var regTax:number;
+      var miscFees:number;
+      var miscTax:number;
+      var deposit:number;
+      var totalTaxes:number;
+
+      if(this.hideReg == true){
+        regFees = 0;
+        regTax = 0;
+      }else{
+        regFees = this.invoice[i].registrationFee.fee;
+        regTax = this.invoice[i].registrationFee.tax;
+      }
+
+      if(this.hideMisc == true){
+        miscFees = 0;
+        miscTax = 0;
+      }else{
+        miscFees = this.invoice[i].miscFee.fee;
+        miscTax = this.invoice[i].miscFee.tax;
+      }
+
+      if(this.hideDeposit == true){
+        deposit = 0;
+      }else{
+        deposit = this.invoice[i].deposit;
+      }
+
+      totalTaxes = regTax + miscTax + Number(this.invoice[i].courseFee.tax);
+      console.log("Total taxes and deposit",totalTaxes,deposit)
+      this.invoice[i].subtotal = (regFees + miscFees + deposit + this.invoice[i].courseFee.fee).toFixed(2);
+      this.total = Number((Number(this.invoice[i].subtotal)+ totalTaxes).toFixed(2));
+      // this.invoice[i].total = Number(totalPrice).toFixed(2);
+      // this.total = Number(this.invoice[i].total).toFixed(2);
+      console.log("Subtotal",this.invoice[i].subtotal);
+      console.log("Total",this.total);
+      // console.log("TTT",this.invoice[i].subtotal+totalTaxes)
+    }
+  }
+
+  printInvoice(){
+    window.print();
+  }
+
+   updateInvoice(){
+    // let data = {};
+    // if(this.hideReg == true){
+    //   data["registrationFee"] = null;
+    // }else if(this.hideDeposit == true){
+    //   data["deposit"] = null;
+    // }else if(this.invoiceCourse.fees != this.value.courseFee){
+    //   data["courseFee"] = this.value.courseFee;
+    // }
+    this.blockUI.start('Loading...');
+    console.log("Inv Update Data",this.updateInvData);
+    this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
+    .subscribe((res:any) => {
+      this.blockUI.stop();
+      console.log(res);
+      this.isEditInv = false;
+      //for updating invoice ui
+      this.singleInv = [];
+      this.singleInv.push(res);
+      this.invoice = this.singleInv;
+      console.log("invoice",this.invoice);
+      this.showOneInvoice(this.invoice);
+    },err => {
+      console.log(err);
+    })
+  }
+
+  sendInvoice(){
+    // this.showStudentOption = '';
+    // this.xxxhello = '';
+    console.log("send Invoice",this.invoiceID);
+    var mailArr = [];
+    mailArr.push(this.selectedCustomer.email);
+    for(var i in this.selectedCustomer.guardianEmail){
+      mailArr.push(this.selectedCustomer.guardianEmail[i]);
+    }
+    console.log("mailArr",mailArr);
+    let body = {
+      "associatedMails": mailArr
+    }
+    console.log("body",body);
+    this._service.invoiceOption(this.regionId, this.invoiceID, body, 'send')
+    .subscribe((res:any) => {
+      console.log(res);
+      this.toastr.success("Successfully sent the Invoice.");
+      this.cancelModal('enrollModal');
+    }, err => {
+      console.log(err);
+      this.toastr.error('Fail to sent the Invoice.');
+    })
+  }
+
+  showPayOption(){
+    console.log("pay option");
+    this.showPayment = true;
+    this.showInvoice = false;
+    if(this.invStatus == 'PAID[PARTIAL]'){
+      var totalPaid = 0;
+      for(var i in this.invPayment){
+        console.log("each payment",this.invPayment[i]);
+        totalPaid = totalPaid + this.invPayment[i].amount;
+      }
+      console.log("total paid",totalPaid);
+      this.paymentItem.amount = Number((this.total - totalPaid).toFixed(2));
+      console.log("Total Amount for Pay",this.paymentItem.amount)
+    }else{
+      this.paymentItem.amount = this.total;
+    }
+
+    this._service.getPaymentMethod()
+    .subscribe((res:any) => {
+      console.log(res);
+      this.paymentProviders = res;
+      this.selectedPayment = this.paymentProviders[0].name;
+        this.paymentId = this.paymentProviders[0].id;
+    })
+  }
+
+  choosePayment(type){
+      console.log("choosePayment",type);
+      this.selectedPayment = type.name;
+      this.paymentId = type.id;
+  }
+
+  payNow(type){
+    // this.showStudentOption = '';
+    // this.xxxhello = '';
+    console.log("Pay Now",this.paymentItem,this.paymentId);
+    let body = {
+      'regionId': this.regionId,
+      'refInvoiceId': this.refInvID,
+      'amount': this.paymentItem.amount.toString(),
+      'paymentMethod': this.paymentId.toString()
+    }
+    if(this.paymentItem.refNumber){
+      body["refNo"] = this.paymentItem.refNumber;
+    }
+    // console.log("data",body);
+    this._service.makePayment(this.regionId,body)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.toastr.success(res.message);
+      this.cancelModal('enrollModal');
+    },err => {
+      if(err.message == "Amount is overpaid."){
+        this.toastr.success("Amount is overpaid.")
+      }
+      this.toastr.error("Payment Fail");
+    })
+  }
+
+  backToInvoice(){
+    console.log("Back To Invoice")
+    this.showPayment = false;
+    this.showInvoice = true;
+    this.paymentItem = {};
+  }
 
   getSlotNumber(hr, min){
     console.log(hr , ':', min);
