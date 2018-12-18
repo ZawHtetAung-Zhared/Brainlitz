@@ -659,7 +659,9 @@ export class ScheduleComponent implements OnInit {
         _this.scheduleList=false;
         _this._service.getscheduleStaffList(regionId,_this.showSelectedDays1.toString(),categoryId)
         .subscribe((res:any) => {
-            _this.staffList=res;
+          console.log("RES",res)
+          console.log("RES",res.staff)
+            _this.staffList=res.staff;
             _this.selectedTeacher = _this.staffList[0];
           }, (err:any) => {
             // catch the error response from api         
