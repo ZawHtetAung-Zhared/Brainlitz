@@ -509,6 +509,14 @@
     background: #f2f4f5;
     border: none;
     z-index: auto !important;
+    box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3)!important;
+}
+
+
+.input-search-dropdown-bg :focus {
+  outline: 0;
+  -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3)!important;
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3)!important;
 }
 
 .input-search-dropdown-bg {
@@ -523,7 +531,7 @@
 .scheduleList-dropdown>.form-control {
   position: relative;
   flex: none;
-  width: 280px!important;
+  /* width: 280px!important; */
   margin-bottom: 0;
 }
 
@@ -539,6 +547,8 @@
     border-radius: 4px !important;
     color: #788796;
     cursor: pointer;
+    box-shadow: 2px 2px 2px 2px rgba(213, 213, 213, 0.3)!important;
+    
   }
 .btn-primary{
     background: #007bff!important;
@@ -583,13 +593,13 @@ ul.data-listing li.disabled{
 .scedule-data-listing{
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   display: block;
-  width: 280px;
+  width: 290px;
   background: #fff;
   height: 300px;
   position: absolute;
   z-index: 99;
   margin: 0;
-  top:50px;
+  top:100px;
   padding: 0;
   list-style: none;
   overflow: auto;
@@ -636,10 +646,10 @@ ul.scedule-data-listing li.disabled{
   position: absolute;
   left: 260px;
   overflow: hidden;
-  z-index: 99999;
+  z-index: 10;
   /* border-radius: 4px; */
   border:0px;
-  box-shadow: 0 1px 3px 0px rgba(213, 213, 213, 0.3);
+  box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
   background-color: #ffffff;
   border-left: none;
 }
@@ -719,10 +729,6 @@ ul.scedule-data-listing li.disabled{
   border-radius: 16px; 
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
-.dad{
-  width: 300px;
-}
-
 .close{
   width: 48px;
   height: 48px;

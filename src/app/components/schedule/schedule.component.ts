@@ -676,7 +676,6 @@ export class ScheduleComponent implements OnInit {
             // catch the error response from api         
             _this.staffList=[];
           })
-          console.warn(_this.selectedDay)
           return;
         }
         else{
