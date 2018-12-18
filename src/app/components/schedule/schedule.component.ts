@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewContainerRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, EventEmitter,AfterViewInit } from '@angular/core';
+
 import { appService } from '../../service/app.service';
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -542,6 +543,13 @@ export class ScheduleComponent implements OnInit {
   //     return this.showSelectedDays;
   //   }
   // }
+  ngAfterViewInit() {
+    this.staffList = [
+      {
+        'staff': [{}],
+      }
+    ]
+  }
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
@@ -649,7 +657,7 @@ export class ScheduleComponent implements OnInit {
     const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-    
+    _this.blockUI.start('Loading...');
     setTimeout(() => {
       if(_this.selectedDay.length == 0){
         // const sortTheDays = _this.selectedDay.sort();
@@ -663,6 +671,7 @@ export class ScheduleComponent implements OnInit {
           console.log("RES",res.staff)
             _this.staffList=res.staff;
             _this.selectedTeacher = _this.staffList[0];
+            _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
             _this.staffList=[];
@@ -678,6 +687,7 @@ export class ScheduleComponent implements OnInit {
             .subscribe((res:any) => {
                 _this.staffList=res;
                 _this.selectedTeacher = _this.staffList[0];
+                _this.blockUI.stop(); 
               }, (err:any) => {
                 // catch the error response from api         
                 _this.staffList=[];
