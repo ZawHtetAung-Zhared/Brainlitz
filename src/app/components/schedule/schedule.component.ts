@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewContainerRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, EventEmitter,AfterViewInit } from '@angular/core';
+
 import { appService } from '../../service/app.service';
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -15,7 +16,9 @@ export class ScheduleComponent implements OnInit {
   public currency = JSON.parse(localStorage.getItem('currency'));
   public test:any=[];
   public selectedDay =[];
+  public lessonId :any;
   // public SelectedDate = [];
+  public isGlobal:boolean = false;
   public showSelectedDays = '~'
   public showSelectedDays1 = '0,1,2,3,4,5,6'
   public categoryList:any;
@@ -542,6 +545,13 @@ export class ScheduleComponent implements OnInit {
   //     return this.showSelectedDays;
   //   }
   // }
+  ngAfterViewInit() {
+    this.staffList = [
+      {
+        'staff': [{}],
+      }
+    ]
+  }
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
@@ -641,7 +651,7 @@ export class ScheduleComponent implements OnInit {
 
   openTeacherList(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    this.selectedTeacher = this.staffList[0];
+    this.selectedTeacher = this.staffList.staff[0];
   }
 
   getscheulestaff(regionId,daysOfWeek,categoryId){
@@ -649,7 +659,7 @@ export class ScheduleComponent implements OnInit {
     const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-    
+    _this.blockUI.start('Loading...');
     setTimeout(() => {
       if(_this.selectedDay.length == 0){
         // const sortTheDays = _this.selectedDay.sort();
@@ -659,13 +669,15 @@ export class ScheduleComponent implements OnInit {
         _this.scheduleList=false;
         _this._service.getscheduleStaffList(regionId,_this.showSelectedDays1.toString(),categoryId)
         .subscribe((res:any) => {
+          console.log("RES",res)
+          console.log("RES",res.staff)
             _this.staffList=res;
-            _this.selectedTeacher = _this.staffList[0];
+            _this.selectedTeacher = _this.staffList.staff[0];
+            _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
             _this.staffList=[];
           })
-          console.warn(_this.selectedDay)
           return;
         }
         else{
@@ -675,7 +687,8 @@ export class ScheduleComponent implements OnInit {
             _this._service.getscheduleStaffList(regionId,daysOfWeek.toString(),categoryId)
             .subscribe((res:any) => {
                 _this.staffList=res;
-                _this.selectedTeacher = _this.staffList[0];
+                _this.selectedTeacher = _this.staffList.staff[0];
+                _this.blockUI.stop(); 
               }, (err:any) => {
                 // catch the error response from api         
                 _this.staffList=[];
@@ -714,6 +727,7 @@ export class ScheduleComponent implements OnInit {
   addEnrollModal(modal){
       this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
       this.courseId = "5beb8c7d1f893164fff2c31d";
+      this.lessonId = "5beb8c7d1f893164fff2c32b";
       this.getCourseDetail(this.courseId);
   }
 
@@ -732,6 +746,9 @@ export class ScheduleComponent implements OnInit {
     if(type == 'enroll'){
       
     }else if(type == 'view'){
+      this.getUserInCourse();
+    }
+    else{
       this.getUserInCourse();
     }
   }
@@ -1143,4 +1160,41 @@ export class ScheduleComponent implements OnInit {
   getSlotNumber(hr, min){
     console.log(hr , ':', min);
   }
+
+
+
+  cancelClassFun( lessonId){
+    let data = {
+      "lessonId": lessonId
+    }
+    console.log(lessonId)
+    // console.log(this.isGlobal)
+    // Call cancel class api service
+    this.blockUI.start('Loading...');
+    // this.isGlobal
+    this._service.cancelUsersFromClass(this.courseId, data,this.isGlobal)
+    .subscribe((res:any) => {
+      // Success function
+      this.blockUI.stop();
+      // this.cancelUI=false;
+      // this.cancelUi=false;
+      console.info("cancle user from class api calling is done");
+      console.log(res)
+      this.isGlobal = false;
+      // this.disableCancel = true;
+      this.getCourseDetail(this.courseId);
+      // Close Dialog box
+      // Show the canceled users
+    },err => {
+      // Error function  
+      this.isGlobal = false;
+      console.error('cancle user from class has got error',  err);
+      // Do something
+    })
+    this.modalReference.close();
+    // this.cancelUItext= false;
+  }
+
+
+
 }

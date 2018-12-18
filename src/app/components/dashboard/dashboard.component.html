@@ -89,15 +89,25 @@
                     </ng2-timezone-picker>
                   </div>
                 </div>
-                <!-- <div class="timezone-wrap ease">
+
+                <!-- Operation Hour -->
+                <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                         <img src="./assets/images/map.png">
                     </div>
                     <label class="labelTitle">Operating hour</label>
                   </div>
-                  <label class="labelName">8:00 AM - 9:00 AM</label>
-                </div> -->
+                  <label *ngIf="!isEdit" class="labelName">{{item.operatingHour.start }}</label>
+                  <label *ngIf="!isEdit" class="labelName">{{item.operatingHour.end }}</label>
+                  <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
+                    <div class="form-group url-edit"> 
+                      <input type="time" class="form-control" placeholder="start date" name="startDate" [(ngModel)]="item.operatingHour.start" #startDate="ngModel" required>
+                      <input type="time" class="form-control" placeholder="enter date" name="endDate" [(ngModel)]="item.operatingHour.end" #endDate="ngModel" required>
+                    </div>
+                  </form>
+                </div>
+                <!-- Operation Hour Close -->
               </div>
               <div *ngIf="!isEdit">
                 <a class="link-btn" (click)="editRegion()">Edit</a>
@@ -107,7 +117,6 @@
                 <a (click)="updateRegionalInfo(item,'timezone')">Done</a>
               </div>
             </div>  
-             
             <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
                 Invoice Settings
@@ -465,7 +474,30 @@
                         </div> 
 
                       </div>
-                      <div class="form-group">
+                      <!-- {{providers|json}} -->
+                      <div *ngFor="let provider of providers">
+                        <div *ngIf="selectedProvider == provider.name">
+                          <div *ngFor="let reqField of provider.requiredField"> 
+                            <div class="form-group req-field">
+                              <div class="d-flex justify-content-between">
+                                <label class="input-label" for="merchant">{{reqField.name}}</label>
+                              </div>
+                              <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="{{reqField.name}}" [(ngModel)]="reqField.value">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- {{providers.requiredField|json}} -->
+                      <!-- <div *ngFor="let reqField of providerField">
+                        <div class="form-group req-field">
+                          <div class="d-flex justify-content-between">
+                            <label class="input-label" for="merchant">{{reqField.name}}</label>
+                          </div>  
+                          <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="merchant" [(ngModel)]="reqField.value" #merchant="ngModel">
+                        </div>
+                      </div> -->
+
+                      <!-- <div class="form-group">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="merchant">Merchant ID</label>
                         </div>  
@@ -476,7 +508,7 @@
                           <label class="input-label" for="apikey">API key</label>
                         </div>  
                         <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>

@@ -27,7 +27,11 @@ export class DashboardComponent implements OnInit {
   public item:any = {
     name: '',
     timezone: '',
-    url: ''
+    url: '',
+    operatingHour: {
+      start : '',
+      end : ''
+    }
   };
   // public menuType:any = "location";
   public menuType:any = "general";
@@ -50,7 +54,7 @@ export class DashboardComponent implements OnInit {
   public showProvider:boolean = false;
   public online:any = {};
   public currency_symbol:any;
-  public providers:any = {};
+  public providers:any = [];
   public providerTemp:any = {};
   public providerArray:Array<any> = [];
   public newCurrency:any = {};
@@ -75,7 +79,6 @@ export class DashboardComponent implements OnInit {
       {
         "id": 0,
         "name": "",
-        "Mcptid": ""
       }
     ],
     "currencyCode": ""
@@ -154,6 +157,7 @@ export class DashboardComponent implements OnInit {
     this.type = localStorage.getItem('tokenType');
 	  this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
     .subscribe((res:any) => {
+      console.log("res admin",res)
       this.admin = res;
       this.item.name = res.name;
       this.item.timezone = res.timezone;
@@ -217,7 +221,7 @@ export class DashboardComponent implements OnInit {
       }
 
       this.providerTemp = this.paymentData.paymentProviders;      
-
+      console.log('providerTemp',this.providerTemp);
       if(this.providerTemp.length > 0){
         this.providerArray= [];
         for(let j=0; j< this.providerTemp.length; j++){
@@ -296,6 +300,9 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = this.invoiceData.currencyCode;
     
     this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
+    // if(this.isOnline == true){
+    //   this.selectedProvider = this.paymentData.paymentProviders.name;
+    // }
     if(this.isOnline == true && this.option == 'Payment'){
       this._service.paymentProvider()
       .subscribe((res:any) => {
@@ -384,11 +391,17 @@ export class DashboardComponent implements OnInit {
     this.selectedCurrency = data;
     this.selectedFlag = key;
   }
-
+  providerField = [];
   selectProvider(id, name){
     console.log(id, '-' ,name)
-    this.selectedProvider = name
-    this.payment.name = name
+    this.selectedProvider = name;
+    this.payment.name = name;
+    // this.providerField = [];
+    // for(var i in this.providers){
+    //   if(this.providers[i].name == this.selectedProvider){
+    //     this.providerField = this.providers[i].requiredField;
+    //   }
+    // }
   }
 
   updateInvoice(data, type){
@@ -412,7 +425,22 @@ export class DashboardComponent implements OnInit {
       this.invoiceData['currencyCode'] = this.selectedFlag;
       this.invoiceData['currencySign'] = this.selectedCurrency;
       if(this.isOnline == true){
-        console.log(this.payment)
+        // console.log(this.providerField)
+        // if(this.providerField){
+        //   for(var j in this.providerField){
+        //     this.payment[this.providerField[j].name] = this.providerField[j].value;
+        //   }
+        // }
+        for(var i in this.providers){
+          if(this.providers[i].name == this.payment.name){
+            console.log("same name",this.payment);
+            for(var j in this.providers[i].requiredField){
+              console.log("provider field",this.providers[i].requiredField[j]);
+              this.payment[this.providers[i].requiredField[j].name] = this.providers[i].requiredField[j].value;
+            }
+          }
+        }
+        console.log("this payment===>",this.payment)
         if(this.providerTemp.length > 0){
           console.log('no', this.providerTemp)
           data.paymentProviders = this.providerTemp;
@@ -468,6 +496,7 @@ export class DashboardComponent implements OnInit {
     this.online = {};
     this.isOnline = false;
     this.selectedProvider= '';
+    this.providerField = [];
     this.getInvoiceSetting('invoiceSettings')
     this.getPaymentSetting('paymentSettings')
   }
@@ -481,10 +510,23 @@ export class DashboardComponent implements OnInit {
       event.target.value = '';  
     }
   }
-
   onlinePayment(){
     this.isOnline = !this.isOnline;
     if(this.isOnline == true){
+      // this.providers = [
+      //   {
+      //     'id': 0,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "MC Payment",
+      //     'requiredField': [{name: "Mcptid", type: "string"}]
+      //   },
+      //   {
+      //     'id': 1,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "Test Payment",
+      //     'requiredField': [{name: "MerchantID", type: "string"},{name: "APIKey", type: "string"}]
+      //   }
+      // ]
       this._service.paymentProvider()
       .subscribe((res:any) => {
         console.log(res)
@@ -497,3 +539,45 @@ export class DashboardComponent implements OnInit {
     }
   }
 }
+
+//24hours to 12 hours format
+// function tConv24(time24) {
+//   var ts = time24;
+//   var H = +ts.substr(0, 2);
+//   var h = (H % 12) || 12;
+//   h = (h < 10)?("0"+h):h;  // leading 0 at the left for 1 digit hours
+//   var ampm = H < 12 ? " AM" : " PM";
+//   ts = h + ts.substr(2, 3) + ampm;
+//   return ts;
+// };
+
+// document.write(tConv24('08:00') + " :-) " + tConv24('16:00'));
+
+
+// (function () {
+
+//   function tConvert (time) {
+//    // Check correct time format and split into components
+//    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+//     if (time.length > 1) { // If time format correct
+//       time = time.slice (1);  // Remove full string match value
+//       time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+//       time[0] = +time[0] % 12 || 12; // Adjust hours
+//     }
+//     return time.join (''); // return adjusted time or original string
+//   }
+    
+//   var tel = document.getElementById ('tests');
+    
+//     tel.innerHTML = tel.innerHTML.split (/\r*\n|\n\r*|\r/).map (function (v) {
+//         return  v ? v + ' => "' + tConvert (v.trim ()) + '"' : v;       
+//     }).join ('\n');
+// }) ();    
+    
+// var timeString = "21:00:00";
+// var H = +timeString.substr(0, 2);
+// var h = (H % 12) || 12;
+// var ampm = H < 12 ? "AM" : "PM";
+// timeString = h + timeString.substr(2, 3) + ampm;
+// document.write(timeString);
