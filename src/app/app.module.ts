@@ -47,6 +47,7 @@ import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { ScheduleWeekDaysPipe } from './service/pipe/scheduleWeekDays.pipe';
 import { GroupByPipe } from './service/pipe/groupby.pipe';
 import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
+import { GetObjectLength } from './service/pipe/objLenght.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetFormatData } from './service/pipe/timeformat.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
@@ -98,6 +99,7 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe'
     ScheduleWeekDaysPipe,
     GroupByPipe,
     ConvertTimeFormatPipe,
+    GetObjectLength,
     GetDayPipe,
     GetUtcTimePipe,
     GetFormatData,

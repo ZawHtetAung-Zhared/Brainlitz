@@ -111,13 +111,13 @@
       <thead>
         <tr>
           <th></th>
-          <th *ngFor="let time of operationTime">{{time.name}}</th>
+          <th *ngFor="let time of operationTime">{{time.start.hr}}</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th></th>
-          <td *ngFor="let time of operationTime">{{time.name}}</td>
+          <td *ngFor="let time of operationTime">{{time.start.hr}}</td>
         </tr>
         <tr *ngFor="let list of timetableLists; let i = index">
           <th>{{list.date.day}} {{list.date.month - 1 | TTmonth}}</th>
@@ -138,6 +138,9 @@
       <div class="lessons-range">
         <div *ngFor="let list of timetableLists; let i = index">
           <!-- -**- {{timetableLists[i].count}} -->
+          <div *ngFor="let list of timetableLists | getCount as result;">
+              {{result}}
+            </div> 
           <div class="xxx-count" *ngFor="let monthlylist of list.month;let b = index">
             <div id="" class="single-slot">
               <p>{{monthlylist.date.day}} {{monthlylist.date.month - 1 | TTmonth}} {{i}} {{b}} </p>
@@ -152,14 +155,13 @@
                 <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of [30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59]">
                 </div>
               </div>         
-            </div>         
-            <div *ngFor="let timetable of monthlylist.timetable; let k = index">
-              
+            </div>        
+            <div *ngFor="let timetable of monthlylist.timetable">
               <div *ngIf="i == 0">
                 <div class="lesson-slot" [ngStyle]="{'top': ((b * 42) + (i * 42)) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
                   <h6>{{timetable.course.courseCode}}</h6>
-                  <p *ngIf="timetable.seat != null">{{timetable.seat.left}} - {{k}}</p>
-                  <p *ngIf="timetable.seat == null">{{k}}</p>
+                  <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
+                  <p *ngIf="timetable.seat == null"></p>
                 </div>
               </div>
               <div *ngIf="i != 0">
