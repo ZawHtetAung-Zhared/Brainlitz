@@ -98,10 +98,12 @@
                     </div>
                     <label class="labelTitle">Operating hour</label>
                   </div>
-                  <label *ngIf="!isEdit" class="labelName">{{item.date}}</label>
+                  <label *ngIf="!isEdit" class="labelName">{{item.operatingHour.start }}</label>
+                  <label *ngIf="!isEdit" class="labelName">{{item.operatingHour.end }}</label>
                   <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
                     <div class="form-group url-edit"> 
-                      <input type="url" class="form-control" placeholder="enter date" name="date" [(ngModel)]="date.time" #date="ngModel" required>
+                      <input type="time" class="form-control" placeholder="start date" name="startDate" [(ngModel)]="item.operatingHour.start" #startDate="ngModel" required>
+                      <input type="time" class="form-control" placeholder="enter date" name="endDate" [(ngModel)]="item.operatingHour.end" #endDate="ngModel" required>
                     </div>
                   </form>
                 </div>

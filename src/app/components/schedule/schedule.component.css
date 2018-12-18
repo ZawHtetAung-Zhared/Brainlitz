@@ -710,7 +710,16 @@ ul.scedule-data-listing li.disabled{
   word-break: break-all;
   font-size: 14px;
   font-weight: 600;
-  font-family: Montserrat-SemiBold;
+  font-family: Montserrat-SemiBold,Arial, sans-serif;
+  margin-bottom: none!important;
+  padding: 8px 16px 8px 0px;
+}
+.modal-text-teacher-name{
+  font-size:14px!important;
+  word-break: break-all;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Montserrat-SemiBold,Arial, sans-serif;
   margin-bottom: none!important;
   padding: 8px 16px 8px 0px;
 }

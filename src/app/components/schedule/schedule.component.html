@@ -235,7 +235,7 @@
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
         </div>
-        <p  class="pt-3 pr-2 pl-2 text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:20) + '...':(teacher.preferredName)}}</p>
+        <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:15) + '...':(teacher.preferredName)}}</p>
       </div>
     </div>      
   </div>
