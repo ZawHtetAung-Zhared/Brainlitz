@@ -669,7 +669,7 @@ export class ScheduleComponent implements OnInit {
         .subscribe((res:any) => {
           console.log("RES",res)
           console.log("RES",res.staff)
-            _this.staffList=res.staff;
+            _this.staffList=res;
             _this.selectedTeacher = _this.staffList[0];
             _this.blockUI.stop(); 
           }, (err:any) => {
