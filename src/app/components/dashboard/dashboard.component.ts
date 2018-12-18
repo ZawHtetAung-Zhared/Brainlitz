@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   public showProvider:boolean = false;
   public online:any = {};
   public currency_symbol:any;
-  public providers:any = {};
+  public providers:any = [];
   public providerTemp:any = {};
   public providerArray:Array<any> = [];
   public newCurrency:any = {};
@@ -75,7 +75,6 @@ export class DashboardComponent implements OnInit {
       {
         "id": 0,
         "name": "",
-        "Mcptid": ""
       }
     ],
     "currencyCode": ""
@@ -154,6 +153,7 @@ export class DashboardComponent implements OnInit {
     this.type = localStorage.getItem('tokenType');
 	  this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
     .subscribe((res:any) => {
+      console.log("res admin",res)
       this.admin = res;
       this.item.name = res.name;
       this.item.timezone = res.timezone;
@@ -217,7 +217,7 @@ export class DashboardComponent implements OnInit {
       }
 
       this.providerTemp = this.paymentData.paymentProviders;      
-
+      console.log('providerTemp',this.providerTemp);
       if(this.providerTemp.length > 0){
         this.providerArray= [];
         for(let j=0; j< this.providerTemp.length; j++){
@@ -296,6 +296,9 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = this.invoiceData.currencyCode;
     
     this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
+    // if(this.isOnline == true){
+    //   this.selectedProvider = this.paymentData.paymentProviders.name;
+    // }
     if(this.isOnline == true && this.option == 'Payment'){
       this._service.paymentProvider()
       .subscribe((res:any) => {
@@ -384,11 +387,17 @@ export class DashboardComponent implements OnInit {
     this.selectedCurrency = data;
     this.selectedFlag = key;
   }
-
+  providerField = [];
   selectProvider(id, name){
     console.log(id, '-' ,name)
-    this.selectedProvider = name
-    this.payment.name = name
+    this.selectedProvider = name;
+    this.payment.name = name;
+    // this.providerField = [];
+    // for(var i in this.providers){
+    //   if(this.providers[i].name == this.selectedProvider){
+    //     this.providerField = this.providers[i].requiredField;
+    //   }
+    // }
   }
 
   updateInvoice(data, type){
@@ -412,7 +421,22 @@ export class DashboardComponent implements OnInit {
       this.invoiceData['currencyCode'] = this.selectedFlag;
       this.invoiceData['currencySign'] = this.selectedCurrency;
       if(this.isOnline == true){
-        console.log(this.payment)
+        // console.log(this.providerField)
+        // if(this.providerField){
+        //   for(var j in this.providerField){
+        //     this.payment[this.providerField[j].name] = this.providerField[j].value;
+        //   }
+        // }
+        for(var i in this.providers){
+          if(this.providers[i].name == this.payment.name){
+            console.log("same name",this.payment);
+            for(var j in this.providers[i].requiredField){
+              console.log("provider field",this.providers[i].requiredField[j]);
+              this.payment[this.providers[i].requiredField[j].name] = this.providers[i].requiredField[j].value;
+            }
+          }
+        }
+        console.log("this payment===>",this.payment)
         if(this.providerTemp.length > 0){
           console.log('no', this.providerTemp)
           data.paymentProviders = this.providerTemp;
@@ -468,6 +492,7 @@ export class DashboardComponent implements OnInit {
     this.online = {};
     this.isOnline = false;
     this.selectedProvider= '';
+    this.providerField = [];
     this.getInvoiceSetting('invoiceSettings')
     this.getPaymentSetting('paymentSettings')
   }
@@ -481,10 +506,23 @@ export class DashboardComponent implements OnInit {
       event.target.value = '';  
     }
   }
-
   onlinePayment(){
     this.isOnline = !this.isOnline;
     if(this.isOnline == true){
+      // this.providers = [
+      //   {
+      //     'id': 0,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "MC Payment",
+      //     'requiredField': [{name: "Mcptid", type: "string"}]
+      //   },
+      //   {
+      //     'id': 1,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "Test Payment",
+      //     'requiredField': [{name: "MerchantID", type: "string"},{name: "APIKey", type: "string"}]
+      //   }
+      // ]
       this._service.paymentProvider()
       .subscribe((res:any) => {
         console.log(res)
