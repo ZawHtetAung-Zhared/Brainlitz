@@ -712,6 +712,25 @@ input:checked + .slider:before {
     margin-left: 47px;
 }
 
+.operatingTime{
+  font-family: Montserrat-SemiBold,Arial,sans-serif;
+  font-size: 16px;
+  color: #2e3d4d;
+  line-height: 20px;
+  margin-left: 47px;
+}
+.operatingTime1{
+  font-family: Montserrat-SemiBold,Arial,sans-serif;
+  font-size: 16px;
+  color: #2e3d4d;
+  line-height: 20px;
+
+}
+.time-picker{
+  width: 120px;
+  display: block;
+}
+
 /*//Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767px) { 
   
