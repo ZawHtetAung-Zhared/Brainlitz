@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener,AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { TimezonePickerService, Timezone } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
@@ -29,10 +29,10 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: '',
     operatingHour: {
-      start : '',
-      end : ''
+    
     }
   };
+  
   // public menuType:any = "location";
   public menuType:any = "general";
   public checkedModule =[];
@@ -85,15 +85,36 @@ export class DashboardComponent implements OnInit {
   };
   public emptyPaymentData: boolean = false;
   public emptyInvoiceData: boolean = false;
+  public startT:any;
+  public endT:any;
   public flags = ['aed','afn','all','amd','ang','aoa','ars','aud','awg','azn','bam','bbd','bdt','bgn','bhd','bif','bmd','bnd','bob','brl','bsd','btn','bwp','byn','bzd','cad','cdf','chf','clp','cny','cop','crc','cup','cve','czk','djf','dkk','dop','dzd','egp','ern','etb','eur','fjd','fkp','gbp','gel','ghs','gip','gmd','gnf','gtq','gyd','hkd','hnl','hrk','htg','huf','idr','ils','inr','iqd','irr','isk','jmd','jod','jpy','kes','kgs','khr','kmf','kpw','krw','kwd','kyd','kzt','lak','lbp','lkr','lrd','ltl','lyd','mad','mdl','mga','mkd','mmk','mnt','mop','mro','mur','mvr','mwk','mxn','myr','mzn','nad','ngn','nio','nok','npr','nzd','omr','pen','pgk','php','pkr','pln','pyg','qar','ron','rsd','rub','rwf','sar','sbd','scr','sek','sgd','shp','sll','sos','srd','std','svc','syp','szl','thb','tjs','tnd','top','try','ttd','twd','tzs','uah','ugx','usd','uyu','uzs','vef','vnd','vuv','wst','xaf','xcd','xof','xpf','yer','zar','zmw']
   @BlockUI() blockUI: NgBlockUI;
-
+ 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0,0);
   }
 
   ngOnInit() {
+    this.startT;
+    this.endT;
+    this.item = {
+      name: '',
+      timezone: '',
+      url: '',
+      operatingHour: {
+      'start':{
+        'hr':'',
+        'min':'',
+        "meridiem":''
+      },
+      'end':{
+        'hr':'',
+        'min':'',
+        "meridiem":''
+      }
+      }
+    };
     if(localStorage.getItem('locationId') == null){
       console.log('hi')
       this.permissionType = [];
@@ -108,11 +129,27 @@ export class DashboardComponent implements OnInit {
         localStorage.setItem('permission', JSON.stringify(data))
       }
     });
-
+    
     this.getInvoiceSetting('invoiceSettings')
     this.getPaymentSetting('paymentSettings')
   }
 
+  ngAfterViewInit() { 
+    // this.item.operatingHour = {
+    //   'start':{
+    //     'hr':Number,
+    //     'min':Number,
+    //     "meridiem":String
+    //   },
+    //   'end':{
+    //     'hr':Number,
+    //     'min':Number,
+    //     "meridiem":String
+    //   }
+    // }
+  
+  }
+ 
   @HostListener('window:scroll', ['$event']) onScroll($event){
     if(window.pageYOffset > 81){
       console.log('greater than 40')
@@ -161,7 +198,8 @@ export class DashboardComponent implements OnInit {
       this.admin = res;
       this.item.name = res.name;
       this.item.timezone = res.timezone;
-      this.item.url = res.url
+      this.item.url = res.url;
+      this.item.operatingHour = res.operatingHour;
       console.log('~~~', this.item)
       localStorage.setItem('timezone', this.item.timezone)
       // let test=moment().tz("Singapore").format();
@@ -261,7 +299,36 @@ export class DashboardComponent implements OnInit {
     console.log(type);
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
-    console.log(data)
+    var timeString = this.startT;
+    var H = timeString.substr(0, 2);
+    var h = (H % 12) || 12;
+    var ampm = H < 12 ? "AM" : "PM";
+    // const a = h + timeString.substr(2, 3) + ampm;
+    var mmm = Number(timeString.substring(3,5));
+    var testmin =timeString.length ==5 ?Number(timeString.slice(3,8)) :Number(timeString.slice(3,8));
+    console.log(testmin)
+    console.log(timeString)
+    console.log(mmm)
+    let start={
+      'hr': h,
+      'min': testmin,
+      'meridiem': ampm
+    }
+    this.item.operatingHour["start"] = start;
+    var timeString1 = this.endT;
+    var H1 = timeString1.substr(0, 2);
+    var h1 = (H1 % 12) || 12;
+    var ampm1 = H1 < 12 ? "AM" : "PM";
+    var mm1 = Number(timeString1.substring(3,5));
+    // const b = h1 + timeString1.substr(2, 3) + ampm1;
+    let end={
+      'hr': h1,
+      'min': mm1,
+      'meridiem': ampm1
+    }
+    // console.warn(mm1)
+    // console.warn(mmm)
+    this.item.operatingHour["end"] = end;
     this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
     .subscribe((res:any) => {
       this.toastr.success('Successfully Updated.');
@@ -568,45 +635,3 @@ export class DashboardComponent implements OnInit {
     }
   }
 }
-
-//24hours to 12 hours format
-// function tConv24(time24) {
-//   var ts = time24;
-//   var H = +ts.substr(0, 2);
-//   var h = (H % 12) || 12;
-//   h = (h < 10)?("0"+h):h;  // leading 0 at the left for 1 digit hours
-//   var ampm = H < 12 ? " AM" : " PM";
-//   ts = h + ts.substr(2, 3) + ampm;
-//   return ts;
-// };
-
-// document.write(tConv24('08:00') + " :-) " + tConv24('16:00'));
-
-
-// (function () {
-
-//   function tConvert (time) {
-//    // Check correct time format and split into components
-//    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-
-//     if (time.length > 1) { // If time format correct
-//       time = time.slice (1);  // Remove full string match value
-//       time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
-//       time[0] = +time[0] % 12 || 12; // Adjust hours
-//     }
-//     return time.join (''); // return adjusted time or original string
-//   }
-    
-//   var tel = document.getElementById ('tests');
-    
-//     tel.innerHTML = tel.innerHTML.split (/\r*\n|\n\r*|\r/).map (function (v) {
-//         return  v ? v + ' => "' + tConvert (v.trim ()) + '"' : v;       
-//     }).join ('\n');
-// }) ();    
-    
-// var timeString = "21:00:00";
-// var H = +timeString.substr(0, 2);
-// var h = (H % 12) || 12;
-// var ampm = H < 12 ? "AM" : "PM";
-// timeString = h + timeString.substr(2, 3) + ampm;
-// document.write(timeString);

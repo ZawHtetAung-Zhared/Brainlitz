@@ -98,12 +98,17 @@
                     </div>
                     <label class="labelTitle">Operating hour</label>
                   </div>
-                  <label *ngIf="!isEdit" class="labelName">{{item.operatingHour.start }}</label>
-                  <label *ngIf="!isEdit" class="labelName">{{item.operatingHour.end }}</label>
+                  <label *ngIf="!isEdit"  class="operatingTime">{{item.operatingHour.start.hr }}:{{item.operatingHour.start.min }} {{item.operatingHour.start.meridiem}} - {{startT | json}}  </label>
+                  <!-- <label class="operatingTime">{{item.operatingHour.start.hr }} </label> -->
+                  <label *ngIf="!isEdit "  class="operatingTime1">{{item.operatingHour.end.hr }}:{{item.operatingHour.end.min }} {{item.operatingHour.end.meridiem}} {{endT |json}}</label>
                   <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
                     <div class="form-group url-edit"> 
-                      <input type="time" class="form-control" placeholder="start date" name="startDate" [(ngModel)]="item.operatingHour.start" #startDate="ngModel" required>
-                      <input type="time" class="form-control" placeholder="enter date" name="endDate" [(ngModel)]="item.operatingHour.end" #endDate="ngModel" required>
+                      <span> Start Time </span> 
+                      <input type="time" class="form-control time-picker" placeholder="start date" name="startDate" [(ngModel)]="startT" #startDate="ngModel" required>
+                      <!-- <input type="time" class="form-control time-picker" placeholder="start date" name="startDate" [(ngModel)]="item.operatingHour.start.hr" #startDate="ngModel" required> -->
+                      <span>End Time</span>  
+                      <input type="time" class="form-control time-picker" placeholder="enter date" name="endDate" [(ngModel)]="endT" #endDate="ngModel" required>
+                      <!-- <input type="time" class="form-control time-picker" placeholder="enter date" name="endDate" [(ngModel)]="item.operatingHour.end.hr " #endDate="ngModel" required> -->
                     </div>
                   </form>
                 </div>
