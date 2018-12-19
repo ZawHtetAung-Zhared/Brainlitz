@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   public showProvider:boolean = false;
   public online:any = {};
   public currency_symbol:any;
-  public providers:any = {};
+  public providers:any;
   public providerTemp:any = {};
   public providerArray:Array<any> = [];
   public newCurrency:any = {};
@@ -79,7 +79,6 @@ export class DashboardComponent implements OnInit {
       {
         "id": 0,
         "name": "",
-        "Mcptid": ""
       }
     ],
     "currencyCode": ""
@@ -175,6 +174,7 @@ export class DashboardComponent implements OnInit {
     this.type = localStorage.getItem('tokenType');
 	  this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
     .subscribe((res:any) => {
+      console.log("res admin",res)
       this.admin = res;
       this.item.name = res.name;
       this.item.timezone = res.timezone;
@@ -238,8 +238,8 @@ export class DashboardComponent implements OnInit {
         };
       }
 
-      this.providerTemp = this.paymentData.paymentProviders;      
-
+      this.providerTemp = this.paymentData.paymentProviders;
+      console.log("provider Temp",this.providerTemp)      
       if(this.providerTemp.length > 0){
         this.providerArray= [];
         for(let j=0; j< this.providerTemp.length; j++){
@@ -343,11 +343,35 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = this.invoiceData.currencyCode;
     
     this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
+    // if(this.isOnline == true){
+    //   this.selectedProvider = this.paymentData.paymentProviders.name;
+    // }
     if(this.isOnline == true && this.option == 'Payment'){
       this._service.paymentProvider()
       .subscribe((res:any) => {
         console.log(res)
         this.providers = res;
+        if(this.providerTemp.length > 0){
+          for (var i = 0; i < this.providerTemp.length; i++){
+            for (var j = 0; j < this.providers.length; j++){
+              if(this.providerTemp[i].name == this.providers[j].name){
+                // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                for(var m in this.providers[j].requiredField){
+                  console.log("req",this.providers[j].requiredField[m])
+                  let reqName = this.providers[j].requiredField[m].name;
+                  var reqVal = this.providerTemp[i][reqName];
+                  console.log("req VAl",reqVal);
+                  this.providers[j].requiredField[m].value = reqVal;
+                  console.log("req field",this.providers[j].requiredField[m])
+                  // console.log(this.providerTemp[i].hasOwnProperty(reqName));
+                  // if(this.providerTemp[i].hasOwnProperty(reqName) == true){
+
+                  // }
+                }
+              }
+            }
+          }
+        }
       }, err => {
         console.log(err)
       })
@@ -431,11 +455,17 @@ export class DashboardComponent implements OnInit {
     this.selectedCurrency = data;
     this.selectedFlag = key;
   }
-
+  providerField = [];
   selectProvider(id, name){
     console.log(id, '-' ,name)
-    this.selectedProvider = name
-    this.payment.name = name
+    this.selectedProvider = name;
+    this.payment.name = name;
+    // this.providerField = [];
+    // for(var i in this.providers){
+    //   if(this.providers[i].name == this.selectedProvider){
+    //     this.providerField = this.providers[i].requiredField;
+    //   }
+    // }
   }
 
   updateInvoice(data, type){
@@ -462,9 +492,32 @@ export class DashboardComponent implements OnInit {
         console.log(this.payment)
         if(this.providerTemp.length > 0){
           console.log('no', this.providerTemp)
+          for (var k = 0; k < this.providerTemp.length; k++){
+            for (var l = 0; l < this.providers.length; l++){
+              if(this.providerTemp[k].name == this.providers[l].name){
+                // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                for(var m in this.providers[l].requiredField){
+                  // console.log("req",this.providers[j].requiredField[m])
+                  let reqName = this.providers[l].requiredField[m].name;
+                  this.providerTemp[k][reqName] = this.providers[l].requiredField[m].value;
+                }
+              }
+            }
+          }
           data.paymentProviders = this.providerTemp;
+          console.log("Providers update",data.paymentProviders)
         }else{
+          console.log('no provider at first', this.providerTemp)
           if(this.payment.hasOwnProperty('name') == true){
+            for(var i in this.providers){
+              if(this.providers[i].name == this.payment.name){
+                console.log("same name",this.payment);
+                for(var j in this.providers[i].requiredField){
+                  console.log("provider field",this.providers[i].requiredField[j]);
+                  this.payment[this.providers[i].requiredField[j].name] = this.providers[i].requiredField[j].value;
+                }
+              }
+            }
             data.paymentProviders.push(this.payment);
           }else{
             data.paymentProviders = []
@@ -515,6 +568,7 @@ export class DashboardComponent implements OnInit {
     this.online = {};
     this.isOnline = false;
     this.selectedProvider= '';
+    this.providerField = [];
     this.getInvoiceSetting('invoiceSettings')
     this.getPaymentSetting('paymentSettings')
   }
@@ -528,10 +582,23 @@ export class DashboardComponent implements OnInit {
       event.target.value = '';  
     }
   }
-
   onlinePayment(){
     this.isOnline = !this.isOnline;
     if(this.isOnline == true){
+      // this.providers = [
+      //   {
+      //     'id': 0,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "MC Payment",
+      //     'requiredField': [{name: "Mcptid", type: "string"}]
+      //   },
+      //   {
+      //     'id': 1,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "Test Payment",
+      //     'requiredField': [{name: "MerchantID", type: "string"},{name: "APIKey", type: "string"}]
+      //   }
+      // ]
       this._service.paymentProvider()
       .subscribe((res:any) => {
         console.log(res)

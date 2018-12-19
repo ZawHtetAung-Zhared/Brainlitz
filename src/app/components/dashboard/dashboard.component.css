@@ -64,8 +64,11 @@
 .input-wrap{
     padding-left: 0;
 }
-.input-wrap .form-group{
+.input-wrap .form-group,.req-field{
     border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.input-wrap .form-group:last-child{
+  border-bottom: 0;
 }
 .no-border{
     border-bottom: none !important;
