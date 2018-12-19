@@ -1,22 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
+import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
+  public test:any=[];
   public selectedDay = [];
   public categoryList:any;
   public planList:any;
   public courseVal:any = {};
   public selectedID:any;
   public item:any ={};
+  public modalReference: any;
   public isFousCategory: boolean = false;
   public isSelected:boolean = false;
   public scheduleList:boolean=true;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public selectedTeacher:any = {};
+  public selectedCategory:any = {};
+  public selectedCat:boolean=true;
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model:any = {};
@@ -33,7 +39,7 @@ export class ScheduleComponent implements OnInit {
 
   public teachers = [
     {"name":'Aldous',"id":0},
-    {"name":'Harry Potter',"id":2},
+    {"name":'Harry ',"id":2},
     {"name":'Lunox',"id":3},
     {"name":'Leomord',"id":4},
     {"name":'Hayabusa',"id":5},
@@ -71,14 +77,16 @@ export class ScheduleComponent implements OnInit {
     this.scheduleList=true;
   }
   // Selected Day //
-  selectDay(data, event): void {
+  selectDay(data,event): void {
     // this.clickInit = true;
+    console.log(this.selectDay);
     console.log("Day",data,event);
     var dayIdx = this.selectedDay.indexOf(data);
     console.log(dayIdx);
     if (event.target.checked) {
         if(dayIdx < 0 )
           this.selectedDay.push(data);
+         
           // this.toggleBool= false;
     } else {
         if(dayIdx >= 0 )
@@ -92,7 +100,7 @@ export class ScheduleComponent implements OnInit {
     this.selectedDay.sort();
     console.log(this.selectedDay);
   }
-
+  
 
   // Search Category
 
@@ -143,13 +151,30 @@ export class ScheduleComponent implements OnInit {
     this.isSelected = true;
     this.selectedID = id;
     this.item.itemID = name;
+    this.test.push(name)
+    this.selectedCategory=name;
+    this.selectedCat=false;
     console.log(id, name)
+    console.log
   }
+  
 
-
-  constructor(private _service:appService) { }
+  constructor(private _service:appService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.selectedTeacher = this.teachers[0];
   }
 
+  openTeacherList(content){
+  this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+  this.selectedTeacher = this.teachers[0];
+  console.log(this.selectedTeacher);
+  }
+  cancelModal(){
+    this.modalReference.close();
+  }
+  activeTeacher(teacher){
+   this.selectedTeacher=teacher
+   console.log(this.selectedTeacher)
+  }
 }

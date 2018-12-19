@@ -47,12 +47,14 @@ import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { GroupByPipe } from './service/pipe/groupby.pipe';
 import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
+import { GetFormatData } from './service/pipe/timeformat.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
 import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
 import { ttDayPipe } from './service/pipe/timetableday.pipe';
+import { yearPipe } from './service/pipe/utcYear.pipe';
 import { ttMonthPipe } from './service/pipe/timetablemonth.pipe';
 import { ttTimePipe } from './service/pipe/timetabletime.pipe';
 import { AmPmPipe } from './service/pipe/timetablename.pipe';
@@ -65,6 +67,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { DateFormatPipe } from './service/pipe/dateformat.pipe'
 
 @NgModule({
   declarations: [
@@ -95,10 +98,12 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     ConvertTimeFormatPipe,
     GetDayPipe,
     GetUtcTimePipe,
+    GetFormatData,
     GetUtcDatePipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
     attandanceDayPipe,
+    yearPipe,
     ttDayPipe,
     ttMonthPipe,
     ttTimePipe,
@@ -110,7 +115,8 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
     FilterPipe,
     CustomfieldComponent,
     EmailtemplateComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    DateFormatPipe
   ],
   imports: [
     BrowserModule,

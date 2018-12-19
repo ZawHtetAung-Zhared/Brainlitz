@@ -8,6 +8,8 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { DOCUMENT } from "@angular/platform-browser";
 import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
+import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
+import { last } from 'rxjs/operator/last';
 declare var $:any;
 
 @Component({
@@ -19,9 +21,18 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public stdLists: Array<any> = []
+  public searching:boolean = false;
+  public yPosition:any;
+  public singleUserData:any = '';
+  public makeupForm:any = {};
   public showStudentOption:any = '';
+  public xxxhello:any = '';
+  public currentDateObj:any = '';
   public isvalid:boolean = false;
+  public isGlobal:boolean = false;
   public searchMore:boolean = false;
+  public hideSearch:boolean = false;
   public isvalidID:any = '';
   public categoryList:any;
   public planList:any;
@@ -29,25 +40,25 @@ export class CourseComponent implements OnInit {
   public minDate:any;
   public maxDate:any;
   public recentLists: Array<any> = [];
-  public tempCategory: Array<any> = []; 
-  public tempPlan: Array<any> = [];  
-  public planIDArray: Array<any> = [];  
-  public categoryIDArray: Array<any> = [];  
+  public tempCategory: Array<any> = [];
+  public tempPlan: Array<any> = [];
+  public planIDArray: Array<any> = [];
+  public categoryIDArray: Array<any> = [];
   public startTime:boolean = false;
-  public endTime:boolean = false;  
-  
-  public isChecked:any;  
-  public isEndChecked:any;  
+  public endTime:boolean = false;
+
+  public isChecked:any;
+  public isEndChecked:any;
   public timeFrame:Array<any> = ['AM','PM'];
-  public rangeHr; 
-  public rangeMin; 
-  public rangeEndHr; 
-  public rangeEndMin; 
+  public rangeHr;
+  public rangeMin;
+  public rangeEndHr;
+  public rangeEndMin;
   public selectedHrRange: any;
   public selectedMinRange: any;
   public selectedEndHrRange: any;
   public selectedEndMinRange: any;
-  public timeRange:any; 
+  public timeRange:any;
   public showStartFormat:any;
   public showEndFormat:any;
   public start24HourFormat:any;
@@ -88,14 +99,23 @@ export class CourseComponent implements OnInit {
   public userLists:any = [];
   public detailLists:any = {};
   public activeCourseInfo:any = {};
-  public LASD:any; //lastActiceStartDate
+  public todayDate:any;
+  public LASD:any; //lastActiveStartDate
+
+  public momentTodayDate:any;
+  public showCancelButton:boolean = false;
+  public lastActiveStartDate:any;
+  public disableCancel:boolean = false;
+  public cancelUi:boolean = false;
+  public cancelUItext:any;
+  public cancelUI:boolean = false;
   public presentStudent:number = 0;
   public absentStudent:number = 0;
   public noStudent:number = 0;
   public selectedUserLists:any = [];
   public selectedTeacherLists:any = [];
+  public trArrayLists:any = [];
   public selectedUserId:any = [];
-  public todayDate:any;
   public locationName:any;
   public courseId:any;
   public locationId:any;
@@ -104,12 +124,15 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  // public currency:any = {};
   public currency = JSON.parse(localStorage.getItem('currency'));
+  public invCurrency : any ={};
   public pplLists:any;
   public apgLists:any;
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
+  public activeUserTab:any = '';
   public result:any;
   isSticky:boolean = false;
   showBtn:boolean = false;
@@ -121,7 +144,7 @@ export class CourseComponent implements OnInit {
   public editplanId:any;
   public planCategory:any;
   showList:boolean = false;
-  
+
   public draft:boolean;
   public selectedCustomer:any = {};
   public showInvoice:boolean = false;
@@ -155,20 +178,31 @@ export class CourseComponent implements OnInit {
   public isEditInv:any = false;
   public updateInvData:any = {};
   public hideMisc:boolean = false;
+  public availableCourses:any = [];
+  public isACSearch:boolean = false;
+  public acWord:any;
+  public userid:any;
+  public acResult:any;
+  public searchData: any={};
+  public paymentId:any;
+  public showPaidInvoice:boolean = false;
+  public invPayment = [];
+  public invStatus:any;
+  public noSetting:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
-    this._service.goback.subscribe(() => {  
-      this.courseList = []; 
-      console.log('goooo') 
+  this._service.goback.subscribe(() => {
+      this.courseList = [];
+      console.log('goooo')
       this.courseList = []
       this.isCategory = false;
       window.scroll(0,0);
     });
 
     this._service.goCourseCreate.subscribe(() => {
-      this.courseList = [];   
-      console.log('go to cc') 
+      this.courseList = [];
+      console.log('go to cc')
       this.courseList = []
       this.isCategory = false;
       this.isPlan = false;
@@ -176,7 +210,7 @@ export class CourseComponent implements OnInit {
       this.isCourseCreate = true;
       window.scroll(0,0);
     });
-   
+
     this._service.goplan.subscribe(() => {
       this.courseList = [];
      console.log('muuuu')
@@ -186,17 +220,17 @@ export class CourseComponent implements OnInit {
       this.goBackCat = true;
     })
 
-    this._service.goCat.subscribe(() => {  
-      this.courseList = []; 
-      console.log('goback22', this.goBackCat) 
+    this._service.goCat.subscribe(() => {
+      this.courseList = [];
+      console.log('goback22', this.goBackCat)
       this.goBackCat = false;
       this.isCategory = true;
       this.isPlan = false;
       this.courseList = []
     });
 
-    this._service.goCourse.subscribe(() => {   
-      console.log('goback33') 
+    this._service.goCourse.subscribe(() => {
+      console.log('goback33')
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
@@ -204,6 +238,28 @@ export class CourseComponent implements OnInit {
       this.courseList = []
       console.log(this.courseList.length)
     });
+
+    this._service.goCourseDetail.subscribe(() => {
+      console.log("go back CDetail",this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCourseDetail = true;
+      this.showCourseDetail(this.courseId);
+      this.courseList = []
+    })
+
+    this._service.goPlanDetail.subscribe(() => {
+      console.log("go back PlanDetail",this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCoursePlanDetail = true;
+      this.getCoursePlanDetail(this.editplanId);
+      this.courseList = []
+    })
   }
 
   ngOnInit() {
@@ -214,7 +270,7 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     setTimeout(() => {
-      console.log('~~~', this.locationName)  
+      console.log('~~~', this.locationName)
       this.locationName = localStorage.getItem('locationName');
       }, 300);
     this.activeTab = 'People';
@@ -229,28 +285,29 @@ export class CourseComponent implements OnInit {
     this.discount = 0;
     this.selectedPayment = 'Cash';
 
+    this.getRegionInfo();
   }
 
 
   checkPermission(){
     console.log(this.permissionType)
-    this.coursePermission = ["CREATECOURSE","VIEWCOURSE","EDITCOURSE","DELETECOURSE","ASSIGNTEACHER","ASSIGNSTUDENTS","CREATECOURSEPLAN","VIEWCOURSEPLAN","EDITCOURSEPLAN"];    
+    this.coursePermission = ["CREATECOURSE","VIEWCOURSE","EDITCOURSE","DELETECOURSE","ASSIGNTEACHER","ASSIGNSTUDENTS","CREATECOURSEPLAN","VIEWCOURSEPLAN","EDITCOURSEPLAN"];
     this.coursePermission = this.coursePermission.filter(value => -1 !== this.permissionType.indexOf(value));
     console.log(this.coursePermission.includes('VIEWCOURSE'))
-    
-    
+
+
     this.courseDemo['addCourse'] = (this.coursePermission.includes("CREATECOURSE")) ? 'CREATECOURSE' : '';
     this.courseDemo['viewCourse'] = (this.coursePermission.includes("VIEWCOURSE")) ? 'VIEWCOURSE' : '';
     this.courseDemo['editCourse'] = (this.coursePermission.includes("EDITCOURSE")) ? 'EDITCOURSE' : '';
     this.courseDemo['deleteCourse'] = (this.coursePermission.includes("DELETECOURSE")) ? 'DELETECOURSE' : '';
     this.courseDemo['assignTeacher'] = (this.coursePermission.includes("ASSIGNTEACHER")) ? 'ASSIGNTEACHER' : '';
-    this.courseDemo['assignStudent'] = (this.coursePermission.includes("ASSIGNSTUDENTS")) ? 'ASSIGNSTUDENTS' : '';    
+    this.courseDemo['assignStudent'] = (this.coursePermission.includes("ASSIGNSTUDENTS")) ? 'ASSIGNSTUDENTS' : '';
     this.courseDemo['createCP'] = (this.coursePermission.includes("CREATECOURSEPLAN")) ? 'CREATECOURSEPLAN' : '';
     this.courseDemo['viewCP'] = (this.coursePermission.includes("VIEWCOURSEPLAN")) ? 'VIEWCOURSEPLAN' : '';
     this.courseDemo['editCP'] = (this.coursePermission.includes("EDITCOURSEPLAN")) ? 'EDITCOURSEPLAN' : '';
-    
 
-    if(this.coursePermission.includes('VIEWCOURSE') != false){      
+
+    if(this.coursePermission.includes('VIEWCOURSE') != false){
       console.log('hi permission')
       this.locationName = localStorage.getItem('locationName');
       this.getCPlanList();
@@ -292,19 +349,24 @@ export class CourseComponent implements OnInit {
       'STAFF': [{}],
     };
     this.userLists = [{}];
-    
+
     this.invoiceInfo = {
       'companyName': '',
       'tax':{
         'name': ''
-      }
+      },
+      'registration': ''
     }
 
     this.paymentProviders = '';
-    
+
+    this.invCurrency = {
+      'sign': ''
+    }
+
   }
 
-  @HostListener('window:scroll', ['$event']) onScroll($event){    
+  @HostListener('window:scroll', ['$event']) onScroll($event){
     if(window.pageYOffset > 81){
       this.isSticky = true;
       this.showBtn = true
@@ -314,11 +376,17 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  @HostListener('document:click', ['$event']) clickedOutside($event){
+     // here you can hide your menu
+     this.xxxhello = '';
+     console.log("CLICKED OUTSIDE");
+   }
+
   //start course search
 
   focusCourseSearch(){
     console.log('focusing ...')
-    this.iscourseSearch = true;    
+    this.iscourseSearch = true;
   }
 
   hideCourseSearch(){
@@ -338,9 +406,10 @@ export class CourseComponent implements OnInit {
 
   clearSearch(){
     console.log('clear')
+    this.hideSearch = false;
     this.searchVal = '';
     this.iswordcount = false;
-    this.iscourseSearch = false;  
+    this.iscourseSearch = false;
     this.advancedSearchOn = false;
     this.searchMore = false;
     this.courseList = [];
@@ -425,7 +494,7 @@ export class CourseComponent implements OnInit {
       }else{
         this.categoryIDArray = []
       }
-      
+
       console.log(this.categoryIDArray)
 
     }else if(state == 'plan'){
@@ -444,7 +513,7 @@ export class CourseComponent implements OnInit {
       }else{
         this.planIDArray = []
       }
-      
+
       console.log(this.planIDArray)
     }else{
       for(let x in this.days){
@@ -456,7 +525,7 @@ export class CourseComponent implements OnInit {
       console.log(this.days);
     }
 
-    
+
   }
 
   setMinDate(event){
@@ -502,17 +571,20 @@ export class CourseComponent implements OnInit {
   }
 
   closeOptionsBox(event){
+    console.log('~~~')
     var parentWrap = event.path.filter(function(res){
-      return res.className == "ml-auto remover-wrap"
+      // return res.className == "ml-auto remover-wrap"
+      return res.className == "option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
     })
     if(parentWrap.length == 0){
       this.showStudentOption = '';
+      this.xxxhello = '';
     }
   }
 
   closeTimeRange(event, state){
     var parentWrap = event.path.filter(function(res){
-      return res.className == state 
+      return res.className == state
     })
     if(parentWrap.length == 0){
       if(state == 'startRange'){
@@ -526,7 +598,7 @@ export class CourseComponent implements OnInit {
   closeDataBox(event, state){
     // console.log('.... ....')
     var parentWrap = event.path.filter(function(res){
-      return res.className == 'search-box d-flex flex-row' 
+      return res.className == 'search-box d-flex flex-row'
     })
     if(parentWrap.length == 0){
       if(state == 'category'){
@@ -538,7 +610,7 @@ export class CourseComponent implements OnInit {
   }
 
   currentMonth(event){
-    console.log(event.next.month) 
+    console.log(event.next.month)
     let vim = event;
     if(vim.next.month == 12){
       console.log(vim.next.month)
@@ -576,11 +648,11 @@ export class CourseComponent implements OnInit {
       {"day":"Fri ", "val": 5, 'checked': false},
       {"day":"Sat", "val": 6, 'checked': false},
     ];
-  }  
+  }
 
   startTimeConfigure(state){
     // console.log('~~~~')
-    
+
     this.startTime = (state == 'start') ? true : false;
     this.endTime = (state == 'end') ? true : false;
   }
@@ -588,6 +660,7 @@ export class CourseComponent implements OnInit {
   showAdvancedSearch(){
     this.searchVal = '';
     this.simple = false;
+    this.searching = false;
     this.isAdvancedSearch = true;
     this.isChecked = 'AM';
     this.isEndChecked = 'AM';
@@ -610,7 +683,7 @@ export class CourseComponent implements OnInit {
     console.log(this.courseVal.endTime)
     if(val == 'hr'){
       this.selectedHrRange = obj;
-    }else if(val == 'min'){      
+    }else if(val == 'min'){
       this.selectedMinRange = obj;
     }else if(val == 'endhr'){
       this.selectedEndHrRange = obj;
@@ -667,15 +740,15 @@ export class CourseComponent implements OnInit {
 
     if(state == 'start'){
       this.showStartFormat = hrFormat + ':' + minFormat;
-      this.courseVal.startTime = this.showStartFormat + ' ' + this.isChecked;      
+      this.courseVal.startTime = this.showStartFormat + ' ' + this.isChecked;
       this.start24HourFormat = this.convert24HourFormat(this.courseVal.startTime);
       console.log(this.start24HourFormat)
     }else{
       this.showEndFormat = hrFormat + ':' + minFormat;
-      this.courseVal.endTime = this.showEndFormat + ' ' + this.isEndChecked;      
+      this.courseVal.endTime = this.showEndFormat + ' ' + this.isEndChecked;
       this.end24HourFormat = this.convert24HourFormat(this.courseVal.endTime);
       console.log(this.end24HourFormat)
-    }  
+    }
     // this.isvalid = (this.minDate!= undefined && this.maxDate != undefined && this.start24HourFormat != undefined && this.end24HourFormat != undefined) ? false : true;
     console.log(this.isvalid)
   }
@@ -695,6 +768,7 @@ export class CourseComponent implements OnInit {
   }
 
   recentSearch(val, limit, skip){
+    this.courseList = [];
     this.searchVal = val;
     this.courseVal.keyword = val;
     this.iswordcount = true;
@@ -702,32 +776,64 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
-        this.searchMore = (res.length > 20) ? true : false;
-        this.courseList = res;
+        this.courseList = this.courseList.concat(res);
+        console.log('----- ', this.courseList)
+        this.searchMore = (res.length == 0) ? false : true;   
+        this.hideSearch = true;     
         this.iscourseSearch = false;
+        this.simple = true;
+        this.advance = false;
       },err =>{
+        console.log(err);
+    });
+  }
+
+
+  recentSearch1(val, limit, skip){
+    this.searchVal = val;
+    this.courseVal.keyword = val;
+    this.iswordcount = true;
+    this.blockUI.start('Loading...');
+    this._service.simpleCourseSearch(this.regionId, val ,this.locationID, limit, skip)
+    .subscribe((res:any)=>{
+        this.blockUI.stop();
+        console.log(res)
+        this.blockUI.stop(); // Stop blocking
+        this.courseList = this.courseList.concat(res);
+        console.log('----- ', this.courseList)
+        this.searchMore = (res.length == 0) ? false : true; 
+        this.hideSearch = true;       
+        this.iscourseSearch = false;
+        this.simple = true;
+        this.advance = false;
+      },err =>{
+        this.blockUI.stop(); // Stop blocking
         console.log(err);
     });
   }
 
   searchStart(e, limit, skip){
     this.searchVal = e.target.value;
+    this.searchObj = e.target.value;
     if(e.keyCode == 13){
+      this.courseList = [];
       this.recentLists.unshift(e.target.value)
-      this.blockUI.start('Loading...');    
+      this.blockUI.start('Loading...');
       this._service.simpleCourseSearch(this.regionId, e.target.value ,this.locationID, limit, skip)
       .subscribe((res:any)=>{
           this.blockUI.stop();
-          console.log(res)
-          this.courseList = res;
+          
+          this.courseList = this.courseList.concat(res);
+          console.log(this.courseList)
           $("#course-search").blur();
           this.iscourseSearch = false;
-          this.searchMore = (res.length > 20) ? true : false;
-          this.advance = false;
+          this.searchMore = (res.length == 0) ? false : true;
+          this.hideSearch = true;
           this.simple = true;
+          this.advance = false;
         },err =>{
           console.log(err);
-      }); 
+      });
 
       if(this.recentLists.length > 3){
         console.log('if', this.recentLists)
@@ -735,7 +841,7 @@ export class CourseComponent implements OnInit {
       }else{
         console.log('else')
       }
-      localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));      
+      localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));
     }
   }
 
@@ -746,9 +852,9 @@ export class CourseComponent implements OnInit {
         this._service.getSearchCategory(this.regionId, val, this.locationID)
         .subscribe((res:any) => {
           console.log(res);
-          
+
           this.categoryList = res;
-        }, err => {  
+        }, err => {
           console.log(err);
         });
       }else{
@@ -771,6 +877,7 @@ export class CourseComponent implements OnInit {
   }
 
   updateASCall(state){
+    console.log('call updates ...')
     if(state == 'day'){
       this.days = [
         {"day":"Sun", "val": 0, 'checked': false},
@@ -789,13 +896,34 @@ export class CourseComponent implements OnInit {
       this.tempPlan = [];
       this.planIDArray = [];
     }
-    this.advancedSearch(this.courseVal, 20,0);
+    console.log(this.repeatedDaysTemp.length == 0)
+    console.log(this.tempCategory.length == 0)
+    console.log(this.tempPlan.length == 0)
+    console.log(this.searchVal)
+    // console.log(this.searchVal.length == 0)
+    if(this.searchVal == undefined){
+      this.searchVal = ''
+    }
+    console.log(this.repeatedDaysTemp.length == 0 && this.tempCategory.length == 0 && this.tempPlan.length == 0 && this.searchVal.length == 0)
+    if(this.repeatedDaysTemp.length == 0 && this.tempCategory.length == 0 && this.tempPlan.length == 0 && this.searchVal.length == 0){
+      console.log('hide advanced search')
+      this.courseList = [];
+      this.hideSearch = false;
+      this.getCourseLists(20, 0);
+    }else{
+      console.log('call advanced search')
+      this.advancedSearch(this.courseVal, 20,0);
+    }
   }
 
   advancedSearch(obj, limit, skip){
     console.log(obj)
     console.log(this.days)
+    console.log(this.searching)
     this.searchObj = obj;
+    if(this.searching == false){
+      this.courseList = [];
+    }
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
@@ -816,7 +944,7 @@ export class CourseComponent implements OnInit {
         var eventStart = eventStartTemp.toISOString();
       }else{
         eventStart = null;
-      }      
+      }
     }
 
     if(obj.endDate != undefined){
@@ -878,18 +1006,23 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any)=>{
         this.blockUI.stop();
         console.log(res)
-        this.searchMore = (res.length > 20) ? true : false;
-        this.courseList = res;
+        this.searchMore = (res.length == 0) ? false : true;
+        this.hideSearch = true;
+        this.courseList = this.courseList.concat(res);
+        console.log(this.courseList)
         this.iscourseSearch = false;
         this.isAdvancedSearch = false;
         this.advance = true;
         this.simple = false;
+        console.log('~~~~ ', this.recentLists)
+        this.iswordcount = (obj.keyword == undefined || obj.keyword == '' || obj.keyword == ' ') ? false : true;
         if(this.recentLists.length > 3){
           console.log('if', this.recentLists)
           this.recentLists = this.recentLists.slice(0, 3);
-          this.iswordcount = true;
+          // this.iswordcount = true;
         }else{
           console.log('else')
+          // this.iswordcount = false;
         }
         localStorage.setItem('recentSearchLists', JSON.stringify(this.recentLists));
       },err =>{
@@ -902,6 +1035,8 @@ export class CourseComponent implements OnInit {
   // start course detail
 
   cancel(){
+    this.xxxhello = '';
+    this.showStudentOption = '';
     this.isCourseDetail = false;
     this.isCoursePlanDetail = false;
     this.courseList = [];
@@ -912,20 +1047,89 @@ export class CourseComponent implements OnInit {
     this.showInvoice = false;
     this.showPayment = false;
     this.searchMore = false;
+    this.hideSearch = false;
     this.iswordcount = false;
     this.paymentItem = {};
+    this.cancelUItext=false;
+    this.cancelUI=false;
   }
 
   showCourseDetail(courseId){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     console.log('~~~~~')
+    console.log(this.showCancelButton)
+    console.log(this.cancelUI)
+    console.log(this.cancelUi)
+    window.scroll(0,0);
+    this.categoryIDArray = [];
+    this.planIDArray = [];
+    this.repeatedDaysTemp = [];
+    this.courseVal.keyword = '';
+    this.xxxhello = '';
+    this.showStudentOption = '';
+    this.activeTab = 'People';
     this.currentCourse = courseId;
     this.isCourseDetail = true;
     this.getCourseDetail(courseId);
     this.getUsersInCourse(courseId);
+    // this.getRegionInfo();
     console.log(this.detailLists.seat_left);
+    this.cancelUi=false;
+    this.showCancelButton=false;
+    this.cancelUItext= true;
+    console.log("undefined currency",this.currency);
+    if(this.currency == undefined || this.currency == null){
+      this.currency ={
+        'invCurrencySign': '$'
+      }
+      console.log("undefined currency",this.currency);
+    }else{
+      if(this.currency.invCurrencySign == ""){
+        console.log("has currency but sign null",this.currency);
+        this.currency.invCurrencySign = '$';
+      }
+    }  
   }
 
   showCPDetail(planID){
+
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
+
+    console.log('cp')
+    this.categoryIDArray = [];
+    this.planIDArray = [];
+    this.repeatedDaysTemp = [];
+    this.courseVal.keyword = '';
     this.editplanId = planID;
     console.log('hi', planID)
     this.isCoursePlanDetail = true;
@@ -933,7 +1137,7 @@ export class CourseComponent implements OnInit {
   }
 
   getCoursePlanDetail(planID){
-    this.blockUI.start('Loading...'); 
+    this.blockUI.start('Loading...');
     this._service.getSinglePlan(planID, this.locationID)
     .subscribe((res:any)=>{
       this.blockUI.stop();
@@ -990,7 +1194,7 @@ export class CourseComponent implements OnInit {
     console.log('hi call course', courseId)
     // this.getCourseDetail(courseId);
     this.courseId = courseId
-    this.blockUI.start('Loading...'); 
+    this.blockUI.start('Loading...');
     this._service.getAssignUser(this.regionId,courseId,null,null,null)
     .subscribe((res:any)=>{
       this.blockUI.stop();
@@ -1001,17 +1205,26 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  clickTab(type){
-    this.activeTab = type;
+  clickTab(type, state){
+    this.currentDateObj = '';
+    if(state == 'course'){
+      this.activeTab = type;
+    }else if(state == 'user'){
+      this.makeupForm = {};
+      this.activeUserTab = type;
+    }
     this.noStudent = 0;
     this.presentStudent = 0;
     this.absentStudent = 0;
+    this.cancelUItext=false;
+    this.cancelUI=false;
     if(type == 'Class'){
-      this.blockUI.start('Loading...'); 
+      this.blockUI.start('Loading...');
       const today = new Date();
       this.todayDate = today.toISOString();
       var to_day = new Date(today).getUTCDate();
       var currentMonth =  new Date(today).getUTCMonth()+1;
+      var currentYear =  new Date(today).getUTCFullYear();
       let lessonCount = this.detailLists.lessons;
       console.log(lessonCount)
       console.log(lessonCount.length)
@@ -1021,54 +1234,79 @@ export class CourseComponent implements OnInit {
       for(let i=0; i< lessonCount.length; i++){
         let strDate = lessonCount[i].startDate;
         let courseDate = new Date(strDate).getUTCDate();
-        let courseMonth = new Date(strDate).getUTCMonth()+1;        
+        let courseMonth = new Date(strDate).getUTCMonth()+1;
+        let courseYear = new Date(strDate).getUTCFullYear();
 
-        if(courseMonth < currentMonth){
-          console.log('less than current month')
-          finishedDate.push(i)
-        }else if(courseMonth == currentMonth){
-          console.log('same with current month')
-          if(courseDate > to_day){
-            console.log('unfinished course => ', courseDate)
-            unfinishedDate.push(i);
-          }else if(courseDate == to_day){
-            console.log('same with today ', courseDate)
-            finishedDate.push(i)
-            this.activeToday = true;
-            this.todayIndex = i;
-          }else{
-            console.log('finished course => ', courseDate)
-            finishedDate.push(i)
-          }
-        }else{
-          console.log('grater than current month')
+        // console.log(courseYear, currentYear)
+        if(courseYear > currentYear){
           unfinishedDate.push(i)
+        }else if(courseYear < currentYear){
+          finishedDate.push(i)
+        }else{
+          if(courseMonth < currentMonth){
+            finishedDate.push(i)
+          }else if(courseMonth == currentMonth){
+            console.log( courseDate, to_day)
+            if(courseDate > to_day){
+              // console.log('if ', courseDate)
+              unfinishedDate.push(i);
+            }else if(courseDate == to_day){
+              // console.log('else if ', courseDate)
+              finishedDate.push(i)
+              this.activeToday = true;
+              this.todayIndex = i;
+            }else{
+              // console.log('else ', courseDate)
+              finishedDate.push(i)
+            }
+          }else{
+            unfinishedDate.push(i)
+          }
         }
+
+        
       }
       console.log('finish', finishedDate.length)
       console.log('unfinish' , unfinishedDate.length)
       let lastActiveDate;
-      
 
+      console.log(finishedDate)
       if(finishedDate.length != 0){
-        console.log('hello in if')
+        console.log('~~~~ if')
+        // moment1.isSameOrAfter(moment2);
+
         if(this.activeToday == true){
+          console.log('~~~~ active', lessonCount[this.todayIndex])
+          this.cancelUi = (lessonCount[this.todayIndex].cancel == true ) ? false : true;
           this.LASD = lessonCount[this.todayIndex].startDate
+          this.currentDateObj = lessonCount[this.todayIndex]._id
+          console.log('~~ currentDateObj ~~' , this.currentDateObj)
+
+          this.disableCancel = (lessonCount[this.todayIndex].cancel == true) ? true : false;
         }else{
+          console.log('~~~~ last active')
           lastActiveDate = finishedDate.length -1;
           console.log(lastActiveDate)
-          //LASD = lastActiceStartDate
+          //LASD = lastActiveStartDate
           this.LASD = lessonCount[lastActiveDate].startDate
+          this.cancelUi = (lessonCount[lastActiveDate].cancel == true ) ? false : true;
           console.log(this.LASD)
+          this.currentDateObj = lessonCount[lastActiveDate]._id
+          this.disableCancel = (lessonCount[lastActiveDate].cancel == true) ? true : false;
+          console.log('~~ dateID ~~' , this.currentDateObj)
         }
       }else{
         console.log('hello in else')
         lastActiveDate = 0;
         this.LASD = lessonCount[0].startDate
+        this.currentDateObj = lessonCount[0]._id
+        this.cancelUi = (lessonCount[0].cancel == true ) ? false : true;
+        this.disableCancel = (lessonCount[0].cancel == true) ? true : false;
+        console.log('~~ dateID ~~' , this.currentDateObj)
       }
-      
 
-      
+      console.log(this.LASD)
+
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate()
       let ACM = new Date(this.LASD).getUTCMonth() + 1;
@@ -1087,13 +1325,15 @@ export class CourseComponent implements OnInit {
             this.noStudent += 1;
           }
         }
-
-        $('.timeline').scrollLeft( 80*(lastActiveDate-1) ); 
+        if(this.LASD != null ){
+          this.cancelButtonShowHide();
+        }
+        $('.timeline').scrollLeft( 80*(lastActiveDate-1) );
       },err =>{
         this.blockUI.stop();
         console.log(err);
       });
-    }else if(type == 'APG'){
+    } else if (type == 'APG'){
       this._service.getAssessment(this.regionId,this.currentCourse,true)
       .subscribe((res:any)=>{
         console.log(res)
@@ -1105,15 +1345,89 @@ export class CourseComponent implements OnInit {
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
-    }else{
+    }else if(type == 'People'){
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
+      this.currentDateObj = '';
+    }else if(type == 'transfer'){
+      this.getAllAC(20, 0, this.singleUserData.userId);
+    }else if(type == 'invoice'){
+      console.log("tab inv user id",this.singleUserData)
+      this.viewInvoice(this.singleUserData);
     }
   }
 
-  checkAttendance(targetDate){
+  cancelButtonShowHide() {
+    // this.cancelUi=true;
+    // let onlyTime = this.LASD.toString().substring(11, 19)
+    // let onlyDate = this.LASD.toString().substring(0,10);
+    console.log(this.LASD)
+    let lsessonTime = this.LASD.toLocaleString().substring(11, 19)
+    let lessonDate = this.LASD.toLocaleString().substring(0,10);
+    // console.error(this.LASD)
+    
+    // console.warn(lsessonTime)
+    // console.warn(lessonDate)
+
+    var todaydate = new Date();
+    let onlytodayTime = todaydate.toString().substring(16,24);
+    let onlytodayDate = todaydate.toISOString().substring(0,10);
+    console.log(this.todayDate ,'today')
+    console.log('.....',onlytodayTime)
+    console.log('.....',this.cancelUi)
+    // console.error(onlytodayTime)
+    // console.error(onlytodayDate)
+
+
+    if(lessonDate >= onlytodayDate){
+      console.log('lesson date is grater than and equal to today')
+      if(lessonDate == onlytodayDate){
+        if(onlytodayTime >= lsessonTime){
+           console.log('current time is grater')
+           this.showCancelButton = false;
+        }else{
+          console.log('~~~')
+          this.showCancelButton = true;
+        }
+      }else{
+        console.log('===')
+        this.showCancelButton = true;
+      }
+    }else{
+      console.log('noooooo')
+      this.showCancelButton = false;
+    }
+
+    console.log(this.showCancelButton)
+    // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
+    //   console.log('same as today and not grater than today time')
+    //   this.showCancelButton=true;
+    // }
+    // else if(lessonDate == onlytodayDate && onlytodayTime > lsessonTime || (lessonDate < onlytodayDate )){
+    //   console.log('same as today and not grater than today time')
+    //   this.showCancelButton=false;
+    // }
+
+  }
+
+  checkAttendance(targetDate, classInfo, status){
     console.log('hi', targetDate)
+    console.log('....', classInfo)
+
+    this.disableCancel = (classInfo.cancel == true ) ? true : false;
+
+    this.currentDateObj = classInfo._id;
+    console.log(this.currentDateObj)
+    this.cancelUI= classInfo.cancel;
+    console.log(this.cancelUI)
+    // Adding the class Start Date into LASD
+    this.LASD = classInfo.startDate;
+    this.cancelUi=true;
+    this.cancelUItext=true;
+    // Validate the cancel button whether show or hide
+    this.cancelButtonShowHide();
+
     this.presentStudent = 0;
     this.absentStudent = 0;
     this.noStudent = 0;
@@ -1146,18 +1460,24 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  hixxx(){
+    console.log('helo')
+  }
+
   openRemoveModal(id, deleteModal, n){
     // this.getSingleUser(id, 'withdraw')
     console.log('__', n)
+    this.showStudentOption = '';
+    this.xxxhello = '';
     this.deleteId = id;
     this.removeUser= n;
     this.modalReference = this.modalService.open(deleteModal, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
   }
-  
+
 
   addUserModal(type, userModal, state, id){
-    console.log('====', state)
-    
+    console.log('====', state, type)
+
     this.isvalidID = state;
     if(state != 'inside'){
       console.log("state",state)
@@ -1173,37 +1493,61 @@ export class CourseComponent implements OnInit {
     }else{
       console.log("state",state)
       console.log('no courseID', this.detailLists.seat_left)
-      if(this.detailLists.seat_left == 0){
+      // if(this.detailLists.seat_left == 0){
+      //   this.isSeatAvailable = false;
+      // }else{
+      //   this.isSeatAvailable = true;
+      // }
+
+      // for (var i in this.pplLists.CUSTOMER) {
+      //   console.log(this.pplLists.CUSTOMER[i])
+      //   this.stdLists.push(this.pplLists.CUSTOMER[i].userId)
+      // }
+      // console.log(this.stdLists)
+
+      if(this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats){
         this.isSeatAvailable = false;
       }else{
         this.isSeatAvailable = true;
       }
     }
-  
+
     // if(state == 'outside'){
     //   console.log("outside");
     //   this.getUsersInCourse(id);
     // }
-    
+
     this.selectedUserLists = [];
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     this.userType = type;
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
-    
+    console.log(this.isSeatAvailable)
+
   }
 
-  viewInvoice(userModal,data){
-    console.log("user data in view inv",data)
-    this.showInvoice = true;
-    this.modalReference = this.modalService.open(userModal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    this.getSingleCustomer(data.userId,'user');
+  viewInvoice(data){
+    this.getSingleCustomer(data.userId);
+    this.isvalidID = 'inside';
+    this.singleInv = [];
+    console.log("user data in view inv",data);
+    if(data.invoice != null){
+      this.invStatus = data.invoice.status;
+      if(data.invoice.status == "PAID"){
+        this.showPaidInvoice = true;
+      }else if(data.invoice.status == "UNPAID"  || data.invoice.status == "PAID[PARTIAL]"){
+        this.showInvoice = true;
+      }
+    }
+    
     this.getRegionInfo();
     console.log(this.invoiceInfo);
-    var invoiceId = data.invoiceId;
+    var invoiceId = data.invoice._id;
+    this.blockUI.start('Loading...');
     this._service.getSingleInvoice(invoiceId)
     .subscribe((res:any) => {
+      this.blockUI.stop();
       console.log('invoice detail',res);
       this.singleInv.push(res);
       this.invoice = this.singleInv;
@@ -1221,6 +1565,17 @@ export class CourseComponent implements OnInit {
        this.invoiceID = invoice[i]._id;
        this.refInvID = invoice[i].refInvoiceId;
        this.invTaxName = invoice[i].tax.name;
+       this.invCurrency = invoice[i].currency;
+       this.invPayment = invoice[i].payments;
+       // if(invoice[i].payments){
+       //   var invPayment = invoice[i].payments;
+       //   for(var j in invPayment){
+       //     if(invPayment[i].status == 'COMPLETE'){
+       //       this.payment = invPayment[i];
+       //       console.log("Payment",this.payment)
+       //     }
+       //   }
+       // }
        var n = invoice[i].total;
        this.total = n.toFixed(2);
        this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
@@ -1245,8 +1600,17 @@ export class CourseComponent implements OnInit {
      }
   }
 
-  showOptions(id){
-    this.showStudentOption = id;
+  showOptionsBox(stdID, e){
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("stdID",stdID);
+    console.log(e)
+    console.log(e.layerY)
+    this.yPosition = e.layerY + 40;
+    // this.yPosition = e.offsetY - 30;
+    this.showStudentOption = stdID;
+    this.xxxhello = stdID;
+    console.log(this.showStudentOption)
   }
 
   withdrawUser(id){
@@ -1271,18 +1635,66 @@ export class CourseComponent implements OnInit {
     console.log('....')
     this.modalReference.close();
     // this.isSeatAvailable = true;
+    this.isGlobal = false;
     this.showList = false;
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
     this.showInvoice = false;
+    // this.currentDateObj = '';
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    this.stdLists = [];
+    this.trArrayLists = [];
+  }
+  cancelClass(content){
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+  }
+
+  cancelClassFun( lessonId){
+    let data = {
+      "lessonId": lessonId
+    }
+    console.log(lessonId)
+    console.log(this.isGlobal)
+    // Call cancel class api service
+    this.blockUI.start('Loading...');
+    this._service.cancelUsersFromClass(this.courseId, data, this.isGlobal)
+    .subscribe((res:any) => {
+      // Success function
+      this.blockUI.stop();
+      this.cancelUI=false;
+      this.cancelUi=false;
+      console.info("cancle user from class api calling is done");
+      console.log(res)
+      this.isGlobal = false;
+      this.disableCancel = true;
+      this.getCourseDetail(this.courseId);
+      // Close Dialog box
+      // Show the canceled users
+    },err => {
+      // Error function  
+      this.isGlobal = false;
+      console.error('cancle user from class has got error',  err);
+      // Do something
+    })
+    this.modalReference.close();
+    this.cancelUItext= false;
+  }
+
+  modalClose(){
+    this.isGlobal = false;
+    this.cancelUItext= false;
+    this.cancelUI=false;
+    this.modalReference.close();
+    // this.currentDateObj = '';
   }
 
   getAllUsers(type){
-    this.blockUI.start('Loading...');    
+    this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionId, type, 20 , 0)
-    .subscribe((res:any) => {      
+    .subscribe((res:any) => {
       this.userLists = res;
-      console.log('this.userLists', this.userLists);      
+      console.log('this.userLists', this.userLists);
       setTimeout(() => {
             this.blockUI.stop(); // Stop blocking
         }, 300);
@@ -1300,7 +1712,7 @@ export class CourseComponent implements OnInit {
   }
 
   selectCustomer(state, id, type){
-    this.getSingleCustomer(id, state);
+    this.getSingleCustomer(id);
     this.formData = {};
   }
 
@@ -1309,6 +1721,7 @@ export class CourseComponent implements OnInit {
     this.blockUI.start('Loading...');
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
+        this.blockUI.stop();
       console.log(res);
       if(state == 'user'){
         this.isFous = false;
@@ -1316,6 +1729,12 @@ export class CourseComponent implements OnInit {
         this.selectedUserLists.push(res);
         console.log(this.detailLists.seat_left)
         console.log(this.selectedUserLists.length)
+
+        for (var i in this.selectedUserLists) {
+          console.log(this.selectedUserLists[i])
+          this.trArrayLists.push(this.selectedUserLists[i].userId)
+        }
+        console.log(this.trArrayLists)
 
         if(this.detailLists.seat_left - this.selectedUserLists.length == 0){
           console.log('cant add')
@@ -1331,21 +1750,27 @@ export class CourseComponent implements OnInit {
             this.selectedTeacherLists[0] = res;
         }else{
           this.selectedTeacherLists.unshift(res);
+          console.log(this.selectedTeacherLists)
         }
+        this.trArrayLists.push(this.selectedTeacherLists[0].userId)
+        console.log(this.trArrayLists)
         // this.removeUser = res.preferredName;
       }
-      this.blockUI.stop();
-    }, err => {  
+    }, err => {
       console.log(err);
     });
   }
 
-  getSingleCustomer(ID, state){
+  getSingleCustomer(ID){
+    this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
+      this.blockUI.stop();
       console.log('selected Customer',res);
       this.selectedCustomer = res;
+      this.stdLists = this.selectedCustomer.userId;
+      console.log(this.stdLists)
       this.showList = false;
     })
   }
@@ -1369,22 +1794,25 @@ export class CourseComponent implements OnInit {
   changeMethod(searchWord, userType){
     console.log(this.detailLists.locationId)
     console.log(searchWord)
+    console.log(userType)
     console.log(this.courseId)
     let locationId = this.detailLists.locationId;
+    
+    userType = (userType == 'teacher') ? 'staff' : userType;
     if(searchWord.length != 0){
         this.showList = true;
         this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, this.courseId)
         .subscribe((res:any) => {
           console.log(res);
           this.userLists = res;
-        }, err => {  
+        }, err => {
           console.log(err);
         });
 
         // var selectedIdArr=[];
         // var pplListArr = [];
         // var pplArr = [];
-        
+
         // switch(userType){
         //   case 'customer':
         //     pplArr = this.pplLists.CUSTOMER;
@@ -1428,12 +1856,12 @@ export class CourseComponent implements OnInit {
         //       console.log('pplListArr',pplListArr)
         //       var pplListStr = pplListArr.toString();
         //       console.log("pplListsStr",pplListStr);
-              
+
         //       this._service.getSearchUser(this.regionId, searchWord, userType, 20, 0, pplListStr)
         //       .subscribe((res:any) => {
         //         console.log(res);
         //         this.userLists = res;
-        //       }, err => {  
+        //       }, err => {
         //         console.log(err);
         //       });
         //   }else{
@@ -1442,7 +1870,7 @@ export class CourseComponent implements OnInit {
         //     .subscribe((res:any) => {
         //       console.log(res);
         //       this.userLists = res;
-        //     }, err => {  
+        //     }, err => {
         //       console.log(err);
         //     });
         //   }
@@ -1454,6 +1882,7 @@ export class CourseComponent implements OnInit {
   }
 
   removeSelectedUser(id){
+    this.trArrayLists = [];
     let getIndex;
     for(let x in this.selectedUserLists){
       if(id == this.selectedUserLists[x].userId){
@@ -1462,6 +1891,14 @@ export class CourseComponent implements OnInit {
     }
     this.selectedUserLists.splice(getIndex,1);
     console.log(this.selectedUserLists);
+
+    for (var i in this.selectedUserLists) {
+      console.log(this.selectedUserLists[i])
+      this.trArrayLists.push(this.selectedUserLists[i].userId)
+    }
+    console.log(this.trArrayLists)
+
+
     console.log(this.detailLists.seat_left - this.selectedUserLists.length == 0)
     console.log(this.detailLists.seat_left)
     if(this.detailLists.seat_left != null){
@@ -1472,7 +1909,7 @@ export class CourseComponent implements OnInit {
         this.isSeatAvailable = true;
       }
     }
-    
+
   }
 
   getSelectedUserId(){
@@ -1491,7 +1928,7 @@ export class CourseComponent implements OnInit {
     let body = {
        'newTeacherId': teacherId
     }
-    this.blockUI.start('Loading...');    
+    this.blockUI.start('Loading...');
     this._service.swapTeacher(courseId, body)
     .subscribe((res:any) => {
       this.blockUI.stop();
@@ -1500,7 +1937,7 @@ export class CourseComponent implements OnInit {
       this.modalReference.close();
       // this.getCourseDetail(courseId)
       this.getUsersInCourse(courseId);
-    }, err => {  
+    }, err => {
       this.modalReference.close();
       this.blockUI.stop();
       this.toastr.error("Swap teacher failed.");
@@ -1512,14 +1949,14 @@ export class CourseComponent implements OnInit {
     console.log('call from enrolluser', this.isvalidID)
     // let type = userType;
     // type = (userType == 'staff') ? 'teacher' : 'customer'
-    this.getSelectedUserId();   
+    this.getSelectedUserId();
     let body = {
        'courseId': courseId,
        'userId': this.selectedUserId,
        'userType': userType
      }
     console.log('~~~~' , body)
-    this.blockUI.start('Loading...'); 
+    this.blockUI.start('Loading...');
     this._service.assignUser(this.regionId,body, this.locationID)
       .subscribe((res:any) => {
        console.log(res);
@@ -1535,7 +1972,7 @@ export class CourseComponent implements OnInit {
          this.cancel();
          // this.getUsersInCourse(courseId);
        }
-    }, err => {  
+    }, err => {
       this.modalReference.close();
       this.blockUI.stop();
       this.toastr.error("Assign teacher failed.");
@@ -1544,7 +1981,7 @@ export class CourseComponent implements OnInit {
   }
 
   addCustomer(courseId, userType){
-    
+    this.stdLists = [];
     console.log("call from addCustomer",this.selectedCustomer);
     let body = {
        'courseId': courseId,
@@ -1552,12 +1989,27 @@ export class CourseComponent implements OnInit {
        'userType': userType
      }
      console.log("body",body);
+     this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
+       this.blockUI.stop();
        console.log("res Assign customer",res);
-       this.invoiceInfo = res.invoiceSettings;
+       if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+          console.log("no invoice setting");
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+       }else{
+         console.log("has invoice setting");
+         this.invoiceInfo = res.invoiceSettings;
+       }
        this.invoice = res.invoice;
-       this.showInvoice = true; 
+       this.showInvoice = true;
        this.showOneInvoice(this.invoice);
        // for(var i in this.invoice){
        //   this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
@@ -1575,18 +2027,18 @@ export class CourseComponent implements OnInit {
        //     this.invoiceCourse["lessonCount"] = this.detailLists.lessonCount;
        //   }
        // }
-       
-     }, err => {  
+
+     }, err => {
         console.log(err);
       })
-    // this.showInvoice = true; 
+    // this.showInvoice = true;
 
   }
 
   dateFormat(dateStr){
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ]; 
+    ];
      var d = new Date(dateStr);
      var month = monthNames[d.getUTCMonth()];
      var year = d.getUTCFullYear();
@@ -1599,6 +2051,26 @@ export class CourseComponent implements OnInit {
 
   // end course detail
   changeRoute(){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
+    this.categoryIDArray = [];
+    this.planIDArray = [];
+    this.repeatedDaysTemp = [];
+    this.courseVal.keyword = '';
     this.isCategory = true;
     this.goBackCat = false;
     localStorage.removeItem("cpCategory");
@@ -1620,7 +2092,7 @@ export class CourseComponent implements OnInit {
     console.log("Edit",course);
     localStorage.setItem('coursePlanId',course.coursePlanId);
     localStorage.setItem('courseId',course._id)
-    this.dataservice.hero = course; 
+    this.dataservice.hero = course;
     // this.dataservice.edit = true;
     this.router.navigate(['/courseCreate']);
   }
@@ -1638,21 +2110,24 @@ export class CourseComponent implements OnInit {
     console.log(skip)
     console.log(this.simple)
     console.log(this.searchMore)
+    console.log(this.searchObj)
     if(this.searchMore == true){
       if(this.simple == true){
         console.log('in the if')
-        this.recentSearch(this.searchVal, 20, skip);
+        this.recentSearch1(this.searchVal, 20, skip);
       }else{
         console.log('in the else')
+        this.searching = true;
         this.advancedSearch(this.searchObj, 20, skip);
       }
     }else{
+      console.log('else else')
       this.getCourseLists(20, skip);
     }
   }
 
   getCourseLists(limit, skip){
-    this.blockUI.start('Loading...'); 
+    this.blockUI.start('Loading...');
     this._service.getAllCourse(this.regionId,this.locationID, limit, skip)
     .subscribe((res:any) => {
       console.log('Course List',res);
@@ -1670,14 +2145,24 @@ export class CourseComponent implements OnInit {
           // console.log(duration);
           for(var j in this.courseList[i].courses){
             let date = this.courseList[i].courses[j].startDate;
-            let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
-            // console.log(date);
+            if(date){
+              let starttime = date.substring(date.search("T")+1,date.search("Z")-7);
+              // console.log(date);
+
             // console.log('starttime',starttime);
             let piece = starttime.split(':');
             let mins = piece[0]*60 + +piece[1] + +duration;
-            let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
+            let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);
             // console.log('endtime',endtime)
             this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
+            }
+            // // console.log(date);
+            // // console.log('starttime',starttime);
+            // let piece = starttime.split(':');
+            // let mins = piece[0]*60 + +piece[1] + +duration;
+            // let endtime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);
+            // // console.log('endtime',endtime)
+            // this.courseList[i].courses[j].courseDuration = {"starttime": starttime, "endtime": endtime};
           }
         }
       }else{
@@ -1703,6 +2188,22 @@ export class CourseComponent implements OnInit {
   }
 
   addNewCourse(plan){
+    this.hideSearch = false;
+    this.searchMore = false;
+    this.iswordcount = false;
+    this.repeatedDaysTemp = [];
+    this.tempCategory = [];
+    this.tempPlan = [];
+    this.searchVal = '';
+    this.days = [
+      {"day":"Sun", "val": 0, 'checked': false},
+      {"day":"Mon", "val": 1, 'checked': false},
+      {"day":"Tue", "val": 2, 'checked': false},
+      {"day":"Wed", "val": 3, 'checked': false},
+      {"day":"Thu", "val": 4, 'checked': false},
+      {"day":"Fri ", "val": 5, 'checked': false},
+      {"day":"Sat", "val": 6, 'checked': false},
+    ];
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
     this.goBackCat = false;
@@ -1781,21 +2282,23 @@ export class CourseComponent implements OnInit {
           console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
           var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
           this.invoice[i].courseFee.fee = Number(cFee);
-          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee)
+          this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee);
+          console.log("Amount without inclusive tax",this.invoice[i].courseFee.amount);
         }else if(this.invoice[i].courseFee.taxInclusive == false){
           var taxRate = this.invoice[i].tax.rate;
-          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
+          var taxAmount = (this.invoice[i].courseFee.fee * taxRate / 100).toFixed(2);
           this.invoice[i].courseFee.tax =Number(taxAmount);
           console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
-          // var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
-          // this.invoice[i].courseFee.fee = Number(cFee);
-          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee)
+          this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee);
+          console.log("Fee amount with exclusive tax",this.invoice[i].courseFee.amount);
         }
-        
+
         this.calculateHideFees('cFees')
       }else{
         console.log("===same");
-      } 
+      }
     }
     // this.discount = data;
     // this.showBox = false;
@@ -1806,6 +2309,8 @@ export class CourseComponent implements OnInit {
   }
 
   sendInvoice(){
+    this.showStudentOption = '';
+    this.xxxhello = '';
     console.log("send Invoice",this.invoiceID);
     var mailArr = [];
     mailArr.push(this.selectedCustomer.email);
@@ -1830,26 +2335,31 @@ export class CourseComponent implements OnInit {
            // this.cancel();
            this.getCourseDetail(this.detailLists._id)
            this.getUsersInCourse(this.detailLists._id);
-           this.cancelModal();
+           // this.cancelModal();
+           this.cancelInvoiceModal();
          }else{
            console.log('else hi')
-           this.cancel();
+           // this.cancel();
            this.modalReference.close();
+           this.cancelInvoiceModal();
            // this.cancelModal();
            // this.getUsersInCourse(courseId);
          }
-    }, err => {  
+    }, err => {
       console.log(err);
       this.toastr.error('Fail to sent the Invoice.');
     })
   }
 
   cancelInvoiceModal(){
+    this.showStudentOption = '';
+    this.xxxhello = '';
     this.modalReference.close();
     this.showList = false;
     this.selectedCustomer = {};
     this.showInvoice = false;
     this.showPayment = false;
+    this.showPaidInvoice = false;
     this.paymentItem = {};
     this.hideReg = false;
     this.hideDeposit = false;
@@ -1857,9 +2367,28 @@ export class CourseComponent implements OnInit {
     this.isEditInv = false;
     this.singleInv = [];
     this.updateInvData = {};
+    this.availableCourses = [];
+    this.makeupForm = {};
+    this.invPayment = [];
     console.log("hideMisc",this.hideMisc)
-    this.getCourseDetail(this.detailLists._id);
-    this.getUsersInCourse(this.detailLists._id);
+    // this.getCourseDetail(this.detailLists._id);
+    // this.getUsersInCourse(this.detailLists._id);
+    this.activeTab = "People";
+    if(this.isvalidID == 'inside'){
+       console.log('hi')
+       // this.cancel();
+       this.getCourseDetail(this.detailLists._id)
+       this.getUsersInCourse(this.detailLists._id);
+       // this.cancelModal();
+     }else{
+       console.log('else hi')
+       // this.cancel();
+       this.modalReference.close();
+       this.courseList = [];
+       this.getCourseLists(20,0);
+       // this.cancelModal();
+       // this.getUsersInCourse(courseId);
+     }
     // this.courseList = [];
     // this.getCourseLists(20,0);
   }
@@ -1868,7 +2397,26 @@ export class CourseComponent implements OnInit {
     console.log("pay option");
     this.showPayment = true;
     this.showInvoice = false;
-    this.getRegionInfo();
+    if(this.invStatus == 'PAID[PARTIAL]'){
+      var totalPaid = 0;
+      for(var i in this.invPayment){
+        console.log("each payment",this.invPayment[i]);
+        totalPaid = totalPaid + this.invPayment[i].amount;
+      }
+      console.log("total paid",totalPaid);
+      this.paymentItem.amount = Number((this.total - totalPaid).toFixed(2));
+      console.log("Total Amount for Pay",this.paymentItem.amount)
+    }else{
+      this.paymentItem.amount = this.total;
+    }
+
+    this._service.getPaymentMethod()
+    .subscribe((res:any) => {
+      console.log(res);
+      this.paymentProviders = res;
+      this.selectedPayment = this.paymentProviders[0].name;
+        this.paymentId = this.paymentProviders[0].id;
+    })
   }
 
   getRegionInfo(){
@@ -1879,54 +2427,60 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       console.log("regional info",res);
       this.blockUI.stop();
-      this.paymentProviders = res.paymentSettings.paymentProviders;
-      console.log(this.paymentProviders);
-      this.invoiceInfo = res.invoiceSettings;
+      if(res.invoiceSettings == {} || res.invoiceSettings == undefined || res.paymentSettings == {} || res.paymentSettings == undefined){
+          console.log("no invoice setting",res.invoiceSettings);
+          console.log("no invoice setting",res.paymentSettings);
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+          this.noSetting = true;
+       }else{
+         console.log("has invoice setting");
+         this.invoiceInfo = res.invoiceSettings;
+         this.noSetting = false;
+       }
+      console.log(this.invoiceInfo)
     })
   }
 
   choosePayment(type){
       console.log("choosePayment",type);
-      this.selectedPayment = type;
-      console.log('pItem',this.paymentItem);
+      this.selectedPayment = type.name;
+      this.paymentId = type.id;
   }
 
   payNow(type){
-    if(type == 'Cash'){
-      console.log("Cash",this.paymentItem.amount);
-      let body = {
-        'regionId': this.regionId,
-        'refInvoiceId': this.refInvID,
-        'amount': this.paymentItem.amount.toString(),
-        'paymentMethod': this.selectedPayment.toLowerCase()
-      }
-      console.log("data",body);
-      this._service.makePayment(this.regionId,body)
-      .subscribe((res:any) => {
-        console.log(res);
-        if(this.isvalidID == 'inside'){
-           console.log('hi')
-           // this.cancel();
-           this.getCourseDetail(this.detailLists._id)
-           this.getUsersInCourse(this.detailLists._id);
-           this.cancelInvoiceModal();
-           this.toastr.success(res.message);
-         }else{
-           console.log('else hi')
-           this.cancel();
-           this.modalReference.close();
-           // this.cancelModal();
-           // this.getUsersInCourse(courseId);
-         }
-        this.toastr.success(res.message);
-      },err => {
-        this.toastr.error("Payment Fail");
-      })
-    }else{
-      console.log("Payment Type",type);
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    console.log("Pay Now",this.paymentItem,this.paymentId);
+    let body = {
+      'regionId': this.regionId,
+      'refInvoiceId': this.refInvID,
+      'amount': this.paymentItem.amount.toString(),
+      'paymentMethod': this.paymentId.toString()
     }
+    if(this.paymentItem.refNumber){
+      body["refNo"] = this.paymentItem.refNumber;
+    }
+    // console.log("data",body);
+    this._service.makePayment(this.regionId,body)
+    .subscribe((res:any) => {
+      console.log(res);
+      this.toastr.success(res.message);
+      this.cancelInvoiceModal();
+    },err => {
+      if(err.message == "Amount is overpaid."){
+        this.toastr.success("Amount is overpaid.")
+      }
+      this.toastr.error("Payment Fail");
+    })
   }
- 
+
   hideInvoiceRow(type){
     this.isEditInv = true;
     if(type == 'reg'){
@@ -2007,9 +2561,11 @@ export class CourseComponent implements OnInit {
     // }else if(this.invoiceCourse.fees != this.value.courseFee){
     //   data["courseFee"] = this.value.courseFee;
     // }
+    this.blockUI.start('Loading...');
     console.log("Inv Update Data",this.updateInvData);
     this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
     .subscribe((res:any) => {
+      this.blockUI.stop();
       console.log(res);
       this.isEditInv = false;
       //for updating invoice ui
@@ -2034,5 +2590,152 @@ export class CourseComponent implements OnInit {
   //     this.cancelModal();
   //   })
   // }
+
+  showTabsModal(modal,type,data){
+    console.log("show Tabs Modal",type, data)
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    this.activeUserTab = type;
+    this.singleUserData = data;
+    this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+    console.log("user data",data);
+    if(type == 'transfer'){
+      this.getAllAC(20, 0, data.userId);
+    }else if(type == 'invoice'){
+      if(data.invoice != null){
+        this.viewInvoice(data);
+      }
+    }
+  }
+
+  getAllAC(limit, skip, userId){
+    console.log("...XXD",this.availableCourses);
+    this._service.getAvailabelCourse(this.regionId, this.singleUserData.userId, limit, skip)
+    .subscribe((res:any)=>{
+      // console.log("Available C",res);
+      this.acResult = res;
+      this.availableCourses = this.availableCourses.concat(res);
+      console.log("Available C",this.availableCourses);
+    })
+  }
+
+  // cancelTabsModal(){
+  //   console.log("cancelTabsModal");
+  //   this.modalReference.close();
+  //   this.showList = false;
+  //   // this.selectedCustomer = {};
+  //   // this.selectedTeacherLists = []
+  //   this.showInvoice = false;
+  //   this.currentDateObj = '';
+  //   this.availableCourses = [];
+  //   this.activeTab = 'People';
+  //   this.makeupForm = {};
+  //   this.getCourseDetail(this.detailLists._id);
+  //   this.getUsersInCourse(this.detailLists._id);
+  // }
+
+  changeSearch(searchWord, userId, limit, skip){
+    this.acWord = searchWord;
+    this.userid = userId;  
+    console.log(searchWord);
+    console.log('userid',userId)
+    if(skip == '' && limit == ''){
+      console.log("First time search")
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+    if(searchWord.length != 0){
+      this.isACSearch = true
+      this._service.getSearchAvailableCourse(this.regionId, searchWord, userId, limit, skip)
+        .subscribe((res:any) => {
+          console.log(res);
+          this.acResult = res;
+          // this.availableCourses = res;
+          if(isFirst == true){
+          console.log("First time searching");
+          this.availableCourses = [];
+          this.availableCourses = res;
+          console.log("Search AC",this.availableCourses);
+        }else{
+          console.log("Not First time searching")
+          this.availableCourses = this.availableCourses.concat(res);
+          console.log("Search AC",this.availableCourses);
+        }
+        }, err => {  
+          console.log(err);
+        });
+    }else{
+        console.log('zero', searchWord.length)
+        this.availableCourses = [];
+        this.getAllAC(20, 0, this.singleUserData.userId);
+        this.isACSearch = false;
+    }
+  }
+
+  showMoreAC(skip, userId){
+    console.log(skip)
+    // this.getAC(20, skip, userId);
+    if(this.isACSearch == true){
+      console.log("AC Search");
+      this.changeSearch(this.acWord, this.userid, 20, skip)
+    }else{
+      console.log("Not AC search")
+      this.getAllAC(20, skip, userId);
+    }
+  }
+
+  transferClass(course,userid){
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    console.log("transfer class",course,userid);
+    let body = {
+      "from": this.detailLists._id,
+      "to": course._id,
+      "userId": userid
+    }
+    this._service.transferClass(body)
+    .subscribe((res:any)=>{
+      console.log("res",res);
+      this.toastr.success(res.message);
+      this.cancelInvoiceModal();
+      // this.cancelTabsModal();
+    },err=>{
+      console.log(err);
+    })
+  }
+
+  issuePass(obj, userId){
+    console.log(obj)
+    console.log(userId)
+    console.log(this.detailLists._id)
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    this._service.makeupPassIssue(obj, this.detailLists._id, userId)
+    .subscribe((res:any) => { 
+      console.log(res)     
+      this.blockUI.stop(); 
+      this.modalReference.close();
+      this.activeTab = 'People';
+      this.toastr.success("Makeup pass successfully created.");
+      this.makeupForm = {};
+    },err =>{
+      this.modalReference.close();
+      this.toastr.error('Fail to issue makeup pass.');
+      this.blockUI.stop(); 
+      console.log(err);
+    });
+  }
+
+  backToInvoice(){
+    console.log("Back To Invoice")
+    this.showPayment = false;
+    this.showInvoice = true;
+    this.paymentItem = {};
+  }
+
+  globalMakeupPass(){
+    //this.isGlobal = true;
+  }
 
 }

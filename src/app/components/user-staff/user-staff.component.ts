@@ -259,7 +259,12 @@ export class UserStaffComponent implements OnInit {
 	    if(status == 'name'){
 	      this.wordLength = word.length;
 	      $('.limit-wordcount').show('slow'); 
-	    }else{
+		}
+	    else if(status == 'fullname'){
+	      this.wordLength = word.length;
+	      $('.limit-wordcount2').show('slow'); 
+		}
+		else{
 	      this.wordLength = word.length;
 	      $('.limit-wordcount1').show('slow'); 
 	    }
@@ -271,7 +276,11 @@ export class UserStaffComponent implements OnInit {
 		  console.log('blur', e);
 		    if(status == 'name'){
 		      $('.limit-wordcount').hide('slow'); 
-		    }else{
+			}
+		    else if(status == 'fullname'){
+		      $('.limit-wordcount2').hide('slow'); 
+			}
+			else{
 		      $('.limit-wordcount1').hide('slow'); 
 		    }
 		    this.wordLength = 0;
@@ -287,7 +296,7 @@ export class UserStaffComponent implements OnInit {
 	}
 
 	isValidateEmail($email) {
-	  var emailReg = /^([A-Za-z0-9\.\+])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+	  var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
 	  if($email != ''){
 	  	return emailReg.test( $email );
 	  }
@@ -298,8 +307,11 @@ export class UserStaffComponent implements OnInit {
 
 	createUser(obj, state){
 		console.log(obj);
+		console.log(this.customFields);
+
 
 		this.formFields.details = [];
+
 		for(var i=0; i<this.customFields.length; i++){
 			console.log('field value',this.customFields[i].value);
 			if(this.customFields[i].value){
@@ -322,14 +334,22 @@ export class UserStaffComponent implements OnInit {
 		objData.append('fullName', obj.fullName)
 		objData.append('preferredName', obj.preferredName),
 		objData.append('email', obj.email),
-		objData.append('password', obj.password),
+		// objData.append('password', obj.password),
 		obj.about = (obj.about == undefined) ? '' : obj.about;
 		objData.append('about', obj.about);
 
+		console.log(this.formFields.details)
 		// objData
 		if(this.formFields.details.length>0){
 			console.log("Has Details",this.formFields.details)
 			objData.append('details', JSON.stringify(obj.details));
+		}else{
+			obj.details = [];
+			objData.append('details', JSON.stringify(obj.details));
+		}
+
+		if(state == 'create' ||this.isPasswordChange == true){
+			objData.append('password', obj.password);
 		}
 
 		if(state == 'create'){
