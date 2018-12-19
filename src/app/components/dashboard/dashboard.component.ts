@@ -96,6 +96,25 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.startT;
+    this.endT;
+    this.item = {
+      name: '',
+      timezone: '',
+      url: '',
+      operatingHour: {
+      'start':{
+        'hr':'',
+        'min':'',
+        "meridiem":''
+      },
+      'end':{
+        'hr':'',
+        'min':'',
+        "meridiem":''
+      }
+      }
+    };
     if(localStorage.getItem('locationId') == null){
       console.log('hi')
       this.permissionType = [];
@@ -115,19 +134,20 @@ export class DashboardComponent implements OnInit {
     this.getPaymentSetting('paymentSettings')
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() { 
     // this.item.operatingHour = {
     //   'start':{
-    //     'hr': 0,
-    //     'min': 0,
-    //     'meridiem': ''
+    //     'hr':Number,
+    //     'min':Number,
+    //     "meridiem":String
     //   },
     //   'end':{
-    //     'hr': 0,
-    //     'min': 0,
-    //     'meridiem': ''
+    //     'hr':Number,
+    //     'min':Number,
+    //     "meridiem":String
     //   }
     // }
+  
   }
  
   @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -274,7 +294,7 @@ export class DashboardComponent implements OnInit {
     this.isUrlEdit = true;
     this.urlTemp = this.item.url;
   }
- 
+
   updateRegionalInfo(data,type){
     console.log(type);
     this.token = localStorage.getItem('token');
@@ -285,9 +305,13 @@ export class DashboardComponent implements OnInit {
     var ampm = H < 12 ? "AM" : "PM";
     // const a = h + timeString.substr(2, 3) + ampm;
     var mmm = Number(timeString.substring(3,5));
+    var testmin =timeString.length ==5 ?Number(timeString.slice(3,8)) :Number(timeString.slice(3,8));
+    console.log(testmin)
+    console.log(timeString)
+    console.log(mmm)
     let start={
       'hr': h,
-      'min': mmm,
+      'min': testmin,
       'meridiem': ampm
     }
     this.item.operatingHour["start"] = start;
@@ -302,8 +326,8 @@ export class DashboardComponent implements OnInit {
       'min': mm1,
       'meridiem': ampm1
     }
-    console.warn(mm1)
-    console.warn(mmm)
+    // console.warn(mm1)
+    // console.warn(mmm)
     this.item.operatingHour["end"] = end;
     this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
     .subscribe((res:any) => {
