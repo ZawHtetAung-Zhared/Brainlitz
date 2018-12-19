@@ -859,8 +859,8 @@ export class ScheduleComponent implements OnInit {
             "meridiem": "AM"
           },
           "end": {
-            "hr": 10,
-            "min": 0,
+            "hr": 11,
+            "min": 30,
             "meridiem": "PM"
           }
         },
@@ -945,6 +945,18 @@ export class ScheduleComponent implements OnInit {
         this.currency.invCurrencySign = '$';
       }
     } 
+
+    // let start= {
+    //         "hr": 8,
+    //         "min": 0,
+    //         "meridiem": "AM"
+    //       };
+    // let end = {
+    //   "hr": 9,
+    //   "min": 30,
+    //   "meridiem": "PM"
+    // }
+    
   }
 
   // selectedDayy(){

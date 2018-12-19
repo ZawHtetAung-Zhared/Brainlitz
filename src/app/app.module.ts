@@ -68,7 +68,8 @@ import { HomeComponent } from './components/home/home.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
-import { DateFormatPipe } from './service/pipe/dateformat.pipe'
+import { DateFormatPipe } from './service/pipe/dateformat.pipe';
+import { TwentyFourPipe } from './service/pipe/twentyfour.pipe';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe'
     CustomfieldComponent,
     EmailtemplateComponent,
     ScheduleComponent,
-    DateFormatPipe
+    DateFormatPipe,
+    TwentyFourPipe
   ],
   imports: [
     BrowserModule,
