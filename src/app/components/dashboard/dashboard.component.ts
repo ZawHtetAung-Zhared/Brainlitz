@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   public showProvider:boolean = false;
   public online:any = {};
   public currency_symbol:any;
-  public providers:any = [];
+  public providers:any;
   public providerTemp:any = {};
   public providerArray:Array<any> = [];
   public newCurrency:any = {};
@@ -220,8 +220,8 @@ export class DashboardComponent implements OnInit {
         };
       }
 
-      this.providerTemp = this.paymentData.paymentProviders;      
-      console.log('providerTemp',this.providerTemp);
+      this.providerTemp = this.paymentData.paymentProviders;
+      console.log("provider Temp",this.providerTemp)      
       if(this.providerTemp.length > 0){
         this.providerArray= [];
         for(let j=0; j< this.providerTemp.length; j++){
@@ -308,6 +308,27 @@ export class DashboardComponent implements OnInit {
       .subscribe((res:any) => {
         console.log(res)
         this.providers = res;
+        if(this.providerTemp.length > 0){
+          for (var i = 0; i < this.providerTemp.length; i++){
+            for (var j = 0; j < this.providers.length; j++){
+              if(this.providerTemp[i].name == this.providers[j].name){
+                // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                for(var m in this.providers[j].requiredField){
+                  console.log("req",this.providers[j].requiredField[m])
+                  let reqName = this.providers[j].requiredField[m].name;
+                  var reqVal = this.providerTemp[i][reqName];
+                  console.log("req VAl",reqVal);
+                  this.providers[j].requiredField[m].value = reqVal;
+                  console.log("req field",this.providers[j].requiredField[m])
+                  // console.log(this.providerTemp[i].hasOwnProperty(reqName));
+                  // if(this.providerTemp[i].hasOwnProperty(reqName) == true){
+
+                  // }
+                }
+              }
+            }
+          }
+        }
       }, err => {
         console.log(err)
       })
@@ -425,27 +446,35 @@ export class DashboardComponent implements OnInit {
       this.invoiceData['currencyCode'] = this.selectedFlag;
       this.invoiceData['currencySign'] = this.selectedCurrency;
       if(this.isOnline == true){
-        // console.log(this.providerField)
-        // if(this.providerField){
-        //   for(var j in this.providerField){
-        //     this.payment[this.providerField[j].name] = this.providerField[j].value;
-        //   }
-        // }
-        for(var i in this.providers){
-          if(this.providers[i].name == this.payment.name){
-            console.log("same name",this.payment);
-            for(var j in this.providers[i].requiredField){
-              console.log("provider field",this.providers[i].requiredField[j]);
-              this.payment[this.providers[i].requiredField[j].name] = this.providers[i].requiredField[j].value;
-            }
-          }
-        }
-        console.log("this payment===>",this.payment)
+        console.log(this.payment)
         if(this.providerTemp.length > 0){
           console.log('no', this.providerTemp)
+          for (var k = 0; k < this.providerTemp.length; k++){
+            for (var l = 0; l < this.providers.length; l++){
+              if(this.providerTemp[k].name == this.providers[l].name){
+                // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                for(var m in this.providers[l].requiredField){
+                  // console.log("req",this.providers[j].requiredField[m])
+                  let reqName = this.providers[l].requiredField[m].name;
+                  this.providerTemp[k][reqName] = this.providers[l].requiredField[m].value;
+                }
+              }
+            }
+          }
           data.paymentProviders = this.providerTemp;
+          console.log("Providers update",data.paymentProviders)
         }else{
+          console.log('no provider at first', this.providerTemp)
           if(this.payment.hasOwnProperty('name') == true){
+            for(var i in this.providers){
+              if(this.providers[i].name == this.payment.name){
+                console.log("same name",this.payment);
+                for(var j in this.providers[i].requiredField){
+                  console.log("provider field",this.providers[i].requiredField[j]);
+                  this.payment[this.providers[i].requiredField[j].name] = this.providers[i].requiredField[j].value;
+                }
+              }
+            }
             data.paymentProviders.push(this.payment);
           }else{
             data.paymentProviders = []

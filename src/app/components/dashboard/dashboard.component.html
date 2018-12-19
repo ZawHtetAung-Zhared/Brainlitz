@@ -466,7 +466,7 @@
                           </div> 
                           <div *ngIf="showProvider" class="currency-dropdown">
                             <div class="provider-listing">
-                              <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers" [ngClass]="(providerArray.indexOf(item.name) > -1) ? 'disabled-provider' :''">
+                              <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers">
                                 {{item.name}} 
                               </div>
                             </div>
