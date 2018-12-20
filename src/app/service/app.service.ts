@@ -1963,5 +1963,19 @@ export class appService{
       })
     }
 
+    getStaffSchedule(regionId:string,staffId:string,daysOfweek:string,categoryId:string){
+      let apiUrl = this.baseUrl + '/' + regionId + '/staff/' + staffId + '/schedule?daysOfWeek=' + daysOfweek + '&categoryId='+categoryId;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      } ;
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
 }
 

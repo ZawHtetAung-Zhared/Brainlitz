@@ -1084,6 +1084,9 @@ export class ScheduleComponent implements OnInit {
           console.log("RES",res.staff)
             _this.staffList=res;
             _this.selectedTeacher = _this.staffList.staff[0];
+            if(_this.selectedTeacher){
+              _this.getStaffTimetable(_this.selectedTeacher.userId)
+            }
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
@@ -1099,6 +1102,9 @@ export class ScheduleComponent implements OnInit {
             .subscribe((res:any) => {
                 _this.staffList=res;
                 _this.selectedTeacher = _this.staffList.staff[0];
+                if(_this.selectedTeacher){
+                  _this.getStaffTimetable(_this.selectedTeacher.userId)
+                }
                 _this.blockUI.stop(); 
               }, (err:any) => {
                 // catch the error response from api         
@@ -1108,6 +1114,13 @@ export class ScheduleComponent implements OnInit {
       }
     }, 0);
     return;
+  }
+
+  getStaffTimetable(staffId){
+    this._service.getStaffSchedule(this.regionId,staffId,this.selectedDay.toString(),this.selectedID)
+    .subscribe((res:any)=> {
+      console.log("staff timetable",res);
+    })
   }
 
   cancelModal(type){
@@ -1133,6 +1146,7 @@ export class ScheduleComponent implements OnInit {
   activeTeacher(teacher){
    this.selectedTeacher=teacher
    console.log(this.selectedTeacher);
+   this.getStaffTimetable(this.selectedTeacher.userId)
   }
 
   addEnrollModal(modal){
