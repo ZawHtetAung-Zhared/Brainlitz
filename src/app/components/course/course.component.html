@@ -723,13 +723,13 @@
           </div>
           <div class="student-lists row">
             <div *ngFor="let user of activeCourseInfo.CUSTOMER" class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
-              <div class="d-flex flex-row single-student " [ngClass]="{'no-data-alert': user.attendance == null, 'present-alert': user.attendance == true, 'absent-alert': user.attendance == false}" >
-                <div class="align-self-center">
+              <div class="d-flex flex-row single-student align-items-center"  [ngClass]="{'no-data-alert': user.attendance == null, 'present-alert': user.attendance == true, 'absent-alert': user.attendance == false}" >
+                <div class="align-self-center justify-content-center ">
                   <div class="std-img-wrap">
                     <img src="{{user.profilePic}}">
                   </div>
                 </div>
-                <div class="single-user-info d-flex flex-column mt-1 justify-content-center">
+                <div class="single-user-info d-flex flex-column  justify-content-center">
                   <h4 *ngIf="user.preferredName">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
                 </div>
               </div>
@@ -2116,7 +2116,7 @@
       <div class="d-flex flex-wrap ">
           <div class="row w-100 users-wrap-box">
               <div *ngFor="let user of activeCourseInfo.CUSTOMER" class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
-                  <div class="d-flex flex-row  bg-primary single-student ">   
+                  <div class="d-flex flex-row  bg-primary single-student-modal ">   
                     <div class="align-self-center mt-1 mr-2">
                       <span class="checkmark">
                           <div class="checkmark_stem"></div>

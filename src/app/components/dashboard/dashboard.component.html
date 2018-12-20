@@ -98,17 +98,24 @@
                     </div>
                     <label class="labelTitle">Operating hour</label>
                   </div>
-                  <label *ngIf="!isEdit"  class="operatingTime">{{item.operatingHour.start.hr }}:{{item.operatingHour.start.min }} {{item.operatingHour.start.meridiem}} - {{startT | json}}  </label>
-                  <!-- <label class="operatingTime">{{item.operatingHour.start.hr }} </label> -->
-                  <label *ngIf="!isEdit "  class="operatingTime1">{{item.operatingHour.end.hr }}:{{item.operatingHour.end.min }} {{item.operatingHour.end.meridiem}} {{endT |json}}</label>
+                  <label *ngIf="!isEdit"  class="operatingTime">{{item.operatingHour.start.hr }}:{{item.operatingHour.start.min }}<span *ngIf="item && item.operatingHour.start.min < 10 " >0</span> {{item.operatingHour.start.meridiem}} </label>
+                  <span *ngIf="!isEdit" class="timedash">  </span>
+                  <label *ngIf="!isEdit "  class="operatingTime1">{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 " >0</span>{{item.operatingHour.end.min }} {{item.operatingHour.end.meridiem}} </label>
                   <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
-                    <div class="form-group url-edit"> 
-                      <span> Start Time </span> 
-                      <input type="time" class="form-control time-picker" placeholder="start date" name="startDate" [(ngModel)]="startT" #startDate="ngModel" required>
-                      <!-- <input type="time" class="form-control time-picker" placeholder="start date" name="startDate" [(ngModel)]="item.operatingHour.start.hr" #startDate="ngModel" required> -->
-                      <span>End Time</span>  
-                      <input type="time" class="form-control time-picker" placeholder="enter date" name="endDate" [(ngModel)]="endT" #endDate="ngModel" required>
-                      <!-- <input type="time" class="form-control time-picker" placeholder="enter date" name="endDate" [(ngModel)]="item.operatingHour.end.hr " #endDate="ngModel" required> -->
+                    <div class="form-group url-edit d-flex flex-row"> 
+                      <div class="mr-2">
+                        <label class="labelTitle"> Start Time </label> 
+                        <input type="time" class="form-control time-picker" placeholder="start date" name="startDate" [(ngModel)]="startT" #startDate="ngModel" required>
+                      </div>
+                      <div class="ml-2">
+                        <label class="labelTitle">End Time</label>  
+                        <input type="time" class="form-control time-picker" placeholder="enter date" name="endDate" [(ngModel)]="endT" #endDate="ngModel" required>
+                      </div>
+                    </div>
+                    <!-- <hr style="padding:0;"> -->
+                    <div class="editBtns  d-flex justify-content-end " *ngIf="isEdit">
+                      <button class="cancel btn" (click)="cancelUpdate()">Cancel</button>
+                      <button class="btn updateButton" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid">Done</button>
                     </div>
                   </form>
                 </div>
@@ -117,10 +124,7 @@
               <div *ngIf="!isEdit">
                 <a class="link-btn" (click)="editRegion()">Edit</a>
               </div>
-              <div class="editBtns" *ngIf="isEdit">
-                <a class="cancel" (click)="cancelUpdate()">Cancel</a>
-                <a (click)="updateRegionalInfo(item,'timezone')">Done</a>
-              </div>
+            
             </div>  
             <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">

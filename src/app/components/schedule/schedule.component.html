@@ -3,45 +3,54 @@
 <div class="d-flex justify-content-center" *ngIf="scheduleList">
   <div class="d-flex flex-column align-items-start  mt-5">
     <form class="form-wrap d-flex flex-column align-items-start" novalidate #customerForm="ngForm">
-    <h3 class="schedule-title ">Schedule</h3>
-    <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>    
-    <div class="checkboxes-wrapper">
-      <span *ngFor="let d of days">
-        <label class="cursor-on day"  [ngClass]="{'active-label': (selectedDay.indexOf(d.val) != -1),'noCursor': isEdit== true}">
-          <div *ngIf="selectedDay.indexOf(d.val) == -1 " class="rounded-box"></div> 
-          <div *ngIf="selectedDay.indexOf(d.val) != -1 " class="rounded-checked"><i  class="fa fa-check"></i></div>              
-          <input type="checkbox" required class="regular-checkbox" (change)="selectDay(d.val, $event,d.day,'chooseday')" name="{{d.day}}" value={{d.val}} [checked]="selectedDay.indexOf(d.val) != -1 " [disabled]="isEdit == true">
-          <div class="box-label">{{d.day}}</div>
-        </label>
-      </span>
-    </div>
-    <div class="d-flex">
-      <h3 class="category-title">Pick Category</h3>
-    </div>
-    <div class="input-group mt-3">
-      <input 
-        class="form-control py-2 input-search-bg" 
-        type="search" 
-        placeholder="Search category" 
-        name="itemID"
-        [(ngModel)]="item.itemID"
-        #itemID="ngModel"
-        required
-        id="example-search-input"
-        (focus)="focusSearch($event, 'category')"
-        (focusout)="hideSearch($event)"
-        (input)="searchCategoryList($event.target.value, 'category')"
-      >
-      <span class="input-group-append">
-        <button class="btn fa fa-search search-size btn-design btn-outline-secondary" type="button">
-          <!-- <i class=""></i> -->
-        </button>
-      </span> 
-      <ul class="data-listing" *ngIf="isFousCategory == true" >
-        <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
-      </ul>
-    </div>
-    <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff(regionId,selectedDay,selectedID)" [disabled]="!customerForm.valid">Show</button>
+      <h3 class="schedule-title ">Schedule</h3>
+      <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>    
+      <div class="checkboxes-wrapper">
+        <span *ngFor="let d of days">
+          <label class="cursor-on day"  [ngClass]="{'active-label': (selectedDay.indexOf(d.val) != -1),'noCursor': isEdit== true}">
+            <div *ngIf="selectedDay.indexOf(d.val) == -1 " class="rounded-box"></div> 
+            <div *ngIf="selectedDay.indexOf(d.val) != -1 " class="rounded-checked"><i  class="fa fa-check"></i></div>              
+            <input 
+             type="checkbox"
+             required 
+             class="regular-checkbox" 
+             (change)="selectDay(d.val, $event,d.day,'chooseday')" 
+             name="{{d.day}}"
+             value={{d.val}} 
+             [disabled]="isEdit == true" 
+             [checked]="selectedDay.indexOf(d.val) !== -1" 
+            >
+            <div class="box-label">{{d.day}}</div>
+          </label>
+        </span>
+      </div>
+      <div class="d-flex">
+        <h3 class="category-title">Pick Category</h3>
+      </div>
+      <div class="input-group mt-3">
+        <input 
+          class="form-control py-2 input-search-bg" 
+          type="search" 
+          placeholder="Search category" 
+          name="itemID"
+          [(ngModel)]="item.itemID"
+          #itemID="ngModel"
+          required
+          id="example-search-input"
+          (focus)="focusSearch($event, 'category')"
+          (focusout)="hideSearch($event)"
+          (input)="searchCategoryList($event.target.value, 'category')"
+        >
+        <span class="input-group-append">
+          <button class="btn fa fa-search search-size btn-design btn-outline-secondary" type="button">
+            <!-- <i class=""></i> -->
+          </button>
+        </span> 
+        <ul class="data-listing" *ngIf="isFousCategory == true" >
+          <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
+        </ul>
+      </div>
+      <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff(regionId,selectedDay,selectedID)" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
     </form>
   </div>
 </div>
@@ -59,7 +68,15 @@
     <div>
       <span *ngFor="let d of days">
         <label class="cursor-on day-checkbox"[ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
-          <input type="checkbox" class="regular-checkbox"  name="{{d.day}}" value={{d.val}} (click)="getscheulestaff(regionId,selectedDay,selectedID)" (change)="selectDay(d.val ,$event,d.day,d,regionId,selectedDay,selectedID)" [checked]="selectedDay.indexOf(d.val) != -1" [disabled]="isEdit == true" >
+          <input 
+            type="checkbox" 
+            class="regular-checkbox"  
+            name="{{d.day}}" 
+            value={{d.val}} 
+            (click)="getscheulestaff(regionId,selectedDay,selectedID)" 
+            (change)="selectDay(d.val ,$event,d.day,d,regionId,selectedDay,selectedID)" 
+            [checked]="selectedDay.indexOf(d.val) != -1" 
+            [disabled]="isEdit == true" >
           <div class="schedule-box-label">{{d.day}}</div>
         </label>
       </span>
