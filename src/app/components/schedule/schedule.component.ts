@@ -953,75 +953,8 @@ export class ScheduleComponent implements OnInit {
         this.currency.invCurrencySign = '$';
       }
     } 
-    // console.log('11:30PM',this.convertTime12to24({
-    //         "hr": 11,
-    //         "min": 30,
-    //         "meridiem": "PM"
-    //       }));
-    // console.log('5:30PM',this.convertTime12to24({
-    //         "hr": 5,
-    //         "min": 30,
-    //         "meridiem": "PM"
-    //       }));
-    // console.log('1;00PM',this.convertTime12to24({
-    //         "hr": 1,
-    //         "min": 0,
-    //         "meridiem": "PM"
-    //       }));
-    // console.log('12:00AM',this.convertTime12to24({
-    //         "hr": 12,
-    //         "min": 0,
-    //         "meridiem": "AM"
-    //       })); 
-    // console.log('7:20AM',this.convertTime12to24({
-    //         "hr": 7,
-    //         "min": 20,
-    //         "meridiem": "AM"
-    //       })); 
     
-    setTimeout(() => {
-      let time = {
-        'hr': 12,
-        "min": 30,
-        "meridian": "AM"
-      }
-      this.convertTime12to24(time);
-      }, 300);
   }
-
-  testTime;
-  convertTime12to24(time12h) {
-    console.log(time12h)
-    let hours = time12h.hr;
-    let min = time12h.min;
-    let ampm= time12h.meridian;
-    console.log(ampm)
-
-    if(ampm === 'PM'){
-      console.log('PM')
-      if(hours == 12){
-        hours = 12;
-      }else{
-        hours = hours + 12;
-        console.log('Hours',hours)
-        if(hours<10){
-          hours = '0'+hours;
-        }
-      } 
-    }else{
-      if(hours ==12){
-        hours = '00'
-      }
-    }
-
-    if(min<10){
-      min = '0'+min;
-    }
-
-    this.testTime = hours + ':' + min;
-    console.log(typeof this.testTime)
-    console.log('~~~24',this.testTime)
-    }
 
   ngAfterViewInit() {
     this.staffList = [
