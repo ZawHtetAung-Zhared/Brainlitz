@@ -597,7 +597,7 @@ ul.data-listing li.disabled{
   background: #fff;
   height: 300px;
   position: absolute;
-  z-index: 99;
+  z-index: 999;
   margin: 0;
   top:100px;
   padding: 0;
