@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   public permissionType: Array<any> = [];
   public navIsFixed: boolean = false;
   public isMidStick: boolean = false;
+  public operationStart :any=''; 
+  public operationEnd :any=''; 
   public item:any = {
     name: '',
     timezone: '',
@@ -34,6 +36,7 @@ export class DashboardComponent implements OnInit {
   };
   
   // public menuType:any = "location";
+
   public menuType:any = "general";
   public checkedModule =[];
   public allModule;
@@ -96,8 +99,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.startT;
-    this.endT;
+    
     this.item = {
       name: '',
       timezone: '',
@@ -115,6 +117,8 @@ export class DashboardComponent implements OnInit {
       }
       }
     };
+    // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem; 
+   
     if(localStorage.getItem('locationId') == null){
       console.log('hi')
       this.permissionType = [];
@@ -287,8 +291,9 @@ export class DashboardComponent implements OnInit {
 
   editRegion(){
     this.isEdit = true;
-    this.temp = this.item.timezone;
-    console.log(this.temp);
+    this.temp = this.item.timezone; 
+    this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
+    this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
   }
   editUrl(){
     this.isUrlEdit = true;
@@ -306,9 +311,6 @@ export class DashboardComponent implements OnInit {
     // const a = h + timeString.substr(2, 3) + ampm;
     var mmm = Number(timeString.substring(3,5));
     var testmin =timeString.length ==5 ?Number(timeString.slice(3,8)) :Number(timeString.slice(3,8));
-    console.log(testmin)
-    console.log(timeString)
-    console.log(mmm)
     let start={
       'hr': h,
       'min': testmin,
@@ -326,8 +328,6 @@ export class DashboardComponent implements OnInit {
       'min': mm1,
       'meridiem': ampm1
     }
-    // console.warn(mm1)
-    // console.warn(mmm)
     this.item.operatingHour["end"] = end;
     this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
     .subscribe((res:any) => {
@@ -632,6 +632,26 @@ export class DashboardComponent implements OnInit {
       })
     }else{
       this.payment = {}
+    }
+  }
+  getTwentyFourHourStartTime(obj) {
+    console.log("time obj",obj)
+    this.operationStart = obj.hr+':'+obj.min+' '+obj.meridiem; 
+    var time = this.operationStart;
+    if(time){
+      var hours = Number(time.match(/^(\d+)/)[1]);
+      var minutes = Number(time.match(/:(\d+)/)[1]);
+      var AMPM = time.match(/\s(.*)$/)[1];
+      if (AMPM == "PM" && hours < 12) hours = hours + 12;
+      if (AMPM == "AM" && hours == 12) hours = hours - 12;
+      var sHours = hours.toString();
+      var sMinutes = minutes.toString();
+      if (hours < 10) sHours = "0" + sHours;
+      if (minutes < 10) sMinutes = "0" + sMinutes;
+      // this.startT= sHours + ":" + sMinutes;
+      let t= sHours + ":" + sMinutes;
+      console.log("t",t)
+      return t;
     }
   }
 }

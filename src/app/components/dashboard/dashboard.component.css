@@ -579,16 +579,27 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 .editBtns{
-  padding: 1rem;
-  float: right;
+  /* padding: 1rem; */
+  /* float: right; */
+  border-top: 1px solid #8080802b;
   font-family: 'Montserrat-Medium','Arial', sans-serif;
 }
-.editBtns a:nth-child(2){
-  color: #0080ff!important;
-}
+
 .cancel{
   padding: 0px 15px 0px 4px;
+  font-size: 14px;
   color: #2e3d4d!important;
+}
+.time-picker:focus,.cancel:focus,.updateButton:focus{
+  outline: none!important;
+  box-shadow: none!important;
+}
+.updateButton{
+  color: #0080ff!important;
+  padding-right: 0px;
+  padding-left: 8px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  font-size: 14px;
 }
 /*===App info setting===*/
 .setting-info{
@@ -644,6 +655,7 @@ input:checked + .slider:before {
 .url-edit{
   margin-bottom: 12px;
 }
+
 .overlayBtns{
   float: right;
 }
@@ -716,21 +728,28 @@ input:checked + .slider:before {
 }
 
 .operatingTime{
-  font-family: Montserrat-SemiBold,Arial,sans-serif;
+  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
   font-size: 16px;
   color: #2e3d4d;
   line-height: 20px;
   margin-left: 47px;
 }
 .operatingTime1{
-  font-family: Montserrat-SemiBold,Arial,sans-serif;
+  font-family:'Montserrat-SemiBold',Arial,sans-serif;
   font-size: 16px;
   color: #2e3d4d;
   line-height: 20px;
-
+}
+.timedash{
+  display: inline-block;
+  width: 4px;
+  height: 2px;
+  color: #3d5266;
+  background: #3d5266;
+  margin:0px 8px 4px 8px;
 }
 .time-picker{
-  width: 120px;
+  width: 155px;
   display: block;
 }
 

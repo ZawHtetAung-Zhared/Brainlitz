@@ -938,9 +938,9 @@ export class ScheduleComponent implements OnInit {
    }
 
   ngOnInit() {
-   
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
+    console.warn(this.selectedDay)
     console.log("undefined currency",this.currency);
     if(this.currency == undefined || this.currency == null){
       this.currency ={
@@ -956,61 +956,6 @@ export class ScheduleComponent implements OnInit {
     
   }
 
-  // selectedDayy(){
-  //   const _this =this;
-  //   const sortTheDays = this.selectedDay.sort();
-  //   const length = sortTheDays.length-1;
-  //   if(length == 6){
-  //     this.showSelectedDays = 'Sun ~ Sat';
-  //     return this.showSelectedDays;
-  //   } 
-  //   else if(this.selectedDay.length  == 3){;
-  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
-  //     console.log(a)
-  //     const b = a.substr(0,3);
-  //     const c = a.substr(10,17)
-  //     this.showSelectedDays = b + c;
-  //     console.log(b,c)
-  //     console.error( this.showSelectedDays )
-  //   }
-  //   else if(this.selectedDay.length  == 4){;
-  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
-  //     console.log(a)
-  //     const b = a.substr(0,3);
-  //     const c = a.substr(17,24)
-  //     this.showSelectedDays = b + c;
-  //     // console.log(b,'sdd',c)
-  //     console.error( this.showSelectedDays )
-  //   }
-  //   else if(this.selectedDay.length  == 5){;
-  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
-  //     console.log(a)
-  //     const b = a.substr(0,3);
-  //     const c = a.substr(24,31)
-  //     this.showSelectedDays = b + c;
-  //     // console.log(b,'sdd',c)
-  //     console.error( this.showSelectedDays )
-  //   }
-  //   else if(this.selectedDay.length  == 6){;
-  //     const a = sortTheDays.map(x => this.days[x].day+' to ').join('').slice(0,-3);
-  //     console.log(a)
-  //     const b = a.substr(0,3);
-  //     const c = a.substr(31,38)
-  //     this.showSelectedDays = b + c;
-  //     // console.log(b,'sdd',c)
-  //     console.error( this.showSelectedDays )
-  //   }
-
-  //   else if(this.selectedDay.length == 0){
-  //     this.showSelectedDays = 'Sun to Sat';
-  //     return this.showSelectedDays;
-
-  //   }
-  //   else {
-  //     this.showSelectedDays = sortTheDays.map(x => this.days[x].day+' & ').join('').slice(0,-2);
-  //     return this.showSelectedDays;
-  //   }
-  // }
   ngAfterViewInit() {
     this.staffList = [
       {
