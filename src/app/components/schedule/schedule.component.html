@@ -149,7 +149,7 @@
     </table>
   </div> -->
 
-  <div class="v-wrapper1">
+  <!-- <div class="v-wrapper1">
     <table class="timeline-table">
       <thead>
         <tr>
@@ -172,7 +172,7 @@
         </tr>
       </tbody>
     </table>
-  </div>
+  </div> -->
 
   <div class="v-wrapper1">
     <div class="timeline-table1"> 
@@ -206,16 +206,16 @@
           </div>  
           <div *ngFor="let timetable of list.timetable; let b = index;">
             <div *ngIf="i == 0">
-              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
-                <h6>{{timetable.course.courseCode}}</h6>
+              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                <h6>###{{timetable.course.courseCode}}</h6>
+                <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                 <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                 <p *ngIf="timetable.seat == null"></p>
               </div>
-            
             </div>
             <div *ngIf="i != 0">
-              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
-                <h6>{{timetable.course.courseCode}}</h6>
+              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                <h6>***{{timetable.course.courseCode}}</h6>
                 <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                 <p *ngIf="timetable.seat == null"></p>
               </div>
@@ -276,10 +276,15 @@
     </div>
   </div> -->
 
-  <div class="pt-3">
+  <!-- <div class="pt-3">
     <button (click)="addEnrollModal(enrollModal)" class="btn btn-primary">show enroll existing course</button>
-  </div>
+  </div> -->
 </div>
+
+<!-- <div>
+  <input type="time" name="time-input" [(ngModel)]="testTime">
+{{testTime}}
+</div> -->
 
 
 
