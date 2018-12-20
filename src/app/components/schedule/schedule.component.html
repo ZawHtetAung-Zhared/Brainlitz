@@ -189,15 +189,15 @@
           </div>  
           <div *ngFor="let timetable of list.timetable; let b = index;">
             <div *ngIf="i == 0">
-              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px'}" *ngIf="timetable.course != null">
+              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
                 <h6>###{{timetable.course.courseCode}}</h6>
-                <p>{{timetable.start|twentyFour}}</p>
+                <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                 <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                 <p *ngIf="timetable.seat == null"></p>
               </div>
             </div>
             <div *ngIf="i != 0">
-              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px','width': ((timetable.start.hr-timetable.end.hr)*4) + 'px'}" *ngIf="timetable.course != null">
+              <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
                 <h6>***{{timetable.course.courseCode}}</h6>
                 <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                 <p *ngIf="timetable.seat == null"></p>
@@ -263,6 +263,11 @@
     <button (click)="addEnrollModal(enrollModal)" class="btn btn-primary">show enroll existing course</button>
   </div> -->
 </div>
+
+<!-- <div>
+  <input type="time" name="time-input" [(ngModel)]="testTime">
+{{testTime}}
+</div> -->
 
 
 

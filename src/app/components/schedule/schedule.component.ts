@@ -74,6 +74,13 @@ export class ScheduleComponent implements OnInit {
   public paymentProviders:any;
   public selectedPayment:any;
   public paymentId:any;
+  // public time = {
+  //   'hr': 8,
+  //   "min": 30,
+  //   "meridian": "PM"
+  // }
+  // time = "14:57";
+
 
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
@@ -459,7 +466,7 @@ export class ScheduleComponent implements OnInit {
         {
           "course": {
             "coursePlanId": "5bebc2b65dccdb75024bf65f",
-            "courseCode": "inv-003",
+            "courseCode": "inv-003KKK",
             "name": "Testing For Invoice 001",
             "courseId": "5bfcb0357ef97856510d5a61"
           },
@@ -482,7 +489,7 @@ export class ScheduleComponent implements OnInit {
           },
           "end": {
             "hr": 9,
-            "min": 0,
+            "min": 45,
             "meridiem": "PM"
           }
         },
@@ -506,13 +513,13 @@ export class ScheduleComponent implements OnInit {
           "available": false,
           "dayOfWeek": 4,
           "start": {
-            "hr": 9,
+            "hr": 10,
             "min": 0,
             "meridiem": "PM"
           },
           "end": {
             "hr": 10,
-            "min": 0,
+            "min": 45,
             "meridiem": "PM"
           }
         },
@@ -533,7 +540,7 @@ export class ScheduleComponent implements OnInit {
             "min": 59,
             "meridiem": "PM"
           }
-        }
+        },
       ],
       "date": {
         "year": 2018,
@@ -653,7 +660,7 @@ export class ScheduleComponent implements OnInit {
         {
           "course": {
             "coursePlanId": "5bebc2b65dccdb75024bf65f",
-            "courseCode": "JAN-2",
+            "courseCode": "Row-3-1",
             "name": "Testing For Invoice 001",
             "courseId": "5bfcb0357ef97856510d5a61"
           },
@@ -676,7 +683,7 @@ export class ScheduleComponent implements OnInit {
         {
           "course": {
             "coursePlanId": "5bebc2b65dccdb75024bf65f",
-            "courseCode": "JAN-2-1",
+            "courseCode": "Row-3-2",
             "name": "Testing For Invoice 001",
             "courseId": "5bfcb0357ef97856510d5a61"
           },
@@ -692,7 +699,7 @@ export class ScheduleComponent implements OnInit {
           },
           "end": {
             "hr": 10,
-            "min": 0,
+            "min": 30,
             "meridiem": "PM"
           }
         },
@@ -709,7 +716,7 @@ export class ScheduleComponent implements OnInit {
         {
           "course": {
             "coursePlanId": "5bebc2b65dccdb75024bf65f",
-            "courseCode": "JAN-2",
+            "courseCode": "Feb-2-1",
             "name": "Testing For Invoice 001",
             "courseId": "5bfcb0357ef97856510d5a61"
           },
@@ -732,7 +739,7 @@ export class ScheduleComponent implements OnInit {
         {
           "course": {
             "coursePlanId": "5bebc2b65dccdb75024bf65f",
-            "courseCode": "JAN-2-1",
+            "courseCode": "Feb-2-2",
             "name": "Testing For Invoice 001",
             "courseId": "5bfcb0357ef97856510d5a61"
           },
@@ -743,11 +750,11 @@ export class ScheduleComponent implements OnInit {
           "dayOfWeek": null,
           "start": {
             "hr": 10,
-            "min": 0,
+            "min": 30,
             "meridiem": "AM"
           },
           "end": {
-            "hr": 10,
+            "hr": 11,
             "min": 0,
             "meridiem": "PM"
           }
@@ -765,7 +772,7 @@ export class ScheduleComponent implements OnInit {
         {
           "course": {
             "coursePlanId": "5bebc2b65dccdb75024bf65f",
-            "courseCode": "JAN-2",
+            "courseCode": "Feb-3-1",
             "name": "Testing For Invoice 001",
             "courseId": "5bfcb0357ef97856510d5a61"
           },
@@ -775,12 +782,12 @@ export class ScheduleComponent implements OnInit {
           "available": true,
           "dayOfWeek": null,
           "start": {
-            "hr": 9,
+            "hr": 8,
             "min": 0,
             "meridiem": "AM"
           },
           "end": {
-            "hr": 10,
+            "hr": 9,
             "min": 0,
             "meridiem": "PM"
           }
@@ -788,7 +795,7 @@ export class ScheduleComponent implements OnInit {
         {
           "course": {
             "coursePlanId": "5bebc2b65dccdb75024bf65f",
-            "courseCode": "JAN-2-1",
+            "courseCode": "Feb-3-2",
             "name": "Testing For Invoice 001",
             "courseId": "5bfcb0357ef97856510d5a61"
           },
@@ -804,7 +811,7 @@ export class ScheduleComponent implements OnInit {
           },
           "end": {
             "hr": 10,
-            "min": 0,
+            "min": 40,
             "meridiem": "PM"
           }
         },
@@ -918,6 +925,7 @@ export class ScheduleComponent implements OnInit {
     {"name":'Hayabusa',"id":5},
     {"name":'Kagura',"id":6}
   ]
+  // public testTime = '13:00';
 
   //https://brainlitz.s3.amazonaws.com/development/stgbl-cw1/profile/154088885512582284596_original.jpg
 
@@ -945,19 +953,74 @@ export class ScheduleComponent implements OnInit {
         this.currency.invCurrencySign = '$';
       }
     } 
-
-    // let start= {
-    //         "hr": 8,
+    // console.log('11:30PM',this.convertTime12to24({
+    //         "hr": 11,
+    //         "min": 30,
+    //         "meridiem": "PM"
+    //       }));
+    // console.log('5:30PM',this.convertTime12to24({
+    //         "hr": 5,
+    //         "min": 30,
+    //         "meridiem": "PM"
+    //       }));
+    // console.log('1;00PM',this.convertTime12to24({
+    //         "hr": 1,
+    //         "min": 0,
+    //         "meridiem": "PM"
+    //       }));
+    // console.log('12:00AM',this.convertTime12to24({
+    //         "hr": 12,
     //         "min": 0,
     //         "meridiem": "AM"
-    //       };
-    // let end = {
-    //   "hr": 9,
-    //   "min": 30,
-    //   "meridiem": "PM"
-    // }
+    //       })); 
+    // console.log('7:20AM',this.convertTime12to24({
+    //         "hr": 7,
+    //         "min": 20,
+    //         "meridiem": "AM"
+    //       })); 
     
+    setTimeout(() => {
+      let time = {
+        'hr': 12,
+        "min": 30,
+        "meridian": "AM"
+      }
+      this.convertTime12to24(time);
+      }, 300);
   }
+  testTime;
+  convertTime12to24(time12h) {
+    console.log(time12h)
+    let hours = time12h.hr;
+    let min = time12h.min;
+    let ampm= time12h.meridian;
+    console.log(ampm)
+
+    if(ampm === 'PM'){
+      console.log('PM')
+      if(hours == 12){
+        hours = 12;
+      }else{
+        hours = hours + 12;
+        console.log('Hours',hours)
+        if(hours<10){
+          hours = '0'+hours;
+        }
+      } 
+    }else{
+      if(hours ==12){
+        hours = '00'
+      }
+    }
+
+    if(min<10){
+      min = '0'+min;
+    }
+
+    this.testTime = hours + ':' + min;
+    console.log(typeof this.testTime)
+    console.log('~~~24',this.testTime)
+    }
 
   // selectedDayy(){
   //   const _this =this;

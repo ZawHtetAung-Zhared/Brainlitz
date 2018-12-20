@@ -69,7 +69,7 @@ import { CustomfieldComponent } from './components/customfield/customfield.compo
 import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { DateFormatPipe } from './service/pipe/dateformat.pipe';
-import { TwentyFourPipe } from './service/pipe/twentyfour.pipe';
+import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 
 @NgModule({
   declarations: [
@@ -120,7 +120,7 @@ import { TwentyFourPipe } from './service/pipe/twentyfour.pipe';
     EmailtemplateComponent,
     ScheduleComponent,
     DateFormatPipe,
-    TwentyFourPipe
+    HourMinsPipe
   ],
   imports: [
     BrowserModule,

@@ -807,7 +807,7 @@ ul.scedule-data-listing li.disabled{
 .v-wrapper1 {
   width: 100%;
   margin-top: 30px;
-  max-height: 150px;
+  max-height: 200px;
   overflow: scroll;
   position: relative;
 }
@@ -820,6 +820,11 @@ table {
 th {
   padding: 0.25em;
   min-width: 112px;
+}
+.time-range{
+  position: sticky;
+  top: 0;
+  z-index: 99;
 }
 
 thead th,
@@ -931,6 +936,7 @@ tbody td{
 }
 .lessons-range{
   position: relative;
+  z-index: 1;
 }
 
 .cursor-on{
