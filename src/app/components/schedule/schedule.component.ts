@@ -1050,7 +1050,7 @@ export class ScheduleComponent implements OnInit {
   }
   selectDataApiCall(id, name){
     this.selectData(id,name);
-    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, null, null, null,true)
+    this.getscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID)
   }
 
   // single Select Data
@@ -1066,7 +1066,7 @@ export class ScheduleComponent implements OnInit {
   openTeacherList(content){
     this.skip += this.limit;
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, this.keyword, this.limit, this.skip);
+    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID.toString());
     this.selectedTeacher = this.staffList.staff[0];
     this.teacherListSearchResult = this.staffList;
     this.selectedTeacher = this.teacherListSearchResult.staff[0];
@@ -1076,52 +1076,48 @@ export class ScheduleComponent implements OnInit {
     this.limit = 1;
     this.skip = 0;
     this.keyword = keyword;
-    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, keyword, this.limit, this.skip, false);
+    // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, keyword, this.limit, this.skip, false);
   }
 
   teacherListTypeAheadLoadMore(){
     this.skip += this.limit;
-    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, this.keyword, this.limit, this.skip,true);
+    // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, this.keyword, this.limit, this.skip,true);
   }
 
-  getscheulestaff(regionId,daysOfWeek,categoryId, keyword, limit, skip,viewMore){
+  getscheulestaff(regionId,daysOfWeek,categoryId){
     // Declare _this variable which represents the current component not to conflict with setTimeOut this keyword
     const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
     _this.blockUI.start('Loading...');
     setTimeout(() => {
-      let params = {
-        regionId,
-        daysOfWeek,
-        categoryId
-      }
-      if(_this.selectedDay.length == 0){
-          daysOfWeek = _this.showSelectedDays1;
-        }
-      if (keyword) {
-        params['keyword'] = keyword      
-        params['limit'] = limit      
-        params['skip'] = skip      
-      }
         // _this.selectedDayy();
-        _this.scheduleList=false;
-        _this._service.getscheduleStaffList(params)
+        if(this.selectedDay.length == 0) {
+          _this.scheduleList=false;
+        _this._service.getscheduleStaffList(this.regionId,'0,1,2,3,4,5,6'.toString(),this.selectedID)
         .subscribe((res:any) => {
-          if (Object.keys(res).length) {
-            if (viewMore) {
-              _this.teacherListSearchResult['staff'].push(res);
-              _this.selectedTeacher = _this.teacherListSearchResult.staff[0];
-            } else {
               _this.staffList=res;
               console.warn(res, 'subscribe')
               console.warn(_this.staffList, _this.selectedTeacher)
               _this.selectedTeacher = _this.staffList.staff[0];
               if(_this.selectedTeacher){
-                _this.getStaffTimetable(_this.selectedTeacher.userId)
-              }
-            }
-           
+              _this.getStaffTimetable(_this.selectedTeacher.userId)
+          }
+            _this.blockUI.stop(); 
+          }, (err:any) => {
+            // catch the error response from api         
+            _this.staffList=[];
+          })
+        }
+        _this.scheduleList=false;
+        _this._service.getscheduleStaffList(this.regionId,this.selectedDay.toString(),this.selectedID)
+        .subscribe((res:any) => {
+              _this.staffList=res;
+              console.warn(res, 'subscribe')
+              console.warn(_this.staffList, _this.selectedTeacher)
+              _this.selectedTeacher = _this.staffList.staff[0];
+              if(_this.selectedTeacher){
+              _this.getStaffTimetable(_this.selectedTeacher.userId)
           }
             _this.blockUI.stop(); 
           }, (err:any) => {
@@ -1130,6 +1126,28 @@ export class ScheduleComponent implements OnInit {
           })
       }, 0);
     return;
+  }
+
+  getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword,limit,skip){
+    const _this =this;
+    this.limit = 20;
+    this.skip = 0;
+    setTimeout(() => {
+      // _this.selectedDayy();
+      _this.scheduleList=false;
+      _this._service.getscheduleSearchStaffList(this.regionId,this.selectedDay.toString(),this.selectedID,keyword,this.limit,this.skip)
+      .subscribe((res:any) => {
+            _this.staffList=res;
+            console.warn(res, 'subscribe')
+            console.warn(_this.staffList, _this.selectedTeacher)
+            _this.selectedTeacher = _this.staffList.staff[0];
+          _this.blockUI.stop(); 
+        }, (err:any) => {
+          // catch the error response from api         
+          _this.staffList=[];
+        })
+    }, 0);
+  return;
   }
 
   getStaffTimetable(staffId){

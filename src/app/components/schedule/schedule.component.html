@@ -326,7 +326,7 @@
         [(ngModel)]="item.staffId"
         #staffId="ngModel"
         required
-        (input) = "teacherListTypeAhead($event.target.value)"      
+        (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value,limit,skip)"      
       >
       <span class="input-group-append">
         <button class="btn btn-design btn-outline-secondary" type="button">
@@ -336,14 +336,13 @@
     </div>
   </div>
   <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper">
-    <!-- <div *ngFor="let teacher of teacherListSearchResult.staff" class="d-flex align-items-center modal-teacher-list"  (click)="activeTeacher(teacher)" > -->
-    <div *ngFor="let teacher of teacherListSearchResult.staff" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
+    <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
+    <!-- <div *ngFor="let teacher of teacherListSearchResult.staff" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" > -->
       <div class="d-flex justify-content-center ">
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
         </div>
-        <!-- <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{((teacher.preferredName|slice:0:15) + '...':(teacher.preferredName)}}</p> -->
-        <!-- <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:15) + '...':(teacher.preferredName)}}</p> -->
+        <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:15) + '...':(teacher.preferredName)}}</p>
       </div>
     </div>      
   </div>

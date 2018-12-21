@@ -744,20 +744,57 @@ export class appService{
           return result;
       }) 
     }
-    getscheduleStaffList(params:any): Observable<any>{
+    // getscheduleStaffList(params:any): Observable<any>{
+    //   this.getLocalstorage()
+    //   // let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+    //  let url = this.baseUrl + '/' + params.regionId + '/schedule/stafflist?daysOfWeek=' + params.daysOfWeek.toString() + '&categoryId=' +  params.categoryId;
+    //  if (params.keyword) {
+    //    url += '&keyword=' + params.keyword 
+    //  }  
+    //  if (params.limit) {
+    //   url += '&limit=' + params.limit
+    //  }  
+    //  if (params.skip) {
+    //   url += '&skip=' + params.skip
+    //  }
+    //  console.log(url, ' Url', params)
+    //  console.warn(this.tokenType + ' ' + this.accessToken)
+    //   const httpOptions = {
+    //       headers: new HttpHeaders({ 
+    //         'Content-Type': 'application/json', 
+    //         'authorization': this.tokenType + ' ' + this.accessToken})
+    //   };
+
+    //     return this.httpClient.get(url, httpOptions)
+    //     .map((res:Response) => {
+    //       let result = res;    
+    //       console.warn(res, 'Res APi')  
+    //       return result;
+    //   }) 
+    // }
+    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string): Observable<any>{
+      this.getLocalstorage()
+      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+     console.log(url, ' Url')
+     console.warn(this.tokenType + ' ' + this.accessToken)
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          console.warn(res, 'Res APi')  
+          return result;
+      }) 
+    }
+    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,limit:number,skip:number): Observable<any>{
       this.getLocalstorage()
       // let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
-     let url = this.baseUrl + '/' + params.regionId + '/schedule/stafflist?daysOfWeek=' + params.daysOfWeek.toString() + '&categoryId=' +  params.categoryId;
-     if (params.keyword) {
-       url += '&keyword=' + params.keyword 
-     }  
-     if (params.limit) {
-      url += '&limit=' + params.limit
-     }  
-     if (params.skip) {
-      url += '&skip=' + params.skip
-     }
-     console.log(url, ' Url', params)
+     let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek.toString() + '&categoryId=' + categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+     console.log(url, ' Url')
      console.warn(this.tokenType + ' ' + this.accessToken)
       const httpOptions = {
           headers: new HttpHeaders({ 
