@@ -152,6 +152,62 @@ export class ScheduleComponent implements OnInit {
         "meridian": "AM"
       }
     },
+    {
+      "start": {
+        "hr": 11,
+        "min": 30,
+        "meridian": "AM"
+      }
+    },
+    {
+      "start": {
+        "hr": 12,
+        "min": 0,
+        "meridian": "PM"
+      }
+    },
+    {
+      "start": {
+        "hr": 12,
+        "min": 30,
+        "meridian": "PM"
+      }
+    },
+    {
+      "start": {
+        "hr": 1,
+        "min": 0,
+        "meridian": "PM"
+      }
+    },
+    {
+      "start": {
+        "hr": 1,
+        "min": 30,
+        "meridian": "PM"
+      }
+    },
+    {
+      "start": {
+        "hr": 2,
+        "min": 0,
+        "meridian": "PM"
+      }
+    },
+    {
+      "start": {
+        "hr": 2,
+        "min": 30,
+        "meridian": "PM"
+      }
+    },
+    {
+      "start": {
+        "hr": 3,
+        "min": 0,
+        "meridian": "PM"
+      }
+    }
   ];
   public timetableLists = [
     {
@@ -969,14 +1025,112 @@ export class ScheduleComponent implements OnInit {
     this._service.getRegionalAdministrator(this.regionId,token,tokenType)
     .subscribe((res:any) => {
       console.log("Operation Hours",res.operatingHour);
-      // this.calculateOperationTime(res.operatingHour.start,res.operatingHour.end);
-      // this.calculateOperationTime();
+      // this.calculateTime();
+      this.generateTimeObject(res.operatingHour.start,res.operatingHour.end)
     })
+  }
+
+  calculateTime(){
+
+  }
+
+  calculateAMPM(time){
+    var hour;
+    if(time.meridiem == 'PM'){
+      if(time.hr == 12){
+        hour = 12;
+      }else{
+        hour = time.hr + 12;
+      }
+    }else{
+      if(time.hr == 12){
+        hour = 0; 
+      }else{
+        hour = time.hr;
+      }
+    }
+    return hour;
+  }
+
+  generateTimeObject(startT,endT){
+    console.log(startT,endT)
+    let start = this.calculateAMPM(startT);
+    let end = this.calculateAMPM(endT);
+    console.log(start,end)
+
+    const locale = 'en'; // or whatever you want...
+    const hours = [];
+    var endMin = startT.min + 30
+
+    moment.locale(locale);  // optional - can remove if you are only dealing with one locale
+
+    for(let hour = start; hour <end; hour++) {
+        hours.push(moment({ 
+          hour,
+          minute: startT.min
+         }).format('h:mm A'));
+        hours.push(
+            moment({
+                hour,
+                minute: endMin
+            }).format('h:mm A')
+        );
+    }
+    console.log("hours",hours);
+
   }
 
   isEven(n) {
     return n % 2 == 0;
   }
+
+  // calculateOperationTime(operationTime){
+  //   var timeStart:any;
+  //   var timeEnd:any;
+  //   var start = {
+  //     'hr': 1,
+  //     'min': 0,
+  //     'meridiem': 'PM'
+  //   };
+  //   var end = {
+  //     'hr': 5,
+  //     'min': 0,
+  //     'meridiem': 'PM'
+  //   };
+  //   timeStart = new Date("01/01/2007 " + "1:00 PM");
+  //   timeEnd = new Date("01/01/2007 " + "5:00 PM");
+  //   // console.log("start,end",timeStart,timeEnd)
+  //   // console.log('end-start',timeEnd-timeStart)
+  //   var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
+  //   console.log(diff)
+  //   var minutes = diff % 60;
+  //   console.log("mins",minutes);
+  //   var diffHours = (diff - minutes) / 60;
+  //   console.log("hours",diffHours)
+  //   diffHours = diffHours*2;
+  //   var startHr = start.hr;
+  //   for(var i=0;i<diffHours;i++){
+  //     console.log("time",i);
+  //     var isEven:boolean = i%2 == 0;
+  //     // if(i!=0 && isEven == true){
+  //     //   startHr = start.hr + 1;
+  //     // }else{
+  //     //   startHr = start.hr;
+  //     // }
+  //     if(i>1){
+  //       startHr = start.hr + 1*(i-1);
+  //     }else{
+  //       startHr = start.hr;
+  //     }
+  //     let obj = {
+  //       'hr': startHr,
+  //       'min': 30,
+  //       'meridiem': start.meridiem
+  //     }
+  //     this.operatingHours.push(obj)
+  //   }
+  //   console.log("opr Arr",this.operatingHours)
+  // }
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
