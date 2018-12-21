@@ -1103,9 +1103,9 @@ export class ScheduleComponent implements OnInit {
     _this.blockUI.start('Loading...');
     setTimeout(() => {
         // _this.selectedDayy();
-        if(this.selectedDay.length == 0) {
+        if(_this.selectedDay.length == 0) {
           _this.scheduleList=false;
-        _this._service.getscheduleStaffList(this.regionId,'0,1,2,3,4,5,6'.toString(),this.selectedID)
+        _this._service.getscheduleStaffList(_this.regionId, '0,1,2,3,4,5,6' , _this.selectedID)
         .subscribe((res:any) => {
               _this.staffList=res;
               console.warn(res, 'subscribe')
@@ -1118,7 +1118,7 @@ export class ScheduleComponent implements OnInit {
           })
         }
         _this.scheduleList=false;
-        _this._service.getscheduleStaffList(this.regionId,this.selectedDay.toString(),this.selectedID)
+        _this._service.getscheduleStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID)
         .subscribe((res:any) => {
               _this.staffList=res;
               console.warn(res, 'subscribe')
@@ -1135,12 +1135,12 @@ export class ScheduleComponent implements OnInit {
 
   getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword,limit,skip){
     const _this =this;
-    this.limit = 20;
-    this.skip = 0;
+    _this.limit = 20;
+    _this.skip = 0;
     setTimeout(() => {
       // _this.selectedDayy();
       _this.scheduleList=false;
-      _this._service.getscheduleSearchStaffList(this.regionId,this.selectedDay.toString(),this.selectedID,keyword,this.limit,this.skip)
+      _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,_this.limit,_this.skip)
       .subscribe((res:any) => {
             _this.staffList=res;
             console.warn(res, 'subscribe')
@@ -1164,6 +1164,7 @@ export class ScheduleComponent implements OnInit {
 
   cancelModal(type){
     this.modalReference.close();
+    this.getscheulestaff(this.regionId,this.selectDay,this.selectedID)
     if(type == 'enrollModal'){
       this.selectedCustomer = {};
       this.stdLists = [];
