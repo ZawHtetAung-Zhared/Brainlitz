@@ -4,6 +4,7 @@ import { appService } from '../../service/app.service';
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-schedule',
@@ -78,12 +79,7 @@ export class ScheduleComponent implements OnInit {
   public paymentProviders:any;
   public selectedPayment:any;
   public paymentId:any;
-  // public time = {
-  //   'hr': 8,
-  //   "min": 30,
-  //   "meridian": "PM"
-  // }
-  // time = "14:57";
+  public operatingHours:any = [];
 
 
   // public toggleBool:boolean = true;
@@ -956,7 +952,7 @@ export class ScheduleComponent implements OnInit {
         this.currency.invCurrencySign = '$';
       }
     } 
-    
+    this.getRegionalInfo();
   }
 
   ngAfterViewInit() {
@@ -965,6 +961,21 @@ export class ScheduleComponent implements OnInit {
         'staff': [{}],
       }
     ]
+  }
+
+  getRegionalInfo(){
+    let token = localStorage.getItem('token');
+    let tokenType = localStorage.getItem('tokenType')
+    this._service.getRegionalAdministrator(this.regionId,token,tokenType)
+    .subscribe((res:any) => {
+      console.log("Operation Hours",res.operatingHour);
+      // this.calculateOperationTime(res.operatingHour.start,res.operatingHour.end);
+      // this.calculateOperationTime();
+    })
+  }
+
+  isEven(n) {
+    return n % 2 == 0;
   }
    
   getAutoSelectDate(){
@@ -1100,9 +1111,6 @@ export class ScheduleComponent implements OnInit {
               console.warn(res, 'subscribe')
               console.warn(_this.staffList, _this.selectedTeacher)
               _this.selectedTeacher = _this.staffList.staff[0];
-              if(_this.selectedTeacher){
-              _this.getStaffTimetable(_this.selectedTeacher.userId)
-          }
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
@@ -1116,9 +1124,6 @@ export class ScheduleComponent implements OnInit {
               console.warn(res, 'subscribe')
               console.warn(_this.staffList, _this.selectedTeacher)
               _this.selectedTeacher = _this.staffList.staff[0];
-              if(_this.selectedTeacher){
-              _this.getStaffTimetable(_this.selectedTeacher.userId)
-          }
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
@@ -1180,7 +1185,7 @@ export class ScheduleComponent implements OnInit {
   activeTeacher(teacher){
    this.selectedTeacher=teacher
    console.log(this.selectedTeacher);
-   this.getStaffTimetable(this.selectedTeacher.userId)
+   // this.getStaffTimetable(this.selectedTeacher.userId)
   }
 
   addEnrollModal(modal){
