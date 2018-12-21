@@ -1050,7 +1050,7 @@ export class ScheduleComponent implements OnInit {
   }
   selectDataApiCall(id, name){
     this.selectData(id,name);
-    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, null, null, null)
+    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, null, null, null,true)
   }
 
   // single Select Data
@@ -1067,9 +1067,9 @@ export class ScheduleComponent implements OnInit {
     this.skip += this.limit;
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, this.keyword, this.limit, this.skip);
-    // this.selectedTeacher = this.staffList.staff[0];
+    this.selectedTeacher = this.staffList.staff[0];
     this.teacherListSearchResult = this.staffList;
-    // this.selectedTeacher = this.teacherListSearchResult.staff[0];
+    this.selectedTeacher = this.teacherListSearchResult.staff[0];
   }
 
   teacherListTypeAhead(keyword){
@@ -1111,12 +1111,12 @@ export class ScheduleComponent implements OnInit {
           if (Object.keys(res).length) {
             if (viewMore) {
               _this.teacherListSearchResult['staff'].push(res);
-              // _this.selectedTeacher = _this.teacherListSearchResult.staff[0];
+              _this.selectedTeacher = _this.teacherListSearchResult.staff[0];
             } else {
               _this.staffList=res;
               console.warn(res, 'subscribe')
               console.warn(_this.staffList, _this.selectedTeacher)
-              // _this.selectedTeacher = _this.staffList.staff[0];
+              _this.selectedTeacher = _this.staffList.staff[0];
               if(_this.selectedTeacher){
                 _this.getStaffTimetable(_this.selectedTeacher.userId)
               }
