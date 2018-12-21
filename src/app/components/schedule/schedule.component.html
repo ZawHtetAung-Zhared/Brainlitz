@@ -323,7 +323,7 @@
         type="search" 
         placeholder="Search teachers"
         name="staffId"
-        [(ngModel)]="item.staffId"
+        [(ngModel)]="staff.staffId"
         #staffId="ngModel"
         required
         (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value,limit,skip)"      
@@ -332,7 +332,7 @@
         <button class="btn btn-design btn-outline-secondary" type="button">
           <i class="fa fa-search search-size"></i>
         </button>
-      </span> 
+      </span>
     </div>
   </div>
   <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper">
@@ -346,7 +346,7 @@
       </div>
     </div>      
   </div>
-  <button (click)="teacherListTypeAheadLoadMore()">Load more</button>
+  <button class="btn" *ngIf="staffList.more != 0"  (click)="teacherListTypeAheadLoadMore(20,skip)">Load more</button>
 </ng-template>
 <ng-template #enrollModal let-c="close" let-d="dismiss">
   <div class="d-flex flex-column header-wrapper">

@@ -18,9 +18,11 @@ export class ScheduleComponent implements OnInit {
   public test:any=[];
   public selectedDay =[];
   public lessonId :any;
-  public keyword:any = {};
-  public limit:number = 0;
+  public keyword:any ='';
+  public limit:number = 2;
   public skip:number = 0;
+  public tempstafflist:any;
+  public testin:any;
   public teacherListSearchResult:any = {staff: []}
   // public SelectedDate = [];
   public isGlobal:boolean = false;
@@ -31,6 +33,7 @@ export class ScheduleComponent implements OnInit {
   public courseVal:any = {};
   public selectedID:any;
   public item:any ={};
+  public staff:any ={};
   public modalReference: any;
   public isFousCategory: boolean = false;
   public isSelected:boolean = false;
@@ -1229,25 +1232,20 @@ export class ScheduleComponent implements OnInit {
   }
 
   openTeacherList(content){
-    this.skip += this.limit;
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID.toString());
-    this.selectedTeacher = this.staffList.staff[0];
-    this.teacherListSearchResult = this.staffList;
-    this.selectedTeacher = this.teacherListSearchResult.staff[0];
+    // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID);
+    // this.selectedTeacher = this.staffList.staff[0];
+    // this.teacherListSearchResult = this.staffList;
+    // this.selectedTeacher = this.teacherListSearchResult.staff[0];
   }
 
   teacherListTypeAhead(keyword){
-    this.limit = 1;
-    this.skip = 0;
+    // this.limit = 1;
+    // this.skip = 0;
     this.keyword = keyword;
     // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, keyword, this.limit, this.skip, false);
   }
 
-  teacherListTypeAheadLoadMore(){
-    this.skip += this.limit;
-    // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID, this.keyword, this.limit, this.skip,true);
-  }
 
   getscheulestaff(regionId,daysOfWeek,categoryId){
     // Declare _this variable which represents the current component not to conflict with setTimeOut this keyword
@@ -1259,53 +1257,89 @@ export class ScheduleComponent implements OnInit {
         // _this.selectedDayy();
         if(_this.selectedDay.length == 0) {
           _this.scheduleList=false;
-        _this._service.getscheduleStaffList(_this.regionId, '0,1,2,3,4,5,6' , _this.selectedID)
-        .subscribe((res:any) => {
+          _this._service.getscheduleStaffList(_this.regionId, '0,1,2,3,4,5,6' , _this.selectedID)
+          .subscribe((res:any) => {
               _this.staffList=res;
-              console.warn(res, 'subscribe')
-              console.warn(_this.staffList, _this.selectedTeacher)
+              // console.warn(res, 'subscribe')
+              // console.warn(_this.staffList, _this.selectedTeacher)
               _this.selectedTeacher = _this.staffList.staff[0];
+          //     if(_this.selectedTeacher){
+          //     _this.getStaffTimetable(_this.selectedTeacher.userId)
+          // }
+
             _this.blockUI.stop(); 
           }, (err:any) => {
-            // catch the error response from api         
+            // catch the error response from api  
+            _this.blockUI.stop();        
             _this.staffList=[];
           })
+          return;
         }
-        _this.scheduleList=false;
-        _this._service.getscheduleStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID)
-        .subscribe((res:any) => {
-              _this.staffList=res;
-              console.warn(res, 'subscribe')
-              console.warn(_this.staffList, _this.selectedTeacher)
-              _this.selectedTeacher = _this.staffList.staff[0];
-            _this.blockUI.stop(); 
-          }, (err:any) => {
-            // catch the error response from api         
-            _this.staffList=[];
-          })
+        else if(_this.selectDay.length > 0){
+          _this.scheduleList=false;
+          _this._service.getscheduleStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID)
+          .subscribe((res:any) => {
+                _this.staffList=res;
+                // console.warn(res, 'subscribe')
+                // console.warn(_this.staffList, _this.selectedTeacher)
+                _this.selectedTeacher = _this.staffList.staff[0];
+                if(_this.selectedTeacher){
+                _this.getStaffTimetable(_this.selectedTeacher.userId)
+            }
+              _this.blockUI.stop(); 
+            }, (err:any) => {
+              _this.blockUI.stop(); 
+              // catch the error response from api         
+              _this.staffList=[];
+            })
+        }
+        return;
+
       }, 0);
-    return;
+  }
+  teacherListTypeAheadLoadMore(limit,skip){
+    // this.skip += this.limit;
+    this.getSearchscheulestaff(this.regionId,this.selectedDay,this.selectedID, this.keyword, limit,skip);
   }
 
   getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword,limit,skip){
     const _this =this;
-    _this.limit = 20;
-    _this.skip = 0;
+    // _this.limit = 3;
+    // _this.skip = 0;
+    _this.keyword = keyword;
     setTimeout(() => {
       // _this.selectedDayy();
-      _this.scheduleList=false;
-      _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,_this.limit,_this.skip)
-      .subscribe((res:any) => {
+      if(_this.selectedDay.length == 0){
+        _this.scheduleList=false;
+        _this._service.getscheduleSearchStaffList(_this.regionId,'0,1,2,3,4,5,6',_this.selectedID,keyword,limit,skip)
+        .subscribe((res:any) => {
             _this.staffList=res;
-            console.warn(res, 'subscribe')
-            console.warn(_this.staffList, _this.selectedTeacher)
+            _this.tempstafflist = res;
+            console.error(_this.tempstafflist)
             _this.selectedTeacher = _this.staffList.staff[0];
-          _this.blockUI.stop(); 
-        }, (err:any) => {
-          // catch the error response from api         
-          _this.staffList=[];
-        })
+            _this.blockUI.stop(); 
+          }, (err:any) => {
+            // catch the error response from api         
+            _this.staffList=[];
+          })
+      } else if (_this.selectedDay.length > 0){
+        _this.scheduleList=false;
+        _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,limit,skip)
+        .subscribe((res:any) => {
+          _this.staffList=res;
+          _this.tempstafflist = res.staff;
+          console.error(_this.tempstafflist)
+          if(_this.staffList.staff){
+            _this.selectedTeacher = _this.staffList.staff[0];
+          }
+            _this.blockUI.stop(); 
+          }, (err:any) => {
+            // catch the error response from api         
+            _this.staffList=[];
+          })
+      }
     }, 0);
+    
   return;
   }
 
@@ -1318,6 +1352,7 @@ export class ScheduleComponent implements OnInit {
 
   cancelModal(type){
     this.modalReference.close();
+    this.staff.staffId='';
     this.getscheulestaff(this.regionId,this.selectDay,this.selectedID)
     if(type == 'enrollModal'){
       this.selectedCustomer = {};
@@ -1338,9 +1373,12 @@ export class ScheduleComponent implements OnInit {
   }
 
   activeTeacher(teacher){
-   this.selectedTeacher=teacher
    console.log(this.selectedTeacher);
-   // this.getStaffTimetable(this.selectedTeacher.userId)
+   this.selectedTeacher=teacher
+   if(this.tempstafflist || this.selectedTeacher==teacher){
+     this.modalReference.close();
+   }
+
   }
 
   addEnrollModal(modal){
@@ -1817,3 +1855,26 @@ export class ScheduleComponent implements OnInit {
 
 
 }
+// var array = [1,2,3,4,5,6,7,8];
+
+// function moveElementInArray(array, value, positionChange){
+//   var oldIndex = array.indexOf(value);
+//   if (oldIndex > -1){
+//     var newIndex = (oldIndex + positionChange);
+
+//     if (newIndex < 0){
+//       newIndex = 0
+//     }else if (newIndex >= array.length){
+//       newIndex = array.length
+//     }
+
+//     //http://jsperf.com/new-array-vs-splice-vs-slice/19
+//     var  arrayClone = array.slice();
+//    var a = arrayClone.splice(oldIndex,1);
+//    a= arrayClone.splice(newIndex,0,value);
+
+//     return a
+//   }
+//   return array
+// }
+// $('#after-change2').html(moveElementInArray(array, 2, -3).join(', '))

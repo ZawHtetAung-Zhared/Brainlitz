@@ -775,8 +775,8 @@ export class appService{
     getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string): Observable<any>{
       this.getLocalstorage()
       let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
-     console.log(url, ' Url')
-     console.warn(this.tokenType + ' ' + this.accessToken)
+    //  console.log(url, ' Url')
+    //  console.warn(this.tokenType + ' ' + this.accessToken)
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -786,16 +786,15 @@ export class appService{
         return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;    
-          console.warn(res, 'Res APi')  
+          // console.warn(res, 'Res APi')  
           return result;
       }) 
     }
     getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,limit:number,skip:number): Observable<any>{
       this.getLocalstorage()
-      // let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek.toString() + '&categoryId=' + categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
-     console.log(url, ' Url')
-     console.warn(this.tokenType + ' ' + this.accessToken)
+    //  console.log(url, ' Url')
+    //  console.warn(this.tokenType + ' ' + this.accessToken)
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
