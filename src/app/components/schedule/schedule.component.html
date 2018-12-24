@@ -31,6 +31,7 @@
         <input 
           class="form-control py-2 input-search-bg" 
           type="search" 
+          autocomplete="off"
           placeholder="Search category" 
           name="itemID"
           [(ngModel)]="item.itemID"
@@ -50,7 +51,7 @@
           <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
         </ul>
       </div>
-      <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff(regionId,selectedDay,selectedID)" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+      <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff()" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
     </form>
   </div>
 </div>
@@ -73,7 +74,7 @@
             class="regular-checkbox"  
             name="{{d.day}}" 
             value={{d.val}} 
-            (click)="getscheulestaff(regionId,selectedDay,selectedID)" 
+            (click)="getscheulestaff()" 
             (change)="selectDay(d.val ,$event,d.day,d,regionId,selectedDay,selectedID)" 
             [checked]="selectedDay.indexOf(d.val) != -1" 
             [disabled]="isEdit == true" >
@@ -86,6 +87,7 @@
         <input 
           class="form-control py-2 input-search-dropdown-bg" 
           type="search" 
+          autocomplete="off"
           value="{{item.itemID}}" 
           name="itemID"
           [(ngModel)]="item.itemID"
@@ -108,10 +110,10 @@
     </div>
   </div>
   <div class="d-flex flex-wrap w-100 align-items-center pl-3">
-    <div class="d-flex  teacher-list-wrapper ">
+    <div class="d-flex  teacher-list-wrapper " id="testscroll">
       
       <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
-        <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)">
+        <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher==selectedTeacher || teacher == activeTeacher" (click)="activeTeachers(teacher)">
           <div>
             <div  class="align-self-center tchr-img-wraper">
               <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
@@ -123,7 +125,7 @@
         </div>
       </div>      
     </div>
-    <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View All</div>
+    <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-center pt-1 teacher-more-view" (click)=openTeacherList(content)>View more</div>
   </div>
 
 
@@ -319,14 +321,15 @@
     <p class="modal-title c">Teachers</p>
     <div class="input-group mt-3">
       <input 
-        class="form-control py-2 input-search-bg" 
+        class="form-control py-2 input-search-bg"
+        autocomplete="off" 
         type="search" 
         placeholder="Search teachers"
         name="staffId"
         [(ngModel)]="staff.staffId"
         #staffId="ngModel"
         required
-        (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value,limit,skip)"      
+        (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value)"      
       >
       <span class="input-group-append">
         <button class="btn btn-design btn-outline-secondary" type="button">
@@ -335,8 +338,8 @@
       </span>
     </div>
   </div>
-  <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper">
-    <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" >
+  <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper" *ngIf="staffList" >
+    <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher || teacher == activeTeacher" (click)="activeTeachers1(teacher)" >
     <!-- <div *ngFor="let teacher of teacherListSearchResult.staff" class="d-flex align-items-center modal-teacher-list" [class.selectedteacher]="teacher==selectedTeacher " (click)="activeTeacher(teacher)" > -->
       <div class="d-flex justify-content-center ">
         <div class="modal-img-wraper align-self-center">
@@ -346,7 +349,8 @@
       </div>
     </div>      
   </div>
-  <button class="btn" *ngIf="staffList.more != 0"  (click)="teacherListTypeAheadLoadMore(20,skip)">Load more</button>
+  <button class="btn" *ngIf="staffList && staffList.more != 0 && staffList.more > 0"  (click)="teacherListTypeAheadLoadMore()">Load more</button>
+  <!-- <button class="btn" *ngIf="tempstafflist && tempstafflist.more != 0 && tempstafflist.more > 0"  (click)="teacherListTypeAheadLoadMore(20,0)">Load more</button> -->
 </ng-template>
 <ng-template #enrollModal let-c="close" let-d="dismiss">
   <div class="d-flex flex-column header-wrapper">
