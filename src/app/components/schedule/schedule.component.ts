@@ -1270,7 +1270,7 @@ export class ScheduleComponent implements OnInit {
         }
         else if(_this.selectDay.length > 0){
           _this.scheduleList=false;
-          _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,this.keyword,this.limit,this.skip)
+          _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,_this.keyword,_this.limit,_this.skip)
           .subscribe((res:any) => {
                 _this.staffList=res;
                 _this.selectedTeacher = _this.staffList.staff[0];
@@ -1300,7 +1300,7 @@ export class ScheduleComponent implements OnInit {
       // _this.selectedDayy();
       if(_this.selectedDay.length == 0){
         _this.scheduleList=false;
-        _this._service.getscheduleSearchStaffList(_this.regionId,'0,1,2,3,4,5,6',_this.selectedID,keyword,this.limit,this.skip)
+        _this._service.getscheduleSearchStaffList(_this.regionId,'0,1,2,3,4,5,6',_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
             // _this.staffList=res;
             // _this.tempstafflist = res;
@@ -1315,7 +1315,7 @@ export class ScheduleComponent implements OnInit {
           })
       } else if (_this.selectedDay.length > 0){
         _this.scheduleList=false;
-        _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,this.limit,this.skip)
+        _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
           // _this.tempstafflist = res;
           _this.staffList = res
