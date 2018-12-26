@@ -25,6 +25,7 @@ export class ScheduleComponent implements OnInit {
   public testin:any;
   public activeTeacher:any;
   public teacherListSearchResult:any = {staff: []}
+  public testshowbox =false;
   // public SelectedDate = [];
   public isGlobal:boolean = false;
   public showSelectedDays = '~'
@@ -1846,30 +1847,9 @@ export class ScheduleComponent implements OnInit {
     this.modalReference.close();
     // this.cancelUItext= false;
   }
-
+  testshow(){
+    this.testshowbox = true
+  }
 
 
 }
-// var array = [1,2,3,4,5,6,7,8];
-
-// function moveElementInArray(array, value, positionChange){
-//   var oldIndex = array.indexOf(value);
-//   if (oldIndex > -1){
-//     var newIndex = (oldIndex + positionChange);
-
-//     if (newIndex < 0){
-//       newIndex = 0
-//     }else if (newIndex >= array.length){
-//       newIndex = array.length
-//     }
-
-//     //http://jsperf.com/new-array-vs-splice-vs-slice/19
-//     var  arrayClone = array.slice();
-//    var a = arrayClone.splice(oldIndex,1);
-//    a= arrayClone.splice(newIndex,0,value);
-
-//     return a
-//   }
-//   return array
-// }
-// $('#after-change2').html(moveElementInArray(array, 2, -3).join(', '))
