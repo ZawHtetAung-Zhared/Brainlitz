@@ -5,7 +5,7 @@ import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDate
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment';
-
+declare var $:any;
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
@@ -1235,7 +1235,7 @@ export class ScheduleComponent implements OnInit {
 
   openTeacherList(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    // this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,'',20,0)
+    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,'')
     console.log(this.selectedTeacher)
     // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID);
     // this.selectedTeacher = this.staffList.staff[0];
@@ -1254,12 +1254,8 @@ export class ScheduleComponent implements OnInit {
           _this.scheduleList=false;
           _this._service.getscheduleStaffList(_this.regionId, '0,1,2,3,4,5,6' , _this.selectedID)
           .subscribe((res:any) => {
-              _this.staffList=res;
-              _this.selectedTeacher = _this.staffList.staff[0];
-          //     if(_this.selectedTeacher){
-          //     _this.getStaffTimetable(_this.selectedTeacher.userId)
-          // }
-
+            _this.staffList=res;
+            _this.selectedTeacher = _this.staffList.staff[0];
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api  
@@ -1302,12 +1298,8 @@ export class ScheduleComponent implements OnInit {
         _this.scheduleList=false;
         _this._service.getscheduleSearchStaffList(_this.regionId,'0,1,2,3,4,5,6',_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
-            // _this.staffList=res;
             // _this.tempstafflist = res;
             _this.staffList = res
-            // _this.selectedTeacher = _this.staffList.staff[0];
-            // _this.selectedTeacher = _this.activeTeacher;
-            // _this.selectedTeacher = _this.tempstafflist.staff[0];
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
@@ -1317,14 +1309,9 @@ export class ScheduleComponent implements OnInit {
         _this.scheduleList=false;
         _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
-          // _this.tempstafflist = res;
-          _this.staffList = res
-          _this.selectedTeacher = _this.staffList.staff[0];
-          // _this.selectedTeacher = _this.activeTeacher;
-          // if(_this.tempstafflist.staff){
-            // _this.selectedTeacher = _this.tempstafflist.staff[0];
-            // _this.tempstafflist.staff[0] = _this.staffList.staff[0]
-          // }
+          _this.tempstafflist = res;
+          // _this.staffList = res
+          console.log(_this.activeTeacher)
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
@@ -1366,30 +1353,25 @@ export class ScheduleComponent implements OnInit {
 
   activeTeachers(teacher){
     this.selectedTeacher=teacher
-    this.activeTeacher = this.selectedTeacher
+    this.selectedTeacher.userId=teacher.userId
    if(this.staffList.staff.indexOf(this.selectedTeacher) > 4){
      $('.teacher-list-wrapper').scrollLeft( 50*(this.staffList.staff.indexOf(this.selectedTeacher)));
    }
    else{
     $('.teacher-list-wrapper').scrollLeft( 0);
    }
-  //  if(this.tempstafflist && this.selectedTeacher==teacher){
-  //    this.modalReference.close();
-  //  }
-
   }
   activeTeachers1(teacher){
-    this.activeTeacher = teacher
-    this.selectedTeacher=this.activeTeacher 
-   if(this.staffList.staff.indexOf(this.selectedTeacher) > 4){
-     $('.teacher-list-wrapper').scrollLeft( 50*(this.staffList.staff.indexOf(this.selectedTeacher)));
+    this.selectedTeacher = teacher
+    this.selectedTeacher.userId = teacher.userId
+   if(this.tempstafflist.staff.indexOf(this.selectedTeacher) > 4){
+     $('.teacher-list-wrapper').scrollLeft( 50*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
    }
    else{
     $('.teacher-list-wrapper').scrollLeft( 0);
    }
-   if(this.staffList && this.activeTeacher==teacher){
      this.modalReference.close();
-   }
+
    this.staff.staffId='';
   
   }
