@@ -16,6 +16,7 @@ export class ScheduleComponent implements OnInit {
   public logo:any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
   public test:any=[];
+  public testshowboxs:any;
   public yPosition:any;
   public selectedDay =[];
   public lessonId :any;
@@ -1005,8 +1006,8 @@ export class ScheduleComponent implements OnInit {
    @HostListener('document:click', ['$event']) clickedOutside($event){
     // here you can hide your menu
     this.testshowbox = '';
-    console.log("CLICKED OUTSIDE");
-  }
+    this.testshowboxs= false;
+    }
 
   ngOnInit() {
     this.activeTab = 'enroll';
@@ -1263,7 +1264,11 @@ export class ScheduleComponent implements OnInit {
           _this._service.getscheduleStaffList(_this.regionId, '0,1,2,3,4,5,6' , _this.selectedID)
           .subscribe((res:any) => {
             _this.staffList=res;
+
             _this.selectedTeacher = _this.staffList.staff[0];
+            if( _this.staffList.staff){
+              _this.selectedTeacher = _this.staffList.staff[0];
+            }
             if(_this.selectedTeacher){
               _this.getStaffTimetable(_this.selectedTeacher.userId,'0,1,2,3,4,5,6')
             }
@@ -1280,7 +1285,9 @@ export class ScheduleComponent implements OnInit {
           _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,_this.keyword,_this.limit,_this.skip)
           .subscribe((res:any) => {
                 _this.staffList=res;
-                _this.selectedTeacher = _this.staffList.staff[0];
+                if(_this.staffList.staff){
+                  _this.selectedTeacher = _this.staffList.staff[0];
+                }
                 if(_this.selectedTeacher){
                   _this.getStaffTimetable(_this.selectedTeacher.userId,_this.selectedDay.toString())
                 }
@@ -1389,11 +1396,12 @@ export class ScheduleComponent implements OnInit {
   
   }
 
-  addEnrollModal(modal){
+  addEnrollModal(modal,type){
       this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
       this.courseId = "5beb8c7d1f893164fff2c31d";
       this.lessonId = "5beb8c7d1f893164fff2c32b";
       this.getCourseDetail(this.courseId);
+      this.onClickModalTab(type)
   }
 
   getCourseDetail(id){
@@ -1862,7 +1870,7 @@ export class ScheduleComponent implements OnInit {
   testshow(courseID,e){
     e.preventDefault();
     e.stopPropagation();
-    this.yPosition = e.layerY - 100;
+    this.testshowboxs= true;
     this.testshowbox = courseID;
     console.log(courseID)
   }
