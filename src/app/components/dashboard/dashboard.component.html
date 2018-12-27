@@ -98,9 +98,9 @@
                     </div>
                     <label class="labelTitle">Operating hour</label>
                   </div>
-                  <label *ngIf="!isEdit"  class="operatingTime">{{item.operatingHour.start.hr }}:{{item.operatingHour.start.min }}<span *ngIf="item && item.operatingHour.start.min < 10 " >0</span> {{item.operatingHour.start.meridiem}} </label>
+                  <label *ngIf="!isEdit"  class="operatingTime">{{item.operatingHour.start.hr }}:<span *ngIf="item && item.operatingHour.start.min < 10 " >0</span>{{item.operatingHour.start.min }}{{item.operatingHour.start.meridiem}} </label>
                   <span *ngIf="!isEdit" class="timedash">  </span>
-                  <label *ngIf="!isEdit "  class="operatingTime1">{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 " >0</span>{{item.operatingHour.end.min }} {{item.operatingHour.end.meridiem}} </label>
+                  <label *ngIf="!isEdit "  class="operatingTime1">{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 " >0</span>{{item.operatingHour.end.min }}{{item.operatingHour.end.meridiem}} </label>
                   <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
                     <div class="form-group url-edit d-flex flex-row"> 
                       <div class="mr-2">
