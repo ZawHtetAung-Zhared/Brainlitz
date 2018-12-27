@@ -1207,7 +1207,7 @@ input:checked + .slider:before {
 
 ul.options-box {
   position: absolute;
-  width: 100%;
+  width: 420px;
   background: #fff;
   z-index: 9;
   padding: 0px;
@@ -1215,7 +1215,6 @@ ul.options-box {
   -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
-  margin-left: 40px;
   border-radius: 4px;
 }
 .carret-box {
@@ -1231,29 +1230,26 @@ ul.options-box {
   top: -19px;
 }
 ul.options-box li {
-  color: #2e3d4d;
   font-size: 16px;
   border-bottom: 1px solid #edeff0;
-  padding: 16px 0;
+  padding: 20px 0px 16px 0px;;
   cursor: pointer;
-  transition: 0.2s ease-out all;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
-ul.options-box li:hover{
-  color: #64707d;
-}
+
 ul.options-box li:first-child {
-  padding-top: 0;
+  padding-top: 20px;
 }
 ul.options-box li:last-child {
   border-bottom: none;
-  /*padding-bottom: 0;*/
 }
 
 .seatLeft{
-  /* padding: 5px; */
-  /* line-height: 20px; */
-  /* background: white; */
+  width: 105px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
   display: inline-block;
 }
 
@@ -1265,9 +1261,30 @@ ul.options-box li:last-child {
   border-left: solid 15px #f2f4f5;
   border-top: solid 15px #f2f4f5;        
   border-right: solid 15px #fff;
-  /* -webkit-filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1)); */
-  /* filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1)); */
   position: absolute;
   right: 120px;
-  /* top: -19px; */
+}
+.lesson-slot-box{
+  color: #d4d5d6;
+}
+
+.course-code,.seatLeft,.lessoncount-EndDate{
+  color:#64707d!important;
+}
+.lesson-slot-li{
+  color: #2e3d4d;
+  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+.course-name{
+  color:#2e3e4d;
+  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.lessoncount-EndDate{
+  font-size: 12px;
+  font-family: 'Montserrat-Medium',Arial, sans-serif;
+  font-weight: 500;
 }

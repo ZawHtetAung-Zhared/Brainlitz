@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, EventEmitter,AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef,HostListener, EventEmitter,AfterViewInit } from '@angular/core';
 
 import { appService } from '../../service/app.service';
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ export class ScheduleComponent implements OnInit {
   public logo:any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
   public test:any=[];
+  public yPosition:any;
   public selectedDay =[];
   public lessonId :any;
   public keyword:any ='';
@@ -25,7 +26,7 @@ export class ScheduleComponent implements OnInit {
   public testin:any;
   public activeTeacher:any;
   public teacherListSearchResult:any = {staff: []}
-  public testshowbox =false;
+  public testshowbox:any ='';
   // public SelectedDate = [];
   public isGlobal:boolean = false;
   public showSelectedDays = '~'
@@ -997,6 +998,11 @@ export class ScheduleComponent implements OnInit {
   constructor(private _service:appService, private modalService: NgbModal, public toastr: ToastsManager,public vcr: ViewContainerRef) {
       this.toastr.setRootViewContainerRef(vcr);
    }
+   @HostListener('document:click', ['$event']) clickedOutside($event){
+    // here you can hide your menu
+    this.testshowbox = '';
+    console.log("CLICKED OUTSIDE");
+  }
 
   ngOnInit() {
     this.activeTab = 'enroll';
@@ -1884,9 +1890,12 @@ export class ScheduleComponent implements OnInit {
     this.modalReference.close();
     // this.cancelUItext= false;
   }
-  testshow(){
-    this.testshowbox = true
+  testshow(courseID,e){
+    e.preventDefault();
+    e.stopPropagation();
+    this.yPosition = e.layerY - 100;
+    this.testshowbox = courseID;
+    console.log(courseID)
   }
-
 
 }
