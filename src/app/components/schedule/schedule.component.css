@@ -719,6 +719,8 @@ ul.scedule-data-listing li.disabled{
   overflow-x: auto;
 }
 .teacher-more-view{
+  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-size: 12px;
   padding: 6px;
   cursor: pointer;
   border-radius: 16px; 

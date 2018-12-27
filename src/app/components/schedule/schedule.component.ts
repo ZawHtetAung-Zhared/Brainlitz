@@ -1425,11 +1425,12 @@ export class ScheduleComponent implements OnInit {
   
   }
 
-  addEnrollModal(modal){
+  addEnrollModal(modal,type){
       this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
       this.courseId = "5beb8c7d1f893164fff2c31d";
       this.lessonId = "5beb8c7d1f893164fff2c32b";
       this.getCourseDetail(this.courseId);
+      this.onClickModalTab(type)
   }
 
   getCourseDetail(id){
