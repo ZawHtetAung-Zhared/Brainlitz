@@ -1030,112 +1030,149 @@ export class ScheduleComponent implements OnInit {
     this._service.getRegionalAdministrator(this.regionId,token,tokenType)
     .subscribe((res:any) => {
       console.log("Operation Hours",res.operatingHour);
-      // this.calculateTime();
-      this.generateTimeObject(res.operatingHour.start,res.operatingHour.end)
+      this.calculateTime(res.operatingHour);
+      // this.generateTimeObject(res.operatingHour.start,res.operatingHour.end)
     })
   }
 
-  calculateTime(){
+  calculateTime(time){
+    var sTime = time.start.hr+ ':' + time.start.min + ' ' + time.start.meridiem;
+    var eTime = time.end.hr+ ':' + time.end.min + ' ' + time.end.meridiem;
+    console.log(sTime,eTime)
+    var timeStart:any;
+    var timeEnd:any;
 
-  }
+    timeStart = new Date("01/01/2007 " + sTime);
+    console.log('timeStart',timeStart);
+    timeEnd = new Date("01/01/2007 " + eTime);
+    console.log('timeEnd',timeEnd);
+    var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
+    console.log(diff)
+    var diffMins = diff % 60;
+    console.log("mins",diffMins);
+    var diffHours = (diff - diffMins) / 60;
+    console.log("hours",diffHours)
+    if((diffMins == 30 || diffMins < 30)&& diffMins>0){
+      diffHours = (diffHours*2)+1;
+      console.log(diffHours)
+    }else if(diffMins >30 && diffMins < 60){
+      diffHours = (diffHours*2)+2;
+      console.log(diffHours)
+    }else if(diffMins == 0){
+      diffHours = diffHours*2;
+      console.log(diffHours)
+    }
 
-  calculateAMPM(time){
-    var hour;
-    if(time.meridiem == 'PM'){
-      if(time.hr == 12){
-        hour = 12;
-      }else{
-        hour = time.hr + 12;
-      }
+    var hours= [];
+    if (time.start.meridiem === 'PM') {
+      var tempH = (time.start.hr+12)*60 + time.start.min;
     }else{
-      if(time.hr == 12){
-        hour = 0; 
+      if(time.start.hr == 12){
+        var tempH = 0*60 + time.start.min;
       }else{
-        hour = time.hr;
+        var tempH = time.start.hr*60 + time.start.min;
       }
     }
-    return hour;
-  }
+    
+    for(var i=0;i<=diffHours;i++){
+      if(i > 0){
+        tempH = tempH+30;
+      }else{
+        tempH = tempH;
+      }
+      var min = tempH%60;
+      var h = (tempH - min)/60;
 
-  generateTimeObject(startT,endT){
-    console.log(startT,endT)
-    let start = this.calculateAMPM(startT);
-    let end = this.calculateAMPM(endT);
-    console.log(start,end)
-
-    const locale = 'en'; // or whatever you want...
-    const hours = [];
-    var endMin = startT.min + 30
-
-    moment.locale(locale);  // optional - can remove if you are only dealing with one locale
-
-    for(let hour = start; hour <end; hour++) {
-        hours.push(moment({ 
-          hour,
-          minute: startT.min
-         }).format('h:mm A'));
-        hours.push(
-            moment({
-                hour,
-                minute: endMin
-            }).format('h:mm A')
-        );
+      if(h>12){
+        var hr = h-12;
+        // console.log(">12",hr)
+        var ampm = 'PM';
+      }else if(h<12){
+        var hr = h;
+        // console.log("<12",hr)
+        var ampm = 'AM';
+      }else if(h==12){
+        var hr = h;
+        // console.log("==12",hr)
+        var ampm = 'PM';
+      }
+      var obj = {
+        'hr': hr,
+        'min': min,
+        'meridiem': ampm
+      }
+      // console.log("hour",obj)
+      hours.push(obj);
     }
-    console.log("hours",hours);
-
+    console.log("opr Arr",hours)
   }
 
-  isEven(n) {
-    return n % 2 == 0;
-  }
-
-  // calculateOperationTime(operationTime){
-  //   var timeStart:any;
-  //   var timeEnd:any;
-  //   var start = {
-  //     'hr': 1,
-  //     'min': 0,
-  //     'meridiem': 'PM'
-  //   };
-  //   var end = {
-  //     'hr': 5,
-  //     'min': 0,
-  //     'meridiem': 'PM'
-  //   };
-  //   timeStart = new Date("01/01/2007 " + "1:00 PM");
-  //   timeEnd = new Date("01/01/2007 " + "5:00 PM");
-  //   // console.log("start,end",timeStart,timeEnd)
-  //   // console.log('end-start',timeEnd-timeStart)
-  //   var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
-  //   console.log(diff)
-  //   var minutes = diff % 60;
-  //   console.log("mins",minutes);
-  //   var diffHours = (diff - minutes) / 60;
-  //   console.log("hours",diffHours)
-  //   diffHours = diffHours*2;
-  //   var startHr = start.hr;
-  //   for(var i=0;i<diffHours;i++){
-  //     console.log("time",i);
-  //     var isEven:boolean = i%2 == 0;
-  //     // if(i!=0 && isEven == true){
-  //     //   startHr = start.hr + 1;
-  //     // }else{
-  //     //   startHr = start.hr;
-  //     // }
-  //     if(i>1){
-  //       startHr = start.hr + 1*(i-1);
+  // calculateAMPM(time){
+  //   var hour;
+  //   if(time.meridiem == 'PM'){
+  //     if(time.hr == 12){
+  //       hour = 12;
   //     }else{
-  //       startHr = start.hr;
+  //       hour = time.hr + 12;
   //     }
-  //     let obj = {
-  //       'hr': startHr,
-  //       'min': 30,
-  //       'meridiem': start.meridiem
+  //   }else{
+  //     if(time.hr == 12){
+  //       hour = 0; 
+  //     }else{
+  //       hour = time.hr;
   //     }
-  //     this.operatingHours.push(obj)
   //   }
-  //   console.log("opr Arr",this.operatingHours)
+  //   return hour;
   // }
+
+  // generateTimeObject(startT,endT){
+  //   console.log(startT,endT)
+  //   let start = this.calculateAMPM(startT);
+  //   let end = this.calculateAMPM(endT);
+  //   console.log(start,end)
+
+  //   const locale = 'en'; // or whatever you want...
+  //   const hours = [];
+  //   var endMin = startT.min + 30;
+  //   // var endMin;
+  //   // if(startT.min<30){
+  //   //   endMin = startT.min + 30;
+  //   // }else{
+  //   //   endMin = 60 - startT.min;
+  //   // }
+
+  //   moment.locale(locale);  // optional - can remove if you are only dealing with one locale
+
+  //   for(let hour = start; hour <=end; hour++) { 
+  //     hours.push(moment({ 
+  //       hour,
+  //       minute: startT.min
+  //     }).format('h:mm A'));
+  //     hours.push(moment({
+  //       hour,
+  //       minute: endMin
+  //     }).format('h:mm A'));
+
+  //       // if(hour>=12){
+  //       //   var ampm = "PM";
+  //       // }else{
+  //       //   var ampm = "AM";
+  //       // }
+  //       // hours.push({
+  //       //   'hr': hour,
+  //       //   'min': startT.min,
+  //       //   'meridiem': ampm
+  //       // })
+  //       // hours.push({
+  //       //   'hr': hour,
+  //       //   'min': endMin,
+  //       //   'meridiem': ampm
+  //       // })
+  //   }
+  //   console.log("hours",hours);
+
+  // }
+
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
