@@ -209,31 +209,31 @@
           </div>  
           <div *ngFor="let timetable of list.timetable; let b = index;">
             <div *ngIf="i == 0">
-              <div class="lesson-slot" (click)="testshow()" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+              <div class="lesson-slot" (click)="testshow(timetable.course.courseCode,$event)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
                 <h6>###{{timetable.course.courseCode}}</h6>
                 <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                 <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                 <p *ngIf="timetable.seat == null"></p>
-                <ul id="testing" class="options-box" *ngIf="testshowbox" >
+                <ul id="testing" class="options-box" [ngStyle]="{'right': yPosition + 'px'}" *ngIf="testshowbox==timetable.course.courseCode" >
+                    
                     <div class="carret-box"></div>
                     <div class="w-100" style="background:#f2f4f5">
                       <div class="d-flex pt-3 justify-content-between">
-                        <p class="pl-3">PG-2</p>
+                        <p class="pl-3 course-code">{{timetable.course.courseCode}}</p>
                         <div style="width:120px;height:30px;background:white;">
                             <div class="carret-box1"></div>
-                            <div class="seatLeft text-center pt-1">4/10 seats left</div>
+                            <div class="seatLeft text-center ">4/10 seats left</div>
                         </div>
                       </div>
                       <div class="d-flex flex-column pl-3 pb-3">
-                        <div class="pb-2">Piano Grade two</div>
-                        <div>20 lesson * End at 26 Nov 2018</div>
+                        <div class="pb-2 course-name">{{timetable.course.name}} </div>
+                        <div class="lessoncount-EndDate">20 lesson * End at 26 Nov 2018</div>
                       </div>
                     </div>
-                    <div class="pl-3 pt-3"> 
-                      <li class="d-flex justify-content-between" >Enroll New Customer <span><i class="fa fa-2x pr-2 fa-angle-right"></i></span></li>
-                      <li class="d-flex justify-content-between">View Student <span><i class="fa fa-2x pr-2 fa-angle-right"></i></span></li>
-                      <li class="d-flex justify-content-between"> <span>Change Schedule</span> <span>(coming soon)</span></li>
-                      <li class="d-flex justify-content-between"> <span>Cancel Class</span> <span>(coming soon)</span></li>
+                    <div class="pl-3"> 
+                      <li class="d-flex justify-content-between" ><span class="lesson-slot-li">Enroll New Customer </span><span><i class="fa lesson-slot-box fa-2x pr-2 fa-angle-right"></i></span></li>
+                      <li class="d-flex justify-content-between"><span class="lesson-slot-li">View Student</span><span><i class="fa lesson-slot-box fa-2x pr-2 fa-angle-right"></i></span></li>
+                      <li class="d-flex" > <span class="lesson-slot-li">Cancel Class</span></li>
                     </div>
                 </ul>
               </div>
