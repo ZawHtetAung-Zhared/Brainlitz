@@ -1914,12 +1914,18 @@ export class ScheduleComponent implements OnInit {
     this.modalReference.close();
     // this.cancelUItext= false;
   }
-  testshow(courseID,e){
+
+  onClickCourse(course,e){
     e.preventDefault();
     e.stopPropagation();
+    console.log(e.layerY)
+    this.yPosition = e.layerY + 40;
+    console.log(this.yPosition)
     this.testshowboxs= true;
-    this.testshowbox = courseID;
-    console.log(courseID)
+    this.testshowbox = course.courseId;
+
+    console.log(course.courseId)
+     console.log(course)
   }
 
 }
