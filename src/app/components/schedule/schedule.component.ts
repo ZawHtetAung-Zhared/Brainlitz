@@ -17,6 +17,7 @@ export class ScheduleComponent implements OnInit {
   public currency = JSON.parse(localStorage.getItem('currency'));
   public test:any=[];
   public testshowboxs:any;
+  public tempSelectedTeacher:any;
   public yPosition:any;
   public selectedDay =[];
   public lessonId :any;
@@ -1260,7 +1261,7 @@ export class ScheduleComponent implements OnInit {
   selectDataApiCall(id, name){
     this.selectData(id,name);
     // this.getscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID)
-    this.getscheulestaff()
+    this.getschedulestaff('sd')
   }
 
   // single Select Data
@@ -1282,7 +1283,8 @@ export class ScheduleComponent implements OnInit {
     // this.teacherListSearchResult = this.staffList;
     // this.selectedTeacher = this.teacherListSearchResult.staff[0];
   }
-  getscheulestaff(){
+
+  getschedulestaff(type){
     // Declare _this variable which represents the current component not to conflict with setTimeOut this keyword
     const _this = this;
     // Api calling should after checking the date 
@@ -1295,9 +1297,9 @@ export class ScheduleComponent implements OnInit {
           _this._service.getscheduleStaffList(_this.regionId, '0,1,2,3,4,5,6' , _this.selectedID)
           .subscribe((res:any) => {
             _this.staffList=res;
-
-            _this.selectedTeacher = _this.staffList.staff[0];
-            if( _this.staffList.staff){
+            if(_this.staffList.staff && type == 'checkbox'){
+              _this.selectedTeacher = _this.tempSelectedTeacher
+            } else {
               _this.selectedTeacher = _this.staffList.staff[0];
             }
             if(_this.selectedTeacher){
@@ -1316,9 +1318,12 @@ export class ScheduleComponent implements OnInit {
           _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,_this.keyword,_this.limit,_this.skip)
           .subscribe((res:any) => {
                 _this.staffList=res;
-                if(_this.staffList.staff){
+                if(_this.staffList.staff && type == 'checkbox'){
+                  _this.selectedTeacher = _this.tempSelectedTeacher
+                } else {
                   _this.selectedTeacher = _this.staffList.staff[0];
                 }
+    
                 if(_this.selectedTeacher){
                   _this.getStaffTimetable(_this.selectedTeacher.userId,_this.selectedDay.toString())
                 }
@@ -1347,24 +1352,22 @@ export class ScheduleComponent implements OnInit {
         _this.scheduleList=false;
         _this._service.getscheduleSearchStaffList(_this.regionId,'0,1,2,3,4,5,6',_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
-            // _this.tempstafflist = res;
-            _this.staffList = res
+            _this.tempstafflist = res;
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
-            _this.staffList=[];
+            _this.tempstafflist=[];
           })
       } else if (_this.selectedDay.length > 0){
         _this.scheduleList=false;
         _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
           _this.tempstafflist = res;
-          // _this.staffList = res
           console.log(_this.activeTeacher)
             _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
-            _this.staffList=[];
+            _this.tempstafflist=[];
           })
       }
     }, 0);
@@ -1383,7 +1386,7 @@ export class ScheduleComponent implements OnInit {
   cancelModal(type){
     this.modalReference.close();
     this.staff.staffId='';
-    this.getscheulestaff()
+    // this.getschedulestaff()
     if(type == 'enrollModal'){
       this.selectedCustomer = {};
       this.stdLists = [];
@@ -1404,6 +1407,7 @@ export class ScheduleComponent implements OnInit {
 
   activeTeachers(teacher){
     this.selectedTeacher=teacher
+    this.tempSelectedTeacher=teacher;
     this.selectedTeacher.userId=teacher.userId;
    if(this.staffList.staff.indexOf(this.selectedTeacher) > 4){
      $('.teacher-list-wrapper').scrollLeft( 50*(this.staffList.staff.indexOf(this.selectedTeacher)));
@@ -1420,6 +1424,7 @@ export class ScheduleComponent implements OnInit {
   }
   activeTeachers1(teacher){
     this.selectedTeacher = teacher
+    this.tempSelectedTeacher=teacher;
     this.selectedTeacher.userId = teacher.userId;
     if(this.selectDay.length == 0){
        this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
