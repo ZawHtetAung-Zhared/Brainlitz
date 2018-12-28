@@ -1404,17 +1404,28 @@ export class ScheduleComponent implements OnInit {
 
   activeTeachers(teacher){
     this.selectedTeacher=teacher
-    this.selectedTeacher.userId=teacher.userId
+    this.selectedTeacher.userId=teacher.userId;
    if(this.staffList.staff.indexOf(this.selectedTeacher) > 4){
      $('.teacher-list-wrapper').scrollLeft( 50*(this.staffList.staff.indexOf(this.selectedTeacher)));
    }
    else{
     $('.teacher-list-wrapper').scrollLeft( 0);
    }
+   if(this.selectDay.length == 0){
+     this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
+   }else if(this.selectDay.length > 0){
+     this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
+   }
+   
   }
   activeTeachers1(teacher){
     this.selectedTeacher = teacher
-    this.selectedTeacher.userId = teacher.userId
+    this.selectedTeacher.userId = teacher.userId;
+    if(this.selectDay.length == 0){
+       this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
+     }else if(this.selectDay.length > 0){
+       this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
+     }
    if(this.tempstafflist.staff.indexOf(this.selectedTeacher) > 4){
      $('.teacher-list-wrapper').scrollLeft( 50*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
    }
