@@ -527,7 +527,7 @@ export class ScheduleComponent implements OnInit {
   //         "end": {
   //           "hr": 9,
   //           "min": 0,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -552,12 +552,12 @@ export class ScheduleComponent implements OnInit {
   //         "start": {
   //           "hr": 8,
   //           "min": 0,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         },
   //         "end": {
   //           "hr": 9,
   //           "min": 45,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -582,12 +582,12 @@ export class ScheduleComponent implements OnInit {
   //         "start": {
   //           "hr": 10,
   //           "min": 0,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         },
   //         "end": {
   //           "hr": 10,
   //           "min": 45,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -598,16 +598,46 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 5,
+  //           "hr": 11,
   //           "min": 0,
   //           "meridiem": "PM"
   //         },
   //         "end": {
   //           "hr": 11,
-  //           "min": 59,
+  //           "min": 30,
   //           "meridiem": "PM"
   //         }
   //       },
+  //       {
+  //         "course": {
+  //           "coursePlanId": "5bebc2b65dccdb75024bf65f",
+  //           "courseCode": "inv-T1",
+  //           "name": "Testing For Invoice 001",
+  //           "courseId": "5bfcb0357ef97856510d5a61"
+  //         },
+  //         "seat": {
+  //           "taken": 21,
+  //           "total": 30,
+  //           "left": 9
+  //         },
+  //         "category": {
+  //           "name": "   test category A-001",
+  //           "categoryId": "5be9586d8c6e2975b6b6359e"
+  //         },
+  //         "special_case": null,
+  //         "available": false,
+  //         "dayOfWeek": 4,
+  //         "start": {
+  //           "hr": 1,
+  //           "min": 0,
+  //           "meridiem": "PM"
+  //         },
+  //         "end": {
+  //           "hr": 1,
+  //           "min": 45,
+  //           "meridiem": "PM"
+  //         }
+  //       }
   //     ],
   //     "date": {
   //       "year": 2018,
@@ -626,14 +656,14 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 8,
+  //           "hr": 7,
   //           "min": 0,
   //           "meridiem": "AM"
   //         },
   //         "end": {
-  //           "hr": 4,
-  //           "min": 0,
-  //           "meridiem": "PM"
+  //           "hr": 7,
+  //           "min": 30,
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -656,14 +686,14 @@ export class ScheduleComponent implements OnInit {
   //         "available": false,
   //         "dayOfWeek": 4,
   //         "start": {
-  //           "hr": 8,
-  //           "min": 0,
-  //           "meridiem": "PM"
+  //           "hr": 7,
+  //           "min": 30,
+  //           "meridiem": "AM"
   //         },
   //         "end": {
   //           "hr": 9,
   //           "min": 0,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -686,12 +716,12 @@ export class ScheduleComponent implements OnInit {
   //         "available": false,
   //         "dayOfWeek": 4,
   //         "start": {
-  //           "hr": 8,
-  //           "min": 0,
+  //           "hr": 9,
+  //           "min": 30,
   //           "meridiem": "PM"
   //         },
   //         "end": {
-  //           "hr": 9,
+  //           "hr": 11,
   //           "min": 0,
   //           "meridiem": "PM"
   //         }
@@ -737,12 +767,12 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 9,
+  //           "hr": 12,
   //           "min": 0,
-  //           "meridiem": "AM"
+  //           "meridiem": "PM"
   //         },
   //         "end": {
-  //           "hr": 10,
+  //           "hr": 2,
   //           "min": 0,
   //           "meridiem": "PM"
   //         }
@@ -760,12 +790,12 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 10,
-  //           "min": 0,
+  //           "hr": 2,
+  //           "min": 30,
   //           "meridiem": "AM"
   //         },
   //         "end": {
-  //           "hr": 10,
+  //           "hr": 3,
   //           "min": 30,
   //           "meridiem": "PM"
   //         }
@@ -800,7 +830,7 @@ export class ScheduleComponent implements OnInit {
   //         "end": {
   //           "hr": 10,
   //           "min": 0,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -816,13 +846,13 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 10,
+  //           "hr": 12,
   //           "min": 30,
-  //           "meridiem": "AM"
+  //           "meridiem": "PM"
   //         },
   //         "end": {
-  //           "hr": 11,
-  //           "min": 0,
+  //           "hr": 1,
+  //           "min": 30,
   //           "meridiem": "PM"
   //         }
   //       },
@@ -849,13 +879,13 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 8,
+  //           "hr": 2,
   //           "min": 0,
-  //           "meridiem": "AM"
+  //           "meridiem": "PM"
   //         },
   //         "end": {
-  //           "hr": 9,
-  //           "min": 0,
+  //           "hr": 2,
+  //           "min": 30,
   //           "meridiem": "PM"
   //         }
   //       },
@@ -872,12 +902,12 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 10,
+  //           "hr": 3,
   //           "min": 0,
-  //           "meridiem": "AM"
+  //           "meridiem": "PM"
   //         },
   //         "end": {
-  //           "hr": 10,
+  //           "hr": 4,
   //           "min": 40,
   //           "meridiem": "PM"
   //         }
@@ -912,7 +942,7 @@ export class ScheduleComponent implements OnInit {
   //         "end": {
   //           "hr": 10,
   //           "min": 0,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -935,7 +965,7 @@ export class ScheduleComponent implements OnInit {
   //         "end": {
   //           "hr": 11,
   //           "min": 30,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         }
   //       },
   //     ],
@@ -1034,7 +1064,7 @@ export class ScheduleComponent implements OnInit {
       }
     ]
   }
-
+  public startTime;
   getRegionalInfo(){
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType')
@@ -1043,6 +1073,7 @@ export class ScheduleComponent implements OnInit {
       console.log("Operation Hours",res.operatingHour);
       this.calculateTime(res.operatingHour);
       this.calculateSlot(res.operatingHour.start);
+      this.startTime = res.operatingHour.start;
     })
   }
 

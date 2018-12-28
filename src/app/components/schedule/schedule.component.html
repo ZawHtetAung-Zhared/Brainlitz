@@ -199,18 +199,20 @@
             </div>
             <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
               <div class="slot-wrap" *ngIf="j%2 == 0">
-                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]">
+                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minArr">
                 </div>
               </div> 
               <div class="slot-wrap" *ngIf="j%2 != 0">
-                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of [30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59]">
+                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minNextArr">
                 </div>
               </div>         
             </div>  
             <div *ngFor="let timetable of list.timetable; let b = index;">
               <div *ngIf="i == 0">
-                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}" (click)="testshow(timetable.course.courseCode,$event)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
-                  <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}">###{{timetable.course.courseCode}}</h6>
+                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}" (click)="testshow(timetable.course.courseCode,$event)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                  <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}">
+                  **##{{timetable.start|calculatePM}}
+                  ###{{timetable.course.courseCode}}</h6>
                   <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                   <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}" *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                   <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}" *ngIf="timetable.seat == null"></p>
@@ -239,7 +241,7 @@
                 </div>
               </div>
               <div *ngIf="i != 0">
-                <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - 8)* 242) + 121) + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': (((timetable.start.hr - startTime.hr)*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
                   <h6>***{{timetable.course.courseCode}}</h6>
                   <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                   <p *ngIf="timetable.seat == null"></p>

@@ -70,6 +70,7 @@ import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
+import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
     EmailtemplateComponent,
     ScheduleComponent,
     DateFormatPipe,
-    HourMinsPipe
+    HourMinsPipe,
+    calculatePMPipe
   ],
   imports: [
     BrowserModule,
