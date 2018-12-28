@@ -92,6 +92,7 @@ export class ScheduleComponent implements OnInit {
   public minArr = [];
   public minNextArr = [];
   public finalLists = [];
+  public lessonD;
 
 
   // public toggleBool:boolean = true;
@@ -1925,7 +1926,7 @@ export class ScheduleComponent implements OnInit {
     this.modalReference.close();
     // this.cancelUItext= false;
   }
-  lessonD 
+  
   onClickCourse(course,e,date){
     e.preventDefault();
     e.stopPropagation();
