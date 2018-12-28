@@ -1299,6 +1299,9 @@ export class ScheduleComponent implements OnInit {
             _this.staffList=res;
             if(_this.staffList.staff && type == 'checkbox'){
               _this.selectedTeacher = _this.tempSelectedTeacher
+              if(_this.tempSelectedTeacher == null){
+                _this.selectedTeacher = _this.staffList.staff[0];
+              }
             } else {
               if(_this.staffList.staff){
                 _this.selectedTeacher = _this.staffList.staff[0];
@@ -1323,6 +1326,9 @@ export class ScheduleComponent implements OnInit {
                 _this.staffList=res;
                 if(_this.staffList.staff && type == 'checkbox'){
                   _this.selectedTeacher = _this.tempSelectedTeacher
+                  if(_this.tempSelectedTeacher == null){
+                    _this.selectedTeacher = _this.staffList.staff[0];
+                  }
                 } else {
                   if(_this.staffList.staff){
                     _this.selectedTeacher = _this.staffList.staff[0];
