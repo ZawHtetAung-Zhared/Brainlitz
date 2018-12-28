@@ -1927,7 +1927,8 @@ export class ScheduleComponent implements OnInit {
     // this.cancelUItext= false;
   }
   
-  onClickCourse(course,e,date){
+  courseInfo = {};
+  onClickCourse(course,lesson,e,date){
     e.preventDefault();
     e.stopPropagation();
     console.log("date",date)
@@ -1937,9 +1938,12 @@ export class ScheduleComponent implements OnInit {
     console.log(this.yPosition)
     this.testshowboxs= true;
     this.testshowbox = course.courseId;
+    this.courseInfo["course"] = course;
+    this.courseInfo["lesson"] = lesson;
 
-    console.log(course.courseId)
-     console.log(course)
+    console.log(this.courseInfo)
+     console.log(course);
+     console.log(lesson)
   }
 
 }

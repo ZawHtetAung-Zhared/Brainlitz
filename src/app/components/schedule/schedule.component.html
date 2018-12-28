@@ -210,7 +210,7 @@
             </div>  
             <div *ngFor="let timetable of list.timetable; let b = index;">
               <div *ngIf="i == 0">
-                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}" (click)="onClickCourse(timetable.course,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
                   <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}">
                   **##{{timetable.start|calculatePM}}
                   ###{{timetable.course.courseCode}}</h6>
@@ -241,7 +241,7 @@
                 </div>
               </div>
               <div *ngIf="i != 0">
-                <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,$event,list.date)">
+                <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)">
                   <h6>***{{timetable.course.courseCode}}</h6>
                   <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
                   <p *ngIf="timetable.seat == null"></p>
@@ -405,11 +405,11 @@
   <div class="d-flex flex-column header-wrapper">
     <div class="d-flex justify-content-between info-wrapper">
       <div>
-        <label class="info-label">PG2</label>
-        <h4 class="info-header">Piano Grade 2</h4>
+        <label class="info-label">{{courseInfo.course.courseCode}}</label>
+        <h4 class="info-header">{{courseInfo.course.name}}</h4>
         <div class="d-flex date-label">
-          <label>20 lessons</label>
-          <ul><li>End at 26 Nov 2018</li></ul>
+          <label>{{courseInfo.lesson.count}} lessons</label>
+          <ul><li>End at {{courseInfo.lesson.endDate.day}} {{courseInfo.lesson.endDate.month-1 | TTmonth}} {{courseInfo.lesson.endDate.year}}</li></ul>
         </div>
       </div>
       <button class="modal-close" (click)="cancelModal()">
