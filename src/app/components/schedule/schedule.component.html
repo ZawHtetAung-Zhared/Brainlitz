@@ -51,7 +51,7 @@
           <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
         </ul>
       </div>
-      <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getscheulestaff()" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+      <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
     </form>
   </div>
 </div>
@@ -75,7 +75,7 @@
               class="regular-checkbox"  
               name="{{d.day}}" 
               value={{d.val}} 
-              (click)="getscheulestaff()" 
+              (click)="getschedulestaff('checkbox')" 
               (change)="selectDay(d.val ,$event,d.day,d,regionId,selectedDay,selectedID)" 
               [checked]="selectedDay.indexOf(d.val) != -1" 
               [disabled]="isEdit == true" >
