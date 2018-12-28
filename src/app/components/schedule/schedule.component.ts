@@ -1299,9 +1299,15 @@ export class ScheduleComponent implements OnInit {
             _this.staffList=res;
             if(_this.staffList.staff && type == 'checkbox'){
               _this.selectedTeacher = _this.tempSelectedTeacher
+              if(_this.tempSelectedTeacher == null){
+                _this.selectedTeacher = _this.staffList.staff[0];
+              }
             } else {
-              _this.selectedTeacher = _this.staffList.staff[0];
+              if(_this.staffList.staff){
+                _this.selectedTeacher = _this.staffList.staff[0];
+              }
             }
+
             if(_this.selectedTeacher){
               _this.getStaffTimetable(_this.selectedTeacher.userId,'0,1,2,3,4,5,6')
             }
@@ -1320,8 +1326,13 @@ export class ScheduleComponent implements OnInit {
                 _this.staffList=res;
                 if(_this.staffList.staff && type == 'checkbox'){
                   _this.selectedTeacher = _this.tempSelectedTeacher
+                  if(_this.tempSelectedTeacher == null){
+                    _this.selectedTeacher = _this.staffList.staff[0];
+                  }
                 } else {
-                  _this.selectedTeacher = _this.staffList.staff[0];
+                  if(_this.staffList.staff){
+                    _this.selectedTeacher = _this.staffList.staff[0];
+                  }
                 }
     
                 if(_this.selectedTeacher){
