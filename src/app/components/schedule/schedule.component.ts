@@ -1925,10 +1925,12 @@ export class ScheduleComponent implements OnInit {
     this.modalReference.close();
     // this.cancelUItext= false;
   }
-
-  onClickCourse(course,e){
+  lessonD 
+  onClickCourse(course,e,date){
     e.preventDefault();
     e.stopPropagation();
+    console.log("date",date)
+    this.lessonD = date
     console.log(e.layerY)
     this.yPosition = e.layerY + 40;
     console.log(this.yPosition)

@@ -793,7 +793,8 @@ ul.scedule-data-listing li.disabled{
 .v-wrapper1 {
   width: 100%;
   margin-top: 30px;
-  min-height: 450px;
+  /*min-height: 450px;*/
+  min-height: 750px;
   overflow: scroll;
   position: relative;
 }
