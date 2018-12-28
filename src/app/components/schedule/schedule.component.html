@@ -57,7 +57,7 @@
 </div>
 <!-- Schedule List (when click show button) -->
   <div *ngIf="!scheduleList">
-      <div  [ngClass]="{'backdrop' : testshowboxs==true}" class="txt"></div>
+    <div  [ngClass]="{'backdrop' : testshowboxs==true}" class="txt"></div>
     <div class="d-flex pl-3">
       <div class="p-2 pl-0 pb-0 ">
         <div class="back-to" (click)="backtoSchedule()">
@@ -97,6 +97,7 @@
             (focus)="focusSearch($event, 'category')"
             (focusout)="hideSearch($event)"
             (input)="searchCategoryList($event.target.value, 'category')" 
+            readonly
           >
             <button  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
             (focus)="focusSearch($event, 'category')"

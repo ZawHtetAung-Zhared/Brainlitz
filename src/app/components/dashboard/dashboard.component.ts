@@ -650,7 +650,6 @@ export class DashboardComponent implements OnInit {
       if (minutes < 10) sMinutes = "0" + sMinutes;
       // this.startT= sHours + ":" + sMinutes;
       let t= sHours + ":" + sMinutes;
-      console.log("t",t)
       return t;
     }
   }
