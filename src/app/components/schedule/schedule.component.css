@@ -584,7 +584,7 @@ ul.data-listing li.disabled{
   background: #fff;
   height: 300px;
   position: absolute;
-  z-index: 3;
+  z-index: 5;
   margin: 0;
   top:100px;
   padding: 0;
@@ -793,8 +793,8 @@ ul.scedule-data-listing li.disabled{
 .v-wrapper1 {
   width: 100%;
   margin-top: 30px;
-  /*min-height: 450px;*/
-  min-height: 750px;
+  min-height: 450px;
+  max-height: 750px;
   overflow: scroll;
   position: relative;
 }
@@ -811,7 +811,7 @@ th {
 .time-range{
   position: sticky;
   top: 0;
-  z-index: 0;
+  z-index: 3;
 }
 
 thead th,
@@ -1334,4 +1334,8 @@ ul.options-box li:last-child {
 .popUpbox{
   background:#f2f4f5;    
   border-radius: 4px;
+}
+.enroll-modal-input:focus{
+  outline: none;  
+  box-shadow: none;
 }
