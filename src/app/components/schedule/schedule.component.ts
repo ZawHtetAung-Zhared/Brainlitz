@@ -1935,7 +1935,7 @@ export class ScheduleComponent implements OnInit {
     console.log("date",date)
     this.lessonD = date
     console.log(e.layerY)
-    this.yPosition = e.layerY + 20;
+    this.yPosition = e.layerY + 25;
     console.log(this.yPosition)
     this.testshowboxs= true;
     this.testshowbox = course.courseId;
