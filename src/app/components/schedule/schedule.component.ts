@@ -770,14 +770,14 @@ export class ScheduleComponent implements OnInit {
   //         "available": true,
   //         "dayOfWeek": null,
   //         "start": {
-  //           "hr": 12,
+  //           "hr": 1,
   //           "min": 0,
-  //           "meridiem": "PM"
+  //           "meridiem": "AM"
   //         },
   //         "end": {
-  //           "hr": 2,
-  //           "min": 0,
-  //           "meridiem": "PM"
+  //           "hr": 1,
+  //           "min": 30,
+  //           "meridiem": "AM"
   //         }
   //       },
   //       {
@@ -794,13 +794,13 @@ export class ScheduleComponent implements OnInit {
   //         "dayOfWeek": null,
   //         "start": {
   //           "hr": 2,
-  //           "min": 30,
+  //           "min": 40,
   //           "meridiem": "AM"
   //         },
   //         "end": {
-  //           "hr": 3,
-  //           "min": 30,
-  //           "meridiem": "PM"
+  //           "hr": 4,
+  //           "min": 45,
+  //           "meridiem": "AM"
   //         }
   //       },
   //     ],
@@ -850,12 +850,12 @@ export class ScheduleComponent implements OnInit {
   //         "dayOfWeek": null,
   //         "start": {
   //           "hr": 12,
-  //           "min": 30,
+  //           "min": 45,
   //           "meridiem": "PM"
   //         },
   //         "end": {
   //           "hr": 1,
-  //           "min": 30,
+  //           "min": 45,
   //           "meridiem": "PM"
   //         }
   //       },
@@ -1938,7 +1938,7 @@ export class ScheduleComponent implements OnInit {
     console.log("date",date)
     this.lessonD = date
     console.log(e.layerY)
-    this.yPosition = e.layerY + 40;
+    this.yPosition = e.layerY + 25;
     this.xPosition = -(200 - e.layerX );
     // this.xPosition = e.layerX - 150;
     console.log(e.layerX)

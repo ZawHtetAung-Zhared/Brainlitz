@@ -892,7 +892,7 @@ tbody td{
 .one-slot {
   width: 4px;
   /*background: red;*/
-  outline: 1px solid #eee;
+  /*outline: 1px solid #eee;*/
   height: 42px;
   display: table-cell;
 }

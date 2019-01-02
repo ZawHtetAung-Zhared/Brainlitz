@@ -7,6 +7,8 @@ export class calculatePMPipe implements PipeTransform {
 
   transform(timeObj) {
   	var hr;
+    var mins;
+    var h;
     if(timeObj. meridiem == 'PM'){
     	if(timeObj.hr == 12){
     		hr = timeObj.hr;
@@ -20,6 +22,8 @@ export class calculatePMPipe implements PipeTransform {
     		hr = timeObj.hr;
     	}
     }
-    return hr;
+    mins = hr*60 + timeObj.min;
+    h = mins/60;
+    return h;
   }
 }
