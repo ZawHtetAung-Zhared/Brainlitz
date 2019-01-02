@@ -44,6 +44,7 @@ import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/pipe/time.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/pipe/weekday.pipe';
+import { ScheduleWeekDaysPipe } from './service/pipe/scheduleWeekDays.pipe';
 import { GroupByPipe } from './service/pipe/groupby.pipe';
 import { ConvertTimeFormatPipe } from './service/pipe/convertTimeFormat.pipe';
 import { GetDayPipe } from './service/pipe/day.pipe';
@@ -67,7 +68,9 @@ import { HomeComponent } from './components/home/home.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { EmailtemplateComponent } from './components/emailtemplate/emailtemplate.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
-import { DateFormatPipe } from './service/pipe/dateformat.pipe'
+import { DateFormatPipe } from './service/pipe/dateformat.pipe';
+import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
+import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 
 @NgModule({
   declarations: [
@@ -94,6 +97,7 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe'
     ModuleComponent,
     MinuteSecondsPipe,
     WeekDaysPipe,
+    ScheduleWeekDaysPipe,
     GroupByPipe,
     ConvertTimeFormatPipe,
     GetDayPipe,
@@ -116,7 +120,9 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe'
     CustomfieldComponent,
     EmailtemplateComponent,
     ScheduleComponent,
-    DateFormatPipe
+    DateFormatPipe,
+    HourMinsPipe,
+    calculatePMPipe
   ],
   imports: [
     BrowserModule,
