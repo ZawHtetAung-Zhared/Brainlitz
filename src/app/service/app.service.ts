@@ -730,7 +730,6 @@ export class appService{
 
     getCategory(regionid: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      console.log(regionid)
       let url = this.baseUrl + '/' + regionid + '/category?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -745,7 +744,66 @@ export class appService{
           return result;
       }) 
     }
-    
+    // getscheduleStaffList(params:any): Observable<any>{
+    //   this.getLocalstorage()
+    //   // let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+    //  let url = this.baseUrl + '/' + params.regionId + '/schedule/stafflist?daysOfWeek=' + params.daysOfWeek.toString() + '&categoryId=' +  params.categoryId;
+    //  if (params.keyword) {
+    //    url += '&keyword=' + params.keyword 
+    //  }  
+    //  if (params.limit) {
+    //   url += '&limit=' + params.limit
+    //  }  
+    //  if (params.skip) {
+    //   url += '&skip=' + params.skip
+    //  }
+    //  console.log(url, ' Url', params)
+    //  console.warn(this.tokenType + ' ' + this.accessToken)
+    //   const httpOptions = {
+    //       headers: new HttpHeaders({ 
+    //         'Content-Type': 'application/json', 
+    //         'authorization': this.tokenType + ' ' + this.accessToken})
+    //   };
+
+    //     return this.httpClient.get(url, httpOptions)
+    //     .map((res:Response) => {
+    //       let result = res;    
+    //       console.warn(res, 'Res APi')  
+    //       return result;
+    //   }) 
+    // }
+    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string): Observable<any>{
+      this.getLocalstorage()
+      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+    //  console.log(url, ' Url')
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+    }
+    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,limit:number,skip:number): Observable<any>{
+      this.getLocalstorage()
+     let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek.toString() + '&categoryId=' + categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+    }
+
     createCoursePlan(id: string, locationid: string, data: object): Observable<any>{
       let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + locationid;
       const httpOptions = {
@@ -1945,6 +2003,20 @@ export class appService{
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
+        return result;
+      })
+    }
+
+    getStaffSchedule(regionId:string,staffId:string,daysOfweek:string,categoryId:string){
+      let apiUrl = this.baseUrl + '/' + regionId + '/staff/' + staffId + '/schedule?daysOfWeek=' + daysOfweek + '&categoryId='+categoryId;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      } ;
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
         return result;
       })
     }

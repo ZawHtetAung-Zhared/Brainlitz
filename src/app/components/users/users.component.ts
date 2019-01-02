@@ -1047,7 +1047,7 @@ export class UsersComponent implements OnInit {
 	          console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
 	          var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
 	          this.invoice[i].courseFee.fee = Number(cFee);
-	          this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+	          this.invoice[i].courseFee.amount = (this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax).toFixed(2);
 	          console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee);
 	          console.log("Amount without inclusive tax",this.invoice[i].courseFee.amount);
 	        }else if(this.invoice[i].courseFee.taxInclusive == false){
