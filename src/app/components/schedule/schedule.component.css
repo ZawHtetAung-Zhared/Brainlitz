@@ -1304,3 +1304,6 @@ ul.options-box li:last-child {
   background: #007fff;
   color: white!important;
 }
+.cursor{
+  cursor: pointer;
+}

@@ -208,16 +208,16 @@
                 </div>
               </div>         
             </div>  
-            <div *ngFor="let timetable of list.timetable; let b = index;">
+            <div *ngFor="let timetable of list.timetable; let b = index;" class="cursor">
               <div *ngIf="i == 0">
-                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
-                  <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseCode}">
+                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                  <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">
                   **##{{timetable.start|calculatePM}}
                   ###{{timetable.course.courseCode}}</h6>
                   <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
-                  <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId}" *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
-                  <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId}" *ngIf="timetable.seat == null"></p>
-                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px'}">
+                  <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
+                  <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat == null"></p>
+                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
                       <div class="carret-box"></div>
                       <div class="w-100" style="background:#f2f4f5">
                         <div class="d-flex pt-3 justify-content-between">
@@ -241,11 +241,11 @@
                 </div>
               </div>
               <div *ngIf="i != 0">
-                <div class="lesson-slot" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)">
-                  <h6>***{{timetable.course.courseCode}}</h6>
-                  <p *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
-                  <p *ngIf="timetable.seat == null"></p>
-                   <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px'}">
+                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)">
+                  <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">***{{timetable.course.courseCode}}</h6>
+                  <p *ngIf="timetable.seat != null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.seat.left}}</p>
+                  <p *ngIf="timetable.seat == null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}"></p>
+                   <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
                       <div class="carret-box"></div>
                       <div class="w-100" style="background:#f2f4f5">
                         <div class="d-flex pt-3 justify-content-between">
@@ -377,9 +377,9 @@
         name="staffId"
         [(ngModel)]="staff.staffId"
         #staffId="ngModel"
-        required
-        (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value)"      
-      >
+        (input) = "getSearchScheduleStaffInput(regionId,selectDay,selectedID,$event.target.value)"      
+        >
+        <!-- (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value)"       -->
       <span class="input-group-append">
         <button class="btn btn-design btn-outline-secondary" type="button">
           <i class="fa fa-search search-size"></i>
@@ -422,7 +422,7 @@
     <div class="d-flex tabs-wrapper tab-name">
       <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'enroll'}" (click)="onClickModalTab('enroll')">Enroll new customer</button>
       <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'view'}" (click)="onClickModalTab('view')">View Student</button>
-      <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button>
+      <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
   </div>
   <div>
@@ -761,16 +761,18 @@
       </div>
     </div>
     <div class="body-wrap pt-2" *ngIf="activeTab == 'view'">
+      <div class="modal-body">
       <div class="row">
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
-          <div class="d-flex flex-row single-student">
-            <div class="image-div">
-              <div class="image-wrap">
-                <img src="{{student.profilePic}}">
+          <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
+            <div class="d-flex flex-row single-student">
+              <div class="image-div">
+                <div class="image-wrap">
+                  <img src="{{student.profilePic}}">
+                </div>
               </div>
-            </div>
-            <div class="d-flex justify-content-center flex-column">
-              <p class="mb-0 student-name pl-2">{{ student.preferredName }}</p>
+              <div class="d-flex justify-content-center flex-column">
+                <p class="mb-0 student-name pl-2">{{ student.preferredName }}</p>
+              </div>
             </div>
           </div>
         </div>

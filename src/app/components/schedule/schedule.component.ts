@@ -19,6 +19,7 @@ export class ScheduleComponent implements OnInit {
   public testshowboxs:any;
   public tempSelectedTeacher:any;
   public yPosition:any;
+  public xPosition:any;
   public selectedDay =[];
   public lessonId :any;
   public keyword:any ='';
@@ -1278,11 +1279,6 @@ export class ScheduleComponent implements OnInit {
   openTeacherList(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,'')
-    console.log(this.selectedTeacher)
-    // this.getscheulestaff(this.regionId,this.selectedDay,this.selectedID);
-    // this.selectedTeacher = this.staffList.staff[0];
-    // this.teacherListSearchResult = this.staffList;
-    // this.selectedTeacher = this.teacherListSearchResult.staff[0];
   }
 
   getschedulestaff(type){
@@ -1290,7 +1286,7 @@ export class ScheduleComponent implements OnInit {
     const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-    _this.blockUI.start('Loading...');
+   
     setTimeout(() => {
         // _this.selectedDayy();
         if(_this.selectedDay.length == 0) {
@@ -1312,17 +1308,15 @@ export class ScheduleComponent implements OnInit {
             if(_this.selectedTeacher){
               _this.getStaffTimetable(_this.selectedTeacher.userId,'0,1,2,3,4,5,6')
             }
-            _this.blockUI.stop(); 
           }, (err:any) => {
-            // catch the error response from api  
-            _this.blockUI.stop();        
+            // catch the error response from api   
             _this.staffList=[];
           })
           return;
         }
         else if(_this.selectDay.length > 0){
           _this.scheduleList=false;
-          _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,_this.keyword,_this.limit,_this.skip)
+          _this._service.getscheduleStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID)
           .subscribe((res:any) => {
                 _this.staffList=res;
                 if(_this.staffList.staff && type == 'checkbox'){
@@ -1340,9 +1334,7 @@ export class ScheduleComponent implements OnInit {
                 if(_this.selectedTeacher){
                   _this.getStaffTimetable(_this.selectedTeacher.userId,_this.selectedDay.toString())
                 }
-              _this.blockUI.stop(); 
             }, (err:any) => {
-              _this.blockUI.stop(); 
               // catch the error response from api         
               _this.staffList=[];
             })
@@ -1355,6 +1347,17 @@ export class ScheduleComponent implements OnInit {
     this.skip += this.limit
     this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,this.keyword);
   }
+  getSearchScheduleStaffInput(regionId,selectDay,selectedID,e){
+    this.getSearchscheulestaff(regionId,selectDay,selectedID,e);
+    const _this = this;
+    setTimeout(() => {
+      if(_this.tempstafflist.staff){
+        _this.selectedTeacher = _this.tempstafflist.staff[0];
+        _this.selectedTeacher.userId = _this.tempstafflist.staff[0].userId;
+      }
+    },400);
+  
+  }
 
   getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword){
     const _this =this;
@@ -1366,7 +1369,6 @@ export class ScheduleComponent implements OnInit {
         _this._service.getscheduleSearchStaffList(_this.regionId,'0,1,2,3,4,5,6',_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
             _this.tempstafflist = res;
-            _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
             _this.tempstafflist=[];
@@ -1376,8 +1378,6 @@ export class ScheduleComponent implements OnInit {
         _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,_this.limit,_this.skip)
         .subscribe((res:any) => {
           _this.tempstafflist = res;
-          console.log(_this.activeTeacher)
-            _this.blockUI.stop(); 
           }, (err:any) => {
             // catch the error response from api         
             _this.tempstafflist=[];
@@ -1444,15 +1444,18 @@ export class ScheduleComponent implements OnInit {
      }else if(this.selectDay.length > 0){
        this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
      }
-   if(this.tempstafflist.staff.indexOf(this.selectedTeacher) > 4){
-     $('.teacher-list-wrapper').scrollLeft( 50*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
+   if(this.tempstafflist.staff){
+     $('.teacher-list-wrapper').scrollLeft( 150*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
    }
+  //  if(this.tempstafflist.staff.indexOf(this.selectedTeacher) > 4){
+  //    $('.teacher-list-wrapper').scrollLeft( 50*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
+  //  }
    else{
     $('.teacher-list-wrapper').scrollLeft( 0);
    }
-     this.modalReference.close();
+    this.staff.staffId='';
+    this.modalReference.close();
 
-   this.staff.staffId='';
   
   }
 
@@ -1936,7 +1939,10 @@ export class ScheduleComponent implements OnInit {
     this.lessonD = date
     console.log(e.layerY)
     this.yPosition = e.layerY + 40;
-    console.log(this.yPosition)
+    this.xPosition = -(200 - e.layerX );
+    // this.xPosition = e.layerX - 150;
+    console.log(e.layerX)
+    console.log(e.layerY)
     this.testshowboxs= true;
     this.testshowbox = course.courseId;
     this.courseInfo["course"] = course;
