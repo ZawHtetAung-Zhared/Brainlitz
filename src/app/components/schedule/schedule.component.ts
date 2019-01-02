@@ -30,6 +30,7 @@ export class ScheduleComponent implements OnInit {
   public activeTeacher:any;
   public teacherListSearchResult:any = {staff: []}
   public testshowbox:any ='';
+  public selectedSeat:any;
   // public SelectedDate = [];
   public isGlobal:boolean = false;
   public showSelectedDays = '~'
@@ -1459,9 +1460,10 @@ export class ScheduleComponent implements OnInit {
   
   }
 
-  addEnrollModal(modal,type,courseID){
+  addEnrollModal(modal,type,courseID,seat){
       this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
       this.courseId = courseID;
+      this.selectedSeat = seat;
       this.lessonId = "5beb8c7d1f893164fff2c32b";
       this.getCourseDetail(this.courseId);
       this.onClickModalTab(type)
