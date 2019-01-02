@@ -116,401 +116,6 @@ export class ScheduleComponent implements OnInit {
       'name' : 'Feb'
     }
   ]
-  // public operationTime = [
-  //   {
-  //     "start": {
-  //       "hr": 8,
-  //       "min": 0,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 8,
-  //       "min": 30,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 9,
-  //       "min": 0,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 9,
-  //       "min": 30,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 10,
-  //       "min": 0,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 10,
-  //       "min": 30,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 11,
-  //       "min": 0,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 11,
-  //       "min": 30,
-  //       "meridian": "AM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 12,
-  //       "min": 0,
-  //       "meridian": "PM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 12,
-  //       "min": 30,
-  //       "meridian": "PM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 1,
-  //       "min": 0,
-  //       "meridian": "PM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 1,
-  //       "min": 30,
-  //       "meridian": "PM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 2,
-  //       "min": 0,
-  //       "meridian": "PM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 2,
-  //       "min": 30,
-  //       "meridian": "PM"
-  //     }
-  //   },
-  //   {
-  //     "start": {
-  //       "hr": 3,
-  //       "min": 0,
-  //       "meridian": "PM"
-  //     }
-  //   }
-  // ];
-  public timetableLists = [
-    {
-      "month": [
-        {
-          "timetable": [
-            {
-              "course": null,
-              "seat": null,
-              "category": null,
-              "special_case": null,
-              "available": true,
-              "dayOfWeek": null,
-              "start": {
-                "hr": 8,
-                "min": 0,
-                "meridiem": "AM"
-              },
-              "end": {
-                "hr": 9,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-            {
-              "course": {
-                "coursePlanId": "5bebc2b65dccdb75024bf65f",
-                "courseCode": "inv-003",
-                "name": "Testing For Invoice 001",
-                "courseId": "5bfcb0357ef97856510d5a61"
-              },
-              "seat": {
-                "taken": 21,
-                "total": 30,
-                "left": 9
-              },
-              "category": {
-                "name": "   test category A-001",
-                "categoryId": "5be9586d8c6e2975b6b6359e"
-              },
-              "special_case": null,
-              "available": false,
-              "dayOfWeek": 4,
-              "start": {
-                "hr": 8,
-                "min": 0,
-                "meridiem": "PM"
-              },
-              "end": {
-                "hr": 9,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-            {
-              "course": {
-                "coursePlanId": "5bebc2b65dccdb75024bf65f",
-                "courseCode": "inv-004",
-                "name": "Testing For Invoice 001",
-                "courseId": "5bfcb0357ef97856510d5a61"
-              },
-              "seat": {
-                "taken": 21,
-                "total": 30,
-                "left": 9
-              },
-              "category": {
-                "name": "   test category A-001",
-                "categoryId": "5be9586d8c6e2975b6b6359e"
-              },
-              "special_case": null,
-              "available": false,
-              "dayOfWeek": 4,
-              "start": {
-                "hr": 9,
-                "min": 0,
-                "meridiem": "PM"
-              },
-              "end": {
-                "hr": 10,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-            {
-              "course": null,
-              "seat": null,
-              "category": null,
-              "special_case": null,
-              "available": true,
-              "dayOfWeek": null,
-              "start": {
-                "hr": 5,
-                "min": 0,
-                "meridiem": "PM"
-              },
-              "end": {
-                "hr": 11,
-                "min": 59,
-                "meridiem": "PM"
-              }
-            }
-          ],
-          "date": {
-            "year": 2018,
-            "month": 12,
-            "day": 19,
-            "dayOfWeek": "Wed"
-          }
-        },
-        {
-          "timetable": [
-            {
-              "course": null,
-              "seat": null,
-              "category": null,
-              "special_case": null,
-              "available": true,
-              "dayOfWeek": null,
-              "start": {
-                "hr": 8,
-                "min": 0,
-                "meridiem": "AM"
-              },
-              "end": {
-                "hr": 4,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-            {
-              "course": {
-                "coursePlanId": "5bebc2b65dccdb75024bf65f",
-                "courseCode": "inv-003",
-                "name": "Testing For Invoice 001",
-                "courseId": "5bfcb0357ef97856510d5a61"
-              },
-              "seat": {
-                "taken": 21,
-                "total": 30,
-                "left": 9
-              },
-              "category": {
-                "name": "   test category A-001",
-                "categoryId": "5be9586d8c6e2975b6b6359e"
-              },
-              "special_case": null,
-              "available": false,
-              "dayOfWeek": 4,
-              "start": {
-                "hr": 8,
-                "min": 0,
-                "meridiem": "PM"
-              },
-              "end": {
-                "hr": 9,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-            {
-              "course": {
-                "coursePlanId": "5bebc2b65dccdb75024bf65f",
-                "courseCode": "inv-003",
-                "name": "Testing For Invoice 001",
-                "courseId": "5bfcb0357ef97856510d5a61"
-              },
-              "seat": {
-                "taken": 21,
-                "total": 30,
-                "left": 9
-              },
-              "category": {
-                "name": "   test category A-001",
-                "categoryId": "5be9586d8c6e2975b6b6359e"
-              },
-              "special_case": null,
-              "available": false,
-              "dayOfWeek": 4,
-              "start": {
-                "hr": 8,
-                "min": 0,
-                "meridiem": "PM"
-              },
-              "end": {
-                "hr": 9,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-            {
-              "course": null,
-              "seat": null,
-              "category": null,
-              "special_case": null,
-              "available": true,
-              "dayOfWeek": null,
-              "start": {
-                "hr": 8,
-                "min": 0,
-                "meridiem": "PM"
-              },
-              "end": {
-                "hr": 9,
-                "min": 59,
-                "meridiem": "PM"
-              }
-            }
-          ],
-          "date": {
-            "year": 2018,
-            "month": 12,
-            "day": 26,
-            "dayOfWeek": "Wed"
-          }
-        }
-      ],
-      "count": '2',
-      "date": {
-        "year": 2018,
-        "month": 12
-      }
-    },
-    {
-      "month": [
-        {
-          "timetable": [
-            {
-              "course": {
-                "coursePlanId": "5bebc2b65dccdb75024bf65f",
-                "courseCode": "JAN-2",
-                "name": "Testing For Invoice 001",
-                "courseId": "5bfcb0357ef97856510d5a61"
-              },
-              "seat": null,
-              "category": null,
-              "special_case": null,
-              "available": true,
-              "dayOfWeek": null,
-              "start": {
-                "hr": 9,
-                "min": 0,
-                "meridiem": "AM"
-              },
-              "end": {
-                "hr": 10,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-            {
-              "course": {
-                "coursePlanId": "5bebc2b65dccdb75024bf65f",
-                "courseCode": "JAN-2-1",
-                "name": "Testing For Invoice 001",
-                "courseId": "5bfcb0357ef97856510d5a61"
-              },
-              "seat": null,
-              "category": null,
-              "special_case": null,
-              "available": true,
-              "dayOfWeek": null,
-              "start": {
-                "hr": 10,
-                "min": 0,
-                "meridiem": "AM"
-              },
-              "end": {
-                "hr": 10,
-                "min": 0,
-                "meridiem": "PM"
-              }
-            },
-          ],
-          "date": {
-            "year": 2019,
-            "month": 1,
-            "day": 2,
-            "dayOfWeek": "Wed"
-          }
-        }
-      ],
-      "count": '1',
-      "date": {
-        "year": 2019,
-        "month": 1
-      }
-    }
-  ]
 
   // public finalLists = [
   //   {
@@ -1178,10 +783,40 @@ export class ScheduleComponent implements OnInit {
     }
      console.log("temp next",this.minNextArr);
   }
+
+  // calculateSlot(start){
+  //   var min = 1; // start time min 
+  //   var temp = [];
+  //   var tempnext = [];
+  //   var next;
+  //   for(var i = 0; i <= 29; i++){
+  //     min += 1;
+  //       if(min == 60){
+  //         min = 0;
+  //       }
+  //     temp.push(min);
+  //   }
+  //   // next = temp[30]
+  //    console.log(temp)
+  //    next = temp[29]
+
+  //   for(var j = 0; j <= 29; j++){
+  //     next += 1;
+  //     tempnext.push(next)
+  //   }
+  //   console.log(tempnext)
+  // }
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
-    this.selectedDay.push(todayDay);
+    // this.selectedDay.push(todayDay);
+    this.blockUI.start("Loading...");
+
+    setTimeout(() => {
+      this.selectedDay.push(todayDay);
+      this.blockUI.stop();
+    }, 300);
+
     // this.SelectedDate.push(this.days[todayDay].day); 
   }
 
@@ -1388,12 +1023,12 @@ export class ScheduleComponent implements OnInit {
   }
 
   getStaffTimetable(staffId,repeatDays){
-    // this.blockUI.start('Loading...');
+    this.blockUI.start('Loading...');
     this._service.getStaffSchedule(this.regionId,staffId,repeatDays,this.selectedID)
     .subscribe((res:any)=> {
       setTimeout(() => {
-        // this.blockUI.stop();
-      }, 300);
+        this.blockUI.stop();
+      }, 100);
       console.log("staff timetable",res);
       this.finalLists = res;
       console.log("finalLists",this.finalLists)
@@ -1547,11 +1182,11 @@ export class ScheduleComponent implements OnInit {
   }
 
   getSingleCustomer(ID){
-    // this.blockUI.start('Loading...');
+    this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
-      // this.blockUI.stop();
+      this.blockUI.stop();
       console.log('selected Customer',res);
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
@@ -1581,10 +1216,10 @@ export class ScheduleComponent implements OnInit {
        'userType': userType
      }
      console.log("body",body);
-     // this.blockUI.start('Loading...');
+     this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
-       // this.blockUI.stop();
+       this.blockUI.stop();
        console.log("res Assign customer",res);
        if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
           console.log("no invoice setting");
@@ -1788,11 +1423,11 @@ export class ScheduleComponent implements OnInit {
     // }else if(this.invoiceCourse.fees != this.value.courseFee){
     //   data["courseFee"] = this.value.courseFee;
     // }
-    // this.blockUI.start('Loading...');
+    this.blockUI.start('Loading...');
     console.log("Inv Update Data",this.updateInvData);
     this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
     .subscribe((res:any) => {
-      // this.blockUI.stop();
+      this.blockUI.stop();
       console.log(res);
       this.isEditInv = false;
       //for updating invoice ui
