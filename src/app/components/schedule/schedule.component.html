@@ -167,7 +167,7 @@
                   <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                   <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{((timetable.seat | json) != '{}')? (timetable.seat.left) : ("-")}} seats</p>
                   <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat == null"></p>
-                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
+                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':'-120px'}">
                         <div class="carret-box"></div>
                         <div class="w-100 popUpbox">
                           <div class="d-flex pt-3 justify-content-between">
@@ -197,7 +197,7 @@
                   <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.course.courseCode}}</h6>
                   <p *ngIf="timetable.seat != null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{((timetable.seat | json) != '{}')? (timetable.seat.left) : ("-")}} seats</p>
                   <p *ngIf="timetable.seat == null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}"></p>
-                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
+                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':'-120px'}">
                         <div class="carret-box"></div>
                         <div class="w-100 popUpbox">
                           <div class="d-flex pt-3 justify-content-between">
@@ -320,7 +320,7 @@
             <div class="d-flex flex-column" style="position: relative;">
               <div class="search-wrap d-flex">
                 <input
-                  class="form-control py-2 input-search-bg" 
+                  class="form-control py-2 input-search-bg enroll-modal-input" 
                   type="search" 
                   placeholder="Search customers" 
                   id="example-search-input" 
@@ -333,7 +333,7 @@
                   autocomplete="off"
                   >
                 <span class="input-group-append">
-                  <button class="bt btn-design btn-outline-secondary" type="button">
+                  <button class="bt btn-design btn-outline-secondary enroll-modal-input" type="button">
                       <i class="fa fa-search"></i>
                   </button>
                 </span>
