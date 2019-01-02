@@ -1332,6 +1332,7 @@ export class ScheduleComponent implements OnInit {
                   }
                 } else {
                   if(_this.staffList.staff){
+                    _this.tempSelectedTeacher = _this.staffList.staff[0];
                     _this.selectedTeacher = _this.staffList.staff[0];
                   }
                 }
