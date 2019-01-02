@@ -30,6 +30,7 @@ export class ScheduleComponent implements OnInit {
   public activeTeacher:any;
   public teacherListSearchResult:any = {staff: []}
   public testshowbox:any ='';
+  public selectedSeat:any;
   // public SelectedDate = [];
   public isGlobal:boolean = false;
   public showSelectedDays = '~'
@@ -949,7 +950,7 @@ export class ScheduleComponent implements OnInit {
           })
           return;
         }
-        else if(_this.selectDay.length > 0){
+        else if(_this.selectedDay.length > 0){
           _this.scheduleList=false;
           _this._service.getscheduleStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID)
           .subscribe((res:any) => {
@@ -1067,9 +1068,10 @@ export class ScheduleComponent implements OnInit {
    else{
     $('.teacher-list-wrapper').scrollLeft( 0);
    }
-   if(this.selectDay.length == 0){
+   console.log(this.selectedDay);
+   if(this.selectedDay.length == 0){
      this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
-   }else if(this.selectDay.length > 0){
+   }else if(this.selectedDay.length > 0){
      this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
    }
    
@@ -1078,9 +1080,9 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher
     this.tempSelectedTeacher=teacher;
     this.selectedTeacher.userId = teacher.userId;
-    if(this.selectDay.length == 0){
+    if(this.selectedDay.length == 0){
        this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
-     }else if(this.selectDay.length > 0){
+     }else if(this.selectedDay.length > 0){
        this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
      }
    if(this.tempstafflist.staff){
@@ -1098,9 +1100,10 @@ export class ScheduleComponent implements OnInit {
   
   }
 
-  addEnrollModal(modal,type,courseID){
+  addEnrollModal(modal,type,courseID,seat){
       this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center'});
       this.courseId = courseID;
+      this.selectedSeat = seat;
       this.lessonId = "5beb8c7d1f893164fff2c32b";
       this.getCourseDetail(this.courseId);
       this.onClickModalTab(type)

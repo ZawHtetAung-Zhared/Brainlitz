@@ -1227,17 +1227,17 @@ ul.options-box {
   top: -19px;
   z-index: 15;
 }
-ul.options-box li {
+/* ul.options-box li {
   font-size: 16px;
   border-bottom: 1px solid #edeff0;
   padding: 20px 0px 16px 0px;;
   cursor: pointer;
   font-family: 'Montserrat-Semibold',Arial,sans-serif;
-}
+} */
 
-ul.options-box li:first-child {
+/* ul.options-box li:first-child {
   padding-top: 20px;
-}
+} */
 ul.options-box li:last-child {
   border-bottom: none;
 }
@@ -1249,6 +1249,8 @@ ul.options-box li:last-child {
   font-size: 12px;
   font-family: 'Montserrat-SemiBold', Arial, sans-serif;
   display: inline-block;
+  margin-bottom: 4px;
+  padding: 3px;
 }
 
 .carret-box1 {
@@ -1273,9 +1275,12 @@ ul.options-box li:last-child {
 }
 .lesson-slot-li{
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
   font-size: 16px;
   font-weight: 500;
+  border-bottom: 1px solid #edeff0;
+  padding: 20px 0px 16px 0px;;
+  cursor: pointer;
+  font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
 .course-name{
   color:#2e3e4d;
@@ -1306,4 +1311,31 @@ ul.options-box li:last-child {
 }
 .cursor{
   cursor: pointer;
+}
+.endate{
+  list-style-type: disc;
+  padding-left: 25px;
+}
+
+.modal-seat-left{
+  padding: 4px 8px 4px 8px;
+  background: #cce6ff;
+  color: #0080ff;
+  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-size: 14px;
+  margin-bottom: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.tooltips-arrow{
+  border-top: 14px solid transparent;
+  border-right: 17px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 17px solid #cce6ff;
+  height: 0px;
+}
+.popUpbox{
+  background:#f2f4f5;    
+  border-radius: 4px;
 }

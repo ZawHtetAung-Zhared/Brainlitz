@@ -145,84 +145,84 @@
             <div class="monthly" *ngIf="i != 0">
               <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month"></span>
               <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+            </div>  
+              <p>{{list.date.day}} {{list.date.month - 1 | TTmonth}}  </p>
+              <span>{{list.date.dayOfWeek}}</span>
             </div>
-            
-            <p>{{list.date.day}} {{list.date.month - 1 | TTmonth}}  </p>
-            <span>{{list.date.dayOfWeek}}</span>
-          </div>
-          <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
-            <div class="slot-wrap" *ngIf="j%2 == 0">
-              <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minArr">
-              </div>
-            </div> 
-            <div class="slot-wrap" *ngIf="j%2 != 0">
-              <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minNextArr">
-              </div>
-            </div>         
-          </div>  
-          <div *ngFor="let timetable of list.timetable; let b = index;" class="cursor">
-            <div *ngIf="i == 0">
-              <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
-                <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">
-                **##{{timetable.start|calculatePM}}
-                ###{{timetable.course.courseCode}}</h6>
-                <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
-                <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
-                <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat == null"></p>
-                <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
-                    <div class="carret-box"></div>
-                    <div class="w-100" style="background:#f2f4f5">
-                      <div class="d-flex pt-3 justify-content-between">
-                        <p class="pl-3 course-code">{{timetable.course.courseCode}}</p>
-                        <div *ngIf="(timetable.seat | json) != '{}'" style="width:120px;height:30px;background:white;">
-                            <div class="carret-box1"></div>
-                            <div class="seatLeft text-center ">{{timetable.seat.left}}/{{timetable.seat.total}} seats left</div>
-                        </div>
-                      </div>
-                      <div class="d-flex flex-column pl-3 pb-3">
-                        <div class="pb-2 course-name">{{timetable.course.name}} </div>
-                        <div class="lessoncount-EndDate">{{timetable.lesson.count}} lesson * End at {{timetable.lesson.endDate. day}} {{timetable.lesson.endDate.month-1|TTmonth}} {{timetable.lesson.endDate.year}}</div>
-                      </div>
-                    </div>
-                    <div class="pl-3 pr-3"> 
-                      <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'enroll',timetable.course.courseId)"><span >Enroll New Customer </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
-                      <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'view',timetable.course.courseId)"><span >View Student</span><span><i class="fa lesson-slot-box fa-2x fa-angle-right"></i></span></li>
-                      <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
-                    </div>
-                </ul>
-              </div>
-            </div>
-            <div *ngIf="i != 0">
-              <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)">
-                <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">***{{timetable.course.courseCode}}</h6>
-                <p *ngIf="timetable.seat != null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.seat.left}}</p>
-                <p *ngIf="timetable.seat == null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}"></p>
-                 <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
-                    <div class="carret-box"></div>
-                    <div class="w-100" style="background:#f2f4f5">
-                      <div class="d-flex pt-3 justify-content-between">
-                        <p class="pl-3 course-code">{{timetable.course.courseCode}}</p>
-                        <div *ngIf="(timetable.seat | json) != '{}'" style="width:120px;height:30px;background:white;">
-                            <div class="carret-box1"></div>
-                            <div class="seatLeft text-center ">
-                            {{timetable.seat.left }}/{{timetable.seat.total}} seats left
+            <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
+              <div class="slot-wrap" *ngIf="j%2 == 0">
+                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minArr">
+                </div>
+              </div> 
+              <div class="slot-wrap" *ngIf="j%2 != 0">
+                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minNextArr">
+                </div>
+              </div>         
+            </div>  
+            <div *ngFor="let timetable of list.timetable; let b = index;" class="cursor">
+              <div *ngIf="i == 0">
+                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                  <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">
+                  **##{{timetable.start|calculatePM}}
+                  ###{{timetable.course.courseCode}}</h6>
+                  <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
+                  <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat != null">{{timetable.seat.left}}</p>
+                  <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat == null"></p>
+                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
+                        <div class="carret-box"></div>
+                        <div class="w-100 popUpbox">
+                          <div class="d-flex pt-3 justify-content-between">
+                            <p class="pl-3 course-code">{{timetable.course.courseCode}}</p>
+                            <div *ngIf="(timetable.seat | json) != '{}'" style="width:120px;height:30px;background:white;">
+                                <div class="carret-box1"></div>
+                                <div class="seatLeft text-center ">{{timetable.seat.left}}/{{timetable.seat.total}} seats left</div>
+                            </div>
+                          </div>
+                          <div class="d-flex flex-column pl-3 pb-3">
+                            <div class="pb-2 course-name">{{timetable.course.name}} </div>
+                            <div class="d-flex">
+                              <label class="lessoncount-EndDate">{{timetable.lesson.count}} lesson </label><ul class="endate lessoncount-EndDate"><li>End at {{timetable.lesson.endDate. day}} {{timetable.lesson.endDate.month-1|TTmonth}} {{timetable.lesson.endDate.year}}</li></ul>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="d-flex flex-column pl-3 pb-3">
-                        <!-- ===>{{(list.date.toString()) == (lessonD.toString())}} -->
-                        <div class="pb-2 course-name">{{timetable.course.name}} </div>
-                        <div class="lessoncount-EndDate">{{timetable.lesson.count}} lesson * End at {{timetable.lesson.endDate. day}} {{timetable.lesson.endDate.month-1|TTmonth}} {{timetable.lesson.endDate.year}}</div>
-                      </div>
-                    </div>
-                    <div class="pl-3 pr-3"> 
-                      <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'enroll',timetable.course.courseId)"><span >Enroll New Customer </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
-                      <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'view',timetable.course.courseId)"><span >View Student</span><span><i class="fa lesson-slot-box fa-2x fa-angle-right"></i></span></li>
-                      <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
-                    </div>
-                </ul>
+                        <div class="pl-3 pr-3"> 
+                          <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'enroll',timetable.course.courseId,timetable.seat)"><span >Enroll New Customer </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
+                          <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'view',timetable.course.courseId,timetable.seat)"><span >View Student</span><span><i class="fa lesson-slot-box fa-2x fa-angle-right"></i></span></li>
+                          <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
+                        </div>
+                  </ul>
+                </div>
               </div>
-            </div>
+              <div *ngIf="i != 0">
+                <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)">
+                  <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">***{{timetable.course.courseCode}}</h6>
+                  <p *ngIf="timetable.seat != null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.seat.left}}</p>
+                  <p *ngIf="timetable.seat == null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}"></p>
+                  <ul id="testing" class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="{'top': yPosition + 'px','right':xPosition + 'px'}">
+                        <div class="carret-box"></div>
+                        <div class="w-100 popUpbox">
+                          <div class="d-flex pt-3 justify-content-between">
+                            <p class="pl-3 course-code">{{timetable.course.courseCode}}</p>
+                            <div *ngIf="(timetable.seat | json) != '{}'" style="width:120px;height:30px;background:white;">
+                                <div class="carret-box1"></div>
+                                <div class="seatLeft text-center ">{{timetable.seat.left}}/{{timetable.seat.total}} seats left</div>
+                            </div>
+                          </div>
+                          <div class="d-flex flex-column pl-3 pb-3">
+                            <div class="pb-2 course-name">{{timetable.course.name}} </div>
+                            <div class="d-flex">
+                              <label class="lessoncount-EndDate">{{timetable.lesson.count}} lesson </label><ul class="endate lessoncount-EndDate"><li>End at {{timetable.lesson.endDate. day}} {{timetable.lesson.endDate.month-1|TTmonth}} {{timetable.lesson.endDate.year}}</li></ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="pl-3 pr-3"> 
+                          <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'enroll',timetable.course.courseId,timetable.seat)"><span >Enroll New Customer </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
+                          <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'view',timetable.course.courseId,timetable.seat)"><span >View Student</span><span><i class="fa lesson-slot-box fa-2x fa-angle-right"></i></span></li>
+                          <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
+                        </div>
+                  </ul>
+                </div>
+              </div>
           </div>
         </div>
       </div>
@@ -290,7 +290,11 @@
     <div class="d-flex justify-content-between info-wrapper">
       <div>
         <label class="info-label">{{courseInfo.course.courseCode}}</label>
-        <h4 class="info-header">{{courseInfo.course.name}}</h4>
+        <div class="d-flex">
+          <h4 class="info-header">{{courseInfo.course.name}}</h4>
+          <div class="ml-2 modal-seat-left">{{selectedSeat.left}}/{{selectedSeat.total}} seats left</div>
+          <div class="tooltips-arrow"></div>
+        </div>
         <div class="d-flex date-label">
           <label>{{courseInfo.lesson.count}} lessons</label>
           <ul><li>End at {{courseInfo.lesson.endDate.day}} {{courseInfo.lesson.endDate.month-1 | TTmonth}} {{courseInfo.lesson.endDate.year}}</li></ul>
