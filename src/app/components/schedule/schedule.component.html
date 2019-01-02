@@ -182,7 +182,7 @@
       <div class="timeline-table1"> 
         <div class="time-range">        
           <div class="single-range"></div>
-          <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : {{time.start.min}} {{time.start.meridian}}</div>        
+          <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : {{time.start.min}} {{time.start.meridiem}}</div>        
         </div>
         <div class="lessons-range">
           <div [ngClass]="(i != 0 && finalLists[i-1].date.month != finalLists[i].date.month) ? 'top20' :''" class="single-row" *ngFor="let list of finalLists; let i = index">

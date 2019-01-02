@@ -1388,8 +1388,12 @@ export class ScheduleComponent implements OnInit {
   }
 
   getStaffTimetable(staffId,repeatDays){
+    // this.blockUI.start('Loading...');
     this._service.getStaffSchedule(this.regionId,staffId,repeatDays,this.selectedID)
     .subscribe((res:any)=> {
+      setTimeout(() => {
+        // this.blockUI.stop();
+      }, 300);
       console.log("staff timetable",res);
       this.finalLists = res;
       console.log("finalLists",this.finalLists)
@@ -1491,10 +1495,10 @@ export class ScheduleComponent implements OnInit {
 
   getUserInCourse(){
     //temp api for testing UI
-    this.blockUI.start('Loading...');
+    // this.blockUI.start('Loading...');
     this._service.getAssignUser(this.regionId,this.courseId,null,null,null)
     .subscribe((res:any)=>{
-      this.blockUI.stop();
+      // this.blockUI.stop();
       console.log(res)
       this.studentLists = res.CUSTOMER;
     },err =>{
@@ -1543,11 +1547,11 @@ export class ScheduleComponent implements OnInit {
   }
 
   getSingleCustomer(ID){
-    this.blockUI.start('Loading...');
+    // this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
-      this.blockUI.stop();
+      // this.blockUI.stop();
       console.log('selected Customer',res);
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
@@ -1577,10 +1581,10 @@ export class ScheduleComponent implements OnInit {
        'userType': userType
      }
      console.log("body",body);
-     this.blockUI.start('Loading...');
+     // this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
-       this.blockUI.stop();
+       // this.blockUI.stop();
        console.log("res Assign customer",res);
        if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
           console.log("no invoice setting");
@@ -1784,11 +1788,11 @@ export class ScheduleComponent implements OnInit {
     // }else if(this.invoiceCourse.fees != this.value.courseFee){
     //   data["courseFee"] = this.value.courseFee;
     // }
-    this.blockUI.start('Loading...');
+    // this.blockUI.start('Loading...');
     console.log("Inv Update Data",this.updateInvData);
     this._service.updateInvoiceInfo(this.invoiceID,this.updateInvData)
     .subscribe((res:any) => {
-      this.blockUI.stop();
+      // this.blockUI.stop();
       console.log(res);
       this.isEditInv = false;
       //for updating invoice ui
@@ -1906,12 +1910,12 @@ export class ScheduleComponent implements OnInit {
     console.log(lessonId)
     // console.log(this.isGlobal)
     // Call cancel class api service
-    this.blockUI.start('Loading...');
+    // this.blockUI.start('Loading...');
     // this.isGlobal
     this._service.cancelUsersFromClass(this.courseId, data,this.isGlobal)
     .subscribe((res:any) => {
       // Success function
-      this.blockUI.stop();
+      // this.blockUI.stop();
       // this.cancelUI=false;
       // this.cancelUi=false;
       console.info("cancle user from class api calling is done");

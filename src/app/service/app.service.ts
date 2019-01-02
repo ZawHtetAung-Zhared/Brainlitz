@@ -2009,6 +2009,7 @@ export class appService{
 
     getStaffSchedule(regionId:string,staffId:string,daysOfweek:string,categoryId:string){
       let apiUrl = this.baseUrl + '/' + regionId + '/staff/' + staffId + '/schedule?daysOfWeek=' + daysOfweek + '&categoryId='+categoryId;
+      console.log("StaffId in appService",apiUrl)
       const httpOptions = {
         headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
