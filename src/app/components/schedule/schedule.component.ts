@@ -95,6 +95,11 @@ export class ScheduleComponent implements OnInit {
   public minNextArr = [];
   public finalLists = [];
   public lessonD;
+  public slotHr;
+  public slotM;
+  public slotAMPM;
+  public slotIdx;
+  public slotJidx;
 
 
   // public toggleBool:boolean = true;
@@ -1576,8 +1581,7 @@ export class ScheduleComponent implements OnInit {
     this.paymentItem = {};
   }
 
-  public openBox:boolean = false;
-  getSlotNumber(hr, min, ampm,e){
+  getSlotNumber(hr, min, ampm,e,i,j){
     // console.log(hr , ':', min);
     // let temp = hr *60 + min; 
     // let m = temp % 60;
@@ -1588,16 +1592,29 @@ export class ScheduleComponent implements OnInit {
     // e.stopPropagation();
     if(this.startTime.min>0 && min == 0){
       var h = hr+1;
-      console.log("ttt",h , ':', min);
+      console.log("ttt",h , ':', min, ':', ampm);
     }else{
-      console.log("hr , ':', min",hr , ':', min);
+      var h = hr;
+      console.log("original",h , ':', min, ':', ampm);
     }
-    // e.preventDefault();
-    // e.stopPropagation();
-    // console.log("e.layerX",e.layerX)
-    // this.openBox = true;
-    // this.yPosition = e.layerY + 25;
-    // this.xPosition = e.layerX;
+    // let obj = {
+    //   "hr": h,
+    //   "min": min,
+    //   "ampm": ampm
+    // }
+    // this.selectSlot["time"] = obj;
+    this.slotHr = h;
+    this.slotM = min;
+    this.slotAMPM = ampm;
+    this.slotIdx = i;
+    this.slotJidx = j;
+    console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM,this.slotIdx,this.slotJidx )
+   
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("e.layerX",e.layerX)
+    this.yPosition = e.layerY + 25;
+    this.xPosition = e.layerX -25;
   }
 
 
