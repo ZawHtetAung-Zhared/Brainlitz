@@ -130,7 +130,7 @@
     <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div>
   </div>
 
-  <div class="v-wrapper1">
+  <div *ngIf="finalLists?.length > 0" class="v-wrapper1">
     <div class="timeline-table1"> 
       <div class="time-range">        
         <div class="single-range"></div>
@@ -139,25 +139,37 @@
       <div class="lessons-range">
         <div [ngClass]="(i != 0 && finalLists[i-1].date.month != finalLists[i].date.month) ? 'top20' :''" class="single-row" *ngFor="let list of finalLists; let i = index">
           <div class="single-slot">
-            <div class="monthly" *ngIf="i == 0">
-              <span>{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
-            </div>
-            <div class="monthly1" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
-              <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
-              <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
-            </div>  
+              <div class="monthly" *ngIf="i == 0">
+                <span>{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+              </div>
+              <div class="monthly1" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
+                <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
+                <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+              </div>  
               <p>{{list.date.day}} {{list.date.month - 1 | TTmonth}}  </p>
               <span>{{list.date.dayOfWeek}}</span>
+              {{i}}
             </div>
             <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
               <div class="slot-wrap" *ngIf="j%2 == 0">
-                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minArr">
+                <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event)" class="one-slot" *ngFor="let slot of minArr">
                 </div>
               </div> 
               <div class="slot-wrap" *ngIf="j%2 != 0">
-                <div (click)="getSlotNumber(time.start.hr, slot)" class="one-slot" *ngFor="let slot of minNextArr">
+                <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event)" class="one-slot" *ngFor="let slot of minNextArr">
                 </div>
-              </div>         
+              </div> 
+              <ul id="testing" class="create-box"  [ngStyle]="{'top': yPosition + 'px','left': xPosition + 'px'}" *ngIf="openBox == true">
+                <div class="carret-box"></div>
+                <div class="w-100 popUpbox">
+                  <div class="d-flex pt-3 justify-content-between">
+                    <p>Test</p>
+                  </div>
+                </div>
+                <div class="pl-3 pr-3"> 
+                  <li class="d-flex justify-content-between lesson-slot-li" ><span >Create New Course </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
+                </div>
+              </ul>        
             </div>  
             <div *ngFor="let timetable of list.timetable; let b = index;" class="cursor">
               <div *ngIf="i == 0">
@@ -226,6 +238,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="finalLists?.length == 0">
+    There is no schedule for this staff.
   </div>
 </div>
 </block-ui>

@@ -640,8 +640,8 @@ export class ScheduleComponent implements OnInit {
   // }
 
   constructor(private _service:appService, private modalService: NgbModal, public toastr: ToastsManager,public vcr: ViewContainerRef) {
-      this.toastr.setRootViewContainerRef(vcr);
-   }
+    this.toastr.setRootViewContainerRef(vcr);
+  }
    @HostListener('document:click', ['$event']) clickedOutside($event){
     // here you can hide your menu
     this.testshowbox = '';
@@ -757,8 +757,55 @@ export class ScheduleComponent implements OnInit {
       // console.log("hour",obj)
       this.operationTime.push(obj);
     }
+    // let arrLength = this.operationTime.length;
+    // console.log(arrLength);
+    let lastIdx = this.operationTime.length - 1;
+    console.log("lastIdx",this.operationTime[lastIdx].start);
+    let last = this.operationTime[lastIdx].start;
+    if(time.end.hr == last.hr && time.end.min == last.min && time.end.meridiem == last.meridiem){
+      console.log("Same");
+      this.operationTime.pop();
+    }else{
+      console.log("not same")
+    }
     console.log("opr Arr",this.operationTime)
   }
+
+  // calculateSlot(start){
+  //   var min = start.min; // start time min 
+  //   // var temp = [];
+  //   // var tempnext = [];
+  //   this.minArr = [];
+  //   this.minNextArr = [];
+  //   var next;
+  //   for(var i = 0; i <= 29; i++){
+  //       // min += 1;
+  //       // if(min == 60){
+  //       //   min = 0;
+  //       // }
+  //       if(i == 0){
+  //         min += 0; 
+  //       }else{
+  //         min += 1;
+  //       }
+  //     this.minArr.push(min);
+  //   }
+  //   console.log("temp",this.minArr);
+  //   next = this.minArr[29];
+  //   console.log('next',next);
+
+  //   for(var j = 0; j <=29; j++){
+  //     if(next == 59){
+  //       console.log("==59")
+  //       next = 0;
+  //     }else{
+  //        next += 1;
+  //     }
+     
+  //     this.minNextArr.push(next);
+  //   }
+  //    console.log("temp next",this.minNextArr);
+  // }
 
   calculateSlot(start){
     var min = start.min; // start time min 
@@ -767,46 +814,40 @@ export class ScheduleComponent implements OnInit {
     this.minArr = [];
     this.minNextArr = [];
     var next;
-    for(var i = 0; i <= 29; i++){
-        min += 1;
-        if(min == 60){
-          min = 0;
+    for(var i = 0; i <= 1; i++){
+        // min += 1;
+        // if(min == 60){
+        //   min = 0;
+        // }
+        if(i == 0){
+          min += 0; 
+        }else{
+          // min += 15;
+          if(min == 45){
+            console.log("==59")
+            min = 0;
+          }else{
+             min += 15;
+          }
         }
       this.minArr.push(min);
     }
     console.log("temp",this.minArr);
-    next = this.minArr[29];
+    next = this.minArr[this.minArr.length-1];
     console.log('next',next);
 
-    for(var j = 0; j <=29; j++){
-      next += 1;
+    for(var j = 0; j <=1; j++){
+      if(next == 45){
+        console.log("==59")
+        next = 0;
+      }else{
+         next += 15;
+      }
+     
       this.minNextArr.push(next);
     }
      console.log("temp next",this.minNextArr);
   }
-
-  // calculateSlot(start){
-  //   var min = 1; // start time min 
-  //   var temp = [];
-  //   var tempnext = [];
-  //   var next;
-  //   for(var i = 0; i <= 29; i++){
-  //     min += 1;
-  //       if(min == 60){
-  //         min = 0;
-  //       }
-  //     temp.push(min);
-  //   }
-  //   // next = temp[30]
-  //    console.log(temp)
-  //    next = temp[29]
-
-  //   for(var j = 0; j <= 29; j++){
-  //     next += 1;
-  //     tempnext.push(next)
-  //   }
-  //   console.log(tempnext)
-  // }
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
@@ -1535,8 +1576,28 @@ export class ScheduleComponent implements OnInit {
     this.paymentItem = {};
   }
 
-  getSlotNumber(hr, min){
-    console.log(hr , ':', min);
+  public openBox:boolean = false;
+  getSlotNumber(hr, min, ampm,e){
+    // console.log(hr , ':', min);
+    // let temp = hr *60 + min; 
+    // let m = temp % 60;
+    // let h = (temp - m)/60;
+    // console.log(temp,m,h)
+    // console.log(h , ':', m);
+    // e.preventDefault();
+    // e.stopPropagation();
+    if(this.startTime.min>0 && min == 0){
+      var h = hr+1;
+      console.log("ttt",h , ':', min);
+    }else{
+      console.log("hr , ':', min",hr , ':', min);
+    }
+    // e.preventDefault();
+    // e.stopPropagation();
+    // console.log("e.layerX",e.layerX)
+    // this.openBox = true;
+    // this.yPosition = e.layerY + 25;
+    // this.xPosition = e.layerX;
   }
 
 

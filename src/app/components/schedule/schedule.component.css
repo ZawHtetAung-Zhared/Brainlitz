@@ -900,7 +900,8 @@ tbody td{
   border-right: 1px solid #edeff0;
 }
 .one-slot {
-  width: 4px;
+  width: 60px;
+  /*width: 4px;*/
   /*background: red;*/
   /*outline: 1px solid #eee;*/
   /*height: 42px;*/
@@ -932,7 +933,20 @@ tbody td{
   position: relative;
   /* z-index: 5; */
 }
-
+/*.empty-slot{
+  position: absolute;
+  left: 249px;
+  height: 40px;
+  background: #d3d3d3;
+  border-radius: 2px;
+  padding: 6px 8px;
+}
+.empty-slot p{
+  color: #009940;
+  font-size: 12px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+*/
 .cursor-on{
   cursor: pointer;
 }
@@ -1209,7 +1223,20 @@ input:checked + .slider:before {
   box-shadow: none!important;
 }
 
-
+.create-box{
+  position: absolute;
+  width: 300px;
+  background: #fff;
+  z-index: 15!important;
+  padding: 0px;
+  list-style: none;
+  -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  right: -66px;
+  top: 50px;
+}
 
 ul.options-box {
   position: absolute;
@@ -1249,7 +1276,7 @@ ul.options-box {
 /* ul.options-box li:first-child {
   padding-top: 20px;
 } */
-ul.options-box li:last-child {
+ul.options-box li:last-child,.create-box li:last-child {
   border-bottom: none;
 }
 
