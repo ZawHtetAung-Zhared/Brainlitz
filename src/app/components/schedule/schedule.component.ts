@@ -109,6 +109,7 @@ export class ScheduleComponent implements OnInit {
   goBackCat:boolean;
   isCategory:boolean = false;
   isPlan:boolean = false;
+  isCourseCreate:boolean = false;
 
 
   // public toggleBool:boolean = true;
@@ -683,6 +684,14 @@ export class ScheduleComponent implements OnInit {
       // this.courseList = []
       // console.log(this.courseList.length)
     });
+
+    this._service.goCourseCreate.subscribe(() => {
+      console.log('go to cc')
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = true;
+    });
   }
    @HostListener('document:click', ['$event']) clickedOutside($event){
     // here you can hide your menu
@@ -1035,7 +1044,7 @@ export class ScheduleComponent implements OnInit {
     // Api calling should after checking the date 
     // need to wait a bit delay 
   //  test
-  this.getAllCoursePlan();
+  // this.getAllCoursePlan();
   console.error(this.courseplanLists)
     setTimeout(() => {
         // _this.selectedDayy();
@@ -1708,6 +1717,7 @@ export class ScheduleComponent implements OnInit {
 
   onClickCreate(){
     this.courseCreate = true;
+    this.getAllCoursePlan();
   }
 
   createPlan(){
@@ -1717,7 +1727,19 @@ export class ScheduleComponent implements OnInit {
     // this.isPlan = true;
     this.courseCreate = false;
   }
-
+  selectPlan(plan){
+    console.log("plan",plan);
+    console.log(this.selectedID);
+    let planObj = {
+      "name": plan.name,
+      "id": plan.coursePlanId,
+      "duration": plan.lesson.duration,
+      "paymentPolicy": plan.paymentPolicy
+    };
+    this.goBackCat = false;
+    this.isCourseCreate = true;
+    localStorage.setItem('cPlan',JSON.stringify(planObj));
+  }
 
   cancelClassFun( lessonId){
     let data = {
