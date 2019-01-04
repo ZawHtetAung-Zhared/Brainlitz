@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef,HostListener, EventEmitter,AfterViewInit } from '@angular/core';
 
 import { appService } from '../../service/app.service';
+import {MinuteSecondsPipe} from '../../service/pipe/time.pipe'
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -14,7 +15,7 @@ declare var $:any;
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   public logo:any = localStorage.getItem("OrgLogo");
-  public currency = JSON.parse(localStorage.getItem('currency'));
+  public currency = JSON.parse(localStorage.getItem('currency'));  
   public test:any=[];
   public testshowboxs:any;
   public tempSelectedTeacher:any;
@@ -32,6 +33,9 @@ export class ScheduleComponent implements OnInit {
   public testshowbox:any ='';
   public selectedSeat:any;
   // public SelectedDate = [];
+  public monthCount:boolean = false;
+  public monthArray:any=[];
+  public noOfMonth:any=[];
   public isGlobal:boolean = false;
   public showSelectedDays = '~'
   public showSelectedDays1 = [0,1,2,3,4,5,6]
@@ -45,6 +49,7 @@ export class ScheduleComponent implements OnInit {
   public isFousCategory: boolean = false;
   public isSelected:boolean = false;
   public scheduleList:boolean=true;
+  public courseplanLists :any;
   public regionId = localStorage.getItem('regionId');
   
   public locationID = localStorage.getItem('locationId');
@@ -1029,7 +1034,9 @@ export class ScheduleComponent implements OnInit {
     const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-   
+  //  test
+  this.getAllCoursePlan();
+  console.error(this.courseplanLists)
     setTimeout(() => {
         // _this.selectedDayy();
         if(_this.selectedDay.length == 0) {
@@ -1138,7 +1145,26 @@ export class ScheduleComponent implements OnInit {
         this.blockUI.stop();
       }, 100);
       console.log("staff timetable",res);
+      setTimeout(() => {
+        console.log($('.my-class').length);
+        var mlen = $('.my-class').length;
+        // for(){
+
+        // }
+      }, 300);
       this.finalLists = res;
+      for(let i = 0; i< this.finalLists.length; i++){
+        this.monthArray.push(this.finalLists[i].date.month);
+        this.noOfMonth = this.monthArray.filter((v, i, a) => a.indexOf(v) === i);
+      }
+      console.log(this.noOfMonth)
+      for(let j = 0; j< this.noOfMonth.length; j++){
+        for(let k = 0; k< this.finalLists.length; k++){
+          if(this.noOfMonth[j] == this.finalLists[k].date.month){
+            this.finalLists[k]['multiply'] = j;
+          }
+        }
+      }
       console.log("finalLists",this.finalLists)
     })
   }
@@ -1745,6 +1771,21 @@ export class ScheduleComponent implements OnInit {
     console.log(this.courseInfo)
      console.log(course);
      console.log(lesson)
+  }
+
+
+  getAllCoursePlan(){
+    this.blockUI.start('Loading...');
+    this._service.getAllCoursePlan(this.regionId, this.locationID)
+    .subscribe((res:any) => {
+      this.courseplanLists = res;
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
+      console.log(this.courseplanLists)
+      }, err => {
+        console.log(err)
+      })
   }
 
 }
