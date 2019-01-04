@@ -90,20 +90,23 @@
           >
       </div>
       <div class="d-flex flex-wrap  mt-3">
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xs-3 createcouresplan">
-          +Create New Course Plan
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list">
+          <div class="createcouresplan">
+            <p class="createCourseText"><i class="fa plus-sign fa-plus mr-2"></i>Create New Course Plan</p>
+          </div>
         </div>
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xs-3 createcouresplan">
-          <span> +Create New Course Plan </span> 
-        </div>
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xs-3 createcouresplan">
-          +Create New Course Plan
-        </div>
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xs-3 createcouresplan">
-          +Create New Course Plan
-        </div>
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xs-3 createcouresplan">
-          +Create New Course Plan
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 course-plan-list create-course-plan-list" *ngFor="let item of courseplanLists" >
+          <div class="d-flex couresplanList justify-content-between">
+            <div class=" d-flex flex-column">
+              <span class="courseplanName mb-1">{{item.name}}</span>
+              <div class="d-flex">
+                <span class="createCourseTextSeat">{{item.seats}} seats</span><ul class="lessonDuration"><li class="createCourseTextSeat">{{item.lesson.duration |minuteSeconds}} duration</li></ul>
+              </div>
+            </div>
+            <div class="align-slef-center pt-3">
+              <i class="fa lesson-slot-box fa-2x  fa-angle-right"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>

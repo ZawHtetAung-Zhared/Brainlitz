@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef,HostListener, EventEmitter,AfterViewInit } from '@angular/core';
 
 import { appService } from '../../service/app.service';
+import {MinuteSecondsPipe} from '../../service/pipe/time.pipe'
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -45,6 +46,7 @@ export class ScheduleComponent implements OnInit {
   public isFousCategory: boolean = false;
   public isSelected:boolean = false;
   public scheduleList:boolean=true;
+  public courseplanLists :any;
   public regionId = localStorage.getItem('regionId');
   
   public locationID = localStorage.getItem('locationId');
@@ -968,7 +970,9 @@ export class ScheduleComponent implements OnInit {
     const _this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-   
+  //  test
+  this.getAllCoursePlan();
+  console.error(this.courseplanLists)
     setTimeout(() => {
         // _this.selectedDayy();
         if(_this.selectedDay.length == 0) {
@@ -1671,6 +1675,21 @@ export class ScheduleComponent implements OnInit {
     console.log(this.courseInfo)
      console.log(course);
      console.log(lesson)
+  }
+
+
+  getAllCoursePlan(){
+    this.blockUI.start('Loading...');
+    this._service.getAllCoursePlan(this.regionId, this.locationID)
+    .subscribe((res:any) => {
+      this.courseplanLists = res;
+      setTimeout(() => {
+        this.blockUI.stop(); // Stop blocking
+      }, 300);
+      console.log(this.courseplanLists)
+      }, err => {
+        console.log(err)
+      })
   }
 
 }
