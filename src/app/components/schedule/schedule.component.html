@@ -1,5 +1,7 @@
 <app-header [ngClass]="{'stick': isSticky == true , 'hide': hideMenu}" *ngIf="scheduleList"></app-header>
 
+<app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
+
 <block-ui>
   <div class="d-flex justify-content-center" *ngIf="scheduleList">
     <div class="d-flex flex-column align-items-start  mt-5">
@@ -71,7 +73,7 @@
       </div>
     </div>
     <!--Pick Course Plan -->
-    <div class="d-flex flex-column pl-4" *ngIf="!courseCreate">
+    <div class="d-flex flex-column pl-4" *ngIf="courseCreate">
       <div class="d-flex flex-column">
         <p class="category-title">#Piano</p>
         <p class="pickCourseplan">Pick Course Plan</p>
@@ -90,6 +92,7 @@
           >
       </div>
       <div class="d-flex flex-wrap  mt-3">
+
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list">
           <div class="createcouresplan">
             <p class="createCourseText"><i class="fa plus-sign fa-plus mr-2"></i>Create New Course Plan</p>
@@ -110,7 +113,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="courseCreate">
+    <div *ngIf="!courseCreate">
       <div class="schedule-checkboxes-wrapper d-flex flex-wrap">
         <div>
           <span *ngFor="let d of days">
@@ -211,7 +214,7 @@
                       </div>
                     </div>
                     <div class="pl-3 pr-3"> 
-                      <li class="d-flex justify-content-between lesson-slot-li" ><span >Create New Course </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
+                      <li class="d-flex justify-content-between lesson-slot-li" (click)="onClickCreate()"><span >Create New Course </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
                     </div>
                   </ul>        
                 </div>  

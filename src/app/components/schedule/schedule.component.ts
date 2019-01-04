@@ -102,6 +102,9 @@ export class ScheduleComponent implements OnInit {
   public slotAMPM;
   public slotIdx;
   public slotJidx;
+  public courseCreate:boolean = false;
+  goBackCat:boolean = false;
+  isPlan:boolean = false;
 
 
   // public toggleBool:boolean = true;
@@ -648,6 +651,12 @@ export class ScheduleComponent implements OnInit {
 
   constructor(private _service:appService, private modalService: NgbModal, public toastr: ToastsManager,public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.goplan.subscribe(() => {
+     console.log('go plan')
+     // this.isCategory = false;
+     //  this.isPlan = true;
+      this.goBackCat = true;
+    })
   }
    @HostListener('document:click', ['$event']) clickedOutside($event){
     // here you can hide your menu
@@ -1618,9 +1627,18 @@ export class ScheduleComponent implements OnInit {
     e.stopPropagation();
     console.log("e.layerX",e.layerX)
     this.yPosition = e.layerY + 25;
-    this.xPosition = e.layerX -25;
+    this.xPosition = e.layerX -25;   
   }
 
+  onClickCreate(){
+    this.courseCreate = true;
+  }
+
+  createPlan(){
+    console.log("course Plan")
+    this.goBackCat = false;
+    this.isPlan = true;
+  }
 
 
   cancelClassFun( lessonId){
