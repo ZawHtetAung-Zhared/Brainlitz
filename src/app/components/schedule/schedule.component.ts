@@ -669,6 +669,7 @@ export class ScheduleComponent implements OnInit {
      this.isCategory = false;
       this.isPlan = true;
       this.goBackCat = true;
+      this.isCourseCreate = false;
       this.courseCreate = false;
       // this.scheduleList = false;
     })
@@ -678,6 +679,7 @@ export class ScheduleComponent implements OnInit {
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
+      this.isCourseCreate = false;
       this.courseCreate = false;
       console.log("schedule",this.scheduleList)
       // this.isCourseCreate = false;

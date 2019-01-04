@@ -5,7 +5,7 @@
 <app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
 
 <block-ui>
-  <div class="d-flex justify-content-center" *ngIf="scheduleList && isCategory == false && isPlan == false">
+  <div class="d-flex justify-content-center" *ngIf="scheduleList && isCategory == false && isPlan == false && isCourseCreate == false">
     <div class="d-flex flex-column align-items-start  mt-5">
       <form class="form-wrap d-flex flex-column align-items-start" novalidate #customerForm="ngForm">
         <h3 class="schedule-title ">Schedule</h3>
@@ -61,27 +61,27 @@
     </div>
   </div>
   <!-- Schedule List (when click show button) -->
-  <div *ngIf="!scheduleList && isCategory == false && isPlan == false">
+  <div *ngIf="!scheduleList && isCategory == false && isPlan == false && isCourseCreate == false">
     <div [ngClass]="{'backdrop' : testshowboxs==true}" class="txt"></div>
     <div class="d-flex  justify-content-between">
-      <div *ngIf="courseCreate == false && isCategory == false && isPlan == false" class="p-2 pl-4 pb-0 ">
+      <div *ngIf="courseCreate == false && isCategory == false && isPlan == false && isCourseCreate == false" class="p-2 pl-4 pb-0 ">
         <div class="back-to" (click)="backtoSchedule()">
           <i class="fa fa-angle-left"></i>
           <p class="mb-0">Schedule</p>
         </div>
       </div>
-      <div *ngIf="courseCreate == true && isCategory == false && isPlan == false" class="p-2 pl-4 pb-0 ">
+      <div *ngIf="courseCreate == true && isCategory == false && isPlan == false && isCourseCreate == false" class="p-2 pl-4 pb-0 ">
         <div class="back-to" (click)="backtoTimetable()">
           <i class="fa fa-angle-left"></i>
           <p class="mb-0" (click)="backtoTimetable()">Schedule</p>
         </div>
       </div>    
-      <div class="pr-4 pt-2" *ngIf="courseCreate == true && isCategory == false && isPlan == false">
+      <div class="pr-4 pt-2" *ngIf="courseCreate == true && isCategory == false && isPlan == false && isCourseCreate == false">
         <p class="cancel-txt" (click)="backtoTimetable()">Cancel</p>
       </div>
     </div>
     <!--Pick Course Plan -->
-    <div class="d-flex flex-column pl-4" *ngIf="courseCreate == true && isCategory == false && isPlan == false">
+    <div class="d-flex flex-column pl-4" *ngIf="courseCreate == true && isCategory == false && isPlan == false && isCourseCreate == false">
       <div class="d-flex flex-column">
         <p class="category-title">#Piano</p>
         <p class="pickCourseplan">Pick Course Plan</p>
@@ -121,7 +121,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="courseCreate == false && isCategory == false && isPlan == false">
+    <div *ngIf="courseCreate == false && isCategory == false && isPlan == false && isCourseCreate == false">
       <div class="schedule-checkboxes-wrapper d-flex flex-wrap">
         <div>
           <span *ngFor="let d of days">
