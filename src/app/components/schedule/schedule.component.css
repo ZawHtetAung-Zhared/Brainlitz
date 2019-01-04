@@ -601,7 +601,7 @@ ul.scedule-data-listing li.disabled{
 .back-to{
 	font-family: 'Montserrat-Medium', Arial,sans-serif;
 	font-size: 16px;
-    color: #2e3d4d !important;
+  color: #2e3d4d !important;
 	padding-left: 0 !important;
 	cursor: pointer;
 }
@@ -611,7 +611,7 @@ ul.scedule-data-listing li.disabled{
 }
 .back-to i{
 	float: left;
-    font-size: 23px;
+  font-size: 23px;
 }
 .back-to p{
   float: left;
@@ -1374,4 +1374,41 @@ ul.options-box li:last-child,.create-box li:last-child {
   background: #80bfff;
   border: 2px solid #007fff;
   border-radius: 2px;
+}
+
+.createcouresplan{
+  padding: 28px 20px 28px 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  margin-right: 6px;
+}
+.category-title{
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-size: 16px;
+  color: #64707d;
+  font-weight: 600;
+}
+.pickCourseplan{
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-size: 28px;
+  color: #2e3d4d;
+  font-weight: 600;
+}
+.search-courseplan{
+  padding: 12px 0 12px 12px !important;
+  background: #f2f4f5;
+  border: none;
+}
+.courseplanSearch-btn{
+  padding: 12px;
+  background: #f2f4f5;
+  border: none;
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  color: #788796;
+  cursor: pointer;
+}
+.cancel-txt{
+  color: #2e3d4d;
+  font-size: 16px;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
 }
