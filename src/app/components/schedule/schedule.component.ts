@@ -101,7 +101,8 @@ export class ScheduleComponent implements OnInit {
   public slotIdx;
   public slotJidx;
   public courseCreate:boolean = false;
-  goBackCat:boolean = false;
+  goBackCat:boolean;
+  isCategory:boolean = false;
   isPlan:boolean = false;
 
 
@@ -649,17 +650,43 @@ export class ScheduleComponent implements OnInit {
 
   constructor(private _service:appService, private modalService: NgbModal, public toastr: ToastsManager,public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.goCat.subscribe(() => {
+      console.log('goback22', this.goBackCat)
+      this.goBackCat = false;
+      this.isCategory = true;
+      this.isPlan = false;
+      this.courseCreate = false;
+    });
+
     this._service.goplan.subscribe(() => {
      console.log('go plan')
-     // this.isCategory = false;
-     //  this.isPlan = true;
+     this.isCategory = false;
+      this.isPlan = true;
       this.goBackCat = true;
+      this.courseCreate = false;
+      // this.scheduleList = false;
     })
+
+    this._service.goCourse.subscribe(() => {
+      console.log('goback33')
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.courseCreate = false;
+      console.log("schedule",this.scheduleList)
+      // this.isCourseCreate = false;
+      // this.courseList = []
+      // console.log(this.courseList.length)
+    });
   }
    @HostListener('document:click', ['$event']) clickedOutside($event){
     // here you can hide your menu
-    this.testshowbox = '';
-    this.testshowboxs= false;
+      this.testshowbox = '';
+      this.testshowboxs= false;
+      this.showDp = false;
+      this.slotM = '';
+      this.slotIdx = '';
+      this.slotJidx = '';
     }
 
   ngOnInit() {
@@ -687,6 +714,19 @@ export class ScheduleComponent implements OnInit {
       }
     ]
   }
+
+  // closeDP(event){
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "slot-wrap"
+  //   })
+  //   console.log(parentWrap);
+  //   if(parentWrap.length == 0){
+  //    this.slotM = '';
+  //     this.slotIdx = '';
+  //     this.slotJidx = '';
+  //   }
+  // }
+
   public startTime;
   getRegionalInfo(){
     let token = localStorage.getItem('token');
@@ -879,9 +919,21 @@ export class ScheduleComponent implements OnInit {
   backtoSchedule(){
     // reset the initial values  
     this.scheduleList = true;
+    this.isPlan = false;
+    this.isCategory = false;
+    this.courseCreate = false;
     this.item.itemID = '';
     this.selectedDay = [];
     this.getAutoSelectDate();
+     this.showDp = false;
+  }
+
+  backtoTimetable(){
+    this.scheduleList = false;
+    this.isPlan = false;
+    this.isCategory = false;
+    this.courseCreate = false;
+    this.showDp = false;
   }
   
   // Selected Day //
@@ -1589,7 +1641,7 @@ export class ScheduleComponent implements OnInit {
     this.showInvoice = true;
     this.paymentItem = {};
   }
-
+  showDp:boolean = false;
   getSlotNumber(hr, min, ampm,e,i,j){
     // console.log(hr , ':', min);
     // let temp = hr *60 + min; 
@@ -1606,24 +1658,26 @@ export class ScheduleComponent implements OnInit {
       var h = hr;
       console.log("original",h , ':', min, ':', ampm);
     }
+    this.slotHr = h + ':' + min + ' ' + ampm;
     // let obj = {
     //   "hr": h,
     //   "min": min,
     //   "ampm": ampm
     // }
     // this.selectSlot["time"] = obj;
-    this.slotHr = h;
     this.slotM = min;
     this.slotAMPM = ampm;
     this.slotIdx = i;
     this.slotJidx = j;
+    this.showDp=true;
     console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM,this.slotIdx,this.slotJidx )
    
     e.preventDefault();
     e.stopPropagation();
     console.log("e.layerX",e.layerX)
     this.yPosition = e.layerY + 25;
-    this.xPosition = e.layerX -25;   
+    this.xPosition = e.layerX -25; 
+    console.log("selected",this.selectedTeacher);  
   }
 
   onClickCreate(){
@@ -1631,9 +1685,11 @@ export class ScheduleComponent implements OnInit {
   }
 
   createPlan(){
-    console.log("course Plan")
+    console.log("course Plan");
+    this.isCategory = true;
     this.goBackCat = false;
-    this.isPlan = true;
+    // this.isPlan = true;
+    this.courseCreate = false;
   }
 
 
