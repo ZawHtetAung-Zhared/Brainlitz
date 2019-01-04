@@ -14,7 +14,7 @@ declare var $:any;
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   public logo:any = localStorage.getItem("OrgLogo");
-  public currency = JSON.parse(localStorage.getItem('currency'));
+  public currency = JSON.parse(localStorage.getItem('currency'));  
   public test:any=[];
   public testshowboxs:any;
   public tempSelectedTeacher:any;
@@ -32,6 +32,9 @@ export class ScheduleComponent implements OnInit {
   public testshowbox:any ='';
   public selectedSeat:any;
   // public SelectedDate = [];
+  public monthCount:boolean = false;
+  public monthArray:any=[];
+  public noOfMonth:any=[];
   public isGlobal:boolean = false;
   public showSelectedDays = '~'
   public showSelectedDays1 = [0,1,2,3,4,5,6]
@@ -1086,7 +1089,26 @@ export class ScheduleComponent implements OnInit {
         this.blockUI.stop();
       }, 100);
       console.log("staff timetable",res);
+      setTimeout(() => {
+        console.log($('.my-class').length);
+        var mlen = $('.my-class').length;
+        // for(){
+
+        // }
+      }, 300);
       this.finalLists = res;
+      for(let i = 0; i< this.finalLists.length; i++){
+        this.monthArray.push(this.finalLists[i].date.month);
+        this.noOfMonth = this.monthArray.filter((v, i, a) => a.indexOf(v) === i);
+      }
+      console.log(this.noOfMonth)
+      for(let j = 0; j< this.noOfMonth.length; j++){
+        for(let k = 0; k< this.finalLists.length; k++){
+          if(this.noOfMonth[j] == this.finalLists[k].date.month){
+            this.finalLists[k]['multiply'] = j;
+          }
+        }
+      }
       console.log("finalLists",this.finalLists)
     })
   }
