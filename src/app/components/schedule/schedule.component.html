@@ -1,16 +1,17 @@
 <app-header [ngClass]="{'stick': isSticky == true , 'hide': hideMenu}" *ngIf="scheduleList"></app-header>
 
-<app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
+<app-category class="category-content" *ngIf="isCategory == true && isPlan == false"></app-category>
+<app-courseplan class="category-content" *ngIf="isPlan == true && isCategory == false"></app-courseplan>
 
 <block-ui>
-  <div class="d-flex justify-content-center" *ngIf="scheduleList">
+  <div class="d-flex justify-content-center" *ngIf="scheduleList && isCategory == false && isPlan == false">
     <div class="d-flex flex-column align-items-start  mt-5">
       <form class="form-wrap d-flex flex-column align-items-start" novalidate #customerForm="ngForm">
         <h3 class="schedule-title ">Schedule</h3>
         <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>    
         <div class="checkboxes-wrapper">
           <span *ngFor="let d of days">
-            <label class="cursor-on day"  [ngClass]="{'active-label': (selectedDay.indexOf(d.val) != -1),'noCursor': isEdit== true}">
+            <label class="cursor-on day" [ngClass]="{'active-label': (selectedDay.indexOf(d.val) != -1),'noCursor': isEdit== true}">
               <div *ngIf="selectedDay.indexOf(d.val) == -1 " class="rounded-box"></div> 
               <div *ngIf="selectedDay.indexOf(d.val) != -1 " class="rounded-checked"><i  class="fa fa-check"></i></div>              
               <input 
@@ -59,21 +60,27 @@
     </div>
   </div>
   <!-- Schedule List (when click show button) -->
-  <div *ngIf="!scheduleList">
-    <div  [ngClass]="{'backdrop' : testshowboxs==true}" class="txt"></div>
+  <div *ngIf="!scheduleList && isCategory == false && isPlan == false">
+    <div [ngClass]="{'backdrop' : testshowboxs==true}" class="txt"></div>
     <div class="d-flex  justify-content-between">
-      <div class="p-2 pl-4 pb-0 ">
+      <div *ngIf="courseCreate == false && isCategory == false && isPlan == false" class="p-2 pl-4 pb-0 ">
         <div class="back-to" (click)="backtoSchedule()">
           <i class="fa fa-angle-left"></i>
           <p class="mb-0">Schedule</p>
         </div>
-      </div>  
-      <div class="pr-4 pt-2">
-        <p class="cancel-txt">Cancel</p>
+      </div>
+      <div *ngIf="courseCreate == true && isCategory == false && isPlan == false" class="p-2 pl-4 pb-0 ">
+        <div class="back-to" (click)="backtoTimetable()">
+          <i class="fa fa-angle-left"></i>
+          <p class="mb-0" (click)="backtoTimetable()">Schedule</p>
+        </div>
+      </div>    
+      <div class="pr-4 pt-2" *ngIf="courseCreate == true && isCategory == false && isPlan == false">
+        <p class="cancel-txt" (click)="backtoTimetable()">Cancel</p>
       </div>
     </div>
     <!--Pick Course Plan -->
-    <div class="d-flex flex-column pl-4" *ngIf="courseCreate">
+    <div class="d-flex flex-column pl-4" *ngIf="courseCreate == true && isCategory == false && isPlan == false">
       <div class="d-flex flex-column">
         <p class="category-title">#Piano</p>
         <p class="pickCourseplan">Pick Course Plan</p>
@@ -113,7 +120,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!courseCreate">
+    <div *ngIf="courseCreate == false && isCategory == false && isPlan == false">
       <div class="schedule-checkboxes-wrapper d-flex flex-wrap">
         <div>
           <span *ngFor="let d of days">
@@ -189,7 +196,7 @@
                   <div class="monthly" *ngIf="i == 0">
                     <span>{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
                   </div>
-                  <div class="monthly1" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
+                  <div class="monthly" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
                     <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
                     <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
                   </div>  
@@ -199,18 +206,29 @@
                 </div>
                 <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
                   <div class="slot-wrap" *ngIf="j%2 == 0">
-                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j)" class="one-slot" *ngFor="let slot of minArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j}">
+                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j)" class="one-slot" *ngFor="let slot of minArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
                     </div>
                   </div> 
                   <div class="slot-wrap" *ngIf="j%2 != 0">
-                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j)" class="one-slot" *ngFor="let slot of minNextArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j}">
+                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j)" class="one-slot" *ngFor="let slot of minNextArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
                     </div>
                   </div> 
-                  <ul id="testing" class="create-box"  [ngStyle]="{'top': yPosition + 'px','left': xPosition + 'px'}" *ngIf="slotIdx == i && slotJidx == j">
+                  <ul id="testing" class="create-box"  [ngStyle]="{'top': yPosition + 'px','left': xPosition + 'px'}" *ngIf="slotIdx == i && slotJidx == j && showDp == true">
                     <div class="arr-box"></div>
                     <div class="w-100 popUpbox">
-                      <div class="d-flex pt-3 justify-content-between">
-                        <p>Test</p>
+                      <div class="d-flex teacher-info">
+                        <div class="profile-wrap">
+                          <img src="{{selectedTeacher.profilePic}}">
+                        </div>
+                        <div>
+                          <p>{{selectedTeacher.preferredName}}</p>
+                          <div class="d-flex">
+                            <label>{{list.date.day}} {{list.date.month - 1 | TTmonth}} {{list.date.year}}</label>
+                            <ul class="">
+                              <li><p>{{slotHr}}</p></li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="pl-3 pr-3"> 
@@ -252,7 +270,7 @@
                     </div>
                   </div>
                   <div *ngIf="i != 0">
-                    <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)">
+                    <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)">
                       <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.course.courseCode}}</h6>
                       <p *ngIf="timetable.seat != null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{((timetable.seat | json) != '{}')? (timetable.seat.left) : ("-")}} seats</p>
                       <p *ngIf="timetable.seat == null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}"></p>
