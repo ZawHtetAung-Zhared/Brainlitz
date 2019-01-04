@@ -1395,7 +1395,10 @@ ul.options-box li:last-child,.create-box li:last-child {
 .createcouresplan{
   padding: 28px 20px 28px 20px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  margin-right: 6px;
+}
+.couresplanList{
+  padding: 16px 20px 16px 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 .category-title{
   font-family: 'InterUI-SemiBold',Arial, sans-serif;
@@ -1414,6 +1417,10 @@ ul.options-box li:last-child,.create-box li:last-child {
   background: #f2f4f5;
   border: none;
 }
+.search-courseplan:focus{
+  box-shadow: none;
+  outline: none;
+}
 .courseplanSearch-btn{
   padding: 12px;
   background: #f2f4f5;
@@ -1428,3 +1435,35 @@ ul.options-box li:last-child,.create-box li:last-child {
   font-size: 16px;
   font-family: 'InterUI-Medium',Arial, sans-serif;
 }
+.createCourseText{
+  font-size: 18px;
+  color: #64707d;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+}
+.create-course-plan-list{
+  padding-right: 24px;
+  margin-bottom: 24px;
+  padding-left: 0px!important;
+}
+.course-plan-list:hover .lesson-slot-box{
+  color: #2e3e4d;
+}
+.createCourseTextSeat{
+  color: #64707d;
+  font-size: 14px;
+  font-family: 'InterUI-Regular',Arial, sans-serif;
+}
+.courseplanName{
+  color: #2e3e4d;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+}
+.lessonDuration{
+  padding-left: 23px;
+}
+.plus-sign{
+  color:#788796;
+}
+
+/* padding-left: 23px; */
