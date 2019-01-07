@@ -967,6 +967,21 @@ export class appService{
         return result;
       }) 
     }
+    getSearchCoursePlan(id: string,location: string, keyword: string): Observable<any>{
+      this.getLocalstorage();
+      console.log(location)
+      console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&keyword=' + keyword;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
 
     createHolidays(regionid: string, locationid: string, data: object): Observable<any>{
       let url = this.baseUrl+ '/' + regionid + '/holidays?locationId=' + locationid;

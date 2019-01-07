@@ -1812,5 +1812,14 @@ export class ScheduleComponent implements OnInit {
         console.log(err)
       })
   }
+  getSearchCoursePlan(keyword){
+    this._service.getSearchCoursePlan(this.regionId, this.locationID,keyword)
+    .subscribe((res:any) => {
+      this.courseplanLists = res;
+      console.log(this.courseplanLists)
+      }, err => {
+        console.log(err)
+      })
+  }
 
 }
