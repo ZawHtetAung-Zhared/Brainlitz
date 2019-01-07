@@ -207,11 +207,11 @@
                 </div>
                 <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
                   <div class="slot-wrap" *ngIf="j%2 == 0">
-                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j)" class="one-slot" *ngFor="let slot of minArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
+                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j,list.date)" class="one-slot" *ngFor="let slot of minArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
                     </div>
                   </div> 
                   <div class="slot-wrap" *ngIf="j%2 != 0">
-                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j)" class="one-slot" *ngFor="let slot of minNextArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
+                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j,list.date)" class="one-slot" *ngFor="let slot of minNextArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
                     </div>
                   </div> 
                   <ul id="testing" class="create-box"  [ngStyle]="{'top': yPosition + 'px','left': xPosition + 'px'}" *ngIf="slotIdx == i && slotJidx == j && showDp == true">

@@ -58,6 +58,11 @@ export class appService{
     lnameChanges: Observable<any>;
     private lnameUpdated = new Subject<any>();
 
+    goSchedule: Observable<any>;
+    private backSc = new Subject<any>();
+
+    // goBackSchedule: 
+
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
@@ -74,6 +79,7 @@ export class appService{
       this.goCourseDetail = this.backCDetail.asObservable();
       this.goPlanDetail = this.backCPdetail.asObservable();
       this.lnameChanges = this.lnameUpdated.asObservable();
+      this.goSchedule = this.backSc.asObservable();
     }
 
     callnameUpdate(){
@@ -117,6 +123,10 @@ export class appService{
       var val = localStorage.getItem('categoryID')
       console.log('gotoplan ',val)
       this.plan.next(val)
+    }
+
+    backSchedule(){
+      this.backSc.next(false)
     }
 
     isLoggedIn(): boolean {

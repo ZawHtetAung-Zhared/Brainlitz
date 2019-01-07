@@ -662,6 +662,7 @@ export class ScheduleComponent implements OnInit {
       this.isCategory = true;
       this.isPlan = false;
       this.courseCreate = false;
+      // localStorage.setItem("cpCategory",JSON.stringify(this.planCategory));
     });
 
     this._service.goplan.subscribe(() => {
@@ -681,11 +682,29 @@ export class ScheduleComponent implements OnInit {
       this.goBackCat = false;
       this.isCourseCreate = false;
       this.courseCreate = false;
+      if(this.selectedDay.length == 0){
+         this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
+       }else if(this.selectedDay.length > 0){
+         this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
+       }
       console.log("schedule",this.scheduleList)
-      // this.isCourseCreate = false;
-      // this.courseList = []
-      // console.log(this.courseList.length)
     });
+    // this._service.goSchedule.subscribe(()=>{
+    //   console.log("go back SC");
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   this.courseCreate = false;
+    //   // this.scheduleList = false;
+    //   if(this.selectedDay.length == 0){
+    //    this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
+    //  }else if(this.selectedDay.length > 0){
+    //    this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
+    //  }
+
+    //   console.log("schedule",this.scheduleList)
+    // })
 
     this._service.goCourseCreate.subscribe(() => {
       console.log('go to cc')
@@ -1679,7 +1698,8 @@ export class ScheduleComponent implements OnInit {
     this.paymentItem = {};
   }
   showDp:boolean = false;
-  getSlotNumber(hr, min, ampm,e,i,j){
+  scheduleObj={};
+  getSlotNumber(hr, min, ampm,e,i,j,date){
     // console.log(hr , ':', min);
     // let temp = hr *60 + min; 
     // let m = temp % 60;
@@ -1707,7 +1727,7 @@ export class ScheduleComponent implements OnInit {
     this.slotIdx = i;
     this.slotJidx = j;
     this.showDp=true;
-    console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM,this.slotIdx,this.slotJidx )
+    console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM)
    
     e.preventDefault();
     e.stopPropagation();
@@ -1715,6 +1735,25 @@ export class ScheduleComponent implements OnInit {
     this.yPosition = e.layerY + 25;
     this.xPosition = e.layerX -25; 
     console.log("selected",this.selectedTeacher);  
+    console.log('selectdate',date);
+    console.log('selectedDay',this.selectedDay);
+    // this.scheduleObj["date"] = date;
+    // this.scheduleObj["repeatDay"] = 
+    var sDate = {
+      "year": date.year,
+      "month": date.month,
+      "day": date.day
+    };
+    var time = {
+      "hr": h,
+      "min": this.slotM,
+      "meridiem": this.slotAMPM
+    };
+    this.scheduleObj["repeatDays"] = this.selectedDay;
+    this.scheduleObj["date"] = sDate;
+    this.scheduleObj["teacher"] = this.selectedTeacher;
+    this.scheduleObj["time"] = time;
+    console.log('scheduleObj',this.scheduleObj);
   }
 
   onClickCreate(){
@@ -1735,13 +1774,16 @@ export class ScheduleComponent implements OnInit {
     console.log(this.selectedID);
     let planObj = {
       "name": plan.name,
-      "id": plan.coursePlanId,
+      "id": plan._id,
       "duration": plan.lesson.duration,
       "paymentPolicy": plan.paymentPolicy
     };
     this.goBackCat = false;
     this.isCourseCreate = true;
     localStorage.setItem('cPlan',JSON.stringify(planObj));
+    localStorage.setItem('scheduleObj',JSON.stringify(this.scheduleObj))
+    // console.log("scheduleObj",this.scheduleObj);
+
   }
 
   cancelClassFun( lessonId){
