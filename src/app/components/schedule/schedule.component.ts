@@ -1789,11 +1789,11 @@ export class ScheduleComponent implements OnInit {
      console.log(lesson)
   }
 
-  getCoursePlanList(keyword,skip,limit){
+  getCoursePlanList(keyword){
     if(keyword.length > 0){
-      this.getSearchCoursePlan(keyword,skip,limit)
+      this.getSearchCoursePlan(keyword,this.skip,this.limit)
     }else{
-      this. getCoursePlan(skip,limit);
+      this. getCoursePlan(this.skip,this.limit);
     }
   }
   getCoursePlan(skip,limit){
@@ -1817,6 +1817,10 @@ export class ScheduleComponent implements OnInit {
       }, err => {
         console.log(err)
       })
+  }
+  getCourseplanLoadMore(){
+    this.skip =+ this.limit
+    this. getCoursePlan(this.skip,this.limit);
   }
 
 }
