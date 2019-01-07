@@ -32,6 +32,8 @@ export class ScheduleComponent implements OnInit {
   public teacherListSearchResult:any = {staff: []}
   public testshowbox:any ='';
   public selectedSeat:any;
+  public isSearch :boolean=false;
+  public coursePlanSearchKeyWord:any;
   // public SelectedDate = [];
   public monthCount:boolean = false;
   public monthArray:any=[];
@@ -49,7 +51,7 @@ export class ScheduleComponent implements OnInit {
   public isFousCategory: boolean = false;
   public isSelected:boolean = false;
   public scheduleList:boolean=true;
-  public courseplanLists :any;
+  public courseplanLists :any= [];
   public regionId = localStorage.getItem('regionId');
   
   public locationID = localStorage.getItem('locationId');
@@ -1064,7 +1066,7 @@ export class ScheduleComponent implements OnInit {
 
   openTeacherList(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,'')
+    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,'','test')
   }
 
   getschedulestaff(type){
@@ -1130,10 +1132,10 @@ export class ScheduleComponent implements OnInit {
   }
   teacherListTypeAheadLoadMore(){
     this.skip += this.limit
-    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,this.keyword);
+    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,this.keyword,'loadmore');
   }
   getSearchScheduleStaffInput(regionId,selectDay,selectedID,e){
-    this.getSearchscheulestaff(regionId,selectDay,selectedID,e);
+    this.getSearchscheulestaff(regionId,selectDay,selectedID,e,'input');
     const __this = this;
     setTimeout(() => {
       if(__this.tempstafflist.staff){
@@ -1144,7 +1146,7 @@ export class ScheduleComponent implements OnInit {
   
   }
 
-  getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword){
+  getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword,type){
     const __this =this;
     __this.keyword = keyword;
     setTimeout(() => {
@@ -1153,7 +1155,11 @@ export class ScheduleComponent implements OnInit {
         __this.scheduleList=false;
         __this._service.getscheduleSearchStaffList(__this.regionId,'0,1,2,3,4,5,6',__this.selectedID,keyword,__this.limit,__this.skip)
         .subscribe((res:any) => {
+          if(type == 'loadmore'){
+            __this.tempstafflist = __this.tempstafflist.concat(res);
+          }else{
             __this.tempstafflist = res;
+          }
           }, (err:any) => {
             // catch the error response from api         
             __this.tempstafflist=[];
@@ -1162,7 +1168,12 @@ export class ScheduleComponent implements OnInit {
         __this.scheduleList=false;
         __this._service.getscheduleSearchStaffList(__this.regionId,__this.selectedDay.toString(),__this.selectedID,keyword,__this.limit,__this.skip)
         .subscribe((res:any) => {
-          __this.tempstafflist = res;
+          if(type == 'loadmore'){
+            __this.tempstafflist = __this.tempstafflist.concat(res);
+          }else{
+            __this.tempstafflist = res;
+          }
+          // __this.tempstafflist = res;
           }, (err:any) => {
             // catch the error response from api         
             __this.tempstafflist=[];
@@ -1755,9 +1766,9 @@ export class ScheduleComponent implements OnInit {
     console.log('scheduleObj',this.scheduleObj);
   }
 
-  onClickCreate(skip,limit){
+  onClickCreate(){
     this.courseCreate = true;
-    this.getCoursePlan(skip,limit);
+    this.getCoursePlan(0,'createCourse');
   }
 
   createPlan(){
@@ -1843,38 +1854,53 @@ export class ScheduleComponent implements OnInit {
      console.log(lesson)
   }
 
-  getCoursePlanList(keyword){
-    if(keyword.length > 0){
-      this.getSearchCoursePlan(keyword,this.skip,this.limit)
-    }else{
-      this. getCoursePlan(this.skip,this.limit);
-    }
-  }
-  getCoursePlan(skip,limit){
-    this.blockUI.start('Loading...');
-    this._service.getAllCourseplan(this.regionId, this.locationID,this.selectedID,skip,limit)
-    .subscribe((res:any) => {
-      this.courseplanLists = res;
-      setTimeout(() => {
-        this.blockUI.stop(); // Stop blocking
-      }, 300);
-      console.log(this.courseplanLists)
-      }, err => {
-        console.log(err)
-      })
-  }
   getSearchCoursePlan(keyword,skip,limit){
+    this.coursePlanSearchKeyWord = keyword
     this._service.getSearchCoursePlan(this.regionId, this.locationID,this.selectedID,skip,limit,keyword)
     .subscribe((res:any) => {
-      this.courseplanLists = res;
+      this.courseplanLists =res;
       console.log(this.courseplanLists)
       }, err => {
         console.log(err)
       })
   }
-  getCourseplanLoadMore(){
-    this.skip =+ this.limit
-    this. getCoursePlan(this.skip,this.limit);
+
+
+  getCoursePlanList(keyword,skip,limit){
+    if(keyword.length == 0 || keyword.length < 0){
+      this. getCoursePlan(0,'search');
+    }else{
+      this.getSearchCoursePlan(keyword,0,20);
+    }
   }
 
+  getCourseplanLoadMore( skip: any){
+    if(this.isSearch == true){
+    console.log("User Search");
+    this.getSearchCoursePlan(this.coursePlanSearchKeyWord,skip, 20)
+  }else{
+    console.log("Not user search")
+    this.getCoursePlan(skip,'loadmore');
+  }
+}
+
+  getCoursePlan( skip,type){
+    this.blockUI.start('Loading...');		
+    this._service.getAllCourseplan(this.regionId, this.locationID,this.selectedID,skip,'20')
+    .subscribe((res:any) => {
+      setTimeout(() => {
+        this.blockUI.stop();
+        if(type == 'loadmore'){
+          this.courseplanLists = this.courseplanLists.concat(res);
+        }
+        else{
+          this.courseplanLists = res;
+        }
+      }, 300);
+ 
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
+}
 }
