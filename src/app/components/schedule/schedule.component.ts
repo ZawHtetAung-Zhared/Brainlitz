@@ -656,13 +656,21 @@ export class ScheduleComponent implements OnInit {
 
   constructor(private _service:appService, private modalService: NgbModal, public toastr: ToastsManager,public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
+    this._service.goback.subscribe(() => {
+      console.log('goooo')
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.courseCreate = false;
+    });
+
     this._service.goCat.subscribe(() => {
       console.log('goback22', this.goBackCat)
       this.goBackCat = false;
       this.isCategory = true;
       this.isPlan = false;
       this.courseCreate = false;
-      // localStorage.setItem("cpCategory",JSON.stringify(this.planCategory));
     });
 
     this._service.goplan.subscribe(() => {
@@ -1038,19 +1046,19 @@ export class ScheduleComponent implements OnInit {
       this.isFousCategory = false;
     }, 300);
   }
-  selectDataApiCall(id, name){
-    this.selectData(id,name);
+  selectDataApiCall(category){
+    this.selectData(category);
     // this.getscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID)
     this.getschedulestaff('sd')
   }
 
   // single Select Data
-  selectData(id, name){
-    console.log(id)
+  selectData(category){
+    console.log(category)
     this.isSelected = true;
-    this.selectedID = id;
-    this.item.itemID = name;
-    this.selectedCategory=name;
+    this.selectedID = category._id;
+    this.item.itemID = category.name;
+    this.selectedCategory = category;
     this.selectedCat=false;
   }
 
@@ -1758,6 +1766,11 @@ export class ScheduleComponent implements OnInit {
     this.goBackCat = false;
     // this.isPlan = true;
     this.courseCreate = false;
+    var category = {
+      'categoryId': this.selectedCategory._id,
+      'name': this.selectedCategory.name
+    }
+    localStorage.setItem("cpCategory",JSON.stringify(category));
   }
   selectPlan(plan){
     console.log("plan",plan);

@@ -53,7 +53,7 @@
             </button>
           </span> 
           <ul class="data-listing" *ngIf="isFousCategory == true" >
-            <li *ngFor="let category of categoryList" (click)="selectData(category._id, category.name)">{{category.name}}</li>
+            <li *ngFor="let category of categoryList" (click)="selectData(category)">{{category.name}}</li>
           </ul>
         </div>
         <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
@@ -165,7 +165,7 @@
           </div> 
             
             <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
-            <li *ngFor="let category of categoryList" (click)="selectDataApiCall(category._id, category.name)">{{category.name}}</li>
+            <li *ngFor="let category of categoryList" (click)="selectDataApiCall(category)">{{category.name}}</li>
           </ul>
         </div>
       </div>
@@ -325,7 +325,7 @@
         Sun to Sat
       </div>
     </div>
-    <p *ngIf="!selectedCat" class="selectedCatName">{{selectedCategory}}</p>
+    <p *ngIf="!selectedCat" class="selectedCatName">{{selectedCategory.name}}</p>
     <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
       <span class="closemark">
         <div class="closemark_stem"></div>

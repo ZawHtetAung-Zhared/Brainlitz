@@ -932,7 +932,7 @@ tbody td{
   height: 40px;
   background: #c2f2d6;
   border-radius: 2px;
-  padding: 6px 8px;
+  /*padding: 6px 8px;*/
 }
 .lesson-slot h6{
   color: #2e3d4d;
@@ -1411,7 +1411,7 @@ ul.options-box li:last-child,.create-box li:last-child {
 }
 .selectSlot{
   background: #80bfff;
-  border: 2px solid #007fff;
+  /*border: 2px solid #007fff;*/
   border-radius: 2px;
 }
 
