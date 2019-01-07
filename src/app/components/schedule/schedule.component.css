@@ -1488,5 +1488,10 @@ ul.options-box li:last-child,.create-box li:last-child {
 .plus-sign{
   color:#788796;
 }
+.teacher-name{
+  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-size: 16px;
+  color:#2e3e4d;
+}
 
 /* padding-left: 23px; */
