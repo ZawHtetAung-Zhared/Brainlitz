@@ -24,6 +24,7 @@ export class CoursecreateComponent implements OnInit {
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   public courseID = localStorage.getItem('courseID');
   public currency = JSON.parse(localStorage.getItem('currency'));
+  public scheduleObj = JSON.parse(localStorage.getItem('scheduleObj'));
   @BlockUI() blockUI: NgBlockUI;
   public addCheck: boolean = false;
   public isthereLC: boolean = false;
@@ -143,6 +144,9 @@ export class CoursecreateComponent implements OnInit {
       this.model.location = this.locationName;
       this.locationId = this.currentLocation;
       // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
+      if(this.scheduleObj){
+        this.scheduleCourse();
+      }
     }
 
     if(this.currency == undefined || this.currency == null){
@@ -156,6 +160,32 @@ export class CoursecreateComponent implements OnInit {
         this.currency.invCurrencySign = '$';
       }
     }   
+  }
+
+  scheduleCourse(){
+    console.log("from schedule",this.scheduleObj);
+    this.model.start = this.scheduleObj.date;
+    this.selectedDay = this.scheduleObj.repeatDays;
+    this.selectedTeacher = this.scheduleObj.teacher;
+    this.model.teacherId = this.selectedTeacher.userId;
+    this.rangeHr = this.scheduleObj.time.hr;
+    this.rangeMin = this.scheduleObj.time.min;
+    this.isSelected = this.scheduleObj.time.meridiem;
+    var hr:any;
+    var min:any;
+    if(this.scheduleObj.time.hr <10){
+      hr = '0'+this.scheduleObj.time.hr;
+    }else{
+      hr = this.scheduleObj.time.hr
+    }
+    if(this.scheduleObj.time.min <10){
+      min = '0'+this.scheduleObj.time.min;
+    }else{
+      min = this.scheduleObj.time.min;
+    }
+    this.showFormat = hr + ':' + min;
+    this.model.startT = hr + ':' + min + this.scheduleObj.time.meridiem;
+    this.model.starttime = hr + ':' + min;
   }
 
   // feeOptList(feeOptions){
@@ -185,6 +215,7 @@ export class CoursecreateComponent implements OnInit {
         this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
         this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
         this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
+        console.log(this.model.starttime)
         this.setToTimerange(this.model.starttime);
         this.minDate = this.model.start;
       }
@@ -360,7 +391,6 @@ export class CoursecreateComponent implements OnInit {
 
   backToCourses(ToCourses){
     // console.log('backtocourse')
-    // this.router.navigate(['/course']);
     if(this.isEdit == true){
       console.log('backtocourseDetail');
       this._service.backCourseDetail();
@@ -372,6 +402,7 @@ export class CoursecreateComponent implements OnInit {
     localStorage.removeItem('cPlan');
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
+    localStorage.removeItem('scheduleObj');
   }
 
 
@@ -1035,7 +1066,7 @@ export class CoursecreateComponent implements OnInit {
       localStorage.removeItem('cPlan');
       localStorage.removeItem('courseID');
       // localStorage.removeItem('tempObj');
-      this.router.navigate(['course/']); 
+      // this.router.navigate(['course/']); 
 
       console.log(res.status);
       if(res.status === 201){
