@@ -1045,9 +1045,6 @@ export class ScheduleComponent implements OnInit {
     const __this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-  //  test
-  // this.getAllCoursePlan();
-  console.error(this.courseplanLists)
     setTimeout(() => {
         // __this.selectedDayy();
         if(__this.selectedDay.length == 0) {
@@ -1209,7 +1206,7 @@ export class ScheduleComponent implements OnInit {
    if(this.staffList.staff.indexOf(this.selectedTeacher) > 4){
      $('.teacher-list-wrapper').scrollLeft( 50*(this.staffList.staff.indexOf(this.selectedTeacher)));
    }
-   else{
+  else{
     $('.teacher-list-wrapper').scrollLeft( 0);
    }
    console.log(this.selectedDay);
@@ -1229,19 +1226,13 @@ export class ScheduleComponent implements OnInit {
      }else if(this.selectedDay.length > 0){
        this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
      }
-   if(this.tempstafflist.staff){
-     $('.teacher-list-wrapper').scrollLeft( 150*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
-   }
-  //  if(this.tempstafflist.staff.indexOf(this.selectedTeacher) > 4){
-  //    $('.teacher-list-wrapper').scrollLeft( 50*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
-  //  }
-   else{
-    $('.teacher-list-wrapper').scrollLeft( 0);
-   }
-    this.staff.staffId='';
-    this.modalReference.close();
-
-  
+    if(this.tempstafflist.staff){
+      $('.teacher-list-wrapper').scrollLeft( 150*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
+    }else{
+      $('.teacher-list-wrapper').scrollLeft( 0);
+    }
+      this.staff.staffId='';
+      this.modalReference.close();
   }
 
   addEnrollModal(modal,type,courseID,seat){
@@ -1707,6 +1698,7 @@ export class ScheduleComponent implements OnInit {
     this.slotIdx = i;
     this.slotJidx = j;
     this.showDp=true;
+    // this.testshowboxs = true;
     console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM,this.slotIdx,this.slotJidx )
    
     e.preventDefault();
@@ -1717,10 +1709,9 @@ export class ScheduleComponent implements OnInit {
     console.log("selected",this.selectedTeacher);  
   }
 
-  onClickCreate(){
-    this.getAllCoursePlan();
+  onClickCreate(skip,limit){
     this.courseCreate = true;
-    this.getAllCoursePlan();
+    this.getCoursePlan(skip,limit);
   }
 
   createPlan(){
@@ -1798,10 +1789,16 @@ export class ScheduleComponent implements OnInit {
      console.log(lesson)
   }
 
-
-  getAllCoursePlan(){
+  getCoursePlanList(keyword,skip,limit){
+    if(keyword.length > 0){
+      this.getSearchCoursePlan(keyword,skip,limit)
+    }else{
+      this. getCoursePlan(skip,limit);
+    }
+  }
+  getCoursePlan(skip,limit){
     this.blockUI.start('Loading...');
-    this._service.getAllCoursePlan(this.regionId, this.locationID)
+    this._service.getAllCourseplan(this.regionId, this.locationID,this.selectedID,skip,limit)
     .subscribe((res:any) => {
       this.courseplanLists = res;
       setTimeout(() => {
@@ -1812,8 +1809,8 @@ export class ScheduleComponent implements OnInit {
         console.log(err)
       })
   }
-  getSearchCoursePlan(keyword){
-    this._service.getSearchCoursePlan(this.regionId, this.locationID,keyword)
+  getSearchCoursePlan(keyword,skip,limit){
+    this._service.getSearchCoursePlan(this.regionId, this.locationID,this.selectedID,skip,limit,keyword)
     .subscribe((res:any) => {
       this.courseplanLists = res;
       console.log(this.courseplanLists)

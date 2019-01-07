@@ -967,11 +967,28 @@ export class appService{
         return result;
       }) 
     }
-    getSearchCoursePlan(id: string,location: string, keyword: string): Observable<any>{
+    getAllCourseplan(id: string,location: string, categoryId:string, skip:string,limit:string,): Observable<any>{
       this.getLocalstorage();
       console.log(location)
       console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
-      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&keyword=' + keyword;
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&categoryId=' + categoryId + '&skip=' + skip + '&limit=' + limit;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
+
+
+    getSearchCoursePlan(id: string,location: string,categoryId:string, skip:string,limit:string, keyword: string): Observable<any>{
+      this.getLocalstorage();
+      console.log(location)
+      console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&categoryId=' + categoryId + '&skip=' + skip + '&limit=' + limit  + '&keyword=' + keyword;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
