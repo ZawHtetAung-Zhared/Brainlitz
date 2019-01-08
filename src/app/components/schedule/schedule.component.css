@@ -601,7 +601,7 @@ ul.scedule-data-listing li.disabled{
 .back-to{
 	font-family: 'Montserrat-Medium', Arial,sans-serif;
 	font-size: 16px;
-    color: #2e3d4d !important;
+  color: #2e3d4d !important;
 	padding-left: 0 !important;
 	cursor: pointer;
 }
@@ -611,7 +611,7 @@ ul.scedule-data-listing li.disabled{
 }
 .back-to i{
 	float: left;
-    font-size: 23px;
+  font-size: 23px;
 }
 .back-to p{
   float: left;
@@ -865,19 +865,35 @@ tbody th {
   left: 0;
   background: #fff;
   border-right: 1px solid #edeff0;
-  z-index: 1 ;
+  z-index: 9 ;
 }
-
-.single-row .monthly, .single-row .monthly1{
-  position: absolute;
+.single-row{
+  /*outline: 1px solid #eee;*/
+}
+.single-range:first-child {
+  background: transparent !important;
+}
+.top20{
+  margin-top: 42px;
+}
+.single-row .monthly{
   /*bottom: 45px;*/
+  /*position: absolute;
   font-size: 10px;
   right: 0;
   background: #edeff0;
   padding: 5px;
+  border-radius: 4px;*/
+  position: absolute;
+  font-size: 10px;
+  right: 0;
+  background: #edeff0;
+  padding: 8px;
   border-radius: 4px;
+  top: -39px;
+  left: 0;
 }
-.single-row .monthly{
+/*.single-row .monthly{
   width: 100%;
   top: -32px;
   text-align: center;
@@ -885,8 +901,8 @@ tbody th {
 .single-row .monthly1{
   width: 55%;
   top: 0px;
-}
-.single-row .monthly span,.single-row .monthly1 span{
+}*/
+.single-row .monthly span{
   color: #007bff;
   font-size: 'Montserrat-Semibold', Arial,sans-serif;
 }
@@ -900,11 +916,12 @@ tbody td{
   border-right: 1px solid #edeff0;
 }
 .one-slot {
-  width: 4px;
+  width: 60px;
+  /*width: 4px;*/
   /*background: red;*/
   /*outline: 1px solid #eee;*/
   /*height: 42px;*/
-  height: 52px;
+  height: 42px;
   display: table-cell;
 }
 .lesson-slot {
@@ -932,7 +949,20 @@ tbody td{
   position: relative;
   /* z-index: 5; */
 }
-
+/*.empty-slot{
+  position: absolute;
+  left: 249px;
+  height: 40px;
+  background: #d3d3d3;
+  border-radius: 2px;
+  padding: 6px 8px;
+}
+.empty-slot p{
+  color: #009940;
+  font-size: 12px;
+  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+}
+*/
 .cursor-on{
   cursor: pointer;
 }
@@ -1209,9 +1239,34 @@ input:checked + .slider:before {
   box-shadow: none!important;
 }
 
+.teacher-info{
+  padding: 20px;
+}
 
+.profile-wrap{
+  width: 40px;
+}
+.profile-wrap img{
+  width: 100%;
+  border-radius: 50%;
+}
 
-ul.options-box {
+.profile-wrap ul{
+  list-style-type: disc;
+  color: #d4d5d6;
+  font-size: 12px;
+}
+
+.profile-wrap label,.profile-wrap p{
+  color: #64707d;
+  font-size: 12px;
+}
+
+ul.create-box{
+  width: 300px!important;
+}
+
+ul.options-box,ul.create-box {
   position: absolute;
   width: 420px;
   background: #fff;
@@ -1225,7 +1280,7 @@ ul.options-box {
   right: -66px;
   top: 50px;
 }
-.carret-box {
+.carret-box,.arr-box {
   width: 20px;
   height: 20px;
   border-bottom: solid 10px #fff;
@@ -1238,6 +1293,10 @@ ul.options-box {
   top: -19px;
   z-index: 15;
 }
+
+.arr-box{
+  right: 85%!important;
+}
 /* ul.options-box li {
   font-size: 16px;
   border-bottom: 1px solid #edeff0;
@@ -1249,7 +1308,7 @@ ul.options-box {
 /* ul.options-box li:first-child {
   padding-top: 20px;
 } */
-ul.options-box li:last-child {
+ul.options-box li:last-child,.create-box li:last-child {
   border-bottom: none;
 }
 
@@ -1308,7 +1367,8 @@ ul.options-box li:last-child {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index:5;
+  /*z-index:5;*/
+  z-index: 10;
   background-color: rgba(0,0,0,0.5)!important;
 }
 
@@ -1350,3 +1410,89 @@ ul.options-box li:last-child {
   outline: none;  
   box-shadow: none;
 }
+.selectSlot{
+  background: #80bfff;
+  /*border: 2px solid #007fff;*/
+  border-radius: 2px;
+}
+
+.createcouresplan{
+  padding: 28px 20px 28px 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.couresplanList{
+  padding: 16px 20px 16px 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.category-title{
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-size: 16px;
+  color: #64707d;
+  font-weight: 600;
+}
+.pickCourseplan{
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-size: 28px;
+  color: #2e3d4d;
+  font-weight: 600;
+}
+.search-courseplan{
+  padding: 12px 0 12px 12px !important;
+  background: #f2f4f5;
+  border: none;
+}
+.search-courseplan:focus{
+  box-shadow: none;
+  outline: none;
+}
+.courseplanSearch-btn{
+  padding: 12px;
+  background: #f2f4f5;
+  border: none;
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  color: #788796;
+  cursor: pointer;
+}
+.cancel-txt{
+  color: #2e3d4d;
+  font-size: 16px;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+}
+.createCourseText{
+  font-size: 18px;
+  color: #64707d;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+}
+.create-course-plan-list{
+  padding-right: 24px;
+  margin-bottom: 24px;
+  padding-left: 0px!important;
+}
+.course-plan-list:hover .lesson-slot-box{
+  color: #2e3e4d;
+}
+.createCourseTextSeat{
+  color: #64707d;
+  font-size: 14px;
+  font-family: 'InterUI-Regular',Arial, sans-serif;
+}
+.courseplanName{
+  color: #2e3e4d;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+}
+.lessonDuration{
+  padding-left: 23px;
+}
+.plus-sign{
+  color:#788796;
+}
+.teacher-name{
+  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-size: 16px;
+  color:#2e3e4d;
+}
+
+/* padding-left: 23px; */
