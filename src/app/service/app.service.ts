@@ -58,6 +58,11 @@ export class appService{
     lnameChanges: Observable<any>;
     private lnameUpdated = new Subject<any>();
 
+    goSchedule: Observable<any>;
+    private backSc = new Subject<any>();
+
+    // goBackSchedule: 
+
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
       this.accessToken = localStorage.getItem('token');  
@@ -74,6 +79,7 @@ export class appService{
       this.goCourseDetail = this.backCDetail.asObservable();
       this.goPlanDetail = this.backCPdetail.asObservable();
       this.lnameChanges = this.lnameUpdated.asObservable();
+      this.goSchedule = this.backSc.asObservable();
     }
 
     callnameUpdate(){
@@ -117,6 +123,10 @@ export class appService{
       var val = localStorage.getItem('categoryID')
       console.log('gotoplan ',val)
       this.plan.next(val)
+    }
+
+    backSchedule(){
+      this.backSc.next(false)
     }
 
     isLoggedIn(): boolean {
@@ -957,6 +967,38 @@ export class appService{
       console.log(location)
       console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
       let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
+    getAllCourseplan(id: string,location: string, categoryId:string, skip:string,limit:string,): Observable<any>{
+      this.getLocalstorage();
+      console.log(location)
+      console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&categoryId=' + categoryId + '&skip=' + skip + '&limit=' + limit;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
+
+
+    getSearchCoursePlan(id: string,location: string,categoryId:string, skip:string,limit:string, keyword: string): Observable<any>{
+      this.getLocalstorage();
+      console.log(location)
+      console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&categoryId=' + categoryId + '&skip=' + skip + '&limit=' + limit  + '&keyword=' + keyword;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})

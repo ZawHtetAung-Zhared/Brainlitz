@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef,HostListener, EventEmitter,AfterViewInit } from '@angular/core';
 
 import { appService } from '../../service/app.service';
+import {MinuteSecondsPipe} from '../../service/pipe/time.pipe'
 import {NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -14,7 +15,7 @@ declare var $:any;
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   public logo:any = localStorage.getItem("OrgLogo");
-  public currency = JSON.parse(localStorage.getItem('currency'));
+  public currency = JSON.parse(localStorage.getItem('currency'));  
   public test:any=[];
   public testshowboxs:any;
   public tempSelectedTeacher:any;
@@ -31,7 +32,12 @@ export class ScheduleComponent implements OnInit {
   public teacherListSearchResult:any = {staff: []}
   public testshowbox:any ='';
   public selectedSeat:any;
+  public isSearch :boolean=false;
+  public coursePlanSearchKeyWord:any;
   // public SelectedDate = [];
+  public monthCount:boolean = false;
+  public monthArray:any=[];
+  public noOfMonth:any=[];
   public isGlobal:boolean = false;
   public showSelectedDays = '~'
   public showSelectedDays1 = [0,1,2,3,4,5,6]
@@ -45,6 +51,7 @@ export class ScheduleComponent implements OnInit {
   public isFousCategory: boolean = false;
   public isSelected:boolean = false;
   public scheduleList:boolean=true;
+  public courseplanLists :any= [];
   public regionId = localStorage.getItem('regionId');
   
   public locationID = localStorage.getItem('locationId');
@@ -95,6 +102,16 @@ export class ScheduleComponent implements OnInit {
   public minNextArr = [];
   public finalLists = [];
   public lessonD;
+  public slotHr;
+  public slotM;
+  public slotAMPM;
+  public slotIdx;
+  public slotJidx;
+  public courseCreate:boolean = false;
+  goBackCat:boolean;
+  isCategory:boolean = false;
+  isPlan:boolean = false;
+  isCourseCreate:boolean = false;
 
 
   // public toggleBool:boolean = true;
@@ -640,12 +657,81 @@ export class ScheduleComponent implements OnInit {
   // }
 
   constructor(private _service:appService, private modalService: NgbModal, public toastr: ToastsManager,public vcr: ViewContainerRef) {
-      this.toastr.setRootViewContainerRef(vcr);
-   }
+    this.toastr.setRootViewContainerRef(vcr);
+    this._service.goback.subscribe(() => {
+      console.log('goooo')
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.courseCreate = false;
+    });
+
+    this._service.goCat.subscribe(() => {
+      console.log('goback22', this.goBackCat)
+      this.goBackCat = false;
+      this.isCategory = true;
+      this.isPlan = false;
+      this.courseCreate = false;
+    });
+
+    this._service.goplan.subscribe(() => {
+     console.log('go plan')
+     this.isCategory = false;
+      this.isPlan = true;
+      this.goBackCat = true;
+      this.isCourseCreate = false;
+      this.courseCreate = false;
+      // this.scheduleList = false;
+    })
+
+    this._service.goCourse.subscribe(() => {
+      console.log('goback33')
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.courseCreate = false;
+      if(this.selectedDay.length == 0){
+         this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
+       }else if(this.selectedDay.length > 0){
+         this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
+       }
+      console.log("schedule",this.scheduleList)
+    });
+    // this._service.goSchedule.subscribe(()=>{
+    //   console.log("go back SC");
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   this.courseCreate = false;
+    //   // this.scheduleList = false;
+    //   if(this.selectedDay.length == 0){
+    //    this.getStaffTimetable(this.selectedTeacher.userId,'0,1,2,3,4,5,6');
+    //  }else if(this.selectedDay.length > 0){
+    //    this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
+    //  }
+
+    //   console.log("schedule",this.scheduleList)
+    // })
+
+    this._service.goCourseCreate.subscribe(() => {
+      console.log('go to cc')
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = true;
+    });
+  }
    @HostListener('document:click', ['$event']) clickedOutside($event){
     // here you can hide your menu
-    this.testshowbox = '';
-    this.testshowboxs= false;
+      this.testshowbox = '';
+      this.testshowboxs= false;
+      this.showDp = false;
+      this.slotM = '';
+      this.slotIdx = '';
+      this.slotJidx = '';
     }
 
   ngOnInit() {
@@ -673,6 +759,19 @@ export class ScheduleComponent implements OnInit {
       }
     ]
   }
+
+  // closeDP(event){
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "slot-wrap"
+  //   })
+  //   console.log(parentWrap);
+  //   if(parentWrap.length == 0){
+  //    this.slotM = '';
+  //     this.slotIdx = '';
+  //     this.slotJidx = '';
+  //   }
+  // }
+
   public startTime;
   getRegionalInfo(){
     let token = localStorage.getItem('token');
@@ -757,8 +856,55 @@ export class ScheduleComponent implements OnInit {
       // console.log("hour",obj)
       this.operationTime.push(obj);
     }
+    // let arrLength = this.operationTime.length;
+    // console.log(arrLength);
+    let lastIdx = this.operationTime.length - 1;
+    console.log("lastIdx",this.operationTime[lastIdx].start);
+    let last = this.operationTime[lastIdx].start;
+    if(time.end.hr == last.hr && time.end.min == last.min && time.end.meridiem == last.meridiem){
+      console.log("Same");
+      this.operationTime.pop();
+    }else{
+      console.log("not same")
+    }
     console.log("opr Arr",this.operationTime)
   }
+
+  // calculateSlot(start){
+  //   var min = start.min; // start time min 
+  //   // var temp = [];
+  //   // var tempnext = [];
+  //   this.minArr = [];
+  //   this.minNextArr = [];
+  //   var next;
+  //   for(var i = 0; i <= 29; i++){
+  //       // min += 1;
+  //       // if(min == 60){
+  //       //   min = 0;
+  //       // }
+  //       if(i == 0){
+  //         min += 0; 
+  //       }else{
+  //         min += 1;
+  //       }
+  //     this.minArr.push(min);
+  //   }
+  //   console.log("temp",this.minArr);
+  //   next = this.minArr[29];
+  //   console.log('next',next);
+
+  //   for(var j = 0; j <=29; j++){
+  //     if(next == 59){
+  //       console.log("==59")
+  //       next = 0;
+  //     }else{
+  //        next += 1;
+  //     }
+     
+  //     this.minNextArr.push(next);
+  //   }
+  //    console.log("temp next",this.minNextArr);
+  // }
 
   calculateSlot(start){
     var min = start.min; // start time min 
@@ -767,46 +913,40 @@ export class ScheduleComponent implements OnInit {
     this.minArr = [];
     this.minNextArr = [];
     var next;
-    for(var i = 0; i <= 29; i++){
-        min += 1;
-        if(min == 60){
-          min = 0;
+    for(var i = 0; i <= 1; i++){
+        // min += 1;
+        // if(min == 60){
+        //   min = 0;
+        // }
+        if(i == 0){
+          min += 0; 
+        }else{
+          // min += 15;
+          if(min == 45){
+            console.log("==59")
+            min = 0;
+          }else{
+             min += 15;
+          }
         }
       this.minArr.push(min);
     }
     console.log("temp",this.minArr);
-    next = this.minArr[29];
+    next = this.minArr[this.minArr.length-1];
     console.log('next',next);
 
-    for(var j = 0; j <=29; j++){
-      next += 1;
+    for(var j = 0; j <=1; j++){
+      if(next == 45){
+        console.log("==59")
+        next = 0;
+      }else{
+         next += 15;
+      }
+     
       this.minNextArr.push(next);
     }
      console.log("temp next",this.minNextArr);
   }
-
-  // calculateSlot(start){
-  //   var min = 1; // start time min 
-  //   var temp = [];
-  //   var tempnext = [];
-  //   var next;
-  //   for(var i = 0; i <= 29; i++){
-  //     min += 1;
-  //       if(min == 60){
-  //         min = 0;
-  //       }
-  //     temp.push(min);
-  //   }
-  //   // next = temp[30]
-  //    console.log(temp)
-  //    next = temp[29]
-
-  //   for(var j = 0; j <= 29; j++){
-  //     next += 1;
-  //     tempnext.push(next)
-  //   }
-  //   console.log(tempnext)
-  // }
    
   getAutoSelectDate(){
     const todayDay = new Date().getDay();
@@ -824,9 +964,21 @@ export class ScheduleComponent implements OnInit {
   backtoSchedule(){
     // reset the initial values  
     this.scheduleList = true;
+    this.isPlan = false;
+    this.isCategory = false;
+    this.courseCreate = false;
     this.item.itemID = '';
     this.selectedDay = [];
     this.getAutoSelectDate();
+     this.showDp = false;
+  }
+
+  backtoTimetable(){
+    this.scheduleList = false;
+    this.isPlan = false;
+    this.isCategory = false;
+    this.courseCreate = false;
+    this.showDp = false;
   }
   
   // Selected Day //
@@ -896,83 +1048,82 @@ export class ScheduleComponent implements OnInit {
       this.isFousCategory = false;
     }, 300);
   }
-  selectDataApiCall(id, name){
-    this.selectData(id,name);
+  selectDataApiCall(category){
+    this.selectData(category);
     // this.getscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID)
     this.getschedulestaff('sd')
   }
 
   // single Select Data
-  selectData(id, name){
-    console.log(id)
+  selectData(category){
+    console.log(category)
     this.isSelected = true;
-    this.selectedID = id;
-    this.item.itemID = name;
-    this.selectedCategory=name;
+    this.selectedID = category._id;
+    this.item.itemID = category.name;
+    this.selectedCategory = category;
     this.selectedCat=false;
   }
 
   openTeacherList(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
-    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,'')
+    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,'','test')
   }
 
   getschedulestaff(type){
-    // Declare _this variable which represents the current component not to conflict with setTimeOut this keyword
-    const _this = this;
+    // Declare __this variable which represents the current component not to conflict with setTimeOut this keyword
+    const __this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-   
     setTimeout(() => {
-        // _this.selectedDayy();
-        if(_this.selectedDay.length == 0) {
-          _this.scheduleList=false;
-          _this._service.getscheduleStaffList(_this.regionId, '0,1,2,3,4,5,6' , _this.selectedID)
+        // __this.selectedDayy();
+        if(__this.selectedDay.length == 0) {
+          __this.scheduleList=false;
+          __this._service.getscheduleStaffList(__this.regionId, '0,1,2,3,4,5,6' , __this.selectedID)
           .subscribe((res:any) => {
-            _this.staffList=res;
-            if(_this.staffList.staff && type == 'checkbox'){
-              _this.selectedTeacher = _this.tempSelectedTeacher
-              if(_this.tempSelectedTeacher == null){
-                _this.selectedTeacher = _this.staffList.staff[0];
+            __this.staffList=res;
+            if(__this.staffList.staff && type == 'checkbox'){
+              __this.selectedTeacher = __this.tempSelectedTeacher
+              if(__this.tempSelectedTeacher == null){
+                __this.selectedTeacher = __this.staffList.staff[0];
               }
             } else {
-              if(_this.staffList.staff){
-                _this.selectedTeacher = _this.staffList.staff[0];
+              if(__this.staffList.staff){
+                __this.selectedTeacher = __this.staffList.staff[0];
               }
             }
 
-            if(_this.selectedTeacher){
-              _this.getStaffTimetable(_this.selectedTeacher.userId,'0,1,2,3,4,5,6')
+            if(__this.selectedTeacher){
+              __this.getStaffTimetable(__this.selectedTeacher.userId,'0,1,2,3,4,5,6')
             }
           }, (err:any) => {
             // catch the error response from api   
-            _this.staffList=[];
+            __this.staffList=[];
           })
           return;
         }
-        else if(_this.selectedDay.length > 0){
-          _this.scheduleList=false;
-          _this._service.getscheduleStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID)
+        else if(__this.selectedDay.length > 0){
+          __this.scheduleList=false;
+          __this._service.getscheduleStaffList(__this.regionId,__this.selectedDay.toString(),__this.selectedID)
           .subscribe((res:any) => {
-                _this.staffList=res;
-                if(_this.staffList.staff && type == 'checkbox'){
-                  _this.selectedTeacher = _this.tempSelectedTeacher
-                  if(_this.tempSelectedTeacher == null){
-                    _this.selectedTeacher = _this.staffList.staff[0];
+                __this.staffList=res;
+                if(__this.staffList.staff && type == 'checkbox'){
+                  __this.selectedTeacher = __this.tempSelectedTeacher
+                  if(__this.tempSelectedTeacher == null){
+                    __this.selectedTeacher = __this.staffList.staff[0];
                   }
                 } else {
-                  if(_this.staffList.staff){
-                    _this.tempSelectedTeacher = _this.staffList.staff[0];
-                    _this.selectedTeacher = _this.staffList.staff[0];
+                  if(__this.staffList.staff){
+                    __this.tempSelectedTeacher = __this.staffList.staff[0];
+                    __this.selectedTeacher = __this.staffList.staff[0];
                   }
                 }
     
-                if(_this.selectedTeacher){
-                  _this.getStaffTimetable(_this.selectedTeacher.userId,_this.selectedDay.toString())
+                if(__this.selectedTeacher){
+                  __this.getStaffTimetable(__this.selectedTeacher.userId,__this.selectedDay.toString())
                 }
             }, (err:any) => {
               // catch the error response from api         
-              _this.staffList=[];
+              __this.staffList=[];
             })
         }
         return;
@@ -981,42 +1132,51 @@ export class ScheduleComponent implements OnInit {
   }
   teacherListTypeAheadLoadMore(){
     this.skip += this.limit
-    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,this.keyword);
+    this.getSearchscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID,this.keyword,'loadmore');
   }
   getSearchScheduleStaffInput(regionId,selectDay,selectedID,e){
-    this.getSearchscheulestaff(regionId,selectDay,selectedID,e);
-    const _this = this;
+    this.getSearchscheulestaff(regionId,selectDay,selectedID,e,'input');
+    const __this = this;
     setTimeout(() => {
-      if(_this.tempstafflist.staff){
-        _this.selectedTeacher = _this.tempstafflist.staff[0];
-        _this.selectedTeacher.userId = _this.tempstafflist.staff[0].userId;
+      if(__this.tempstafflist.staff){
+        __this.selectedTeacher = __this.tempstafflist.staff[0];
+        __this.selectedTeacher.userId = __this.tempstafflist.staff[0].userId;
       }
     },400);
   
   }
 
-  getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword){
-    const _this =this;
-    _this.keyword = keyword;
+  getSearchscheulestaff(regionId,daysOfWeek,selectedID,keyword,type){
+    const __this =this;
+    __this.keyword = keyword;
     setTimeout(() => {
-      // _this.selectedDayy();
-      if(_this.selectedDay.length == 0){
-        _this.scheduleList=false;
-        _this._service.getscheduleSearchStaffList(_this.regionId,'0,1,2,3,4,5,6',_this.selectedID,keyword,_this.limit,_this.skip)
+      // __this.selectedDayy();
+      if(__this.selectedDay.length == 0){
+        __this.scheduleList=false;
+        __this._service.getscheduleSearchStaffList(__this.regionId,'0,1,2,3,4,5,6',__this.selectedID,keyword,__this.limit,__this.skip)
         .subscribe((res:any) => {
-            _this.tempstafflist = res;
+          if(type == 'loadmore'){
+            __this.tempstafflist = __this.tempstafflist.concat(res);
+          }else{
+            __this.tempstafflist = res;
+          }
           }, (err:any) => {
             // catch the error response from api         
-            _this.tempstafflist=[];
+            __this.tempstafflist=[];
           })
-      } else if (_this.selectedDay.length > 0){
-        _this.scheduleList=false;
-        _this._service.getscheduleSearchStaffList(_this.regionId,_this.selectedDay.toString(),_this.selectedID,keyword,_this.limit,_this.skip)
+      } else if (__this.selectedDay.length > 0){
+        __this.scheduleList=false;
+        __this._service.getscheduleSearchStaffList(__this.regionId,__this.selectedDay.toString(),__this.selectedID,keyword,__this.limit,__this.skip)
         .subscribe((res:any) => {
-          _this.tempstafflist = res;
+          if(type == 'loadmore'){
+            __this.tempstafflist = __this.tempstafflist.concat(res);
+          }else{
+            __this.tempstafflist = res;
+          }
+          // __this.tempstafflist = res;
           }, (err:any) => {
             // catch the error response from api         
-            _this.tempstafflist=[];
+            __this.tempstafflist=[];
           })
       }
     }, 0);
@@ -1031,7 +1191,26 @@ export class ScheduleComponent implements OnInit {
         this.blockUI.stop();
       }, 100);
       console.log("staff timetable",res);
+      setTimeout(() => {
+        console.log($('.my-class').length);
+        var mlen = $('.my-class').length;
+        // for(){
+
+        // }
+      }, 300);
       this.finalLists = res;
+      for(let i = 0; i< this.finalLists.length; i++){
+        this.monthArray.push(this.finalLists[i].date.month);
+        this.noOfMonth = this.monthArray.filter((v, i, a) => a.indexOf(v) === i);
+      }
+      console.log(this.noOfMonth)
+      for(let j = 0; j< this.noOfMonth.length; j++){
+        for(let k = 0; k< this.finalLists.length; k++){
+          if(this.noOfMonth[j] == this.finalLists[k].date.month){
+            this.finalLists[k]['multiply'] = j;
+          }
+        }
+      }
       console.log("finalLists",this.finalLists)
     })
   }
@@ -1065,7 +1244,7 @@ export class ScheduleComponent implements OnInit {
    if(this.staffList.staff.indexOf(this.selectedTeacher) > 4){
      $('.teacher-list-wrapper').scrollLeft( 50*(this.staffList.staff.indexOf(this.selectedTeacher)));
    }
-   else{
+  else{
     $('.teacher-list-wrapper').scrollLeft( 0);
    }
    console.log(this.selectedDay);
@@ -1085,19 +1264,13 @@ export class ScheduleComponent implements OnInit {
      }else if(this.selectedDay.length > 0){
        this.getStaffTimetable(this.selectedTeacher.userId,this.selectedDay.toString());
      }
-   if(this.tempstafflist.staff){
-     $('.teacher-list-wrapper').scrollLeft( 150*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
-   }
-  //  if(this.tempstafflist.staff.indexOf(this.selectedTeacher) > 4){
-  //    $('.teacher-list-wrapper').scrollLeft( 50*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
-  //  }
-   else{
-    $('.teacher-list-wrapper').scrollLeft( 0);
-   }
-    this.staff.staffId='';
-    this.modalReference.close();
-
-  
+    if(this.tempstafflist.staff){
+      $('.teacher-list-wrapper').scrollLeft( 150*(this.tempstafflist.staff.indexOf(this.selectedTeacher)));
+    }else{
+      $('.teacher-list-wrapper').scrollLeft( 0);
+    }
+      this.staff.staffId='';
+      this.modalReference.close();
   }
 
   addEnrollModal(modal,type,courseID,seat){
@@ -1534,12 +1707,98 @@ export class ScheduleComponent implements OnInit {
     this.showInvoice = true;
     this.paymentItem = {};
   }
-
-  getSlotNumber(hr, min){
-    console.log(hr , ':', min);
+  showDp:boolean = false;
+  scheduleObj={};
+  getSlotNumber(hr, min, ampm,e,i,j,date){
+    // console.log(hr , ':', min);
+    // let temp = hr *60 + min; 
+    // let m = temp % 60;
+    // let h = (temp - m)/60;
+    // console.log(temp,m,h)
+    // console.log(h , ':', m);
+    // e.preventDefault();
+    // e.stopPropagation();
+    if(this.startTime.min>0 && min == 0){
+      var h = hr+1;
+      console.log("ttt",h , ':', min, ':', ampm);
+    }else{
+      var h = hr;
+      console.log("original",h , ':', min, ':', ampm);
+    }
+    this.slotHr = h + ':' + min + ' ' + ampm;
+    // let obj = {
+    //   "hr": h,
+    //   "min": min,
+    //   "ampm": ampm
+    // }
+    // this.selectSlot["time"] = obj;
+    this.slotM = min;
+    this.slotAMPM = ampm;
+    this.slotIdx = i;
+    this.slotJidx = j;
+    this.showDp=true;
+    console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM)
+   
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("e.layerX",e.layerX)
+    this.yPosition = e.layerY + 25;
+    this.xPosition = e.layerX -25; 
+    console.log("selected",this.selectedTeacher);  
+    console.log('selectdate',date);
+    console.log('selectedDay',this.selectedDay);
+    // this.scheduleObj["date"] = date;
+    // this.scheduleObj["repeatDay"] = 
+    var sDate = {
+      "year": date.year,
+      "month": date.month,
+      "day": date.day
+    };
+    var time = {
+      "hr": h,
+      "min": this.slotM,
+      "meridiem": this.slotAMPM
+    };
+    this.scheduleObj["repeatDays"] = this.selectedDay;
+    this.scheduleObj["date"] = sDate;
+    this.scheduleObj["teacher"] = this.selectedTeacher;
+    this.scheduleObj["time"] = time;
+    console.log('scheduleObj',this.scheduleObj);
   }
 
+  onClickCreate(){
+    this.courseCreate = true;
+    this.getCoursePlan(0,'createCourse');
+  }
 
+  createPlan(){
+    console.log("course Plan");
+    this.isCategory = true;
+    this.goBackCat = false;
+    // this.isPlan = true;
+    this.courseCreate = false;
+    var category = {
+      'categoryId': this.selectedCategory._id,
+      'name': this.selectedCategory.name
+    }
+    localStorage.setItem("cpCategory",JSON.stringify(category));
+  }
+  selectPlan(plan){
+    console.log("plan",plan);
+    console.log(this.selectedID);
+    let planObj = {
+      "name": plan.name,
+      "id": plan._id,
+      "duration": plan.lesson.duration,
+      "paymentPolicy": plan.paymentPolicy
+    };
+    this.goBackCat = false;
+    this.isCourseCreate = true;
+    localStorage.setItem('cPlan',JSON.stringify(planObj));
+    localStorage.setItem('scheduleObj',JSON.stringify(this.scheduleObj))
+    // console.log("scheduleObj",this.scheduleObj);
+
+  }
 
   cancelClassFun( lessonId){
     let data = {
@@ -1595,4 +1854,53 @@ export class ScheduleComponent implements OnInit {
      console.log(lesson)
   }
 
+  getSearchCoursePlan(keyword,skip,limit){
+    this.coursePlanSearchKeyWord = keyword
+    this._service.getSearchCoursePlan(this.regionId, this.locationID,this.selectedID,skip,limit,keyword)
+    .subscribe((res:any) => {
+      this.courseplanLists =res;
+      console.log(this.courseplanLists)
+      }, err => {
+        console.log(err)
+      })
+  }
+
+
+  getCoursePlanList(keyword,skip,limit){
+    if(keyword.length == 0 || keyword.length < 0){
+      this. getCoursePlan(0,'search');
+    }else{
+      this.getSearchCoursePlan(keyword,0,20);
+    }
+  }
+
+  getCourseplanLoadMore( skip: any){
+    if(this.isSearch == true){
+    console.log("User Search");
+    this.getSearchCoursePlan(this.coursePlanSearchKeyWord,skip, 20)
+  }else{
+    console.log("Not user search")
+    this.getCoursePlan(skip,'loadmore');
+  }
+}
+
+  getCoursePlan( skip,type){
+    this.blockUI.start('Loading...');		
+    this._service.getAllCourseplan(this.regionId, this.locationID,this.selectedID,skip,'20')
+    .subscribe((res:any) => {
+      setTimeout(() => {
+        this.blockUI.stop();
+        if(type == 'loadmore'){
+          this.courseplanLists = this.courseplanLists.concat(res);
+        }
+        else{
+          this.courseplanLists = res;
+        }
+      }, 300);
+ 
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
+}
 }
