@@ -62,7 +62,7 @@
   </div>
   <!-- Schedule List (when click show button) -->
   <div *ngIf="!scheduleList && isCategory == false && isPlan == false && isCourseCreate == false">
-    <div [ngClass]="{'backdrop' : testshowboxs==true}" class="txt"></div>
+    <div [ngClass]="{'backdrop' : testshowboxs==true || showDp==true}" class="txt"></div>
     <div class="d-flex  justify-content-between">
       <div *ngIf="courseCreate == false && isCategory == false && isPlan == false && isCourseCreate == false" class="p-2 pl-4 pb-0 ">
         <div class="back-to" (click)="backtoSchedule()">
@@ -378,8 +378,8 @@
         <label class="info-label">{{courseInfo.course.courseCode}}</label>
         <div class="d-flex">
           <h4 class="info-header">{{courseInfo.course.name}}</h4>
-          <div class="ml-2 modal-seat-left">{{selectedSeat.left}}/{{selectedSeat.total}} seats left</div>
-          <div class="tooltips-arrow"></div>
+          <div *ngIf="(selectedSeat | json) != '{}'" class="ml-2 modal-seat-left">{{selectedSeat.left}}/{{selectedSeat.total}} seats left</div>
+          <div *ngIf="(selectedSeat | json) != '{}'" class="tooltips-arrow"></div>
         </div>
         <div class="d-flex date-label">
           <label>{{courseInfo.lesson.count}} lessons</label>

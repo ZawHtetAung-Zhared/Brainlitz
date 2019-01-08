@@ -868,7 +868,7 @@ tbody th {
   z-index: 9 ;
 }
 .single-row{
-  outline: 1px solid #eee;
+  /*outline: 1px solid #eee;*/
 }
 .single-range:first-child {
   background: transparent !important;
