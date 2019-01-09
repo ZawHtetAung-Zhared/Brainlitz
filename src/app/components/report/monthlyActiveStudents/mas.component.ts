@@ -4,6 +4,7 @@ import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {appService} from '../../../service/app.service';
 import masSampleData from './sampleData';
+declare var $:any;
 
 @Component({
   selector: 'monthly-active-std-report',
@@ -58,6 +59,17 @@ export class MonthlyActiveStudentsReport implements OnInit {
     };
     this.reportData = [];
     this.showReport();
+  }
+  ngAfterViewInit(){
+    $('#monthRangePicker')
+      .rangePicker({  setDate:[[2,2015],[12,2018]],minDate:[2,2015], maxDate:[1,2019],closeOnSelect:true, RTL:false })
+      // subscribe to the "done" event after user had selected a date
+      .on('datePicker.done', function(e, result){
+        if( result instanceof Array )
+          console.log(new Date(result[0][1], result[0][0] - 1), new Date(result[1][1], result[1][0] - 1));
+        else
+          console.log(result);
+      });
   }
   showReport(){
     if (masSampleData) { //check if we have data to show report
