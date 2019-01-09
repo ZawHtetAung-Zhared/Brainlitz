@@ -11,56 +11,58 @@
 		</div>
 	</div>
 </div>	 -->
-<div *ngIf="!showFormCreate && !showCustDetail && customerPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
-	<div class="d-flex mr-top-menu">
-		<div class="col-md-5 pad-0">
-			<div class="d-flex flex-row">
-				<h3>Customers</h3>
-				<span class="location-name">{{locationName}}</span>
+<div class="d-flex flex-column justify-content-center align-items-center">
+	<div *ngIf="!showFormCreate && !showCustDetail && customerPermission.length > 0" class="inner-wrapper " [ngClass]="{'pdactive': isSticky == true}">
+		<div class="d-flex mr-top-menu">
+			<div class="col-md-5 pad-0">
+				<div class="d-flex flex-row">
+					<h3>Customers</h3>
+					<span class="location-name">{{locationName}}</span>
+				</div>
+			</div>
+			<div class="col-md-7 pad-0">
+				<button *ngIf="customerDemo.createCustomer != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>
 			</div>
 		</div>
-		<div class="col-md-7 pad-0">
-			<button *ngIf="customerDemo.createCustomer != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new customer</button>
+		<p class="input-recommend">
+			See the list of all your customers. ‘Customers’ include students or parents whose email ID has been registered.  Click on a ‘customer’ to see their profile details, classes enrolled, progress, activity etc. 
+		</p>
+		<div *ngIf="customerDemo.viewCustomer != ''" class="col-md-12 pad-0" style="margin-top: 35px;">
+			<div class="input-group col-md-12 pad-0">
+					<input 
+						class="form-control py-2 input-search-bg" 
+						type="search" 
+						placeholder="Search customer here" 
+						id="customer-search-input"
+						(focusout)="clearSearch($event)"
+						(input)="userSearch($event.target.value, 'customer','','')"
+							autocomplete="off"
+					>
+					<span class="input-group-append">
+							<button class="bt btn-design btn-outline-secondary" type="button">
+									<i class="fa fa-search search-size"></i>
+							</button>
+					 </span>
+			</div>
 		</div>
-	</div>
-	<p class="input-recommend">
-		See the list of all your customers. ‘Customers’ include students or parents whose email ID has been registered.  Click on a ‘customer’ to see their profile details, classes enrolled, progress, activity etc. 
-	</p>
-	<div *ngIf="customerDemo.viewCustomer != ''" class="col-md-12 pad-0" style="margin-top: 35px;">
-		<div class="input-group col-md-12 pad-0">
-		    <input 
-		    	class="form-control py-2 input-search-bg" 
-		    	type="search" 
-		    	placeholder="Search customer here" 
-		    	id="customer-search-input"
-		    	(focusout)="clearSearch($event)"
-		    	(input)="userSearch($event.target.value, 'customer','','')"
-        		autocomplete="off"
-		    >
-		    <span class="input-group-append">
-		        <button class="bt btn-design btn-outline-secondary" type="button">
-		            <i class="fa fa-search search-size"></i>
-		        </button>
-		     </span>
-		</div>
-	</div>
-	<div class="row display-flex user-group">
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
-			<div class="box-design d-flex flex-row align-items-center" (click)="showDetails( customer.userId)">
-				<div class="profileimg-wrap">
-					<div class="circular-image">
-						<img *ngIf="customer.profilePic == 'undefined'" src="assets/img/user.svg">
-						<img *ngIf="customer.profilePic != 'undefined'" src="{{customer.profilePic}}">
+		<div class="row display-flex user-group">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
+				<div class="box-design d-flex flex-row align-items-center" (click)="showDetails( customer.userId)">
+					<div class="profileimg-wrap">
+						<div class="circular-image">
+							<img *ngIf="customer.profilePic == 'undefined'" src="assets/img/user.svg">
+							<img *ngIf="customer.profilePic != 'undefined'" src="{{customer.profilePic}}">
+						</div>
 					</div>
-				</div>
-				<div class="info-side d-flex flex-column justify-content-center">
-					<h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">{{ (customer.preferredName.length > 20)? (customer.preferredName | slice:0:20)+'...':(customer.preferredName) }}</h5>
-					<p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
-					<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
-					<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>25)? (customer.about | slice:0:25)+'...':(customer.about) }}</p>
-				</div>
-				<div *ngIf="customerDemo.viewCustomer != ''" class="ml-auto right-arrow">
-					<i class="fa fa-angle-right"></i>
+					<div class="info-side d-flex flex-column justify-content-center">
+						<h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">{{ (customer.preferredName.length > 20)? (customer.preferredName | slice:0:20)+'...':(customer.preferredName) }}</h5>
+						<p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
+						<p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
+						<p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>25)? (customer.about | slice:0:25)+'...':(customer.about) }}</p>
+					</div>
+					<div *ngIf="customerDemo.viewCustomer != ''" class="ml-auto right-arrow">
+						<i class="fa fa-angle-right"></i>
+					</div>
 				</div>
 			</div>
 		</div>

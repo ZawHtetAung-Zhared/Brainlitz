@@ -35,26 +35,26 @@
 	     </span>
 	</div>
 	<div class="apg-wrapper card-columns">
-		<div class="card" *ngFor="let apg of apgList; let i = index">
-			<div class="single-apg">
-				<div class="info-section">
-					<p class="apg-type" *ngIf="apg.module">
-            {{ apg.module.name }}
-          </p>
-          <p class="apg-type" *ngIf="!apg.module"> - </p>
-					<h4>{{apg.name}}</h4>
-					<div class="apg-scroll">
-						<p class="apg-desc">{{apg.description}}</p>
+			<div class="card " *ngFor="let apg of apgList; let i = index">
+				<div class="single-apg">
+					<div class="info-section">
+						<p class="apg-type" *ngIf="apg.module">
+							{{ apg.module.name }}
+						</p>
+						<p class="apg-type" *ngIf="!apg.module"> - </p>
+						<h4>{{apg.name}}</h4>
+						<div class="apg-scroll">
+							<p class="apg-desc">{{apg.description}}</p>
+						</div>
 					</div>
-				</div>
-				<div class="d-flex justify-content-between btn-section">
-					<button class="apg-share" (click)="apgPublicShare(apg._id)">Share</button>
-					<div>
-						<button class="btn-action" (click)="onclickUpdate(apg._id)">Edit</button> | <button class="btn-action" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
+					<div class="d-flex justify-content-between btn-section">
+						<button class="apg-share" (click)="apgPublicShare(apg._id)">Share</button>
+						<div>
+							<button class="btn-action" (click)="onclickUpdate(apg._id)">Edit</button> | <button class="btn-action" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>
 </div>
 <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more">

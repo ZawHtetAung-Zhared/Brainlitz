@@ -19,7 +19,7 @@
   transform: translateY(-95);
   opacity: 1;
 }
-header#header2 {
+ #header2 {
     position: fixed;
     top: 0;
     z-index: 999;
@@ -86,8 +86,8 @@ select {
 
 .sidebar-wrap{
   padding: 5px 30px;
-  border-top: 1px solid #e3e4e6;
-  border-bottom: 1px solid #e3e4e6;
+  /* border-top: 1px solid #e3e4e6; */
+  /* border-bottom: 1px solid #e3e4e6; */
   min-height: 71px;
 }
 .m-bottom{
@@ -248,4 +248,12 @@ a.nav-link.active {
 .selected{
   background: #007fff;
   color: #fff;
+}
+@media only screen and  (min-width:1024px){
+  #header{
+    max-width: 1920px;
+  }
+  /* #header2{
+    max-width: 1920px;
+  } */
 }

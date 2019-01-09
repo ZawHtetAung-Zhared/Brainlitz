@@ -644,7 +644,7 @@ ul.scedule-data-listing li.disabled{
   outline: none!important;
 }
 .teacher-list{
-  width: 145px!important;
+  /* width: 145px!important; */
   color: #64707d;
   background:#f2f4f5;
   border-radius:24px; 
@@ -662,8 +662,8 @@ ul.scedule-data-listing li.disabled{
   cursor: pointer;
 }
 .tchr-img-wraper{
-  width:24px;
-  height:24px;
+  width:26px;
+  height:26px;
   border-radius:50%;
   border:1px solid rgba(211, 211, 211, 0.123);;
   position:relative;
@@ -1425,13 +1425,13 @@ ul.options-box li:last-child,.create-box li:last-child {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 .category-title{
-  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
   font-size: 16px;
   color: #64707d;
   font-weight: 600;
 }
 .pickCourseplan{
-  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
   font-size: 28px;
   color: #2e3d4d;
   font-weight: 600;
@@ -1457,12 +1457,12 @@ ul.options-box li:last-child,.create-box li:last-child {
 .cancel-txt{
   color: #2e3d4d;
   font-size: 16px;
-  font-family: 'InterUI-Medium',Arial, sans-serif;
+  font-family: 'Montserrat-Medium',Arial, sans-serif;
 }
 .createCourseText{
   font-size: 18px;
   color: #64707d;
-  font-family: 'InterUI-Medium',Arial, sans-serif;
+  font-family: 'Montserrat-Medium',Arial, sans-serif;
 }
 .create-course-plan-list{
   padding-right: 24px;
@@ -1475,13 +1475,13 @@ ul.options-box li:last-child,.create-box li:last-child {
 .createCourseTextSeat{
   color: #64707d;
   font-size: 14px;
-  font-family: 'InterUI-Regular',Arial, sans-serif;
+  font-family: 'Montserrat-Regular',Arial, sans-serif;
 }
 .courseplanName{
   color: #2e3e4d;
   font-size: 18px;
   font-weight: 600;
-  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
 }
 .lessonDuration{
   padding-left: 23px;

@@ -1242,7 +1242,7 @@ export class ScheduleComponent implements OnInit {
     this.tempSelectedTeacher=teacher;
     this.selectedTeacher.userId=teacher.userId;
    if(this.staffList.staff.indexOf(this.selectedTeacher) > 4){
-     $('.teacher-list-wrapper').scrollLeft( 50*(this.staffList.staff.indexOf(this.selectedTeacher)));
+     $('.teacher-list-wrapper').scrollLeft( 145*(this.staffList.staff.indexOf(this.selectedTeacher)));
    }
   else{
     $('.teacher-list-wrapper').scrollLeft( 0);

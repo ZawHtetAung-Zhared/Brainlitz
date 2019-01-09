@@ -114,12 +114,20 @@ export class ApgComponent implements OnInit {
     checkPermission(){
       console.log(this.permissionType)
       this.apgPermission = ["CREATEAPG","CREATEAP"];
-      this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
-      this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
-      this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
-      this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
+      if(this.permissionType!= null){
+        this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+        this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+        this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+        this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
+  
+        console.log(this.apgDemo)
+      }
+      // this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+      // this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+      // this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+      // this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
 
-      console.log(this.apgDemo)
+      // console.log(this.apgDemo)
       if(this.apgPermission.length > 0){
         this.getAllModule();
         this.getAllAPG(20,0);

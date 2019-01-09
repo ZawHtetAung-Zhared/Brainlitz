@@ -1009,7 +1009,7 @@ h3, h5 {
     overflow: hidden;
     border-radius: 50%;
     background: #ddd;
-    float: left;
+    /* float: left; */
     margin-right: 7px;
 }
 
@@ -1838,4 +1838,9 @@ input[_ngcontent-c1]:focus {
     /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
     box-shadow: 0 1px 3px 2px white;
     outline: none;
+}
+@media only screen and (min-width:1024px){
+    .inner-wrapper {
+        max-width:1920px ;
+    }
 }

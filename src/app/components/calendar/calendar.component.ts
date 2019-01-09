@@ -93,12 +93,20 @@ export class CalendarComponent implements OnInit {
   checkPermission(){
     console.log(this.permissionType)
     this.calendarPermission = ["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"];
-    this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    if(this.permissionType!=null){
+      this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
     
-    this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
-    this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
-    this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
-    this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
+      this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
+      this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
+      this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
+      this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
+    }
+    // this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    
+    // this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
+    // this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
+    // this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
+    // this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
 
     if(this.calendarPermission.length > 0){
       this.getAllHolidaysCalendar(20, 0);

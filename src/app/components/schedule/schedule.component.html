@@ -181,7 +181,7 @@
                 </div>
               </div>            
               <div class="align-self-center">
-                <p  class=" mb-0 text-teacher-name align-self-center">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:10) + '...':(teacher.preferredName)}}</p>
+                <p  class=" mb-0 text-teacher-name align-self-center">{{teacher.preferredName}}</p>
               </div>
             </div>
           </div>      
@@ -363,7 +363,7 @@
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
         </div>
-        <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:15) + '...':(teacher.preferredName)}}</p>
+        <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{teacher.preferredName}}</p>
       </div>
     </div>      
   </div>
