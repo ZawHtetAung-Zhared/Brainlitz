@@ -970,7 +970,8 @@ export class ScheduleComponent implements OnInit {
     this.item.itemID = '';
     this.selectedDay = [];
     this.getAutoSelectDate();
-     this.showDp = false;
+    this.showDp = false;
+    this.selectedTeacher = {};
   }
 
   backtoTimetable(){
@@ -982,20 +983,20 @@ export class ScheduleComponent implements OnInit {
   }
   
   // Selected Day //
-  selectDay(data,event,day): void {
-    // this.clickInit = true;
+  selectDay(data,event,day,type): void {
+    if(type=="callTimetable"){
+      setTimeout(()=>{
+        this.getschedulestaff('sd');
+      },200)     
+    }
       var dayIdx = this.selectedDay.indexOf(data);
       
       if (event.target.checked) {
           if(dayIdx < 0 )
            this.selectedDay.push(data);
-          //  this.SelectedDate.push(day);
-          
-            // this.toggleBool= false;
       } else {
           if(dayIdx >= 0 ){
           this.selectedDay.splice(dayIdx,1);
-          // this.SelectedDate.splice(day,1);
         }
     }    
     this.selectedDay.sort();
@@ -1049,6 +1050,8 @@ export class ScheduleComponent implements OnInit {
     }, 300);
   }
   selectDataApiCall(category){
+    this.selectedTeacher = {};
+    console.log("selectDataApiCall works",category)
     this.selectData(category);
     // this.getscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID)
     this.getschedulestaff('sd')
@@ -1056,7 +1059,7 @@ export class ScheduleComponent implements OnInit {
 
   // single Select Data
   selectData(category){
-    console.log(category)
+    console.log("selectData works",category)
     this.isSelected = true;
     this.selectedID = category._id;
     this.item.itemID = category.name;
@@ -1071,64 +1074,43 @@ export class ScheduleComponent implements OnInit {
 
   getschedulestaff(type){
     // Declare __this variable which represents the current component not to conflict with setTimeOut this keyword
-    const __this = this;
     // Api calling should after checking the date 
     // need to wait a bit delay 
-    setTimeout(() => {
-        // __this.selectedDayy();
-        if(__this.selectedDay.length == 0) {
-          __this.scheduleList=false;
-          __this._service.getscheduleStaffList(__this.regionId, '0,1,2,3,4,5,6' , __this.selectedID)
-          .subscribe((res:any) => {
-            __this.staffList=res;
-            if(__this.staffList.staff && type == 'checkbox'){
-              __this.selectedTeacher = __this.tempSelectedTeacher
-              if(__this.tempSelectedTeacher == null){
-                __this.selectedTeacher = __this.staffList.staff[0];
-              }
-            } else {
-              if(__this.staffList.staff){
-                __this.selectedTeacher = __this.staffList.staff[0];
-              }
-            }
-
-            if(__this.selectedTeacher){
-              __this.getStaffTimetable(__this.selectedTeacher.userId,'0,1,2,3,4,5,6')
-            }
-          }, (err:any) => {
-            // catch the error response from api   
-            __this.staffList=[];
-          })
-          return;
+    var repeatDays;
+    if(this.selectedDay.length == 0){
+      repeatDays = '0,1,2,3,4,5,6'
+    }else if(this.selectedDay.length > 0){
+      repeatDays = this.selectedDay.toString();
+    }
+    this.scheduleList=false;
+    this._service.getscheduleStaffList(this.regionId, repeatDays , this.selectedID)
+    .subscribe((res:any) => {
+      this.staffList=res;
+      console.log("this.selectedTeacher",this.selectedTeacher)
+      console.log("this.staffList",this.staffList)
+      if(JSON.stringify(this.staffList) != "{}"){
+        if(this.staffList.staff && type == 'checkbox'){
+          this.selectedTeacher = this.tempSelectedTeacher
+          if(this.tempSelectedTeacher == null){
+            this.selectedTeacher = this.staffList.staff[0];
+          }
+        } else {
+          if(this.staffList.staff){
+            this.selectedTeacher = this.staffList.staff[0];
+          }
         }
-        else if(__this.selectedDay.length > 0){
-          __this.scheduleList=false;
-          __this._service.getscheduleStaffList(__this.regionId,__this.selectedDay.toString(),__this.selectedID)
-          .subscribe((res:any) => {
-                __this.staffList=res;
-                if(__this.staffList.staff && type == 'checkbox'){
-                  __this.selectedTeacher = __this.tempSelectedTeacher
-                  if(__this.tempSelectedTeacher == null){
-                    __this.selectedTeacher = __this.staffList.staff[0];
-                  }
-                } else {
-                  if(__this.staffList.staff){
-                    __this.tempSelectedTeacher = __this.staffList.staff[0];
-                    __this.selectedTeacher = __this.staffList.staff[0];
-                  }
-                }
-    
-                if(__this.selectedTeacher){
-                  __this.getStaffTimetable(__this.selectedTeacher.userId,__this.selectedDay.toString())
-                }
-            }, (err:any) => {
-              // catch the error response from api         
-              __this.staffList=[];
-            })
+        console.log("Call staff timttable")
+        if( JSON.stringify(this.selectedTeacher) !="{}"){
+          this.getStaffTimetable(this.selectedTeacher.userId,repeatDays)
         }
-        return;
+      }else{
+        console.log("no need to call staff timttable")
+      }
+    }, (err:any) => {
+      // catch the error response from api   
+      this.staffList=[];
+    })
 
-      }, 0);
   }
   teacherListTypeAheadLoadMore(){
     this.skip += this.limit
