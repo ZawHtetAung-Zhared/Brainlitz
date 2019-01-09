@@ -170,9 +170,12 @@ export class CoursecreateComponent implements OnInit {
     this.model.teacherId = this.selectedTeacher.userId;
     this.rangeHr = this.scheduleObj.time.hr;
     this.rangeMin = this.scheduleObj.time.min;
+    this.selectedHrRange = this.scheduleObj.time.hr
+    this.selectedMinRange = this.scheduleObj.time.min
     this.isSelected = this.scheduleObj.time.meridiem;
     var hr:any;
     var min:any;
+    var h:any;
     if(this.scheduleObj.time.hr <10){
       hr = '0'+this.scheduleObj.time.hr;
     }else{
@@ -183,9 +186,23 @@ export class CoursecreateComponent implements OnInit {
     }else{
       min = this.scheduleObj.time.min;
     }
+    if(this.scheduleObj.time.meridiem == 'PM'){
+      if(this.scheduleObj.time.hr==12){
+        h = this.scheduleObj.time.hr;
+      }else{
+        h = this.scheduleObj.time.hr+12
+      }  
+    }else{
+      if(this.scheduleObj.time.hr==12){
+        h = 0;
+      }else{
+        h = this.scheduleObj.time.hr;
+      }  
+    }
     this.showFormat = hr + ':' + min;
     this.model.startT = hr + ':' + min + this.scheduleObj.time.meridiem;
-    this.model.starttime = hr + ':' + min;
+
+    this.model.starttime = h + ':' + min;
   }
 
   // feeOptList(feeOptions){
@@ -1162,6 +1179,7 @@ export class CoursecreateComponent implements OnInit {
   // }
 
   changeDateFormat(date,time){
+    console.log("==>date,time",date,time);
       if (date == null) {
         console.log('null',date)
         return ""

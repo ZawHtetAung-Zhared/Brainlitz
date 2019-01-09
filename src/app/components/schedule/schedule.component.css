@@ -420,14 +420,18 @@
     font-weight: 600;
     color: #2e3e4d;
   }
-.pick-day-of-the-week{
-  width: 193px;
-  height: 22px;
+.pick-day-of-the-week,.no-teacher{
   font-family: Montserrat-SemiBold;
-  
   font-size: 18px;
   font-weight: 600;
   color: #2e3e4d;
+}
+.pick-day-of-the-week{
+  width: 193px;
+  height: 22px;
+}
+.no-teacher{
+  width: 100%;
 }
 
   .day{
