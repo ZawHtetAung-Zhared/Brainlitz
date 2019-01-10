@@ -1841,24 +1841,54 @@ input[_ngcontent-c1]:focus {
 }
 
 
+  @media only screen and  (max-width:879px){
+    .inner-wrapper{
+      max-width: 900px;
+    }
+    .content-wrapper{
+      min-width: 100%!important;
+      max-width: 900px!important;
+    }
+
+  }
+
   @media only screen and  (max-width:1024px){
     .inner-wrapper{
       max-width: 900px;
     }
-  
-    /* #header2{
-      max-width: 1920px;
-    } */
+    .content-wrapper{
+      min-width: 900px;
+    }
+
   }
+ 
   @media only screen and  (min-width:1024px){
     .inner-wrapper{
       max-width: 900px;
+     
+    }
+    .content-wrapper{
+      min-width: 900px;
      
     }
   }
   @media only screen and  (min-width:1540px){
     .inner-wrapper{
       max-width: 1360px;
+     
+    }
+    .content-wrapper{
+      min-width: 1360px;
+     
+    }
+  }
+  @media only screen and  (min-width:2060px){
+    .inner-wrapper{
+      min-width: 1920px;
+     
+    }
+    .content-wrapper{
+      min-width: 1920px;
      
     }
   }

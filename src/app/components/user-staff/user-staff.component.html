@@ -11,6 +11,7 @@
 		</div>
 	</div>
 </div>	 -->
+
 <div class="d-flex flex-column justify-content-center align-items-center ">
 		<div *ngIf="!showFormCreate && !showStaffDetail && staffPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
 				<div class="display-flex mr-top-menu">
@@ -128,6 +129,118 @@
 										<label class="info-mail">{{detail.name}}</label>
 										<p class="mb-0 info-p">{{detail.value}}</p>
 									</div>
+
+	<div *ngIf="!showFormCreate && !showStaffDetail && staffPermission.length > 0" class="inner-wrapper" [ngClass]="{'pdactive': isSticky == true}">
+			<div class="display-flex mr-top-menu">
+				<div class="col-md-4 pad-0">
+					<div class="d-flex flex-row">
+						<h3>Staffs</h3>
+						<span class="location-name">{{locationName}}</span>
+					</div>
+				</div>
+				<div class="col-md-8 pad-0">
+					<button *ngIf="staffDemo.addStaff != ''" type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm('create')">Add new staff</button>
+				</div>
+			</div>
+			<p class="input-recommend">
+				This is the list of your ‘Staffs’ that may include teachers, trainers etc. Click on a ‘staff’ to see their profile details
+			</p>
+			<div *ngIf="staffPermission[0] != undefined" class="col-md-12 pad-0" style="margin-top: 35px;">
+				<div class="input-group col-md-12 pad-0">
+					<input 
+						class="form-control py-2 input-search-bg" 
+						type="search" 
+						placeholder="Search staff here"
+						id="staff-search-input"
+						(input)="userSearch($event.target.value, 'staff','','')"
+						autocomplete="off"
+						>
+					<span class="input-group-append">
+						<button class="bt btn-design btn-outline-secondary" type="button">
+							<i class="fa fa-search search-size"></i>
+						</button>
+					 </span>
+				</div>
+			</div>
+			<div class="row display-flex user-group">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mr-box display-block" *ngFor="let staff of staffLists; let i = index">
+					<div class="box-design d-flex flex-row align-items-center" (click)="showDetails(staff, staff.userId)">
+						<div class="profileimg-wrap">
+						<div class="circular-image">
+							<img *ngIf="staff.profilePic == 'undefined'" src="assets/img/user.svg">
+							<img *ngIf="staff.profilePic != 'undefined'" src="{{staff.profilePic}}">
+						</div>
+						</div>
+						<div class="info-side d-flex flex-column justify-content-center">
+							<div><label class="staff-label">Staff</label></div>
+							<h5> {{ (staff.preferredName.length > 20)? (staff.preferredName | slice:0:20)+'...':(staff.preferredName) }}</h5>
+							<p class="info-mail">{{staff.email}}</p>
+							<p class="info-about" *ngIf="staff.about == 'undefined'">
+								-
+							</p>
+							<p class="info-about" *ngIf="staff.about != 'undefined'">
+								<!-- <span>{{staff.about}}</span> -->
+								{{ (staff.about.length>48)? (staff.about | slice:0:48)+'...' : (staff.about) }}
+							</p>
+						</div>
+						<div *ngIf="staffDemo.viewStaff != ''" class="right-arrow ml-auto">
+							<i class="fa fa-angle-right"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+<div *ngIf="staffLists.length >= 20 && !showFormCreate && result?.length>0" class="d-flex justify-content-center load-more">
+	<button class="btn" (click)="showMore('staff', staffLists.length)">load more</button>
+</div>
+	<div *ngIf="showStaffDetail" class="content-wrapper">
+		<div class="main-wrapper">
+			<div class="d-flex heading-space">
+				<div class="back" (click)="backToStaff()">
+					<i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Staffs</span>
+				</div>
+				<div class="ml-auto">
+					<span class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
+				</div>
+			</div>
+	
+			<div class="user-info-wrap d-flex -justify-content-between">
+				<div class="d-flex col-left">
+						<div class="img-wrap">
+							<div class="circular-image">
+								<img src="{{staffDetail.user.profilePic}}">
+							</div>
+						</div>
+						<div class="pad-left-15" style="width: 80%">
+							<div class="infoGp-wrap">
+								<h5>{{staffDetail.user.preferredName}}</h5>
+								<p class="info-mail mb-0">{{staffDetail.user.email}}</p>
+							</div>
+							<div class="infoGp-wrap mb-0">
+								<p *ngIf="staffDetail.user.about != ''" class="mb-0 info-p">
+									{{ staffDetail.user.about }}
+								</p>
+								<p *ngIf="staffDetail.user.about ==''" class="mb-0 info-p">
+									-
+								</p>
+							</div>
+						</div>
+						<div>
+							
+						</div>
+				</div>
+				<div class="pad-left-15 col-right">
+					<div>
+						<div class="infoGp-wrap">
+							<label class="info-mail">Full name</label>
+							<p class="mb-0 info-p">{{ staffDetail.user.fullName }}</p>
+							<!-- <p class="mb-0 info-p">{{ staffDetail.user.firstName }} <span style="padding: 1px"></span>{{staffDetail.user.lastName}}</p> -->
+						</div>
+						<div class="d-flex info-wrap details-list-wrap">
+							<div *ngIf="staffDetail.user.details" class="list-wrapper detail-list">
+								<div *ngFor="let detail of staffDetail.user.details" class="child-detail">
+									<label class="info-mail">{{detail.name}}</label>
+									<p class="mb-0 info-p">{{detail.value}}</p>
 								</div>
 							</div>
 						</div>
@@ -238,6 +351,34 @@
 									<input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
 									<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
 								</div>
+
+			<div class="btn-wrap">
+				<div></div>
+			</div>
+		</div>
+	</div>
+
+<div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
+	<button type="button" class="back-button display-flex" (click)="back()">
+		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt">Staffs</p>
+	</button>
+</div>
+<div class="inner-wrapper-detail" *ngIf="showFormCreate">
+	<button type="button" class="back-button display-flex" (click)="back()">
+		<i class="fa fa-angle-left left-arrow"></i> <p class="back-staff-txt">Staffs</p>
+	</button>
+	<div class="col-md-12 pad-0 mr-bt-top">
+		<h3>Create staff account</h3>
+	</div>
+	<form class="form-wrap" novalidate #createForm="ngForm">
+		<div class="row display-flex">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
+				<div class="form-group form-divider">
+		  	    	<div class="d-flex justify-content-between">
+		  	    		<label for="" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 
+		  	    		<div class="limit-wordcount">
+							<span>{{wordLength}}/15characters</span>
+>>>>>>> c462de9c0b6a54cfb4090d87596f5b2d5e4a7856
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5" style="display: block;">
 							<label for="upload">
