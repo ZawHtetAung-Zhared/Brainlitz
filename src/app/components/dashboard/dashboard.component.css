@@ -752,6 +752,9 @@ input:checked + .slider:before {
   display: block;
 }
 
+.side-bar-wrap {
+  top: 158px;
+}
 /*//Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767px) { 
   
@@ -803,3 +806,15 @@ input:checked + .slider:before {
       column-count: 4;
   }
 }
+
+@media only screen and  (min-width:1366px){
+  .setting-wrapper{
+    width: 960px;
+  }
+}
+
+/* @media only screen and  (max-width:1024px){
+  .setting-wrapper{
+    width: 960px;
+  }
+} */

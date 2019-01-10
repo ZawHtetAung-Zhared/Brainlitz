@@ -98,8 +98,8 @@
 					<div class="col-md-6 p-feeOpt" *ngIf="feesOptions">
 						<label class="input-title font-medium" [ngClass]="{'changeColor': chooseFee == ''}">CourseFee Options</label>
 						<div>
-							 <div class="form-group has-feedback feeOpt-wrap" (click)="showDropdown('feeOpt','')"  (document:click)="closeDropdown($event,'feeOpt')">
-						    	<input class="cursor-on form-control br-bshadow-none"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
+							 <div class="form-group has-feedback feeOpt-wrap" (click)="showDropdown('feeOpt','')" >
+						    	<input class="cursor-on form-control br-bshadow-none dropD feeInput"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
 						     </div>
 						     <div class="dropdown-wrap" *ngIf="feeOptShow == true">
 					          <ul class="feeOpt-dropdown">
@@ -113,8 +113,8 @@
 					<div class="col-md-6 p-0">
 						<label class="input-title font-medium" [ngClass]="{'changeColor': chooseTax == ''}">Tax Options</label>
 						<div>
-							<div class="form-group has-feedback taxOpt-wrap" (click)="showDropdown('taxOpt','')" (document:click)="closeDropdown($event,'taxOpt')">
-						    	<input class="cursor-on form-control br-bshadow-none"  name="taxName" type="text" placeholder="username" [(ngModel)]="chooseTax" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
+							<div class="form-group has-feedback taxOpt-wrap" (click)="showDropdown('taxOpt','')" >
+						    	<input class="cursor-on form-control br-bshadow-none dropD taxInput"  name="taxName" type="text" placeholder="username" [(ngModel)]="chooseTax" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
 						     </div>
 						     <div class="dropdown-wrap" *ngIf="taxOptShow == true">
 					          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
@@ -154,7 +154,7 @@
 						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.start == '' || model.start == undefined}">Starts</label>
 						<div class="input-wrap">
 							<div class="cc-start">
-								<input type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker" (document:click)="closeStart($event, start)" readonly>
+								<input type="text" placeholder="Start date" class="input-day dropD startInput" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate"  ngbDatepicker #start="ngbDatepicker" (document:click)="closeDropdown($event, 'start', start)" readonly>
 								<!-- <input *ngIf="isEdit == true" type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker" (document:click)="closeStart($event, start)" readonly> -->
 							</div>
 						</div>
@@ -173,7 +173,7 @@
 						</div>
 						<div *ngIf="isChecked == 'end'">
 							<div class="cc-end">
-								<input class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" (document:click)="closeEnd($event, end)" readonly>
+								<input class="input-lesson dropD endInput" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" (document:click)="closeDropdown($event, 'end' , end)" readonly>
 								<!-- <input *ngIf="isEdit == true" class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" ngbDatepicker #end="ngbDatepicker" (document:click)="closeEnd($event, end)" readonly> -->
 							</div>
 						</div>
@@ -229,7 +229,7 @@
 					</div>
 					<div class="col-md-6 p-0">
 						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.duration == '' || model.duration == undefined}">Duration</label>
-						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi durationDp" (click)="showDropdown('duration',isEdit)" (document:click)="closeDropdown($event,'duration')">
+						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi durationDp dropD durationInput" (click)="showDropdown('duration',isEdit)" >
 							{{ model.duration }} min
 							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
 						</div>
@@ -263,14 +263,14 @@
 				<div class="pad-b">
 					<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': selectedTeacher.preferredName == '' || selectedTeacher.preferredName == undefined}">Teacher</label>
 					<div class="search-wrap">
-					    <div class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0" (click)="showDropdown('search',isEdit)" (document:click)="closeDropdown($event,'search')">
-							<span *ngIf="!selectedTeacher" class="font-regular caption">Type teacher name</span>
+					    <div class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0 dropD teacherInput" (click)="showDropdown('search',isEdit);focusInputMethod($event, 'staff', 'teacher')">
+							<span *ngIf="!selectedTeacher" class="font-regular caption dropD">Type teacher name</span>
 							<div class="d-flex" *ngIf="selectedTeacher">
 								<span class="img-wrap"><img src="{{ selectedTeacher.profilePic || './assets/img/user.svg' }}"></span><span class="d-flex flex-column justify-content-center pad-left-5">{{ selectedTeacher.preferredName }}</span>
 							</div>
-							<span *ngIf="!selectedTeacher" class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+							<span *ngIf="!selectedTeacher" class="fa fa-angle-down d-flex justify-content-center flex-column icon dropD teacherInput"></span>
 							<span *ngIf="selectedTeacher" class="d-flex justify-content-center flex-column">	
-								<img src="./assets/images/swap-ico.png">		
+								<img class="dropD teacherInput" src="./assets/images/swap-ico.png">		
 							</span>
 						</div>
 					</div>
@@ -279,18 +279,18 @@
 							<div class="teacher-list-box">
 								<div class="d-flex">
 									<input 
-									  class="form-control py-2 input-dropdown" 
+									  class="form-control py-2 input-dropdown dropD teacherInput" 
 									  type="search" 
 									  placeholder="Type teacher name"
 									  id="myInput" 
 									  name="search" 
 									  #search="ngModel" 
 									  [(ngModel)]="model.teacherSearch" 
-									  (focus)="focusInputMethod($event, 'staff', 'teacher')"
+									  (focus)="searchMenuShow == true"
 									  (focusout)="hideFocus($event, 'teacher')"
 									  (input)="changeInputMethod($event.target.value)">
 								</div>
-								<div class="list-wrap">
+								<div class="list-wrap" *ngIf="searchMenuShow == true">
 									<div (click)="chooseUser(user,'teacher')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">
 									  <div class="img-wrap">
 							            <img src="{{user.profilePic || './assets/img/user.svg'}}">

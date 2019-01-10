@@ -871,9 +871,9 @@ tbody th {
   border-right: 1px solid #edeff0;
   z-index: 9 ;
 }
-.single-row{
-  /*outline: 1px solid #eee;*/
-}
+/*.single-row{
+  outline: 1px solid #eee;
+}*/
 .single-range:first-child {
   background: transparent !important;
 }
@@ -950,6 +950,7 @@ tbody td{
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
 }
 .lessons-range{
+  display:inline-block;
   position: relative;
   /* z-index: 5; */
 }

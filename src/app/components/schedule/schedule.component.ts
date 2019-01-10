@@ -725,6 +725,7 @@ export class ScheduleComponent implements OnInit {
     });
   }
    @HostListener('document:click', ['$event']) clickedOutside($event){
+     console.log($event);
     // here you can hide your menu
       this.testshowbox = '';
       this.testshowboxs= false;
@@ -1354,7 +1355,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   closeDropdown(event,type){
-    console.log('close dropdown',type)
+    alert(type);
+    console.log('close dropdown',event)
     if(type == 'search'){
       var parentWrap = event.path.filter(function(res){
         return res.className == "search-wrap"

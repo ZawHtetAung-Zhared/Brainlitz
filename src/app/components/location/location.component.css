@@ -250,3 +250,8 @@ input:valid+span:after {
     margin-top: 10px;
 }
 
+@media only screen and  (min-width:1366px){
+  .content-wrapper{
+    width: 960px;
+  }
+}
