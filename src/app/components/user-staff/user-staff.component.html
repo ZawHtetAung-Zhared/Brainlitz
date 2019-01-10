@@ -265,6 +265,7 @@
 					<h3>Create staff account</h3>
 				</div>
 				<form class="form-wrap" novalidate #createForm="ngForm">
+				
 					<div class="row display-flex">
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
 							<div class="form-group form-divider">
@@ -356,7 +357,8 @@
 				<div></div>
 			</div>
 		</div>
-	</div>
+					</div>
+				</form>
 
 <div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
 	<button type="button" class="back-button display-flex" (click)="back()">
@@ -378,7 +380,6 @@
 		  	    		<label for="" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like your preferred name</span></label> 
 		  	    		<div class="limit-wordcount">
 							<span>{{wordLength}}/15characters</span>
->>>>>>> c462de9c0b6a54cfb4090d87596f5b2d5e4a7856
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-5" style="display: block;">
 							<label for="upload">
@@ -449,8 +450,9 @@
 						<button *ngIf="isupdate  == true" type="submit" (click)="createUser(formFields, 'edit')" class="btn create-button" [disabled]="!createForm.form.valid || emailAlert">Update
 						</button>
 					</div>
-				</form>	
 		</div>
-</div>
+		</div>
+		</div>
+	</form>
 
 <block-ui message="Deafult Message"></block-ui> 
