@@ -126,6 +126,7 @@ img.setting-icon {
 } */
 .content-wrapper{
   /*padding-top: 147px;*/
+  padding-top: 0px;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -288,7 +289,7 @@ img.setting-icon {
   top: 65px;
 }
 .side-bar-wrap.mid-top{
-  top: 65px;
+  top: 80px;
 }
 .side-bar-wrap {
   top: 147px;
