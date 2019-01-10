@@ -803,3 +803,22 @@ input[_ngcontent-c6]:focus {
     box-shadow: 0 1px 3px 2px#fff;
     outline: none;
 }
+
+/* @media only screen and  (max-width:1024px){
+    .inner-wrapper,.content-wrapper{
+      width: 776px;;
+    }
+} */
+
+  @media only screen and  (min-width:1024px){
+    .inner-wrapper,.content-wrapper{
+      width: 900px;
+     
+    }
+  }
+  @media only screen and  (min-width:1540px){
+    .inner-wrapper,.content-wrapper{
+      width: 1360px;
+     
+    }
+  }

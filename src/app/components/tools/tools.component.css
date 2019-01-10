@@ -289,8 +289,12 @@ img.setting-icon {
 .side-bar-wrap.mid-top{
   top: 80px;
 }
-.side-bar-wrap.p-top{
-  top: 65px;
+
+/* .noti-sidebar{
+  top:100px;
+} */
+.side-bar-wrap{
+  top:158px;
 }
 .noti-sidebar{
 	/*padding-top: 149px;*/

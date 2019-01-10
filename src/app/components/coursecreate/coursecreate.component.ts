@@ -173,12 +173,15 @@ export class CoursecreateComponent implements OnInit {
     this.model.teacherId = this.selectedTeacher.userId;
     this.rangeHr = this.scheduleObj.time.hr;
     this.rangeMin = this.scheduleObj.time.min;
+    this.selectedHrRange = this.scheduleObj.time.hr
+    this.selectedMinRange = this.scheduleObj.time.min
     this.isSelected = this.scheduleObj.time.meridiem;
-    var hr: any;
-    var min: any;
-    if (this.scheduleObj.time.hr < 10) {
-      hr = '0' + this.scheduleObj.time.hr;
-    } else {
+    var hr:any;
+    var min:any;
+    var h:any;
+    if(this.scheduleObj.time.hr <10){
+      hr = '0'+this.scheduleObj.time.hr;
+    }else{
       hr = this.scheduleObj.time.hr
     }
     if (this.scheduleObj.time.min < 10) {
@@ -186,9 +189,23 @@ export class CoursecreateComponent implements OnInit {
     } else {
       min = this.scheduleObj.time.min;
     }
+    if(this.scheduleObj.time.meridiem == 'PM'){
+      if(this.scheduleObj.time.hr==12){
+        h = this.scheduleObj.time.hr;
+      }else{
+        h = this.scheduleObj.time.hr+12
+      }  
+    }else{
+      if(this.scheduleObj.time.hr==12){
+        h = 0;
+      }else{
+        h = this.scheduleObj.time.hr;
+      }  
+    }
     this.showFormat = hr + ':' + min;
     this.model.startT = hr + ':' + min + this.scheduleObj.time.meridiem;
-    this.model.starttime = hr + ':' + min;
+
+    this.model.starttime = h + ':' + min;
   }
 
   // feeOptList(feeOptions){
@@ -1228,30 +1245,31 @@ export class CoursecreateComponent implements OnInit {
   //   });
   // }
 
-  changeDateFormat(date, time) {
-    if (date == null) {
-      console.log('null', date)
-      return ""
-    } else {
-      console.log("utc date", date);
-      console.log("Time", time);
-      let sdate = date.year + '-' + date.month + '-' + date.day;
-      console.log(sdate);
-      let dateParts = sdate.split('-');
-      console.log("dateParts", dateParts)
-      if (dateParts[1]) {
-        console.log(Number(dateParts[1]) - 1);
-        let newParts = Number(dateParts[1]) - 1;
-        dateParts[1] = newParts.toString();
-      }
-      let timeParts = time.split(':');
-      if (dateParts && timeParts) {
-        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
-        // console.log("UTC",testDate)
-        let fullDate = new Date(Date.UTC.apply(undefined, dateParts.concat(timeParts))).toISOString();
-        console.log("ISO", fullDate)
-        return fullDate;
-      }
+  changeDateFormat(date,time){
+    console.log("==>date,time",date,time);
+      if (date == null) {
+        console.log('null',date)
+        return ""
+      }else{
+        console.log("utc date",date);
+        console.log("Time",time);
+        let sdate = date.year+ '-' +date.month+ '-' +date.day;
+        console.log(sdate);
+        let dateParts = sdate.split('-');
+        console.log("dateParts",dateParts)
+        if(dateParts[1]){
+          console.log(Number(dateParts[1])-1);
+          let newParts = Number(dateParts[1])-1;
+          dateParts[1] = newParts.toString();
+        }
+        let timeParts = time.split(':');
+        if(dateParts && timeParts) {
+            // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+            // console.log("UTC",testDate)
+            let fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString();
+            console.log("ISO",fullDate)
+            return fullDate;
+        }
     }
   }
 

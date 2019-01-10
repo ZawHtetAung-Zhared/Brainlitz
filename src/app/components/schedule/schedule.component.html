@@ -135,8 +135,7 @@
                 class="regular-checkbox"  
                 name="{{d.day}}" 
                 value={{d.val}} 
-                (click)="getschedulestaff('checkbox')" 
-                (change)="selectDay(d.val ,$event,d.day,d,regionId,selectedDay,selectedID)" 
+                (change)="selectDay(d.val ,$event,d.day,'callTimetable')" 
                 [checked]="selectedDay.indexOf(d.val) != -1" 
                 [disabled]="isEdit == true" >
               <div class="schedule-box-label">{{d.day}}</div>
@@ -171,7 +170,7 @@
           </ul>
         </div>
       </div>
-      <div class="d-flex flex-wrap w-100 align-items-center pl-3">
+      <div *ngIf="(staffList | json) != '{}'" class="d-flex flex-wrap w-100 align-items-center pl-3">
         <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
             <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
@@ -181,15 +180,19 @@
                 </div>
               </div>            
               <div class="align-self-center">
-                <p  class=" mb-0 text-teacher-name align-self-center">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:10) + '...':(teacher.preferredName)}}</p>
+                <p  class=" mb-0 text-teacher-name align-self-center">{{teacher.preferredName}}</p>
               </div>
             </div>
           </div>      
         </div>
         <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div>
       </div>
+
+      <div *ngIf="(staffList | json) == '{}'" class="no-teacher">
+        There is no teacher for this category.
+      </div>
     
-      <div *ngIf="finalLists?.length > 0" class="v-wrapper1">
+      <div *ngIf="(staffList | json) != '{}'" class="v-wrapper1">
         <div class="timeline-table1"> 
           <div class="time-range">        
             <div class="single-range"></div>
@@ -310,9 +313,6 @@
           </div>
         </div>
       </div>
-      <div *ngIf="finalLists?.length == 0">
-        There is no schedule for this staff.
-      </div>
     </div>
   </div>
 </block-ui>
@@ -363,7 +363,7 @@
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
         </div>
-        <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{(teacher.preferredName.length > 8)?(teacher.preferredName|slice:0:15) + '...':(teacher.preferredName)}}</p>
+        <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{teacher.preferredName}}</p>
       </div>
     </div>      
   </div>
