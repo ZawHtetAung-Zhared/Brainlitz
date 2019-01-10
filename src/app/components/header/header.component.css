@@ -254,9 +254,6 @@ a.nav-link.active {
     max-width: 900px;
   }
 
-  /* #header2{
-    max-width: 1920px;
-  } */
 }
 @media only screen and  (min-width:1024px){
   #header{
@@ -267,6 +264,12 @@ a.nav-link.active {
 @media only screen and  (min-width:1540px){
   #header{
     max-width: 1360px;
+   
+  }
+}
+@media only screen and  (min-width:2060px){
+  #header{
+    max-width: 1920px;
    
   }
 }
