@@ -283,9 +283,10 @@ img.setting-icon {
 .choose-cat{	
 	/*width: 95.5% !important;*/
 }
-/*.noti-sidebar.p-top{
-	padding-top: 70px;
-}*/
+
+.noti-sidebar.p-top{
+	padding-top: 65px;
+}
 .side-bar-wrap.mid-top{
   top: 80px;
 }
@@ -294,7 +295,7 @@ img.setting-icon {
   top:100px;
 } */
 .side-bar-wrap{
-  top:147px;
+  top:158px;
 }
 .noti-sidebar{
 	/*padding-top: 149px;*/
