@@ -871,9 +871,9 @@ tbody th {
   border-right: 1px solid #edeff0;
   z-index: 9 ;
 }
-.single-row{
-  /*outline: 1px solid #eee;*/
-}
+/*.single-row{
+  outline: 1px solid #eee;
+}*/
 .single-range:first-child {
   background: transparent !important;
 }
