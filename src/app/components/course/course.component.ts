@@ -377,6 +377,7 @@ export class CourseComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event']) clickedOutside($event){
+    console.log($event);
      // here you can hide your menu
      this.xxxhello = '';
      console.log("CLICKED OUTSIDE");
