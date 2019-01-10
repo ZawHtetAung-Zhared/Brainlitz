@@ -284,18 +284,14 @@ img.setting-icon {
 	/*width: 95.5% !important;*/
 }
 
-.noti-sidebar.p-top{
-	padding-top: 65px;
+.side-bar-wrap.p-top{
+  top: 65px;
 }
 .side-bar-wrap.mid-top{
-  top: 80px;
+  top: 65px;
 }
-
-/* .noti-sidebar{
-  top:100px;
-} */
-.side-bar-wrap{
-  top:158px;
+.side-bar-wrap {
+  top: 147px;
 }
 .noti-sidebar{
 	/*padding-top: 149px;*/
