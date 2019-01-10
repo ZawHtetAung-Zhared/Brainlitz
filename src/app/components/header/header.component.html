@@ -1,67 +1,70 @@
-  <div class="d-flex flex-column justify-content-center align-items-center border-bottom" style="background: white; z-index: 999; position: relative;">
-    <hr class="w-100" style="position:absolute;z-index:1203;top: 67px;">
+  <div class="d-flex flex-column justify-content-center align-items-center" style="background: white; z-index: 999; position: relative;">
     <header id="header">
-      <div class="d-flex first-row">
-        <div class="mr-auto d-flex align-items-center">
-          <form  novalidate #chooseLocationForm="ngForm">
-            <!-- <div class="form-group m-bottom">
-              <label for="inputState" class="location-label">Location</label>
-              <i class="chevron-down"></i>
-              <select id="inputState" class="form-control" name="location" (change)="selectLocation($event)">
-                <option [selected]="location.selected" *ngFor="let location of headerlocationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
-              </select>
-            </div> -->
-            <label for="inputState" class="location-label m-0">Location</label>
-            <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
-                <div (click)="dropDown($event, 'loc')">
-                    <div class="locbox">{{selectedLocation.name}}</div>
-                    <i class="fa fa-chevron-down dropdown-arrow"></i>
-                    <span class="caret"></span>
-                </div>
-                <div *ngIf="locationDpShow">
-                  <ul class="location-dp">
-                    <li class="test" *ngFor="let location of headerlocationLists" (click)="selectLocation(location)" [ngClass]="{'selected': selectedLocation.id == location._id}">
-                    {{ location.name }}</li>
-                  </ul>
-                </div>
-            </div>
-          </form> 
-        </div>
-        <div class="mr-auto">
-          <div class="logo-wrap">
-            <img *ngIf="OrgLogo != null" src="{{OrgLogo}}" class="img-fluid">
-            <img *ngIf="OrgLogo == null" src="./assets/img/classWerkz_word@2x.png" class="img-fluid">
+      <div class="d-flex justify-content-center">
+        <div id="header-firstrow" class="d-flex first-row">
+          <div class="mr-auto d-flex align-items-center">
+            <form  novalidate #chooseLocationForm="ngForm">
+              <!-- <div class="form-group m-bottom">
+                <label for="inputState" class="location-label">Location</label>
+                <i class="chevron-down"></i>
+                <select id="inputState" class="form-control" name="location" (change)="selectLocation($event)">
+                  <option [selected]="location.selected" *ngFor="let location of headerlocationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
+                </select>
+              </div> -->
+              <label for="inputState" class="location-label m-0">Location</label>
+              <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
+                  <div (click)="dropDown($event, 'loc')">
+                      <div class="locbox">{{selectedLocation.name}}</div>
+                      <i class="fa fa-chevron-down dropdown-arrow"></i>
+                      <span class="caret"></span>
+                  </div>
+                  <div *ngIf="locationDpShow">
+                    <ul class="location-dp">
+                      <li class="test" *ngFor="let location of headerlocationLists" (click)="selectLocation(location)" [ngClass]="{'selected': selectedLocation.id == location._id}">
+                      {{ location.name }}</li>
+                    </ul>
+                  </div>
+              </div>
+            </form> 
           </div>
-        </div>
-        <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
-            <div (click)="dropDown($event, 'profile')">
-              {{userName}} <i class="fa fa-chevron-down dropdown-arrow"></i>
-            <span class="caret"></span></div>
-            <div *ngIf="dropMenuShow">
-              <ul class="dropdown-box">
-                <!-- <li>Profile</li> -->
-                <li (click)="logoff()">Sign Out</li>
-              </ul>
+          <div class="mr-auto">
+            <div class="logo-wrap">
+              <img *ngIf="OrgLogo != null" src="{{OrgLogo}}" class="img-fluid">
+              <img *ngIf="OrgLogo == null" src="./assets/img/classWerkz_word@2x.png" class="img-fluid">
             </div>
+          </div>
+          <div class="cursor-on d-flex flex-column justify-content-center dropdown-wrap">
+              <div (click)="dropDown($event, 'profile')">
+                {{userName}} <i class="fa fa-chevron-down dropdown-arrow"></i>
+              <span class="caret"></span></div>
+              <div *ngIf="dropMenuShow">
+                <ul class="dropdown-box">
+                  <!-- <li>Profile</li> -->
+                  <li (click)="logoff()">Sign Out</li>
+                </ul>
+              </div>
+          </div>
+          <!-- <div>
+            <button class="btn dropdown-toggle" type="button" (click)="logoff()">
+              Admin
+            </button> 
+          </div> -->
         </div>
-        <!-- <div>
-          <button class="btn dropdown-toggle" type="button" (click)="logoff()">
-            Admin
-          </button> 
-        </div> -->
       </div>
-      <div id="menu" class="sidebar-wrap">
-        <!-- <app-sidebar class="d-flex"></app-sidebar> -->
-        <ul class="nav navbar-nav nav-style">
-          <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
-          <li *ngIf="customerMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/customer">Customers</a></li>
-          <li *ngIf="customerMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/schedule">Schedule</a></li>
-          <li *ngIf="staffMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/staff">Staffs</a></li>
-          <li *ngIf="courseMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/course">Courses</a></li>
-          <li *ngIf="reportMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/report">Report</a></li>
-          <li *ngIf="settingMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Setting</a></li>
-          <li *ngIf="toolsMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools">Tools</a></li>
-        </ul>
+      <div class="d-flex justify-content-center menu-border">
+        <div id="menu" class="sidebar-wrap">
+          <!-- <app-sidebar class="d-flex"></app-sidebar> -->
+          <ul class="nav navbar-nav nav-style">
+            <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
+            <li *ngIf="customerMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/customer">Customers</a></li>
+            <li *ngIf="customerMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/schedule">Schedule</a></li>
+            <li *ngIf="staffMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/staff">Staffs</a></li>
+            <li *ngIf="courseMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/course">Courses</a></li>
+            <li *ngIf="reportMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/report">Report</a></li>
+            <li *ngIf="settingMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dashboard">Setting</a></li>
+            <li *ngIf="toolsMenu.length > 0" class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools">Tools</a></li>
+          </ul>
+        </div>
       </div>
     </header>
     <!-- <hr class="w-100" style="position:absolute;z-index:1203;top: 120px;margin-top:24px;box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);"> -->
