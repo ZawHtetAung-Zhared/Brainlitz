@@ -803,3 +803,15 @@ input:checked + .slider:before {
       column-count: 4;
   }
 }
+
+@media only screen and  (min-width:1366px){
+  .setting-wrapper{
+    width: 960px;
+  }
+}
+
+@media only screen and  (max-width:1024px){
+  .setting-wrapper{
+    width: 600px;
+  }
+}
