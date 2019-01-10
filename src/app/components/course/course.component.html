@@ -1,7 +1,7 @@
 <div [ngClass]="{'overlay': iscourseSearch == true || isAdvancedSearch == true}"></div>
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="d-flex flex-column justify-content-center align-items-center">
-  <div class="inner-wrapper" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate && !isCoursePlanDetail" [ngClass]="{'active': isSticky == true}">
+  <div class="inner-wrapper w-100" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate && !isCoursePlanDetail" [ngClass]="{'active': isSticky == true}">
     <block-ui message="Deafult Message"></block-ui>
     <div *ngIf="coursePermission.length > 0" class="card-container">
       <div class="d-flex flex-row title">
@@ -455,7 +455,7 @@
 <app-courseplan class="category-content" *ngIf="isPlan == true"></app-courseplan>
 <app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
 <div class="d-flex lfex-column justify-content-center align-items-center">
-  <div class="inner-wrapper" *ngIf="isCourseDetail == true" >
+  <div class="inner-wrapper w-100" *ngIf="isCourseDetail == true" >
     <div class="back-wrap d-flex justify-content-between">
       <div class="back-to" (click)="cancel()">
         <i class="fa fa-angle-left"></i>
@@ -767,7 +767,7 @@
   </div>
 </div>
 
-<div class="inner-wrapper" *ngIf="isCoursePlanDetail == true">
+<div class="inner-wrapper w-100" *ngIf="isCoursePlanDetail == true">
   <div class="back-wrap d-flex justify-content-between">
     <div class="back-to" (click)="cancel()">
       <i class="fa fa-angle-left"></i>

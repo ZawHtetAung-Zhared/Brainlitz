@@ -118,12 +118,12 @@ img.setting-icon {
     font-size: 1.1em;
     color: #060606;
 }
-.noti-sidebar.p-top{
-  /*top:;*/
+/* .noti-sidebar.p-top{
+  top:80px;
 }
 .content-wrapper.p-top{
-  /*padding-top: 63px;*/
-}
+  padding-top: 63px;
+} */
 .content-wrapper{
   /*padding-top: 147px;*/
   -ms-transition: padding-top 300ms linear;
@@ -294,7 +294,7 @@ img.setting-icon {
   top:100px;
 } */
 .side-bar-wrap{
-  top:158px;
+  top:147px;
 }
 .noti-sidebar{
 	/*padding-top: 149px;*/
@@ -891,9 +891,9 @@ width: 50%;
   .noti-sidebar{
     width: 25%
   }
-  .large-col{
+  /* .large-col{
     width: 75%
-  }
+  } */
  }
 
 /*Extra large devices (large desktops, 1200px and up)*/
@@ -904,15 +904,23 @@ width: 50%;
   .noti-sidebar{
     width: 18%
   }
-  .large-col{
+  /* .large-col{
     width: 82%
-  }
+  } */
 }
 @media (min-width: 2000px){
   .noti-sidebar{
     width: 15%
   }
-  .large-col{
+  /* .large-col{
     width: 85%
-  }
+  } */
+}
+@media only screen and  (min-width:1366px){
+ .heading-margin{
+   width:960px!important;
+ }
+ .control-apg{
+   width:960px!important;
+ }
 }
