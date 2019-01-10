@@ -803,7 +803,7 @@ input:checked + .slider:before {
     width: 85%
   }
   .card-columns{
-      column-count: 4;
+      column-count: 2;
   }
 }
 
