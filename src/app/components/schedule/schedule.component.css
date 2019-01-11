@@ -791,7 +791,9 @@ ul.scedule-data-listing li.disabled{
   font-size: 12px;
 }
 
-
+.timeline-table1{
+  display: inline-block;
+}
 
 /* //timeline table*/
 .v-wrapper1 {
