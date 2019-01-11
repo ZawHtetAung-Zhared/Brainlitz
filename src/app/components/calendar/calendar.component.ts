@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit {
   public permissionType:any;
   public calendarPermission:any = [];
   public calendarDemo:any = [];
-
+  public result:any;
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar, private router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
@@ -316,7 +316,8 @@ export class CalendarComponent implements OnInit {
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-        this.calendarLists = res;
+        this.result = res;
+        this.calendarLists = this.calendarLists.concat(res);
         console.log(this.calendarLists)
       }, err => {
           console.log(err)

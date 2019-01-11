@@ -21,6 +21,7 @@ export class ScheduleComponent implements OnInit {
   public tempSelectedTeacher:any;
   public yPosition:any;
   public xPosition:any;
+  public arrPosition:any;
   public selectedDay =[];
   public lessonId :any;
   public keyword:any ='';
@@ -1735,12 +1736,17 @@ export class ScheduleComponent implements OnInit {
     this.slotJidx = j;
     this.showDp=true;
     console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM)
-   
+    console.log("----->" , $($(event.target)[0]));
+    console.log($(event.target).offset());
     e.preventDefault();
     e.stopPropagation();
     console.log("e.layerX",e.layerX)
     this.yPosition = e.layerY + 25;
     this.xPosition = e.layerX -25; 
+    console.log($(event.target).offset().left - 150 + ($(event.target).height()/2))
+    this.xPosition = $(event.target).offset().left - 150 + ($(event.target).height()/2);
+    this.yPosition = $(event.target).height() + 10;
+    
     console.log("selected",this.selectedTeacher);  
     console.log('selectdate',date);
     console.log('selectedDay',this.selectedDay);
@@ -1837,7 +1843,7 @@ export class ScheduleComponent implements OnInit {
     this.lessonD = date
     console.log(e.layerY)
     this.yPosition = e.layerY + 25;
-    this.xPosition = -(200 - e.layerX );
+    this.xPosition =  e.screenX ;
     // this.xPosition = e.layerX - 150;
     console.log(e.layerX)
     console.log(e.layerY)

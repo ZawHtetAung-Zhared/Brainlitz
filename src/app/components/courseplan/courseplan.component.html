@@ -500,7 +500,7 @@
 										</div>
 									</div>
 								</div>
-								<div *ngIf="selectedAPGlists == true" class="col-md-12 pl-zero">
+							<div *ngIf="selectedAPGlists == true" class="col-md-12 pl-zero">
 									<div class="wrap-height">
 										<div *ngFor="let cAPG of createdAPGstore">
 											<div class="group-text">
@@ -515,6 +515,15 @@
 										</div>
 									</div>
 								</div>
+								<div *ngIf="!showModule && !createAPGform">
+									<!-- <hr> -->
+									<div class="button-wrapper">
+										<button type="button" class="btn sticky-create" (click)="continueStep('step6', createdAPGstore)">Continue</button>
+										<div [hidden]="!step6" class="back-modal" (click)="backStep('step6')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
+									</div>
+								</div>
+							</div>	
+
 								<div *ngIf="showModule" class="inside-data-wrapper">	
 										<div class="col-md-12">
 											<p class="back" (click)="backSearhAPG('back')"><i class="fa fa-angle-left left-arrow"></i><span>APG</span></p>
@@ -575,22 +584,17 @@
 												</div>	 -->
 												<hr class="limit-hr-length">
 											</div>
+											<div class="d-flex justify-content-end button-wrapper">
+												<button type="button" class="bt cancel-button" (click)="backSearhAPG('cancel')" >Cancel</button>
+												<button type="submit" (click)="createAPGs(apgCreateForm.value)" [disabled]="!apgCreateForm.valid" class="btn create-button" >Create
+												</button>
+											</div>
 										</div>	
-										<div class="d-flex justify-content-end button-wrapper">
-											<button type="button" class="bt cancel-button" (click)="backSearhAPG('cancel')" >Cancel</button>
-											<button type="submit" (click)="createAPGs(apgCreateForm.value)" [disabled]="!apgCreateForm.valid" class="btn create-button" >Create
-											</button>
-										</div>
+										
 									</form>
+
 								</div>
-								<div *ngIf="!showModule && !createAPGform">
-									<!-- <hr> -->
-									<div class="button-wrapper">
-										<button type="button" class="btn sticky-create" (click)="continueStep('step6', createdAPGstore)">Continue</button>
-										<div [hidden]="!step6" class="back-modal" (click)="backStep('step6')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
-									</div>
-								</div>
-							</div>	
+								
 						</form>
 			</div>
 		</div>
