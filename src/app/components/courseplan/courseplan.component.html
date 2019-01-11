@@ -44,39 +44,39 @@
 		<div class="progress-box-wrap">
 			<ol class="progress" data-steps="8">
 			    <li id="step1">
-			        <span class="step">
+			        <a class="step" [class.adisabled]="!clickableSteps.includes('step1')" (click)="stepClick($event, 'step1')">
 			        	<span>1</span>
-			        </span>
+					</a>
 			    </li>
 			    <li id="step2">
-			        <span class="step">
+			        <a class="step"  [class.adisabled]="!clickableSteps.includes('step2')" (click)="stepClick($event, 'step2')">
 			        	<span>2</span>
-			        </span>
+					</a>
 			    </li>
 			    <li id="step3">
-			        <span class="step">
+			        <a class="step" [class.adisabled]="!clickableSteps.includes('step3')"  (click)="stepClick($event, 'step3')">
 			        	<span>3</span>
-			        </span>
+					</a>
 			    </li>
 			    <li id="step4">
-			        <span class="step">
+			        <a class="step" [class.adisabled]="!clickableSteps.includes('step4')"  (click)="stepClick($event, 'step4')">
 			        	<span>4</span>
-			        </span>
+					</a>
 			    </li>
 			    <li id="step5">
-			        <span class="step">
+			        <a class="step" [class.adisabled]="!clickableSteps.includes('step5')"  (click)="stepClick($event, 'step5')">
 			        	<span>5</span>
-			        </span>
+					</a>
 			    </li>
 			    <li id="step6">
-			        <span class="step">
+			        <a class="step" [class.adisabled]="!clickableSteps.includes('step6')"  (click)="stepClick($event, 'step6')">
 			        	<span>6</span>
-			        </span>
+					</a>
 			    </li>
 			    <li id="step7">
-			        <span class="step">
+			        <a class="step" [class.adisabled]="!clickableSteps.includes('step7')"  (click)="stepClick($event, 'step7')">
 			        	<span>7</span>
-			        </span>
+					</a>
 			    </li>
 			</ol>
 		</div>

@@ -833,7 +833,11 @@ ol.progress[data-steps="9"] li { width: 11%; }*/
   /*margin-top: -22px;*/
   margin-top:  -17px;
 }
-
+button,
+button:focus,
+button:active{
+  outline: none;
+}
 .progress .step {
     color: #fff;
     /*border: 3px solid #e3e4e6;*/
@@ -1687,4 +1691,15 @@ ul.search-apg{
   }
 }
 
+
+/* Step of progress disabled properties */
+a.adisabled {
+  cursor: not-allowed;
+}
+a {
+  cursor: pointer;
+}
+a.adisabled:hover { text-decoration: none; }
+a.adisabled:focus { text-decoration: none; }
+a.adisabled:active { text-decoration: none; }
 
