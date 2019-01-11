@@ -88,8 +88,8 @@
 									<div class="form-group">
 											<label for="address" class="sub-title">Send to</label>
 											<div class="d-flex tool-box">
-											<div class="form-check form-check-inline tool-checked">
-												<label [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check-label">
+											<div class="form-check form-check-inline tool-checked"[ngClass]="{'selected': isChecked == 'allcustomer'}">
+												<label  class="form-check-label">
 													<input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> Customers
 												</label>
 											</div>
