@@ -872,6 +872,9 @@ width: 50%;
   .xx1{
     border: none;
   }
+  .noti-tab{
+    padding: none;
+  }
  }
 
 /*Medium devices (tablets, 768px and up)*/
@@ -879,9 +882,12 @@ width: 50%;
   .xxx{
     left: -14%;
   }
-  .noti-tab{
-    padding: 15px 2px;
+  .noti-tab-wrap{
+    padding-bottom: 20px; 
   }
+  /* .noti-tab{
+    padding: 15px 2px;
+  } */
   ul.noti-dropdown li{
     margin-left: 7px;
   }
