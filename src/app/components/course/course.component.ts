@@ -389,7 +389,10 @@ export class CourseComponent implements OnInit {
     console.log('focusing ...')
     this.iscourseSearch = true;
   }
-
+  focusOut(){
+    console.log('focusout : called');
+      this.iscourseSearch = false;
+  }
   hideCourseSearch(){
     console.log(this.iswordcount)
     // this.iswordcount = true;
@@ -560,6 +563,7 @@ export class CourseComponent implements OnInit {
   }
 
   closeSimpleSearch(event){
+    // this.iscourseSearch = false;
     var parentWrap = event.path.filter(function(res){
       return res.className == "simple-search input-group col-md-12 pd-zero"
     })
