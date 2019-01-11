@@ -875,8 +875,18 @@ width: 50%;
   .noti-tab{
     padding: none;
   }
+  ul.noti-dropdown{
+    margin-top: -136px  !important;
+  }
  }
-
+@media (min-width:706px) and (max-width:769px){
+  .side-bar-wrap{
+    top: 151px!important;
+  }
+  ul.noti-dropdown{
+    margin-top: -140px  !important;
+  }
+}
 /*Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) and (max-width: 991px) { 
   .xxx{
@@ -894,6 +904,7 @@ width: 50%;
   ul.noti-dropdown{
     margin-top: -135px !important;
   }
+  
  }
 
 /*Large devices (desktops, 992px and up)*/
