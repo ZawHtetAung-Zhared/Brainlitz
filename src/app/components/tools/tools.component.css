@@ -289,7 +289,7 @@ img.setting-icon {
   top: 65px;
 }
 .side-bar-wrap.mid-top{
-  top: 80px;
+  top: 72px;
 }
 .side-bar-wrap {
   top: 147px;
@@ -862,7 +862,16 @@ width: 50%;
 
 /*//Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767px) { 
-  
+  .large-col{
+    width: 600px;
+    overflow-y: auto;
+  }
+  .side-bar-wrap{
+    top: 200px;
+  }
+  .xx1{
+    border: none;
+  }
  }
 
 /*Medium devices (tablets, 768px and up)*/
@@ -889,9 +898,9 @@ width: 50%;
   .noti-sidebar{
     width: 25%
   }
-  /* .large-col{
+  .large-col{
     width: 75%
-  } */
+  }
  }
 
 /*Extra large devices (large desktops, 1200px and up)*/
