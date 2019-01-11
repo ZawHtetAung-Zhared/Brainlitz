@@ -791,9 +791,7 @@ ul.scedule-data-listing li.disabled{
   font-size: 12px;
 }
 
-.timeline-table1{
-  display: inline-block;
-}
+
 
 /* //timeline table*/
 .v-wrapper1 {
@@ -819,7 +817,9 @@ th {
   top: 0;
   z-index: 3;
 }
-
+.timeline-table1{
+  display: inline-block;
+}
 thead th,
 .time-range .single-range {
   position: -webkit-sticky; /* for Safari */
@@ -1294,14 +1294,17 @@ ul.options-box,ul.create-box {
   border-right: solid 10px transparent;
   -webkit-filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
   filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
-  position: absolute;
-  right: 50%;
+  position: relative;
+  /* right: 50%; */
   top: -19px;
   z-index: 15;
 }
 
 .arr-box{
-  right: 85%!important;
+  position: relative;
+  /* right: 85%!important; */
+  margin:auto;
+
 }
 /* ul.options-box li {
   font-size: 16px;

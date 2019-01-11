@@ -3,7 +3,7 @@
 	<div class="d-flex flex-row h-100 w-100 content-wrapper">
 			<div class="noti-sidebar h-100">
 				<div class="side-bar-wrap" [ngClass]="{'p-top' : isSticky == true, 'mid-top' : isMidStick == true}">
-					<div *ngIf="notiSidebar.length > 0" [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap">
+					<div *ngIf="notiSidebar.length > 0" [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap noti-tab-wrap">
 						<button class="btn noti-tab w-100" (click)="clickTab('dropdown')">
 						<span class="btnSpan">
 									<img *ngIf="notiType == 'send' || notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
@@ -320,7 +320,7 @@
 									</div>
 								</form>
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 								<div class="user-count" [ngClass]="userCount == 0 ? 'no-user' : ''">
 									<h4>{{userCount}}</h4>
 									<label>users</label>

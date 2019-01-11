@@ -21,6 +21,7 @@ export class ScheduleComponent implements OnInit {
   public tempSelectedTeacher:any;
   public yPosition:any;
   public xPosition:any;
+  public arrPosition:any;
   public selectedDay =[];
   public lessonId :any;
   public keyword:any ='';
@@ -777,6 +778,7 @@ export class ScheduleComponent implements OnInit {
   getRegionalInfo(){
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType')
+
     this._service.getRegionalAdministrator(this.regionId,token,tokenType)
     .subscribe((res:any) => {
       console.log("Operation Hours",res.operatingHour);
@@ -817,34 +819,46 @@ export class ScheduleComponent implements OnInit {
     // var hours= [];
     if (time.start.meridiem === 'PM') {
       var tempH = (time.start.hr+12)*60 + time.start.min;
+      console.log(tempH)
     }else{
       if(time.start.hr == 12){
         var tempH = 0*60 + time.start.min;
+        console.log(tempH)
       }else{
         var tempH = time.start.hr*60 + time.start.min;
+        console.log(tempH)
       }
     }
     
     for(var i=0;i<=diffHours;i++){
+      console.log("diff hours>>"+diff)
       if(i > 0){
         tempH = tempH+30;
       }else{
         tempH = tempH;
       }
+
       var min = tempH%60;
       var h = (tempH - min)/60;
-
+      
+      console.log("hours>"+h)
+      console.log("mins>"+min)
+      console.log("tempH>"+tempH)
       if(h>12){
-        var hr = h-12;
-        // console.log(">12",hr)
+          var hr = h-12;
+        console.log(">12",hr)
         var ampm = 'PM';
       }else if(h<12){
-        var hr = h;
-        // console.log("<12",hr)
+        if(h==0){
+          console.log("dar dar>>",time.start.hr)
+         }else{
+          var hr = h;
+         }
+        console.log("<12",hr)
         var ampm = 'AM';
       }else if(h==12){
         var hr = h;
-        // console.log("==12",hr)
+        console.log("==12",hr)
         var ampm = 'PM';
       }
       var obj = {
@@ -854,7 +868,7 @@ export class ScheduleComponent implements OnInit {
           'meridiem': ampm
         }
       }
-      // console.log("hour",obj)
+      console.log("hour",obj)
       this.operationTime.push(obj);
     }
     // let arrLength = this.operationTime.length;
@@ -1722,12 +1736,17 @@ export class ScheduleComponent implements OnInit {
     this.slotJidx = j;
     this.showDp=true;
     console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM)
-   
+    console.log("----->" , $($(event.target)[0]));
+    console.log($(event.target).offset());
     e.preventDefault();
     e.stopPropagation();
     console.log("e.layerX",e.layerX)
     this.yPosition = e.layerY + 25;
     this.xPosition = e.layerX -25; 
+    console.log($(event.target).offset().left - 150 + ($(event.target).height()/2))
+    this.xPosition = $(event.target).offset().left - 150 + ($(event.target).height()/2);
+    this.yPosition = $(event.target).height() + 10;
+    
     console.log("selected",this.selectedTeacher);  
     console.log('selectdate',date);
     console.log('selectedDay',this.selectedDay);
@@ -1824,7 +1843,7 @@ export class ScheduleComponent implements OnInit {
     this.lessonD = date
     console.log(e.layerY)
     this.yPosition = e.layerY + 25;
-    this.xPosition = -(200 - e.layerX );
+    this.xPosition =  e.screenX ;
     // this.xPosition = e.layerX - 150;
     console.log(e.layerX)
     console.log(e.layerY)
