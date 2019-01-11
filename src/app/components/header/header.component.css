@@ -80,11 +80,22 @@ select {
   font-family: 'Montserrat-Medium', Arial,sans-serif !important;
 }
 
+.menu-border{
+  border-top: 1px solid #e3e4e6;
+  border-bottom: 1px solid #e3e4e6;
+}
+
 .first-row{
   padding: 17px 30px;
 }
 
 .sidebar-wrap{
+  padding: 5px 30px;
+  /* border-top: 1px solid #e3e4e6; */
+  /* border-bottom: 1px solid #e3e4e6; */
+  min-height: 71px;
+}
+.sidebar-wrap1{
   padding: 5px 30px;
   /* border-top: 1px solid #e3e4e6; */
   /* border-bottom: 1px solid #e3e4e6; */
@@ -123,11 +134,13 @@ select {
   z-index: 99;
   padding: 0px 15px;
   top: 55px;
-  right: 15px;
+  /*right: 15px;*/
   /*display: none;*/
   background: #fff;
   color: #2e3d4d !important;
   cursor: pointer;
+  min-width: 150px;
+  text-align: center;
 }
 .dropdown-box:after {
     content: "";
@@ -149,7 +162,7 @@ select {
   z-index: 99;
   /*padding: 0px 15px;*/
   top: 70px;
-  left: 30px;
+  /*left: 30px;*/
   /*display: none;*/
   background: #fff;
   color: #2e3d4d !important;
@@ -163,7 +176,7 @@ select {
     height: 0;
     position: absolute;
     bottom: 100%;
-    right: 15px;
+    /*right: 15px;*/
     border-width: 0 6px 6px 6px;
     border-style: solid;
     border-color: #fff transparent;
@@ -249,19 +262,45 @@ a.nav-link.active {
   background: #007fff;
   color: #fff;
 }
-@media only screen and  (max-width:1024px){
+/* @media only screen and  (max-width:1024px){
   #header{
     max-width: 900px;
   }
 
+} */
+.stick1{
+ box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
 }
-@media only screen and  (min-width:1024px){
-  #header{
-    max-width: 900px;
-   
+
+@media screen and (max-width: 1365px) {
+  #header-firstrow{
+    width: 100%!important;
+  }
+
+  #menu{
+     width: 100%!important;
   }
 }
-@media only screen and  (min-width:1540px){
+
+@media only screen and  (min-width:1366px){
+ /* #header{
+    width: 1080px!important;
+   
+  }*/
+  #header-firstrow{
+    width: 1080px!important;
+  }
+
+  #menu{
+     width: 1080px!important;
+  }
+
+  #onscroll{
+    width: 1080px!important;
+
+  }
+}
+/* @media only screen and  (min-width:1540px){
   #header{
     max-width: 1360px;
    
@@ -272,4 +311,4 @@ a.nav-link.active {
     max-width: 1920px;
    
   }
-}
+} */

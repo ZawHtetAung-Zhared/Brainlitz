@@ -950,7 +950,6 @@ tbody td{
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
 }
 .lessons-range{
-  display:inline-block;
   position: relative;
   /* z-index: 5; */
 }
