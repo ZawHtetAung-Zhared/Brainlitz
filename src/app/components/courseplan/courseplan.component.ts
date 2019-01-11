@@ -661,6 +661,8 @@ export class CourseplanComponent implements OnInit {
   }
 
   focusSearch(e) {
+    console.log(e)
+  
     this.isfocus = true;
     this.showfixedcreate = true;
     this.apgList = [];
@@ -1354,10 +1356,14 @@ export class CourseplanComponent implements OnInit {
   }
 
   goToModule() {
+    console.log("goooooo to module")
     this.showSearchAPG = false;
     this.showModule = true;
     this.selectedAPGlists = false;
     this.ischecked = '';
+    console.log(this.showModule)
+    console.log(this.step6)
+    console.log(this.moduleList)
   }
 
   createAPGs(data) {
@@ -1426,8 +1432,15 @@ export class CourseplanComponent implements OnInit {
     this.optArr.splice(index, 1);
     console.log("arr", this.optArr);
   }
+  addOrRemoveClassOfStep(ele){
+    ele.parents("li").removeClass("done");
+    ele.parents("li").prevAll("li").addClass('done')
+    ele.parents("li").prevAll("li").removeClass('active');
+    ele.parents("li").nextAll("li").removeClass('done active');
+  }
   stepClick(event, step) {
     if (this.clickableSteps.includes(step)) {
+
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
@@ -1439,37 +1452,28 @@ export class CourseplanComponent implements OnInit {
       switch (step) {
         case ('step1'):
           this.step1 = true;
-          $("#step1").addClass('active');
           break;
         case ('step2'):
           this.step2 = true;
-          $("#step2").addClass('active');
           break;
         case ('step3'):
           this.step3 = true;
-          $("#step3").addClass('active');
           break;
         case ('step4'):
           this.step4 = true;
-          $("#step4").addClass('active');
           break;
         case ('step5'):
           this.step5 = true;
-          $("#step5").addClass('active');
           break;
         case ('step6'):
           this.step6 = true;
-          $("#step6").addClass('active');
           break;
         case ('step7'):
           this.step7 = true;
-          $("#step7").addClass('active');
           break;
       }
-      $(event.target).parents("li").removeClass("done");
-      $(event.target).parents("li").prevAll("li").addClass('done')
-      $(event.target).parents("li").prevAll("li").removeClass('active');
-      $(event.target).parents("li").nextAll("li").removeClass('done active');
+      $("#" + step).addClass('active');
+      this.addOrRemoveClassOfStep($(event.target))
     }
 
   }
