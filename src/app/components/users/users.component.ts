@@ -149,6 +149,12 @@ export class UsersComponent implements OnInit {
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
+		// this._service.goUserCourseDetail.subscribe(() => {
+	 //      console.log('go User CourseDetail');
+	 //      this.isCourse = true;
+	 //      this.showCustDetail = false;
+	 //      this.showFormCreate = false;
+	 //    });
 	}
 
 
@@ -1512,6 +1518,13 @@ export class UsersComponent implements OnInit {
 			this.claimCourses ='';
 			this.getClaimCourses(this.currentPassObj.course.courseId);
 		}
+	}
+	isCourse:boolean = false;
+	onClickCourse(course){
+		// this.isCourse = true;
+		console.log("clicking course",course);
+		localStorage.setItem('userCourse',course._id);
+		this.router.navigate(['/course']);
 	}
 
 }

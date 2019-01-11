@@ -263,6 +263,13 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.courseId = localStorage.getItem("userCourse");
+    if(this.courseId){
+      setTimeout(() => {
+        this.showCourseDetail(this.courseId)
+      }, 300);
+      // this.showCourseDetail(this.courseId)
+    }
     let recentTemp = localStorage.getItem('recentSearchLists')
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
