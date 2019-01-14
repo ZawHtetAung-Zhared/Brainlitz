@@ -30,7 +30,7 @@
                     <h4>{{pdf.name}}</h4>
                   </div>
                   <div class="btn-section d-flex justify-content-end">
-                    <button *ngIf="pdfDemo.editPdf != ''" class="btn-action" (click)="onclickUpdate(pdf._id)">Edit</button> | <button *ngIf="pdfDemo.deletePdf != ''" class="btn-action" (click)="onClickDelete(pdf._id, deletemodal)">Delete</button>
+                    <button *ngIf="pdfDemo.editPdf != ''" class="btn-action remove-outline" (click)="onclickUpdate(pdf._id)">Edit</button> | <button *ngIf="pdfDemo.deletePdf != ''" class="btn-action remove-outline" (click)="onClickDelete(pdf._id, deletemodal)">Delete</button>
                   </div>
                 </div>
             </div>
