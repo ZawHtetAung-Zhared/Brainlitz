@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	<!-- <div class="d-flex  flex-column align-items-center"> -->
-		<div class="heading-margin pl-5 no-padding d-flex flex-column align-items-center align-items-center large-col">
+		<div class="heading-margin no-padding d-flex flex-column align-items-center align-items-center large-col">
 			<div class="d-flex flex-column w-100 h-100 main-wrapper">
 				<div *ngIf="showDetail == false" class="w-100">
 					<div *ngIf="hasReport" class="txt-color-center">
@@ -29,7 +29,7 @@
 						</p>
 						<div *ngIf="reportDemo.viewReport != ''" class="d-style pd-top-15 d-flex flex-wrap">
 							<!-- <div class="box-width" *ngFor="let staffRating of ratingLists; let i = index;"> -->
-							<div class="col-sm-3 col-md-4 col-lg-4 col-xl-4" *ngFor="let staffRating of ratingLists; let i = index;">
+							<div class="col-sm-6 col-md-4 col-lg-4 col-xl-4" *ngFor="let staffRating of ratingLists; let i = index;">
 								<div class="rating-box" (click)="getFeedBack(staffRating.teacherId, staffRating)">
 									<div class="inner-box">
 										<div class="circular-image">
