@@ -821,13 +821,13 @@ export class ScheduleComponent implements OnInit {
       var tempH = (time.start.hr+12)*60 + time.start.min;
       console.log(tempH)
     }else{
-      if(time.start.hr == 12){
+      // if(time.start.hr == 12){
         var tempH = 0*60 + time.start.min;
-        console.log(tempH)
-      }else{
-        var tempH = time.start.hr*60 + time.start.min;
-        console.log(tempH)
-      }
+      //   console.log(tempH)
+      // }else{
+      //   var tempH = time.start.hr*60 + time.start.min;
+      //   console.log(tempH)
+      // }
     }
     
     for(var i=0;i<=diffHours;i++){
@@ -849,11 +849,11 @@ export class ScheduleComponent implements OnInit {
         console.log(">12",hr)
         var ampm = 'PM';
       }else if(h<12){
-        if(h==0){
-          console.log("dar dar>>",time.start.hr)
-         }else{
+        // if(h==0){
+        //   console.log("dar dar>>",time.start.hr)
+        //  }else{
           var hr = h;
-         }
+        //  }
         console.log("<12",hr)
         var ampm = 'AM';
       }else if(h==12){
