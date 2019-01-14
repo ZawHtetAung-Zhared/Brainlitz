@@ -4,13 +4,20 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class DataService {
 
-  private messageSource = new BehaviorSubject('');
-  currentMessage = this.messageSource.asObservable();
+  private dataSource = new BehaviorSubject('');
+  currentCourse = this.dataSource.asObservable();
+
+  private customerId = new BehaviorSubject('');
+  currentCustomer = this.customerId.asObservable();
 
   constructor() { }
 
-  changeMessage(message: string) {
-    this.messageSource.next(message)
+  nevigateCourse(message: string) {
+    this.dataSource.next(message)
+  }
+
+  nevigateCustomer(id:string){
+  	this.customerId.next(id);
   }
 
 }

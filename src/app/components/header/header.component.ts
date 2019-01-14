@@ -204,9 +204,12 @@ export class HeaderComponent implements OnInit {
     this.locationDpShow = (state == 'loc') ? !this.locationDpShow : false;
   }
 
-  onClickHeaderTab(){
-    console.log("ClickHeaderTab")
-    this._dataservice.changeMessage('')
+  onClickHeaderTab(type){
+    // let str = '/'+type
+    // this._router.navigate(['/course'])
+    console.log("===>ClickHeaderTab")
+    this._dataservice.nevigateCourse('');
+    this._dataservice.nevigateCustomer('');
   }
 
 }

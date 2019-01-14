@@ -264,18 +264,12 @@ export class CourseComponent implements OnInit {
   cID:string;
   ngOnInit() {
     // this.courseId = localStorage.getItem("userCourse");
-    this.dataservice.currentMessage.subscribe(  cID => this.cID = cID)
-    console.log("CID",this.cID)
+    this.dataservice.currentCourse.subscribe(  cID => this.cID = cID)
     if(this.cID != ''){
       setTimeout(() => {
         this.showCourseDetail(this.cID)
       }, 300);
-      // this.showCourseDetail(this.courseId)
-      // this.dataservice.currentMessage.subscribe(message => this.message = message)
-      // console.log(this.message);
     }
-    // this.dataservice.currentMessage.subscribe(message => this.message = message)
-    //   console.log(this.message);
     let recentTemp = localStorage.getItem('recentSearchLists')
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
@@ -1070,7 +1064,7 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.cancelUItext=false;
     this.cancelUI=false;
-    localStorage.removeItem("userCourse");
+    this.dataservice.nevigateCourse('');
   }
 
   showCourseDetail(courseId){
@@ -1634,8 +1628,9 @@ export class CourseComponent implements OnInit {
   }
 
   onClickCustomer(id){
-    localStorage.setItem("courseCustomer",id)
+    // localStorage.setItem("courseCustomer",id)
     this.router.navigate(['/customer']);
+    this.dataservice.nevigateCustomer(id);
   }
 
   withdrawUser(id){

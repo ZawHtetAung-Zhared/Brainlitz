@@ -150,7 +150,7 @@ export class UsersComponent implements OnInit {
 	public invPayment:any = [];
 	public noSetting:boolean = false;
 
-	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router, private data: DataService) { 	
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router, private dataService: DataService) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 		// this._service.goUserCourseDetail.subscribe(() => {
 	 //      console.log('go User CourseDetail');
@@ -165,10 +165,14 @@ export class UsersComponent implements OnInit {
 		setTimeout(() => {
 			console.log('~~~', this.locationName)	
 			this.locationName = localStorage.getItem('locationName');
-			// var userId = localStorage.getItem("courseCustomer");
-			// this.showDetails(userId);	
-			// this.newMessage();
-			// this.data.changeMessage("Hello from Users")
+			var userId;
+			this.dataService.currentCustomer.subscribe(
+				uId => userId = uId
+			)
+			if(userId != ''){
+				console.log("!!!!!!UID")
+				this.showDetails(userId);
+			}
 	    }, 300);
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
@@ -179,10 +183,6 @@ export class UsersComponent implements OnInit {
 		});
 		// this.selectedPayment = 'Cash';
 	}
-
-	newMessage() {
-	    this.data.changeMessage("Hello from Sibling")
-	  }	
 
 	ngAfterViewInit() {
 		this.custDetail = {
@@ -824,8 +824,7 @@ export class UsersComponent implements OnInit {
 		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
 			this.getAllUsers('customer', 20, 0);
 		}
-
-		localStorage.removeItem("courseCustomer");
+		this.dataService.nevigateCustomer('');
 	}
 	
 	selectedId:any=[];
@@ -1550,7 +1549,7 @@ export class UsersComponent implements OnInit {
 		console.log("clicking course",course);
 		// localStorage.setItem('userCourse',course._id);
 		this.router.navigate(['/course']);
-		this.data.changeMessage(course._id)
+		this.dataService.nevigateCourse(course._id)
 	}
 
 }
