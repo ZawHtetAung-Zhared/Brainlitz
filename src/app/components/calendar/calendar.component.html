@@ -208,7 +208,7 @@
   </div>
 </div>
 <div *ngIf="calendarLists.length >=20 && iscreate == false && isHoliday == false>= 20 && result.length != 0" class="d-flex justify-content-center load-more">
-  <button class="btn" (click)="showMore(calendarLists.length)">load more</button>
+  <button class="btn load-more-btn" (click)="showMore(calendarLists.length)">load more</button>
 </div>
 
 <ng-template #contentCreate let-c="close" let-d="dismiss">

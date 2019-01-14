@@ -948,3 +948,8 @@ width: 50%;
    width:960px!important;
  } */
 }
+
+.remove-outline:focus{
+  outline: none;
+  box-shadow: none;
+}
