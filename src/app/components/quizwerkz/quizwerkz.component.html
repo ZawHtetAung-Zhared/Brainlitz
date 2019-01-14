@@ -19,7 +19,7 @@
       <button *ngIf="pdfDemo.addPdf != ''" type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
     </div> 
     <div *ngIf="pdfDemo.viewPdf != ''" class="row quizwerkz-group">
-      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6" *ngFor="let pdf of pdfList">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4" *ngFor="let pdf of pdfList">
         <div class="d-flex single-quizwerkz">
             <div class="coverq">
               <img src="{{pdf.cover}}" class="book-cover-img">
