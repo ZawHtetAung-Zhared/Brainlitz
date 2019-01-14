@@ -17,13 +17,13 @@
                 placeholder="Search courses" 
                 id="course-search"
                 (focus)="focusCourseSearch($event)"
+                (focusout)="focusOut()"
                 (input)="searchCourse($event.target.value)"
                 autocomplete="off"
                 name="keyword"
                 (keyup)="searchStart($event, 20, 0)"
                 [(ngModel)]="courseVal.keyword" 
                 #csearch="ngModel"
-                (document:click)="closeSimpleSearch($event)"
               >
               <div *ngIf="iswordcount == true" class="close-search" (click)="clearSearch()"></div>
               <span (click)="showAdvancedSearch()" class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
@@ -637,7 +637,7 @@
                       </div>
                     </div>
                     <div class="single-user-info d-flex flex-column justify-content-center">
-                      <h4 *ngIf="user.preferredName">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
+                      <h4 *ngIf="user.preferredName" (click)="onClickCustomer(user.userId)" class="clickable-user">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
                       <!-- Paid/Unpaid -->
                       <!-- <p *ngIf="user.invoice != null">
                         <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>

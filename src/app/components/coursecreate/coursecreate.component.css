@@ -1194,3 +1194,8 @@ button:disabled {
     .flexi-label{
       line-height: 1.3;
     }
+
+    .clickable-user{
+      color: #0080ff!important;
+      cursor: pointer;
+    }

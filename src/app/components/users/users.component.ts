@@ -149,6 +149,12 @@ export class UsersComponent implements OnInit {
 
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
 		this.toastr.setRootViewContainerRef(vcr);
+		// this._service.goUserCourseDetail.subscribe(() => {
+	 //      console.log('go User CourseDetail');
+	 //      this.isCourse = true;
+	 //      this.showCustDetail = false;
+	 //      this.showFormCreate = false;
+	 //    });
 	}
 
 
@@ -156,6 +162,8 @@ export class UsersComponent implements OnInit {
 		setTimeout(() => {
 			console.log('~~~', this.locationName)	
 			this.locationName = localStorage.getItem('locationName');
+			// var userId = localStorage.getItem("courseCustomer");
+			// this.showDetails(userId);		
 	    }, 300);
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
@@ -807,6 +815,8 @@ export class UsersComponent implements OnInit {
 		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
 			this.getAllUsers('customer', 20, 0);
 		}
+
+		localStorage.removeItem("courseCustomer");
 	}
 	
 	selectedId:any=[];
@@ -1512,6 +1522,13 @@ export class UsersComponent implements OnInit {
 			this.claimCourses ='';
 			this.getClaimCourses(this.currentPassObj.course.courseId);
 		}
+	}
+	isCourse:boolean = false;
+	onClickCourse(course){
+		// this.isCourse = true;
+		console.log("clicking course",course);
+		localStorage.setItem('userCourse',course._id);
+		this.router.navigate(['/course']);
 	}
 
 }

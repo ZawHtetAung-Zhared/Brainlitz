@@ -1,4 +1,5 @@
-<app-header [ngClass]="{'stick': isSticky == true, 'hide': hideMenu}"></app-header>
+<app-header  *ngIf="isCourse == false" [ngClass]="{'stick': isSticky == true, 'hide': hideMenu}"></app-header>
+<!-- <app-course *ngIf="isCourse == true"></app-course> -->
 <!-- <div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
 		<div class="display-flex mr-top-menu">
@@ -12,7 +13,7 @@
 	</div>
 </div>	 -->
 <div class="d-flex flex-column justify-content-center align-items-center">
-	<div *ngIf="!showFormCreate && !showCustDetail && customerPermission.length > 0" class="inner-wrapper " [ngClass]="{'pdactive': isSticky == true}">
+	<div *ngIf="!showFormCreate && !showCustDetail && customerPermission.length > 0 && !isCourse" class="inner-wrapper " [ngClass]="{'pdactive': isSticky == true}">
 		<div class="d-flex mr-top-menu">
 			<div class="col-md-5 pad-0">
 				<div class="d-flex flex-row">
@@ -198,7 +199,7 @@
 							<div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
 								<div class="section-one">
 									<label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{ course.location.name }}</label>
-									<p class="info-p">{{ course.name }}</p>
+									<p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
 									<div class="d-flex align-items-center">
 										<div>
 											<div *ngIf="course.teacher" class="tr-img-wrap">
