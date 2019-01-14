@@ -823,12 +823,12 @@ export class appService{
           return result;
       }) 
     }
-    getJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String, viewAs:string){
+    getJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String){
       this.getLocalstorage()
       if(lastjournalId == null || lastjournalId == undefined){
-        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&viewas=' +viewAs ;
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit ;
       }else{
-        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId + '&viewas=' + viewAs ;
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId ;
       }
       console.warn(url)
       const httpOptions = {

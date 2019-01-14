@@ -45,7 +45,8 @@ export class UsersComponent implements OnInit {
 	public orgID = localStorage.getItem('OrgId');
 	public regionID = localStorage.getItem('regionId');	
 	public locationID = localStorage.getItem('locationId');	
-	public locationName :any;	
+	public locationName :any;
+	public className : any;
 	// formFieldc: customer = new customer();
 	claimCourses:any;	
 	formFieldc:any = {};	
@@ -88,7 +89,8 @@ export class UsersComponent implements OnInit {
   	validProfile: boolean = false;  	
   	imgDemoSlider: boolean = false;
   	public showCustDetail:boolean = false;
-  	public isFous:boolean = false;
+	public isFous:boolean = false;
+	public journalDetail: any = {};
   	public custDetail:any = {};
 	public wordLength:number = 0;
 	public wordLength1:number = 0;
@@ -1412,7 +1414,19 @@ export class UsersComponent implements OnInit {
 		this.checkCourse = data.courseId;
 		// console.log(this.checkCourse)
 	}
+	viewJournal(journalModal,course,name){
+		console.log(this.custDetail)
+		console.log(course)
+		console.log(name)
+		this.className =  course.name;
+		console.log(this.className , course.name)
+		this._service.getJournal(course._id, this.custDetail.user.userId , '0','20',null)
+			.subscribe((res:any) => {
+				console.log(res);
+			})
+		this.modalReference = this.modalService.open(journalModal, {backdrop:'static', windowClass: 'modal-lg modal-j modal-inv d-flex justify-content-center align-items-center'});
 
+	}
 	viewInvoice(enrollModal,course){
 		this.singleInv = [];
 		console.log("zzz",course.invoice.status);
