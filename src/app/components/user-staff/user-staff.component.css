@@ -810,9 +810,16 @@ input[_ngcontent-c6]:focus {
     }
 } */
 
-  @media only screen and  (min-width:1024px){
+  @media only screen and  (min-width:1366px){
     .inner-wrapper,.content-wrapper{
       width: 1080px;
+     
+    }
+  }
+
+  @media only screen and  (max-width:1365px){
+    .inner-wrapper,.content-wrapper{
+      width: 100%;
      
     }
   }

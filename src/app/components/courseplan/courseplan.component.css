@@ -1537,7 +1537,7 @@ ul.search-apg{
     }
   }
 
-  @media (min-width: 1024px) { 
+  @media (min-width: 1366px) { 
         .inner-wrapper {
           padding: 15px 143px;
       }
