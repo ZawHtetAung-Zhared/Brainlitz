@@ -798,7 +798,44 @@ export class appService{
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+      
+    }
+    getSearchJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String,keyword:string,viewAs:string){
+      this.getLocalstorage()
+      if(lastjournalId == null || lastjournalId == undefined){
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&keyword=' + keyword + '&viewas=' + viewAs;
+      }else{
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId + '&keyword=' + keyword + '&viewas=' + viewAs ;
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+    }
+    getJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String, viewAs:string){
+      this.getLocalstorage()
+      if(lastjournalId == null || lastjournalId == undefined){
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&viewas=' +viewAs ;
+      }else{
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId + '&viewas=' + viewAs ;
+      }
+      console.warn(url)
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
         return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;    
