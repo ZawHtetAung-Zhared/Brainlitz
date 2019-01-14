@@ -781,6 +781,7 @@ export class ScheduleComponent implements OnInit {
   getRegionalInfo(){
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType')
+
     this._service.getRegionalAdministrator(this.regionId,token,tokenType)
     .subscribe((res:any) => {
       console.log("Operation Hours",res.operatingHour);
@@ -821,34 +822,46 @@ export class ScheduleComponent implements OnInit {
     // var hours= [];
     if (time.start.meridiem === 'PM') {
       var tempH = (time.start.hr+12)*60 + time.start.min;
+      console.log(tempH)
     }else{
-      if(time.start.hr == 12){
+      // if(time.start.hr == 12){
         var tempH = 0*60 + time.start.min;
-      }else{
-        var tempH = time.start.hr*60 + time.start.min;
-      }
+      //   console.log(tempH)
+      // }else{
+      //   var tempH = time.start.hr*60 + time.start.min;
+      //   console.log(tempH)
+      // }
     }
     
     for(var i=0;i<=diffHours;i++){
+      console.log("diff hours>>"+diff)
       if(i > 0){
         tempH = tempH+30;
       }else{
         tempH = tempH;
       }
+
       var min = tempH%60;
       var h = (tempH - min)/60;
-
+      
+      console.log("hours>"+h)
+      console.log("mins>"+min)
+      console.log("tempH>"+tempH)
       if(h>12){
-        var hr = h-12;
-        // console.log(">12",hr)
+          var hr = h-12;
+        console.log(">12",hr)
         var ampm = 'PM';
       }else if(h<12){
-        var hr = h;
-        // console.log("<12",hr)
+        // if(h==0){
+        //   console.log("dar dar>>",time.start.hr)
+        //  }else{
+          var hr = h;
+        //  }
+        console.log("<12",hr)
         var ampm = 'AM';
       }else if(h==12){
         var hr = h;
-        // console.log("==12",hr)
+        console.log("==12",hr)
         var ampm = 'PM';
       }
       var obj = {
@@ -858,7 +871,7 @@ export class ScheduleComponent implements OnInit {
           'meridiem': ampm
         }
       }
-      // console.log("hour",obj)
+      console.log("hour",obj)
       this.operationTime.push(obj);
     }
     // let arrLength = this.operationTime.length;

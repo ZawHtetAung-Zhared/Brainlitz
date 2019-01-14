@@ -263,6 +263,13 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.courseId = localStorage.getItem("userCourse");
+    if(this.courseId){
+      setTimeout(() => {
+        this.showCourseDetail(this.courseId)
+      }, 300);
+      // this.showCourseDetail(this.courseId)
+    }
     let recentTemp = localStorage.getItem('recentSearchLists')
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
@@ -389,7 +396,10 @@ export class CourseComponent implements OnInit {
     console.log('focusing ...')
     this.iscourseSearch = true;
   }
-
+  focusOut(){
+    console.log('focusout : called');
+      this.iscourseSearch = false;
+  }
   hideCourseSearch(){
     console.log(this.iswordcount)
     // this.iswordcount = true;
@@ -560,6 +570,7 @@ export class CourseComponent implements OnInit {
   }
 
   closeSimpleSearch(event){
+    // this.iscourseSearch = false;
     var parentWrap = event.path.filter(function(res){
       return res.className == "simple-search input-group col-md-12 pd-zero"
     })
@@ -1053,6 +1064,7 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.cancelUItext=false;
     this.cancelUI=false;
+    localStorage.removeItem("userCourse");
   }
 
   showCourseDetail(courseId){
@@ -1612,6 +1624,12 @@ export class CourseComponent implements OnInit {
     this.showStudentOption = stdID;
     this.xxxhello = stdID;
     console.log(this.showStudentOption)
+    // this.router.navigate(['/customer']);
+  }
+
+  onClickCustomer(id){
+    localStorage.setItem("courseCustomer",id)
+    this.router.navigate(['/customer']);
   }
 
   withdrawUser(id){
