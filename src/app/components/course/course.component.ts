@@ -1064,6 +1064,7 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.cancelUItext=false;
     this.cancelUI=false;
+    localStorage.removeItem("userCourse");
   }
 
   showCourseDetail(courseId){
@@ -1623,6 +1624,12 @@ export class CourseComponent implements OnInit {
     this.showStudentOption = stdID;
     this.xxxhello = stdID;
     console.log(this.showStudentOption)
+    // this.router.navigate(['/customer']);
+  }
+
+  onClickCustomer(id){
+    localStorage.setItem("courseCustomer",id)
+    this.router.navigate(['/customer']);
   }
 
   withdrawUser(id){

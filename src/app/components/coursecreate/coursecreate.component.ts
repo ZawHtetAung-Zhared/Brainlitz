@@ -882,7 +882,7 @@ export class CoursecreateComponent implements OnInit {
         var pplListStr = pplListArr.toString();
         console.log("pplListsStr", pplListStr);
 
-        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, pplListStr)
+        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
           .subscribe((res: any) => {
             console.log(res);
             this.userLists = res;

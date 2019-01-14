@@ -637,7 +637,7 @@
                       </div>
                     </div>
                     <div class="single-user-info d-flex flex-column justify-content-center">
-                      <h4 *ngIf="user.preferredName">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
+                      <h4 *ngIf="user.preferredName" (click)="onClickCustomer(user.userId)" class="clickable-user">{{(user.preferredName.length > 20)?(user.preferredName | slice:0:20)+'...': (user.preferredName)}}</h4>
                       <!-- Paid/Unpaid -->
                       <!-- <p *ngIf="user.invoice != null">
                         <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>

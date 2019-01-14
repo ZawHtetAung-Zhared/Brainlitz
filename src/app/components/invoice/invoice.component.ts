@@ -11,7 +11,7 @@ export class InvoiceComponent implements OnInit {
   constructor(private _service:appService) { }
 
   ngOnInit() {
-  	this._service.currentMessage.subscribe(message => this.message = message)
+  	// this._service.currentMessage.subscribe(message => this.message = message)
   }
 
 }

@@ -162,6 +162,8 @@ export class UsersComponent implements OnInit {
 		setTimeout(() => {
 			console.log('~~~', this.locationName)	
 			this.locationName = localStorage.getItem('locationName');
+			// var userId = localStorage.getItem("courseCustomer");
+			// this.showDetails(userId);		
 	    }, 300);
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
@@ -813,6 +815,8 @@ export class UsersComponent implements OnInit {
 		if(this.customerPermission.includes('VIEWCUSTOMERS') != false){			
 			this.getAllUsers('customer', 20, 0);
 		}
+
+		localStorage.removeItem("courseCustomer");
 	}
 	
 	selectedId:any=[];
