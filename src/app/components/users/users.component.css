@@ -1793,7 +1793,17 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
-
+.cus-name{
+    font-size: 14px;
+    color:#64707d;
+}
+.class-name{
+    font-size: 16px;
+    color:#64707d;
+}
+.learn-journal{
+    font-size: 28px;
+}
 /*enroll new class modal*/
 
 @media only screen and (max-width: 768px){
@@ -1801,8 +1811,16 @@ input[type=number]::-webkit-outer-spin-button {
       max-width: 760px !important;
       width: 760px !important;
     }
+   
 }
-
+.modal-j {
+    max-width: 636px !important;
+    width: 636px !important;
+}
+.modal-lg{
+    max-width: 636px !important;
+    width:636px !important;
+  }
 @media only screen and (max-width: 1024px){
     .permission-width { 
         flex: 0 0 16.666667%;

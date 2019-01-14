@@ -1373,7 +1373,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   closeDropdown(event, type) {
-    alert(type);
     console.log('close dropdown', event)
     if (type == 'search') {
       var parentWrap = event.path.filter(function (res) {
