@@ -825,7 +825,7 @@ export class appService{
     }
     getJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String, viewAs:string){
       this.getLocalstorage()
-      if(lastjournalId == null){
+      if(lastjournalId == null || lastjournalId == undefined){
         var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&viewas=' +viewAs ;
       }else{
         var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId + '&viewas=' + viewAs ;
