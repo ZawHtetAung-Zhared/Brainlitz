@@ -88,7 +88,7 @@
 									<p class="step-font">Step 1</p>
 									<h5 class="all-title-font text-font-align">Plan information</h5>
 								</div>
-								<div class="display-style" style="padding-top: 40px;">
+								<div class="display-style">
 									<div class="col-md-6">
 										<div>
 											<div class="d-flex justify-content-between">
@@ -149,45 +149,47 @@
 							<div class="inside-data-wrapper">
 								<div class="col-md-12">
 									<p class="step-font">Step 2</p>
-									<div class="display-style">
-										<h5 class="all-title-font title-br-rt">Makeup policy</h5>
-										<div class="radio-pos">
-											<label class="switch">
-												<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel">
-												<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
-											</label>
-										</div>
-									</div>
-									<p class="input-recommend">
-										If you allow your students to catch up with their missed classes, Turn On the “Makeup Policy” option.
-									</p>
-									<div *ngIf="formField.makeupPolicy.allowMakeupPass != true" style="padding-top: 40px; height: 400px;">
-										<p class="option-text">Switch <span>on</span><br>to add Makeup class.</p>
-									</div>
-									<div *ngIf="formField.makeupPolicy.allowMakeupPass == true">
-										<div class="display-style" style="padding-top: 40px; height: 400px;">
-											<div class="col-md-6" style="padding: 0;">
-												<div>
-													<label class="all-title-font"> Validation duration after class </label>
-													<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day">
-													<!-- <div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
-														<div [hidden]="!makeuppass.errors.required">
-														  Validation duration after class is required!
-														</div>
-													</div> -->
-													<hr class="limit-hr-length">
-												</div>
+									<div class="step_height">	
+										<div class="display-style">
+											<h5 class="all-title-font title-br-rt">Makeup policy</h5>
+											<div class="radio-pos">
+												<label class="switch">
+													<input type="checkbox" [(ngModel)]='formField.makeupPolicy.allowMakeupPass' name="allowmakeup" #makeupcheck="ngModel">
+													<span class="slider round" [ngClass]="{'activeRadio': formField.makeupPolicy.allowMakeupPass == true}"></span>
+												</label>
 											</div>
-											<div class="col-md-6" style="padding-right: 0;">
-												<div>
-													<label class="all-title-font" style="padding-left: 20px;"> Number of days per user </label>
-													<input type="number" class="form-control br-bshadow-none all-m-left10" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" >
-													<!-- <div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
-														<div [hidden]="!makeupuser.errors.required">
-														  Number of days per user is required!
-														</div>
-													</div> -->
-													<hr class="limit-hr-length all-m-left10">
+										</div>
+										<p class="input-recommend">
+											If you allow your students to catch up with their missed classes, Turn On the “Makeup Policy” option.
+										</p>
+										<div *ngIf="formField.makeupPolicy.allowMakeupPass != true">
+											<p class="option-text">Switch <span>on</span><br>to add Makeup class.</p>
+										</div>
+										<div *ngIf="formField.makeupPolicy.allowMakeupPass == true">
+											<div class="display-style">
+												<div class="col-md-6" style="padding: 0;">
+													<div>
+														<label class="all-title-font"> Validation duration after class </label>
+														<input type="number" class="form-control all-left-box-10 br-bshadow-none" (keypress)="numberOnly($event, 'makeupDuration')" [(ngModel)]='formField.makeupPolicy.maxDayPerPass' min="0" id="makeupass" name="makeuppass" #makeuppass="ngModel" placeholder="0 day">
+														<!-- <div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
+															<div [hidden]="!makeuppass.errors.required">
+																Validation duration after class is required!
+															</div>
+														</div> -->
+														<hr class="limit-hr-length">
+													</div>
+												</div>
+												<div class="col-md-6" style="padding-right: 0;">
+													<div>
+														<label class="all-title-font" style="padding-left: 20px;"> Number of days per user </label>
+														<input type="number" class="form-control br-bshadow-none all-m-left10" (keypress)="numberOnly($event, 'makeupUser')" [(ngModel)]="formField.makeupPolicy.maxPassPerUser" min="0" id="makeupuser" name="makeupuser" placeholder="0 day" #makeupuser="ngModel" >
+														<!-- <div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
+															<div [hidden]="!makeupuser.errors.required">
+																Number of days per user is required!
+															</div>
+														</div> -->
+														<hr class="limit-hr-length all-m-left10">
+													</div>
 												</div>
 											</div>
 										</div>
@@ -201,7 +203,7 @@
 						</form>
 			</div>
 		</div>	
-		<div *ngIf="step3"class="div_step3">
+		<div *ngIf="step3" class="div_step3">
 			<div class="d-flex justify-content-center">
 					<form #childForm3="ngForm" novalidate>
 							<div class="inside-data-wrapper">
@@ -226,7 +228,7 @@
 										</div>
 									</div>
 								</div> -->
-								<div>
+								<div class="step_height">
 									<label class="all-title-font" style="padding-left: 15px; padding-top: 40px"> Course fee Options</label>
 									<div class="d-flex">
 										<div class="col-md-4">
@@ -349,6 +351,7 @@
 							<div class="inside-data-wrapper">
 								<div class="col-md-12">
 									<p class="step-font">Step 5</p>
+
 									<div class="display-style">
 										<h5 class="all-title-font title-br-rt">QuizWerkz Book</h5>
 										<div class="radio-pos-book">
