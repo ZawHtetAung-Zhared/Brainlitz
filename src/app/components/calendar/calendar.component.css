@@ -602,3 +602,12 @@ ul.calendar-year li:first-child{
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
     padding-left: 15px;
 }
+
+.load-more-btn:focus{
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+.load-more-btn{
+background: none;
+}

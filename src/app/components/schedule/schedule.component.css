@@ -1273,7 +1273,7 @@ ul.create-box{
 }
 
 ul.options-box,ul.create-box {
-  position: absolute;
+  position: fixed;
   width: 420px;
   background: #fff;
   z-index: 15!important;
@@ -1286,24 +1286,37 @@ ul.options-box,ul.create-box {
   right: -66px;
   top: 50px;
 }
+.disabledScroll{
+  max-height: 100vh;
+  overflow-x: hidden;
+}
 .carret-box,.arr-box {
   width: 20px;
   height: 20px;
-  border-bottom: solid 10px #fff;
-  border-left: solid 10px transparent;
-  border-right: solid 10px transparent;
+  position:fixed;
   -webkit-filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
   filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
-  position: relative;
+  position: fixed;
   /* right: 50%; */
   top: -19px;
   z-index: 15;
-}
-
-.arr-box{
-  position: relative;
-  /* right: 85%!important; */
   margin:auto;
+}
+.arr-up{
+  border-bottom: solid 10px #fff;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+}
+.arr-down{
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-top: 10px solid #fff;
+}
+.arr-box{
+  position: fixed;
+  /* right: 85%!important; */
+  
 
 }
 /* ul.options-box li {

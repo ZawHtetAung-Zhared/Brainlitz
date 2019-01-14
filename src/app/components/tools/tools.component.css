@@ -20,7 +20,8 @@
   border-radius: 0 0 4px 4px;
   position: absolute;
   width: 100%;
-  top: 224px;
+  /* top: 224px; */
+  top: 700px;
   background: #fff;
   z-index: 9;
 }
@@ -947,4 +948,9 @@ width: 50%;
  /* .control-apg{
    width:960px!important;
  } */
+}
+
+.remove-outline:focus{
+  outline: none;
+  box-shadow: none;
 }

@@ -255,3 +255,9 @@ input:valid+span:after {
     width: 960px;
   }
 }
+
+@media only screen and  (max-width:1365px){
+  .content-wrapper{
+    width: 100%;
+  }
+}
