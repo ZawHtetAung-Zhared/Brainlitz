@@ -21,7 +21,10 @@ export class ScheduleComponent implements OnInit {
   public tempSelectedTeacher:any;
   public yPosition:any;
   public xPosition:any;
-  public arrPosition:any;
+  public arrTop : any;
+  public arrLeft: any;
+  public arrClasses: any;
+  public styleArr;
   public selectedDay =[];
   public lessonId :any;
   public keyword:any ='';
@@ -1722,18 +1725,50 @@ export class ScheduleComponent implements OnInit {
     this.slotIdx = i;
     this.slotJidx = j;
     this.showDp=true;
-    console.log("Select Slot",this.slotHr,this.slotM,this.slotAMPM)
-    console.log("----->" , $($(event.target)[0]));
-    console.log($(event.target).offset());
     e.preventDefault();
     e.stopPropagation();
     console.log("e.layerX",e.layerX)
     this.yPosition = e.layerY + 25;
     this.xPosition = e.layerX -25; 
-    console.log($(event.target).offset().left - 150 + ($(event.target).height()/2))
-    this.xPosition = $(event.target).offset().left - 150 + ($(event.target).height()/2);
-    this.yPosition = $(event.target).height() + 10;
-    
+
+    console.log($(event.target).offset().left - 150);
+    this.xPosition = $(event.target).offset().left - 150 + $(event.target).width() /2;
+    this.yPosition = $(event.target).offset().top + $(event.target).height() + 10;
+    this.arrTop = $(event.target).offset().top +  $(event.target).height() - 10;
+    this.arrLeft = this.xPosition + 140;
+    if($(document).height() - this.yPosition < 180){
+      this.yPosition = $(event.target).offset().top - 170;
+      this.arrTop = this.yPosition + 160;
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down' : true
+      }
+    }else{
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-up' : true
+      }
+    }
+    if($(document).width()-this.xPosition < 300){
+      this.xPosition = 0;
+      this.styleArr = {
+        'top' : this.yPosition +  "px",
+        'right' : '0px'
+      }
+    }
+    else if(this.xPosition < 0){
+      this.xPosition = 0;
+      this.styleArr = {
+        'top' : this.yPosition +  "px",
+        'left' : '0px'
+      }
+    }
+    else{
+      this.styleArr = {
+        'top' : this.yPosition +  "px",
+        'left' : this.xPosition + "px"
+      }
+    }
     console.log("selected",this.selectedTeacher);  
     console.log('selectdate',date);
     console.log('selectedDay',this.selectedDay);
@@ -1824,16 +1859,51 @@ export class ScheduleComponent implements OnInit {
   
   courseInfo = {};
   onClickCourse(course,lesson,e,date){
+    console.log(e);
     e.preventDefault();
     e.stopPropagation();
     console.log("date",date)
     this.lessonD = date
     console.log(e.layerY)
-    this.yPosition = e.layerY + 25;
-    this.xPosition =  e.screenX ;
-    // this.xPosition = e.layerX - 150;
-    console.log(e.layerX)
-    console.log(e.layerY)
+    console.log($(event.target).offset().top)
+    console.log($(event.target).parents(".lesson-slot").length)
+
+    if($(event.target).parents(".lesson-slot").length > 0){
+      console.log( $(event.target).parents(".lesson-slot").offset().top ,  $(event.target).parents(".lesson-slot").height())
+      this.yPosition =   $(event.target).parents(".lesson-slot").offset().top + $(event.target).parents(".lesson-slot").height() + 20;
+    }
+    else{
+      this.yPosition =  $(event.target).offset().top + $(event.target).height() + 20;
+    }
+    this.arrTop = this.yPosition - 20;
+    this.xPosition = e.x - 40;
+    this.arrLeft = e.x - 10;
+    console.log("before---->", this.yPosition)
+    if($(document).height() - this.yPosition < 250){
+      this.yPosition = this.yPosition - 250 - 40 - 20;
+      this.arrTop = this.yPosition + 250;
+      this.arrClasses = {     
+        'arr-down' : true
+      }
+    }else{
+      this.arrClasses = {
+        'arr-up' : true
+      }
+    }
+    console.log("res ---->" , this.yPosition)
+
+    if($(document).width() - this.xPosition < 420){
+      this.xPosition = 0;
+      this.styleArr = {
+        'top' : this.yPosition +  "px",
+        'right' : '0px'
+      }
+    }else{
+      this.styleArr = {
+        'top' : this.yPosition +  "px",
+        'left' : this.xPosition + 'px'
+      }
+    }
     this.testshowboxs= true;
     this.testshowbox = course.courseId;
     this.courseInfo["course"] = course;
