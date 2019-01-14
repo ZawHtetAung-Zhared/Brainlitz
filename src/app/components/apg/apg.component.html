@@ -59,7 +59,7 @@
 </div>
 <div *ngIf="apgList.length >=20  && result != 0 && iscreate == false &&ismodule == false " class="load-more">
 <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
-  <button class="btn" (click)="showMore(apgList.length)">load more</button>
+  <button class="btn remove-outline" (click)="showMore(apgList.length)">load more</button>
 </div>
 
 <div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true || shareAPG == true">
@@ -223,7 +223,7 @@
 		  		</div>
 		  	</div>
         <div *ngIf="templateList >= 20" class="d-flex justify-content-center load-more1">
-          <button class="btn" (click)="showMoreTemplate(templateList.length)">load more</button>
+          <button class="btn remove-outline" (click)="showMoreTemplate(templateList.length)">load more</button>
         </div>
 		  	<div class="d-flex justify-content-end apg-share-bottom">
   			  	
