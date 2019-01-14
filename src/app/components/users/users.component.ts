@@ -16,6 +16,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
+import { DataService } from "../../service/data.service";
 
 declare var $:any;
 
@@ -147,7 +148,7 @@ export class UsersComponent implements OnInit {
 	public invPayment:any = [];
 	public noSetting:boolean = false;
 
-	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) { 	
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router, private data: DataService) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 		// this._service.goUserCourseDetail.subscribe(() => {
 	 //      console.log('go User CourseDetail');
@@ -163,7 +164,9 @@ export class UsersComponent implements OnInit {
 			console.log('~~~', this.locationName)	
 			this.locationName = localStorage.getItem('locationName');
 			// var userId = localStorage.getItem("courseCustomer");
-			// this.showDetails(userId);		
+			// this.showDetails(userId);	
+			// this.newMessage();
+			// this.data.changeMessage("Hello from Users")
 	    }, 300);
 		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
@@ -174,6 +177,10 @@ export class UsersComponent implements OnInit {
 		});
 		// this.selectedPayment = 'Cash';
 	}
+
+	newMessage() {
+	    this.data.changeMessage("Hello from Sibling")
+	  }	
 
 	ngAfterViewInit() {
 		this.custDetail = {
@@ -1527,8 +1534,9 @@ export class UsersComponent implements OnInit {
 	onClickCourse(course){
 		// this.isCourse = true;
 		console.log("clicking course",course);
-		localStorage.setItem('userCourse',course._id);
+		// localStorage.setItem('userCourse',course._id);
 		this.router.navigate(['/course']);
+		this.data.changeMessage(course._id)
 	}
 
 }

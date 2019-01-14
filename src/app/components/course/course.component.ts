@@ -261,15 +261,21 @@ export class CourseComponent implements OnInit {
       this.courseList = []
     })
   }
-
+  cID:string;
   ngOnInit() {
-    this.courseId = localStorage.getItem("userCourse");
-    if(this.courseId){
+    // this.courseId = localStorage.getItem("userCourse");
+    this.dataservice.currentMessage.subscribe(  cID => this.cID = cID)
+    console.log("CID",this.cID)
+    if(this.cID != ''){
       setTimeout(() => {
-        this.showCourseDetail(this.courseId)
+        this.showCourseDetail(this.cID)
       }, 300);
       // this.showCourseDetail(this.courseId)
+      // this.dataservice.currentMessage.subscribe(message => this.message = message)
+      // console.log(this.message);
     }
+    // this.dataservice.currentMessage.subscribe(message => this.message = message)
+    //   console.log(this.message);
     let recentTemp = localStorage.getItem('recentSearchLists')
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
@@ -2111,9 +2117,9 @@ export class CourseComponent implements OnInit {
     console.log("Edit",course);
     localStorage.setItem('coursePlanId',course.coursePlanId);
     localStorage.setItem('courseId',course._id)
-    this.dataservice.hero = course;
-    // this.dataservice.edit = true;
-    this.router.navigate(['/courseCreate']);
+    // this.dataservice.hero = course;
+    // // this.dataservice.edit = true;
+    // this.router.navigate(['/courseCreate']);
   }
   getCPlanList(){
     console.log(this.locationID)

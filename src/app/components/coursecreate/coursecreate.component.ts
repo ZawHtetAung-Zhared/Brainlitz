@@ -4,7 +4,7 @@ import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
-import { DataService } from '../../service/data.service';
+// import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -113,7 +113,7 @@ export class CoursecreateComponent implements OnInit {
   @ViewChild('end') name1InputRef: ElementRef;
   @ViewChild("myInput") inputEl: ElementRef;
 
-  constructor(@Inject(DOCUMENT) private doc: Document, private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
+  constructor(@Inject(DOCUMENT) private doc: Document, private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
   }
   test;
