@@ -1342,10 +1342,12 @@ h5 {
   cursor: default;
   font-size: 14px;
   font-family: 'Montserrat-Medium', Arial, sans-serif;
-  width: 100%;
-  background: transparent;
+  width: 99%;
+  background: white;
   text-align: center;
-  color: #64707d;
+  color: #0080ff;
+  position : fixed;
+  bottom:1px;
 }
 
 .small-circular-image {
@@ -2237,8 +2239,8 @@ input[type=number]::-webkit-outer-spin-button {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 24px;
   padding-bottom: 24px;
-  margin-left: 24px;
-  width: 72%;
+  margin-left: 29px;
+  width: 78%;
   display: inline-block;
 }
 

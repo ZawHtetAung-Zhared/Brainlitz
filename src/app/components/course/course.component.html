@@ -138,14 +138,14 @@
                         placeholder="From" 
                         name="start"  
                         [(ngModel)]="courseVal.startDate" 
-                        (click)="start.toggle()" 
+                        (focus)="openDatePicker(start)"
+                        (clickOutside)= "closeDatePicker(start)"
                         (ngModelChange)="setMinDate($event)" 
                         [maxDate]="maxDate"
                         (navigate)="currentMonth($event)"
                         [autoClose]="true" 
                         ngbDatepicker 
                         #start="ngbDatepicker"
-                        (document:click)="closeFix($event, start)"
                         readonly>
                       </div>
                       <div class="xxx-end col-md-6 pl-12">
@@ -157,10 +157,10 @@
                         [autoClose]="true" 
                         name="end" 
                         [(ngModel)]="courseVal.endDate" 
-                        (click)="end.toggle()" 
+                        (focus)="openDatePicker(end)"
+                        (clickOutside)= "closeDatePicker(end)"
                         ngbDatepicker 
                         #end="ngbDatepicker" 
-                        (document:click)="closeFixEnd($event, end)"
                         (navigate)="currentMonth($event)"
                         readonly>
                       </div>

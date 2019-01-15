@@ -700,11 +700,15 @@
     <form>
         
       <div class="form-group">
-          <div class="">
+          <div class="" style="padding-right:5px">
               <p class="cus-name col-md-10">{{custDetail.user.preferredName}}</p>
-              <button type="button" class="close col-md-2" aria-label="Close" (click)="closeModal('')" style="padding-top:32px">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <button (click)="closeModal()" aria-label="Close" class="modal-close ml-auto" type="button" style="width:15% ; text-align: right">
+                  <span class="closemark">
+                      <div class="closemark_stem"></div>
+                      <div class="closemark_kick"></div>
+                  </span>
+                  <!-- <span aria-hidden="true" >×</span> -->
+                </button>
             </div>
         
             <p class="learn-journal  col-md-12" >Learning Journal</p>
@@ -828,10 +832,12 @@
               </div>
             </div>
           </div>
-          <div class="j-load-more" *ngIf="toShowLoadMore && last" (click)="jLoadMore()">Load More</div>
 
+        
+          <div class="row j-load-more" *ngIf="toShowLoadMore && last" (click)="jLoadMore()"><span style="margin-left:auto; margin-right: auto">load more</span></div>
         </div>
         
+
       </div>
     </form>
   </div>
