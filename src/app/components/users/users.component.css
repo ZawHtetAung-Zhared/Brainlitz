@@ -607,12 +607,8 @@ ul.pass-list li {
 }
 
 .inner-wrapper-detail {
-<<<<<<< HEAD
-  padding: 30px;
-=======
     padding: 30px;
     width: 100%;
->>>>>>> ced99001942f67bba02f6a4bdc01f9447e8b5969
 }
 
 h3,
@@ -2366,16 +2362,6 @@ input[_ngcontent-c1]:focus {
   border-radius: 20px;
 }
 
-<<<<<<< HEAD
-@media only screen and (min-width:1366px) {
-  .inner-wrapper {
-    width: 1080px !important;
-  }
-
-  .content-wrapper {
-    width: 1080px !important;
-  }
-=======
 @media only screen and  (min-width:1366px){
     .inner-wrapper,.inner-wrapper-detail{
       width: 1080px!important;
@@ -2387,7 +2373,6 @@ input[_ngcontent-c1]:focus {
     .button-group{
         width: 1225px!important;
     } 
->>>>>>> ced99001942f67bba02f6a4bdc01f9447e8b5969
 }
 
 /* @media only screen and  (max-width:879px){
