@@ -1014,7 +1014,7 @@ h3, h5 {
 }
 
 .guardian-main-wrap{
-    overflow: auto;
+    overflow-x: overlay;
     overflow-y: hidden;
     margin: 0 auto;
     white-space: nowrap;
@@ -1861,6 +1861,21 @@ input[_ngcontent-c1]:focus {
     box-shadow: 0 1px 3px 2px white;
     outline: none;
 }
+
+.guar-name{
+    line-height: 2;
+}
+
+::-webkit-scrollbar{
+    height: 3px;
+    width: 3px;
+    background: #fff;
+}
+::-webkit-scrollbar-thumb:horizontal{
+    background: #e3e4e6;
+    border-radius: 20px;
+}
+
 @media only screen and  (min-width:1366px){
     .inner-wrapper{
       width: 1080px!important;
