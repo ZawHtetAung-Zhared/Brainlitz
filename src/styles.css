@@ -87,7 +87,21 @@ main{
 .modal-xl {
   animation: 0.3s linear 0s slideInFromTop;
 }
+.jouranlModal .modal-dialog{
+  max-width: 636px !important;
+  width: 636px !important;
+}
+.jouranlModal .modal-body{
+  padding-bottom : 0px !important;
+}
+.jouranlModal .form-group{
+  margin-bottom: 0px !important;
+}
+.jouranlModal .modal-content{
+  height: 90vh;
+  overflow: auto;
 
+}
 .holidayModal .modal-dialog {
     margin: 0 auto !important;    
     top: 30%!important;

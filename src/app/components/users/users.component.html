@@ -695,31 +695,140 @@
   </form>
 </div>
 <ng-template #journalContent let-modal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <p class="cus-name">{{custDetail.user.preferredName}}</p>
 
-    <button type="button" class="close" aria-label="Close" (click)="closeModal('closeInv')">
-      <span aria-hidden="true">&times;</span>
-    </button>
 
-  </div>
   <div class="modal-body" style="padding-top:0px !important;">
-    <p class="learn-journal">Learning Journal</p>
-    <p class="class-name">{{className}}</p>
+    
     <form>
+        
       <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <div class="input-group">
-          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          <div class="">
+              <p class="cus-name col-md-10">{{custDetail.user.preferredName}}</p>
+              <button type="button" class="close col-md-2" aria-label="Close" (click)="closeModal('closeInv')" style="padding-top:32px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        
+            <p class="learn-journal  col-md-12" >Learning Journal</p>
+            <p class="class-name  col-md-12">{{className}}</p>
+        <div class="bull-shit" *ngFor="let journal of journals ; let last = last;">
+          <div class="row eachJournl" *ngIf="journal.type == 1 && !journal.teacherOnly">
+            <div class="journal-side-bar">
+              <div class="img-container" style="background:#cce6ff">
+                <img class="journal-img" src="./assets/images/msg-journal@2x.png" style="width:22px !important">
+              </div>
+              <div class="side-line" [class.last-side-line]="last">
+
+              </div>
+            </div>
+
+            <div class="journal-content" [class.border-bott]="last">
+              <div class="journal-header">
+                Message
+                <div>
+                  <p class="from">from {{journal.sender.preferredName}}</p>
+                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                </div>
+              </div>
+              <div class="journal-detail">
+                <p>
+                  {{journal.message}}
+                </p>
+                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+
+              </div>
+            </div>
           </div>
+          <div class="row eachJournl" *ngIf="journal.type == 1 && journal.teacherOnly">
+            <div class="journal-side-bar">
+
+              <div class="img-container" style="background:#b7cfe6">
+                <img class="journal-img" src="./assets/images/private-padlock@2x.png" style="width:14px;height:18px;margin-top:32%">
+              </div>
+              <div class="side-line" [class.last-side-line]="last">
+
+              </div>
+            </div>
+            <div class="journal-content" [class.border-bott]="last">
+              <div class="journal-header">
+                Private notes
+                <div>
+                  <p class="from">from {{journal.sender.preferredName}}</p>
+                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                </div>
+              </div>
+              <div class="journal-detail">
+                <p>
+                  {{journal.message}}
+                </p>
+                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+
+              </div>
+            </div>
+          </div>
+          <div class="row eachJournl" *ngIf="journal.type == 2">
+            <div class="journal-side-bar">
+
+              <div class="img-container" tyle="background:#f23a30">
+                <img class="journal-img" src="./assets/images/journal-unpaid@2x.png">
+              </div>
+              <div class="side-line" [class.last-side-line]="last">
+
+              </div>
+            </div>
+            <div class="journal-content" [class.border-bott]="last">
+              <div class="journal-header">
+                Payment
+                <div>
+                  <p class="from">from {{journal.sender.preferredName}}</p>
+                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                </div>
+              </div>
+              <div class="journal-detail">
+                <p>
+                  {{journal.message}}
+                </p>
+                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+
+              </div>
+            </div>
+          </div>
+          <div class="row eachJournl" *ngIf="journal.type == 3">
+            <div class="journal-side-bar">
+              <div class="img-container" style="background:#c2f2d6">
+                <img class="journal-img" src="./assets/images/journal-tick@2x.png">
+              </div>
+              <div class="side-line" [class.last-side-line]="last"> 
+
+              </div>
+            </div>
+            <div class="journal-content" [class.border-bott]="last">
+              <div class="journal-header">
+                Attendance
+                <div>
+                  <p class="from">from {{journal.sender.preferredName}}</p>
+                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                </div>
+              </div>
+              <div class="journal-detail">
+                <p>
+                  {{journal.message}}
+                </p>
+                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+              </div>
+              <div class="attendance-time" [ngSwitch]="journal.type_detail.attendance">
+                <p class="atten-time">{{journal.type_detail.date | date:'h:mm a'}}</p>
+                <img class="attendance-img" src="assets/images/journal-check@2x.png" *ngSwitchCase="true">
+                <img class="attendance-img" src="assets/images/journalCross@2x.png" *ngSwitchCase="false">
+                <img class="attendance-img" src="assets/images/journalMinus@2x.png" *ngSwitchCase="null">
+              </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
   </div>
 </ng-template>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
