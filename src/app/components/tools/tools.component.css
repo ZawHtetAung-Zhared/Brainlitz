@@ -305,7 +305,7 @@ img.setting-icon {
     background: #f2f4f5;
 }
 .large-col{
-  width: 75%;
+  width: 82%;
 }
 .tab-wrap{
 	/*padding: 9px 0px;*/
@@ -313,7 +313,7 @@ img.setting-icon {
   overflow-x: hidden;
 }
 /*.active .noti-tab::after,
-.active .noti-tab::before {
+.active .noti-tab::before {   
 	content: '';
 	position: absolute;
 	width: 0;

@@ -544,13 +544,13 @@
 }
 @media (min-width: 1300px){
     .card-columns{
-        column-count: 3;
+        column-count: 2;
     }
     
 }
 @media (min-width: 2000px){
     .card-columns{
-        column-count: 3;
+        column-count: 2;
     }
     .col-xxl{
         /*width: 25%;*/
