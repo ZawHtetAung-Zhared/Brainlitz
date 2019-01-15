@@ -305,7 +305,7 @@ img.setting-icon {
     background: #f2f4f5;
 }
 .large-col{
-  width: 82%;
+  width: 75%;
 }
 .tab-wrap{
 	/*padding: 9px 0px;*/
@@ -928,17 +928,17 @@ width: 50%;
   .noti-sidebar{
     width: 18%
   }
-  /* .large-col{
+  .large-col{
     width: 82%
-  } */
+  }
 }
 @media (min-width: 2000px){
   .noti-sidebar{
     width: 15%
   }
-  /* .large-col{
-    width: 85%
-  } */
+  .large-col{
+    width: 82%
+  }
 }
 @media only screen and  (min-width:1366px){
  .main-wrapper{
