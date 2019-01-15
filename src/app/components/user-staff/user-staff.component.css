@@ -811,14 +811,18 @@ input[_ngcontent-c6]:focus {
 } */
 
   @media only screen and  (min-width:1366px){
-    .inner-wrapper,.content-wrapper{
+    .inner-wrapper,.content-wrapper,.inner-wrapper-detail{
       width: 1080px;
      
     }
+
+    .button-group{
+        width: 1225px!important;
+    } 
   }
 
   @media only screen and  (max-width:1365px){
-    .inner-wrapper,.content-wrapper{
+    .inner-wrapper,.content-wrapper,.inner-wrapper-detail{
       width: 100%;
      
     }

@@ -1199,3 +1199,7 @@ button:disabled {
       color: #0080ff!important;
       cursor: pointer;
     }
+
+    .hideStaff{
+      display: none!important;
+    }
