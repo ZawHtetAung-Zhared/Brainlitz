@@ -108,7 +108,7 @@
   <div class="apg-form">
   	<form novalidate #createapgForm="ngForm">
   		<div class="row" *ngIf="ismodule == true">
-	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
+	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 	  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 	  				<div class="module-img">
             			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">
