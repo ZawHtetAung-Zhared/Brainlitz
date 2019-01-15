@@ -25,9 +25,17 @@
         type="search" 
         placeholder="Search APG" 
         id="example-search-input"
-        (input)="changeSearch($event.target.value, 'apg')"
+        (input)="userSearch($event.target.value, 'APG','','')"
         autocomplete="off"
         >
+	    <!-- <input 
+        class="form-control py-2 input-search-bg" 
+        type="search" 
+        placeholder="Search APG" 
+        id="example-search-input"
+        (input)="changeSearch($event.target.value, 'apg','','')"
+        autocomplete="off"
+        > -->
 	    <span class="input-group-append">
 	        <button class="bt btn-design btn-outline-secondary" type="button">
 	            <i class="fa fa-search search-size"></i>
@@ -59,7 +67,7 @@
 </div>
 <div *ngIf="apgList.length >=20  && result != 0 && iscreate == false &&ismodule == false " class="load-more">
 <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
-  <button class="btn remove-outline" (click)="showMore(apgList.length)">load more</button>
+  <button class="btn remove-outline" (click)="showmore('apg',apgList.length)">load more</button>
 </div>
 
 <div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true || shareAPG == true">
@@ -108,7 +116,7 @@
   <div class="apg-form">
   	<form novalidate #createapgForm="ngForm">
   		<div class="row" *ngIf="ismodule == true">
-	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
+	  		<div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 	  			<label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 	  				<div class="module-img">
             			<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">

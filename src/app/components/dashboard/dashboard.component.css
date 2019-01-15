@@ -118,6 +118,10 @@
   height: 45px;
   border-radius: 3px;
   width: 100px;
+  
+}
+.remove-bg{
+  background: none;
 }
 .btn-cancel {
   background-color: #f2f4f5;

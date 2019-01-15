@@ -20,8 +20,7 @@
   border-radius: 0 0 4px 4px;
   position: absolute;
   width: 100%;
-  /* top: 224px; */
-  top: 700px;
+  top: 224px;
   background: #fff;
   z-index: 9;
 }
@@ -314,7 +313,7 @@ img.setting-icon {
   overflow-x: hidden;
 }
 /*.active .noti-tab::after,
-.active .noti-tab::before {
+.active .noti-tab::before {   
 	content: '';
 	position: absolute;
 	width: 0;
@@ -929,17 +928,17 @@ width: 50%;
   .noti-sidebar{
     width: 18%
   }
-  /* .large-col{
+  .large-col{
     width: 82%
-  } */
+  }
 }
 @media (min-width: 2000px){
   .noti-sidebar{
     width: 15%
   }
-  /* .large-col{
-    width: 85%
-  } */
+  .large-col{
+    width: 82%
+  }
 }
 @media only screen and  (min-width:1366px){
  .main-wrapper{

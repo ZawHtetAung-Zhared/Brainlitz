@@ -107,18 +107,13 @@
             </div>
             <div *ngIf="custDetail.user.guardians?.length > 0" class="infoGp-wrap" style="border-top: 1px dotted #64707d;">
               <label class="info-mail">Guardians</label>
-              <div class="guardian-main-wrap">
-                <div *ngFor="let guardian of custDetail.user.guardians" class="g-inner-wrap">
+              <div class="guardian-main-wrap d-flex">
+                <div *ngFor="let guardian of custDetail.user.guardians" class="g-inner-wrap d-flex">
                   <div class="small-circular-image">
                     <img *ngIf="guardian.profilePic == undefined || guardian.profilePic == ''" src="assets/img/user.svg">
                     <img *ngIf="guardian.profilePic != undefined" src="{{guardian.profilePic}}">
                   </div>
-                  <!-- <span> -->
-                  <!--  <pre>{{gurdian|json}}</pre> -->
-
-
-                  <!-- </span> -->
-                  <span>{{ (guardian.fullName == null )? ("-") : (guardian.fullName) }}</span>
+                  <div class="guar-name">{{ (guardian.fullName == "" ||  guardian.fullName == null)? (guardian.email) : (guardian.fullName) }}</div>
                 </div>
               </div>
               <!-- <div class="" style="overflow-x: scroll;">
@@ -251,7 +246,7 @@
                   <!-- </div> -->
                   <!-- </div> -->
                   <button class="float-left btn view-invoice" (click)="viewJournal(journalContent,course,course.teacher.preferredName)"
-                    [disabled]="course.invoice == null">
+                    >
                     View Journal
                   </button>
                   <button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
@@ -704,14 +699,20 @@
       <div class="form-group">
           <div class="">
               <p class="cus-name col-md-10">{{custDetail.user.preferredName}}</p>
-              <button type="button" class="close col-md-2" aria-label="Close" (click)="closeModal('closeInv')" style="padding-top:32px">
+              <button type="button" class="close col-md-2" aria-label="Close" (click)="closeModal('')" style="padding-top:32px">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
         
             <p class="learn-journal  col-md-12" >Learning Journal</p>
             <p class="class-name  col-md-12">{{className}}</p>
-        <div class="bull-shit" *ngFor="let journal of journals ; let last = last;">
+            <div class="no-journal" *ngIf="toShowNoJournl">
+                <img class="no-journal-img" src="./assets/images/noJournal@2x.png">
+                <div style="color:#64707B; top:65%;position:absolute;text-align: center;width:100%">No Journal Yet</div>
+
+            </div>
+        <div class="bull-shit" *ngFor="let journal of journals ; let last = last">
+          
           <div class="row eachJournl" *ngIf="journal.type == 1 && !journal.teacherOnly">
             <div class="journal-side-bar">
               <div class="img-container" style="background:#cce6ff">
@@ -824,9 +825,10 @@
               </div>
             </div>
           </div>
-
+          <div class="j-load-more" *ngIf="toShowLoadMore && last" (click)="jLoadMore()">Load More</div>
 
         </div>
+        
       </div>
     </form>
   </div>

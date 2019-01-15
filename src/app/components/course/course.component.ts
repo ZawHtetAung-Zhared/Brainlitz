@@ -261,14 +261,14 @@ export class CourseComponent implements OnInit {
       this.courseList = []
     })
   }
-
+  cID:string;
   ngOnInit() {
-    this.courseId = localStorage.getItem("userCourse");
-    if(this.courseId){
+    // this.courseId = localStorage.getItem("userCourse");
+    this.dataservice.currentCourse.subscribe(  cID => this.cID = cID)
+    if(this.cID != ''){
       setTimeout(() => {
-        this.showCourseDetail(this.courseId)
+        this.showCourseDetail(this.cID)
       }, 300);
-      // this.showCourseDetail(this.courseId)
     }
     let recentTemp = localStorage.getItem('recentSearchLists')
     // this.recentLists = localStorage.getItem('recentSearchLists')
@@ -1064,7 +1064,7 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.cancelUItext=false;
     this.cancelUI=false;
-    localStorage.removeItem("userCourse");
+    this.dataservice.nevigateCourse('');
   }
 
   showCourseDetail(courseId){
@@ -1628,8 +1628,9 @@ export class CourseComponent implements OnInit {
   }
 
   onClickCustomer(id){
-    localStorage.setItem("courseCustomer",id)
+    // localStorage.setItem("courseCustomer",id)
     this.router.navigate(['/customer']);
+    this.dataservice.nevigateCustomer(id);
   }
 
   withdrawUser(id){
@@ -1980,7 +1981,10 @@ export class CourseComponent implements OnInit {
       .subscribe((res:any) => {
        console.log(res);
        this.blockUI.stop();
-       this.toastr.success("Assistant successfully assigned.");
+       setTimeout(()=> {
+         this.toastr.success("Assistant successfully assigned.");
+       },100)
+       // this.toastr.success("Assistant successfully assigned.");
        this.modalReference.close();
        if(this.isvalidID == 'inside'){
          console.log('hi')
@@ -2111,9 +2115,9 @@ export class CourseComponent implements OnInit {
     console.log("Edit",course);
     localStorage.setItem('coursePlanId',course.coursePlanId);
     localStorage.setItem('courseId',course._id)
-    this.dataservice.hero = course;
-    // this.dataservice.edit = true;
-    this.router.navigate(['/courseCreate']);
+    // this.dataservice.hero = course;
+    // // this.dataservice.edit = true;
+    // this.router.navigate(['/courseCreate']);
   }
   getCPlanList(){
     console.log(this.locationID)

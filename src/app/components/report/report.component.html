@@ -29,7 +29,7 @@
 						</p>
 						<div *ngIf="reportDemo.viewReport != ''" class="d-style pd-top-15 d-flex flex-wrap">
 							<!-- <div class="box-width" *ngFor="let staffRating of ratingLists; let i = index;"> -->
-							<div class="col-sm-6 col-md-4 col-lg-4 col-xl-4" *ngFor="let staffRating of ratingLists; let i = index;">
+							<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6" *ngFor="let staffRating of ratingLists; let i = index;">
 								<div class="rating-box" (click)="getFeedBack(staffRating.teacherId, staffRating)">
 									<div class="inner-box">
 										<div class="circular-image">

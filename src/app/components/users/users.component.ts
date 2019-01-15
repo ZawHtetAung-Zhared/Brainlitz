@@ -16,6 +16,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
+import { DataService } from "../../service/data.service";
+import { equalSegments } from '@angular/router/src/url_tree';
 
 declare var $: any;
 
@@ -98,7 +100,12 @@ export class UsersComponent implements OnInit {
 	public customFields: any = [];
 	public customerPermission: any = [];
 	public customerDemo: any = [];
-
+	//journal
+	public jSkip :number = 0;
+	public jLimit: number = 20;
+	public jSlectedCourse : string;
+	public toShowLoadMore: boolean;
+	public toShowNoJournl : boolean;
 	// enroll class
 	searchData: any = {};
 	public courseLists: any = {};
@@ -123,34 +130,34 @@ export class UsersComponent implements OnInit {
 	public updatedDate;
 	public dueDate;
 	public invoiceID;
-	public showPayment: boolean = false;
-	public selectedPayment: any;
-	public paymentItem: any = {};
-	public invoiceCourse: any = {};
-	public feesBox: boolean = false;
-	public depositBox: boolean = false;
-	public regBox: boolean = false;
-	public prefixInvId: any;
-	public token: any;
-	public type: any;
-	public paymentProviders: any;
-	public refInvID: any;
-	public invTaxName: any;
-	public hideReg: boolean = false;
-	public hideDeposit: boolean = false;
-	public total: any;
-	public singleInv: any = [];
-	public isEditInv: any = false;
-	public updateInvData: any = {};
-	public hideMisc: boolean = false;
-	public paymentId: any;
-	public showPaidInvoice: boolean = false;
-	public invStatus: any;
-	public invCurrency: any = {}
-	public invPayment: any = [];
-	public noSetting: boolean = false;
+	public showPayment:boolean = false;
+	public selectedPayment:any;
+	public paymentItem:any = {};
+	public invoiceCourse:any = {};
+	public feesBox:boolean = false;
+	public depositBox:boolean = false;
+	public regBox:boolean = false;
+	public prefixInvId:any;
+	public token:any;
+	public type:any;
+	public paymentProviders:any;
+	public refInvID:any;
+	public invTaxName:any;
+	public hideReg:boolean = false;
+  	public hideDeposit:boolean = false;
+  	public total:any;
+  	public singleInv:any = [];
+	public isEditInv:any = false;
+	public updateInvData:any = {};
+	public hideMisc:boolean = false; 
+	public paymentId:any;
+	public showPaidInvoice:boolean = false;
+	public invStatus:any;
+	public invCurrency:any = {}
+	public invPayment:any = [];
+	public noSetting:boolean = false;
 
-	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
+	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router, private dataService: DataService) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 		// this._service.goUserCourseDetail.subscribe(() => {
 		//      console.log('go User CourseDetail');
@@ -165,10 +172,16 @@ export class UsersComponent implements OnInit {
 		setTimeout(() => {
 			console.log('~~~', this.locationName)
 			this.locationName = localStorage.getItem('locationName');
-			// var userId = localStorage.getItem("courseCustomer");
-			// this.showDetails(userId);		
-		}, 300);
-		this.blankCrop = false;
+			var userId;
+			this.dataService.currentCustomer.subscribe(
+				uId => userId = uId
+			)
+			if(userId != ''){
+				console.log("!!!!!!UID")
+				this.showDetails(userId);
+			}
+	    }, 300);
+		this.blankCrop = false; 
 		this._service.permissionList.subscribe((data) => {
 			if (this.router.url === '/customer') {
 				this.permissionType = data;
@@ -516,8 +529,8 @@ export class UsersComponent implements OnInit {
 
 	showMore(type: any, skip: any) {
 		console.log(skip);
-		if (this.isSearch == true) {
-			console.log("User Search");
+		if(this.isSearch == true){
+			console.log("User Search",skip);
 			this.userSearch(this.searchword, this.usertype, 20, skip)
 		} else {
 			console.log("Not user search")
@@ -818,8 +831,7 @@ export class UsersComponent implements OnInit {
 		if (this.customerPermission.includes('VIEWCUSTOMERS') != false) {
 			this.getAllUsers('customer', 20, 0);
 		}
-
-		localStorage.removeItem("courseCustomer");
+		this.dataService.nevigateCustomer('');
 	}
 
 	selectedId: any = [];
@@ -852,38 +864,38 @@ export class UsersComponent implements OnInit {
 			limit = 20;
 			skip = 0;
 		}
-		this.customerLists = [];
-		if (searchWord.length != 0) {
+		
+		if(searchWord.length != 0){
 			this.isSearch = true;
 			console.log(userType)
 			console.log(searchWord)
 			this._service.getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
-				.subscribe((res: any) => {
-					console.log(res);
-					this.result = res;
-					if (isFirst == true) {
-						console.log("First time searching");
-						this.customerLists = [];
-						this.customerLists = res;
-					} else {
-						console.log("Not First time searching")
-						this.customerLists = this.customerLists.concat(res);
-					}
-				}, err => {
-					console.log(err);
-				});
-		} else {
-			console.log('zero', searchWord.length)
-			setTimeout(() => {
-				console.log('wait')
-				this.customerLists = [];
-				this.getAllUsers('customer', 20, 0);
-				this.isSearch = false;
-			}, 300);
-		}
+		    .subscribe((res:any) => {
+				console.log(res);
+				this.result = res;
+				if(isFirst == true){
+					console.log("First time searching");
+					this.customerLists = [];
+					this.customerLists = res;
+				}else{
+					console.log("Not First time searching")
+					this.customerLists = this.customerLists.concat(this.result);		
+				}	      
+	      	}, err => {  
+				console.log(err);
+	      	});
+	  	}else{
+	    	console.log('zero', searchWord.length)
+	    	setTimeout(() => {
+	    		console.log('wait')
+	    		this.customerLists = [];
+	    		this.getAllUsers('customer',20,0);
+	    		this.isSearch = false;
+	    	}, 300);
+	  	}
 	}
-
-	changeSearch(searchWord, userId, limit, skip) {
+	
+	changeSearch(searchWord, userId, limit, skip){
 		this.acWord = searchWord;
 		this.userid = userId;
 		console.log(searchWord);
@@ -1154,6 +1166,9 @@ export class UsersComponent implements OnInit {
 	//   }
 
 	closeModal(type) {
+		console.log(type);
+		this.jSkip = 0;
+		this.journals =[];
 		this.isChecked = '';
 		this.checkCourse = '';
 		this.modalReference.close();
@@ -1408,16 +1423,51 @@ export class UsersComponent implements OnInit {
 		this.checkCourse = data.courseId;
 		// console.log(this.checkCourse)
 	}
+	jLoadMore(){
+		this.jSkip += this.jLimit;
+		console.log(this.jSkip)
+		this._service.getJournal(this.jSlectedCourse, this.custDetail.user.userId, String(this.jSkip), String(this.jLimit), null)
+			.subscribe((res: any) => {
+				if(res.length > 0){
+					this.journals = this.journals.concat(res); 
+					if(res.length >= 20){
+						this.toShowLoadMore = true;
+					}
+					else
+						this.toShowLoadMore = false;
+				}else{
+					this.toShowLoadMore = false;
+				}	
+				console.log(this.journals)
+				console.log(res);
+				this.blockUI.stop();
+		})
+	}
+	trackByFn(index, item) {
+		return index; 
+	}
 	viewJournal(journalModal, course, name) {
+		this.jSkip = 0;
+		this.journals = [];
 		console.log(this.custDetail)
 		console.log(course)
 		console.log(name)
 		this.className = course.name;
 		console.log(this.className, course.name)
-		this._service.getJournal(course._id, this.custDetail.user.userId, '0', '20', null)
+		this._service.getJournal(course._id, this.custDetail.user.userId, String(this.jSkip), String(this.jLimit), null)
 			.subscribe((res: any) => {
+				console.log(res.length)
+				if(res.length >=20)
+					this.toShowLoadMore = true;
+				else
+					this.toShowLoadMore = false;
+				this.jSlectedCourse = course._id;
 				this.journals = res;
-				console.log(this.journals)
+				console.log(this.journals.length)
+				if(this.journals.length == 0)
+					this.toShowNoJournl = true;
+				else
+					this.toShowNoJournl = false;
 				console.log(res);
 				this.modalReference = this.modalService.open(journalModal, { backdrop: 'static', windowClass: 'jouranlModal d-flex justify-content-center align-items-center' });
 				this.blockUI.stop();
@@ -1544,9 +1594,10 @@ export class UsersComponent implements OnInit {
 	isCourse: boolean = false;
 	onClickCourse(course) {
 		// this.isCourse = true;
-		console.log("clicking course", course);
-		localStorage.setItem('userCourse', course._id);
+		console.log("clicking course",course);
+		// localStorage.setItem('userCourse',course._id);
 		this.router.navigate(['/course']);
+		this.dataService.nevigateCourse(course._id)
 	}
 
 }

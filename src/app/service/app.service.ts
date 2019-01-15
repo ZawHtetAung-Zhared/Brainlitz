@@ -830,7 +830,6 @@ export class appService{
       }else{
         var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId ;
       }
-      console.warn(url)
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1700,6 +1699,7 @@ export class appService{
       console.log("selected str",selectedStr);
       if(selectedStr != ''){
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        console.log("apiUrl",apiUrl)
       }else{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
