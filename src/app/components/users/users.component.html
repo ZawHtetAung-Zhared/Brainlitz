@@ -107,18 +107,13 @@
             </div>
             <div *ngIf="custDetail.user.guardians?.length > 0" class="infoGp-wrap" style="border-top: 1px dotted #64707d;">
               <label class="info-mail">Guardians</label>
-              <div class="guardian-main-wrap">
-                <div *ngFor="let guardian of custDetail.user.guardians" class="g-inner-wrap">
+              <div class="guardian-main-wrap d-flex">
+                <div *ngFor="let guardian of custDetail.user.guardians" class="g-inner-wrap d-flex">
                   <div class="small-circular-image">
                     <img *ngIf="guardian.profilePic == undefined || guardian.profilePic == ''" src="assets/img/user.svg">
                     <img *ngIf="guardian.profilePic != undefined" src="{{guardian.profilePic}}">
                   </div>
-                  <!-- <span> -->
-                  <!--  <pre>{{gurdian|json}}</pre> -->
-
-
-                  <!-- </span> -->
-                  <span>{{ (guardian.fullName == null )? ("-") : (guardian.fullName) }}</span>
+                  <div class="guar-name">{{ (guardian.fullName == "" ||  guardian.fullName == null)? (guardian.email) : (guardian.fullName) }}</div>
                 </div>
               </div>
               <!-- <div class="" style="overflow-x: scroll;">

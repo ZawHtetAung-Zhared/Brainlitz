@@ -523,7 +523,7 @@ export class UsersComponent implements OnInit {
 	showMore(type: any, skip: any){
 		console.log(skip);
 		if(this.isSearch == true){
-			console.log("User Search");
+			console.log("User Search",skip);
 			this.userSearch(this.searchword, this.usertype, 20, skip)
 		}else{
 			console.log("Not user search")
@@ -857,7 +857,7 @@ export class UsersComponent implements OnInit {
 			limit = 20;
 			skip = 0;
 		}
-		this.customerLists = [];
+		
 		if(searchWord.length != 0){
 			this.isSearch = true;
 			console.log(userType)
@@ -872,7 +872,7 @@ export class UsersComponent implements OnInit {
 					this.customerLists = res;
 				}else{
 					console.log("Not First time searching")
-					this.customerLists = this.customerLists.concat(res);
+					this.customerLists = this.customerLists.concat(this.result);		
 				}	      
 	      	}, err => {  
 				console.log(err);
