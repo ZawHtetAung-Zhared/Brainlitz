@@ -355,6 +355,8 @@ export class DashboardComponent implements OnInit {
   }
 
   clickTab(type){
+    this.isEdit = false;
+    this.isUrlEdit = false;
     this.menuType = type;
     this.cancel();
   }

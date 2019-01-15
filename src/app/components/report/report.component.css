@@ -725,7 +725,7 @@ h3.head-rating-count {
     width: 82%
   }
   .card-columns {
-    column-count: 3;
+    column-count: 2;
   }
 }
 @media (min-width: 2000px){
@@ -736,7 +736,7 @@ h3.head-rating-count {
     width: 85%
   }
   .card-columns {
-    column-count: 3;
+    column-count: 2;
   }
 }
 

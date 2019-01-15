@@ -1981,7 +1981,10 @@ export class CourseComponent implements OnInit {
       .subscribe((res:any) => {
        console.log(res);
        this.blockUI.stop();
-       this.toastr.success("Assistant successfully assigned.");
+       setTimeout(()=> {
+         this.toastr.success("Assistant successfully assigned.");
+       },100)
+       // this.toastr.success("Assistant successfully assigned.");
        this.modalReference.close();
        if(this.isvalidID == 'inside'){
          console.log('hi')

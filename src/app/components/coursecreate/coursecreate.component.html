@@ -363,8 +363,8 @@
 				              <label class="mb-0">{{user.preferredName}}</label>
 				            </div>
 				            <div class="ml-auto remover-wrap single-user-info">
-				              <div *ngIf="isEdit == false" class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
-				              <div *ngIf="isEdit == true" [ngClass]="{'noCursor': isEdit== true}" class="remove-user d-flex justify-content-end"></div>
+				              <div class="remove-user d-flex justify-content-end" (click)="removeSelectedUser(user.userId)"></div>
+				              <!-- <div *ngIf="isEdit == true" [ngClass]="{'noCursor': isEdit== true}" class="remove-user d-flex justify-content-end"></div> -->
 				            </div>
 				          </div>
 				        </div>
