@@ -261,11 +261,16 @@ export class CoursecreateComponent implements OnInit {
         // console.log(this.model.coursePlan.lesson.duration);
         // console.log(this.model.starttime,this.model.duration);
         this.selectedTeacher = this.model.teacher;
+        this.staffArrLists.push(this.selectedTeacher.userId)
+        console.log("staffArrLists==>",this.staffArrLists)
         var assiatantsArr = this.model.assistants;
         for (var i in assiatantsArr) {
           console.log("Assistant", assiatantsArr[i]);
           this.selectedUserLists.push(assiatantsArr[i]);
           this.selectedAssistants.push(assiatantsArr[i].userId);
+          this.staffArrLists.push(assiatantsArr[i].userId)
+          console.log("staffArrLists==>",this.staffArrLists)
+
         }
         if (this.model.end) {
           this.isChecked = 'end';
@@ -418,6 +423,8 @@ export class CoursecreateComponent implements OnInit {
       console.log('backtocourse')
       this._service.backCourse();
     }
+
+    this.staffArrLists = [];
 
     localStorage.removeItem('cPlan');
     localStorage.removeItem('courseID');
@@ -860,45 +867,52 @@ export class CoursecreateComponent implements OnInit {
           console.log("userLists", this.userLists);
         })
     } else {
-      var pplArr = [];
-      var pplListArr = [];
-      if (this.selectedTeacher) {
-        pplArr.push(this.selectedTeacher);
-      }
-      if (this.selectedUserLists.length > 0) {
-        for (var i in this.selectedUserLists) {
-          pplArr.push(this.selectedUserLists[i]);
-        }
-      }
-      console.log("pplArr", pplArr)
+      this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
+      .subscribe((res: any) => {
+        console.log(res);
+        this.userLists = res;
+      }, err => {
+        console.log(err);
+      });
+      // var pplArr = [];
+      // var pplListArr = [];
+      // if (this.selectedTeacher) {
+      //   pplArr.push(this.selectedTeacher);
+      // }
+      // if (this.selectedUserLists.length > 0) {
+      //   for (var i in this.selectedUserLists) {
+      //     pplArr.push(this.selectedUserLists[i]);
+      //   }
+      // }
+      // console.log("pplArr", pplArr)
 
-      if (pplArr.length > 0) {
-        console.log("to send userIds PPLs");
-        for (let y in pplArr) {
-          let id = pplArr[y].userId;
-          pplListArr.push(id)
-        }
-        console.log('pplListArr', pplListArr)
-        var pplListStr = pplListArr.toString();
-        console.log("pplListsStr", pplListStr);
+      // if (pplArr.length > 0) {
+      //   console.log("to send userIds PPLs");
+      //   for (let y in pplArr) {
+      //     let id = pplArr[y].userId;
+      //     pplListArr.push(id)
+      //   }
+      //   console.log('pplListArr', pplListArr)
+      //   var pplListStr = pplListArr.toString();
+      //   console.log("pplListsStr", pplListStr);
 
-        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
-          .subscribe((res: any) => {
-            console.log(res);
-            this.userLists = res;
-          }, err => {
-            console.log(err);
-          });
-      } else {
-        console.log("not send");
-        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
-          .subscribe((res: any) => {
-            console.log(res);
-            this.userLists = res;
-          }, err => {
-            console.log(err);
-          });
-      }
+      //   this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
+      //     .subscribe((res: any) => {
+      //       console.log(res);
+      //       this.userLists = res;
+      //     }, err => {
+      //       console.log(err);
+      //     });
+      // } else {
+      //   console.log("not send");
+      //   this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
+      //     .subscribe((res: any) => {
+      //       console.log(res);
+      //       this.userLists = res;
+      //     }, err => {
+      //       console.log(err);
+      //     });
+      // }
     }
   }
 
@@ -915,6 +929,8 @@ export class CoursecreateComponent implements OnInit {
         console.log(err);
       })
   }
+
+  staffArrLists = [];
   selectedAssistants = [];
   selectedUserLists = [];
   chooseUser(user, type) {
@@ -929,6 +945,8 @@ export class CoursecreateComponent implements OnInit {
           this.selectedAssistants.push(res.userId);
           console.log(this.selectedUserLists)
           console.log(this.selectedUserLists.length)
+          this.staffArrLists.push(res.userId)
+          console.log("staffArrLists==>",this.staffArrLists)
         }, err => {
           console.log(err);
         });
@@ -940,7 +958,21 @@ export class CoursecreateComponent implements OnInit {
           console.log(res);
           this.selectedTeacher = res;
           this.model.teacherId = this.selectedTeacher.userId;
-          console.log("selected Teacher", this.model.teacherId)
+          console.log("selected Teacher", this.model.teacherId);
+          this.staffArrLists = [];
+          this.staffArrLists.push(res.userId);
+          for(var i in this.selectedUserLists){
+            this.staffArrLists.push(this.selectedUserLists[i].userId)
+          }
+          console.log("staffArrLists==>",this.staffArrLists)
+          // this.staffArrLists.push(res.userId)
+          // console.log("staffArrLists==>",this.staffArrLists)
+          // if(this.staffArrLists.length > 0){
+          //   // var dayIdx = this.staffArrLists.indexOf();
+          //   for(var i in this.selectedTeacher){
+
+          //   }
+          // }
         }, err => {
           console.log(err);
         });
@@ -948,20 +980,30 @@ export class CoursecreateComponent implements OnInit {
   }
 
   removeSelectedUser(id) {
+    this.staffArrLists = [];
+    this.selectedAssistants = [];
     let getIndex;
     let nextIndex;
     for (let x in this.selectedUserLists) {
       if (id == this.selectedUserLists[x].userId) {
         getIndex = x;
       }
-      if (id == this.selectedAssistants[x].userId) {
-        nextIndex = x;
-      }
+      // if (id == this.selectedAssistants[x].userId) {
+      //   nextIndex = x;
+      // }
     }
     this.selectedUserLists.splice(getIndex, 1);
-    this.selectedAssistants.splice(nextIndex, 1);
-    console.log(this.selectedUserLists);
-    console.log(this.selectedAssistants);
+    // this.selectedAssistants.splice(nextIndex, 1);
+    console.log("this.selectedUserLists",this.selectedUserLists);
+
+    for(var i in this.selectedUserLists){
+      this.selectedAssistants.push(this.selectedUserLists[i].userId);
+      this.staffArrLists.push(this.selectedUserLists[i].userId);
+      console.log("staffArrLists===>",this.staffArrLists);
+    }
+    this.staffArrLists.push(this.selectedTeacher.userId);
+    console.log("staffArrLists===>",this.staffArrLists);
+    console.log("this.selectedAssistants",this.selectedAssistants);
   }
 
 
