@@ -722,7 +722,6 @@ export class ApgComponent implements OnInit {
   
       if(searchWord.length != 0){
         this.isSearch = true;
-        console.warn(skip,limit)
          this._service.getSearchApg(this.regionID, searchWord, type, '', limit, skip)
             .subscribe((res:any) => {
               console.log(res);

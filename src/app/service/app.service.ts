@@ -830,7 +830,6 @@ export class appService{
       }else{
         var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId ;
       }
-      console.warn(url)
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
