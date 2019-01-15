@@ -295,6 +295,13 @@ export class CourseComponent implements OnInit {
     this.getRegionInfo();
   }
 
+  openDatePicker(datePicker){
+    datePicker.open();
+  }
+  closeDatePicker(datePicker){
+    datePicker.close();
+  }
+
 
   checkPermission(){
     console.log(this.permissionType)
