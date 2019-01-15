@@ -792,101 +792,89 @@ export class ScheduleComponent implements OnInit {
       })
   }
 
-  calculateTime(time) {
-    var sTime = time.start.hr + ':' + time.start.min + ' ' + time.start.meridiem;
-    var eTime = time.end.hr + ':' + time.end.min + ' ' + time.end.meridiem;
-    console.log(sTime, eTime)
-    var timeStart: any;
-    var timeEnd: any;
+  calculateTime(time){
+    var sTime = time.start.hr+ ':' + time.start.min + ' ' + time.start.meridiem;
+    var eTime = time.end.hr+ ':' + time.end.min + ' ' + time.end.meridiem;
+    console.log(sTime,eTime)
+    var timeStart:any;
+    var timeEnd:any;
 
     timeStart = new Date("01/01/2007 " + sTime);
-    console.log('timeStart', timeStart);
+    console.log('timeStart',timeStart);
     timeEnd = new Date("01/01/2007 " + eTime);
-    console.log('timeEnd', timeEnd);
+    console.log('timeEnd',timeEnd);
     var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
     console.log(diff)
     var diffMins = diff % 60;
-    console.log("mins", diffMins);
+    console.log("mins",diffMins);
     var diffHours = (diff - diffMins) / 60;
-    console.log("hours", diffHours)
-    if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
-      diffHours = (diffHours * 2) + 1;
+    console.log("hours",diffHours)
+    if((diffMins == 30 || diffMins < 30)&& diffMins>0){
+      diffHours = (diffHours*2)+1;
       console.log(diffHours)
-    } else if (diffMins > 30 && diffMins < 60) {
-      diffHours = (diffHours * 2) + 2;
+    }else if(diffMins >30 && diffMins < 60){
+      diffHours = (diffHours*2)+2;
       console.log(diffHours)
-    } else if (diffMins == 0) {
-      diffHours = diffHours * 2;
+    }else if(diffMins == 0){
+      diffHours = diffHours*2;
       console.log(diffHours)
     }
 
     // var hours= [];
     if (time.start.meridiem === 'PM') {
-      var tempH = (time.start.hr + 12) * 60 + time.start.min;
-      console.log(tempH)
-    } else {
-      // if(time.start.hr == 12){
-      var tempH = 0 * 60 + time.start.min;
-      //   console.log(tempH)
-      // }else{
-      //   var tempH = time.start.hr*60 + time.start.min;
-      //   console.log(tempH)
-      // }
+      var tempH = (time.start.hr+12)*60 + time.start.min;
+    }else{
+      if(time.start.hr == 12){
+        var tempH = 0*60 + time.start.min;
+      }else{
+        var tempH = time.start.hr*60 + time.start.min;
+      }
     }
-
-    for (var i = 0; i <= diffHours; i++) {
-      console.log("diff hours>>" + diff)
-      if (i > 0) {
-        tempH = tempH + 30;
-      } else {
+    
+    for(var i=0;i<=diffHours;i++){
+      if(i > 0){
+        tempH = tempH+30;
+      }else{
         tempH = tempH;
       }
+      var min = tempH%60;
+      var h = (tempH - min)/60;
 
-      var min = tempH % 60;
-      var h = (tempH - min) / 60;
-
-      console.log("hours>" + h)
-      console.log("mins>" + min)
-      console.log("tempH>" + tempH)
-      if (h > 12) {
-        var hr = h - 12;
-        console.log(">12", hr)
+      if(h>12){
+        var hr = h-12;
+        // console.log(">12",hr)
         var ampm = 'PM';
-      } else if (h < 12) {
-        // if(h==0){
-        //   console.log("dar dar>>",time.start.hr)
-        //  }else{
+      }else if(h<12){
         var hr = h;
-        //  }
-        console.log("<12", hr)
+        // console.log("<12",hr)
         var ampm = 'AM';
-      } else if (h == 12) {
+      }else if(h==12){
         var hr = h;
-        console.log("==12", hr)
+        // console.log("==12",hr)
         var ampm = 'PM';
       }
       var obj = {
-        'start': {
+        'start':{
           'hr': hr,
           'min': min,
           'meridiem': ampm
         }
       }
-      console.log("hour", obj)
+      // console.log("hour",obj)
       this.operationTime.push(obj);
     }
     // let arrLength = this.operationTime.length;
     // console.log(arrLength);
     let lastIdx = this.operationTime.length - 1;
-    console.log("lastIdx", this.operationTime[lastIdx].start);
+    console.log("lastIdx",this.operationTime[lastIdx].start);
     let last = this.operationTime[lastIdx].start;
-    if (time.end.hr == last.hr && time.end.min == last.min && time.end.meridiem == last.meridiem) {
+    if(time.end.hr == last.hr && time.end.min == last.min && time.end.meridiem == last.meridiem){
       console.log("Same");
       this.operationTime.pop();
-    } else {
+    }else{
       console.log("not same")
     }
-    console.log("opr Arr", this.operationTime)
+    console.log("opr Arr",this.operationTime)
   }
 
   // calculateSlot(start){
