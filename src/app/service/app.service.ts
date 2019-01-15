@@ -1700,6 +1700,7 @@ export class appService{
       console.log("selected str",selectedStr);
       if(selectedStr != ''){
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        console.log("apiUrl",apiUrl)
       }else{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
