@@ -679,10 +679,18 @@ export class CoursecreateComponent implements OnInit {
     }
     else {
       this.searchMenuShow= false;
-      if (type == "start")
-        datePicker.close();
-      else if (type== 'end')
-        datePicker.close();
+      // if (type == "start")
+      //   datePicker.close();
+      // else if (type== 'end')
+      //   datePicker.close();
+     if(type == "start" || type == "end"){
+         if(event.target.offsetParent == null){
+            datePicker.close();
+         }else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER"){
+
+            datePicker.close();
+         }
+     }
       this.feeOptShow = false;
       this.taxOptShow = false;
       this.durationMenuShow = false;
@@ -692,6 +700,12 @@ export class CoursecreateComponent implements OnInit {
     //}
 
   }
+  // closefix(event, datePicker) {
+  //   if(event.target.offsetParent == null)
+  //     datePicker.close();
+  //   else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER")
+  //     datePicker.close();
+  // }
 
   // showSearch:boolean = false;
   // searchDropdown(item){
