@@ -696,11 +696,11 @@
 											 <div class="dropdown-wrap" *ngIf="taxOptShow == true">
 											  <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
 											  <ul class="taxOpt-dropdown">
-												<li>
-												  <span (click)="chooseTaxOption('inclusive')">Inclusive</span>
+												<li (click)="chooseTaxOption('inclusive')">
+												  <span >Inclusive</span>
 												</li>
-												<li>
-													<span (click)="chooseTaxOption('exclusive')">Exclusive</span>
+												<li (click)="chooseTaxOption('exclusive')">
+													<span >Exclusive</span>
 												</li>
 											  </ul>
 											</div>
