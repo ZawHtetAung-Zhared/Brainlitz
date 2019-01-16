@@ -394,7 +394,7 @@ input:-webkit-input-placeholder {
   width: 362px;
   display: none;
   position: absolute;
-  right: 30%;
+  right: 5%;
   bottom: -95px;
   z-index: 9;
 }

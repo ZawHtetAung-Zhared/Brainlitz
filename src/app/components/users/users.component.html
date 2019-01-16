@@ -825,7 +825,7 @@
                 <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
               </div>
               <div class="attendance-time" [ngSwitch]="journal.type_detail.attendance">
-                <p class="atten-time">{{journal.type_detail.date | date:'h:mm a'}}</p>
+                <p class="atten-time">{{journal.type_detail.date | utcTime}}</p>
                 <img class="attendance-img" src="assets/images/journal-check@2x.png" *ngSwitchCase="true">
                 <img class="attendance-img" src="assets/images/journalCross@2x.png" *ngSwitchCase="false">
                 <img class="attendance-img" src="assets/images/journalMinus@2x.png" *ngSwitchCase="null">
