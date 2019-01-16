@@ -41,7 +41,7 @@
         </div> -->
       </div>
     </div>
-    <div *ngIf="menuType == 'general'" class="d-flex flex-column h-100 justify-content-center align-items-center pl-zero large-col" >
+    <div *ngIf="menuType == 'general'" class="d-flex flex-column h-100 pl-zero large-col" >
       <div class="d-flex flex-column setting-wrapper">
         <div *ngIf="option != 'Invoice' && option != 'Payment'">
           <div *ngIf="generalSidebar.length > 0" class="header-wrap">
@@ -78,7 +78,7 @@
                     </ng2-timezone-picker>
                   </div>
                 </div>
-                <div class="timezone-wrap" *ngIf="isEdit">
+                <div class="timezone-wrap pb-3" *ngIf="isEdit">
                   <div>
                     <label class="labelTitle">Time zone</label>
                   </div>
@@ -91,7 +91,7 @@
                 </div>
 
                 <!-- Operation Hour -->
-                <div class="timezone-wrap ease">
+                <!-- <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                         <img src="./assets/images/map.png">
@@ -112,14 +112,13 @@
                         <input type="time" class="form-control time-picker" placeholder="enter date" name="endDate" [(ngModel)]="endT" #endDate="ngModel" required>
                       </div>
                     </div>
-                    <!-- <hr style="padding:0;"> -->
-                    <div class="editBtns  d-flex justify-content-end " *ngIf="isEdit">
-                      <button class="cancel btn remove-bg" (click)="cancelUpdate()">Cancel</button>
-                      <button class="btn updateButton remove-bg" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid || startT > endT">Done</button>
-                    </div>
                   </form>
-                </div>
+                </div> -->
                 <!-- Operation Hour Close -->
+                <div class="editBtns  d-flex justify-content-end " *ngIf="isEdit">
+                  <button class="cancel btn remove-bg" (click)="cancelUpdate()">Cancel</button>
+                  <button class="btn updateButton remove-bg" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid || startT > endT">Done</button>
+                </div>
               </div>
               <div *ngIf="!isEdit">
                 <a class="link-btn" (click)="editRegion()">Edit</a>
