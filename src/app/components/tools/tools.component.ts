@@ -366,8 +366,10 @@ export class ToolsComponent implements OnInit {
   showDayType(){
     const zone = localStorage.getItem('timezone');
     const dFormat = 'YYYY/MM/DD';
+    console.log(zone);
     var todayD = new Date();
     console.log("new Date",todayD);
+    console.log(moment(todayD, dFormat).tz(zone))
     this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
     console.log("Today",this.today);
 
