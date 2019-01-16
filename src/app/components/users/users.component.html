@@ -247,7 +247,7 @@
                   <!-- </div> -->
                   <button class="float-left btn view-invoice" (click)="viewJournal(journalContent,course,course.teacher.preferredName)"
                     >
-                    View Journal
+                    View Progress Book
                   </button>
                   <button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
                     View invoice
@@ -711,7 +711,7 @@
                 </button>
             </div>
         
-            <p class="learn-journal  col-md-12" >Learning Journal</p>
+            <p class="learn-journal  col-md-12" >Progress Book</p>
             <p class="class-name  col-md-12">{{className}}</p>
             <div class="no-journal" *ngIf="toShowNoJournl">
                 <img class="no-journal-img" src="./assets/images/noJournal@2x.png">
