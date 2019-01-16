@@ -474,6 +474,7 @@ input:checked + .slider:before {
 }
 .setting-wrapper{
   padding: 23px 30px 0px 30px;
+  margin: 0 auto;
 }
 .header-wrap{
   margin-bottom: 30px;
