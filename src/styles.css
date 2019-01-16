@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import '../node_modules/currency-flags/dist/currency-flags.min.css';
 @import '../node_modules/croppie/croppie.css';
 @import '../node_modules/ng5-toastr/bundles/ng5-toastr.min.css';
 @import '~font-awesome/css/font-awesome.css';
@@ -444,4 +445,15 @@ span.scrollup.show:hover:before {
 .datepicker-wrap.hideLeft .ngb-dp-arrow:first-child{
   opacity: 0 !important;
   pointer-events: none;
+}
+
+@media print {
+    /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */
+    body *{
+        visibility: hidden;
+    }
+
+    .modal-inv,.modal-inv * {
+        visibility: visible; /* make visible modal body and header */
+    }
 }
