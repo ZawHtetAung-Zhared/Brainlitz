@@ -518,11 +518,25 @@
   font-size: 14px;
   font-family: 'Montserrat-Semibold', Arial,sans-serif;
 }
+
+.remove-outline:focus{
+    outline: none;
+    box-shadow: none;
+    background: none;
+}
+.remove-outline{
+    background: none;
+}
+
 .pad-bottom{
     /*padding-bottom: 100px;*/
     margin-bottom: 70px;
 }
 
+.input-search-bg:focus{
+    outline: none;
+    box-shadow: none;
+}
 @media (max-width: 360px){
     .card-columns{
         column-count: 1;
@@ -530,13 +544,13 @@
 }
 @media (min-width: 1300px){
     .card-columns{
-        column-count: 3;
+        column-count: 2;
     }
     
 }
 @media (min-width: 2000px){
     .card-columns{
-        column-count: 4;
+        column-count: 2;
     }
     .col-xxl{
         /*width: 25%;*/
@@ -544,3 +558,4 @@
         max-width: 25%;
     }
 }
+

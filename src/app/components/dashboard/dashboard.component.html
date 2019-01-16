@@ -1,6 +1,6 @@
 <app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
 <div [ngClass]="{'mainOverlay': (isEdit == true || isUrlEdit == true)}"></div>
-<div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
+<div class="d-flex flex-row h-100 w-100 content-wrapper">
     <div class="noti-sidebar h-100">
       <div class="side-bar-wrap" [ngClass]="{'p-top' : navIsFixed == true, 'mid-top' : isMidStick == true}">
         <div *ngIf="generalSidebar.length > 0" [ngClass]="{'active': menuType == 'general'}" class="tab-wrap">     
@@ -41,8 +41,8 @@
         </div> -->
       </div>
     </div>
-    <div *ngIf="menuType == 'general'" class="pl-zero large-col" >
-      <div class="d-flex flex-column w-100 h-100 setting-wrapper">
+    <div *ngIf="menuType == 'general'" class="d-flex flex-column h-100 justify-content-center align-items-center pl-zero large-col" >
+      <div class="d-flex flex-column setting-wrapper">
         <div *ngIf="option != 'Invoice' && option != 'Payment'">
           <div *ngIf="generalSidebar.length > 0" class="header-wrap">
             <h3 class="general">General</h3>
@@ -89,25 +89,43 @@
                     </ng2-timezone-picker>
                   </div>
                 </div>
-                <!-- <div class="timezone-wrap ease">
+
+                <!-- Operation Hour -->
+                <div class="timezone-wrap ease">
                   <div class="title-wrap">
                     <div id="parent">
                         <img src="./assets/images/map.png">
                     </div>
                     <label class="labelTitle">Operating hour</label>
                   </div>
-                  <label class="labelName">8:00 AM - 9:00 AM</label>
-                </div> -->
+                  <label *ngIf="!isEdit"  class="operatingTime">{{item.operatingHour.start.hr }}:<span *ngIf="item && item.operatingHour.start.min < 10 " >0</span>{{item.operatingHour.start.min }}{{item.operatingHour.start.meridiem}} </label>
+                  <span *ngIf="!isEdit" class="timedash">  </span>
+                  <label *ngIf="!isEdit "  class="operatingTime1">{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 " >0</span>{{item.operatingHour.end.min }}{{item.operatingHour.end.meridiem}} </label>
+                  <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
+                    <div class="form-group url-edit d-flex flex-row"> 
+                      <div class="mr-2">
+                        <label class="labelTitle"> Start Time </label> 
+                        <input type="time" class="form-control time-picker" placeholder="start date" name="startDate" [(ngModel)]="startT" #startDate="ngModel" required>
+                      </div>
+                      <div class="ml-2">
+                        <label class="labelTitle">End Time</label>  
+                        <input type="time" class="form-control time-picker" placeholder="enter date" name="endDate" [(ngModel)]="endT" #endDate="ngModel" required>
+                      </div>
+                    </div>
+                    <!-- <hr style="padding:0;"> -->
+                    <div class="editBtns  d-flex justify-content-end " *ngIf="isEdit">
+                      <button class="cancel btn remove-bg" (click)="cancelUpdate()">Cancel</button>
+                      <button class="btn updateButton remove-bg" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid || startT > endT">Done</button>
+                    </div>
+                  </form>
+                </div>
+                <!-- Operation Hour Close -->
               </div>
               <div *ngIf="!isEdit">
                 <a class="link-btn" (click)="editRegion()">Edit</a>
               </div>
-              <div class="editBtns" *ngIf="isEdit">
-                <a class="cancel" (click)="cancelUpdate()">Cancel</a>
-                <a (click)="updateRegionalInfo(item,'timezone')">Done</a>
-              </div>
+            
             </div>  
-             
             <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
               <div class="title">
                 Invoice Settings
@@ -457,7 +475,7 @@
                           </div> 
                           <div *ngIf="showProvider" class="currency-dropdown">
                             <div class="provider-listing">
-                              <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers" [ngClass]="(providerArray.indexOf(item.name) > -1) ? 'disabled-provider' :''">
+                              <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers">
                                 {{item.name}} 
                               </div>
                             </div>
@@ -465,7 +483,30 @@
                         </div> 
 
                       </div>
-                      <div class="form-group">
+                      <!-- {{providers|json}} -->
+                      <div *ngFor="let provider of providers">
+                        <div *ngIf="selectedProvider == provider.name">
+                          <div *ngFor="let reqField of provider.requiredField"> 
+                            <div class="form-group req-field">
+                              <div class="d-flex justify-content-between">
+                                <label class="input-label" for="merchant">{{reqField.name}}</label>
+                              </div>
+                              <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="{{reqField.name}}" [(ngModel)]="reqField.value">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- {{providers.requiredField|json}} -->
+                      <!-- <div *ngFor="let reqField of providerField">
+                        <div class="form-group req-field">
+                          <div class="d-flex justify-content-between">
+                            <label class="input-label" for="merchant">{{reqField.name}}</label>
+                          </div>  
+                          <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="merchant" [(ngModel)]="reqField.value" #merchant="ngModel">
+                        </div>
+                      </div> -->
+
+                      <!-- <div class="form-group">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="merchant">Merchant ID</label>
                         </div>  
@@ -476,7 +517,7 @@
                           <label class="input-label" for="apikey">API key</label>
                         </div>  
                         <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -494,10 +535,10 @@
     <div *ngIf="menuType == 'location'" class="large-col pl-zero">
       <app-location></app-location>
     </div> 
-    <div *ngIf="menuType == 'customfield'" class="large-col pl-zero">
+    <div *ngIf="menuType == 'customfield'" class="d-flex flex-column  align-items-center large-col pl-zero">
       <app-customfield></app-customfield>
     </div> 
-    <div *ngIf="menuType == 'email'" class="large-col pl-zero">
+    <div *ngIf="menuType == 'email'" class="align-items-center large-col pl-zero">
       <app-emailtemplate></app-emailtemplate>
     </div>
 </div>

@@ -366,8 +366,10 @@ export class ToolsComponent implements OnInit {
   showDayType(){
     const zone = localStorage.getItem('timezone');
     const dFormat = 'YYYY/MM/DD';
+    console.log(zone);
     var todayD = new Date();
     console.log("new Date",todayD);
+    console.log(moment(todayD, dFormat).tz(zone))
     this.today = moment(todayD, dFormat).tz(zone).format(dFormat);
     console.log("Today",this.today);
 
@@ -724,7 +726,9 @@ export class ToolsComponent implements OnInit {
     .subscribe((res:any) => {
       console.log('~~~', res)
       console.log('~~~', this.isChecked)
-      this.toastr.success('Successfully notified.');
+      setTimeout(()=>{
+        this.toastr.success('Successfully notified.');
+      },100)
       this.blockUI.stop();
       this.item = {};
       this.item.sendType = 'app';
