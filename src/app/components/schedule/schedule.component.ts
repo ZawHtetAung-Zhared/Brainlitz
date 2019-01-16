@@ -1796,7 +1796,7 @@ export class ScheduleComponent implements OnInit {
 
   onClickCreate() {
     this.courseCreate = true;
-    this.testGetAllCoursePlan('0', '20');
+    this.getAllCoursePlan('0', '20');
   }
   // onClickCreate() {
   //   this.courseCreate = true;
