@@ -292,8 +292,8 @@ public isMidStick: boolean = false;
   editRegion(){
     this.isEdit = true;
     this.temp = this.item.timezone; 
-    this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
-    this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
+    // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
+    // this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
   }
   editUrl(){
     this.isUrlEdit = true;
@@ -304,31 +304,31 @@ public isMidStick: boolean = false;
     console.log(type);
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
-    var timeString = this.startT;
-    var H = timeString.substr(0, 2);
-    var h = (H % 12) || 12;
-    var ampm = H < 12 ? "AM" : "PM";
-    // const a = h + timeString.substr(2, 3) + ampm;
-    var mmm = Number(timeString.substring(3,5));
-    var testmin =timeString.length ==5 ?Number(timeString.slice(3,8)) :Number(timeString.slice(3,8));
-    let start={
-      'hr': h,
-      'min': testmin,
-      'meridiem': ampm
-    }
-    this.item.operatingHour["start"] = start;
-    var timeString1 = this.endT;
-    var H1 = timeString1.substr(0, 2);
-    var h1 = (H1 % 12) || 12;
-    var ampm1 = H1 < 12 ? "AM" : "PM";
-    var mm1 = Number(timeString1.substring(3,5));
-    // const b = h1 + timeString1.substr(2, 3) + ampm1;
-    let end={
-      'hr': h1,
-      'min': mm1,
-      'meridiem': ampm1
-    }
-    this.item.operatingHour["end"] = end;
+    // var timeString = this.startT;
+    // var H = timeString.substr(0, 2);
+    // var h = (H % 12) || 12;
+    // var ampm = H < 12 ? "AM" : "PM";
+    // // const a = h + timeString.substr(2, 3) + ampm;
+    // var mmm = Number(timeString.substring(3,5));
+    // var testmin =timeString.length ==5 ?Number(timeString.slice(3,8)) :Number(timeString.slice(3,8));
+    // let start={
+    //   'hr': h,
+    //   'min': testmin,
+    //   'meridiem': ampm
+    // }
+    // this.item.operatingHour["start"] = start;
+    // var timeString1 = this.endT;
+    // var H1 = timeString1.substr(0, 2);
+    // var h1 = (H1 % 12) || 12;
+    // var ampm1 = H1 < 12 ? "AM" : "PM";
+    // var mm1 = Number(timeString1.substring(3,5));
+    // // const b = h1 + timeString1.substr(2, 3) + ampm1;
+    // let end={
+    //   'hr': h1,
+    //   'min': mm1,
+    //   'meridiem': ampm1
+    // }
+    // this.item.operatingHour["end"] = end;
     this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
     .subscribe((res:any) => {
       this.toastr.success('Successfully Updated.');
