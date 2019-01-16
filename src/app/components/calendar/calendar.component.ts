@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit {
   public permissionType:any;
   public calendarPermission:any = [];
   public calendarDemo:any = [];
-
+  public result:any;
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar, private router: Router) { 
     this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe((data) => {
@@ -93,12 +93,20 @@ export class CalendarComponent implements OnInit {
   checkPermission(){
     console.log(this.permissionType)
     this.calendarPermission = ["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"];
-    this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    if(this.permissionType!=null){
+      this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
     
-    this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
-    this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
-    this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
-    this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
+      this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
+      this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
+      this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
+      this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
+    }
+    // this.calendarPermission = this.calendarPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    
+    // this.calendarDemo['createCalendar'] = (this.calendarPermission.includes("CREATECALENDAR")) ? 'CREATECALENDAR' : '';
+    // this.calendarDemo['addHoliday'] = (this.calendarPermission.includes("ADDHOLIDAY")) ? 'ADDHOLIDAY' : '';
+    // this.calendarDemo['editHoliday'] = (this.calendarPermission.includes("EDITHOLIDAY")) ? 'EDITHOLIDAY' : '';
+    // this.calendarDemo['deleteHoliday'] = (this.calendarPermission.includes("DELETEHOLIDAY")) ? 'DELETEHOLIDAY' : '';
 
     if(this.calendarPermission.length > 0){
       this.getAllHolidaysCalendar(20, 0);
@@ -308,7 +316,8 @@ export class CalendarComponent implements OnInit {
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-        this.calendarLists = res;
+        this.result = res;
+        this.calendarLists = this.calendarLists.concat(res);
         console.log(this.calendarLists)
       }, err => {
           console.log(err)

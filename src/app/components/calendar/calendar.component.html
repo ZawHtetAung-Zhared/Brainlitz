@@ -10,7 +10,7 @@
       <button *ngIf="calendarDemo.createCalendar != ''" type="button" class="btn btn-create" (click)="creatnew()">Add new calendar</button>
     </div>  
     <div class="row calendar-group">
-      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3" *ngFor="let calendar of calendarLists">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-3" *ngFor="let calendar of calendarLists">
         <div class="d-flex flex-column single-calendar" (click)="singleCalendarInfo(calendar._id)">
           <ul class="calendar-year">
             <li *ngFor="let year of calendar.year"> {{year}}</li>
@@ -207,8 +207,8 @@
     </div>
   </div>
 </div>
-<div *ngIf="calendarLists.length >=20 && iscreate == false && isHoliday == false>= 20 " class="d-flex justify-content-center load-more">
-  <button class="btn" (click)="showMore(calendarLists.length)">load more</button>
+<div *ngIf="calendarLists.length >=20 && iscreate == false && isHoliday == false>= 20 && result.length != 0" class="d-flex justify-content-center load-more">
+  <button class="btn load-more-btn" (click)="showMore(calendarLists.length)">load more</button>
 </div>
 
 <ng-template #contentCreate let-c="close" let-d="dismiss">

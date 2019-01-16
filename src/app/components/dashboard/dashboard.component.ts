@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener,AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { TimezonePickerService, Timezone } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
@@ -24,12 +24,19 @@ export class DashboardComponent implements OnInit {
   public permissionType: Array<any> = [];
   public navIsFixed: boolean = false;
   public isMidStick: boolean = false;
+  public operationStart :any=''; 
+  public operationEnd :any=''; 
   public item:any = {
     name: '',
     timezone: '',
-    url: ''
+    url: '',
+    operatingHour: {
+    
+    }
   };
+  
   // public menuType:any = "location";
+
   public menuType:any = "general";
   public checkedModule =[];
   public allModule;
@@ -50,7 +57,7 @@ export class DashboardComponent implements OnInit {
   public showProvider:boolean = false;
   public online:any = {};
   public currency_symbol:any;
-  public providers:any = {};
+  public providers:any;
   public providerTemp:any = {};
   public providerArray:Array<any> = [];
   public newCurrency:any = {};
@@ -75,20 +82,43 @@ export class DashboardComponent implements OnInit {
       {
         "id": 0,
         "name": "",
-        "Mcptid": ""
       }
     ],
     "currencyCode": ""
   };
+  public emptyPaymentData: boolean = false;
+  public emptyInvoiceData: boolean = false;
+  public startT:any;
+  public endT:any;
   public flags = ['aed','afn','all','amd','ang','aoa','ars','aud','awg','azn','bam','bbd','bdt','bgn','bhd','bif','bmd','bnd','bob','brl','bsd','btn','bwp','byn','bzd','cad','cdf','chf','clp','cny','cop','crc','cup','cve','czk','djf','dkk','dop','dzd','egp','ern','etb','eur','fjd','fkp','gbp','gel','ghs','gip','gmd','gnf','gtq','gyd','hkd','hnl','hrk','htg','huf','idr','ils','inr','iqd','irr','isk','jmd','jod','jpy','kes','kgs','khr','kmf','kpw','krw','kwd','kyd','kzt','lak','lbp','lkr','lrd','ltl','lyd','mad','mdl','mga','mkd','mmk','mnt','mop','mro','mur','mvr','mwk','mxn','myr','mzn','nad','ngn','nio','nok','npr','nzd','omr','pen','pgk','php','pkr','pln','pyg','qar','ron','rsd','rub','rwf','sar','sbd','scr','sek','sgd','shp','sll','sos','srd','std','svc','syp','szl','thb','tjs','tnd','top','try','ttd','twd','tzs','uah','ugx','usd','uyu','uzs','vef','vnd','vuv','wst','xaf','xcd','xof','xpf','yer','zar','zmw']
   @BlockUI() blockUI: NgBlockUI;
-
+ 
   constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0,0);
   }
 
   ngOnInit() {
+    
+    this.item = {
+      name: '',
+      timezone: '',
+      url: '',
+      operatingHour: {
+      'start':{
+        'hr':'',
+        'min':'',
+        "meridiem":''
+      },
+      'end':{
+        'hr':'',
+        'min':'',
+        "meridiem":''
+      }
+      }
+    };
+    // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem; 
+   
     if(localStorage.getItem('locationId') == null){
       console.log('hi')
       this.permissionType = [];
@@ -103,11 +133,27 @@ export class DashboardComponent implements OnInit {
         localStorage.setItem('permission', JSON.stringify(data))
       }
     });
-
+    
     this.getInvoiceSetting('invoiceSettings')
     this.getPaymentSetting('paymentSettings')
   }
 
+  ngAfterViewInit() { 
+    // this.item.operatingHour = {
+    //   'start':{
+    //     'hr':Number,
+    //     'min':Number,
+    //     "meridiem":String
+    //   },
+    //   'end':{
+    //     'hr':Number,
+    //     'min':Number,
+    //     "meridiem":String
+    //   }
+    // }
+  
+  }
+ 
   @HostListener('window:scroll', ['$event']) onScroll($event){
     if(window.pageYOffset > 81){
       console.log('greater than 40')
@@ -152,10 +198,12 @@ export class DashboardComponent implements OnInit {
     this.type = localStorage.getItem('tokenType');
 	  this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
     .subscribe((res:any) => {
+      console.log("res admin",res)
       this.admin = res;
       this.item.name = res.name;
       this.item.timezone = res.timezone;
-      this.item.url = res.url
+      this.item.url = res.url;
+      this.item.operatingHour = res.operatingHour;
       console.log('~~~', this.item)
       localStorage.setItem('timezone', this.item.timezone)
       // let test=moment().tz("Singapore").format();
@@ -172,6 +220,23 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.invoiceData = res;
+      console.log('this.invoiceData', this.invoiceData)
+      console.log(Object.keys(this.invoiceData).length)
+
+      this.emptyInvoiceData = (Object.keys(this.invoiceData).length == 0) ? true : false;
+
+      if(Object.keys(this.invoiceData).length == 0){
+        this.invoiceData = {
+            "companyName" : "",
+            "registration" : "",
+            "address" : "",
+            "city": "",
+            "email" : "",
+            "prefix"  : "",
+            "currencySign"  : undefined,
+            "currencyCode"  : undefined
+          };
+      }
     }, err => {
       console.log(err)
     })
@@ -182,8 +247,23 @@ export class DashboardComponent implements OnInit {
     .subscribe((res:any) => {
       console.log(res)
       this.paymentData = res;
-      this.providerTemp = this.paymentData.paymentProviders;      
+      console.log('this.paymentData', this.paymentData)
+      this.emptyPaymentData = (Object.keys(this.paymentData).length == 0) ? true : false;
 
+      if(Object.keys(this.paymentData).length == 0){
+        this.paymentData = {
+          "tax": {
+            "rate": "",
+            "name": ""
+          },
+          "paymentProviders": [],
+          "currencyCode": undefined,
+          "currencySign": undefined
+        };
+      }
+
+      this.providerTemp = this.paymentData.paymentProviders;
+      console.log("provider Temp",this.providerTemp)      
       if(this.providerTemp.length > 0){
         this.providerArray= [];
         for(let j=0; j< this.providerTemp.length; j++){
@@ -211,8 +291,9 @@ export class DashboardComponent implements OnInit {
 
   editRegion(){
     this.isEdit = true;
-    this.temp = this.item.timezone;
-    console.log(this.temp);
+    this.temp = this.item.timezone; 
+    this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
+    this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
   }
   editUrl(){
     this.isUrlEdit = true;
@@ -223,7 +304,31 @@ export class DashboardComponent implements OnInit {
     console.log(type);
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
-    console.log(data)
+    var timeString = this.startT;
+    var H = timeString.substr(0, 2);
+    var h = (H % 12) || 12;
+    var ampm = H < 12 ? "AM" : "PM";
+    // const a = h + timeString.substr(2, 3) + ampm;
+    var mmm = Number(timeString.substring(3,5));
+    var testmin =timeString.length ==5 ?Number(timeString.slice(3,8)) :Number(timeString.slice(3,8));
+    let start={
+      'hr': h,
+      'min': testmin,
+      'meridiem': ampm
+    }
+    this.item.operatingHour["start"] = start;
+    var timeString1 = this.endT;
+    var H1 = timeString1.substr(0, 2);
+    var h1 = (H1 % 12) || 12;
+    var ampm1 = H1 < 12 ? "AM" : "PM";
+    var mm1 = Number(timeString1.substring(3,5));
+    // const b = h1 + timeString1.substr(2, 3) + ampm1;
+    let end={
+      'hr': h1,
+      'min': mm1,
+      'meridiem': ampm1
+    }
+    this.item.operatingHour["end"] = end;
     this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
     .subscribe((res:any) => {
       this.toastr.success('Successfully Updated.');
@@ -250,6 +355,8 @@ export class DashboardComponent implements OnInit {
   }
 
   clickTab(type){
+    this.isEdit = false;
+    this.isUrlEdit = false;
     this.menuType = type;
     this.cancel();
   }
@@ -262,11 +369,35 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = this.invoiceData.currencyCode;
     
     this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
-    if(this.isOnline == true){
+    // if(this.isOnline == true){
+    //   this.selectedProvider = this.paymentData.paymentProviders.name;
+    // }
+    if(this.isOnline == true && this.option == 'Payment'){
       this._service.paymentProvider()
       .subscribe((res:any) => {
         console.log(res)
         this.providers = res;
+        if(this.providerTemp.length > 0){
+          for (var i = 0; i < this.providerTemp.length; i++){
+            for (var j = 0; j < this.providers.length; j++){
+              if(this.providerTemp[i].name == this.providers[j].name){
+                // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                for(var m in this.providers[j].requiredField){
+                  console.log("req",this.providers[j].requiredField[m])
+                  let reqName = this.providers[j].requiredField[m].name;
+                  var reqVal = this.providerTemp[i][reqName];
+                  console.log("req VAl",reqVal);
+                  this.providers[j].requiredField[m].value = reqVal;
+                  console.log("req field",this.providers[j].requiredField[m])
+                  // console.log(this.providerTemp[i].hasOwnProperty(reqName));
+                  // if(this.providerTemp[i].hasOwnProperty(reqName) == true){
+
+                  // }
+                }
+              }
+            }
+          }
+        }
       }, err => {
         console.log(err)
       })
@@ -350,11 +481,17 @@ export class DashboardComponent implements OnInit {
     this.selectedCurrency = data;
     this.selectedFlag = key;
   }
-
+  providerField = [];
   selectProvider(id, name){
     console.log(id, '-' ,name)
-    this.selectedProvider = name
-    this.payment.name = name
+    this.selectedProvider = name;
+    this.payment.name = name;
+    // this.providerField = [];
+    // for(var i in this.providers){
+    //   if(this.providers[i].name == this.selectedProvider){
+    //     this.providerField = this.providers[i].requiredField;
+    //   }
+    // }
   }
 
   updateInvoice(data, type){
@@ -367,6 +504,8 @@ export class DashboardComponent implements OnInit {
       this.paymentData['currencyCode'] = this.selectedFlag;
       this.paymentData['currencySign'] = this.selectedCurrency;
       
+      this.paymentData = (this.emptyPaymentData == true) ? {} : this.paymentData;
+      console.log(this.paymentData)
       body = {
         'invoiceSettings': data,
         'paymentSettings': this.paymentData
@@ -379,9 +518,32 @@ export class DashboardComponent implements OnInit {
         console.log(this.payment)
         if(this.providerTemp.length > 0){
           console.log('no', this.providerTemp)
+          for (var k = 0; k < this.providerTemp.length; k++){
+            for (var l = 0; l < this.providers.length; l++){
+              if(this.providerTemp[k].name == this.providers[l].name){
+                // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                for(var m in this.providers[l].requiredField){
+                  // console.log("req",this.providers[j].requiredField[m])
+                  let reqName = this.providers[l].requiredField[m].name;
+                  this.providerTemp[k][reqName] = this.providers[l].requiredField[m].value;
+                }
+              }
+            }
+          }
           data.paymentProviders = this.providerTemp;
+          console.log("Providers update",data.paymentProviders)
         }else{
+          console.log('no provider at first', this.providerTemp)
           if(this.payment.hasOwnProperty('name') == true){
+            for(var i in this.providers){
+              if(this.providers[i].name == this.payment.name){
+                console.log("same name",this.payment);
+                for(var j in this.providers[i].requiredField){
+                  console.log("provider field",this.providers[i].requiredField[j]);
+                  this.payment[this.providers[i].requiredField[j].name] = this.providers[i].requiredField[j].value;
+                }
+              }
+            }
             data.paymentProviders.push(this.payment);
           }else{
             data.paymentProviders = []
@@ -390,6 +552,14 @@ export class DashboardComponent implements OnInit {
       }else{
         data.paymentProviders = []
       }
+
+      data['currencyCode'] = this.selectedFlag;
+      data['currencySign'] = this.selectedCurrency;
+
+      this.invoiceData = (this.emptyInvoiceData == true) ? {} : this.invoiceData;
+      console.log(this.invoiceData)
+      console.log(data)
+      
       body = {
         'invoiceSettings': this.invoiceData,
         'paymentSettings': data
@@ -424,6 +594,7 @@ export class DashboardComponent implements OnInit {
     this.online = {};
     this.isOnline = false;
     this.selectedProvider= '';
+    this.providerField = [];
     this.getInvoiceSetting('invoiceSettings')
     this.getPaymentSetting('paymentSettings')
   }
@@ -437,10 +608,23 @@ export class DashboardComponent implements OnInit {
       event.target.value = '';  
     }
   }
-
   onlinePayment(){
     this.isOnline = !this.isOnline;
     if(this.isOnline == true){
+      // this.providers = [
+      //   {
+      //     'id': 0,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "MC Payment",
+      //     'requiredField': [{name: "Mcptid", type: "string"}]
+      //   },
+      //   {
+      //     'id': 1,
+      //     'logo': "/public/img/mc-payment-logo.png",
+      //     'name': "Test Payment",
+      //     'requiredField': [{name: "MerchantID", type: "string"},{name: "APIKey", type: "string"}]
+      //   }
+      // ]
       this._service.paymentProvider()
       .subscribe((res:any) => {
         console.log(res)
@@ -450,6 +634,25 @@ export class DashboardComponent implements OnInit {
       })
     }else{
       this.payment = {}
+    }
+  }
+  getTwentyFourHourStartTime(obj) {
+    console.log("time obj",obj)
+    this.operationStart = obj.hr+':'+obj.min+' '+obj.meridiem; 
+    var time = this.operationStart;
+    if(time){
+      var hours = Number(time.match(/^(\d+)/)[1]);
+      var minutes = Number(time.match(/:(\d+)/)[1]);
+      var AMPM = time.match(/\s(.*)$/)[1];
+      if (AMPM == "PM" && hours < 12) hours = hours + 12;
+      if (AMPM == "AM" && hours == 12) hours = hours - 12;
+      var sHours = hours.toString();
+      var sMinutes = minutes.toString();
+      if (hours < 10) sHours = "0" + sHours;
+      if (minutes < 10) sMinutes = "0" + sMinutes;
+      // this.startT= sHours + ":" + sMinutes;
+      let t= sHours + ":" + sMinutes;
+      return t;
     }
   }
 }

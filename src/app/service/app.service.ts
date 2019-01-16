@@ -7,6 +7,7 @@ import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
 import {Subject} from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs';
 declare var $: any;
  
 @Injectable()
@@ -49,9 +50,20 @@ export class appService{
     goCourseCreate: Observable<any>;
     private backCC = new Subject<any>();
 
+    goCourseDetail: Observable<any>;
+    private backCDetail = new Subject<any>();
+
+    goPlanDetail: Observable<any>;
+    private backCPdetail = new Subject<any>();
 
     lnameChanges: Observable<any>;
     private lnameUpdated = new Subject<any>();
+
+    goSchedule: Observable<any>;
+    private backSc = new Subject<any>();
+
+    goUserCourseDetail: Observable<any>;
+    private userCDetail = new Subject<any>();
 
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
@@ -66,7 +78,11 @@ export class appService{
       this.goCat = this.preCat.asObservable();
       this.goCourse = this.backCo.asObservable();
       this.goCourseCreate = this.backCC.asObservable();
+      this.goCourseDetail = this.backCDetail.asObservable();
+      this.goPlanDetail = this.backCPdetail.asObservable();
       this.lnameChanges = this.lnameUpdated.asObservable();
+      this.goSchedule = this.backSc.asObservable();
+      this.goUserCourseDetail = this.userCDetail.asObservable();
     }
 
     callnameUpdate(){
@@ -98,10 +114,26 @@ export class appService{
       this.previous.next(false)
     }
 
+    backCourseDetail(){
+      this.backCDetail.next(false)
+    }
+
+    backPlanDetail(){
+      this.backCPdetail.next(false)
+    }
+
     gotoplan(){
       var val = localStorage.getItem('categoryID')
       console.log('gotoplan ',val)
       this.plan.next(val)
+    }
+
+    backSchedule(){
+      this.backSc.next(false)
+    }
+
+    backUserCDetail(){
+      this.userCDetail.next(false);
     }
 
     isLoggedIn(): boolean {
@@ -715,7 +747,6 @@ export class appService{
 
     getCategory(regionid: string, limit: number, skip: number): Observable<any>{
       this.getLocalstorage();
-      console.log(regionid)
       let url = this.baseUrl + '/' + regionid + '/category?limit=' + limit + '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -730,7 +761,102 @@ export class appService{
           return result;
       }) 
     }
-    
+    // getscheduleStaffList(params:any): Observable<any>{
+    //   this.getLocalstorage()
+    //   // let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+    //  let url = this.baseUrl + '/' + params.regionId + '/schedule/stafflist?daysOfWeek=' + params.daysOfWeek.toString() + '&categoryId=' +  params.categoryId;
+    //  if (params.keyword) {
+    //    url += '&keyword=' + params.keyword 
+    //  }  
+    //  if (params.limit) {
+    //   url += '&limit=' + params.limit
+    //  }  
+    //  if (params.skip) {
+    //   url += '&skip=' + params.skip
+    //  }
+    //  console.log(url, ' Url', params)
+    //  console.warn(this.tokenType + ' ' + this.accessToken)
+    //   const httpOptions = {
+    //       headers: new HttpHeaders({ 
+    //         'Content-Type': 'application/json', 
+    //         'authorization': this.tokenType + ' ' + this.accessToken})
+    //   };
+
+    //     return this.httpClient.get(url, httpOptions)
+    //     .map((res:Response) => {
+    //       let result = res;    
+    //       console.warn(res, 'Res APi')  
+    //       return result;
+    //   }) 
+    // }
+    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string): Observable<any>{
+      this.getLocalstorage()
+      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+    //  console.log(url, ' Url')
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+      
+    }
+    getSearchJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String,keyword:string,viewAs:string){
+      this.getLocalstorage()
+      if(lastjournalId == null || lastjournalId == undefined){
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&keyword=' + keyword + '&viewas=' + viewAs;
+      }else{
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId + '&keyword=' + keyword + '&viewas=' + viewAs ;
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+    }
+    getJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String){
+      this.getLocalstorage()
+      if(lastjournalId == null || lastjournalId == undefined){
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit ;
+      }else{
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId ;
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+    }
+    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,limit:number,skip:number): Observable<any>{
+      this.getLocalstorage()
+     let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek.toString() + '&categoryId=' + categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+    }
+
     createCoursePlan(id: string, locationid: string, data: object): Observable<any>{
       let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + locationid;
       const httpOptions = {
@@ -884,6 +1010,38 @@ export class appService{
       console.log(location)
       console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
       let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
+    getAllCourseplan(id: string,location: string, categoryId:string, skip:string,limit:string,): Observable<any>{
+      this.getLocalstorage();
+      console.log(location)
+      console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&categoryId=' + categoryId + '&skip=' + skip + '&limit=' + limit;
+      const httpOptions = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;     
+        return result;
+      }) 
+    }
+
+
+    getSearchCoursePlan(id: string,location: string,categoryId:string, skip:string,limit:string, keyword: string): Observable<any>{
+      this.getLocalstorage();
+      console.log(location)
+      console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)
+      let url = this.baseUrl+ '/' + id + '/courseplan?locationId='+ location + '&categoryId=' + categoryId + '&skip=' + skip + '&limit=' + limit  + '&keyword=' + keyword;
       const httpOptions = {
           headers: new HttpHeaders({  
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -1060,15 +1218,22 @@ export class appService{
     // }
 
 
-    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean, locationid:string): Observable<any>{
-      console.log("APP Service");
+    createCourse(id: string, data: object, save: boolean,courseID:string, isCheck: boolean, locationid:string, flexy:boolean): Observable<any>{
+      console.log("APP Service",flexy);
       console.log(courseID);
       if(courseID == ""){
         console.log("tttt");
         var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&draft=' + save;
+        url = (flexy == true) ? url + '&flexy=' + flexy : url;
+        // if(flexy == true){
+        //   var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&draft=' + save + 'flexy=' + flexy;
+        // }else{
+        //   var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&draft=' + save;
+        // }
       }else{
         var url = this.baseUrl + '/' + id + '/course?locationId='+ locationid +'&courseId=' + courseID + '&draft=' + save;
         url = (isCheck == true) ? url + '&check=' + isCheck : url;
+        url = (flexy == true) ? url + '&flexy=' + flexy : url;
       }
 
       const httpOptions: any = {
@@ -1534,6 +1699,7 @@ export class appService{
       console.log("selected str",selectedStr);
       if(selectedStr != ''){
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        console.log("apiUrl",apiUrl)
       }else{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }
@@ -1752,6 +1918,23 @@ export class appService{
         })
     }
 
+    getPaymentMethod(){
+      let apiUrl = this.baseUrl + '/payment-methods';
+
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      })
+    }
+
     makePayment(regionId:string,body:any){
       console.log(regionId,body)
       let apiUrl = this.baseUrl + '/' + regionId + '/payments';
@@ -1804,6 +1987,125 @@ export class appService{
       })
     }
 
-}
+    cancelUsersFromClass(classId:string, data, global): Observable<any>{
+      console.log(global)
+      this.getLocalstorage();
+      let apiUrl =  `${this.baseUrl}/${classId}/cancel/class?passes=${global}`; 
+      let headers = new Headers();
 
+      headers.append('Content-Type', 'application/json');
+      headers.append('authorization', this.tokenType + ' ' + this.accessToken);
+      let options = new RequestOptions({ headers: headers });
+      return this._http.post(apiUrl, data, options)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+
+
+
+    transferClass(body:object){
+      console.log("body",body);
+      let apiUrl = this.baseUrl + '/class/actions/transfer';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+
+    }
+
+    makeupPassIssue(body, courseId, userId){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + courseId + '/makeup-pass/user/' + userId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    getClaimPassCourses(courseid:string){
+      let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons';
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    getMakeupLists(userid, type, regionid){
+      let apiUrl = this.baseUrl + '/' + regionid + '/' + 'user/makeup-pass/' + userid + '?filter=' + type;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    enrollPass(body, userid, courseid){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + courseid + '/makeup/user/' + userid;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, body, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      }) 
+    }
+
+    searchMakeupCourse(keyword, courseid, limit, skip){
+      let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons?keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getStaffSchedule(regionId:string,staffId:string,daysOfweek:string,categoryId:string){
+      let apiUrl = this.baseUrl + '/' + regionId + '/staff/' + staffId + '/schedule?daysOfWeek=' + daysOfweek + '&categoryId='+categoryId;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      } ;
+      return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+}
 

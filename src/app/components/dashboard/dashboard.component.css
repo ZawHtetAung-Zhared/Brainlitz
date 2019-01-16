@@ -1,3 +1,17 @@
+.mainOverlay{
+  background: rgba(217, 217, 217, 0.7);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+.showZindex{
+  z-index: 1;
+}
 /*invoice*/
 .dot,
 .currency{
@@ -50,8 +64,11 @@
 .input-wrap{
     padding-left: 0;
 }
-.input-wrap .form-group{
+.input-wrap .form-group,.req-field{
     border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.input-wrap .form-group:last-child{
+  border-bottom: 0;
 }
 .no-border{
     border-bottom: none !important;
@@ -101,6 +118,10 @@
   height: 45px;
   border-radius: 3px;
   width: 100px;
+  
+}
+.remove-bg{
+  background: none;
 }
 .btn-cancel {
   background-color: #f2f4f5;
@@ -562,16 +583,27 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 .editBtns{
-  padding: 1rem;
-  float: right;
+  /* padding: 1rem; */
+  /* float: right; */
+  border-top: 1px solid #8080802b;
   font-family: 'Montserrat-Medium','Arial', sans-serif;
 }
-.editBtns a:nth-child(2){
-  color: #0080ff!important;
-}
+
 .cancel{
   padding: 0px 15px 0px 4px;
+  font-size: 14px;
   color: #2e3d4d!important;
+}
+.time-picker:focus,.cancel:focus,.updateButton:focus{
+  outline: none!important;
+  box-shadow: none!important;
+}
+.updateButton{
+  color: #0080ff!important;
+  padding-right: 0px;
+  padding-left: 8px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  font-size: 14px;
 }
 /*===App info setting===*/
 .setting-info{
@@ -627,6 +659,7 @@ input:checked + .slider:before {
 .url-edit{
   margin-bottom: 12px;
 }
+
 .overlayBtns{
   float: right;
 }
@@ -698,6 +731,34 @@ input:checked + .slider:before {
     margin-left: 47px;
 }
 
+.operatingTime{
+  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-size: 16px;
+  color: #2e3d4d;
+  line-height: 20px;
+  margin-left: 47px;
+}
+.operatingTime1{
+  font-family:'Montserrat-SemiBold',Arial,sans-serif;
+  font-size: 16px;
+  color: #2e3d4d;
+  line-height: 20px;
+}
+.timedash{
+  display: inline-block;
+  width: 4px;
+  height: 2px;
+  color: #3d5266;
+  background: #3d5266;
+  margin:0px 8px 4px 8px;
+}
+.time-picker{
+  display: block;
+}
+
+/* .side-bar-wrap {
+  top: 158px;
+} */
 /*//Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767px) { 
   
@@ -746,6 +807,18 @@ input:checked + .slider:before {
     width: 85%
   }
   .card-columns{
-      column-count: 4;
+      column-count: 2;
   }
 }
+
+@media only screen and  (min-width:1366px){
+  .setting-wrapper{
+    width: 960px;
+  }
+}
+
+/* @media only screen and  (max-width:1024px){
+  .setting-wrapper{
+    width: 960px;
+  }
+} */

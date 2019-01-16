@@ -66,12 +66,14 @@ export class QuizwerkzComponent implements OnInit {
   checkPermission(){
     console.log(this.permissionType)
     this.pdfPermission = ["VIEWQUIZWERKZ","CREATEQUIZWERKZ","EDITQUIZWERKZ","DELETEQUIZWERKZ"];
-    this.pdfPermission = this.pdfPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    if(this.permissionType && this.permissionType.length>0){
+      this.pdfPermission = this.pdfPermission.filter(value => -1 !== this.permissionType.indexOf(value));
     
-    this.pdfDemo['viewPdf'] = (this.pdfPermission.includes("VIEWQUIZWERKZ")) ? 'VIEWQUIZWERKZ' : '';
-    this.pdfDemo['addPdf'] = (this.pdfPermission.includes("CREATEQUIZWERKZ")) ? 'CREATEQUIZWERKZ' : '';
-    this.pdfDemo['editPdf'] = (this.pdfPermission.includes("EDITQUIZWERKZ")) ? 'EDITQUIZWERKZ' : '';
-    this.pdfDemo['deletePdf'] = (this.pdfPermission.includes("DELETEQUIZWERKZ")) ? 'DELETEQUIZWERKZ' : '';
+      this.pdfDemo['viewPdf'] = (this.pdfPermission.includes("VIEWQUIZWERKZ")) ? 'VIEWQUIZWERKZ' : '';
+      this.pdfDemo['addPdf'] = (this.pdfPermission.includes("CREATEQUIZWERKZ")) ? 'CREATEQUIZWERKZ' : '';
+      this.pdfDemo['editPdf'] = (this.pdfPermission.includes("EDITQUIZWERKZ")) ? 'EDITQUIZWERKZ' : '';
+      this.pdfDemo['deletePdf'] = (this.pdfPermission.includes("DELETEQUIZWERKZ")) ? 'DELETEQUIZWERKZ' : '';
+    }
     
     if(this.pdfPermission.length > 0){
       this.getAllPdf(20, 0);
