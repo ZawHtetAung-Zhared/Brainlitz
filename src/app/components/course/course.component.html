@@ -137,7 +137,7 @@
                         name="start"  
                         [(ngModel)]="courseVal.startDate" 
                         (focus)="openDatePicker(start)"
-                        (clickOutside)= "closeDatePicker(start)"
+                        (clickOutside)= "closefix($event,start)"
                         (ngModelChange)="setMinDate($event)" 
                         [maxDate]="maxDate"
                         (navigate)="currentMonth($event)"
@@ -156,7 +156,7 @@
                         name="end" 
                         [(ngModel)]="courseVal.endDate" 
                         (focus)="openDatePicker(end)"
-                        (clickOutside)= "closeDatePicker(end)"
+                        (clickOutside)= "closefix($event,end)"
                         ngbDatepicker 
                         #end="ngbDatepicker" 
                         (navigate)="currentMonth($event)"

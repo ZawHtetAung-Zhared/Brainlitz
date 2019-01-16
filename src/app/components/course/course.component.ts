@@ -299,10 +299,15 @@ export class CourseComponent implements OnInit {
   openDatePicker(datePicker){
     datePicker.open();
   }
-  closeDatePicker(datePicker){
-    datePicker.close();
+  // closeDatePicker(datePicker){
+  //   datePicker.close();
+  // }
+  closefix(event, datePicker) {
+    if(event.target.offsetParent == null)
+      datePicker.close();
+    else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER")
+      datePicker.close();
   }
-
 
   checkPermission(){
     console.log(this.permissionType)
