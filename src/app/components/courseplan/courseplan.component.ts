@@ -920,14 +920,15 @@ export class CourseplanComponent implements OnInit {
     }
   }
   closeDropdown(event, type) {
-    if (type == 'taxOpt') {
-      var parentWrap = event.path.filter(function (res) {
-        return res.className == "form-group has-feedback taxOpt-wrap"
-      })
-      if (parentWrap.length == 0) {
-        this.taxOptShow = false;
-      }
-    }
+    // if (type == 'taxOpt') {
+    //   var parentWrap = event.path.filter(function (res) {
+    //     return res.className == "form-group has-feedback taxOpt-wrap"
+    //   })
+    //   if (parentWrap.length == 0) {
+    //     this.taxOptShow = false;
+    //   }
+    // }
+    this.taxOptShow = false;
   }
 
   depositDropdown() {

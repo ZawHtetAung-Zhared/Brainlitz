@@ -690,7 +690,7 @@
 									<div class="col-md-6">
 										<label class="all-title-font" style="padding-left: 10px;">Tax Options</label>
 										<div>
-											<div class="form-group has-feedback taxOpt-wrap" (click)="showDropdown('taxOpt','')" (document:click)="closeDropdown($event,'taxOpt')">
+											<div class="form-group has-feedback taxOpt-wrap" (click)="showDropdown('taxOpt','')" (clickOutside)="closeDropdown($event,'taxOpt')">
 												<input class="cursor-on form-control br-bshadow-none"  name="taxName" type="text" placeholder="username" [(ngModel)]="chooseTax" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down tax-downicon"></span>
 											 </div>
 											 <div class="dropdown-wrap" *ngIf="taxOptShow == true">
