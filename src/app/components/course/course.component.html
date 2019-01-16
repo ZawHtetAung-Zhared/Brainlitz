@@ -53,7 +53,7 @@
                           </div>
                         </div>
                       </div>
-                      <span (click)="dropDown($event,'category')" (document:click)="closeDataBox($event,'category')"class="fa fa-angle-down pull-right icon search-downicon"></span>
+                      <span (click)="dropDown($event,'category')" class="fa fa-angle-down pull-right icon search-downicon"></span>
                       <div *ngIf="categorySearch" class="data-dropbox">
                         <input 
                           class="form-control input-dropdown" 
@@ -85,8 +85,8 @@
                           </div>
                         </div>
                       </div>
-                      <span (click)="dropDown($event,'plan')" (document:click)="closeDataBox($event,'plan')" class="fa fa-angle-down pull-right icon search-downicon"></span>
-                      <div *ngIf="planSearch == true" class="data-dropbox">
+                      <span (click)="dropDown($event,'plan')" class="fa fa-angle-down pull-right icon search-downicon"></span>
+                      <div *ngIf="planSearch == true" class=" hide-dropbox">
                         <input 
                           class="form-control input-dropdown" 
                           type="search" 
@@ -114,10 +114,8 @@
                       placeholder="Type a word that relates part of the course name" 
                       id="course-search"
                       (focus)="focusCourseSearch($event)"
-                      
                       autocomplete="off"
                       name="keyword"
-                      
                       [(ngModel)]="courseVal.keyword" 
                       #csearch="ngModel"
                     >
@@ -180,9 +178,8 @@
                             name="starttime"  
                             [(ngModel)]="courseVal.startTime" 
                             (click)="startTimeConfigure('start')" 
-                            (document:click)="closeTimeRange($event, 'startRange')"
                             readonly >
-                          <div *ngIf="startTime" class="duration-progress">
+                          <div class="duration-progress">
                             <div class="d-flex justify-content-center">
                               <div class="d-flex flex-column justify-content-center time-range">
                                 {{showStartFormat}}
@@ -227,10 +224,9 @@
                             class="input-day form-control" 
                             name="endtime"  
                             [(ngModel)]="courseVal.endTime" 
-                            (click)="startTimeConfigure('end')" 
-                            (document:click)="closeTimeRange($event, 'endRange')"
+                            (click)="endTimeConfigure('end')" 
                             readonly >
-                          <div *ngIf="endTime" class="duration-progress">
+                          <div  class="end-duration-progress">
                             <div class="d-flex justify-content-center">
                               <div class="d-flex flex-column justify-content-center time-range">
                                 {{showEndFormat}}

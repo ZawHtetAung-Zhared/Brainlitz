@@ -10,6 +10,7 @@ import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { last } from 'rxjs/operator/last';
+// import { start } from 'repl';
 declare var $:any;
 
 @Component({
@@ -383,19 +384,68 @@ export class CourseComponent implements OnInit {
   @HostListener('window:scroll', ['$event']) onScroll($event){
     if(window.pageYOffset > 81){
       this.isSticky = true;
+
       this.showBtn = true
     }else{
       this.isSticky = false;
       this.showBtn = false;
     }
-  }
 
-  @HostListener('document:click', ['$event']) clickedOutside($event){
-    console.log($event);
-     // here you can hide your menu
-     this.xxxhello = '';
-     console.log("CLICKED OUTSIDE");
-   }
+  }
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    // for category Search
+    if (this.categorySearch != true ) {
+      $('.data-dropbox').css({ 'display': "none" });
+    }
+    else {
+      $('.data-dropbox').css({ 'display': "block" });
+      $('.data-dropbox').click(function (event) {
+        event.stopPropagation();
+      });
+      this.categorySearch = false;
+    }
+    // for plan search
+    if(this.planSearch != true){
+      $('.hide-dropbox').css({ 'display': "none" });
+    }else{
+      $('.hide-dropbox').css({ 'display': "block" });
+      $('.hide-dropbox').click(function (event) {
+        event.stopPropagation();
+      })
+      this.planSearch = false;
+      }
+      // for start time
+    if(this.startTime != true){
+      $('.duration-progress').css({ 'display': "none" });
+    }else{
+      $('.duration-progress').css({ 'display': "block" });
+      $('.duration-progress').click(function (event) {
+        event.stopPropagation();
+      })
+      this.startTime = false;
+      }
+      // for end time
+    if(this.endTime != true){
+      $('.end-duration-progress').css({ 'display': "none" });
+    }else{
+      $('.end-duration-progress').css({ 'display': "block" });
+      $('.end-duration-progress').click(function (event) {
+        event.stopPropagation();
+      })
+      this.endTime = false;
+      }
+
+
+    }
+
+  // @HostListener('document:click', ['$event']) clickedOutside($event){
+
+  //   console.log($event);
+  //    // here you can hide your menu
+  //    this.xxxhello = '';
+  //    console.log("CLICKED OUTSIDE");
+  //  }
 
   //start course search
 
@@ -421,7 +471,7 @@ export class CourseComponent implements OnInit {
     this.isAdvancedSearch = false;
     this.clearSearch();
   }
-
+ 
   clearSearch(){
     console.log('clear')
     this.hideSearch = false;
@@ -451,8 +501,13 @@ export class CourseComponent implements OnInit {
     $event.preventDefault();
     $event.stopPropagation();
     console.log('000')
-    this.categorySearch = (state == 'category') ? !this.categorySearch : false;
-    this.planSearch = (state == 'plan') ? !this.planSearch : false;
+    if(state == 'category'){
+      this.categorySearch = true;
+    }else{
+      this.planSearch = true;
+    }
+    // this.categorySearch = (state == 'category') ? !this.categorySearch : false;
+    // this.planSearch = (state == 'plan') ? !this.planSearch : false;
   }
 
   // dropDown($event: Event, state){
@@ -670,10 +725,10 @@ export class CourseComponent implements OnInit {
   }
 
   startTimeConfigure(state){
-    // console.log('~~~~')
-
-    this.startTime = (state == 'start') ? true : false;
-    this.endTime = (state == 'end') ? true : false;
+      this.startTime= true;
+  }
+  endTimeConfigure(state){
+    this.endTime = true;
   }
 
   showAdvancedSearch(){

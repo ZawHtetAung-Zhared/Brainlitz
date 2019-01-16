@@ -154,7 +154,17 @@
 						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.start == '' || model.start == undefined}">Starts</label>
 						<div class="input-wrap">
 							<div class="cc-start">
-								<input type="text" placeholder="Start date" class="input-day dropD startInput" name="start" required [(ngModel)]="model.start" (click)="start.toggle()" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate"  ngbDatepicker #start="ngbDatepicker" (document:click)="closeDropdown($event, 'start', start)" readonly>
+								<input type="text"
+									   placeholder="Start date"
+									   class="input-day dropD startInput" 
+									   name="start" 
+									   required 
+									   [(ngModel)]="model.start" 
+									   (click)="start.toggle()" 
+									   (ngModelChange)="setMinDate($event)" 
+									   [maxDate]="maxDate"  ngbDatepicker #start="ngbDatepicker" 
+									   (document:click)="closeDropdown($event, 'start', start)" 
+									   readonly>
 								<!-- <input *ngIf="isEdit == true" type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker" (document:click)="closeStart($event, start)" readonly> -->
 							</div>
 						</div>
@@ -187,7 +197,16 @@
 					<div class="col-md-6 p-0" *ngIf="flexiOn == false">
 						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.startT == '' || model.startT == undefined}">Starting Time</label>
 						<div class="input-wrap">
-							<input type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly (click)="durationProgress($event)" style="background: none;">
+							<input 
+								type="text" 
+								placeholder="Start time" 
+								class="input-day" 
+								name="starttime" 
+								required 
+								[(ngModel)]="model.startT" 
+								readonly 
+								(click)="durationProgress($event)" 
+								style="background: none;">
 							<!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
 							<div class="bg-box duration-progress">
 								<div id="rectangle"></div>

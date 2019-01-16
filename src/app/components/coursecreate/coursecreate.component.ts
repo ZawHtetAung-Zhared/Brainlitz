@@ -545,7 +545,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  public documentClick(event): void {
+  public categorySearch(event): void {
     if (this.progressSlider != true) {
       $('.bg-box').css({ 'display': "none" });
     }
