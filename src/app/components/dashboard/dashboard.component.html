@@ -117,7 +117,7 @@
                 <!-- Operation Hour Close -->
                 <div class="editBtns  d-flex justify-content-end " *ngIf="isEdit">
                   <button class="cancel btn remove-bg" (click)="cancelUpdate()">Cancel</button>
-                  <button class="btn updateButton remove-bg" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid || startT > endT">Done</button>
+                  <button class="btn updateButton remove-bg" (click)="updateRegionalInfo(item,'timezone')">Done</button>
                 </div>
               </div>
               <div *ngIf="!isEdit">

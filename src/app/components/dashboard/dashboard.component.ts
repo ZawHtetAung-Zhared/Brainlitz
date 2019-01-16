@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   public admin: any;
   public permissionType: Array<any> = [];
   public navIsFixed: boolean = false;
-  public isMidStick: boolean = false;
+public isMidStick: boolean = false;
   public operationStart :any=''; 
   public operationEnd :any=''; 
   public item:any = {
