@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
+import { DataService } from '../../service/data.service';
 import { Observable } from 'rxjs/Rx';
 import { LocationComponent } from '../location/location.component';
 
@@ -31,7 +32,7 @@ export class HeaderComponent implements OnInit {
   public locationDpShow: boolean = false;
   public selectedLocation:any = {};
   
-  constructor(private _router: Router, private _service: appService) {
+  constructor(private _router: Router, private _service: appService, private _dataservice: DataService) {
     console.log('hi construc')
     this._service.sendData.subscribe((data) => {
         this.headerlocationLists = data; 
@@ -201,6 +202,14 @@ export class HeaderComponent implements OnInit {
     console.log('000')
     this.dropMenuShow = (state == 'profile') ? !this.dropMenuShow : false;
     this.locationDpShow = (state == 'loc') ? !this.locationDpShow : false;
+  }
+
+  onClickHeaderTab(type){
+    // let str = '/'+type
+    // this._router.navigate(['/course'])
+    console.log("===>ClickHeaderTab")
+    this._dataservice.nevigateCourse('');
+    this._dataservice.nevigateCustomer('');
   }
 
 }

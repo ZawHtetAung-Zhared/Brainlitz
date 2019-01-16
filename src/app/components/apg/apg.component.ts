@@ -17,7 +17,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-
+    public keyword:any;
+    public isSearch:boolean =false;
     public model:any = {};
     public dataVal:any = {};
   	public modalReference: any;
@@ -114,12 +115,20 @@ export class ApgComponent implements OnInit {
     checkPermission(){
       console.log(this.permissionType)
       this.apgPermission = ["CREATEAPG","CREATEAP"];
-      this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
-      this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
-      this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
-      this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
+      if(this.permissionType!= null){
+        this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+        this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+        this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+        this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
+  
+        console.log(this.apgDemo)
+      }
+      // this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+      // this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+      // this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+      // this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
 
-      console.log(this.apgDemo)
+      // console.log(this.apgDemo)
       if(this.apgPermission.length > 0){
         this.getAllModule();
         this.getAllAPG(20,0);
@@ -658,7 +667,7 @@ export class ApgComponent implements OnInit {
       // // this.getAllAPG(20,skip);
       if(this.isFirst == true){
         console.log("Apg Search by keyword");
-        this.getApgSearch(this.searchWord, this.itemtype, 20, 0)
+        // this.getApgSearch(this.searchWord, this.itemtype, 20, 0)
       }else{
         console.log("without keyword")
         this.getAllAPG(20,skip);
@@ -666,13 +675,24 @@ export class ApgComponent implements OnInit {
       // this.getAllAPG(20,skip);
     }
 
+    showmore(type, skip: any){
+  		if(this.isSearch == true){
+			console.log("User Search");
+			this.userSearch(this.keyword, type, 20, skip) 
+		}else{
+			console.log("Not user search")
+			this.getAllAPG( 20, skip);
+		}
+  	}
+
+
     showMoreTemplate(skip){
       this.getAllTemplate(20, skip);
     }
     
     changeSearch(keyword, type){
       console.log(keyword)
-      this.getApgSearch(keyword, type, 20, 0);
+      // this.getApgSearch(keyword, type, 20, 0);
       this.searchWord = keyword;
       this.isFirst = true;
       this.itemtype = type;
@@ -688,6 +708,44 @@ export class ApgComponent implements OnInit {
           this.getAllTemplate(20,0)
         }
       }
+    }
+
+    userSearch(searchWord, type, limit, skip){
+      this.keyword = searchWord;
+      console.log('hi hello');
+      if(skip == '' && limit == ''){
+        console.log("First time search")
+        var isFirst = true;
+        limit = 20;
+        skip = 0;
+      }
+  
+      if(searchWord.length != 0){
+        this.isSearch = true;
+         this._service.getSearchApg(this.regionID, searchWord, type, '', limit, skip)
+            .subscribe((res:any) => {
+              console.log(res);
+              // this.apgList = res;
+              this.result = res;
+          if(isFirst == true){
+            console.log("First time searching");
+            this.apgList = [];
+            this.apgList = res;
+          }else{
+            console.log("Not First time searching")
+            // this.apgList = res;
+            this.apgList = this.apgList.concat(res);
+          }	
+            }, err => {  
+              console.log(err);
+            });
+        }else{
+          setTimeout(() => {
+            this.apgList = [];
+            this.getAllAPG(limit,skip);
+            this.isSearch = false;
+          }, 300);
+        }
     }
 
     getApgSearch(keyword, type, limit, skip){

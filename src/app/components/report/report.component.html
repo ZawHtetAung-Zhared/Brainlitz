@@ -12,121 +12,124 @@
 			</div>
 		</div>
 	</div>
-	<div class="heading-margin no-padding large-col">
-		<div class="d-flex flex-column w-100 h-100 main-wrapper">
-			<div *ngIf="showDetail == false" class="w-100">
-				<div *ngIf="hasReport" class="txt-color-center">
-					<h3>Don't have staff for this location.</h3>
-				</div>
-				<div >			  
-					<div *ngIf="reportDemo.viewReport != ''" class="d-flex flex-row" [ngClass]="{'sticky' : isSticky == true}">
-						<h3 class="pd-lft-15">Average ratings</h3>
-						<span class="location-name">{{locationName}}</span>
+	<!-- <div class="d-flex  flex-column align-items-center"> -->
+		<div class="heading-margin no-padding d-flex flex-column align-items-center align-items-center large-col">
+			<div class="d-flex flex-column w-100 h-100 main-wrapper">
+				<div *ngIf="showDetail == false" class="w-100">
+					<div *ngIf="hasReport" class="txt-color-center">
+						<h3>Don't have staff for this location.</h3>
 					</div>
-					<p class="input-recommend">
-						 Find the ratings that your teachers have received from other parents or students. 
-					</p>
-					<div *ngIf="reportDemo.viewReport != ''" class="d-style pd-top-15">
-						<div class="box-width" *ngFor="let staffRating of ratingLists; let i = index;">
-							<div class="rating-box" (click)="getFeedBack(staffRating.teacherId, staffRating)">
-								<div class="inner-box">
-									<div class="circular-image">
-										<img src="{{staffRating.profilePic}}">
-									</div>	
-									<div class="teacher-average-font"><span>Staff</span></div>
-									<h5 style="letter-spacing: 0.5px;">{{staffRating.preferredName}}</h5>
-									<div class="wrap-rating d-flex flex-row">
-										<div class="d-flex half">
-											<h2 style="margin: 0;">{{staffRating.rating}}</h2>
-											<div style="display: block;">
-												<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="staffRating.rating"></star-rating-comp>
-												<div class="average-rating-font">{{staffRating.voter}} <span *ngIf="staffRating.voter > 1">ratings</span><span *ngIf="staffRating.voter == 1">rating</span></div>
-											</div>
-										</div>
-										<div class="d-flex wil">
-											<button class="detail-bg" type="button"><i class="fa fa-angle-right right-arrow"></i></button>
-										</div>
-									</div>
-								</div>
-							</div>
+					<div >			  
+						<div *ngIf="reportDemo.viewReport != ''" class="d-flex flex-row" [ngClass]="{'sticky' : isSticky == true}">
+							<h3 class="pd-lft-15">Average ratings</h3>
+							<span class="location-name">{{locationName}}</span>
 						</div>
-					</div>
-				</div>
-	    	</div> 
-	    	<div *ngIf="showDetail">
-	    		<div class="back-wrap d-flex justify-content-between">
-	    			<div class="back-to" (click)="back()">
-	    				<i class="fa fa-angle-left back-average-arrow"></i>
-	    				<p>Average ratings</p>
-	    			</div>
-	    			<!-- <div class="dropdown custom-dropdown">
-	    			    <button class="btn btn-design" type="button" (click)="dropDown()">
-	    			    	Export <i class="fa fa-chevron-down dropdown-arrow"></i>
-	    			    <span class="caret"></span></button>
-	    			    <div class="bg-box">
-	    			    	<div id="rectangle"></div>
-	    				    <ul class="dropdown-menu">
-	    				      <li>Export as CSV</li>
-	    				      <li>Export as PDF</li>
-	    				    </ul>
-	    			    </div>
-	    			</div> -->
-	    		</div>
-					<div class="col-md-12 flex-show">
-						<div class="col-md-6 flex-show left-side">
-							<div>
-								<div class="circular-image mr-top-right">
-									<img src="{{teacherProfile}}">
-								</div>
-							</div>	
-							<div style="display: block; margin-top: 15px;">
-								<div class="teacher-detail-font">Staff</div>
-								<h4 class="teacher-name">{{teacherPreferredName}}</h4>
-							</div>
-						</div>
-						<div class="col-md-6 right-side">
-							<h3 class="head-rating-count">{{teacherRating}}</h3>
-							<div style="display: block;">
-								<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="teacherRating"></star-rating-comp>
-								<div style="padding-left: 10px;">{{teacherVote}} ratings</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-12 card-columns" style="margin-top: 25px; padding-bottom: 150px;">
-						<div *ngFor="let detail of feedbackLists; let i = index;">
-							<div class="card card-wrap">
-								<div class="header">
-									<h5>{{detail.course.name}}</h5>
-									<div class="size-16">
-										Room <span class="room-dot">&#183;</span> {{detail.course.room}}
-									</div>
-								</div>
-								<div class="d-flex flex-row pos-gray-content" *ngFor="let detailVote of detail.feedbacks; let i = index;">
-									<div class="pad-0" style="padding-right: 15px;">
-										<div class="circular-detail-image">
-											<img src="{{detailVote.profilePic}}">
+						<p class="input-recommend">
+							 Find the ratings that your teachers have received from other parents or students. 
+						</p>
+						<div *ngIf="reportDemo.viewReport != ''" class="d-style pd-top-15 d-flex flex-wrap">
+							<!-- <div class="box-width" *ngFor="let staffRating of ratingLists; let i = index;"> -->
+							<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6" *ngFor="let staffRating of ratingLists; let i = index;">
+								<div class="rating-box" (click)="getFeedBack(staffRating.teacherId, staffRating)">
+									<div class="inner-box">
+										<div class="circular-image">
+											<img src="{{staffRating.profilePic}}">
 										</div>	
-									</div>	
-									<div class="info-group pad-0 d-flex justify-content-between flex-row w-100">
-										<div class="">
-											<div>
-												<p class="mr-0">{{detailVote.preferredName}}</p>
-												<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detailVote.rating"></star-rating-comp>
+										<div class="teacher-average-font"><span>Staff</span></div>
+										<h5 style="letter-spacing: 0.5px;">{{staffRating.preferredName}}</h5>
+										<div class="wrap-rating d-flex flex-row">
+											<div class="d-flex half">
+												<h2 style="margin: 0;">{{staffRating.rating}}</h2>
+												<div style="display: block;">
+													<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="staffRating.rating"></star-rating-comp>
+													<div class="average-rating-font">{{staffRating.voter}} <span *ngIf="staffRating.voter > 1">ratings</span><span *ngIf="staffRating.voter == 1">rating</span></div>
+												</div>
 											</div>
-											<p class="detail-message">{{detailVote.message}}</p>
+											<div class="d-flex wil">
+												<button class="detail-bg" type="button"><i class="fa fa-angle-right right-arrow"></i></button>
+											</div>
 										</div>
-										<p class="detail-show-date">{{detailVote.updatedDate}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> 
+				<div *ngIf="showDetail">
+					<div class="back-wrap d-flex justify-content-between">
+						<div class="back-to" (click)="back()">
+							<i class="fa fa-angle-left back-average-arrow"></i>
+							<p>Average ratings</p>
+						</div>
+						<!-- <div class="dropdown custom-dropdown">
+							<button class="btn btn-design" type="button" (click)="dropDown()">
+								Export <i class="fa fa-chevron-down dropdown-arrow"></i>
+							<span class="caret"></span></button>
+							<div class="bg-box">
+								<div id="rectangle"></div>
+								<ul class="dropdown-menu">
+								  <li>Export as CSV</li>
+								  <li>Export as PDF</li>
+								</ul>
+							</div>
+						</div> -->
+					</div>
+						<div class="col-md-12 flex-show">
+							<div class="col-md-6 flex-show left-side">
+								<div>
+									<div class="circular-image mr-top-right">
+										<img src="{{teacherProfile}}">
+									</div>
+								</div>	
+								<div style="display: block; margin-top: 15px;">
+									<div class="teacher-detail-font">Staff</div>
+									<h4 class="teacher-name">{{teacherPreferredName}}</h4>
+								</div>
+							</div>
+							<div class="col-md-6 right-side">
+								<h3 class="head-rating-count">{{teacherRating}}</h3>
+								<div style="display: block;">
+									<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="teacherRating"></star-rating-comp>
+									<div style="padding-left: 10px;">{{teacherVote}} ratings</div>
+								</div>
+							</div>
+						</div>
+	
+						<div class="col-md-12 card-columns" style="margin-top: 25px; padding-bottom: 150px;">
+							<div *ngFor="let detail of feedbackLists; let i = index;">
+								<div class="card card-wrap">
+									<div class="header">
+										<h5>{{detail.course.name}}</h5>
+										<div class="size-16">
+											Room <span class="room-dot">&#183;</span> {{detail.course.room}}
+										</div>
+									</div>
+									<div class="d-flex flex-row pos-gray-content" *ngFor="let detailVote of detail.feedbacks; let i = index;">
+										<div class="pad-0" style="padding-right: 15px;">
+											<div class="circular-detail-image">
+												<img src="{{detailVote.profilePic}}">
+											</div>	
+										</div>	
+										<div class="info-group pad-0 d-flex justify-content-between flex-row w-100">
+											<div class="">
+												<div>
+													<p class="mr-0">{{detailVote.preferredName}}</p>
+													<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detailVote.rating"></star-rating-comp>
+												</div>
+												<p class="detail-message">{{detailVote.message}}</p>
+											</div>
+											<p class="detail-show-date">{{detailVote.updatedDate}}</p>
+											
+										</div>
 										
 									</div>
-									
-								</div>
-							</div>	
+								</div>	
+							</div>
 						</div>
-					</div>
-	    	</div>
+				</div>
+			</div>
 		</div>
-	</div>
+	<!-- </div> -->
 	<div *ngIf="ratingLists.length >= 20 && !showDetail" class="d-flex justify-content-center load-more">
 	  <button class="btn" (click)="showMore(ratingLists.length)">load more</button>
 	</div>

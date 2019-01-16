@@ -1,391 +1,396 @@
 <app-header [ngClass]="{'stick' : isSticky == true}"></app-header>
-<div class="d-flex flex-row h-100 w-100 content-wrapper">
-    <div class="noti-sidebar h-100">
-	    <div class="side-bar-wrap" [ngClass]="{'p-top' : isSticky == true, 'mid-top' : isMidStick == true}">
-	    	<div *ngIf="notiSidebar.length > 0" [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap">
-	    		<button class="btn noti-tab w-100" (click)="clickTab('dropdown')">
-					<span class="btnSpan">
-            		<img *ngIf="notiType == 'send' || notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
-            		<img *ngIf="notiType != 'send' && notiType != 'view'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
-						<span>Notification</span>
-					</span>
-				</button>
-				<ul *ngIf="notiSidebar.length > 1" [ngClass]="{'down': isdropdown == true && (notiType == 'send' || notiType == 'view')}" class="noti-dropdown">
-					<li [ngClass]="{'activetab': notiType == 'send'}" (click)="clickTab('send')">Send notification</li>
-					<li [ngClass]="{'activetab': notiType == 'view'}" (click)="clickTab('view')">Sent history</li>
-				</ul>
-	    	</div>
-			<!-- <div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('send')">
-					<span class="btnSpan">
-            	<img *ngIf="notiType == 'send'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
-            	<img *ngIf="notiType != 'send'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
-						<span>Send notification</span>
-					</span>
-				</button>
-			</div>
-			<div [ngClass]="{'active': notiType == 'view'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('view')">
-					<span class="btnSpan">
-            	<img *ngIf="notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
-            	<img *ngIf="notiType != 'view'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
-						<span>View sent history</span>
-					</span>
-				</button>
-			</div> -->
-			<div *ngIf="apgSidebar.length > 0" [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('apg')">
-					<span class="btnSpan">
-            	<img *ngIf="notiType == 'apg'" class="setting-icon" src="./assets/images/sidebar-APG_a@2x.png">
-            	<img *ngIf="notiType != 'apg'" class="setting-icon" src="./assets/images/sidebar-APG@2x.png">
-						<span>APG</span>
-					</span>
-				</button>
-			</div>
-			<div *ngIf="quizwerkzSidebar.length > 0" [ngClass]="{'active': notiType == 'quizwerkz'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('quizwerkz')">
-					<span class="btnSpan">
-            	<img *ngIf="notiType == 'quizwerkz'" class="setting-icon" src="./assets/images/sidebar-quizwerkz_a@2x.png">
-            	<img *ngIf="notiType != 'quizwerkz'" class="setting-icon" src="./assets/images/sidebar-quizwerkz@2x.png">
-						<span>Quizwerkz</span>
-					</span>
-				</button>
-			</div>
-			<div *ngIf="calendarSidebar.length > 0" [ngClass]="{'active': notiType == 'calendar'}" class="tab-wrap">			
-				<button class="btn noti-tab w-100" (click)="clickTab('calendar')">
-					<span class="btnSpan">
-            	<img *ngIf="notiType == 'calendar'" class="setting-icon" src="./assets/images/calendar_a@2x.png">
-            	<img *ngIf="notiType != 'calendar'" class="setting-icon" src="./assets/images/calendar@2x.png">
-						<span>Calendar</span>
-					</span>
-				</button>
-			</div>
-		</div>
-    </div>
-    <div class="heading-margin no-padding large-col">
-    	<div class="d-flex flex-column w-100 h-100 main-wrapper" *ngIf="notiType == 'send' && notiSidebarDemo.send != ''">
-    			<!-- <div class="d-flex flex-column">
-    				<div class="d-flex flex-row">
-						<h2 class="title-heading margin-heading">Send notification</h2>
-						<span class="location-name">{{locationName}}</span>
+<!-- <div class="d-flex flex-column h-100 justify-content-center align-items-center"> -->
+	<div class="d-flex flex-row h-100 w-100 content-wrapper">
+			<div class="noti-sidebar h-100">
+				<div class="side-bar-wrap" [ngClass]="{'p-top' : isSticky == true, 'mid-top' : isMidStick == true}">
+					<div *ngIf="notiSidebar.length > 0" [ngClass]="{'active': notiType == 'send' || notiType == 'view'}" class="tab-wrap noti-tab-wrap">
+						<button class="btn noti-tab w-100" (click)="clickTab('dropdown')">
+						<span class="btnSpan">
+									<img *ngIf="notiType == 'send' || notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
+									<img *ngIf="notiType != 'send' && notiType != 'view'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
+							<span>Notification</span>
+						</span>
+					</button>
+					<ul *ngIf="notiSidebar.length > 1" [ngClass]="{'down': isdropdown == true && (notiType == 'send' || notiType == 'view')}" class="noti-dropdown">
+						<li [ngClass]="{'activetab': notiType == 'send'}" (click)="clickTab('send')">Send notification</li>
+						<li [ngClass]="{'activetab': notiType == 'view'}" (click)="clickTab('view')">Sent history</li>
+					</ul>
 					</div>
-    			</div> -->
-				<div>
-					<h2 style="margin-right: 5px;" class="title-heading margin-heading pull-left">Send notification</h2>
-					<span class="location-name">{{locationName}}</span>
+				<!-- <div [ngClass]="{'active': notiType == 'send'}" class="tab-wrap">			
+					<button class="btn noti-tab w-100" (click)="clickTab('send')">
+						<span class="btnSpan">
+								<img *ngIf="notiType == 'send'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
+								<img *ngIf="notiType != 'send'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
+							<span>Send notification</span>
+						</span>
+					</button>
 				</div>
-				<div>
-					<p class="input-recommend">
-						Send custom notifications to your users either as email or push notification via the app. 
-					</p>
+				<div [ngClass]="{'active': notiType == 'view'}" class="tab-wrap">			
+					<button class="btn noti-tab w-100" (click)="clickTab('view')">
+						<span class="btnSpan">
+								<img *ngIf="notiType == 'view'" class="setting-icon" src="./assets/images/sidebar-notification_a@2x.png">
+								<img *ngIf="notiType != 'view'" class="setting-icon" src="./assets/images/sidebar-notification@2x.png">
+							<span>View sent history</span>
+						</span>
+					</button>
+				</div> -->
+				<div *ngIf="apgSidebar.length > 0" [ngClass]="{'active': notiType == 'apg'}" class="tab-wrap">			
+					<button class="btn noti-tab w-100" (click)="clickTab('apg')">
+						<span class="btnSpan">
+								<img *ngIf="notiType == 'apg'" class="setting-icon" src="./assets/images/sidebar-APG_a@2x.png">
+								<img *ngIf="notiType != 'apg'" class="setting-icon" src="./assets/images/sidebar-APG@2x.png">
+							<span>APG</span>
+						</span>
+					</button>
 				</div>
-				<div class="d-flex flex-row">
-					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" >
-						<form novalidate #notiForm="ngForm" class="notif">
-							<div class="form-group">
-							  	<label for="address" class="sub-title">Send to</label>
-							  	<div class="d-flex tool-box">
-									<div class="form-check form-check-inline tool-checked">
-									  <label [ngClass]="{'selected': isChecked == 'allcustomer'}" class="form-check-label">
-									    <input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> Customers
-									  </label>
-									</div>
-									<div [ngClass]="{'selected': isChecked == 'allstaff'}" class="form-check form-check-inline tool-checked">
-									  <label class="form-check-label">
-									    <input class="form-check-input" type="radio" name="type" id="type2" value="allstaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allstaff')"> Staffs
-									  </label>
-									</div>
-									<div [ngClass]="{'selected': isChecked == 'category'}" class="form-check form-check-inline tool-checked">
-									  <label class="form-check-label">
-									    <input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('category')"> Category
-									  </label>
-									</div>
-									<div [ngClass]="{'selected': isChecked == 'course'}" class="form-check form-check-inline tool-checked">
-									  <label class="form-check-label">
-									    <input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('course')"> Selected course
-									  </label>
-									</div>
-									<div class="form-check form-check-inline tool-checked">
-									  <label [ngClass]="{'selected': isChecked == 'user'}" class="form-check-label">
-									    <input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('user')"> Selected user
-									  </label>
-									</div>
-								</div>
-							</div>
+				<div *ngIf="quizwerkzSidebar.length > 0" [ngClass]="{'active': notiType == 'quizwerkz'}" class="tab-wrap">			
+					<button class="btn noti-tab w-100" (click)="clickTab('quizwerkz')">
+						<span class="btnSpan">
+								<img *ngIf="notiType == 'quizwerkz'" class="setting-icon" src="./assets/images/sidebar-quizwerkz_a@2x.png">
+								<img *ngIf="notiType != 'quizwerkz'" class="setting-icon" src="./assets/images/sidebar-quizwerkz@2x.png">
+							<span>Quizwerkz</span>
+						</span>
+					</button>
+				</div>
+				<div *ngIf="calendarSidebar.length > 0" [ngClass]="{'active': notiType == 'calendar'}" class="tab-wrap">			
+					<button class="btn noti-tab w-100" (click)="clickTab('calendar')">
+						<span class="btnSpan">
+								<img *ngIf="notiType == 'calendar'" class="setting-icon" src="./assets/images/calendar_a@2x.png">
+								<img *ngIf="notiType != 'calendar'" class="setting-icon" src="./assets/images/calendar@2x.png">
+							<span>Calendar</span>
+						</span>
+					</button>
+				</div>
+			</div>
+			</div>
+			<!-- <div class="d-flex flex-column w-100 align-items-center"> -->
 
-							<div *ngIf="isChecked == 'category'" class="form-group choose-cat">
-								<label for="typeahead-focus">Search for a category:</label>	
-								<input
-								  id="typeahead-focus"
-								  type="text"
-								  class="form-control"
-								  name="itemID"
-								  [(ngModel)]="item.itemID"
-								  #itemID="ngModel"
-								  (focus)="focusSearch($event, 'category')"
-								  (focusout)="hideSearch($event)"
-								  (input)="changeSearch($event.target.value, 'category')"
-								  autocomplete="off"
-								/>
-								<!-- <input
-								  id="typeahead-focus"
-								  type="text"
-								  class="form-control"
-								  name="itemID"
-								  [(ngModel)]="item.itemID"
-								  #itemID="ngModel"
-								  (focus)="focus$.next($event.target.value)"
-								  (click)="click$.next($event.target.value)"
-								  [ngbTypeahead]="search"
-								  #instance="ngbTypeahead"
-								  (ngModelChange)="valuechange($event, 'category')"
-								  [disabled]="categoryLists == undefined"
-								/> -->
-							</div>
-							<div style="top: 225px;" class="search-result-box" *ngIf="isFousCategory == true">
-								<div class="single-result" (click)="selectData(category._id, category.name, 'category')" *ngFor="let category of categoryLists">
-									{{category.name}}
-								</div>
-							</div>
-							<div *ngIf="isChecked == 'course'" class="form-group">
-								<label for="typeahead-focus">Search for a course:</label>
-								<input
-								  id="typeahead-focus"
-								  type="text"
-								  class="form-control"
-								  name="itemID"
-								  [(ngModel)]="item.itemID"
-								  #itemID="ngModel"
-								  (focus)="focusSearch($event, 'course')"
-								  (focusout)="hideSearch($event)"
-								  (input)="changeSearch($event.target.value, 'course')"
-								  autocomplete="off"
-								/>	
-								<!-- <input
-								  id="typeahead-focus"
-								  type="text"
-								  class="form-control"
-								  name="itemID"
-								  [(ngModel)]="item.itemID"
-								  #itemID="ngModel"
-								  (focus)="focus$.next($event.target.value)"
-								  (click)="click$.next($event.target.value)"
-								  [ngbTypeahead]="search"
-								  #instance="ngbTypeahead"
-								  (ngModelChange)="valuechange($event, 'course')"
-								  [disabled]="courseLists == undefined"
-								/> -->
-							</div>
-							<div class="search-result-box" style="top: 225px;" *ngIf="isFousCourse == true">
-								<div class="single-result" (click)="selectData(course._id, course.name, 'course')" *ngFor="let course of courseLists">
-									{{course.name}}
-								</div>
-							</div>
-
-							<div *ngIf="isChecked == 'user'" class="form-group">
-								<label for="typeahead-focus">Search for a user:</label>	
-								<input
-								  id="typeahead-focus"
-								  type="text"
-								  class="form-control"
-								  name="itemID"
-								  [(ngModel)]="item.itemID"
-								  #itemID="ngModel"
-								  (focus)="focusSearch($event, 'user')"
-								  (focusout)="hideSearch($event)"
-								  (input)="changeSearch($event.target.value, 'user')"
-								  autocomplete="off"
-								/>
-								<!-- <input
-								  id="typeahead-focus"
-								  type="text"
-								  class="form-control"
-								  name="itemID"
-								  [(ngModel)]="item.itemID"
-								  #itemID="ngModel"
-								  (focus)="focus$.next($event.target.value)"
-								  (click)="click$.next($event.target.value)"
-								  [ngbTypeahead]="search"
-								  #instance="ngbTypeahead"
-								  (ngModelChange)="valuechange($event, 'user')"
-								  [disabled]="userLists == undefined"
-								/> -->
-							</div>
-							<div class="search-result-box" *ngIf="isFous == true">
-								<div class="single-result" (click)="selectData(user.userId, user.preferredName ,'user')" *ngFor="let user of userLists">
-									{{user.preferredName}}
-								</div>
-							</div>
-
-
-							<div *ngIf="isChecked != 'user'" class="form-group">
-								<div *ngIf="isChecked=='allcustomer'" class="form-check active-user-form">
-								    <label class="form-check-label">
-								      <input type="checkbox" class="form-check-input" name="active" (change)="checkedActive($event, 'active')">
-								      Only active users
-								    </label>
-								</div>
-								<div *ngIf="isChecked=='allstaff'" class="form-check active-user-form">
-								    <label class="form-check-label">
-								      <input type="checkbox" class="form-check-input" name="activestaff" (change)="checkedActive($event, 'active')">
-								      Only active users
-								    </label>
-								</div>
-								<div *ngIf="isChecked=='category'" class="form-check active-user-form">
-								    <label class="form-check-label">
-								      <input type="checkbox" class="form-check-input" name="activecategory" (change)="checkedActive($event, 'active')">
-								      Only active users
-								    </label>
-								</div>
-								<div *ngIf="isChecked=='course'" class="form-check active-user-form">
-								    <label class="form-check-label">
-								      <input type="checkbox" class="form-check-input" name="activecourse" (change)="checkedActive($event, 'active')">
-								      Only active users
-								    </label>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="d-flex justify-content-between">
-									<label for="address" class="lable-title">Subject</label>
-									<div class="limit-word">
-										<span>{{wordLength}}/60characters</span>
-									</div>
-								</div>
-								<input type="text" class="form-control input-create" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" 
-								(focus)="focusMethod($event, 'subject', $event.target.value)"
-								(blur)="blurMethod($event, 'subject')"
-								(input)="changeMethod($event.target.value)"
-								maxlength="60"
-								required>
-								<div *ngIf="subject.errors && (subject.dirty || subject.touched)" class="alert alert-danger">
-									<div [hidden]="!subject.errors.required">
-										Subject is required!
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="d-flex justify-content-between">
-								  	<label for="address" class="lable-title">Message</label>
-								  	<div class="limit-word1">
-										<span>{{wordLength}}/280characters</span>
-									</div>
-								</div>
-							  <textarea class="form-control input-create" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" 
-							  (focus)="focusMethod($event, 'msg', $event.target.value)"
-							  (blur)="blurMethod($event, 'msg')"
-							  maxlength="280"
-							  (input)="changeMethod($event.target.value)"
-							  required></textarea>
-							  <div *ngIf="message.errors && (message.dirty || message.touched)" class="alert alert-danger">
-									<div [hidden]="!message.errors.required">
-										Message is required!
-									</div>
-								</div>
-							</div>	
-							<div class="form-group">
-								<label for="address" class="lable-title">Message Type</label>
+				<div class="heading-margin d-flex flex-column align-items-center no-padding large-col">
+					<div class="d-flex flex-column w-100 h-100 main-wrapper" *ngIf="notiType == 'send' && notiSidebarDemo.send != ''">
+							<!-- <div class="d-flex flex-column">
 								<div class="d-flex flex-row">
-									<div class="col-md-6 d-flex flex-row switch-col" *ngFor="let notiType of notiTypes; let i = index">
-										<label>{{notiType.name}}</label>
-										<div class="toggle-wrap">
-											<label class="radio-switch">
-												<input class="form-check-input" 
-									            type="checkbox" 
-									            name="notiType" 
-									            value="{{notiType.name}}" 
-									            [checked]="notiType.checked"
-									            (change)="checkedOptions(notiType, $event)"
-									            required>
-									            <span class="slider round"></span>
-											</label>
+								<h2 class="title-heading margin-heading">Send notification</h2>
+								<span class="location-name">{{locationName}}</span>
+							</div>
+							</div> -->
+						<div>
+							<h2 style="margin-right: 5px;" class="title-heading margin-heading pull-left">Send notification</h2>
+							<span class="location-name">{{locationName}}</span>
+						</div>
+						<div>
+							<p class="input-recommend">
+								Send custom notifications to your users either as email or push notification via the app. 
+							</p>
+						</div>
+						<div class="d-flex flex-row">
+							<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" >
+								<form novalidate #notiForm="ngForm" class="notif">
+									<div class="form-group">
+											<label for="address" class="sub-title">Send to</label>
+											<div class="d-flex tool-box">
+											<div class="form-check form-check-inline tool-checked"[ngClass]="{'selected': isChecked == 'allcustomer'}">
+												<label  class="form-check-label">
+													<input class="form-check-input" type="radio" name="type" id="type1" value="allcustomer" [(ngModel)]="item.type" #type="ngModel" [checked]='true' (click)="somethingChanged('allcustomer')"> Customers
+												</label>
+											</div>
+											<div [ngClass]="{'selected': isChecked == 'allstaff'}" class="form-check form-check-inline tool-checked">
+												<label class="form-check-label">
+													<input class="form-check-input" type="radio" name="type" id="type2" value="allstaff" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('allstaff')"> Staffs
+												</label>
+											</div>
+											<div [ngClass]="{'selected': isChecked == 'category'}" class="form-check form-check-inline tool-checked">
+												<label class="form-check-label">
+													<input class="form-check-input" type="radio" name="type" id="type3" value="category" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('category')"> Category
+												</label>
+											</div>
+											<div [ngClass]="{'selected': isChecked == 'course'}" class="form-check form-check-inline tool-checked">
+												<label class="form-check-label">
+													<input class="form-check-input" type="radio" name="type" id="type4" value="course" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('course')"> Selected course
+												</label>
+											</div>
+											<div class="form-check form-check-inline tool-checked">
+												<label [ngClass]="{'selected': isChecked == 'user'}" class="form-check-label">
+													<input class="form-check-input" type="radio" name="type" id="type5" value="user" [(ngModel)]="item.type" #type="ngModel" (click)="somethingChanged('user')"> Selected user
+												</label>
+											</div>
+										</div>
+									</div>
+		
+									<div *ngIf="isChecked == 'category'" class="form-group choose-cat">
+										<label for="typeahead-focus">Search for a category:</label>	
+										<input
+											id="typeahead-focus"
+											type="text"
+											class="form-control remove-outline"
+											name="itemID"
+											[(ngModel)]="item.itemID"
+											#itemID="ngModel"
+											(focus)="focusSearch($event, 'category')"
+											(focusout)="hideSearch($event)"
+											(input)="changeSearch($event.target.value, 'category')"
+											autocomplete="off"
+										/>
+										<!-- <input
+											id="typeahead-focus"
+											type="text"
+											class="form-control"
+											name="itemID"
+											[(ngModel)]="item.itemID"
+											#itemID="ngModel"
+											(focus)="focus$.next($event.target.value)"
+											(click)="click$.next($event.target.value)"
+											[ngbTypeahead]="search"
+											#instance="ngbTypeahead"
+											(ngModelChange)="valuechange($event, 'category')"
+											[disabled]="categoryLists == undefined"
+										/> -->
+									</div>
+									<div style="top: 225px;" class="search-result-box" *ngIf="isFousCategory == true">
+										<div class="single-result" (click)="selectData(category._id, category.name, 'category')" *ngFor="let category of categoryLists">
+											{{category.name}}
+										</div>
+									</div>
+									<div *ngIf="isChecked == 'course'" class="form-group">
+										<label for="typeahead-focus">Search for a course:</label>
+										<input
+											id="typeahead-focus"
+											type="text"
+											class="form-control remove-outline"
+											name="itemID"
+											[(ngModel)]="item.itemID"
+											#itemID="ngModel"
+											(focus)="focusSearch($event, 'course')"
+											(focusout)="hideSearch($event)"
+											(input)="changeSearch($event.target.value, 'course')"
+											autocomplete="off"
+										/>	
+										<!-- <input
+											id="typeahead-focus"
+											type="text"
+											class="form-control"
+											name="itemID"
+											[(ngModel)]="item.itemID"
+											#itemID="ngModel"
+											(focus)="focus$.next($event.target.value)"
+											(click)="click$.next($event.target.value)"
+											[ngbTypeahead]="search"
+											#instance="ngbTypeahead"
+											(ngModelChange)="valuechange($event, 'course')"
+											[disabled]="courseLists == undefined"
+										/> -->
+									</div>
+									<div class="search-result-box" style="top: 225px;" *ngIf="isFousCourse == true">
+										<div class="single-result" (click)="selectData(course._id, course.name, 'course')" *ngFor="let course of courseLists">
+											{{course.name}}
+										</div>
+									</div>
+		
+									<div *ngIf="isChecked == 'user'" class="form-group">
+										<label for="typeahead-focus">Search for a user:</label>	
+										<input
+											id="typeahead-focus"
+											type="text"
+											class="form-control remove-outline"
+											name="itemID"
+											[(ngModel)]="item.itemID"
+											#itemID="ngModel"
+											(focus)="focusSearch($event, 'user')"
+											(focusout)="hideSearch($event)"
+											(input)="changeSearch($event.target.value, 'user')"
+											autocomplete="off"
+										/>
+										<!-- <input
+											id="typeahead-focus"
+											type="text"
+											class="form-control"
+											name="itemID"
+											[(ngModel)]="item.itemID"
+											#itemID="ngModel"
+											(focus)="focus$.next($event.target.value)"
+											(click)="click$.next($event.target.value)"
+											[ngbTypeahead]="search"
+											#instance="ngbTypeahead"
+											(ngModelChange)="valuechange($event, 'user')"
+											[disabled]="userLists == undefined"
+										/> -->
+									</div>
+									<div class="search-result-box" *ngIf="isFous == true">
+										<div class="single-result" (click)="selectData(user.userId, user.preferredName ,'user')" *ngFor="let user of userLists">
+											{{user.preferredName}}
+										</div>
+									</div>
+		
+		
+									<div *ngIf="isChecked != 'user'" class="form-group">
+										<div *ngIf="isChecked=='allcustomer'" class="form-check active-user-form">
+												<label class="form-check-label">
+													<input type="checkbox" class="form-check-input" name="active" (change)="checkedActive($event, 'active')">
+													Only active users
+												</label>
+										</div>
+										<div *ngIf="isChecked=='allstaff'" class="form-check active-user-form">
+												<label class="form-check-label">
+													<input type="checkbox" class="form-check-input" name="activestaff" (change)="checkedActive($event, 'active')">
+													Only active users
+												</label>
+										</div>
+										<div *ngIf="isChecked=='category'" class="form-check active-user-form">
+												<label class="form-check-label">
+													<input type="checkbox" class="form-check-input" name="activecategory" (change)="checkedActive($event, 'active')">
+													Only active users
+												</label>
+										</div>
+										<div *ngIf="isChecked=='course'" class="form-check active-user-form">
+												<label class="form-check-label">
+													<input type="checkbox" class="form-check-input" name="activecourse" (change)="checkedActive($event, 'active')">
+													Only active users
+												</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="d-flex justify-content-between">
+											<label for="address" class="lable-title">Subject</label>
+											<div class="limit-word">
+												<span>{{wordLength}}/60characters</span>
+											</div>
+										</div>
+										<input type="text" class="form-control input-create" placeholder="Type subject line here..." name="subject" [(ngModel)]="item.subject" #subject="ngModel" 
+										(focus)="focusMethod($event, 'subject', $event.target.value)"
+										(blur)="blurMethod($event, 'subject')"
+										(input)="changeMethod($event.target.value)"
+										maxlength="60"
+										required>
+										<div *ngIf="subject.errors && (subject.dirty || subject.touched)" class="alert alert-danger">
+											<div [hidden]="!subject.errors.required">
+												Subject is required!
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="d-flex justify-content-between">
+												<label for="address" class="lable-title">Message</label>
+												<div class="limit-word1">
+												<span>{{wordLength}}/280characters</span>
+											</div>
+										</div>
+										<textarea class="form-control input-create" rows="5" placeholder="Write message" name="message" [(ngModel)]="item.message" #message="ngModel" 
+										(focus)="focusMethod($event, 'msg', $event.target.value)"
+										(blur)="blurMethod($event, 'msg')"
+										maxlength="280"
+										(input)="changeMethod($event.target.value)"
+										required></textarea>
+										<div *ngIf="message.errors && (message.dirty || message.touched)" class="alert alert-danger">
+											<div [hidden]="!message.errors.required">
+												Message is required!
+											</div>
+										</div>
+									</div>	
+									<div class="form-group">
+										<label for="address" class="lable-title">Message Type</label>
+										<div class="d-flex flex-row">
+											<div class="col-md-6 d-flex flex-row switch-col" *ngFor="let notiType of notiTypes; let i = index">
+												<label>{{notiType.name}}</label>
+												<div class="toggle-wrap">
+													<label class="radio-switch">
+														<input class="form-check-input" 
+																	type="checkbox" 
+																	name="notiType" 
+																	value="{{notiType.name}}" 
+																	[checked]="notiType.checked"
+																	(change)="checkedOptions(notiType, $event)"
+																	required>
+																	<span class="slider round"></span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="d-flex justify-content-between">
+										<div>
+											<div class="info-message">
+												The message will be sent to ({{userCount}}) of 
+												<span *ngIf="isChecked == 'allcustomer'">Customers</span>
+												<span *ngIf="isChecked == 'allstaff'">Staffs</span>
+												<span *ngIf="isChecked == 'category'">Category</span>
+												<span *ngIf="isChecked == 'course'">Selected course</span>
+												<span *ngIf="isChecked == 'user'">Selecte user</span>
+											</div>
+										</div>
+										<button type="submit" (click)="sendNoti(item)" class="btn btn-create" [disabled]="!notiForm.valid || userCount === 0 || checkedType.length == 0">Send</button>
+									</div>
+								</form>
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+								<div class="user-count" [ngClass]="userCount == 0 ? 'no-user' : ''">
+									<h4>{{userCount}}</h4>
+									<label>users</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex flex-column w-100 h-100 main-wrapper"  *ngIf="notiType == 'view' && notiSidebarDemo.view != ''">
+						<h3 class="title-heading margin-heading">Sent history</h3>
+						<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
+							<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
+							<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
+							<h5 *ngIf="notiGroup.key != today && notiGroup.key != yesterday" class="title-padding">{{notiGroup | getDay}}, {{ notiGroup.key | date }}</h5>
+							<div class="history-wrap" *ngFor="let noti of notiGroup.value;let isLast=last">
+								<div class="flex-wrap">
+									<div class="col-sm-2 oo" [ngClass]="{'notlast':!isLast}">
+										<div class="same-label"></div>
+										<label class="sentTime">{{noti.senttime | convertTimeFormat}}</label>
+									</div>
+									<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast,'horizontal-line': isLast}" class="col-sm-10 noti-info">
+										<div class="same-label">
+											Sent to
+										</div>
+										<div class="user-info">
+											<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">{{ noti.count }} users</span>
+											<span class="social-links">
+												<a><i id="mobile" class="fa fa-mobile" aria-hidden="true"></i></a>
+											</span>
+											<span class="social-links">
+												<a><i id="envelope" class="fa fa-envelope-o"></i></a>
+											</span>
+										</div>
+										<div class="subject-wrap">
+											<div class="xxx" [ngClass]="{'notlast':!isLast}">
+												<div class="xx1" [ngClass]="{'line1':isLast}"></div>
+												<div class="xx2" [ngClass]="{'line1':isLast}"></div>
+											</div>
+											<div class="noti-subject">
+												<div class="noti-title">
+													{{ noti.title }}
+												</div>
+												<read-more [text]=noti.message></read-more>
+											</div>
+										</div>
+										<div class="sender-info">
+											<span>Sent by</span> 
+											<ul>
+												<li><span id="senderName">{{ noti.sender.preferredName}}</span></li>
+											</ul>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="d-flex justify-content-between">
-								<div>
-									<div class="info-message">
-										The message will be sent to ({{userCount}}) of 
-										<span *ngIf="isChecked == 'allcustomer'">Customers</span>
-										<span *ngIf="isChecked == 'allstaff'">Staffs</span>
-										<span *ngIf="isChecked == 'category'">Category</span>
-										<span *ngIf="isChecked == 'course'">Selected course</span>
-										<span *ngIf="isChecked == 'user'">Selecte user</span>
-									</div>
-								</div>
-								<button type="submit" (click)="sendNoti(item)" class="btn btn-create" [disabled]="!notiForm.valid || userCount === 0 || checkedType.length == 0">Send</button>
-							</div>
-						</form>
-					</div>
-					<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-						<div class="user-count" [ngClass]="userCount == 0 ? 'no-user' : ''">
-							<h4>{{userCount}}</h4>
-							<label>users</label>
+						</div>
+		
+						<div *ngIf="notiLists.length >=20" class="load-more">
+							<button class="btn" (click)="showMore(notiLists.length)">load more</button>
 						</div>
 					</div>
-				</div>
-    	</div>
-    	<div class="d-flex flex-column w-100 h-100 main-wrapper"  *ngIf="notiType == 'view' && notiSidebarDemo.view != ''">
-    		<h3 class="title-heading margin-heading">Sent history</h3>
-    		<div class="notiGroup-wrap" *ngFor="let notiGroup of notiLists | groupBy:'sentdate'"> 
-    			<h5 *ngIf="notiGroup.key == today" class="title-padding">Today, {{ notiGroup.key | date }}</h5>
-    			<h5 *ngIf="notiGroup.key == yesterday" class="title-padding">Yesterday, {{ notiGroup.key | date }}</h5>
-    			<h5 *ngIf="notiGroup.key != today && notiGroup.key != yesterday" class="title-padding">{{notiGroup | getDay}}, {{ notiGroup.key | date }}</h5>
-    			<div class="history-wrap" *ngFor="let noti of notiGroup.value;let isLast=last">
-    				<div class="flex-wrap">
-    					<div class="col-sm-2 oo" [ngClass]="{'notlast':!isLast}">
-    						<div class="same-label"></div>
-    						<label class="sentTime">{{noti.senttime | convertTimeFormat}}</label>
-    					</div>
-    					<div [ngClass]="{'borderOne': !isLast, 'borderTwo': isLast,'horizontal-line': isLast}" class="col-sm-10 noti-info">
-    						<div class="same-label">
-    							Sent to
-    						</div>
-    						<div class="user-info">
-    							<span class="group-type">{{ noti.group.name }}</span> <span class="count-wrap">{{ noti.count }} users</span>
-    							<span class="social-links">
-    								<a><i id="mobile" class="fa fa-mobile" aria-hidden="true"></i></a>
-    							</span>
-    							<span class="social-links">
-    								<a><i id="envelope" class="fa fa-envelope-o"></i></a>
-    							</span>
-    						</div>
-    						<div class="subject-wrap">
-    							<div class="xxx" [ngClass]="{'notlast':!isLast}">
-    								<div class="xx1" [ngClass]="{'line1':isLast}"></div>
-    								<div class="xx2" [ngClass]="{'line1':isLast}"></div>
-    							</div>
-    							<div class="noti-subject">
-    								<div class="noti-title">
-    									{{ noti.title }}
-    								</div>
-    								<read-more [text]=noti.message></read-more>
-    							</div>
-    						</div>
-    						<div class="sender-info">
-    							<span>Sent by</span> 
-    							<ul>
-    								<li><span id="senderName">{{ noti.sender.preferredName}}</span></li>
-    							</ul>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-
-    		<div *ngIf="notiLists.length >=20" class="load-more">
-    		  <button class="btn" (click)="showMore(notiLists.length)">load more</button>
-    		</div>
-    	</div>
-	      <div class="d-flex flex-column w-100 h-100 app-xxx" *ngIf="notiType == 'apg'">          
-	          <app-apg></app-apg>          
-	      </div>
-	      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'quizwerkz'">          
-	          <app-quizwerkz></app-quizwerkz>          
-	      </div>
-	      <div class="d-flex flex-column w-100 h-100" *ngIf="notiType == 'calendar'">          
-	          <app-calendar></app-calendar>          
-	      </div>    
-    </div> 
-</div>
+						<div class="d-flex flex-column main-wrapper w-100 h-100 app-xxx align-items-center" *ngIf="notiType == 'apg'">          
+								<app-apg class="w-100 control-apg"></app-apg>          
+						</div>
+						<div class="d-flex flex-column main-wrapper w-100 h-100" *ngIf="notiType == 'quizwerkz'">          
+								<app-quizwerkz class="control-apg"></app-quizwerkz>          
+						</div>
+						<div class="d-flex flex-column main-wrapper w-100 h-100" *ngIf="notiType == 'calendar'">          
+								<app-calendar class="control-apg"></app-calendar>          
+						</div>    
+				</div> 
+			<!-- </div> -->
+	</div>
+<!-- </div> -->
 <block-ui message="Deafult Message"></block-ui>

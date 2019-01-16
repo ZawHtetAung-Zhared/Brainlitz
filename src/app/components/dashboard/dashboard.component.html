@@ -41,8 +41,8 @@
         </div> -->
       </div>
     </div>
-    <div *ngIf="menuType == 'general'" class="pl-zero large-col" >
-      <div class="d-flex flex-column w-100 h-100 setting-wrapper">
+    <div *ngIf="menuType == 'general'" class="d-flex flex-column justify-content-center align-items-center pl-zero large-col" >
+      <div class="d-flex flex-column h-100 setting-wrapper">
         <div *ngIf="option != 'Invoice' && option != 'Payment'">
           <div *ngIf="generalSidebar.length > 0" class="header-wrap">
             <h3 class="general">General</h3>
@@ -114,8 +114,8 @@
                     </div>
                     <!-- <hr style="padding:0;"> -->
                     <div class="editBtns  d-flex justify-content-end " *ngIf="isEdit">
-                      <button class="cancel btn" (click)="cancelUpdate()">Cancel</button>
-                      <button class="btn updateButton" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid || startT > endT">Done</button>
+                      <button class="cancel btn remove-bg" (click)="cancelUpdate()">Cancel</button>
+                      <button class="btn updateButton remove-bg" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid || startT > endT">Done</button>
                     </div>
                   </form>
                 </div>
@@ -535,10 +535,10 @@
     <div *ngIf="menuType == 'location'" class="large-col pl-zero">
       <app-location></app-location>
     </div> 
-    <div *ngIf="menuType == 'customfield'" class="large-col pl-zero">
+    <div *ngIf="menuType == 'customfield'" class="d-flex flex-column justify-content-center align-items-center large-col pl-zero">
       <app-customfield></app-customfield>
     </div> 
-    <div *ngIf="menuType == 'email'" class="large-col pl-zero">
+    <div *ngIf="menuType == 'email'" class="justify-content-center align-items-center large-col pl-zero">
       <app-emailtemplate></app-emailtemplate>
     </div>
 </div>

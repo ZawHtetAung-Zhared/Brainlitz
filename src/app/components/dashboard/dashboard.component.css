@@ -118,6 +118,10 @@
   height: 45px;
   border-radius: 3px;
   width: 100px;
+  
+}
+.remove-bg{
+  background: none;
 }
 .btn-cancel {
   background-color: #f2f4f5;
@@ -752,6 +756,9 @@ input:checked + .slider:before {
   display: block;
 }
 
+.side-bar-wrap {
+  top: 158px;
+}
 /*//Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767px) { 
   
@@ -800,6 +807,18 @@ input:checked + .slider:before {
     width: 85%
   }
   .card-columns{
-      column-count: 4;
+      column-count: 2;
   }
 }
+
+@media only screen and  (min-width:1366px){
+  .setting-wrapper{
+    width: 960px;
+  }
+}
+
+/* @media only screen and  (max-width:1024px){
+  .setting-wrapper{
+    width: 960px;
+  }
+} */

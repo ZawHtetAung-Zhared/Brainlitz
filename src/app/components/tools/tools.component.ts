@@ -724,7 +724,9 @@ export class ToolsComponent implements OnInit {
     .subscribe((res:any) => {
       console.log('~~~', res)
       console.log('~~~', this.isChecked)
-      this.toastr.success('Successfully notified.');
+      setTimeout(()=>{
+        this.toastr.success('Successfully notified.');
+      },100)
       this.blockUI.stop();
       this.item = {};
       this.item.sendType = 'app';

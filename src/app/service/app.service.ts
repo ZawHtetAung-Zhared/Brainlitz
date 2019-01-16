@@ -7,6 +7,7 @@ import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
 import {Subject} from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs';
 declare var $: any;
  
 @Injectable()
@@ -61,7 +62,8 @@ export class appService{
     goSchedule: Observable<any>;
     private backSc = new Subject<any>();
 
-    // goBackSchedule: 
+    goUserCourseDetail: Observable<any>;
+    private userCDetail = new Subject<any>();
 
     constructor( private httpClient: HttpClient, private _http: Http, private _router: Router) { 
       let isToken = localStorage.getItem('token');     
@@ -80,6 +82,7 @@ export class appService{
       this.goPlanDetail = this.backCPdetail.asObservable();
       this.lnameChanges = this.lnameUpdated.asObservable();
       this.goSchedule = this.backSc.asObservable();
+      this.goUserCourseDetail = this.userCDetail.asObservable();
     }
 
     callnameUpdate(){
@@ -127,6 +130,10 @@ export class appService{
 
     backSchedule(){
       this.backSc.next(false)
+    }
+
+    backUserCDetail(){
+      this.userCDetail.next(false);
     }
 
     isLoggedIn(): boolean {
@@ -791,7 +798,43 @@ export class appService{
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+      
+    }
+    getSearchJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String,keyword:string,viewAs:string){
+      this.getLocalstorage()
+      if(lastjournalId == null || lastjournalId == undefined){
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&keyword=' + keyword + '&viewas=' + viewAs;
+      }else{
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId + '&keyword=' + keyword + '&viewas=' + viewAs ;
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+        return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;    
+          return result;
+      }) 
+    }
+    getJournal(courseId:string,studentId:string,skip:string,limit:string,lastjournalId:String){
+      this.getLocalstorage()
+      if(lastjournalId == null || lastjournalId == undefined){
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit ;
+      }else{
+        var url = this.baseUrl + '/' +'journal?' + 'courseId=' + courseId + '&studentId=' +  studentId + '&skip=' + skip + '&limit=' + limit + '&lastjournalId=' + lastjournalId ;
+      }
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
         return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;    
@@ -1656,6 +1699,7 @@ export class appService{
       console.log("selected str",selectedStr);
       if(selectedStr != ''){
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        console.log("apiUrl",apiUrl)
       }else{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
       }

@@ -329,7 +329,8 @@ input:-webkit-input-placeholder {
 }
 
 .display-style {
-	display: flex;
+  display: flex;
+  padding-top: 40px;
 }
 
 #rectangle::after{
@@ -832,7 +833,11 @@ ol.progress[data-steps="9"] li { width: 11%; }*/
   /*margin-top: -22px;*/
   margin-top:  -17px;
 }
-
+button,
+button:focus,
+button:active{
+  outline: none;
+}
 .progress .step {
     color: #fff;
     /*border: 3px solid #e3e4e6;*/
@@ -1181,7 +1186,7 @@ ul.search-apg{
     box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
 }
 
-.top-para p, .top-para span, . {
+.top-para p, .top-para span {
   font-family: 'Montserrat-Medium', Arial, sans-serif;
   color: #64707d;
 }
@@ -1486,6 +1491,15 @@ ul.search-apg{
     color: #64707d;
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
 }
+.not_allowPagewekz{
+  padding-top: 40px;
+  height: 400px;
+}
+
+.allowPagewekz{
+  padding-top: 40px;
+  padding-left: 6px;
+}
 
 .pdLeft-15{
   padding-left: 15px;
@@ -1510,6 +1524,144 @@ ul.search-apg{
 
 } 
 
+/* ----------- iPad Pro 12.9" ----------- */
+/* 1366 ,1366 to 1600 , 1600 */
+/* @media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px)
+  and (-webkit-min-device-pixel-ratio: 2)*/
+
+  @media (max-width:1365px){
+    .form-wrap{
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 1366px) { 
+        .inner-wrapper {
+          padding: 15px 143px;
+      }
+      .progress-box-wrap{
+        padding: 10px 143px;
+        height: 4.4em;
+      }
+
+      .inside-data-wrapper{
+        /* margin: 0px 160px; */
+        border-radius: 8px;
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        padding: 48px;
+        height: 640px;
+        width: 1004px;
+        overflow: scroll;
+      }
+
+      .button-wrapper{
+        position: unset;
+        left: unset;
+        bottom: 0;
+        border-top: none;
+        padding: unset;
+      }
+
+      
+      .div_step1,.div_step2,.div_step3,.div_step4,.div_step5,.div_step6,.div_step7{
+        height: 77em;
+        background: rgb(242,244,245);
+        padding-top: 72px;
+      }
+
+      .div_step1 .sticky-create{
+        right: 12em;
+      }
+
+      .div_step1 .display-style {
+        height: 450px;
+      }
+
+      .div_step2 .button-wrapper{
+        position: unset;
+        border-top: none;
+        padding-top: 10px   ;
+        padding-left: 0;
+      }
+
+      .div_step2 .sticky-create{
+        right: 12em;
+      }
+
+      .step_height{
+        height: 460px;
+      }
+
+      .div_step3 .step_height{
+        height: 450px;
+      }
+
+      .div_step3 .sticky-create{
+        right: 12em;
+      }
+
+
+      .div_step4 .sticky-create{
+        right: 12em;
+      }
+
+      .div_step4 .button-wrapper{
+        position: unset;
+        border-top: none;
+        padding-top: 17.1em;
+        padding-left: 0;
+      }
+
+      .div_step5 .sticky-create{
+        right: 12em;
+      }
+
+      .div_step5 .button-wrapper{
+        position: unset;
+        border-top: none;
+        padding-top: 10px;
+        padding-left: 0;
+      }
+      .not_allowPagewekz{
+        height: 365px;
+      }
+      .allowPagewekz{
+        padding-top: 3px;
+      }
+      
+      .div_step6 .sticky-create{
+        right: 11em;
+      }
+
+      .div_step6 .button-wrapper{
+        border-top: none;
+        padding: 0;
+        left: 12em;     
+        background: no-repeat;
+        padding-top: 63px;
+      }
+      
+
+      .div_step7 .sticky-create{
+        right: 12em;
+      }
+
+      .div_step7 .button-wrapper{
+        position: unset;
+        border-top: none;
+        padding-top: 30px;
+        padding-left: 0;
+      }
+
+      .show-count{
+        margin-right: 95px;
+      }
+}
+
+
 @media (min-width: 1288px) and (max-width: 1366px){
   .arrow-pos {
     width: 34%;
@@ -1529,7 +1681,17 @@ ul.search-apg{
     width: 76%;
     bottom: 20%;
   }
-
 }
 
+
+/* Step of progress disabled properties */
+a.adisabled {
+  cursor: not-allowed;
+}
+a {
+  cursor: pointer;
+}
+a.adisabled:hover { text-decoration: none; }
+a.adisabled:focus { text-decoration: none; }
+a.adisabled:active { text-decoration: none; }
 
