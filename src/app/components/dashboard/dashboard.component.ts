@@ -292,8 +292,8 @@ public isMidStick: boolean = false;
   editRegion(){
     this.isEdit = true;
     this.temp = this.item.timezone; 
-    this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
-    this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
+    // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
+    // this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
   }
   editUrl(){
     this.isUrlEdit = true;
