@@ -98,6 +98,7 @@ ul.calendar-year li{
 	margin-bottom: 0;
 }
 .calendar-group{
+  margin-bottom: 50px;
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-top: 20px;
@@ -600,4 +601,13 @@ ul.calendar-year li:first-child{
     color: #64707d;
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
     padding-left: 15px;
+}
+
+.load-more-btn:focus{
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+.load-more-btn{
+background: none;
 }

@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild,Input,Output,EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener, AfterViewInit } from '@angular/core';
-import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener, AfterViewInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
-import { DataService } from '../../service/data.service';
+// import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment';
 
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-coursecreate',
@@ -31,93 +31,96 @@ export class CoursecreateComponent implements OnInit {
   public isSkipId: any;
   public isIgnoreId: any;
   public courseFeess: any;
-  chooseFee:any = '';
+  chooseFee: any = '';
   // hello = JSON.parse(localStorage.getItem('splan')) ;
-  public courseObj:any = {};
-  wordLength:any;
-  model:any = {};
-  isChecked:any;
+  public courseObj: any = {};
+  wordLength: any;
+  model: any = {};
+  isChecked: any;
   minDate: any;
   maxDate: any;
   public days = [
-    {"day":"Sun", "val": 0},
-    {"day":"Mon", "val": 1},
-    {"day":"Tue", "val": 2},
-    {"day":"Wed", "val": 3},
-    {"day":"Thu", "val": 4},
-    {"day":"Fri ", "val": 5},
-    {"day":"Sat", "val": 6},
+    { "day": "Sun", "val": 0 },
+    { "day": "Mon", "val": 1 },
+    { "day": "Tue", "val": 2 },
+    { "day": "Wed", "val": 3 },
+    { "day": "Thu", "val": 4 },
+    { "day": "Fri ", "val": 5 },
+    { "day": "Sat", "val": 6 },
   ];
   public ignoreTempID = [];
   public tempID = [];
   public selectedDay = [];
-  public toggleBool:boolean = true;
+  public toggleBool: boolean = true;
   public progressSlider: boolean = false;
   public focusCfee: boolean = false;
   public focusMisfee: boolean = false;
   public selectedHrRange: any;
   public selectedMinRange: any;
   public overDurationHr: boolean = false;
+  public showListWrap: boolean = false;
   public startFormat: any;
   public timeInminutes: any;
   public rangeMin: any;
   public rangeHr: any;
   public isSelected: any;
-  public showFormat:any;
-  public testChar:boolean;
+  public showFormat: any;
+  public testChar: boolean;
   public testList = [];
   public durationMenuShow: boolean = false;
   public locationMenuShow: boolean = false;
   public searchMenuShow: boolean = false;
   public startTime: any;
-  public classend:any;
+  public classend: any;
   public locationList = [];
-  public locationId:any;
-  public isFocus:boolean = false;
-  public isDpFocus:boolean = false;
-  public detailLists:any;
-  public userLists:any;
-  public selectedTeacher:any = '';
-  public isSticky:boolean = false;
-  public isShowDetail:boolean = false;
-  public save:boolean = false;
-  public conflitCourseId :any = "";
+  public locationId: any;
+  public isFocus: boolean = false;
+  public isDpFocus: boolean = false;
+  public detailLists: any;
+  public userLists: any;
+  public selectedTeacher: any = '';
+  public isSticky: boolean = false;
+  public isShowDetail: boolean = false;
+  public save: boolean = false;
+  public conflitCourseId: any = "";
   public skipArr = [];
   public ignoreArr = [];
   public tempArr = [];
   public conflitArr = [];
-  public endAgain:boolean = false;
-  public planId:any;
-  public planName:any;
-  public planDuration:any;
+  public endAgain: boolean = false;
+  public planId: any;
+  public planName: any;
+  public planDuration: any;
   public pplLists = [];
-  public temp:any = {};
+  public temp: any = {};
   public timetable: any;
   public ttCalendar: Array<any> = [];
   public timetableLists: Array<any> = [];
   public ttStartDate: Array<any> = [];
   public ttEndDate: Array<any> = [];
-  public coursePayment:any = {};
-  public tempVar:any;
-  public tempValue:any;
-  public feesOptions:any;
+  public coursePayment: any = {};
+  public tempVar: any;
+  public tempValue: any;
+  public feesOptions: any;
   objectKeys = Object.keys;
-  isEdit:boolean = false;
-  taxOptShow:boolean = false;
-  feeOptShow:boolean = false;
-  chooseTax:any = '';
-  public flexiOn:boolean = false;
-  
+  isEdit: boolean = false;
+  taxOptShow: boolean = false;
+  feeOptShow: boolean = false;
+  chooseTax: any = '';
+  public flexiOn: boolean = false;
+
+  @ViewChild('start') nameInputRef: ElementRef;
+  @ViewChild('end') name1InputRef: ElementRef;
   @ViewChild("myInput") inputEl: ElementRef;
 
-  constructor( @Inject(DOCUMENT) private doc: Document,private modalService: NgbModal, private _service: appService, public dataservice: DataService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
+  constructor(@Inject(DOCUMENT) private doc: Document, private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
     this.toastr.setRootViewContainerRef(vcr);
-   }
-   test;
-  ngOnInit() { 
-    console.log("CPLan",this.coursePlan)
-    console.log("CourseID",this.courseID);
-    console.log("Currency",this.currency);
+  }
+  test;
+  ngOnInit() {
+    console.log("CPLan", this.coursePlan)
+    console.log("CourseID", this.courseID);
+    console.log("Currency", this.currency);
     // this.isChecked = 'end';
     this.isSelected = 'AM';
     this.rangeHr = '0';
@@ -125,13 +128,13 @@ export class CoursecreateComponent implements OnInit {
     this.showFormat = "00:00";
     // this.createList();
     // this.getAllLocations();
-    window.scroll(0,0);
+    window.scroll(0, 0);
     // this.goBackCat = true;
-    if(this.courseID){
-      console.log("Draft True",this.courseID);
+    if (this.courseID) {
+      console.log("Draft True", this.courseID);
       this.showDraftCourse(this.courseID);
       // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions; 
-    }else if(this.coursePlan){
+    } else if (this.coursePlan) {
       console.log("course Create");
       this.isChecked = 'end';
       this.getAllLocations();
@@ -144,48 +147,65 @@ export class CoursecreateComponent implements OnInit {
       this.model.location = this.locationName;
       this.locationId = this.currentLocation;
       // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
-      if(this.scheduleObj){
+      if (this.scheduleObj) {
         this.scheduleCourse();
       }
     }
 
-    if(this.currency == undefined || this.currency == null){
-      this.currency ={
+    if (this.currency == undefined || this.currency == null) {
+      this.currency = {
         'invCurrencySign': '$'
       }
-      console.log("undefined currency",this.currency);
-    }else{
-      if(this.currency.invCurrencySign == ""){
-        console.log("has currency but sign null",this.currency);
+      console.log("undefined currency", this.currency);
+    } else {
+      if (this.currency.invCurrencySign == "") {
+        console.log("has currency but sign null", this.currency);
         this.currency.invCurrencySign = '$';
       }
-    }   
+    }
   }
 
-  scheduleCourse(){
-    console.log("from schedule",this.scheduleObj);
+  scheduleCourse() {
+    console.log("from schedule", this.scheduleObj);
     this.model.start = this.scheduleObj.date;
     this.selectedDay = this.scheduleObj.repeatDays;
     this.selectedTeacher = this.scheduleObj.teacher;
     this.model.teacherId = this.selectedTeacher.userId;
     this.rangeHr = this.scheduleObj.time.hr;
     this.rangeMin = this.scheduleObj.time.min;
+    this.selectedHrRange = this.scheduleObj.time.hr
+    this.selectedMinRange = this.scheduleObj.time.min
     this.isSelected = this.scheduleObj.time.meridiem;
     var hr:any;
     var min:any;
+    var h:any;
     if(this.scheduleObj.time.hr <10){
       hr = '0'+this.scheduleObj.time.hr;
     }else{
       hr = this.scheduleObj.time.hr
     }
-    if(this.scheduleObj.time.min <10){
-      min = '0'+this.scheduleObj.time.min;
-    }else{
+    if (this.scheduleObj.time.min < 10) {
+      min = '0' + this.scheduleObj.time.min;
+    } else {
       min = this.scheduleObj.time.min;
+    }
+    if(this.scheduleObj.time.meridiem == 'PM'){
+      if(this.scheduleObj.time.hr==12){
+        h = this.scheduleObj.time.hr;
+      }else{
+        h = this.scheduleObj.time.hr+12
+      }  
+    }else{
+      if(this.scheduleObj.time.hr==12){
+        h = 0;
+      }else{
+        h = this.scheduleObj.time.hr;
+      }  
     }
     this.showFormat = hr + ':' + min;
     this.model.startT = hr + ':' + min + this.scheduleObj.time.meridiem;
-    this.model.starttime = hr + ':' + min;
+
+    this.model.starttime = h + ':' + min;
   }
 
   // feeOptList(feeOptions){
@@ -197,93 +217,98 @@ export class CoursecreateComponent implements OnInit {
   //   }
   // }
 
-  showDraftCourse(cId){
+  showDraftCourse(cId) {
     console.log("Function Works");
     this.getAllLocations();
     this.blockUI.start('Loading...');
     this._service.getSingleCourse(cId, this.currentLocation)
-    .subscribe((res:any) => {
-      console.log("Course Detail",res);
-      setTimeout(() => {
+      .subscribe((res: any) => {
+        console.log("Course Detail", res);
+        setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
-      }, 300);
-      this.model = res;
-      this.courseFeess = res.paymentPolicy.courseFee;
-      if(this.model.type == "FLEXY"){
-        this.flexiOn = true;
-      }else{
-        this.model.start = this.changeDateStrtoObj(this.model.startDate,"start");
-        this.model.end = this.changeDateStrtoObj(this.model.endDate,"end");
-        this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T")+1,5);
-        console.log(this.model.starttime)
-        this.setToTimerange(this.model.starttime);
-        this.minDate = this.model.start;
-      }
-      this.model.location = this.model.location.name;
-      this.locationId = this.model.locationId;
-      console.log("this location",this.locationId);
-      this.selectedDay = this.model.repeatDays;
-      this.planId = this.model.coursePlan.coursePlanId;
-      this.planName = this.model.coursePlan.name;
-      console.log("plan in draft",this.planName);
-      console.log(this.model.coursePlan.lesson.duration*this.model.durationTimes);
-      this.model.duration = this.model.coursePlan.lesson.duration*this.model.durationTimes;
-      console.log(this.model.duration);
-      this.calculateDuration(this.model.starttime,this.model.duration);
-      this.createList(this.model.coursePlan.lesson.duration);
-      this.model.durationTimes = this.model.durationTimes;
-      this.startTime = this.model.starttime;
-      // if(this.model.taxInclusive == true){
-      //   this.chooseTax = "Inclusive"; 
-      // }else{
-      //   this.chooseTax = "Exclusive"; 
-      // }
-      // console.log(this.model.coursePlan.lesson.duration);
-      // console.log(this.model.starttime,this.model.duration);
-      this.selectedTeacher = this.model.teacher;
-      var assiatantsArr = this.model.assistants;
-      for(var i in assiatantsArr){
-        console.log("Assistant",assiatantsArr[i]);
-        this.selectedUserLists.push(assiatantsArr[i]);
-        this.selectedAssistants.push(assiatantsArr[i].userId);
-      }
-      if(this.model.end){
-        this.isChecked = 'end';
-        this.tempVar = 'end';
-        this.tempValue = this.changeDateStrtoObj(res.endDate,"end");
-      }else if(this.model.lessonCount){
-        this.isChecked = 'lesson';
-        this.tempVar = 'lesson';
-        this.tempValue = res.lessonCount;
-      }
-      this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
-      this.chooseFee = this.model.paymentPolicy.courseFee;
+        }, 300);
+        this.model = res;
+        this.courseFeess = res.paymentPolicy.courseFee;
+        if (this.model.type == "FLEXY") {
+          this.flexiOn = true;
+        } else {
+          this.model.start = this.changeDateStrtoObj(this.model.startDate, "start");
+          this.model.end = this.changeDateStrtoObj(this.model.endDate, "end");
+          this.model.starttime = this.model.startDate.substr(this.model.startDate.search("T") + 1, 5);
+          console.log(this.model.starttime)
+          this.setToTimerange(this.model.starttime);
+          this.minDate = this.model.start;
+        }
+        this.model.location = this.model.location.name;
+        this.locationId = this.model.locationId;
+        console.log("this location", this.locationId);
+        this.selectedDay = this.model.repeatDays;
+        this.planId = this.model.coursePlan.coursePlanId;
+        this.planName = this.model.coursePlan.name;
+        console.log("plan in draft", this.planName);
+        console.log(this.model.coursePlan.lesson.duration * this.model.durationTimes);
+        this.model.duration = this.model.coursePlan.lesson.duration * this.model.durationTimes;
+        console.log(this.model.duration);
+        this.calculateDuration(this.model.starttime, this.model.duration);
+        this.createList(this.model.coursePlan.lesson.duration);
+        this.model.durationTimes = this.model.durationTimes;
+        this.startTime = this.model.starttime;
+        // if(this.model.taxInclusive == true){
+        //   this.chooseTax = "Inclusive"; 
+        // }else{
+        //   this.chooseTax = "Exclusive"; 
+        // }
+        // console.log(this.model.coursePlan.lesson.duration);
+        // console.log(this.model.starttime,this.model.duration);
+        this.selectedTeacher = this.model.teacher;
+        this.staffArrLists.push(this.selectedTeacher.userId)
+        console.log("staffArrLists==>",this.staffArrLists)
+        var assiatantsArr = this.model.assistants;
+        for (var i in assiatantsArr) {
+          console.log("Assistant", assiatantsArr[i]);
+          this.selectedUserLists.push(assiatantsArr[i]);
+          this.selectedAssistants.push(assiatantsArr[i].userId);
+          this.staffArrLists.push(assiatantsArr[i].userId)
+          console.log("staffArrLists==>",this.staffArrLists)
 
-      // var selectedDays= this.model.repeatDays;
-      this.temp["endDate"] = this.model.endDate;
-      this.temp["startDate"] = this.model.startDate;
-      this.temp["lessonCount"] = this.model.lessonCount;
-      this.temp["repeatDays"] = this.selectedDay;
-      this.temp["durationTimes"] = this.model.durationTimes;
-      localStorage.setItem("tempObj",JSON.stringify(this.temp));
-      // setTimeout(() => {
-      //    this.createCourse();
-      //  }, 300);
-      this.maxDate = this.changeDateStrtoObj(res.endDate,"end");
-      this.save = true;
-      this.addCheck = true;
-      this.conflitCourseId = res._id;
-      if(this.model.draft == true){
-        console.log("Draft ===>",this.model.draft);
-        this.createCourse('withDraf');
-        this.isEdit = false;
-      }else{
-        this.isEdit = true;
-      }    
-    });
+        }
+        if (this.model.end) {
+          this.isChecked = 'end';
+          this.tempVar = 'end';
+          this.tempValue = this.changeDateStrtoObj(res.endDate, "end");
+        } else if (this.model.lessonCount) {
+          this.isChecked = 'lesson';
+          this.tempVar = 'lesson';
+          this.tempValue = res.lessonCount;
+        }
+        this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
+        this.chooseFee = this.model.paymentPolicy.courseFee;
+
+        // var selectedDays= this.model.repeatDays;
+        this.temp["endDate"] = this.model.endDate;
+        this.temp["startDate"] = this.model.startDate;
+        this.temp["lessonCount"] = this.model.lessonCount;
+        this.temp["repeatDays"] = this.selectedDay;
+        this.temp["durationTimes"] = this.model.durationTimes;
+        localStorage.setItem("tempObj", JSON.stringify(this.temp));
+        // setTimeout(() => {
+        //    this.createCourse();
+        //  }, 300);
+        this.maxDate = this.changeDateStrtoObj(res.endDate, "end");
+        this.save = true;
+        this.addCheck = true;
+        this.conflitCourseId = res._id;
+        if (this.model.draft == true) {
+          console.log("Draft ===>", this.model.draft);
+          this.createCourse('withDraf');
+          this.isEdit = false;
+        } else {
+          this.isEdit = true;
+        }
+      });
   }
 
-  setToTimerange(time){
+  setToTimerange(time) {
     console.log(time);
     var timeString = time;
     var H = +timeString.substr(0, 2);
@@ -291,114 +316,116 @@ export class CoursecreateComponent implements OnInit {
     var h = (H % 12) || 12;
     var ampm = H < 12 ? "AM" : "PM";
     var forSelected = h + timeString.substr(2, 3);
-    console.log("For Selected",forSelected);
-    if(h<10){
+    console.log("For Selected", forSelected);
+    if (h < 10) {
       timeString = '0' + h + timeString.substr(2, 3) + ampm;
-    }else{
+    } else {
       timeString = h + timeString.substr(2, 3) + ampm;
     }
     this.isSelected = ampm;
-    this.showFormat = timeString.substring(0,5);
+    this.showFormat = timeString.substring(0, 5);
     this.model.startT = timeString;
     console.log(this.showFormat);
-    this.rangeHr = timeString.substring(0,timeString.search(":"));
-    console.log('this.rangeHr',this.rangeHr)
-    this.rangeMin = timeString.substring(timeString.search(":")+1);
-    console.log('this.rangeMin',this.rangeMin);
-    this.selectedHrRange = forSelected.substring(0,forSelected.search(":"));
-    this.selectedMinRange = forSelected.substring(forSelected.search(":")+1);
-    console.log("MinRange in Draft",this.selectedMinRange);
+    this.rangeHr = timeString.substring(0, timeString.search(":"));
+    console.log('this.rangeHr', this.rangeHr)
+    this.rangeMin = timeString.substring(timeString.search(":") + 1);
+    console.log('this.rangeMin', this.rangeMin);
+    this.selectedHrRange = forSelected.substring(0, forSelected.search(":"));
+    this.selectedMinRange = forSelected.substring(forSelected.search(":") + 1);
+    console.log("MinRange in Draft", this.selectedMinRange);
   }
 
-  changeDateStrtoObj(datestr,type){
-    if(type == "start"){
+  changeDateStrtoObj(datestr, type) {
+    if (type == "start") {
       console.log(datestr)
       let test = datestr.substring(0, datestr.search("T"));
       let testSplit = test.split("-");
-      let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+      let format = { year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2]) };
       return format;
-    }else if(type == "end"){ 
-      if(datestr){
+    } else if (type == "end") {
+      if (datestr) {
         console.log(datestr)
         let test = datestr.substring(0, datestr.search("T"));
         let testSplit = test.split("-");
-        let format = {year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2])};
+        let format = { year: Number(testSplit[0]), month: Number(testSplit[1]), day: Number(testSplit[2]) };
         return format;
-      }else if(datestr == null){
+      } else if (datestr == null) {
         return null;
       }
     }
-    
+
   }
 
   @HostListener("window:scroll", [])
   scrollHandler() {
     let num = this.doc.documentElement.scrollTop;
-    if(num>20){
-       this.doc.getElementById("navbar").style.top = "0";
-    }else{
+    if (num > 20) {
+      this.doc.getElementById("navbar").style.top = "0";
+    } else {
       this.doc.getElementById("navbar").style.top = "-120px";
     }
   }
 
-  getAllLocations(){
+  getAllLocations() {
     this._service.getLocations(this.regionID, 20, 0, false)
-    .subscribe((res:any)=>{
-      console.log("Locations",res);
-      this.locationList = res;
-    })
+      .subscribe((res: any) => {
+        console.log("Locations", res);
+        this.locationList = res;
+      })
   }
 
 
 
-  createList(duration){
+  createList(duration) {
     console.log(duration);
-    for(var i = 0; i <= 3; i++){
-    var testVar = duration * (i+1);
+    for (var i = 0; i <= 3; i++) {
+      var testVar = duration * (i + 1);
       // console.log("testVar",testVar);
       this.testList.push(testVar);
     }
-    console.log("testList",this.testList);
+    console.log("testList", this.testList);
     // this.model.duration = this.testList[0];
-    console.log("Duration Times",this.model.duration);
+    console.log("Duration Times", this.model.duration);
   }
 
-  focusMethod(e, status, word){
+  focusMethod(e, status, word) {
     console.log('hi', e)
-    if(status == 'name'){
+    if (status == 'name') {
       this.wordLength = word.length;
-      $('.limit-wordcount').show('slow'); 
-    }else{
+      $('.limit-wordcount').show('slow');
+    } else {
       this.wordLength = word.length;
-      $('.limit-wordcount1').show('slow'); 
+      $('.limit-wordcount1').show('slow');
     }
   }
-    
-  blurMethod(e, status){
+
+  blurMethod(e, status) {
     console.log('blur', e);
-    if(status == 'name'){
-      $('.limit-wordcount').hide('slow'); 
-    }else{
-      $('.limit-wordcount1').hide('slow'); 
+    if (status == 'name') {
+      $('.limit-wordcount').hide('slow');
+    } else {
+      $('.limit-wordcount1').hide('slow');
     }
     this.wordLength = 0;
   }
 
-  changeMethod(val : string){
+  changeMethod(val: string) {
     console.log(val)
     this.wordLength = val.length;
   }
 
-  backToCourses(ToCourses){
+  backToCourses(ToCourses) {
     // console.log('backtocourse')
-    if(this.isEdit == true){
+    if (this.isEdit == true) {
       console.log('backtocourseDetail');
       this._service.backCourseDetail();
-    }else{
+    } else {
       console.log('backtocourse')
       this._service.backCourse();
     }
-    
+
+    this.staffArrLists = [];
+
     localStorage.removeItem('cPlan');
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
@@ -438,13 +465,13 @@ export class CoursecreateComponent implements OnInit {
   //   }
   // }
 
-  lCount(val){
+  lCount(val) {
     console.log(val)
     this.isthereLC = (val == '') ? false : true;
     console.log(this.isthereLC)
   }
 
-  chooseEndOpt(type){
+  chooseEndOpt(type) {
     // this.isChecked = type;
     // if(type == 'end'){
     //   this.model.end = "";
@@ -457,152 +484,228 @@ export class CoursecreateComponent implements OnInit {
     //   }
     //   this.model.lessonCount = "";
     // }
-      this.isChecked = type;
-      if(this.tempVar){
-        if(this.tempVar == this.isChecked){
-          console.log("Draft Choose",this.tempVar);
-          if(this.tempVar == 'end'){
-            this.model.end = this.tempValue;
-            this.model.lessonCount = ""
-          }else{
-            this.model.lessonCount = this.tempValue;
-            this.model.end = ""
-          }
-        }
-      }else{
-        console.log("CREATE");
-        if(this.isChecked == 'end'){
-          this.model.lessonCount = "";
-        }else{
-          this.model.end = "";
+    this.isChecked = type;
+    if (this.tempVar) {
+      if (this.tempVar == this.isChecked) {
+        console.log("Draft Choose", this.tempVar);
+        if (this.tempVar == 'end') {
+          this.model.end = this.tempValue;
+          this.model.lessonCount = ""
+        } else {
+          this.model.lessonCount = this.tempValue;
+          this.model.end = ""
         }
       }
-    
+    } else {
+      console.log("CREATE");
+      if (this.isChecked == 'end') {
+        this.model.lessonCount = "";
+      } else {
+        this.model.end = "";
+      }
+    }
+
 
   }
 
-  setMinDate(event){
-    console.log("setMinDate",event);
+  setMinDate(event) {
+    console.log("setMinDate", event);
     this.minDate = event;
   }
 
-  setMaxDate(date){
-    console.log("setMaxDate",date);
-    this.maxDate =  date;
+  setMaxDate(date) {
+    console.log("setMaxDate", date);
+    this.maxDate = date;
   }
-  clickInit:boolean = false;
+  clickInit: boolean = false;
   selectDay(data, event): void {
     this.clickInit = true;
-    console.log("Day",data,event);
+    console.log("Day", data, event);
     var dayIdx = this.selectedDay.indexOf(data);
     console.log(dayIdx);
     if (event.target.checked) {
-        if(dayIdx < 0 )
-          this.selectedDay.push(data);
-          this.toggleBool= false;
+      if (dayIdx < 0)
+        this.selectedDay.push(data);
+      this.toggleBool = false;
     } else {
-        if(dayIdx >= 0 )
-        this.selectedDay.splice(dayIdx,1);
-        if(this.selectedDay.length>0){
-          this.toggleBool= false;
-        }else{
-          this.toggleBool= true;
-        }
+      if (dayIdx >= 0)
+        this.selectedDay.splice(dayIdx, 1);
+      if (this.selectedDay.length > 0) {
+        this.toggleBool = false;
+      } else {
+        this.toggleBool = true;
+      }
     }
     this.selectedDay.sort();
     console.log(this.selectedDay);
   }
 
-  durationProgress($event){
+  durationProgress($event) {
     this.progressSlider = true;
   }
 
   @HostListener('document:click', ['$event'])
-    public documentClick(event): void {
+  public categorySearch(event): void {
+    if (this.progressSlider != true) {
+      $('.bg-box').css({ 'display': "none" });
+    }
+    else {
+      $('.bg-box').css({ 'display': "block" });
+      $('.bg-box').click(function (event) {
+        event.stopPropagation();
+      });
+      this.progressSlider = false;
 
-        if(this.progressSlider != true){
-           $('.bg-box').css({ 'display': "none" });   
-        }
-        else {
-            $('.bg-box').css({ 'display': "block" }); 
-            $('.bg-box').click(function(event){
-                event.stopPropagation();
-            });
-            this.progressSlider = false;
+    }
 
-        }
+    if (this.focusCfee == true) {
+      $('.cfee-bg').addClass("focus-bg");
+    }
+    else {
+      $('.cfee-bg').removeClass("focus-bg");
+    }
+    this.focusCfee = false;
 
-        if(this.focusCfee == true){
-          $('.cfee-bg').addClass("focus-bg");
-        }
-        else {
-          $('.cfee-bg').removeClass("focus-bg");
-        }
-        this.focusCfee = false;
+    if (this.focusMisfee == true) {
+      $('.misfee-bg').addClass("focus-bg");
+    }
+    else {
+      $('.misfee-bg').removeClass("focus-bg");
+    }
+    this.focusMisfee = false;
 
-        if(this.focusMisfee == true){
-          $('.misfee-bg').addClass("focus-bg");
-        }
-        else {
-          $('.misfee-bg').removeClass("focus-bg");
-        }
-        this.focusMisfee = false;
-
-        // for search dropdown
-        // if(this.searchMenuShow == false){
-        //    $('.search-dropdown').css('display', 'none'); 
-        // }
-        // else {
-        //     $('.search-dropdown').css('display', 'block');
-        //     this.searchMenuShow = false;
-        //     $("#myInput").focus();
-        // }
+    // for search dropdown
+    // if(this.searchMenuShow == false){
+    //    $('.search-dropdown').css('display', 'none'); 
+    // }
+    // else {
+    //     $('.search-dropdown').css('display', 'block');
+    //     this.searchMenuShow = false;
+    //     $("#myInput").focus();
+    // }
   }
 
-  showDropdown(type,state){
-    console.log(type,state)
-    if(type == 'feeOpt'){
+  showDropdown(type, state) {
+    console.log(type, state)
+    if (type == 'feeOpt') {
       this.feeOptShow = true;
-    }else if(type == 'taxOpt'){
+    } else if (type == 'taxOpt') {
       this.taxOptShow = true;
-    }else if(type == 'duration'){      
+    } else if (type == 'duration') {
+      this.durationMenuShow = true;
+    } else if (type == 'search') {
+      this.searchMenuShow = true;
+    }
+  }
+  closeDropdown(event, type, datePicker?) {
+
+
+    // if(event.path){
+    //   if(type == 'feeOpt'){
+    //     var parentWrap = event.path.filter(function(res){
+    //       return res.className == "form-group has-feedback feeOpt-wrap"
+    //     })
+    //     if(parentWrap.length == 0){
+    //       this.feeOptShow = false;
+    //     }
+    //   }else if(type == 'taxOpt'){
+    //     var parentWrap = event.path.filter(function(res){
+    //       return res.className == "form-group has-feedback taxOpt-wrap"
+    //     })
+    //     if(parentWrap.length == 0){
+    //       this.taxOptShow = false;
+    //     }
+    //   }else if(type == 'duration'){
+    //     var parentWrap = event.path.filter(function(res){
+    //       return res.className == "cursor-on d-flex justify-content-between time-dropdown font-semi durationDp"
+    //     })
+    //     if(parentWrap.length == 0){
+    //       this.durationMenuShow = false;
+    //     }
+    //   }else if(type == 'search'){
+    //     var parentWrap = event.path.filter(function(res){
+    //       return res.className == "search-wrap"
+    //     })
+    //     if(parentWrap.length == 0){
+    //       this.searchMenuShow = false;
+    //       $("#myInput").focus();
+    //     }
+    //   }
+    // }
+    // else{
+    console.log(event.target.className)
+    if (event.target.className.includes("dropD")) {
+      this.feeOptShow = false;
+      this.taxOptShow = false;
+      this.durationMenuShow = false;
+      if (event.target.className.includes("taxInput")) {
+        this.taxOptShow = true;
+        if(datePicker)
+          datePicker.close();
+      }
+      else if (event.target.className.includes("feeInput")){
+        if(datePicker)
+          datePicker.close();
+        this.feeOptShow = true;
+      }
+        
+      else if (event.target.className.includes("durationInput")){
         this.durationMenuShow = true;
-    }else if(type == 'search'){
-        this.searchMenuShow = true;
+        if(datePicker)
+          datePicker.close();
+      }
+      else if (event.target.className.includes("teacherInput")){
+        // this.searchMenuShow = true;
+        if(datePicker)
+          datePicker.close();
+      }
+      // else if (event.target.className.includes("startInput")){
+      //   this.durationMenuShow = true;
+      //   if(datePicker)
+      //     datePicker.close();
+      // }
+      // else if (event.target.className.includes("endInput")){
+      //   this.durationMenuShow = true;
+      //   if(datePicker)
+      //     datePicker.close();
+      // }
     }
-  }
-  closeDropdown(event,type){
-    if(type == 'feeOpt'){
-      var parentWrap = event.path.filter(function(res){
-        return res.className == "form-group has-feedback feeOpt-wrap"
-      })
-      if(parentWrap.length == 0){
-        this.feeOptShow = false;
-      }
-    }else if(type == 'taxOpt'){
-      var parentWrap = event.path.filter(function(res){
-        return res.className == "form-group has-feedback taxOpt-wrap"
-      })
-      if(parentWrap.length == 0){
-        this.taxOptShow = false;
-      }
-    }else if(type == 'duration'){
-      var parentWrap = event.path.filter(function(res){
-        return res.className == "cursor-on d-flex justify-content-between time-dropdown font-semi durationDp"
-      })
-      if(parentWrap.length == 0){
-        this.durationMenuShow = false;
-      }
-    }else if(type == 'search'){
-      var parentWrap = event.path.filter(function(res){
-        return res.className == "search-wrap"
-      })
-      if(parentWrap.length == 0){
-        this.searchMenuShow = false;
-        $("#myInput").focus();
-      }
+    else if (event.target.className.includes("search-user")){
+      console.log("------------------------------>")
+      this.searchMenuShow= false;
+      // this.durationMenuShow = true;
+      // if(datePicker)
+      //   datePicker.close();
     }
+    else {
+      this.searchMenuShow= false;
+      // if (type == "start")
+      //   datePicker.close();
+      // else if (type== 'end')
+      //   datePicker.close();
+     if(type == "start" || type == "end"){
+         if(event.target.offsetParent == null){
+            datePicker.close();
+         }else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER"){
+
+            datePicker.close();
+         }
+     }
+      this.feeOptShow = false;
+      this.taxOptShow = false;
+      this.durationMenuShow = false;
+      this.showListWrap = false;
+    }
+    //this.taxOptShow = !this.taxOptShow;
+    //}
+
   }
+  // closefix(event, datePicker) {
+  //   if(event.target.offsetParent == null)
+  //     datePicker.close();
+  //   else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER")
+  //     datePicker.close();
+  // }
 
   // showSearch:boolean = false;
   // searchDropdown(item){
@@ -619,144 +722,145 @@ export class CoursecreateComponent implements OnInit {
   //   }
   // }
 
-  ChangedRangeValue(e, type){
+  ChangedRangeValue(e, type) {
     // console.log(e)
-    if(type == 'hr'){
+    if (type == 'hr') {
       this.selectedHrRange = e;
-      console.log("this.selectedHrRange",this.selectedHrRange);
+      console.log("this.selectedHrRange", this.selectedHrRange);
     }
-    if(type == 'min'){
+    if (type == 'min') {
       this.selectedMinRange = e;
-      console.log("this.selectedMinRange",this.selectedMinRange)
+      console.log("this.selectedMinRange", this.selectedMinRange)
     }
     this.formatTime();
   }
 
-  chooseTimeOpt(type){
+  chooseTimeOpt(type) {
     console.log(type);
     this.isSelected = type;
     this.formatTime();
   }
 
-  formatTime(){
-    console.log("this.selected",this.selectedHrRange,this.selectedMinRange)
-    if(this.selectedHrRange > 0 ){
-      if(this.selectedHrRange<10){
+  formatTime() {
+    console.log("this.selected", this.selectedHrRange, this.selectedMinRange)
+    if (this.selectedHrRange > 0) {
+      if (this.selectedHrRange < 10) {
         var hrFormat = 0 + this.selectedHrRange;
-      }else{
+      } else {
         var hrFormat = this.selectedHrRange;
       }
-    }else{
+    } else {
       this.selectedHrRange = "00";
       var hrFormat = this.selectedHrRange;
     }
-    if(this.selectedMinRange > 0){
-      if(this.selectedMinRange<10){
+    if (this.selectedMinRange > 0) {
+      if (this.selectedMinRange < 10) {
         this.selectedMinRange = parseInt(this.selectedMinRange);
         this.selectedMinRange = this.selectedMinRange.toString();
-        console.log('if',this.selectedMinRange)
+        console.log('if', this.selectedMinRange)
         // var minFormat = this.selectedMinRange.concat('0',this.selectedMinRange);
         var minFormat = 0 + this.selectedMinRange;
         // console.log(this.selectedMinRange.concat('0',this.selectedMinRange));
         console.log(minFormat)
-      }else{
-        console.log('else',this.selectedMinRange)
+      } else {
+        console.log('else', this.selectedMinRange)
         var minFormat = this.selectedMinRange;
       }
-    }else{
+    } else {
       this.selectedMinRange = "00";
       var minFormat = this.selectedMinRange;
     }
     this.showFormat = hrFormat + ':' + minFormat;
     console.log(this.showFormat)
-    this.startFormat = hrFormat + ':' + minFormat +''+ this.isSelected;
-    console.log('Start Format',this.startFormat);
+    this.startFormat = hrFormat + ':' + minFormat + '' + this.isSelected;
+    console.log('Start Format', this.startFormat);
     // this.model.starttime = this.startFormat;  
     this.startTime = moment(this.startFormat, "h:mm A").format("HH:mm");
-    console.log('Output',this.startTime);
+    console.log('Output', this.startTime);
     this.model.startT = this.startFormat;
     this.model.starttime = this.startTime;
-    this.calculateDuration(this.startTime,this.model.duration);
+    this.calculateDuration(this.startTime, this.model.duration);
   }
 
-  calculateDuration(time,duration){
-    console.log("Calculate",time,duration)
+  calculateDuration(time, duration) {
+    console.log("Calculate", time, duration)
 
-    let totalduration = duration/60;
-    let gethour = Math.floor( totalduration );
-    let getmin = duration%60;
+    let totalduration = duration / 60;
+    let gethour = Math.floor(totalduration);
+    let getmin = duration % 60;
 
     console.log(gethour)
     console.log(getmin)
 
     // this.classend = time + 
-    if(time){
+    if (time) {
       let piece = time.split(':');
-      let mins = Number(piece[0])*60 +Number(piece[1]) +duration;
-      var endTime = this.D(mins%(24*60)/60 | 0) + ':' + this.D(mins%60);  
-      console.log("Classend",endTime);
-      var H = +endTime.substr(0,2);
+      let mins = Number(piece[0]) * 60 + Number(piece[1]) + duration;
+      var endTime = this.D(mins % (24 * 60) / 60 | 0) + ':' + this.D(mins % 60);
+      console.log("Classend", endTime);
+      var H = +endTime.substr(0, 2);
       var h = (H % 12) || 12;
       var ampm = H < 12 ? "AM" : "PM";
-      if(h < 10){
+      if (h < 10) {
         this.classend = '0' + h + endTime.substr(2, 3) + ampm;
-        console.log("Class end",this.classend);
-      }else{
-        this.classend = h +endTime.substr(2,3) + ampm;
-        console.log("Class end",this.classend);
+        console.log("Class end", this.classend);
+      } else {
+        this.classend = h + endTime.substr(2, 3) + ampm;
+        console.log("Class end", this.classend);
       }
-    } 
+    }
   }
-  D(J){ return (J<10? '0':'') + J};
+  D(J) { return (J < 10 ? '0' : '') + J };
 
-  numberOnly(event):boolean{
+  numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       console.log("character");
       this.testChar = true;
       return false;
     }
-    if(event.target.value.search(/^0/) != -1){
-        event.target.value = '';  
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
     }
     this.testChar = false;
     return true;
   }
 
-  onClickDuration(time,index){
-    console.log("item",time);
-    console.log("index",index);
+  onClickDuration(time, index) {
+    console.log("item", time);
+    console.log("index", index);
     this.model.duration = time;
-    this.model.durationTimes = index+1;
+    this.model.durationTimes = index + 1;
     console.log(this.model.durationTimes);
-    this.calculateDuration(this.startTime,this.model.duration);
+    this.calculateDuration(this.startTime, this.model.duration);
   }
 
-  chooseLocation(item){
-    console.log("Choose Location",item);
+  chooseLocation(item) {
+    console.log("Choose Location", item);
     this.model.location = item.name;
     this.locationId = item._id;
   }
 
-  focusInputMethod(e, userType, staffType){
-    console.log(staffType)
-    if(staffType == 'teacher'){
+  focusInputMethod(e, userType, staffType) {
+    console.log("staffType", staffType)
+    if (staffType == 'teacher') {
       console.log(e)
-      console.log(staffType,userType)
+      console.log(staffType, userType)
       this.getAllUsers(userType);
-    }else if(staffType == 'assistant'){
+    } else if (staffType == 'assistant') {
       console.log(e)
-      console.log(staffType,userType)
+      console.log(staffType, userType)
       this.isFocus = true;
       this.getAllUsers(userType);
     }
   }
 
-  hideFocus(e, staffType){
-    if(staffType == 'teacher'){
+  hideFocus(e, staffType) {
+    if (staffType == 'teacher') {
       this.model.teacherSearch = "";
-    }else if(staffType == 'assistant'){
-      console.log("Assistant",staffType)
+      //this.searchMenuShow = false;
+    } else if (staffType == 'assistant') {
+      console.log("Assistant", staffType)
       setTimeout(() => {
         this.isFocus = false;
       }, 300);
@@ -764,142 +868,178 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
-  changeInputMethod(searchWord){
+  changeInputMethod(searchWord) {
     // console.log(this.detailLists.locationId)
     // console.log(searchWord)
     // let locationId = this.detailLists.locationId;
-    console.log('searchword',searchWord);
-    if(searchWord == ''){
+    console.log('searchword', searchWord);
+    if (searchWord == '') {
       console.log("NULL");
-       this._service.getAllUsers(this.regionID, 'staff', 20 , 0)
-       .subscribe((res:any) => {
-         this.userLists = res;
-         console.log("userLists",this.userLists);
-       })
-    }else{
-      var pplArr = [];
-      var pplListArr = [];
-      if(this.selectedTeacher){
-        pplArr.push(this.selectedTeacher);
-      }
-      if(this.selectedUserLists.length > 0){
-        for(var i in this.selectedUserLists){
-          pplArr.push(this.selectedUserLists[i]);
-        }
-      }
-      console.log("pplArr",pplArr)
-
-      if(pplArr.length>0){
-        console.log("to send userIds PPLs");
-        for(let y in pplArr){
-          let id = pplArr[y].userId;
-          pplListArr.push(id)
-        }
-        console.log('pplListArr',pplListArr)
-        var pplListStr = pplListArr.toString();
-        console.log("pplListsStr",pplListStr);
-
-        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20 ,0, pplListStr)
-        .subscribe((res:any) => {
-          console.log(res);
+      this._service.getAllUsers(this.regionID, 'staff', 20, 0)
+        .subscribe((res: any) => {
           this.userLists = res;
-        }, err => {  
-          console.log(err);
-        });
-      }else{
-        console.log("not send");
-        this._service.getSearchUser(this.regionID, searchWord, 'staff', 20 ,0, '')
-        .subscribe((res:any) => {
-          console.log(res);
-          this.userLists = res;
-        }, err => {  
-          console.log(err);
-        });
-      }
+          console.log("userLists", this.userLists);
+        })
+    } else {
+      this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
+      .subscribe((res: any) => {
+        console.log(res);
+        this.userLists = res;
+      }, err => {
+        console.log(err);
+      });
+      // var pplArr = [];
+      // var pplListArr = [];
+      // if (this.selectedTeacher) {
+      //   pplArr.push(this.selectedTeacher);
+      // }
+      // if (this.selectedUserLists.length > 0) {
+      //   for (var i in this.selectedUserLists) {
+      //     pplArr.push(this.selectedUserLists[i]);
+      //   }
+      // }
+      // console.log("pplArr", pplArr)
+
+      // if (pplArr.length > 0) {
+      //   console.log("to send userIds PPLs");
+      //   for (let y in pplArr) {
+      //     let id = pplArr[y].userId;
+      //     pplListArr.push(id)
+      //   }
+      //   console.log('pplListArr', pplListArr)
+      //   var pplListStr = pplListArr.toString();
+      //   console.log("pplListsStr", pplListStr);
+
+      //   this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
+      //     .subscribe((res: any) => {
+      //       console.log(res);
+      //       this.userLists = res;
+      //     }, err => {
+      //       console.log(err);
+      //     });
+      // } else {
+      //   console.log("not send");
+      //   this._service.getSearchUser(this.regionID, searchWord, 'staff', 20, 0, '')
+      //     .subscribe((res: any) => {
+      //       console.log(res);
+      //       this.userLists = res;
+      //     }, err => {
+      //       console.log(err);
+      //     });
+      // }
     }
   }
 
-  getAllUsers(type){
-    this.blockUI.start('Loading...');    
-    this._service.getAllUsers(this.regionID, type, 20 , 0)
-    .subscribe((res:any) => {      
-      this.userLists = res;
-      console.log('this.userLists', this.userLists);      
-      setTimeout(() => {
-            this.blockUI.stop(); // Stop blocking
+  getAllUsers(type) {
+    this.blockUI.start('Loading...');
+    this._service.getAllUsers(this.regionID, type, 20, 0)
+      .subscribe((res: any) => {
+        this.userLists = res;
+        console.log('this.userLists', this.userLists);
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
         }, 300);
       }, err => {
         console.log(err);
       })
   }
+
+  staffArrLists = [];
   selectedAssistants = [];
-  selectedUserLists =[];
-  chooseUser(user,type){
+  selectedUserLists = [];
+  chooseUser(user, type) {
     if (type == 'assistant') {
       console.log(user);
       this._service.getCurrentUser(user.userId)
-      .subscribe((res:any) => {
-        console.log(res);
-        this.isFocus = false;
-        console.log(this.selectedUserLists.length)
-        this.selectedUserLists.push(res);
-        this.selectedAssistants.push(res.userId);
-        console.log(this.selectedUserLists)
-        console.log(this.selectedUserLists.length)
-      }, err => {  
-        console.log(err);
-      });
-    }else if (type == 'teacher') {
+        .subscribe((res: any) => {
+          console.log(res);
+          this.isFocus = false;
+          console.log(this.selectedUserLists.length)
+          this.selectedUserLists.push(res);
+          this.selectedAssistants.push(res.userId);
+          console.log(this.selectedUserLists)
+          console.log(this.selectedUserLists.length)
+          this.staffArrLists.push(res.userId)
+          console.log("staffArrLists==>",this.staffArrLists)
+        }, err => {
+          console.log(err);
+        });
+    } else if (type == 'teacher') {
       console.log("Teacher")
       this._service.getCurrentUser(user.userId)
-      .subscribe((res:any) => {
-        console.log(res);
-        this.selectedTeacher = res;
-        this.model.teacherId = this.selectedTeacher.userId;
-        console.log("selected Teacher",this.model.teacherId)
-      }, err => {  
-        console.log(err);
-      });
+        .subscribe((res: any) => {
+          this.searchMenuShow = false;
+          console.log(res);
+          this.selectedTeacher = res;
+          this.model.teacherId = this.selectedTeacher.userId;
+          console.log("selected Teacher", this.model.teacherId);
+          this.staffArrLists = [];
+          this.staffArrLists.push(res.userId);
+          for(var i in this.selectedUserLists){
+            this.staffArrLists.push(this.selectedUserLists[i].userId)
+          }
+          console.log("staffArrLists==>",this.staffArrLists)
+          // this.staffArrLists.push(res.userId)
+          // console.log("staffArrLists==>",this.staffArrLists)
+          // if(this.staffArrLists.length > 0){
+          //   // var dayIdx = this.staffArrLists.indexOf();
+          //   for(var i in this.selectedTeacher){
+
+          //   }
+          // }
+        }, err => {
+          console.log(err);
+        });
     }
   }
 
-  removeSelectedUser(id){
+  removeSelectedUser(id) {
+    this.staffArrLists = [];
+    this.selectedAssistants = [];
     let getIndex;
     let nextIndex;
-    for(let x in this.selectedUserLists){
-      if(id == this.selectedUserLists[x].userId){
+    for (let x in this.selectedUserLists) {
+      if (id == this.selectedUserLists[x].userId) {
         getIndex = x;
       }
-      if(id == this.selectedAssistants[x].userId){
-        nextIndex = x;
-      }
+      // if (id == this.selectedAssistants[x].userId) {
+      //   nextIndex = x;
+      // }
     }
-    this.selectedUserLists.splice(getIndex,1);
-    this.selectedAssistants.splice(nextIndex,1);
-    console.log(this.selectedUserLists);
-    console.log(this.selectedAssistants);
+    this.selectedUserLists.splice(getIndex, 1);
+    // this.selectedAssistants.splice(nextIndex, 1);
+    console.log("this.selectedUserLists",this.selectedUserLists);
+
+    for(var i in this.selectedUserLists){
+      this.selectedAssistants.push(this.selectedUserLists[i].userId);
+      this.staffArrLists.push(this.selectedUserLists[i].userId);
+      console.log("staffArrLists===>",this.staffArrLists);
+    }
+    this.staffArrLists.push(this.selectedTeacher.userId);
+    console.log("staffArrLists===>",this.staffArrLists);
+    console.log("this.selectedAssistants",this.selectedAssistants);
   }
 
 
 
-  saveDraft(){
+  saveDraft() {
     this.addCheck = false;
     this.save = true;
-    if(this.save == true){
+    if (this.save == true) {
       this.createCourse('withoutDraf');
     }
   }
 
-  publishCourse(){
+  publishCourse() {
     this.addCheck = false;
     this.save = false;
-    if(this.save == false){
+    if (this.save == false) {
       this.createCourse('withoutDraf');
     }
   }
 
-  createCourse(state){
-    console.log("This Plan",this.planId,this.planName,this.locationId)
+  createCourse(state) {
+    console.log("This Plan", this.planId, this.planName, this.locationId)
     this.courseObj = {
       "coursePlanId": this.planId,
       "teacherId": this.model.teacherId,
@@ -917,177 +1057,177 @@ export class CoursecreateComponent implements OnInit {
       "ignoreLessons": JSON.stringify(this.ignoreArr),
     };
 
-    if(this.chooseFee !=''){
-      console.log("KKKK",this.chooseFee);
+    if (this.chooseFee != '') {
+      console.log("KKKK", this.chooseFee);
       this.courseObj["courseFee"] = this.chooseFee;
     }
 
-    if(this.chooseTax != ''){
-      console.log("TTT",this.chooseTax);
-      if(this.chooseTax == 'inclusive'){
+    if (this.chooseTax != '') {
+      console.log("TTT", this.chooseTax);
+      if (this.chooseTax == 'inclusive') {
         this.courseObj["taxInclusive"] = true;
-      }else{
+      } else {
         this.courseObj["taxInclusive"] = false;
       }
-      
+
     }
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
-    if(this.conflitCourseId == ""){
+    if (this.conflitCourseId == "") {
       console.log("First Time");
       // this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       this.courseObj["repeatDays"] = this.selectedDay;
-      
-      if(this.flexiOn == false){
-        this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+
+      if (this.flexiOn == false) {
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
       }
-      if(this.model.end && this.flexiOn == false){
-        console.log("Is end date???",this.model.end)
-        this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
-        this.temp["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
+      if (this.model.end && this.flexiOn == false) {
+        console.log("Is end date???", this.model.end)
+        this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+        this.temp["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
         this.tempVar = "end";
         this.tempValue = this.model.end;
         this.model.lessonCount = null;
-      }else{
-        console.log("Lesson???",this.model.lessonCount)
+      } else {
+        console.log("Lesson???", this.model.lessonCount)
         this.courseObj["lessonCount"] = this.model.lessonCount;
         this.temp["lessonCount"] = this.model.lessonCount;
         this.tempVar = "lesson";
-          this.tempValue = this.model.lessonCount;
-          this.model.end = null;
-      } 
+        this.tempValue = this.model.lessonCount;
+        this.model.end = null;
+      }
       this.temp["durationTimes"] = this.model.durationTimes;
-      this.temp["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+      this.temp["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
       this.temp["repeatDays"] = this.selectedDay;
-      localStorage.setItem("tempObj",JSON.stringify(this.temp));
-    }else{
+      localStorage.setItem("tempObj", JSON.stringify(this.temp));
+    } else {
       var testObj = JSON.parse(localStorage.getItem("tempObj"));
-      console.log("Temp obj",testObj)
+      console.log("Temp obj", testObj)
       console.log("Not First Time");
 
-      if(this.model.end){
-        console.log("this.model.end",this.model.end)
-        var endD = this.changeDateFormat(this.model.end,"23:59:59:999");
-        if(testObj.endDate != endD){
-          console.log("Not same endD",testObj.endDate,"&&&",endD);
+      if (this.model.end) {
+        console.log("this.model.end", this.model.end)
+        var endD = this.changeDateFormat(this.model.end, "23:59:59:999");
+        if (testObj.endDate != endD) {
+          console.log("Not same endD", testObj.endDate, "&&&", endD);
           this.courseObj["endDate"] = endD;
           this.temp["endDate"] = endD;
           //other Obj
-          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
           this.courseObj["repeatDays"] = this.selectedDay;
-          localStorage.setItem("tempObj",JSON.stringify(this.temp));
+          localStorage.setItem("tempObj", JSON.stringify(this.temp));
           this.tempVar = "end";
           this.tempValue = this.model.end;
           this.model.lessonCount = null;
         }
       }
 
-      if(this.model.lessonCount && this.flexiOn == false){
+      if (this.model.lessonCount && this.flexiOn == false) {
         console.log("LessonCount KKK");
-        if(testObj.lessonCount != this.model.lessonCount){
-          console.log("Not Same",testObj.lessonCount,"&&&",this.model.lessonCount);
+        if (testObj.lessonCount != this.model.lessonCount) {
+          console.log("Not Same", testObj.lessonCount, "&&&", this.model.lessonCount);
           this.courseObj["lessonCount"] = this.model.lessonCount;
           this.temp["lessonCount"] = this.model.lessonCount;
           // other obj
-          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
           this.courseObj["repeatDays"] = this.selectedDay;
-          localStorage.setItem("tempObj",JSON.stringify(this.temp));
+          localStorage.setItem("tempObj", JSON.stringify(this.temp));
           this.tempVar = "lesson";
           this.tempValue = this.model.lessonCount;
           this.model.end = null;
         }
-      }else if(this.model.lessonCount && this.flexiOn == true){
-          this.courseObj["lessonCount"] = this.model.lessonCount;
-          this.temp["lessonCount"] = this.model.lessonCount;
-          this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
-          this.courseObj["repeatDays"] = this.selectedDay;
-          localStorage.setItem("tempObj",JSON.stringify(this.temp));
-          this.tempVar = "lesson";
-          this.tempValue = this.model.lessonCount;
+      } else if (this.model.lessonCount && this.flexiOn == true) {
+        this.courseObj["lessonCount"] = this.model.lessonCount;
+        this.temp["lessonCount"] = this.model.lessonCount;
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
+        this.courseObj["repeatDays"] = this.selectedDay;
+        localStorage.setItem("tempObj", JSON.stringify(this.temp));
+        this.tempVar = "lesson";
+        this.tempValue = this.model.lessonCount;
       }
-      
-      var startD = this.changeDateFormat(this.model.start,this.model.starttime);
-      if(testObj.startDate != startD){
-        console.log("Not Same StartD",testObj.lessonCount,"&&&",this.model.lessonCount);
+
+      var startD = this.changeDateFormat(this.model.start, this.model.starttime);
+      if (testObj.startDate != startD) {
+        console.log("Not Same StartD", testObj.lessonCount, "&&&", this.model.lessonCount);
         this.courseObj["startDate"] = startD;
         this.temp["startDate"] = startD;
         // other obj
-        if(this.model.end){
-          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
-        }else if(this.model.lessonCount){
+        if (this.model.end) {
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+        } else if (this.model.lessonCount) {
           this.courseObj["lessonCount"] = this.model.lessonCount;
         }
         this.courseObj["repeatDays"] = this.selectedDay;
-        localStorage.setItem("tempObj",JSON.stringify(this.temp)); 
+        localStorage.setItem("tempObj", JSON.stringify(this.temp));
       }
 
-      if(JSON.stringify(testObj.repeatDays) != JSON.stringify(this.selectedDay)){
-        console.log("not same repeat",testObj.repeatDays,this.selectedDay);
+      if (JSON.stringify(testObj.repeatDays) != JSON.stringify(this.selectedDay)) {
+        console.log("not same repeat", testObj.repeatDays, this.selectedDay);
         this.courseObj["repeatDays"] = this.selectedDay;
         this.temp["repeatDays"] = this.selectedDay;
-        if(this.model.end){
-          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
-        }else if(this.model.lessonCount){
+        if (this.model.end) {
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+        } else if (this.model.lessonCount) {
           this.courseObj["lessonCount"] = this.model.lessonCount;
         }
-        this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
-        localStorage.setItem("tempObj",JSON.stringify(this.temp));
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
+        localStorage.setItem("tempObj", JSON.stringify(this.temp));
       }
 
-      if(testObj.durationTimes != this.model.durationTimes){
-        console.log("Change Duration",testObj);
-        console.log("duration",this.model.durationTimes)
+      if (testObj.durationTimes != this.model.durationTimes) {
+        console.log("Change Duration", testObj);
+        console.log("duration", this.model.durationTimes)
         this.temp["durationTimes"] = this.model.durationTimes;
-        if(this.model.end){
-          this.courseObj["endDate"] = this.changeDateFormat(this.model.end,"23:59:59:999");
-        }else if(this.model.lessonCount){
+        if (this.model.end) {
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+        } else if (this.model.lessonCount) {
           this.courseObj["lessonCount"] = this.model.lessonCount;
         }
-        this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
+        this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
         this.courseObj["repeatDays"] = this.selectedDay;
-        localStorage.setItem("tempObj",JSON.stringify(this.temp));
+        localStorage.setItem("tempObj", JSON.stringify(this.temp));
       }
 
     }
 
-    if(this.flexiOn == true){
-      var flexy:boolean;
+    if (this.flexiOn == true) {
+      var flexy: boolean;
       flexy = true;
     }
-    
-    console.log("Course",this.courseObj);
-    this.blockUI.start('Loading...');
-    this._service.createCourse(this.regionID,this.courseObj,this.save,this.conflitCourseId, this.addCheck, this.currentLocation, flexy)
-    .subscribe((res:any) => {
-      console.log(res);
-      this.blockUI.stop();
-      // localStorage.removeItem('coursePlanId');
-      // localStorage.removeItem('splan');
-      localStorage.removeItem('cPlan');
-      localStorage.removeItem('courseID');
-      // localStorage.removeItem('tempObj');
-      // this.router.navigate(['course/']); 
 
-      console.log(res.status);
-      if(res.status === 201){
-        
-        this.toastr.success('You have no conflict.');
-         
-        this.addCheck = false;
-        console.log('201 status', this.addCheck)
-      }else{
-        setTimeout(() => {
-          this.toastr.success('Successfully Created.');
-        }, 300); 
-        localStorage.removeItem('coursePlanId');
-        localStorage.removeItem('splan');
-        this.backToCourses('');
-      }
-    },err => {
+    console.log("Course", this.courseObj);
+    this.blockUI.start('Loading...');
+    this._service.createCourse(this.regionID, this.courseObj, this.save, this.conflitCourseId, this.addCheck, this.currentLocation, flexy)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.blockUI.stop();
+        // localStorage.removeItem('coursePlanId');
+        // localStorage.removeItem('splan');
+        localStorage.removeItem('cPlan');
+        localStorage.removeItem('courseID');
+        // localStorage.removeItem('tempObj');
+        // this.router.navigate(['course/']); 
+
+        console.log(res.status);
+        if (res.status === 201) {
+
+          this.toastr.success('You have no conflict.');
+
+          this.addCheck = false;
+          console.log('201 status', this.addCheck)
+        } else {
+          setTimeout(() => {
+            this.toastr.success('Successfully Created.');
+          }, 300);
+          localStorage.removeItem('coursePlanId');
+          localStorage.removeItem('splan');
+          this.backToCourses('');
+        }
+      }, err => {
         console.log(err);
         console.log(err.status);
         this.blockUI.stop();
-        if(err.status == 409){
+        if (err.status == 409) {
           console.log(this.model.end)
           console.log(this.model.lessonCount)
           this.toastr.error(err.error.message);
@@ -1095,8 +1235,8 @@ export class CoursecreateComponent implements OnInit {
           console.log(this.conflitArr)
           this.conflitCourseId = err.error.courseId;
           this.coursePayment = err.error.paymentPolicy;
-          this.tempID =[];
-          this.ignoreTempID= [];
+          this.tempID = [];
+          this.ignoreTempID = [];
           this.skipArr = [];
           this.ignoreArr = [];
           this.timetable = err.error.timetable
@@ -1104,25 +1244,25 @@ export class CoursecreateComponent implements OnInit {
           this.timetableLists = err.error.timetable.calendar
           console.log(this.ttCalendar)
           console.log(this.timetableLists[0].lessons[0])
-          this.ttStartDate =this.timetableLists[0].lessons[0];
+          this.ttStartDate = this.timetableLists[0].lessons[0];
           console.log(this.ttStartDate)
-          const lastItem= this.timetableLists[this.timetableLists.length - 1].lessons.length - 1;
+          const lastItem = this.timetableLists[this.timetableLists.length - 1].lessons.length - 1;
           console.log(lastItem)
           console.log(this.timetableLists[this.timetableLists.length - 1].lessons[lastItem])
           this.ttEndDate = this.timetableLists[this.timetableLists.length - 1].lessons[lastItem];
 
-        }else if(err.status == 400){
-          if(err.error.message == "LESSONS CAN'T BE EMPTY"){
+        } else if (err.status == 400) {
+          if (err.error.message == "LESSONS CAN'T BE EMPTY") {
             this.endAgain = true;
             console.log("Please choose the end date again that should be later than the first one");
             // this.toastr.error("Please choose the end date again that should be later than the first one");
             this.toastr.error("please choose end date or lesson count");
-          }else if(err.error.message == "LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE NEEDED"){
-            
+          } else if (err.error.message == "LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE NEEDED") {
+
             console.log("...");
             // this.toastr.error("Please choose the end date again that should be later than the first one");
             this.toastr.error(err.error.message);
-          }else{
+          } else {
             this.toastr.error('Create Fail');
           }
         }
@@ -1162,6 +1302,7 @@ export class CoursecreateComponent implements OnInit {
   // }
 
   changeDateFormat(date,time){
+    console.log("==>date,time",date,time);
       if (date == null) {
         console.log('null',date)
         return ""
@@ -1188,114 +1329,114 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
-  skipStaff:any;
-  lessonID:any;
-  skip(id,staffid){
+  skipStaff: any;
+  lessonID: any;
+  skip(id, staffid) {
     this.isSkipId = id;
 
     var val = id;
     var val1 = staffid;
-    if(this.skipArr.includes(val) == false){
+    if (this.skipArr.includes(val) == false) {
       console.log('in the if')
       this.skipArr.push(val)
       // this.tempID.push(staffid);
-    }else{
+    } else {
       console.log('in the else')
       val = [val]
       val1 = [val1]
-      this.skipArr =this.skipArr.filter(f => !val.includes(f));
+      this.skipArr = this.skipArr.filter(f => !val.includes(f));
       // this.tempID =this.tempID.filter(f => !val1.includes(f));
     }
     console.log(this.skipArr)
   }
 
-  undo(id){
+  undo(id) {
     var val = id;
     this.isSkipId = ''
     console.log('is skip true')
-    if(this.skipArr.includes(id) == true){
+    if (this.skipArr.includes(id) == true) {
       val = [id]
-      this.skipArr =this.skipArr.filter(f => !val.includes(f));
+      this.skipArr = this.skipArr.filter(f => !val.includes(f));
     }
     console.log(this.skipArr)
   }
 
-  undoIG(id){
+  undoIG(id) {
     var val = id;
     this.isIgnoreId = ''
     console.log('is ignore true')
-    if(this.ignoreArr.includes(id) == true){
+    if (this.ignoreArr.includes(id) == true) {
       val = [id]
-      this.ignoreArr =this.ignoreArr.filter(f => !val.includes(f));
+      this.ignoreArr = this.ignoreArr.filter(f => !val.includes(f));
     }
     console.log(this.ignoreArr)
   }
 
-  ignore(id, staffid){
+  ignore(id, staffid) {
     this.isIgnoreId = id;
 
     // this.ignoreArr.push(id);
     var val = id;
     var val1 = id;
-    if(this.ignoreArr.includes(val) == false){
+    if (this.ignoreArr.includes(val) == false) {
       console.log('in the if ignore')
       this.ignoreArr.push(val)
       // this.tempID.push(staffid);
-    }else{
+    } else {
       console.log('in the else ignore')
       val = [val]
       val1 = [val1]
-      this.ignoreArr =this.ignoreArr.filter(f => !val.includes(f));
+      this.ignoreArr = this.ignoreArr.filter(f => !val.includes(f));
       // this.tempID =this.tempID.filter(f => !val1.includes(f));
     }
-    console.log("ignore",this.ignoreArr);
+    console.log("ignore", this.ignoreArr);
   }
 
 
-  skipAll(item){
+  skipAll(item) {
     this.ignoreArr = [];
-    if(this.ignoreTempID.length > 0){
-       for(var i in this.ignoreTempID){
-          if(this.ignoreTempID[i]==item.staffId){
-            var remove = Number(i);
-            this.ignoreTempID.splice(remove,1);
-            this.ignoreArr = [];
-          }
+    if (this.ignoreTempID.length > 0) {
+      for (var i in this.ignoreTempID) {
+        if (this.ignoreTempID[i] == item.staffId) {
+          var remove = Number(i);
+          this.ignoreTempID.splice(remove, 1);
+          this.ignoreArr = [];
         }
+      }
     }
     this.tempID.push(item.staffId);
-    for(var key in item.conflictWith){
+    for (var key in item.conflictWith) {
       let conflictTempId = item.conflictWith[key]._id;
-      if(this.skipArr.includes(conflictTempId) == false){        
+      if (this.skipArr.includes(conflictTempId) == false) {
         this.skipArr.push(item.conflictWith[key]._id);
       }
-      console.log("ignoreArr",this.ignoreArr)
-      console.log("skipArr",this.skipArr);
+      console.log("ignoreArr", this.ignoreArr)
+      console.log("skipArr", this.skipArr);
     }
   }
-  
-  ignoreAll(item){
+
+  ignoreAll(item) {
     this.skipArr = []
-    if(this.tempID.length>0){
-       for(var i in this.tempID){
-          if(this.tempID[i]==item.staffId){
-            var remove = Number(i);
-            this.tempID.splice(remove,1);
-            this.skipArr = [];
-          }
+    if (this.tempID.length > 0) {
+      for (var i in this.tempID) {
+        if (this.tempID[i] == item.staffId) {
+          var remove = Number(i);
+          this.tempID.splice(remove, 1);
+          this.skipArr = [];
         }
+      }
     }
     this.ignoreTempID.push(item.staffId);
-    for(var key in item.conflictWith){
+    for (var key in item.conflictWith) {
       let conflictTempId = item.conflictWith[key]._id;
-      if(this.ignoreArr.includes(conflictTempId) == false){
+      if (this.ignoreArr.includes(conflictTempId) == false) {
         this.ignoreArr.push(item.conflictWith[key]._id);
       }
-      console.log("skipArr",this.skipArr);
-      console.log("ignoreArr",this.ignoreArr);
+      console.log("skipArr", this.skipArr);
+      console.log("ignoreArr", this.ignoreArr);
     }
 
-    
+
     // for(var key in lesson){
     //   console.log("id",lesson[key]._id);
     //   this.ignoreArr.push(lesson[key]._id);
@@ -1315,59 +1456,62 @@ export class CoursecreateComponent implements OnInit {
   }
 
   // undo(id){
-    // var skipIdx = this.skipArr.indexOf(id);
-    // console.log('skipIdx',skipIdx);
-    // this.skipArr.splice(skipIdx,1);
-    // console.log("Splice SkipArr",this.skipArr);
+  // var skipIdx = this.skipArr.indexOf(id);
+  // console.log('skipIdx',skipIdx);
+  // this.skipArr.splice(skipIdx,1);
+  // console.log("Splice SkipArr",this.skipArr);
   // }
 
-  viewDetailTimetable(){
+  viewDetailTimetable() {
     this.isShowDetail = true;
   }
 
-  hideDetailTimetable(){
+  hideDetailTimetable() {
     this.isShowDetail = false;
   }
 
-  closeStart(event,datePicker){
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "cc-start"
-    })
-    if(parentWrap.length == 0){
-      // console.log('blank')
-      datePicker.close();
-    }
+  closeStart(event, datePicker) {
+    // var parentWrap = event.path.filter(function(res){
+    //   return res.className == "cc-start"
+    // })
+    // if(parentWrap.length == 0){
+    //   // console.log('blank')
+    //   datePicker.close();
+    // }
+    datePicker.close();
   }
 
-  closeEnd(event,endPicker){
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "cc-end"
-    })
-    if(parentWrap.length == 0){
-      // console.log('blank')
-      endPicker.close();
-    }
+  closeEnd(event, endPicker) {
+    console.log("end", endPicker)
+    // var parentWrap = event.path.filter(function(res){
+    //   return res.className == "cc-end"
+    // })
+    // if(parentWrap.length == 0){
+    //   // console.log('blank')
+    //   endPicker.close();
+    // }
+    endPicker.close();
   }
-  
-  chooseFeeOption(key,data){
+
+  chooseFeeOption(key, data) {
     this.chooseFee = data;
-    console.log(key,data);
+    console.log(key, data);
     // console.log("option",this.chooseFee);
   }
 
-  chooseTaxOption(type){
+  chooseTaxOption(type) {
     this.chooseTax = type;
-    console.log("choose Tax",type);
+    console.log("choose Tax", type);
   }
 
-  flexiOnOff(){
+  flexiOnOff() {
     console.log("Flexible timetable")
-    if(this.flexiOn==false){
+    if (this.flexiOn == false) {
       this.flexiOn = true;
-    }else{
+    } else {
       this.flexiOn = false;
     }
-    
+
   }
 
 }

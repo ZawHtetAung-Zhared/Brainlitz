@@ -724,6 +724,9 @@ h3.head-rating-count {
   .large-col{
     width: 82%
   }
+  .card-columns {
+    column-count: 2;
+  }
 }
 @media (min-width: 2000px){
   .noti-sidebar{
@@ -732,10 +735,17 @@ h3.head-rating-count {
   .large-col{
     width: 85%
   }
+  .card-columns {
+    column-count: 2;
+  }
 }
 
 
-
+@media only screen and  (min-width:1366px){
+  .main-wrapper{
+    width: 960px!important;
+  }
+}
 
 
 

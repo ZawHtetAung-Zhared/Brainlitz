@@ -232,3 +232,9 @@ h4.email-type{
 .form-input{
 	border: none;
 }
+
+@media only screen and  (min-width:1366px){
+	.content-wrapper{
+	  width: 960px;
+	}
+  }

@@ -331,7 +331,14 @@ ul.qwbook-lists li p{
     font-family: 'Montserrat-Semibold',Arial,sans-serif;
     padding-left: 15px;
 }
-
+.remove-outline:focus{
+    outline: none;
+    box-shadow: none;
+    background: none;
+}
+.remove-outline{
+    background: none;
+}
 @media (min-width: 2000px){
     .col-xxl-3 {
         -ms-flex: 0 0 33.333333%;

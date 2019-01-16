@@ -10,6 +10,7 @@ import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { last } from 'rxjs/operator/last';
+// import { start } from 'repl';
 declare var $:any;
 
 @Component({
@@ -261,8 +262,15 @@ export class CourseComponent implements OnInit {
       this.courseList = []
     })
   }
-
+  cID:string;
   ngOnInit() {
+    // this.courseId = localStorage.getItem("userCourse");
+    this.dataservice.currentCourse.subscribe(  cID => this.cID = cID)
+    if(this.cID != ''){
+      setTimeout(() => {
+        this.showCourseDetail(this.cID)
+      }, 300);
+    }
     let recentTemp = localStorage.getItem('recentSearchLists')
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
@@ -288,6 +296,18 @@ export class CourseComponent implements OnInit {
     this.getRegionInfo();
   }
 
+  openDatePicker(datePicker){
+    datePicker.open();
+  }
+  // closeDatePicker(datePicker){
+  //   datePicker.close();
+  // }
+  closefix(event, datePicker) {
+    if(event.target.offsetParent == null)
+      datePicker.close();
+    else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER")
+      datePicker.close();
+  }
 
   checkPermission(){
     console.log(this.permissionType)
@@ -369,18 +389,68 @@ export class CourseComponent implements OnInit {
   @HostListener('window:scroll', ['$event']) onScroll($event){
     if(window.pageYOffset > 81){
       this.isSticky = true;
+
       this.showBtn = true
     }else{
       this.isSticky = false;
       this.showBtn = false;
     }
-  }
 
-  @HostListener('document:click', ['$event']) clickedOutside($event){
-     // here you can hide your menu
-     this.xxxhello = '';
-     console.log("CLICKED OUTSIDE");
-   }
+  }
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    // for category Search
+    if (this.categorySearch != true ) {
+      $('.data-dropbox').css({ 'display': "none" });
+    }
+    else {
+      $('.data-dropbox').css({ 'display': "block" });
+      $('.data-dropbox').click(function (event) {
+        event.stopPropagation();
+      });
+      this.categorySearch = false;
+    }
+    // for plan search
+    if(this.planSearch != true){
+      $('.hide-dropbox').css({ 'display': "none" });
+    }else{
+      $('.hide-dropbox').css({ 'display': "block" });
+      $('.hide-dropbox').click(function (event) {
+        event.stopPropagation();
+      })
+      this.planSearch = false;
+      }
+      // for start time
+    if(this.startTime != true){
+      $('.duration-progress').css({ 'display': "none" });
+    }else{
+      $('.duration-progress').css({ 'display': "block" });
+      $('.duration-progress').click(function (event) {
+        event.stopPropagation();
+      })
+      this.startTime = false;
+      }
+      // for end time
+    if(this.endTime != true){
+      $('.end-duration-progress').css({ 'display': "none" });
+    }else{
+      $('.end-duration-progress').css({ 'display': "block" });
+      $('.end-duration-progress').click(function (event) {
+        event.stopPropagation();
+      })
+      this.endTime = false;
+      }
+
+
+    }
+
+  // @HostListener('document:click', ['$event']) clickedOutside($event){
+
+  //   console.log($event);
+  //    // here you can hide your menu
+  //    this.xxxhello = '';
+  //    console.log("CLICKED OUTSIDE");
+  //  }
 
   //start course search
 
@@ -388,7 +458,10 @@ export class CourseComponent implements OnInit {
     console.log('focusing ...')
     this.iscourseSearch = true;
   }
-
+  focusOut(){
+    console.log('focusout : called');
+      this.iscourseSearch = false;
+  }
   hideCourseSearch(){
     console.log(this.iswordcount)
     // this.iswordcount = true;
@@ -403,7 +476,7 @@ export class CourseComponent implements OnInit {
     this.isAdvancedSearch = false;
     this.clearSearch();
   }
-
+ 
   clearSearch(){
     console.log('clear')
     this.hideSearch = false;
@@ -433,8 +506,13 @@ export class CourseComponent implements OnInit {
     $event.preventDefault();
     $event.stopPropagation();
     console.log('000')
-    this.categorySearch = (state == 'category') ? !this.categorySearch : false;
-    this.planSearch = (state == 'plan') ? !this.planSearch : false;
+    if(state == 'category'){
+      this.categorySearch = true;
+    }else{
+      this.planSearch = true;
+    }
+    // this.categorySearch = (state == 'category') ? !this.categorySearch : false;
+    // this.planSearch = (state == 'plan') ? !this.planSearch : false;
   }
 
   // dropDown($event: Event, state){
@@ -559,6 +637,7 @@ export class CourseComponent implements OnInit {
   }
 
   closeSimpleSearch(event){
+    // this.iscourseSearch = false;
     var parentWrap = event.path.filter(function(res){
       return res.className == "simple-search input-group col-md-12 pd-zero"
     })
@@ -651,10 +730,10 @@ export class CourseComponent implements OnInit {
   }
 
   startTimeConfigure(state){
-    // console.log('~~~~')
-
-    this.startTime = (state == 'start') ? true : false;
-    this.endTime = (state == 'end') ? true : false;
+      this.startTime= true;
+  }
+  endTimeConfigure(state){
+    this.endTime = true;
   }
 
   showAdvancedSearch(){
@@ -1052,6 +1131,7 @@ export class CourseComponent implements OnInit {
     this.paymentItem = {};
     this.cancelUItext=false;
     this.cancelUI=false;
+    this.dataservice.nevigateCourse('');
   }
 
   showCourseDetail(courseId){
@@ -1611,6 +1691,13 @@ export class CourseComponent implements OnInit {
     this.showStudentOption = stdID;
     this.xxxhello = stdID;
     console.log(this.showStudentOption)
+    // this.router.navigate(['/customer']);
+  }
+
+  onClickCustomer(id){
+    // localStorage.setItem("courseCustomer",id)
+    this.router.navigate(['/customer']);
+    this.dataservice.nevigateCustomer(id);
   }
 
   withdrawUser(id){
@@ -1961,7 +2048,10 @@ export class CourseComponent implements OnInit {
       .subscribe((res:any) => {
        console.log(res);
        this.blockUI.stop();
-       this.toastr.success("Assistant successfully assigned.");
+       setTimeout(()=> {
+         this.toastr.success("Assistant successfully assigned.");
+       },100)
+       // this.toastr.success("Assistant successfully assigned.");
        this.modalReference.close();
        if(this.isvalidID == 'inside'){
          console.log('hi')
@@ -2092,9 +2182,9 @@ export class CourseComponent implements OnInit {
     console.log("Edit",course);
     localStorage.setItem('coursePlanId',course.coursePlanId);
     localStorage.setItem('courseId',course._id)
-    this.dataservice.hero = course;
-    // this.dataservice.edit = true;
-    this.router.navigate(['/courseCreate']);
+    // this.dataservice.hero = course;
+    // // this.dataservice.edit = true;
+    // this.router.navigate(['/courseCreate']);
   }
   getCPlanList(){
     console.log(this.locationID)

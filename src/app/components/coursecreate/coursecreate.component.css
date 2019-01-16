@@ -1194,3 +1194,27 @@ button:disabled {
     .flexi-label{
       line-height: 1.3;
     }
+
+    .clickable-user{
+      color: #0080ff!important;
+      cursor: pointer;
+    }
+
+    .hideStaff{
+      display: none!important;
+    }
+
+    @media only screen and  (min-width:1366px){
+      .create-container{
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+    }
+
+    @media only screen and  (max-width:1365px){
+      .create-container{
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+
