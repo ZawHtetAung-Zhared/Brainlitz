@@ -22,6 +22,8 @@ export class appService{
     public isback: boolean = false;    
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType'); 
+    public defaultSkipValue = '0';
+    public defaultLimit = '20';
     locationID: Observable<any>;
     private getLocationID = new Subject<any>();
 
@@ -1037,7 +1039,7 @@ export class appService{
     }
 
 
-    getSearchCoursePlan(id: string,location: string,categoryId:string, skip:string,limit:string, keyword: string): Observable<any>{
+    getSearchCoursePlan(id: string,location: string,categoryId:string, skip:string = this.defaultSkipValue,limit:string = this.defaultLimit, keyword: string): Observable<any>{
       this.getLocalstorage();
       console.log(location)
       console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)

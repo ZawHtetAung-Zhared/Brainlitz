@@ -566,7 +566,7 @@ ul.data-listing{
   width: 100%;
   background: #fff;
   height: 300px;
-  position: absolute;
+  /* position: absolute; */
   margin: 0;
   top:50px;
   padding: 0;
