@@ -573,7 +573,7 @@ export class CoursecreateComponent implements OnInit {
       $('.misfee-bg').removeClass("focus-bg");
     }
     this.focusMisfee = false;
-
+    console.log(event)
     // for search dropdown
     // if(this.searchMenuShow == false){
     //    $('.search-dropdown').css('display', 'none'); 
