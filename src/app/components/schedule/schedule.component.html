@@ -49,14 +49,13 @@
           >
           <span class="input-group-append">
             <button class="btn fa fa-search search-size btn-design btn-outline-secondary" type="button">
-              <!-- <i class=""></i> -->
             </button>
           </span> 
           <ul class="data-listing" *ngIf="isFousCategory == true" >
             <li *ngFor="let category of categoryList" (click)="selectData(category)">{{category.name}}</li>
           </ul>
         </div>
-        <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+        <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button','20', '0')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
       </form>
     </div>
   </div>
@@ -194,11 +193,13 @@
             </div>
           </div>      
         </div>
-        <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div>
+        <div  *ngIf="staffList.staff && staffList.staff.length >= 20" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openmodal(content)>View more</div>
+        <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
       </div>
 
       <div *ngIf="(staffList | json) == '{}'" class="no-teacher">
         There is no teacher for this category.
+        
       </div>
     
       <div *ngIf="(staffList | json) != '{}'" class="v-wrapper1">
@@ -356,9 +357,8 @@
         name="staffId"
         [(ngModel)]="staff.staffId"
         #staffId="ngModel"
-        (input) = "getSearchScheduleStaffInput(regionId,selectDay,selectedID,$event.target.value)"      
-        >
-        <!-- (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value)"       -->
+        (input) = "getSearchscheulestaff($event.target.value,'','')"      
+        >  
       <span class="input-group-append">
         <button class="btn btn-design btn-outline-secondary" type="button">
           <i class="fa fa-search search-size"></i>
@@ -366,8 +366,8 @@
       </span>
     </div>
   </div>
-  <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper" *ngIf="tempstafflist" >
-    <div *ngFor="let teacher of tempstafflist.staff" class="d-flex align-items-center modal-teacher-list mt-1" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers1(teacher)" >
+  <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper" >
+    <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center modal-teacher-list mt-1" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)" (click)="activeTeachers1(teacher)" >
       <div class="d-flex justify-content-center ">
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
@@ -376,8 +376,9 @@
       </div>
     </div>      
   </div>
-  <div class="d-flex justify-content-center load-more" *ngIf="staffList && staffList.more != 0 && staffList.more > 0">
-    <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button>
+  <div class="d-flex justify-content-center load-more" *ngIf="tempstafflist && tempstafflist.length >= 20 && result.more != 0" >
+    <button class="btn" (click)="testLoadMore(tempstafflist.length)">Load more</button>
+    <!-- <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button> -->
   </div>
 </ng-template>
 
