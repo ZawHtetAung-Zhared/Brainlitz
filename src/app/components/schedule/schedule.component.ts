@@ -784,13 +784,19 @@ export class ScheduleComponent implements OnInit {
   getRegionalInfo() {
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType')
-
+    this.blockUI.start('Loading...');
     this._service.getRegionalAdministrator(this.regionId, token, tokenType)
       .subscribe((res: any) => {
         console.log("Operation Hours", res.operatingHour);
         this.calculateTime(res.operatingHour);
         this.calculateSlot(res.operatingHour.start);
         this.startTime = res.operatingHour.start;
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
+      },err => {
+        this.blockUI.stop();
+        console.log(err)
       })
   }
 
@@ -1031,7 +1037,9 @@ export class ScheduleComponent implements OnInit {
 
   searchCategoryList(val, type) {
     console.log(val, type);
+    this.blockUI.start('Loading...');
     if (val.length > 0) {
+      // this.blockUI.start('Loading...');
       this._service.getSearchCategory(this.regionId, val, this.locationID)
         .subscribe((res: any) => {
           console.log(res.length);
@@ -1043,18 +1051,23 @@ export class ScheduleComponent implements OnInit {
             element.disabled=false;
           }
           this.categoryList = res;
+          this.blockUI.stop();
         }, err => {
           console.log(err);
+          this.blockUI.stop();
         });
     }
     else if (val.length <= 0) {
+      // this.blockUI.start('Loading...');
       this._service.getCategory(this.regionId, 20, 0)
         .subscribe((res: any) => {
           console.log(res);
-          console.log(this.categoryList.name)
+          console.log(this.categoryList.name);
           this.categoryList = res;
+           this.blockUI.stop();
         }, err => {
           console.log(err);
+           this.blockUI.stop();
         });
     }
   }

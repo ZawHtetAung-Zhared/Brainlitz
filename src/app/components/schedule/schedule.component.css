@@ -846,7 +846,9 @@ thead th:first-child,
   display: table-cell;
 }
 .single-slot{
-  display: table-cell;
+  /*display: table-cell;*/
+  display: block;
+    float: left;
 }
 .single-slot:first-child{
   min-width: 121px;
