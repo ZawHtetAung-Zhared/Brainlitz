@@ -94,10 +94,10 @@
                   </div>
                   <label class="labelTitle">Operating hour</label>
                 </div>
-                <label *ngIf="!isEdit" class="operatingTime"><span *ngIf="item && item.operatingHour.start.hr < 10 ">0</span>{{item.operatingHour.start.hr }} : <span *ngIf="item && item.operatingHour.start.min < 10 ">0</span>{{item.operatingHour.start.min
+                <label *ngIf="!isEdit" class="operatingTime"><span *ngIf="item && item.operatingHour.start.hr < 10 ">0</span>{{item.operatingHour.start.hr }}:<span *ngIf="item && item.operatingHour.start.min < 10 ">0</span>{{item.operatingHour.start.min
                   }} {{item.operatingHour.start.meridiem}} </label>
                 <span *ngIf="!isEdit" class="timedash"> </span>
-                <label *ngIf="!isEdit " class="operatingTime1"><span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.hr }} : <span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.min
+                <label *ngIf="!isEdit " class="operatingTime1"><span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.min
                   }} {{item.operatingHour.end.meridiem}} </label>
                 <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
                   <div class="form-group url-edit d-flex flex-row">
@@ -110,7 +110,8 @@
                           <div id="rectangle"></div>
                           <div class="time-wrapper d-flex justify-content-center">
                             <div class="flex-column justify-content-center showTime font-medium">
-                                <span *ngIf="srangeHr < 10">0</span><span class="hr">{{srangeHr}}</span> : 
+                                <span *ngIf="srangeHr < 10">0</span><span class="hr">{{srangeHr}}</span>
+                                :
                               <span *ngIf="srangeMin < 10">0</span><span class="min">{{srangeMin}}</span> 
                               <span class="smedrii">{{sisSelected}}</span>
                             </div>
@@ -152,7 +153,8 @@
                           <div id="rectangle"></div>
                           <div class="time-wrapper d-flex justify-content-center">
                             <div class="flex-column justify-content-center showTime font-medium">
-                                <span *ngIf="erangeHr < 10">0</span><span class="hr">{{erangeHr}}</span> : 
+                                <span *ngIf="erangeHr < 10">0</span><span class="hr">{{erangeHr}}</span>
+                                :
                               <span *ngIf="erangeMin < 10">0</span><span class="min">{{erangeMin}}</span> 
                               <span class="emedrii">{{eisSelected}}</span>
                             </div>

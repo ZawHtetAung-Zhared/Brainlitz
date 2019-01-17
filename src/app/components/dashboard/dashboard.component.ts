@@ -768,8 +768,8 @@ export class DashboardComponent implements OnInit {
     if(String(min).length == 1){
       min = "0" +String(min);
     }
-    console.log("res" , hr + " : " + min + " " + medrian)
-    return hr + " : " + min + " " + medrian
+    console.log("res" , hr + ":" + min + " " + medrian)
+    return hr + ":" + min + " " + medrian
   }
   updateBtnDisabled(){
     return (new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected) > new Date("January 31 1980 " + String(this.erangeHr) + ":" + String(this.erangeMin)+":"+ this.eisSelected))
