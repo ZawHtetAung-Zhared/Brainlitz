@@ -10,6 +10,7 @@ import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import * as currency from 'currency-symbol-map/map';
 // import currencyToSymbolMap from 'currency-symbol-map/map'
+declare var $:any;
 
 @Component({
   selector: 'app-dashboard',
