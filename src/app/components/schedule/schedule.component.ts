@@ -809,6 +809,7 @@ export class ScheduleComponent implements OnInit {
     console.log("mins",diffMins);
     var diffHours = (diff - diffMins) / 60;
     console.log("hours",diffHours)
+
     if((diffMins == 30 || diffMins < 30)&& diffMins>0){
       diffHours = (diffHours*2)+1;
       console.log(diffHours)
@@ -828,6 +829,7 @@ export class ScheduleComponent implements OnInit {
         var tempH = 0*60 + time.start.min;
       }else{
         var tempH = time.start.hr*60 + time.start.min;
+        console.log("tempH",tempH)
       }
     }
     
@@ -840,19 +842,30 @@ export class ScheduleComponent implements OnInit {
       var min = tempH%60;
       var h = (tempH - min)/60;
 
+    console.log("min>",min)
+  
+
       if(h>12){
         var hr = h-12;
+        if(hr == 12 && (i== diffHours)){
+          var ampm = 'AM';
+        }else{
+          var ampm = 'PM';
+        }
         // console.log(">12",hr)
-        var ampm = 'PM';
       }else if(h<12){
         var hr = h;
         // console.log("<12",hr)
         var ampm = 'AM';
       }else if(h==12){
-        var hr = h;
-        // console.log("==12",hr)
-        var ampm = 'PM';
+          var hr = h;
+          // console.log("==12",hr)
+          var ampm = 'PM';   
       }
+      if(hr == 0){
+        hr=12;
+      }
+
       var obj = {
         'start':{
           'hr': hr,
@@ -860,7 +873,7 @@ export class ScheduleComponent implements OnInit {
           'meridiem': ampm
         }
       }
-      // console.log("hour",obj)
+      console.log("hour",obj)
       this.operationTime.push(obj);
     }
     // let arrLength = this.operationTime.length;
