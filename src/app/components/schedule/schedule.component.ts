@@ -14,6 +14,8 @@ declare var $: any;
 })
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
+  // public isSearch:boolean = false;
+  public result:any;
   public logo: any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
   public test: any = [];
@@ -1000,6 +1002,8 @@ export class ScheduleComponent implements OnInit {
     this.isCategory = false;
     this.courseCreate = false;
     this.showDp = false;
+    this.courseplanLists = [];
+    console.warn(this.courseplanLists)
   }
 
   // Selected Day //
@@ -1805,8 +1809,12 @@ export class ScheduleComponent implements OnInit {
 
   onClickCreate() {
     this.courseCreate = true;
-    this.getCoursePlan(0, 'createCourse');
+    this.getAllCoursePlan('0', '20');
   }
+  // onClickCreate() {
+  //   this.courseCreate = true;
+  //   this.getCoursePlan(0, 'createCourse');
+  // }
 
   createPlan() {
     console.log("course Plan");
@@ -1821,6 +1829,7 @@ export class ScheduleComponent implements OnInit {
     localStorage.setItem("cpCategory", JSON.stringify(category));
   }
   selectPlan(plan) {
+    this.courseplanLists = []
     console.log("plan", plan);
     console.log(this.selectedID);
     let planObj = {
@@ -1932,53 +1941,67 @@ export class ScheduleComponent implements OnInit {
     console.log(lesson)
   }
 
-  getSearchCoursePlan(keyword, skip, limit) {
-    this.coursePlanSearchKeyWord = keyword
-    this._service.getSearchCoursePlan(this.regionId, this.locationID, this.selectedID, skip, limit, keyword)
+
+
+  //  Test Course Plan List Api
+  showMore( skip: any){
+      if(this.isSearch == true){
+        console.log("User Search");
+        this.getSearchCoursePlan(this.keyword, skip, 20) 
+      }else{
+          console.log("Not user search")
+          this.getAllCoursePlan( skip, 20);
+    }
+
+  }
+  getAllCoursePlan(skip, limit){
+    this.blockUI.start('Loading');
+    this._service.getAllCourseplan(this.regionId, this.locationID, this.selectedID, skip, limit)
+    .subscribe((res: any) => {
+     console.log('Course Plan List', res)
+     this.result = res;
+    //  this.courseplanLists = [];
+     this.courseplanLists = this.courseplanLists.concat(res);
+     setTimeout(() => {
+       this.blockUI.stop()
+     }, 300);
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
+  }
+
+  getSearchCoursePlan(searchWord,skip,limit){
+    this.keyword = searchWord;
+    if(skip == '' && limit == ''){
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+    if(searchWord.length != 0 ){
+      this.isSearch = true;
+      this._service.getSearchCoursePlan(this.regionId, this.locationID, this.selectedID, skip, limit, searchWord)
       .subscribe((res: any) => {
-        this.courseplanLists = res;
-        console.log(this.courseplanLists)
+        this.result = res;
+        if(isFirst == true){
+          console.log('First Time Searching')
+          this.courseplanLists = [];
+          this.courseplanLists = res;
+        }else{
+          console.log('Not First Time Searching');
+          this.courseplanLists = this.courseplanLists.concat(res);
+        }
       }, err => {
         console.log(err)
       })
-  }
-
-
-  getCoursePlanList(keyword, skip, limit) {
-    if (keyword.length == 0 || keyword.length < 0) {
-      this.getCoursePlan(0, 'search');
-    } else {
-      this.getSearchCoursePlan(keyword, 0, 20);
+    }else{  
+      setTimeout(() => {
+        this.courseplanLists = [];
+        this.getAllCoursePlan(skip, limit);
+        this.isSearch = false;
+      }, 300);
     }
   }
 
-  getCourseplanLoadMore(skip: any) {
-    if (this.isSearch == true) {
-      console.log("User Search");
-      this.getSearchCoursePlan(this.coursePlanSearchKeyWord, skip, 20)
-    } else {
-      console.log("Not user search")
-      this.getCoursePlan(skip, 'loadmore');
-    }
-  }
 
-  getCoursePlan(skip, type) {
-    this.blockUI.start('Loading...');
-    this._service.getAllCourseplan(this.regionId, this.locationID, this.selectedID, skip, '20')
-      .subscribe((res: any) => {
-        setTimeout(() => {
-          this.blockUI.stop();
-          if (type == 'loadmore') {
-            this.courseplanLists = this.courseplanLists.concat(res);
-          }
-          else {
-            this.courseplanLists = res;
-          }
-        }, 300);
-
-      }, err => {
-        this.blockUI.stop();
-        console.log(err)
-      })
-  }
 }
