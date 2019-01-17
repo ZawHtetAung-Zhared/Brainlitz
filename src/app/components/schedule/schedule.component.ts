@@ -788,9 +788,15 @@ export class ScheduleComponent implements OnInit {
     this._service.getRegionalAdministrator(this.regionId, token, tokenType)
       .subscribe((res: any) => {
         console.log("Operation Hours", res.operatingHour);
-        this.calculateTime(res.operatingHour);
-        this.calculateSlot(res.operatingHour.start);
-        this.startTime = res.operatingHour.start;
+        let operatingHour= {
+          start: {hr: 12, min: 0, meridiem: "AM"}, 
+          end: {hr: 11, min: 59, meridiem: "PM"}};
+        this.calculateTime(operatingHour);
+        this.calculateSlot(operatingHour.start);
+        this.startTime = operatingHour.start;
+        // this.calculateTime(res.operatingHour);
+        // this.calculateSlot(res.operatingHour.start);
+        // this.startTime = res.operatingHour.start;
       })
   }
 
