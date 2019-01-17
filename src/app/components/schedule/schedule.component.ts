@@ -784,19 +784,19 @@ export class ScheduleComponent implements OnInit {
   getRegionalInfo() {
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType')
-
+    this.blockUI.start('Loading...');
     this._service.getRegionalAdministrator(this.regionId, token, tokenType)
       .subscribe((res: any) => {
         console.log("Operation Hours", res.operatingHour);
-        let operatingHour= {
-          start: {hr: 12, min: 0, meridiem: "AM"}, 
-          end: {hr: 11, min: 59, meridiem: "PM"}};
-        this.calculateTime(operatingHour);
-        this.calculateSlot(operatingHour.start);
-        this.startTime = operatingHour.start;
-        // this.calculateTime(res.operatingHour);
-        // this.calculateSlot(res.operatingHour.start);
-        // this.startTime = res.operatingHour.start;
+        this.calculateTime(res.operatingHour);
+        this.calculateSlot(res.operatingHour.start);
+        this.startTime = res.operatingHour.start;
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
+      },err => {
+        this.blockUI.stop();
+        console.log(err)
       })
   }
 
@@ -1037,24 +1037,37 @@ export class ScheduleComponent implements OnInit {
 
   searchCategoryList(val, type) {
     console.log(val, type);
+    this.blockUI.start('Loading...');
     if (val.length > 0) {
+      // this.blockUI.start('Loading...');
       this._service.getSearchCategory(this.regionId, val, this.locationID)
         .subscribe((res: any) => {
-          console.log(res);
+          console.log(res.length);
           console.log(this.categoryList.name)
+          var element = <HTMLInputElement> document.getElementById("categoryList");
+          if(res.length == 0){
+            element.disabled=true;
+          }else{
+            element.disabled=false;
+          }
           this.categoryList = res;
+          this.blockUI.stop();
         }, err => {
           console.log(err);
+          this.blockUI.stop();
         });
     }
     else if (val.length <= 0) {
+      // this.blockUI.start('Loading...');
       this._service.getCategory(this.regionId, 20, 0)
         .subscribe((res: any) => {
           console.log(res);
-          console.log(this.categoryList.name)
+          console.log(this.categoryList.name);
           this.categoryList = res;
+           this.blockUI.stop();
         }, err => {
           console.log(err);
+           this.blockUI.stop();
         });
     }
   }
