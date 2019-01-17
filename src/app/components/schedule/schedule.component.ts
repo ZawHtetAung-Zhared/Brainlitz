@@ -1034,8 +1034,14 @@ export class ScheduleComponent implements OnInit {
     if (val.length > 0) {
       this._service.getSearchCategory(this.regionId, val, this.locationID)
         .subscribe((res: any) => {
-          console.log(res);
+          console.log(res.length);
           console.log(this.categoryList.name)
+          var element = <HTMLInputElement> document.getElementById("categoryList");
+          if(res.length == 0){
+            element.disabled=true;
+          }else{
+            element.disabled=false;
+          }
           this.categoryList = res;
         }, err => {
           console.log(err);

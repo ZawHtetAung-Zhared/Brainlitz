@@ -56,7 +56,9 @@
             <li *ngFor="let category of categoryList" (click)="selectData(category)">{{category.name}}</li>
           </ul>
         </div>
-        <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+        
+          <button type="button" id="categoryList" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+  
       </form>
     </div>
   </div>
@@ -99,16 +101,8 @@
           autocomplete="off" 
           type="search" 
           placeholder="Search Course Plan"     
-          (input) = "getSearchCoursePlan($event.target.value,'','')"
-          >
-        <!-- <input 
-          *ngIf="courseplanLists"
-          class="form-control search-courseplan"
-          autocomplete="off" 
-          type="search" 
-          placeholder="Search Course Plan"     
           (input) = "getCoursePlanList($event.target.value,courseplanLists.length,20)"
-          > -->
+          >
       </div>
       <div class="d-flex flex-wrap  mt-3">
 
@@ -131,8 +125,7 @@
           </div>
         </div>
       </div>
-      <div class="btn w-100" style="position:sticky" *ngIf="(result && result.length != 0) && (courseplanLists && courseplanLists.length >= 20)" (click)="showMore(courseplanLists.length)" >Load More</div>
-      <!-- <div class="btn w-100" style="position:sticky" *ngIf="courseplanLists && courseplanLists.length >= 20 && result.length != 0" (click)="getCourseplanLoadMore(courseplanLists.length,'20')" >Load More</div> -->
+      <div class="btn w-100" style="position:sticky" *ngIf="courseplanLists && courseplanLists.length >= 20" (click)="getCourseplanLoadMore(courseplanLists.length,'20')" >Load More</div>
     </div>
     <div *ngIf="courseCreate == false && isCategory == false && isPlan == false && isCourseCreate == false">
       <div class="schedule-checkboxes-wrapper d-flex flex-wrap">
