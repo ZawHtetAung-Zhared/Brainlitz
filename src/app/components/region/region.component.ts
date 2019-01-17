@@ -85,6 +85,7 @@ export class RegionComponent implements OnInit {
         this.router.navigate(['/customer']);
         console.log(res[0].invoiceSetings);
         this.setCurrencySign(res[0])
+        localStorage.setItem('timezone',res[0].timezone)
       }
       setTimeout(() => {
         this.blockUI.stop(); // Stop blocking
@@ -104,6 +105,7 @@ export class RegionComponent implements OnInit {
       localStorage.removeItem('locationId');
     }
     localStorage.setItem("regionId", id);
+    localStorage.setItem('timezone',data.timezone)
     this.setCurrencySign(data);
   }
 

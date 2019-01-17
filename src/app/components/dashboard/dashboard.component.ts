@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
   public isMidStick: boolean = false;
   public operationStart: any = '';
   public operationEnd: any = '';
-  public item: any = {
+  public item:any = {
     name: '',
     timezone: '',
     url: '',
@@ -351,6 +351,9 @@ export class DashboardComponent implements OnInit {
 
 
     console.log("--->", this.startT, this.endT)
+    this.temp = this.item.timezone; 
+    // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
+    // this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
   }
   editUrl() {
     this.isUrlEdit = true;
@@ -774,31 +777,23 @@ export class DashboardComponent implements OnInit {
   documentclick(event) {
 
     if ($(event.target).hasClass("timepicker") || $(event.target).parents().hasClass("timepicker")) {
-      if ($(event.target).hasClass("stimepicker") || $(event.target).parents().hasClass("stimepicker"))
+      if ($(event.target).hasClass("stimepicker") || $(event.target).parents().hasClass("stimepicker")){
         this.sprogressSlider = true;
+        this.endT = this.editTime(this.erangeHr , this.erangeMin , this.eisSelected)
+
+      }
       else if ($(event.target).hasClass("etimepicker") || $(event.target).parents().hasClass("etimepicker")){
         this.eprogressslider = true;
+        this.startT = this.editTime(this.srangeHr , this.srangeMin , this.sisSelected)
+
       } 
        
     } else{
       this.endT = this.editTime(this.erangeHr , this.erangeMin , this.eisSelected)
       this.startT = this.editTime(this.srangeHr , this.srangeMin , this.sisSelected)
-      console.log("indoucmentclick" , this.endT , this.startT)
-      console.log("start " , this.srangeHr , this.srangeMin , this.sisSelected)
-      console.log("end " , this.erangeHr , this.erangeMin , this.eisSelected)
       this.sprogressSlider = false;
       this.eprogressslider = false;
     }
-    console.log(new Date(this.startT))
     
-    console.log([this.startT.slice(0, 8), ":", this.startT.slice(8)].join('').trim)
-    // if($(event.target).className().indexOf("datepicker") != -1)
-    console.log(this.eprogressslider)
-    console.log($(event))
-    var ddd = [this.startT.slice(0, 8), ":", this.startT.slice(8)];
-    console.log(ddd[0].trim())
-    console.log("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+ this.sisSelected)
-    console.log(new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected));
-    console.log(new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected) < new Date("January 31 1980 " + String(this.erangeHr) + ":" + String(this.erangeMin)+":"+ this.eisSelected));
   }
 }

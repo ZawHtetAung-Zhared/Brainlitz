@@ -474,6 +474,7 @@ input:checked + .slider:before {
 }
 .setting-wrapper{
   padding: 23px 30px 0px 30px;
+  margin: 0 auto;
 }
 .header-wrap{
   margin-bottom: 30px;
@@ -756,9 +757,9 @@ input:checked + .slider:before {
   display: block;
 }
 
-.side-bar-wrap {
+/* .side-bar-wrap {
   top: 158px;
-}
+} */
 /*//Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767px) { 
   
