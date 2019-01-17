@@ -28,6 +28,7 @@ export class ToolsComponent implements OnInit {
   click$ = new Subject<string>();
   public isMidStick:boolean = false;
   public isSticky:boolean = false;
+  public isFixed: boolean = true;
   public item:any = {};
   public regionID = localStorage.getItem('regionId');
   public locationId:any;
@@ -136,9 +137,13 @@ export class ToolsComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
     this.windowH = window.innerHeight;
+    this.isFixed = true;
     if (window.pageYOffset > 81) {      
       this.isSticky = true;
       this.isMidStick = false;
+    }
+    else if(window.pageYOffset < 0){
+      this.isFixed = false
     } else {      
       this.isSticky = false;
     }
