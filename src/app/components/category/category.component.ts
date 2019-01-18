@@ -5,7 +5,6 @@ import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-import { ScheduleComponent } from "../schedule/schedule.component";
 
 declare var $: any;
 
