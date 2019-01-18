@@ -1331,6 +1331,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   addEnrollModal(modal, type, courseID, seat) {
+    console.log("course-id-->" , courseID)
     this.modalReference = this.modalService.open(modal, { backdrop: 'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center' });
     this.courseId = courseID;
     this.selectedSeat = seat;
@@ -1931,6 +1932,9 @@ export class ScheduleComponent implements OnInit {
 
   courseInfo = {};
   onClickCourse(course, lesson, e, date) {
+    this.showInvoice = false;
+    this.showPayment = false;
+    this.selectedCustomer = {};
     console.log(e);
     console.log(course)
     console.log(lesson)
