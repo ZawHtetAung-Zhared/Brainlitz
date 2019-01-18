@@ -33,7 +33,7 @@ export class ScheduleComponent implements OnInit {
   public keyword: any = '';
   public limit: number = 20;
   public skip: number = 0;
-  public tempstafflist: any;
+  public tempstafflist: any =[];
   public testin: any;
   public activeTeacher: any;
   public teacherListSearchResult: any = { staff: [] }
@@ -1022,6 +1022,7 @@ export class ScheduleComponent implements OnInit {
     this.isCategory = false;
     this.courseCreate = false;
     this.item.itemID = '';
+    this.selectedID = '';
     this.selectedDay = [];
     this.getAutoSelectDate();
     this.showDp = false;
@@ -1035,14 +1036,13 @@ export class ScheduleComponent implements OnInit {
     this.courseCreate = false;
     this.showDp = false;
     this.courseplanLists = [];
-    console.warn(this.courseplanLists)
   }
 
   // Selected Day //
   selectDay(data, event, day, type): void {
     if (type == "callTimetable") {
       setTimeout(() => {
-        this.getschedulestaff('sd');
+        this.getschedulestaff('checkbox',this.staffList.staff.length,'0');
       }, 200)
     }
     var dayIdx = this.selectedDay.indexOf(data);
@@ -1071,11 +1071,15 @@ export class ScheduleComponent implements OnInit {
           console.log(res.length);
           console.log(this.categoryList.name)
           var element = <HTMLInputElement> document.getElementById("categoryList");
-          if(res.length == 0){
-            element.disabled=true;
-          }else{
+
+          if(element != null){
             element.disabled=false;
           }
+          // if(res.length == 0){
+          //   element.disabled=true;
+          // }else{
+          //   element.disabled=false;
+          // }
           this.categoryList = res;
           this.blockUI.stop();
         }, err => {
@@ -1122,12 +1126,16 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = {};
     console.log("selectDataApiCall works", category)
     this.selectData(category);
-    // this.getscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID)
-    this.getschedulestaff('sd')
+    this.getschedulestaff('button','20','0')
   }
 
   // single Select Data
   selectData(category) {
+    var element = <HTMLInputElement> document.getElementById("categoryList");
+    if(element != null){
+      element.disabled=false;
+    }
+ 
     console.log("selectData works", category)
     this.isSelected = true;
     this.selectedID = category._id;
@@ -1136,103 +1144,130 @@ export class ScheduleComponent implements OnInit {
     this.selectedCat = false;
   }
 
-  openTeacherList(content) {
-    this.modalReference = this.modalService.open(content, { backdrop: 'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
-    this.getSearchscheulestaff(this.regionId, this.selectedDay.toString(), this.selectedID, '', 'test')
-  }
-
-  getschedulestaff(type) {
-    // Declare __this variable which represents the current component not to conflict with setTimeOut this keyword
-    // Api calling should after checking the date 
-    // need to wait a bit delay 
+  /// Fix Get Sechedule Staff API ///
+  getschedulestaff(type,limit,skip){
     var repeatDays;
-    if (this.selectedDay.length == 0) {
+    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
       repeatDays = '0,1,2,3,4,5,6'
-    } else if (this.selectedDay.length > 0) {
+    }else{
       repeatDays = this.selectedDay.toString();
     }
     this.scheduleList = false;
-    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID)
-      .subscribe((res: any) => {
-        this.staffList = res;
-        console.log("this.selectedTeacher", this.selectedTeacher)
-        console.log("this.staffList", this.staffList)
-        if (JSON.stringify(this.staffList) != "{}") {
-          if (this.staffList.staff && type == 'checkbox') {
-            this.selectedTeacher = this.tempSelectedTeacher
-            if (this.tempSelectedTeacher == null) {
-              this.selectedTeacher = this.staffList.staff[0];
-            }
-          } else {
-            if (this.staffList.staff) {
-              this.selectedTeacher = this.staffList.staff[0];
-            }
-          }
-          console.log("Call staff timttable")
-          if (JSON.stringify(this.selectedTeacher) != "{}") {
-            this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID,limit,skip)
+    .subscribe((res: any) => {
+      this.result = res;
+      this.staffList = res;
+      console.log("this.selectedTeacher", this.selectedTeacher)
+      console.log("this.staffList", this.staffList)
+      if (JSON.stringify(this.staffList) != "{}") {
+        if (this.staffList.staff && type == 'checkbox') {
+          this.selectedTeacher = this.tempSelectedTeacher
+          if (this.tempSelectedTeacher == null) {
+            this.selectedTeacher = this.staffList.staff[0];
           }
         } else {
-          console.log("no need to call staff timttable")
+          if (this.staffList.staff) {
+            this.selectedTeacher = this.staffList.staff[0];
+          }
         }
-      }, (err: any) => {
-        // catch the error response from api   
-        this.staffList = [];
+        console.log("Call staff timttable")
+        if (JSON.stringify(this.selectedTeacher) != "{}") {
+          this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
+        }
+      } else {
+        console.log("no need to call staff timttable")
+      }
+    }, (err: any) => {
+      // catch the error response from api   
+      this.staffList = [];
+    })
+  }
+// for modal
+  getViewAllStaff(type,skip,limit){
+    var repeatDays;
+    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
+      repeatDays = '0,1,2,3,4,5,6'
+    }else{
+      repeatDays = this.selectedDay.toString();
+    }
+    this.scheduleList = false;
+    this.blockUI.start('Loading')
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID,limit,skip)
+    .subscribe((res: any) => {
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
+      this.result = res;
+      if(type == 'search'){
+        this.tempstafflist = res.staff;
+      }else{
+        this.tempstafflist = this.tempstafflist.concat(res.staff);
+      }
+      console.log("this.selectedTeacher", this.selectedTeacher)
+      console.log("this.staffList", this.staffList)
+    }, (err: any) => {
+      // catch the error response from api   
+      this.tempstafflist = [];
+    })
+  }
+
+  getSearchscheulestaff(keyword,skip,limit){
+    var repeatDays;
+    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
+      repeatDays = '0,1,2,3,4,5,6'
+    }else{
+      repeatDays = this.selectedDay.toString();
+    }
+    this.keyword = keyword;
+    if(skip == '' && limit == ''){
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+    if(keyword.length != 0 ){
+      this.isSearch = true;
+      this._service.getscheduleSearchStaffList(this.regionId, repeatDays, this.selectedID,keyword, skip, limit)
+      .subscribe((res: any) => {
+        if(isFirst == true){
+          this.result = res;
+          console.log('First Time Searching')
+          this.tempstafflist = [];
+          this.tempstafflist = res.staff;
+        }else{
+          console.log('Not First Time Searching');
+          this.tempstafflist = res.staff;
+          // this.tempstafflist = this.tempstafflist.concat(res.staff);
+        }
+      }, err => {
+        console.log(err)
       })
-
-  }
-  teacherListTypeAheadLoadMore() {
-    this.skip += this.limit
-    this.getSearchscheulestaff(this.regionId, this.selectedDay.toString(), this.selectedID, this.keyword, 'loadmore');
-  }
-  getSearchScheduleStaffInput(regionId, selectDay, selectedID, e) {
-    this.getSearchscheulestaff(regionId, selectDay, selectedID, e, 'input');
-    const __this = this;
-    setTimeout(() => {
-      if (__this.tempstafflist.staff) {
-        __this.selectedTeacher = __this.tempstafflist.staff[0];
-        __this.selectedTeacher.userId = __this.tempstafflist.staff[0].userId;
-      }
-    }, 400);
-
+    }else{   
+      this.tempstafflist = []; 
+      this.blockUI.start('Loading');
+      setTimeout(() => {
+        this.blockUI.stop();
+        this.getViewAllStaff('search',skip, limit);
+      }, 100);
+     
+      this.isSearch = false;
+    }
   }
 
-  getSearchscheulestaff(regionId, daysOfWeek, selectedID, keyword, type) {
-    const __this = this;
-    __this.keyword = keyword;
-    setTimeout(() => {
-      // __this.selectedDayy();
-      if (__this.selectedDay.length == 0) {
-        __this.scheduleList = false;
-        __this._service.getscheduleSearchStaffList(__this.regionId, '0,1,2,3,4,5,6', __this.selectedID, keyword, __this.limit, __this.skip)
-          .subscribe((res: any) => {
-            if (type == 'loadmore') {
-              __this.tempstafflist = __this.tempstafflist.concat(res);
-            } else {
-              __this.tempstafflist = res;
-            }
-          }, (err: any) => {
-            // catch the error response from api         
-            __this.tempstafflist = [];
-          })
-      } else if (__this.selectedDay.length > 0) {
-        __this.scheduleList = false;
-        __this._service.getscheduleSearchStaffList(__this.regionId, __this.selectedDay.toString(), __this.selectedID, keyword, __this.limit, __this.skip)
-          .subscribe((res: any) => {
-            if (type == 'loadmore') {
-              __this.tempstafflist = __this.tempstafflist.concat(res);
-            } else {
-              __this.tempstafflist = res;
-            }
-            // __this.tempstafflist = res;
-          }, (err: any) => {
-            // catch the error response from api         
-            __this.tempstafflist = [];
-          })
-      }
-    }, 0);
-    return;
+  testLoadMore(skip:any){
+    if(this.isSearch == true){
+      console.log("User Search");
+      this.getSearchscheulestaff(this.keyword, skip, '20') 
+    }else{
+        console.log("Not user search")
+        this.getViewAllStaff('modal', skip, '20');
+    }
   }
+
+  openmodal(content){
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard:false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getViewAllStaff('modal','0','20')
+  }
+  // fix get schedule staff api done ///
 
   getStaffTimetable(staffId, repeatDays) {
     this.blockUI.start('Loading...');
@@ -1269,6 +1304,7 @@ export class ScheduleComponent implements OnInit {
   cancelModal(type) {
     this.modalReference.close();
     this.staff.staffId = '';
+    this.tempstafflist = [];
     // this.getschedulestaff()
     if (type == 'enrollModal') {
       this.selectedCustomer = {};
@@ -1293,7 +1329,7 @@ export class ScheduleComponent implements OnInit {
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
     if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
-      $('.teacher-list-wrapper').scrollLeft(145 * (this.staffList.staff.indexOf(this.selectedTeacher)));
+      $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
     }
     else {
       $('.teacher-list-wrapper').scrollLeft(0);
@@ -1307,21 +1343,23 @@ export class ScheduleComponent implements OnInit {
 
   }
   activeTeachers1(teacher) {
-    this.selectedTeacher = teacher
-    this.tempSelectedTeacher = teacher;
-    this.selectedTeacher.userId = teacher.userId;
-    if (this.selectedDay.length == 0) {
-      this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
-    } else if (this.selectedDay.length > 0) {
-      this.getStaffTimetable(this.selectedTeacher.userId, this.selectedDay.toString());
+    if(this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length){
+      this.getschedulestaff('checkbox',this.tempstafflist.length,'0');
     }
-    if (this.tempstafflist.staff) {
-      $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.staff.indexOf(this.selectedTeacher)));
-    } else {
-      $('.teacher-list-wrapper').scrollLeft(0);
-    }
-    this.staff.staffId = '';
-    this.modalReference.close();
+     setTimeout(()=>{
+      this.selectedTeacher = teacher
+      this.tempSelectedTeacher = teacher;
+      this.selectedTeacher.userId = teacher.userId;
+      if (this.tempstafflist) {
+        $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+      } else {
+        $('.teacher-list-wrapper').scrollLeft(0);
+      }
+      this.staff.staffId = '';
+      this.tempstafflist = [];  
+      this.modalReference.close();
+     },400)
+
   }
 
   addEnrollModal(modal, type, courseID, seat) {
@@ -1858,6 +1896,7 @@ export class ScheduleComponent implements OnInit {
 
   onClickCreate() {
     this.courseCreate = true;
+    this.courseplanLists = [];
     this.getAllCoursePlan('0', '20');
   }
   // onClickCreate() {

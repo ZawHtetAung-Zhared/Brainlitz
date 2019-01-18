@@ -762,6 +762,9 @@ input:checked + .slider:before {
 }
 /*//Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767px) { 
+  .s-time-box-wrap{
+    margin-left: 0px !important;
+  }
   .time-box-wrap{
     padding:0px !important;
   }
@@ -770,6 +773,9 @@ input:checked + .slider:before {
 
 /*Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) and (max-width: 991px) { 
+  .s-time-box-wrap{
+    margin-left: 0px !important;
+  }
   .time-box-wrap{
     padding:0px !important;
   }

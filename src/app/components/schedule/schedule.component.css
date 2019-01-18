@@ -648,7 +648,7 @@ ul.scedule-data-listing li.disabled{
   outline: none!important;
 }
 .teacher-list{
-  /* width: 145px!important; */
+  width: 145px!important;
   color: #64707d;
   background:#f2f4f5;
   border-radius:24px; 
@@ -1519,4 +1519,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   color:#2e3e4d;
 }
 
-/* padding-left: 23px; */
+.remove-outline:focus{
+  outline: none;
+  box-shadow: none;
+}
