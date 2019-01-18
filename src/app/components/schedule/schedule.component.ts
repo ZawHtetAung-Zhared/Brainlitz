@@ -1045,11 +1045,15 @@ export class ScheduleComponent implements OnInit {
           console.log(res.length);
           console.log(this.categoryList.name)
           var element = <HTMLInputElement> document.getElementById("categoryList");
-          if(res.length == 0){
-            element.disabled=true;
-          }else{
+
+          if(element != null){
             element.disabled=false;
           }
+          // if(res.length == 0){
+          //   element.disabled=true;
+          // }else{
+          //   element.disabled=false;
+          // }
           this.categoryList = res;
           this.blockUI.stop();
         }, err => {
@@ -1101,6 +1105,11 @@ export class ScheduleComponent implements OnInit {
 
   // single Select Data
   selectData(category) {
+    var element = <HTMLInputElement> document.getElementById("categoryList");
+    if(element != null){
+      element.disabled=false;
+    }
+ 
     console.log("selectData works", category)
     this.isSelected = true;
     this.selectedID = category._id;
@@ -1162,14 +1171,6 @@ export class ScheduleComponent implements OnInit {
       this.tempstafflist = this.tempstafflist.concat(res.staff);
       console.log("this.selectedTeacher", this.selectedTeacher)
       console.log("this.staffList", this.staffList)
-      if (JSON.stringify(this.staffList) != "{}") {
-        console.log("Call staff timttable")
-        if (JSON.stringify(this.selectedTeacher) != "{}") {
-          this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
-        }
-      } else {
-        console.log("no need to call staff timttable")
-      }
     }, (err: any) => {
       // catch the error response from api   
       this.tempstafflist = [];
@@ -1200,24 +1201,18 @@ export class ScheduleComponent implements OnInit {
           this.tempstafflist = res.staff;
         }else{
           console.log('Not First Time Searching');
-          this.tempstafflist = this.tempstafflist.concat(res.staff);
-        
+          this.tempstafflist = res.staff;
+          // this.tempstafflist = this.tempstafflist.concat(res.staff);
         }
-        setTimeout(() => {
-          if (this.tempstafflist) {
-            this.selectedTeacher = this.tempstafflist[0];
-            this.selectedTeacher.userId = this.tempstafflist[0].userId;
-          }
-        }, 10);
       }, err => {
         console.log(err)
       })
-    }else{  
-      setTimeout(() => {
-        this.tempstafflist = [];
-        this.getViewAllStaff(skip, limit);
+    }else{    
+      this.tempstafflist = [];
+        setTimeout(() => {
+          this.getViewAllStaff(skip, limit);
+        }, 200);
         this.isSearch = false;
-      }, 300);
     }
   }
 
@@ -1297,7 +1292,7 @@ export class ScheduleComponent implements OnInit {
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
     if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
-      $('.teacher-list-wrapper').scrollLeft(155 * (this.staffList.staff.indexOf(this.selectedTeacher)));
+      $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
     }
     else {
       $('.teacher-list-wrapper').scrollLeft(0);
@@ -1319,7 +1314,7 @@ export class ScheduleComponent implements OnInit {
       this.tempSelectedTeacher = teacher;
       this.selectedTeacher.userId = teacher.userId;
       if (this.tempstafflist) {
-        $('.teacher-list-wrapper').scrollLeft(155 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+        $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
       } else {
         $('.teacher-list-wrapper').scrollLeft(0);
       }

@@ -172,7 +172,7 @@
       <div *ngIf="(staffList | json) != '{}'" class="d-flex flex-wrap w-100 align-items-center pl-3">
         <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
-            <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
+            <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" >
               <div>
                 <div  class="align-self-center tchr-img-wraper">
                   <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
