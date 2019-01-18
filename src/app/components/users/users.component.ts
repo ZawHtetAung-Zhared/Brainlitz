@@ -157,6 +157,7 @@ export class UsersComponent implements OnInit {
 	public invPayment:any = [];
 	public noSetting:boolean = false;
 
+	
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router, private dataService: DataService) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 		// this._service.goUserCourseDetail.subscribe(() => {
