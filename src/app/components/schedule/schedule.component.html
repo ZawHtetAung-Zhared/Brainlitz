@@ -357,7 +357,17 @@
       </span>
     </div>
   </div>
-  <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper" >
+      <!-- <div class="d-flex justify-content-between flex-wrap w-100" >
+        <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center col-md-3 col-lg-3 col-sm-3 col-xl-3 pl-4 pr-4 mt-3" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)"   style="border-radius:20px;">
+          <div class="d-flex  justify-content-center " >
+            <div class="modal-img-wraper align-self-center">
+              <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
+            </div>
+            <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{teacher.preferredName}}</p>
+          </div>
+        </div>      
+      </div> -->
+  <div class="d-flex flex-wrap container  modal-techerlist-wraper" >
     <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center modal-teacher-list mt-1" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)" (click)="activeTeachers1(teacher)" >
       <div class="d-flex justify-content-center ">
         <div class="modal-img-wraper align-self-center">

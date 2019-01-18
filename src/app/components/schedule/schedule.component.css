@@ -771,6 +771,7 @@ ul.scedule-data-listing li.disabled{
 .modal-techerlist-wraper{
   overflow-y: auto;
   max-height: 400px!important;
+  padding-left: 2.1rem;
 }
 
 .profile-img-wrap{
