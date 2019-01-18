@@ -1148,7 +1148,7 @@ export class ScheduleComponent implements OnInit {
     })
   }
 // for modal
-  getViewAllStaff(skip,limit){
+  getViewAllStaff(type,skip,limit){
     var repeatDays;
     if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
       repeatDays = '0,1,2,3,4,5,6'
@@ -1156,10 +1156,18 @@ export class ScheduleComponent implements OnInit {
       repeatDays = this.selectedDay.toString();
     }
     this.scheduleList = false;
+    this.blockUI.start('Loading')
     this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID,limit,skip)
     .subscribe((res: any) => {
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
       this.result = res;
-      this.tempstafflist = this.tempstafflist.concat(res.staff);
+      if(type == 'search'){
+        this.tempstafflist = res.staff;
+      }else{
+        this.tempstafflist = this.tempstafflist.concat(res.staff);
+      }
       console.log("this.selectedTeacher", this.selectedTeacher)
       console.log("this.staffList", this.staffList)
     }, (err: any) => {
@@ -1198,12 +1206,15 @@ export class ScheduleComponent implements OnInit {
       }, err => {
         console.log(err)
       })
-    }else{    
-      this.tempstafflist = [];
-        setTimeout(() => {
-          this.getViewAllStaff(skip, limit);
-        }, 200);
-        this.isSearch = false;
+    }else{   
+      this.tempstafflist = []; 
+      this.blockUI.start('Loading');
+      setTimeout(() => {
+        this.blockUI.stop();
+        this.getViewAllStaff('search',skip, limit);
+      }, 100);
+     
+      this.isSearch = false;
     }
   }
 
@@ -1213,13 +1224,13 @@ export class ScheduleComponent implements OnInit {
       this.getSearchscheulestaff(this.keyword, skip, '20') 
     }else{
         console.log("Not user search")
-        this.getViewAllStaff( skip, '20');
+        this.getViewAllStaff('modal', skip, '20');
     }
   }
 
   openmodal(content){
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard:false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
-    this.getViewAllStaff('0','20')
+    this.getViewAllStaff('modal','0','20')
   }
   // fix get schedule staff api done ///
 
