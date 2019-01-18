@@ -130,15 +130,15 @@
                             <label>
                               <div class="col-md-4 max-range">Hour</div>
                               <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12"
-                                [(ngModel)]="srangeHr">
+                                [(ngModel)]="srangeHr" >
 
                             </label>
                           </div>
                           <div class="gap-range-min">
                             <label>
                               <div class="col-md-4 min-range">Minute</div>
-                              <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59"
-                                step="1"  [(ngModel)]="srangeMin">
+                              <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="55"
+                                step="5"  [(ngModel)]="srangeMin">
                               <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
                             </label>
                           </div>
@@ -180,8 +180,8 @@
                           <div class="gap-range-min">
                             <label>
                               <div class="col-md-4 min-range">Minute</div>
-                              <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59"
-                                step="1"  [(ngModel)]="erangeMin">
+                              <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="55"
+                                [(ngModel)]="erangeMin" step="5">
                               <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
                             </label>
                           </div>
