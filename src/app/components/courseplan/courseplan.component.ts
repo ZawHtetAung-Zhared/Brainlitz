@@ -24,7 +24,6 @@ export class CourseplanComponent implements OnInit {
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef, private _router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
   }
-
   public optionFee: boolean = false;
   public showModal: boolean = false;
   public showsubModal: boolean = true;
@@ -39,7 +38,7 @@ export class CourseplanComponent implements OnInit {
   allowchecked: boolean = false;
   allowMakeup: boolean = false;
   checkedCatId: any;
-  public courseplanLists: any;
+  public courseplanLists: any =  [];
   public showLoading: boolean = false;
   // formField = {};
   formField: cPlanField = new cPlanField();
