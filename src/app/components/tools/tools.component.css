@@ -284,7 +284,10 @@ img.setting-icon {
 .choose-cat{	
 	/*width: 95.5% !important;*/
 }
-
+.p-stick{
+  position: unset;
+  width: auto;
+}
 .side-bar-wrap.p-top{
   top: 65px;
 }
