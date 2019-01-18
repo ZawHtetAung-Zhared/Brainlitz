@@ -949,13 +949,26 @@ export class ScheduleComponent implements OnInit {
       if (i == 0) {
         min += 0;
       } else {
-        // min += 15;
-        if (min == 45) {
-          console.log("==59")
-          min = 0;
-        } else {
-          min += 15;
+        // // min += 15;
+        // if (min == 45) {
+        //   console.log("==59")
+        //   min = 0;
+        // } else {
+        //   min += 15;
+        // }
+        var m = min + 15;
+        if(m > 60){
+          min = m - 60;
+          if(min == 60){
+           min = 0;
+         }
+        }else{
+          min += 15
+          if(min == 60){
+           min = 0;
+         }
         }
+
       }
       this.minArr.push(min);
     }
@@ -964,17 +977,30 @@ export class ScheduleComponent implements OnInit {
     console.log('next', next);
 
     for (var j = 0; j <= 1; j++) {
-      if (next == 45) {
-        console.log("==59")
-        next = 0;
-      } else {
-        next += 15;
+      // if (next == 45) {
+      //   console.log("==59")
+      //   next = 0;
+      // } else {
+      //   next += 15;
+      // }
+      m = next + 15;
+      if(m > 60){
+        next = m - 60;
+        if(next == 60){
+           next = 0;
+         }
+      }else{
+        next += 15
+        if(next == 60){
+           next = 0;
+         }
       }
-
       this.minNextArr.push(next);
     }
-    console.log("temp next", this.minNextArr);
+    console.log("temp next ===>", this.minNextArr);
   }
+
+
 
   getAutoSelectDate() {
     const todayDay = new Date().getDay();
@@ -1735,28 +1761,26 @@ export class ScheduleComponent implements OnInit {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date) {
-    // console.log(hr , ':', min);
-    // let temp = hr *60 + min; 
-    // let m = temp % 60;
-    // let h = (temp - m)/60;
-    // console.log(temp,m,h)
-    // console.log(h , ':', m);
-    // e.preventDefault();
-    // e.stopPropagation();
-    if (this.startTime.min > 0 && min == 0) {
-      var h = hr + 1;
-      console.log("ttt", h, ':', min, ':', ampm);
-    } else {
-      var h = hr;
-      console.log("original", h, ':', min, ':', ampm);
-    }
-    this.slotHr = h + ':' + min + ' ' + ampm;
-    // let obj = {
-    //   "hr": h,
-    //   "min": min,
-    //   "ampm": ampm
+    // if(this.startTime.min>min && this.startTime.hr > hr ){
+    //   var h = hr+1
+    //   console.log("add 1~~~>")
+    // }else{
+    //   var h = hr
+    //   console.log("original~~~>")
     // }
-    // this.selectSlot["time"] = obj;
+    // this.slotHr = h + ':' + min + ' ' + ampm;
+    // this.clickSlot(hr, min, ampm);
+
+    // if (this.startTime.min > 0 && min == 0) {
+    //   var h = hr + 1;
+    //   console.log("ttt", h, ':', min, ':', ampm);
+    // } else {
+    //   var h = hr;
+    //   console.log("original", h, ':', min, ':', ampm);
+    // }
+    var h = hr;
+    this.slotHr = h + ':' + min + ' ' + ampm;
+
     this.slotM = min;
     this.slotAMPM = ampm;
     this.slotIdx = i;
@@ -1825,6 +1849,12 @@ export class ScheduleComponent implements OnInit {
     this.scheduleObj["time"] = time;
     console.log('scheduleObj', this.scheduleObj);
   }
+
+  // clickSlot(hr, min, ampm){
+  //   var oprTime = this.startTime.hr;
+  //   var m;
+    
+  // }
 
   onClickCreate() {
     this.courseCreate = true;

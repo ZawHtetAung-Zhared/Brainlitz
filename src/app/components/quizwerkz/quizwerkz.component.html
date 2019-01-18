@@ -96,9 +96,9 @@
             </div>
           </div>
           <div class="d-flex justify-content-end form-footer">
-            <button type="submit" class="btn btn-cancel" (click)="cancel()">Cancel</button>
-            <button *ngIf="!isEdit" type="submit" [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="createQuizWerkz(formField, isEdit)">Create</button>
-            <button *ngIf="isEdit" type="submit" [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="updateQuizWerkz(formField)">Update</button>
+            <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+            <button type="button" *ngIf="!isEdit"  [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="createQuizWerkz(formField, isEdit)">Create</button>
+            <button type="button" *ngIf="isEdit"  [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="updateQuizWerkz(formField)">Update</button>
           </div>
         </form>
       </div>
