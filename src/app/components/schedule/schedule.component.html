@@ -377,7 +377,7 @@
     </div>      
   </div>
   <div class="d-flex justify-content-center load-more" *ngIf="tempstafflist && tempstafflist.length >= 20 && result.more != 0" >
-    <button class="btn remove-outline" (click)="testLoadMore(tempstafflist.length)">Load more</button>
+    <button class="btn remove-outline" (click)="staffLoadMore(tempstafflist.length)">Load more</button>
     <!-- <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button> -->
   </div>
 </ng-template>

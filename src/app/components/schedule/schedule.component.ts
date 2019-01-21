@@ -1075,14 +1075,10 @@ export class ScheduleComponent implements OnInit {
           console.log(this.categoryList.name)
           var element = <HTMLInputElement> document.getElementById("categoryList");
           console.log(element)
-          if(element != null){
+          if(element != null && this.selectedDay.length != 0){
             element.disabled=true;
           }
-          // if(res.length == 0){
-          //   element.disabled=true;
-          // }else{
-          //   element.disabled=false;
-          // }
+         
           this.categoryList = res;
           this.blockUI.stop();
         }, err => {
@@ -1135,7 +1131,7 @@ export class ScheduleComponent implements OnInit {
   // single Select Data
   selectData(category) {
     var element = <HTMLInputElement> document.getElementById("categoryList");
-    if(element != null){
+    if(element != null && this.selectedDay.length != 0){
       element.disabled=false;
     }
  
@@ -1256,8 +1252,8 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  testLoadMore(skip:any){
-    if(this.isSearch == true){
+  staffLoadMore(skip:any){
+    if(this.isSearch == true && this.keyword.length != 0){
       console.log("User Search");
       this.getSearchscheulestaff(this.keyword, skip, '20') 
     }else{
@@ -1346,6 +1342,7 @@ export class ScheduleComponent implements OnInit {
 
   }
   activeTeachers1(teacher) {
+    this.keyword = '';
     if(this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length){
       this.getschedulestaff('checkbox',this.tempstafflist.length,'0');
     }
