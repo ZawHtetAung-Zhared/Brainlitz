@@ -233,7 +233,8 @@
             name="start" 
             required 
             [(ngModel)]="model.start" 
-            (click)="start.toggle()" 
+            (focus)= "openDatePicker(start)"
+            (clickOutside)= "closefix($event,start)"
             (ngModelChange)="setMinDate($event)" 
             [maxDate]="maxDate"
             (navigate)="currentMonth($event)"
@@ -241,7 +242,6 @@
             ngbDatepicker 
             (dateSelect)="onDateSelect($event)" 
             #start="ngbDatepicker"
-            (document:click)="closeFix($event, start)"
             readonly>
           </div>
           <!-- <span *ngIf="showText" [ngClass]="{'show':showText}" id="clearBtn1" class="clearBtn">First Day</span> -->
@@ -250,11 +250,19 @@
           <div class="xxx-end">
             <input 
             id="dpEnd"
-            class="input-day" type="test" placeholder="Last Day" required (ngModelChange)="setMaxDate($event)" 
-            [minDate]="minDate" [autoClose]="true" name="end" 
+            class="input-day" 
+            type="test" 
+            placeholder="Last Day" 
+            required 
+            (ngModelChange)="setMaxDate($event)" 
+            [minDate]="minDate" 
+            [autoClose]="true" 
+            name="end" 
             [(ngModel)]="model.end" 
-            (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" 
-            (document:click)="closeFixEnd($event, end)"
+            (focus)= "openDatePicker(end)"
+            (clickOutside)= "closefix($event,end)"
+            ngbDatepicker 
+            #end="ngbDatepicker" 
             (navigate)="currentMonth($event)"
             readonly>
           </div>

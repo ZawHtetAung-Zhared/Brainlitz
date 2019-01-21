@@ -62,6 +62,7 @@
                           name="categoryAS" 
                           #categoryAS="ngModel" 
                           [(ngModel)]="courseVal.category" 
+                          (click)="dropDown($event,'category')"
                           (input)="changeAdvancedSearch($event.target.value, 'category')"
                           autocomplete="off"
                           >
@@ -94,6 +95,7 @@
                           name="planAS" 
                           #planAS="ngModel" 
                           [(ngModel)]="courseVal.plan" 
+                          (click)="dropDown($event,'plan')"
                           (input)="changeAdvancedSearch($event.target.value, 'plan')"
                           autocomplete="off"
                         >
