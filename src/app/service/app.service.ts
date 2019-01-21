@@ -791,9 +791,9 @@ export class appService{
     //       return result;
     //   }) 
     // }
-    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string): Observable<any>{
+    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string, limit:string, skip:string): Observable<any>{
       this.getLocalstorage()
-      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&limit=' + limit + '&skip=' + skip;
     //  console.log(url, ' Url')
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -843,7 +843,7 @@ export class appService{
           return result;
       }) 
     }
-    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,limit:number,skip:number): Observable<any>{
+    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,skip:number, limit:number): Observable<any>{
       this.getLocalstorage()
      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek.toString() + '&categoryId=' + categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
       const httpOptions = {

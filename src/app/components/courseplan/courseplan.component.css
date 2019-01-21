@@ -1505,6 +1505,10 @@ ul.search-apg{
   padding-left: 15px;
 }
 
+.inside-data-wrapper{
+  width: 100%;
+}
+
 @media only screen and (max-width: 768px){
   .down-arrow1 {
     bottom: 45px;

@@ -171,6 +171,8 @@ export class CoursecreateComponent implements OnInit {
     this.selectedDay = this.scheduleObj.repeatDays;
     this.selectedTeacher = this.scheduleObj.teacher;
     this.model.teacherId = this.selectedTeacher.userId;
+    this.model.durationTimes = 1;
+    this.minDate = this.scheduleObj.date;
     this.rangeHr = this.scheduleObj.time.hr;
     this.rangeMin = this.scheduleObj.time.min;
     this.selectedHrRange = this.scheduleObj.time.hr
@@ -573,7 +575,7 @@ export class CoursecreateComponent implements OnInit {
       $('.misfee-bg').removeClass("focus-bg");
     }
     this.focusMisfee = false;
-
+    console.log(event)
     // for search dropdown
     // if(this.searchMenuShow == false){
     //    $('.search-dropdown').css('display', 'none'); 

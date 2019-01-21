@@ -5,6 +5,7 @@ import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+
 declare var $: any;
 
 @Component({
@@ -16,7 +17,6 @@ export class CategoryComponent implements OnInit {
 	@ViewChild('categoryForm') form: any;
   @BlockUI() blockUI: NgBlockUI;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
-	
   public item:any = {};
   public result:any;
 	public regionID = localStorage.getItem('regionId');
