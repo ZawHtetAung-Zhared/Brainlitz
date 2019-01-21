@@ -618,23 +618,23 @@ export class CourseComponent implements OnInit {
     console.log(this.isvalid)
   }
 
-  closeFix(event, datePicker) {
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-start col-md-6 pr-12 pl-zero"
-    })
-    if(parentWrap.length == 0){
-      datePicker.close();
-    }
-  }
+  // closeFix(event, datePicker) {
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "xxx-start col-md-6 pr-12 pl-zero"
+  //   })
+  //   if(parentWrap.length == 0){
+  //     datePicker.close();
+  //   }
+  // }
 
-  closeFixEnd(event, endPicker){
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-end col-md-6 pl-12"
-    })
-    if(parentWrap.length == 0){
-      endPicker.close();
-    }
-  }
+  // closeFixEnd(event, endPicker){
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "xxx-end col-md-6 pl-12"
+  //   })
+  //   if(parentWrap.length == 0){
+  //     endPicker.close();
+  //   }
+  // }
 
   closeSimpleSearch(event){
     // this.iscourseSearch = false;

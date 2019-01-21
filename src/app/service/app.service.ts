@@ -22,6 +22,8 @@ export class appService{
     public isback: boolean = false;    
     public accessToken = localStorage.getItem('token');
     public tokenType = localStorage.getItem('tokenType'); 
+    public defaultSkipValue = '0';
+    public defaultLimit = '20';
     locationID: Observable<any>;
     private getLocationID = new Subject<any>();
 
@@ -789,9 +791,9 @@ export class appService{
     //       return result;
     //   }) 
     // }
-    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string): Observable<any>{
+    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string, limit:string, skip:string): Observable<any>{
       this.getLocalstorage()
-      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&limit=' + limit + '&skip=' + skip;
     //  console.log(url, ' Url')
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -841,7 +843,7 @@ export class appService{
           return result;
       }) 
     }
-    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,limit:number,skip:number): Observable<any>{
+    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,skip:number, limit:number): Observable<any>{
       this.getLocalstorage()
      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek.toString() + '&categoryId=' + categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
@@ -1037,7 +1039,7 @@ export class appService{
     }
 
 
-    getSearchCoursePlan(id: string,location: string,categoryId:string, skip:string,limit:string, keyword: string): Observable<any>{
+    getSearchCoursePlan(id: string,location: string,categoryId:string, skip:string = this.defaultSkipValue,limit:string = this.defaultLimit, keyword: string): Observable<any>{
       this.getLocalstorage();
       console.log(location)
       console.log(this.baseUrl+ '/' + id + '/courseplan?locationId='+ location)

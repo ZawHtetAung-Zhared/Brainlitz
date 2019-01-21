@@ -49,14 +49,13 @@
           >
           <span class="input-group-append">
             <button class="btn fa fa-search search-size btn-design btn-outline-secondary" type="button">
-              <!-- <i class=""></i> -->
             </button>
           </span> 
           <ul class="data-listing" *ngIf="isFousCategory == true" >
             <li *ngFor="let category of categoryList" (click)="selectData(category)">{{category.name}}</li>
           </ul>
         </div>
-        <button type="button" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+        <button type="button" id="categoryList" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button','20', '0')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
       </form>
     </div>
   </div>
@@ -99,7 +98,7 @@
           autocomplete="off" 
           type="search" 
           placeholder="Search Course Plan"     
-          (input) = "getCoursePlanList($event.target.value,courseplanLists.length,20)"
+          (input) = "getSearchCoursePlan($event.target.value,'','')"
           >
       </div>
       <div class="d-flex flex-wrap  mt-3">
@@ -123,7 +122,7 @@
           </div>
         </div>
       </div>
-      <div class="btn w-100" style="position:sticky" *ngIf="courseplanLists && courseplanLists.length >= 20" (click)="getCourseplanLoadMore(courseplanLists.length,'20')" >Load More</div>
+      <div class="btn w-100 remove-outline" style="position:sticky" *ngIf="courseplanLists && courseplanLists.length >= 20" (click)="showMore(courseplanLists.length)" >Load More</div>
     </div>
     <div *ngIf="courseCreate == false && isCategory == false && isPlan == false && isCourseCreate == false">
       <div class="schedule-checkboxes-wrapper d-flex flex-wrap">
@@ -153,14 +152,14 @@
               [(ngModel)]="item.itemID"
               #itemID="ngModel"
               id="example-search-input"
-              (focus)="focusSearch($event, 'category')"
-              (focusout)="hideSearch($event)"
+              (click)="focusSearch($event, 'category')"
+              (clickOutside)="hideSearch($event)"
               (input)="searchCategoryList($event.target.value, 'category')" 
               readonly
             >
               <button  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
               (focus)="focusSearch($event, 'category')"
-              (focusout)="hideSearch($event)"
+              (clickOutside)="hideSearch($event)"
               (click)="focusSearch($event, 'category')"
               ></button> 
           </div> 
@@ -170,10 +169,10 @@
           </ul>
         </div>
       </div>
-      <div *ngIf="(staffList | json) != '{}'" class="d-flex flex-wrap w-100 align-items-center pl-3">
+      <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
         <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
-            <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
+            <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" >
               <div>
                 <div  class="align-self-center tchr-img-wraper">
                   <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
@@ -185,14 +184,15 @@
             </div>
           </div>      
         </div>
-        <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div>
+        <div  *ngIf="staffList.staff && staffList.staff.length >= 20" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openmodal(content)>View more</div>
+        <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
       </div>
 
-      <div *ngIf="(staffList | json) == '{}'" class="no-teacher">
+      <div *ngIf="staffList.staff?.length<=0" class="no-teacher">
         There is no teacher for this category.
       </div>
     
-      <div *ngIf="(staffList | json) != '{}'" class="v-wrapper1">
+      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1">
         <div class="timeline-table1"> 
           <div class="time-range">        
             <div class="single-range"></div>
@@ -203,10 +203,12 @@
               <div class="single-slot">
                   <div class="monthly" *ngIf="i == 0">
                     <span>{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+                    <div class="left-arrow"></div>
                   </div>
                   <div class="monthly" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
                     <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
                     <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+                    <div class="left-arrow"></div>
                   </div>  
                   <p>{{list.date.day}} {{list.date.month - 1 | TTmonth}}  </p>
                   <span>{{list.date.dayOfWeek}}</span>
@@ -246,7 +248,7 @@
                 </div>  
                 <div *ngFor="let timetable of list.timetable; let b = index;" class="cursor">
                   <div *ngIf="i == 0">
-                    <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null">
+                    <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  (i * 42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4.03) + 'px'}" *ngIf="timetable.course != null">
                       <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">
                       {{timetable.course.courseCode}}</h6>
                       <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
@@ -278,7 +280,7 @@
                     </div>
                   </div>
                   <div *ngIf="i != 0">
-                    <div class="lesson-slot" [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month,'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)">
+                    <div class="lesson-slot" [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month,'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4.03) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)">
                     <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
                       <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.course.courseCode}}</h6>
                       <p *ngIf="timetable.seat != null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{((timetable.seat | json) != '{}')? (timetable.seat.left) : ("-")}} seats</p>
@@ -347,9 +349,8 @@
         name="staffId"
         [(ngModel)]="staff.staffId"
         #staffId="ngModel"
-        (input) = "getSearchScheduleStaffInput(regionId,selectDay,selectedID,$event.target.value)"      
-        >
-        <!-- (input) = "getSearchscheulestaff(regionId,selectDay,selectedID,$event.target.value)"       -->
+        (input) = "getSearchscheulestaff($event.target.value,'','')"      
+        >  
       <span class="input-group-append">
         <button class="btn btn-design btn-outline-secondary" type="button">
           <i class="fa fa-search search-size"></i>
@@ -357,8 +358,18 @@
       </span>
     </div>
   </div>
-  <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper" *ngIf="tempstafflist" >
-    <div *ngFor="let teacher of tempstafflist.staff" class="d-flex align-items-center modal-teacher-list mt-1" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers1(teacher)" >
+      <!-- <div class="d-flex justify-content-between flex-wrap w-100" >
+        <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center col-md-3 col-lg-3 col-sm-3 col-xl-3 pl-4 pr-4 mt-3" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)"   style="border-radius:20px;">
+          <div class="d-flex  justify-content-center " >
+            <div class="modal-img-wraper align-self-center">
+              <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
+            </div>
+            <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{teacher.preferredName}}</p>
+          </div>
+        </div>      
+      </div> -->
+  <div class="d-flex flex-wrap container  modal-techerlist-wraper" >
+    <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center modal-teacher-list mt-1" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)" (click)="activeTeachers1(teacher)" >
       <div class="d-flex justify-content-center ">
         <div class="modal-img-wraper align-self-center">
           <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
@@ -367,8 +378,9 @@
       </div>
     </div>      
   </div>
-  <div class="d-flex justify-content-center load-more" *ngIf="staffList && staffList.more != 0 && staffList.more > 0">
-    <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button>
+  <div class="d-flex justify-content-center load-more" *ngIf="tempstafflist && tempstafflist.length >= 20 && result.more != 0" >
+    <button class="btn remove-outline" (click)="staffLoadMore(tempstafflist.length)">Load more</button>
+    <!-- <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button> -->
   </div>
 </ng-template>
 
@@ -387,7 +399,7 @@
           <ul><li>End at {{courseInfo.lesson.endDate.day}} {{courseInfo.lesson.endDate.month-1 | TTmonth}} {{courseInfo.lesson.endDate.year}}</li></ul>
         </div>
       </div>
-      <button class="modal-close" (click)="cancelModal()">
+      <button class="modal-close" (click)="cancelModal('enrollModal')">
         <span class="closemark">
           <div class="closemark_stem1"></div>
           <div class="closemark_kick1"></div>
@@ -417,9 +429,10 @@
                   [(ngModel)]="formData.searchText" 
                   (focus)="focusMethod($event, 'customer')"
                   (focusout)="hideFocus($event)"
-                  (input)="changeMethod($event.target.value, 'customer')" (document:click)="closeDropdown($event,'search')"
+                  (input)="changeMethod($event.target.value, 'customer')"
                   autocomplete="off"
                   >
+                  <!-- (document:click)="closeDropdown($event,'search')" -->
                 <span class="input-group-append">
                   <button class="bt btn-design btn-outline-secondary enroll-modal-input" type="button">
                       <i class="fa fa-search"></i>
@@ -746,7 +759,7 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name pl-2">{{ student.preferredName }}</p>
+                <p class="mb-0 student-name pl-2">{{ (student.preferredName.length >20) ? (student.preferredName | slice :0:15) + '...' : (student.preferredName) }}</p>
               </div>
             </div>
           </div>
@@ -774,17 +787,15 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name text-white pl-2">{{ student.preferredName }}</p>
+                <p class="mb-0 student-name text-white pl-2">{{student.preferredName}}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
       <div class="modal-footer">
           <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
           <button type="button" class="btn btn-submit"  (click)="cancelClassFun(courseId)">Confirm</button>
-         
       </div>
     </div>
   </div>

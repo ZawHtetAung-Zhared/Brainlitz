@@ -727,6 +727,17 @@ export class CalendarComponent implements OnInit {
     console.log("setMaxDate",date);
     this.maxDate =  date;
   }
+  openDatePicker(datePicker){
+    datePicker.open();
+  }
+  
+  closefix(event, datePicker) {
+    if(event.target.offsetParent == null)
+      datePicker.close();
+    else if(event.target.offsetParent.nodeName != "NGB-DATEPICKER")
+      datePicker.close();
+  }
+
 
   closeFix(event, datePicker) {
     var parentWrap = event.path.filter(function(res){

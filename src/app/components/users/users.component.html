@@ -247,7 +247,7 @@
                   <!-- </div> -->
                   <button class="float-left btn view-invoice" (click)="viewJournal(journalContent,course,course.teacher.preferredName)"
                     >
-                    View Journal
+                    View Progress Book
                   </button>
                   <button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
                     View invoice
@@ -675,10 +675,10 @@
         <button *ngIf="isupdate == false" type="button" class="bt cancel-button" (click)="back()">Cancel</button>
         <button *ngIf="isupdate == true" type="button" class="bt cancel-button" (click)="backToDetails()">Cancel</button>
         <button type="button" *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button"
-          [disabled]="!customerForm.valid || emailAlert">Create
+          [disabled]="!customerForm.valid || emailAlert ||guardianAlert">Create
         </button>
         <button type="button" *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button"
-          [disabled]="!customerForm.valid || emailAlert">Update
+          [disabled]="!customerForm.valid || emailAlert || guardianAlert">Update
         </button>
       </div>
       <!-- <div class="d-flex justify-content-end button-group">
@@ -711,7 +711,7 @@
                 </button>
             </div>
         
-            <p class="learn-journal  col-md-12" >Learning Journal</p>
+            <p class="learn-journal  col-md-12" >Progress Book</p>
             <p class="class-name  col-md-12">{{className}}</p>
             <div class="no-journal" *ngIf="toShowNoJournl">
                 <img class="no-journal-img" src="./assets/images/noJournal@2x.png">

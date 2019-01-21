@@ -14,6 +14,8 @@ declare var $: any;
 })
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
+  // public isSearch:boolean = false;
+  public result:any;
   public logo: any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
   public test: any = [];
@@ -31,7 +33,7 @@ export class ScheduleComponent implements OnInit {
   public keyword: any = '';
   public limit: number = 20;
   public skip: number = 0;
-  public tempstafflist: any;
+  public tempstafflist: any =[];
   public testin: any;
   public activeTeacher: any;
   public teacherListSearchResult: any = { staff: [] }
@@ -782,13 +784,19 @@ export class ScheduleComponent implements OnInit {
   getRegionalInfo() {
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType')
-
+    this.blockUI.start('Loading...');
     this._service.getRegionalAdministrator(this.regionId, token, tokenType)
       .subscribe((res: any) => {
         console.log("Operation Hours", res.operatingHour);
         this.calculateTime(res.operatingHour);
         this.calculateSlot(res.operatingHour.start);
         this.startTime = res.operatingHour.start;
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
+      },err => {
+        this.blockUI.stop();
+        console.log(err)
       })
   }
 
@@ -809,6 +817,7 @@ export class ScheduleComponent implements OnInit {
     console.log("mins",diffMins);
     var diffHours = (diff - diffMins) / 60;
     console.log("hours",diffHours)
+
     if((diffMins == 30 || diffMins < 30)&& diffMins>0){
       diffHours = (diffHours*2)+1;
       console.log(diffHours)
@@ -828,6 +837,7 @@ export class ScheduleComponent implements OnInit {
         var tempH = 0*60 + time.start.min;
       }else{
         var tempH = time.start.hr*60 + time.start.min;
+        console.log("tempH",tempH)
       }
     }
     
@@ -840,19 +850,30 @@ export class ScheduleComponent implements OnInit {
       var min = tempH%60;
       var h = (tempH - min)/60;
 
+    console.log("min>",min)
+  
+
       if(h>12){
         var hr = h-12;
+        if(hr == 12 && (i== diffHours)){
+          var ampm = 'AM';
+        }else{
+          var ampm = 'PM';
+        }
         // console.log(">12",hr)
-        var ampm = 'PM';
       }else if(h<12){
         var hr = h;
         // console.log("<12",hr)
         var ampm = 'AM';
       }else if(h==12){
-        var hr = h;
-        // console.log("==12",hr)
-        var ampm = 'PM';
+          var hr = h;
+          // console.log("==12",hr)
+          var ampm = 'PM';   
       }
+      if(hr == 0){
+        hr=12;
+      }
+
       var obj = {
         'start':{
           'hr': hr,
@@ -860,7 +881,7 @@ export class ScheduleComponent implements OnInit {
           'meridiem': ampm
         }
       }
-      // console.log("hour",obj)
+      console.log("hour",obj)
       this.operationTime.push(obj);
     }
     // let arrLength = this.operationTime.length;
@@ -913,6 +934,7 @@ export class ScheduleComponent implements OnInit {
   //    console.log("temp next",this.minNextArr);
   // }
 
+  minSlotArr = [];
   calculateSlot(start) {
     var min = start.min; // start time min 
     // var temp = [];
@@ -928,32 +950,60 @@ export class ScheduleComponent implements OnInit {
       if (i == 0) {
         min += 0;
       } else {
-        // min += 15;
-        if (min == 45) {
-          console.log("==59")
-          min = 0;
-        } else {
-          min += 15;
+        // // min += 15;
+        // if (min == 45) {
+        //   console.log("==59")
+        //   min = 0;
+        // } else {
+        //   min += 15;
+        // }
+        var m = min + 15;
+        if(m > 60){
+          min = m - 60;
+          if(min == 60){
+           min = 0;
+         }
+        }else{
+          min += 15
+          if(min == 60){
+           min = 0;
+         }
         }
+
       }
       this.minArr.push(min);
+      this.minSlotArr.push(min);
     }
     console.log("temp", this.minArr);
     next = this.minArr[this.minArr.length - 1];
     console.log('next', next);
 
     for (var j = 0; j <= 1; j++) {
-      if (next == 45) {
-        console.log("==59")
-        next = 0;
-      } else {
-        next += 15;
+      // if (next == 45) {
+      //   console.log("==59")
+      //   next = 0;
+      // } else {
+      //   next += 15;
+      // }
+      m = next + 15;
+      if(m > 60){
+        next = m - 60;
+        if(next == 60){
+           next = 0;
+         }
+      }else{
+        next += 15
+        if(next == 60){
+           next = 0;
+         }
       }
-
       this.minNextArr.push(next);
+      this.minSlotArr.push(next);
     }
-    console.log("temp next", this.minNextArr);
+    console.log("temp next ===>", this.minNextArr);
   }
+
+
 
   getAutoSelectDate() {
     const todayDay = new Date().getDay();
@@ -975,6 +1025,7 @@ export class ScheduleComponent implements OnInit {
     this.isCategory = false;
     this.courseCreate = false;
     this.item.itemID = '';
+    this.selectedID = '';
     this.selectedDay = [];
     this.getAutoSelectDate();
     this.showDp = false;
@@ -987,13 +1038,14 @@ export class ScheduleComponent implements OnInit {
     this.isCategory = false;
     this.courseCreate = false;
     this.showDp = false;
+    this.courseplanLists = [];
   }
 
   // Selected Day //
   selectDay(data, event, day, type): void {
     if (type == "callTimetable") {
       setTimeout(() => {
-        this.getschedulestaff('sd');
+        this.getschedulestaff('checkbox',this.staffList.staff.length,'0');
       }, 200)
     }
     var dayIdx = this.selectedDay.indexOf(data);
@@ -1014,24 +1066,37 @@ export class ScheduleComponent implements OnInit {
 
   searchCategoryList(val, type) {
     console.log(val, type);
+    this.blockUI.start('Loading...');
     if (val.length > 0) {
+      // this.blockUI.start('Loading...');
       this._service.getSearchCategory(this.regionId, val, this.locationID)
         .subscribe((res: any) => {
-          console.log(res);
+          console.log(res.length);
           console.log(this.categoryList.name)
+          var element = <HTMLInputElement> document.getElementById("categoryList");
+          console.log(element)
+          if(element != null && this.selectedDay.length != 0){
+            element.disabled=true;
+          }
+         
           this.categoryList = res;
+          this.blockUI.stop();
         }, err => {
           console.log(err);
+          this.blockUI.stop();
         });
     }
     else if (val.length <= 0) {
+      // this.blockUI.start('Loading...');
       this._service.getCategory(this.regionId, 20, 0)
         .subscribe((res: any) => {
           console.log(res);
-          console.log(this.categoryList.name)
+          console.log(this.categoryList.name);
           this.categoryList = res;
+           this.blockUI.stop();
         }, err => {
           console.log(err);
+           this.blockUI.stop();
         });
     }
   }
@@ -1060,12 +1125,16 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = {};
     console.log("selectDataApiCall works", category)
     this.selectData(category);
-    // this.getscheulestaff(this.regionId,this.selectedDay.toString(),this.selectedID)
-    this.getschedulestaff('sd')
+    this.getschedulestaff('button','20','0')
   }
 
   // single Select Data
   selectData(category) {
+    var element = <HTMLInputElement> document.getElementById("categoryList");
+    if(element != null && this.selectedDay.length != 0){
+      element.disabled=false;
+    }
+ 
     console.log("selectData works", category)
     this.isSelected = true;
     this.selectedID = category._id;
@@ -1074,103 +1143,130 @@ export class ScheduleComponent implements OnInit {
     this.selectedCat = false;
   }
 
-  openTeacherList(content) {
-    this.modalReference = this.modalService.open(content, { backdrop: 'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
-    this.getSearchscheulestaff(this.regionId, this.selectedDay.toString(), this.selectedID, '', 'test')
-  }
-
-  getschedulestaff(type) {
-    // Declare __this variable which represents the current component not to conflict with setTimeOut this keyword
-    // Api calling should after checking the date 
-    // need to wait a bit delay 
+  /// Fix Get Sechedule Staff API ///
+  getschedulestaff(type,limit,skip){
     var repeatDays;
-    if (this.selectedDay.length == 0) {
+    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
       repeatDays = '0,1,2,3,4,5,6'
-    } else if (this.selectedDay.length > 0) {
+    }else{
       repeatDays = this.selectedDay.toString();
     }
     this.scheduleList = false;
-    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID)
-      .subscribe((res: any) => {
-        this.staffList = res;
-        console.log("this.selectedTeacher", this.selectedTeacher)
-        console.log("this.staffList", this.staffList)
-        if (JSON.stringify(this.staffList) != "{}") {
-          if (this.staffList.staff && type == 'checkbox') {
-            this.selectedTeacher = this.tempSelectedTeacher
-            if (this.tempSelectedTeacher == null) {
-              this.selectedTeacher = this.staffList.staff[0];
-            }
-          } else {
-            if (this.staffList.staff) {
-              this.selectedTeacher = this.staffList.staff[0];
-            }
-          }
-          console.log("Call staff timttable")
-          if (JSON.stringify(this.selectedTeacher) != "{}") {
-            this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID,limit,skip)
+    .subscribe((res: any) => {
+      this.result = res;
+      this.staffList = res;
+      console.log("this.selectedTeacher", this.selectedTeacher)
+      console.log("this.staffList", this.staffList)
+      if (this.staffList.staff.length>0) {
+        if (this.staffList.staff && type == 'checkbox') {
+          this.selectedTeacher = this.tempSelectedTeacher
+          if (this.tempSelectedTeacher == null) {
+            this.selectedTeacher = this.staffList.staff[0];
           }
         } else {
-          console.log("no need to call staff timttable")
+          if (this.staffList.staff) {
+            this.selectedTeacher = this.staffList.staff[0];
+          }
         }
-      }, (err: any) => {
-        // catch the error response from api   
-        this.staffList = [];
+        console.log("Call staff timttable")
+        if (JSON.stringify(this.selectedTeacher) != "{}") {
+          this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
+        }
+      } else {
+        console.log("no need to call staff timttable")
+      }
+    }, (err: any) => {
+      // catch the error response from api   
+      this.staffList = [];
+    })
+  }
+// for modal
+  getViewAllStaff(type,skip,limit){
+    var repeatDays;
+    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
+      repeatDays = '0,1,2,3,4,5,6'
+    }else{
+      repeatDays = this.selectedDay.toString();
+    }
+    this.scheduleList = false;
+    this.blockUI.start('Loading')
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID,limit,skip)
+    .subscribe((res: any) => {
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
+      this.result = res;
+      if(type == 'search'){
+        this.tempstafflist = res.staff;
+      }else{
+        this.tempstafflist = this.tempstafflist.concat(res.staff);
+      }
+      console.log("this.selectedTeacher", this.selectedTeacher)
+      console.log("this.staffList", this.staffList)
+    }, (err: any) => {
+      // catch the error response from api   
+      this.tempstafflist = [];
+    })
+  }
+
+  getSearchscheulestaff(keyword,skip,limit){
+    var repeatDays;
+    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
+      repeatDays = '0,1,2,3,4,5,6'
+    }else{
+      repeatDays = this.selectedDay.toString();
+    }
+    this.keyword = keyword;
+    if(skip == '' && limit == ''){
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+    if(keyword.length != 0 ){
+      this.isSearch = true;
+      this._service.getscheduleSearchStaffList(this.regionId, repeatDays, this.selectedID,keyword, skip, limit)
+      .subscribe((res: any) => {
+        if(isFirst == true){
+          this.result = res;
+          console.log('First Time Searching')
+          this.tempstafflist = [];
+          this.tempstafflist = res.staff;
+        }else{
+          console.log('Not First Time Searching');
+          this.tempstafflist = res.staff;
+          // this.tempstafflist = this.tempstafflist.concat(res.staff);
+        }
+      }, err => {
+        console.log(err)
       })
-
-  }
-  teacherListTypeAheadLoadMore() {
-    this.skip += this.limit
-    this.getSearchscheulestaff(this.regionId, this.selectedDay.toString(), this.selectedID, this.keyword, 'loadmore');
-  }
-  getSearchScheduleStaffInput(regionId, selectDay, selectedID, e) {
-    this.getSearchscheulestaff(regionId, selectDay, selectedID, e, 'input');
-    const __this = this;
-    setTimeout(() => {
-      if (__this.tempstafflist.staff) {
-        __this.selectedTeacher = __this.tempstafflist.staff[0];
-        __this.selectedTeacher.userId = __this.tempstafflist.staff[0].userId;
-      }
-    }, 400);
-
+    }else{   
+      this.tempstafflist = []; 
+      this.blockUI.start('Loading');
+      setTimeout(() => {
+        this.blockUI.stop();
+        this.getViewAllStaff('search',skip, limit);
+      }, 100);
+     
+      this.isSearch = false;
+    }
   }
 
-  getSearchscheulestaff(regionId, daysOfWeek, selectedID, keyword, type) {
-    const __this = this;
-    __this.keyword = keyword;
-    setTimeout(() => {
-      // __this.selectedDayy();
-      if (__this.selectedDay.length == 0) {
-        __this.scheduleList = false;
-        __this._service.getscheduleSearchStaffList(__this.regionId, '0,1,2,3,4,5,6', __this.selectedID, keyword, __this.limit, __this.skip)
-          .subscribe((res: any) => {
-            if (type == 'loadmore') {
-              __this.tempstafflist = __this.tempstafflist.concat(res);
-            } else {
-              __this.tempstafflist = res;
-            }
-          }, (err: any) => {
-            // catch the error response from api         
-            __this.tempstafflist = [];
-          })
-      } else if (__this.selectedDay.length > 0) {
-        __this.scheduleList = false;
-        __this._service.getscheduleSearchStaffList(__this.regionId, __this.selectedDay.toString(), __this.selectedID, keyword, __this.limit, __this.skip)
-          .subscribe((res: any) => {
-            if (type == 'loadmore') {
-              __this.tempstafflist = __this.tempstafflist.concat(res);
-            } else {
-              __this.tempstafflist = res;
-            }
-            // __this.tempstafflist = res;
-          }, (err: any) => {
-            // catch the error response from api         
-            __this.tempstafflist = [];
-          })
-      }
-    }, 0);
-    return;
+  staffLoadMore(skip:any){
+    if(this.isSearch == true && this.keyword.length != 0){
+      console.log("User Search");
+      this.getSearchscheulestaff(this.keyword, skip, '20') 
+    }else{
+        console.log("Not user search")
+        this.getViewAllStaff('modal', skip, '20');
+    }
   }
+
+  openmodal(content){
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard:false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getViewAllStaff('modal','0','20')
+  }
+  // fix get schedule staff api done ///
 
   getStaffTimetable(staffId, repeatDays) {
     this.blockUI.start('Loading...');
@@ -1207,6 +1303,7 @@ export class ScheduleComponent implements OnInit {
   cancelModal(type) {
     this.modalReference.close();
     this.staff.staffId = '';
+    this.tempstafflist = [];
     // this.getschedulestaff()
     if (type == 'enrollModal') {
       this.selectedCustomer = {};
@@ -1231,7 +1328,7 @@ export class ScheduleComponent implements OnInit {
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
     if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
-      $('.teacher-list-wrapper').scrollLeft(145 * (this.staffList.staff.indexOf(this.selectedTeacher)));
+      $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
     }
     else {
       $('.teacher-list-wrapper').scrollLeft(0);
@@ -1245,21 +1342,24 @@ export class ScheduleComponent implements OnInit {
 
   }
   activeTeachers1(teacher) {
-    this.selectedTeacher = teacher
-    this.tempSelectedTeacher = teacher;
-    this.selectedTeacher.userId = teacher.userId;
-    if (this.selectedDay.length == 0) {
-      this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
-    } else if (this.selectedDay.length > 0) {
-      this.getStaffTimetable(this.selectedTeacher.userId, this.selectedDay.toString());
+    this.keyword = '';
+    if(this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length){
+      this.getschedulestaff('checkbox',this.tempstafflist.length,'0');
     }
-    if (this.tempstafflist.staff) {
-      $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.staff.indexOf(this.selectedTeacher)));
-    } else {
-      $('.teacher-list-wrapper').scrollLeft(0);
-    }
-    this.staff.staffId = '';
-    this.modalReference.close();
+     setTimeout(()=>{
+      this.selectedTeacher = teacher
+      this.tempSelectedTeacher = teacher;
+      this.selectedTeacher.userId = teacher.userId;
+      if (this.tempstafflist) {
+        $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+      } else {
+        $('.teacher-list-wrapper').scrollLeft(0);
+      }
+      this.staff.staffId = '';
+      this.tempstafflist = [];  
+      this.modalReference.close();
+     },400)
+
   }
 
   addEnrollModal(modal, type, courseID, seat) {
@@ -1699,28 +1799,54 @@ export class ScheduleComponent implements OnInit {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date) {
-    // console.log(hr , ':', min);
-    // let temp = hr *60 + min; 
-    // let m = temp % 60;
-    // let h = (temp - m)/60;
-    // console.log(temp,m,h)
-    // console.log(h , ':', m);
-    // e.preventDefault();
-    // e.stopPropagation();
-    if (this.startTime.min > 0 && min == 0) {
-      var h = hr + 1;
-      console.log("ttt", h, ':', min, ':', ampm);
-    } else {
-      var h = hr;
-      console.log("original", h, ':', min, ':', ampm);
-    }
-    this.slotHr = h + ':' + min + ' ' + ampm;
-    // let obj = {
-    //   "hr": h,
-    //   "min": min,
-    //   "ampm": ampm
+    // if(this.startTime.min>min && this.startTime.hr > hr ){
+    //   var h = hr+1
+    //   console.log("add 1~~~>")
+    // }else{
+    //   var h = hr
+    //   console.log("original~~~>")
     // }
-    // this.selectSlot["time"] = obj;
+    // this.slotHr = h + ':' + min + ' ' + ampm;
+    // this.clickSlot(hr, min, ampm);
+
+    // if (this.startTime.min > 0 && min == 0) {
+    //   var h = hr + 1;
+    //   console.log("ttt", h, ':', min, ':', ampm);
+    // } else {
+    //   var h = hr;
+    //   console.log("original", h, ':', min, ':', ampm);
+    // }
+
+    console.log("minSlot",this.minSlotArr);
+
+    // var cIdx = this.minSlotArr.indexOf(min);
+    // if(cIdx>=0){
+    //    var pIdx = cIdx-1;
+    //    if((min >=0 && min<=15) && this.minSlotArr[pIdx]>this.minSlotArr[cIdx]){
+    //     var h = hr+1;
+    //     console.log("add +1", h, ':', min, ':', ampm);
+    //    }else{
+    //     var h = hr;
+    //     console.log("original", h, ':', min, ':', ampm);
+    //    }
+    // }
+    var cIdx = this.minSlotArr.indexOf(min);
+    console.log('cIdx',cIdx);
+    var pIdx = cIdx-1;
+    if((cIdx==1 || cIdx ==3) && (this.minSlotArr[cIdx]>=0 && this.minSlotArr[cIdx]<=15) && this.minSlotArr[pIdx]>this.minSlotArr[cIdx]){
+      var h = hr+1;
+      if(h>12){
+        h = h-12;
+      }
+      console.log("add 1",h)
+    }else{
+      var h = hr;
+      console.log("original",h)
+    }
+
+    // var h = hr;
+    this.slotHr = h + ':' + min + ' ' + ampm;
+
     this.slotM = min;
     this.slotAMPM = ampm;
     this.slotIdx = i;
@@ -1790,10 +1916,21 @@ export class ScheduleComponent implements OnInit {
     console.log('scheduleObj', this.scheduleObj);
   }
 
+  // clickSlot(hr, min, ampm){
+  //   var oprTime = this.startTime.hr;
+  //   var m;
+    
+  // }
+
   onClickCreate() {
     this.courseCreate = true;
-    this.getCoursePlan(0, 'createCourse');
+    this.courseplanLists = [];
+    this.getAllCoursePlan('0', '20');
   }
+  // onClickCreate() {
+  //   this.courseCreate = true;
+  //   this.getCoursePlan(0, 'createCourse');
+  // }
 
   createPlan() {
     console.log("course Plan");
@@ -1808,6 +1945,7 @@ export class ScheduleComponent implements OnInit {
     localStorage.setItem("cpCategory", JSON.stringify(category));
   }
   selectPlan(plan) {
+    this.courseplanLists = []
     console.log("plan", plan);
     console.log(this.selectedID);
     let planObj = {
@@ -1919,53 +2057,67 @@ export class ScheduleComponent implements OnInit {
     console.log(lesson)
   }
 
-  getSearchCoursePlan(keyword, skip, limit) {
-    this.coursePlanSearchKeyWord = keyword
-    this._service.getSearchCoursePlan(this.regionId, this.locationID, this.selectedID, skip, limit, keyword)
+
+
+  //  Test Course Plan List Api
+  showMore( skip: any){
+      if(this.isSearch == true){
+        console.log("User Search");
+        this.getSearchCoursePlan(this.keyword, skip, 20) 
+      }else{
+          console.log("Not user search")
+          this.getAllCoursePlan( skip, 20);
+    }
+
+  }
+  getAllCoursePlan(skip, limit){
+    this.blockUI.start('Loading');
+    this._service.getAllCourseplan(this.regionId, this.locationID, this.selectedID, skip, limit)
+    .subscribe((res: any) => {
+     console.log('Course Plan List', res)
+     this.result = res;
+    //  this.courseplanLists = [];
+     this.courseplanLists = this.courseplanLists.concat(res);
+     setTimeout(() => {
+       this.blockUI.stop()
+     }, 300);
+    }, err => {
+      this.blockUI.stop();
+      console.log(err)
+    })
+  }
+
+  getSearchCoursePlan(searchWord,skip,limit){
+    this.keyword = searchWord;
+    if(skip == '' && limit == ''){
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+    if(searchWord.length != 0 ){
+      this.isSearch = true;
+      this._service.getSearchCoursePlan(this.regionId, this.locationID, this.selectedID, skip, limit, searchWord)
       .subscribe((res: any) => {
-        this.courseplanLists = res;
-        console.log(this.courseplanLists)
+        this.result = res;
+        if(isFirst == true){
+          console.log('First Time Searching')
+          this.courseplanLists = [];
+          this.courseplanLists = res;
+        }else{
+          console.log('Not First Time Searching');
+          this.courseplanLists = this.courseplanLists.concat(res);
+        }
       }, err => {
         console.log(err)
       })
-  }
-
-
-  getCoursePlanList(keyword, skip, limit) {
-    if (keyword.length == 0 || keyword.length < 0) {
-      this.getCoursePlan(0, 'search');
-    } else {
-      this.getSearchCoursePlan(keyword, 0, 20);
+    }else{  
+      setTimeout(() => {
+        this.courseplanLists = [];
+        this.getAllCoursePlan(skip, limit);
+        this.isSearch = false;
+      }, 300);
     }
   }
 
-  getCourseplanLoadMore(skip: any) {
-    if (this.isSearch == true) {
-      console.log("User Search");
-      this.getSearchCoursePlan(this.coursePlanSearchKeyWord, skip, 20)
-    } else {
-      console.log("Not user search")
-      this.getCoursePlan(skip, 'loadmore');
-    }
-  }
 
-  getCoursePlan(skip, type) {
-    this.blockUI.start('Loading...');
-    this._service.getAllCourseplan(this.regionId, this.locationID, this.selectedID, skip, '20')
-      .subscribe((res: any) => {
-        setTimeout(() => {
-          this.blockUI.stop();
-          if (type == 'loadmore') {
-            this.courseplanLists = this.courseplanLists.concat(res);
-          }
-          else {
-            this.courseplanLists = res;
-          }
-        }, 300);
-
-      }, err => {
-        this.blockUI.stop();
-        console.log(err)
-      })
-  }
 }
