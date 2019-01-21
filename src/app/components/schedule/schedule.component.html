@@ -759,7 +759,7 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name pl-2">{{ student.preferredName }}</p>
+                <p class="mb-0 student-name pl-2">{{ (student.preferredName.length >20) ? (student.preferredName | slice :0:15) + '...' : (student.preferredName) }}</p>
               </div>
             </div>
           </div>
@@ -787,17 +787,15 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name text-white pl-2">{{ student.preferredName }}</p>
+                <p class="mb-0 student-name text-white pl-2">{{student.preferredName}}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
       <div class="modal-footer">
           <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
           <button type="button" class="btn btn-submit"  (click)="cancelClassFun(courseId)">Confirm</button>
-         
       </div>
     </div>
   </div>
