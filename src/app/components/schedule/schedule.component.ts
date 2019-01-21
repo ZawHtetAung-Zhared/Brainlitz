@@ -1158,7 +1158,7 @@ export class ScheduleComponent implements OnInit {
       this.staffList = res;
       console.log("this.selectedTeacher", this.selectedTeacher)
       console.log("this.staffList", this.staffList)
-      if (JSON.stringify(this.staffList) != "{}") {
+      if (this.staffList.staff.length>0) {
         if (this.staffList.staff && type == 'checkbox') {
           this.selectedTeacher = this.tempSelectedTeacher
           if (this.tempSelectedTeacher == null) {
