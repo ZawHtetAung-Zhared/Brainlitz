@@ -169,7 +169,7 @@
           </ul>
         </div>
       </div>
-      <div *ngIf="(staffList | json) != '{}'" class="d-flex flex-wrap w-100 align-items-center pl-3">
+      <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
         <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
             <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" >
@@ -188,12 +188,11 @@
         <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
       </div>
 
-      <div *ngIf="(staffList | json) == '{}'" class="no-teacher">
+      <div *ngIf="staffList.staff?.length<=0" class="no-teacher">
         There is no teacher for this category.
-        
       </div>
     
-      <div *ngIf="(staffList | json) != '{}'" class="v-wrapper1">
+      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1">
         <div class="timeline-table1"> 
           <div class="time-range">        
             <div class="single-range"></div>
