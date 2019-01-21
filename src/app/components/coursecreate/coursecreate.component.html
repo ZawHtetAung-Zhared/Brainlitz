@@ -188,7 +188,7 @@
 							</div>
 						</div>
 						<div *ngIf="isChecked == 'lesson'">
-							<input class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
+							<input class="input-lesson" type="number"  name="lesson" placeholder="Lesson Count" ng-pattern="/^(\d)+$/" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
 							<!-- <input *ngIf="isEdit == true" class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)" readonly> -->
 						</div>
 					</div>

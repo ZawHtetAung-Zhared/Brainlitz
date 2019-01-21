@@ -427,9 +427,10 @@
                   [(ngModel)]="formData.searchText" 
                   (focus)="focusMethod($event, 'customer')"
                   (focusout)="hideFocus($event)"
-                  (input)="changeMethod($event.target.value, 'customer')" (document:click)="closeDropdown($event,'search')"
+                  (input)="changeMethod($event.target.value, 'customer')"
                   autocomplete="off"
                   >
+                  <!-- (document:click)="closeDropdown($event,'search')" -->
                 <span class="input-group-append">
                   <button class="bt btn-design btn-outline-secondary enroll-modal-input" type="button">
                       <i class="fa fa-search"></i>

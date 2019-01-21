@@ -1074,9 +1074,9 @@ export class ScheduleComponent implements OnInit {
           console.log(res.length);
           console.log(this.categoryList.name)
           var element = <HTMLInputElement> document.getElementById("categoryList");
-
+          console.log(element)
           if(element != null){
-            element.disabled=false;
+            element.disabled=true;
           }
           // if(res.length == 0){
           //   element.disabled=true;
@@ -1118,12 +1118,10 @@ export class ScheduleComponent implements OnInit {
     val.preventDefault();
     val.stopPropagation();
     this.isFousCategory = true;
-    console.warn('focussearch category')
   }
   //  Hide Search
   hideSearch() {
     setTimeout(() => {
-      console.warn('hidesearch')
       this.isFousCategory = false;
     }, 300);
   }
