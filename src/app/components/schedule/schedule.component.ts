@@ -934,6 +934,7 @@ export class ScheduleComponent implements OnInit {
   //    console.log("temp next",this.minNextArr);
   // }
 
+  minSlotArr = [];
   calculateSlot(start) {
     var min = start.min; // start time min 
     // var temp = [];
@@ -971,6 +972,7 @@ export class ScheduleComponent implements OnInit {
 
       }
       this.minArr.push(min);
+      this.minSlotArr.push(min);
     }
     console.log("temp", this.minArr);
     next = this.minArr[this.minArr.length - 1];
@@ -996,6 +998,7 @@ export class ScheduleComponent implements OnInit {
          }
       }
       this.minNextArr.push(next);
+      this.minSlotArr.push(next);
     }
     console.log("temp next ===>", this.minNextArr);
   }
@@ -1816,7 +1819,35 @@ export class ScheduleComponent implements OnInit {
     //   var h = hr;
     //   console.log("original", h, ':', min, ':', ampm);
     // }
-    var h = hr;
+
+    console.log("minSlot",this.minSlotArr);
+
+    // var cIdx = this.minSlotArr.indexOf(min);
+    // if(cIdx>=0){
+    //    var pIdx = cIdx-1;
+    //    if((min >=0 && min<=15) && this.minSlotArr[pIdx]>this.minSlotArr[cIdx]){
+    //     var h = hr+1;
+    //     console.log("add +1", h, ':', min, ':', ampm);
+    //    }else{
+    //     var h = hr;
+    //     console.log("original", h, ':', min, ':', ampm);
+    //    }
+    // }
+    var cIdx = this.minSlotArr.indexOf(min);
+    console.log('cIdx',cIdx);
+    var pIdx = cIdx-1;
+    if((cIdx==1 || cIdx ==3) && (this.minSlotArr[cIdx]>=0 && this.minSlotArr[cIdx]<=15) && this.minSlotArr[pIdx]>this.minSlotArr[cIdx]){
+      var h = hr+1;
+      if(h>12){
+        h = h-12;
+      }
+      console.log("add 1",h)
+    }else{
+      var h = hr;
+      console.log("original",h)
+    }
+
+    // var h = hr;
     this.slotHr = h + ':' + min + ' ' + ampm;
 
     this.slotM = min;
