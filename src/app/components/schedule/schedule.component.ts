@@ -1256,8 +1256,8 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  testLoadMore(skip:any){
-    if(this.isSearch == true){
+  staffLoadMore(skip:any){
+    if(this.isSearch == true && this.keyword.length != 0){
       console.log("User Search");
       this.getSearchscheulestaff(this.keyword, skip, '20') 
     }else{
@@ -1346,6 +1346,7 @@ export class ScheduleComponent implements OnInit {
 
   }
   activeTeachers1(teacher) {
+    this.keyword = '';
     if(this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length){
       this.getschedulestaff('checkbox',this.tempstafflist.length,'0');
     }
