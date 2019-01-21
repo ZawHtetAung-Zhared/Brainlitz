@@ -152,14 +152,14 @@
               [(ngModel)]="item.itemID"
               #itemID="ngModel"
               id="example-search-input"
-              (focus)="focusSearch($event, 'category')"
-              (focusout)="hideSearch($event)"
+              (click)="focusSearch($event, 'category')"
+              (clickOutside)="hideSearch($event)"
               (input)="searchCategoryList($event.target.value, 'category')" 
               readonly
             >
               <button  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
               (focus)="focusSearch($event, 'category')"
-              (focusout)="hideSearch($event)"
+              (clickOutside)="hideSearch($event)"
               (click)="focusSearch($event, 'category')"
               ></button> 
           </div> 

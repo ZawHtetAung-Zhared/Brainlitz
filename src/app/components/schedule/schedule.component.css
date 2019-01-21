@@ -588,7 +588,7 @@ ul.data-listing li.disabled{
   background: #fff;
   height: 300px;
   position: absolute;
-  z-index: 5;
+  z-index: 10;
   margin: 0;
   top:100px;
   padding: 0;
@@ -1523,4 +1523,10 @@ ul.options-box li:last-child,.create-box li:last-child {
 .remove-outline:focus{
   outline: none;
   box-shadow: none;
+}
+ @media only screen and  (max-width:879px){
+   .scedule-data-listing{
+     top:170px;
+   }
+
 }

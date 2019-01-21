@@ -1118,10 +1118,12 @@ export class ScheduleComponent implements OnInit {
     val.preventDefault();
     val.stopPropagation();
     this.isFousCategory = true;
+    console.warn('focussearch category')
   }
   //  Hide Search
   hideSearch() {
     setTimeout(() => {
+      console.warn('hidesearch')
       this.isFousCategory = false;
     }, 300);
   }
