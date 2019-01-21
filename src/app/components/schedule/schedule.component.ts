@@ -1075,14 +1075,10 @@ export class ScheduleComponent implements OnInit {
           console.log(this.categoryList.name)
           var element = <HTMLInputElement> document.getElementById("categoryList");
           console.log(element)
-          if(element != null){
+          if(element != null && this.selectedDay.length != 0){
             element.disabled=true;
           }
-          // if(res.length == 0){
-          //   element.disabled=true;
-          // }else{
-          //   element.disabled=false;
-          // }
+         
           this.categoryList = res;
           this.blockUI.stop();
         }, err => {
@@ -1135,7 +1131,7 @@ export class ScheduleComponent implements OnInit {
   // single Select Data
   selectData(category) {
     var element = <HTMLInputElement> document.getElementById("categoryList");
-    if(element != null){
+    if(element != null && this.selectedDay.length != 0){
       element.disabled=false;
     }
  
@@ -1162,7 +1158,7 @@ export class ScheduleComponent implements OnInit {
       this.staffList = res;
       console.log("this.selectedTeacher", this.selectedTeacher)
       console.log("this.staffList", this.staffList)
-      if (JSON.stringify(this.staffList) != "{}") {
+      if (this.staffList.staff.length>0) {
         if (this.staffList.staff && type == 'checkbox') {
           this.selectedTeacher = this.tempSelectedTeacher
           if (this.tempSelectedTeacher == null) {
