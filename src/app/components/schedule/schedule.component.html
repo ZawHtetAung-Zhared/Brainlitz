@@ -203,10 +203,12 @@
               <div class="single-slot">
                   <div class="monthly" *ngIf="i == 0">
                     <span>{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+                    <div class="left-arrow"></div>
                   </div>
                   <div class="monthly" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
                     <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
                     <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+                    <div class="left-arrow"></div>
                   </div>  
                   <p>{{list.date.day}} {{list.date.month - 1 | TTmonth}}  </p>
                   <span>{{list.date.dayOfWeek}}</span>
