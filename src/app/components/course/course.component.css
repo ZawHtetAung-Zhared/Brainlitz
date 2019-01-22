@@ -2644,3 +2644,9 @@ button:focus {
   }
 } */
 
+.input-lesson [type=number]::-webkit-inner-spin-button, 
+.input-lesson [type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+

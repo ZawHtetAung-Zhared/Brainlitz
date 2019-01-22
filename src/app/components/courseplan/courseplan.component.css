@@ -306,13 +306,13 @@ input:-webkit-input-placeholder {
 .radio-pos {
 	position: absolute;
   left: 291px;
-  top: 30px;
+  top: 71px;
 }
 
 .radio-pos-book {
   position: absolute;
-  left: 315px;
-  top: 30px;
+  left: 291px;
+  top: 71px;
 }
 
 .radio-pos-payment {

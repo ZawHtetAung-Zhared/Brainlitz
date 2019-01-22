@@ -190,6 +190,7 @@ export class CourseComponent implements OnInit {
   public invPayment = [];
   public invStatus:any;
   public noSetting:boolean = false;
+  public isoutSideClick:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -477,10 +478,17 @@ export class CourseComponent implements OnInit {
   focusCourseSearch(){
     console.log('focusing ...')
     this.iscourseSearch = true;
+    this.isoutSideClick=false;
   }
   focusOut(){
     console.log('focusout : called');
       this.iscourseSearch = false;
+  }
+
+  //if searching click the overlay
+  clickoutSide(){
+    this.isoutSideClick=true;
+    this.iscourseSearch = false;
   }
   hideCourseSearch(){
     console.log(this.iswordcount)
