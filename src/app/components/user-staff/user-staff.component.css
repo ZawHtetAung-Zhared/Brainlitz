@@ -783,6 +783,12 @@ input[type=radio]:checked ~ label{
     padding-top: 15px;
 }
 
+.texHeight[type=number]::-webkit-inner-spin-button, 
+.texHeight[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 @media only screen and (max-width: 768px){
 
 }

@@ -1,4 +1,4 @@
-<div [ngClass]="{'overlay': iscourseSearch == true || isAdvancedSearch == true}"></div>
+<div [ngClass]="{'overlay': iscourseSearch == true || isAdvancedSearch == true}" (click)="clickoutSide()"></div>
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div class="inner-wrapper w-100" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate && !isCoursePlanDetail" [ngClass]="{'active': isSticky == true}">
@@ -17,7 +17,6 @@
                 placeholder="Search courses" 
                 id="course-search"
                 (focus)="focusCourseSearch($event)"
-                (focusout)="focusOut()"
                 (input)="searchCourse($event.target.value)"
                 autocomplete="off"
                 name="keyword"
@@ -25,9 +24,10 @@
                 [(ngModel)]="courseVal.keyword" 
                 #csearch="ngModel"
               >
+      
               <div *ngIf="iswordcount == true" class="close-search" (click)="clearSearch()"></div>
               <span (click)="showAdvancedSearch()" class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
-              <div *ngIf="iscourseSearch && recentLists.length > 0" class="course-search-view">
+              <div *ngIf="!isoutSideClick && iscourseSearch && recentLists.length > 0" class="course-search-view" >
                 <p class="recent-search-title">Recently search</p>
                 <ul class="recent-lists">
                   <li *ngFor="let recent of recentLists" (click)="recentSearch(recent, 20, 0)">{{recent}}</li>
