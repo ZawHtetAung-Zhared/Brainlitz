@@ -261,6 +261,19 @@ export class CourseComponent implements OnInit {
       this.getCoursePlanDetail(this.editplanId);
       this.courseList = []
     })
+
+    // this.dataservice.cId.subscribe((cId)=>{
+    //   console.log("cid~~",cId)
+    //   this.courseId = cId
+    //   console.log("go to CDetail",this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   this.isCourseDetail = true;
+    //   this.showCourseDetail(this.courseId);
+    //   this.courseList = []
+    // })
   }
   cID:string;
   ngOnInit() {
@@ -269,6 +282,13 @@ export class CourseComponent implements OnInit {
     if(this.cID != ''){
       setTimeout(() => {
         this.showCourseDetail(this.cID)
+      }, 300);
+    }
+
+    this.dataservice.cId.subscribe( cid => this.courseId = cid)
+    if(this.courseId != ''){
+      setTimeout(() => {
+        this.showCourseDetail(this.courseId)
       }, 300);
     }
     let recentTemp = localStorage.getItem('recentSearchLists')
@@ -2304,7 +2324,8 @@ export class CourseComponent implements OnInit {
       "name": plan.name,
       "id": plan.coursePlanId,
       "duration": plan.lesson.duration,
-      "paymentPolicy": plan.paymentPolicy
+      "paymentPolicy": plan.paymentPolicy,
+      "from": "courses"
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');

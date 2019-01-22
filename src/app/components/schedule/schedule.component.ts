@@ -1952,14 +1952,14 @@ export class ScheduleComponent implements OnInit {
       "name": plan.name,
       "id": plan._id,
       "duration": plan.lesson.duration,
-      "paymentPolicy": plan.paymentPolicy
+      "paymentPolicy": plan.paymentPolicy,
+      "from": 'schedule'
     };
     this.goBackCat = false;
     this.isCourseCreate = true;
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj))
     // console.log("scheduleObj",this.scheduleObj);
-
   }
 
   cancelClassFun(lessonId) {

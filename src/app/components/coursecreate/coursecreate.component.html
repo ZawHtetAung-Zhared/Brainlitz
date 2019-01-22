@@ -1,7 +1,7 @@
 <div id="navbar">
 	<div class="d-flex justify-content-between">
 		<div class="d-flex justify-content-center flex-column">
-			<div class="d-flex back" (click)="backToCourses('back')">
+			<div class="d-flex back" (click)="backToCourses('back','')">
 				<i class="fa fa-angle-left"></i>
 			    <p class="mb-0 font-medium">Courses</p>
 			</div>
@@ -29,7 +29,7 @@
 	<div class="header-wrapper">
 		<header>
 			<div class="d-flex justify-content-between">
-				<div class="d-flex back" (click)="backToCourses('back')">
+				<div class="d-flex back" (click)="backToCourses('back','')">
 					<i class="fa fa-angle-left"></i>
 				    <p class="mb-0 font-medium ">Back</p>
 				</div>
@@ -38,7 +38,7 @@
 					<h5 class="mb-0">Course</h5>
 				</div> -->
 				<div class="font-medium">
-					<button class="btn-cancel" (click)="backToCourses('back')">Cancel</button>
+					<button class="btn-cancel" (click)="backToCourses('back','')">Cancel</button>
 				</div>
 			</div>
 		</header>
@@ -653,7 +653,7 @@
 		<div class="d-flex justify-content-between form-footer">
 			<div class="d-flex justify-content-center flex-column">
 				<div class="font-medium">
-					<button type="button" class="btn-cancel" (click)="backToCourses('back')">Cancel</button>
+					<button type="button" class="btn-cancel" (click)="backToCourses('back','')">Cancel</button>
 				</div>
 			</div>
 			<div>	
