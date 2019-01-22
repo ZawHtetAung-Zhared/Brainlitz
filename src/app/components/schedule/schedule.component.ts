@@ -5,7 +5,9 @@ import { MinuteSecondsPipe } from '../../service/pipe/time.pipe'
 import { NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+
 import * as moment from 'moment';
+import { InvoiceComponent } from '../invoice/invoice.component';
 declare var $: any;
 @Component({
   selector: 'app-schedule',
@@ -27,6 +29,7 @@ export class ScheduleComponent implements OnInit {
   public arrTop: any;
   public arrLeft: any;
   public arrClasses: any;
+  public custDetail: any = {};
   public styleArr;
   public selectedDay = [];
   public lessonId: any;
@@ -59,6 +62,7 @@ export class ScheduleComponent implements OnInit {
   public isSelected: boolean = false;
   public scheduleList: boolean = true;
   public courseplanLists: any = [];
+  public detailLists : any;
   public regionId = localStorage.getItem('regionId');
 
   public locationID = localStorage.getItem('locationId');
@@ -1338,8 +1342,10 @@ export class ScheduleComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID)
       .subscribe((res: any) => {
+        this.detailLists = res;
         console.log(res)
         this.courseDetail = res;
+
       }, err => {
         console.log(err);
       });
@@ -1418,6 +1424,8 @@ export class ScheduleComponent implements OnInit {
         this.blockUI.stop();
         console.log('selected Customer', res);
         this.selectedCustomer = res;
+        this.custDetail.user = res;
+        console.log(this.custDetail)
         this.stdLists = this.selectedCustomer.userId;
         console.log(this.stdLists)
         this.showList = false;
@@ -1449,6 +1457,7 @@ export class ScheduleComponent implements OnInit {
     this._service.assignUser(this.regionId, body, this.locationID)
       .subscribe((res: any) => {
         this.blockUI.stop();
+
         console.log("res Assign customer", res);
         if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
           console.log("no invoice setting");
@@ -1464,8 +1473,11 @@ export class ScheduleComponent implements OnInit {
           console.log("has invoice setting");
           this.invoiceInfo = res.invoiceSettings;
         }
+        // this.courseInfo = this.courseDetail;
+        // Object.assign(this.courseInfo , res)
         this.invoice = res.invoice;
         this.showInvoice = true;
+        Object.assign(this.detailLists, res)
         this.showOneInvoice(this.invoice);
       }, err => {
         console.log(err);

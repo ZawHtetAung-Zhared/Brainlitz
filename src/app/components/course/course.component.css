@@ -1565,6 +1565,11 @@ label.room-name::before {
 .modal-footer{
   padding: 24px 32px;
   border-top: 1px solid #edeff0;
+  
+}
+.invoice-wrap{
+  max-height: 70vh;
+  overflow : auto;
 }
 .target{
     color: #ff3d33;
