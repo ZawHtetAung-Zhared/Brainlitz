@@ -1582,7 +1582,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   bottom: 0;
   overflow-y: auto;
   overflow-x: scroll;
-  z-index: 0;
+  z-index: 9;
 }
 
 #innerScrollbar{
