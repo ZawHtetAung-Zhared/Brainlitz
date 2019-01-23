@@ -1,3 +1,4 @@
+import { InvoiceComponent } from './../invoice/invoice.component';
 import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
@@ -10,6 +11,7 @@ import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { last } from 'rxjs/operator/last';
+
 // import { start } from 'repl';
 declare var $:any;
 
@@ -102,7 +104,8 @@ export class CourseComponent implements OnInit {
   public activeCourseInfo:any = {};
   public todayDate:any;
   public LASD:any; //lastActiveStartDate
-
+  public custDetail : any = {};
+  public courseInfo : any = {};
   public momentTodayDate:any;
   public showCancelButton:boolean = false;
   public lastActiveStartDate:any;
@@ -262,6 +265,19 @@ export class CourseComponent implements OnInit {
       this.getCoursePlanDetail(this.editplanId);
       this.courseList = []
     })
+
+    // this.dataservice.cId.subscribe((cId)=>{
+    //   console.log("cid~~",cId)
+    //   this.courseId = cId
+    //   console.log("go to CDetail",this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   this.isCourseDetail = true;
+    //   this.showCourseDetail(this.courseId);
+    //   this.courseList = []
+    // })
   }
   cID:string;
   ngOnInit() {
@@ -270,6 +286,13 @@ export class CourseComponent implements OnInit {
     if(this.cID != ''){
       setTimeout(() => {
         this.showCourseDetail(this.cID)
+      }, 300);
+    }
+
+    this.dataservice.cId.subscribe( cid => this.courseId = cid)
+    if(this.courseId != ''){
+      setTimeout(() => {
+        this.showCourseDetail(this.courseId)
       }, 300);
     }
     let recentTemp = localStorage.getItem('recentSearchLists')
@@ -1612,7 +1635,8 @@ export class CourseComponent implements OnInit {
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log(this.isSeatAvailable)
-
+    console.log(this.showInvoice = false)
+    console.log(this.showPayment = false)
   }
 
   viewInvoice(data){
@@ -1863,6 +1887,9 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log('selected Customer',res);
+      console.log(res)
+      this.custDetail.user = res;
+      console.log("custDetail --->" , this.custDetail)
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists)
@@ -2090,6 +2117,10 @@ export class CourseComponent implements OnInit {
      this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
+       console.log("-------->" , res)
+       this.courseInfo = this.detailLists;
+       Object.assign(this.courseInfo , res)
+       console.log("-------->" , this.courseInfo)
        this.blockUI.stop();
        console.log("res Assign customer",res);
        if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
@@ -2312,7 +2343,8 @@ export class CourseComponent implements OnInit {
       "name": plan.name,
       "id": plan.coursePlanId,
       "duration": plan.lesson.duration,
-      "paymentPolicy": plan.paymentPolicy
+      "paymentPolicy": plan.paymentPolicy,
+      "from": "courses"
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');
