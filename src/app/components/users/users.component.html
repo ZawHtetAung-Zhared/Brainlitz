@@ -843,7 +843,7 @@
   </div>
 </ng-template>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
-  <app-invoice [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" ></app-invoice>
+  <app-invoice [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" style="height:80vh;overflow: auto"></app-invoice>
   <!-- <div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
     <div class="d-flex modal-header">
       <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>

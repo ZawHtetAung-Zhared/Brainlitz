@@ -2288,6 +2288,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .modal-content {
+  height: 80vh;
   width: 1000px !important;
 }
 
