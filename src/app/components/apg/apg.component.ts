@@ -636,7 +636,8 @@ export class ApgComponent implements OnInit {
   	getAllTemplate(limit, skip){
   		this._service.getAllTemplate(this.regionID, limit, skip)
 	    .subscribe((res:any) => {
-	    	console.log('templateLists' ,res)
+        console.log('templateLists' ,res)
+        this.result = res;
         this.templateList = this.templateList.concat(res);
 	      }, err => {
 	        console.log(err)

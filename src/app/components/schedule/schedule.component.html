@@ -172,7 +172,7 @@
       <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
         <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
-            <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" >
+            <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
               <div>
                 <div  class="align-self-center tchr-img-wraper">
                   <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
@@ -192,11 +192,12 @@
         There is no teacher for this category.
       </div>
     
-      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1">
+      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1 pb-5" id="testScroll" (scroll)="updateScrollbar('v-wrapper')">
         <div class="timeline-table1"> 
           <div class="time-range">        
             <div class="single-range"></div>
             <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : {{time.start.min}} {{time.start.meridiem}}</div>        
+            <!-- <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : <span *ngIf="time.start.min < 10" >0</span>{{time.start.min}} {{time.start.meridiem}}</div>         -->
           </div>
           <div class="lessons-range">
             <div [ngClass]="(i != 0 && finalLists[i-1].date.month != finalLists[i].date.month) ? 'top20' :''" class="single-row" *ngFor="let list of finalLists; let i = index">
@@ -315,6 +316,8 @@
           </div>
         </div>
       </div>
+      <div id="fixed-bottom-test" class="fixed-bottom" (scroll)="updateScrollbar('custom')"><div id="innerScrollbar"><!--dummy text--></div></div>
+      <!-- <div id="scrollbar" onscroll="updateScrollbar(document.getElementById('content'), document.getElementById('scrollbar'))"><div id="innerScrollbar">dummy text</div></div> -->
     </div>
   </div>
 </block-ui>

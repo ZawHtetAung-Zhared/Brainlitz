@@ -119,8 +119,6 @@ export class ScheduleComponent implements OnInit {
   isCategory: boolean = false;
   isPlan: boolean = false;
   isCourseCreate: boolean = false;
-
-
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model: any = {};
@@ -743,6 +741,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log("undefined currency", this.currency);
@@ -1145,6 +1144,9 @@ export class ScheduleComponent implements OnInit {
 
   /// Fix Get Sechedule Staff API ///
   getschedulestaff(type,limit,skip){
+    setTimeout(() => {
+      this.updateScrollbar('v-wrapper')
+    }, 600);
     var repeatDays;
     if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
       repeatDays = '0,1,2,3,4,5,6'
@@ -2118,6 +2120,17 @@ export class ScheduleComponent implements OnInit {
       }, 300);
     }
   }
-
-
+   updateScrollbar(type){
+    var scrollbar = document.getElementById('fixed-bottom-test')
+    var content = document.getElementById('testScroll');
+    var inner = document.getElementById('innerScrollbar');
+    inner.style.width = content.scrollWidth + "px";
+    if(type == 'v-wrapper'){
+      scrollbar.scrollLeft = content.scrollLeft;
+    }else{
+      content.scrollLeft = scrollbar.scrollLeft;
+    }
+    // scrollbar.scrollLeft = content.scrollLeft;
+    // content.scrollLeft = scrollbar.scrollLeft;
+  }
 }

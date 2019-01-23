@@ -68,9 +68,13 @@
     width: 100%;
     border-top: 1px solid #eee;
     bottom: 0;
-    padding: 10px;
     left: 0;
+    padding: 10px;
     background: #fff;
+}
+.shareApgLoadMore{
+    padding-top: 6%;
+    padding-bottom: 6%;
 }
 .apg-share-content{
     margin-top: 20px;
@@ -499,7 +503,7 @@
     color: red;
 }
 .load-more1{
-    margin-bottom: 90px;
+    /* padding-left: 25%; */
 }
 .load-more{
     position: fixed;
@@ -552,10 +556,10 @@
     .card-columns{
         column-count: 2;
     }
-    .col-xxl{
-        /*width: 25%;*/
+    /* .col-xxl{
+        width: 25%;
         flex: 0 0 25%;
         max-width: 25%;
-    }
+    } */
 }
 
