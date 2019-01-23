@@ -5,7 +5,9 @@ import { MinuteSecondsPipe } from '../../service/pipe/time.pipe'
 import { NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+
 import * as moment from 'moment';
+import { InvoiceComponent } from '../invoice/invoice.component';
 declare var $: any;
 @Component({
   selector: 'app-schedule',
@@ -15,7 +17,7 @@ declare var $: any;
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
-  public result:any;
+  public result: any;
   public logo: any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
   public test: any = [];
@@ -27,13 +29,14 @@ export class ScheduleComponent implements OnInit {
   public arrTop: any;
   public arrLeft: any;
   public arrClasses: any;
+  public custDetail: any = {};
   public styleArr;
   public selectedDay = [];
   public lessonId: any;
   public keyword: any = '';
   public limit: number = 20;
   public skip: number = 0;
-  public tempstafflist: any =[];
+  public tempstafflist: any = [];
   public testin: any;
   public activeTeacher: any;
   public teacherListSearchResult: any = { staff: [] }
@@ -59,6 +62,7 @@ export class ScheduleComponent implements OnInit {
   public isSelected: boolean = false;
   public scheduleList: boolean = true;
   public courseplanLists: any = [];
+  public detailLists: any;
   public regionId = localStorage.getItem('regionId');
 
   public locationID = localStorage.getItem('locationId');
@@ -700,8 +704,8 @@ export class ScheduleComponent implements OnInit {
       this.isCourseCreate = false;
       this.courseCreate = true;
       this.courseplanLists = [];
-      this.getAllCoursePlan(0,20);
-      console.log("courseplanLists",this.courseplanLists)
+      this.getAllCoursePlan(0, 20);
+      console.log("courseplanLists", this.courseplanLists)
       if (this.selectedDay.length == 0) {
         this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
       } else if (this.selectedDay.length > 0) {
@@ -797,108 +801,108 @@ export class ScheduleComponent implements OnInit {
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-      },err => {
+      }, err => {
         this.blockUI.stop();
         console.log(err)
       })
   }
 
-  calculateTime(time){
-    var sTime = time.start.hr+ ':' + time.start.min + ' ' + time.start.meridiem;
-    var eTime = time.end.hr+ ':' + time.end.min + ' ' + time.end.meridiem;
-    console.log(sTime,eTime)
-    var timeStart:any;
-    var timeEnd:any;
+  calculateTime(time) {
+    var sTime = time.start.hr + ':' + time.start.min + ' ' + time.start.meridiem;
+    var eTime = time.end.hr + ':' + time.end.min + ' ' + time.end.meridiem;
+    console.log(sTime, eTime)
+    var timeStart: any;
+    var timeEnd: any;
 
     timeStart = new Date("01/01/2007 " + sTime);
-    console.log('timeStart',timeStart);
+    console.log('timeStart', timeStart);
     timeEnd = new Date("01/01/2007 " + eTime);
-    console.log('timeEnd',timeEnd);
+    console.log('timeEnd', timeEnd);
     var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
     console.log(diff)
     var diffMins = diff % 60;
-    console.log("mins",diffMins);
+    console.log("mins", diffMins);
     var diffHours = (diff - diffMins) / 60;
-    console.log("hours",diffHours)
+    console.log("hours", diffHours)
 
-    if((diffMins == 30 || diffMins < 30)&& diffMins>0){
-      diffHours = (diffHours*2)+1;
+    if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
+      diffHours = (diffHours * 2) + 1;
       console.log(diffHours)
-    }else if(diffMins >30 && diffMins < 60){
-      diffHours = (diffHours*2)+2;
+    } else if (diffMins > 30 && diffMins < 60) {
+      diffHours = (diffHours * 2) + 2;
       console.log(diffHours)
-    }else if(diffMins == 0){
-      diffHours = diffHours*2;
+    } else if (diffMins == 0) {
+      diffHours = diffHours * 2;
       console.log(diffHours)
     }
 
     // var hours= [];
     if (time.start.meridiem === 'PM') {
-      var tempH = (time.start.hr+12)*60 + time.start.min;
-    }else{
-      if(time.start.hr == 12){
-        var tempH = 0*60 + time.start.min;
-      }else{
-        var tempH = time.start.hr*60 + time.start.min;
-        console.log("tempH",tempH)
+      var tempH = (time.start.hr + 12) * 60 + time.start.min;
+    } else {
+      if (time.start.hr == 12) {
+        var tempH = 0 * 60 + time.start.min;
+      } else {
+        var tempH = time.start.hr * 60 + time.start.min;
+        console.log("tempH", tempH)
       }
     }
-    
-    for(var i=0;i<=diffHours;i++){
-      if(i > 0){
-        tempH = tempH+30;
-      }else{
+
+    for (var i = 0; i <= diffHours; i++) {
+      if (i > 0) {
+        tempH = tempH + 30;
+      } else {
         tempH = tempH;
       }
-      var min = tempH%60;
-      var h = (tempH - min)/60;
+      var min = tempH % 60;
+      var h = (tempH - min) / 60;
 
-    console.log("min>",min)
-  
+      console.log("min>", min)
 
-      if(h>12){
-        var hr = h-12;
-        if(hr == 12 && (i== diffHours)){
+
+      if (h > 12) {
+        var hr = h - 12;
+        if (hr == 12 && (i == diffHours)) {
           var ampm = 'AM';
-        }else{
+        } else {
           var ampm = 'PM';
         }
         // console.log(">12",hr)
-      }else if(h<12){
+      } else if (h < 12) {
         var hr = h;
         // console.log("<12",hr)
         var ampm = 'AM';
-      }else if(h==12){
-          var hr = h;
-          // console.log("==12",hr)
-          var ampm = 'PM';   
+      } else if (h == 12) {
+        var hr = h;
+        // console.log("==12",hr)
+        var ampm = 'PM';
       }
-      if(hr == 0){
-        hr=12;
+      if (hr == 0) {
+        hr = 12;
       }
 
       var obj = {
-        'start':{
+        'start': {
           'hr': hr,
           'min': min,
           'meridiem': ampm
         }
       }
-      console.log("hour",obj)
+      console.log("hour", obj)
       this.operationTime.push(obj);
     }
     // let arrLength = this.operationTime.length;
     // console.log(arrLength);
     let lastIdx = this.operationTime.length - 1;
-    console.log("lastIdx",this.operationTime[lastIdx].start);
+    console.log("lastIdx", this.operationTime[lastIdx].start);
     let last = this.operationTime[lastIdx].start;
-    if(time.end.hr == last.hr && time.end.min == last.min && time.end.meridiem == last.meridiem){
+    if (time.end.hr == last.hr && time.end.min == last.min && time.end.meridiem == last.meridiem) {
       console.log("Same");
       this.operationTime.pop();
-    }else{
+    } else {
       console.log("not same")
     }
-    console.log("opr Arr",this.operationTime)
+    console.log("opr Arr", this.operationTime)
   }
 
   // calculateSlot(start){
@@ -961,16 +965,16 @@ export class ScheduleComponent implements OnInit {
         //   min += 15;
         // }
         var m = min + 15;
-        if(m > 60){
+        if (m > 60) {
           min = m - 60;
-          if(min == 60){
-           min = 0;
-         }
-        }else{
+          if (min == 60) {
+            min = 0;
+          }
+        } else {
           min += 15
-          if(min == 60){
-           min = 0;
-         }
+          if (min == 60) {
+            min = 0;
+          }
         }
 
       }
@@ -989,16 +993,16 @@ export class ScheduleComponent implements OnInit {
       //   next += 15;
       // }
       m = next + 15;
-      if(m > 60){
+      if (m > 60) {
         next = m - 60;
-        if(next == 60){
-           next = 0;
-         }
-      }else{
+        if (next == 60) {
+          next = 0;
+        }
+      } else {
         next += 15
-        if(next == 60){
-           next = 0;
-         }
+        if (next == 60) {
+          next = 0;
+        }
       }
       this.minNextArr.push(next);
       this.minSlotArr.push(next);
@@ -1048,7 +1052,7 @@ export class ScheduleComponent implements OnInit {
   selectDay(data, event, day, type): void {
     if (type == "callTimetable") {
       setTimeout(() => {
-        this.getschedulestaff('checkbox',this.staffList.staff.length,'0');
+        this.getschedulestaff('checkbox', this.staffList.staff.length, '0');
       }, 200)
     }
     var dayIdx = this.selectedDay.indexOf(data);
@@ -1076,12 +1080,12 @@ export class ScheduleComponent implements OnInit {
         .subscribe((res: any) => {
           console.log(res.length);
           console.log(this.categoryList.name)
-          var element = <HTMLInputElement> document.getElementById("categoryList");
+          var element = <HTMLInputElement>document.getElementById("categoryList");
           console.log(element)
-          if(element != null && this.selectedDay.length != 0){
-            element.disabled=true;
+          if (element != null && this.selectedDay.length != 0) {
+            element.disabled = true;
           }
-         
+
           this.categoryList = res;
           this.blockUI.stop();
         }, err => {
@@ -1096,10 +1100,10 @@ export class ScheduleComponent implements OnInit {
           console.log(res);
           console.log(this.categoryList.name);
           this.categoryList = res;
-           this.blockUI.stop();
+          this.blockUI.stop();
         }, err => {
           console.log(err);
-           this.blockUI.stop();
+          this.blockUI.stop();
         });
     }
   }
@@ -1128,16 +1132,16 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = {};
     console.log("selectDataApiCall works", category)
     this.selectData(category);
-    this.getschedulestaff('button','20','0')
+    this.getschedulestaff('button', '20', '0')
   }
 
   // single Select Data
   selectData(category) {
-    var element = <HTMLInputElement> document.getElementById("categoryList");
-    if(element != null && this.selectedDay.length != 0){
-      element.disabled=false;
+    var element = <HTMLInputElement>document.getElementById("categoryList");
+    if (element != null && this.selectedDay.length != 0) {
+      element.disabled = false;
     }
- 
+
     console.log("selectData works", category)
     this.isSelected = true;
     this.selectedID = category._id;
@@ -1147,127 +1151,127 @@ export class ScheduleComponent implements OnInit {
   }
 
   /// Fix Get Sechedule Staff API ///
-  getschedulestaff(type,limit,skip){
+  getschedulestaff(type, limit, skip) {
     var repeatDays;
-    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
+    if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
       repeatDays = '0,1,2,3,4,5,6'
-    }else{
+    } else {
       repeatDays = this.selectedDay.toString();
     }
     this.scheduleList = false;
-    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID,limit,skip)
-    .subscribe((res: any) => {
-      this.result = res;
-      this.staffList = res;
-      console.log("this.selectedTeacher", this.selectedTeacher)
-      console.log("this.staffList", this.staffList)
-      if (this.staffList.staff.length>0) {
-        if (this.staffList.staff && type == 'checkbox') {
-          this.selectedTeacher = this.tempSelectedTeacher
-          if (this.tempSelectedTeacher == null) {
-            this.selectedTeacher = this.staffList.staff[0];
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID, limit, skip)
+      .subscribe((res: any) => {
+        this.result = res;
+        this.staffList = res;
+        console.log("this.selectedTeacher", this.selectedTeacher)
+        console.log("this.staffList", this.staffList)
+        if (this.staffList.staff.length > 0) {
+          if (this.staffList.staff && type == 'checkbox') {
+            this.selectedTeacher = this.tempSelectedTeacher
+            if (this.tempSelectedTeacher == null) {
+              this.selectedTeacher = this.staffList.staff[0];
+            }
+          } else {
+            if (this.staffList.staff) {
+              this.selectedTeacher = this.staffList.staff[0];
+            }
+          }
+          console.log("Call staff timttable")
+          if (JSON.stringify(this.selectedTeacher) != "{}") {
+            this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
           }
         } else {
-          if (this.staffList.staff) {
-            this.selectedTeacher = this.staffList.staff[0];
-          }
+          console.log("no need to call staff timttable")
         }
-        console.log("Call staff timttable")
-        if (JSON.stringify(this.selectedTeacher) != "{}") {
-          this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
-        }
-      } else {
-        console.log("no need to call staff timttable")
-      }
-    }, (err: any) => {
-      // catch the error response from api   
-      this.staffList = [];
-    })
+      }, (err: any) => {
+        // catch the error response from api   
+        this.staffList = [];
+      })
   }
-// for modal
-  getViewAllStaff(type,skip,limit){
+  // for modal
+  getViewAllStaff(type, skip, limit) {
     var repeatDays;
-    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
+    if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
       repeatDays = '0,1,2,3,4,5,6'
-    }else{
+    } else {
       repeatDays = this.selectedDay.toString();
     }
     this.scheduleList = false;
     this.blockUI.start('Loading')
-    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID,limit,skip)
-    .subscribe((res: any) => {
-      setTimeout(() => {
-        this.blockUI.stop();
-      }, 300);
-      this.result = res;
-      if(type == 'search'){
-        this.tempstafflist = res.staff;
-      }else{
-        this.tempstafflist = this.tempstafflist.concat(res.staff);
-      }
-      console.log("this.selectedTeacher", this.selectedTeacher)
-      console.log("this.staffList", this.staffList)
-    }, (err: any) => {
-      // catch the error response from api   
-      this.tempstafflist = [];
-    })
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID, limit, skip)
+      .subscribe((res: any) => {
+        setTimeout(() => {
+          this.blockUI.stop();
+        }, 300);
+        this.result = res;
+        if (type == 'search') {
+          this.tempstafflist = res.staff;
+        } else {
+          this.tempstafflist = this.tempstafflist.concat(res.staff);
+        }
+        console.log("this.selectedTeacher", this.selectedTeacher)
+        console.log("this.staffList", this.staffList)
+      }, (err: any) => {
+        // catch the error response from api   
+        this.tempstafflist = [];
+      })
   }
 
-  getSearchscheulestaff(keyword,skip,limit){
+  getSearchscheulestaff(keyword, skip, limit) {
     var repeatDays;
-    if(this.selectedDay.length == 0 || this.selectedDay.length < 0){
+    if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
       repeatDays = '0,1,2,3,4,5,6'
-    }else{
+    } else {
       repeatDays = this.selectedDay.toString();
     }
     this.keyword = keyword;
-    if(skip == '' && limit == ''){
+    if (skip == '' && limit == '') {
       var isFirst = true;
       limit = 20;
       skip = 0;
     }
-    if(keyword.length != 0 ){
+    if (keyword.length != 0) {
       this.isSearch = true;
-      this._service.getscheduleSearchStaffList(this.regionId, repeatDays, this.selectedID,keyword, skip, limit)
-      .subscribe((res: any) => {
-        if(isFirst == true){
-          this.result = res;
-          console.log('First Time Searching')
-          this.tempstafflist = [];
-          this.tempstafflist = res.staff;
-        }else{
-          console.log('Not First Time Searching');
-          this.tempstafflist = res.staff;
-          // this.tempstafflist = this.tempstafflist.concat(res.staff);
-        }
-      }, err => {
-        console.log(err)
-      })
-    }else{   
-      this.tempstafflist = []; 
+      this._service.getscheduleSearchStaffList(this.regionId, repeatDays, this.selectedID, keyword, skip, limit)
+        .subscribe((res: any) => {
+          if (isFirst == true) {
+            this.result = res;
+            console.log('First Time Searching')
+            this.tempstafflist = [];
+            this.tempstafflist = res.staff;
+          } else {
+            console.log('Not First Time Searching');
+            this.tempstafflist = res.staff;
+            // this.tempstafflist = this.tempstafflist.concat(res.staff);
+          }
+        }, err => {
+          console.log(err)
+        })
+    } else {
+      this.tempstafflist = [];
       this.blockUI.start('Loading');
       setTimeout(() => {
         this.blockUI.stop();
-        this.getViewAllStaff('search',skip, limit);
+        this.getViewAllStaff('search', skip, limit);
       }, 100);
-     
+
       this.isSearch = false;
     }
   }
 
-  staffLoadMore(skip:any){
-    if(this.isSearch == true && this.keyword.length != 0){
+  staffLoadMore(skip: any) {
+    if (this.isSearch == true && this.keyword.length != 0) {
       console.log("User Search");
-      this.getSearchscheulestaff(this.keyword, skip, '20') 
-    }else{
-        console.log("Not user search")
-        this.getViewAllStaff('modal', skip, '20');
+      this.getSearchscheulestaff(this.keyword, skip, '20')
+    } else {
+      console.log("Not user search")
+      this.getViewAllStaff('modal', skip, '20');
     }
   }
 
-  openmodal(content){
-    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard:false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
-    this.getViewAllStaff('modal','0','20')
+  openmodal(content) {
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getViewAllStaff('modal', '0', '20')
   }
   // fix get schedule staff api done ///
 
@@ -1346,10 +1350,10 @@ export class ScheduleComponent implements OnInit {
   }
   activeTeachers1(teacher) {
     this.keyword = '';
-    if(this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length){
-      this.getschedulestaff('checkbox',this.tempstafflist.length,'0');
+    if (this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length) {
+      this.getschedulestaff('checkbox', this.tempstafflist.length, '0');
     }
-     setTimeout(()=>{
+    setTimeout(() => {
       this.selectedTeacher = teacher
       this.tempSelectedTeacher = teacher;
       this.selectedTeacher.userId = teacher.userId;
@@ -1359,13 +1363,14 @@ export class ScheduleComponent implements OnInit {
         $('.teacher-list-wrapper').scrollLeft(0);
       }
       this.staff.staffId = '';
-      this.tempstafflist = [];  
+      this.tempstafflist = [];
       this.modalReference.close();
-     },400)
+    }, 400)
 
   }
 
   addEnrollModal(modal, type, courseID, seat) {
+    console.log("course-id-->", courseID)
     this.modalReference = this.modalService.open(modal, { backdrop: 'static', windowClass: 'modal-xl d-flex justify-content-center align-items-center' });
     this.courseId = courseID;
     this.selectedSeat = seat;
@@ -1377,8 +1382,10 @@ export class ScheduleComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID)
       .subscribe((res: any) => {
+        this.detailLists = res;
         console.log(res)
         this.courseDetail = res;
+
       }, err => {
         console.log(err);
       });
@@ -1457,6 +1464,8 @@ export class ScheduleComponent implements OnInit {
         this.blockUI.stop();
         console.log('selected Customer', res);
         this.selectedCustomer = res;
+        this.custDetail.user = res;
+        console.log(this.custDetail)
         this.stdLists = this.selectedCustomer.userId;
         console.log(this.stdLists)
         this.showList = false;
@@ -1488,6 +1497,7 @@ export class ScheduleComponent implements OnInit {
     this._service.assignUser(this.regionId, body, this.locationID)
       .subscribe((res: any) => {
         this.blockUI.stop();
+
         console.log("res Assign customer", res);
         if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
           console.log("no invoice setting");
@@ -1503,8 +1513,11 @@ export class ScheduleComponent implements OnInit {
           console.log("has invoice setting");
           this.invoiceInfo = res.invoiceSettings;
         }
+        // this.courseInfo = this.courseDetail;
+        // Object.assign(this.courseInfo , res)
         this.invoice = res.invoice;
         this.showInvoice = true;
+        Object.assign(this.detailLists, res)
         this.showOneInvoice(this.invoice);
       }, err => {
         console.log(err);
@@ -1820,7 +1833,7 @@ export class ScheduleComponent implements OnInit {
     //   console.log("original", h, ':', min, ':', ampm);
     // }
 
-    console.log("minSlot",this.minSlotArr);
+    console.log("minSlot", this.minSlotArr);
 
     // var cIdx = this.minSlotArr.indexOf(min);
     // if(cIdx>=0){
@@ -1834,17 +1847,17 @@ export class ScheduleComponent implements OnInit {
     //    }
     // }
     var cIdx = this.minSlotArr.indexOf(min);
-    console.log('cIdx',cIdx);
-    var pIdx = cIdx-1;
-    if((cIdx==1 || cIdx ==3) && (this.minSlotArr[cIdx]>=0 && this.minSlotArr[cIdx]<=15) && this.minSlotArr[pIdx]>this.minSlotArr[cIdx]){
-      var h = hr+1;
-      if(h>12){
-        h = h-12;
+    console.log('cIdx', cIdx);
+    var pIdx = cIdx - 1;
+    if ((cIdx == 1 || cIdx == 3) && (this.minSlotArr[cIdx] >= 0 && this.minSlotArr[cIdx] <= 15) && this.minSlotArr[pIdx] > this.minSlotArr[cIdx]) {
+      var h = hr + 1;
+      if (h > 12) {
+        h = h - 12;
       }
-      console.log("add 1",h)
-    }else{
+      console.log("add 1", h)
+    } else {
       var h = hr;
-      console.log("original",h)
+      console.log("original", h)
     }
 
     // var h = hr;
@@ -1922,7 +1935,7 @@ export class ScheduleComponent implements OnInit {
   // clickSlot(hr, min, ampm){
   //   var oprTime = this.startTime.hr;
   //   var m;
-    
+
   // }
 
   onClickCreate() {
@@ -1999,6 +2012,9 @@ export class ScheduleComponent implements OnInit {
 
   courseInfo = {};
   onClickCourse(course, lesson, e, date) {
+    this.showInvoice = false;
+    this.showPayment = false;
+    this.selectedCustomer = {};
     console.log(e);
     console.log(course)
     console.log(lesson)
@@ -2007,49 +2023,55 @@ export class ScheduleComponent implements OnInit {
     console.log("date", date)
     this.lessonD = date
     console.log(course.seat)
-    if(course.seat != {}){
-      console.log("dfdfdfdfdfdfdf")
-      this.popUpHeight = 260;
-    }else{
-      this.popUpHeight = 250;
-    }
-    if ($(event.target).parents(".lesson-slot").length > 0) {
-      this.yPosition = $(event.target).parents(".lesson-slot").offset().top + $(event.target).parents(".lesson-slot").height() + 20;
-    }
-    else {
-      this.yPosition = $(event.target).offset().top + $(event.target).height() + 20;
-    }
-
-    this.arrTop = this.yPosition - 20;
-    this.xPosition = e.x - 40;
-    this.arrLeft = e.x - 10;
-
-    if ($(document).height() - this.yPosition < this.popUpHeight) {
-      console.log("I found u")
-      this.yPosition = this.yPosition - this.popUpHeight - 40 - 20;
-      this.arrTop = this.yPosition + this.popUpHeight;
-      this.arrClasses = {
-        'arr-down': true
-      }
+    console.log($(event.target).parents())
+    if ($(event.target).parents(".options-box").length > 0 || $(event.target).hasClass("options-box")) {
+      console.log("fffffffffff")
     } else {
-      this.arrClasses = {
-        'arr-up': true
+
+
+      if (course.seat != {}) {
+        console.log("dfdfdfdfdfdfdf")
+        this.popUpHeight = 260;
+      } else {
+        this.popUpHeight = 250;
+      }
+      if ($(event.target).parents(".lesson-slot").length > 0) {
+        this.yPosition = $(event.target).parents(".lesson-slot").offset().top + $(event.target).parents(".lesson-slot").height() + 20;
+      }
+      else {
+        this.yPosition = $(event.target).offset().top + $(event.target).height() + 20;
+      }
+
+      this.arrTop = this.yPosition - 20;
+      this.xPosition = e.x - 40;
+      this.arrLeft = e.x - 10;
+
+      if ($(document).height() - this.yPosition < this.popUpHeight) {
+        console.log("I found u")
+        this.yPosition = this.yPosition - this.popUpHeight - 40 - 20;
+        this.arrTop = this.yPosition + this.popUpHeight;
+        this.arrClasses = {
+          'arr-down': true
+        }
+      } else {
+        this.arrClasses = {
+          'arr-up': true
+        }
+      }
+
+      if ($(document).width() - this.xPosition < 420) {
+        this.xPosition = 0;
+        this.styleArr = {
+          'top': this.yPosition + "px",
+          'right': '0px'
+        }
+      } else {
+        this.styleArr = {
+          'top': this.yPosition + "px",
+          'left': this.xPosition + 'px'
+        }
       }
     }
-
-    if ($(document).width() - this.xPosition < 420) {
-      this.xPosition = 0;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'right': '0px'
-      }
-    } else {
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'left': this.xPosition + 'px'
-      }
-    }
-
     this.testshowboxs = true;
     this.testshowbox = course.course.courseId;
     this.courseInfo["course"] = course.course;
@@ -2063,57 +2085,57 @@ export class ScheduleComponent implements OnInit {
 
 
   //  Test Course Plan List Api
-  showMore( skip: any){
-      if(this.isSearch == true){
-        console.log("User Search");
-        this.getSearchCoursePlan(this.keyword, skip, 20) 
-      }else{
-          console.log("Not user search")
-          this.getAllCoursePlan( skip, 20);
+  showMore(skip: any) {
+    if (this.isSearch == true) {
+      console.log("User Search");
+      this.getSearchCoursePlan(this.keyword, skip, 20)
+    } else {
+      console.log("Not user search")
+      this.getAllCoursePlan(skip, 20);
     }
 
   }
-  getAllCoursePlan(skip, limit){
+  getAllCoursePlan(skip, limit) {
     this.blockUI.start('Loading');
     this._service.getAllCourseplan(this.regionId, this.locationID, this.selectedID, skip, limit)
-    .subscribe((res: any) => {
-     console.log('Course Plan List', res)
-     this.result = res;
-    //  this.courseplanLists = [];
-     this.courseplanLists = this.courseplanLists.concat(res);
-     setTimeout(() => {
-       this.blockUI.stop()
-     }, 300);
-    }, err => {
-      this.blockUI.stop();
-      console.log(err)
-    })
+      .subscribe((res: any) => {
+        console.log('Course Plan List', res)
+        this.result = res;
+        //  this.courseplanLists = [];
+        this.courseplanLists = this.courseplanLists.concat(res);
+        setTimeout(() => {
+          this.blockUI.stop()
+        }, 300);
+      }, err => {
+        this.blockUI.stop();
+        console.log(err)
+      })
   }
 
-  getSearchCoursePlan(searchWord,skip,limit){
+  getSearchCoursePlan(searchWord, skip, limit) {
     this.keyword = searchWord;
-    if(skip == '' && limit == ''){
+    if (skip == '' && limit == '') {
       var isFirst = true;
       limit = 20;
       skip = 0;
     }
-    if(searchWord.length != 0 ){
+    if (searchWord.length != 0) {
       this.isSearch = true;
       this._service.getSearchCoursePlan(this.regionId, this.locationID, this.selectedID, skip, limit, searchWord)
-      .subscribe((res: any) => {
-        this.result = res;
-        if(isFirst == true){
-          console.log('First Time Searching')
-          this.courseplanLists = [];
-          this.courseplanLists = res;
-        }else{
-          console.log('Not First Time Searching');
-          this.courseplanLists = this.courseplanLists.concat(res);
-        }
-      }, err => {
-        console.log(err)
-      })
-    }else{  
+        .subscribe((res: any) => {
+          this.result = res;
+          if (isFirst == true) {
+            console.log('First Time Searching')
+            this.courseplanLists = [];
+            this.courseplanLists = res;
+          } else {
+            console.log('Not First Time Searching');
+            this.courseplanLists = this.courseplanLists.concat(res);
+          }
+        }, err => {
+          console.log(err)
+        })
+    } else {
       setTimeout(() => {
         this.courseplanLists = [];
         this.getAllCoursePlan(skip, limit);

@@ -34,7 +34,7 @@
   color: #64707d;
 }
 .single-user-wrap{
-  max-height: 305px;
+  max-height: 200px;
   overflow-y: auto;
 }
 /*for modal box empty ui*/
@@ -1048,6 +1048,9 @@ tbody td{
 }
 .modal-footer{
   padding: 24px 32px;
+  position:absolute;
+  width: 100%;
+  bottom:0px;
   border-top: 1px solid #edeff0;
 }
 .user-list-box{
@@ -1090,8 +1093,6 @@ tbody td{
 }
 
 .user-row-wrap{
-  min-height: 305px;
-  height: 305px;
   margin-bottom: 20px;
 }
 .modal-info-wrap{

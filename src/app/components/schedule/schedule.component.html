@@ -507,7 +507,9 @@
           </div>
         </form>
       </div>
-      <div *ngIf="showInvoice == true">
+      <app-invoice *ngIf = "showInvoice" [custDetail] = "custDetail" [course] ="detailLists" (closed)="cancelModal('enrollModal')" ></app-invoice>
+
+      <!-- <div *ngIf="showInvoice == true">
         <div *ngIf="feesBox == true" class="overlayInv"></div>
         <div class="invoice-container tabs-inv">
           <div class="d-flex justify-content-between">
@@ -696,7 +698,7 @@
             <button class="btn btn-submit" [disabled]="selectedCustomer.email == '' && selectedCustomer.guardianEmail?.length == 0" (click)="showPayOption()">Pay now</button>
           </div>
         </div>
-      </div>
+      </div> -->
       <div *ngIf="showPayment == true">
         <div class="invoice-container tabs-inv">
           <div class="logo-wrapper">

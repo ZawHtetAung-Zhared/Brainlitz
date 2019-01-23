@@ -721,13 +721,15 @@ ul.options-box li button:hover{
     font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 .single-user-wrap{
-  max-height: 305px;
+  max-height: 200px;
   overflow-y: auto;
 }
 .user-row-wrap{
   min-height: 305px;
   height: 305px;
   margin-bottom: 20px;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 .disable-add{
   /* pointer-events: none; */
@@ -1531,6 +1533,7 @@ label.room-name::before {
 .confirm-text p{
     color: #64707d;
 }
+
 .modal-cancel-btn,
 .modal-delete-btn{
     font-size: 16px;
@@ -1565,6 +1568,13 @@ label.room-name::before {
 .modal-footer{
   padding: 24px 32px;
   border-top: 1px solid #edeff0;
+  width: 100%;
+  bottom: 0;
+}
+.invoice-wrap, .form-wrap{
+  max-height: 70vh;
+  min-height: 70vh;
+  overflow : auto;
 }
 .target{
     color: #ff3d33;
@@ -1861,7 +1871,9 @@ button:disabled{
 
 .invoice-container{
   padding: 32px 32px 0 32px;
-  min-height: 670px;
+  min-height: 80vh;
+  height:80vh;
+  overflow: auto;
 }
 
 .logo-wrapper{

@@ -1,3 +1,4 @@
+import { InvoiceComponent } from './../invoice/invoice.component';
 import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
@@ -10,6 +11,7 @@ import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { last } from 'rxjs/operator/last';
+
 // import { start } from 'repl';
 declare var $:any;
 
@@ -102,7 +104,8 @@ export class CourseComponent implements OnInit {
   public activeCourseInfo:any = {};
   public todayDate:any;
   public LASD:any; //lastActiveStartDate
-
+  public custDetail : any = {};
+  public courseInfo : any = {};
   public momentTodayDate:any;
   public showCancelButton:boolean = false;
   public lastActiveStartDate:any;
@@ -1632,7 +1635,8 @@ export class CourseComponent implements OnInit {
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log(this.isSeatAvailable)
-
+    console.log(this.showInvoice = false)
+    console.log(this.showPayment = false)
   }
 
   viewInvoice(data){
@@ -1883,6 +1887,9 @@ export class CourseComponent implements OnInit {
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log('selected Customer',res);
+      console.log(res)
+      this.custDetail.user = res;
+      console.log("custDetail --->" , this.custDetail)
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists)
@@ -2110,6 +2117,10 @@ export class CourseComponent implements OnInit {
      this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
+       console.log("-------->" , res)
+       this.courseInfo = this.detailLists;
+       Object.assign(this.courseInfo , res)
+       console.log("-------->" , this.courseInfo)
        this.blockUI.stop();
        console.log("res Assign customer",res);
        if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
