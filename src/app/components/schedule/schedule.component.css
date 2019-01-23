@@ -1569,7 +1569,7 @@ ul.options-box li:last-child,.create-box li:last-child {
 }
 #fixed-bottom-test::-webkit-scrollbar{
     width: 6px;
-    height: 14px;
+    height: 12px;
     background-color: #F5F5F5;
   }
   #fixed-bottom-test::-webkit-scrollbar-track{
