@@ -1028,7 +1028,10 @@
       </div>
     </form>
   </div>
-  <app-invoice *ngIf="showInvoice == true" [custDetail]="custDetail" [course]="detailLists" (closed)="cancelInvoiceModal()"></app-invoice>
+  <div class="invoice-wrap" *ngIf="showInvoice == true" >
+    <app-invoice [custDetail]="custDetail" [course]="detailLists" (closed)="cancelInvoiceModal()"></app-invoice>
+
+  </div>
 
 
 
@@ -1194,7 +1197,7 @@
   </div>
 
   <!-- for view invoice -->
-  <div class="invoice-wrap" *ngIf="activeUserTab == 'invoice'">
+  <div class="invoice-wrap" *ngIf="activeUserTab == 'invoice'" >
     <app-invoice  [custDetail]="custDetail" [course]="singleUserData" (closed)="cancelInvoiceModal()"></app-invoice>
   </div>
 
