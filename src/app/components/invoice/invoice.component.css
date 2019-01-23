@@ -5,7 +5,6 @@
 .container-height{
   min-height: 8vh;
   height: 80vh;
-  overflow: auto;
 }
 .logo-wrapper {
   width: 100px;
