@@ -152,14 +152,14 @@
               [(ngModel)]="item.itemID"
               #itemID="ngModel"
               id="example-search-input"
-              (focus)="focusSearch($event, 'category')"
-              (focusout)="hideSearch($event)"
+              (click)="focusSearch($event, 'category')"
+              (clickOutside)="hideSearch($event)"
               (input)="searchCategoryList($event.target.value, 'category')" 
               readonly
             >
               <button  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
               (focus)="focusSearch($event, 'category')"
-              (focusout)="hideSearch($event)"
+              (clickOutside)="hideSearch($event)"
               (click)="focusSearch($event, 'category')"
               ></button> 
           </div> 
@@ -169,7 +169,7 @@
           </ul>
         </div>
       </div>
-      <div *ngIf="(staffList | json) != '{}'" class="d-flex flex-wrap w-100 align-items-center pl-3">
+      <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
         <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
             <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" >
@@ -188,12 +188,11 @@
         <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
       </div>
 
-      <div *ngIf="(staffList | json) == '{}'" class="no-teacher">
+      <div *ngIf="staffList.staff?.length<=0" class="no-teacher">
         There is no teacher for this category.
-        
       </div>
     
-      <div *ngIf="(staffList | json) != '{}'" class="v-wrapper1">
+      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1">
         <div class="timeline-table1"> 
           <div class="time-range">        
             <div class="single-range"></div>
@@ -204,10 +203,12 @@
               <div class="single-slot">
                   <div class="monthly" *ngIf="i == 0">
                     <span>{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+                    <div class="left-arrow"></div>
                   </div>
                   <div class="monthly" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
                     <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
                     <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
+                    <div class="left-arrow"></div>
                   </div>  
                   <p>{{list.date.day}} {{list.date.month - 1 | TTmonth}}  </p>
                   <span>{{list.date.dayOfWeek}}</span>
@@ -357,7 +358,17 @@
       </span>
     </div>
   </div>
-  <div class="d-flex flex-wrap container ml-3 modal-techerlist-wraper" >
+      <!-- <div class="d-flex justify-content-between flex-wrap w-100" >
+        <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center col-md-3 col-lg-3 col-sm-3 col-xl-3 pl-4 pr-4 mt-3" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)"   style="border-radius:20px;">
+          <div class="d-flex  justify-content-center " >
+            <div class="modal-img-wraper align-self-center">
+              <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
+            </div>
+            <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{teacher.preferredName}}</p>
+          </div>
+        </div>      
+      </div> -->
+  <div class="d-flex flex-wrap container  modal-techerlist-wraper" >
     <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center modal-teacher-list mt-1" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)" (click)="activeTeachers1(teacher)" >
       <div class="d-flex justify-content-center ">
         <div class="modal-img-wraper align-self-center">
@@ -368,7 +379,7 @@
     </div>      
   </div>
   <div class="d-flex justify-content-center load-more" *ngIf="tempstafflist && tempstafflist.length >= 20 && result.more != 0" >
-    <button class="btn remove-outline" (click)="testLoadMore(tempstafflist.length)">Load more</button>
+    <button class="btn remove-outline" (click)="staffLoadMore(tempstafflist.length)">Load more</button>
     <!-- <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button> -->
   </div>
 </ng-template>
@@ -388,7 +399,7 @@
           <ul><li>End at {{courseInfo.lesson.endDate.day}} {{courseInfo.lesson.endDate.month-1 | TTmonth}} {{courseInfo.lesson.endDate.year}}</li></ul>
         </div>
       </div>
-      <button class="modal-close" (click)="cancelModal()">
+      <button class="modal-close" (click)="cancelModal('enrollModal')">
         <span class="closemark">
           <div class="closemark_stem1"></div>
           <div class="closemark_kick1"></div>
@@ -418,9 +429,10 @@
                   [(ngModel)]="formData.searchText" 
                   (focus)="focusMethod($event, 'customer')"
                   (focusout)="hideFocus($event)"
-                  (input)="changeMethod($event.target.value, 'customer')" (document:click)="closeDropdown($event,'search')"
+                  (input)="changeMethod($event.target.value, 'customer')"
                   autocomplete="off"
                   >
+                  <!-- (document:click)="closeDropdown($event,'search')" -->
                 <span class="input-group-append">
                   <button class="bt btn-design btn-outline-secondary enroll-modal-input" type="button">
                       <i class="fa fa-search"></i>
@@ -749,7 +761,7 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name pl-2">{{ student.preferredName }}</p>
+                <p class="mb-0 student-name pl-2">{{ (student.preferredName.length >20) ? (student.preferredName | slice :0:15) + '...' : (student.preferredName) }}</p>
               </div>
             </div>
           </div>
@@ -777,17 +789,15 @@
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name text-white pl-2">{{ student.preferredName }}</p>
+                <p class="mb-0 student-name text-white pl-2">{{student.preferredName}}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
       <div class="modal-footer">
           <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
           <button type="button" class="btn btn-submit"  (click)="cancelClassFun(courseId)">Confirm</button>
-         
       </div>
     </div>
   </div>

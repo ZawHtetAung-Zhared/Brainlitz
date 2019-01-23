@@ -34,7 +34,7 @@
   color: #64707d;
 }
 .single-user-wrap{
-  max-height: 305px;
+  max-height: 200px;
   overflow-y: auto;
 }
 /*for modal box empty ui*/
@@ -588,7 +588,7 @@ ul.data-listing li.disabled{
   background: #fff;
   height: 300px;
   position: absolute;
-  z-index: 5;
+  z-index: 10;
   margin: 0;
   top:100px;
   padding: 0;
@@ -771,6 +771,7 @@ ul.scedule-data-listing li.disabled{
 .modal-techerlist-wraper{
   overflow-y: auto;
   max-height: 400px!important;
+  padding-left: 2.1rem;
 }
 
 .profile-img-wrap{
@@ -852,7 +853,8 @@ thead th:first-child,
 }
 .single-slot:first-child{
   min-width: 121px;
-  padding-left: 15px;
+  text-align: center;
+  /*padding-left: 15px;*/
 }
 .single-slot p {
   margin-bottom: 0;
@@ -900,6 +902,7 @@ tbody th {
   border-radius: 4px;
   top: -39px;
   left: 0;
+  text-align: center;
 }
 /*.single-row .monthly{
   width: 100%;
@@ -1045,6 +1048,9 @@ tbody td{
 }
 .modal-footer{
   padding: 24px 32px;
+  position:absolute;
+  width: 100%;
+  bottom:0px;
   border-top: 1px solid #edeff0;
 }
 .user-list-box{
@@ -1087,8 +1093,6 @@ tbody td{
 }
 
 .user-row-wrap{
-  min-height: 305px;
-  height: 305px;
   margin-bottom: 20px;
 }
 .modal-info-wrap{
@@ -1519,7 +1523,24 @@ ul.options-box li:last-child,.create-box li:last-child {
   color:#2e3e4d;
 }
 
+.left-arrow{
+  width: 0;
+  height: 0;
+  border-top: 16px solid transparent;
+  border-right: 12px solid #fff;
+  border-bottom: 16px solid transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .remove-outline:focus{
   outline: none;
   box-shadow: none;
+}
+ @media only screen and  (max-width:879px){
+   .scedule-data-listing{
+     top:170px;
+   }
+
 }

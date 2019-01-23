@@ -193,6 +193,7 @@ export class CourseComponent implements OnInit {
   public invPayment = [];
   public invStatus:any;
   public noSetting:boolean = false;
+  public isoutSideClick:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -264,6 +265,19 @@ export class CourseComponent implements OnInit {
       this.getCoursePlanDetail(this.editplanId);
       this.courseList = []
     })
+
+    // this.dataservice.cId.subscribe((cId)=>{
+    //   console.log("cid~~",cId)
+    //   this.courseId = cId
+    //   console.log("go to CDetail",this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   this.isCourseDetail = true;
+    //   this.showCourseDetail(this.courseId);
+    //   this.courseList = []
+    // })
   }
   cID:string;
   ngOnInit() {
@@ -272,6 +286,13 @@ export class CourseComponent implements OnInit {
     if(this.cID != ''){
       setTimeout(() => {
         this.showCourseDetail(this.cID)
+      }, 300);
+    }
+
+    this.dataservice.cId.subscribe( cid => this.courseId = cid)
+    if(this.courseId != ''){
+      setTimeout(() => {
+        this.showCourseDetail(this.courseId)
       }, 300);
     }
     let recentTemp = localStorage.getItem('recentSearchLists')
@@ -460,10 +481,17 @@ export class CourseComponent implements OnInit {
   focusCourseSearch(){
     console.log('focusing ...')
     this.iscourseSearch = true;
+    this.isoutSideClick=false;
   }
   focusOut(){
     console.log('focusout : called');
       this.iscourseSearch = false;
+  }
+
+  //if searching click the overlay
+  clickoutSide(){
+    this.isoutSideClick=true;
+    this.iscourseSearch = false;
   }
   hideCourseSearch(){
     console.log(this.iswordcount)
@@ -621,23 +649,23 @@ export class CourseComponent implements OnInit {
     console.log(this.isvalid)
   }
 
-  closeFix(event, datePicker) {
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-start col-md-6 pr-12 pl-zero"
-    })
-    if(parentWrap.length == 0){
-      datePicker.close();
-    }
-  }
+  // closeFix(event, datePicker) {
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "xxx-start col-md-6 pr-12 pl-zero"
+  //   })
+  //   if(parentWrap.length == 0){
+  //     datePicker.close();
+  //   }
+  // }
 
-  closeFixEnd(event, endPicker){
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-end col-md-6 pl-12"
-    })
-    if(parentWrap.length == 0){
-      endPicker.close();
-    }
-  }
+  // closeFixEnd(event, endPicker){
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "xxx-end col-md-6 pl-12"
+  //   })
+  //   if(parentWrap.length == 0){
+  //     endPicker.close();
+  //   }
+  // }
 
   closeSimpleSearch(event){
     // this.iscourseSearch = false;
@@ -2315,7 +2343,8 @@ export class CourseComponent implements OnInit {
       "name": plan.name,
       "id": plan.coursePlanId,
       "duration": plan.lesson.duration,
-      "paymentPolicy": plan.paymentPolicy
+      "paymentPolicy": plan.paymentPolicy,
+      "from": "courses"
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');

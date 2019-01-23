@@ -1,4 +1,4 @@
-<div [ngClass]="{'overlay': iscourseSearch == true || isAdvancedSearch == true}"></div>
+<div [ngClass]="{'overlay': iscourseSearch == true || isAdvancedSearch == true}" (click)="clickoutSide()"></div>
 <app-header *ngIf="!isCategory && !isPlan && !isCourseCreate" [ngClass]="{'stick': isSticky == true}"></app-header>
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div class="inner-wrapper w-100" *ngIf="!isCategory && !isPlan && !isCourseDetail && !isCourseCreate && !isCoursePlanDetail"
@@ -1076,7 +1076,7 @@
         </div>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer fixed-bottom">
       <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
       <button type="submit" class="btn btn-submit" [disabled]="!makeupF.valid" (click)="issuePass(makeupForm, singleUserData.userId)">Confirm</button>
     </div>
@@ -1194,8 +1194,8 @@
   </div>
 
   <!-- for view invoice -->
-  <div class="invoice-wrap">
-    <app-invoice *ngIf="activeUserTab == 'invoice'" [custDetail]="custDetail" [course]="singleUserData" (closed)="cancelInvoiceModal()"></app-invoice>
+  <div class="invoice-wrap" *ngIf="activeUserTab == 'invoice'">
+    <app-invoice  [custDetail]="custDetail" [course]="singleUserData" (closed)="cancelInvoiceModal()"></app-invoice>
   </div>
 
 </ng-template>

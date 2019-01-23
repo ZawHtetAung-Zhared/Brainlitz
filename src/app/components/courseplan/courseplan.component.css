@@ -306,13 +306,13 @@ input:-webkit-input-placeholder {
 .radio-pos {
 	position: absolute;
   left: 291px;
-  top: 30px;
+  top: 71px;
 }
 
 .radio-pos-book {
   position: absolute;
-  left: 315px;
-  top: 30px;
+  left: 291px;
+  top: 71px;
 }
 
 .radio-pos-payment {
@@ -1503,6 +1503,10 @@ ul.search-apg{
 
 .pdLeft-15{
   padding-left: 15px;
+}
+
+.inside-data-wrapper{
+  width: 100%;
 }
 
 @media only screen and (max-width: 768px){

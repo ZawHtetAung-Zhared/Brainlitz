@@ -10,6 +10,10 @@ export class DataService {
   private customerId = new BehaviorSubject('');
   currentCustomer = this.customerId.asObservable();
 
+  //data sharing
+    private courseId = new BehaviorSubject('');
+    cId = this.courseId.asObservable();
+
   constructor() { }
 
   nevigateCourse(message: string) {
@@ -19,5 +23,9 @@ export class DataService {
   nevigateCustomer(id:string){
   	this.customerId.next(id);
   }
+
+  nevigateCDetail(id:string){
+      this.courseId.next(id);
+    }
 
 }
