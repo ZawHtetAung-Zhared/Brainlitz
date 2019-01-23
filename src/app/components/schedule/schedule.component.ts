@@ -671,7 +671,7 @@ export class ScheduleComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
-      this.courseCreate = false;
+      this.courseCreate = true;
     });
 
     this._service.goCat.subscribe(() => {
@@ -698,7 +698,10 @@ export class ScheduleComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
-      this.courseCreate = false;
+      this.courseCreate = true;
+      this.courseplanLists = [];
+      this.getAllCoursePlan(0,20);
+      console.log("courseplanLists",this.courseplanLists)
       if (this.selectedDay.length == 0) {
         this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
       } else if (this.selectedDay.length > 0) {
