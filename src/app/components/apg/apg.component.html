@@ -65,7 +65,7 @@
 			</div>
 	</div>
 </div>
-<div *ngIf="apgList.length >=20  && result != 0 && iscreate == false &&ismodule == false " class="load-more">
+<div *ngIf="apgList.length >=20  && result != 0 && iscreate == false && ismodule == false && shareAPG == false && isshare == false " class="load-more">
 <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
   <button class="btn remove-outline" (click)="showmore('apg',apgList.length)">load more</button>
 </div>
@@ -229,14 +229,18 @@
 		  			    (click)="chooseShareAPG(temp._id, temp.name)"> {{temp.name}}
 		  			</label>
 		  		</div>
-		  	</div>
-        <div *ngIf="templateList >= 20" class="d-flex justify-content-center load-more1">
-          <button class="btn remove-outline" (click)="showMoreTemplate(templateList.length)">load more</button>
-        </div>
-		  	<div class="d-flex justify-content-end apg-share-bottom">
-  			  	
-  			  	<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(temp)">Create</button>
-		  	</div>
+				</div>
+				
+				<div class="d-flex justify-content-end apg-share-bottom">
+					<div class=" align-self-end ">
+							<button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="setShareAPG(temp)">Create</button>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center shareApgLoadMore">
+						<div *ngIf="templateList.length >= 20 && result.length != 0 " class="load-more1">
+							<button class="btn remove-outline" (click)="showMoreTemplate(templateList.length)">load more</button>
+						</div>
+					</div>
   		</div>
   	</form>
   </div>
