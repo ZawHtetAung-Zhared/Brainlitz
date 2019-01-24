@@ -1592,3 +1592,11 @@ ul.options-box li:last-child,.create-box li:last-child {
   visibility: hidden;
   background-color: yellow;
 }
+.disabled{
+  cursor: not-allowed;
+}
+.enroll-btn{
+  border:0px;
+  outline:0px;
+  width: 100%;
+}

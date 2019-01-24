@@ -38,6 +38,7 @@ export class ScheduleComponent implements OnInit {
   public skip: number = 0;
   public tempstafflist: any = [];
   public testin: any;
+  public enrollBtnDisabled : boolean = false;
   public activeTeacher: any;
   public teacherListSearchResult: any = { staff: [] }
   public testshowbox: any = '';
@@ -1379,6 +1380,9 @@ export class ScheduleComponent implements OnInit {
     this.selectedSeat = seat;
     this.lessonId = "5beb8c7d1f893164fff2c32b";
     this.getCourseDetail(this.courseId);
+    if(seat.left != null && seat.taken >= seat.total)
+      this.onClickModalTab("view")
+    else
     this.onClickModalTab(type)
   }
 
@@ -1394,7 +1398,8 @@ export class ScheduleComponent implements OnInit {
       });
   }
 
-  onClickModalTab(type) {
+  onClickModalTab(type , full?) {
+    console.log(full)
     this.activeTab = type;
     if (type == 'enroll') {
 
@@ -1500,7 +1505,11 @@ export class ScheduleComponent implements OnInit {
     this._service.assignUser(this.regionId, body, this.locationID)
       .subscribe((res: any) => {
         this.blockUI.stop();
-
+        if (this.selectedDay.length == 0) {
+          this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+        } else if (this.selectedDay.length > 0) {
+          this.getStaffTimetable(this.selectedTeacher.userId, this.selectedDay.toString());
+        }
         console.log("res Assign customer", res);
         if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
           console.log("no invoice setting");
@@ -2019,10 +2028,16 @@ export class ScheduleComponent implements OnInit {
     this.showPayment = false;
     this.selectedCustomer = {};
     console.log(e);
-    console.log(course)
+    console.log(course.seat)
+    console.log(course.seat.left)
+    console.log(course.seat.taken , course.seat.total)
     console.log(lesson)
     e.preventDefault();
     e.stopPropagation();
+    if(course.seat.left != null && course.seat.taken >= course.seat.total)
+      this.enrollBtnDisabled = true;
+    else 
+      this.enrollBtnDisabled = false;
     console.log("date", date)
     this.lessonD = date
     console.log(course.seat)

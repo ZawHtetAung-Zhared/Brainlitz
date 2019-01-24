@@ -773,7 +773,7 @@ export class DashboardComponent implements OnInit {
     return hr + ":" + min + " " + medrian
   }
   updateBtnDisabled(){
-    return (new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected) > new Date("January 31 1980 " + String(this.erangeHr) + ":" + String(this.erangeMin)+":"+ this.eisSelected))
+    return (new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected) >= new Date("January 31 1980 " + String(this.erangeHr) + ":" + String(this.erangeMin)+":"+ this.eisSelected))
   }
   documentclick(event) {
 
