@@ -1182,7 +1182,7 @@ export class ScheduleComponent implements OnInit {
             }
           } else {
             if (this.staffList.staff) {
-              // this.tempSelectedTeacher = null;
+              this.tempSelectedTeacher = null;
               this.selectedTeacher = this.staffList.staff[0];
             }
           }
