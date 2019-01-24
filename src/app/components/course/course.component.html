@@ -591,8 +591,8 @@
                       <span class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
                       <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                     </div>
-                    <ul id="user.userId" [ngStyle]="{'top': yPosition + 'px'}" *ngIf="xxxhello == user.userId" class="options-box">
-                      <!-- <ul id="user.userId" *ngIf="showStudentOption == user.userId" class="options-box"> -->
+                    <!-- <ul id="user.userId" [ngStyle]="{'top': yPosition + 'px'}" *ngIf="xxxhello == user.userId" class="options-box"> -->
+                    <ul id="user.userId" [ngStyle]="{'top': yPosition + 'px'}" *ngIf=" optionBox == true && xxxhello == user.userId  " class="options-box">
                       <div class="carret-box"></div>
                       <li *ngIf="detailLists.type != 'FLEXY'" (click)="showTabsModal(tabsModal,'makeup',user)">Issue
                         makeup pass</li>

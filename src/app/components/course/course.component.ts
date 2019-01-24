@@ -24,6 +24,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public optionBox:any = false;
   public stdLists: Array<any> = []
   public searching:boolean = false;
   public yPosition:any;
@@ -463,6 +464,16 @@ export class CourseComponent implements OnInit {
         event.stopPropagation();
       })
       this.endTime = false;
+      }
+      // For student option box
+    if(this.optionBox != true){
+      $('.options-box').css({ 'display': "none" });
+    }else{
+      $('.options-box').css({ 'display': "block" });
+      $('.options-box').click(function (event) {
+        event.stopPropagation();
+      })
+      this.optionBox = false;
       }
 
 
@@ -1721,6 +1732,7 @@ export class CourseComponent implements OnInit {
     this.yPosition = e.layerY + 40;
     // this.yPosition = e.offsetY - 30;
     this.showStudentOption = stdID;
+    this.optionBox = true;
     this.xxxhello = stdID;
     console.log(this.showStudentOption)
     // this.router.navigate(['/customer']);

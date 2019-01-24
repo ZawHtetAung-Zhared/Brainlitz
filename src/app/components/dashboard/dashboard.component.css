@@ -141,6 +141,7 @@
   left: 0;
   top: 90px;
   background: #fff;
+  overflow: overlay;
 }
 .currency-list .flag-wrap,
 .provider-listing div {
@@ -938,7 +939,7 @@ input[type="range" i] {
   cursor: default;
   padding: initial;
   border: initial;
-  margin: 2px;
+  /* margin: 2px; */
 }
 .min-range-box {
   position: absolute; 
