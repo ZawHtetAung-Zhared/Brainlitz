@@ -949,6 +949,7 @@ export class UsersComponent implements OnInit {
 
 	callEnrollModal(enrollModal, userId) {
 		console.log(userId)
+		console.log(enrollModal)
 		this.modalReference = this.modalService.open(enrollModal, { backdrop: 'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
 		this.getAC(20, 0, userId)
 	}
