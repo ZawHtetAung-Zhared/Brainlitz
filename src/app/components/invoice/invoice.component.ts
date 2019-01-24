@@ -55,7 +55,7 @@ export class InvoiceComponent implements OnInit {
 	@Input() course;
 	@Output() closed = new EventEmitter<boolean>();
 	ngOnInit() {
-		console.log(this.custDetail)
+		console.log(this.custDetail.user)
 		console.log(this.course)
 		this.invStatus = this.course.invoice.status;
 		this.singleInv = [];

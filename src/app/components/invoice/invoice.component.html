@@ -36,7 +36,7 @@
         <label class="invoice-label mb-0">Bill to: <span class="p2 price-info">{{ custDetail.user.preferredName }}</span></label>
         <div class="d-flex">
           <p class="invoice-info label-height mb-0">
-            <span *ngIf="custDetail.user.email != ''">{{ custDetail.user.email }}</span>
+            <span *ngIf="custDetail.user.email">{{ custDetail.user.email }}</span>
             <span *ngFor="let mail of custDetail.user.guardians">{{ mail.email }}</span>
             <span *ngIf="custDetail.user.email == '' && custDetail.user.guardians?.length == 0">-</span>
           </p>

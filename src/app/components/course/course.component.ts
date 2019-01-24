@@ -1641,7 +1641,6 @@ export class CourseComponent implements OnInit {
   }
 
   viewInvoice(data){
-    this.getSingleCustomer(data.userId);
     this.isvalidID = 'inside';
     this.singleInv = [];
     console.log("user data in view inv",data);
@@ -1881,12 +1880,14 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  getSingleCustomer(ID){
+  getSingleCustomer(ID , data?){
     this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       this.blockUI.stop();
+      this.activeUserTab = "invoice";
+
       console.log('selected Customer',res);
       console.log(res)
       this.custDetail.user = res;
@@ -2726,7 +2727,7 @@ export class CourseComponent implements OnInit {
     console.log("show Tabs Modal",type, data)
     this.showStudentOption = '';
     this.xxxhello = '';
-    this.activeUserTab = type;
+    this.getSingleCustomer(data.userId , data)
     this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data);
