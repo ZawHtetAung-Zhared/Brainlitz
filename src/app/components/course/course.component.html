@@ -47,7 +47,7 @@
                       <span (click)="dropDown($event,'category')" class="fa fa-angle-down pull-right icon search-downicon"></span>
                       <div *ngIf="categorySearch" class="data-dropbox">
                         <input class="form-control input-dropdown" type="search" id="myInput" name="categoryAS"
-                          #categoryAS="ngModel" [(ngModel)]="courseVal.category" (input)="changeAdvancedSearch($event.target.value, 'category')"
+                          #categoryAS="ngModel" (click)="dropDown($event,'category')" [(ngModel)]="courseVal.category" (input)="changeAdvancedSearch($event.target.value, 'category')"
                           autocomplete="off">
                         <ul class="data-listing">
                           <li [ngClass]="(categoryIDArray.indexOf(category._id) > -1) ? 'disabled' :''" (click)="selectedList(category, 'category')"
@@ -73,7 +73,7 @@
                       <span (click)="dropDown($event,'plan')" class="fa fa-angle-down pull-right icon search-downicon"></span>
                       <div *ngIf="planSearch == true" class=" hide-dropbox">
                         <input class="form-control input-dropdown" type="search" id="plansearchInput" name="planAS"
-                          #planAS="ngModel" [(ngModel)]="courseVal.plan" (input)="changeAdvancedSearch($event.target.value, 'plan')"
+                          #planAS="ngModel" (click)="dropDown($event,'plan')" [(ngModel)]="courseVal.plan" (input)="changeAdvancedSearch($event.target.value, 'plan')"
                           autocomplete="off">
                         <ul class="data-listing">
                           <li [ngClass]="(planIDArray.indexOf(plan._id) > -1) ? 'disabled' :''" (click)="selectedList(plan, 'plan')"
