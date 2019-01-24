@@ -1,6 +1,6 @@
 .users-wrap-box{
   max-height: 350px;
-  overflow: scroll;
+  overflow: overlay;
 }
 .warning-text{
   color: red !important;
@@ -331,7 +331,7 @@ ul.data-listing{
   padding: 0;
   list-style: none;
   height: 250px;
-  overflow: auto;
+  overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
 }
@@ -722,13 +722,13 @@ ul.options-box li button:hover{
 }
 .single-user-wrap{
   max-height: 200px;
-  overflow-y: auto;
+  overflow-y: overlay;
 }
 .user-row-wrap{
   min-height: 305px;
   height: 305px;
   margin-bottom: 20px;
-  overflow-y:auto;
+  overflow-y:overlay;
   overflow-x:hidden;
 }
 .disable-add{
@@ -830,7 +830,7 @@ li button{
 
 .scrollable
 {
-      overflow-y: scroll;
+      overflow-y: overlay;
       min-height: 0;
       /*height: 100vh;*/
  }
@@ -875,7 +875,7 @@ li button{
 .course-view{
 	min-height: 600px;
     max-height: 600px;
-    overflow-y: auto;
+    overflow-y: overlay;
 }
 
 .card-columns {
@@ -1190,7 +1190,7 @@ li button{
 .detail-info p{
   min-height: 80px;
   height: 80px;
-  overflow: scroll;
+  overflow: overlay;
   color: #64707d;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
   line-height: 1.7;
@@ -1574,7 +1574,7 @@ label.room-name::before {
 .invoice-wrap, .form-wrap{
   max-height: 70vh;
   min-height: 70vh;
-  overflow : auto;
+  overflow : overlay;
 }
 .target{
     color: #ff3d33;
@@ -1653,7 +1653,7 @@ label.room-name::before {
 }
 .user-list-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -1691,7 +1691,7 @@ button:disabled{
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   padding: 16px 20px;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: overlay;
   position: relative;
   height: 75px;
 }
@@ -1873,7 +1873,7 @@ button:disabled{
   padding: 32px 32px 0 32px;
   min-height: 80vh;
   height:80vh;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .logo-wrapper{
@@ -2516,7 +2516,7 @@ input[type=number]::-webkit-outer-spin-button {
 .tabs-inv{
     min-height: 670px;
     max-height: 670px;
-    overflow: auto;
+    overflow: overlay;
 }
 
 .back-inv{

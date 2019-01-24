@@ -227,7 +227,7 @@ h4.email-type{
 #input-msg{
 	min-height: 135px;
 	height: 135px;
-	overflow: auto;
+	overflow: overlay;
 }
 .form-input{
 	border: none;

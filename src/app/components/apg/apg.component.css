@@ -4,7 +4,7 @@
 }
 .search-result-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -255,7 +255,7 @@
 }
 .apg-scroll{
     max-height: 75px;
-    overflow: auto;
+    overflow: overlay;
     /*color: #64707d;
     display: block;
     max-height: 75px;
@@ -473,20 +473,20 @@
 }
 
 .height-scroll {
-	overflow-y: scroll;
+	overflow-y: overlay;
     height: 120px;
     padding: 0 20px;
 }
 
 .height-scroll-template {
-    overflow-y: scroll;
+    overflow-y: overlay;
     height: 492px;
     padding: 0 20px;
 }
 
 .scroll {
 	height: 500px;
-    overflow-y: scroll;
+    overflow-y: overlay;
     margin-top: 30px;
 }
 

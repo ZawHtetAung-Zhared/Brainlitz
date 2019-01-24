@@ -3,7 +3,7 @@
 }
 .container-height{
 
-  overflow: auto;
+  overflow: overlay;
 }
 .logo-wrapper {
   width: 100px;

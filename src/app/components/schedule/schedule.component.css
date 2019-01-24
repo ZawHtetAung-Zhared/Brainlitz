@@ -35,7 +35,7 @@
 }
 .single-user-wrap{
   max-height: 200px;
-  overflow-y: auto;
+  overflow-y: overlay;
 }
 /*for modal box empty ui*/
 .empty-ui-wrapper{
@@ -340,12 +340,12 @@
 .tabs-inv{
     min-height: 670px;
     max-height: 670px;
-    overflow: auto;
+    overflow: overlay;
 }
 .tabs-inv{
     min-height: 670px;
     max-height: 670px;
-    overflow: auto;
+    overflow: overlay;
 }
 
 .back-inv{
@@ -572,7 +572,7 @@ ul.data-listing{
   padding: 0;
   z-index: 2;
   list-style: none;
-  overflow: auto;
+  overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
   padding-left: 20px;
@@ -593,7 +593,7 @@ ul.data-listing li.disabled{
   top:100px;
   padding: 0;
   list-style: none;
-  overflow: auto;
+  overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
   padding-left: 20px;
@@ -722,7 +722,7 @@ ul.scedule-data-listing li.disabled{
   height: 80px;
   z-index: 0;
   overflow-y: hidden; 
-  overflow-x: auto;
+  overflow-x: overlay;
 }
 .teacher-more-view{
   font-family: 'Montserrat-SemiBold',Arial,sans-serif;
@@ -769,7 +769,7 @@ ul.scedule-data-listing li.disabled{
 
 
 .modal-techerlist-wraper{
-  overflow-y: auto;
+  overflow-y: overlay;
   max-height: 400px!important;
   padding-left: 2.1rem;
 }
@@ -801,8 +801,8 @@ ul.scedule-data-listing li.disabled{
   min-height: 450px;
   max-height: 750px;
   /* height: 2000px; */
-  overflow: scroll;
-  overflow-x: auto;
+  overflow: overlay;
+  overflow-x: overlay;
   position: relative;
 }
 
@@ -1057,7 +1057,7 @@ tbody td{
 }
 .user-list-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -1138,7 +1138,7 @@ p{
 
 .student-lists{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
 }
 .switch {
   position: relative;

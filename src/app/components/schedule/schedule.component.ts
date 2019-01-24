@@ -1037,6 +1037,9 @@ export class ScheduleComponent implements OnInit {
     this.getAutoSelectDate();
     this.showDp = false;
     this.selectedTeacher = {};
+    setTimeout(() => {
+      this.updateScrollbar('v-wrapper');
+    }, 600);
   }
 
   backtoTimetable() {
@@ -1046,6 +1049,9 @@ export class ScheduleComponent implements OnInit {
     this.courseCreate = false;
     this.showDp = false;
     this.courseplanLists = [];
+    setTimeout(() => {
+      this.updateScrollbar('v-wrapper');
+    }, 600);
   }
 
   // Selected Day //
@@ -1154,7 +1160,7 @@ export class ScheduleComponent implements OnInit {
   getschedulestaff(type,limit,skip){
     setTimeout(() => {
       this.updateScrollbar('v-wrapper')
-    }, 600);
+    }, 1000);
 
     var repeatDays;
     if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
@@ -1177,6 +1183,7 @@ export class ScheduleComponent implements OnInit {
             }
           } else {
             if (this.staffList.staff) {
+              this.tempSelectedTeacher = null;
               this.selectedTeacher = this.staffList.staff[0];
             }
           }
@@ -2165,12 +2172,16 @@ export class ScheduleComponent implements OnInit {
     var scrollbar = document.getElementById('fixed-bottom-test')
     var content = document.getElementById('testScroll');
     var inner = document.getElementById('innerScrollbar');
-    inner.style.width = content.scrollWidth + "px";
-    if(type == 'v-wrapper'){
-      scrollbar.scrollLeft = content.scrollLeft;
-    }else{
-      content.scrollLeft = scrollbar.scrollLeft;
+    
+    if(content != null){
+      inner.style.width = content.scrollWidth + "px";
+      if(type == 'v-wrapper'){
+        scrollbar.scrollLeft = content.scrollLeft;
+      }else{
+        content.scrollLeft = scrollbar.scrollLeft;
+      }
     }
+  
     // scrollbar.scrollLeft = content.scrollLeft;
     // content.scrollLeft = scrollbar.scrollLeft;
   }

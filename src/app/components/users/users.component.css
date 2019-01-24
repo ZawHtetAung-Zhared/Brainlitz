@@ -112,7 +112,7 @@ ul.pass-list li {
 }
 
 .overflow-x {
-  overflow-x: auto;
+  overflow-x: overlay;
 }
 
 .xxxdate {
@@ -133,7 +133,7 @@ ul.pass-list li {
   border-radius: 4px;
   padding: 16px 0px;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: overlay;
   position: relative;
   /*height: 75px;*/
 }
@@ -343,7 +343,7 @@ ul.pass-list li {
   padding: 0 20px 20px 20px;
   margin-top: 20px;
   max-height: 726px;
-  overflow: scroll;
+  overflow: overlay;
 }
 
 .makeup-title {
@@ -367,7 +367,7 @@ ul.pass-list li {
 .makeup-desc {
   max-height: 42px;
   min-height: 42px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .makeup-body {
@@ -1126,7 +1126,7 @@ h5 {
 }
 
 .guardian-main-wrap {
-  overflow: auto;
+  overflow: overlay;
   overflow-y: hidden;
   margin: 0 auto;
   white-space: nowrap;
@@ -1217,7 +1217,7 @@ h5 {
 
 .details-list-wrap {
   max-height: 170px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .child-detail {
@@ -1455,7 +1455,7 @@ h5 {
 
 .details-list-wrap {
   max-height: 170px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .child-detail {
@@ -1517,17 +1517,17 @@ h5 {
 
 .scrollable {
   max-height: 200px;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .scrollable-card {
   max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .scrollable-list {
   max-height: 570px;
-  overflow: scroll;
+  overflow: overlay;
 }
 
 .form-divider {
@@ -2133,7 +2133,7 @@ h5 {
 .container-height {
   min-height: 670px;
   max-height: 670px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 input[type=number]::-webkit-inner-spin-button,

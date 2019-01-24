@@ -2,7 +2,7 @@ li{
 	list-style-type: none;
 }
 .scroll{
-	overflow-y: scroll;
+	overflow-y: overflow;
 	height: 300px;
 }
 .block{
