@@ -493,6 +493,7 @@ export class CourseComponent implements OnInit {
     this.isoutSideClick=true;
     this.iscourseSearch = false;
   }
+  
   hideCourseSearch(){
     console.log(this.iswordcount)
     // this.iswordcount = true;

@@ -148,11 +148,11 @@
 }
 .currency-list{
   height: 250px;
-  overflow: auto;
+  overflow: overflow;
   margin-top: 10px;
 }
 .provider-listing{
-  overflow: auto;
+  overflow: overflow;
 }
 .currency-wrap,
 .provider-wrap{
@@ -457,7 +457,7 @@ input:checked + .slider:before {
 
 .min-scroll {
     min-height: 350px; 
-    overflow: scroll;
+    overflow: overflow;
     border-left: 1px solid #dedede; 
 }
 

@@ -13,12 +13,12 @@
         <div *ngIf="!isAdvancedSearch">
           <div class="simple-search input-group col-md-12 pd-zero">
             <input class="form-control py-2 course-search-input" type="search" placeholder="Search courses" id="course-search"
-              (focus)="focusCourseSearch($event)" (focusout)="focusOut()" (input)="searchCourse($event.target.value)"
+              (focus)="focusCourseSearch($event)" (input)="searchCourse($event.target.value)"
               autocomplete="off" name="keyword" (keyup)="searchStart($event, 20, 0)" [(ngModel)]="courseVal.keyword"
               #csearch="ngModel">
             <div *ngIf="iswordcount == true" class="close-search" (click)="clearSearch()"></div>
             <span (click)="showAdvancedSearch()" class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down"></span>
-            <div *ngIf="iscourseSearch && recentLists.length > 0" class="course-search-view">
+            <div *ngIf="!isoutSideClick && iscourseSearch && recentLists.length > 0" class="course-search-view">
               <p class="recent-search-title">Recently search</p>
               <ul class="recent-lists">
                 <li *ngFor="let recent of recentLists" (click)="recentSearch(recent, 20, 0)">{{recent}}</li>
