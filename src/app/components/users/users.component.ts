@@ -952,6 +952,7 @@ export class UsersComponent implements OnInit {
 		console.log(enrollModal)
 		this.showInvoice = false;
 		this.showPaidInvoice = false;
+		console.log(this.showInvoice , this.showPaidInvoice)
 		this.modalReference = this.modalService.open(enrollModal, { backdrop: 'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
 		this.getAC(20, 0, userId)
 	}

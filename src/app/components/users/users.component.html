@@ -183,7 +183,7 @@
             <div class="d-flex flex-column justify-content-center">
               <h4 class="mb-0 tab-title">Attending Classes</h4>
             </div>
-            <button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)"
+            <button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId, 'enroll')"
               class="ml-auto enroll-btn">Enroll new class</button>
           </div>
           <div>
@@ -845,8 +845,8 @@
   </div>
 </ng-template>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
-  <app-invoice [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" style="height:80vh;overflow: auto"></app-invoice>
-  <!-- <div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
+  <app-invoice *ngIf = "showInvoice == true || showPaidInvoice == true" [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" style="height:80vh;overflow: auto"></app-invoice>
+  <div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
     <div class="d-flex modal-header">
       <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
       <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
@@ -955,7 +955,7 @@
         </div>
       </div>
     </form>
-  </div> -->
+  </div> 
   <!-- <div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false" class="container-height">
     <div *ngIf="feesBox == true" class="overlayInv"></div>
     <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>
