@@ -1139,6 +1139,7 @@ export class ScheduleComponent implements OnInit {
     console.log("selectDataApiCall works", category)
     this.selectData(category);
     this.getschedulestaff('button', '20', '0')
+    $('.teacher-list-wrapper').scrollLeft(0);
   }
 
   // single Select Data
