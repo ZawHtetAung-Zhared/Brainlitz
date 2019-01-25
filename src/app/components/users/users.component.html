@@ -193,66 +193,84 @@
               </div>
               <div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
                 <div class="section-one">
-                  <label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{
-                    course.location.name }}</label>
-                  <p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div *ngIf="course.teacher" class="tr-img-wrap">
-                        <img src="{{course.teacher.profilePic}}">
-                      </div>
-                    </div>
-                    <p class="tr-name" *ngIf="course.teacher" style="word-break: break-all;">{{
-                      course.teacher.preferredName }}</p>
+                  <div class="d-flex justify-content-between">
+                      <label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{
+                        course.location.name }}</label>
+
+                        <div class="d-flex flex-row arrowBox" *ngIf="course.invoice != null">
+                            <div class="div-left-arrow"></div>
+                            <div class="left_box_box" [ngStyle]="{'color':course.invoice.status == 'UNPAID' ? '#f23a30' : '#009940'} && {'background-color':course.invoice.status == 'UNPAID' ? '#ffdbd9' : '#c2f2d6'}">
+                              <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+											      	<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
+												      <label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label>
+                            </div>
+                        </div>
                   </div>
-                  <div class="d-flex info-wrap">
-                    <div class="timetable-col">
-                      <label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
-                      <p *ngIf="course.duration" class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }}
-                        - {{ course.duration.endDate | utcTime }}</p>
-                    </div>
-                    <div class="d-flex timetable-col day-wrap info-wrap">
-                      <div *ngIf="course.startDate" class="timetable-col">
-                        <label class="medium-label-14 mb-0">From</label>
-                        <p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
+                 <div style="padding:20px">
+                    <p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
+                    <div class="d-flex align-items-center">
+                      <div>
+                        <div *ngIf="course.teacher" class="tr-img-wrap">
+                          <img src="{{course.teacher.profilePic}}">
+                        </div>
                       </div>
+                      <p class="tr-name" *ngIf="course.teacher" style="word-break: break-all;">{{
+                        course.teacher.preferredName }}</p>
+                    </div>
+                    <div class="d-flex info-wrap">
                       <div class="timetable-col">
-                        <label *ngIf="course.endDate" class="medium-label-14 mb-0">To</label>
-                        <label *ngIf="course.lessonCount" class="medium-label-14 mb-0"></label>
-                        <p *ngIf="course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
-                        <p *ngIf="course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
+                        <label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
+                        <p *ngIf="course.duration" class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }}
+                          - {{ course.duration.endDate | utcTime }}</p>
+                      </div>
+                      <div class="d-flex timetable-col day-wrap info-wrap">
+                        <div *ngIf="course.startDate" class="timetable-col">
+                          <label class="medium-label-14 mb-0">From</label>
+                          <p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
+                        </div>
+                        <div class="timetable-col">
+                          <label *ngIf="course.endDate" class="medium-label-14 mb-0">To</label>
+                          <label *ngIf="course.lessonCount" class="medium-label-14 mb-0"></label>
+                          <p *ngIf="course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
+                          <p *ngIf="course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
                 </div>
+                <div  *ngIf="course.invoice != null" class="d-flex justify-content-end fees" [ngStyle]="{'color':course.invoice.status == 'UNPAID' ? '#f23a30' : '#009940' }">
+                      <span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
+                    {{course.invoice.total}}
+                  </div>
                 <div class="d-flex justify-content-between section-two">
                   <!-- <div> -->
-                  <!-- <div class="d-flex flex-row align-items-center" *ngIf="course.invoice != null"> -->
-                  <!-- Paid/Unpaid -->
+                   
+                 
+                 
                   <!-- <div>
 												<img *ngIf="course.invoice.status == 'UNPAID'" src="./assets/img/paid-indicator.png">
 												<img *ngIf="course.invoice.status == 'PAID'"src="./assets/img/unpaid-indicator.png">
 											</div> -->
                   <!-- <div class="ml-12"> -->
                   <!-- Paid/Unpaid -->
-                  <!-- <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+                        <!-- <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
 												<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
-												<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label> 
-												<p class="fees">
-													<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
-													{{course.invoice.total}}
-												</p>-->
+												<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label>  -->
+												
                   <!-- </div> -->
                   <!-- </div> -->
-                  <!-- </div> -->
+
                   <button class="float-left btn view-invoice" (click)="viewJournal(journalContent,course,course.teacher.preferredName)"
                     >
                     View Progress Book
                   </button>
+                
                   <button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
                     View invoice
                   </button>
                 </div>
+                 </div>
+                  
+
               </div>
             </div>
           </div>
