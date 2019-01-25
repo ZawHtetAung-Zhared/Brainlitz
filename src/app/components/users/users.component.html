@@ -861,8 +861,8 @@
   </div>
 </ng-template>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
-  <app-invoice [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" style="height:80vh;overflow: auto"></app-invoice>
-  <!-- <div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
+  <app-invoice *ngIf = "showInvoice || showPaidInvoice" [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" style="height:80vh;overflow: auto"></app-invoice>
+   <div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
     <div class="d-flex modal-header">
       <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
       <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
@@ -971,7 +971,7 @@
         </div>
       </div>
     </form>
-  </div> -->
+  </div> 
   <!-- <div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false" class="container-height">
     <div *ngIf="feesBox == true" class="overlayInv"></div>
     <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>

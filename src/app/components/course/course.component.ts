@@ -24,6 +24,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public optionBox:any = false;
   public stdLists: Array<any> = []
   public searching:boolean = false;
   public yPosition:any;
@@ -463,6 +464,16 @@ export class CourseComponent implements OnInit {
         event.stopPropagation();
       })
       this.endTime = false;
+      }
+      // For student option box
+    if(this.optionBox != true){
+      $('.options-box').css({ 'display': "none" });
+    }else{
+      $('.options-box').css({ 'display': "block" });
+      $('.options-box').click(function (event) {
+        event.stopPropagation();
+      })
+      this.optionBox = false;
       }
 
 
@@ -1641,7 +1652,6 @@ export class CourseComponent implements OnInit {
   }
 
   viewInvoice(data){
-    this.getSingleCustomer(data.userId);
     this.isvalidID = 'inside';
     this.singleInv = [];
     console.log("user data in view inv",data);
@@ -1722,6 +1732,7 @@ export class CourseComponent implements OnInit {
     this.yPosition = e.layerY + 40;
     // this.yPosition = e.offsetY - 30;
     this.showStudentOption = stdID;
+    this.optionBox = true;
     this.xxxhello = stdID;
     console.log(this.showStudentOption)
     // this.router.navigate(['/customer']);
@@ -1881,7 +1892,7 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  getSingleCustomer(ID){
+  getSingleCustomer(ID , type?){
     this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
@@ -1889,6 +1900,9 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop();
       console.log('selected Customer',res);
       console.log(res)
+      
+      this.activeUserTab = type;
+      
       this.custDetail.user = res;
       console.log("custDetail --->" , this.custDetail)
       this.selectedCustomer = res;
@@ -2726,7 +2740,7 @@ export class CourseComponent implements OnInit {
     console.log("show Tabs Modal",type, data)
     this.showStudentOption = '';
     this.xxxhello = '';
-    this.activeUserTab = type;
+    this.getSingleCustomer(data.userId , type)
     this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data);
@@ -2737,6 +2751,11 @@ export class CourseComponent implements OnInit {
         this.viewInvoice(data);
       }
     }
+    else if(type=="makeup"){
+      this.activeUserTab = type;
+      console.log("ddddd")
+    }
+      
   }
 
   getAllAC(limit, skip, userId){

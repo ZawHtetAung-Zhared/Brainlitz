@@ -211,10 +211,13 @@ export class appService{
       let url = this.baseUrl1 + '/organization-credentials/' + orgCode;      
       const httpOptions = {
           headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',
             'secretkey': 'PAK2jf8WrS', 'local': '1'})
+            
       };    
       const httpOptions2 = {
           headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',
             'secretkey': 'PAK2jf8WrS'})
       };
       
