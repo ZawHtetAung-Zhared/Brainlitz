@@ -2300,11 +2300,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .checkmark_stem {
   position: absolute;
-  width:2px;
-  height:9px;
+  width:3px;
+  height:10px;
   background-color:#007fff;
   left: 7px;
-  top: 3px;
+  top: 2px;
 }
 
 .checkmark_kick {
