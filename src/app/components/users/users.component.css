@@ -469,8 +469,14 @@ ul.pass-list li {
 }
 
 .section-one {
-  border-bottom: 2px dotted #8fa1b3;
   padding-bottom: 20px;
+}
+
+
+.div-dotted-box {
+  border-bottom: 2px dotted #8fa1b3;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .section-two {
