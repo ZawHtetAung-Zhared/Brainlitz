@@ -422,6 +422,7 @@ export class CourseComponent implements OnInit {
     }
 
   }
+  
   @HostListener('document:click', ['$event'])
   public test(event): void {
     // for category Search
