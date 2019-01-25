@@ -265,7 +265,7 @@ ul.recent-lists li:last-child {
     margin-bottom: 0 !important;
 }
 .as-section{
-  position: absolute;
+  position: relative;
   border: 1px solid #eee;
   border-radius: 4px;
   width: 100%;
