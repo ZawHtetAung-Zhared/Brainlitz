@@ -1,8 +1,6 @@
 ul.pass-list li,
 .xxxdate,
 .expired-text,
-.unpaid-text,
-.paid-text,
 .pass-text,
 .view-invoice,
 .claim-text,
@@ -15,6 +13,17 @@ ul.pass-list li,
 .input-recommend {
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
   font-size: 14px;
+}
+
+.unpaid-text,
+.paid-text{
+  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-size: 12px;
+  padding-left: 16px;
+}
+
+.paid-text{
+  padding-left: 22px;
 }
 
 .makeup-desc,
@@ -36,6 +45,11 @@ ul.pass-list li,
 .class-body-one sup {
   font-size: 12px;
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
+}
+
+.class-label-12{
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .makeup-box label,
@@ -428,14 +442,21 @@ ul.pass-list li {
 
 .fees {
   line-height: 1;
+  padding-top: 20px;
+  padding-right: 20px;
 }
 
 .view-invoice {
   line-height: 2.5;
+  padding: 0;
 }
 
 .view-invoice:focus {
   box-shadow: none;
+}
+
+.invoiceBtnGp{
+  float: right;
 }
 
 .view-invoice,
@@ -453,7 +474,32 @@ ul.pass-list li {
 }
 
 .section-two {
-  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.left_box_box{
+  width: 65px;
+  height: 24px;
+
+}
+
+.div-left-arrow{
+  width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #ffffff;
+    position: absolute;
+}
+
+.arrowBox{
+  padding-top: 10px;
+}
+
+.leftBox_label{
+  font-size: 12px;
+  padding-left: 16px;
 }
 
 .tab-wrap {
@@ -1237,7 +1283,7 @@ h5 {
 .child {
   flex: 1 0 40%;
   margin: 20px;
-  padding: 20px;
+  /* padding: 20px; */
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
