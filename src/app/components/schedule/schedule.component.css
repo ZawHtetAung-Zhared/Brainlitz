@@ -1596,6 +1596,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   cursor: not-allowed;
 }
 .enroll-btn{
+  background: none;
   border:0px;
   outline:0px;
   width: 100%;
