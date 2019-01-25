@@ -1595,8 +1595,11 @@ ul.options-box li:last-child,.create-box li:last-child {
 .disabled{
   cursor: not-allowed;
 }
+.disabled {
+  opacity : 0.5;
+}
 .enroll-btn{
-  background: none;
+  background:transparent;
   border:0px;
   outline:0px;
   width: 100%;
