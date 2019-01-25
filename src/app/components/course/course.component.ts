@@ -1726,9 +1726,6 @@ export class CourseComponent implements OnInit {
   showOptionsBox(stdID, e){
     e.preventDefault();
     e.stopPropagation();
-    console.log("stdID",stdID);
-    console.log(e)
-    console.log(e.layerY)
     this.yPosition = e.layerY + 40;
     // this.yPosition = e.offsetY - 30;
     this.showStudentOption = stdID;
