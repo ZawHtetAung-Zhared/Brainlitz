@@ -192,7 +192,7 @@
         There is no teacher for this category.
       </div>
     
-      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1 pb-5" id="testScroll" (scroll)="updateScrollbar('v-wrapper')">
+      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1 pb-2" id="testScroll" (scroll)="updateScrollbar('v-wrapper')">
         <div class="timeline-table1"> 
           <div class="time-range">        
             <div class="single-range"></div>
@@ -336,7 +336,9 @@
           </div>
         </div>
       </div>
-      <div id="fixed-bottom-test" class="fixed-bottom" (scroll)="updateScrollbar('custom')"><div id="innerScrollbar"><!--dummy text--></div></div>
+      <div *ngIf="staffList.staff?.length>0"  id="fixed-bottom-test" class="fixed-bottom" (scroll)="updateScrollbar('custom')">
+        <div id="innerScrollbar"><!--dummy text--></div>
+      </div>
       <!-- <div id="scrollbar" onscroll="updateScrollbar(document.getElementById('content'), document.getElementById('scrollbar'))"><div id="innerScrollbar">dummy text</div></div> -->
     </div>
   </div>
