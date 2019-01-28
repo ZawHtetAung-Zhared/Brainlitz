@@ -17,9 +17,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
+    public mainAccessPoint = [0];
+    public subAccessPoint = [0];
+    public isGlobal:boolean = false;
+    public apCreate:boolean = false;
     public keyword:any;
     public isSearch:boolean =false;
     public model:any = {};
+    // public accessPoint:any = {};
     public dataVal:any = {};
   	public modalReference: any;
   	public closeResult: any;
@@ -189,10 +194,26 @@ export class ApgComponent implements OnInit {
     cancelapg(){
       this.apgList = [];
       this.model = {};
+      this.apCreate = false;
       this.iscreate = false;
       this.ismodule = false;
       this.isUpdate = false;
       this.shareAPG = false;
+      this.getAllAPG(20,0);
+    }
+    cancelAp(){
+      this.apgList = [];
+      this.model = {};
+      // this.accessPoint= {};
+      this.apCreate = false;
+      this.iscreate = false;
+      this.ismodule = false;
+      this.isUpdate = false;
+      this.shareAPG = false;
+      this.isshare = false;
+      this.isGlobal = false;
+      this.mainAccessPoint = [0];
+      this.subAccessPoint = [0];
       this.getAllAPG(20,0);
     }
 
@@ -205,6 +226,7 @@ export class ApgComponent implements OnInit {
         this.iscreate = false;
         this.isshare = false;
         this.ismodule = true;
+        this.apCreate = false;
         this.model = {};
       }else{
         this.isshare = true;
@@ -271,7 +293,12 @@ export class ApgComponent implements OnInit {
       })
     }
 
-    chooseModuleType(val, name){
+    chooseModuleType(val, name,type){
+      if(name == 'Assessment'){
+        this.ismodule = false;
+        this.isshare = true;
+        this.apCreate = true;
+      }
       console.log(name)
       this.ischecked = val;
       localStorage.setItem('moduleID', val);
@@ -287,6 +314,38 @@ export class ApgComponent implements OnInit {
       this.sharechecked = val;
       this.getsingleTemplate(this.sharechecked);
     }
+    mainAccessPointAdd(){
+      var a = this.mainAccessPoint.length + 1;
+      this.mainAccessPoint = this.mainAccessPoint.concat(a);
+      console.error(this.mainAccessPoint)
+    }
+    subAccessPointAdd(){
+      this.subAccessPoint = this.subAccessPoint.concat(1);
+      console.warn(this.subAccessPoint)
+    }
+    mainAccessPointClear(num){
+      this.mainAccessPoint =  this.mainAccessPoint.filter(function (value,index,arr){
+        // console.warn(num)
+        // console.warn(value,'value')
+        // console.warn(index,'index')
+        // console.warn(arr,'arr')
+        return num;
+      })
+      
+      console.warn(this.mainAccessPoint)
+    }
+    subAccessPointClear(){
+      this.subAccessPoint =  this.subAccessPoint.filter(function (value,index,arr){
+        return index = index;
+      })
+    }
+
+    createEvaluateApgs(){
+      this.model = {};
+      console.error(this.model)
+      this.cancelAp()
+    }
+
 
     createapgs(data, update){
       console.log(update)
