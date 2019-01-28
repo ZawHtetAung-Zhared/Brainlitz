@@ -422,6 +422,7 @@ export class CourseComponent implements OnInit {
     }
 
   }
+  
   @HostListener('document:click', ['$event'])
   public test(event): void {
     // for category Search
@@ -1726,9 +1727,6 @@ export class CourseComponent implements OnInit {
   showOptionsBox(stdID, e){
     e.preventDefault();
     e.stopPropagation();
-    console.log("stdID",stdID);
-    console.log(e)
-    console.log(e.layerY)
     this.yPosition = e.layerY + 40;
     // this.yPosition = e.offsetY - 30;
     this.showStudentOption = stdID;
@@ -1892,16 +1890,17 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  getSingleCustomer(ID , data?){
+  getSingleCustomer(ID , type?){
     this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       this.blockUI.stop();
-      this.activeUserTab = "invoice";
-
       console.log('selected Customer',res);
       console.log(res)
+      
+      this.activeUserTab = type;
+      
       this.custDetail.user = res;
       console.log("custDetail --->" , this.custDetail)
       this.selectedCustomer = res;
@@ -2739,7 +2738,7 @@ export class CourseComponent implements OnInit {
     console.log("show Tabs Modal",type, data)
     this.showStudentOption = '';
     this.xxxhello = '';
-    this.getSingleCustomer(data.userId , data)
+    this.getSingleCustomer(data.userId , type)
     this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data);
@@ -2750,6 +2749,11 @@ export class CourseComponent implements OnInit {
         this.viewInvoice(data);
       }
     }
+    else if(type=="makeup"){
+      this.activeUserTab = type;
+      console.log("ddddd")
+    }
+      
   }
 
   getAllAC(limit, skip, userId){

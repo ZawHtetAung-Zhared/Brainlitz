@@ -950,6 +950,9 @@ export class UsersComponent implements OnInit {
 	callEnrollModal(enrollModal, userId) {
 		console.log(userId)
 		console.log(enrollModal)
+		this.showInvoice = false;
+		this.showPaidInvoice = false;
+		console.log(this.showInvoice , this.showPaidInvoice)
 		this.modalReference = this.modalService.open(enrollModal, { backdrop: 'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
 		this.getAC(20, 0, userId)
 	}
@@ -967,6 +970,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	enrollUser(course) {
+		console.log(course)
+		this.selectedCourse = course;
 		console.log(this.custDetail);
 		let courseId = course._id;
 		let body = {
@@ -977,7 +982,9 @@ export class UsersComponent implements OnInit {
 		this._service.assignUser(this.regionID, body, this.locationID)
 			.subscribe((res: any) => {
 				console.log(res);
+				console.log(this.custDetail)
 				this.toastr.success('Successfully Enrolled.');
+				Object.assign(this.selectedCourse, res)
 				// this.showDetails(this.custDetail.user.userId);
 				// this.closeModel();
 				/* for invoice*/
