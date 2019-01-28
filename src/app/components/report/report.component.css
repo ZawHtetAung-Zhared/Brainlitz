@@ -747,5 +747,19 @@ h3.head-rating-count {
   }
 }
 
-
+.star {
+  color: #b0c4de;
+}
+.filled {
+  color: #788798!important;
+}
+.bad {
+  color: #deb0b0;
+}
+.filled.bad {
+  color: #788798!important;
+}
+.notfilled{
+  color: #788798!important;
+}
 
