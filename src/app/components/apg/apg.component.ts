@@ -19,11 +19,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-    public templateAccessPoint = [
+    public templateAccessPointGroup = [
       {
-      "skillName" : "",
-      "moduleId": "",
+      "_id" : "",
+      "name" : "",
       "description": "",
+      "moduleId": "",
+      "regionId": "",
+      "orgId": "",
       "data" : {
         "evaluation" :{
           "passMark": 0,
@@ -338,10 +341,13 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-      const templateAp =    {
-        "skillName" : "",
-        "moduleId": "",
+      const templateAccessPoint =    {
+        "_id" : "",
+        "name" : "",
         "description": "",
+        "moduleId": "",
+        "regionId": "",
+        "orgId": "",
         "data" : {
           "evaluation" :{
             "passMark": 0,
@@ -356,19 +362,20 @@ export class ApgComponent implements OnInit {
           }
         }
       }
-      this.templateAccessPoint= this.templateAccessPoint.concat(templateAp)
-      console.error( this.templateAccessPoint)
+      this.templateAccessPointGroup.push(templateAccessPoint)
     }
 
     subAccessPointAdd(options,i){
+<<<<<<< HEAD
       console.log(this.templateAccessPoint)
       console.log(i)
       console.warn(options)
+=======
+>>>>>>> d0fe504db5fdde7e94fb65674138138ef51e003d
       i.data.evaluation.details.push({})
-      console.error(i)
     }
     mainAccessPointClear(item){
-      this.templateAccessPoint.splice( this.templateAccessPoint.indexOf(item), 1 );
+      this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
     }
     subAccessPointClear(item,i){
       i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1)
