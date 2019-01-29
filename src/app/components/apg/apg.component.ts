@@ -17,8 +17,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-    public mainAccessPoint = [0];
-    public subAccessPoint = [0];
+    public templateAccessPointGroup = [
+      {
+      "_id" : "",
+      "name" : "",
+      "description": "",
+      "moduleId": "",
+      "regionId": "",
+      "orgId": "",
+      "data" : {
+        "evaluation" :{
+          "passMark": Number,
+          "details": [
+            {
+              "requirement": "",
+              "options": [
+                ""
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+    public checkMark:any = [''];
     public isGlobal:boolean = false;
     public apCreate:boolean = false;
     public keyword:any;
@@ -216,8 +238,6 @@ export class ApgComponent implements OnInit {
       this.shareAPG = false;
       this.isshare = false;
       this.isGlobal = false;
-      this.mainAccessPoint = [0];
-      this.subAccessPoint = [0];
       this.getAllAPG(20,0);
     }
 
@@ -319,9 +339,28 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-      var a = this.mainAccessPoint.length + 1;
-      this.mainAccessPoint = this.mainAccessPoint.concat(a);
-      console.error(this.mainAccessPoint)
+      const templateAccessPoint =    {
+        "_id" : "",
+        "name" : "",
+        "description": "",
+        "moduleId": "",
+        "regionId": "",
+        "orgId": "",
+        "data" : {
+          "evaluation" :{
+            "passMark": Number,
+            "details": [
+              {
+                "requirement": "",
+                "options": [
+                  ""
+                ]
+              }
+            ]
+          }
+        }
+      }
+      this.templateAccessPointGroup.push(templateAccessPoint)
     }
 
     requirementInnerBox($event){
@@ -337,8 +376,9 @@ export class ApgComponent implements OnInit {
       console.log("dar")
     }
     
-    subAccessPointAdd(){
-      this.subAccessPoint = this.subAccessPoint.concat(1);
+    subAccessPointAdd(options,i){
+      i.data.evaluation.details.push({});
+
       const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
      
       console.log(400-innerBoxHeight.clientHeight);
@@ -357,22 +397,12 @@ export class ApgComponent implements OnInit {
       }
       console.log(innerBoxHeight.scrollHeight)
       console.log(innerBoxHeight.scrollTop)
-      
-      
-      console.warn(this.subAccessPoint)
     }
-    mainAccessPointClear(num){
-      this.mainAccessPoint =  this.mainAccessPoint.filter(function (value,index,arr){
-        // console.warn(num)
-        // console.warn(value,'value')
-        // console.warn(index,'index')
-        // console.warn(arr,'arr')
-        return num;
-      })
-      
-      console.warn(this.mainAccessPoint)
-    }
-    subAccessPointClear(){
+
+   
+    subAccessPointClear(item,i){
+      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
+
       const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
 
       if(innerBoxHeight.clientHeight<=400){
@@ -382,12 +412,16 @@ export class ApgComponent implements OnInit {
         this.isUpDown=true;
         innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
       }
-      
-      this.subAccessPoint =  this.subAccessPoint.filter(function (value,index,arr){
-        return index = index;
-      })
     }
 
+   
+    mainAccessPointClear(item){
+      this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
+    }
+  
+    checkMarkToggle(item){
+      this.isGlobal = !this.isGlobal
+    }
     createEvaluateApgs(){
       this.model = {};
       console.error(this.model)
@@ -473,7 +507,7 @@ export class ApgComponent implements OnInit {
          console.log(err)
       })
     }
-
+  
     // getAllTemplate(){
     //   this.blockUI.start('Loading...');
     //   this._service.getAllTemplate(this.regionID)
