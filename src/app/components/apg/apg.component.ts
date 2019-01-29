@@ -19,9 +19,12 @@ import { Router } from '@angular/router';
 export class ApgComponent implements OnInit {
     public templateAccessPoint = [
       {
-      "skillName" : "",
-      "moduleId": "",
+      "_id" : "",
+      "name" : "",
       "description": "",
+      "moduleId": "",
+      "regionId": "",
+      "orgId": "",
       "data" : {
         "evaluation" :{
           "passMark": 0,
@@ -333,9 +336,12 @@ export class ApgComponent implements OnInit {
     }
     mainAccessPointAdd(){
       const templateAp =    {
-        "skillName" : "",
-        "moduleId": "",
+        "_id" : "",
+        "name" : "",
         "description": "",
+        "moduleId": "",
+        "regionId": "",
+        "orgId": "",
         "data" : {
           "evaluation" :{
             "passMark": 0,
@@ -351,13 +357,10 @@ export class ApgComponent implements OnInit {
         }
       }
       this.templateAccessPoint= this.templateAccessPoint.concat(templateAp)
-      console.error( this.templateAccessPoint)
     }
 
     subAccessPointAdd(options,i){
-      console.warn(options)
       i.data.evaluation.details.push({})
-      console.error(i)
     }
     mainAccessPointClear(item){
       this.templateAccessPoint.splice( this.templateAccessPoint.indexOf(item), 1 );
