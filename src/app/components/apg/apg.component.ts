@@ -17,8 +17,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-    public mainAccessPoint = [0];
-    public subAccessPoint = [0];
+    public templateAccessPoint = [
+      {
+      "skillName" : "",
+      "moduleId": "",
+      "description": "",
+      "data" : {
+        "evaluation" :{
+          "passMark": 0,
+          "details": [
+            {
+              "requirement": "",
+              "options": [
+                ""
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+    public checkMark:any = [''];
     public isGlobal:boolean = false;
     public apCreate:boolean = false;
     public keyword:any;
@@ -212,8 +231,6 @@ export class ApgComponent implements OnInit {
       this.shareAPG = false;
       this.isshare = false;
       this.isGlobal = false;
-      this.mainAccessPoint = [0];
-      this.subAccessPoint = [0];
       this.getAllAPG(20,0);
     }
 
@@ -315,31 +332,42 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-      var a = this.mainAccessPoint.length + 1;
-      this.mainAccessPoint = this.mainAccessPoint.concat(a);
-      console.error(this.mainAccessPoint)
-    }
-    subAccessPointAdd(){
-      this.subAccessPoint = this.subAccessPoint.concat(1);
-      console.warn(this.subAccessPoint)
-    }
-    mainAccessPointClear(num){
-      this.mainAccessPoint =  this.mainAccessPoint.filter(function (value,index,arr){
-        // console.warn(num)
-        // console.warn(value,'value')
-        // console.warn(index,'index')
-        // console.warn(arr,'arr')
-        return num;
-      })
-      
-      console.warn(this.mainAccessPoint)
-    }
-    subAccessPointClear(){
-      this.subAccessPoint =  this.subAccessPoint.filter(function (value,index,arr){
-        return index = index;
-      })
+      const templateAp =    {
+        "skillName" : "",
+        "moduleId": "",
+        "description": "",
+        "data" : {
+          "evaluation" :{
+            "passMark": 0,
+            "details": [
+              {
+                "requirement": "133123",
+                "options": [
+                  ""
+                ]
+              }
+            ]
+          }
+        }
+      }
+      this.templateAccessPoint= this.templateAccessPoint.concat(templateAp)
+      console.error( this.templateAccessPoint)
     }
 
+    subAccessPointAdd(options,i){
+      console.warn(options)
+      i.data.evaluation.details.push({})
+      console.error(i)
+    }
+    mainAccessPointClear(item){
+      this.templateAccessPoint.splice( this.templateAccessPoint.indexOf(item), 1 );
+    }
+    subAccessPointClear(item,i){
+      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1)
+    }
+    checkMarkToggle(item){
+      this.isGlobal = !this.isGlobal
+    }
     createEvaluateApgs(){
       this.model = {};
       console.error(this.model)
@@ -425,7 +453,7 @@ export class ApgComponent implements OnInit {
          console.log(err)
       })
     }
-
+  
     // getAllTemplate(){
     //   this.blockUI.start('Loading...');
     //   this._service.getAllTemplate(this.regionID)
