@@ -8,6 +8,8 @@ import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import { DragulaService } from 'ng2-dragula';
+
 declare var $:any;
 import { Router } from '@angular/router';
 
@@ -106,7 +108,11 @@ export class ApgComponent implements OnInit {
     public apgDemo:any = [];
 
 
-    constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private router: Router) { 
+    constructor(private modalService: NgbModal,
+      private _service: appService, 
+      public toastr: ToastsManager, public vcr: ViewContainerRef, 
+      private router: Router,
+      private dragulaService: DragulaService) { 
       this.toastr.setRootViewContainerRef(vcr);
 
 
@@ -355,6 +361,8 @@ export class ApgComponent implements OnInit {
     }
 
     subAccessPointAdd(options,i){
+      console.log(this.templateAccessPoint)
+      console.log(i)
       console.warn(options)
       i.data.evaluation.details.push({})
       console.error(i)

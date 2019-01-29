@@ -7,6 +7,8 @@ import { FormsModule }    from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
+import { DragulaModule } from 'ng2-dragula';
+
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import { AppRoutingModule } from './app.routes';
@@ -143,6 +145,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
      // confirmButtonType: 'danger' // set defaults here
     //}),
     DragScrollModule,
+    DragulaModule.forRoot(),
     StarRatingModule,
     Ng2TelInputModule
   ],
