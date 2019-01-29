@@ -108,7 +108,8 @@
     <p *ngIf="ismodule == true" class="input-recommend" style="padding-left: 15px">
        APG or Access Point Group is where a Teacher will be able to mark the progress or improvement of each student. APG serves as a central point to view the student’s progress by all parties. It can be in the form of Progress Bar or Badges.
     </p>
-  	<h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">Creating progress APG</h3>
+  	<h3 *ngIf="isshare == true && isUpdate == false && apCreate == false" class="title-heading">Creating progress APG</h3>
+  	<h3 *ngIf="isshare == true && isUpdate == false && apCreate == true" class="title-heading">Creating evaluation APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
   	<h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>
   	<h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
@@ -133,7 +134,7 @@
 	  		</div>
   		</div>
   		<div *ngIf="isshare == true">
-  			<div class="d-flex flex-row">
+  			<div class="d-flex flex-row" *ngIf="apCreate == false" >
   				<div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
   					<div (click)="createNewAPG('create')" class="d-flex apg-box justify-content-center flex-column">
   						<div class="d-flex flex-row">
@@ -162,6 +163,50 @@
   					</div>
   				</div>
   			</div>
+  		</div>
+  		<div *ngIf="apCreate == true && isshare == true">
+  			<div class="d-flex flex-column">
+					<div class="d-flex flex-row">
+						<div class="d-flex flex-column">
+								<label class="evaluation-Name"> Evaluation Name</label>
+								<input type="text" placeholder="Type skill name here" class="evaluation-name" name="name" required [(ngModel)]="model.name" #name="ngModel">
+						</div>
+					</div>
+					<div class="inform-wrapper">
+						<span class="icon">i</span>	<span class="inform-text">Some information about how do skill and requirement create with multiple lines</span>
+					</div>
+				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of mainAccessPoint" >
+						<div class="d-flex flex-column"style="background:#f2f4f5;">
+							<div *ngIf="mainAccessPoint && mainAccessPoint.length > 1"  class="close-search1" (click)="mainAccessPointClear(item)"></div>
+							<input type="text" placeholder="Type skill name here" class="skill-name" name="name" required>
+							<div class="d-flex align-items-center">
+								<div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+									<label class="switch">
+										<input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
+										<span class="slider round"></span>
+									</label>
+								</div>
+								<p style="padding-left:12px;" class="pass-mark">Use passing mark</p>	
+							</div>
+							<div class="d-flex pb-3" *ngIf="isGlobal==true" >
+								<input type="number" class="pass-mark-input" min="0" max="100" name="passMark" > <label class="pl-2 pass-label">mark to pass</label>
+							</div>
+						</div>
+						
+						<div class="d-flex container" *ngFor="let item of subAccessPoint" >
+							<span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name"required></textarea>
+							<div *ngIf="subAccessPoint && subAccessPoint.length > 1"  class="close-search" (click)="subAccessPointClear()"></div>
+						</div>
+						<div class="d-flex cursor-on">
+							<p class="add-requirement" (click)="subAccessPointAdd()">Add new requirement</p>
+						</div>
+					</div>
+					<p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p> 
+				</div> 
+				<div class="d-flex justify-content-end form-footer">
+					<button type="button" class="btn btn-cancel" (click)="cancelAp()">Cancel</button>
+					<button  type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
+				</div>
   		</div>
   		<div *ngIf="iscreate == true">
         <div class="col-md-8 input-wrap">

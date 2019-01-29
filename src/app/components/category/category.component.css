@@ -309,3 +309,10 @@ h3.category-h3{
 .create-btn{
 	height: 67px;
 }
+
+@media only screen and  (min-width:1366px){
+	.inner-wrapper{
+	  width: 1080px!important;
+	  margin: 0 auto;
+	}
+  }
