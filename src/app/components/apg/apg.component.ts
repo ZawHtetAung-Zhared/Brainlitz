@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-    public templateAccessPoint = [
+    public templateAccessPointGroup = [
       {
       "_id" : "",
       "name" : "",
@@ -335,7 +335,7 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-      const templateAp =    {
+      const templateAccessPoint =    {
         "_id" : "",
         "name" : "",
         "description": "",
@@ -356,14 +356,14 @@ export class ApgComponent implements OnInit {
           }
         }
       }
-      this.templateAccessPoint= this.templateAccessPoint.concat(templateAp)
+      this.templateAccessPointGroup.push(templateAccessPoint)
     }
 
     subAccessPointAdd(options,i){
       i.data.evaluation.details.push({})
     }
     mainAccessPointClear(item){
-      this.templateAccessPoint.splice( this.templateAccessPoint.indexOf(item), 1 );
+      this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
     }
     subAccessPointClear(item,i){
       i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1)

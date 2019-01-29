@@ -175,9 +175,9 @@
 					<div class="inform-wrapper">
 						<span class="icon">i</span>	<span class="inform-text">Some information about how do skill and requirement create with multiple lines</span>
 					</div>
-				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPoint; let i of index">
+				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i of index">
 						<div class="d-flex flex-column"style="background:#f2f4f5;">
-							<div *ngIf="templateAccessPoint && templateAccessPoint.length > 1"  class="close-search1" (click)="mainAccessPointClear(item)"></div>
+							<div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1"  class="close-search1" (click)="mainAccessPointClear(item)"></div>
 							<input type="text" placeholder="Type skill name here" class="skill-name" name="name" required>
 							<div class="d-flex align-items-center">
 								<div class="toggle-wrap" (click)="checkMarkToggle(item)">
