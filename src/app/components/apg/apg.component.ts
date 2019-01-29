@@ -19,7 +19,6 @@ import { Router } from '@angular/router';
 export class ApgComponent implements OnInit {
     public templateAccessPointGroup = [
       {
-      "_id" : "",
       "name" : "",
       "description": "",
       "moduleId": "",
@@ -218,6 +217,7 @@ export class ApgComponent implements OnInit {
     }
 
     cancelapg(){
+       
       this.apgList = [];
       this.model = {};
       this.apCreate = false;
@@ -230,6 +230,7 @@ export class ApgComponent implements OnInit {
     cancelAp(){
       this.apgList = [];
       this.model = {};
+      console.error(this.templateAccessPointGroup) 
       // this.accessPoint= {};
       this.apCreate = false;
       this.iscreate = false;
@@ -340,7 +341,6 @@ export class ApgComponent implements OnInit {
     }
     mainAccessPointAdd(){
       const templateAccessPoint =    {
-        "_id" : "",
         "name" : "",
         "description": "",
         "moduleId": "",
