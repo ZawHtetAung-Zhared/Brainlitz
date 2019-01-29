@@ -177,21 +177,20 @@
 					</div>
 					
 				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i of index" id="skill-requirement-id">
-
 						<div class="d-flex flex-column"style="background:#f2f4f5;">
 							<div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1"  class="close-search1" (click)="mainAccessPointClear(item)"></div>
-							<input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel">
+							<input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required>
 							<div class="d-flex align-items-center">
-								<div class="toggle-wrap" (click)="checkMarkToggle(item)">
+								<div class="toggle-wrap" >
 									<label class="switch">
-										<input type="checkbox" (click)="checkMarkToggle(item)" [checked]="isGlobal">
+										<input type="checkbox" (click)="checkMarkToggle(item)" [checked]="item.options">
 										<span class="slider round"></span>
 									</label>
 								</div>
 								<p style="padding-left:12px;" class="pass-mark">Use passing mark</p>	
 							</div>
-							<div class="d-flex pb-3" *ngIf="isGlobal==true" >
-								<input type="number" class="pass-mark-input" min="0" max="100" name="passMark" [(ngModel)]="item.data.evaluation.passMark" #passMark="ngModel"> <label class="pl-2 pass-label">mark to pass</label>
+							<div class="d-flex pb-3" *ngIf="item.options==true" >
+								<input type="number" class="pass-mark-input" min="0" max="100" name="passMark"> <label class="pl-2 pass-label">mark to pass</label>
 							</div>
 						</div>
 

@@ -17,6 +17,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
+  public templateAccessPoint =    {
+    "name" : "",
+    "description": "",
+    "moduleId": "",
+    "regionId": "",
+    "orgId": "",
+    "options":false,
+    "data" : {
+      "evaluation" :{
+        "passMark": Number,
+        "details": [
+          {
+            "requirement": "",
+            "options": [
+              ""
+            ]
+          }
+        ]
+      }
+    }
+  }
     public templateAccessPointGroup = [
       {
       "name" : "",
@@ -24,6 +45,7 @@ export class ApgComponent implements OnInit {
       "moduleId": "",
       "regionId": "",
       "orgId": "",
+      "options":false,
       "data" : {
         "evaluation" :{
           "passMark": Number,
@@ -340,27 +362,8 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-      const templateAccessPoint =    {
-        "name" : "",
-        "description": "",
-        "moduleId": "",
-        "regionId": "",
-        "orgId": "",
-        "data" : {
-          "evaluation" :{
-            "passMark": Number,
-            "details": [
-              {
-                "requirement": "",
-                "options": [
-                  ""
-                ]
-              }
-            ]
-          }
-        }
-      }
-      this.templateAccessPointGroup.push(templateAccessPoint)
+    
+      this.templateAccessPointGroup.push(this.templateAccessPoint)
     }
 
     requirementInnerBox($event){
@@ -420,7 +423,8 @@ export class ApgComponent implements OnInit {
     }
   
     checkMarkToggle(item){
-      this.isGlobal = !this.isGlobal
+      // this.isGlobal = !this.isGlobal
+      item.options = !item.options;
     }
     createEvaluateApgs(){
       this.model = {};
