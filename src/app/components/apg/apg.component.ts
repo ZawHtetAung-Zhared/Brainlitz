@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit,ViewContainerRef, HostListener, style } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -69,6 +69,8 @@ export class ApgComponent implements OnInit {
     isFirst:boolean = false;
     searchWord:any;
     itemtype:any;
+    isUpDown : Boolean=false;
+    isUpDownHide : Boolean=false;
 
     //
     public ismodule: boolean = false;
@@ -105,7 +107,7 @@ export class ApgComponent implements OnInit {
       });
     }
 
-  	ngOnInit() {	  	
+  	ngOnInit() {
       this.dataVal = {
         '_id': '',
         'moduleId': '',
@@ -148,6 +150,7 @@ export class ApgComponent implements OnInit {
       return hit;
     }
 
+    
     @HostListener('window:scroll', ['$event']) onScroll($event){
       // console.log('==== ',$('.pad-bottom').height() + 150)
       // console.log($(window).height())
@@ -166,6 +169,7 @@ export class ApgComponent implements OnInit {
       //   console.log('less than 100')
       //   this.navIsFixed = false;
       // }
+
     } 
 
     focusMethod(e,status, word){
@@ -319,8 +323,42 @@ export class ApgComponent implements OnInit {
       this.mainAccessPoint = this.mainAccessPoint.concat(a);
       console.error(this.mainAccessPoint)
     }
+
+    requirementInnerBox($event){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+      console.log(innerBoxHeight.scrollHeight)
+      console.log(innerBoxHeight.scrollTop)
+    
+      if((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop)==innerBoxHeight.clientHeight){
+        this.isUpDown=false;
+      }else{
+        this.isUpDown=true;
+      }
+      console.log("dar")
+    }
+    
     subAccessPointAdd(){
       this.subAccessPoint = this.subAccessPoint.concat(1);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+     
+      console.log(400-innerBoxHeight.clientHeight);
+      console.log(innerBoxHeight.clientHeight);
+     
+      if((400 - innerBoxHeight.clientHeight) >= innerBoxHeight.clientHeight){
+        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;");
+        // this.isUpDown=false;
+        this.isUpDownHide=false;
+        console.log("under 400")
+      }else{
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
+        // this.isUpDown=true;
+        this.isUpDownHide=true;
+        console.log("over 400")
+      }
+      console.log(innerBoxHeight.scrollHeight)
+      console.log(innerBoxHeight.scrollTop)
+      
+      
       console.warn(this.subAccessPoint)
     }
     mainAccessPointClear(num){
@@ -335,6 +373,16 @@ export class ApgComponent implements OnInit {
       console.warn(this.mainAccessPoint)
     }
     subAccessPointClear(){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+
+      if(innerBoxHeight.clientHeight<=400){
+        this.isUpDown=false;
+        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;")
+      }else{
+        this.isUpDown=true;
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
+      }
+      
       this.subAccessPoint =  this.subAccessPoint.filter(function (value,index,arr){
         return index = index;
       })

@@ -175,7 +175,7 @@
 					<div class="inform-wrapper">
 						<span class="icon">i</span>	<span class="inform-text">Some information about how do skill and requirement create with multiple lines</span>
 					</div>
-				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of mainAccessPoint" >
+				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of mainAccessPoint" id="skill-requirement-id">
 						<div class="d-flex flex-column"style="background:#f2f4f5;">
 							<div *ngIf="mainAccessPoint && mainAccessPoint.length > 1"  class="close-search1" (click)="mainAccessPointClear(item)"></div>
 							<input type="text" placeholder="Type skill name here" class="skill-name" name="name" required>
@@ -193,11 +193,20 @@
 							</div>
 						</div>
 						
-						<div class="d-flex container" *ngFor="let item of subAccessPoint" >
-							<span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name"required></textarea>
-							<div *ngIf="subAccessPoint && subAccessPoint.length > 1"  class="close-search" (click)="subAccessPointClear()"></div>
+						
+						<div id="requirement-inner-box" (scroll)="requirementInnerBox($event)">
+								<div class="d-flex container" *ngFor="let item of subAccessPoint" >
+									<span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name"required></textarea>
+									<div *ngIf="subAccessPoint && subAccessPoint.length > 1"  class="close-search" (click)="subAccessPointClear()"></div>
+								</div>
 						</div>
-						<div class="d-flex cursor-on">
+						
+						<div class="d-flex align-items-center cursor-on">
+							<div *ngIf="isUpDownHide">
+									<i *ngIf="!isUpDown" class="fa fa-angle-down downIcon"></i>
+									<i *ngIf="isUpDown" class="fa fa-angle-up downIcon"></i>
+							</div>
+						
 							<p class="add-requirement" (click)="subAccessPointAdd()">Add new requirement</p>
 						</div>
 					</div>
