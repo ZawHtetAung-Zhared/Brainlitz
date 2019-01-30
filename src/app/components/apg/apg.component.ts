@@ -362,19 +362,6 @@ export class ApgComponent implements OnInit {
       }
       this.templateAccessPointGroup.push(templateAccessPoint)
     }
-
-    requirementInnerBox($event){
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-      console.log(innerBoxHeight.scrollHeight)
-      console.log(innerBoxHeight.scrollTop)
-    
-      if((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop)==innerBoxHeight.clientHeight){
-        this.isUpDown=false;
-      }else{
-        this.isUpDown=true;
-      }
-      console.log("dar")
-    }
     
     subAccessPointAdd(options,i){
       i.data.evaluation.details.push({});
@@ -386,12 +373,10 @@ export class ApgComponent implements OnInit {
      
       if((400 - innerBoxHeight.clientHeight) >= innerBoxHeight.clientHeight){
         innerBoxHeight.setAttribute("style","overflow:none ; height:auto;");
-        // this.isUpDown=false;
         this.isUpDownHide=false;
         console.log("under 400")
       }else{
         innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
-        // this.isUpDown=true;
         this.isUpDownHide=true;
         console.log("over 400")
       }
@@ -407,11 +392,38 @@ export class ApgComponent implements OnInit {
 
       if(innerBoxHeight.clientHeight<=400){
         this.isUpDown=false;
+        this.isUpDownHide=false;
         innerBoxHeight.setAttribute("style","overflow:none ; height:auto;")
       }else{
         this.isUpDown=true;
+        this.isUpDownHide=true;
         innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
       }
+    }
+
+    requirementInnerBox($event){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+      console.log(innerBoxHeight.scrollHeight)
+      console.log(innerBoxHeight.scrollTop)
+    
+      if((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop)==innerBoxHeight.clientHeight){
+        this.isUpDown=false;
+      }else{
+        this.isUpDown=true;
+      }
+      console.log("dar")
+    }
+
+    pushDownClick(){
+       const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+       innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
+       console.log(innerBoxHeight.scrollHeight)
+    }
+
+    pushUpClick(){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+      innerBoxHeight.scrollTop=0;
+      console.log(innerBoxHeight.scrollTop)
     }
 
    

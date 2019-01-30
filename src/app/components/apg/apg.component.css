@@ -556,7 +556,6 @@
 
 .downIcon{
     padding-left: 16px;
-    padding-top: 16px;
 }
 .toggle-wrap{
     padding-left: 40px;
@@ -721,7 +720,7 @@
 .cursor-on{
     cursor: pointer;
     height: 60px;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
 }
 .remove-outline:focus{
     outline: none;

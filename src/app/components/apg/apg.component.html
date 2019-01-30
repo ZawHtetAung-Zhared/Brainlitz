@@ -175,7 +175,7 @@
 					<div class="inform-wrapper">
 						<span class="icon">i</span>	<span class="inform-text">Some information about how do skill and requirement create with multiple lines</span>
 					</div>
-					
+
 				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i of index" id="skill-requirement-id">
 
 						<div class="d-flex flex-column"style="background:#f2f4f5;">
@@ -205,8 +205,12 @@
 						
 						<div class="d-flex align-items-center cursor-on">
 							<div *ngIf="isUpDownHide">
-									<i *ngIf="!isUpDown" class="fa fa-angle-down downIcon"></i>
-									<i *ngIf="isUpDown" class="fa fa-angle-up downIcon"></i>
+									<div *ngIf="!isUpDown" class="downIcon"  (click)="pushUpClick()">
+											<img  class="downIcon" src="./assets/images/push-up.png">
+									</div>
+									<div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick()">
+											<img  class="downIcon" src="./assets/images/push-down.png">
+									</div>
 							</div>
 						
 							<p class="add-requirement" (click)="subAccessPointAdd(item.data.evaluation.details,i)">Add new requirement</p>
