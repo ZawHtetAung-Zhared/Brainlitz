@@ -8,8 +8,10 @@ import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+
 declare var $:any;
 import { Router } from '@angular/router';
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 
 @Component({
   selector: 'app-apg',
@@ -131,11 +133,17 @@ export class ApgComponent implements OnInit {
     public apgPermission:any = [];
     public apgDemo:any = [];
 
-
-    constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private router: Router) { 
-      this.toastr.setRootViewContainerRef(vcr);
-
-
+    constructor(private modalService: NgbModal,
+      private _service: appService, 
+      public toastr: ToastsManager, public vcr: ViewContainerRef, 
+      private router: Router,
+      private dragulaService: DragulaService) { 
+        this.dragulaService.createGroup("COLUMNS", {
+          direction: 'vertical',
+          moves: (el, source, handle) => handle.className === "group-handle"
+        });
+        this.toastr.setRootViewContainerRef(vcr);
+  
       this._service.locationID.subscribe((data) => {
         if(this.router.url === '/tools'){
           this._service.permissionList.subscribe((data) => {
@@ -149,8 +157,10 @@ export class ApgComponent implements OnInit {
         }
       });
     }
+   
 
-  	ngOnInit() {
+  	ngOnInit() {	  
+
       this.dataVal = {
         '_id': '',
         'moduleId': '',
@@ -442,6 +452,8 @@ export class ApgComponent implements OnInit {
       }
       console.log(innerBoxHeight.scrollHeight)
       console.log(innerBoxHeight.scrollTop)
+      console.log(this.templateAccessPointGroup)
+
     }
 
    
@@ -1116,5 +1128,5 @@ export class ApgComponent implements OnInit {
           console.log(err)
       })
     }
-
+    
 }
