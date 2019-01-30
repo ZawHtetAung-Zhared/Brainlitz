@@ -206,7 +206,7 @@
                 <div class="d-flex container" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;">
                   <span class="pr-3 img-wrapper">
                     <img class="move-sign" src="../../../assets/images/disable-holder.svg">
-                  </span> <textarea type="text" name="{{'requirement'+ x}}" placeholder="Type requirement here" class="requirement-name"
+                  </span> <textarea type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here" class="requirement-name"
                     [(ngModel)]="test.requirement" required></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
