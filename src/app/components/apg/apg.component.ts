@@ -17,27 +17,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-  public templateAccessPoint =    {
-    "name" : "",
-    "description": "",
-    "moduleId": "",
-    "regionId": "",
-    "orgId": "",
-    "options":false,
-    "data" : {
-      "evaluation" :{
-        "passMark": Number,
-        "details": [
-          {
-            "requirement": "",
-            "options": [
-              ""
-            ]
-          }
-        ]
-      }
-    }
-  }
+  // public templateAccessPoint = {
+  //     "name" : "",
+  //     "description": "",
+  //     "moduleId": "",
+  //     "regionId": "",
+  //     "orgId": "",
+  //     "options":false,
+  //     "data" : {
+  //       "evaluation" :{
+  //         "passMark": Number,
+  //         "details": [
+  //           {
+  //             "requirement": "",
+  //             "options": [
+  //               ""
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     }
+  // }
     public templateAccessPointGroup = [
       {
       "name" : "",
@@ -252,6 +252,29 @@ export class ApgComponent implements OnInit {
     cancelAp(){
       this.apgList = [];
       this.model = {};
+      this.templateAccessPointGroup = [
+        {
+          "name" : "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "options":false,
+          "data" : {
+            "evaluation" :{
+              "passMark": Number,
+              "details": [
+                {
+                  "requirement": "",
+                  "options": [
+                    ""
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
       console.error(this.templateAccessPointGroup) 
       // this.accessPoint= {};
       this.apCreate = false;
@@ -362,8 +385,30 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-    
-      this.templateAccessPointGroup.push(this.templateAccessPoint)
+      // let testObj = {
+      // }
+      const templateAccessPoint = {
+        "name" : "",
+        "description": "",
+        "moduleId": "",
+        "regionId": "",
+        "orgId": "",
+        "options":false,
+        "data" : {
+          "evaluation" :{
+            "passMark": Number,
+            "details": [
+              {
+                "requirement": "",
+                "options": [
+                  ""
+                ]
+              }
+            ]
+          }
+        }
+    }
+     this.templateAccessPointGroup.push(templateAccessPoint)
     }
 
     requirementInnerBox($event){
@@ -380,7 +425,18 @@ export class ApgComponent implements OnInit {
     }
     
     subAccessPointAdd(options,i){
-      i.data.evaluation.details.push({});
+      console.log('~~~~~~~~',i)
+      // i.data.evaluation.details.push({});
+      // console.log(this.templateAccessPointGroup[i].data)
+      let req = {
+        "requirement": "",
+        "options": [
+          ""
+        ]
+      };
+       this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+      console.warn(this.templateAccessPointGroup)
+      console.log("ACGroup!!!!",this.templateAccessPointGroup[i].data.evaluation.details)
 
       const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
      
