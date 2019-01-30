@@ -418,14 +418,11 @@ export class ApgComponent implements OnInit {
           }
         }
     }
-    // this.templateAccessPointGroup = this.templateAccessPointGroup.concat(templateAccessPoint)
      this.templateAccessPointGroup.push(templateAccessPoint)
     }
     
     subAccessPointAdd(options,i){
       console.log('~~~~~~~~',i)
-      // i.data.evaluation.details.push({});
-      // console.log(this.templateAccessPointGroup[i].data)
       let req = {
         "requirement": "",
         "options": [
