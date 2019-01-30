@@ -628,7 +628,7 @@
 }
 
 .add-requirement {
-  padding-left: 36px;
+  padding-left: 84px;
   /* padding-top: 20px;
    
     padding-bottom: 20px; */
@@ -727,7 +727,7 @@
   width: 396px;
   padding-top: 20px;
   padding-bottom: 20px;
-
+    overflow: hidden;
 }
 
 .requirement-wrapper {

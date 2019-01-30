@@ -202,7 +202,7 @@ export class ApgComponent implements OnInit {
       let hit = $('.pad-bottom').height();
       return hit;
     }
-
+    
     
     @HostListener('window:scroll', ['$event']) onScroll($event){
       // console.log('==== ',$('.pad-bottom').height() + 150)
@@ -1125,5 +1125,10 @@ export class ApgComponent implements OnInit {
           console.log(err)
       })
     }
-    
+    autoResize(e){
+      console.log(e.target.style)
+      console.log(e.target.scrollHeight)
+      e.target.style.cssText = 'height:auto';
+      e.target.style.height = e.target.scrollHeight + "px";
+    }
 }
