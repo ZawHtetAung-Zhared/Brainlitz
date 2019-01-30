@@ -17,14 +17,35 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
+  public templateAccessPoint =    {
+    "name" : "",
+    "description": "",
+    "moduleId": "",
+    "regionId": "",
+    "orgId": "",
+    "options":false,
+    "data" : {
+      "evaluation" :{
+        "passMark": Number,
+        "details": [
+          {
+            "requirement": "",
+            "options": [
+              ""
+            ]
+          }
+        ]
+      }
+    }
+  }
     public templateAccessPointGroup = [
       {
-      "_id" : "",
       "name" : "",
       "description": "",
       "moduleId": "",
       "regionId": "",
       "orgId": "",
+      "options":false,
       "data" : {
         "evaluation" :{
           "passMark": Number,
@@ -218,6 +239,7 @@ export class ApgComponent implements OnInit {
     }
 
     cancelapg(){
+       
       this.apgList = [];
       this.model = {};
       this.apCreate = false;
@@ -230,6 +252,7 @@ export class ApgComponent implements OnInit {
     cancelAp(){
       this.apgList = [];
       this.model = {};
+      console.error(this.templateAccessPointGroup) 
       // this.accessPoint= {};
       this.apCreate = false;
       this.iscreate = false;
@@ -339,28 +362,8 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-      const templateAccessPoint =    {
-        "_id" : "",
-        "name" : "",
-        "description": "",
-        "moduleId": "",
-        "regionId": "",
-        "orgId": "",
-        "data" : {
-          "evaluation" :{
-            "passMark": Number,
-            "details": [
-              {
-                "requirement": "",
-                "options": [
-                  ""
-                ]
-              }
-            ]
-          }
-        }
-      }
-      this.templateAccessPointGroup.push(templateAccessPoint)
+    
+      this.templateAccessPointGroup.push(this.templateAccessPoint)
     }
     
     subAccessPointAdd(options,i){
@@ -432,7 +435,8 @@ export class ApgComponent implements OnInit {
     }
   
     checkMarkToggle(item){
-      this.isGlobal = !this.isGlobal
+      // this.isGlobal = !this.isGlobal
+      item.options = !item.options;
     }
     createEvaluateApgs(){
       this.model = {};
