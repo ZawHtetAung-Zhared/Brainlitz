@@ -19,27 +19,6 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-  // public templateAccessPoint = {
-  //     "name" : "",
-  //     "description": "",
-  //     "moduleId": "",
-  //     "regionId": "",
-  //     "orgId": "",
-  //     "options":false,
-  //     "data" : {
-  //       "evaluation" :{
-  //         "passMark": Number,
-  //         "details": [
-  //           {
-  //             "requirement": "",
-  //             "options": [
-  //               ""
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     }
-  // }
     public templateAccessPointGroup = [
       {
       "name" : "",
