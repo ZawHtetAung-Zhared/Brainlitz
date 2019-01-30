@@ -56,7 +56,7 @@
 }
 .main-wrapper{
     height: 80vh;
-    overflow: overlay;
+    /* cursor-on */
     padding: 0 15px;
 }
 .cancel-back{
@@ -544,13 +544,18 @@
     font-weight: 600;
 }
 .add-requirement{
-    padding-top: 20px;
-    padding-left: 64px;
-    padding-bottom: 20px;
+    padding-left: 36px;
+    /* padding-top: 20px;
+   
+    padding-bottom: 20px; */
     color: #007fff;
     font-size: 16px;
     margin: 0px!important;
     font-family: 'Montserrat-Regular',Arial,sans-serif;
+}
+
+.downIcon{
+    padding-left: 16px;
 }
 .toggle-wrap{
     padding-left: 40px;
@@ -714,6 +719,8 @@
 
 .cursor-on{
     cursor: pointer;
+    height: 60px;
+    /* margin-bottom: 50px; */
 }
 .remove-outline:focus{
     outline: none;

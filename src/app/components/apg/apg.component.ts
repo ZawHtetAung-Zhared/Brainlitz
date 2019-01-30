@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit,ViewContainerRef, HostListener, style } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -19,17 +19,38 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
+  // public templateAccessPoint = {
+  //     "name" : "",
+  //     "description": "",
+  //     "moduleId": "",
+  //     "regionId": "",
+  //     "orgId": "",
+  //     "options":false,
+  //     "data" : {
+  //       "evaluation" :{
+  //         "passMark": Number,
+  //         "details": [
+  //           {
+  //             "requirement": "",
+  //             "options": [
+  //               ""
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     }
+  // }
     public templateAccessPointGroup = [
       {
-      "_id" : "",
       "name" : "",
       "description": "",
       "moduleId": "",
       "regionId": "",
       "orgId": "",
+      "options":false,
       "data" : {
         "evaluation" :{
-          "passMark": 0,
+          "passMark": Number,
           "details": [
             {
               "requirement": "",
@@ -93,6 +114,8 @@ export class ApgComponent implements OnInit {
     isFirst:boolean = false;
     searchWord:any;
     itemtype:any;
+    isUpDown : Boolean=false;
+    isUpDownHide : Boolean=false;
 
     //
     public ismodule: boolean = false;
@@ -180,6 +203,7 @@ export class ApgComponent implements OnInit {
       return hit;
     }
 
+    
     @HostListener('window:scroll', ['$event']) onScroll($event){
       // console.log('==== ',$('.pad-bottom').height() + 150)
       // console.log($(window).height())
@@ -198,6 +222,7 @@ export class ApgComponent implements OnInit {
       //   console.log('less than 100')
       //   this.navIsFixed = false;
       // }
+
     } 
 
     focusMethod(e,status, word){
@@ -224,6 +249,7 @@ export class ApgComponent implements OnInit {
     }
 
     cancelapg(){
+       
       this.apgList = [];
       this.model = {};
       this.apCreate = false;
@@ -236,6 +262,30 @@ export class ApgComponent implements OnInit {
     cancelAp(){
       this.apgList = [];
       this.model = {};
+      this.templateAccessPointGroup = [
+        {
+          "name" : "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "options":false,
+          "data" : {
+            "evaluation" :{
+              "passMark": Number,
+              "details": [
+                {
+                  "requirement": "",
+                  "options": [
+                    ""
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+      console.error(this.templateAccessPointGroup) 
       // this.accessPoint= {};
       this.apCreate = false;
       this.iscreate = false;
@@ -345,19 +395,21 @@ export class ApgComponent implements OnInit {
       this.getsingleTemplate(this.sharechecked);
     }
     mainAccessPointAdd(){
-      const templateAccessPoint =    {
-        "_id" : "",
+      // let testObj = {
+      // }
+      const templateAccessPoint = {
         "name" : "",
         "description": "",
         "moduleId": "",
         "regionId": "",
         "orgId": "",
+        "options":false,
         "data" : {
           "evaluation" :{
-            "passMark": 0,
+            "passMark": Number,
             "details": [
               {
-                "requirement": "133123",
+                "requirement": "",
                 "options": [
                   ""
                 ]
@@ -365,24 +417,95 @@ export class ApgComponent implements OnInit {
             ]
           }
         }
+    }
+     this.templateAccessPointGroup.push(templateAccessPoint)
+    }
+    
+    subAccessPointAdd(options,i){
+      console.log('~~~~~~~~',i)
+      // i.data.evaluation.details.push({});
+      // console.log(this.templateAccessPointGroup[i].data)
+      let req = {
+        "requirement": "",
+        "options": [
+          ""
+        ]
+      };
+       this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+      console.warn(this.templateAccessPointGroup)
+      console.log("ACGroup!!!!",this.templateAccessPointGroup[i].data.evaluation.details)
+
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+     
+      console.log(400-innerBoxHeight.clientHeight);
+      console.log(innerBoxHeight.clientHeight);
+     
+      if((400 - innerBoxHeight.clientHeight) >= innerBoxHeight.clientHeight){
+        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;");
+        this.isUpDownHide=false;
+        console.log("under 400")
+      }else{
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
+        this.isUpDownHide=true;
+        console.log("over 400")
       }
-      this.templateAccessPointGroup.push(templateAccessPoint)
+      console.log(innerBoxHeight.scrollHeight)
+      console.log(innerBoxHeight.scrollTop)
+      console.log(this.templateAccessPointGroup)
+
     }
 
-    subAccessPointAdd(options,i){
-      console.log(this.templateAccessPointGroup)
-      console.log(i)
-      console.warn(options)
-      i.data.evaluation.details.push({})
+   
+    subAccessPointClear(item,i){
+      console.warn(item)
+      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
+
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+
+      if(innerBoxHeight.clientHeight<=400){
+        this.isUpDown=false;
+        this.isUpDownHide=false;
+        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;")
+      }else{
+        this.isUpDown=true;
+        this.isUpDownHide=true;
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
+      }
     }
+
+    requirementInnerBox($event){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+      console.log(innerBoxHeight.scrollHeight)
+      console.log(innerBoxHeight.scrollTop)
+    
+      if((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop)==innerBoxHeight.clientHeight){
+        this.isUpDown=false;
+      }else{
+        this.isUpDown=true;
+      }
+      console.log("dar")
+    }
+
+    pushDownClick(){
+       const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+       innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
+       console.log(innerBoxHeight.scrollHeight)
+    }
+
+    pushUpClick(){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+      innerBoxHeight.scrollTop=0;
+      console.log(innerBoxHeight.scrollTop)
+    }
+
+   
     mainAccessPointClear(item){
       this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
     }
-    subAccessPointClear(item,i){
-      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1)
-    }
+  
     checkMarkToggle(item){
-      this.isGlobal = !this.isGlobal
+      // this.isGlobal = !this.isGlobal
+      item.options = !item.options;
     }
     createEvaluateApgs(){
       this.model = {};
