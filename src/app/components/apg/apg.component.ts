@@ -19,29 +19,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-    public templateAccessPointGroup = [
-      {
-      "name" : "",
-      "description": "",
-      "moduleId": "",
-      "regionId": "",
-      "orgId": "",
-      "options":false,
-      "data" : {
-        "evaluation" :{
-          "passMark": Number,
-          "details": [
-            {
-              "requirement": "",
-              "options": [
-                ""
-              ]
-            }
-          ]
-        }
-      }
-    }
-  ]
+    public templateAccessPointGroup = []
     public checkMark:any = [''];
     public isGlobal:boolean = false;
     public apCreate:boolean = false;
@@ -241,29 +219,7 @@ export class ApgComponent implements OnInit {
     cancelAp(){
       this.apgList = [];
       this.model = {};
-      this.templateAccessPointGroup = [
-        {
-          "name" : "",
-          "description": "",
-          "moduleId": "",
-          "regionId": "",
-          "orgId": "",
-          "options":false,
-          "data" : {
-            "evaluation" :{
-              "passMark": Number,
-              "details": [
-                {
-                  "requirement": "",
-                  "options": [
-                    ""
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
+      this.templateAccessPointGroup = []
       console.error(this.templateAccessPointGroup) 
       // this.accessPoint= {};
       this.apCreate = false;
@@ -292,7 +248,7 @@ export class ApgComponent implements OnInit {
         this.shareAPG = false;
         this.iscreate = false;
       }
-
+      this.templateAccessPointGroup = []
     }
 
     addNewAPG(){
@@ -357,6 +313,28 @@ export class ApgComponent implements OnInit {
         this.ismodule = false;
         this.isshare = true;
         this.apCreate = true;
+        const templateAccessPoint =  {
+          "name" : "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "options":false,
+          "data" : {
+            "evaluation" :{
+              "passMark": Number,
+              "details": [
+                {
+                  "requirement": "",
+                  "options": [
+                    ""
+                  ]
+                }
+              ]
+            }
+          }
+        }
+        this.templateAccessPointGroup.push(templateAccessPoint)
       }
       console.log(name)
       this.ischecked = val;
