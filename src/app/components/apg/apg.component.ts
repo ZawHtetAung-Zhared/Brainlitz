@@ -8,10 +8,10 @@ import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-import { DragulaService } from 'ng2-dragula';
 
 declare var $:any;
 import { Router } from '@angular/router';
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 
 @Component({
   selector: 'app-apg',
@@ -110,15 +110,17 @@ export class ApgComponent implements OnInit {
     public apgPermission:any = [];
     public apgDemo:any = [];
 
-
     constructor(private modalService: NgbModal,
       private _service: appService, 
       public toastr: ToastsManager, public vcr: ViewContainerRef, 
       private router: Router,
       private dragulaService: DragulaService) { 
-      this.toastr.setRootViewContainerRef(vcr);
-
-
+        this.dragulaService.createGroup("COLUMNS", {
+          direction: 'vertical',
+          moves: (el, source, handle) => handle.className === "group-handle"
+        });
+        this.toastr.setRootViewContainerRef(vcr);
+  
       this._service.locationID.subscribe((data) => {
         if(this.router.url === '/tools'){
           this._service.permissionList.subscribe((data) => {
@@ -132,8 +134,10 @@ export class ApgComponent implements OnInit {
         }
       });
     }
+   
 
-  	ngOnInit() {	  	
+  	ngOnInit() {	  
+
       this.dataVal = {
         '_id': '',
         'moduleId': '',
@@ -366,12 +370,9 @@ export class ApgComponent implements OnInit {
     }
 
     subAccessPointAdd(options,i){
-<<<<<<< HEAD
-      console.log(this.templateAccessPoint)
+      console.log(this.templateAccessPointGroup)
       console.log(i)
       console.warn(options)
-=======
->>>>>>> d0fe504db5fdde7e94fb65674138138ef51e003d
       i.data.evaluation.details.push({})
     }
     mainAccessPointClear(item){
@@ -1003,5 +1004,5 @@ export class ApgComponent implements OnInit {
           console.log(err)
       })
     }
-
+    
 }
