@@ -408,6 +408,7 @@ export class ApgComponent implements OnInit {
           }
         }
     }
+    // this.templateAccessPointGroup = this.templateAccessPointGroup.concat(templateAccessPoint)
      this.templateAccessPointGroup.push(templateAccessPoint)
     }
     
