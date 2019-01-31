@@ -722,12 +722,14 @@
 }
 
 .requirement-name {
+  resize: none;
   border: none;
   border-bottom: 1px solid #edeff0;
   width: 396px;
   padding-top: 20px;
   padding-bottom: 20px;
     overflow: hidden;
+    resize:none;
 }
 
 .requirement-wrapper {
@@ -753,7 +755,7 @@
 
 .close-search {
   position: relative;
-  right: 17px;
+  right: 0px;
   top: 18px;
   width: 16px;
   height: 16px;
@@ -1007,4 +1009,8 @@ input:checked+.slider:before {
 .group-handle {
   width: 44px;
   padding-left: 12px;
+}
+.requirement.gu-mirror{
+  height:70px !important;
+  overflow: hidden;
 }
