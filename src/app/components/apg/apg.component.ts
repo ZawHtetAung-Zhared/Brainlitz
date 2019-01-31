@@ -160,6 +160,8 @@ export class ApgComponent implements OnInit {
         this.permissionType = localStorage.getItem('permission');
         this.checkPermission();
       }  
+
+      $("#skillFooterInner0").hide()
   	}    
 
     checkPermission(){
@@ -425,44 +427,70 @@ export class ApgComponent implements OnInit {
       console.warn(this.templateAccessPointGroup)
       console.log("ACGroup!!!!",this.templateAccessPointGroup[i].data.evaluation.details)
 
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+      const skillHeader: HTMLElement = document.getElementById('skillHeader'+i);
+      const skillFooter: HTMLElement = document.getElementById('skillFooter'+i);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+
      
-      console.log(400-innerBoxHeight.clientHeight);
-      console.log(innerBoxHeight.clientHeight);
-     
-      if((400 - innerBoxHeight.clientHeight) >= innerBoxHeight.clientHeight){
-        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;");
+      if((400 - skillHeight.clientHeight) >= skillHeight.clientHeight){
+        innerBoxHeight.setAttribute("style","overflow:overlay ; ")
+        skillHeight.setAttribute("style","height:auto;")
         this.isUpDownHide=false;
+        $("#skillFooterInner"+i).hide()
         console.log("under 400")
       }else{
-        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
+        var height=400 -(skillFooter.clientHeight+skillHeader.clientHeight);
+        skillHeight.setAttribute("style","height:400px;")
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:"+height+"px;");
         this.isUpDownHide=true;
+        $("#skillFooterInner"+i).show()
         console.log("over 400")
       }
-      console.log(innerBoxHeight.scrollHeight)
-      console.log(innerBoxHeight.scrollTop)
     }
 
    
-    subAccessPointClear(item,i){
-      console.warn(item)
+    subAccessPointClear(item,i,id){
+
+
       i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
 
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-
-      if(innerBoxHeight.clientHeight<=400){
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+id);
+      const skillHeader: HTMLElement = document.getElementById('skillHeader'+id);
+      const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+id);
+      const skillFooter: HTMLElement = document.getElementById('skillFooter'+id);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+id);
+     
+      console.log(i)
+      console.log(skillHeight)
+      if(skillHeight.clientHeight<=400){
         this.isUpDown=false;
         this.isUpDownHide=false;
-        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;")
+        innerBoxHeight.setAttribute("style","overflow:none;")
+        skillHeight.setAttribute("style","height:auto;")
+        $("#skillFooterInner"+id).hide()
       }else{
+        var height=400 -(skillFooter.clientHeight+skillHeader.clientHeight);
         this.isUpDown=true;
+
         this.isUpDownHide=true;
-        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
+        $("#skillFooterInner"+id).show()
+        // $("#skillFooter"+id).append('<div *ngIf="!isUpDown" class="downIcon"  (click)="pushUpClick(i)">'+
+        // '<img  class="downIcon" src="./assets/images/push-up.png">'+
+        // '</div><div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick(i)">'+
+        // '<img  class="downIcon" src="./assets/images/push-down.png"></div>');
+
+        // skillFooter.insertAdjacentHTML('beforeend','<div class="two">two</div>');
+
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:"+height+"px;")
+        skillHeight.setAttribute("style","height:400px;")
       }
     }
 
-    requirementInnerBox($event){
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+    requirementInnerBox($event,i){
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+
       console.log(innerBoxHeight.scrollHeight)
       console.log(innerBoxHeight.scrollTop)
     
@@ -474,14 +502,17 @@ export class ApgComponent implements OnInit {
       console.log("dar")
     }
 
-    pushDownClick(){
-       const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+    pushDownClick(i){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+
        innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
        console.log(innerBoxHeight.scrollHeight)
     }
 
-    pushUpClick(){
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+    pushUpClick(i){
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+
       innerBoxHeight.scrollTop=0;
       console.log(innerBoxHeight.scrollTop)
     }

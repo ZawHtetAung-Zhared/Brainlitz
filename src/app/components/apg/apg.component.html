@@ -175,8 +175,8 @@
 					<div class="inform-wrapper">
 						<span class="icon">i</span>	<span class="inform-text">Some information about how do skill and requirement create with multiple lines</span>
 					</div>	
-				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id">
-						<div class="d-flex flex-column"style="background:#f2f4f5;">
+				  <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
+						<div class="d-flex flex-column"style="background:#f2f4f5;" id="skillHeader{{i}}">
 							<div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1"  class="close-search1" (click)="mainAccessPointClear(item)"></div>
 							<input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required>
 							<div class="d-flex align-items-center">
@@ -192,18 +192,18 @@
 								<input type="number" class="pass-mark-input" min="0" max="100" name="passMark" [(ngModel)]="item.data.evaluation.passMark" #passMark="ngModel"> <label class="pl-2 pass-label">mark to pass</label>
 							</div>
 						</div>
-						<div id="requirement-inner-box" (scroll)="requirementInnerBox($event)">
+						<div id="requirement-inner-box-{{i}}" (scroll)="requirementInnerBox($event,i)">
 								<div class="d-flex container" *ngFor="let test of item.data.evaluation.details;" >
 									<span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea>
-									<div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1"  class="close-search" (click)="subAccessPointClear(test,item)"></div>
+									<div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1"  class="close-search" (click)="subAccessPointClear(test,item,i)"></div>
 								</div>
 						</div>
-						<div class="d-flex align-items-center cursor-on">
-							<div *ngIf="isUpDownHide">
-									<div *ngIf="!isUpDown" class="downIcon"  (click)="pushUpClick()">
+						<div class="d-flex align-items-center cursor-on" id="skillFooter{{i}}">
+							<div id="skillFooterInner{{i}}">
+									<div *ngIf="!isUpDown" class="downIcon"  (click)="pushUpClick(i)">
 											<img  class="downIcon" src="./assets/images/push-up.png">
 									</div>
-									<div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick()">
+									<div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick(i)">
 											<img  class="downIcon" src="./assets/images/push-down.png">
 									</div>
 							</div>
