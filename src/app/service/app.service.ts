@@ -1736,6 +1736,8 @@ export class appService{
       })
     }
 
+    
+
     createAP(id: string, locationid:string, data: object): Observable<any>{
       this.getLocalstorage();
       let apiUrl = this.baseUrl + '/' + id + '/access-point?locationId=' + locationid;
@@ -1751,7 +1753,25 @@ export class appService{
         return result;
       })
     } 
-     
+
+    createAPG2(id: string, locationid:string, data:Object, moduleId: string): Observable<any>{
+      console.log(data)
+      this.getLocalstorage();
+      let apiUrl; 
+      apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId + '&locationId=' + locationid;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
     createAPG(id: string, locationid:string, data: object, templateId: string, moduleId: string): Observable<any>{
       console.log(data, templateId)
       this.getLocalstorage();
