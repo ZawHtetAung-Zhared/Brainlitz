@@ -72,7 +72,7 @@
       <i class="fa fa-angle-left"></i>
       <p>APG</p>
     </div>
-    <div class="d-flex back-to" *ngIf="(isshare == true && isUpdate == false) || apCreate == true" (click)="goToBack('create')">
+    <div class="d-flex back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">
       <i class="fa fa-angle-left"></i>
       <p>Pick APG type</p>
     </div>
@@ -106,9 +106,10 @@
       APG serves as a central point to view the student’s progress by all parties. It can be in the form of Progress
       Bar or Badges.
     </p>
-    <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false && iscreate== false" class="title-heading">Creating progress APG</h3>
-    <h3 *ngIf="apCreate == true && iscreate == false" class="title-heading">Creating evaluation APG</h3>
-    <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
+    <!-- <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false && iscreate== false" class="title-heading">Creating progress APG</h3>
+    <h3 *ngIf="apCreate == true && iscreate == false" class="title-heading">Creating evaluation APG</h3> -->
+    <h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">Creating {{apgType}} APG</h3>
+    <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create {{apgType}} APG</h3>
     <h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
   </div>
@@ -141,10 +142,10 @@
                 </div>
                 <div class="icon-apg"></div>
               </div>
-              <label style="line-height: 1" class="form-title input-label" for="address">Create new APG</label>
+              <label style="line-height: 1" class="form-title input-label" for="address">Create new {{apgType}} APG</label>
             </div>
           </div>
-          <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+          <div class="col-sm-4 col-md-5 col-lg-5 col-xxl" [ngClass]="{'disable-click': apgType=='Assessment'}">
             <div (click)="createNewAPG('share',apgType)" class="d-flex apg-box justify-content-center flex-column">
               <div class="d-flex flex-row">
                 <div class="stoke-wrap">
@@ -156,13 +157,12 @@
                 </div>
                 <div class="icon-apg"></div>
               </div>
-              <label style="line-height: 1" class="form-title input-label" for="address">Create using publicly shared
-                APG</label>
+              <label style="line-height: 1" class="form-title input-label" for="address">Create using publicly shared {{apgType}} APG</label>
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="isshare == false && apCreate == true ">
+      <div *ngIf="iscreate == true && apCreate == true">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
             <div class="d-flex flex-column">
@@ -231,11 +231,11 @@
           <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p>
         </div>
         <div class="d-flex justify-content-end form-footer">
-          <button type="button" class="btn btn-cancel" (click)="cancelAp()">Cancel</button>
+          <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
         </div>
       </div>
-      <div *ngIf="iscreate == true">
+      <div *ngIf="iscreate == true && apCreate == false">
 
         <div class="col-md-8 input-wrap">
           <div class="form-group">

@@ -99,6 +99,7 @@ export class ApgComponent implements OnInit , OnDestroy{
     dragulaService.drag().subscribe(({name,el,source})=>{
       console.log($(el))
       console.log($(".gu-mirror"))
+      console.log('~~~~~~~~~drag',this.templateAccessPointGroup)
     })
     dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
       // console.log(clone,original,cloneType)
@@ -239,22 +240,8 @@ export class ApgComponent implements OnInit , OnDestroy{
   }
 
   cancelapg() {
-
     this.apgList = [];
     this.model = {};
-    this.apCreate = false;
-    this.iscreate = false;
-    this.ismodule = false;
-    this.isUpdate = false;
-    this.shareAPG = false;
-    this.getAllAPG(20, 0);
-  }
-  cancelAp() {
-    this.apgList = [];
-    this.model = {};
-    this.templateAccessPointGroup = []
-    console.error(this.templateAccessPointGroup)
-    // this.accessPoint= {};
     this.apCreate = false;
     this.iscreate = false;
     this.ismodule = false;
@@ -262,8 +249,26 @@ export class ApgComponent implements OnInit , OnDestroy{
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
+    //for evaluation APG
+    this.templateAccessPointGroup = []
+
     this.getAllAPG(20, 0);
   }
+  // cancelAp() {
+  //   this.apgList = [];
+  //   this.model = {};
+  //   this.templateAccessPointGroup = []
+  //   console.error(this.templateAccessPointGroup)
+  //   // this.accessPoint= {};
+  //   this.apCreate = false;
+  //   this.iscreate = false;
+  //   this.ismodule = false;
+  //   this.isUpdate = false;
+  //   this.shareAPG = false;
+  //   this.isshare = false;
+  //   this.isGlobal = false;
+  //   this.getAllAPG(20, 0);
+  // }
 
   goToBack(status) {
     if (status == 'type') {
@@ -308,6 +313,7 @@ export class ApgComponent implements OnInit , OnDestroy{
 
     createNewAPG(status,name){
       if(status == 'create'){
+        this.iscreate = true;
         if(name == 'Assessment'){
             this.ismodule = false;
             this.apCreate = true;
@@ -320,7 +326,7 @@ export class ApgComponent implements OnInit , OnDestroy{
               "options":false,
               "data" : {
                 "evaluation" :{
-                  "passMark": Number,
+                  "passMark": 0,
                   "details": [
                     {
                       "requirement": "",
@@ -333,13 +339,13 @@ export class ApgComponent implements OnInit , OnDestroy{
               }
             }
             this.templateAccessPointGroup.push(templateAccessPoint)
-            this.iscreate = false;
+            // this.iscreate = false;
             this.apCreate = true;
             console.warn(this.apCreate)
             // ismodule == false && iscreate == false && isshare == false && shareAPG == false
           }else{
             this.model = {};
-            this.iscreate = true;
+            // this.iscreate = true;
             this.isshare = false;
             this.apCreate = false;
           }
@@ -421,7 +427,7 @@ export class ApgComponent implements OnInit , OnDestroy{
         "options": false,
         "data": {
           "evaluation": {
-            "passMark": Number,
+            "passMark": 0,
             "details": [
               {
                 "requirement": "",
@@ -549,7 +555,7 @@ export class ApgComponent implements OnInit , OnDestroy{
     }
     createEvaluateApgs(){
       this.model = {};
-      this.cancelAp()
+      this.cancelapg();
     }
 
   
