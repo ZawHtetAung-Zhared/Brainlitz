@@ -9,7 +9,7 @@
 	<button type="button" class="btn btn-create" (click)="creatnew()">Add new APG</button> 
   </div>
 </div> -->
-<div id="mainapg" class="main-wrapper pad-bottom" *ngIf="ismodule == false && iscreate == false && isshare == false && shareAPG == false">
+<div id="mainapg" class="main-wrapper pad-bottom" *ngIf="ismodule == false && iscreate == false  && isshare == false && shareAPG == false && apCreate == false">
   <div *ngIf="apgPermission.length > 0" class="d-flex justify-content-between heading-margin">
     <div class="mr-auto">
       <div class="d-flex flex-row">
@@ -60,19 +60,19 @@
     </div>
   </div>
 </div>
-<div *ngIf="apgList.length >=20  && result != 0 && iscreate == false && ismodule == false && shareAPG == false && isshare == false "
+<div *ngIf="apgList.length >=20  && result != 0 && iscreate == false && ismodule == false && shareAPG == false && isshare == false && apCreate == false"
   class="load-more">
   <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
   <button class="btn remove-outline" (click)="showmore('apg',apgList.length)">load more</button>
 </div>
 
-<div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true || shareAPG == true">
+<div class="main-wrapper" *ngIf="ismodule == true || isshare == true || iscreate == true || shareAPG == true || apCreate == true">
   <div class="back-wrap">
     <div class="d-flex back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">
       <i class="fa fa-angle-left"></i>
       <p>APG</p>
     </div>
-    <div class="d-flex back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">
+    <div class="d-flex back-to" *ngIf="(isshare == true && isUpdate == false) || apCreate == true" (click)="goToBack('create')">
       <i class="fa fa-angle-left"></i>
       <p>Pick APG type</p>
     </div>
@@ -107,7 +107,7 @@
       Bar or Badges.
     </p>
     <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false" class="title-heading">Creating progress APG</h3>
-    <h3 *ngIf="isshare == true && isUpdate == false && apCreate == true" class="title-heading">Creating evaluation APG</h3>
+    <h3 *ngIf="apCreate == true" class="title-heading">Creating evaluation APG</h3>
     <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
     <h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
@@ -133,7 +133,7 @@
       <div *ngIf="isshare == true">
         <div class="d-flex flex-row" *ngIf="apCreate == false">
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
-            <div (click)="createNewAPG('create')" class="d-flex apg-box justify-content-center flex-column">
+            <div (click)="createNewAPG('create',apgType)" class="d-flex apg-box justify-content-center flex-column">
               <div class="d-flex flex-row">
                 <div class="stoke-wrap">
                   <div class="stoke-1"></div>
@@ -145,7 +145,7 @@
             </div>
           </div>
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
-            <div (click)="createNewAPG('share')" class="d-flex apg-box justify-content-center flex-column">
+            <div (click)="createNewAPG('share',apgType)" class="d-flex apg-box justify-content-center flex-column">
               <div class="d-flex flex-row">
                 <div class="stoke-wrap">
                   <div class="stoke-1"></div>
@@ -162,7 +162,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="apCreate == true && isshare == true">
+      <div *ngIf="apCreate == true">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
             <div class="d-flex flex-column">

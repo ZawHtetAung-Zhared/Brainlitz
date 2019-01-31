@@ -19,6 +19,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
+    public apgType:any;
     public templateAccessPointGroup = []
     public checkMark:any = [''];
     public isGlobal:boolean = false;
@@ -259,10 +260,43 @@ export class ApgComponent implements OnInit {
       this.isUpdate = false;
     }
 
-    createNewAPG(status){
+    createNewAPG(status,name){
+      console.warn(name)
       if(status == 'create'){
-        this.model = {};
-        this.iscreate = true;
+        if(name == 'Assessment'){
+            this.ismodule = false;
+            this.isshare = true;
+            this.apCreate = true;
+            const templateAccessPoint =  {
+              "name" : "",
+              "description": "",
+              "moduleId": "",
+              "regionId": "",
+              "orgId": "",
+              "options":false,
+              "data" : {
+                "evaluation" :{
+                  "passMark": Number,
+                  "details": [
+                    {
+                      "requirement": "",
+                      "options": [
+                        ""
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+            this.templateAccessPointGroup.push(templateAccessPoint)
+            this.iscreate = false;
+            // ismodule == false && iscreate == false && isshare == false && shareAPG == false
+          }else{
+            this.model = {};
+            this.iscreate = true;
+            this.isshare = false;
+            this.apCreate = false;
+          }
       }else{
         console.log('hi')
         this.sharechecked = ''
@@ -309,33 +343,34 @@ export class ApgComponent implements OnInit {
     }
 
     chooseModuleType(val, name,type){
-      if(name == 'Assessment'){
-        this.ismodule = false;
-        this.isshare = true;
-        this.apCreate = true;
-        const templateAccessPoint =  {
-          "name" : "",
-          "description": "",
-          "moduleId": "",
-          "regionId": "",
-          "orgId": "",
-          "options":false,
-          "data" : {
-            "evaluation" :{
-              "passMark": Number,
-              "details": [
-                {
-                  "requirement": "",
-                  "options": [
-                    ""
-                  ]
-                }
-              ]
-            }
-          }
-        }
-        this.templateAccessPointGroup.push(templateAccessPoint)
-      }
+      // if(name == 'Assessment'){
+      //   this.ismodule = false;
+      //   this.isshare = true;
+      //   this.apCreate = true;
+      //   const templateAccessPoint =  {
+      //     "name" : "",
+      //     "description": "",
+      //     "moduleId": "",
+      //     "regionId": "",
+      //     "orgId": "",
+      //     "options":false,
+      //     "data" : {
+      //       "evaluation" :{
+      //         "passMark": Number,
+      //         "details": [
+      //           {
+      //             "requirement": "",
+      //             "options": [
+      //               ""
+      //             ]
+      //           }
+      //         ]
+      //       }
+      //     }
+      //   }
+      //   this.templateAccessPointGroup.push(templateAccessPoint)
+      // }
+      this.apgType = name;
       console.log(name)
       this.ischecked = val;
       localStorage.setItem('moduleID', val);
