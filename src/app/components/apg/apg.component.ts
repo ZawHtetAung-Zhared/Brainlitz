@@ -8,8 +8,10 @@ import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+
 declare var $:any;
 import { Router } from '@angular/router';
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 
 @Component({
   selector: 'app-apg',
@@ -17,50 +19,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit {
-  // public templateAccessPoint = {
-  //     "name" : "",
-  //     "description": "",
-  //     "moduleId": "",
-  //     "regionId": "",
-  //     "orgId": "",
-  //     "options":false,
-  //     "data" : {
-  //       "evaluation" :{
-  //         "passMark": Number,
-  //         "details": [
-  //           {
-  //             "requirement": "",
-  //             "options": [
-  //               ""
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     }
-  // }
-    public templateAccessPointGroup = [
-      {
-      "name" : "",
-      "description": "",
-      "moduleId": "",
-      "regionId": "",
-      "orgId": "",
-      "options":false,
-      "data" : {
-        "evaluation" :{
-          "passMark": Number,
-          "details": [
-            {
-              "requirement": "",
-              "options": [
-                ""
-              ]
-            }
-          ]
-        }
-      }
-    }
-  ]
+    public templateAccessPointGroup = []
     public checkMark:any = [''];
     public isGlobal:boolean = false;
     public apCreate:boolean = false;
@@ -131,11 +90,17 @@ export class ApgComponent implements OnInit {
     public apgPermission:any = [];
     public apgDemo:any = [];
 
-
-    constructor(private modalService: NgbModal,private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private router: Router) { 
-      this.toastr.setRootViewContainerRef(vcr);
-
-
+    constructor(private modalService: NgbModal,
+      private _service: appService, 
+      public toastr: ToastsManager, public vcr: ViewContainerRef, 
+      private router: Router,
+      private dragulaService: DragulaService) { 
+        this.dragulaService.createGroup("COLUMNS", {
+          direction: 'vertical',
+          moves: (el, source, handle) => handle.className === "group-handle"
+        });
+        this.toastr.setRootViewContainerRef(vcr);
+  
       this._service.locationID.subscribe((data) => {
         if(this.router.url === '/tools'){
           this._service.permissionList.subscribe((data) => {
@@ -149,8 +114,10 @@ export class ApgComponent implements OnInit {
         }
       });
     }
+   
 
-  	ngOnInit() {
+  	ngOnInit() {	  
+
       this.dataVal = {
         '_id': '',
         'moduleId': '',
@@ -194,7 +161,7 @@ export class ApgComponent implements OnInit {
       let hit = $('.pad-bottom').height();
       return hit;
     }
-
+    
     
     @HostListener('window:scroll', ['$event']) onScroll($event){
       // console.log('==== ',$('.pad-bottom').height() + 150)
@@ -254,29 +221,7 @@ export class ApgComponent implements OnInit {
     cancelAp(){
       this.apgList = [];
       this.model = {};
-      this.templateAccessPointGroup = [
-        {
-          "name" : "",
-          "description": "",
-          "moduleId": "",
-          "regionId": "",
-          "orgId": "",
-          "options":false,
-          "data" : {
-            "evaluation" :{
-              "passMark": Number,
-              "details": [
-                {
-                  "requirement": "",
-                  "options": [
-                    ""
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
+      this.templateAccessPointGroup = []
       console.error(this.templateAccessPointGroup) 
       // this.accessPoint= {};
       this.apCreate = false;
@@ -305,7 +250,7 @@ export class ApgComponent implements OnInit {
         this.shareAPG = false;
         this.iscreate = false;
       }
-
+      this.templateAccessPointGroup = []
     }
 
     addNewAPG(){
@@ -370,6 +315,28 @@ export class ApgComponent implements OnInit {
         this.ismodule = false;
         this.isshare = true;
         this.apCreate = true;
+        const templateAccessPoint =  {
+          "name" : "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "options":false,
+          "data" : {
+            "evaluation" :{
+              "passMark": Number,
+              "details": [
+                {
+                  "requirement": "",
+                  "options": [
+                    ""
+                  ]
+                }
+              ]
+            }
+          }
+        }
+        this.templateAccessPointGroup.push(templateAccessPoint)
       }
       console.log(name)
       this.ischecked = val;
@@ -415,8 +382,6 @@ export class ApgComponent implements OnInit {
     
     subAccessPointAdd(options,i){
       console.log('~~~~~~~~',i)
-      // i.data.evaluation.details.push({});
-      // console.log(this.templateAccessPointGroup[i].data)
       let req = {
         "requirement": "",
         "options": [
@@ -1146,5 +1111,23 @@ export class ApgComponent implements OnInit {
           console.log(err)
       })
     }
+    autoResize(e){
+      console.log(e.target.style)
+      console.log(e.target.scrollHeight)
+      e.target.style.cssText = 'height:auto';
+      e.target.style.height = e.target.scrollHeight + "px";
+    }
+    minAndMax(e,value,index){
 
+      console.log(e)
+      console.log(value)
+      if(value <0)
+        value = 0;
+      else if(value > 100)
+        value = 100;
+      this.templateAccessPointGroup[index].data.evaluation.passMark = value;
+      e.target.value = value;
+      console.log(value)
+      console.log(index)
+    }
 }
