@@ -722,6 +722,7 @@
 }
 
 .requirement-name {
+  resize: none;
   border: none;
   border-bottom: 1px solid #edeff0;
   width: 396px;
@@ -753,7 +754,7 @@
 
 .close-search {
   position: relative;
-  right: 17px;
+  right: 0px;
   top: 18px;
   width: 16px;
   height: 16px;
