@@ -223,7 +223,6 @@ export class ApgComponent implements OnInit {
       this.apgList = [];
       this.model = {};
       this.templateAccessPointGroup = []
-      console.error(this.templateAccessPointGroup) 
       // this.accessPoint= {};
       this.apCreate = false;
       this.iscreate = false;
@@ -263,11 +262,9 @@ export class ApgComponent implements OnInit {
     }
 
     createNewAPG(status,name){
-      console.warn(name)
       if(status == 'create'){
         if(name == 'Assessment'){
             this.ismodule = false;
-            this.isshare = true;
             this.apCreate = true;
             const templateAccessPoint =  {
               "name" : "",
@@ -292,6 +289,8 @@ export class ApgComponent implements OnInit {
             }
             this.templateAccessPointGroup.push(templateAccessPoint)
             this.iscreate = false;
+            this.apCreate = true;
+            console.warn(this.apCreate)
             // ismodule == false && iscreate == false && isshare == false && shareAPG == false
           }else{
             this.model = {};
@@ -303,6 +302,7 @@ export class ApgComponent implements OnInit {
         console.log('hi')
         this.sharechecked = ''
         this.shareAPG = true;
+        this.apCreate = false;
         this.templateList = [];
         this.getAllTemplate(20,0);
       }
@@ -344,34 +344,8 @@ export class ApgComponent implements OnInit {
       })
     }
 
-    chooseModuleType(val, name,type){
-      // if(name == 'Assessment'){
-      //   this.ismodule = false;
-      //   this.isshare = true;
-      //   this.apCreate = true;
-      //   const templateAccessPoint =  {
-      //     "name" : "",
-      //     "description": "",
-      //     "moduleId": "",
-      //     "regionId": "",
-      //     "orgId": "",
-      //     "options":false,
-      //     "data" : {
-      //       "evaluation" :{
-      //         "passMark": Number,
-      //         "details": [
-      //           {
-      //             "requirement": "",
-      //             "options": [
-      //               ""
-      //             ]
-      //           }
-      //         ]
-      //       }
-      //     }
-      //   }
-      //   this.templateAccessPointGroup.push(templateAccessPoint)
-      // }
+    chooseModuleType(val, name){
+   
       this.apgType = name;
       console.log(name)
       this.ischecked = val;
@@ -379,6 +353,9 @@ export class ApgComponent implements OnInit {
       setTimeout(() => {
         this.ismodule = false;
         this.isshare = true;
+        if(name == 'Assessment'){
+          this.apCreate = true
+        }
         console.log('...')
       }, 300);
     }
@@ -424,7 +401,6 @@ export class ApgComponent implements OnInit {
         ]
       };
        this.templateAccessPointGroup[i].data.evaluation.details.push(req);
-      console.warn(this.templateAccessPointGroup)
       console.log("ACGroup!!!!",this.templateAccessPointGroup[i].data.evaluation.details)
 
       const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
@@ -528,7 +504,6 @@ export class ApgComponent implements OnInit {
     }
     createEvaluateApgs(){
       this.model = {};
-      console.error(this.model)
       this.cancelAp()
     }
 

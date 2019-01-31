@@ -106,8 +106,8 @@
       APG serves as a central point to view the student’s progress by all parties. It can be in the form of Progress
       Bar or Badges.
     </p>
-    <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false" class="title-heading">Creating progress APG</h3>
-    <h3 *ngIf="apCreate == true" class="title-heading">Creating evaluation APG</h3>
+    <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false && iscreate== false" class="title-heading">Creating progress APG{{isshare}} {{isUpdate}} {{apCreate}} {{iscreate}}</h3>
+    <h3 *ngIf="apCreate == true && iscreate == false" class="title-heading">Creating evaluation APG</h3>
     <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">Create APG</h3>
     <h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">Update APG</h3>
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
@@ -131,7 +131,7 @@
         </div>
       </div>
       <div *ngIf="isshare == true">
-        <div class="d-flex flex-row" *ngIf="apCreate == false">
+        <div class="d-flex flex-row" >
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
             <div (click)="createNewAPG('create',apgType)" class="d-flex apg-box justify-content-center flex-column">
               <div class="d-flex flex-row">
@@ -162,7 +162,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="apCreate == true">
+      <div *ngIf="isshare == false && apCreate == true ">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
             <div class="d-flex flex-column">
