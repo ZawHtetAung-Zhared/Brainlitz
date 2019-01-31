@@ -74,6 +74,7 @@ export class ApgComponent implements OnInit {
     itemtype:any;
     isUpDown : Boolean=false;
     isUpDownHide : Boolean=false;
+    
 
     //
     public ismodule: boolean = false;
@@ -412,6 +413,7 @@ export class ApgComponent implements OnInit {
           }
         }
     }
+    console.log(templateAccessPoint);
      this.templateAccessPointGroup.push(templateAccessPoint)
     }
     
@@ -526,12 +528,61 @@ export class ApgComponent implements OnInit {
       // this.isGlobal = !this.isGlobal
       item.options = !item.options;
     }
-    createEvaluateApgs(){
-      this.model = {};
-      console.error(this.model)
-      this.cancelAp()
-    }
+    
+    createEvaluateApgs(nameparam){
+      var moduleId = localStorage.getItem('moduleID');
+      var arr;
+      
+      var apg={"name":"","description":"","moduleId":"","accessPoints":[]};
+      var templateID;
 
+      console.log(nameparam.name)
+      
+      this.insertAP().then(res=>{
+          apg.name=nameparam.name;
+          apg.accessPoints=res;
+          apg.moduleId=moduleId;
+          console.log(apg)
+          
+          this._service.createAPG2(this.regionID, this.locationID,apg, moduleId)
+              .subscribe((res:any) => {
+                this.toastr.success('APG successfully Created.');
+                console.log(res)
+                this.cancelapg();
+              }, err => {
+                this.toastr.error('Created APG Fail');
+                console.log(err)
+              });
+        }).catch((err) => {
+          console.log(err); // never called
+      })
+    }
+    
+    insertAP(){
+      var apArr={"name":"","description":"","moduleId":""};
+      var moduleId = localStorage.getItem('moduleID');
+      var APIdarr=[];
+
+        return Promise.all(this.templateAccessPointGroup.map(ap=>{
+          for(var j=0;j<ap.data.evaluation.details.length;j++){
+            console.log(ap.name)
+            apArr.name=ap.name;
+            apArr.description=ap.data.evaluation.details[j].requirement;
+            apArr.moduleId=moduleId;
+          }
+          return new Promise((resolve,reject)=>{
+            this._service.createAP(this.regionID,this.locationID,apArr)
+            .subscribe((res:any) => {
+              resolve(res._id)
+            }, err => {
+              this.toastr.error('Created AP Fail');
+              reject(err);
+              console.log(err)
+            });
+          })
+        }))
+}
+    
 
     createapgs(data, update){
       console.log(update)
