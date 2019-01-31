@@ -100,12 +100,9 @@ export class ApgComponent implements OnInit , OnDestroy{
     dragulaService.drag().subscribe(({name,el,source})=>{
       // console.log($(el).hide())
       console.log($(".gu-mirror"))
-<<<<<<< HEAD
       console.log('~~~~~~~~~drag',this.templateAccessPointGroup)
-=======
       console.log(name)
       console.log(source)
->>>>>>> 1dcf497bfe947354fa70965179fbd7d22aef967d
     })
     dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
       // console.log(clone,original,cloneType)
