@@ -96,10 +96,16 @@ export class ApgComponent implements OnInit , OnDestroy{
     private router: Router,
     private dragulaService: DragulaService) {
     console.log(this.templateAccessPointGroup)
+
     dragulaService.drag().subscribe(({name,el,source})=>{
-      console.log($(el))
+      // console.log($(el).hide())
       console.log($(".gu-mirror"))
+<<<<<<< HEAD
       console.log('~~~~~~~~~drag',this.templateAccessPointGroup)
+=======
+      console.log(name)
+      console.log(source)
+>>>>>>> 1dcf497bfe947354fa70965179fbd7d22aef967d
     })
     dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
       // console.log(clone,original,cloneType)
@@ -109,6 +115,9 @@ export class ApgComponent implements OnInit , OnDestroy{
       // $(clone).css('height','70')
       // $(clone).css('overflow','hidden')
       // console.log($(clone).css())
+      // console.log($(clone))
+      // console.log($(original).hide())
+      // $(original).hide()
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
@@ -439,6 +448,7 @@ export class ApgComponent implements OnInit , OnDestroy{
           }
         }
     }
+    console.log(templateAccessPoint);
      this.templateAccessPointGroup.push(templateAccessPoint)
     }
     
@@ -553,12 +563,81 @@ export class ApgComponent implements OnInit , OnDestroy{
       // this.isGlobal = !this.isGlobal
       item.options = !item.options;
     }
-    createEvaluateApgs(){
-      this.model = {};
-      this.cancelapg();
-    }
+    
+    createEvaluateApgs(nameparam){
+      var moduleId = localStorage.getItem('moduleID');
+      var arr;
+      
+      var apg={"name":"","description":"","moduleId":"","accessPoints":[]};
+      var templateID;
 
-  
+      console.log(nameparam.name)
+      
+      this.insertAP().then(res=>{
+          apg.name=nameparam.name;
+          apg.accessPoints=res;
+          apg.moduleId=moduleId;
+          
+          this._service.createAPG2(this.regionID, this.locationID,apg, moduleId)
+              .subscribe((res:any) => {
+                this.toastr.success('APG successfully Created.');
+                console.log(res)
+                this.cancelapg();
+              }, err => {
+                this.toastr.error('Created APG Fail');
+                console.log(err)
+              });
+
+        }).catch((err) => {
+          console.log(err); // never called
+      });
+    }
+    
+    insertAP(){
+      var apArr={
+        "name": "",
+        "moduleId": "",
+        "description": "",
+        "data": {
+          "evaluation": {
+            "passMark": 0,
+            "details": [
+              {
+                "name": "string",
+                "options": [
+                  "string"
+                ]
+              }
+            ]
+          }
+        }
+      }
+      
+      var moduleId = localStorage.getItem('moduleID');
+      var APIdarr=[];
+
+        return Promise.all(this.templateAccessPointGroup.map(ap=>{
+          // for(var j=0;j<ap.data.evaluation.details.length;j++){
+          //   console.log(ap.name)
+          //   
+          // }
+
+          apArr.name=ap.name;
+          apArr.moduleId=moduleId;
+          apArr.data.evaluation=ap.data.evaluation;
+          return new Promise((resolve,reject)=>{
+            this._service.createAP(this.regionID,this.locationID,apArr)
+            .subscribe((res:any) => {
+              resolve(res._id)
+            }, err => {
+              this.toastr.error('Created AP Fail');
+              reject(err);
+              console.log(err)
+            });
+          })
+        }))
+}
+    
 
 
   // subAccessPointClear(item, i) {
