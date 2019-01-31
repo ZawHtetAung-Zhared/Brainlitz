@@ -73,7 +73,7 @@ export class ApgComponent implements OnInit , OnDestroy{
   itemtype: any;
   isUpDown: Boolean = false;
   isUpDownHide: Boolean = false;
-
+  apgType : any;
   //
   public ismodule: boolean = false;
   public isshare: boolean = false;
@@ -292,20 +292,67 @@ export class ApgComponent implements OnInit , OnDestroy{
     this.isUpdate = false;
   }
 
-  createNewAPG(status) {
-    if (status == 'create') {
-      this.model = {};
-      this.iscreate = true;
-    } else {
-      console.log('hi')
-      this.sharechecked = ''
-      this.shareAPG = true;
-      this.templateList = [];
-      this.getAllTemplate(20, 0);
-    }
-    this.isshare = false;
-  }
+  // createNewAPG(status) {
+  //   if (status == 'create') {
+  //     this.model = {};
+  //     this.iscreate = true;
+  //   } else {
+  //     console.log('hi')
+  //     this.sharechecked = ''
+  //     this.shareAPG = true;
+  //     this.templateList = [];
+  //     this.getAllTemplate(20, 0);
+  //   }
+  //   this.isshare = false;
+  // }
 
+    createNewAPG(status,name){
+      if(status == 'create'){
+        if(name == 'Assessment'){
+            this.ismodule = false;
+            this.apCreate = true;
+            const templateAccessPoint =  {
+              "name" : "",
+              "description": "",
+              "moduleId": "",
+              "regionId": "",
+              "orgId": "",
+              "options":false,
+              "data" : {
+                "evaluation" :{
+                  "passMark": Number,
+                  "details": [
+                    {
+                      "requirement": "",
+                      "options": [
+                        ""
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+            this.templateAccessPointGroup.push(templateAccessPoint)
+            this.iscreate = false;
+            this.apCreate = true;
+            console.warn(this.apCreate)
+            // ismodule == false && iscreate == false && isshare == false && shareAPG == false
+          }else{
+            this.model = {};
+            this.iscreate = true;
+            this.isshare = false;
+            this.apCreate = false;
+          }
+      }else{
+        console.log('hi')
+        this.sharechecked = ''
+        this.shareAPG = true;
+        this.apCreate = false;
+        this.templateList = [];
+        this.getAllTemplate(20,0);
+      }
+      this.isshare = false;
+    }
 
 
   getsingleTemplate(id) {
@@ -341,11 +388,30 @@ export class ApgComponent implements OnInit , OnDestroy{
       })
   }
 
-  chooseModuleType(val, name, type) {
-    if (name == 'Assessment') {
-      this.ismodule = false;
-      this.isshare = true;
-      this.apCreate = true;
+    chooseModuleType(val, name){
+   
+      this.apgType = name;
+      console.log(name)
+      this.ischecked = val;
+      localStorage.setItem('moduleID', val);
+      setTimeout(() => {
+        this.ismodule = false;
+        this.isshare = true;
+        if(name == 'Assessment'){
+          this.apCreate = true
+        }
+        console.log('...')
+      }, 300);
+    }
+
+    chooseShareAPG(val,name){
+      console.log(val)
+      this.sharechecked = val;
+      this.getsingleTemplate(this.sharechecked);
+    }
+    mainAccessPointAdd(){
+      // let testObj = {
+      // }
       const templateAccessPoint = {
         "name": "",
         "description": "",
@@ -366,140 +432,185 @@ export class ApgComponent implements OnInit , OnDestroy{
             ]
           }
         }
-      }
-      this.templateAccessPointGroup.push(templateAccessPoint)
     }
-    console.log(name)
-    this.ischecked = val;
-    localStorage.setItem('moduleID', val);
-    setTimeout(() => {
-      this.ismodule = false;
-      this.isshare = true;
-      console.log('...')
-    }, 300);
-  }
+     this.templateAccessPointGroup.push(templateAccessPoint)
+    }
+    
+    subAccessPointAdd(options,i){
+      console.log(this.templateAccessPointGroup)
+      console.log('~~~~~~~~',i)
+      let req = {
+        "requirement": "",
+        "options": [
+          ""
+        ]
+      };
+       this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+      console.log("ACGroup!!!!",this.templateAccessPointGroup[i].data.evaluation.details)
 
-  chooseShareAPG(val, name) {
-    console.log(val)
-    this.sharechecked = val;
-    this.getsingleTemplate(this.sharechecked);
-  }
-  mainAccessPointAdd() {
-    // let testObj = {
-    // }
-    const templateAccessPoint = {
-      "name": "",
-      "description": "",
-      "moduleId": "",
-      "regionId": "",
-      "orgId": "",
-      "options": false,
-      "data": {
-        "evaluation": {
-          "passMark": Number,
-          "details": [
-            {
-              "requirement": "",
-              "options": [
-                ""
-              ]
-            }
-          ]
-        }
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+      const skillHeader: HTMLElement = document.getElementById('skillHeader'+i);
+      const skillFooter: HTMLElement = document.getElementById('skillFooter'+i);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+
+     
+      if((400 - skillHeight.clientHeight) >= skillHeight.clientHeight){
+        innerBoxHeight.setAttribute("style","overflow:overlay ; ")
+        skillHeight.setAttribute("style","height:auto;")
+        this.isUpDownHide=false;
+        $("#skillFooterInner"+i).hide()
+        console.log("under 400")
+      }else{
+        var height=400 -(skillFooter.clientHeight+skillHeader.clientHeight);
+        skillHeight.setAttribute("style","height:400px;")
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:"+height+"px;");
+        this.isUpDownHide=true;
+        $("#skillFooterInner"+i).show()
+        console.log("over 400")
       }
     }
-    this.templateAccessPointGroup.push(templateAccessPoint)
-  }
 
-  subAccessPointAdd(options, i) {
-    console.log('~~~~~~~~', i)
-    let req = {
-      "requirement": "",
-      "options": [
-        ""
-      ]
-    };
-    this.templateAccessPointGroup[i].data.evaluation.details.push(req);
-    console.warn(this.templateAccessPointGroup)
-    console.log("ACGroup!!!!", this.templateAccessPointGroup[i].data.evaluation.details)
+   
+    subAccessPointClear(item,i,id){
 
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
 
-    console.log(400 - innerBoxHeight.clientHeight);
-    console.log(innerBoxHeight.clientHeight);
+      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
 
-    if ((400 - innerBoxHeight.clientHeight) >= innerBoxHeight.clientHeight) {
-      innerBoxHeight.setAttribute("style", "overflow:none ; height:auto;");
-      this.isUpDownHide = false;
-      console.log("under 400")
-    } else {
-      innerBoxHeight.setAttribute("style", "overflow:overlay ; height:400px;")
-      this.isUpDownHide = true;
-      console.log("over 400")
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+id);
+      const skillHeader: HTMLElement = document.getElementById('skillHeader'+id);
+      const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+id);
+      const skillFooter: HTMLElement = document.getElementById('skillFooter'+id);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+id);
+     
+      console.log(i)
+      console.log(skillHeight)
+      if(skillHeight.clientHeight<=400){
+        this.isUpDown=false;
+        this.isUpDownHide=false;
+        innerBoxHeight.setAttribute("style","overflow:none;")
+        skillHeight.setAttribute("style","height:auto;")
+        $("#skillFooterInner"+id).hide()
+      }else{
+        var height=400 -(skillFooter.clientHeight+skillHeader.clientHeight);
+        this.isUpDown=true;
+
+        this.isUpDownHide=true;
+        $("#skillFooterInner"+id).show()
+        // $("#skillFooter"+id).append('<div *ngIf="!isUpDown" class="downIcon"  (click)="pushUpClick(i)">'+
+        // '<img  class="downIcon" src="./assets/images/push-up.png">'+
+        // '</div><div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick(i)">'+
+        // '<img  class="downIcon" src="./assets/images/push-down.png"></div>');
+
+        // skillFooter.insertAdjacentHTML('beforeend','<div class="two">two</div>');
+
+        innerBoxHeight.setAttribute("style","overflow:overlay ; height:"+height+"px;")
+        skillHeight.setAttribute("style","height:400px;")
+      }
     }
-    console.log(innerBoxHeight.scrollHeight)
-    console.log(innerBoxHeight.scrollTop)
-    console.log(this.templateAccessPointGroup)
 
-  }
+    requirementInnerBox($event,i){
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
 
-
-  subAccessPointClear(item, i) {
-    console.warn(item)
-    i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item), 1);
-
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-
-    if (innerBoxHeight.clientHeight <= 400) {
-      this.isUpDown = false;
-      this.isUpDownHide = false;
-      innerBoxHeight.setAttribute("style", "overflow:none ; height:auto;")
-    } else {
-      this.isUpDown = true;
-      this.isUpDownHide = true;
-      innerBoxHeight.setAttribute("style", "overflow:overlay ; height:400px;")
+      console.log(innerBoxHeight.scrollHeight)
+      console.log(innerBoxHeight.scrollTop)
+    
+      if((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop)==innerBoxHeight.clientHeight){
+        this.isUpDown=false;
+      }else{
+        this.isUpDown=true;
+      }
+      console.log("dar")
     }
-  }
 
-  requirementInnerBox($event) {
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-    console.log(innerBoxHeight.scrollHeight)
-    console.log(innerBoxHeight.scrollTop)
+    pushDownClick(i){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
 
-    if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
-      this.isUpDown = false;
-    } else {
-      this.isUpDown = true;
+       innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
+       console.log(innerBoxHeight.scrollHeight)
     }
-    console.log("dar")
-  }
 
-  pushDownClick() {
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-    innerBoxHeight.scrollTop = innerBoxHeight.scrollHeight
-    console.log(innerBoxHeight.scrollHeight)
-  }
+    pushUpClick(i){
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
 
-  pushUpClick() {
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-    innerBoxHeight.scrollTop = 0;
-    console.log(innerBoxHeight.scrollTop)
-  }
+      innerBoxHeight.scrollTop=0;
+      console.log(innerBoxHeight.scrollTop)
+    }
+
+   
+    mainAccessPointClear(item){
+      this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
+    }
+  
+    checkMarkToggle(item){
+      // this.isGlobal = !this.isGlobal
+      item.options = !item.options;
+    }
+    createEvaluateApgs(){
+      this.model = {};
+      this.cancelAp()
+    }
+
+  
 
 
-  mainAccessPointClear(item) {
-    this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-  }
+  // subAccessPointClear(item, i) {
+  //   console.warn(item)
+  //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item), 1);
+   
+  //   const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
 
-  checkMarkToggle(item) {
-    // this.isGlobal = !this.isGlobal
-    item.options = !item.options;
-  }
-  createEvaluateApgs() {
-    this.model = {};
-    console.error(this.model)
-    this.cancelAp()
-  }
+  //   if (innerBoxHeight.clientHeight <= 400) {
+  //     this.isUpDown = false;
+  //     this.isUpDownHide = false;
+  //     innerBoxHeight.setAttribute("style", "overflow:none ; height:auto;")
+  //   } else {
+  //     this.isUpDown = true;
+  //     this.isUpDownHide = true;
+  //     innerBoxHeight.setAttribute("style", "overflow:overlay ; height:400px;")
+  //   }
+  // }
+
+  // requirementInnerBox($event) {
+  //   const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+  //   console.log(innerBoxHeight.scrollHeight)
+  //   console.log(innerBoxHeight.scrollTop)
+
+  //   if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
+  //     this.isUpDown = false;
+  //   } else {
+  //     this.isUpDown = true;
+  //   }
+  //   console.log("dar")
+  // }
+
+  // pushDownClick() {
+  //   const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+  //   innerBoxHeight.scrollTop = innerBoxHeight.scrollHeight
+  //   console.log(innerBoxHeight.scrollHeight)
+  // }
+
+  // pushUpClick() {
+  //   const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+  //   innerBoxHeight.scrollTop = 0;
+  //   console.log(innerBoxHeight.scrollTop)
+  // }
+
+
+  // mainAccessPointClear(item) {
+  //   this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+  // }
+
+  // checkMarkToggle(item) {
+  //   // this.isGlobal = !this.isGlobal
+  //   item.options = !item.options;
+  // }
+  // createEvaluateApgs() {
+  //   this.model = {};
+  //   console.error(this.model)
+  //   this.cancelAp()
+  // }
 
 
   createapgs(data, update) {
