@@ -96,9 +96,12 @@ export class ApgComponent implements OnInit , OnDestroy{
     private router: Router,
     private dragulaService: DragulaService) {
     console.log(this.templateAccessPointGroup)
+
     dragulaService.drag().subscribe(({name,el,source})=>{
-      console.log($(el))
+      // console.log($(el).hide())
       console.log($(".gu-mirror"))
+      console.log(name)
+      console.log(source)
     })
     dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
       // console.log(clone,original,cloneType)
@@ -108,6 +111,9 @@ export class ApgComponent implements OnInit , OnDestroy{
       // $(clone).css('height','70')
       // $(clone).css('overflow','hidden')
       // console.log($(clone).css())
+      // console.log($(clone))
+      // console.log($(original).hide())
+      // $(original).hide()
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
