@@ -1123,4 +1123,17 @@ export class ApgComponent implements OnInit {
       e.target.style.cssText = 'height:auto';
       e.target.style.height = e.target.scrollHeight + "px";
     }
+    minAndMax(e,value,index){
+
+      console.log(e)
+      console.log(value)
+      if(value <0)
+        value = 0;
+      else if(value > 100)
+        value = 100;
+      this.templateAccessPointGroup[index].data.evaluation.passMark = value;
+      e.target.value = value;
+      console.log(value)
+      console.log(index)
+    }
 }
