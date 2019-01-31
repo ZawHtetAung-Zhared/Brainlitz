@@ -202,8 +202,8 @@
                   <!-- <input type="number" class="pass-mark-input" min="0" max="100" name="passMark" [(ngModel)]="item.data.evaluation.passMark" #passMark="ngModel"> <label class="pl-2 pass-label">mark to pass</label> -->
                 </div>
               </div>
-              <div id="requirement-inner-box" (scroll)="requirementInnerBox($event)" dragula={{item.name}} [(dragulaModel)]="item.data.evaluation.details">
-                <div class="d-flex container" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;">
+              <div id="requirement-inner-box"  (scroll)="requirementInnerBox($event)" dragula={{item.name}} [(dragulaModel)]="item.data.evaluation.details" >
+                <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;">
                   <span class="pr-3 img-wrapper">
                     <img class="move-sign" src="../../../assets/images/disable-holder.svg">
                   </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here" class="requirement-name"
@@ -222,8 +222,9 @@
                     <img class="downIcon" src="./assets/images/push-down.png">
                   </div>
                 </div>
-                <p class="add-requirement" (click)="subAccessPointAdd(item.data.evaluation.details,i)">Add new
-                  requirement</p>
+                <p class="add-requirement" (click)="subAccessPointAdd(item.data.evaluation.details,i)" *ngIf="item.name != ''" >
+                  Add new requirement
+                </p>
               </div>
             </div>
           </div>

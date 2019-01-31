@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef, HostListener, style } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -7,9 +7,9 @@ import { convertField } from './apg';
 import { appService } from '../../service/app.service';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-
-declare var $:any;
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import 'rxjs/add/operator/takeUntil';
+declare var $: any;
 import { Router } from '@angular/router';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 
@@ -18,351 +18,343 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   templateUrl: './apg.component.html',
   styleUrls: ['./apg.component.css']
 })
-export class ApgComponent implements OnInit {
-    public templateAccessPointGroup = []
-    public checkMark:any = [''];
-    public isGlobal:boolean = false;
-    public apCreate:boolean = false;
-    public keyword:any;
-    public isSearch:boolean =false;
-    public model:any = {};
-    // public accessPoint:any = {};
-    public dataVal:any = {};
-  	public modalReference: any;
-  	public closeResult: any;
-  	apgField: apgField = new apgField();
-  	apField: apField = new apField();
-    convertField: convertField = new convertField();
-  	customAP: boolean = false;
-  	newAP: boolean = false;
-  	existAP: boolean = false;
-  	templateAPG: boolean = false;
-  	viewType:any = 'apg';
-  	public regionID = localStorage.getItem('regionId');
-    public locationID = localStorage.getItem('locationId');
-  	apList: any;
-  	moduleList: any[] = [];
-  	templateList: Array<any> = [];
-  	apgList: Array<any> = [];
-  	apArray: any[] = [];
-  	@BlockUI() blockUI: NgBlockUI;
-  	newAPList: any[] = [];
-  	newAPListId: any[] = [];
-  	newAPshow: boolean = false;
-    createButton: boolean = false;
-    updateButton: boolean = false;
-    checkedModuleID: any[] = [];
-    customCheck: boolean = false;
-    checkedAPid: any[] = [];
-    checkedTemplateID: any[] = [];
-    templateChecked: boolean = false;
-    editId: any;
-    deleteId: any;
-    deleteAPG: any;
-    emptyAPG: boolean = false;
-    convertId: any;
-    template: any = {};
-    moduleId: any;
-    moduleAPList: any;
-    getAccessPoint: any;
-    tempModuleId: any;
-    result: any;
-    emptyAP: boolean = false;
-    isFirst:boolean = false;
-    searchWord:any;
-    itemtype:any;
-    isUpDown : Boolean=false;
-    isUpDownHide : Boolean=false;
+export class ApgComponent implements OnInit , OnDestroy{
+  public templateAccessPointGroup = []
+  public checkMark: any = [''];
+  public isGlobal: boolean = false;
+  public apCreate: boolean = false;
+  public keyword: any;
+  public isSearch: boolean = false;
+  public model: any = {};
+  // public accessPoint:any = {};
+  public dataVal: any = {};
+  public modalReference: any;
+  public closeResult: any;
+  apgField: apgField = new apgField();
+  apField: apField = new apField();
+  convertField: convertField = new convertField();
+  customAP: boolean = false;
+  newAP: boolean = false;
+  existAP: boolean = false;
+  templateAPG: boolean = false;
+  viewType: any = 'apg';
+  public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
+  apList: any;
+  moduleList: any[] = [];
+  templateList: Array<any> = [];
+  apgList: Array<any> = [];
+  apArray: any[] = [];
+  @BlockUI() blockUI: NgBlockUI;
+  newAPList: any[] = [];
+  newAPListId: any[] = [];
+  newAPshow: boolean = false;
+  createButton: boolean = false;
+  updateButton: boolean = false;
+  checkedModuleID: any[] = [];
+  customCheck: boolean = false;
+  checkedAPid: any[] = [];
+  checkedTemplateID: any[] = [];
+  templateChecked: boolean = false;
+  editId: any;
+  deleteId: any;
+  deleteAPG: any;
+  emptyAPG: boolean = false;
+  convertId: any;
+  template: any = {};
+  moduleId: any;
+  moduleAPList: any;
+  getAccessPoint: any;
+  tempModuleId: any;
+  result: any;
+  emptyAP: boolean = false;
+  isFirst: boolean = false;
+  searchWord: any;
+  itemtype: any;
+  isUpDown: Boolean = false;
+  isUpDownHide: Boolean = false;
 
-    //
-    public ismodule: boolean = false;
-    public isshare: boolean = false;
-    public shareAPG: boolean = false;
-    public iscreate: boolean = false;
-    public ischecked: any;
-    public sharechecked: any;
-    public isUpdate: boolean = false;
-    public navIsFixed: boolean = false;
-    public singleCheckedAPG: boolean = false;
-    responseAP: any;
-    wordLength:any = 0;
-    public permissionType:any;
-    public apgPermission:any = [];
-    public apgDemo:any = [];
+  //
+  public ismodule: boolean = false;
+  public isshare: boolean = false;
+  public shareAPG: boolean = false;
+  public iscreate: boolean = false;
+  public ischecked: any;
+  public sharechecked: any;
+  public isUpdate: boolean = false;
+  public navIsFixed: boolean = false;
+  public singleCheckedAPG: boolean = false;
+  responseAP: any;
+  wordLength: any = 0;
+  public permissionType: any;
+  public apgPermission: any = [];
+  public apgDemo: any = [];
 
-    constructor(private modalService: NgbModal,
-      private _service: appService, 
-      public toastr: ToastsManager, public vcr: ViewContainerRef, 
-      private router: Router,
-      private dragulaService: DragulaService) { 
-        this.dragulaService.createGroup("COLUMNS", {
-          direction: 'vertical',
-          moves: (el, source, handle) => handle.className === "group-handle"
+  constructor(private modalService: NgbModal,
+    private _service: appService,
+    public toastr: ToastsManager, public vcr: ViewContainerRef,
+    private router: Router,
+    private dragulaService: DragulaService) {
+    console.log(this.templateAccessPointGroup)
+    dragulaService.drag().subscribe(({name,el,source})=>{
+      console.log($(el))
+      console.log($(".gu-mirror"))
+    })
+    dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
+      // console.log(clone,original,cloneType)
+      // var top = $(clone).height();
+      // console.log(top)
+      // console.log($(clone).eventX)
+      // $(clone).css('height','70')
+      // $(clone).css('overflow','hidden')
+      // console.log($(clone).css())
+      $(clone).css('top', $("#clone").height() + "px");
+      $(clone).children(".close-search").hide();
+    })
+    this.dragulaService
+      .drag("COLUMNS")
+      .subscribe(value => {
+        console.log("dddd")
+        // this.msg = `Dragging the ${value[1].innerText}!`;
+      });
+    this.dragulaService.createGroup("COLUMNS", {
+      direction: 'vertical',
+      moves: (el, source, handle) => handle.className === "group-handle"
+    });
+    this.toastr.setRootViewContainerRef(vcr);
+
+    this._service.locationID.subscribe((data) => {
+      if (this.router.url === '/tools') {
+        this._service.permissionList.subscribe((data) => {
+          console.log('from apg')
+          this.permissionType = data;
+          this.checkPermission();
         });
-        this.toastr.setRootViewContainerRef(vcr);
-  
-      this._service.locationID.subscribe((data) => {
-        if(this.router.url === '/tools'){
-          this._service.permissionList.subscribe((data) => {
-            console.log('from apg')
-            this.permissionType = data;
-            this.checkPermission();
-          });
-    
-        }else{
-          console.log('====',this.router.url)
-        }
+
+      } else {
+        console.log('====', this.router.url)
+      }
+    });
+  }
+ ngOnDestroy(){
+  console.log(this.dragulaService.destroy("COLUMNS"))
+ }
+
+  ngOnInit() {
+    for(var i=0;i<this.templateAccessPointGroup.length; i++){
+      this.dragulaService
+      .drag(this.templateAccessPointGroup[i].name)
+      .subscribe(({ name, el, source })=> {
+        console.log(name)
+        console.log(el)
+        console.log("dddd")
+        // this.msg = `Dragging the ${value[1].innerText}!`;
       });
     }
-   
-
-  	ngOnInit() {	  
-
-      this.dataVal = {
-        '_id': '',
-        'moduleId': '',
-      }
-
-      if(this.router.url === '/tools'){
-        this.permissionType = localStorage.getItem('permission');
-        this.checkPermission();
-      }  
-  	}    
-
-    checkPermission(){
-      console.log(this.permissionType)
-      this.apgPermission = ["CREATEAPG","CREATEAP"];
-      if(this.permissionType!= null){
-        this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
-        this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
-        this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
-        this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
-  
-        console.log(this.apgDemo)
-      }
-      // this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
-      // this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
-      // this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
-      // this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
-
-      // console.log(this.apgDemo)
-      if(this.apgPermission.length > 0){
-        this.getAllModule();
-        this.getAllAPG(20,0);
-      }else{
-        this.apgList = [];
-      }
+    this.dataVal = {
+      '_id': '',
+      'moduleId': '',
     }
 
-    
-    getContentHeight(){
-      let hit = $('.pad-bottom').height();
-      return hit;
+    if (this.router.url === '/tools') {
+      this.permissionType = localStorage.getItem('permission');
+      this.checkPermission();
     }
-    
-    
-    @HostListener('window:scroll', ['$event']) onScroll($event){
-      // console.log('==== ',$('.pad-bottom').height() + 150)
-      // console.log($(window).height())
+  }
 
-      // if(window.pageYOffset < 15){
-      //   console.log('less than 40')
-      //   this.isSticky = false;
-      // }
-      // console.log($event);
-      // console.log("scrolling");
-      // console.log(window.pageYOffset)
-      // if(window.pageYOffset > 40){
-      //   console.log('greater than 100')
-      //   this.navIsFixed = true;
-      // }else{
-      //   console.log('less than 100')
-      //   this.navIsFixed = false;
-      // }
+  checkPermission() {
+    console.log(this.permissionType)
+    this.apgPermission = ["CREATEAPG", "CREATEAP"];
+    if (this.permissionType != null) {
+      this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+      this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+      this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+      this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
 
-    } 
-
-    focusMethod(e,status, word){
-      this.wordLength = word.length;
-      if(status == 'name'){
-        $('.limit-wordcount').show('slow'); 
-      }else{
-        $('.limit-wordcount1').show('slow'); 
-      }
+      console.log(this.apgDemo)
     }
+    // this.apgPermission = this.apgPermission.filter(value => -1 !== this.permissionType.indexOf(value));
+    // this.apgDemo['addAPG'] = (this.apgPermission.includes("CREATEAPG")) ? 'CREATEAPG' : '';
+    // this.apgDemo['addAP'] = (this.apgPermission.includes("CREATEAP")) ? 'CREATEAP' : '';
+    // this.apgDemo['viewAPG'] = (this.apgPermission.includes("VIEWAPG")) ? 'VIEWAPG' : '';
 
-    blurMethod(e,status){
-      this.wordLength = 0;
-      if(status == 'name'){
-        $('.limit-wordcount').hide('slow'); 
-      }else{
-        $('.limit-wordcount1').hide('slow'); 
-      }
-    }
-
-    changeMethod(val : string){
-      console.log(val)
-      this.wordLength = val.length;
-    }
-
-    cancelapg(){
-       
+    // console.log(this.apgDemo)
+    if (this.apgPermission.length > 0) {
+      this.getAllModule();
+      this.getAllAPG(20, 0);
+    } else {
       this.apgList = [];
-      this.model = {};
-      this.apCreate = false;
-      this.iscreate = false;
-      this.ismodule = false;
-      this.isUpdate = false;
-      this.shareAPG = false;
-      this.getAllAPG(20,0);
     }
-    cancelAp(){
-      this.apgList = [];
-      this.model = {};
-      this.templateAccessPointGroup = []
-      console.error(this.templateAccessPointGroup) 
-      // this.accessPoint= {};
-      this.apCreate = false;
+  }
+
+
+  getContentHeight() {
+    let hit = $('.pad-bottom').height();
+    return hit;
+  }
+
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    // console.log('==== ',$('.pad-bottom').height() + 150)
+    // console.log($(window).height())
+
+    // if(window.pageYOffset < 15){
+    //   console.log('less than 40')
+    //   this.isSticky = false;
+    // }
+    // console.log($event);
+    // console.log("scrolling");
+    // console.log(window.pageYOffset)
+    // if(window.pageYOffset > 40){
+    //   console.log('greater than 100')
+    //   this.navIsFixed = true;
+    // }else{
+    //   console.log('less than 100')
+    //   this.navIsFixed = false;
+    // }
+
+  }
+
+  focusMethod(e, status, word) {
+    this.wordLength = word.length;
+    if (status == 'name') {
+      $('.limit-wordcount').show('slow');
+    } else {
+      $('.limit-wordcount1').show('slow');
+    }
+  }
+
+  blurMethod(e, status) {
+    this.wordLength = 0;
+    if (status == 'name') {
+      $('.limit-wordcount').hide('slow');
+    } else {
+      $('.limit-wordcount1').hide('slow');
+    }
+  }
+
+  changeMethod(val: string) {
+    console.log(val)
+    this.wordLength = val.length;
+  }
+
+  cancelapg() {
+
+    this.apgList = [];
+    this.model = {};
+    this.apCreate = false;
+    this.iscreate = false;
+    this.ismodule = false;
+    this.isUpdate = false;
+    this.shareAPG = false;
+    this.getAllAPG(20, 0);
+  }
+  cancelAp() {
+    this.apgList = [];
+    this.model = {};
+    this.templateAccessPointGroup = []
+    console.error(this.templateAccessPointGroup)
+    // this.accessPoint= {};
+    this.apCreate = false;
+    this.iscreate = false;
+    this.ismodule = false;
+    this.isUpdate = false;
+    this.shareAPG = false;
+    this.isshare = false;
+    this.isGlobal = false;
+    this.getAllAPG(20, 0);
+  }
+
+  goToBack(status) {
+    if (status == 'type') {
+      console.log('type')
+      localStorage.removeItem('moduleID');
+      this.cancelapg();
+    } else if (status == 'create') {
       this.iscreate = false;
-      this.ismodule = false;
-      this.isUpdate = false;
-      this.shareAPG = false;
       this.isshare = false;
-      this.isGlobal = false;
-      this.getAllAPG(20,0);
-    }
-
-    goToBack(status){
-      if(status == 'type'){
-        console.log('type')
-        localStorage.removeItem('moduleID');
-        this.cancelapg();
-      }else if(status == 'create'){        
-        this.iscreate = false;
-        this.isshare = false;
-        this.ismodule = true;
-        this.apCreate = false;
-        this.model = {};
-      }else{
-        this.isshare = true;
-        this.shareAPG = false;
-        this.iscreate = false;
-      }
-      this.templateAccessPointGroup = []
-    }
-
-    addNewAPG(){
-      localStorage.removeItem('moduleID');      
-      this.ischecked = '';
-      this.model = {};
       this.ismodule = true;
-      this.isUpdate = false;
+      this.apCreate = false;
+      this.model = {};
+    } else {
+      this.isshare = true;
+      this.shareAPG = false;
+      this.iscreate = false;
     }
+    this.templateAccessPointGroup = []
+  }
 
-    createNewAPG(status){
-      if(status == 'create'){
-        this.model = {};
-        this.iscreate = true;
-      }else{
-        console.log('hi')
-        this.sharechecked = ''
-        this.shareAPG = true;
-        this.templateList = [];
-        this.getAllTemplate(20,0);
-      }
-      this.isshare = false;
+  addNewAPG() {
+    localStorage.removeItem('moduleID');
+    this.ischecked = '';
+    this.model = {};
+    this.ismodule = true;
+    this.isUpdate = false;
+  }
+
+  createNewAPG(status) {
+    if (status == 'create') {
+      this.model = {};
+      this.iscreate = true;
+    } else {
+      console.log('hi')
+      this.sharechecked = ''
+      this.shareAPG = true;
+      this.templateList = [];
+      this.getAllTemplate(20, 0);
     }
+    this.isshare = false;
+  }
 
-    
 
-    getsingleTemplate(id){  
-      this._service.getSingleTemplate(this.regionID, id)
-      .subscribe((res:any) => {
+
+  getsingleTemplate(id) {
+    this._service.getSingleTemplate(this.regionID, id)
+      .subscribe((res: any) => {
         this.singleCheckedAPG = res;
         console.log(res)
       }, err => {
         console.log(err)
       })
-    }
+  }
 
-    setShareAPG(obj){
-      // console.log('set share',this.singleCheckedAPG)
+  setShareAPG(obj) {
+    // console.log('set share',this.singleCheckedAPG)
 
-      let data = this.singleCheckedAPG;
-      // console.log(obj)
-      let emptyObj = {}
-      this.dataVal = this.singleCheckedAPG;
+    let data = this.singleCheckedAPG;
+    // console.log(obj)
+    let emptyObj = {}
+    this.dataVal = this.singleCheckedAPG;
 
-      
-      console.log('~~~~', this.dataVal)
-      this._service.createAPG(this.regionID, this.locationID, emptyObj , this.dataVal._id, this.dataVal.moduleId)
-      .subscribe((res:any) => {
-          console.log(res)
-          this.toastr.success('APG successfully created.');
-          this.blockUI.stop();
-          this.cancelapg();
+
+    console.log('~~~~', this.dataVal)
+    this._service.createAPG(this.regionID, this.locationID, emptyObj, this.dataVal._id, this.dataVal.moduleId)
+      .subscribe((res: any) => {
+        console.log(res)
+        this.toastr.success('APG successfully created.');
+        this.blockUI.stop();
+        this.cancelapg();
       }, err => {
-          this.toastr.success(status + ' Fail.');
-          this.blockUI.stop();
-          console.log(err)
+        this.toastr.success(status + ' Fail.');
+        this.blockUI.stop();
+        console.log(err)
       })
-    }
+  }
 
-    chooseModuleType(val, name,type){
-      if(name == 'Assessment'){
-        this.ismodule = false;
-        this.isshare = true;
-        this.apCreate = true;
-        const templateAccessPoint =  {
-          "name" : "",
-          "description": "",
-          "moduleId": "",
-          "regionId": "",
-          "orgId": "",
-          "options":false,
-          "data" : {
-            "evaluation" :{
-              "passMark": Number,
-              "details": [
-                {
-                  "requirement": "",
-                  "options": [
-                    ""
-                  ]
-                }
-              ]
-            }
-          }
-        }
-        this.templateAccessPointGroup.push(templateAccessPoint)
-      }
-      console.log(name)
-      this.ischecked = val;
-      localStorage.setItem('moduleID', val);
-      setTimeout(() => {
-        this.ismodule = false;
-        this.isshare = true;
-        console.log('...')
-      }, 300);
-    }
-
-    chooseShareAPG(val,name){
-      console.log(val)
-      this.sharechecked = val;
-      this.getsingleTemplate(this.sharechecked);
-    }
-    mainAccessPointAdd(){
-      // let testObj = {
-      // }
+  chooseModuleType(val, name, type) {
+    if (name == 'Assessment') {
+      this.ismodule = false;
+      this.isshare = true;
+      this.apCreate = true;
       const templateAccessPoint = {
-        "name" : "",
+        "name": "",
         "description": "",
         "moduleId": "",
         "regionId": "",
         "orgId": "",
-        "options":false,
-        "data" : {
-          "evaluation" :{
+        "options": false,
+        "data": {
+          "evaluation": {
             "passMark": Number,
             "details": [
               {
@@ -374,568 +366,609 @@ export class ApgComponent implements OnInit {
             ]
           }
         }
-    }
-     this.templateAccessPointGroup.push(templateAccessPoint)
-    }
-    
-    subAccessPointAdd(options,i){
-      console.log('~~~~~~~~',i)
-      let req = {
-        "requirement": "",
-        "options": [
-          ""
-        ]
-      };
-       this.templateAccessPointGroup[i].data.evaluation.details.push(req);
-      console.warn(this.templateAccessPointGroup)
-      console.log("ACGroup!!!!",this.templateAccessPointGroup[i].data.evaluation.details)
-
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-     
-      console.log(400-innerBoxHeight.clientHeight);
-      console.log(innerBoxHeight.clientHeight);
-     
-      if((400 - innerBoxHeight.clientHeight) >= innerBoxHeight.clientHeight){
-        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;");
-        this.isUpDownHide=false;
-        console.log("under 400")
-      }else{
-        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
-        this.isUpDownHide=true;
-        console.log("over 400")
       }
-      console.log(innerBoxHeight.scrollHeight)
-      console.log(innerBoxHeight.scrollTop)
-      console.log(this.templateAccessPointGroup)
-
+      this.templateAccessPointGroup.push(templateAccessPoint)
     }
+    console.log(name)
+    this.ischecked = val;
+    localStorage.setItem('moduleID', val);
+    setTimeout(() => {
+      this.ismodule = false;
+      this.isshare = true;
+      console.log('...')
+    }, 300);
+  }
 
-   
-    subAccessPointClear(item,i){
-      console.warn(item)
-      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
-
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-
-      if(innerBoxHeight.clientHeight<=400){
-        this.isUpDown=false;
-        this.isUpDownHide=false;
-        innerBoxHeight.setAttribute("style","overflow:none ; height:auto;")
-      }else{
-        this.isUpDown=true;
-        this.isUpDownHide=true;
-        innerBoxHeight.setAttribute("style","overflow:overlay ; height:400px;")
+  chooseShareAPG(val, name) {
+    console.log(val)
+    this.sharechecked = val;
+    this.getsingleTemplate(this.sharechecked);
+  }
+  mainAccessPointAdd() {
+    // let testObj = {
+    // }
+    const templateAccessPoint = {
+      "name": "",
+      "description": "",
+      "moduleId": "",
+      "regionId": "",
+      "orgId": "",
+      "options": false,
+      "data": {
+        "evaluation": {
+          "passMark": Number,
+          "details": [
+            {
+              "requirement": "",
+              "options": [
+                ""
+              ]
+            }
+          ]
+        }
       }
     }
+    this.templateAccessPointGroup.push(templateAccessPoint)
+  }
 
-    requirementInnerBox($event){
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-      console.log(innerBoxHeight.scrollHeight)
-      console.log(innerBoxHeight.scrollTop)
-    
-      if((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop)==innerBoxHeight.clientHeight){
-        this.isUpDown=false;
-      }else{
-        this.isUpDown=true;
-      }
-      console.log("dar")
+  subAccessPointAdd(options, i) {
+    console.log('~~~~~~~~', i)
+    let req = {
+      "requirement": "",
+      "options": [
+        ""
+      ]
+    };
+    this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+    console.warn(this.templateAccessPointGroup)
+    console.log("ACGroup!!!!", this.templateAccessPointGroup[i].data.evaluation.details)
+
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+
+    console.log(400 - innerBoxHeight.clientHeight);
+    console.log(innerBoxHeight.clientHeight);
+
+    if ((400 - innerBoxHeight.clientHeight) >= innerBoxHeight.clientHeight) {
+      innerBoxHeight.setAttribute("style", "overflow:none ; height:auto;");
+      this.isUpDownHide = false;
+      console.log("under 400")
+    } else {
+      innerBoxHeight.setAttribute("style", "overflow:overlay ; height:400px;")
+      this.isUpDownHide = true;
+      console.log("over 400")
     }
+    console.log(innerBoxHeight.scrollHeight)
+    console.log(innerBoxHeight.scrollTop)
+    console.log(this.templateAccessPointGroup)
 
-    pushDownClick(){
-       const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-       innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
-       console.log(innerBoxHeight.scrollHeight)
+  }
+
+
+  subAccessPointClear(item, i) {
+    console.warn(item)
+    i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item), 1);
+
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+
+    if (innerBoxHeight.clientHeight <= 400) {
+      this.isUpDown = false;
+      this.isUpDownHide = false;
+      innerBoxHeight.setAttribute("style", "overflow:none ; height:auto;")
+    } else {
+      this.isUpDown = true;
+      this.isUpDownHide = true;
+      innerBoxHeight.setAttribute("style", "overflow:overlay ; height:400px;")
     }
+  }
 
-    pushUpClick(){
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
-      innerBoxHeight.scrollTop=0;
-      console.log(innerBoxHeight.scrollTop)
+  requirementInnerBox($event) {
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+    console.log(innerBoxHeight.scrollHeight)
+    console.log(innerBoxHeight.scrollTop)
+
+    if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
+      this.isUpDown = false;
+    } else {
+      this.isUpDown = true;
     }
+    console.log("dar")
+  }
 
-   
-    mainAccessPointClear(item){
-      this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
-    }
-  
-    checkMarkToggle(item){
-      // this.isGlobal = !this.isGlobal
-      item.options = !item.options;
-    }
-    createEvaluateApgs(){
-      this.model = {};
-      console.error(this.model)
-      this.cancelAp()
-    }
+  pushDownClick() {
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+    innerBoxHeight.scrollTop = innerBoxHeight.scrollHeight
+    console.log(innerBoxHeight.scrollHeight)
+  }
+
+  pushUpClick() {
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box');
+    innerBoxHeight.scrollTop = 0;
+    console.log(innerBoxHeight.scrollTop)
+  }
 
 
-    createapgs(data, update){
-      console.log(update)
-      var templateID;
-      console.log(data)
-      if(update == false){
-        console.log('create')
-        var moduleId = localStorage.getItem('moduleID')
-        data["moduleId"] = moduleId;
-         this._service.createAP(this.regionID,this.locationID,data)
-         .subscribe((res:any) => {
-           // this.toastr.success('Successfully AP Created.');
-           data["accessPoints"] = [res._id]
-           console.log(data)
-           this._service.createAPG(this.regionID, this.locationID,data, templateID, moduleId)
-          .subscribe((res:any) => {
-            this.toastr.success('APG successfully Created.');
-            console.log(res)
-            this.cancelapg();
-          }, err => {
-            this.toastr.error('Created APG Fail');
-            console.log(err)
-          });
-         }, err => {
-           this.toastr.error('Created AP Fail');
-           console.log(err)
-         });
+  mainAccessPointClear(item) {
+    this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+  }
 
-      }else{
-        console.log('update')
-        console.log(data)
-        this.blockUI.start('Loading...');
-        this._service.updateAPG(this.regionID, data._id , data, templateID)
-          .subscribe((res:any) => {
-              console.log('success update',res);
-              this.toastr.success('Successfully APG Updated.');
+  checkMarkToggle(item) {
+    // this.isGlobal = !this.isGlobal
+    item.options = !item.options;
+  }
+  createEvaluateApgs() {
+    this.model = {};
+    console.error(this.model)
+    this.cancelAp()
+  }
+
+
+  createapgs(data, update) {
+    console.log(update)
+    var templateID;
+    console.log(data)
+    if (update == false) {
+      console.log('create')
+      var moduleId = localStorage.getItem('moduleID')
+      data["moduleId"] = moduleId;
+      this._service.createAP(this.regionID, this.locationID, data)
+        .subscribe((res: any) => {
+          // this.toastr.success('Successfully AP Created.');
+          data["accessPoints"] = [res._id]
+          console.log(data)
+          this._service.createAPG(this.regionID, this.locationID, data, templateID, moduleId)
+            .subscribe((res: any) => {
+              this.toastr.success('APG successfully Created.');
+              console.log(res)
               this.cancelapg();
-              this.blockUI.stop();
-          }, err => {
-              this.toastr.error('Updated APG Fail');
+            }, err => {
+              this.toastr.error('Created APG Fail');
               console.log(err)
-          })
-      }
-    }
+            });
+        }, err => {
+          this.toastr.error('Created AP Fail');
+          console.log(err)
+        });
 
-    apgPublicShare(apgID){
-      console.log(apgID)
-      this.singleAPG(apgID, 'share');
-    }
-
-    onclickUpdate(id){
-      console.log(id)
-      this.apgList = [];
-      this.singleAPG(id, 'update');
-      this.iscreate = true;
-      this.isUpdate = true;
-    }
-
-    singleAPG(id, state){
+    } else {
+      console.log('update')
+      console.log(data)
       this.blockUI.start('Loading...');
-      this._service.getSingleAPG(this.regionID, id)
-      .subscribe((res:any) => {
+      this._service.updateAPG(this.regionID, data._id, data, templateID)
+        .subscribe((res: any) => {
+          console.log('success update', res);
+          this.toastr.success('Successfully APG Updated.');
+          this.cancelapg();
+          this.blockUI.stop();
+        }, err => {
+          this.toastr.error('Updated APG Fail');
+          console.log(err)
+        })
+    }
+  }
+
+  apgPublicShare(apgID) {
+    console.log(apgID)
+    this.singleAPG(apgID, 'share');
+  }
+
+  onclickUpdate(id) {
+    console.log(id)
+    this.apgList = [];
+    this.singleAPG(id, 'update');
+    this.iscreate = true;
+    this.isUpdate = true;
+  }
+
+  singleAPG(id, state) {
+    this.blockUI.start('Loading...');
+    this._service.getSingleAPG(this.regionID, id)
+      .subscribe((res: any) => {
         this.blockUI.stop();
-        console.log('editapg' ,res)
+        console.log('editapg', res)
         this.model = res;
-        if(state == 'share'){
+        if (state == 'share') {
           console.log(res)
           this.convertTemplate(res, res._id, res.name);
         }
-        if(state == 'public'){
+        if (state == 'public') {
           console.log('public ok')
           this.publicAPG(res);
 
         }
       }, err => {
-          this.blockUI.stop();
-         console.log(err)
+        this.blockUI.stop();
+        console.log(err)
       })
+  }
+
+  // getAllTemplate(){
+  //   this.blockUI.start('Loading...');
+  //   this._service.getAllTemplate(this.regionID)
+  //   .subscribe((res:any) => {
+  //      console.log(res.length)
+  //      console.log(res)
+  //      this.blockUI.stop();
+  //      this.tempLists = res;
+  //      this.isempty = (res.length === 0) ? true : false;       
+  //   }, err => {
+  //       this.blockUI.stop();
+  //       console.log(err)
+  //   })
+  // }
+
+  // open(content){
+  // 	this.customAP = false;
+  // 	this.templateAPG = false;
+  // 	this.apArray = [];
+  // 	this.newAPList = [];
+  // 	this.customCheck = false;
+  // 	this.templateAPG = false;
+  // 	this.templateChecked = false;
+  //    this.createButton = true;
+  //    this.updateButton = false;
+  //    this.checkedModuleID = [];
+  //    this.checkedAPid = [];
+  //    this.moduleAPList = [];
+  //    this.getAccessPoint = [];
+  // 	this.apgField = new apgField();
+  // 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
+  //   this.modalReference.result.then((result) => {
+  //   	this.apgField = new apgField();
+  //   	this.apField = new apField();
+  //  this.closeResult = `Closed with: ${result}`
+  // 	}, (reason) => {
+  // 		this.apgField = new apgField();
+  // 		this.apField = new apField();
+
+  // 	  this.closeResult = `Closed with: ${reason}`;
+  // 	});
+  // }
+
+  // radioEvent(e, type){
+  // 	if(type == 'custom'){
+  // 		this.customAP = true;
+  // 		this.newAP = false;
+  // 		this.templateAPG = false;
+  // 		this.existAP = false;
+  // 		this.newAPshow = false;
+  //      this.apgField.templateId = '';
+  // 	}
+  // 	else if(type == 'template'){
+  // 		this.customAP = false;
+  // 		this.templateAPG = true;
+  //      this.customCheck = false;
+  //      this.existAP = false;
+  //      this.apgField.moduleId = '';
+  //      this.apgField = new apgField();
+  // 	}
+  // 	else if(type == 'newap'){
+  // 		this.newAP = true;
+  // 		this.existAP = false;
+  // 		this.newAPshow = false;
+  //      this.checkedAPid = [];
+  //      this.apField = new apField();
+  //      if(this.createButton == true && !this.apgField.moduleId){
+  //        this.moduleId = '';
+  //      }else {
+  //        this.getAPofModule(this.moduleId);
+  //      }
+  //      if(this.createButton == true){
+  //        this.apArray = [];
+  //      }
+  // 	}
+  // 	else if(type == 'existap'){
+  // 		this.newAP = false;
+  // 		this.existAP = true;
+  // 		this.newAPshow = false;
+  //      this.checkedAPid = [];
+  //      this.apField = new apField();
+  //      this.newAPList = [];
+  //      this.apArray = [];
+  //      if(this.createButton == true && !this.apgField.moduleId){
+  //        this.moduleAPList = [];
+  //      }
+  //      else{
+  //        this.getAPofModule(this.moduleId);
+
+  //      }
+
+  // 	}
+  // 	else {
+  // 		console.log('error')
+  // 	}
+  // }
+
+  clickTab(type) {
+    this.viewType = type;
+  }
+
+  createAP(formData) {
+    console.log(formData);
+    let data = {
+      "name": formData.name,
+      "description": formData.desc,
+      "moduleId": this.moduleId
     }
-  
-    // getAllTemplate(){
-    //   this.blockUI.start('Loading...');
-    //   this._service.getAllTemplate(this.regionID)
-    //   .subscribe((res:any) => {
-    //      console.log(res.length)
-    //      console.log(res)
-    //      this.blockUI.stop();
-    //      this.tempLists = res;
-    //      this.isempty = (res.length === 0) ? true : false;       
-    //   }, err => {
-    //       this.blockUI.stop();
-    //       console.log(err)
-    //   })
-    // }
+    this.customCheck = false;
+    this.checkedAPid = [];
+    this._service.createAP(this.regionID, this.locationID, data)
+      .subscribe((res: any) => {
+        console.log('success post', res);
+        this.responseAP = res;
+        this.toastr.success('Successfully AP Created.');
+        this.getAPofModule(this.moduleId);
+        res.checked = true;
+        this.newAPList.push(res);
+        this.apArray.push(res._id);
+        console.log(this.apArray)
+        this.newAPshow = true;
+        this.apField = new apField();
+        ;
+      }, err => {
+        if (this.moduleId == '') {
+          this.toastr.warning('Firstly, you must choose a module.');
+        } else {
+          this.toastr.error('Created AP Fail');
+        }
+        console.log(err)
+      })
+  }
 
-  	// open(content){
-  	// 	this.customAP = false;
-  	// 	this.templateAPG = false;
-  	// 	this.apArray = [];
-  	// 	this.newAPList = [];
-  	// 	this.customCheck = false;
-  	// 	this.templateAPG = false;
-  	// 	this.templateChecked = false;
-   //    this.createButton = true;
-   //    this.updateButton = false;
-   //    this.checkedModuleID = [];
-   //    this.checkedAPid = [];
-   //    this.moduleAPList = [];
-   //    this.getAccessPoint = [];
-  	// 	this.apgField = new apgField();
-	  // 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
-	  //   this.modalReference.result.then((result) => {
-	  //   	this.apgField = new apgField();
-	  //   	this.apField = new apField();
-		 //  this.closeResult = `Closed with: ${result}`
-	  // 	}, (reason) => {
-	  // 		this.apgField = new apgField();
-	  // 		this.apField = new apField();
+  moduleAP(id) {
+    this.newAPList = [];
+    this.moduleId = id;
+    this.getAPofModule(id);
+    this.checkedAPid = [];
+    this.apArray = [];
+  }
 
-	  // 	  this.closeResult = `Closed with: ${reason}`;
-	  // 	});
-  	// }
-
-  	// radioEvent(e, type){
-	  // 	if(type == 'custom'){
-	  // 		this.customAP = true;
-	  // 		this.newAP = false;
-	  // 		this.templateAPG = false;
-	  // 		this.existAP = false;
-	  // 		this.newAPshow = false;
-   //      this.apgField.templateId = '';
-	  // 	}
-	  // 	else if(type == 'template'){
-	  // 		this.customAP = false;
-	  // 		this.templateAPG = true;
-   //      this.customCheck = false;
-   //      this.existAP = false;
-   //      this.apgField.moduleId = '';
-   //      this.apgField = new apgField();
-	  // 	}
-	  // 	else if(type == 'newap'){
-	  // 		this.newAP = true;
-	  // 		this.existAP = false;
-	  // 		this.newAPshow = false;
-   //      this.checkedAPid = [];
-   //      this.apField = new apField();
-   //      if(this.createButton == true && !this.apgField.moduleId){
-   //        this.moduleId = '';
-   //      }else {
-   //        this.getAPofModule(this.moduleId);
-   //      }
-   //      if(this.createButton == true){
-   //        this.apArray = [];
-   //      }
-	  // 	}
-	  // 	else if(type == 'existap'){
-	  // 		this.newAP = false;
-	  // 		this.existAP = true;
-	  // 		this.newAPshow = false;
-   //      this.checkedAPid = [];
-   //      this.apField = new apField();
-   //      this.newAPList = [];
-   //      this.apArray = [];
-   //      if(this.createButton == true && !this.apgField.moduleId){
-   //        this.moduleAPList = [];
-   //      }
-   //      else{
-   //        this.getAPofModule(this.moduleId);
-
-   //      }
-
-	  // 	}
-	  // 	else {
-	  // 		console.log('error')
-	  // 	}
-	  // }
-
-	  clickTab(type){
-    	this.viewType = type;
-  	}
-  	
-  	createAP(formData){
-  		console.log(formData);
-  		let data = {
-      		"name": formData.name,
-      		"description": formData.desc,
-          "moduleId": this.moduleId
-      	}
-        this.customCheck = false;
-        this.checkedAPid = [];
-      	this._service.createAP(this.regionID,this.locationID,data)
-		    .subscribe((res:any) => {
-		      	console.log('success post',res);
-            this.responseAP = res;
-		      	this.toastr.success('Successfully AP Created.');
-		      	this.getAPofModule(this.moduleId);
-		      	res.checked = true;
-		      	this.newAPList.push(res);
-            this.apArray.push(res._id);
-            console.log(this.apArray)
-		      	this.newAPshow = true;
-            this.apField = new apField();
-		      	;
-		    }, err => {
-            if(this.moduleId == ''){
-              this.toastr.warning('Firstly, you must choose a module.');
-            }else{
-              this.toastr.error('Created AP Fail');
-            }
-		        console.log(err)
-		    })
-  	}
-
-    moduleAP(id){
-      this.newAPList = [];
-      this.moduleId = id;
-      this.getAPofModule(id);
-      this.checkedAPid = [];
-      this.apArray = [];
+  checkedAP(id, e) {
+    var cbIdx = this.apArray.indexOf(id);
+    if (e.target.checked == true) {
+      if (cbIdx < 0)
+        this.apArray.push(id);
+      console.log(this.apArray)
     }
+    else {
+      if (cbIdx >= 0) {
+        this.apArray.splice(cbIdx, 1);
+        console.log(this.apArray)
+      }
+    }
+  }
 
-  	checkedAP( id, e){
-			var cbIdx = this.apArray.indexOf(id);
-  		if(e.target.checked == true){
-  			if(cbIdx < 0 )
-	        this.apArray.push(id);
-	        console.log(this.apArray)
-  		}
-  		else {
-  			if(cbIdx >= 0 ){
-	         	this.apArray.splice(cbIdx, 1);
-	         	console.log(this.apArray)
-	      	}
-  		}  		
-  	}
+  // createAPG(formData, type){
+  // 	console.log(formData)
+  //    let data;
+  //    if(!formData.templateId){
+  //        data = {
+  //          'name': formData.name,
+  //          'description': formData.desc,
+  //          'moduleId': formData.moduleId,
+  //          'accessPoints': this.apArray        
+  //        }
+  //      }
+  // 	if(type == 'create'){
+  //      console.log('create',data)
+  //      this.newAPList = [];
+  //      this.modalReference.close();
+  //      this.blockUI.start('Loading...');
+  //      this._service.createAPG(this.regionID, data, formData.templateId, formData.moduleId)
+  //        .subscribe((res:any) => {
+  //            console.log('success post',res);
+  //            this.toastr.success('Successfully APG Created.');
+  //            this.apArray = [];
+  //            this.getAllAPG();
+  //            this.blockUI.stop();
+  //        }, err => {
+  //            this.toastr.error('Created APG Fail');
+  //            console.log(err)
+  //        })  
+  //    }
+  //    else {
+  //      console.log('update', data)
+  //      this.newAPList = [];
+  //      this.modalReference.close();
+  //      this.blockUI.start('Loading...');
+  //      this._service.updateAPG(this.regionID, this.editId, data, formData.templateId)
+  //        .subscribe((res:any) => {
+  //            console.log('success update',res);
+  //            this.toastr.success('Successfully APG Updated.');
+  //            this.getAllAPG();
+  //            this.blockUI.stop();
+  //        }, err => {
+  //            this.toastr.error('Updated APG Fail');
+  //            console.log(err)
+  //        }) 
+  //    }
 
-  	// createAPG(formData, type){
-  	// 	console.log(formData)
-   //    let data;
-   //    if(!formData.templateId){
-   //        data = {
-   //          'name': formData.name,
-   //          'description': formData.desc,
-   //          'moduleId': formData.moduleId,
-   //          'accessPoints': this.apArray        
-   //        }
-   //      }
-  	// 	if(type == 'create'){
-   //      console.log('create',data)
-   //      this.newAPList = [];
-   //      this.modalReference.close();
-   //      this.blockUI.start('Loading...');
-   //      this._service.createAPG(this.regionID, data, formData.templateId, formData.moduleId)
-   //        .subscribe((res:any) => {
-   //            console.log('success post',res);
-   //            this.toastr.success('Successfully APG Created.');
-   //            this.apArray = [];
-   //            this.getAllAPG();
-   //            this.blockUI.stop();
-   //        }, err => {
-   //            this.toastr.error('Created APG Fail');
-   //            console.log(err)
-   //        })  
-   //    }
-   //    else {
-   //      console.log('update', data)
-   //      this.newAPList = [];
-   //      this.modalReference.close();
-   //      this.blockUI.start('Loading...');
-   //      this._service.updateAPG(this.regionID, this.editId, data, formData.templateId)
-   //        .subscribe((res:any) => {
-   //            console.log('success update',res);
-   //            this.toastr.success('Successfully APG Updated.');
-   //            this.getAllAPG();
-   //            this.blockUI.stop();
-   //        }, err => {
-   //            this.toastr.error('Updated APG Fail');
-   //            console.log(err)
-   //        }) 
-   //    }
-	
-  	// }
-    
-    getAPofModule(moduleId){
-      this._service.getAllAPmodule(this.regionID, moduleId)
-      .subscribe((res:any) => {
-          console.log('moduleAPLists' ,res)
-          this.moduleAPList = res;
-          if(this.getAccessPoint){
-            if(this.newAP == false){
-              for(var j in this.getAccessPoint){
-                this.checkedAPid.push(this.getAccessPoint[j])
-                this.apArray = this.checkedAPid;
-                console.log(this.apArray)
-              }
-              if(this.tempModuleId != moduleId){
-                this.apArray = [];
-              }
+  // }
+
+  getAPofModule(moduleId) {
+    this._service.getAllAPmodule(this.regionID, moduleId)
+      .subscribe((res: any) => {
+        console.log('moduleAPLists', res)
+        this.moduleAPList = res;
+        if (this.getAccessPoint) {
+          if (this.newAP == false) {
+            for (var j in this.getAccessPoint) {
+              this.checkedAPid.push(this.getAccessPoint[j])
+              this.apArray = this.checkedAPid;
+              console.log(this.apArray)
             }
-            else {
-              if(this.tempModuleId){
-                if(this.tempModuleId != this.apgField.moduleId){
-                  if(this.responseAP){
-                    if(this.responseAP.moduleId != this.apgField.moduleId){
-                      this.apArray = [];
-                    }
-                  }else{
+            if (this.tempModuleId != moduleId) {
+              this.apArray = [];
+            }
+          }
+          else {
+            if (this.tempModuleId) {
+              if (this.tempModuleId != this.apgField.moduleId) {
+                if (this.responseAP) {
+                  if (this.responseAP.moduleId != this.apgField.moduleId) {
                     this.apArray = [];
                   }
-                }
-                else {
-                  this.apArray = this.getAccessPoint;
+                } else {
+                  this.apArray = [];
                 }
               }
               else {
-                for(var j in this.getAccessPoint){
-                  if(this.apArray.indexOf(this.getAccessPoint[j]) < 0){
-                    this.apArray.push(this.getAccessPoint[j])
-                  }               
+                this.apArray = this.getAccessPoint;
+              }
+            }
+            else {
+              for (var j in this.getAccessPoint) {
+                if (this.apArray.indexOf(this.getAccessPoint[j]) < 0) {
+                  this.apArray.push(this.getAccessPoint[j])
                 }
               }
-              
-              console.log(this.apArray)
-              this.checkedAPid = this.getAccessPoint;
             }
-          }
-        }, err => {
-          console.log(err)
-        })
-    }
 
-  	getAllAP(){
-  		this._service.getAllAP(this.regionID)
-	    .subscribe((res:any) => {
-	    	console.log('APLists' ,res)
-	    	this.apList = res;
-        if(res.length == 0){
+            console.log(this.apArray)
+            this.checkedAPid = this.getAccessPoint;
+          }
+        }
+      }, err => {
+        console.log(err)
+      })
+  }
+
+  getAllAP() {
+    this._service.getAllAP(this.regionID)
+      .subscribe((res: any) => {
+        console.log('APLists', res)
+        this.apList = res;
+        if (res.length == 0) {
           this.emptyAP = true;
         } else {
           this.emptyAP = false;
-        } 
-	      }, err => {
-	        console.log(err)
-	      })
-  	}
+        }
+      }, err => {
+        console.log(err)
+      })
+  }
 
-  	getAllTemplate(limit, skip){
-  		this._service.getAllTemplate(this.regionID, limit, skip)
-	    .subscribe((res:any) => {
-        console.log('templateLists' ,res)
+  getAllTemplate(limit, skip) {
+    this._service.getAllTemplate(this.regionID, limit, skip)
+      .subscribe((res: any) => {
+        console.log('templateLists', res)
         this.result = res;
         this.templateList = this.templateList.concat(res);
-	      }, err => {
-	        console.log(err)
-	      })
-  	}
+      }, err => {
+        console.log(err)
+      })
+  }
 
-  	getAllModule(){
-  		this._service.getAllModule(this.regionID)
-	    .subscribe((res:any) => {
-	    	console.log('moduleLists' ,res)
-	    	for(var i in res){
-	    		if(res[i]._id != null){
-	    			this.moduleList.push(res[i]);
-	    		}
-	    	}
-
-	      }, err => {
-	        console.log(err)
-	      })
-  	}
-
-    showMore(skip:any){
-      // if(skip<=20){
-      //   skip = 0;
-      // }
-      console.log("skip",skip);
-      // // this.isFirst = false;
-      // // this.getAllAPG(20,skip);
-      if(this.isFirst == true){
-        console.log("Apg Search by keyword");
-        // this.getApgSearch(this.searchWord, this.itemtype, 20, 0)
-      }else{
-        console.log("without keyword")
-        this.getAllAPG(20,skip);
-      }
-      // this.getAllAPG(20,skip);
-    }
-
-    showmore(type, skip: any){
-  		if(this.isSearch == true){
-			console.log("User Search");
-			this.userSearch(this.keyword, type, 20, skip) 
-		}else{
-			console.log("Not user search")
-			this.getAllAPG( 20, skip);
-		}
-  	}
-
-
-    showMoreTemplate(skip){
-      this.getAllTemplate(20, skip);
-    }
-    
-    changeSearch(keyword, type){
-      console.log(keyword)
-      // this.getApgSearch(keyword, type, 20, 0);
-      this.searchWord = keyword;
-      this.isFirst = true;
-      this.itemtype = type;
-      // this.isSearch = true;
-      if(type == 'apg'){
-        if(keyword.length == 0){
-          this.apgList = [];
-          this.getAllAPG(20,0)
+  getAllModule() {
+    this._service.getAllModule(this.regionID)
+      .subscribe((res: any) => {
+        console.log('moduleLists', res)
+        for (var i in res) {
+          if (res[i]._id != null) {
+            this.moduleList.push(res[i]);
+          }
         }
-      }else{
-        if(keyword.length == 0){
-          this.templateList = [];
-          this.getAllTemplate(20,0)
-        }
+
+      }, err => {
+        console.log(err)
+      })
+  }
+
+  showMore(skip: any) {
+    // if(skip<=20){
+    //   skip = 0;
+    // }
+    console.log("skip", skip);
+    // // this.isFirst = false;
+    // // this.getAllAPG(20,skip);
+    if (this.isFirst == true) {
+      console.log("Apg Search by keyword");
+      // this.getApgSearch(this.searchWord, this.itemtype, 20, 0)
+    } else {
+      console.log("without keyword")
+      this.getAllAPG(20, skip);
+    }
+    // this.getAllAPG(20,skip);
+  }
+
+  showmore(type, skip: any) {
+    if (this.isSearch == true) {
+      console.log("User Search");
+      this.userSearch(this.keyword, type, 20, skip)
+    } else {
+      console.log("Not user search")
+      this.getAllAPG(20, skip);
+    }
+  }
+
+
+  showMoreTemplate(skip) {
+    this.getAllTemplate(20, skip);
+  }
+
+  changeSearch(keyword, type) {
+    console.log(keyword)
+    // this.getApgSearch(keyword, type, 20, 0);
+    this.searchWord = keyword;
+    this.isFirst = true;
+    this.itemtype = type;
+    // this.isSearch = true;
+    if (type == 'apg') {
+      if (keyword.length == 0) {
+        this.apgList = [];
+        this.getAllAPG(20, 0)
+      }
+    } else {
+      if (keyword.length == 0) {
+        this.templateList = [];
+        this.getAllTemplate(20, 0)
       }
     }
+  }
 
-    userSearch(searchWord, type, limit, skip){
-      this.keyword = searchWord;
-      console.log('hi hello');
-      if(skip == '' && limit == ''){
-        console.log("First time search")
-        var isFirst = true;
-        limit = 20;
-        skip = 0;
-      }
-  
-      if(searchWord.length != 0){
-        this.isSearch = true;
-         this._service.getSearchApg(this.regionID, searchWord, type, '', limit, skip)
-            .subscribe((res:any) => {
-              console.log(res);
-              // this.apgList = res;
-              this.result = res;
-          if(isFirst == true){
+  userSearch(searchWord, type, limit, skip) {
+    this.keyword = searchWord;
+    console.log('hi hello');
+    if (skip == '' && limit == '') {
+      console.log("First time search")
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+
+    if (searchWord.length != 0) {
+      this.isSearch = true;
+      this._service.getSearchApg(this.regionID, searchWord, type, '', limit, skip)
+        .subscribe((res: any) => {
+          console.log(res);
+          // this.apgList = res;
+          this.result = res;
+          if (isFirst == true) {
             console.log("First time searching");
             this.apgList = [];
             this.apgList = res;
-          }else{
+          } else {
             console.log("Not First time searching")
             // this.apgList = res;
             this.apgList = this.apgList.concat(res);
-          }	
-            }, err => {  
-              console.log(err);
-            });
-        }else{
-          setTimeout(() => {
-            this.apgList = [];
-            this.getAllAPG(limit,skip);
-            this.isSearch = false;
-          }, 300);
-        }
+          }
+        }, err => {
+          console.log(err);
+        });
+    } else {
+      setTimeout(() => {
+        this.apgList = [];
+        this.getAllAPG(limit, skip);
+        this.isSearch = false;
+      }, 300);
     }
+  }
 
-    getApgSearch(keyword, type, limit, skip){
-      this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
-      .subscribe((res:any) => {
+  getApgSearch(keyword, type, limit, skip) {
+    this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
+      .subscribe((res: any) => {
         console.log(res);
         this.result = res;
-        if(type == 'apg'){
+        if (type == 'apg') {
           this.apgList = res;
           // if(this.isFirst == true){
           //   console.log("First time searching");
@@ -945,160 +978,160 @@ export class ApgComponent implements OnInit {
           //   console.log("Not First time searching")
           //   this.apgList = this.apgList.concat(res);
           // }  
-        }else{
+        } else {
           this.templateList = res;
         }
-      }, err => {  
+      }, err => {
         console.log(err);
       });
-    }
-    
-  	getAllAPG(limit,skip){
-      this.blockUI.start('Loading...');
-  		this._service.getAllAPG(this.regionID,limit,skip)
-	    .subscribe((res:any) => {
-	    	console.log('apgLists' ,res)
+  }
+
+  getAllAPG(limit, skip) {
+    this.blockUI.start('Loading...');
+    this._service.getAllAPG(this.regionID, limit, skip)
+      .subscribe((res: any) => {
+        console.log('apgLists', res)
         this.result = res;
         this.apgList = this.apgList.concat(res);
-        if(res.length == 0){
+        if (res.length == 0) {
           this.emptyAPG = true;
         } else {
           this.emptyAPG = false;
-        }  
-        setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
-        }, 300);
-	      }, err => {
-	        console.log(err)
-	      })
-  	}
-
-    onclickDelete(id, alertDelete){
-      this.deleteId = id;
-      for(var i in this.apgList){
-        if(this.apgList[i]._id == id){
-          this.deleteAPG = this.apgList[i].name;
         }
-      }
-      this.modalReference = this.modalService.open(alertDelete, { backdrop:'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center'});
-    }
-
-  	apgDelete(id){
-      this.modalReference.close();
-      this.blockUI.start('Loading...');
-  		this._service.deleteAPG(this.regionID, id)
-	    .subscribe((res:any) => {
-	    	console.log('deleteapg' ,res)
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-	    	this.toastr.success('Successfully APG deleted.');
-        this.apgList = [];
-	    	this.getAllAPG(20,0);
-	    }, err => {
-	        console.log(err)
-	    }) 
-  	}
-    
-  	// editAPG(id, content){
-  	// 	this.getAllTemplate();
-   //    this.apgField = new apgField();
-  	// 	this.customAP = false;
-  	// 	this.templateAPG = false;
-  	// 	this.existAP = false;
-	  // 	this.newAPshow = false;
-   //    this.newAP = false;
-   //    this.createButton = false;
-   //    this.updateButton = true;
-   //    this.newAPList = [];
-	  // 	this.checkedModuleID = [];
-	  // 	this.checkedAPid = [];
-   //    this.apArray = [];
-  	// 	this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
-  	// 	this._service.getSingleAPG(this.regionID, id)
-  	// 	.subscribe((res:any) => {
-  	// 		console.log('editapg' ,res)
-   //      this.getAPofModule(res.moduleId);
-   //      this.tempModuleId = res.moduleId;
-   //      this.moduleId = res.moduleId;
-  	// 		for(var i in this.moduleList){
-  	// 			if(this.moduleList[i]._id == res.moduleId){
-  	// 				this.checkedModuleID.push(res.moduleId);
-  	// 			}
-  	// 		}
-   //      if(res.accessPoints == ''){
-   //        this.customCheck = false;
-   //        this.existAP = false;
-   //      }
-   //      else {
-   //        this.customCheck = true;
-   //        this.existAP = true;
-   //      }
-			// 	this.customAP = true;
-			// 	this.templateChecked = false;
-   //      this.getAccessPoint = res.accessPoints;
-  	// 		this.apgField = res;
-   //      this.editId = id;
-  	// 	}, err => {
-	  //       console.log(err)
-	  //   })
-  	// }
+      }, err => {
+        console.log(err)
+      })
+  }
 
-    // clickConvert(id, cTemplate){
-    //   this.convertField = new convertField();
-    //   this.convertId = id;
-    //   this.modalReference = this.modalService.open(cTemplate, { backdrop:'static', windowClass: 'animation-wrap'});
-    // }
-    
-  	convertTemplate(apgObj, id, apgName){
-      console.log(apgObj)
-      let data = {
-          'name': apgName,     
+  onclickDelete(id, alertDelete) {
+    this.deleteId = id;
+    for (var i in this.apgList) {
+      if (this.apgList[i]._id == id) {
+        this.deleteAPG = this.apgList[i].name;
       }
-      console.log(data)
-      this.blockUI.start('Loading...');
-      this._service.convertApgTemplate(id, data).subscribe((res:any) => {
-        console.log(res)        
-        let returnData = JSON.parse(res._body) 
-        this.singleAPG(returnData._id, 'public');
+    }
+    this.modalReference = this.modalService.open(alertDelete, { backdrop: 'static', windowClass: 'deleteModal d-flex justify-content-center align-items-center' });
+  }
 
+  apgDelete(id) {
+    this.modalReference.close();
+    this.blockUI.start('Loading...');
+    this._service.deleteAPG(this.regionID, id)
+      .subscribe((res: any) => {
+        console.log('deleteapg', res)
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
+        this.toastr.success('Successfully APG deleted.');
+        this.apgList = [];
+        this.getAllAPG(20, 0);
       }, err => {
-          console.log(err)
+        console.log(err)
       })
-  	}
+  }
 
-    publicAPG(data){
-      console.log('public share',data)
-      data.public = true;
-      this._service.updateSingleTemplate(this.regionID, data)
-      .subscribe((res:any) => {
-          console.log(res)
-          this.getAllTemplate(20, 0);
-          this.toastr.success('Successfully shared to public.');
-          this.blockUI.stop();
+  // editAPG(id, content){
+  // 	this.getAllTemplate();
+  //    this.apgField = new apgField();
+  // 	this.customAP = false;
+  // 	this.templateAPG = false;
+  // 	this.existAP = false;
+  // 	this.newAPshow = false;
+  //    this.newAP = false;
+  //    this.createButton = false;
+  //    this.updateButton = true;
+  //    this.newAPList = [];
+  // 	this.checkedModuleID = [];
+  // 	this.checkedAPid = [];
+  //    this.apArray = [];
+  // 	this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
+  // 	this._service.getSingleAPG(this.regionID, id)
+  // 	.subscribe((res:any) => {
+  // 		console.log('editapg' ,res)
+  //      this.getAPofModule(res.moduleId);
+  //      this.tempModuleId = res.moduleId;
+  //      this.moduleId = res.moduleId;
+  // 		for(var i in this.moduleList){
+  // 			if(this.moduleList[i]._id == res.moduleId){
+  // 				this.checkedModuleID.push(res.moduleId);
+  // 			}
+  // 		}
+  //      if(res.accessPoints == ''){
+  //        this.customCheck = false;
+  //        this.existAP = false;
+  //      }
+  //      else {
+  //        this.customCheck = true;
+  //        this.existAP = true;
+  //      }
+  // 	this.customAP = true;
+  // 	this.templateChecked = false;
+  //      this.getAccessPoint = res.accessPoints;
+  // 		this.apgField = res;
+  //      this.editId = id;
+  // 	}, err => {
+  //       console.log(err)
+  //   })
+  // }
+
+  // clickConvert(id, cTemplate){
+  //   this.convertField = new convertField();
+  //   this.convertId = id;
+  //   this.modalReference = this.modalService.open(cTemplate, { backdrop:'static', windowClass: 'animation-wrap'});
+  // }
+
+  convertTemplate(apgObj, id, apgName) {
+    console.log(apgObj)
+    let data = {
+      'name': apgName,
+    }
+    console.log(data)
+    this.blockUI.start('Loading...');
+    this._service.convertApgTemplate(id, data).subscribe((res: any) => {
+      console.log(res)
+      let returnData = JSON.parse(res._body)
+      this.singleAPG(returnData._id, 'public');
+
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  publicAPG(data) {
+    console.log('public share', data)
+    data.public = true;
+    this._service.updateSingleTemplate(this.regionID, data)
+      .subscribe((res: any) => {
+        console.log(res)
+        this.getAllTemplate(20, 0);
+        this.toastr.success('Successfully shared to public.');
+        this.blockUI.stop();
       }, err => {
-          this.toastr.success(status + ' Fail.');
-          this.blockUI.stop();
-          console.log(err)
+        this.toastr.success(status + ' Fail.');
+        this.blockUI.stop();
+        console.log(err)
       })
-    }
-    autoResize(e){
-      console.log(e.target.style)
-      console.log(e.target.scrollHeight)
-      e.target.style.cssText = 'height:auto';
-      e.target.style.height = e.target.scrollHeight + "px";
-    }
-    minAndMax(e,value,index){
+  }
+  autoResize(e) {
+    console.log(e.target.style)
+    console.log(e.target.scrollHeight)
+    e.target.style.cssText = 'height:auto';
+    e.target.style.height = e.target.scrollHeight + "px";
+  }
+  minAndMax(e, value, index) {
 
-      console.log(e)
-      console.log(value)
-      if(value <0)
-        value = 0;
-      else if(value > 100)
-        value = 100;
-      this.templateAccessPointGroup[index].data.evaluation.passMark = value;
-      e.target.value = value;
-      console.log(value)
-      console.log(index)
-    }
+    console.log(e)
+    console.log(value)
+    if (value < 0)
+      value = 0;
+    else if (value > 100)
+      value = 100;
+    this.templateAccessPointGroup[index].data.evaluation.passMark = value;
+    e.target.value = value;
+    console.log(value)
+    console.log(index)
+  }
 }
