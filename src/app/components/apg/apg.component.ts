@@ -96,10 +96,30 @@ export class ApgComponent implements OnInit, OnDestroy {
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
     private router: Router,
-    private dragulaService: DragulaService,
-    private dragScrollModule: DragScrollModule
-  ) {
-    
+    private dragulaService: DragulaService) {
+    console.log(this.templateAccessPointGroup)
+
+    dragulaService.drag().subscribe(({name,el,source})=>{
+      // console.log($(el).hide())
+      console.log($(".gu-mirror"))
+      console.log('~~~~~~~~~drag',this.templateAccessPointGroup)
+      console.log(name)
+      console.log(source)
+    })
+    dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
+      // console.log(clone,original,cloneType)
+      // var top = $(clone).height();
+      // console.log(top)
+      // console.log($(clone).eventX)
+      // $(clone).css('height','70')
+      // $(clone).css('overflow','hidden')
+      // console.log($(clone).css())
+      // console.log($(clone))
+      // console.log($(original).hide())
+      // $(original).hide()
+      $(clone).css('top', $("#clone").height() + "px");
+      $(clone).children(".close-search").hide();
+    })
     this.dragulaService
       .drag("COLUMNS")
       .subscribe(value => {
@@ -286,22 +306,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   cancelapg() {
-
     this.apgList = [];
     this.model = {};
-    this.apCreate = false;
-    this.iscreate = false;
-    this.ismodule = false;
-    this.isUpdate = false;
-    this.shareAPG = false;
-    this.getAllAPG(20, 0);
-  }
-  cancelAp() {
-    this.apgList = [];
-    this.model = {};
-    this.templateAccessPointGroup = []
-    console.error(this.templateAccessPointGroup)
-    // this.accessPoint= {};
     this.apCreate = false;
     this.iscreate = false;
     this.ismodule = false;
@@ -309,8 +315,26 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
+    //for evaluation APG
+    this.templateAccessPointGroup = []
+
     this.getAllAPG(20, 0);
   }
+  // cancelAp() {
+  //   this.apgList = [];
+  //   this.model = {};
+  //   this.templateAccessPointGroup = []
+  //   console.error(this.templateAccessPointGroup)
+  //   // this.accessPoint= {};
+  //   this.apCreate = false;
+  //   this.iscreate = false;
+  //   this.ismodule = false;
+  //   this.isUpdate = false;
+  //   this.shareAPG = false;
+  //   this.isshare = false;
+  //   this.isGlobal = false;
+  //   this.getAllAPG(20, 0);
+  // }
 
   goToBack(status) {
     if (status == 'type') {
@@ -353,34 +377,36 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   this.isshare = false;
   // }
 
-  createNewAPG(status, name) {
-    if (status == 'create') {
-      if (name == 'Assessment') {
-        this.ismodule = false;
-        this.apCreate = true;
-        const templateAccessPoint = {
-          "name": "",
-          "description": "",
-          "moduleId": "",
-          "regionId": "",
-          "orgId": "",
-          "options": false,
-          "data": {
-            "evaluation": {
-              "passMark": Number,
-              "details": [
-                {
-                  "requirement": "",
-                  "options": [
-                    ""
+    createNewAPG(status,name){
+      if(status == 'create'){
+        this.iscreate = true;
+        if(name == 'Assessment'){
+            this.ismodule = false;
+            this.apCreate = true;
+            const templateAccessPoint =  {
+              "name" : "",
+              "description": "",
+              "moduleId": "",
+              "regionId": "",
+              "orgId": "",
+              "options":false,
+              "data" : {
+                "evaluation" :{
+                  "passMark": 0,
+                  "details": [
+                    {
+                      "requirement": "",
+                      "options": [
+                        ""
+                      ]
+                    }
                   ]
                 }
-              ]
+              }
             }
-          }
-        }
+
         this.templateAccessPointGroup.push(templateAccessPoint)
-        this.iscreate = false;
+        // this.iscreate = false;
         this.apCreate = true;
         console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
@@ -613,7 +639,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         .subscribe((res: any) => {
           this.toastr.success('APG successfully Created.');
           console.log(res)
-          this.cancelAp();
+          this.cancelapg();
         }, err => {
           this.toastr.error('Created APG Fail');
           console.log(err)
