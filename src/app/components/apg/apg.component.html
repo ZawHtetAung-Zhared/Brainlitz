@@ -195,10 +195,10 @@
                     </label>
                   </div>
                   <p style="padding-left:12px;" class="pass-mark">Use passing mark</p>
-                </div>
+                </div>  
                 <div class=" pb-3" [ngClass]="{'d-none':!item.options}">
                   <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)" name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
-                  <label class="pl-2 pass-label">false mark to pass</label>
+                  <label class="pl-2 pass-label">mark to pass</label>
                 </div>
               </div>
               <div id="requirement-inner-box-{{i}}" (scroll)="requirementInnerBox($event,i)" dragula={{item.name}} [(dragulaModel)]="item.data.evaluation.details">
