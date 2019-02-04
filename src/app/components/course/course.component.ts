@@ -478,6 +478,24 @@ export class CourseComponent implements OnInit {
       }
 
 
+    // if(this.attdBox != true){
+    //   $('.att-box').css({ 'display': "none" });
+    // }else{
+    //   $('.att-box').css({ 'display': "block" });
+    //   $('.att-box').click(function (event) {
+    //     event.stopPropagation();
+    //   })
+    //   this.attdBox = false;
+    // }
+
+
+    }
+    closeDropdown(e){
+      var divToHide = document.getElementById('divToHide');
+      if(e.target.parentNode.id != 'divToHide'){
+        console.log("!= divToHide");
+        this.attdBox = false
+      }
     }
 
   // @HostListener('document:click', ['$event']) clickedOutside($event){
@@ -1741,6 +1759,16 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/customer']);
     this.dataservice.nevigateCustomer(id);
   }
+  uId:any;
+  attdBox = false;
+  showAttendanceBox(e,uID){
+    e.preventDefault();
+    e.stopPropagation();
+    this.yPosition = e.layerY;
+    this.uId = uID;
+    this.attdBox = true;
+    console.log("showAttendanceBox Works",this.uId)
+  }
 
   withdrawUser(id){
     let userobj = {
@@ -2884,6 +2912,82 @@ export class CourseComponent implements OnInit {
 
   globalMakeupPass(){
     //this.isGlobal = true;
+  }
+
+  onClickRadio(type,id){
+    console.log('LASD~~~',this.LASD)
+    var d = new Date(this.LASD).getUTCDate();
+    var m = new Date(this.LASD).getUTCMonth()+1;
+    var y = new Date(this.LASD).getUTCFullYear();
+    var obj = {
+      'studentId': id
+    };
+    if(type == 'present'){
+      obj["attendance"] = "true";
+    }else{
+      obj["attendance"] = "false";
+    }
+    console.log(d,'/',m,'/',y);
+    console.log("obj~~~",obj);
+    console.log(this.courseId)
+    this._service.markAttendance(this.courseId,obj,d,m,y)
+    .subscribe((res:any) => {
+      this.toastr.success(res.message);
+      console.log("res",res);
+      // this.getUsersInCourse(this.courseId);
+      this.activeTab = 'Class';
+      this.attdBox = false;
+      this.getAssignUsers(d,m,y)
+      // test
+      // this.getUsersInCourse(this.courseId);
+      // this.activeCourseInfo = this.pplLists;
+      // this._service.getAssignUser(this.regionId,this.currentCourse,d,m,y)
+      // .subscribe((res:any)=>{
+      //   console.log(res);
+      //   this.activeCourseInfo = res;
+      //   for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+      //     if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+      //       this.presentStudent += 1;
+      //     }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+      //       this.absentStudent += 1;
+      //     }else{
+      //       this.noStudent += 1;
+      //     }
+      //   }
+      //   if(this.LASD != null ){
+      //     this.cancelButtonShowHide();
+      //   }
+      // },err =>{
+      //   this.blockUI.stop();
+      //   console.log(err);
+      // })
+    },err => {
+      console.log(err);
+      this.toastr.error("")
+    })
+  }
+
+  getAssignUsers(d,m,y){
+    this._service.getAssignUser(this.regionId,this.currentCourse,d,m,y)
+      .subscribe((res:any)=>{
+        console.log(res);
+        this.activeCourseInfo = res;
+        for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+          if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+            this.presentStudent += 1;
+          }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+            this.absentStudent += 1;
+          }else{
+            this.noStudent += 1;
+          }
+        }
+        if(this.LASD != null ){
+          this.cancelButtonShowHide();
+        }
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      })
   }
 
 }

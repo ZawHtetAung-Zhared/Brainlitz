@@ -585,7 +585,7 @@ ul.as-loop li:last-child span{
   display: none;
 }
 
-ul.options-box {
+ul.options-box,.att-box {
   position: absolute;
   width: 40%;
   background: #fff;
@@ -599,6 +599,11 @@ ul.options-box {
   margin-left: 40px;
   /*bottom: 0px;*/
   border-radius: 4px;
+}
+.att-box{
+  width: 230px;
+  margin-left: 0;
+  padding: 16px;
 }
 .carret-box {
   width: 20px;
@@ -1777,6 +1782,12 @@ button:disabled{
 .single-student.absent-alert p{
   color: #7d1e19 !important;
 }
+.single-student.active-alert{
+  background: #007fff;
+}
+.single-student.active-alert p{
+  color: #ffffff !important;
+}
 .absent::before,
 .no-data::before {
     content: '';
@@ -2617,6 +2628,11 @@ button:focus {
   outline: none;
   box-shadow: none;
 }
+
+.m-bottom{
+  margin-bottom: 200px;
+}
+
 @media only screen and  (min-width:1366px){
   .inner-wrapper{
     width: 1080px!important;
@@ -2660,5 +2676,116 @@ button:focus {
 .input-lesson [type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+
+/*attadence radio*/
+/* The container */
+.radio-present,.radio-absent {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /*border: 1px solid #00b34a;*/
+}
+/*.radio-absent{
+  border: 1px solid #ff3d33;
+}*/
+
+/* Hide the browser's default radio button */
+.radio-present input,.radio-absent input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-present p,.radio-absent p{
+  padding: 0px 10px;
+  font-size: 14px;
+  line-height: 2.2;
+  color: #00b34a;
+}
+
+.radio-absent p{
+  color: #f23a30;
+}
+
+/* Create a custom radio button */
+.radio-present .checkmark,.radio-absent .checkmark {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  height: 15px;
+  width: 15px;
+  /*background-color: #eee;*/
+  background-color: #fff;
+  border: 1.5px solid #00b34a;
+  border-radius: 50%;
+  top: 8px;
+}
+
+.radio-absent .checkmark{
+  border: 1.5px solid #ff3d33;
+}
+
+.present-wrap{
+  border: 1px solid #00b34a;
+  border-radius: 25px;
+}
+.absent-wrap{
+  border: 1px solid #ff3d33;
+  border-radius: 25px;
+  margin-left: 18px;
+}
+
+/* On mouse-over, add a grey background color */
+/*.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}*/
+
+/* When the radio button is checked, add a blue background */
+.radio-present input:checked ~ .checkmark {
+  background-color: #fff;
+  border: 1.5px solid #00662b;
+}
+
+.radio-absent input:checked ~ .checkmark{
+  background-color: #fff;
+  border: 1.5px solid #801f19;
+}
+
+/*.radio-present input:checked ~ .radio-present{
+  background: #c2f2d6;
+}*/
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-present input:checked ~ .checkmark:after, .radio-absent input:checked ~ .checkmark:after{
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-present .checkmark:after,.radio-absent .checkmark:after {
+  right: 3px;
+  bottom: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00662b;
+}
+
+.radio-absent .checkmark:after{
+  background: #801f19;
 }
 
