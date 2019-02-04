@@ -150,6 +150,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
@@ -259,7 +260,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     let hit = $('.pad-bottom').height();
     return hit;
   }
-
+  @HostListener('document:mousedown', ['$event'])
+onMouseDown(event) {
+  console.log(event)
+  console.log($(event.target).parents(".requirement-inner-box"))
+    console.log("DRRRRAAG")
+  }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log('==== ',$('.pad-bottom').height() + 150)
