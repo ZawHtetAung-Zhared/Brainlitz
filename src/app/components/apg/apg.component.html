@@ -236,7 +236,7 @@
           <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
         </div>
       </div>
-      <div *ngIf="dataApCreate">
+      <div *ngIf="iscreate == true && dataApCreate">
         Testing
       </div>
       <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
