@@ -24,6 +24,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
+  public dataApCreate:boolean = false;
   public keyword: any;
   public isSearch: boolean = false;
   public model: any = {};
@@ -391,6 +392,7 @@ onMouseDown(event) {
         if(name == 'Assessment' || name == 'Evaluation'){
             this.ismodule = false;
             this.apCreate = true;
+            this.dataApCreate = false;
             const templateAccessPoint =  {
               "name" : "",
               "description": "",
@@ -421,8 +423,14 @@ onMouseDown(event) {
         this.apCreate = true;
         console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
-      } else {
+      }else if(name == 'Data' ){
+        this.dataApCreate = true;
+        this.ismodule = false;
+        this.apCreate = false;
+      } 
+      else {
         this.model = {};
+        this.dataApCreate = false;
         this.iscreate = true;
         this.isshare = false;
         this.apCreate = false;
@@ -534,7 +542,10 @@ onMouseDown(event) {
 
    
     subAccessPointClear(item,i,id,x){
-      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
+      setTimeout(() => {
+        i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
+        
+      }, 0);
       console.log(i)
       this.removescrollEvent(i,id,x);
     }

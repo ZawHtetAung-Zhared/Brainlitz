@@ -236,8 +236,10 @@
           <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
         </div>
       </div>
-      <div *ngIf="iscreate == true && apCreate == false">
-
+      <div *ngIf="dataApCreate">
+        Testing
+      </div>
+      <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
         <div class="col-md-8 input-wrap">
           <div class="form-group">
             <div class="d-flex justify-content-between">
