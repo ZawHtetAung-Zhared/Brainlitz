@@ -382,7 +382,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     createNewAPG(status,name){
       if(status == 'create'){
         this.iscreate = true;
-        if(name == 'Assessment'){
+        if(name == 'Assessment' || name == 'Evaluation'){
             this.ismodule = false;
             this.apCreate = true;
             const templateAccessPoint =  {
@@ -465,7 +465,6 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   chooseModuleType(val, name) {
-
     this.apgType = name;
     console.log(name)
     this.ischecked = val;
