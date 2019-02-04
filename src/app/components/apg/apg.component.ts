@@ -497,10 +497,10 @@ onMouseDown(event) {
   }
 
   chooseShareAPG(val,name){
-    console.log(val)
-    this.sharechecked = val;
-    this.getsingleTemplate(this.sharechecked);
-  }
+      console.log(val)
+      this.sharechecked = val;
+      this.getsingleTemplate(this.sharechecked);
+    }
 
  
   mainAccessPointAdd() {

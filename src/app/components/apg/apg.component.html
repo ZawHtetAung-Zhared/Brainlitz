@@ -151,7 +151,7 @@
                   </div>  
                   <div class=" pb-3" [ngClass]="{'d-none':!item.options}" id="passMark{{i}}">
                     <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)" name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
-                    <label class="pl-2 pass-label">mark to pass</label>
+                    <label class="pl-2 pass-label">% to pass</label>
                   </div>
                 </div>
                 <div id="requirement-inner-box-{{i}}" class="requirement-inner-box" (scroll)="requirementInnerBox($event,i)"  dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
@@ -176,9 +176,9 @@
                       <img class="downIcon" src="./assets/images/push-down.png">
                     </div>
                   </div>
-                  <p class="add-requirement" (click)="subAccessPointAdd(item.data.evaluation.details,i)" *ngIf="item.name != ''" >
+                  <button class="add-requirement" (click)="subAccessPointAdd(item.data.evaluation.details,i)" [disabled]="item.name == ''" >
                     Add new requirement
-                  </p>
+                  </button>
                 </div>
               </div>
             </div>
