@@ -97,7 +97,7 @@
                 <label *ngIf="!isEdit" class="operatingTime"><span *ngIf="item && item.operatingHour.start.hr < 10 ">0</span>{{item.operatingHour.start.hr }}:<span *ngIf="item && item.operatingHour.start.min < 10 ">0</span>{{item.operatingHour.start.min
                   }} {{item.operatingHour.start.meridiem}} </label>
                 <span *ngIf="!isEdit" class="timedash"> </span>
-                <label *ngIf="!isEdit " class="operatingTime1"><span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.min
+                <label *ngIf="!isEdit " class="operatingTime1"><span *ngIf="item.operatingHour.end.hr < 10 ">0</span>{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.min
                   }} {{item.operatingHour.end.meridiem}} </label>
                 <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
                   <div class="form-group url-edit d-flex flex-row">
@@ -129,7 +129,7 @@
                           <div class="gap-box">
                             <label>
                               <div class="col-md-4 max-range">Hour</div>
-                              <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12"
+                              <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="1" max="12"
                                 [(ngModel)]="srangeHr" >
 
                             </label>
@@ -172,7 +172,7 @@
                           <div class="gap-box">
                             <label>
                               <div class="col-md-4 max-range">Hour</div>
-                              <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12"
+                              <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="1" max="12"
                                  [(ngModel)]="erangeHr">
 
                             </label>
@@ -464,8 +464,9 @@
                 <div class="form-group mb-45">
                   <div class="currency-wrap">
                     <label class="input-label" for="name">Currency sign</label>
-                    <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
-                      (document:click)="closeBox($event)">
+                    <div (click)="showCurrencyBox('currency',$event)" class="current-currency d-flex justify-content-between">
+                    <!-- <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
+                      (document:click)="closeBox($event)"> -->
                       <div class="d-flex">
                         <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
                         <div class="sectionTitle" *ngIf="selectedFlag == 'sgd'">S</div>
@@ -474,7 +475,7 @@
                       <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
                     </div>
                     <div *ngIf="showDropdown" class="currency-dropdown">
-                      <input type="text" name="" class="form-control" (input)="search($event.target.value)">
+                      <input type="text" name="" class="form-control" (input)="search($event.target.value)" (click)="showCurrencyBox('currency',$event)">
                       <div class="currency-list">
                         <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)">
                           <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
@@ -502,8 +503,10 @@
                 <div class="form-group">
                   <div class="currency-wrap">
                     <label class="input-label" for="code">Currency Code</label>
-                    <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
-                      (document:click)="closeBox($event)">
+                    <div (click)="showCurrencyBox('currency',$event)" class="current-currency d-flex justify-content-between"
+                      >
+                    <!-- <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
+                      (document:click)="closeBox($event)"> -->
                       <div class="d-flex">
                         <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
                         <div class="c-input">{{selectedFlag}}</div>
@@ -511,7 +514,7 @@
                       <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
                     </div>
                     <div *ngIf="showDropdown" class="currency-dropdown">
-                      <input type="text" name="" class="form-control" (input)="search($event.target.value)">
+                      <input type="text" name="" class="form-control"  (click)="showCurrencyBox('currency',$event)" (input)="search($event.target.value)">
                       <div class="currency-list">
                         <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)">
                           <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
@@ -559,13 +562,13 @@
                     <div class="form-group">
                       <div class="provider-wrap">
                         <label class="input-label" for="merchant">Payment provider</label>
-                        <div (click)="showCurrencyBox('provider')" class="current-currency d-flex justify-content-between"
-                          (document:click)="closeProvider($event)">
+                        <div (click)="showCurrencyBox('provider',$event)" class="current-currency d-flex justify-content-between"
+                         >
                           <input type="text" class="form-control" placeholder="selected provider" name="name"
                             [(ngModel)]="payment.name" #name="ngModel" readonly>
                           <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
                         </div>
-                        <div *ngIf="showProvider" class="currency-dropdown">
+                        <div *ngIf="showProvider" class="currency-dropdown payment-provider">
                           <div class="provider-listing">
                             <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers">
                               {{item.name}}

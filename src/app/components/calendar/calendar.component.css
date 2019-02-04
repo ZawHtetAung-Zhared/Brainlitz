@@ -335,7 +335,7 @@ ul.calendar-year li:first-child{
 
 .height-scroll {
 	height: 200px;
-    overflow-y: scroll;
+    overflow-y: overlay;
 }
 /*holiday*/
 .holiday-wrap{

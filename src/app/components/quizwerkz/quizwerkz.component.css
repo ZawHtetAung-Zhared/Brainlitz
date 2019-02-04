@@ -112,10 +112,10 @@
 }
 .book-title {
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow-y: overlay;
     min-height: 0px;
     max-height: 139px;
-    overflow: scroll;
+    overflow: overlay;
 }
 .back-wrap{
     padding: 23px 15px 15px;

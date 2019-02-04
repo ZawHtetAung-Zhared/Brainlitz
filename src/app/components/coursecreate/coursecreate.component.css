@@ -1,3 +1,9 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 .disable-click{
   pointer-events: none;
   opacity: 0.6
@@ -530,7 +536,7 @@ header div{
   background: #fff;
   color: #2e3d4d !important;
   max-height: 250px;
-  overflow: auto;
+  overflow: overlay;
 }
 .carret{
   width: 0;
@@ -569,7 +575,7 @@ header div{
   background: #fff;
   color: #2e3d4d !important;
   max-height: 250px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .feeOpt-dropdown:after {
@@ -598,7 +604,7 @@ header div{
   background: #fff;
   color: #2e3d4d !important;
   max-height: 250px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .taxOpt-dropdown:after {
@@ -701,7 +707,7 @@ header div{
 }
 .teacher-list-box{
   /*height: 300px;*/
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   /*padding: 0 16px;*/
   border-radius: 0 0 4px 4px;
@@ -714,12 +720,12 @@ header div{
 }
 .list-wrap{
   padding: 0 16px;
-  overflow-y: auto;
+  overflow-y: overlay;
   height: 300px;
 }
 .user-list-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -1027,7 +1033,7 @@ button:disabled {
 .table-body{
   padding-top: 20px;
   min-height: 180px;
-  overflow: auto;
+  overflow: overlay;
 }
 .time-info{
   padding: 15px 20px 0px 20px;
@@ -1204,6 +1210,12 @@ button:disabled {
 
     .hideStaff{
       display: none!important;
+    }
+
+    .input-lesson[type=number]::-webkit-inner-spin-button, 
+    .input-lesson[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
     }
 
     @media only screen and  (min-width:1366px){

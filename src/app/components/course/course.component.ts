@@ -1,3 +1,4 @@
+import { InvoiceComponent } from './../invoice/invoice.component';
 import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
@@ -10,6 +11,7 @@ import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { last } from 'rxjs/operator/last';
+
 // import { start } from 'repl';
 declare var $:any;
 
@@ -22,6 +24,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public optionBox:any = false;
   public stdLists: Array<any> = []
   public searching:boolean = false;
   public yPosition:any;
@@ -102,7 +105,8 @@ export class CourseComponent implements OnInit {
   public activeCourseInfo:any = {};
   public todayDate:any;
   public LASD:any; //lastActiveStartDate
-
+  public custDetail : any = {};
+  public courseInfo : any = {};
   public momentTodayDate:any;
   public showCancelButton:boolean = false;
   public lastActiveStartDate:any;
@@ -190,6 +194,7 @@ export class CourseComponent implements OnInit {
   public invPayment = [];
   public invStatus:any;
   public noSetting:boolean = false;
+  public isoutSideClick:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -261,6 +266,19 @@ export class CourseComponent implements OnInit {
       this.getCoursePlanDetail(this.editplanId);
       this.courseList = []
     })
+
+    // this.dataservice.cId.subscribe((cId)=>{
+    //   console.log("cid~~",cId)
+    //   this.courseId = cId
+    //   console.log("go to CDetail",this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   this.isCourseDetail = true;
+    //   this.showCourseDetail(this.courseId);
+    //   this.courseList = []
+    // })
   }
   cID:string;
   ngOnInit() {
@@ -269,6 +287,13 @@ export class CourseComponent implements OnInit {
     if(this.cID != ''){
       setTimeout(() => {
         this.showCourseDetail(this.cID)
+      }, 300);
+    }
+
+    this.dataservice.cId.subscribe( cid => this.courseId = cid)
+    if(this.courseId != ''){
+      setTimeout(() => {
+        this.showCourseDetail(this.courseId)
       }, 300);
     }
     let recentTemp = localStorage.getItem('recentSearchLists')
@@ -397,6 +422,7 @@ export class CourseComponent implements OnInit {
     }
 
   }
+  
   @HostListener('document:click', ['$event'])
   public test(event): void {
     // for category Search
@@ -440,8 +466,36 @@ export class CourseComponent implements OnInit {
       })
       this.endTime = false;
       }
+      // For student option box
+    if(this.optionBox != true){
+      $('.options-box').css({ 'display': "none" });
+    }else{
+      $('.options-box').css({ 'display': "block" });
+      $('.options-box').click(function (event) {
+        event.stopPropagation();
+      })
+      this.optionBox = false;
+      }
 
 
+    // if(this.attdBox != true){
+    //   $('.att-box').css({ 'display': "none" });
+    // }else{
+    //   $('.att-box').css({ 'display': "block" });
+    //   $('.att-box').click(function (event) {
+    //     event.stopPropagation();
+    //   })
+    //   this.attdBox = false;
+    // }
+
+
+    }
+    closeDropdown(e){
+      var divToHide = document.getElementById('divToHide');
+      if(e.target.parentNode.id != 'divToHide'){
+        console.log("!= divToHide");
+        this.attdBox = false
+      }
     }
 
   // @HostListener('document:click', ['$event']) clickedOutside($event){
@@ -457,11 +511,19 @@ export class CourseComponent implements OnInit {
   focusCourseSearch(){
     console.log('focusing ...')
     this.iscourseSearch = true;
+    this.isoutSideClick=false;
   }
   focusOut(){
     console.log('focusout : called');
       this.iscourseSearch = false;
   }
+
+  //if searching click the overlay
+  clickoutSide(){
+    this.isoutSideClick=true;
+    this.iscourseSearch = false;
+  }
+  
   hideCourseSearch(){
     console.log(this.iswordcount)
     // this.iswordcount = true;
@@ -1604,11 +1666,11 @@ export class CourseComponent implements OnInit {
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log(this.isSeatAvailable)
-
+    console.log(this.showInvoice = false)
+    console.log(this.showPayment = false)
   }
 
   viewInvoice(data){
-    this.getSingleCustomer(data.userId);
     this.isvalidID = 'inside';
     this.singleInv = [];
     console.log("user data in view inv",data);
@@ -1683,12 +1745,10 @@ export class CourseComponent implements OnInit {
   showOptionsBox(stdID, e){
     e.preventDefault();
     e.stopPropagation();
-    console.log("stdID",stdID);
-    console.log(e)
-    console.log(e.layerY)
     this.yPosition = e.layerY + 40;
     // this.yPosition = e.offsetY - 30;
     this.showStudentOption = stdID;
+    this.optionBox = true;
     this.xxxhello = stdID;
     console.log(this.showStudentOption)
     // this.router.navigate(['/customer']);
@@ -1698,6 +1758,16 @@ export class CourseComponent implements OnInit {
     // localStorage.setItem("courseCustomer",id)
     this.router.navigate(['/customer']);
     this.dataservice.nevigateCustomer(id);
+  }
+  uId:any;
+  attdBox = false;
+  showAttendanceBox(e,uID){
+    e.preventDefault();
+    e.stopPropagation();
+    this.yPosition = e.layerY;
+    this.uId = uID;
+    this.attdBox = true;
+    console.log("showAttendanceBox Works",this.uId)
   }
 
   withdrawUser(id){
@@ -1848,13 +1918,19 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  getSingleCustomer(ID){
+  getSingleCustomer(ID , type?){
     this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log('selected Customer',res);
+      console.log(res)
+      
+      this.activeUserTab = type;
+      
+      this.custDetail.user = res;
+      console.log("custDetail --->" , this.custDetail)
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists)
@@ -2082,6 +2158,10 @@ export class CourseComponent implements OnInit {
      this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
+       console.log("-------->" , res)
+       this.courseInfo = this.detailLists;
+       Object.assign(this.courseInfo , res)
+       console.log("-------->" , this.courseInfo)
        this.blockUI.stop();
        console.log("res Assign customer",res);
        if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
@@ -2304,7 +2384,8 @@ export class CourseComponent implements OnInit {
       "name": plan.name,
       "id": plan.coursePlanId,
       "duration": plan.lesson.duration,
-      "paymentPolicy": plan.paymentPolicy
+      "paymentPolicy": plan.paymentPolicy,
+      "from": "courses"
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');
@@ -2685,7 +2766,7 @@ export class CourseComponent implements OnInit {
     console.log("show Tabs Modal",type, data)
     this.showStudentOption = '';
     this.xxxhello = '';
-    this.activeUserTab = type;
+    this.getSingleCustomer(data.userId , type)
     this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data);
@@ -2696,6 +2777,11 @@ export class CourseComponent implements OnInit {
         this.viewInvoice(data);
       }
     }
+    else if(type=="makeup"){
+      this.activeUserTab = type;
+      console.log("ddddd")
+    }
+      
   }
 
   getAllAC(limit, skip, userId){
@@ -2826,6 +2912,82 @@ export class CourseComponent implements OnInit {
 
   globalMakeupPass(){
     //this.isGlobal = true;
+  }
+
+  onClickRadio(type,id){
+    console.log('LASD~~~',this.LASD)
+    var d = new Date(this.LASD).getUTCDate();
+    var m = new Date(this.LASD).getUTCMonth()+1;
+    var y = new Date(this.LASD).getUTCFullYear();
+    var obj = {
+      'studentId': id
+    };
+    if(type == 'present'){
+      obj["attendance"] = "true";
+    }else{
+      obj["attendance"] = "false";
+    }
+    console.log(d,'/',m,'/',y);
+    console.log("obj~~~",obj);
+    console.log(this.courseId)
+    this._service.markAttendance(this.courseId,obj,d,m,y)
+    .subscribe((res:any) => {
+      this.toastr.success(res.message);
+      console.log("res",res);
+      // this.getUsersInCourse(this.courseId);
+      this.activeTab = 'Class';
+      this.attdBox = false;
+      this.getAssignUsers(d,m,y)
+      // test
+      // this.getUsersInCourse(this.courseId);
+      // this.activeCourseInfo = this.pplLists;
+      // this._service.getAssignUser(this.regionId,this.currentCourse,d,m,y)
+      // .subscribe((res:any)=>{
+      //   console.log(res);
+      //   this.activeCourseInfo = res;
+      //   for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+      //     if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+      //       this.presentStudent += 1;
+      //     }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+      //       this.absentStudent += 1;
+      //     }else{
+      //       this.noStudent += 1;
+      //     }
+      //   }
+      //   if(this.LASD != null ){
+      //     this.cancelButtonShowHide();
+      //   }
+      // },err =>{
+      //   this.blockUI.stop();
+      //   console.log(err);
+      // })
+    },err => {
+      console.log(err);
+      this.toastr.error("")
+    })
+  }
+
+  getAssignUsers(d,m,y){
+    this._service.getAssignUser(this.regionId,this.currentCourse,d,m,y)
+      .subscribe((res:any)=>{
+        console.log(res);
+        this.activeCourseInfo = res;
+        for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+          if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+            this.presentStudent += 1;
+          }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+            this.absentStudent += 1;
+          }else{
+            this.noStudent += 1;
+          }
+        }
+        if(this.LASD != null ){
+          this.cancelButtonShowHide();
+        }
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      })
   }
 
 }

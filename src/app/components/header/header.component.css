@@ -168,7 +168,7 @@ select {
   color: #2e3d4d !important;
   cursor: pointer;
   max-height: 250px;
-  overflow: auto;
+  overflow: overlay;
 }
 .location-dp:after {
     content: "";

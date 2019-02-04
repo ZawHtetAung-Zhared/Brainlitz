@@ -211,10 +211,13 @@ export class appService{
       let url = this.baseUrl1 + '/organization-credentials/' + orgCode;      
       const httpOptions = {
           headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',
             'secretkey': 'PAK2jf8WrS', 'local': '1'})
+            
       };    
       const httpOptions2 = {
           headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',
             'secretkey': 'PAK2jf8WrS'})
       };
       
@@ -1733,6 +1736,8 @@ export class appService{
       })
     }
 
+    
+
     createAP(id: string, locationid:string, data: object): Observable<any>{
       this.getLocalstorage();
       let apiUrl = this.baseUrl + '/' + id + '/access-point?locationId=' + locationid;
@@ -1748,7 +1753,25 @@ export class appService{
         return result;
       })
     } 
-     
+
+    createAPG2(id: string, locationid:string, data:Object, moduleId: string): Observable<any>{
+      console.log(data)
+      this.getLocalstorage();
+      let apiUrl; 
+      apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId + '&locationId=' + locationid;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
     createAPG(id: string, locationid:string, data: object, templateId: string, moduleId: string): Observable<any>{
       console.log(data, templateId)
       this.getLocalstorage();
@@ -2103,6 +2126,20 @@ export class appService{
             'authorization': this.tokenType + ' ' + this.accessToken})
       } ;
       return this.httpClient.get(apiUrl,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    markAttendance(courseId:string,body,d,m,y){
+      let apiUrl = this.baseUrl + '/' + courseId + '/attendance?date=' + d + '&month=' + m + '&year=' + y;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl,body,httpOptions)
       .map((res:Response) => {
         let result = res;
         return result;

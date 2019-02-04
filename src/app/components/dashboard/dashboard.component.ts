@@ -170,7 +170,29 @@ export class DashboardComponent implements OnInit {
     // }
 
   }
-
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    if ( this.showDropdown != true) {
+      $('.currency-dropdown').css({ 'display': "none" });
+    }
+    else {
+      $('.currency-dropdown').css({ 'display': "block" });
+      $('.currency-dropdown').click(function (event) {
+        event.stopPropagation();
+      });
+  }
+  this.showDropdown = false
+    if ( this.showProvider != true) {
+      $('.payment-provider').css({ 'display': "none" });
+    }
+    else {
+      $('.payment-provider').css({ 'display': "block" });
+      $('.payment-provider').click(function (event) {
+        event.stopPropagation();
+      });
+  }
+  this.showProvider = false
+}
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       console.log('greater than 40')
@@ -506,7 +528,10 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  showCurrencyBox(type) {
+  showCurrencyBox(type,$event: Event) {
+   
+    $event.preventDefault();
+    $event.stopPropagation();
     console.log('hiii')
     if (type == 'currency') {
       this.showDropdown = true;
@@ -773,7 +798,7 @@ export class DashboardComponent implements OnInit {
     return hr + ":" + min + " " + medrian
   }
   updateBtnDisabled(){
-    return (new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected) > new Date("January 31 1980 " + String(this.erangeHr) + ":" + String(this.erangeMin)+":"+ this.eisSelected))
+    return (new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected) >= new Date("January 31 1980 " + String(this.erangeHr) + ":" + String(this.erangeMin)+":"+ this.eisSelected))
   }
   documentclick(event) {
 

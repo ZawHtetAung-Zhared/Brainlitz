@@ -41,7 +41,15 @@
 											<div class="d-flex half">
 												<h2 style="margin: 0;">{{staffRating.rating}}</h2>
 												<div style="display: block;">
-													<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="staffRating.rating"></star-rating-comp>
+													
+													<!-- <ngb-rating [(rate)]="staffRating.rating" readonly="true" max="5" style="padding-left:10px"> -->
+														<ngb-rating [(rate)]="staffRating.rating" readonly ="true" max="5" style="padding-left:10px">
+															<ng-template let-fill="fill" let-index="index">
+															  <span *ngIf="fill === 100" class="star" [class.filled]="fill === 100" >&#9733;</span>
+															  <span *ngIf="fill !== 100" class="star" [class.notfilled]="fill !== 100" >&#9734;</span>
+
+															</ng-template>
+														  </ngb-rating>
 													<div class="average-rating-font">{{staffRating.voter}} <span *ngIf="staffRating.voter > 1">ratings</span><span *ngIf="staffRating.voter == 1">rating</span></div>
 												</div>
 											</div>
@@ -89,7 +97,14 @@
 							<div class="col-md-6 right-side">
 								<h3 class="head-rating-count">{{teacherRating}}</h3>
 								<div style="display: block;">
-									<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="teacherRating"></star-rating-comp>
+									<!-- <star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="teacherRating"></star-rating-comp> -->
+									<ngb-rating [(rate)]="teacherRating" readonly ="true" max="5" style="padding-left:10px">
+										<ng-template let-fill="fill" let-index="index">
+										  <span *ngIf="fill === 100" class="star" [class.filled]="fill === 100" >&#9733;</span>
+										  <span *ngIf="fill !== 100" class="star" [class.notfilled]="fill !== 100" >&#9734;</span>
+
+										</ng-template>
+									  </ngb-rating>
 									<div style="padding-left: 10px;">{{teacherVote}} ratings</div>
 								</div>
 							</div>
@@ -114,7 +129,14 @@
 											<div class="">
 												<div>
 													<p class="mr-0">{{detailVote.preferredName}}</p>
-													<star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detailVote.rating"></star-rating-comp>
+													<ngb-rating [(rate)]="detailVote.rating" readonly ="true" max="5" style="padding-left:10px">
+														<ng-template let-fill="fill" let-index="index">
+														  <span *ngIf="fill === 100" class="star" [class.filled]="fill === 100" >&#9733;</span>
+														  <span *ngIf="fill !== 100" class="star" [class.notfilled]="fill !== 100" >&#9734;</span>
+
+														</ng-template>
+													  </ngb-rating>
+													<!-- <star-rating-comp [readOnly]="true" [starType]="'svg'" [rating]="detailVote.rating"></star-rating-comp> -->
 												</div>
 												<p class="detail-message">{{detailVote.message}}</p>
 											</div>

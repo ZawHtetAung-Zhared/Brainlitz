@@ -183,7 +183,7 @@
             <div class="d-flex flex-column justify-content-center">
               <h4 class="mb-0 tab-title">Attending Classes</h4>
             </div>
-            <button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId)"
+            <button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId, 'enroll')"
               class="ml-auto enroll-btn">Enroll new class</button>
           </div>
           <div>
@@ -193,66 +193,68 @@
               </div>
               <div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
                 <div class="section-one">
-                  <label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{
-                    course.location.name }}</label>
-                  <p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div *ngIf="course.teacher" class="tr-img-wrap">
-                        <img src="{{course.teacher.profilePic}}">
-                      </div>
-                    </div>
-                    <p class="tr-name" *ngIf="course.teacher" style="word-break: break-all;">{{
-                      course.teacher.preferredName }}</p>
+                  <div class="d-flex justify-content-between">
+                      <label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{
+                        course.location.name }}</label>
+
+                        <div class="d-flex flex-row arrowBox" *ngIf="course.invoice != null">
+                            <div class="div-left-arrow"></div>
+                            <div class="left_box_box" [ngStyle]="{'color':course.invoice.status == 'UNPAID' ? '#f23a30' : '#009940'} && {'background-color':course.invoice.status == 'UNPAID' ? '#ffdbd9' : '#c2f2d6'}">
+                              <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
+											      	<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
+												      <label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label>
+                            </div>
+                        </div>
                   </div>
-                  <div class="d-flex info-wrap">
-                    <div class="timetable-col">
-                      <label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
-                      <p *ngIf="course.duration" class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }}
-                        - {{ course.duration.endDate | utcTime }}</p>
-                    </div>
-                    <div class="d-flex timetable-col day-wrap info-wrap">
-                      <div *ngIf="course.startDate" class="timetable-col">
-                        <label class="medium-label-14 mb-0">From</label>
-                        <p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
+                 <div class="div-dotted-box">
+                    <p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
+                    <div class="d-flex align-items-center">
+                      <div>
+                        <div *ngIf="course.teacher" class="tr-img-wrap">
+                          <img src="{{course.teacher.profilePic}}">
+                        </div>
                       </div>
+                      <p class="tr-name" *ngIf="course.teacher" style="word-break: break-all;">{{
+                        course.teacher.preferredName }}</p>
+                    </div>
+                    <div class="d-flex info-wrap">
                       <div class="timetable-col">
-                        <label *ngIf="course.endDate" class="medium-label-14 mb-0">To</label>
-                        <label *ngIf="course.lessonCount" class="medium-label-14 mb-0"></label>
-                        <p *ngIf="course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
-                        <p *ngIf="course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
+                        <label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
+                        <p *ngIf="course.duration" class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }}
+                          - {{ course.duration.endDate | utcTime }}</p>
+                      </div>
+                      <div class="d-flex timetable-col day-wrap info-wrap">
+                        <div *ngIf="course.startDate" class="timetable-col">
+                          <label class="medium-label-14 mb-0">From</label>
+                          <p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
+                        </div>
+                        <div class="timetable-col">
+                          <label *ngIf="course.endDate" class="medium-label-14 mb-0">To</label>
+                          <label *ngIf="course.lessonCount" class="medium-label-14 mb-0"></label>
+                          <p *ngIf="course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
+                          <p *ngIf="course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
                 </div>
+                <div  *ngIf="course.invoice != null" class="d-flex justify-content-end fees" [ngStyle]="{'color':course.invoice.status == 'UNPAID' ? '#f23a30' : '#009940' }">
+                      <span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
+                    {{course.invoice.total}}
+                  </div>
                 <div class="d-flex justify-content-between section-two">
-                  <!-- <div> -->
-                  <!-- <div class="d-flex flex-row align-items-center" *ngIf="course.invoice != null"> -->
-                  <!-- Paid/Unpaid -->
-                  <!-- <div>
-												<img *ngIf="course.invoice.status == 'UNPAID'" src="./assets/img/paid-indicator.png">
-												<img *ngIf="course.invoice.status == 'PAID'"src="./assets/img/unpaid-indicator.png">
-											</div> -->
-                  <!-- <div class="ml-12"> -->
-                  <!-- Paid/Unpaid -->
-                  <!-- <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
-												<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
-												<label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label> 
-												<p class="fees">
-													<span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
-													{{course.invoice.total}}
-												</p>-->
-                  <!-- </div> -->
-                  <!-- </div> -->
-                  <!-- </div> -->
+
                   <button class="float-left btn view-invoice" (click)="viewJournal(journalContent,course,course.teacher.preferredName)"
                     >
                     View Progress Book
                   </button>
+                
                   <button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
                     View invoice
                   </button>
                 </div>
+                 </div>
+                  
+
               </div>
             </div>
           </div>
@@ -449,8 +451,13 @@
                 <div *ngFor="let rating of custDetail.ratings| slice:0:[selectedId.indexOf('rating') != -1 ? custDetail.ratings?.length : 2]"
                   class="card card-wrap">
                   <div class="d-flex">
-                    <star-rating-comp class="custDetail-rating" [readOnly]="true" [starType]="'svg'" [rating]="rating.rating"></star-rating-comp>
-                    <span class="ml-auto medium-label-12">{{ rating.updatedDate }}</span>
+                    <ngb-rating [(rate)]="custDetail.rating" readonly ="true" max="5" style="padding-left:10px">
+                      <ng-template let-fill="fill" let-index="index">
+                        <span *ngIf="fill === 100" class="star" [class.filled]="fill === 100" >&#9733;</span>
+                        <span *ngIf="fill !== 100" class="star" [class.notfilled]="fill !== 100" >&#9734;</span>
+
+                      </ng-template>
+                      </ngb-rating>                    <span class="ml-auto medium-label-12">{{ rating.updatedDate }}</span>
                   </div>
                   <p class="medium-label-14" style="color: #2e3d4d">
                     <read-more class="cust-readmore" [text]="rating.message"></read-more>
@@ -843,6 +850,7 @@
   </div>
 </ng-template>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
+  <app-invoice *ngIf = "showInvoice == true || showPaidInvoice == true" [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" style="height:80vh;overflow: auto"></app-invoice>
   <div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
     <div class="d-flex modal-header">
       <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
@@ -858,7 +866,6 @@
           <div class="closemark_stem"></div>
           <div class="closemark_kick"></div>
         </span>
-        <!-- <span aria-hidden="true" >×</span> -->
       </button>
     </div>
     <form novalidate #cfees="ngForm">
@@ -875,7 +882,6 @@
           </div>
         </div>
         <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
-        <!-- <h2 style="color: green">{{availableCourses?.length}}</h2> -->
         <div class="mt-20 class-group">
           <div class="card-columns pd-zero">
             <div class="card" *ngFor="let course of availableCourses; let i = index">
@@ -889,7 +895,6 @@
                     {{course.location.name}}
                   </h5>
                   <b>{{course.name}}</b>
-                  <!-- <div>{{course.seat_left}}</div> -->
                 </div>
                 <div class="class-info-body">
                   <div [hidden]="!course.paymentPolicy.courseFee && !course.paymentPolicy.deposit && !course.paymentPolicy.miscFee && !course.paymentPolicy.proratedLessonFee"
@@ -955,8 +960,8 @@
         </div>
       </div>
     </form>
-  </div>
-  <div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false" class="container-height">
+  </div> 
+  <!-- <div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false" class="container-height">
     <div *ngIf="feesBox == true" class="overlayInv"></div>
     <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>
     <div class="invoice-container">
@@ -1023,7 +1028,7 @@
             <div class="col-md-4">
               <div class="d-flex">
                 <div style="width: 55px;">
-                  <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
+        
                   <i class="fa fa-credit-card" style="font-size: 30px;"></i>
                 </div>
                 <div class="pl-3" *ngIf="payment.brandName || payment.cardNumber">
@@ -1166,7 +1171,6 @@
         <div class="d-flex justify-content-end">
           <div class="w-50">
             <div class="d-flex pad-10 price-info">
-              <!-- <div class="col-md-8 p-0 text-center">Sub total</div> -->
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
                   Sub total
@@ -1201,10 +1205,9 @@
           (click)="sendInvoice()">Send invoice</button>
         <button *ngIf="isEditInv == true" class="btn send-btn" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0"
           (click)="updateInvoice()">Save</button>
-        <!-- <button class="btn btn-submit" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0" (click)="showPayOption()">Pay now</button> -->
       </div>
     </div>
-  </div>
+  </div> -->
   <div *ngIf="showPayment == true">
     <div class="invoice-container">
       <div class="logo-wrapper">
@@ -1270,192 +1273,7 @@
 	      </button> -->
     </div>
   </div>
-  <div *ngIf="showPaidInvoice == true" class="container-height">
-    <div class="paid-header">PAID</div>
-    <div class="invoice-container">
-      <div class="d-flex justify-content-between">
-        <div class="logo-wrapper">
-          <img src="{{logo}}">
-        </div>
-        <div class="text-right">
-          <h3 class="modal-title">Invoice</h3>
-          <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label>
-        </div>
-      </div>
-      <div class="pt-4">
-        <h5 *ngIf="invoiceInfo.companyName != ''" class="invoice-label">{{ invoiceInfo.companyName }}</h5>
-        <h5 *ngIf="invoiceInfo.companyName == ''" class="invoice-label"> - </h5>
-        <div class="d-flex">
-          <div class="col-md-6 col-lg-6 pl-zero">
-            <p *ngIf="invoiceInfo.address != '' || invoiceInfo.address != undefined" class="invoice-info">{{
-              invoiceInfo.address }}</p>
-            <p *ngIf="invoiceInfo.address == ''" class="invoice-info"> - </p>
-          </div>
-          <div class="col-md-6 col-lg-6 p-0 text-right">
-            <label class="invoice-label">Billed By</label>
-            <p class="invoice-info mb-0">{{ custDetail.user.preferredName }}</p>
-          </div>
-        </div>
-        <p class="invoice-info">{{ invoiceInfo.email }}<p>
-      </div>
-      <div *ngIf="invPayment?.length > 0">
-        <div class="d-flex">
-          <div class="col-md-4 p-0">
-            <label class="invoice-label">Amount</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Billed paid</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Payment method</label>
-          </div>
-        </div>
-        <div *ngFor="let payment of invPayment">
-          <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
-            <div class="col-md-4 p-0 d-flex invoice-label">
-              <span>{{invCurrency.sign}}</span>
-              <div>{{ payment.amount }}</div>
-            </div>
-            <div class="col-md-4">
-              <p class="invoice-info">{{payment.updatedDate | dateFormat}}</p>
-            </div>
-            <div class="col-md-4">
-              <div class="d-flex">
-                <div style="width: 55px;">
-                  <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
-                  <i class="fa fa-credit-card" style="font-size: 30px"></i>
-                </div>
-                <div class="pl-3" *ngIf="payment.brandName || payment.cardNumber">
-                  <label class="mb-0 c-label">{{ payment.brandName }}</label>
-                  <div class="d-flex price-info">
-                    {{ payment.cardNumber }}
-                  </div>
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 0">
-                  Cash
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 1">
-                  Credit/Debit Card
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 2">
-                  Cheque
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 3">
-                  Others
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex invoice-label fees-header bg-label">
-        <div class="col-md-5 p-0">Course</div>
-        <div class="col-md-1 p-0 text-right">Quantity</div>
-        <div class="col-md-2 p-0 text-right">Unit price</div>
-        <div class="col-md-2 p-0 text-right">Tax<span *ngIf="invTaxName">({{invTaxName}})</span></div>
-        <div class="col-md-2 p-0 text-right">Amount</div>
-      </div>
-      <div *ngFor="let data of invoice">
-        <div>
-          <div class="c-label pt-2 mlr-15">
-            {{ invoiceCourse.name }}
-            <div>
-              <span>From: {{ invoiceCourse.startDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.endDate">To:
-                {{ invoiceCourse.endDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.lessonCount">{{
-                invoiceCourse.lessonCount }} lessons</span>
-            </div>
-          </div>
-          <div class="d-flex inv-courseFee">
-            <div class="d-flex w-100 mlr-15">
-              <div class="col-md-5 p-0 price-info">Course Fee</div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.courseFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span>
-                <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.courseFee.amount}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="inv-bordered">
-          <div *ngIf="hideReg == false" class="d-flex inv-row">
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">
-                Registration Fee
-              </div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.registrationFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span>
-                <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.registrationFee.amount}}</div>
-            </div>
-          </div>
-          <div *ngIf="hideMisc == false" class="d-flex inv-row">
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">
-                Miscellaneous fee
-              </div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.miscFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span>
-                <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
-            </div>
-          </div>
-          <div *ngIf="hideDeposit == false" class="d-flex inv-row">
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">Deposit</div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.deposit}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info"></div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
-            </div>
-          </div>
-        </div>
-        <hr class="invoice-hr">
-        <div class="d-flex justify-content-end">
-          <div class="w-50">
-            <div class="d-flex pad-10 price-info">
-              <!-- <div class="col-md-8 p-0 text-center">Sub total</div> -->
-              <div class="col-md-8 d-flex p-0">
-                <div class="col-sm-7 text-right p-0">
-                  Sub total
-                </div>
-                <div class="col-sm-5 p-0">
-                </div>
-              </div>
-              <div class="col-md-4 text-right">{{invCurrency.sign}} {{ data.subtotal }}</div>
-            </div>
-            <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
-              <div class="col-md-8 d-flex p-0">
-                <div class="col-sm-7 text-right p-0">
-                  Amount due
-                </div>
-                <div class="col-sm-5 text-right p-0"></div>
-              </div>
-              <div class="col-md-4 text-right">{{invCurrency.sign}} {{ total }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer justify-content-end">
-      <button class="btn btn-submit" (click)="closeModal()">Done</button>
-    </div>
-  </div>
+  
 </ng-template>
 
 <ng-template #claimModal let-c="close" let-d="dismiss">

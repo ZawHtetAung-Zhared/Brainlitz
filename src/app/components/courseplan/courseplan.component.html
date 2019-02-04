@@ -234,7 +234,7 @@
 										<div class="col-md-4">
 											<div>
 												<div class="input-group input-group-bg mb-2 mr-sm-2">
-													<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
+													<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
 													<hr class="limit-hr-length">
 												</div>
 											</div>
@@ -245,7 +245,7 @@
 													<div class="input-group-prepend">
 													  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">{{ currency.invCurrencySign }}</div>
 													</div>
-													<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
+													<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
 													(focus)="showFocus($event,'optionFee')"
 												  (focusout)="hideFocus($event,'optionFee')"
 													>
@@ -275,7 +275,7 @@
 		</div>
 		<div *ngIf="step4" class="div_step4">
 			<div class="d-flex justify-content-center">
-					<form #childForm4="ngForm" novalidate>
+					<form class="form-wrap" #childForm4="ngForm" novalidate>
 							<div class="inside-data-wrapper">
 								<div class="col-md-12">
 									<p class="step-font">Step 4</p>
@@ -347,7 +347,7 @@
 		</div>	
 		<div *ngIf="step5" class="div_step5">
 			<div class="d-flex justify-content-center">
-					<form #childForm5="ngForm" novalidate>
+					<form #childForm5="ngForm" class="form-wrap" novalidate>
 							<div class="inside-data-wrapper">
 								<div class="col-md-12">
 									<p class="step-font">Step 5</p>

@@ -1,8 +1,6 @@
 ul.pass-list li,
 .xxxdate,
 .expired-text,
-.unpaid-text,
-.paid-text,
 .pass-text,
 .view-invoice,
 .claim-text,
@@ -15,6 +13,17 @@ ul.pass-list li,
 .input-recommend {
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
   font-size: 14px;
+}
+
+.unpaid-text,
+.paid-text{
+  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-size: 12px;
+  padding-left: 16px;
+}
+
+.paid-text{
+  padding-left: 22px;
 }
 
 .makeup-desc,
@@ -36,6 +45,11 @@ ul.pass-list li,
 .class-body-one sup {
   font-size: 12px;
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
+}
+
+.class-label-12{
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .makeup-box label,
@@ -112,7 +126,7 @@ ul.pass-list li {
 }
 
 .overflow-x {
-  overflow-x: auto;
+  overflow-x: overlay;
 }
 
 .xxxdate {
@@ -133,7 +147,7 @@ ul.pass-list li {
   border-radius: 4px;
   padding: 16px 0px;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: overlay;
   position: relative;
   /*height: 75px;*/
 }
@@ -343,7 +357,7 @@ ul.pass-list li {
   padding: 0 20px 20px 20px;
   margin-top: 20px;
   max-height: 726px;
-  overflow: scroll;
+  overflow: overlay;
 }
 
 .makeup-title {
@@ -367,7 +381,7 @@ ul.pass-list li {
 .makeup-desc {
   max-height: 42px;
   min-height: 42px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .makeup-body {
@@ -428,14 +442,21 @@ ul.pass-list li {
 
 .fees {
   line-height: 1;
+  padding-top: 20px;
+  padding-right: 20px;
 }
 
 .view-invoice {
   line-height: 2.5;
+  padding: 0;
 }
 
 .view-invoice:focus {
   box-shadow: none;
+}
+
+.invoiceBtnGp{
+  float: right;
 }
 
 .view-invoice,
@@ -448,12 +469,43 @@ ul.pass-list li {
 }
 
 .section-one {
-  border-bottom: 2px dotted #8fa1b3;
   padding-bottom: 20px;
 }
 
+
+.div-dotted-box {
+  border-bottom: 2px dotted #8fa1b3;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .section-two {
-  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.left_box_box{
+  width: 65px;
+  height: 24px;
+
+}
+
+.div-left-arrow{
+  width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #ffffff;
+    position: absolute;
+}
+
+.arrowBox{
+  padding-top: 10px;
+}
+
+.leftBox_label{
+  font-size: 12px;
+  padding-left: 16px;
 }
 
 .tab-wrap {
@@ -1126,7 +1178,7 @@ h5 {
 }
 
 .guardian-main-wrap {
-  overflow: auto;
+  overflow: overlay;
   overflow-y: hidden;
   margin: 0 auto;
   white-space: nowrap;
@@ -1217,7 +1269,7 @@ h5 {
 
 .details-list-wrap {
   max-height: 170px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .child-detail {
@@ -1237,7 +1289,7 @@ h5 {
 .child {
   flex: 1 0 40%;
   margin: 20px;
-  padding: 20px;
+  /* padding: 20px; */
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
@@ -1455,7 +1507,7 @@ h5 {
 
 .details-list-wrap {
   max-height: 170px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .child-detail {
@@ -1517,17 +1569,17 @@ h5 {
 
 .scrollable {
   max-height: 200px;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .scrollable-card {
   max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .scrollable-list {
   max-height: 570px;
-  overflow: scroll;
+  overflow: overlay;
 }
 
 .form-divider {
@@ -2133,7 +2185,7 @@ h5 {
 .container-height {
   min-height: 670px;
   max-height: 670px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -2288,6 +2340,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .modal-content {
+  height: 80vh;
   width: 1000px !important;
 }
 
@@ -2439,3 +2492,18 @@ input[_ngcontent-c1]:focus {
      
     }
   } */
+  .star {
+    color: #b0c4de;
+  }
+  .filled {
+    color: #788798!important;
+  }
+  .bad {
+    color: #deb0b0;
+  }
+  .filled.bad {
+    color: #788798!important;
+  }
+  .notfilled{
+    color: #788798!important;
+  }
