@@ -201,7 +201,7 @@
                   <label class="pl-2 pass-label">mark to pass</label>
                 </div>
               </div>
-              <div id="requirement-inner-box-{{i}}" (scroll)="requirementInnerBox($event,i)"  dragula={{item.name}} [(dragulaModel)]="item.data.evaluation.details">
+              <div id="requirement-inner-box-{{i}}" class="requirement-inner-box" (scroll)="requirementInnerBox($event,i)"  dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
                 <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;" id="requirement{{x}}">
                   <span class="pr-3 img-wrapper">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
@@ -216,10 +216,10 @@
               
               <div class="d-flex align-items-center cursor-on" id="skillFooter{{i}}">
                 <div *ngIf="item.upDownOptions" id="downupArrow{{i}}">
-                  <div *ngIf="!isUpDown" class="downIcon" (click)="pushUpClick(i)">
+                  <div *ngIf="item.upOptions" class="downIcon" (click)="pushUpClick(i)">
                     <img class="downIcon" src="./assets/images/push-up.png">
                   </div>
-                  <div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick(i)">
+                  <div *ngIf="item.DownOptions" class="downIcon" (click)="pushDownClick(i)">
                     <img class="downIcon" src="./assets/images/push-down.png">
                   </div>
                 </div>
@@ -236,7 +236,54 @@
           <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createapgForm.valid">Create</button>
         </div>
       </div>
-      <div *ngIf="iscreate == true && apCreate == false">
+      <div *ngIf="iscreate == true && dataApCreate">
+        Testing
+      </div>
+      <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
+        <div class="col-md-8 input-wrap">
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <label class="form-title input-label" for="address">APG name</label>
+              <div class="limit-wordcount">
+                <span>{{wordLength}}/60characters</span>
+              </div>
+            </div>
+            <p class="input-recommend">We recommend to set APG name as same as Course name.</p>
+            <input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name"
+              maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
+              (input)="changeMethod($event.target.value)" required #name="ngModel">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+              <div [hidden]="!name.errors.required">
+                Name is required!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <label class="form-title input-label" for="address">Description</label>
+              <div class="limit-wordcount1">
+                <span>{{wordLength}}/280characters</span>
+              </div>
+            </div>
+            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
+              [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
+              (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea>
+            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+              <div [hidden]="!description.errors.required">
+                Description is required!
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <div class="d-flex justify-content-end form-footer">
+          <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
+            [disabled]="!createapgForm.valid">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
+            (click)="createapgs(model, true, currentID)">Update</button>
+        </div>
+      </div>
+      <div *ngIf="dataApg == 'Data'">
 
         <div class="col-md-8 input-wrap">
           <div class="form-group">
@@ -281,7 +328,6 @@
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>
       </div>
-
       <div *ngIf="shareAPG == true">
         <div class="input-group w-100">
           <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="template-search-input"
