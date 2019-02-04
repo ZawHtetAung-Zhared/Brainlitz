@@ -393,6 +393,8 @@ export class ApgComponent implements OnInit, OnDestroy {
               "orgId": "",
               "options":false,
               "upDownOptions":false,
+              "upOptions":false,
+              "DownOptions":false,
               "data" : {
                 "evaluation" :{
                   "passMark": 0,
@@ -551,21 +553,16 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.isUpDownHide=false;
         this.isUpDownId=null;
         this.templateAccessPointGroup[id].upDownOptions=false;
+        this.templateAccessPointGroup[id].upOptions=false;
+        this.templateAccessPointGroup[id].DownOptions=false;
       }else{
         skillHeight.setAttribute("style", "height: 400px;");
         innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
         this.isUpDownHide=true;
         this.isUpDownId=id;
         this.templateAccessPointGroup[id].upDownOptions=true;
-        // skillFooter.insertAdjacentHTML('beforebegin', '<div *ngIf="isUpDownHide" id="downupArrow{{i}}">'+
-        //                                                   '<div *ngIf="!isUpDown" class="downIcon" (click)="pushUpClick(i)">'+
-        //                                                     '<img class="downIcon" src="./assets/images/push-up.png">'+
-        //                                                   '</div>'+
-        //                                                   '<div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick(i)">'+
-        //                                                     '<img class="downIcon" src="./assets/images/push-down.png">'+
-        //                                                   ' </div>'+
-        //                                              '</div>');
-      
+        this.templateAccessPointGroup[id].upOptions=false;
+        this.templateAccessPointGroup[id].DownOptions=true;
       }
       console.log(skillHeight.clientHeight)
       console.log("call scroll event");
@@ -591,8 +588,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         skillHeight.setAttribute("style", "height: auto;");
         innerBoxHeight.setAttribute("style","height:auto;overflow:none;")
         this.templateAccessPointGroup[skillId].upDownOptions=false;
+        this.templateAccessPointGroup[skillId].upOptions=false;
+        this.templateAccessPointGroup[skillId].DownOptions=false;
       }else{
         this.templateAccessPointGroup[skillId].upDownOptions=true;
+        this.templateAccessPointGroup[skillId].upOptions=false;
+        this.templateAccessPointGroup[skillId].DownOptions=true;
         skillHeight.setAttribute("style", "height: 400px;");
         innerBoxHeight.setAttribute("style","height:236px;overflow:overlay;") 
       }
@@ -621,13 +622,13 @@ export class ApgComponent implements OnInit, OnDestroy {
       }else{
         skillHeight.setAttribute("style", "height: 400px;");
         innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
-       
+        // this.templateAccessPointGroup[skillObjId].upOptions=false;
+        // this.templateAccessPointGroup[skillObjId].DownOptions=true;
         console.log("over 400")
       }
     
       console.log("header height in add smark:"+this.headerHeight);
     }
-
 
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
@@ -636,9 +637,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(innerBoxHeight.scrollTop)
 
     if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
-      this.isUpDown = false;
+      this.templateAccessPointGroup[i].upOptions=true;
+      this.templateAccessPointGroup[i].DownOptions=false;
     } else {
-      this.isUpDown = true;
+      this.templateAccessPointGroup[i].upOptions=false;
+      this.templateAccessPointGroup[i].DownOptions=true;
     }
     console.log("dar")
   }
@@ -665,14 +668,23 @@ export class ApgComponent implements OnInit, OnDestroy {
        })
 
     }
-    
-
+  
+    pushDownClick(i){
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+      // this.isUpDownHide = true;
+      this.templateAccessPointGroup[i].upOptions=false;
+      this.templateAccessPointGroup[i].DownOptions=true;
+      innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
+         
+    }
 
   pushUpClick(i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
 
     innerBoxHeight.scrollTop = 0;
+    this.templateAccessPointGroup[i].upOptions=true;
+      this.templateAccessPointGroup[i].DownOptions=false;
     console.log(innerBoxHeight.scrollTop)
   }
 

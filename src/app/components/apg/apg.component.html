@@ -216,10 +216,10 @@
               
               <div class="d-flex align-items-center cursor-on" id="skillFooter{{i}}">
                 <div *ngIf="item.upDownOptions" id="downupArrow{{i}}">
-                  <div *ngIf="!isUpDown" class="downIcon" (click)="pushUpClick(i)">
+                  <div *ngIf="item.upOptions" class="downIcon" (click)="pushUpClick(i)">
                     <img class="downIcon" src="./assets/images/push-up.png">
                   </div>
-                  <div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick(i)">
+                  <div *ngIf="item.DownOptions" class="downIcon" (click)="pushDownClick(i)">
                     <img class="downIcon" src="./assets/images/push-down.png">
                   </div>
                 </div>
