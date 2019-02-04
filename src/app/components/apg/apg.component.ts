@@ -152,6 +152,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
@@ -261,7 +262,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     let hit = $('.pad-bottom').height();
     return hit;
   }
-
+  @HostListener('document:mousedown', ['$event'])
+onMouseDown(event) {
+  console.log(event)
+  console.log($(event.target).parents(".requirement-inner-box"))
+    console.log("DRRRRAAG")
+  }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log('==== ',$('.pad-bottom').height() + 150)
@@ -382,7 +388,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     createNewAPG(status,name){
       if(status == 'create'){
         this.iscreate = true;
-        if(name == 'Assessment'){
+        if(name == 'Assessment' || name == 'Evaluation'){
             this.ismodule = false;
             this.apCreate = true;
             const templateAccessPoint =  {
@@ -467,7 +473,6 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   chooseModuleType(val, name) {
-
     this.apgType = name;
     console.log(name)
     this.ischecked = val;

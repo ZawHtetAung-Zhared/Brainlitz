@@ -201,7 +201,7 @@
                   <label class="pl-2 pass-label">mark to pass</label>
                 </div>
               </div>
-              <div id="requirement-inner-box-{{i}}" (scroll)="requirementInnerBox($event,i)"  dragula={{item.name}} [(dragulaModel)]="item.data.evaluation.details">
+              <div id="requirement-inner-box-{{i}}" (scroll)="requirementInnerBox($event,i)"  dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
                 <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;" id="requirement{{x}}">
                   <span class="pr-3 img-wrapper">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
