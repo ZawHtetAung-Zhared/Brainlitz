@@ -190,31 +190,32 @@
                 <div class="d-flex align-items-center">
                   <div class="toggle-wrap">
                     <label class="switch">
-                      <input type="checkbox" (click)="checkMarkToggle(item)" [checked]="item.options">
+                      <input type="checkbox" (click)="checkMarkToggle(item,i)" [checked]="item.options">
                       <span class="slider round"></span>
                     </label>
                   </div>
                   <p style="padding-left:12px;" class="pass-mark">Use passing mark</p>
                 </div>  
-                <div class=" pb-3" [ngClass]="{'d-none':!item.options}">
+                <div class=" pb-3" [ngClass]="{'d-none':!item.options}" id="passMark{{i}}">
                   <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)" name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
                   <label class="pl-2 pass-label">mark to pass</label>
                 </div>
               </div>
               <div id="requirement-inner-box-{{i}}" (scroll)="requirementInnerBox($event,i)"  dragula={{item.name}} [(dragulaModel)]="item.data.evaluation.details">
-                <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;">
+                <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;" id="requirement{{x}}">
                   <span class="pr-3 img-wrapper">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
                   </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here" class="requirement-name"
-                    [(ngModel)]="test.requirement" required (input)="autoResize($event)"></textarea>
+                    [(ngModel)]="test.requirement" required (input)="autoResize($event,i)"></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
-                    (click)="subAccessPointClear(test,item,i)"></div>
+                    (click)="subAccessPointClear(test,item,i,x)"></div>
                 </div>
               </div>
+              
               <div class="d-flex align-items-center cursor-on" id="skillFooter{{i}}">
-                <div *ngIf="isUpDownHide">
+                <div *ngIf="item.upDownOptions" id="downupArrow{{i}}">
                   <div *ngIf="!isUpDown" class="downIcon" (click)="pushUpClick(i)">
                     <img class="downIcon" src="./assets/images/push-up.png">
                   </div>
