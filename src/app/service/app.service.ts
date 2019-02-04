@@ -2132,8 +2132,8 @@ export class appService{
       })
     }
 
-    markAttendance(courseId:string,body){
-      let apiUrl = this.baseUrl + '/' + courseId + '/attendance';
+    markAttendance(courseId:string,body,d,m,y){
+      let apiUrl = this.baseUrl + '/' + courseId + '/attendance?date=' + d + '&month=' + m + '&year=' + y;
       const httpOptions = {
         headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
