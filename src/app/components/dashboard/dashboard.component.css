@@ -141,6 +141,7 @@
   left: 0;
   top: 90px;
   background: #fff;
+  overflow: overlay;
 }
 .currency-list .flag-wrap,
 .provider-listing div {
@@ -148,11 +149,11 @@
 }
 .currency-list{
   height: 250px;
-  overflow: auto;
+  overflow: overflow;
   margin-top: 10px;
 }
 .provider-listing{
-  overflow: auto;
+  overflow: overflow;
 }
 .currency-wrap,
 .provider-wrap{
@@ -457,7 +458,7 @@ input:checked + .slider:before {
 
 .min-scroll {
     min-height: 350px; 
-    overflow: scroll;
+    overflow: overflow;
     border-left: 1px solid #dedede; 
 }
 
@@ -938,7 +939,7 @@ input[type="range" i] {
   cursor: default;
   padding: initial;
   border: initial;
-  margin: 2px;
+  /* margin: 2px; */
 }
 .min-range-box {
   position: absolute; 

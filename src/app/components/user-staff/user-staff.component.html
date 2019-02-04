@@ -227,7 +227,7 @@
 					</div>
 					<div class="form-group form-divider" *ngFor="let field of customFields;">
 						<label for="guardmail" class="label-txt">{{ field.name }}</label>
-						<input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
+						<input *ngIf="field.dataType == 'Number'" type="number" class="texHeight" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
 						<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
 					</div>
 					<div *ngIf="!isupdate" class="col-md-12 pad-bottom">

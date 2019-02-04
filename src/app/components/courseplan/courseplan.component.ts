@@ -1433,10 +1433,16 @@ export class CourseplanComponent implements OnInit {
     console.log("arr", this.optArr);
   }
   addOrRemoveClassOfStep(ele){
+    var max=this.clickableSteps[this.clickableSteps.length -1];
     ele.parents("li").removeClass("done");
     ele.parents("li").prevAll("li").addClass('done')
     ele.parents("li").prevAll("li").removeClass('active');
-    ele.parents("li").nextAll("li").removeClass('done active');
+    ele.parents("li").nextAll("li").removeClass('active');
+    for(var i=0; i<this.clickableSteps.length ; i++){
+      $("#" + this.clickableSteps[i]).children("a").css('background-color', '#0080ff');
+    }
+    if(max != ele.parents("li").attr('id'))
+      ele.parents("li").addClass("done")
   }
   stepClick(event, step) {
     if (this.clickableSteps.includes(step)) {

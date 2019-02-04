@@ -4,7 +4,7 @@ import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
-// import { DataService } from '../../service/data.service';
+import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -113,7 +113,7 @@ export class CoursecreateComponent implements OnInit {
   @ViewChild('end') name1InputRef: ElementRef;
   @ViewChild("myInput") inputEl: ElementRef;
 
-  constructor(@Inject(DOCUMENT) private doc: Document, private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef) {
+  constructor(@Inject(DOCUMENT) private doc: Document, private modalService: NgbModal, private _service: appService, private router: Router, private config: NgbDatepickerConfig, public toastr: ToastsManager, vcr: ViewContainerRef, private _eref: ElementRef, private dataService: DataService) {
     this.toastr.setRootViewContainerRef(vcr);
   }
   test;
@@ -416,22 +416,40 @@ export class CoursecreateComponent implements OnInit {
     this.wordLength = val.length;
   }
 
-  backToCourses(ToCourses) {
+  backToCourses(ToCourses,cId) {
     // console.log('backtocourse')
+    console.log("backToCourses works");
     if (this.isEdit == true) {
+      console.log("this.isEdit",this.isEdit);
       console.log('backtocourseDetail');
       this._service.backCourseDetail();
-    } else {
-      console.log('backtocourse')
-      this._service.backCourse();
+    }else{
+      console.log("this.isEdit===",this.isEdit);
+      if(this.coursePlan != null){
+        console.log("this.coursePlan != null",this.coursePlan.from);
+        if(this.coursePlan.from == "schedule" && ToCourses == ''){
+          console.log('backtocourse schedule')
+          this.router.navigate(['course/']);
+          this.dataService.nevigateCDetail(cId);
+        }else if((this.coursePlan.from == "courses" && ToCourses == '') || (this.coursePlan.from = "schedule" && ToCourses == 'back') || (this.coursePlan.from = "courses" && ToCourses == 'back')){
+          console.log('backtocourse')
+          this._service.backCourse();
+        }
+      }else{
+        console.log("this.coursePlan == null");
+        console.log('backtocourse')
+        this._service.backCourse();
+      }
     }
 
-    this.staffArrLists = [];
-
-    localStorage.removeItem('cPlan');
-    localStorage.removeItem('courseID');
-    localStorage.removeItem('tempObj');
-    localStorage.removeItem('scheduleObj');
+    //clear data
+    setTimeout(()=>{
+      this.staffArrLists = [];
+      localStorage.removeItem('cPlan');
+      localStorage.removeItem('courseID');
+      localStorage.removeItem('tempObj');
+      localStorage.removeItem('scheduleObj');
+    },100)
   }
 
 
@@ -1218,12 +1236,13 @@ export class CoursecreateComponent implements OnInit {
           this.addCheck = false;
           console.log('201 status', this.addCheck)
         } else {
+          console.log("status",res.status)
           setTimeout(() => {
             this.toastr.success('Successfully Created.');
           }, 300);
           localStorage.removeItem('coursePlanId');
           localStorage.removeItem('splan');
-          this.backToCourses('');
+          this.backToCourses('',res.body.courseId);
         }
       }, err => {
         console.log(err);

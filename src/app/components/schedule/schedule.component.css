@@ -34,8 +34,8 @@
   color: #64707d;
 }
 .single-user-wrap{
-  max-height: 305px;
-  overflow-y: auto;
+  max-height: 200px;
+  overflow-y: overlay;
 }
 /*for modal box empty ui*/
 .empty-ui-wrapper{
@@ -340,12 +340,12 @@
 .tabs-inv{
     min-height: 670px;
     max-height: 670px;
-    overflow: auto;
+    overflow: overlay;
 }
 .tabs-inv{
     min-height: 670px;
     max-height: 670px;
-    overflow: auto;
+    overflow: overlay;
 }
 
 .back-inv{
@@ -572,7 +572,7 @@ ul.data-listing{
   padding: 0;
   z-index: 2;
   list-style: none;
-  overflow: auto;
+  overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
   padding-left: 20px;
@@ -593,7 +593,7 @@ ul.data-listing li.disabled{
   top:100px;
   padding: 0;
   list-style: none;
-  overflow: auto;
+  overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
   padding-left: 20px;
@@ -722,7 +722,7 @@ ul.scedule-data-listing li.disabled{
   height: 80px;
   z-index: 0;
   overflow-y: hidden; 
-  overflow-x: auto;
+  overflow-x: overlay;
 }
 .teacher-more-view{
   font-family: 'Montserrat-SemiBold',Arial,sans-serif;
@@ -769,7 +769,7 @@ ul.scedule-data-listing li.disabled{
 
 
 .modal-techerlist-wraper{
-  overflow-y: auto;
+  overflow-y: overlay;
   max-height: 400px!important;
   padding-left: 2.1rem;
 }
@@ -800,7 +800,9 @@ ul.scedule-data-listing li.disabled{
   margin-top: 30px;
   min-height: 450px;
   max-height: 750px;
-  overflow: scroll;
+  /* height: 2000px; */
+  overflow: overlay;
+  overflow-x: overlay;
   position: relative;
 }
 
@@ -876,6 +878,7 @@ tbody th {
   background: #fff;
   border-right: 1px solid #edeff0;
   z-index: 9 ;
+  height: 52px;
 }
 .single-row{
   /*outline: 1px solid #eee;*/
@@ -887,14 +890,7 @@ tbody th {
   margin-top: 42px;
 }
 .single-row .monthly{
-  /*bottom: 45px;*/
   /*position: absolute;
-  font-size: 10px;
-  right: 0;
-  background: #edeff0;
-  padding: 5px;
-  border-radius: 4px;*/
-  position: absolute;
   font-size: 10px;
   right: 0;
   background: #edeff0;
@@ -902,7 +898,15 @@ tbody th {
   border-radius: 4px;
   top: -39px;
   left: 0;
+  text-align: center;*/
+  position: absolute;
+  background: #edeff0;
+  padding: 5px;
+  left: 0;
+  width: 100%;
   text-align: center;
+  z-index: 9;
+  top: 4px;
 }
 /*.single-row .monthly{
   width: 100%;
@@ -917,6 +921,25 @@ tbody th {
   color: #007bff;
   font-size: 'Montserrat-Semibold', Arial,sans-serif;
 }
+.month-wrapper,.month-wrapper1{
+  position: absolute;
+  /*top: -39px;*/
+  width: 100%;
+  background: #fff;
+}
+.month-wrapper{
+  top: -39px;
+  height: 39px;
+}
+.month-wrapper1{
+  top: -42px;
+  height: 42px;
+}
+.dotted{
+  border-bottom: 2px dotted #d3d3d3;
+  margin: 0px 25%;
+}
+
 tbody td{
   padding: 0.25em;
   min-width: 52px;
@@ -932,7 +955,7 @@ tbody td{
   /*background: red;*/
   /*outline: 1px solid #eee;*/
   /*height: 42px;*/
-  height: 42px;
+  height: 52px;
   display: table-cell;
 }
 .lesson-slot {
@@ -940,7 +963,7 @@ tbody td{
   /*top: 0;*/
   left: 249px;
   /*width: 123px;*/
-  height: 40px;
+  height: 44px;
   background: #c2f2d6;
   border-radius: 2px;
   padding: 6px 8px;
@@ -1048,11 +1071,14 @@ tbody td{
 }
 .modal-footer{
   padding: 24px 32px;
+  position:absolute;
+  width: 100%;
+  bottom:0px;
   border-top: 1px solid #edeff0;
 }
 .user-list-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -1090,8 +1116,6 @@ tbody td{
 }
 
 .user-row-wrap{
-  min-height: 305px;
-  height: 305px;
   margin-bottom: 20px;
 }
 .modal-info-wrap{
@@ -1135,7 +1159,7 @@ p{
 
 .student-lists{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
 }
 .switch {
   position: relative;
@@ -1219,15 +1243,31 @@ input:checked + .slider:before {
   box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
   background-color: #F5F5F5;
 }
+.v-wrapper1::-webkit-scrollbar-track{
+   box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+}
 
 #customscroll::-webkit-scrollbar{
   height: 3px;
+	background-color: rgba(245, 245, 245, 0.801);
+}
+
+.v-wrapper1::-webkit-scrollbar{
+  width: 10px;
+  height: 0px;
 	background-color: #F5F5F5;
 }
 
 #customscroll::-webkit-scrollbar-thumb{
-	background-color: #007bff;
+  background-color: #c1c1c1;
+  border-radius: 10px;
 }
+.v-wrapper1::-webkit-scrollbar-thumb{
+  background-color: #c1c1c1; 
+  border-radius: 10px;
+}
+
 
 .load-more{
   /* position: fixed; */
@@ -1293,7 +1333,8 @@ ul.options-box,ul.create-box {
 }
 .disabledScroll{
   max-height: 100vh;
-  overflow-x: hidden;
+  /*overflow-x: auto;
+  overflow: hidden;*/
 }
 .carret-box,.arr-box {
   width: 20px;
@@ -1542,4 +1583,51 @@ ul.options-box li:last-child,.create-box li:last-child {
      top:170px;
    }
 
+}
+#fixed-bottom-test::-webkit-scrollbar-thumb{
+  background-color: #c1c1c1;
+  border-radius: 10px;
+}
+#fixed-bottom-test::-webkit-scrollbar{
+    width: 6px;
+    height: 12px;
+    background-color: #F5F5F5;
+  }
+  #fixed-bottom-test::-webkit-scrollbar-track{
+    box-shadow: inset 0 0 3px rgba(128, 128, 128, 0.712);
+    background-color: #F5F5F5;
+  }
+#fixed-bottom-test{
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: scroll;
+  z-index: 9;
+}
+
+#innerScrollbar{
+  height: 1px;
+  line-height: 2px;
+  font-size: 1px;
+  visibility: hidden;
+  background-color: yellow;
+}
+.disabled{
+  cursor: not-allowed;
+}
+.disabled {
+  opacity : 0.5;
+}
+.enroll-btn{
+  background:transparent;
+  border:0px;
+  outline:0px;
+  width: 100%;
+}
+
+@media only screen and  (min-width:1366px){
+  .responsive-width{
+    width: 1080px!important;
+  }
 }

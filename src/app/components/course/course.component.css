@@ -1,6 +1,6 @@
 .users-wrap-box{
   max-height: 350px;
-  overflow: scroll;
+  overflow: overlay;
 }
 .warning-text{
   color: red !important;
@@ -265,7 +265,7 @@ ul.recent-lists li:last-child {
     margin-bottom: 0 !important;
 }
 .as-section{
-  position: absolute;
+  position: relative;
   border: 1px solid #eee;
   border-radius: 4px;
   width: 100%;
@@ -331,7 +331,7 @@ ul.data-listing{
   padding: 0;
   list-style: none;
   height: 250px;
-  overflow: auto;
+  overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
 }
@@ -585,7 +585,7 @@ ul.as-loop li:last-child span{
   display: none;
 }
 
-ul.options-box {
+ul.options-box,.att-box {
   position: absolute;
   width: 40%;
   background: #fff;
@@ -599,6 +599,11 @@ ul.options-box {
   margin-left: 40px;
   /*bottom: 0px;*/
   border-radius: 4px;
+}
+.att-box{
+  width: 230px;
+  margin-left: 0;
+  padding: 16px;
 }
 .carret-box {
   width: 20px;
@@ -721,13 +726,15 @@ ul.options-box li button:hover{
     font-family: 'Montserrat-Medium',Arial,sans-serif;
 }
 .single-user-wrap{
-  max-height: 305px;
-  overflow-y: auto;
+  max-height: 200px;
+  overflow-y: overlay;
 }
 .user-row-wrap{
   min-height: 305px;
   height: 305px;
   margin-bottom: 20px;
+  overflow-y:overlay;
+  overflow-x:hidden;
 }
 .disable-add{
   /* pointer-events: none; */
@@ -828,7 +835,7 @@ li button{
 
 .scrollable
 {
-      overflow-y: scroll;
+      overflow-y: overlay;
       min-height: 0;
       /*height: 100vh;*/
  }
@@ -873,7 +880,7 @@ li button{
 .course-view{
 	min-height: 600px;
     max-height: 600px;
-    overflow-y: auto;
+    overflow-y: overlay;
 }
 
 .card-columns {
@@ -1188,7 +1195,7 @@ li button{
 .detail-info p{
   min-height: 80px;
   height: 80px;
-  overflow: scroll;
+  overflow: overlay;
   color: #64707d;
   font-family: 'Montserrat-Regular',Arial,sans-serif;
   line-height: 1.7;
@@ -1531,6 +1538,7 @@ label.room-name::before {
 .confirm-text p{
     color: #64707d;
 }
+
 .modal-cancel-btn,
 .modal-delete-btn{
     font-size: 16px;
@@ -1565,6 +1573,13 @@ label.room-name::before {
 .modal-footer{
   padding: 24px 32px;
   border-top: 1px solid #edeff0;
+  width: 100%;
+  bottom: 0;
+}
+.invoice-wrap, .form-wrap{
+  max-height: 70vh;
+  min-height: 70vh;
+  overflow : overlay;
 }
 .target{
     color: #ff3d33;
@@ -1643,7 +1658,7 @@ label.room-name::before {
 }
 .user-list-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -1681,7 +1696,7 @@ button:disabled{
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   padding: 16px 20px;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: overlay;
   position: relative;
   height: 75px;
 }
@@ -1766,6 +1781,12 @@ button:disabled{
 }
 .single-student.absent-alert p{
   color: #7d1e19 !important;
+}
+.single-student.active-alert{
+  background: #007fff;
+}
+.single-student.active-alert p{
+  color: #ffffff !important;
 }
 .absent::before,
 .no-data::before {
@@ -1861,7 +1882,9 @@ button:disabled{
 
 .invoice-container{
   padding: 32px 32px 0 32px;
-  min-height: 670px;
+  min-height: 80vh;
+  height:80vh;
+  overflow: overlay;
 }
 
 .logo-wrapper{
@@ -2288,11 +2311,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .checkmark_stem {
   position: absolute;
-  width:2px;
-  height:9px;
+  width:3px;
+  height:10px;
   background-color:#007fff;
   left: 7px;
-  top: 3px;
+  top: 2px;
 }
 
 .checkmark_kick {
@@ -2504,7 +2527,7 @@ input[type=number]::-webkit-outer-spin-button {
 .tabs-inv{
     min-height: 670px;
     max-height: 670px;
-    overflow: auto;
+    overflow: overlay;
 }
 
 .back-inv{
@@ -2605,6 +2628,11 @@ button:focus {
   outline: none;
   box-shadow: none;
 }
+
+.m-bottom{
+  margin-bottom: 200px;
+}
+
 @media only screen and  (min-width:1366px){
   .inner-wrapper{
     width: 1080px!important;
@@ -2643,4 +2671,121 @@ button:focus {
    
   }
 } */
+
+.input-lesson [type=number]::-webkit-inner-spin-button, 
+.input-lesson [type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/*attadence radio*/
+/* The container */
+.radio-present,.radio-absent {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /*border: 1px solid #00b34a;*/
+}
+/*.radio-absent{
+  border: 1px solid #ff3d33;
+}*/
+
+/* Hide the browser's default radio button */
+.radio-present input,.radio-absent input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-present p,.radio-absent p{
+  padding: 0px 10px;
+  font-size: 14px;
+  line-height: 2.2;
+  color: #00b34a;
+}
+
+.radio-absent p{
+  color: #f23a30;
+}
+
+/* Create a custom radio button */
+.radio-present .checkmark,.radio-absent .checkmark {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  height: 15px;
+  width: 15px;
+  /*background-color: #eee;*/
+  background-color: #fff;
+  border: 1.5px solid #00b34a;
+  border-radius: 50%;
+  top: 8px;
+}
+
+.radio-absent .checkmark{
+  border: 1.5px solid #ff3d33;
+}
+
+.present-wrap{
+  border: 1px solid #00b34a;
+  border-radius: 25px;
+}
+.absent-wrap{
+  border: 1px solid #ff3d33;
+  border-radius: 25px;
+  margin-left: 18px;
+}
+
+/* On mouse-over, add a grey background color */
+/*.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}*/
+
+/* When the radio button is checked, add a blue background */
+.radio-present input:checked ~ .checkmark {
+  background-color: #fff;
+  border: 1.5px solid #00662b;
+}
+
+.radio-absent input:checked ~ .checkmark{
+  background-color: #fff;
+  border: 1.5px solid #801f19;
+}
+
+/*.radio-present input:checked ~ .radio-present{
+  background: #c2f2d6;
+}*/
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-present input:checked ~ .checkmark:after, .radio-absent input:checked ~ .checkmark:after{
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-present .checkmark:after,.radio-absent .checkmark:after {
+  right: 3px;
+  bottom: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00662b;
+}
+
+.radio-absent .checkmark:after{
+  background: #801f19;
+}
 

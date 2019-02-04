@@ -14,7 +14,7 @@
 }
 .search-result-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -132,7 +132,7 @@ img.setting-icon {
 }
 .noti-wrapper{
 	padding-top: 40px;
-	overflow-y: auto;
+	overflow-y: overlay;
 	/*padding: 40px 30px 40px 30px;*/
 }
 .tool-box{
@@ -829,7 +829,7 @@ width: 50%;
 /* APG */
 .min-scroll {
     min-height: 350px; 
-    overflow: scroll;
+    overflow: overlay;
 }
 .btn-create{
   color: #fff;
@@ -867,7 +867,7 @@ width: 50%;
 @media (min-width: 576px) and (max-width: 767px) { 
   .large-col{
     width: 600px;
-    overflow-y: auto;
+    overflow-y: overlay;
   }
   .side-bar-wrap{
     top: 200px;

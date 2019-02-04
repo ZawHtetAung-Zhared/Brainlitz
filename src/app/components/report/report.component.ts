@@ -1,3 +1,4 @@
+import { LoggedInGuard } from './../../service/loggedIn.guard';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -170,7 +171,8 @@ export class ReportComponent implements OnInit {
 		.subscribe((res:any) => {
 			this.ratingLists = res;
 			setTimeout(() => {
-		        this.blockUI.stop(); // Stop blocking
+				this.blockUI.stop(); // Stop blocking
+
 		      }, 300);
 			if(this.ratingLists == []){
 				this.noData = true;
