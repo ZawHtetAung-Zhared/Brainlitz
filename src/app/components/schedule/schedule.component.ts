@@ -1874,7 +1874,7 @@ export class ScheduleComponent implements OnInit {
   }
   showDp: boolean = false;
   scheduleObj = {};
-  getSlotNumber(hr, min, ampm, e, i, j, date) {
+  getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
     // if(this.startTime.min>min && this.startTime.hr > hr ){
     //   var h = hr+1
     //   console.log("add 1~~~>")
@@ -1972,7 +1972,31 @@ export class ScheduleComponent implements OnInit {
     }
     console.log("selected", this.selectedTeacher);
     console.log('selectdate', date);
-    console.log('selectedDay', this.selectedDay);
+    console.log('selectedDay', weekday);
+    var day = [];
+    switch (weekday) {
+      case 'Sun':
+      day.push(0);
+      break;
+      case 'Mon':
+      day.push(1);
+      break;
+      case 'Tue':
+      day.push(2);
+      break;
+      case 'Wed':
+      day.push(3);
+      break;
+      case 'Thu':
+      day.push(4);
+      break;
+      case 'Fri':
+      day.push(5);
+      break;
+      case  'Sat':
+      day.push(6);
+    }
+
     // this.scheduleObj["date"] = date;
     // this.scheduleObj["repeatDay"] = 
     var sDate = {
@@ -1985,18 +2009,12 @@ export class ScheduleComponent implements OnInit {
       "min": this.slotM,
       "meridiem": this.slotAMPM
     };
-    this.scheduleObj["repeatDays"] = this.selectedDay;
+    this.scheduleObj["repeatDays"] = day;
     this.scheduleObj["date"] = sDate;
     this.scheduleObj["teacher"] = this.selectedTeacher;
     this.scheduleObj["time"] = time;
     console.log('scheduleObj', this.scheduleObj);
   }
-
-  // clickSlot(hr, min, ampm){
-  //   var oprTime = this.startTime.hr;
-  //   var m;
-
-  // }
 
   onClickCreate() {
     this.courseCreate = true;

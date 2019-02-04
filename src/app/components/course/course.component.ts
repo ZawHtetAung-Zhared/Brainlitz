@@ -478,6 +478,24 @@ export class CourseComponent implements OnInit {
       }
 
 
+    // if(this.attdBox != true){
+    //   $('.att-box').css({ 'display': "none" });
+    // }else{
+    //   $('.att-box').css({ 'display': "block" });
+    //   $('.att-box').click(function (event) {
+    //     event.stopPropagation();
+    //   })
+    //   this.attdBox = false;
+    // }
+
+
+    }
+    closeDropdown(e){
+      var divToHide = document.getElementById('divToHide');
+      if(e.target.parentNode.id != 'divToHide'){
+        console.log("!= divToHide");
+        this.attdBox = false
+      }
     }
 
   // @HostListener('document:click', ['$event']) clickedOutside($event){
@@ -1741,6 +1759,16 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/customer']);
     this.dataservice.nevigateCustomer(id);
   }
+  uId:any;
+  attdBox = false;
+  showAttendanceBox(e,uID){
+    e.preventDefault();
+    e.stopPropagation();
+    this.yPosition = e.layerY;
+    this.uId = uID;
+    this.attdBox = true;
+    console.log("showAttendanceBox Works",this.uId)
+  }
 
   withdrawUser(id){
     let userobj = {
@@ -2884,6 +2912,29 @@ export class CourseComponent implements OnInit {
 
   globalMakeupPass(){
     //this.isGlobal = true;
+  }
+
+  onClickRadio(type,id){
+    var obj = {
+      'studentId': id
+    };
+    if(type == 'present'){
+      obj["attendance"] = "true";
+    }else{
+      obj["attendance"] = "false";
+    }
+    console.log("obj~~~",obj);
+    console.log(this.courseId)
+    this._service.markAttendance(this.courseId,obj)
+    .subscribe((res:any) => {
+      this.toastr.success(res.message);
+      console.log("res",res);
+      this.getUsersInCourse(this.courseId);
+      this.activeTab = 'Class';
+    },err => {
+      console.log(err);
+      this.toastr.error("")
+    })
   }
 
 }

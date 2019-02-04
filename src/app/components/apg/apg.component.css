@@ -965,10 +965,11 @@ input:checked+.slider:before {
   filter: alpha(opacity=80);
   pointer-events: none;
   background: white;
-  -webkit-box-shadow: 0 10px 6px -6px #777;
-  -moz-box-shadow: 0 10px 6px -6px #777;
-  box-shadow: 0 10px 6px -6px #777;
+  -webkit-box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.08);
+  -moz-box-shadow: 2px 2px 2px 2px   rgba(0,0,0,0.08);
+  box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.08);
   border-radius: 5px;
+  cursor : all-scroll;
 
 }
 
@@ -987,8 +988,9 @@ input:checked+.slider:before {
 
 /* added to the source element while its mirror is dragged */
 .gu-transit {
-
-  opacity: 1;
+  /* display:none !important; */
+  /* opacity: 0; */
+  background:white;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
@@ -1004,13 +1006,23 @@ input:checked+.slider:before {
   height: 32px;
   top: 50%;
   transform: translate(0, -50%);
+  cursor:all-scroll;
 }
 
 .group-handle {
   width: 44px;
   padding-left: 12px;
+  cursor: all-scroll;
+}
+.requirement.gu-transit{
+  opacity: 0;
+}
+.skill-requirement-wrapper.gu-transit{
+  opacity: 0;
 }
 .requirement.gu-mirror{
   height:70px !important;
+  padding:0px;
+  margin:0px;
   overflow: hidden;
 }

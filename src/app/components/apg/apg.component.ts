@@ -1,3 +1,4 @@
+import { DragScrollModule } from 'ngx-drag-scroll';
 import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -11,14 +12,14 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 import { Router } from '@angular/router';
-import { DragulaService, DragulaModule } from 'ng2-dragula';
 
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 @Component({
   selector: 'app-apg',
   templateUrl: './apg.component.html',
   styleUrls: ['./apg.component.css']
 })
-export class ApgComponent implements OnInit , OnDestroy{
+export class ApgComponent implements OnInit, OnDestroy {
   public templateAccessPointGroup = []
   public checkMark: any = [''];
   public isGlobal: boolean = false;
@@ -73,7 +74,7 @@ export class ApgComponent implements OnInit , OnDestroy{
   itemtype: any;
   isUpDown: Boolean = false;
   isUpDownHide: Boolean = false;
-  apgType : any;
+  apgType: any;
   //
   public ismodule: boolean = false;
   public isshare: boolean = false;
@@ -91,15 +92,21 @@ export class ApgComponent implements OnInit , OnDestroy{
   public apgDemo: any = [];
   headerHeight : number=0
   isUpDownId:number;
+  public dragId: any;
+  public stillDrag: boolean = false;
   constructor(private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
     private router: Router,
     private dragulaService: DragulaService) {
     console.log(this.templateAccessPointGroup)
+
     dragulaService.drag().subscribe(({name,el,source})=>{
-      console.log($(el))
+      // console.log($(el).hide())
       console.log($(".gu-mirror"))
+      console.log('~~~~~~~~~drag',this.templateAccessPointGroup)
+      console.log(name)
+      console.log(source)
     })
     dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
       // console.log(clone,original,cloneType)
@@ -109,6 +116,9 @@ export class ApgComponent implements OnInit , OnDestroy{
       // $(clone).css('height','70')
       // $(clone).css('overflow','hidden')
       // console.log($(clone).css())
+      // console.log($(clone))
+      // console.log($(original).hide())
+      // $(original).hide()
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
@@ -137,20 +147,78 @@ export class ApgComponent implements OnInit , OnDestroy{
       }
     });
   }
- ngOnDestroy(){
-  console.log(this.dragulaService.destroy("COLUMNS"))
- }
+  ngOnDestroy() {
+    console.log(this.dragulaService.destroy("COLUMNS"))
+  }
 
   ngOnInit() {
-    for(var i=0;i<this.templateAccessPointGroup.length; i++){
+    this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
+
+      this.stillDrag = false;
+      clearInterval(this.dragId)
+
+    })
+    this.dragulaService.drop().subscribe(({ el, target, source, sibling }) => {
+      // console.log(this.dragId)
+      // clearInterval(this.dragId)
+      // this.stillDrag = false;
+    })
+    this.dragulaService.drag().subscribe(({ name, el, source }) => {
+      console.log($(el).siblings().length)
+      console.log(name)
+      // if($(el).siblings().length == 0)
+      // this.dragulaService.destroy(name)
+      //  this.dragulaService.destroy(name)
+    })
+    this.dragulaService.shadow().subscribe(({ el, container, source }) => {
+
+      console.log(el, container, source)
+    })
+    this.dragulaService.out().subscribe(({ name, container, source }) => {
+      // if (this.stillDrag == true)
+      //   this.dragId = setInterval(myTimer, 1000);
+
+      // function myTimer(){
+      //   container.scrollBy(0,50)
+      // }
+      })
+    this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
+      // this.stillDrag = true;
+      console.log(clone,original)
+      console.log($(original).parent().children().length)
+      if($(original).parent().children().length == 1){
+        console.log($(clone).hide())
+      }else{
+        
+      }
+      $(clone).css('top', $("#clone").height() + "px");
+      $(clone).children(".close-search").hide();
+      console.log($(clone).children(".img-wrapper").empty())
+      $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);"/>')
+  
+      setTimeout(function(){
+        console.log($(clone).children())
+        console.log($(clone).children("img").length)
+      })
+    
+      
+    })
+    this.dragulaService.over().subscribe(({ name, el, container, source }) => {
+      console.log("Ovver")
+      // console.log($(el))
+      // console.log($(container))
+      // console.log(name, el, container, source)
+    })
+
+    for (var i = 0; i < this.templateAccessPointGroup.length; i++) {
       this.dragulaService
-      .drag(this.templateAccessPointGroup[i].name)
-      .subscribe(({ name, el, source })=> {
-        console.log(name)
-        console.log(el)
-        console.log("dddd")
-        // this.msg = `Dragging the ${value[1].innerText}!`;
-      });
+        .drag(this.templateAccessPointGroup[i].name)
+        .subscribe(({ name, el, source }) => {
+          console.log(name)
+          console.log(el)
+          console.log("dddd")
+          // this.msg = `Dragging the ${value[1].innerText}!`;
+        });
     }
     this.dataVal = {
       '_id': '',
@@ -240,22 +308,8 @@ export class ApgComponent implements OnInit , OnDestroy{
   }
 
   cancelapg() {
-
     this.apgList = [];
     this.model = {};
-    this.apCreate = false;
-    this.iscreate = false;
-    this.ismodule = false;
-    this.isUpdate = false;
-    this.shareAPG = false;
-    this.getAllAPG(20, 0);
-  }
-  cancelAp() {
-    this.apgList = [];
-    this.model = {};
-    this.templateAccessPointGroup = []
-    console.error(this.templateAccessPointGroup)
-    // this.accessPoint= {};
     this.apCreate = false;
     this.iscreate = false;
     this.ismodule = false;
@@ -263,8 +317,26 @@ export class ApgComponent implements OnInit , OnDestroy{
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
+    //for evaluation APG
+    this.templateAccessPointGroup = []
+
     this.getAllAPG(20, 0);
   }
+  // cancelAp() {
+  //   this.apgList = [];
+  //   this.model = {};
+  //   this.templateAccessPointGroup = []
+  //   console.error(this.templateAccessPointGroup)
+  //   // this.accessPoint= {};
+  //   this.apCreate = false;
+  //   this.iscreate = false;
+  //   this.ismodule = false;
+  //   this.isUpdate = false;
+  //   this.shareAPG = false;
+  //   this.isshare = false;
+  //   this.isGlobal = false;
+  //   this.getAllAPG(20, 0);
+  // }
 
   goToBack(status) {
     if (status == 'type') {
@@ -309,6 +381,7 @@ export class ApgComponent implements OnInit , OnDestroy{
 
     createNewAPG(status,name){
       if(status == 'create'){
+        this.iscreate = true;
         if(name == 'Assessment'){
             this.ismodule = false;
             this.apCreate = true;
@@ -322,7 +395,7 @@ export class ApgComponent implements OnInit , OnDestroy{
               "upDownOptions":false,
               "data" : {
                 "evaluation" :{
-                  "passMark": Number,
+                  "passMark": 0,
                   "details": [
                     {
                       "requirement": "",
@@ -334,27 +407,28 @@ export class ApgComponent implements OnInit , OnDestroy{
                 }
               }
             }
-            this.templateAccessPointGroup.push(templateAccessPoint)
-            this.iscreate = false;
-            this.apCreate = true;
-            console.warn(this.apCreate)
-            // ismodule == false && iscreate == false && isshare == false && shareAPG == false
-          }else{
-            this.model = {};
-            this.iscreate = true;
-            this.isshare = false;
-            this.apCreate = false;
-          }
-      }else{
-        console.log('hi')
-        this.sharechecked = ''
-        this.shareAPG = true;
+
+        this.templateAccessPointGroup.push(templateAccessPoint)
+        // this.iscreate = false;
+        this.apCreate = true;
+        console.warn(this.apCreate)
+        // ismodule == false && iscreate == false && isshare == false && shareAPG == false
+      } else {
+        this.model = {};
+        this.iscreate = true;
+        this.isshare = false;
         this.apCreate = false;
-        this.templateList = [];
-        this.getAllTemplate(20,0);
       }
-      this.isshare = false;
+    } else {
+      console.log('hi')
+      this.sharechecked = ''
+      this.shareAPG = true;
+      this.apCreate = false;
+      this.templateList = [];
+      this.getAllTemplate(20, 0);
     }
+    this.isshare = false;
+  }
 
 
   getsingleTemplate(id) {
@@ -390,51 +464,47 @@ export class ApgComponent implements OnInit , OnDestroy{
       })
   }
 
-    chooseModuleType(val, name){
-   
-      this.apgType = name;
-      console.log(name)
-      this.ischecked = val;
-      localStorage.setItem('moduleID', val);
-      setTimeout(() => {
-        this.ismodule = false;
-        this.isshare = true;
-        if(name == 'Assessment'){
-          this.apCreate = true
-        }
-        console.log('...')
-      }, 300);
-    }
+  chooseModuleType(val, name) {
 
-    chooseShareAPG(val,name){
-      console.log(val)
-      this.sharechecked = val;
-      this.getsingleTemplate(this.sharechecked);
-    }
-    mainAccessPointAdd(){
-      // let testObj = {
-      // }
-      const templateAccessPoint = {
-        "name": "",
-        "description": "",
-        "moduleId": "",
-        "regionId": "",
-        "orgId": "",
-        "options": false,
-        "upDownOptions":false,
-        "data": {
-          "evaluation": {
-            "passMark": Number,
-            "details": [
-              {
-                "requirement": "",
-                "options": [
-                  ""
-                ]
-              }
-            ]
-          }
+    this.apgType = name;
+    console.log(name)
+    this.ischecked = val;
+    localStorage.setItem('moduleID', val);
+    setTimeout(() => {
+      this.ismodule = false;
+      this.isshare = true;
+      if (name == 'Assessment') {
+        this.apCreate = true
+      }
+      console.log('...')
+    }, 300);
+  }
+
+ 
+  mainAccessPointAdd() {
+    // let testObj = {
+    // }
+    const templateAccessPoint = {
+      "name": "",
+      "description": "",
+      "moduleId": "",
+      "regionId": "",
+      "orgId": "",
+      "options": false,
+      "upDownOptions":false,
+      "data": {
+        "evaluation": {
+          "passMark": Number,
+          "details": [
+            {
+              "requirement": "",
+              "options": [
+                ""
+              ]
+            }
+          ]
         }
+      }
     }
     console.log(templateAccessPoint);
      this.templateAccessPointGroup.push(templateAccessPoint)
@@ -451,7 +521,9 @@ export class ApgComponent implements OnInit , OnDestroy{
       };
        this.templateAccessPointGroup[i].data.evaluation.details.push(req);
         this.addscrollEvent(i);
-    }
+
+  }
+
 
    
     subAccessPointClear(item,i,id,x){
@@ -556,35 +628,20 @@ export class ApgComponent implements OnInit , OnDestroy{
       console.log("header height in add smark:"+this.headerHeight);
     }
 
-    requirementInnerBox($event,i){
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
 
-      console.log(innerBoxHeight.scrollHeight)
-      console.log(innerBoxHeight.scrollTop)
-    
-      if((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop)==innerBoxHeight.clientHeight){
-        this.isUpDown=false;
-      }else{
-        this.isUpDown=true;
-      }
-      console.log("dar")
+  requirementInnerBox($event, i) {
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
+    console.log(innerBoxHeight.scrollHeight)
+    console.log(innerBoxHeight.scrollTop)
+
+    if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
+      this.isUpDown = false;
+    } else {
+      this.isUpDown = true;
     }
-
-    pushDownClick(i){
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
-
-       innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
-       console.log(innerBoxHeight.scrollHeight)
-    }
-
-    pushUpClick(i){
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
-
-      innerBoxHeight.scrollTop=0;
-      console.log(innerBoxHeight.scrollTop)
-    }
+    console.log("dar")
+  }
 
    
     mainAccessPointClear(item){
@@ -609,81 +666,93 @@ export class ApgComponent implements OnInit , OnDestroy{
 
     }
     
-    createEvaluateApgs(nameparam){
-      var moduleId = localStorage.getItem('moduleID');
-      var arr;
-      
-      var apg={"name":"","description":"","moduleId":"","accessPoints":[]};
-      var templateID;
 
-      console.log(nameparam.name)
-      
-      this.insertAP().then(res=>{
-          apg.name=nameparam.name;
-          apg.accessPoints=res;
-          apg.moduleId=moduleId;
-          
-          this._service.createAPG2(this.regionID, this.locationID,apg, moduleId)
-              .subscribe((res:any) => {
-                this.toastr.success('APG successfully Created.');
-                console.log(res)
-                this.cancelAp();
-              }, err => {
-                this.toastr.error('Created APG Fail');
-                console.log(err)
-              });
 
-        }).catch((err) => {
-          console.log(err); // never called
-      });
-      
-    }
-    
-    insertAP(){
-      var apArr={
-        "name": "",
-        "moduleId": "",
-        "description": "",
-        "data": {
-          "evaluation": {
-            "passMark": 0,
-            "details": [
-              {
-                "name": "string",
-                "options": [
-                  "string"
-                ]
-              }
-            ]
-          }
+  pushUpClick(i) {
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
+
+    innerBoxHeight.scrollTop = 0;
+    console.log(innerBoxHeight.scrollTop)
+  }
+
+
+
+  createEvaluateApgs(nameparam) {
+    var moduleId = localStorage.getItem('moduleID');
+    var arr;
+
+    var apg = { "name": "", "description": "", "moduleId": "", "accessPoints": [] };
+    var templateID;
+
+    console.log(nameparam.name)
+
+    this.insertAP().then(res => {
+      apg.name = nameparam.name;
+      apg.accessPoints = res;
+      apg.moduleId = moduleId;
+
+      this._service.createAPG2(this.regionID, this.locationID, apg, moduleId)
+        .subscribe((res: any) => {
+          this.toastr.success('APG successfully Created.');
+          console.log(res)
+          this.cancelapg();
+        }, err => {
+          this.toastr.error('Created APG Fail');
+          console.log(err)
+        });
+
+    }).catch((err) => {
+      console.log(err); // never called
+    });
+
+  }
+
+  insertAP() {
+    var apArr = {
+      "name": "",
+      "moduleId": "",
+      "description": "",
+      "data": {
+        "evaluation": {
+          "passMark": 0,
+          "details": [
+            {
+              "name": "string",
+              "options": [
+                "string"
+              ]
+            }
+          ]
         }
       }
-      
-      var moduleId = localStorage.getItem('moduleID');
-      var APIdarr=[];
+    }
 
-        return Promise.all(this.templateAccessPointGroup.map(ap=>{
-          // for(var j=0;j<ap.data.evaluation.details.length;j++){
-          //   console.log(ap.name)
-          //   
-          // }
+    var moduleId = localStorage.getItem('moduleID');
+    var APIdarr = [];
 
-          apArr.name=ap.name;
-          apArr.moduleId=moduleId;
-          apArr.data.evaluation=ap.data.evaluation;
-          return new Promise((resolve,reject)=>{
-            this._service.createAP(this.regionID,this.locationID,apArr)
-            .subscribe((res:any) => {
-              resolve(res._id)
-            }, err => {
-              this.toastr.error('Created AP Fail');
-              reject(err);
-              console.log(err)
-            });
-          })
-        }))
-}
-    
+    return Promise.all(this.templateAccessPointGroup.map(ap => {
+      // for(var j=0;j<ap.data.evaluation.details.length;j++){
+      //   console.log(ap.name)
+      //   
+      // }
+
+      apArr.name = ap.name;
+      apArr.moduleId = moduleId;
+      apArr.data.evaluation = ap.data.evaluation;
+      return new Promise((resolve, reject) => {
+        this._service.createAP(this.regionID, this.locationID, apArr)
+          .subscribe((res: any) => {
+            resolve(res._id)
+          }, err => {
+            this.toastr.error('Created AP Fail');
+            reject(err);
+            console.log(err)
+          });
+      })
+    }))
+  }
+
 
   createapgs(data, update) {
     console.log(update)
