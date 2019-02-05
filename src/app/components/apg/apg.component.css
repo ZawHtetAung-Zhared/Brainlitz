@@ -628,14 +628,18 @@
 }
 
 .add-requirement {
-  padding-left: 84px;
-  /* padding-top: 20px;
-   
-    padding-bottom: 20px; */
-  color: #007fff;
-  font-size: 16px;
-  margin: 0px !important;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+    padding-left: 84px;
+    color: #007fff;
+    font-size: 16px;
+    margin: 0px !important;
+    font-family: 'Montserrat-Regular', Arial, sans-serif;
+    background: none;
+    border: none;
+    outline: none;
+}
+.add-requirement:disabled{
+    opacity: 0.65;
+    cursor: not-allowed !important;
 }
 
 .downIcon {

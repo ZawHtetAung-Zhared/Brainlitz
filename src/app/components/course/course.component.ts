@@ -2938,29 +2938,6 @@ export class CourseComponent implements OnInit {
       this.activeTab = 'Class';
       this.attdBox = false;
       this.getAssignUsers(d,m,y)
-      // test
-      // this.getUsersInCourse(this.courseId);
-      // this.activeCourseInfo = this.pplLists;
-      // this._service.getAssignUser(this.regionId,this.currentCourse,d,m,y)
-      // .subscribe((res:any)=>{
-      //   console.log(res);
-      //   this.activeCourseInfo = res;
-      //   for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
-      //     if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
-      //       this.presentStudent += 1;
-      //     }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
-      //       this.absentStudent += 1;
-      //     }else{
-      //       this.noStudent += 1;
-      //     }
-      //   }
-      //   if(this.LASD != null ){
-      //     this.cancelButtonShowHide();
-      //   }
-      // },err =>{
-      //   this.blockUI.stop();
-      //   console.log(err);
-      // })
     },err => {
       console.log(err);
       this.toastr.error("")

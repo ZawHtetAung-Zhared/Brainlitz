@@ -518,6 +518,12 @@ onMouseDown(event) {
     }, 300);
   }
 
+  chooseShareAPG(val,name){
+      console.log(val)
+      this.sharechecked = val;
+      this.getsingleTemplate(this.sharechecked);
+    }
+
  
   mainAccessPointAdd() {
     // let testObj = {
