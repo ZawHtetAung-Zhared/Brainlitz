@@ -317,7 +317,10 @@ onMouseDown(event) {
     this.wordLength = word.length;
     if (status == 'name') {
       $('.limit-wordcount').show('slow');
-    } else {
+    } else if(status="input_method"){
+      
+    } 
+    else {
       $('.limit-wordcount1').show('slow');
     }
   }
@@ -326,7 +329,10 @@ onMouseDown(event) {
     this.wordLength = 0;
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
-    } else {
+    }else if(status="input_method"){
+
+    } 
+    else {
       $('.limit-wordcount1').hide('slow');
     }
   }
