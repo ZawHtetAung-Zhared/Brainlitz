@@ -21,7 +21,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
-  public templateAccessPointGroup = []
+  public templateAccessPointGroup:any = []
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
@@ -421,6 +421,23 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
+  addDataValue(data,i){
+    const newValue = {
+      "dataValue":""
+    }
+    this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
+    console.log(data)
+    console.warn(JSON.stringify(data))
+  }
+  dataValueClear(item,data){
+    console.warn(item)
+    this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item,1)
+    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
+    console.warn(JSON.stringify(data))
+    console.log(data)
+
+  }
 
   createNewAPG(status, name) {
     console.log("Create new APg", name)
@@ -460,7 +477,32 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.apCreate = true;
         console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
-      } else if (name == 'Data') {
+      }else if(name == 'Data' ){
+        this.templateAccessPointGroup = {}
+        const templateAccessPoint =  {
+          "name" : "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "data" : {
+            "sectionType": "PROGRESS",
+            "unit": "string",
+            "inputType": "NUMBER",
+            "inputTypeProperties": {
+              "name": "string",
+              "min": "string",
+              "max": "string",
+              "options": [
+                {
+                  "dataValue":""
+                }
+            ]
+           }
+          }
+        }
+        this.templateAccessPointGroup =templateAccessPoint;
+        console.warn(this.templateAccessPointGroup)
         this.dataApCreate = true;
         this.ismodule = false;
         this.apCreate = false;
@@ -583,15 +625,18 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
 
+   
+    subAccessPointClear(item,i,id,x){
+      // setTimeout(() => {
+      //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
+        
+      // }, 0);
+      this.templateAccessPointGroup[id].data.evaluation.details.splice(x,1);
+      console.log(i)
+      this.removescrollEvent(i,id,x);
+    }
 
-  subAccessPointClear(item, i, id, x) {
-    setTimeout(() => {
-      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item), 1);
 
-    }, 0);
-    console.log(i)
-    this.removescrollEvent(i, id, x);
-  }
 
   addscrollEvent(id) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
