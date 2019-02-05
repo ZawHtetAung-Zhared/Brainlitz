@@ -577,10 +577,11 @@ onMouseDown(event) {
 
    
     subAccessPointClear(item,i,id,x){
-      setTimeout(() => {
-        i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
+      // setTimeout(() => {
+      //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
         
-      }, 0);
+      // }, 0);
+      this.templateAccessPointGroup[id].data.evaluation.details.splice(x,1);
       console.log(i)
       this.removescrollEvent(i,id,x);
     }
