@@ -14,7 +14,12 @@
   background: #fff;
   z-index: 9;
 }
-
+.limit-type-wordcount{
+  display:none;
+  font-size: 14px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  color: #0080ff;
+}
 .single-result {
   cursor: pointer;
   padding: 7px 0;

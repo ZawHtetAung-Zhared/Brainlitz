@@ -25,7 +25,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
-  public dataApCreate:boolean = false;
+  public dataApCreate: boolean = false;
   public keyword: any;
   public isSearch: boolean = false;
   public model: any = {};
@@ -83,7 +83,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public shareAPG: boolean = false;
   public iscreate: boolean = false;
   public ischecked: any;
-  public dataApg : string;
+  public dataApg: string;
   public sharechecked: any;
   public isUpdate: boolean = false;
   public navIsFixed: boolean = false;
@@ -93,9 +93,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   public permissionType: any;
   public apgPermission: any = [];
   public apgDemo: any = [];
-  headerHeight : number=0
-  isUpDownId:number;
-  public dragId: any;
+  headerHeight: number = 0
+  isUpDownId: number;
+  public dragOut : boolean = false;
   public stillDrag: boolean = false;
   public selectedRadio = "input-box"
   constructor(private modalService: NgbModal,
@@ -105,7 +105,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     private dragulaService: DragulaService) {
     console.log(this.templateAccessPointGroup)
 
-    dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
+    dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
       // console.log(clone,original,cloneType)
       // var top = $(clone).height();
       // console.log(top)
@@ -149,99 +149,106 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    
+
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
       console.log("CAncel")
+      this.dragOut = false;
+
     })
     this.dragulaService.drop().subscribe(({ el, target, source, sibling }) => {
       // console.log(this.dragId)
       // clearInterval(this.dragId)
       this.stillDrag = false;
+      this.dragOut = false;
     })
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
-      console.log($(el).siblings().length)
-      console.log(name)
+      this.dragOut = false;
+      var win1 = this;
       this.stillDrag = true;
-      console.log(this.stillDrag)
       var stillDrag = this.stillDrag;
-      var dragItem = el;
-      document.addEventListener("mousemove", function(event){
-        if(stillDrag){
-          console.log($(event.target).parents(".requirement"))
-          console.log(event.pageY)
-          var y = $(el).offsetTop + $(el).height()
-          var ddd = $(event.target).parents(".requirement-inner-box")[0].offsetTop + 236;
-          console.log(ddd)
-          var containerTop =  $(event.target).parents(".requirement-inner-box")[0].offsetTop ;
-          if (ddd - y <=50) {
-            console.log("DDDOOWN")
-            // $(event.target).parents(".requirement-inner-box")[0].scrollTop (20);
-            // this._scrollDown(container, y);
-          } else if (containerTop + y < 70) {
-            console.log("up")
-            // this._scrollUp(container, y);
+      document.addEventListener("mousemove", function (event) {
+        
+        if (stillDrag) {
+          // console.log($(event.target).parents(".requirement"))
+          // console.log(event.pageY)
+          // console.log($(el))
+          // var y = event.pageY
+          var y = $(".gu-mirror").position().top;
+          console.log($(".gu-mirror").position().top)
+          console.log($(el).parents(".requirement-inner-box"))
+          //$(event.target).parents(".requirement-inner-box")
+          var container = $(el).parents(".requirement-inner-box");
+          if(container.length > 0){
+            var ddd = container[0].offsetTop + 236;
+            // console.log(ddd)
+            // console.log()
+            var containerTop = container[0].offsetTop;
+            if (ddd - y <= 70) {
+              var ele = container[0];
+              setTimeout(function(){
+                ele.scrollTop += 40,
+                console.log(container[0])
+                if(ele.scrollHeight == ele.scrollTop + container.height()){
+                  $(ele).append(el)
+                }
+                }, 300);
+              console.log(ele.scrollTop)
+            } else if (y - containerTop <= 40) {
+              var ele = container[0];
+              setTimeout(function(){
+                ele.scrollTop -= 40
+                if(ele.scrollTop == 0){
+                  $(ele).prepend(el)
+                }
+                console.log("Scroll Down function")
+              }, 300);
+              // this._scrollUp(container, y);
+            }
+            
           }
+          
+
         }
       });
-      document.addEventListener("mouseup", function(event){
+      document.addEventListener("mouseup", function (event) {
         stillDrag = false;
       });
-      // if(this.stillDrag == true){
-      //   $(el).mousemove(function( event ) {
-      //     console.log(this.stillDrag)
-          
-      //       console.log(event)
-      //   })
-      // }
       
-      // if($(el).siblings().length == 0)
-      // this.dragulaService.destroy(name)
-      //  this.dragulaService.destroy(name)
+  
     })
+
     this.dragulaService.shadow().subscribe(({ el, container, source }) => {
       console.log(this.stillDrag)
       console.log(el, container, source)
     })
     this.dragulaService.out().subscribe(({ name, container, source }) => {
-  
-      })
+      console.log("out now");
+      this.dragOut = true;
+      this.dragulaService.cancel(name);
+      // this.dragulaService.destroy(name)
+    })
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
-      console.log(clone,original)
-      console.log($(original).parent().children().length)
-      if($(original).parent().children().length == 1){
+      if ($(original).parent().children().length == 1) {
         console.log($(clone).hide())
-      }else{
-        
+      } else {
+
       }
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
       console.log($(clone).children(".img-wrapper").empty())
       $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);"/>')
-  
-      setTimeout(function(){
-        console.log($(clone).children())
-        console.log($(clone).children("img").length)
-      })
-    
-      
     })
     this.dragulaService.over().subscribe(({ name, el, container, source }) => {
-      console.log("Ovver")
-      // console.log($(el))
-      // console.log($(container))
-      // console.log(name, el, container, source)
+
     })
 
     for (var i = 0; i < this.templateAccessPointGroup.length; i++) {
       this.dragulaService
         .drag(this.templateAccessPointGroup[i].name)
         .subscribe(({ name, el, source }) => {
-          console.log(name)
-          console.log(el)
-          console.log("dddd")
-          // this.msg = `Dragging the ${value[1].innerText}!`;
+
         });
     }
     this.dataVal = {
@@ -286,9 +293,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     return hit;
   }
   @HostListener('document:mousedown', ['$event'])
-onMouseDown(event) {
-  console.log(event)
-  console.log($(event.target).parents(".requirement-inner-box"))
+  onMouseDown(event) {
+    console.log(event)
+    console.log($(event.target).parents(".requirement-inner-box"))
     console.log("DRRRRAAG")
   }
 
@@ -317,9 +324,9 @@ onMouseDown(event) {
     this.wordLength = word.length;
     if (status == 'name') {
       $('.limit-wordcount').show('slow');
-    } else if(status="input_method"){
-      
-    } 
+    } else if (status = "input_method") {
+      $('.limit-type-wordcount').show('slow');
+    }
     else {
       $('.limit-wordcount1').show('slow');
     }
@@ -329,9 +336,10 @@ onMouseDown(event) {
     this.wordLength = 0;
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
-    }else if(status="input_method"){
+    } else if (status = "input_method") {
+      $('.limit-type-wordcount').hide('slow');
 
-    } 
+    }
     else {
       $('.limit-wordcount1').hide('slow');
     }
@@ -414,49 +422,49 @@ onMouseDown(event) {
   //   this.isshare = false;
   // }
 
-    createNewAPG(status,name){
-      console.log("Create new APg" , name)
-      if(status == 'create'){
-        this.iscreate = true;
-        if(name == 'Assessment' || name == 'Evaluation'){
-            this.ismodule = false;
-            this.apCreate = true;
-            this.dataApCreate = false;
-            const templateAccessPoint =  {
-              "name" : "",
-              "description": "",
-              "moduleId": "",
-              "regionId": "",
-              "orgId": "",
-              "options":false,
-              "upDownOptions":false,
-              "upOptions":false,
-              "DownOptions":false,
-              "data" : {
-                "evaluation" :{
-                  "passMark": 0,
-                  "details": [
-                    {
-                      "requirement": "",
-                      "options": [
-                        ""
-                      ]
-                    }
+  createNewAPG(status, name) {
+    console.log("Create new APg", name)
+    if (status == 'create') {
+      this.iscreate = true;
+      if (name == 'Assessment' || name == 'Evaluation') {
+        this.ismodule = false;
+        this.apCreate = true;
+        this.dataApCreate = false;
+        const templateAccessPoint = {
+          "name": "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "options": false,
+          "upDownOptions": false,
+          "upOptions": false,
+          "DownOptions": false,
+          "data": {
+            "evaluation": {
+              "passMark": 0,
+              "details": [
+                {
+                  "requirement": "",
+                  "options": [
+                    ""
                   ]
                 }
-              }
+              ]
             }
+          }
+        }
 
         this.templateAccessPointGroup.push(templateAccessPoint)
         // this.iscreate = false;
         this.apCreate = true;
         console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
-      }else if(name == 'Data' ){
+      } else if (name == 'Data') {
         this.dataApCreate = true;
         this.ismodule = false;
         this.apCreate = false;
-      } 
+      }
       else {
         this.model = {};
         this.dataApCreate = false;
@@ -524,13 +532,13 @@ onMouseDown(event) {
     }, 300);
   }
 
-  chooseShareAPG(val,name){
-      console.log(val)
-      this.sharechecked = val;
-      this.getsingleTemplate(this.sharechecked);
-    }
+  chooseShareAPG(val, name) {
+    console.log(val)
+    this.sharechecked = val;
+    this.getsingleTemplate(this.sharechecked);
+  }
 
- 
+
   mainAccessPointAdd() {
     // let testObj = {
     // }
@@ -541,7 +549,7 @@ onMouseDown(event) {
       "regionId": "",
       "orgId": "",
       "options": false,
-      "upDownOptions":false,
+      "upDownOptions": false,
       "data": {
         "evaluation": {
           "passMark": Number,
@@ -557,129 +565,129 @@ onMouseDown(event) {
       }
     }
     console.log(templateAccessPoint);
-     this.templateAccessPointGroup.push(templateAccessPoint)
-    }
-    
-    subAccessPointAdd(options,i){
-      console.log(this.templateAccessPointGroup)
-      console.log('~~~~~~~~',i)
-      let req = {
-        "requirement": "",
-        "options": [
-          ""
-        ]
-      };
-       this.templateAccessPointGroup[i].data.evaluation.details.push(req);
-        this.addscrollEvent(i);
+    this.templateAccessPointGroup.push(templateAccessPoint)
+  }
+
+  subAccessPointAdd(options, i) {
+    console.log(this.templateAccessPointGroup)
+    console.log('~~~~~~~~', i)
+    let req = {
+      "requirement": "",
+      "options": [
+        ""
+      ]
+    };
+    this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+    this.addscrollEvent(i);
 
   }
 
 
-   
-    subAccessPointClear(item,i,id,x){
-      setTimeout(() => {
-        i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
-        
-      }, 0);
-      console.log(i)
-      this.removescrollEvent(i,id,x);
+
+  subAccessPointClear(item, i, id, x) {
+    setTimeout(() => {
+      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item), 1);
+
+    }, 0);
+    console.log(i)
+    this.removescrollEvent(i, id, x);
+  }
+
+  addscrollEvent(id) {
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
+    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
+    const downupArr: HTMLElement = document.getElementById('downupArrow' + id);
+
+    this.headerHeight = skillHeader.clientHeight;
+    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+    console.log("mHight>>" + mHight)
+    console.log("header height in add scorll:" + this.headerHeight);
+    if (totalHeight < 400) {
+      skillHeight.setAttribute("style", "height: auto;");
+      console.log("under 400")
+      this.isUpDownHide = false;
+      this.isUpDownId = null;
+      this.templateAccessPointGroup[id].upDownOptions = false;
+      this.templateAccessPointGroup[id].upOptions = false;
+      this.templateAccessPointGroup[id].DownOptions = false;
+    } else {
+      skillHeight.setAttribute("style", "height: 400px;");
+      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
+      this.isUpDownHide = true;
+      this.isUpDownId = id;
+      this.templateAccessPointGroup[id].upDownOptions = true;
+      this.templateAccessPointGroup[id].upOptions = false;
+      this.templateAccessPointGroup[id].DownOptions = true;
+    }
+    console.log(skillHeight.clientHeight)
+    console.log("call scroll event");
+  }
+
+
+  removescrollEvent(skillObj, skillId, requirementId) {
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillId);
+
+    var req_total_height = 0;
+
+    for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
+      const requirement: HTMLElement = document.getElementById('requirement' + j);
+      req_total_height += requirement.clientHeight;
+      console.log(req_total_height);
+    }
+    var totalHeight = req_total_height + skillHeader.clientHeight + skillFooter.clientHeight;
+
+    if (totalHeight < 400) {
+      skillHeight.setAttribute("style", "height: auto;");
+      innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
+      this.templateAccessPointGroup[skillId].upDownOptions = false;
+      this.templateAccessPointGroup[skillId].upOptions = false;
+      this.templateAccessPointGroup[skillId].DownOptions = false;
+    } else {
+      this.templateAccessPointGroup[skillId].upDownOptions = true;
+      this.templateAccessPointGroup[skillId].upOptions = false;
+      this.templateAccessPointGroup[skillId].DownOptions = true;
+      skillHeight.setAttribute("style", "height: 400px;");
+      innerBoxHeight.setAttribute("style", "height:236px;overflow:overlay;")
+    }
+    console.log("total height>>" + totalHeight)
+    console.log(skillObj.data.evaluation.details)
+    console.log(skillHeader.clientHeight)
+    console.log(skillFooter.clientHeight)
+    console.log(innerBoxHeight.clientHeight);
+  }
+
+  addScrollOncheckMarkToggle(skillObjId, res) {
+    console.log("reach checkMarkToggle>>" + skillObjId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillObjId);
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillObjId);
+    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + skillObjId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillObjId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillObjId);
+
+    this.headerHeight = skillHeader.clientHeight;
+    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+
+    if (totalHeight < 400) {
+      skillHeight.setAttribute("style", "height: auto;");
+      console.log("under 400")
+    } else {
+      skillHeight.setAttribute("style", "height: 400px;");
+      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
+      // this.templateAccessPointGroup[skillObjId].upOptions=false;
+      // this.templateAccessPointGroup[skillObjId].DownOptions=true;
+      console.log("over 400")
     }
 
-    addscrollEvent(id){
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+id);
-      const skillHeader: HTMLElement = document.getElementById('skillHeader'+id);
-      const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+id);
-      const skillFooter: HTMLElement = document.getElementById('skillFooter'+id);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+id);
-      const downupArr: HTMLElement = document.getElementById('downupArrow'+id);
-
-      this.headerHeight=skillHeader.clientHeight;
-      var totalHeight=this.headerHeight+skillFooter.clientHeight+innerBoxHeight.clientHeight;
-      var mHight=400-(this.headerHeight+skillFooter.clientHeight);
-      console.log("mHight>>"+mHight)
-      console.log("header height in add scorll:"+this.headerHeight);
-      if(totalHeight < 400){
-        skillHeight.setAttribute("style", "height: auto;");
-        console.log("under 400")
-        this.isUpDownHide=false;
-        this.isUpDownId=null;
-        this.templateAccessPointGroup[id].upDownOptions=false;
-        this.templateAccessPointGroup[id].upOptions=false;
-        this.templateAccessPointGroup[id].DownOptions=false;
-      }else{
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
-        this.isUpDownHide=true;
-        this.isUpDownId=id;
-        this.templateAccessPointGroup[id].upDownOptions=true;
-        this.templateAccessPointGroup[id].upOptions=false;
-        this.templateAccessPointGroup[id].DownOptions=true;
-      }
-      console.log(skillHeight.clientHeight)
-      console.log("call scroll event");
-    }
-  
-
-    removescrollEvent(skillObj,skillId,requirementId){
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
-      const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
-      const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
-
-      var req_total_height=0;
-
-      for(var j=0;j<skillObj.data.evaluation.details.length;j++){
-        const requirement: HTMLElement = document.getElementById('requirement'+j);
-        req_total_height+=requirement.clientHeight;
-        console.log(req_total_height);
-      }
-      var totalHeight=req_total_height+skillHeader.clientHeight+skillFooter.clientHeight;
-
-      if(totalHeight < 400){
-        skillHeight.setAttribute("style", "height: auto;");
-        innerBoxHeight.setAttribute("style","height:auto;overflow:none;")
-        this.templateAccessPointGroup[skillId].upDownOptions=false;
-        this.templateAccessPointGroup[skillId].upOptions=false;
-        this.templateAccessPointGroup[skillId].DownOptions=false;
-      }else{
-        this.templateAccessPointGroup[skillId].upDownOptions=true;
-        this.templateAccessPointGroup[skillId].upOptions=false;
-        this.templateAccessPointGroup[skillId].DownOptions=true;
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:236px;overflow:overlay;") 
-      }
-      console.log("total height>>"+totalHeight)
-      console.log(skillObj.data.evaluation.details)
-      console.log(skillHeader.clientHeight)
-      console.log(skillFooter.clientHeight)
-      console.log(innerBoxHeight.clientHeight);
-    }
-
-    addScrollOncheckMarkToggle(skillObjId,res){
-      console.log("reach checkMarkToggle>>"+skillObjId);
-      const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillObjId);
-      const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+skillObjId);
-      const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillObjId);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillObjId);
-
-      this.headerHeight=skillHeader.clientHeight;
-      var totalHeight=this.headerHeight+skillFooter.clientHeight+innerBoxHeight.clientHeight;
-      var mHight=400-(this.headerHeight+skillFooter.clientHeight);
-      
-      if(totalHeight < 400){
-        skillHeight.setAttribute("style", "height: auto;");
-        console.log("under 400")
-      }else{
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
-        // this.templateAccessPointGroup[skillObjId].upOptions=false;
-        // this.templateAccessPointGroup[skillObjId].DownOptions=true;
-        console.log("over 400")
-      }
-    
-      console.log("header height in add smark:"+this.headerHeight);
-    }
+    console.log("header height in add smark:" + this.headerHeight);
+  }
 
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
@@ -688,54 +696,54 @@ onMouseDown(event) {
     console.log(innerBoxHeight.scrollTop)
 
     if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
-      this.templateAccessPointGroup[i].upOptions=true;
-      this.templateAccessPointGroup[i].DownOptions=false;
+      this.templateAccessPointGroup[i].upOptions = true;
+      this.templateAccessPointGroup[i].DownOptions = false;
     } else {
-      this.templateAccessPointGroup[i].upOptions=false;
-      this.templateAccessPointGroup[i].DownOptions=true;
+      this.templateAccessPointGroup[i].upOptions = false;
+      this.templateAccessPointGroup[i].DownOptions = true;
     }
     console.log("dar")
   }
 
-   
-    mainAccessPointClear(item){
-      this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
-    }
-  
-    checkMarkToggle(item,skillObjId){
-      // this.isGlobal = !this.isGlobal
-      item.options = !item.options;
-      console.log(item.options)
 
-      setTimeout(() => {
-        this.addScrollOncheckMarkToggle(skillObjId,item.options);
-        // if(item.options){
-        //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-        //   console.log(skillHeader.clientHeight)
-        // } else{
-        //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-        //   console.log(skillHeader.clientHeight)
-        // }
-       })
+  mainAccessPointClear(item) {
+    this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+  }
 
-    }
-  
-    pushDownClick(i){
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
-      // this.isUpDownHide = true;
-      this.templateAccessPointGroup[i].upOptions=false;
-      this.templateAccessPointGroup[i].DownOptions=true;
-      innerBoxHeight.scrollTop=innerBoxHeight.scrollHeight
-         
-    }
+  checkMarkToggle(item, skillObjId) {
+    // this.isGlobal = !this.isGlobal
+    item.options = !item.options;
+    console.log(item.options)
+
+    setTimeout(() => {
+      this.addScrollOncheckMarkToggle(skillObjId, item.options);
+      // if(item.options){
+      //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
+      //   console.log(skillHeader.clientHeight)
+      // } else{
+      //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
+      //   console.log(skillHeader.clientHeight)
+      // }
+    })
+
+  }
+
+  pushDownClick(i) {
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
+    // this.isUpDownHide = true;
+    this.templateAccessPointGroup[i].upOptions = false;
+    this.templateAccessPointGroup[i].DownOptions = true;
+    innerBoxHeight.scrollTop = innerBoxHeight.scrollHeight
+
+  }
 
   pushUpClick(i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
 
     innerBoxHeight.scrollTop = 0;
-    this.templateAccessPointGroup[i].upOptions=true;
-      this.templateAccessPointGroup[i].DownOptions=false;
+    this.templateAccessPointGroup[i].upOptions = true;
+    this.templateAccessPointGroup[i].DownOptions = false;
     console.log(innerBoxHeight.scrollTop)
   }
 
@@ -1430,28 +1438,28 @@ onMouseDown(event) {
         console.log(err)
       })
   }
-  autoResize(e,id) {
+  autoResize(e, id) {
     console.log(e.target.style)
     console.log(e.target.scrollHeight)
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + "px";
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+id);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader'+id);
-    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+id);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter'+id);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+id);
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
+    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
 
-    this.headerHeight=skillHeader.clientHeight;
-    var totalHeight=this.headerHeight+skillFooter.clientHeight+innerBoxHeight.clientHeight;
-    var mHight=400-(this.headerHeight+skillFooter.clientHeight);
-    console.log("mHight>>"+mHight)
-    console.log("header height in add scorll:"+this.headerHeight);
-    if(totalHeight < 400){
+    this.headerHeight = skillHeader.clientHeight;
+    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+    console.log("mHight>>" + mHight)
+    console.log("header height in add scorll:" + this.headerHeight);
+    if (totalHeight < 400) {
       skillHeight.setAttribute("style", "height: auto;");
       console.log("under 400")
-    }else{
+    } else {
       skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
+      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
       console.log("over 400")
     }
   }
@@ -1468,7 +1476,7 @@ onMouseDown(event) {
     console.log(value)
     console.log(index)
   }
-  radioSelect(type){
+  radioSelect(type) {
     this.selectedRadio = type;
   }
 }
