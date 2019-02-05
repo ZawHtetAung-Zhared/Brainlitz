@@ -422,20 +422,16 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   this.isshare = false;
   // }
   addDataValue(data,i){
-    const newValue = {
-      "dataValue":""
-    }
+    const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     console.log(data)
     console.warn(JSON.stringify(data))
   }
-  dataValueClear(item,data){
+  dataValueClear(item){
     console.warn(item)
     this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item,1)
     console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-    console.warn(JSON.stringify(data))
-    console.log(data)
 
   }
 
@@ -494,9 +490,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               "min": "string",
               "max": "string",
               "options": [
-                {
-                  "dataValue":""
-                }
+              ""
             ]
            }
           }

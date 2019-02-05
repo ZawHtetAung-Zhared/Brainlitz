@@ -193,6 +193,131 @@
         </div>
       </div>
     </form>
+    <div *ngIf="iscreate == true && dataApCreate">
+      <div class="col-md-12 col-lg-8 input-wrap">
+        <div class="form-group ">
+          <div class="d-flex justify-content-between">
+            <label class="form-title input-label" for="address">Data name</label>
+            <div class="limit-wordcount">
+              <span>{{wordLength}}/60characters</span>
+            </div>
+          </div>
+          <input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name"
+            maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
+            (input)="changeMethod($event.target.value)" required #name="ngModel">
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+            <div [hidden]="!name.errors.required">
+              Name is required!
+            </div>
+          </div>
+        </div>
+        <div class="form-group radio-form-group">
+          <div class="d-flex justify-content-between">
+            <label class="form-title input-label" for="address">Input type</label>
+
+            <!-- <div class="limit-wordcount1">
+              <span>{{wordLength}}/280characters</span>
+            </div>
+          </div>
+          <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
+            [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
+            (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
+            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+            <div [hidden]="!description.errors.required">
+              Description is required!
+            </div>
+          </div> -->
+          </div>
+          <div class="radio-group">
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')">
+              <div class="radio-wrapper">
+                <div class="label-checked"></div>
+
+                <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="input-box" />
+
+                <div class="huey">Input box</div>
+                <div class="huey-child">Number</div>
+              </div>
+
+
+            </div>
+
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')">
+              <div class="radio-wrapper">
+                <div class="label-checked"></div>
+
+                <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="slider" />
+
+                <div class="huey">Slider</div>
+                <div class="huey-child">Number</div>
+              </div>
+
+            </div>
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
+              <div class="radio-wrapper">
+                <div class="label-checked"></div>
+                <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
+
+                <label class="huey">Selection</label>
+                <br>
+                <div class="huey-child">Text</div>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+        <div class="input-result">
+          <div *ngIf="selectedRadio == 'input-box'">
+            <div class="form-group ">
+                <div class="d-flex justify-content-between">
+                    <label class="form-title input-label" for="address">Measurement unit</label>
+                    <div class="limit-type-wordcount">
+                      <span>{{wordLength}}/6characters</span>
+                    </div>
+                  </div>
+                <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
+                  maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
+                  (input)="changeMethod($event.target.value)" required #input_method="ngModel">
+                <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
+                  <div [hidden]="!input_method.errors.required">
+                    Measurement unit is required!
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedRadio == 'slider'">
+            Slider
+          </div>
+          <div *ngIf="selectedRadio == 'selection'">
+           <h4 class="data-list-title"> Data list</h4>
+            <div *ngFor="let item of templateAccessPointGroup.data.inputTypeProperties.options; let i=index;">
+              <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
+              <div class="d-flex">
+                  <span class="pr-3 img-wrapper">
+                      <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
+                      <img class="move-sign" src="../../../assets/images/single-holder.svg">
+                  </span>
+                  <div class="form-group">
+                    <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.options[i]" name="dataValue"
+                      required >
+                  </div>
+                  <div  class="data-close" *ngIf=" templateAccessPointGroup.data.inputTypeProperties.options.length > 1" (click)="dataValueClear(i)"></div>
+                </div>
+            </div>
+            <span class="newValue" (click)="addDataValue()">Add new data value</span> 
+          </div>
+        </div>
+        <div class="d-flex justify-content-end form-footer">
+          <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
+            [disabled]="!createapgForm.valid">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
+            (click)="createapgs(model, true, currentID)">Update</button>
+        </div>
+      </div>
+    </div>
     <form novalidate #createapgForm="ngForm">
       <div class="row" *ngIf="ismodule == true">
         <div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl"
@@ -242,131 +367,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="iscreate == true && dataApCreate">
-        <div class="col-md-12 col-lg-8 input-wrap">
-          <div class="form-group ">
-            <div class="d-flex justify-content-between">
-              <label class="form-title input-label" for="address">Data name</label>
-              <div class="limit-wordcount">
-                <span>{{wordLength}}/60characters</span>
-              </div>
-            </div>
-            <input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name"
-              maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
-              (input)="changeMethod($event.target.value)" required #name="ngModel">
-            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-              <div [hidden]="!name.errors.required">
-                Name is required!
-              </div>
-            </div>
-          </div>
-          <div class="form-group radio-form-group">
-            <div class="d-flex justify-content-between">
-              <label class="form-title input-label" for="address">Input type</label>
-
-              <!-- <div class="limit-wordcount1">
-                <span>{{wordLength}}/280characters</span>
-              </div>
-            </div>
-            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
-              [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
-              (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
-              <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
-              <div [hidden]="!description.errors.required">
-                Description is required!
-              </div>
-            </div> -->
-            </div>
-            <div class="radio-group">
-              <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')">
-                <div class="radio-wrapper">
-                  <div class="label-checked"></div>
-
-                  <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="input-box" />
-
-                  <div class="huey">Input box</div>
-                  <div class="huey-child">Number</div>
-                </div>
-
-
-              </div>
-
-              <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')">
-                <div class="radio-wrapper">
-                  <div class="label-checked"></div>
-
-                  <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="slider" />
-
-                  <div class="huey">Slider</div>
-                  <div class="huey-child">Number</div>
-                </div>
-
-              </div>
-              <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
-                <div class="radio-wrapper">
-                  <div class="label-checked"></div>
-                  <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
-
-                  <label class="huey">Selection</label>
-                  <br>
-                  <div class="huey-child">Text</div>
-                </div>
-
-
-              </div>
-            </div>
-
-          </div>
-          <div class="input-result">
-            <div *ngIf="selectedRadio == 'input-box'">
-              <div class="form-group ">
-                  <div class="d-flex justify-content-between">
-                      <label class="form-title input-label" for="address">Measurement unit</label>
-                      <div class="limit-type-wordcount">
-                        <span>{{wordLength}}/6characters</span>
-                      </div>
-                    </div>
-                  <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                    maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
-                    (input)="changeMethod($event.target.value)" required #input_method="ngModel">
-                  <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
-                    <div [hidden]="!input_method.errors.required">
-                      Measurement unit is required!
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <div *ngIf="selectedRadio == 'slider'">
-              Slider
-            </div>
-            <div *ngIf="selectedRadio == 'selection'">
-             <h4 class="data-list-title"> Data list</h4>
-              <div *ngFor="let item of templateAccessPointGroup.data.inputTypeProperties.options; let i=index;">
-                <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
-                <div class="d-flex">
-                    <span class="pr-3 img-wrapper">
-                        <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
-                        <img class="move-sign" src="../../../assets/images/single-holder.svg">
-                    </span>
-                    <div class="form-group">
-                      <input type="text" class="form-control data-value" placeholder="Type data value here"
-                        required >
-                    </div>
-                    <div  class="data-close" *ngIf=" templateAccessPointGroup.data.inputTypeProperties.options.length > 1" (click)="dataValueClear(i)"></div>
-                  </div>
-              </div>
-              <span class="newValue" (click)="addDataValue()">Add new data value</span> 
-            </div>
-          </div>
-          <div class="d-flex justify-content-end form-footer">
-            <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
-              [disabled]="!createapgForm.valid">Create</button>
-            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
-              (click)="createapgs(model, true, currentID)">Update</button>
-          </div>
-        </div>
-      </div>
+     
       <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
         <div class="col-md-8 input-wrap">
           <div class="form-group">
