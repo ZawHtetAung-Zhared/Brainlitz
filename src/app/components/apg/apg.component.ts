@@ -187,23 +187,23 @@ export class ApgComponent implements OnInit, OnDestroy {
             var containerTop = container[0].offsetTop;
             if (ddd - y <= 70) {
               var ele = container[0];
-              setTimeout(function(){
-                ele.scrollTop += 40,
+              // setTimeout(function(){
+                ele.scrollTop += 20,
                 console.log(container[0])
                 if(ele.scrollHeight == ele.scrollTop + container.height()){
                   $(ele).append(el)
                 }
-                }, 300);
+                // }, 300);
               console.log(ele.scrollTop)
             } else if (y - containerTop <= 40) {
               var ele = container[0];
-              setTimeout(function(){
-                ele.scrollTop -= 40
+              // setTimeout(function(){
+                ele.scrollTop -= 20
                 if(ele.scrollTop == 0){
                   $(ele).prepend(el)
                 }
                 console.log("Scroll Down function")
-              }, 300);
+              // }, 300);
               // this._scrollUp(container, y);
             }
             
