@@ -21,7 +21,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
-  public templateAccessPointGroup = []
+  public templateAccessPointGroup:any = []
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
@@ -413,6 +413,23 @@ onMouseDown(event) {
   //   }
   //   this.isshare = false;
   // }
+  addDataValue(data,i){
+    const newValue = {
+      "dataValue":""
+    }
+    this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
+    console.log(data)
+    console.warn(JSON.stringify(data))
+  }
+  dataValueClear(item,data){
+    console.warn(item)
+    this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item,1)
+    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
+    console.warn(JSON.stringify(data))
+    console.log(data)
+
+  }
 
     createNewAPG(status,name){
       console.log("Create new APg" , name)
@@ -453,6 +470,31 @@ onMouseDown(event) {
         console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
       }else if(name == 'Data' ){
+        this.templateAccessPointGroup = {}
+        const templateAccessPoint =  {
+          "name" : "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "data" : {
+            "sectionType": "PROGRESS",
+            "unit": "string",
+            "inputType": "NUMBER",
+            "inputTypeProperties": {
+              "name": "string",
+              "min": "string",
+              "max": "string",
+              "options": [
+                {
+                  "dataValue":""
+                }
+            ]
+           }
+          }
+        }
+        this.templateAccessPointGroup =templateAccessPoint;
+        console.warn(this.templateAccessPointGroup)
         this.dataApCreate = true;
         this.ismodule = false;
         this.apCreate = false;
@@ -577,10 +619,7 @@ onMouseDown(event) {
 
    
     subAccessPointClear(item,i,id,x){
-      setTimeout(() => {
-        i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
-        
-      }, 0);
+      this.templateAccessPointGroup[id].data.evaluation.details.splice(x,1)
       console.log(i)
       this.removescrollEvent(i,id,x);
     }
@@ -621,7 +660,6 @@ onMouseDown(event) {
   
 
     removescrollEvent(skillObj,skillId,requirementId){
-      console.log(skillObj,skillId,requirementId)
       const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
       const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
       const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
@@ -634,33 +672,26 @@ onMouseDown(event) {
         req_total_height+=requirement.clientHeight;
         console.log(req_total_height);
       }
-
-      var totalHeight=skillHeader.clientHeight+skillFooter.clientHeight+req_total_height;
-      var inboxHight=400-(skillHeader.clientHeight+skillFooter.clientHeight);
-
-      console.log(totalHeight);
+      var totalHeight=req_total_height+skillHeader.clientHeight+skillFooter.clientHeight;
 
       if(totalHeight < 400){
-        console.log("less than 400")
         skillHeight.setAttribute("style", "height: auto;");
         innerBoxHeight.setAttribute("style","height:auto;overflow:none;")
         this.templateAccessPointGroup[skillId].upDownOptions=false;
         this.templateAccessPointGroup[skillId].upOptions=false;
         this.templateAccessPointGroup[skillId].DownOptions=false;
       }else{
-        console.log("greater than 400")
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:"+inboxHight+"px;overflow:overlay;")
-        
         this.templateAccessPointGroup[skillId].upDownOptions=true;
         this.templateAccessPointGroup[skillId].upOptions=false;
         this.templateAccessPointGroup[skillId].DownOptions=true;
+        skillHeight.setAttribute("style", "height: 400px;");
+        innerBoxHeight.setAttribute("style","height:236px;overflow:overlay;") 
       }
-      // console.log("total height>>"+totalHeight)
-      // // console.log(skillObj.data.evaluation.details)
-      // console.log(skillHeader.clientHeight)
-      // console.log(skillFooter.clientHeight)
-      // console.log(innerBoxHeight.clientHeight);
+      console.log("total height>>"+totalHeight)
+      console.log(skillObj.data.evaluation.details)
+      console.log(skillHeader.clientHeight)
+      console.log(skillFooter.clientHeight)
+      console.log(innerBoxHeight.clientHeight);
     }
 
     addScrollOncheckMarkToggle(skillObjId,res){
