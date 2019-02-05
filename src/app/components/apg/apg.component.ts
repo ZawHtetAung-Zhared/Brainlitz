@@ -615,6 +615,7 @@ onMouseDown(event) {
   
 
     removescrollEvent(skillObj,skillId,requirementId){
+      console.log(skillObj,skillId,requirementId)
       const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
       const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
       const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
@@ -627,26 +628,33 @@ onMouseDown(event) {
         req_total_height+=requirement.clientHeight;
         console.log(req_total_height);
       }
-      var totalHeight=req_total_height+skillHeader.clientHeight+skillFooter.clientHeight;
+
+      var totalHeight=skillHeader.clientHeight+skillFooter.clientHeight+req_total_height;
+      var inboxHight=400-(skillHeader.clientHeight+skillFooter.clientHeight);
+
+      console.log(totalHeight);
 
       if(totalHeight < 400){
+        console.log("less than 400")
         skillHeight.setAttribute("style", "height: auto;");
         innerBoxHeight.setAttribute("style","height:auto;overflow:none;")
         this.templateAccessPointGroup[skillId].upDownOptions=false;
         this.templateAccessPointGroup[skillId].upOptions=false;
         this.templateAccessPointGroup[skillId].DownOptions=false;
       }else{
+        console.log("greater than 400")
+        skillHeight.setAttribute("style", "height: 400px;");
+        innerBoxHeight.setAttribute("style","height:"+inboxHight+"px;overflow:overlay;")
+        
         this.templateAccessPointGroup[skillId].upDownOptions=true;
         this.templateAccessPointGroup[skillId].upOptions=false;
         this.templateAccessPointGroup[skillId].DownOptions=true;
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:236px;overflow:overlay;") 
       }
-      console.log("total height>>"+totalHeight)
-      console.log(skillObj.data.evaluation.details)
-      console.log(skillHeader.clientHeight)
-      console.log(skillFooter.clientHeight)
-      console.log(innerBoxHeight.clientHeight);
+      // console.log("total height>>"+totalHeight)
+      // // console.log(skillObj.data.evaluation.details)
+      // console.log(skillHeader.clientHeight)
+      // console.log(skillFooter.clientHeight)
+      // console.log(innerBoxHeight.clientHeight);
     }
 
     addScrollOncheckMarkToggle(skillObjId,res){

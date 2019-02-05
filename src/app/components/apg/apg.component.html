@@ -123,6 +123,7 @@
                 <input type="text" placeholder="Type skill name here" class="evaluation-name" name="name" required
                   [(ngModel)]="model.name" #name="ngModel">
               </div>
+              {{createDataApgForm.value|json}}
             </div>
             <div class="inform-wrapper">
               <span class="icon">i</span> <span class="inform-text">Some information about how do skill and requirement
