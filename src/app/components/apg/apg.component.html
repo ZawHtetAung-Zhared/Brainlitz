@@ -237,7 +237,84 @@
         </div>
       </div>
       <div *ngIf="iscreate == true && dataApCreate">
-        Testing
+        <div class="col-md-8 input-wrap">
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <label class="form-title input-label" for="address">Data name</label>
+              <div class="limit-wordcount">
+                <span>{{wordLength}}/60characters</span>
+              </div>
+            </div>
+            <input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name"
+              maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
+              (input)="changeMethod($event.target.value)" required #name="ngModel">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+              <div [hidden]="!name.errors.required">
+                Name is required!
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <label class="form-title input-label" for="address">Input type</label>
+             
+              <!-- <div class="limit-wordcount1">
+                <span>{{wordLength}}/280characters</span>
+              </div>
+            </div>
+            <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
+              [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
+              (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
+            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+              <div [hidden]="!description.errors.required">
+                Description is required!
+              </div>
+            </div> -->
+          </div>
+          <div class="radio-group">
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> 
+              <div class="radio-wrapper"> <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="input-box" />
+
+                <label  class="huey">Input box</label>
+                <div  class="huey-child">Number</div></div>
+             
+
+            </div>
+            
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'"  (click)="radioSelect('slider')">
+              <div  class="radio-wrapper">  <input type="radio" class="form-radio"  name="radio" [(ngModel)]="selectedRadio" value="slider" />
+
+                <label class="huey">Slider</label>
+                <div  class="huey-child">Number</div></div>  
+            
+            </div> 
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
+              <div class="radio-wrapper"> <input type="radio" name="radio" class="form-radio"  [(ngModel)]="selectedRadio" value="selection" />
+
+                <label  class="huey">Selection</label>
+                <br>
+                <div class="huey-child">Text</div></div>  
+             
+
+              </div>
+          </div>
+          <div class="input-result">
+              <div *ngIf="selectedRadio == 'input-box'">
+                  Input-box
+                </div>
+            <div *ngIf="selectedRadio == 'slider'">
+              Slider
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end form-footer">
+          <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
+            [disabled]="!createapgForm.valid">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
+            (click)="createapgs(model, true, currentID)">Update</button>
+        </div>
+      </div>
       </div>
       <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
         <div class="col-md-8 input-wrap">

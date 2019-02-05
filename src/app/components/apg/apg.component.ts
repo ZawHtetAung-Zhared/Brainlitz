@@ -1,3 +1,4 @@
+import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -82,6 +83,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public shareAPG: boolean = false;
   public iscreate: boolean = false;
   public ischecked: any;
+  public dataApg : string;
   public sharechecked: any;
   public isUpdate: boolean = false;
   public navIsFixed: boolean = false;
@@ -95,6 +97,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   isUpDownId:number;
   public dragId: any;
   public stillDrag: boolean = false;
+  public selectedRadio = "input-box"
   constructor(private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
@@ -102,13 +105,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     private dragulaService: DragulaService) {
     console.log(this.templateAccessPointGroup)
 
-    dragulaService.drag().subscribe(({name,el,source})=>{
-      // console.log($(el).hide())
-      console.log($(".gu-mirror"))
-      console.log('~~~~~~~~~drag',this.templateAccessPointGroup)
-      console.log(name)
-      console.log(source)
-    })
     dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
       // console.log(clone,original,cloneType)
       // var top = $(clone).height();
@@ -157,35 +153,61 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
-      clearInterval(this.dragId)
-
+      console.log("CAncel")
     })
     this.dragulaService.drop().subscribe(({ el, target, source, sibling }) => {
       // console.log(this.dragId)
       // clearInterval(this.dragId)
-      // this.stillDrag = false;
+      this.stillDrag = false;
     })
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
       console.log($(el).siblings().length)
       console.log(name)
+      this.stillDrag = true;
+      console.log(this.stillDrag)
+      var stillDrag = this.stillDrag;
+      var dragItem = el;
+      document.addEventListener("mousemove", function(event){
+        if(stillDrag){
+          console.log($(event.target).parents(".requirement"))
+          console.log(event.pageY)
+          var y = $(el).offsetTop + $(el).height()
+          var ddd = $(event.target).parents(".requirement-inner-box")[0].offsetTop + 236;
+          console.log(ddd)
+          var containerTop =  $(event.target).parents(".requirement-inner-box")[0].offsetTop ;
+          if (ddd - y <=50) {
+            console.log("DDDOOWN")
+            // $(event.target).parents(".requirement-inner-box")[0].scrollTop (20);
+            // this._scrollDown(container, y);
+          } else if (containerTop + y < 70) {
+            console.log("up")
+            // this._scrollUp(container, y);
+          }
+        }
+      });
+      document.addEventListener("mouseup", function(event){
+        stillDrag = false;
+      });
+      // if(this.stillDrag == true){
+      //   $(el).mousemove(function( event ) {
+      //     console.log(this.stillDrag)
+          
+      //       console.log(event)
+      //   })
+      // }
+      
       // if($(el).siblings().length == 0)
       // this.dragulaService.destroy(name)
       //  this.dragulaService.destroy(name)
     })
     this.dragulaService.shadow().subscribe(({ el, container, source }) => {
-
+      console.log(this.stillDrag)
       console.log(el, container, source)
     })
     this.dragulaService.out().subscribe(({ name, container, source }) => {
-      // if (this.stillDrag == true)
-      //   this.dragId = setInterval(myTimer, 1000);
-
-      // function myTimer(){
-      //   container.scrollBy(0,50)
-      // }
+  
       })
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
-      // this.stillDrag = true;
       console.log(clone,original)
       console.log($(original).parent().children().length)
       if($(original).parent().children().length == 1){
@@ -318,7 +340,6 @@ onMouseDown(event) {
     this.apgList = [];
     this.model = {};
     this.apCreate = false;
-    this.dataApCreate = false;
     this.iscreate = false;
     this.ismodule = false;
     this.isUpdate = false;
@@ -388,6 +409,7 @@ onMouseDown(event) {
   // }
 
     createNewAPG(status,name){
+      console.log("Create new APg" , name)
       if(status == 'create'){
         this.iscreate = true;
         if(name == 'Assessment' || name == 'Evaluation'){
@@ -1433,5 +1455,8 @@ onMouseDown(event) {
     e.target.value = value;
     console.log(value)
     console.log(index)
+  }
+  radioSelect(type){
+    this.selectedRadio = type;
   }
 }
