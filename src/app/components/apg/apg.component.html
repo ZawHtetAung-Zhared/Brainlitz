@@ -320,10 +320,23 @@
           <div class="input-result">
             <div *ngIf="selectedRadio == 'input-box'">
               <div class='requirement-box'>Measurement unit</div>
+              <div class="form-group ">
+                  <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
+                    maxlength="60" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
+                    (input)="changeMethod($event.target.value)" required #input_method="ngModel">
+                  <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
+                    <div [hidden]="!input_method.errors.required">
+                      Measurement unit is required!
+                    </div>
+                  </div>
+                </div>
             </div>
             <div *ngIf="selectedRadio == 'slider'">
               Slider
             </div>
+            <div *ngIf="selectedRadio == 'selection'">
+                Selection
+              </div>
           </div>
           <div class="d-flex justify-content-end form-footer">
             <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>

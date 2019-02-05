@@ -1105,5 +1105,8 @@ input:checked+.slider:before {
   color: #2e3e4d;
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
 }
+.input-result{
+  margin-top:32px;
+}
 
 
