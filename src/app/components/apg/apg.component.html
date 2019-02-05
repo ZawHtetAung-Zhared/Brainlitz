@@ -114,81 +114,84 @@
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
   </div>
   <div class="apg-form">
-    <form  #createDataApgForm="ngForm">
+    <form #createDataApgForm="ngForm">
       <div *ngIf="iscreate == true && apCreate == true">
-          <div class="d-flex flex-column">
-            <div class="d-flex flex-row">
-              <div class="d-flex flex-column">
-                <label class="evaluation-Name"> Evaluation Name</label>
-                <input type="text" placeholder="Type skill name here" class="evaluation-name" name="name" required
-                  [(ngModel)]="model.name" #name="ngModel">
-              </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-row">
+            <div class="d-flex flex-column">
+              <label class="evaluation-Name"> Evaluation Name</label>
+              <input type="text" placeholder="Type skill name here" class="evaluation-name" name="name" required
+                [(ngModel)]="model.name" #name="ngModel">
             </div>
-            <div class="inform-wrapper">
-              <span class="icon">i</span> <span class="inform-text">Some information about how do skill and requirement
-                create with multiple lines</span>
-            </div>
-            <div dragula="COLUMNS" [(dragulaModel)]="templateAccessPointGroup" drag-scroll>
-              <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
-                <div class="d-flex flex-column" style="background:#f2f4f5;" id="skillHeader{{i}}">
-                  <div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
-                    (click)="mainAccessPointClear(item)"></div>
-                  <div class="d-flex">
-                    <img class="group-handle" src="../../../assets/images/disable-holder.svg">
-  
-                    <input type="text" placeholder="Type skill name here" class="skill-name" name=" {{'skillName' + i }}"
-                      required [(ngModel)]="item.name" required>
-                    <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="toggle-wrap">
-                      <label class="switch">
-                        <input type="checkbox" (click)="checkMarkToggle(item,i)" [checked]="item.options">
-                        <span class="slider round"></span>
-                      </label>
-                    </div>
-                    <p style="padding-left:12px;" class="pass-mark">Use passing mark</p>
-                  </div>  
-                  <div class=" pb-3" [ngClass]="{'d-none':!item.options}" id="passMark{{i}}">
-                    <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)" name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
-                    <label class="pl-2 pass-label">% to pass</label>
-                  </div>
+          </div>
+          <div class="inform-wrapper">
+            <span class="icon">i</span> <span class="inform-text">Some information about how do skill and requirement
+              create with multiple lines</span>
+          </div>
+          <div dragula="COLUMNS" [(dragulaModel)]="templateAccessPointGroup" drag-scroll>
+            <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
+              <div class="d-flex flex-column" style="background:#f2f4f5;" id="skillHeader{{i}}">
+                <div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
+                  (click)="mainAccessPointClear(item)"></div>
+                <div class="d-flex">
+                  <img class="group-handle" src="../../../assets/images/disable-holder.svg">
+
+                  <input type="text" placeholder="Type skill name here" class="skill-name" name=" {{'skillName' + i }}"
+                    required [(ngModel)]="item.name" required>
+                  <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
                 </div>
-                <div id="requirement-inner-box-{{i}}" class="requirement-inner-box" (scroll)="requirementInnerBox($event,i)"  dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
-                  <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index" style="padding-left:40px;" id="requirement{{x}}">
-                    <span class="pr-3 img-wrapper">
-                      <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
-                      <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
-                    </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here" class="requirement-name"
-                      [(ngModel)]="test.requirement" required (input)="autoResize($event,i)"></textarea>
-                    <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
-                    <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
-                      (click)="subAccessPointClear(test,item,i,x)"></div>
+                <div class="d-flex align-items-center">
+                  <div class="toggle-wrap">
+                    <label class="switch">
+                      <input type="checkbox" (click)="checkMarkToggle(item,i)" [checked]="item.options">
+                      <span class="slider round"></span>
+                    </label>
                   </div>
+                  <p style="padding-left:12px;" class="pass-mark">Use passing mark</p>
                 </div>
-                
-                <div class="d-flex align-items-center cursor-on" id="skillFooter{{i}}">
-                  <div *ngIf="item.upDownOptions" id="downupArrow{{i}}">
-                    <div *ngIf="item.upOptions" class="downIcon" (click)="pushUpClick(i)">
-                      <img class="downIcon" src="./assets/images/push-up.png">
-                    </div>
-                    <div *ngIf="item.DownOptions" class="downIcon" (click)="pushDownClick(i)">
-                      <img class="downIcon" src="./assets/images/push-down.png">
-                    </div>
-                  </div>
-                  <button class="add-requirement" (click)="subAccessPointAdd(item.data.evaluation.details,i)" [disabled]="item.name == ''" >
-                    Add new requirement
-                  </button>
+                <div class=" pb-3" [ngClass]="{'d-none':!item.options}" id="passMark{{i}}">
+                  <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)"
+                    name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
+                  <label class="pl-2 pass-label">% to pass</label>
                 </div>
               </div>
+              <div id="requirement-inner-box-{{i}}" class="requirement-inner-box" (scroll)="requirementInnerBox($event,i)"
+                dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
+                <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index"
+                  style="padding-left:40px;" id="requirement{{x}}">
+                  <span class="pr-3 img-wrapper">
+                    <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
+                    <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
+                  </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
+                    class="requirement-name" [(ngModel)]="test.requirement" required (input)="autoResize($event,i)"></textarea>
+                  <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
+                  <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
+                    (click)="subAccessPointClear(test,item,i,x)"></div>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center cursor-on" id="skillFooter{{i}}">
+                <div *ngIf="item.upDownOptions" id="downupArrow{{i}}">
+                  <div *ngIf="item.upOptions" class="downIcon" (click)="pushUpClick(i)">
+                    <img class="downIcon" src="./assets/images/push-up.png">
+                  </div>
+                  <div *ngIf="item.DownOptions" class="downIcon" (click)="pushDownClick(i)">
+                    <img class="downIcon" src="./assets/images/push-down.png">
+                  </div>
+                </div>
+                <button class="add-requirement" (click)="subAccessPointAdd(item.data.evaluation.details,i)" [disabled]="item.name == ''">
+                  Add new requirement
+                </button>
+              </div>
             </div>
-            <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p>
           </div>
-          <div class="d-flex justify-content-end form-footer">
-            <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-            <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createDataApgForm.valid">Create</button>
-          </div>
+          <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p>
         </div>
+        <div class="d-flex justify-content-end form-footer">
+          <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createDataApgForm.valid">Create</button>
+        </div>
+      </div>
     </form>
     <form novalidate #createapgForm="ngForm">
       <div class="row" *ngIf="ismodule == true">
@@ -208,7 +211,7 @@
         </div>
       </div>
       <div *ngIf="isshare == true">
-        <div class="d-flex flex-row" >
+        <div class="d-flex flex-row">
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
             <div (click)="createNewAPG('create',apgType)" class="d-flex apg-box justify-content-center flex-column">
               <div class="d-flex flex-row">
@@ -233,14 +236,15 @@
                 </div>
                 <div class="icon-apg"></div>
               </div>
-              <label style="line-height: 1" class="form-title input-label" for="address">Create using publicly shared {{apgType}} APG</label>
+              <label style="line-height: 1" class="form-title input-label" for="address">Create using publicly shared
+                {{apgType}} APG</label>
             </div>
           </div>
         </div>
       </div>
       <div *ngIf="iscreate == true && dataApCreate">
-        <div class="col-md-8 input-wrap">
-          <div class="form-group">
+        <div class="col-md-12 col-lg-8 input-wrap">
+          <div class="form-group ">
             <div class="d-flex justify-content-between">
               <label class="form-title input-label" for="address">Data name</label>
               <div class="limit-wordcount">
@@ -256,10 +260,10 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group radio-form-group">
             <div class="d-flex justify-content-between">
               <label class="form-title input-label" for="address">Input type</label>
-             
+
               <!-- <div class="limit-wordcount1">
                 <span>{{wordLength}}/280characters</span>
               </div>
@@ -267,56 +271,68 @@
             <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
               [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
               (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
-            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+              <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
               <div [hidden]="!description.errors.required">
                 Description is required!
               </div>
             </div> -->
-          </div>
-          <div class="radio-group">
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> 
-              <div class="radio-wrapper"> <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="input-box" />
-
-                <label  class="huey">Input box</label>
-                <div  class="huey-child">Number</div></div>
-             
-
             </div>
-            
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'"  (click)="radioSelect('slider')">
-              <div  class="radio-wrapper">  <input type="radio" class="form-radio"  name="radio" [(ngModel)]="selectedRadio" value="slider" />
+            <div class="radio-group">
+              <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')">
+                <div class="radio-wrapper">
+                  <div class="label-checked"></div>
 
-                <label class="huey">Slider</label>
-                <div  class="huey-child">Number</div></div>  
-            
-            </div> 
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
-              <div class="radio-wrapper"> <input type="radio" name="radio" class="form-radio"  [(ngModel)]="selectedRadio" value="selection" />
+                  <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="input-box" />
 
-                <label  class="huey">Selection</label>
-                <br>
-                <div class="huey-child">Text</div></div>  
-             
+                  <div class="huey">Input box</div>
+                  <div class="huey-child">Number</div>
+                </div>
+
 
               </div>
+
+              <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')">
+                <div class="radio-wrapper">
+                  <div class="label-checked"></div>
+
+                  <input type="radio" class="form-radio" name="radio" [(ngModel)]="selectedRadio" value="slider" />
+
+                  <div class="huey">Slider</div>
+                  <div class="huey-child">Number</div>
+                </div>
+
+              </div>
+              <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
+                <div class="radio-wrapper">
+                  <div class="label-checked"></div>
+                  <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
+
+                  <label class="huey">Selection</label>
+                  <br>
+                  <div class="huey-child">Text</div>
+                </div>
+
+
+              </div>
+            </div>
+
           </div>
           <div class="input-result">
-              <div *ngIf="selectedRadio == 'input-box'">
-                  Input-box
-                </div>
+            <div *ngIf="selectedRadio == 'input-box'">
+              <div class='requirement-box'>Measurement unit</div>
+            </div>
             <div *ngIf="selectedRadio == 'slider'">
               Slider
             </div>
           </div>
+          <div class="d-flex justify-content-end form-footer">
+            <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
+              [disabled]="!createapgForm.valid">Create</button>
+            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
+              (click)="createapgs(model, true, currentID)">Update</button>
+          </div>
         </div>
-        <div class="d-flex justify-content-end form-footer">
-          <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
-            [disabled]="!createapgForm.valid">Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
-            (click)="createapgs(model, true, currentID)">Update</button>
-        </div>
-      </div>
       </div>
       <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
         <div class="col-md-8 input-wrap">
