@@ -142,7 +142,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     console.log(this.dragulaService.destroy("COLUMNS"))
   }
-
+  
   ngOnInit() {
     // this.dragulaService
     //   .drag("COLUMNS")
@@ -495,18 +495,15 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
-  addDataValue(data,i){
+  trackByFn(index: any, item: any) {
+    return index;
+ }
+  addDataValue(){
     const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-    console.log(data)
-    console.warn(JSON.stringify(data))
   }
   dataValueClear(item){
-    console.warn(item)
     this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-
   }
 
   createNewAPG(status, name) {
