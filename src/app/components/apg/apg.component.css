@@ -1178,5 +1178,5 @@ input:checked+.slider:before {
 .requirements-wrapper{
   height: 480px;
   overflow: auto;
-  width:480px;
+  width:800px;
 }

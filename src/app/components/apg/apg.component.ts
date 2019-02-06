@@ -182,12 +182,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       //     })
       //   }
       // } else {
+        console.log(name)
         if(name === "COLUMNS"){
           // console.log(this.stillDrag=true)
           // console.log("fackup")
           // var _this = this;
           // var _this = this;
-          // var stillDrag = this.stillDrag
+          this.stillDrag = true;
+          var stillDrag = this.stillDrag
 
           var windowBottom =  window.innerHeight - $('.form-footer').outerHeight()
           document.addEventListener("mousemove", function (event) {
@@ -200,11 +202,12 @@ export class ApgComponent implements OnInit, OnDestroy {
               var y = $(".gu-mirror").position().top;
               var dragHeight = y +  $(".gu-mirror").height();
               var dropHeight = $(container).position().top +  $(container).height()
-              console.log(dragHeight)
-              console.log(dropHeight)
+              // console.log( $(container).position().top  , y)
               if(dropHeight - dragHeight < 20){
-                console.log("Down")
-                container.scrollTop +=20;
+                container.scrollTop +=60;
+              }
+              else if( $(container).position().top - y< 20 ){
+                container.scrollTop -= 60;
               }
               // console.log($(container).height())
               // console.log(container.offsetHeight)
@@ -250,19 +253,20 @@ export class ApgComponent implements OnInit, OnDestroy {
             // console.log($(el))
             // var y = event.pageY
             var y = $(".gu-mirror").position().top;
-
             //$(event.target).parents(".requirement-inner-box")
             var container = $(el).parents(".requirement-inner-box");
+            // console.log($(container[0]))
+            // console.log(container[0].getBoundingClientRect().top);
             if (container.length > 0) {
-              var ddd = container[0].offsetTop + 236;
+              var ddd = container[0].getBoundingClientRect().top + 236;
               // console.log(ddd)
               // console.log()
-              var containerTop = container[0].offsetTop;
+              var containerTop = container[0].getBoundingClientRect().top;
+              // console.log(ddd , y)
               if (ddd - y <= 80) {
-                console.log("Scroll down")
                 var ele = container[0];
                 // setTimeout(function(){
-                ele.scrollTop += 20
+                ele.scrollTop += 50
                 if (ele.scrollHeight == ele.scrollTop + container.height()) {
                   $(ele).append(el)
                 }
