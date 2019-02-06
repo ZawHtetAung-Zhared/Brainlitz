@@ -344,10 +344,10 @@
 
 .form-footer {
   position: fixed;
-  width: 100%;
+  /* width: 100%; */
   bottom: 0;
   padding: 20px;
-  left: 0;
+  right: 0;
   background: #fff;
 }
 
@@ -1174,4 +1174,9 @@ input:checked+.slider:before {
   color: #0080ff;
   padding-top: 20px;
   padding-left: 44px;
+}
+.requirements-wrapper{
+  height: 480px;
+  overflow: auto;
+  width:480px;
 }

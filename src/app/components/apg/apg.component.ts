@@ -21,7 +21,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
-  public templateAccessPointGroup:any = []
+  public templateAccessPointGroup: any = []
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
@@ -95,7 +95,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public apgDemo: any = [];
   headerHeight: number = 0
   isUpDownId: number;
-  public dragOut : boolean = false;
+  public dragOut: boolean = false;
   public stillDrag: boolean = false;
   public selectedRadio = "input-box"
   constructor(private modalService: NgbModal,
@@ -119,12 +119,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
-    this.dragulaService
-      .drag("COLUMNS")
-      .subscribe(value => {
-        console.log("dddd")
-        // this.msg = `Dragging the ${value[1].innerText}!`;
-      });
+
     this.dragulaService.createGroup("COLUMNS", {
       direction: 'vertical',
       moves: (el, source, handle) => handle.className === "group-handle"
@@ -149,7 +144,19 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    // this.dragulaService
+    //   .drag("COLUMNS")
+    //   .subscribe(({ name,el, source})  => {
+    //     this.stillDrag = true;
+    //     var _this = this;
+    //     console.log(name , el, source)
+    //     if(this.stillDrag){
+    //       document.addEventListener("mousemove", function (event) {
+    //         console.log(_this.stillDrag)
+    //       })
+    //     }
+    //     // this.msg = `Dragging the ${value[1].innerText}!`;
+    //   });
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
@@ -160,84 +167,147 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dragulaService.drop().subscribe(({ el, target, source, sibling }) => {
       // console.log(this.dragId)
       // clearInterval(this.dragId)
+      console.log("DRRRROP")
       this.stillDrag = false;
       this.dragOut = false;
     })
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
-      this.dragOut = false;
-      var win1 = this;
-      this.stillDrag = true;
-      var stillDrag = this.stillDrag;
-      document.addEventListener("mousemove", function (event) {
-        
-        if (stillDrag) {
-          // console.log($(event.target).parents(".requirement"))
-          // console.log(event.pageY)
-          // console.log($(el))
-          // var y = event.pageY
-          var y = $(".gu-mirror").position().top;
-          console.log($(".gu-mirror").position().top)
-          console.log($(el).parents(".requirement-inner-box"))
-          //$(event.target).parents(".requirement-inner-box")
-          var container = $(el).parents(".requirement-inner-box");
-          if(container.length > 0){
-            var ddd = container[0].offsetTop + 236;
-            // console.log(ddd)
-            // console.log()
-            var containerTop = container[0].offsetTop;
-            if (ddd - y <= 70) {
-              var ele = container[0];
-              // setTimeout(function(){
-                ele.scrollTop += 20,
-                console.log(container[0])
-                if(ele.scrollHeight == ele.scrollTop + container.height()){
+      // if (name == "COLUMNS") {
+      //   var _this = this;
+      //   // console.log(_this.stillDrag = true)
+      //   if(_this.stillDrag){
+      //     document.addEventListener("mousemove", function (event) {
+      //       var y = $(".gu-mirror").position().top;
+      //       var container = $(el).parents(".requirements-wrapper");
+      //     })
+      //   }
+      // } else {
+        if(name === "COLUMNS"){
+          // console.log(this.stillDrag=true)
+          // console.log("fackup")
+          // var _this = this;
+          // var _this = this;
+          // var stillDrag = this.stillDrag
+
+          var windowBottom =  window.innerHeight - $('.form-footer').outerHeight()
+          document.addEventListener("mousemove", function (event) {
+            document.addEventListener("mouseup", function (event) {
+              stillDrag = false;
+            })
+            if (stillDrag) {
+              var container = $(el).parents(".requirements-wrapper")[0];
+              
+              var y = $(".gu-mirror").position().top;
+              var dragHeight = y +  $(".gu-mirror").height();
+              var dropHeight = $(container).position().top +  $(container).height()
+              console.log(dragHeight)
+              console.log(dropHeight)
+              if(dropHeight - dragHeight < 20){
+                console.log("Down")
+                container.scrollTop +=20;
+              }
+              // console.log($(container).height())
+              // console.log(container.offsetHeight)
+              // console.log($( container))
+              // console.log(stillDrag)
+              // var y = $(".gu-mirror").position().top;
+              // console.log($(".gu-mirror").height())
+              // var dragHeight =  $(".gu-mirror").position().top + $(".gu-mirror").height();
+              // if(container.length >0){
+              //   // var ddd = container[0].offsetTop +  $(container[0]).offsetHeight;
+              //   // console.log(window.innerHeight)
+              //   // console.log( $(container))
+
+              //   // console.log($('.form-footer'))
+              //   console.log(dragHeight)
+              //   console.log(window.innerHeight - $('.form-footer').height())
+              //   if ( window.innerHeight - $('.form-footer').height() == dragHeight) {
+              //     console.log("Scroll down")
+              //     var ele = container[0];
+              //   // setTimeout(function(){
+              //    ele.scrollTop += 20,
+              //     console.log(container[0])
+              //   // if (ele.scrollHeight == ele.scrollTop + container.height()) {
+              //   //   $(ele).append(el)
+              //   // }
+              //   // }, 300);
+              //   console.log(ele.scrollTop)
+              //   }
+              // }
+            }
+          })
+        }
+        else{
+        console.log("other than")
+        this.stillDrag = true;
+
+        this.dragOut = false;
+        var stillDrag = this.stillDrag;
+        document.addEventListener("mousemove", function (event) {
+          if (stillDrag) {
+            // console.log($(event.target).parents(".requirement"))
+            // console.log(event.pageY)
+            // console.log($(el))
+            // var y = event.pageY
+            var y = $(".gu-mirror").position().top;
+
+            //$(event.target).parents(".requirement-inner-box")
+            var container = $(el).parents(".requirement-inner-box");
+            if (container.length > 0) {
+              var ddd = container[0].offsetTop + 236;
+              // console.log(ddd)
+              // console.log()
+              var containerTop = container[0].offsetTop;
+              if (ddd - y <= 80) {
+                console.log("Scroll down")
+                var ele = container[0];
+                // setTimeout(function(){
+                ele.scrollTop += 20
+                if (ele.scrollHeight == ele.scrollTop + container.height()) {
                   $(ele).append(el)
                 }
                 // }, 300);
-              console.log(ele.scrollTop)
-            } else if (y - containerTop <= 40) {
-              var ele = container[0];
-              // setTimeout(function(){
+              } else if (y - containerTop <= 40) {
+                var ele = container[0];
+                // setTimeout(function(){
                 ele.scrollTop -= 20
-                if(ele.scrollTop == 0){
+                if (ele.scrollTop == 0) {
                   $(ele).prepend(el)
                 }
-                console.log("Scroll Down function")
-              // }, 300);
-              // this._scrollUp(container, y);
-            }
-            
-          }
-          
+                // }, 300);
+                // this._scrollUp(container, y);
+              }
 
-        }
-      });
-      document.addEventListener("mouseup", function (event) {
-        stillDrag = false;
-      });
-      
-  
+            }
+
+
+          }
+        });
+        document.addEventListener("mouseup", function (event) {
+          stillDrag = false;
+        });
+      }
     })
 
     this.dragulaService.shadow().subscribe(({ el, container, source }) => {
-      console.log(this.stillDrag)
-      console.log(el, container, source)
+      // console.log(this.stillDrag)
+      // console.log(el, container, source)
     })
     this.dragulaService.out().subscribe(({ name, container, source }) => {
       console.log("out now");
       this.dragOut = true;
-      this.dragulaService.cancel(name);
+      // this.dragulaService.cancel(name);
       // this.dragulaService.destroy(name)
     })
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
-      if ($(original).parent().children().length == 1) {
-        console.log($(clone).hide())
-      } else {
+      // if ($(original).parent().children().length == 1) {
+      //   console.log($(clone).hide())
+      // } else {
 
-      }
+      // }
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
-      console.log($(clone).children(".img-wrapper").empty())
+      $(clone).children(".img-wrapper").empty()
       $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);"/>')
     })
     this.dragulaService.over().subscribe(({ name, el, container, source }) => {
@@ -292,12 +362,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     let hit = $('.pad-bottom').height();
     return hit;
   }
-  @HostListener('document:mousedown', ['$event'])
-  onMouseDown(event) {
-    console.log(event)
-    console.log($(event.target).parents(".requirement-inner-box"))
-    console.log("DRRRRAAG")
-  }
+  // @HostListener('document:mousedown', ['$event'])
+  // onMouseDown(event) {
+  //   console.log(event)
+  //   console.log($(event.target).parents(".requirement-inner-box"))
+  //   console.log("DRRRRAAG")
+  // }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log('==== ',$('.pad-bottom').height() + 150)
@@ -421,18 +491,18 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
-  addDataValue(data,i){
+  addDataValue(data, i) {
     const newValue = {
-      "dataValue":""
+      "dataValue": ""
     }
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     console.log(data)
     console.warn(JSON.stringify(data))
   }
-  dataValueClear(item,data){
+  dataValueClear(item, data) {
     console.warn(item)
-    this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item,1)
+    this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
     console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     console.warn(JSON.stringify(data))
     console.log(data)
@@ -477,15 +547,15 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.apCreate = true;
         console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
-      }else if(name == 'Data' ){
+      } else if (name == 'Data') {
         this.templateAccessPointGroup = {}
-        const templateAccessPoint =  {
-          "name" : "",
+        const templateAccessPoint = {
+          "name": "",
           "description": "",
           "moduleId": "",
           "regionId": "",
           "orgId": "",
-          "data" : {
+          "data": {
             "sectionType": "PROGRESS",
             "unit": "string",
             "inputType": "NUMBER",
@@ -495,13 +565,13 @@ export class ApgComponent implements OnInit, OnDestroy {
               "max": "string",
               "options": [
                 {
-                  "dataValue":""
+                  "dataValue": ""
                 }
-            ]
-           }
+              ]
+            }
           }
         }
-        this.templateAccessPointGroup =templateAccessPoint;
+        this.templateAccessPointGroup = templateAccessPoint;
         console.warn(this.templateAccessPointGroup)
         this.dataApCreate = true;
         this.ismodule = false;
@@ -625,16 +695,16 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
 
-   
-    subAccessPointClear(item,i,id,x){
-      // setTimeout(() => {
-      //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
-        
-      // }, 0);
-      this.templateAccessPointGroup[id].data.evaluation.details.splice(x,1);
-      console.log(i)
-      this.removescrollEvent(i,id,x);
-    }
+
+  subAccessPointClear(item, i, id, x) {
+    // setTimeout(() => {
+    //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
+
+    // }, 0);
+    this.templateAccessPointGroup[id].data.evaluation.details.splice(x, 1);
+    console.log(i)
+    this.removescrollEvent(i, id, x);
+  }
 
 
 
@@ -737,8 +807,6 @@ export class ApgComponent implements OnInit, OnDestroy {
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
-    console.log(innerBoxHeight.scrollHeight)
-    console.log(innerBoxHeight.scrollTop)
 
     if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
       this.templateAccessPointGroup[i].upOptions = true;
