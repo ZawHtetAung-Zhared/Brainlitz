@@ -114,7 +114,7 @@
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
   </div>
   <div class="apg-form">
-    <form #createDataApgForm="ngForm">
+    <!-- <form #createDataApgForm="ngForm"> -->
       <div *ngIf="iscreate == true && apCreate == true">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
@@ -191,10 +191,10 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createDataApgForm.valid">Create</button>
+          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)">Create</button>
         </div>
       </div>
-    </form>
+    <!-- </form> -->
     <div *ngIf="iscreate == true && dataApCreate">
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
