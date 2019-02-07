@@ -310,13 +310,13 @@
                   <div  class="data-close" *ngIf=" templateAccessPointGroup.data.inputTypeProperties.options.length > 1" (click)="dataValueClear(i)"></div>
                 </div>
             </div>
-            <span class="newValue" (click)="addDataValue()">Add new data value </span> 
+            <span class="newValue" (click)="addDataValue()">Add new data value </span>
           </div>
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()"
-            [disabled]="false">Create</button>
+            [disabled]="checkValidation(templateAccessPointGroup.data.inputTypeProperties.options) ||  valid==false ">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>

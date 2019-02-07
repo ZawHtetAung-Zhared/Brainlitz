@@ -22,6 +22,7 @@ import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
+  public valid:boolean;
   public templateAccessPointGroup: any = []
   public AccessPoint:any;
   public checkMark: any = [''];
@@ -1596,5 +1597,31 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.templateAccessPointGroup.data.unit="";
       console.log("Range")
     }
+  }
+  
+  checkValidation(arr){
+    if(this.selectedRadio == 'Radio'){
+      if(arr.includes("")){
+        this.valid = false;
+      }else{
+        this.valid = true
+      }
+    }else if(this.selectedRadio == "Number"){
+      if(this.templateAccessPointGroup.data.unit == ""){
+        this.valid = false;
+      }else{
+        this.valid =true;
+      }
+    }else{
+      var a =this.templateAccessPointGroup.data.inputTypeProperties.min;
+      var b =this.templateAccessPointGroup.data.inputTypeProperties.max;
+      if(a== "" || b==""){
+        this.valid = false;
+      }else{
+        this.valid =true;
+      }
+    }
+    console.warn(this.valid)
+    console.error('it working')
   }
 }
