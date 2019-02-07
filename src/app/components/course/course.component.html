@@ -518,8 +518,7 @@
             <div class="teacher-section">
               <div class="d-flex justify-content-between user-header">
                 <h2 class="title-heading">Assistant Teachers</h2>
-                <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add
-                  teacher</button>
+                <button *ngIf="courseDemo.assignTeacher != ''" type="button" class="btn btn-create" (click)="addUserModal('staff',userModal,'inside', '')">Add teacher</button>
               </div>
               <div class="row">
                 <div *ngFor="let user of pplLists.STAFF" class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
@@ -678,9 +677,12 @@
                       <img src="{{user.profilePic}}">
                     </div>
                   </div>
-                  <div class="single-user-info d-flex flex-column  justify-content-center">
+                  <div class="single-user-info d-flex">
                     <p *ngIf="user.preferredName">{{(user.preferredName.length > 20)?(user.preferredName |
                       slice:0:20)+'...': (user.preferredName)}}</p>
+                  </div>
+                  <div class="d-flex ml-auto">
+                    <span class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"></span>
                   </div>
                 </div>
                 <div class="att-box" *ngIf="attdBox == true && this.uId == user.userId">
