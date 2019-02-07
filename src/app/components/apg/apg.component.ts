@@ -898,19 +898,21 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   createDataAccessPoint(){
-    this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
-    .subscribe((res: any) => {
-      this.AccessPoint = res._id 
-      console.log(res._id)
-    }, err => {
-      this.toastr.error('Created AP Fail');
-      console.log(err)
-    });
+    return new Promise((resolve,reject)=>{
+      this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
+      .subscribe((res: any) => {
+       resolve(this.AccessPoint = res._id ) 
+        console.log(res._id)
+      }, err => {
+        this.toastr.error('Created AP Fail');
+        reject(err)
+        console.log(err)
+      });
+    })
   }
 
   createDataApg(){
-    this.createDataAccessPoint();
-    setTimeout(() => {
+    this.createDataAccessPoint().then(res => {
       var moduleId = localStorage.getItem('moduleID');
       var apg = {
         "name": this.model.name,
@@ -924,9 +926,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       },err =>{
         this.toastr.error('Created APG Fail');
       })
-    }, 1000);
-      
 
+    }).catch((err) => {
+      console.log(err); // never called
+    });
   }
 
   createapgs(data, update) {
@@ -981,41 +984,50 @@ export class ApgComponent implements OnInit, OnDestroy {
   onclickUpdate(id,apgName) {
     console.log(id)
     this.apgList = [];
-    this.singleAPG(id, 'update');
-    this.iscreate = true;
-    this.isUpdate = true;
-    console.error(apgName.module.name)
-    if(apgName.module.name == "Data"){
-      var moduleId =  localStorage.getItem('moduleID');
-      const templateAccessPoint = {
-        "name": "",
-        "description": "",
-        "moduleId": moduleId,
-        "data": {
-          "sectionType": "DATA",
-          "unit": " ",
-          "inputType": this.selectedRadio,
-          "inputTypeProperties": {
-            "name": "",
-            "min": "",
-            "max": "",
-            "options": [
-              ""
-          ]
-         }
+      this.iscreate = true;
+      this.isUpdate = true;
+      if(apgName.module.name == "Data"){
+        var moduleId =  localStorage.getItem('moduleID');
+        const templateAccessPoint = {
+          "name": "",
+          "description": "",
+          "moduleId": moduleId,
+          "data": {
+            "sectionType": "DATA",
+            "unit": " ",
+            "inputType": this.selectedRadio,
+            "inputTypeProperties": {
+              "name": "",
+              "min": "",
+              "max": "",
+              "options": [
+                ""
+            ]
+           }
+          }
         }
+        this.templateAccessPointGroup = templateAccessPoint;
+        this.dataApCreate= true;
+        this.ismodule = false;
+        this.apCreate = false;
+      }else if(apgName.module.name=="Assessment"||apgName.module.name == "Evaluation"){
+        this.apCreate = true;
       }
-      this.templateAccessPointGroup = templateAccessPoint
-      this.dataApCreate= true;
-      this.ismodule = false;
-      this.apCreate = false;
-    }else if(apgName.module.name=="Assessment"||apgName.module.name == "Evaluation"){
-      this.apCreate = true;
-    }
-
-    setTimeout(() => {
+    return new Promise((resolve,reject)=>{
+      this.singleAPG(id, 'update');
+      setTimeout(() => {
+        resolve(this.model.acccessPoints)
+      }, 300);
+    }).then(res => {
       this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
-    }, 1000);
+    }).catch((err) => {
+      console.log(err); // never called
+    });
+    
+
+    // setTimeout(() => {
+    //   this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+    // }, 1000);
   }
 
   singleAPG(id, state) {
@@ -1661,18 +1673,31 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
   getEditAccessPoint(reginId,accesPointId,apgName){
-
-    this._service.getAccessPoint(reginId,accesPointId)
-    .subscribe((res: any) => {
-      console.log(res)
-      if(apgName == "Data"){
-        this.templateAccessPointGroup = res;
-      }else{
-        this.templateAccessPointGroup=[];
-        this.templateAccessPointGroup = [res]
-      }
-    }, err => {
-      console.log(err)
-    })
+    if(apgName == "Data"){
+      this._service.getAccessPoint(reginId,accesPointId)
+      .subscribe((res: any) => {
+        console.log(res)
+        if(apgName == "Data"){
+          this.templateAccessPointGroup = res;
+        }else{
+          this.templateAccessPointGroup=[];
+          this.templateAccessPointGroup = [res]
+        }
+      }, err => {
+        console.log(err)
+      })
+    }else{
+      this.templateAccessPointGroup=[];
+      var tempArray = accesPointId.map(accesPoint=>{
+        this._service.getAccessPoint(reginId,accesPoint)
+        .subscribe((res: any) => {
+          console.log(res)
+            this.templateAccessPointGroup.push(res)
+        }, err => {
+          console.log(err)
+        })
+      })
+    }
+    
   }
 }
