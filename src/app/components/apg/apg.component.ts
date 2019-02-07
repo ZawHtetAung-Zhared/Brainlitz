@@ -790,7 +790,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(item.options)
 
     setTimeout(() => {
-      this.addScrollOncheckMarkToggle(skillObjId, item.options);
+      // this.addScrollOncheckMarkToggle(skillObjId, item.options);
+      this.scrollCalculation(item,skillObjId)
+      console.log('###test',item,skillObjId)
       // if(item.options){
       //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
       //   console.log(skillHeader.clientHeight)
@@ -798,7 +800,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
       //   console.log(skillHeader.clientHeight)
       // }
-    })
+    },200)
 
   }
 
