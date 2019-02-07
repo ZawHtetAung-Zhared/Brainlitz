@@ -698,6 +698,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   subAccessPointAdd(skillBlog, i) {
+
     console.log(this.templateAccessPointGroup)
     console.log('~~~~~~~~', i,skillBlog)
     let req = {
@@ -709,12 +710,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.templateAccessPointGroup[i].data.evaluation.details.push(req);
     // this.addscrollEvent(skillBlog,i);
     setTimeout(() => {
-      this.scrollCalculation(skillBlog, i)
+      this.scrollCalculation(skillBlog, i);
+      this.focusAdd(skillBlog.data.evaluation.details.length,i)
     }, 200);
+    // this.focusAdd(skillBlog.data.evaluation.details.length,i)
     
   }
-
-
    
   subAccessPointClear(item,skillblog,id,x){
     // setTimeout(() => {
@@ -725,6 +726,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
     this.scrollCalculation(skillblog,id);
+  }
+
+  focusAdd(length,idx){
+    var l = length - 1;
+    console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
+    document.getElementById('box' + l + idx).focus();
   }
 
   scrollCalculation(skillObj,skillId){
@@ -843,8 +850,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.templateAccessPointGroup[i].DownOptions = false;
     console.log(innerBoxHeight.scrollTop)
   }
-
-
 
   createEvaluateApgs(nameparam) {
     var moduleId = localStorage.getItem('moduleID');
