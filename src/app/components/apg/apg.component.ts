@@ -15,13 +15,16 @@ declare var $: any;
 import { Router } from '@angular/router';
 
 import { DragulaService, DragulaModule } from 'ng2-dragula';
+import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 @Component({
   selector: 'app-apg',
   templateUrl: './apg.component.html',
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
+  public valid:boolean;
   public templateAccessPointGroup: any = []
+  public AccessPoint:any;
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
@@ -97,8 +100,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   isUpDownId: number;
   public dragOut: boolean = false;
   public stillDrag: boolean = false;
-  public selectedRadio = "input-box"
   public groupNumber : number = 0;
+  public selectedRadio = "Number"
+
   constructor(private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
@@ -536,8 +540,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           "name": "",
           "description": "",
           "moduleId": "",
-          "regionId": "",
-          "orgId": "",
           "options": false,
           "upDownOptions": false,
           "upOptions": false,
@@ -560,32 +562,29 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.templateAccessPointGroup.push(templateAccessPoint)
         // this.iscreate = false;
         this.apCreate = true;
-        console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
       } else if (name == 'Data') {
         this.templateAccessPointGroup = {}
+        var moduleId = localStorage.getItem('moduleID');
         const templateAccessPoint = {
           "name": "",
           "description": "",
-          "moduleId": "",
-          "regionId": "",
-          "orgId": "",
+          "moduleId": moduleId,
           "data": {
-            "sectionType": "PROGRESS",
-            "unit": "string",
-            "inputType": "NUMBER",
+            "sectionType": "Data",
+            "unit": "",
+            "inputType": "",
             "inputTypeProperties": {
-              "name": "string",
-              "min": "string",
-              "max": "string",
+              "name": "",
+              "min": "",
+              "max": "",
               "options": [
-              ""
+                ""
             ]
            }
           }
         }
         this.templateAccessPointGroup = templateAccessPoint;
-        console.warn(this.templateAccessPointGroup)
         this.dataApCreate = true;
         this.ismodule = false;
         this.apCreate = false;
@@ -673,8 +672,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       "name": "",
       "description": "",
       "moduleId": "",
-      "regionId": "",
-      "orgId": "",
       "options": false,
       "upDownOptions": false,
       "data": {
@@ -927,6 +924,37 @@ export class ApgComponent implements OnInit, OnDestroy {
     }))
   }
 
+  createDataAccessPoint(){
+    this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
+    .subscribe((res: any) => {
+      this.AccessPoint = res._id 
+      console.log(res._id)
+    }, err => {
+      this.toastr.error('Created AP Fail');
+      console.log(err)
+    });
+  }
+
+  createDataApg(){
+    this.createDataAccessPoint();
+    setTimeout(() => {
+      var moduleId = localStorage.getItem('moduleID');
+      var apg = {
+        "name": this.model.name,
+        "description": "",
+        "moduleId": moduleId, 
+        "accessPoints": [this.AccessPoint] };
+      this._service.createAPG(this.regionID,this.locationID,apg,null,moduleId).subscribe((res:any) =>{
+        console.log(res);
+        this.toastr.success('APG successfully Created.');
+        this.cancelapg();
+      },err =>{
+        this.toastr.error('Created APG Fail');
+      })
+    }, 1000);
+      
+
+  }
 
   createapgs(data, update) {
     console.log(update)
@@ -1005,6 +1033,9 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.blockUI.stop();
         console.log(err)
       })
+      setTimeout(() => {
+        this.getEditAccessPoint(this.regionID,this.model.accessPoints)
+      }, 1500);
   }
 
   // getAllTemplate(){
@@ -1581,5 +1612,58 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   radioSelect(type) {
     this.selectedRadio = type;
+    this.templateAccessPointGroup.data.inputType=type;
+    if(type == "Radio"){
+      this.templateAccessPointGroup.data.unit="";
+      this.templateAccessPointGroup.data.inputTypeProperties.min="";
+      this.templateAccessPointGroup.data.inputTypeProperties.max="";
+      console.log("Radio")
+    }else if(type == "Number"){
+      this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
+      this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[''];
+      this.templateAccessPointGroup.data.inputTypeProperties.min="";
+      this.templateAccessPointGroup.data.inputTypeProperties.max="";
+      console.log("Number")
+    }else{
+      this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
+      this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[""];
+      this.templateAccessPointGroup.data.unit="";
+      console.log("Range")
+    }
+  }
+  
+  checkValidation(arr){
+    var apgName = this.model.name
+    // console.log(apgName)
+    if(this.selectedRadio == 'Radio'|| apgName.length == 0){
+      if(arr.includes("")){
+        this.valid = false;
+      }else{
+        this.valid = true
+      }
+    }else if(this.selectedRadio == "Number"|| apgName.length == 0){
+      if(this.templateAccessPointGroup.data.unit == ""){
+        this.valid = false;
+      }else{
+        this.valid =true;
+      }
+    }else{
+      var min =this.templateAccessPointGroup.data.inputTypeProperties.min;
+      var max =this.templateAccessPointGroup.data.inputTypeProperties.max;
+      if(min== "" || max==""|| apgName.length == 0){
+        this.valid = false;
+      }else{
+        this.valid =true;
+      }
+    }
+  }
+  getEditAccessPoint(reginId,accesPointId){
+    this._service.getAccessPoint(reginId,accesPointId)
+    .subscribe((res: any) => {
+      console.log(res)
+      this.templateAccessPointGroup = res
+    }, err => {
+      console.log(err)
+    })
   }
 }
