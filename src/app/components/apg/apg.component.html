@@ -316,7 +316,7 @@
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()"
-            [disabled]="checkValidation(templateAccessPointGroup.data.inputTypeProperties.options) ||  valid==false ">Create</button>
+            [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(templateAccessPointGroup.data.inputTypeProperties.options) ||  valid==false">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>

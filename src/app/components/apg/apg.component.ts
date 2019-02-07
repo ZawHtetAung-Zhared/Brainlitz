@@ -1600,28 +1600,28 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   
   checkValidation(arr){
-    if(this.selectedRadio == 'Radio'){
+    var apgName = this.model.name
+    // console.log(apgName)
+    if(this.selectedRadio == 'Radio'|| apgName.length == 0){
       if(arr.includes("")){
         this.valid = false;
       }else{
         this.valid = true
       }
-    }else if(this.selectedRadio == "Number"){
+    }else if(this.selectedRadio == "Number"|| apgName.length == 0){
       if(this.templateAccessPointGroup.data.unit == ""){
         this.valid = false;
       }else{
         this.valid =true;
       }
     }else{
-      var a =this.templateAccessPointGroup.data.inputTypeProperties.min;
-      var b =this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if(a== "" || b==""){
+      var min =this.templateAccessPointGroup.data.inputTypeProperties.min;
+      var max =this.templateAccessPointGroup.data.inputTypeProperties.max;
+      if(min== "" || max==""|| apgName.length == 0){
         this.valid = false;
       }else{
         this.valid =true;
       }
     }
-    console.warn(this.valid)
-    console.error('it working')
   }
 }
