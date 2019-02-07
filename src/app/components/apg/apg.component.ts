@@ -1,3 +1,4 @@
+import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -20,10 +21,11 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
-  public templateAccessPointGroup = []
+  public templateAccessPointGroup: any = []
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
+  public dataApCreate: boolean = false;
   public keyword: any;
   public isSearch: boolean = false;
   public model: any = {};
@@ -81,6 +83,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public shareAPG: boolean = false;
   public iscreate: boolean = false;
   public ischecked: any;
+  public dataApg: string;
   public sharechecked: any;
   public isUpdate: boolean = false;
   public navIsFixed: boolean = false;
@@ -90,10 +93,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   public permissionType: any;
   public apgPermission: any = [];
   public apgDemo: any = [];
-  headerHeight : number=0
-  isUpDownId:number;
-  public dragId: any;
+  headerHeight: number = 0
+  isUpDownId: number;
+  public dragOut: boolean = false;
   public stillDrag: boolean = false;
+  public selectedRadio = "input-box"
   constructor(private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
@@ -101,14 +105,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     private dragulaService: DragulaService) {
     console.log(this.templateAccessPointGroup)
 
-    dragulaService.drag().subscribe(({name,el,source})=>{
-      // console.log($(el).hide())
-      console.log($(".gu-mirror"))
-      console.log('~~~~~~~~~drag',this.templateAccessPointGroup)
-      console.log(name)
-      console.log(source)
-    })
-    dragulaService.cloned().subscribe(({clone,original,cloneType})=>{
+    dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
       // console.log(clone,original,cloneType)
       // var top = $(clone).height();
       // console.log(top)
@@ -122,12 +119,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
-    this.dragulaService
-      .drag("COLUMNS")
-      .subscribe(value => {
-        console.log("dddd")
-        // this.msg = `Dragging the ${value[1].innerText}!`;
-      });
+
     this.dragulaService.createGroup("COLUMNS", {
       direction: 'vertical',
       moves: (el, source, handle) => handle.className === "group-handle"
@@ -150,74 +142,187 @@ export class ApgComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     console.log(this.dragulaService.destroy("COLUMNS"))
   }
-
+  
   ngOnInit() {
+    // this.dragulaService
+    //   .drag("COLUMNS")
+    //   .subscribe(({ name,el, source})  => {
+    //     this.stillDrag = true;
+    //     var _this = this;
+    //     console.log(name , el, source)
+    //     if(this.stillDrag){
+    //       document.addEventListener("mousemove", function (event) {
+    //         console.log(_this.stillDrag)
+    //       })
+    //     }
+    //     // this.msg = `Dragging the ${value[1].innerText}!`;
+    //   });
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
-      clearInterval(this.dragId)
+      console.log("CAncel")
+      this.dragOut = false;
 
     })
     this.dragulaService.drop().subscribe(({ el, target, source, sibling }) => {
       // console.log(this.dragId)
       // clearInterval(this.dragId)
-      // this.stillDrag = false;
+      console.log("DRRRROP")
+      this.stillDrag = false;
+      this.dragOut = false;
     })
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
-      console.log($(el).siblings().length)
-      console.log(name)
-      // if($(el).siblings().length == 0)
-      // this.dragulaService.destroy(name)
-      //  this.dragulaService.destroy(name)
-    })
-    this.dragulaService.shadow().subscribe(({ el, container, source }) => {
+      // if (name == "COLUMNS") {
+      //   var _this = this;
+      //   // console.log(_this.stillDrag = true)
+      //   if(_this.stillDrag){
+      //     document.addEventListener("mousemove", function (event) {
+      //       var y = $(".gu-mirror").position().top;
+      //       var container = $(el).parents(".requirements-wrapper");
+      //     })
+      //   }
+      // } else {
+        console.log(name)
+        if(name === "COLUMNS"){
+          // console.log(this.stillDrag=true)
+          // console.log("fackup")
+          // var _this = this;
+          // var _this = this;
+          this.stillDrag = true;
+          var stillDrag = this.stillDrag
 
-      console.log(el, container, source)
+          var windowBottom =  window.innerHeight - $('.form-footer').outerHeight()
+          document.addEventListener("mousemove", function (event) {
+            document.addEventListener("mouseup", function (event) {
+              stillDrag = false;
+            })
+            if (stillDrag) {
+              var container = $(el).parents(".requirements-wrapper")[0];
+              
+              var y = $(".gu-mirror").position().top;
+              var dragHeight = y +  $(".gu-mirror").height();
+              var dropHeight = $(container).position().top +  $(container).height()
+              // console.log( $(container).position().top  , y)
+              if(dropHeight - dragHeight < 20){
+                container.scrollTop +=60;
+              }
+              else if( $(container).position().top - y< 20 ){
+                container.scrollTop -= 60;
+              }
+              // console.log($(container).height())
+              // console.log(container.offsetHeight)
+              // console.log($( container))
+              // console.log(stillDrag)
+              // var y = $(".gu-mirror").position().top;
+              // console.log($(".gu-mirror").height())
+              // var dragHeight =  $(".gu-mirror").position().top + $(".gu-mirror").height();
+              // if(container.length >0){
+              //   // var ddd = container[0].offsetTop +  $(container[0]).offsetHeight;
+              //   // console.log(window.innerHeight)
+              //   // console.log( $(container))
+
+              //   // console.log($('.form-footer'))
+              //   console.log(dragHeight)
+              //   console.log(window.innerHeight - $('.form-footer').height())
+              //   if ( window.innerHeight - $('.form-footer').height() == dragHeight) {
+              //     console.log("Scroll down")
+              //     var ele = container[0];
+              //   // setTimeout(function(){
+              //    ele.scrollTop += 20,
+              //     console.log(container[0])
+              //   // if (ele.scrollHeight == ele.scrollTop + container.height()) {
+              //   //   $(ele).append(el)
+              //   // }
+              //   // }, 300);
+              //   console.log(ele.scrollTop)
+              //   }
+              // }
+            }
+          })
+        }
+        else{
+        console.log("other than")
+        this.stillDrag = true;
+
+        this.dragOut = false;
+        var stillDrag = this.stillDrag;
+        document.addEventListener("mousemove", function (event) {
+          if (stillDrag) {
+            // console.log($(event.target).parents(".requirement"))
+            // console.log(event.pageY)
+            // console.log($(el))
+            // var y = event.pageY
+            var y = $(".gu-mirror").position().top;
+            //$(event.target).parents(".requirement-inner-box")
+            var container = $(el).parents(".requirement-inner-box");
+            // console.log($(container[0]))
+            // console.log(container[0].getBoundingClientRect().top);
+            if (container.length > 0) {
+              var ddd = container[0].getBoundingClientRect().top + 236;
+              // console.log(ddd)
+              // console.log()
+              var containerTop = container[0].getBoundingClientRect().top;
+              // console.log(ddd , y)
+              if (ddd - y <= 80) {
+                var ele = container[0];
+                // setTimeout(function(){
+                ele.scrollTop += 50
+                if (ele.scrollHeight == ele.scrollTop + container.height()) {
+                  $(ele).append(el)
+                }
+                // }, 300);
+              } else if (y - containerTop <= 40) {
+                var ele = container[0];
+                // setTimeout(function(){
+                ele.scrollTop -= 20
+                if (ele.scrollTop == 0) {
+                  $(ele).prepend(el)
+                }
+                // }, 300);
+                // this._scrollUp(container, y);
+              }
+
+            }
+
+
+          }
+        });
+        document.addEventListener("mouseup", function (event) {
+          stillDrag = false;
+        });
+      }
+    })
+
+    this.dragulaService.shadow().subscribe(({ el, container, source }) => {
+      // console.log(this.stillDrag)
+      // console.log(el, container, source)
     })
     this.dragulaService.out().subscribe(({ name, container, source }) => {
-      // if (this.stillDrag == true)
-      //   this.dragId = setInterval(myTimer, 1000);
-
-      // function myTimer(){
-      //   container.scrollBy(0,50)
-      // }
-      })
+      console.log("out now");
+      this.dragOut = true;
+      // this.dragulaService.cancel(name);
+      // this.dragulaService.destroy(name)
+    })
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
-      // this.stillDrag = true;
-      console.log(clone,original)
-      console.log($(original).parent().children().length)
-      if($(original).parent().children().length == 1){
-        console.log($(clone).hide())
-      }else{
-        
-      }
+      // if ($(original).parent().children().length == 1) {
+      //   console.log($(clone).hide())
+      // } else {
+
+      // }
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
-      console.log($(clone).children(".img-wrapper").empty())
+      $(clone).children(".img-wrapper").empty()
       $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);"/>')
-  
-      setTimeout(function(){
-        console.log($(clone).children())
-        console.log($(clone).children("img").length)
-      })
-    
-      
     })
     this.dragulaService.over().subscribe(({ name, el, container, source }) => {
-      console.log("Ovver")
-      // console.log($(el))
-      // console.log($(container))
-      // console.log(name, el, container, source)
+
     })
 
     for (var i = 0; i < this.templateAccessPointGroup.length; i++) {
       this.dragulaService
         .drag(this.templateAccessPointGroup[i].name)
         .subscribe(({ name, el, source }) => {
-          console.log(name)
-          console.log(el)
-          console.log("dddd")
-          // this.msg = `Dragging the ${value[1].innerText}!`;
+
         });
     }
     this.dataVal = {
@@ -261,7 +366,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     let hit = $('.pad-bottom').height();
     return hit;
   }
-
+  // @HostListener('document:mousedown', ['$event'])
+  // onMouseDown(event) {
+  //   console.log(event)
+  //   console.log($(event.target).parents(".requirement-inner-box"))
+  //   console.log("DRRRRAAG")
+  // }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log('==== ',$('.pad-bottom').height() + 150)
@@ -288,7 +398,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.wordLength = word.length;
     if (status == 'name') {
       $('.limit-wordcount').show('slow');
-    } else {
+    } else if (status = "input_method") {
+      $('.limit-type-wordcount').show('slow');
+    }
+    else {
       $('.limit-wordcount1').show('slow');
     }
   }
@@ -297,7 +410,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.wordLength = 0;
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
-    } else {
+    } else if (status = "input_method") {
+      $('.limit-type-wordcount').hide('slow');
+
+    }
+    else {
       $('.limit-wordcount1').hide('slow');
     }
   }
@@ -378,43 +495,86 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
+  trackByFn(index: any, item: any) {
+    return index;
+ }
+  addDataValue(){
+    const newValue = ""
+    this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+  }
+  dataValueClear(item){
+    this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
+  }
 
-    createNewAPG(status,name){
-      if(status == 'create'){
-        this.iscreate = true;
-        if(name == 'Assessment' || name == 'Evaluation'){
-            this.ismodule = false;
-            this.apCreate = true;
-            const templateAccessPoint =  {
-              "name" : "",
-              "description": "",
-              "moduleId": "",
-              "regionId": "",
-              "orgId": "",
-              "options":false,
-              "upDownOptions":false,
-              "data" : {
-                "evaluation" :{
-                  "passMark": 0,
-                  "details": [
-                    {
-                      "requirement": "",
-                      "options": [
-                        ""
-                      ]
-                    }
+  createNewAPG(status, name) {
+    console.log("Create new APg", name)
+    if (status == 'create') {
+      this.iscreate = true;
+      if (name == 'Assessment' || name == 'Evaluation') {
+        this.ismodule = false;
+        this.apCreate = true;
+        this.dataApCreate = false;
+        const templateAccessPoint = {
+          "name": "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "options": false,
+          "upDownOptions": false,
+          "upOptions": false,
+          "DownOptions": false,
+          "data": {
+            "evaluation": {
+              "passMark": 0,
+              "details": [
+                {
+                  "requirement": "",
+                  "options": [
+                    ""
                   ]
                 }
-              }
+              ]
             }
+          }
+        }
 
         this.templateAccessPointGroup.push(templateAccessPoint)
         // this.iscreate = false;
         this.apCreate = true;
         console.warn(this.apCreate)
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
-      } else {
+      } else if (name == 'Data') {
+        this.templateAccessPointGroup = {}
+        const templateAccessPoint = {
+          "name": "",
+          "description": "",
+          "moduleId": "",
+          "regionId": "",
+          "orgId": "",
+          "data": {
+            "sectionType": "PROGRESS",
+            "unit": "string",
+            "inputType": "NUMBER",
+            "inputTypeProperties": {
+              "name": "string",
+              "min": "string",
+              "max": "string",
+              "options": [
+              ""
+            ]
+           }
+          }
+        }
+        this.templateAccessPointGroup = templateAccessPoint;
+        console.warn(this.templateAccessPointGroup)
+        this.dataApCreate = true;
+        this.ismodule = false;
+        this.apCreate = false;
+      }
+      else {
         this.model = {};
+        this.dataApCreate = false;
         this.iscreate = true;
         this.isshare = false;
         this.apCreate = false;
@@ -479,7 +639,13 @@ export class ApgComponent implements OnInit, OnDestroy {
     }, 300);
   }
 
- 
+  chooseShareAPG(val, name) {
+    console.log(val)
+    this.sharechecked = val;
+    this.getsingleTemplate(this.sharechecked);
+  }
+
+
   mainAccessPointAdd() {
     // let testObj = {
     // }
@@ -490,7 +656,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       "regionId": "",
       "orgId": "",
       "options": false,
-      "upDownOptions":false,
+      "upDownOptions": false,
       "data": {
         "evaluation": {
           "passMark": Number,
@@ -506,172 +672,154 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     }
     console.log(templateAccessPoint);
-     this.templateAccessPointGroup.push(templateAccessPoint)
-    }
-    
-    subAccessPointAdd(options,i){
-      console.log(this.templateAccessPointGroup)
-      console.log('~~~~~~~~',i)
-      let req = {
-        "requirement": "",
-        "options": [
-          ""
-        ]
-      };
-       this.templateAccessPointGroup[i].data.evaluation.details.push(req);
-        this.addscrollEvent(i);
+    this.templateAccessPointGroup.push(templateAccessPoint)
+  }
 
+  subAccessPointAdd(skillBlog, i) {
+    console.log(this.templateAccessPointGroup)
+    console.log('~~~~~~~~', i,skillBlog)
+    let req = {
+      "requirement": "",
+      "options": [
+        ""
+      ]
+    };
+    this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+    // this.addscrollEvent(skillBlog,i);
+    setTimeout(() => {
+      this.scrollCalculation(skillBlog, i)
+    }, 200);
   }
 
 
    
-    subAccessPointClear(item,i,id,x){
-      i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
-      console.log(i)
-      this.removescrollEvent(i,id,x);
-    }
-
-    addscrollEvent(id){
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+id);
-      const skillHeader: HTMLElement = document.getElementById('skillHeader'+id);
-      const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+id);
-      const skillFooter: HTMLElement = document.getElementById('skillFooter'+id);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+id);
-      const downupArr: HTMLElement = document.getElementById('downupArrow'+id);
-
-      this.headerHeight=skillHeader.clientHeight;
-      var totalHeight=this.headerHeight+skillFooter.clientHeight+innerBoxHeight.clientHeight;
-      var mHight=400-(this.headerHeight+skillFooter.clientHeight);
-      console.log("mHight>>"+mHight)
-      console.log("header height in add scorll:"+this.headerHeight);
-      if(totalHeight < 400){
-        skillHeight.setAttribute("style", "height: auto;");
-        console.log("under 400")
-        this.isUpDownHide=false;
-        this.isUpDownId=null;
-        this.templateAccessPointGroup[id].upDownOptions=false;
-      }else{
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
-        this.isUpDownHide=true;
-        this.isUpDownId=id;
-        this.templateAccessPointGroup[id].upDownOptions=true;
-        // skillFooter.insertAdjacentHTML('beforebegin', '<div *ngIf="isUpDownHide" id="downupArrow{{i}}">'+
-        //                                                   '<div *ngIf="!isUpDown" class="downIcon" (click)="pushUpClick(i)">'+
-        //                                                     '<img class="downIcon" src="./assets/images/push-up.png">'+
-        //                                                   '</div>'+
-        //                                                   '<div *ngIf="isUpDown" class="downIcon" (click)="pushDownClick(i)">'+
-        //                                                     '<img class="downIcon" src="./assets/images/push-down.png">'+
-        //                                                   ' </div>'+
-        //                                              '</div>');
+  subAccessPointClear(item,skillblog,id,x){
+    // setTimeout(() => {
+    //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
       
-      }
-      console.log(skillHeight.clientHeight)
-      console.log("call scroll event");
-    }
-  
+    // }, 0);
+    this.templateAccessPointGroup[id].data.evaluation.details.splice(x,1);
+    console.log(skillblog)
+    // this.removescrollEvent(i,id,x);
+    this.scrollCalculation(skillblog,id);
+  }
 
-    removescrollEvent(skillObj,skillId,requirementId){
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
-      const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
-      const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
+  scrollCalculation(skillObj,skillId){
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
+    var req_total_height=0;
 
-      var req_total_height=0;
-
-      for(var j=0;j<skillObj.data.evaluation.details.length;j++){
-        const requirement: HTMLElement = document.getElementById('requirement'+j);
-        req_total_height+=requirement.clientHeight;
-        console.log(req_total_height);
-      }
-      var totalHeight=req_total_height+skillHeader.clientHeight+skillFooter.clientHeight;
-
-      if(totalHeight < 400){
-        skillHeight.setAttribute("style", "height: auto;");
-        innerBoxHeight.setAttribute("style","height:auto;overflow:none;")
-        this.templateAccessPointGroup[skillId].upDownOptions=false;
-      }else{
-        this.templateAccessPointGroup[skillId].upDownOptions=true;
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:236px;overflow:overlay;") 
-      }
-      console.log("total height>>"+totalHeight)
-      console.log(skillObj.data.evaluation.details)
-      console.log(skillHeader.clientHeight)
-      console.log(skillFooter.clientHeight)
-      console.log(innerBoxHeight.clientHeight);
+    for(var j=0;j<skillObj.data.evaluation.details.length;j++){
+      const requirement: HTMLElement = document.getElementById('requirement'+j);
+      req_total_height+=requirement.clientHeight;
+      console.log(req_total_height);
     }
 
-    addScrollOncheckMarkToggle(skillObjId,res){
-      console.log("reach checkMarkToggle>>"+skillObjId);
-      const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillObjId);
-      const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+skillObjId);
-      const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillObjId);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillObjId);
+    var totalHeight=skillHeader.clientHeight+skillFooter.clientHeight+req_total_height;
+    var inboxHight=400-(skillHeader.clientHeight+skillFooter.clientHeight);
 
-      this.headerHeight=skillHeader.clientHeight;
-      var totalHeight=this.headerHeight+skillFooter.clientHeight+innerBoxHeight.clientHeight;
-      var mHight=400-(this.headerHeight+skillFooter.clientHeight);
-      
-      if(totalHeight < 400){
-        skillHeight.setAttribute("style", "height: auto;");
-        console.log("under 400")
-      }else{
-        skillHeight.setAttribute("style", "height: 400px;");
-        innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
-       
-        console.log("over 400")
-      }
-    
-      console.log("header height in add smark:"+this.headerHeight);
+    console.log(totalHeight);
+
+    if(totalHeight < 400){
+      console.log("less than 400")
+      skillHeight.setAttribute("style", "height: auto;");
+      innerBoxHeight.setAttribute("style","height:auto;overflow:none;")
+      this.templateAccessPointGroup[skillId].upDownOptions=false;
+      this.templateAccessPointGroup[skillId].upOptions=false;
+      this.templateAccessPointGroup[skillId].DownOptions=false;
+    }else{
+      console.log("greater than 400")
+      skillHeight.setAttribute("style", "height: 400px;");
+      innerBoxHeight.setAttribute("style","height:"+inboxHight+"px;overflow:overlay;")        
+      this.templateAccessPointGroup[skillId].upDownOptions=true;
+      this.templateAccessPointGroup[skillId].upOptions=false;
+      this.templateAccessPointGroup[skillId].DownOptions=true;
+    }
+  }
+
+  addScrollOncheckMarkToggle(skillObjId, res) {
+    console.log("reach checkMarkToggle>>" + skillObjId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillObjId);
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillObjId);
+    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + skillObjId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillObjId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillObjId);
+
+    this.headerHeight = skillHeader.clientHeight;
+    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+
+    if (totalHeight < 400) {
+      skillHeight.setAttribute("style", "height: auto;");
+      console.log("under 400")
+    } else {
+      skillHeight.setAttribute("style", "height: 400px;");
+      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
+      // this.templateAccessPointGroup[skillObjId].upOptions=false;
+      // this.templateAccessPointGroup[skillObjId].DownOptions=true;
+      console.log("over 400")
     }
 
+    console.log("header height in add smark:" + this.headerHeight);
+  }
 
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
-    console.log(innerBoxHeight.scrollHeight)
-    console.log(innerBoxHeight.scrollTop)
 
     if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
-      this.isUpDown = false;
+      this.templateAccessPointGroup[i].upOptions = true;
+      this.templateAccessPointGroup[i].DownOptions = false;
     } else {
-      this.isUpDown = true;
+      this.templateAccessPointGroup[i].upOptions = false;
+      this.templateAccessPointGroup[i].DownOptions = true;
     }
     console.log("dar")
   }
 
-   
-    mainAccessPointClear(item){
-      this.templateAccessPointGroup.splice( this.templateAccessPointGroup.indexOf(item), 1 );
-    }
-  
-    checkMarkToggle(item,skillObjId){
-      // this.isGlobal = !this.isGlobal
-      item.options = !item.options;
-      console.log(item.options)
 
-      setTimeout(() => {
-        this.addScrollOncheckMarkToggle(skillObjId,item.options);
-        // if(item.options){
-        //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-        //   console.log(skillHeader.clientHeight)
-        // } else{
-        //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-        //   console.log(skillHeader.clientHeight)
-        // }
-       })
+  mainAccessPointClear(item) {
+    this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+  }
 
-    }
-    
+  checkMarkToggle(item, skillObjId) {
+    // this.isGlobal = !this.isGlobal
+    item.options = !item.options;
+    console.log(item.options)
 
+    setTimeout(() => {
+      // this.addScrollOncheckMarkToggle(skillObjId, item.options);
+      this.scrollCalculation(item,skillObjId)
+      console.log('###test',item,skillObjId)
+      // if(item.options){
+      //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
+      //   console.log(skillHeader.clientHeight)
+      // } else{
+      //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
+      //   console.log(skillHeader.clientHeight)
+      // }
+    },200)
+
+  }
+
+  pushDownClick(i) {
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
+    // this.isUpDownHide = true;
+    this.templateAccessPointGroup[i].upOptions = false;
+    this.templateAccessPointGroup[i].DownOptions = true;
+    innerBoxHeight.scrollTop = innerBoxHeight.scrollHeight
+
+  }
 
   pushUpClick(i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
 
     innerBoxHeight.scrollTop = 0;
+    this.templateAccessPointGroup[i].upOptions = true;
+    this.templateAccessPointGroup[i].DownOptions = false;
     console.log(innerBoxHeight.scrollTop)
   }
 
@@ -848,54 +996,54 @@ export class ApgComponent implements OnInit, OnDestroy {
   // }
 
   // open(content){
-  // 	this.customAP = false;
-  // 	this.templateAPG = false;
-  // 	this.apArray = [];
-  // 	this.newAPList = [];
-  // 	this.customCheck = false;
-  // 	this.templateAPG = false;
-  // 	this.templateChecked = false;
+  //   this.customAP = false;
+  //   this.templateAPG = false;
+  //   this.apArray = [];
+  //   this.newAPList = [];
+  //   this.customCheck = false;
+  //   this.templateAPG = false;
+  //   this.templateChecked = false;
   //    this.createButton = true;
   //    this.updateButton = false;
   //    this.checkedModuleID = [];
   //    this.checkedAPid = [];
   //    this.moduleAPList = [];
   //    this.getAccessPoint = [];
-  // 	this.apgField = new apgField();
-  // 	this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
+  //   this.apgField = new apgField();
+  //   this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'animation-wrap'});
   //   this.modalReference.result.then((result) => {
-  //   	this.apgField = new apgField();
-  //   	this.apField = new apField();
+  //     this.apgField = new apgField();
+  //     this.apField = new apField();
   //  this.closeResult = `Closed with: ${result}`
-  // 	}, (reason) => {
-  // 		this.apgField = new apgField();
-  // 		this.apField = new apField();
+  //   }, (reason) => {
+  //     this.apgField = new apgField();
+  //     this.apField = new apField();
 
-  // 	  this.closeResult = `Closed with: ${reason}`;
-  // 	});
+  //     this.closeResult = `Closed with: ${reason}`;
+  //   });
   // }
 
   // radioEvent(e, type){
-  // 	if(type == 'custom'){
-  // 		this.customAP = true;
-  // 		this.newAP = false;
-  // 		this.templateAPG = false;
-  // 		this.existAP = false;
-  // 		this.newAPshow = false;
+  //   if(type == 'custom'){
+  //     this.customAP = true;
+  //     this.newAP = false;
+  //     this.templateAPG = false;
+  //     this.existAP = false;
+  //     this.newAPshow = false;
   //      this.apgField.templateId = '';
-  // 	}
-  // 	else if(type == 'template'){
-  // 		this.customAP = false;
-  // 		this.templateAPG = true;
+  //   }
+  //   else if(type == 'template'){
+  //     this.customAP = false;
+  //     this.templateAPG = true;
   //      this.customCheck = false;
   //      this.existAP = false;
   //      this.apgField.moduleId = '';
   //      this.apgField = new apgField();
-  // 	}
-  // 	else if(type == 'newap'){
-  // 		this.newAP = true;
-  // 		this.existAP = false;
-  // 		this.newAPshow = false;
+  //   }
+  //   else if(type == 'newap'){
+  //     this.newAP = true;
+  //     this.existAP = false;
+  //     this.newAPshow = false;
   //      this.checkedAPid = [];
   //      this.apField = new apField();
   //      if(this.createButton == true && !this.apgField.moduleId){
@@ -906,11 +1054,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   //      if(this.createButton == true){
   //        this.apArray = [];
   //      }
-  // 	}
-  // 	else if(type == 'existap'){
-  // 		this.newAP = false;
-  // 		this.existAP = true;
-  // 		this.newAPshow = false;
+  //   }
+  //   else if(type == 'existap'){
+  //     this.newAP = false;
+  //     this.existAP = true;
+  //     this.newAPshow = false;
   //      this.checkedAPid = [];
   //      this.apField = new apField();
   //      this.newAPList = [];
@@ -923,10 +1071,10 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   //      }
 
-  // 	}
-  // 	else {
-  // 		console.log('error')
-  // 	}
+  //   }
+  //   else {
+  //     console.log('error')
+  //   }
   // }
 
   clickTab(type) {
@@ -989,7 +1137,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   // createAPG(formData, type){
-  // 	console.log(formData)
+  //   console.log(formData)
   //    let data;
   //    if(!formData.templateId){
   //        data = {
@@ -999,7 +1147,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   //          'accessPoints': this.apArray        
   //        }
   //      }
-  // 	if(type == 'create'){
+  //   if(type == 'create'){
   //      console.log('create',data)
   //      this.newAPList = [];
   //      this.modalReference.close();
@@ -1285,31 +1433,31 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   // editAPG(id, content){
-  // 	this.getAllTemplate();
+  //   this.getAllTemplate();
   //    this.apgField = new apgField();
-  // 	this.customAP = false;
-  // 	this.templateAPG = false;
-  // 	this.existAP = false;
-  // 	this.newAPshow = false;
+  //   this.customAP = false;
+  //   this.templateAPG = false;
+  //   this.existAP = false;
+  //   this.newAPshow = false;
   //    this.newAP = false;
   //    this.createButton = false;
   //    this.updateButton = true;
   //    this.newAPList = [];
-  // 	this.checkedModuleID = [];
-  // 	this.checkedAPid = [];
+  //   this.checkedModuleID = [];
+  //   this.checkedAPid = [];
   //    this.apArray = [];
-  // 	this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
-  // 	this._service.getSingleAPG(this.regionID, id)
-  // 	.subscribe((res:any) => {
-  // 		console.log('editapg' ,res)
+  //   this.modalReference = this.modalService.open(content,{ backdrop:'static', windowClass:'animation-wrap'});
+  //   this._service.getSingleAPG(this.regionID, id)
+  //   .subscribe((res:any) => {
+  //     console.log('editapg' ,res)
   //      this.getAPofModule(res.moduleId);
   //      this.tempModuleId = res.moduleId;
   //      this.moduleId = res.moduleId;
-  // 		for(var i in this.moduleList){
-  // 			if(this.moduleList[i]._id == res.moduleId){
-  // 				this.checkedModuleID.push(res.moduleId);
-  // 			}
-  // 		}
+  //     for(var i in this.moduleList){
+  //       if(this.moduleList[i]._id == res.moduleId){
+  //         this.checkedModuleID.push(res.moduleId);
+  //       }
+  //     }
   //      if(res.accessPoints == ''){
   //        this.customCheck = false;
   //        this.existAP = false;
@@ -1318,12 +1466,12 @@ export class ApgComponent implements OnInit, OnDestroy {
   //        this.customCheck = true;
   //        this.existAP = true;
   //      }
-  // 	this.customAP = true;
-  // 	this.templateChecked = false;
+  //   this.customAP = true;
+  //   this.templateChecked = false;
   //      this.getAccessPoint = res.accessPoints;
-  // 		this.apgField = res;
+  //     this.apgField = res;
   //      this.editId = id;
-  // 	}, err => {
+  //   }, err => {
   //       console.log(err)
   //   })
   // }
@@ -1366,28 +1514,28 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-  autoResize(e,id) {
+  autoResize(e, id) {
     console.log(e.target.style)
     console.log(e.target.scrollHeight)
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + "px";
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+id);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader'+id);
-    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter'+id);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter'+id);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+id);
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
+    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
 
-    this.headerHeight=skillHeader.clientHeight;
-    var totalHeight=this.headerHeight+skillFooter.clientHeight+innerBoxHeight.clientHeight;
-    var mHight=400-(this.headerHeight+skillFooter.clientHeight);
-    console.log("mHight>>"+mHight)
-    console.log("header height in add scorll:"+this.headerHeight);
-    if(totalHeight < 400){
+    this.headerHeight = skillHeader.clientHeight;
+    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+    console.log("mHight>>" + mHight)
+    console.log("header height in add scorll:" + this.headerHeight);
+    if (totalHeight < 400) {
       skillHeight.setAttribute("style", "height: auto;");
       console.log("under 400")
-    }else{
+    } else {
       skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style","height:"+mHight+"px;overflow:overlay;")
+      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
       console.log("over 400")
     }
   }
@@ -1403,5 +1551,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     e.target.value = value;
     console.log(value)
     console.log(index)
+  }
+  radioSelect(type) {
+    this.selectedRadio = type;
   }
 }

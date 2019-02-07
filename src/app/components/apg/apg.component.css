@@ -14,7 +14,12 @@
   background: #fff;
   z-index: 9;
 }
-
+.limit-type-wordcount{
+  display:none;
+  font-size: 14px;
+  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  color: #0080ff;
+}
 .single-result {
   cursor: pointer;
   padding: 7px 0;
@@ -152,8 +157,10 @@
 .input-wrap .form-group {
   border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
-
-.create-input:focus {
+.radio-form-group{
+  border-bottom: 0px !important;
+}
+.create-input:focus{
   -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
   -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
@@ -337,10 +344,10 @@
 
 .form-footer {
   position: fixed;
-  width: 100%;
+  /* width: 100%; */
   bottom: 0;
   padding: 20px;
-  left: 0;
+  right: 0;
   background: #fff;
 }
 
@@ -628,14 +635,18 @@
 }
 
 .add-requirement {
-  padding-left: 84px;
-  /* padding-top: 20px;
-   
-    padding-bottom: 20px; */
-  color: #007fff;
-  font-size: 16px;
-  margin: 0px !important;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+    padding-left: 84px;
+    color: #007fff;
+    font-size: 16px;
+    margin: 0px !important;
+    font-family: 'Montserrat-Regular', Arial, sans-serif;
+    background: none;
+    border: none;
+    outline: none;
+}
+.add-requirement:disabled{
+    opacity: 0.65;
+    cursor: not-allowed !important;
 }
 
 .downIcon {
@@ -1025,4 +1036,147 @@ input:checked+.slider:before {
   padding:0px;
   margin:0px;
   overflow: hidden;
+}
+
+/* ///////radio////// */
+.type-input {
+  margin-right:36px;
+  width: 100px;
+  height: 86px;
+  display: inline-block;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
+
+}
+.radio-wrapper{
+  margin-left:12px;
+}
+.radio-group{
+  margin-top: 32px;
+  display:flex;
+}
+.activeRadio{
+  background: #007fff;
+  color:white;
+}
+.activeRadio>.radio-wrapper>.huey-child{
+  color:white;
+}
+.huey{
+  margin-top:12px;
+  line-height: 18px;
+  margin-bottom: 0px !important;
+  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+
+}
+.huey-child{
+  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-size: 12px;
+  color:#64707d;
+}
+.form-radio{
+  visibility: hidden;
+  margin-top:12px;
+  display:block;
+  width:12px;
+}
+.activeRadio .label-checked{
+  border: 2px solid #fff;
+  -webkit-box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+  box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+  /*background-position: center;*/
+}
+.label-checked {
+  background: #fff;
+  border: 2px solid #3d5266;
+  border-radius: 50%;
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  float: left;
+}
+
+.form-radio:checked{
+  visibility: hidden;
+
+  background: white;
+	border : 3px solid blue;
+}
+.requirement-box{
+  font-size:18px;
+  line-height: 22px;
+  color: #2e3e4d;
+  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+}
+.input-result{
+  margin-top:32px;
+}
+.data-value:focus{
+  box-shadow: none;
+  outline: none;
+}
+.data-value{
+ font-family: 'Montserrat-Regular', 'Arial', sans-serif !important;
+  border-radius: .25rem;
+  border: none;
+  margin-bottom: 15px;
+  padding: .6rem .75rem;
+  margin-left: -.75rem;
+  width: 456px;
+  margin-top: 4px;
+  padding-bottom: 0px;
+  padding-top: 20px;
+}
+.data-close {
+  position: relative;
+  /* left: 444px; */
+  /* top: 19px; */
+  width: 16px;
+  height: 16px;
+  background: #d4d5d6;
+  border-radius: 50%;
+  z-index: 99;
+  -ms-transition: 0.3s all ease;
+  -webkit-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  cursor: pointer;
+}
+.data-close:before,
+.data-close:after {
+  position: absolute;
+  left: 7px;
+  content: ' ';
+  height: 9px;
+  width: 2px;
+  background-color: #fff;
+  top: 3px;
+}
+
+.data-close:before {
+  transform: rotate(45deg);
+}
+
+.data-close:after {
+  transform: rotate(-45deg);
+}
+.data-list-title{
+  width: 72px;
+  font-family:'Montserrat-SemiBold', 'Arial', sans-serif !important;
+  font-size: 18px;
+  color:#2e3e4d;
+}
+.newValue{
+  width: 151px;
+  font-family: 'Montserrat-Medium', 'Arial', sans-serif !important;
+  font-size: 16px;
+  color: #0080ff;
+  padding-top: 20px;
+  padding-left: 44px;
+}
+.requirements-wrapper{
+  height: 480px;
+  overflow: auto;
+  width:800px;
 }
