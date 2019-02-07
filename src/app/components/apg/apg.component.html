@@ -130,12 +130,14 @@
           </div>
           <div dragula="COLUMNS" class="requirements-wrapper" [(dragulaModel)]="templateAccessPointGroup" drag-scroll>
             <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
-              <div class="d-flex flex-column" style="background:#f2f4f5;" id="skillHeader{{i}}">
+              <div class="d-flex flex-column skill-header" style="background:#f2f4f5;" id="skillHeader{{i}}">
                 <div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
                   (click)="mainAccessPointClear(item)"></div>
                 <div class="d-flex">
-                  <img class="group-handle" src="../../../assets/images/disable-holder.svg">
+                  <span class="img-wrapper group-handle-wrapper">
 
+                    <img class="group-handle" src="../../../assets/images/disable-holder.svg">
+                  </span>
                   <input type="text" placeholder="Type skill name here" class="skill-name" name=" {{'skillName' + i }}"
                     required [(ngModel)]="item.name" required>
                   <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
@@ -159,11 +161,12 @@
                 dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
                 <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index"
                   style="padding-left:40px;" id="requirement{{x}}">
-                  <span class="pr-3 img-wrapper">
+                  <span class="img-wrapper">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
-                  </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
-                    class="requirement-name" [(ngModel)]="test.requirement" required (input)="autoResize($event,i)"></textarea>
+                  </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" id="{{'box'+ x + i}}"
+                    placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement"
+                    required (input)="autoResize($event,i)"></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
                     (click)="subAccessPointClear(test,item,i,x)"></div>
@@ -231,7 +234,8 @@
           </div> -->
           </div>
           <div class="radio-group">
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')">
+            <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'Number'" (click)="radioSelect('Number')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
 
@@ -244,7 +248,8 @@
 
             </div>
 
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')">
+            <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')"> -->
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'Range'" (click)="radioSelect('Range')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
 
@@ -255,7 +260,7 @@
               </div>
 
             </div>
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'Radio'" (click)="radioSelect('Radio')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
                 <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
@@ -271,50 +276,51 @@
 
         </div>
         <div class="input-result">
-          <div *ngIf="selectedRadio == 'input-box'">
+          <div *ngIf="selectedRadio == 'Number'">
             <div class="form-group ">
-                <div class="d-flex justify-content-between">
-                    <label class="form-title input-label" for="address">Measurement unit</label>
-                    <div class="limit-type-wordcount">
-                      <span>{{wordLength}}/6characters</span>
-                    </div>
-                  </div>
-                <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                  maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
-                  (input)="changeMethod($event.target.value)" required #input_method="ngModel">
-                <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
-                  <div [hidden]="!input_method.errors.required">
-                    Measurement unit is required!
-                  </div>
+              <div class="d-flex justify-content-between">
+                <label class="form-title input-label" for="address">Measurement unit</label>
+                <div class="limit-type-wordcount">
+                  <span>{{wordLength}}/6characters</span>
                 </div>
               </div>
+              <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
+                maxlength="6" [(ngModel)]="templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required
+                #input_method="ngModel">
+              <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
+                <div [hidden]="!input_method.errors.required">
+                  Measurement unit is required!
+                </div>
+              </div>
+            </div>
           </div>
-          <div *ngIf="selectedRadio == 'slider'">
+          <div *ngIf="selectedRadio == 'Range'">
             Slider
           </div>
-          <div *ngIf="selectedRadio == 'selection'">
-           <h4 class="data-list-title"> Data list</h4>
-            <div *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options; let i=index;trackBy:trackByFn">
+          <div *ngIf="selectedRadio == 'Radio'">
+            <h4 class="data-list-title"> Data list</h4>
+            <div *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options;let i=index;trackBy:trackByFn">
               <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
               <div class="d-flex">
-                  <span class="pr-3 img-wrapper">
-                      <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
-                      <img class="move-sign" src="../../../assets/images/single-holder.svg">
-                  </span>
-                  <div class="form-group">
-                    <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.options[i]" name="dataValue"
-                      required >
-                  </div>
-                  <div  class="data-close" *ngIf=" templateAccessPointGroup.data.inputTypeProperties.options.length > 1" (click)="dataValueClear(i)"></div>
+                <span class="pr-3 img-wrapper">
+                  <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
+                  <img class="move-sign" src="../../../assets/images/single-holder.svg">
+                </span>
+                <div class="form-group">
+                  <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.options[i]"
+                    name="dataValue" required>
                 </div>
+                <div class="data-close" *ngIf=" templateAccessPointGroup.data.inputTypeProperties.options.length > 1"
+                  (click)="dataValueClear(i)"></div>
+              </div>
             </div>
-            <span class="newValue" (click)="addDataValue()">Add new data value</span> 
+            <span class="newValue" (click)="addDataValue()">Add new data value </span>
           </div>
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
-            [disabled]="!createapgForm.valid">Create</button>
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(templateAccessPointGroup.data.inputTypeProperties.options) ||  valid==false">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>
@@ -369,7 +375,7 @@
           </div>
         </div>
       </div>
-     
+
       <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
         <div class="col-md-8 input-wrap">
           <div class="form-group">
