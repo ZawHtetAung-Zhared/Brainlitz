@@ -98,6 +98,10 @@ export class ApgComponent implements OnInit, OnDestroy {
   public dragOut : boolean = false;
   public stillDrag: boolean = false;
   public selectedRadio = "input-box"
+  minValue:any="" ;
+  maxValue:any="";
+  exitValue:any;
+
   constructor(private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
@@ -1518,4 +1522,35 @@ export class ApgComponent implements OnInit, OnDestroy {
   radioSelect(type) {
     this.selectedRadio = type;
   }
+
+  ChangedTimeValue(obj){
+    console.log(obj)
+    var range = this.maxValue - this.minValue;
+    var position = ((obj - this.minValue) / range) * 100;
+    var positionOffset = Math.round(20 * position / 100) - (20 / 2);
+    this.exitValue=obj;
+    const box: HTMLElement = document.getElementById('arrowBox');
+    box.setAttribute("style",'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
+  }
+  emptymin:boolean = true;
+  emptymax:boolean = true;
+  chkValue(v,type){
+    console.log(v)
+    if(type=='min'){
+      if(v.length>0){
+        this.emptymin = false;
+      }else{
+        this.emptymin = true;
+      }
+      
+    }else{
+      if(v.length>0){
+        this.emptymax = false;
+      }else{
+        this.emptymax = true;
+      }
+    }
+  }
 }
+
+

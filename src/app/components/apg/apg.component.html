@@ -251,7 +251,6 @@
                 <div class="huey">Slider</div>
                 <div class="huey-child">Number</div>
               </div>
-
             </div>
             <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
               <div class="radio-wrapper">
@@ -288,7 +287,44 @@
               </div>
           </div>
           <div *ngIf="selectedRadio == 'slider'">
-            Slider
+            <div class="form-group slider-form">
+              <div class="d-flex justify-content-between">
+                  <label class="form-title input-label" for="address">Measurement unit</label>
+                  <div class="limit-type-wordcount">
+                    <span>{{wordLength}}/6characters</span>
+                  </div>
+                </div>
+              <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
+                maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
+                (input)="changeMethod($event.target.value)" required #input_method="ngModel">
+              <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
+                <div [hidden]="!input_method.errors.required">
+                  Measurement unit is required!
+                </div>
+              </div>
+            </div>
+            
+            <div class="gap-box">
+              <label class="d-flex">
+              
+                  <input type="number" class="min_input" placeholder="Min" [(ngModel)] = "minValue" (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
+
+                   <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                   <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
+                         
+                   <input *ngIf="emptymin == true || emptymax ==true" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                   
+                   <div class="divslider">
+                      <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
+                      <input *ngIf="emptymin == false && emptymax ==false" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr">
+                      <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
+                   </div>
+                   
+
+                  <input type="number" class="max_input" placeholder="Max" [(ngModel)] = "maxValue" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                 
+              </label>
+            </div>
           </div>
           <div *ngIf="selectedRadio == 'selection'">
            <h4 class="data-list-title"> Data list</h4>
