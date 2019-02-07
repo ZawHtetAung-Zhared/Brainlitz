@@ -231,7 +231,8 @@
           </div> -->
           </div>
           <div class="radio-group">
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')">
+            <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'Number'" (click)="radioSelect('Number')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
 
@@ -244,7 +245,8 @@
 
             </div>
 
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')">
+            <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')"> -->
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'Range'" (click)="radioSelect('Range')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
 
@@ -255,7 +257,7 @@
               </div>
 
             </div>
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'selection'" (click)="radioSelect('selection')">
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'Radio'" (click)="radioSelect('Radio')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
                 <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
@@ -271,7 +273,7 @@
 
         </div>
         <div class="input-result">
-          <div *ngIf="selectedRadio == 'input-box'">
+          <div *ngIf="selectedRadio == 'Number'">
             <div class="form-group ">
                 <div class="d-flex justify-content-between">
                     <label class="form-title input-label" for="address">Measurement unit</label>
@@ -280,7 +282,7 @@
                     </div>
                   </div>
                 <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                  maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
+                  maxlength="6" [(ngModel)]="templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
                   (input)="changeMethod($event.target.value)" required #input_method="ngModel">
                 <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
                   <div [hidden]="!input_method.errors.required">
@@ -289,12 +291,12 @@
                 </div>
               </div>
           </div>
-          <div *ngIf="selectedRadio == 'slider'">
+          <div *ngIf="selectedRadio == 'Range'">
             Slider
           </div>
-          <div *ngIf="selectedRadio == 'selection'">
+          <div *ngIf="selectedRadio == 'Radio'">
            <h4 class="data-list-title"> Data list</h4>
-            <div *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options; let i=index;trackBy:trackByFn">
+            <div *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options;let i=index;trackBy:trackByFn">
               <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
               <div class="d-flex">
                   <span class="pr-3 img-wrapper">
@@ -308,13 +310,13 @@
                   <div  class="data-close" *ngIf=" templateAccessPointGroup.data.inputTypeProperties.options.length > 1" (click)="dataValueClear(i)"></div>
                 </div>
             </div>
-            <span class="newValue" (click)="addDataValue()">Add new data value</span> 
+            <span class="newValue" (click)="addDataValue()">Add new data value </span> 
           </div>
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createapgs(model, false)"
-            [disabled]="!createapgForm.valid">Create</button>
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()"
+            [disabled]="false">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>
