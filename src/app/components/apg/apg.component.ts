@@ -123,7 +123,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     if(this.dragulaService.find("COLUMNS") ==undefined)
     this.dragulaService.createGroup("COLUMNS", {
       direction: 'vertical',
-      moves: (el, source, handle) => handle.className === "group-handle"
+      moves: (el, source, handle) => handle.className === "group-handle" ,
+      // accepts : (el,target) => console.log(el,target)
     });
     if(this.dragulaService.find("0") ==undefined)
     this.dragulaService.createGroup("0", {
@@ -667,6 +668,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // let testObj = {
     // }
     this.groupNumber += 1;
+    console.log(this.groupNumber)
     const templateAccessPoint = {
       "name": "",
       "description": "",
@@ -691,10 +693,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     console.log(templateAccessPoint);
     this.templateAccessPointGroup.push(templateAccessPoint)
-    this.dragulaService.createGroup(String(this.groupNumber), {
-      direction: 'vertical',
-      moves: (el, source, handle) => handle.className === "move-sign"
-    });
+    if(this.dragulaService.find(String(this.groupNumber)) ==undefined)
+
+      this.dragulaService.createGroup(String(this.groupNumber), {
+        direction: 'vertical',
+        moves: (el, source, handle) => handle.className === "move-sign"
+      // });
+    })
+    
   }
 
   subAccessPointAdd(skillBlog, i) {
