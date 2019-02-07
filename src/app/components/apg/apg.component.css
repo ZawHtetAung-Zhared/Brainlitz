@@ -696,6 +696,8 @@
   font-weight: 500;
   color: #0080ff;
   padding-left: 20px;
+  cursor:pointer;
+  margin-bottom:0px;
   padding-top: 20px;
   padding-bottom: 80px;
 }
@@ -1029,7 +1031,7 @@ input:checked+.slider:before {
   opacity: 0;
 }
 .skill-requirement-wrapper.gu-transit{
-  opacity: 0;
+ opacity : 0.5;
 }
 .requirement.gu-mirror{
   height:70px !important;
@@ -1176,7 +1178,7 @@ input:checked+.slider:before {
   padding-left: 44px;
 }
 .requirements-wrapper{
-  height: 480px;
+  max-height: 480px;
   overflow: auto;
   width:800px;
 }
