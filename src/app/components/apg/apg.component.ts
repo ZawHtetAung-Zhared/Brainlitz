@@ -100,7 +100,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   isUpDownId: number;
   public dragOut: boolean = false;
   public stillDrag: boolean = false;
-  public selectedRadio = "Number"
+  public groupNumber : number = 0;
+  public selectedRadio = "NUMBER"
+
   constructor(private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
@@ -432,6 +434,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.model = {};
     this.apCreate = false;
     this.iscreate = false;
+    this.dataApCreate = false;
     this.ismodule = false;
     this.isUpdate = false;
     this.shareAPG = false;
@@ -498,10 +501,10 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
-  trackByFn(index: any, item: any) {
-    return index;
- }
-  addDataValue(){
+  trackByFn(index, item) {
+    return index; 
+  }
+  addDataValue(data,i){
     const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
   }
@@ -530,7 +533,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               "passMark": 0,
               "details": [
                 {
-                  "requirement": "",
+                  "name": "",
                   "options": [
                     ""
                   ]
@@ -552,9 +555,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           "description": "",
           "moduleId": moduleId,
           "data": {
-            "sectionType": "Data",
+            "sectionType": "DATA",
             "unit": "",
-            "inputType": "",
+            "inputType": this.selectedRadio,
             "inputTypeProperties": {
               "name": "",
               "min": "",
@@ -658,7 +661,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           "passMark": Number,
           "details": [
             {
-              "requirement": "",
+              "name": "",
               "options": [
                 ""
               ]
@@ -675,7 +678,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(this.templateAccessPointGroup)
     console.log('~~~~~~~~', i,skillBlog)
     let req = {
-      "requirement": "",
+      "name": "",
       "options": [
         ""
       ]
@@ -975,37 +978,70 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.singleAPG(apgID, 'share');
   }
 
-  onclickUpdate(id) {
+  onclickUpdate(id,apgName) {
     console.log(id)
     this.apgList = [];
     this.singleAPG(id, 'update');
     this.iscreate = true;
     this.isUpdate = true;
+    console.error(apgName.module.name)
+    if(apgName.module.name == "Data"){
+      var moduleId =  localStorage.getItem('moduleID');
+      const templateAccessPoint = {
+        "name": "",
+        "description": "",
+        "moduleId": moduleId,
+        "data": {
+          "sectionType": "DATA",
+          "unit": " ",
+          "inputType": this.selectedRadio,
+          "inputTypeProperties": {
+            "name": "",
+            "min": "",
+            "max": "",
+            "options": [
+              ""
+          ]
+         }
+        }
+      }
+      this.templateAccessPointGroup = templateAccessPoint
+      this.dataApCreate= true;
+      this.ismodule = false;
+      this.apCreate = false;
+    }else if(apgName.module.name=="Assessment"||apgName.module.name == "Evaluation"){
+      this.apCreate = true;
+    }
+
+    setTimeout(() => {
+      this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+    }, 1000);
   }
 
   singleAPG(id, state) {
     this.blockUI.start('Loading...');
-    this._service.getSingleAPG(this.regionID, id)
-      .subscribe((res: any) => {
-        this.blockUI.stop();
-        console.log('editapg', res)
-        this.model = res;
-        if (state == 'share') {
-          console.log(res)
-          this.convertTemplate(res, res._id, res.name);
-        }
-        if (state == 'public') {
-          console.log('public ok')
-          this.publicAPG(res);
-
-        }
-      }, err => {
-        this.blockUI.stop();
-        console.log(err)
-      })
-      setTimeout(() => {
-        this.getEditAccessPoint(this.regionID,this.model.accessPoints)
-      }, 1500);
+    setTimeout(() => {
+      this._service.getSingleAPG(this.regionID, id)
+        .subscribe((res: any) => {
+          this.blockUI.stop();
+          console.log('editapg', res)
+          this.model = res;
+          if (state == 'share') {
+            console.log(res)
+            this.convertTemplate(res, res._id, res.name);
+          }
+          if (state == 'public') {
+            console.log('public ok')
+            this.publicAPG(res);
+  
+          }
+        }, err => {
+          this.blockUI.stop();
+          console.log(err)
+        })
+    }, 10);
+      // setTimeout(() => {
+        // }, 1500);
   }
 
   // getAllTemplate(){
@@ -1583,35 +1619,32 @@ export class ApgComponent implements OnInit, OnDestroy {
   radioSelect(type) {
     this.selectedRadio = type;
     this.templateAccessPointGroup.data.inputType=type;
-    if(type == "Radio"){
+    if(type == "RADIO"){
       this.templateAccessPointGroup.data.unit="";
       this.templateAccessPointGroup.data.inputTypeProperties.min="";
       this.templateAccessPointGroup.data.inputTypeProperties.max="";
-      console.log("Radio")
-    }else if(type == "Number"){
+    }else if(type == "NUMBER"){
       this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
       this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[''];
       this.templateAccessPointGroup.data.inputTypeProperties.min="";
       this.templateAccessPointGroup.data.inputTypeProperties.max="";
-      console.log("Number")
     }else{
       this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
       this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[""];
       this.templateAccessPointGroup.data.unit="";
-      console.log("Range")
     }
   }
   
   checkValidation(arr){
     var apgName = this.model.name
     // console.log(apgName)
-    if(this.selectedRadio == 'Radio'|| apgName.length == 0){
+    if(this.selectedRadio == 'RADIO'|| apgName.length == 0){
       if(arr.includes("")){
         this.valid = false;
       }else{
         this.valid = true
       }
-    }else if(this.selectedRadio == "Number"|| apgName.length == 0){
+    }else if(this.selectedRadio == "NUMBER"|| apgName.length == 0){
       if(this.templateAccessPointGroup.data.unit == ""){
         this.valid = false;
       }else{
@@ -1627,11 +1660,17 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     }
   }
-  getEditAccessPoint(reginId,accesPointId){
+  getEditAccessPoint(reginId,accesPointId,apgName){
+
     this._service.getAccessPoint(reginId,accesPointId)
     .subscribe((res: any) => {
       console.log(res)
-      this.templateAccessPointGroup = res
+      if(apgName == "Data"){
+        this.templateAccessPointGroup = res;
+      }else{
+        this.templateAccessPointGroup=[];
+        this.templateAccessPointGroup = [res]
+      }
     }, err => {
       console.log(err)
     })

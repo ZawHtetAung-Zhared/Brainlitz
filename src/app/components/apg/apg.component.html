@@ -52,7 +52,7 @@
         <div class="d-flex justify-content-between btn-section">
           <button class="apg-share remove-outline" (click)="apgPublicShare(apg._id)">Share</button>
           <div>
-            <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id)">Edit</button> | <button class="btn-action remove-outline"
+            <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id,apg)">Edit</button> | <button class="btn-action remove-outline"
               (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
           </div>
         </div>
@@ -163,7 +163,7 @@
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
                   </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
-                    class="requirement-name" [(ngModel)]="test.requirement" required (input)="autoResize($event,i)"></textarea>
+                    class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i)"></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
                     (click)="subAccessPointClear(test,item,i,x)"></div>
@@ -195,7 +195,7 @@
         </div>
       </div>
     </form>
-    <div *ngIf="iscreate == true && dataApCreate">
+    <div *ngIf="iscreate == true && dataApCreate == true ">
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
           <div class="d-flex justify-content-between">
@@ -232,7 +232,7 @@
           </div>
           <div class="radio-group">
             <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'Number'" (click)="radioSelect('Number')">
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'NUMBER'" (click)="radioSelect('NUMBER')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
 
@@ -246,7 +246,7 @@
             </div>
 
             <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')"> -->
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'Range'" (click)="radioSelect('Range')">
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'RANGE'" (click)="radioSelect('RANGE')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
 
@@ -257,7 +257,7 @@
               </div>
 
             </div>
-            <div class="type-input" [class.activeRadio]="selectedRadio == 'Radio'" (click)="radioSelect('Radio')">
+            <div class="type-input" [class.activeRadio]="selectedRadio == 'RADIO'" (click)="radioSelect('RADIO')">
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
                 <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
@@ -273,7 +273,7 @@
 
         </div>
         <div class="input-result">
-          <div *ngIf="selectedRadio == 'Number'">
+          <div *ngIf="selectedRadio == 'NUMBER'">
             <div class="form-group ">
                 <div class="d-flex justify-content-between">
                     <label class="form-title input-label" for="address">Measurement unit</label>
@@ -281,9 +281,9 @@
                       <span>{{wordLength}}/6characters</span>
                     </div>
                   </div>
-                <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                  maxlength="6" [(ngModel)]="templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
-                  (input)="changeMethod($event.target.value)" required #input_method="ngModel">
+                    <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
+                      maxlength="6" [(ngModel)]="templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
+                      (input)="changeMethod($event.target.value)" required #input_method="ngModel">
                 <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
                   <div [hidden]="!input_method.errors.required">
                     Measurement unit is required!
@@ -291,10 +291,10 @@
                 </div>
               </div>
           </div>
-          <div *ngIf="selectedRadio == 'Range'">
+          <div *ngIf="selectedRadio == 'RANGE'">
             Slider
           </div>
-          <div *ngIf="selectedRadio == 'Radio'">
+          <div *ngIf="selectedRadio == 'RADIO'">
            <h4 class="data-list-title"> Data list</h4>
             <div *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options;let i=index;trackBy:trackByFn">
               <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
@@ -416,7 +416,7 @@
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>
       </div>
-      <div *ngIf="dataApg == 'Data'">
+      <!-- <div *ngIf="dataApg == 'Data'">
 
         <div class="col-md-8 input-wrap">
           <div class="form-group">
@@ -446,11 +446,6 @@
             <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
               [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
               (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea>
-            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
-              <div [hidden]="!description.errors.required">
-                Description is required!
-              </div>
-            </div> -->
           </div>
         </div>
         <div class="d-flex justify-content-end form-footer">
@@ -460,7 +455,7 @@
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>
-      </div>
+      </div> -->
       <div *ngIf="shareAPG == true">
         <div class="input-group w-100">
           <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="template-search-input"
