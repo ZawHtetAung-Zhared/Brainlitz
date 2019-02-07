@@ -98,6 +98,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public dragOut: boolean = false;
   public stillDrag: boolean = false;
   public selectedRadio = "input-box"
+  public groupNumber : number = 0;
   constructor(private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager, public vcr: ViewContainerRef,
@@ -118,11 +119,16 @@ export class ApgComponent implements OnInit, OnDestroy {
       // $(original).hide()
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
-    })
-
+    })  
+    if(this.dragulaService.find("COLUMNS") ==undefined)
     this.dragulaService.createGroup("COLUMNS", {
       direction: 'vertical',
       moves: (el, source, handle) => handle.className === "group-handle"
+    });
+    if(this.dragulaService.find("0") ==undefined)
+    this.dragulaService.createGroup("0", {
+      direction: 'vertical',
+      moves: (el, source, handle) => handle.className === "move-sign"
     });
     this.toastr.setRootViewContainerRef(vcr);
 
@@ -140,9 +146,17 @@ export class ApgComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    console.log(this.dragulaService.destroy("COLUMNS"))
+  this.dragulaService.destroy("COLUMNS");
+    for(var i=0; i<this.groupNumber ; i++){
+
+     
+      console.log(this.dragulaService.destroy(String(i))); ;
+            var dd = this.dragulaService.find(String(i))
+            console.log("----------------->" , dd)
+      console.log("<<<<<<---------------->" , dd)
+    }
   }
-  
+
   ngOnInit() {
     // this.dragulaService
     //   .drag("COLUMNS")
@@ -264,7 +278,6 @@ export class ApgComponent implements OnInit, OnDestroy {
               var containerTop = container[0].getBoundingClientRect().top;
               // console.log(ddd , y)
               if (ddd - y <= 70) {
-                console.log(ddd)
                 var ele = container[0];
                 // setTimeout(function(){
                 ele.scrollTop += 20
@@ -496,15 +509,18 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
-  trackByFn(index: any, item: any) {
-    return index;
- }
-  addDataValue(){
+  addDataValue(data,i){
     const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
+    console.log(data)
+    console.warn(JSON.stringify(data))
   }
   dataValueClear(item){
+    console.warn(item)
     this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
+    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
+
   }
 
   createNewAPG(status, name) {
@@ -650,6 +666,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   mainAccessPointAdd() {
     // let testObj = {
     // }
+    this.groupNumber += 1;
     const templateAccessPoint = {
       "name": "",
       "description": "",
@@ -674,6 +691,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     console.log(templateAccessPoint);
     this.templateAccessPointGroup.push(templateAccessPoint)
+    this.dragulaService.createGroup(String(this.groupNumber), {
+      direction: 'vertical',
+      moves: (el, source, handle) => handle.className === "move-sign"
+    });
   }
 
   subAccessPointAdd(skillBlog, i) {
@@ -690,6 +711,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.scrollCalculation(skillBlog, i)
     }, 200);
+    
   }
 
 
@@ -791,9 +813,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(item.options)
 
     setTimeout(() => {
-      // this.addScrollOncheckMarkToggle(skillObjId, item.options);
-      this.scrollCalculation(item,skillObjId)
-      console.log('###test',item,skillObjId)
+      this.addScrollOncheckMarkToggle(skillObjId, item.options);
       // if(item.options){
       //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
       //   console.log(skillHeader.clientHeight)
@@ -801,7 +821,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
       //   console.log(skillHeader.clientHeight)
       // }
-    },200)
+    })
 
   }
 
