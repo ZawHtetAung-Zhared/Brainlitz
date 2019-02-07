@@ -1003,6 +1003,9 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.blockUI.stop();
         console.log(err)
       })
+      setTimeout(() => {
+        this.getEditAccessPoint(this.regionID,this.model.accessPoints)
+      }, 1500);
   }
 
   // getAllTemplate(){
@@ -1623,5 +1626,14 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.valid =true;
       }
     }
+  }
+  getEditAccessPoint(reginId,accesPointId){
+    this._service.getAccessPoint(reginId,accesPointId)
+    .subscribe((res: any) => {
+      console.log(res)
+      this.templateAccessPointGroup = res
+    }, err => {
+      console.log(err)
+    })
   }
 }

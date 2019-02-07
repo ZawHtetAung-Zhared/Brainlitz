@@ -1754,6 +1754,21 @@ export class appService{
       })
     } 
 
+    getAccessPoint(regionId:string,AP_ID:Array<any>){
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+          'Content-Type': 'application/json', 
+          'authorization': this.tokenType + ' ' + this.accessToken})
+    };
+    return this.httpClient.get(apiUrl, httpOptions)
+    .map((res:Response) => {
+      let result = res;  
+      return result;
+    })
+    }
+
     createAPG2(id: string, locationid:string, data:Object, moduleId: string): Observable<any>{
       console.log(data)
       this.getLocalstorage();
