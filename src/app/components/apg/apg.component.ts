@@ -189,6 +189,22 @@ export class ApgComponent implements OnInit, OnDestroy {
     //     }
     //     // this.msg = `Dragging the ${value[1].innerText}!`;
     //   });
+   
+    this.dragulaService.createGroup("data_COLUMNS", {
+      direction: 'vertical',
+      moves: (el, source, handle) => handle.className === "move-sign",
+      
+      // invalid: function (el, handle) {
+      //   return false; // don't prevent any drags from initiating by default
+      // }
+      // revertOnSpill
+      // accepts : (el,target) => console.log(el,target)
+    });
+    this.dragulaService.cloned("data_COLUMNS").subscribe(({name,clone,original,cloneType})=>{
+        $(clone).height(70)
+        $(clone).width(460)
+        $(clone).children(".data-close").remove();
+    })
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
@@ -303,6 +319,8 @@ export class ApgComponent implements OnInit, OnDestroy {
         // }
         //   }
         // })
+      }else if(name == "data_COLUMNS"){
+        
       }
       else {
         console.log("other than")

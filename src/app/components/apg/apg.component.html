@@ -338,9 +338,9 @@
           </div>
           <div *ngIf="selectedRadio == 'Radio'">
             <h4 class="data-list-title"> Data list</h4>
-            <div *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options;let i=index;trackBy:trackByFn">
+            <div dragula="data_COLUMNS" *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options;let i=index;trackBy:trackByFn" [(dragulaModel)]="templateAccessPointGroup.data.inputTypeProperties.options">
               <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
-              <div class="d-flex">
+              <div class="d-flex selection-wrapper">
                 <span class="pr-3 img-wrapper">
                   <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
                   <img class="move-sign" src="../../../assets/images/single-holder.svg">

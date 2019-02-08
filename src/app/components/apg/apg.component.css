@@ -1047,6 +1047,9 @@ input:checked+.slider:before {
   transform: translate(0, -50%);
   cursor:all-scroll;
 }
+.selection-wrapper.gu-transit{
+  display:none;
+}
 .requirement.gu-transit{
   opacity: 0;
 }
