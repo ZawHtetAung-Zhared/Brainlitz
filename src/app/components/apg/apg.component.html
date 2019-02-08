@@ -206,7 +206,6 @@
               <span>{{wordLength}}/60characters</span>
             </div>
           </div>
-          {{model|json}}
           <input type="text" class="form-control create-input" placeholder="Type preffered name here" name="name"
             maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
             (input)="changeMethod($event.target.value)" required #name="ngModel">
