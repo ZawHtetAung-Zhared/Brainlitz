@@ -321,24 +321,6 @@
 
                 <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
                    <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
-<<<<<<< HEAD
-
-                <input *ngIf="emptymin == true || emptymax ==true" type="range" class="max-range-box" min="0" max="100"
-                  disabled=true value="0" id="apg_rangeId">
-
-                <div class="divslider">
-                  <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
-                  <input *ngIf="emptymin == false && emptymax ==false" type="range" class="max-range-box" min="{{minValue}}"
-                    max="{{maxValue}}" value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)"
-                    [(ngModel)]="rangeHr">
-                  <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
-                </div>
-
-
-                <input type="number" class="max_input" placeholder="Max" [(ngModel)]="maxValue" (input)="chkValue($event.target.value,'max')"
-                  required #max_method="ngModel">
-
-=======
                          
                    <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
                    
@@ -351,7 +333,6 @@
 
                   <input type="number" class="max_input" placeholder="Max" [(ngModel)] = "maxValue" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
                  
->>>>>>> 8f78102b281cecbee572c63e8ac51d62823b9203
               </label>
             </div>
 
