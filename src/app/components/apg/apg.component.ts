@@ -1,3 +1,4 @@
+import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
@@ -103,7 +104,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   public groupNumber : number = 0;
 
-  public selectedRadio = "input-box"
+  public selectedRadio = "NUMBER"
   minValue:any="" ;
   maxValue:any="";
   exitValue:any;
@@ -128,18 +129,27 @@ export class ApgComponent implements OnInit, OnDestroy {
       // $(original).hide()
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
-    })  
-    if(this.dragulaService.find("COLUMNS") ==undefined)
-    this.dragulaService.createGroup("COLUMNS", {
-      direction: 'vertical',
-      moves: (el, source, handle) => handle.className === "group-handle" ,
-      // accepts : (el,target) => console.log(el,target)
-    });
-    if(this.dragulaService.find("0") ==undefined)
-    this.dragulaService.createGroup("0", {
-      direction: 'vertical',
-      moves: (el, source, handle) => handle.className === "move-sign"
-    });
+    })
+    //  this.dragulaService.
+    if (this.dragulaService.find("COLUMNS") == undefined)
+      this.dragulaService.createGroup("COLUMNS", {
+        direction: 'vertical',
+        moves: (el, source, handle) => handle.className === "group-handle",
+        // invalid: function (el, handle) {
+        //   return false; // don't prevent any drags from initiating by default
+        // }
+        // revertOnSpill
+        // accepts : (el,target) => console.log(el,target)
+      });
+    if (this.dragulaService.find("0") == undefined)
+      this.dragulaService.createGroup("0", {
+        direction: 'vertical',
+        moves: (el, source, handle) => handle.className === "move-sign"
+      });
+    this.dragulaService.drop("COLUMNS").subscribe(({ el, target, source, sibling }) => {
+
+      $(target).append($(".add-new-skill"))
+    })
     this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe((data) => {
@@ -156,17 +166,15 @@ export class ApgComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-  this.dragulaService.destroy("COLUMNS");
-    for(var i=0; i<this.groupNumber ; i++){
-
-     
-      console.log(this.dragulaService.destroy(String(i))); ;
-            var dd = this.dragulaService.find(String(i))
-            console.log("----------------->" , dd)
-      console.log("<<<<<<---------------->" , dd)
-    }
+    this.dragulaService.destroy("COLUMNS");
+    for (var i = 0; i < this.groupNumber; i++)
+      var dd = this.dragulaService.find(String(i))
   }
-
+  testFunct() {
+    var stillDragInTestFunc = this.stillDrag;
+    // return this.stillDrag;
+    // return this.stillDrag;
+  }
   ngOnInit() {
     // this.dragulaService
     //   .drag("COLUMNS")
@@ -181,6 +189,22 @@ export class ApgComponent implements OnInit, OnDestroy {
     //     }
     //     // this.msg = `Dragging the ${value[1].innerText}!`;
     //   });
+   
+    this.dragulaService.createGroup("data_COLUMNS", {
+      direction: 'vertical',
+      moves: (el, source, handle) => handle.className === "move-sign",
+      
+      // invalid: function (el, handle) {
+      //   return false; // don't prevent any drags from initiating by default
+      // }
+      // revertOnSpill
+      // accepts : (el,target) => console.log(el,target)
+    });
+    this.dragulaService.cloned("data_COLUMNS").subscribe(({name,clone,original,cloneType})=>{
+        $(clone).height(70)
+        $(clone).width(460)
+        $(clone).children(".data-close").remove();
+    })
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
@@ -206,65 +230,99 @@ export class ApgComponent implements OnInit, OnDestroy {
       //     })
       //   }
       // } else {
-        console.log(name)
-        if(name === "COLUMNS"){
-          // console.log(this.stillDrag=true)
-          // console.log("fackup")
-          // var _this = this;
-          // var _this = this;
-          this.stillDrag = true;
-          var stillDrag = this.stillDrag
-
-          var windowBottom =  window.innerHeight - $('.form-footer').outerHeight()
-          document.addEventListener("mousemove", function (event) {
-            document.addEventListener("mouseup", function (event) {
-              stillDrag = false;
-            })
-            if (stillDrag) {
+      console.log(name)
+      if (name === "COLUMNS") {
+        // console.log(this.stillDrag=true)
+        // console.log("fackup")
+        // var _this = this;
+        // var _this = this;
+        this.stillDrag = true;
+        // var _this = this;
+        // var stillDrag = this.stillDrag
+        // var still1Drag = this.testFunct();
+        // var windowBottom = window.innerHeight - $('.form-footer').outerHeight();
+        // document.addEventListener("mouseup", function (event) {
+        //   stillDrag = false;
+        // })
+        document.addEventListener("mousemove", this.testFunct = () => {
+          // console.log(this.stillDrag)
+          if (this.stillDrag) {
+            setTimeout(function(){
               var container = $(el).parents(".requirements-wrapper")[0];
-              
               var y = $(".gu-mirror").position().top;
-              var dragHeight = y +  $(".gu-mirror").height();
-              var dropHeight = $(container).position().top +  $(container).height()
-              // console.log( $(container).position().top  , y)
-              if(dropHeight - dragHeight < 20){
-                container.scrollTop +=60;
+              // console.log( container.getBoundingClientRect().top , y)
+              var dragHeight = y + $(".gu-mirror").height();
+              var dropHeight = $(container).position().top + $(container).height()
+              // console.log(dragHeight , dropHeight)
+              // var ele = container;
+              // console.log(dragHeight , dropHeight)
+              if( y - $(container).position().top  < 10){
+                container.scrollTop -= 10;
+                // if (ele.scrollTop == 0) {
+                //   $(ele).prepend(el)
+                // }
+              }else if(dropHeight - dragHeight< 10){
+                container.scrollTop += 10;
+                // if (ele.scrollHeight == ele.scrollTop + container.height()) {
+                //   $(ele).append(el)
+                // }
               }
-              else if( $(container).position().top - y< 20 ){
-                container.scrollTop -= 60;
-              }
-              // console.log($(container).height())
-              // console.log(container.offsetHeight)
-              // console.log($( container))
-              // console.log(stillDrag)
-              // var y = $(".gu-mirror").position().top;
-              // console.log($(".gu-mirror").height())
-              // var dragHeight =  $(".gu-mirror").position().top + $(".gu-mirror").height();
-              // if(container.length >0){
-              //   // var ddd = container[0].offsetTop +  $(container[0]).offsetHeight;
-              //   // console.log(window.innerHeight)
-              //   // console.log( $(container))
-
-              //   // console.log($('.form-footer'))
-              //   console.log(dragHeight)
-              //   console.log(window.innerHeight - $('.form-footer').height())
-              //   if ( window.innerHeight - $('.form-footer').height() == dragHeight) {
-              //     console.log("Scroll down")
-              //     var ele = container[0];
-              //   // setTimeout(function(){
-              //    ele.scrollTop += 20,
-              //     console.log(container[0])
-              //   // if (ele.scrollHeight == ele.scrollTop + container.height()) {
-              //   //   $(ele).append(el)
-              //   // }
-              //   // }, 300);
-              //   console.log(ele.scrollTop)
-              //   }
-              // }
-            }
-          })
+            })
+          }
         }
-        else{
+          , false);
+
+        // document.addEventListener("mousemove", function (still1Drag) {
+        //   console.log(still1Drag)
+        //   if (stillDrag) {
+
+        //     var container = $(el).parents(".requirements-wrapper")[0];
+        //     var y = $(".gu-mirror").position().top;
+        //     // console.log( container.getBoundingClientRect().top , y)
+
+        //     var dragHeight = y +  $(".gu-mirror").height();
+        //     var dropHeight = $(container).position().top +  $(container).height()
+        //     // console.log( $(container).position().top  , y)
+        //     if(dropHeight - dragHeight < 10){
+        //       container.scrollTop +=30;
+        //     }
+        //     else if( container.getBoundingClientRect().top - y < 10 ){
+        //       container.scrollTop -= 30;
+        //     }
+        // console.log($(container).height())
+        // console.log(container.offsetHeight)
+        // console.log($( container))
+        // console.log(stillDrag)
+        // var y = $(".gu-mirror").position().top;
+        // console.log($(".gu-mirror").height())
+        // var dragHeight =  $(".gu-mirror").position().top + $(".gu-mirror").height();
+        // if(container.length >0){
+        //   // var ddd = container[0].offsetTop +  $(container[0]).offsetHeight;
+        //   // console.log(window.innerHeight)
+        //   // console.log( $(container))
+
+        //   // console.log($('.form-footer'))
+        //   console.log(dragHeight)
+        //   console.log(window.innerHeight - $('.form-footer').height())
+        //   if ( window.innerHeight - $('.form-footer').height() == dragHeight) {
+        //     console.log("Scroll down")
+        //     var ele = container[0];
+        //   // setTimeout(function(){
+        //    ele.scrollTop += 20,
+        //     console.log(container[0])
+        //   // if (ele.scrollHeight == ele.scrollTop + container.height()) {
+        //   //   $(ele).append(el)
+        //   // }
+        //   // }, 300);
+        //   console.log(ele.scrollTop)
+        //   }
+        // }
+        //   }
+        // })
+      }else if(name == "data_COLUMNS"){
+        
+      }
+      else {
         console.log("other than")
         this.stillDrag = true;
 
@@ -272,6 +330,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         var stillDrag = this.stillDrag;
         document.addEventListener("mousemove", function (event) {
           if (stillDrag) {
+            // event.preventDefault();
             // console.log($(event.target).parents(".requirement"))
             // console.log(event.pageY)
             // console.log($(el))
@@ -336,7 +395,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
       $(clone).children(".img-wrapper").empty()
-      $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);"/>')
+      $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
+      // console.log( $(clone).children(".img-wrapper").children())
     })
     this.dragulaService.over().subscribe(({ name, el, container, source }) => {
 
@@ -453,6 +513,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.model = {};
     this.apCreate = false;
     this.iscreate = false;
+    this.dataApCreate = false;
     this.ismodule = false;
     this.isUpdate = false;
     this.shareAPG = false;
@@ -519,6 +580,10 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
+
+  trackByFn(index, item) {
+    return index; 
+  }
   addDataValue(data,i){
     const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
@@ -526,7 +591,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(data)
     console.warn(JSON.stringify(data))
   }
-  dataValueClear(item){
+  dataValueClear(item) {
     console.warn(item)
     this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
     console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
@@ -554,7 +619,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               "passMark": 0,
               "details": [
                 {
-                  "requirement": "",
+                  "name": "",
                   "options": [
                     ""
                   ]
@@ -576,9 +641,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           "description": "",
           "moduleId": moduleId,
           "data": {
-            "sectionType": "Data",
+            "sectionType": "DATA",
             "unit": "",
-            "inputType": "",
+            "inputType": this.selectedRadio,
             "inputTypeProperties": {
               "name": "",
               "min": "",
@@ -684,7 +749,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           "passMark": Number,
           "details": [
             {
-              "requirement": "",
+              "name": "",
               "options": [
                 ""
               ]
@@ -695,22 +760,26 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     console.log(templateAccessPoint);
     this.templateAccessPointGroup.push(templateAccessPoint)
-    if(this.dragulaService.find(String(this.groupNumber)) ==undefined)
+    if (this.dragulaService.find(String(this.groupNumber)) == undefined)
 
       this.dragulaService.createGroup(String(this.groupNumber), {
         direction: 'vertical',
         moves: (el, source, handle) => handle.className === "move-sign"
-      // });
-    })
-    
+        // invalid: function (el, handle) {
+        //   console.log(el,handle)
+        //   return false; // don't prevent any drags from initiating by default
+        // },
+        // });
+      })
+
   }
 
   subAccessPointAdd(skillBlog, i) {
 
     console.log(this.templateAccessPointGroup)
-    console.log('~~~~~~~~', i,skillBlog)
+    console.log('~~~~~~~~', i, skillBlog)
     let req = {
-      "requirement": "",
+      "name": "",
       "options": [
         ""
       ]
@@ -728,12 +797,12 @@ export class ApgComponent implements OnInit, OnDestroy {
   subAccessPointClear(item,skillblog,id,x){
     // setTimeout(() => {
     //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
-      
+
     // }, 0);
-    this.templateAccessPointGroup[id].data.evaluation.details.splice(x,1);
+    this.templateAccessPointGroup[id].data.evaluation.details.splice(x, 1);
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
-    this.scrollCalculation(skillblog,id);
+    this.scrollCalculation(skillblog, id);
   }
 
   focusAdd(length,idx){
@@ -749,31 +818,31 @@ export class ApgComponent implements OnInit, OnDestroy {
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
     var req_total_height=0;
 
-    for(var j=0;j<skillObj.data.evaluation.details.length;j++){
-      const requirement: HTMLElement = document.getElementById('requirement'+j);
-      req_total_height+=requirement.clientHeight;
+    for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
+      const requirement: HTMLElement = document.getElementById('requirement' + j);
+      req_total_height += requirement.clientHeight;
       console.log(req_total_height);
     }
 
-    var totalHeight=skillHeader.clientHeight+skillFooter.clientHeight+req_total_height;
-    var inboxHight=400-(skillHeader.clientHeight+skillFooter.clientHeight);
+    var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + req_total_height;
+    var inboxHight = 400 - (skillHeader.clientHeight + skillFooter.clientHeight);
 
     console.log(totalHeight);
 
-    if(totalHeight < 400){
+    if (totalHeight < 400) {
       console.log("less than 400")
       skillHeight.setAttribute("style", "height: auto;");
-      innerBoxHeight.setAttribute("style","height:auto;overflow:none;")
-      this.templateAccessPointGroup[skillId].upDownOptions=false;
-      this.templateAccessPointGroup[skillId].upOptions=false;
-      this.templateAccessPointGroup[skillId].DownOptions=false;
-    }else{
+      innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
+      this.templateAccessPointGroup[skillId].upDownOptions = false;
+      this.templateAccessPointGroup[skillId].upOptions = false;
+      this.templateAccessPointGroup[skillId].DownOptions = false;
+    } else {
       console.log("greater than 400")
       skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style","height:"+inboxHight+"px;overflow:overlay;")        
-      this.templateAccessPointGroup[skillId].upDownOptions=true;
-      this.templateAccessPointGroup[skillId].upOptions=false;
-      this.templateAccessPointGroup[skillId].DownOptions=true;
+      innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
+      this.templateAccessPointGroup[skillId].upDownOptions = true;
+      this.templateAccessPointGroup[skillId].upOptions = false;
+      this.templateAccessPointGroup[skillId].DownOptions = true;
     }
   }
 
@@ -935,19 +1004,21 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   createDataAccessPoint(){
-    this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
-    .subscribe((res: any) => {
-      this.AccessPoint = res._id 
-      console.log(res._id)
-    }, err => {
-      this.toastr.error('Created AP Fail');
-      console.log(err)
-    });
+    return new Promise((resolve,reject)=>{
+      this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
+      .subscribe((res: any) => {
+       resolve(this.AccessPoint = res._id ) 
+        console.log(res._id)
+      }, err => {
+        this.toastr.error('Created AP Fail');
+        reject(err)
+        console.log(err)
+      });
+    })
   }
 
   createDataApg(){
-    this.createDataAccessPoint();
-    setTimeout(() => {
+    this.createDataAccessPoint().then(res => {
       var moduleId = localStorage.getItem('moduleID');
       var apg = {
         "name": this.model.name,
@@ -961,9 +1032,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       },err =>{
         this.toastr.error('Created APG Fail');
       })
-    }, 1000);
-      
 
+    }).catch((err) => {
+      console.log(err); // never called
+    });
   }
 
   createapgs(data, update) {
@@ -1015,37 +1087,79 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.singleAPG(apgID, 'share');
   }
 
-  onclickUpdate(id) {
+  onclickUpdate(id,apgName) {
     console.log(id)
     this.apgList = [];
-    this.singleAPG(id, 'update');
-    this.iscreate = true;
-    this.isUpdate = true;
+      this.iscreate = true;
+      this.isUpdate = true;
+      if(apgName.module.name == "Data"){
+        var moduleId =  localStorage.getItem('moduleID');
+        const templateAccessPoint = {
+          "name": "",
+          "description": "",
+          "moduleId": moduleId,
+          "data": {
+            "sectionType": "DATA",
+            "unit": " ",
+            "inputType": this.selectedRadio,
+            "inputTypeProperties": {
+              "name": "",
+              "min": "",
+              "max": "",
+              "options": [
+                ""
+            ]
+           }
+          }
+        }
+        this.templateAccessPointGroup = templateAccessPoint;
+        this.dataApCreate= true;
+        this.ismodule = false;
+        this.apCreate = false;
+      }else if(apgName.module.name=="Assessment"||apgName.module.name == "Evaluation"){
+        this.apCreate = true;
+      }
+    return new Promise((resolve,reject)=>{
+      this.singleAPG(id, 'update');
+      setTimeout(() => {
+        resolve(this.model.acccessPoints)
+      }, 300);
+    }).then(res => {
+      this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+    }).catch((err) => {
+      console.log(err); // never called
+    });
+    
+
+    // setTimeout(() => {
+    //   this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+    // }, 1000);
   }
 
   singleAPG(id, state) {
     this.blockUI.start('Loading...');
-    this._service.getSingleAPG(this.regionID, id)
-      .subscribe((res: any) => {
-        this.blockUI.stop();
-        console.log('editapg', res)
-        this.model = res;
-        if (state == 'share') {
-          console.log(res)
-          this.convertTemplate(res, res._id, res.name);
-        }
-        if (state == 'public') {
-          console.log('public ok')
-          this.publicAPG(res);
-
-        }
-      }, err => {
-        this.blockUI.stop();
-        console.log(err)
-      })
-      setTimeout(() => {
-        this.getEditAccessPoint(this.regionID,this.model.accessPoints)
-      }, 1500);
+    setTimeout(() => {
+      this._service.getSingleAPG(this.regionID, id)
+        .subscribe((res: any) => {
+          this.blockUI.stop();
+          console.log('editapg', res)
+          this.model = res;
+          if (state == 'share') {
+            console.log(res)
+            this.convertTemplate(res, res._id, res.name);
+          }
+          if (state == 'public') {
+            console.log('public ok')
+            this.publicAPG(res);
+  
+          }
+        }, err => {
+          this.blockUI.stop();
+          console.log(err)
+        })
+    }, 10);
+      // setTimeout(() => {
+        // }, 1500);
   }
 
   // getAllTemplate(){
@@ -1623,35 +1737,32 @@ export class ApgComponent implements OnInit, OnDestroy {
   radioSelect(type) {
     this.selectedRadio = type;
     this.templateAccessPointGroup.data.inputType=type;
-    if(type == "Radio"){
+    if(type == "RADIO"){
       this.templateAccessPointGroup.data.unit="";
       this.templateAccessPointGroup.data.inputTypeProperties.min="";
       this.templateAccessPointGroup.data.inputTypeProperties.max="";
-      console.log("Radio")
-    }else if(type == "Number"){
+    }else if(type == "NUMBER"){
       this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
       this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[''];
       this.templateAccessPointGroup.data.inputTypeProperties.min="";
       this.templateAccessPointGroup.data.inputTypeProperties.max="";
-      console.log("Number")
     }else{
       this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
       this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[""];
       this.templateAccessPointGroup.data.unit="";
-      console.log("Range")
     }
   }
   
   checkValidation(arr){
     var apgName = this.model.name
     // console.log(apgName)
-    if(this.selectedRadio == 'Radio'|| apgName.length == 0){
+    if(this.selectedRadio == 'RADIO'|| apgName.length == 0){
       if(arr.includes("")){
         this.valid = false;
       }else{
         this.valid = true
       }
-    }else if(this.selectedRadio == "Number"|| apgName.length == 0){
+    }else if(this.selectedRadio == "NUMBER"|| apgName.length == 0){
       if(this.templateAccessPointGroup.data.unit == ""){
         this.valid = false;
       }else{
@@ -1667,14 +1778,33 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     }
   }
-  getEditAccessPoint(reginId,accesPointId){
-    this._service.getAccessPoint(reginId,accesPointId)
-    .subscribe((res: any) => {
-      console.log(res)
-      this.templateAccessPointGroup = res
-    }, err => {
-      console.log(err)
-    })
+  getEditAccessPoint(reginId,accesPointId,apgName){
+    if(apgName == "Data"){
+      this._service.getAccessPoint(reginId,accesPointId)
+      .subscribe((res: any) => {
+        console.log(res)
+        if(apgName == "Data"){
+          this.templateAccessPointGroup = res;
+        }else{
+          this.templateAccessPointGroup=[];
+          this.templateAccessPointGroup = [res]
+        }
+      }, err => {
+        console.log(err)
+      })
+    }else{
+      this.templateAccessPointGroup=[];
+      var tempArray = accesPointId.map(accesPoint=>{
+        this._service.getAccessPoint(reginId,accesPoint)
+        .subscribe((res: any) => {
+          console.log(res)
+            this.templateAccessPointGroup.push(res)
+        }, err => {
+          console.log(err)
+        })
+      })
+    }
+    
   }
 
   ChangedTimeValue(obj){
