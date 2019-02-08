@@ -502,15 +502,10 @@ export class ApgComponent implements OnInit, OnDestroy {
   addDataValue(data,i){
     const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     console.log(data)
-    console.warn(JSON.stringify(data))
   }
   dataValueClear(item) {
-    console.warn(item)
     this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-
   }
 
   createNewAPG(status, name) {
@@ -975,6 +970,28 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(err); // never called
     });
   }
+  //model._Id
+  updateAp(apId,ap,apgId){
+    return new Promise((resolve,reject)=>{
+      this._service.updateAP(this.regionID,apId,ap)
+      .subscribe((res: any) => {
+        console.log(res)
+        resolve(res._id)
+      }), err => {
+      console.log(err)
+    }
+    }).then(accespointId => {
+      this._service.updateAPG(this.regionID, apgId, this.model,null)
+      .subscribe((res: any) => {
+        console.log(res)
+        this.cancelapg()
+      }), err => {
+      console.log(err)
+    }
+    }).catch((err) => {
+      console.log(err); // never called
+    });
+}
 
   createapgs(data, update) {
     console.log(update)
@@ -1775,17 +1792,20 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   ChangedTimeValue(obj){
     console.log(obj)
-    var range = this.maxValue - this.minValue;
-    var position = ((obj - this.minValue) / range) * 100;
+    // var range = this.maxValue - this.minValue;
+    var range =  this.templateAccessPointGroup.data.inputTypeProperties.max - this.templateAccessPointGroup.data.inputTypeProperties.min;
+    // var position = ((obj - this.minValue) / range) * 100;
+    var position = ((obj - this.templateAccessPointGroup.data.inputTypeProperties.min) / range) * 100;
     var positionOffset = Math.round(20 * position / 100) - (20 / 2);
     this.exitValue=obj;
     const box: HTMLElement = document.getElementById('arrowBox');
    
-    if(this.maxValue<this.minValue){
+    if( this.templateAccessPointGroup.data.inputTypeProperties.max< this.templateAccessPointGroup.data.inputTypeProperties.min){
       box.setAttribute("style",'display:none');
     }else{
       box.setAttribute("style",'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
     }
+    console.log(this.templateAccessPointGroup)
   }
   emptymin:boolean = true;
   emptymax:boolean = true;
@@ -1806,7 +1826,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.emptymax = true;
       }
     }
-    if(this.maxValue<=this.minValue){
+    if( this.templateAccessPointGroup.data.inputTypeProperties.max<= this.templateAccessPointGroup.data.inputTypeProperties.min){
       this.overmin=true;
     }else{
       this.overmin=false;
