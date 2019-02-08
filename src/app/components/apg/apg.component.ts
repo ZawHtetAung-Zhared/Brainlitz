@@ -109,6 +109,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   minValue:any="" ;
   maxValue:any="";
   exitValue:any;
+  isEmpty:boolean = true;
+  delItem:any;
 
   constructor(private modalService: NgbModal,
     private _service: appService,
@@ -438,6 +440,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.templateAccessPointGroup = []
 
     this.getAllAPG(20, 0);
+
+    this.formObj = {};
   }
   // cancelAp() {
   //   this.apgList = [];
@@ -513,6 +517,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  formObj ={};
   createNewAPG(status, name) {
     console.log("Create new APg", name)
     if (status == 'create') {
@@ -545,6 +550,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         }
 
         this.templateAccessPointGroup.push(templateAccessPoint)
+        if(this.templateAccessPointGroup.length>0){
+          this.formObj["skillName0"] = "";
+          this.formObj["requirement00"] = "";
+          console.log('formObj~~~',this.formObj);
+          this.checkProperties(this.formObj)
+        }
         // this.iscreate = false;
         this.apCreate = true;
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
@@ -693,6 +704,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     console.log(templateAccessPoint);
     this.templateAccessPointGroup.push(templateAccessPoint)
+    if(this.templateAccessPointGroup.length>0){
+      console.log("length",this.templateAccessPointGroup.length)
+      var l= this.templateAccessPointGroup.length-1;
+      this.formObj["skillName"+l] = "";
+      this.formObj["requirement0"+l] = "";
+      console.log('formObj~~~',this.formObj);
+      this.checkProperties(this.formObj)
+    }
     if (this.dragulaService.find(String(this.groupNumber)) == undefined)
 
       this.dragulaService.createGroup(String(this.groupNumber), {
@@ -707,6 +726,45 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  addInputValue(val,name,i){
+    console.log("val,name",val,name,i)
+    this.formObj[name+i] = val;
+    console.log("adding value to formObj",this.formObj);
+    this.checkProperties(this.formObj)
+  }
+
+  addReqValue(val,name,i,x){
+    console.log("val,name",val,name,i,x);
+    this.formObj[name+x+i] = val;
+    console.log("adding Req value to formObj",this.formObj);
+    this.checkProperties(this.formObj)
+  }
+
+  removeValue(name,i,x,type){
+    if(type=='requirement'){
+      delete this.formObj[name+x+i];
+    }else{
+       delete this.formObj[name+i];
+       for(var k in this.delItem.data.evaluation.details){
+         delete this.formObj['requirement'+k+i];
+       }
+    }
+    console.log("delete value from formObj",this.formObj)
+    this.checkProperties(this.formObj);
+  }
+  
+  checkProperties(obj) {
+    var valueArr = Object.values(obj);
+    console.log(valueArr)
+    if(valueArr.includes("")){
+      this.isEmpty = true;
+      console.log("isEmpty",this.isEmpty)
+    }else{
+      this.isEmpty = false;
+      console.log("isEmpty",this.isEmpty)
+    }
+  }
+
   subAccessPointAdd(skillBlog, i) {
 
     console.log(this.templateAccessPointGroup)
@@ -718,16 +776,23 @@ export class ApgComponent implements OnInit, OnDestroy {
       ]
     };
     this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+    if(this.templateAccessPointGroup.length>0){
+      console.log("length",this.templateAccessPointGroup[i].data.evaluation.details.length)
+      var x= this.templateAccessPointGroup[i].data.evaluation.details.length-1;
+      this.formObj["requirement"+x+i] = "";
+      console.log('formObj~~~',this.formObj);
+    }
     // this.addscrollEvent(skillBlog,i);
     setTimeout(() => {
       this.scrollCalculation(skillBlog, i);
       this.focusAdd(skillBlog.data.evaluation.details.length,i)
     }, 200);
+    this.checkProperties(this.formObj)
     // this.focusAdd(skillBlog.data.evaluation.details.length,i)
     
   }
    
-  subAccessPointClear(item,skillblog,id,x){
+  subAccessPointClear(item,skillblog,id,x,name){
     // setTimeout(() => {
     //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
 
@@ -736,11 +801,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
     this.scrollCalculation(skillblog, id);
+    this.removeValue(name,id,x,'requirement')
   }
 
   focusAdd(length,idx){
     var l = length - 1;
-    console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
+    // console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
     document.getElementById('box' + l + idx).focus();
   }
 
@@ -819,11 +885,15 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("dar")
   }
 
+  mainAccessPointClear(item,idx,name) {
+    this.delItem = item
 
-  mainAccessPointClear(item) {
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-  }
+    this.removeValue(name,idx,'','skill')
 
+    // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+    // this.removeValue(name,idx,'','skill')
+  }
   checkMarkToggle(item, skillObjId) {
     // this.isGlobal = !this.isGlobal
     item.options = !item.options;
@@ -1633,7 +1703,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-  autoResize(e, id) {
+  autoResize(e, id,name,x) {
     console.log(e.target.style)
     console.log(e.target.scrollHeight)
     e.target.style.cssText = 'height:auto';
@@ -1657,6 +1727,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
       console.log("over 400")
     }
+
+    this.addReqValue(e.target.value,name,id,x)
   }
   minAndMax(e, value, index) {
 

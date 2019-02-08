@@ -114,7 +114,7 @@
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
   </div>
   <div class="apg-form">
-    <form #createDataApgForm="ngForm">
+    <!-- <form #createDataApgForm="ngForm"> -->
       <div *ngIf="iscreate == true && apCreate == true">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
@@ -132,14 +132,14 @@
             <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
               <div class="d-flex flex-column skill-header" style="background:#f2f4f5;" id="skillHeader{{i}}">
                 <div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
-                  (click)="mainAccessPointClear(item)"></div>
+                  (click)="mainAccessPointClear(item,i,'skillName')"></div>
                 <div class="d-flex">
                   <span class="img-wrapper group-handle-wrapper">
 
                     <img class="group-handle" src="../../../assets/images/disable-holder.svg">
                   </span>
                   <input type="text" placeholder="Type skill name here" class="skill-name" name=" {{'skillName' + i }}"
-                    required [(ngModel)]="item.name" required>
+                    required [(ngModel)]="item.name" (input)="addInputValue($event.target.value,'skillName',i)" required>
                   <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
                 </div>
                 <div class="d-flex align-items-center">
@@ -165,10 +165,10 @@
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
                   </span> <textarea rows=1 type="text" id="{{'box'+x+i}}" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
-                    class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i)"></textarea>
+                    class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i,'requirement',x)"></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
-                    (click)="subAccessPointClear(test,item,i,x)"></div>
+                    (click)="subAccessPointClear(test,item,i,x,'requirement')"></div>
                 </div>
               </div>
 
@@ -193,10 +193,10 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createDataApgForm.valid">Create</button>
+          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!model.name || isEmpty == true">Create</button>
         </div>
       </div>
-    </form>
+    <!-- </form> -->
     <div *ngIf="iscreate == true && dataApCreate == true ">
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
