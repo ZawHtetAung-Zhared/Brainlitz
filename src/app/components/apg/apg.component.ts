@@ -82,7 +82,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   isUpDown: Boolean = false;
   isUpDownHide: Boolean = false;
   apgType: any;
+
   //
+  
   public ismodule: boolean = false;
   public isshare: boolean = false;
   public shareAPG: boolean = false;
@@ -102,7 +104,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   isUpDownId: number;
   public dragOut: boolean = false;
   public stillDrag: boolean = false;
-
+  public optionsArray : any = [""];
   public groupNumber : number = 0;
 
   public selectedRadio = "NUMBER"
@@ -140,10 +142,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dragulaService.drop("COLUMNS").subscribe(({ el, target, source, sibling }) => {
       $(target).append($(".add-new-skill"))
     })
-    this.dragulaService.drop("data_COLUMNS").subscribe(({ el, target, source, sibling }) => {
-      console.log(this.templateAccessPointGroup.data)
-      // $(target).append($(".add-new-skill"))
-    })
+ 
     this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe((data) => {
@@ -160,6 +159,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
+    this.dragulaService.destroy("data_COLUMNS");
     this.dragulaService.destroy("COLUMNS");
     for (var i = 0; i < this.groupNumber; i++)
       var dd = this.dragulaService.find(String(i))
@@ -183,22 +183,59 @@ export class ApgComponent implements OnInit, OnDestroy {
     //     }
     //     // this.msg = `Dragging the ${value[1].innerText}!`;
     //   });
-   
+    if (this.dragulaService.find("data_COLUMNS") == undefined)
     this.dragulaService.createGroup("data_COLUMNS", {
       direction: 'vertical',
       moves: (el, source, handle) => handle.className === "move-sign",
-      
       // invalid: function (el, handle) {
       //   return false; // don't prevent any drags from initiating by default
       // }
       // revertOnSpill
       // accepts : (el,target) => console.log(el,target)
     });
+    // this.dragulaService.createGroup("data_COLUMNS", {
+    //   direction: 'vertical',
+      
+    //   // invalid: function (el, handle) {
+    //   //   return false; // don't prevent any drags from initiating by default
+    //   // }
+    //   // revertOnSpill
+    //   // accepts : (el,target) => console.log(el,target)
+    // });
     this.dragulaService.cloned("data_COLUMNS").subscribe(({name,clone,original,cloneType})=>{
+      console.log($(clone).children(".selection-wrapper").children(".img-wrapper"));
+      var tempEle = $(clone).children(".selection-wrapper").children(".img-wrapper");
+      console.log($(clone).children("span"))
         $(clone).height(70)
-        $(clone).width(460)
+        $(clone).width(500)
         $(clone).children(".data-close").remove();
+       tempEle.empty();
+       
+       tempEle.append('<img src="../../../assets/images/grab-holder.svg"  style="margin: 0;position: absolute;width: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
+       console.log($(tempEle.children()[0]).css('padding'))
     })
+    this.dragulaService.drop("data_COLUMNS").subscribe(({name,el,target,source,sibling})=>{
+      console.log(name,el,target,source,sibling)
+      console.log(this.optionsArray)
+      var newArray = $(target).find("input");
+      console.log(newArray)
+      var textArray = [];
+      for(var i =0; i<newArray.length;i++){
+        console.log($(newArray[i]).val())
+        textArray.push($(newArray[i]).val())
+      }
+       
+      // newArray.forEach(element => {
+      //   console.log(element.val())
+      // });
+      this.optionsArray = textArray
+      console.log(textArray)
+      this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+      // $(clone).height(70)
+      console.log("OptionsaArray" , this.optionsArray)
+      // $(clone).width(460)
+      // $(clone).children(".data-close").remove();
+  })
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
@@ -436,7 +473,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.isGlobal = false;
     //for evaluation APG
     this.templateAccessPointGroup = []
-
+    this.optionsArray = [""];
     this.getAllAPG(20, 0);
   }
   // cancelAp() {
@@ -501,15 +538,16 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   addDataValue(data,i){
     const newValue = ""
-    this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+    // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+    this.optionsArray.push(newValue)
     console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     console.log(data)
     console.warn(JSON.stringify(data))
   }
   dataValueClear(item) {
     console.warn(item)
-    this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
+    this.optionsArray.splice(item, 1)
+    // console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
 
   }
 
@@ -582,7 +620,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               "min": "",
               "max": "",
               "options": [
-                ""
+                
             ]
            }
           }
@@ -942,6 +980,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   createDataAccessPoint(){
     return new Promise((resolve,reject)=>{
+      this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
       this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
       .subscribe((res: any) => {
        resolve(this.AccessPoint = res._id ) 
@@ -955,6 +994,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   createDataApg(){
+    this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray ;
+    // this.optionsArray = [];
     this.createDataAccessPoint().then(res => {
       var moduleId = localStorage.getItem('moduleID');
       var apg = {
@@ -966,6 +1007,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(res);
         this.toastr.success('APG successfully Created.');
         this.cancelapg();
+        this.optionsArray = [];
       },err =>{
         this.toastr.error('Created APG Fail');
       })
@@ -1050,6 +1092,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         }
         this.templateAccessPointGroup = templateAccessPoint;
+
         this.dataApCreate= true;
         this.ismodule = false;
         this.apCreate = false;
@@ -1062,6 +1105,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         resolve(this.model.acccessPoints)
       }, 300);
     }).then(res => {
+
       this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
     }).catch((err) => {
       console.log(err); // never called
@@ -1715,6 +1759,15 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     }
   }
+  setInputValueFromObject(arr){
+    setTimeout(() => {
+      console.log($(".data-wrapper").children())
+      console.log($(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input"))
+      var tempArr = $(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input");
+     for(var i=0;i<arr.length;i++)
+      $(tempArr[i]).val(arr[i])
+    }, 100);
+  }
   getEditAccessPoint(reginId,accesPointId,apgName){
     if(apgName == "Data"){
       this._service.getAccessPoint(reginId,accesPointId)
@@ -1722,10 +1775,15 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(res)
         if(apgName == "Data"){
           this.templateAccessPointGroup = res;
+          this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
+          this.selectedRadio= this.templateAccessPointGroup.data.inputType 
+          console.log(this.optionsArray)
+          this.setInputValueFromObject(this.optionsArray)
         }else{
           this.templateAccessPointGroup=[];
           this.templateAccessPointGroup = [res]
         }
+        
       }, err => {
         console.log(err)
       })
@@ -1784,12 +1842,13 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
   toShowClear(){
-    return this.templateAccessPointGroup.data.inputTypeProperties.options.length > 1;
+    return this.optionsArray.length > 1;
   }
-  // addDataValueText(i,e){
-  //   console.log(e)
-  //   this.templateAccessPointGroup.data.inputTypeProperties.options[i] = e.target.value;
-  // }
+  addDataValueText(i,e){
+    console.log(e)
+    // this.templateAccessPointGroup.data.inputTypeProperties.options[i] = e.target.value;
+    this.optionsArray[i]=e.target.value;
+  }
 }
 
 
