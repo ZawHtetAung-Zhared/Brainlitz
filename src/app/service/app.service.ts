@@ -1737,6 +1737,19 @@ export class appService{
     }
 
     
+    updateAP(regionId:string, AP_ID:string, body:any ){
+      let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;
+      const options = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body, options)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 
     createAP(id: string, locationid:string, data: object): Observable<any>{
       this.getLocalstorage();

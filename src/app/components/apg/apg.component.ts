@@ -111,6 +111,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   minValue:any="" ;
   maxValue:any="";
   exitValue:any;
+  isEmpty:boolean = true;
+  delItem:any;
 
   constructor(private modalService: NgbModal,
     private _service: appService,
@@ -475,6 +477,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.templateAccessPointGroup = []
     this.optionsArray = [""];
     this.getAllAPG(20, 0);
+
+    this.formObj = {};
   }
   // cancelAp() {
   //   this.apgList = [];
@@ -540,19 +544,23 @@ export class ApgComponent implements OnInit, OnDestroy {
     const newValue = ""
     // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     this.optionsArray.push(newValue)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     console.log(data)
-    console.warn(JSON.stringify(data))
   }
-  dataValueClear(item) {
-    console.warn(item)
+  dataValueClear(item , e?) {
     this.optionsArray.splice(item, 1)
+    console.log(this.optionsArray)
     // console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-
+      console.log($(".data-wrapper").children())
+      console.log($(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input"))
+      var tempArr = $(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input");
+     for(var i=0;i<this.optionsArray.length;i++)
+      $(tempArr[i]).val(this.optionsArray[i])
   }
 
+  formObj ={};
   createNewAPG(status, name) {
     console.log("Create new APg", name)
+    this.optionsArray = [""]
     if (status == 'create') {
       this.iscreate = true;
       if (name == 'Assessment' || name == 'Evaluation') {
@@ -583,6 +591,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         }
 
         this.templateAccessPointGroup.push(templateAccessPoint)
+        if(this.templateAccessPointGroup.length>0){
+          this.formObj["skillName0"] = "";
+          this.formObj["requirement00"] = "";
+          console.log('formObj~~~',this.formObj);
+          this.checkProperties(this.formObj)
+        }
         // this.iscreate = false;
         this.apCreate = true;
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
@@ -731,6 +745,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     console.log(templateAccessPoint);
     this.templateAccessPointGroup.push(templateAccessPoint)
+    if(this.templateAccessPointGroup.length>0){
+      console.log("length",this.templateAccessPointGroup.length)
+      var l= this.templateAccessPointGroup.length-1;
+      this.formObj["skillName"+l] = "";
+      this.formObj["requirement0"+l] = "";
+      console.log('formObj~~~',this.formObj);
+      this.checkProperties(this.formObj)
+    }
     if (this.dragulaService.find(String(this.groupNumber)) == undefined)
 
       this.dragulaService.createGroup(String(this.groupNumber), {
@@ -745,6 +767,45 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  addInputValue(val,name,i){
+    console.log("val,name",val,name,i)
+    this.formObj[name+i] = val;
+    console.log("adding value to formObj",this.formObj);
+    this.checkProperties(this.formObj)
+  }
+
+  addReqValue(val,name,i,x){
+    console.log("val,name",val,name,i,x);
+    this.formObj[name+x+i] = val;
+    console.log("adding Req value to formObj",this.formObj);
+    this.checkProperties(this.formObj)
+  }
+
+  removeValue(name,i,x,type){
+    if(type=='requirement'){
+      delete this.formObj[name+x+i];
+    }else{
+       delete this.formObj[name+i];
+       for(var k in this.delItem.data.evaluation.details){
+         delete this.formObj['requirement'+k+i];
+       }
+    }
+    console.log("delete value from formObj",this.formObj)
+    this.checkProperties(this.formObj);
+  }
+  
+  checkProperties(obj) {
+    var valueArr = Object.values(obj);
+    console.log(valueArr)
+    if(valueArr.includes("")){
+      this.isEmpty = true;
+      console.log("isEmpty",this.isEmpty)
+    }else{
+      this.isEmpty = false;
+      console.log("isEmpty",this.isEmpty)
+    }
+  }
+
   subAccessPointAdd(skillBlog, i) {
 
     console.log(this.templateAccessPointGroup)
@@ -756,16 +817,23 @@ export class ApgComponent implements OnInit, OnDestroy {
       ]
     };
     this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+    if(this.templateAccessPointGroup.length>0){
+      console.log("length",this.templateAccessPointGroup[i].data.evaluation.details.length)
+      var x= this.templateAccessPointGroup[i].data.evaluation.details.length-1;
+      this.formObj["requirement"+x+i] = "";
+      console.log('formObj~~~',this.formObj);
+    }
     // this.addscrollEvent(skillBlog,i);
     setTimeout(() => {
       this.scrollCalculation(skillBlog, i);
       this.focusAdd(skillBlog.data.evaluation.details.length,i)
     }, 200);
+    this.checkProperties(this.formObj)
     // this.focusAdd(skillBlog.data.evaluation.details.length,i)
     
   }
    
-  subAccessPointClear(item,skillblog,id,x){
+  subAccessPointClear(item,skillblog,id,x,name){
     // setTimeout(() => {
     //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
 
@@ -774,11 +842,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
     this.scrollCalculation(skillblog, id);
+    this.removeValue(name,id,x,'requirement')
   }
 
   focusAdd(length,idx){
     var l = length - 1;
-    console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
+    // console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
     document.getElementById('box' + l + idx).focus();
   }
 
@@ -857,11 +926,15 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("dar")
   }
 
+  mainAccessPointClear(item,idx,name) {
+    this.delItem = item
 
-  mainAccessPointClear(item) {
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-  }
+    this.removeValue(name,idx,'','skill')
 
+    // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+    // this.removeValue(name,idx,'','skill')
+  }
   checkMarkToggle(item, skillObjId) {
     // this.isGlobal = !this.isGlobal
     item.options = !item.options;
@@ -983,7 +1056,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
       this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
       .subscribe((res: any) => {
-       resolve(this.AccessPoint = res._id ) 
+      //  resolve(this.AccessPoint = res._id ) 
+       resolve(res._id ) 
         console.log(res._id)
       }, err => {
         this.toastr.error('Created AP Fail');
@@ -996,13 +1070,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   createDataApg(){
     this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray ;
     // this.optionsArray = [];
-    this.createDataAccessPoint().then(res => {
+    this.createDataAccessPoint().then(apId => {
       var moduleId = localStorage.getItem('moduleID');
       var apg = {
         "name": this.model.name,
         "description": "",
         "moduleId": moduleId, 
-        "accessPoints": [this.AccessPoint] };
+        "accessPoints": [apId] };
       this._service.createAPG(this.regionID,this.locationID,apg,null,moduleId).subscribe((res:any) =>{
         console.log(res);
         this.toastr.success('APG successfully Created.');
@@ -1016,6 +1090,29 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(err); // never called
     });
   }
+  //model._Id
+  updateAp(apId,ap,apgId){
+    this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+    return new Promise((resolve,reject)=>{
+      this._service.updateAP(this.regionID,apId,this.templateAccessPointGroup)
+      .subscribe((res: any) => {
+        console.log(res)
+        resolve(res._id)
+      }), err => {
+      console.log(err)
+    }
+    }).then(accespointId => {
+      this._service.updateAPG(this.regionID, apgId, this.model,null)
+      .subscribe((res: any) => {
+        console.log(res)
+        this.cancelapg()
+      }), err => {
+      console.log(err)
+    }
+    }).catch((err) => {
+      console.log(err); // never called
+    });
+}
 
   createapgs(data, update) {
     console.log(update)
@@ -1100,45 +1197,68 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.apCreate = true;
       }
     return new Promise((resolve,reject)=>{
-      this.singleAPG(id, 'update');
-      setTimeout(() => {
-        resolve(this.model.acccessPoints)
-      }, 300);
-    }).then(res => {
-
-      this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+      this.singleAPG(id, 'update').then(apId => {
+        console.log('apid===>',apId)
+          resolve(apId)
+      }).catch((err) => {
+        console.log(err); // never called
+      });
+    }).then(accespointId => {
+      console.log('accespointId===>',accespointId)
+      this.getEditAccessPoint(this.regionID,accespointId,apgName.module.name)
     }).catch((err) => {
       console.log(err); // never called
     });
-    
 
-    // setTimeout(() => {
-    //   this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
-    // }, 1000);
   }
 
   singleAPG(id, state) {
     this.blockUI.start('Loading...');
-    setTimeout(() => {
-      this._service.getSingleAPG(this.regionID, id)
-        .subscribe((res: any) => {
-          this.blockUI.stop();
-          console.log('editapg', res)
-          this.model = res;
-          if (state == 'share') {
-            console.log(res)
-            this.convertTemplate(res, res._id, res.name);
-          }
-          if (state == 'public') {
-            console.log('public ok')
-            this.publicAPG(res);
+
+    return new Promise((resolve,reject)=>{
+      setTimeout(() => {
+        this._service.getSingleAPG(this.regionID, id)
+          .subscribe((res: any) => {
+            this.blockUI.stop();
+            console.log('editapg', res)
+            this.model = res;
+            console.log('resolve res.accessPoints',res.accessPoints)
+            resolve(res.accessPoints)
+            if (state == 'share') {
+              console.log(res)
+              this.convertTemplate(res, res._id, res.name);
+            }
+            if (state == 'public') {
+              console.log('public ok')
+              this.publicAPG(res);
+    
+            }
+          }, err => {
+            this.blockUI.stop();
+            console.log(err)
+          })
+      }, 10);
+    })
+    // setTimeout(() => {
+    //   this._service.getSingleAPG(this.regionID, id)
+    //     .subscribe((res: any) => {
+    //       this.blockUI.stop();
+    //       console.log('editapg', res)
+    //       this.model = res;
+    //       if (state == 'share') {
+    //         console.log(res)
+    //         this.convertTemplate(res, res._id, res.name);
+    //       }
+    //       if (state == 'public') {
+    //         console.log('public ok')
+    //         this.publicAPG(res);
   
-          }
-        }, err => {
-          this.blockUI.stop();
-          console.log(err)
-        })
-    }, 10);
+    //       }
+    //     }, err => {
+    //       this.blockUI.stop();
+    //       console.log(err)
+    //     })
+    // }, 10);
       // setTimeout(() => {
         // }, 1500);
   }
@@ -1677,7 +1797,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-  autoResize(e, id) {
+  autoResize(e, id,name,x) {
     console.log(e.target.style)
     console.log(e.target.scrollHeight)
     e.target.style.cssText = 'height:auto';
@@ -1701,6 +1821,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
       console.log("over 400")
     }
+
+    this.addReqValue(e.target.value,name,id,x)
   }
   minAndMax(e, value, index) {
 
@@ -1769,25 +1891,21 @@ export class ApgComponent implements OnInit, OnDestroy {
     }, 100);
   }
   getEditAccessPoint(reginId,accesPointId,apgName){
+    console.log(apgName,'<<<<<<<<<========')
     if(apgName == "Data"){
       this._service.getAccessPoint(reginId,accesPointId)
       .subscribe((res: any) => {
         console.log(res)
-        if(apgName == "Data"){
           this.templateAccessPointGroup = res;
           this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
           this.selectedRadio= this.templateAccessPointGroup.data.inputType 
           console.log(this.optionsArray)
           this.setInputValueFromObject(this.optionsArray)
-        }else{
-          this.templateAccessPointGroup=[];
-          this.templateAccessPointGroup = [res]
-        }
-        
       }, err => {
         console.log(err)
       })
     }else{
+      console.log('asss ==========>>>')
       this.templateAccessPointGroup=[];
       var tempArray = accesPointId.map(accesPoint=>{
         this._service.getAccessPoint(reginId,accesPoint)
@@ -1804,17 +1922,20 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   ChangedTimeValue(obj){
     console.log(obj)
-    var range = this.maxValue - this.minValue;
-    var position = ((obj - this.minValue) / range) * 100;
+    // var range = this.maxValue - this.minValue;
+    var range =  this.templateAccessPointGroup.data.inputTypeProperties.max - this.templateAccessPointGroup.data.inputTypeProperties.min;
+    // var position = ((obj - this.minValue) / range) * 100;
+    var position = ((obj - this.templateAccessPointGroup.data.inputTypeProperties.min) / range) * 100;
     var positionOffset = Math.round(20 * position / 100) - (20 / 2);
     this.exitValue=obj;
     const box: HTMLElement = document.getElementById('arrowBox');
    
-    if(this.maxValue<this.minValue){
+    if( this.templateAccessPointGroup.data.inputTypeProperties.max< this.templateAccessPointGroup.data.inputTypeProperties.min){
       box.setAttribute("style",'display:none');
     }else{
       box.setAttribute("style",'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
     }
+    console.log(this.templateAccessPointGroup)
   }
   emptymin:boolean = true;
   emptymax:boolean = true;
@@ -1835,7 +1956,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.emptymax = true;
       }
     }
-    if(this.maxValue<=this.minValue){
+    if( this.templateAccessPointGroup.data.inputTypeProperties.max<= this.templateAccessPointGroup.data.inputTypeProperties.min){
       this.overmin=true;
     }else{
       this.overmin=false;

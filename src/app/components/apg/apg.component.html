@@ -114,7 +114,7 @@
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">Shared APGs</h3>
   </div>
   <div class="apg-form">
-    <form #createDataApgForm="ngForm">
+    <!-- <form #createDataApgForm="ngForm"> -->
       <div *ngIf="iscreate == true && apCreate == true">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
@@ -132,14 +132,14 @@
             <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
               <div class="d-flex flex-column skill-header" style="background:#f2f4f5;" id="skillHeader{{i}}">
                 <div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
-                  (click)="mainAccessPointClear(item)"></div>
+                  (click)="mainAccessPointClear(item,i,'skillName')"></div>
                 <div class="d-flex">
                   <span class="img-wrapper group-handle-wrapper">
 
                     <img class="group-handle" src="../../../assets/images/disable-holder.svg">
                   </span>
                   <input type="text" placeholder="Type skill name here" class="skill-name" name=" {{'skillName' + i }}"
-                    required [(ngModel)]="item.name" required>
+                    required [(ngModel)]="item.name" (input)="addInputValue($event.target.value,'skillName',i)" required>
                   <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
                 </div>
                 <div class="d-flex align-items-center">
@@ -165,10 +165,10 @@
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
                   </span> <textarea rows=1 type="text" id="{{'box'+x+i}}" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
-                    class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i)"></textarea>
+                    class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i,'requirement',x)"></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
-                    (click)="subAccessPointClear(test,item,i,x)"></div>
+                    (click)="subAccessPointClear(test,item,i,x,'requirement')"></div>
                 </div>
               </div>
 
@@ -193,10 +193,10 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!createDataApgForm.valid">Create</button>
+          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!model.name || isEmpty == true">Create</button>
         </div>
       </div>
-    </form>
+    <!-- </form> -->
     <div *ngIf="iscreate == true && dataApCreate == true ">
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
@@ -303,7 +303,7 @@
                 </div>
               </div>
               <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                maxlength="6" [(ngModel)]="templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)"
                 (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required
                 #input_method="ngModel">
               <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
@@ -316,7 +316,7 @@
             <div class="gap-box">
               <label class="d-flex">
 
-                <input type="number" class="min_input" placeholder="Min" [(ngModel)]="minValue" (input)="chkValue($event.target.value,'min')"
+                <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min" (input)="chkValue($event.target.value,'min')"
                   required #min_method="ngModel">
 
                 <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
@@ -326,13 +326,12 @@
                    
                    <div class="divslider">
                       <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
-                      <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr">
+                      <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box" min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"  value="{{templateAccessPointGroup.data.inputTypeProperties.min}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr">
                       <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
                    </div>
                    
 
-                  <input type="number" class="max_input" placeholder="Max" [(ngModel)] = "maxValue" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
-                 
+                  <input type="number" class="max_input" placeholder="Max" [(ngModel)] = "templateAccessPointGroup.data.inputTypeProperties.max" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
               </label>
             </div>
 
@@ -351,7 +350,7 @@
                     <input type="text" class="form-control data-value" placeholder="Type data value here" (input)="addDataValueText(i,$event)"
                       name="{{'dataValue'+ i}}" required >
                   </div>
-                  <div class="data-close" *ngIf="toShowClear()" (click)="dataValueClear(i)"></div>
+                  <div class="data-close" *ngIf="toShowClear()" (click)="dataValueClear(i,$event)"></div>
                 </div>
               </div>
             </div>
@@ -362,7 +361,9 @@
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
-            (click)="createapgs(model, true, currentID)">Update</button>
+            (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
+          <!-- <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
+            (click)="createapgs(model, true, currentID)">Update</button> -->
         </div>
       </div>
     </div>
