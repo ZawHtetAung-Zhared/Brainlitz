@@ -1684,10 +1684,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     var positionOffset = Math.round(20 * position / 100) - (20 / 2);
     this.exitValue=obj;
     const box: HTMLElement = document.getElementById('arrowBox');
-    box.setAttribute("style",'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
+   
+    if(this.maxValue<this.minValue){
+      box.setAttribute("style",'display:none');
+    }else{
+      box.setAttribute("style",'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
+    }
   }
   emptymin:boolean = true;
   emptymax:boolean = true;
+  overmin: boolean=true;
   chkValue(v,type){
     console.log(v)
     if(type=='min'){
@@ -1703,6 +1709,11 @@ export class ApgComponent implements OnInit, OnDestroy {
       }else{
         this.emptymax = true;
       }
+    }
+    if(this.maxValue<=this.minValue){
+      this.overmin=true;
+    }else{
+      this.overmin=false;
     }
   }
 }
