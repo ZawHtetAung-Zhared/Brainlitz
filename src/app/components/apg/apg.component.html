@@ -52,8 +52,8 @@
         <div class="d-flex justify-content-between btn-section">
           <button class="apg-share remove-outline" (click)="apgPublicShare(apg._id)">Share</button>
           <div>
-            <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id,apg)">Edit</button> | <button class="btn-action remove-outline"
-              (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
+            <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id,apg)">Edit</button> | <button
+              class="btn-action remove-outline" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
           </div>
         </div>
       </div>
@@ -297,59 +297,66 @@
           <div *ngIf="selectedRadio == 'RANGE'">
             <div class="form-group slider-form">
               <div class="d-flex justify-content-between">
-                  <label class="form-title input-label" for="address">Measurement unit</label>
-                  <div class="limit-type-wordcount">
-                    <span>{{wordLength}}/6characters</span>
-                  </div>
+                <label class="form-title input-label" for="address">Measurement unit</label>
+                <div class="limit-type-wordcount">
+                  <span>{{wordLength}}/6characters</span>
                 </div>
+              </div>
               <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)" (blur)="blurMethod($event,'input_method')"
-                (input)="changeMethod($event.target.value)" required #input_method="ngModel">
+                maxlength="6" [(ngModel)]="model.input_method" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required
+                #input_method="ngModel">
               <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
                 <div [hidden]="!input_method.errors.required">
                   Measurement unit is required!
                 </div>
               </div>
             </div>
-            
+
             <div class="gap-box">
               <label class="d-flex">
-              
-                  <input type="number" class="min_input" placeholder="Min" [(ngModel)] = "minValue" (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
 
-                   <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                <input type="number" class="min_input" placeholder="Min" [(ngModel)]="minValue" (input)="chkValue($event.target.value,'min')"
+                  required #min_method="ngModel">
+
+                <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
                    <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
-                         
-                   <input *ngIf="emptymin == true || emptymax ==true" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
-                   
-                   <div class="divslider">
-                      <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
-                      <input *ngIf="emptymin == false && emptymax ==false" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr">
-                      <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
-                   </div>
-                   
 
-                  <input type="number" class="max_input" placeholder="Max" [(ngModel)] = "maxValue" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
-                 
+                <input *ngIf="emptymin == true || emptymax ==true" type="range" class="max-range-box" min="0" max="100"
+                  disabled=true value="0" id="apg_rangeId">
+
+                <div class="divslider">
+                  <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
+                  <input *ngIf="emptymin == false && emptymax ==false" type="range" class="max-range-box" min="{{minValue}}"
+                    max="{{maxValue}}" value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)"
+                    [(ngModel)]="rangeHr">
+                  <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
+                </div>
+
+
+                <input type="number" class="max_input" placeholder="Max" [(ngModel)]="maxValue" (input)="chkValue($event.target.value,'max')"
+                  required #max_method="ngModel">
+
               </label>
             </div>
 
           </div>
           <div *ngIf="selectedRadio == 'RADIO'">
             <h4 class="data-list-title"> Data list</h4>
-            <div dragula="data_COLUMNS" *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options;let i=index;trackBy:trackByFn" [(dragulaModel)]="templateAccessPointGroup.data.inputTypeProperties.options">
-              <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
-              <div class="d-flex selection-wrapper">
-                <span class="pr-3 img-wrapper">
-                  <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
-                  <img class="move-sign" src="../../../assets/images/single-holder.svg">
-                </span>
-                <div class="form-group">
-                  <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.options[i]"
-                    name="dataValue" required>
+            <div dragula="data_COLUMNS" [(dragulaModel)]="templateAccessPointGroup.data.inputTypeProperties.options">
+              <div *ngFor="let dataValue of templateAccessPointGroup.data.inputTypeProperties.options;let i=index;trackBy:trackByFn">
+                <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
+                <div class="d-flex selection-wrapper">
+                  <span class="pr-3 img-wrapper">
+                    <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
+                    <img class="move-sign" src="../../../assets/images/single-holder.svg">
+                  </span>
+                  <div class="form-group">
+                    <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.options[i]"
+                      name="dataValue" required>
+                  </div>
+                  <div class="data-close" *ngIf="toShowClear()" (click)="dataValueClear(i)"></div>
                 </div>
-                <div class="data-close" *ngIf=" templateAccessPointGroup.data.inputTypeProperties.options.length > 1"
-                  (click)="dataValueClear(i)"></div>
               </div>
             </div>
             <span class="newValue" (click)="addDataValue()">Add new data value </span>

@@ -25,6 +25,7 @@ import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group
 export class ApgComponent implements OnInit, OnDestroy {
   public valid:boolean;
   public templateAccessPointGroup: any = []
+  public templateAccessPoint : {};
   public AccessPoint:any;
   public checkMark: any = [''];
   public isGlobal: boolean = false;
@@ -117,17 +118,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(this.templateAccessPointGroup)
 
     dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
-      // console.log(clone,original,cloneType)
-      // var top = $(clone).height();
-      // console.log(top)
-      // console.log($(clone).eventX)
-      // $(clone).css('height','70')
-      // $(clone).css('overflow','hidden')
-      // console.log($(clone).css())
-      // console.log($(clone))
-      // console.log($(original).hide())
-      // $(original).hide()
-      $(clone).css('top', $("#clone").height() + "px");
+      // $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
     //  this.dragulaService.
@@ -147,8 +138,11 @@ export class ApgComponent implements OnInit, OnDestroy {
         moves: (el, source, handle) => handle.className === "move-sign"
       });
     this.dragulaService.drop("COLUMNS").subscribe(({ el, target, source, sibling }) => {
-
       $(target).append($(".add-new-skill"))
+    })
+    this.dragulaService.drop("data_COLUMNS").subscribe(({ el, target, source, sibling }) => {
+      console.log(this.templateAccessPointGroup.data)
+      // $(target).append($(".add-new-skill"))
     })
     this.toastr.setRootViewContainerRef(vcr);
 
@@ -220,105 +214,34 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.dragOut = false;
     })
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
-      // if (name == "COLUMNS") {
-      //   var _this = this;
-      //   // console.log(_this.stillDrag = true)
-      //   if(_this.stillDrag){
-      //     document.addEventListener("mousemove", function (event) {
-      //       var y = $(".gu-mirror").position().top;
-      //       var container = $(el).parents(".requirements-wrapper");
-      //     })
-      //   }
-      // } else {
+  
       console.log(name)
       if (name === "COLUMNS") {
-        // console.log(this.stillDrag=true)
-        // console.log("fackup")
-        // var _this = this;
-        // var _this = this;
+
         this.stillDrag = true;
-        // var _this = this;
-        // var stillDrag = this.stillDrag
-        // var still1Drag = this.testFunct();
-        // var windowBottom = window.innerHeight - $('.form-footer').outerHeight();
-        // document.addEventListener("mouseup", function (event) {
-        //   stillDrag = false;
-        // })
+      
         document.addEventListener("mousemove", this.testFunct = () => {
           // console.log(this.stillDrag)
           if (this.stillDrag) {
             setTimeout(function(){
               var container = $(el).parents(".requirements-wrapper")[0];
               var y = $(".gu-mirror").position().top;
-              // console.log( container.getBoundingClientRect().top , y)
               var dragHeight = y + $(".gu-mirror").height();
               var dropHeight = $(container).position().top + $(container).height()
-              // console.log(dragHeight , dropHeight)
-              // var ele = container;
-              // console.log(dragHeight , dropHeight)
+      
               if( y - $(container).position().top  < 10){
                 container.scrollTop -= 10;
-                // if (ele.scrollTop == 0) {
-                //   $(ele).prepend(el)
-                // }
+
               }else if(dropHeight - dragHeight< 10){
                 container.scrollTop += 10;
-                // if (ele.scrollHeight == ele.scrollTop + container.height()) {
-                //   $(ele).append(el)
-                // }
+ 
               }
             })
           }
         }
           , false);
 
-        // document.addEventListener("mousemove", function (still1Drag) {
-        //   console.log(still1Drag)
-        //   if (stillDrag) {
-
-        //     var container = $(el).parents(".requirements-wrapper")[0];
-        //     var y = $(".gu-mirror").position().top;
-        //     // console.log( container.getBoundingClientRect().top , y)
-
-        //     var dragHeight = y +  $(".gu-mirror").height();
-        //     var dropHeight = $(container).position().top +  $(container).height()
-        //     // console.log( $(container).position().top  , y)
-        //     if(dropHeight - dragHeight < 10){
-        //       container.scrollTop +=30;
-        //     }
-        //     else if( container.getBoundingClientRect().top - y < 10 ){
-        //       container.scrollTop -= 30;
-        //     }
-        // console.log($(container).height())
-        // console.log(container.offsetHeight)
-        // console.log($( container))
-        // console.log(stillDrag)
-        // var y = $(".gu-mirror").position().top;
-        // console.log($(".gu-mirror").height())
-        // var dragHeight =  $(".gu-mirror").position().top + $(".gu-mirror").height();
-        // if(container.length >0){
-        //   // var ddd = container[0].offsetTop +  $(container[0]).offsetHeight;
-        //   // console.log(window.innerHeight)
-        //   // console.log( $(container))
-
-        //   // console.log($('.form-footer'))
-        //   console.log(dragHeight)
-        //   console.log(window.innerHeight - $('.form-footer').height())
-        //   if ( window.innerHeight - $('.form-footer').height() == dragHeight) {
-        //     console.log("Scroll down")
-        //     var ele = container[0];
-        //   // setTimeout(function(){
-        //    ele.scrollTop += 20,
-        //     console.log(container[0])
-        //   // if (ele.scrollHeight == ele.scrollTop + container.height()) {
-        //   //   $(ele).append(el)
-        //   // }
-        //   // }, 300);
-        //   console.log(ele.scrollTop)
-        //   }
-        // }
-        //   }
-        // })
+        
       }else if(name == "data_COLUMNS"){
         
       }
@@ -377,30 +300,22 @@ export class ApgComponent implements OnInit, OnDestroy {
     })
 
     this.dragulaService.shadow().subscribe(({ el, container, source }) => {
-      // console.log(this.stillDrag)
-      // console.log(el, container, source)
+ 
     })
     this.dragulaService.out().subscribe(({ name, container, source }) => {
       console.log("out now");
       this.dragOut = true;
-      // this.dragulaService.cancel(name);
-      // this.dragulaService.destroy(name)
+
     })
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
-      // if ($(original).parent().children().length == 1) {
-      //   console.log($(clone).hide())
-      // } else {
 
-      // }
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
       $(clone).children(".img-wrapper").empty()
       $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
       // console.log( $(clone).children(".img-wrapper").children())
     })
-    this.dragulaService.over().subscribe(({ name, el, container, source }) => {
-
-    })
+  
 
     for (var i = 0; i < this.templateAccessPointGroup.length; i++) {
       this.dragulaService
@@ -636,6 +551,24 @@ export class ApgComponent implements OnInit, OnDestroy {
       } else if (name == 'Data') {
         this.templateAccessPointGroup = {}
         var moduleId = localStorage.getItem('moduleID');
+        // this.templateAccessPoint = {
+        //   "name": "",
+        //   "description": "",
+        //   "moduleId": moduleId,
+        //   "data": {
+        //     "sectionType": "DATA",
+        //     "unit": "",
+        //     "inputType": this.selectedRadio,
+        //     "inputTypeProperties": {
+        //       "name": "",
+        //       "min": "",
+        //       "max": "",
+        //       "options": [
+        //         ""
+        //     ]
+        //    }
+        //   }
+        // }
         const templateAccessPoint = {
           "name": "",
           "description": "",
@@ -1835,6 +1768,13 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     }
   }
+  toShowClear(){
+    return this.templateAccessPointGroup.data.inputTypeProperties.options.length > 1;
+  }
+  // addDataValueText(i,e){
+  //   console.log(e)
+  //   this.templateAccessPointGroup.data.inputTypeProperties.options[i] = e.target.value;
+  // }
 }
 
 
