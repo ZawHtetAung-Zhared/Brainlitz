@@ -104,7 +104,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   public groupNumber : number = 0;
 
-  public selectedRadio = "input-box"
+  public selectedRadio = "NUMBER"
   minValue:any="" ;
   maxValue:any="";
   exitValue:any;
@@ -495,6 +495,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.model = {};
     this.apCreate = false;
     this.iscreate = false;
+    this.dataApCreate = false;
     this.ismodule = false;
     this.isUpdate = false;
     this.shareAPG = false;
@@ -561,7 +562,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   }
   //   this.isshare = false;
   // }
-  addDataValue(data, i) {
+
+  trackByFn(index, item) {
+    return index; 
+  }
+  addDataValue(data,i){
     const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
@@ -596,7 +601,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               "passMark": 0,
               "details": [
                 {
-                  "requirement": "",
+                  "name": "",
                   "options": [
                     ""
                   ]
@@ -618,9 +623,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           "description": "",
           "moduleId": moduleId,
           "data": {
-            "sectionType": "Data",
+            "sectionType": "DATA",
             "unit": "",
-            "inputType": "",
+            "inputType": this.selectedRadio,
             "inputTypeProperties": {
               "name": "",
               "min": "",
@@ -726,7 +731,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           "passMark": Number,
           "details": [
             {
-              "requirement": "",
+              "name": "",
               "options": [
                 ""
               ]
@@ -756,7 +761,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(this.templateAccessPointGroup)
     console.log('~~~~~~~~', i, skillBlog)
     let req = {
-      "requirement": "",
+      "name": "",
       "options": [
         ""
       ]
@@ -981,19 +986,21 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   createDataAccessPoint(){
-    this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
-    .subscribe((res: any) => {
-      this.AccessPoint = res._id 
-      console.log(res._id)
-    }, err => {
-      this.toastr.error('Created AP Fail');
-      console.log(err)
-    });
+    return new Promise((resolve,reject)=>{
+      this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
+      .subscribe((res: any) => {
+       resolve(this.AccessPoint = res._id ) 
+        console.log(res._id)
+      }, err => {
+        this.toastr.error('Created AP Fail');
+        reject(err)
+        console.log(err)
+      });
+    })
   }
 
   createDataApg(){
-    this.createDataAccessPoint();
-    setTimeout(() => {
+    this.createDataAccessPoint().then(res => {
       var moduleId = localStorage.getItem('moduleID');
       var apg = {
         "name": this.model.name,
@@ -1007,9 +1014,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       },err =>{
         this.toastr.error('Created APG Fail');
       })
-    }, 1000);
-      
 
+    }).catch((err) => {
+      console.log(err); // never called
+    });
   }
 
   createapgs(data, update) {
@@ -1061,37 +1069,79 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.singleAPG(apgID, 'share');
   }
 
-  onclickUpdate(id) {
+  onclickUpdate(id,apgName) {
     console.log(id)
     this.apgList = [];
-    this.singleAPG(id, 'update');
-    this.iscreate = true;
-    this.isUpdate = true;
+      this.iscreate = true;
+      this.isUpdate = true;
+      if(apgName.module.name == "Data"){
+        var moduleId =  localStorage.getItem('moduleID');
+        const templateAccessPoint = {
+          "name": "",
+          "description": "",
+          "moduleId": moduleId,
+          "data": {
+            "sectionType": "DATA",
+            "unit": " ",
+            "inputType": this.selectedRadio,
+            "inputTypeProperties": {
+              "name": "",
+              "min": "",
+              "max": "",
+              "options": [
+                ""
+            ]
+           }
+          }
+        }
+        this.templateAccessPointGroup = templateAccessPoint;
+        this.dataApCreate= true;
+        this.ismodule = false;
+        this.apCreate = false;
+      }else if(apgName.module.name=="Assessment"||apgName.module.name == "Evaluation"){
+        this.apCreate = true;
+      }
+    return new Promise((resolve,reject)=>{
+      this.singleAPG(id, 'update');
+      setTimeout(() => {
+        resolve(this.model.acccessPoints)
+      }, 300);
+    }).then(res => {
+      this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+    }).catch((err) => {
+      console.log(err); // never called
+    });
+    
+
+    // setTimeout(() => {
+    //   this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+    // }, 1000);
   }
 
   singleAPG(id, state) {
     this.blockUI.start('Loading...');
-    this._service.getSingleAPG(this.regionID, id)
-      .subscribe((res: any) => {
-        this.blockUI.stop();
-        console.log('editapg', res)
-        this.model = res;
-        if (state == 'share') {
-          console.log(res)
-          this.convertTemplate(res, res._id, res.name);
-        }
-        if (state == 'public') {
-          console.log('public ok')
-          this.publicAPG(res);
-
-        }
-      }, err => {
-        this.blockUI.stop();
-        console.log(err)
-      })
-      setTimeout(() => {
-        this.getEditAccessPoint(this.regionID,this.model.accessPoints)
-      }, 1500);
+    setTimeout(() => {
+      this._service.getSingleAPG(this.regionID, id)
+        .subscribe((res: any) => {
+          this.blockUI.stop();
+          console.log('editapg', res)
+          this.model = res;
+          if (state == 'share') {
+            console.log(res)
+            this.convertTemplate(res, res._id, res.name);
+          }
+          if (state == 'public') {
+            console.log('public ok')
+            this.publicAPG(res);
+  
+          }
+        }, err => {
+          this.blockUI.stop();
+          console.log(err)
+        })
+    }, 10);
+      // setTimeout(() => {
+        // }, 1500);
   }
 
   // getAllTemplate(){
@@ -1669,35 +1719,32 @@ export class ApgComponent implements OnInit, OnDestroy {
   radioSelect(type) {
     this.selectedRadio = type;
     this.templateAccessPointGroup.data.inputType=type;
-    if(type == "Radio"){
+    if(type == "RADIO"){
       this.templateAccessPointGroup.data.unit="";
       this.templateAccessPointGroup.data.inputTypeProperties.min="";
       this.templateAccessPointGroup.data.inputTypeProperties.max="";
-      console.log("Radio")
-    }else if(type == "Number"){
+    }else if(type == "NUMBER"){
       this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
       this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[''];
       this.templateAccessPointGroup.data.inputTypeProperties.min="";
       this.templateAccessPointGroup.data.inputTypeProperties.max="";
-      console.log("Number")
     }else{
       this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
       this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[""];
       this.templateAccessPointGroup.data.unit="";
-      console.log("Range")
     }
   }
   
   checkValidation(arr){
     var apgName = this.model.name
     // console.log(apgName)
-    if(this.selectedRadio == 'Radio'|| apgName.length == 0){
+    if(this.selectedRadio == 'RADIO'|| apgName.length == 0){
       if(arr.includes("")){
         this.valid = false;
       }else{
         this.valid = true
       }
-    }else if(this.selectedRadio == "Number"|| apgName.length == 0){
+    }else if(this.selectedRadio == "NUMBER"|| apgName.length == 0){
       if(this.templateAccessPointGroup.data.unit == ""){
         this.valid = false;
       }else{
@@ -1713,14 +1760,33 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     }
   }
-  getEditAccessPoint(reginId,accesPointId){
-    this._service.getAccessPoint(reginId,accesPointId)
-    .subscribe((res: any) => {
-      console.log(res)
-      this.templateAccessPointGroup = res
-    }, err => {
-      console.log(err)
-    })
+  getEditAccessPoint(reginId,accesPointId,apgName){
+    if(apgName == "Data"){
+      this._service.getAccessPoint(reginId,accesPointId)
+      .subscribe((res: any) => {
+        console.log(res)
+        if(apgName == "Data"){
+          this.templateAccessPointGroup = res;
+        }else{
+          this.templateAccessPointGroup=[];
+          this.templateAccessPointGroup = [res]
+        }
+      }, err => {
+        console.log(err)
+      })
+    }else{
+      this.templateAccessPointGroup=[];
+      var tempArray = accesPointId.map(accesPoint=>{
+        this._service.getAccessPoint(reginId,accesPoint)
+        .subscribe((res: any) => {
+          console.log(res)
+            this.templateAccessPointGroup.push(res)
+        }, err => {
+          console.log(err)
+        })
+      })
+    }
+    
   }
 
   ChangedTimeValue(obj){
