@@ -652,6 +652,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.apCreate = false;
       }
     } else {
+      
       console.log('hi')
       this.sharechecked = ''
       this.shareAPG = true;
@@ -1530,7 +1531,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   getAllTemplate(limit, skip) {
-    this._service.getAllTemplate(this.regionID, limit, skip)
+    var moduleId = localStorage.getItem('moduleID');
+    console.log(moduleId)
+    this._service.getAllTemplate(this.regionID, limit, skip,moduleId)
       .subscribe((res: any) => {
         console.log('templateLists', res)
         this.result = res;
@@ -1538,6 +1541,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       }, err => {
         console.log(err)
       })
+    
   }
 
   getAllModule() {
