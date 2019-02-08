@@ -164,7 +164,7 @@
                   <span class="img-wrapper">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
-                  </span> <textarea rows=1 type="text" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
+                  </span> <textarea rows=1 type="text" id="{{'box'+x+i}}" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
                     class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i)"></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
@@ -181,7 +181,7 @@
                     <img class="downIcon" src="./assets/images/push-down.png">
                   </div>
                 </div>
-                <button class="add-requirement" (click)="subAccessPointAdd(item,i)" [disabled]="item.name == ''">
+                <button class="add-requirement" (click)="subAccessPointAdd(item,i)" [disabled]="item.name == ''" [ngClass]="{'no-pl': item.upDownOptions}">
                   Add new requirement
                 </button>
               </div>

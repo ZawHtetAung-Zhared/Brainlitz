@@ -651,6 +651,7 @@
 
 .downIcon {
   padding-left: 16px;
+  padding-right: 15px;
 }
 
 .toggle-wrap {
@@ -1455,4 +1456,8 @@ input#apg_rangeId2:active + #arrowBox {
   display: block;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
+}
+
+.no-pl{
+    padding-left: 0px;
 }

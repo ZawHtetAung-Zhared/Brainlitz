@@ -846,31 +846,31 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
 
-  addScrollOncheckMarkToggle(skillObjId, res) {
-    console.log("reach checkMarkToggle>>" + skillObjId);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillObjId);
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillObjId);
-    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + skillObjId);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillObjId);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillObjId);
+  // addScrollOncheckMarkToggle(skillObjId, res) {
+  //   console.log("reach checkMarkToggle>>" + skillObjId);
+  //   const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillObjId);
+  //   const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillObjId);
+  //   const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + skillObjId);
+  //   const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillObjId);
+  //   const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillObjId);
 
-    this.headerHeight = skillHeader.clientHeight;
-    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
-    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+  //   this.headerHeight = skillHeader.clientHeight;
+  //   var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+  //   var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
 
-    if (totalHeight < 400) {
-      skillHeight.setAttribute("style", "height: auto;");
-      console.log("under 400")
-    } else {
-      skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
-      // this.templateAccessPointGroup[skillObjId].upOptions=false;
-      // this.templateAccessPointGroup[skillObjId].DownOptions=true;
-      console.log("over 400")
-    }
+  //   if (totalHeight < 400) {
+  //     skillHeight.setAttribute("style", "height: auto;");
+  //     console.log("under 400")
+  //   } else {
+  //     skillHeight.setAttribute("style", "height: 400px;");
+  //     innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
+  //     // this.templateAccessPointGroup[skillObjId].upOptions=false;
+  //     // this.templateAccessPointGroup[skillObjId].DownOptions=true;
+  //     console.log("over 400")
+  //   }
 
-    console.log("header height in add smark:" + this.headerHeight);
-  }
+  //   console.log("header height in add smark:" + this.headerHeight);
+  // }
 
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
@@ -896,16 +896,20 @@ export class ApgComponent implements OnInit, OnDestroy {
     item.options = !item.options;
     console.log(item.options)
 
-    setTimeout(() => {
-      this.addScrollOncheckMarkToggle(skillObjId, item.options);
-      // if(item.options){
-      //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-      //   console.log(skillHeader.clientHeight)
-      // } else{
-      //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-      //   console.log(skillHeader.clientHeight)
-      // }
-    })
+    setTimeout(()=>{
+      this.scrollCalculation(item,skillObjId)
+    },200)
+
+    // setTimeout(() => {
+    //   this.addScrollOncheckMarkToggle(skillObjId, item.options);
+    //   // if(item.options){
+    //   //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
+    //   //   console.log(skillHeader.clientHeight)
+    //   // } else{
+    //   //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
+    //   //   console.log(skillHeader.clientHeight)
+    //   // }
+    // })
 
   }
 
