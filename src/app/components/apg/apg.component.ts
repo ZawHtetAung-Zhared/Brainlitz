@@ -506,15 +506,10 @@ export class ApgComponent implements OnInit, OnDestroy {
   addDataValue(data,i){
     const newValue = ""
     this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     console.log(data)
-    console.warn(JSON.stringify(data))
   }
   dataValueClear(item) {
-    console.warn(item)
     this.templateAccessPointGroup.data.inputTypeProperties.options.splice(item, 1)
-    console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-
   }
 
   formObj ={};
@@ -1014,7 +1009,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     return new Promise((resolve,reject)=>{
       this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
       .subscribe((res: any) => {
-       resolve(this.AccessPoint = res._id ) 
+      //  resolve(this.AccessPoint = res._id ) 
+       resolve(res._id ) 
         console.log(res._id)
       }, err => {
         this.toastr.error('Created AP Fail');
@@ -1025,13 +1021,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   createDataApg(){
-    this.createDataAccessPoint().then(res => {
+    this.createDataAccessPoint().then(apId => {
       var moduleId = localStorage.getItem('moduleID');
       var apg = {
         "name": this.model.name,
         "description": "",
         "moduleId": moduleId, 
-        "accessPoints": [this.AccessPoint] };
+        "accessPoints": [apId] };
       this._service.createAPG(this.regionID,this.locationID,apg,null,moduleId).subscribe((res:any) =>{
         console.log(res);
         this.toastr.success('APG successfully Created.');
@@ -1044,6 +1040,28 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(err); // never called
     });
   }
+  //model._Id
+  updateAp(apId,ap,apgId){
+    return new Promise((resolve,reject)=>{
+      this._service.updateAP(this.regionID,apId,ap)
+      .subscribe((res: any) => {
+        console.log(res)
+        resolve(res._id)
+      }), err => {
+      console.log(err)
+    }
+    }).then(accespointId => {
+      this._service.updateAPG(this.regionID, apgId, this.model,null)
+      .subscribe((res: any) => {
+        console.log(res)
+        this.cancelapg()
+      }), err => {
+      console.log(err)
+    }
+    }).catch((err) => {
+      console.log(err); // never called
+    });
+}
 
   createapgs(data, update) {
     console.log(update)
@@ -1127,44 +1145,68 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.apCreate = true;
       }
     return new Promise((resolve,reject)=>{
-      this.singleAPG(id, 'update');
-      setTimeout(() => {
-        resolve(this.model.acccessPoints)
-      }, 300);
-    }).then(res => {
-      this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
+      this.singleAPG(id, 'update').then(apId => {
+        console.log('apid===>',apId)
+          resolve(apId)
+      }).catch((err) => {
+        console.log(err); // never called
+      });
+    }).then(accespointId => {
+      console.log('accespointId===>',accespointId)
+      this.getEditAccessPoint(this.regionID,accespointId,apgName.module.name)
     }).catch((err) => {
       console.log(err); // never called
     });
-    
 
-    // setTimeout(() => {
-    //   this.getEditAccessPoint(this.regionID,this.model.accessPoints,apgName.module.name)
-    // }, 1000);
   }
 
   singleAPG(id, state) {
     this.blockUI.start('Loading...');
-    setTimeout(() => {
-      this._service.getSingleAPG(this.regionID, id)
-        .subscribe((res: any) => {
-          this.blockUI.stop();
-          console.log('editapg', res)
-          this.model = res;
-          if (state == 'share') {
-            console.log(res)
-            this.convertTemplate(res, res._id, res.name);
-          }
-          if (state == 'public') {
-            console.log('public ok')
-            this.publicAPG(res);
+
+    return new Promise((resolve,reject)=>{
+      setTimeout(() => {
+        this._service.getSingleAPG(this.regionID, id)
+          .subscribe((res: any) => {
+            this.blockUI.stop();
+            console.log('editapg', res)
+            this.model = res;
+            console.log('resolve res.accessPoints',res.accessPoints)
+            resolve(res.accessPoints)
+            if (state == 'share') {
+              console.log(res)
+              this.convertTemplate(res, res._id, res.name);
+            }
+            if (state == 'public') {
+              console.log('public ok')
+              this.publicAPG(res);
+    
+            }
+          }, err => {
+            this.blockUI.stop();
+            console.log(err)
+          })
+      }, 10);
+    })
+    // setTimeout(() => {
+    //   this._service.getSingleAPG(this.regionID, id)
+    //     .subscribe((res: any) => {
+    //       this.blockUI.stop();
+    //       console.log('editapg', res)
+    //       this.model = res;
+    //       if (state == 'share') {
+    //         console.log(res)
+    //         this.convertTemplate(res, res._id, res.name);
+    //       }
+    //       if (state == 'public') {
+    //         console.log('public ok')
+    //         this.publicAPG(res);
   
-          }
-        }, err => {
-          this.blockUI.stop();
-          console.log(err)
-        })
-    }, 10);
+    //       }
+    //     }, err => {
+    //       this.blockUI.stop();
+    //       console.log(err)
+    //     })
+    // }, 10);
       // setTimeout(() => {
         // }, 1500);
   }
@@ -1788,20 +1830,24 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
   getEditAccessPoint(reginId,accesPointId,apgName){
+    console.log(apgName,'<<<<<<<<<========')
     if(apgName == "Data"){
       this._service.getAccessPoint(reginId,accesPointId)
       .subscribe((res: any) => {
         console.log(res)
-        if(apgName == "Data"){
-          this.templateAccessPointGroup = res;
-        }else{
-          this.templateAccessPointGroup=[];
-          this.templateAccessPointGroup = [res]
-        }
+        this.templateAccessPointGroup = res;
+        this.selectedRadio = this.templateAccessPointGroup.data.inputType
+        // if(apgName == "Data"){
+          // this.templateAccessPointGroup = res;
+        // }else{
+        //   this.templateAccessPointGroup=[];
+        //   this.templateAccessPointGroup = [res]
+        // }
       }, err => {
         console.log(err)
       })
     }else{
+      console.log('asss ==========>>>')
       this.templateAccessPointGroup=[];
       var tempArray = accesPointId.map(accesPoint=>{
         this._service.getAccessPoint(reginId,accesPoint)
@@ -1818,17 +1864,20 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   ChangedTimeValue(obj){
     console.log(obj)
-    var range = this.maxValue - this.minValue;
-    var position = ((obj - this.minValue) / range) * 100;
+    // var range = this.maxValue - this.minValue;
+    var range =  this.templateAccessPointGroup.data.inputTypeProperties.max - this.templateAccessPointGroup.data.inputTypeProperties.min;
+    // var position = ((obj - this.minValue) / range) * 100;
+    var position = ((obj - this.templateAccessPointGroup.data.inputTypeProperties.min) / range) * 100;
     var positionOffset = Math.round(20 * position / 100) - (20 / 2);
     this.exitValue=obj;
     const box: HTMLElement = document.getElementById('arrowBox');
    
-    if(this.maxValue<this.minValue){
+    if( this.templateAccessPointGroup.data.inputTypeProperties.max< this.templateAccessPointGroup.data.inputTypeProperties.min){
       box.setAttribute("style",'display:none');
     }else{
       box.setAttribute("style",'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
     }
+    console.log(this.templateAccessPointGroup)
   }
   emptymin:boolean = true;
   emptymax:boolean = true;
@@ -1849,7 +1898,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.emptymax = true;
       }
     }
-    if(this.maxValue<=this.minValue){
+    if( this.templateAccessPointGroup.data.inputTypeProperties.max<= this.templateAccessPointGroup.data.inputTypeProperties.min){
       this.overmin=true;
     }else{
       this.overmin=false;
