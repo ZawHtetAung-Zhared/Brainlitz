@@ -1456,3 +1456,86 @@ input#apg_rangeId2:active + #arrowBox {
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
 }
+
+
+/* data apg list css */
+.apgBoxHead {
+  display: flex;
+  flex-direction: row;
+}
+
+span.textapgType {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64707d;
+  line-height: 1.33;
+}
+
+span.textapgType.selected {
+  color: #fff;
+}
+
+
+span.textTempName {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.22;
+  color: #2e3e4d;
+}
+
+
+span.textTempName.selected,span.textUnitName.selected,span.textUnit.selected {
+  color: #fff;
+}
+
+.showType {
+  width: 116px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #f2f4f5;
+  padding: 2px 3px 2px 10px;
+}
+
+span.inputText {
+  font-size: 14px;
+  color: #64707d;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  font-weight: 600;
+}
+
+
+.d-flex.justify-content-between.numberType,.d-flex.justify-content-between.rangeType {
+  padding-top: 26px;
+}
+
+span.textUnitName {
+  font-size: 16px;
+  font-weight: 500;
+  color: #64707d;
+}
+
+span.textUnit {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2e3d4d;
+}
+
+ul.listGroup {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64707d;
+  padding: 0;
+}
+
+li.optionlist {
+  border-bottom: solid 1px #edeff0;
+  height: 38px;
+}
+
+.radioType {
+  margin-top: 14px;
+  margin-left: 18px;
+}
+

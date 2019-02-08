@@ -507,7 +507,62 @@
             </button>
           </span>
         </div>
-        <div class="row apg-share-content">
+        
+        <div class="row apg-share-content" *ngIf="apgType=='Data'">
+          <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xxl">
+            <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
+              <div class="d-flex justify-content-between apgBoxHead">
+                  <span class="textapgType" [ngClass]="{'selected': sharechecked == temp._id}">{{apgType}}</span>
+                  <div class="label-checked"></div>
+              </div>
+             
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{temp.name}}"
+                (click)="chooseShareAPG(temp._id, temp.name)" > <span class="textTempName" [ngClass]="{'selected': sharechecked == temp._id}">{{temp.name}}</span>
+                <div class="apgBoxFooter" *ngFor="let tobj of temp.accessPoints;">
+                    <!-- {{tobj.data.inputType}} -->
+                    <div class="d-flex justify-content-between numberType" *ngIf="tobj.data.inputType=='NUMBER'">
+                        <div>
+                           <span class="textUnitName" [ngClass]="{'selected': sharechecked == temp._id}">Unit:</span><span class="textUnit" [ngClass]="{'selected': sharechecked == temp._id}"> {{tobj.data.unit}}</span>
+                        </div>
+                        <div  class="showType" *ngIf="tobj.data.inputTypeProperties.min==null && tobj.data.inputTypeProperties.max==null">
+                            <img src="../../../assets/img/input-icon.png" class="inputIcon">
+                            <span class="inputText" [ngClass]="{'selected': sharechecked == temp._id}">
+                                Input box  
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between rangeType" *ngIf="tobj.data.inputType=='RANGE'">
+                        <div>
+                           <span class="textUnitName" [ngClass]="{'selected': sharechecked == temp._id}">Unit:</span><span class="textUnit" [ngClass]="{'selected': sharechecked == temp._id}"> {{tobj.data.unit}}</span>
+                        </div>
+                      
+                        <div  class="showType" *ngIf="tobj.data.inputTypeProperties.min!=null && tobj.data.inputTypeProperties.max!=null">
+                            <img src="../../../assets/img/input-icon.png" class="inputIcon">
+                            <span class="inputText" [ngClass]="{'selected': sharechecked == temp._id}">
+                                Slider  
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="radioType" *ngIf="tobj.data.inputType=='RADIO'">
+                        <ul class="listGroup" *ngFor="let option of tobj.data.inputTypeProperties.options; let j=index;">
+                           
+                            <li class="optionlist" *ngIf="tobj.data.inputTypeProperties.options.length-1!=j">
+                              {{option}}
+                            </li>
+                             
+                            <li class="optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j">
+                                {{option}}
+                              </li>
+                          </ul>
+                      </div>
+          
+                  </div>
+            </label>
+          </div>
+        </div>
+        <div class="row apg-share-content" *ngIf="apgType!='Data'">
           <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
             <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
               <div class="label-checked"></div>
@@ -516,6 +571,7 @@
             </label>
           </div>
         </div>
+       
 
         <div class="d-flex justify-content-end apg-share-bottom">
           <div class=" align-self-end ">
