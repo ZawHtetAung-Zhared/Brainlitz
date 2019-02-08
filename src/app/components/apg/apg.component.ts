@@ -109,6 +109,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   maxValue:any="";
   exitValue:any;
   isEmpty:boolean = true;
+  delItem:any;
 
   constructor(private modalService: NgbModal,
     private _service: appService,
@@ -811,6 +812,9 @@ export class ApgComponent implements OnInit, OnDestroy {
       delete this.formObj[name+x+i];
     }else{
        delete this.formObj[name+i];
+       for(var k in this.delItem.data.evaluation.details){
+         delete this.formObj['requirement'+k+i];
+       }
     }
     console.log("delete value from formObj",this.formObj)
     this.checkProperties(this.formObj);
@@ -948,12 +952,15 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("dar")
   }
 
-
   mainAccessPointClear(item,idx,name) {
+    this.delItem = item
+
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
     this.removeValue(name,idx,'','skill')
-  }
 
+    // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+    // this.removeValue(name,idx,'','skill')
+  }
   checkMarkToggle(item, skillObjId) {
     // this.isGlobal = !this.isGlobal
     item.options = !item.options;
