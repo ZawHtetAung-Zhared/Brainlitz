@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
+import { csLocale } from 'ngx-bootstrap';
 @Component({
   selector: 'app-apg',
   templateUrl: './apg.component.html',
@@ -24,6 +25,7 @@ import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group
 })
 export class ApgComponent implements OnInit, OnDestroy {
   public valid:boolean;
+  public accessPointArray: any = []
   public templateAccessPointGroup: any = []
   public templateAccessPoint : {};
   public AccessPoint:any;
@@ -977,7 +979,67 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(innerBoxHeight.scrollTop)
   }
 
+  callCreateAPI() {
+
+  }
+
+  callEditAPI() {
+
+  }
+
+  solutionTwo() {
+    let createdDataCollection = [];
+    let editedDataCollection = [];
+      this.templateAccessPointGroup.forEach((item, index) => {
+        if (item._id) {
+          // Push the item to createdDataCollection Array
+          // Validate the item is edited or not?
+          // Compare the dataCollection array with original array
+          // If not the same with original, push item to the createdDataCollection Array
+          let identical = JSON.stringify(item) === this.accessPointArray[index];
+          if (!identical) {
+            editedDataCollection.push(item);
+          }
+        } else {
+          // Push the item to editedDataCollection Array
+          createdDataCollection.push(item);
+        }
+      });          
+      console.log(editedDataCollection, createdDataCollection);
+    // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
+    // Loop the CreatedDataCollection and call APIs
+    // createdDataCollection.forEach(item => {
+    //   // If the status of data == 'edit', Call Edit API
+
+    // });
+    
+    this.insertAP(createdDataCollection).then((createdIdCollection) => {
+      // Continue to edit the Main Block
+      let accessPoints = this.model['accessPoints'];
+      this.model['accessPoints'] = accessPoints.concat(createdIdCollection);
+      this._service.updateAPG(this.regionID, this.model._id, this.model, null)
+      .subscribe((res: any) => {
+          this.cancelapg();
+        }), err => {
+          console.log("Error in Access Point updating")
+        };
+    }).catch((error) => {
+      console.log("Catching AccessPoint App Error", error);
+    });
+
+    // Loop the EditedDataCollection and call APIs
+    // editedDataCollection.forEach(item => {
+    //   // If the status of data == 'edit', Call Edit API
+    //   this.callCreateAPI();
+    // });
+
+  }
+
+  
+
   createEvaluateApgs(nameparam) {
+    console.error(this.templateAccessPointGroup);
+    this.templateAccessPointGroup
     var moduleId = localStorage.getItem('moduleID');
     var arr;
 
@@ -986,7 +1048,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     console.log(nameparam.name)
 
-    this.insertAP().then(res => {
+    this.insertAP(this.templateAccessPointGroup).then(res => {
       apg.name = nameparam.name;
       apg.accessPoints = res;
       apg.moduleId = moduleId;
@@ -1007,7 +1069,8 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
-  insertAP() {
+  // Made function param to be reuseable
+  insertAP(dataCollection) {
     var apArr = {
       "name": "",
       "moduleId": "",
@@ -1030,7 +1093,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     var moduleId = localStorage.getItem('moduleID');
     var APIdarr = [];
 
-    return Promise.all(this.templateAccessPointGroup.map(ap => {
+    return Promise.all(dataCollection.map(ap => {
       // for(var j=0;j<ap.data.evaluation.details.length;j++){
       //   console.log(ap.name)
       //   
@@ -1038,6 +1101,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
       apArr.name = ap.name;
       apArr.moduleId = moduleId;
+      console.log('module ID :', moduleId);
       apArr.data.evaluation = ap.data.evaluation;
       return new Promise((resolve, reject) => {
         this._service.createAP(this.regionID, this.locationID, apArr)
@@ -1911,15 +1975,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     }else{
       console.log('asss ==========>>>')
       this.templateAccessPointGroup=[];
-      var tempArray = accesPointId.map(accesPoint=>{
+      accesPointId.map(accesPoint=> {
         this._service.getAccessPoint(reginId,accesPoint)
         .subscribe((res: any) => {
           console.log(res)
             this.templateAccessPointGroup.push(res)
+            this.accessPointArray.push(JSON.stringify(res));
         }, err => {
           console.log(err)
         })
-      })
+      });
     }
     
   }

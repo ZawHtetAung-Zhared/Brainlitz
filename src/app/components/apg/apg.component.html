@@ -194,6 +194,8 @@
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!model.name || isEmpty == true">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
+            (click)="solutionTwo()">Update</button>
         </div>
       </div>
     <!-- </form> -->
