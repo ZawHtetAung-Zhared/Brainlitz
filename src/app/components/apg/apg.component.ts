@@ -25,7 +25,7 @@ import { csLocale } from 'ngx-bootstrap';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   public valid:boolean;
-  public accessPointArray: any = []
+  public accessPointArrayString: any = []
   public templateAccessPointGroup: any = []
   public templateAccessPoint : {};
   public AccessPoint:any;
@@ -933,6 +933,17 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.delItem = item
 
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+    let jsonStringIntoArray = JSON.parse(this.accessPointArrayString)
+    // delete element from accesspoint arraystring
+    jsonStringIntoArray.splice(idx, 1)
+    this.accessPointArrayString = JSON.stringify(jsonStringIntoArray)
+    // console.log(JSON.parse(this.accessPointArrayString).splice(idx,1))
+    // console.error(JSON.stringify(JSON.parse(this.accessPointArrayString).splice(idx,1)))
+    console.warn(JSON.parse(this.accessPointArrayString))
+
+    // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+    // console.error(JSON.parse(this.accessPointArrayString))
+    console.log(this.accessPointArrayString)
     this.removeValue(name,idx,'','skill')
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
@@ -987,45 +998,61 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
-  solutionTwo() {
+  editAccessmentApg() {
     let createdDataCollection = [];
     let editedDataCollection = [];
       this.templateAccessPointGroup.forEach((item, index) => {
         if (item._id) {
-          // Push the item to createdDataCollection Array
+             // Push the item to editedDataCollection Array
+          
+          let identical = JSON.stringify(item) === JSON.stringify(JSON.parse(this.accessPointArrayString));
+          console.log(identical)
+          console.log(this.templateAccessPointGroup)
+          console.log(JSON.parse(this.accessPointArrayString))
+          if (!identical) {
+
+            console.warn(item.name)
+            editedDataCollection.push(item);
+            console.log(editedDataCollection)
+            // this.updateAp(item._id,item,this.model._id)
+          }
+        } else {
+       // Push the item to createdDataCollection Array
           // Validate the item is edited or not?
           // Compare the dataCollection array with original array
           // If not the same with original, push item to the createdDataCollection Array
-          let identical = JSON.stringify(item) === this.accessPointArray[index];
-          if (!identical) {
-            editedDataCollection.push(item);
-          }
-        } else {
-          // Push the item to editedDataCollection Array
           createdDataCollection.push(item);
+          console.warn(item)
         }
-      });          
-      console.log(editedDataCollection, createdDataCollection);
-    // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
+      });
+                
+      console.error(editedDataCollection, createdDataCollection);
+      // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
     // Loop the CreatedDataCollection and call APIs
-    // createdDataCollection.forEach(item => {
-    //   // If the status of data == 'edit', Call Edit API
-
-    // });
-    
-    this.insertAP(createdDataCollection).then((createdIdCollection) => {
-      // Continue to edit the Main Block
-      let accessPoints = this.model['accessPoints'];
-      this.model['accessPoints'] = accessPoints.concat(createdIdCollection);
-      this._service.updateAPG(this.regionID, this.model._id, this.model, null)
-      .subscribe((res: any) => {
-          this.cancelapg();
-        }), err => {
-          console.log("Error in Access Point updating")
-        };
-    }).catch((error) => {
-      console.log("Catching AccessPoint App Error", error);
-    });
+      if(createdDataCollection.length) {
+        this.insertAP(createdDataCollection).then((createdIdCollection) => {
+          // Continue to edit the Main Block
+          let accessPoints = this.model['accessPoints'];
+          this.model['accessPoints'] = accessPoints.concat(createdIdCollection);
+          this._service.updateAPG(this.regionID, this.model._id, this.model, null)
+          .subscribe((res: any) => {
+              this.cancelapg();
+            }), err => {
+              console.log("Error in Access Point updating")
+            };
+        }).catch((error) => {
+          console.log("Catching AccessPoint App Error", error);
+        });
+      }
+      if(editedDataCollection.length) {
+        this.updateFunction(editedDataCollection).then((item) => {
+          console.log(item, 'success')
+        }).catch((error) => {
+        console.log("Catching AccessPoint App Error", error);
+      });
+      }
+      
+      
 
     // Loop the EditedDataCollection and call APIs
     // editedDataCollection.forEach(item => {
@@ -1157,9 +1184,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId,ap,apgId){
-    this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+    ap.data.inputTypeProperties.options = this.optionsArray;
     return new Promise((resolve,reject)=>{
-      this._service.updateAP(this.regionID,apId,this.templateAccessPointGroup)
+      this._service.updateAP(this.regionID,apId,ap)
       .subscribe((res: any) => {
         console.log(res)
         resolve(res._id)
@@ -1178,6 +1205,11 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(err); // never called
     });
 }
+  updateFunction(dataCollection){
+    return Promise.all(dataCollection.map(item => {
+      return this.updateAp(item._id,item,this.model._id)
+    }))
+  }
 
   createapgs(data, update) {
     console.log(update)
@@ -1271,6 +1303,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     }).then(accespointId => {
       console.log('accespointId===>',accespointId)
       this.getEditAccessPoint(this.regionID,accespointId,apgName.module.name)
+      .then(dataCollection => {
+        console.log('successs',dataCollection)
+        this.templateAccessPointGroup = dataCollection;
+        this.accessPointArrayString = JSON.stringify(dataCollection);
+      }).catch((err) => {
+        console.log(err); // never called
+      });
+  
+          // this.templateAccessPointGroup.push(res)
+          // this.accessPointArrayString.push(JSON.stringify(res));
     }).catch((err) => {
       console.log(err); // never called
     });
@@ -1975,16 +2017,20 @@ export class ApgComponent implements OnInit, OnDestroy {
     }else{
       console.log('asss ==========>>>')
       this.templateAccessPointGroup=[];
-      accesPointId.map(accesPoint=> {
-        this._service.getAccessPoint(reginId,accesPoint)
-        .subscribe((res: any) => {
-          console.log(res)
-            this.templateAccessPointGroup.push(res)
-            this.accessPointArray.push(JSON.stringify(res));
-        }, err => {
-          console.log(err)
+      return Promise.all(accesPointId.map(accesPoint=> {
+        return new Promise((resolve, reject) => {
+          this._service.getAccessPoint(reginId,accesPoint)
+          .subscribe((res: any) => {
+            console.log(res)
+            resolve(res)
+              // this.templateAccessPointGroup.push(res)
+              // this.accessPointArrayString.push(JSON.stringify(res));
+          }, err => {
+            console.log(err)
+            reject(err)
+          })
         })
-      });
+      }));
     }
     
   }
