@@ -372,9 +372,9 @@ export class appService{
       }) 
     }
 
-    getAllTemplate(id, limit: number, skip: number){
+    getAllTemplate(id, limit: number, skip: number,moduleId: string){
       this.getLocalstorage();
-      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit + '&skip=' + skip;
+      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit +'&moduleId=' + moduleId+ '&skip=' + skip;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
