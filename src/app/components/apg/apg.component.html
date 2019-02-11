@@ -518,7 +518,7 @@
         </div>
         
         <div class="row apg-share-content" *ngIf="apgType=='Data'">
-          <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xxl">
+          <div *ngFor="let temp of templateList; let i=index;" class="share-input">
             <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
               <div class="d-flex justify-content-between apgBoxHead">
                   <span class="textapgType" [ngClass]="{'selected': sharechecked == temp._id}">{{apgType}}</span>

@@ -897,6 +897,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.templateAccessPointGroup[skillId].DownOptions = true;
     }
   }
+  
 
   // addScrollOncheckMarkToggle(skillObjId, res) {
   //   console.log("reach checkMarkToggle>>" + skillObjId);
