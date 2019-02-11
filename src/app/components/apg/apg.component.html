@@ -36,6 +36,12 @@
       </button>
     </span>
   </div>
+  <div>
+    <div class="d-flex tabs-wrapper tab-name">
+      <button class="modal-tab" [ngClass]="{'active-apg-tab': selectedAPGTab.name == 'All'}" (click)="onClickApgTab('All')">All</button>
+      <button *ngFor="let module of moduleList" [ngClass]="{'active-apg-tab': selectedAPGTab.name == module.name}"  (click)="onClickApgTab(module.name,module._id)">{{module.name}}</button>
+    </div>
+  </div>
   <div class="apg-wrapper card-columns">
     <div class="card " *ngFor="let apg of apgList; let i = index">
       <div class="single-apg">
@@ -193,7 +199,8 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!model.name || isEmpty == true">Create</button>
+          <button  *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!model.name || isEmpty == true">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()">Update</button>
         </div>
       </div>
     <!-- </form> -->
@@ -362,8 +369,6 @@
           <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
             (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
-          <!-- <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
-            (click)="createapgs(model, true, currentID)">Update</button> -->
         </div>
       </div>
     </div>
