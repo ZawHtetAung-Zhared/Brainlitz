@@ -137,8 +137,10 @@
           <div dragula="COLUMNS" class="requirements-wrapper" [(dragulaModel)]="templateAccessPointGroup" drag-scroll>
             <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
               <div class="d-flex flex-column skill-header" style="background:#f2f4f5;" id="skillHeader{{i}}">
-                <div *ngIf="templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
-                  (click)="mainAccessPointClear(item,i,'skillName')"></div>
+                <div *ngIf="isUpdate == false && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
+                  (click)="mainAccessPointClear(item,i,'skillName','create')"></div>
+                <div *ngIf=" isUpdate == true && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
+                  (click)="mainAccessPointClear(item,i,'skillName','update')"></div>
                 <div class="d-flex">
                   <span class="img-wrapper group-handle-wrapper">
 
@@ -200,7 +202,7 @@
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button  *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!model.name || isEmpty == true">Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()">Update</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
         </div>
       </div>
     <!-- </form> -->
@@ -366,9 +368,11 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
-            (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" 
+                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" 
+                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
+                  (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
         </div>
       </div>
     </div>

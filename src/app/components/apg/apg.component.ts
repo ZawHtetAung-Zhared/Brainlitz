@@ -938,20 +938,20 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("dar")
   }
 
-  mainAccessPointClear(item,idx,name) {
+  mainAccessPointClear(item,idx,name,type) {
     this.delItem = item
-
+    console.log(type)
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-    let jsonStringIntoArray = JSON.parse(this.accessPointArrayString)
-    // delete element from accesspoint arraystring
-    jsonStringIntoArray.splice(idx, 1)
-    this.accessPointArrayString = JSON.stringify(jsonStringIntoArray)
+    if(type == 'update'){
+      let jsonStringIntoArray = JSON.parse(this.accessPointArrayString)
+      // delete element from accesspoint arraystring
+      jsonStringIntoArray.splice(idx, 1)
+      this.accessPointArrayString = JSON.stringify(jsonStringIntoArray)
+    }
     // console.log(JSON.parse(this.accessPointArrayString).splice(idx,1))
     // console.error(JSON.stringify(JSON.parse(this.accessPointArrayString).splice(idx,1)))
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-    // console.error(JSON.parse(this.accessPointArrayString))
-    console.log(this.accessPointArrayString)
     this.removeValue(name,idx,'','skill')
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
