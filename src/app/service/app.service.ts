@@ -386,6 +386,22 @@ export class appService{
       })
     }
 
+    
+
+    getSearchTemplate(id, limit: number, skip: number,moduleId: string,keyword:string){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit +'&moduleId=' + moduleId+ '&skip=' + skip+ '&keyword=' + keyword;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      })
+    }
+
     deleteTemplate(regionid, tempid){
       console.log(regionid)
       console.log(tempid)
@@ -1720,10 +1736,16 @@ export class appService{
       })
     }
 
-    getAllAPG(id: string,limit:number,skip:number){
+    getAllAPG(id: string,moduleId:string,limit:number,skip:number){
       // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       console.log("APG limit skip",limit,skip);
-      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
+      if(moduleId == ''){
+        console.log('no moduleID')
+        var apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
+      }else{
+        console.log('has moduleID')
+        var apiUrl = this.baseUrl +'/'+ id + '/access-point-group?moduleId=' + moduleId + '&limit=' + limit + '&skip=' + skip;
+      }
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1735,7 +1757,21 @@ export class appService{
         return result;
       })
     }
-
+    deleteAp(regionId:string, AP_ID:string,){
+      let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(httpOptions)
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
     
     updateAP(regionId:string, AP_ID:string, body:any ){
       let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;

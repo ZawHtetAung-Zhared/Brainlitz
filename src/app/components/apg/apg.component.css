@@ -113,6 +113,7 @@
   height: 20px;
   margin-top: 3px;
   float: left;
+  
 }
 
 .sticky-menu {
@@ -139,7 +140,7 @@
 .input-label,
 .input-recommend,
 .modal-title,
-.target {
+.target,.tab-name {
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
 }
 
@@ -410,6 +411,8 @@
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
   margin-bottom: 1.7em;
   border-radius: 3px;
+  max-height: 312px;
+  overflow: scroll;
 }
 
 .module-input label {
@@ -704,8 +707,8 @@
   padding-left: 20px;
   cursor: pointer;
   margin-bottom: 0px;
-  padding-top: 20px;
-  padding-bottom: 80px;
+  /* padding-top: 20px;
+  padding-bottom: 80px; */
 }
 
 .container.requirement {
@@ -1572,6 +1575,10 @@ ul.listGroup {
   padding: 0;
 }
 
+ul.listGroup.selected {
+  color: #ffff;
+}
+
 li.optionlist {
   border-bottom: solid 1px #edeff0;
   height: 38px;
@@ -1720,4 +1727,23 @@ li.optionlist {
 .header.selected+div {
   background: #007fff;
   color: white;
+}
+.tabs-wrapper{
+   padding: 0px 16px; 
+}
+
+.tabs-wrapper button{
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #2e3d4d;
+    border-bottom: 2px solid #fff;
+}
+
+.active-apg-tab{
+  color: #007fff!important;
+  border-bottom: 2px solid #007fff!important;
 }
