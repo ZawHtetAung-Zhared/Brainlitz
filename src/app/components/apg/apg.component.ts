@@ -1607,8 +1607,24 @@ export class ApgComponent implements OnInit, OnDestroy {
       if (keyword.length == 0) {
         this.templateList = [];
         this.getAllTemplate(20, 0)
+      }else{
+        this.getSearchDataTemplate(keyword,20, 0)
       }
     }
+  }
+
+  getSearchDataTemplate(keyword,limit, skip) {
+    var moduleId = localStorage.getItem('moduleID');
+    console.log(moduleId)
+    this._service.getSearchTemplate(this.regionID, limit, skip,moduleId,keyword)
+      .subscribe((res: any) => {
+        console.log('templateLists', res)
+        this.result = res;
+        this.templateList = res;
+      }, err => {
+        console.log(err)
+      })
+    
   }
 
   userSearch(searchWord, type, limit, skip) {

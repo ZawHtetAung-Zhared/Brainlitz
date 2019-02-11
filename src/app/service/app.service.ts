@@ -386,6 +386,22 @@ export class appService{
       })
     }
 
+    
+
+    getSearchTemplate(id, limit: number, skip: number,moduleId: string,keyword:string){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit +'&moduleId=' + moduleId+ '&skip=' + skip+ '&keyword=' + keyword;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      })
+    }
+
     deleteTemplate(regionid, tempid){
       console.log(regionid)
       console.log(tempid)

@@ -111,6 +111,7 @@
   height: 20px;
   margin-top: 3px;
   float: left;
+  
 }
 
 .sticky-menu {
@@ -406,6 +407,8 @@
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
   margin-bottom: 1.7em;
   border-radius: 3px;
+  max-height: 312px;
+  overflow: scroll;
 }
 
 .module-input label {
@@ -1531,6 +1534,10 @@ ul.listGroup {
   font-weight: 500;
   color: #64707d;
   padding: 0;
+}
+
+ul.listGroup.selected {
+  color: #ffff;
 }
 
 li.optionlist {
