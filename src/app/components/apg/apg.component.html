@@ -163,7 +163,7 @@
                   style="padding-left:40px;" id="requirement{{x}}">
                   <span class="img-wrapper">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
-                    <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
+                    <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg" style="pointer-events: none">
                   </span> <textarea rows=1 type="text" id="{{'box'+x+i}}" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
                     class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i,'requirement',x)"></textarea>
                   <!-- <span class="pr-3"></span>	<textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
@@ -343,8 +343,8 @@
                 <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
                 <div class="d-flex selection-wrapper">
                   <span class="img-wrapper">
-                    <!-- <img class="move-sign"  src="../../../assets/images/disable-holder.svg"> -->
-                    <img class="move-sign" src="../../../assets/images/single-holder.svg">
+                    <img class="move-sign" *ngIf="optionsArray.length > 1"  src="../../../assets/images/disable-holder.svg">
+                    <img class="move-sign" *ngIf="optionsArray.length == 1"  src="../../../assets/images/single-holder.svg" style="pointer-events: none">
                   </span>
                   <div class="form-group">
                     <input type="text" class="form-control data-value" placeholder="Type data value here" (input)="addDataValueText(i,$event)"

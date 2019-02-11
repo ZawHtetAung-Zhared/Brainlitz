@@ -23,10 +23,10 @@ import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
-  public valid:boolean;
+  public valid: boolean;
   public templateAccessPointGroup: any = []
-  public templateAccessPoint : {};
-  public AccessPoint:any;
+  public templateAccessPoint: {};
+  public AccessPoint: any;
   public checkMark: any = [''];
   public isGlobal: boolean = false;
   public apCreate: boolean = false;
@@ -84,7 +84,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   apgType: any;
 
   //
-  
+
   public ismodule: boolean = false;
   public isshare: boolean = false;
   public shareAPG: boolean = false;
@@ -104,15 +104,15 @@ export class ApgComponent implements OnInit, OnDestroy {
   isUpDownId: number;
   public dragOut: boolean = false;
   public stillDrag: boolean = false;
-  public optionsArray : any = [""];
-  public groupNumber : number = 0;
+  public optionsArray: any = [""];
+  public groupNumber: number = 0;
 
   public selectedRadio = "NUMBER"
-  minValue:any="" ;
-  maxValue:any="";
-  exitValue:any;
-  isEmpty:boolean = true;
-  delItem:any;
+  minValue: any = "";
+  maxValue: any = "";
+  exitValue: any;
+  isEmpty: boolean = true;
+  delItem: any;
 
   constructor(private modalService: NgbModal,
     private _service: appService,
@@ -144,7 +144,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dragulaService.drop("COLUMNS").subscribe(({ el, target, source, sibling }) => {
       $(target).append($(".add-new-skill"))
     })
- 
+
     this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe((data) => {
@@ -186,47 +186,47 @@ export class ApgComponent implements OnInit, OnDestroy {
     //     // this.msg = `Dragging the ${value[1].innerText}!`;
     //   });
     if (this.dragulaService.find("data_COLUMNS") == undefined)
-    this.dragulaService.createGroup("data_COLUMNS", {
-      direction: 'vertical',
-      moves: (el, source, handle) => handle.className === "move-sign",
-      // invalid: function (el, handle) {
-      //   return false; // don't prevent any drags from initiating by default
-      // }
-      // revertOnSpill
-      // accepts : (el,target) => console.log(el,target)
-    });
+      this.dragulaService.createGroup("data_COLUMNS", {
+        direction: 'vertical',
+        moves: (el, source, handle) => handle.className === "move-sign",
+        // invalid: function (el, handle) {
+        //   return false; // don't prevent any drags from initiating by default
+        // }
+        // revertOnSpill
+        // accepts : (el,target) => console.log(el,target)
+      });
     // this.dragulaService.createGroup("data_COLUMNS", {
     //   direction: 'vertical',
-      
+
     //   // invalid: function (el, handle) {
     //   //   return false; // don't prevent any drags from initiating by default
     //   // }
     //   // revertOnSpill
     //   // accepts : (el,target) => console.log(el,target)
     // });
-    this.dragulaService.cloned("data_COLUMNS").subscribe(({name,clone,original,cloneType})=>{
+    this.dragulaService.cloned("data_COLUMNS").subscribe(({ name, clone, original, cloneType }) => {
       console.log($(clone).children(".selection-wrapper").children(".img-wrapper"));
       var tempEle = $(clone).children(".selection-wrapper").children(".img-wrapper");
       console.log($(clone).children("span"))
-        $(clone).height(70)
-        $(clone).width(500)
-        $(clone).children(".data-close").remove();
-       tempEle.empty();
-       
-       tempEle.append('<img src="../../../assets/images/grab-holder.svg"  style="margin: 0;position: absolute;width: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
-       console.log($(tempEle.children()[0]).css('padding'))
+      $(clone).height(70)
+      $(clone).width(500)
+      $(clone).children(".data-close").remove();
+      tempEle.empty();
+
+      tempEle.append('<img src="../../../assets/images/grab-holder.svg"  style="margin: 0;position: absolute;width: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
+      console.log($(tempEle.children()[0]).css('padding'))
     })
-    this.dragulaService.drop("data_COLUMNS").subscribe(({name,el,target,source,sibling})=>{
-      console.log(name,el,target,source,sibling)
+    this.dragulaService.drop("data_COLUMNS").subscribe(({ name, el, target, source, sibling }) => {
+      console.log(name, el, target, source, sibling)
       console.log(this.optionsArray)
       var newArray = $(target).find("input");
       console.log(newArray)
       var textArray = [];
-      for(var i =0; i<newArray.length;i++){
+      for (var i = 0; i < newArray.length; i++) {
         console.log($(newArray[i]).val())
         textArray.push($(newArray[i]).val())
       }
-       
+
       // newArray.forEach(element => {
       //   console.log(element.val())
       // });
@@ -234,10 +234,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(textArray)
       this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
       // $(clone).height(70)
-      console.log("OptionsaArray" , this.optionsArray)
+      console.log("OptionsaArray", this.optionsArray)
       // $(clone).width(460)
       // $(clone).children(".data-close").remove();
-  })
+    })
     this.dragulaService.cancel().subscribe(({ name, el, container, source }) => {
 
       this.stillDrag = false;
@@ -253,36 +253,36 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.dragOut = false;
     })
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
-  
+
       console.log(name)
       if (name === "COLUMNS") {
 
         this.stillDrag = true;
-      
+
         document.addEventListener("mousemove", this.testFunct = () => {
           // console.log(this.stillDrag)
           if (this.stillDrag) {
-            setTimeout(function(){
+            setTimeout(function () {
               var container = $(el).parents(".requirements-wrapper")[0];
               var y = $(".gu-mirror").position().top;
               var dragHeight = y + $(".gu-mirror").height();
               var dropHeight = $(container).position().top + $(container).height()
-      
-              if( y - $(container).position().top  < 10){
+
+              if (y - $(container).position().top < 10) {
                 container.scrollTop -= 10;
 
-              }else if(dropHeight - dragHeight< 10){
+              } else if (dropHeight - dragHeight < 10) {
                 container.scrollTop += 10;
- 
+
               }
             })
           }
         }
           , false);
 
-        
-      }else if(name == "data_COLUMNS"){
-        
+
+      } else if (name == "data_COLUMNS") {
+
       }
       else {
         console.log("other than")
@@ -339,7 +339,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     })
 
     this.dragulaService.shadow().subscribe(({ el, container, source }) => {
- 
+
     })
     this.dragulaService.out().subscribe(({ name, container, source }) => {
       console.log("out now");
@@ -354,7 +354,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       $(clone).children(".img-wrapper").append('<img src="../../../assets/images/grab-holder.svg" id="move-sign" class="move-sign" style="margin: 0;position: absolute;height: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
       // console.log( $(clone).children(".img-wrapper").children())
     })
-  
+
 
     for (var i = 0; i < this.templateAccessPointGroup.length; i++) {
       this.dragulaService
@@ -538,26 +538,26 @@ export class ApgComponent implements OnInit, OnDestroy {
   // }
 
   trackByFn(index, item) {
-    return index; 
+    return index;
   }
-  addDataValue(data,i){
+  addDataValue(data, i) {
     const newValue = ""
     // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     this.optionsArray.push(newValue)
     console.log(data)
   }
-  dataValueClear(item , e?) {
+  dataValueClear(item, e?) {
     this.optionsArray.splice(item, 1)
     console.log(this.optionsArray)
     // console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-      console.log($(".data-wrapper").children())
-      console.log($(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input"))
-      var tempArr = $(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input");
-     for(var i=0;i<this.optionsArray.length;i++)
+    console.log($(".data-wrapper").children())
+    console.log($(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input"))
+    var tempArr = $(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input");
+    for (var i = 0; i < this.optionsArray.length; i++)
       $(tempArr[i]).val(this.optionsArray[i])
   }
 
-  formObj ={};
+  formObj = {};
   createNewAPG(status, name) {
     console.log("Create new APg", name)
     this.optionsArray = [""]
@@ -591,10 +591,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         }
 
         this.templateAccessPointGroup.push(templateAccessPoint)
-        if(this.templateAccessPointGroup.length>0){
+        if (this.templateAccessPointGroup.length > 0) {
           this.formObj["skillName0"] = "";
           this.formObj["requirement00"] = "";
-          console.log('formObj~~~',this.formObj);
+          console.log('formObj~~~', this.formObj);
           this.checkProperties(this.formObj)
         }
         // this.iscreate = false;
@@ -634,9 +634,9 @@ export class ApgComponent implements OnInit, OnDestroy {
               "min": "",
               "max": "",
               "options": [
-                
-            ]
-           }
+
+              ]
+            }
           }
         }
         this.templateAccessPointGroup = templateAccessPoint;
@@ -745,12 +745,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     console.log(templateAccessPoint);
     this.templateAccessPointGroup.push(templateAccessPoint)
-    if(this.templateAccessPointGroup.length>0){
-      console.log("length",this.templateAccessPointGroup.length)
-      var l= this.templateAccessPointGroup.length-1;
-      this.formObj["skillName"+l] = "";
-      this.formObj["requirement0"+l] = "";
-      console.log('formObj~~~',this.formObj);
+    if (this.templateAccessPointGroup.length > 0) {
+      console.log("length", this.templateAccessPointGroup.length)
+      var l = this.templateAccessPointGroup.length - 1;
+      this.formObj["skillName" + l] = "";
+      this.formObj["requirement0" + l] = "";
+      console.log('formObj~~~', this.formObj);
       this.checkProperties(this.formObj)
     }
     if (this.dragulaService.find(String(this.groupNumber)) == undefined)
@@ -767,42 +767,42 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
-  addInputValue(val,name,i){
-    console.log("val,name",val,name,i)
-    this.formObj[name+i] = val;
-    console.log("adding value to formObj",this.formObj);
+  addInputValue(val, name, i) {
+    console.log("val,name", val, name, i)
+    this.formObj[name + i] = val;
+    console.log("adding value to formObj", this.formObj);
     this.checkProperties(this.formObj)
   }
 
-  addReqValue(val,name,i,x){
-    console.log("val,name",val,name,i,x);
-    this.formObj[name+x+i] = val;
-    console.log("adding Req value to formObj",this.formObj);
+  addReqValue(val, name, i, x) {
+    console.log("val,name", val, name, i, x);
+    this.formObj[name + x + i] = val;
+    console.log("adding Req value to formObj", this.formObj);
     this.checkProperties(this.formObj)
   }
 
-  removeValue(name,i,x,type){
-    if(type=='requirement'){
-      delete this.formObj[name+x+i];
-    }else{
-       delete this.formObj[name+i];
-       for(var k in this.delItem.data.evaluation.details){
-         delete this.formObj['requirement'+k+i];
-       }
+  removeValue(name, i, x, type) {
+    if (type == 'requirement') {
+      delete this.formObj[name + x + i];
+    } else {
+      delete this.formObj[name + i];
+      for (var k in this.delItem.data.evaluation.details) {
+        delete this.formObj['requirement' + k + i];
+      }
     }
-    console.log("delete value from formObj",this.formObj)
+    console.log("delete value from formObj", this.formObj)
     this.checkProperties(this.formObj);
   }
-  
+
   checkProperties(obj) {
     var valueArr = Object.values(obj);
     console.log(valueArr)
-    if(valueArr.includes("")){
+    if (valueArr.includes("")) {
       this.isEmpty = true;
-      console.log("isEmpty",this.isEmpty)
-    }else{
+      console.log("isEmpty", this.isEmpty)
+    } else {
       this.isEmpty = false;
-      console.log("isEmpty",this.isEmpty)
+      console.log("isEmpty", this.isEmpty)
     }
   }
 
@@ -817,23 +817,23 @@ export class ApgComponent implements OnInit, OnDestroy {
       ]
     };
     this.templateAccessPointGroup[i].data.evaluation.details.push(req);
-    if(this.templateAccessPointGroup.length>0){
-      console.log("length",this.templateAccessPointGroup[i].data.evaluation.details.length)
-      var x= this.templateAccessPointGroup[i].data.evaluation.details.length-1;
-      this.formObj["requirement"+x+i] = "";
-      console.log('formObj~~~',this.formObj);
+    if (this.templateAccessPointGroup.length > 0) {
+      console.log("length", this.templateAccessPointGroup[i].data.evaluation.details.length)
+      var x = this.templateAccessPointGroup[i].data.evaluation.details.length - 1;
+      this.formObj["requirement" + x + i] = "";
+      console.log('formObj~~~', this.formObj);
     }
     // this.addscrollEvent(skillBlog,i);
     setTimeout(() => {
       this.scrollCalculation(skillBlog, i);
-      this.focusAdd(skillBlog.data.evaluation.details.length,i)
+      this.focusAdd(skillBlog.data.evaluation.details.length, i)
     }, 200);
     this.checkProperties(this.formObj)
     // this.focusAdd(skillBlog.data.evaluation.details.length,i)
-    
+
   }
-   
-  subAccessPointClear(item,skillblog,id,x,name){
+
+  subAccessPointClear(item, skillblog, id, x, name) {
     // setTimeout(() => {
     //   i.data.evaluation.details.splice(i.data.evaluation.details.indexOf(item),1);
 
@@ -842,21 +842,21 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
     this.scrollCalculation(skillblog, id);
-    this.removeValue(name,id,x,'requirement')
+    this.removeValue(name, id, x, 'requirement')
   }
 
-  focusAdd(length,idx){
+  focusAdd(length, idx) {
     var l = length - 1;
     // console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
     document.getElementById('box' + l + idx).focus();
   }
 
-  scrollCalculation(skillObj,skillId){
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
-    var req_total_height=0;
+  scrollCalculation(skillObj, skillId) {
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillId);
+    var req_total_height = 0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
       const requirement: HTMLElement = document.getElementById('requirement' + j);
@@ -926,11 +926,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("dar")
   }
 
-  mainAccessPointClear(item,idx,name) {
+  mainAccessPointClear(item, idx, name) {
     this.delItem = item
 
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-    this.removeValue(name,idx,'','skill')
+    this.removeValue(name, idx, '', 'skill')
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
     // this.removeValue(name,idx,'','skill')
@@ -940,9 +940,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     item.options = !item.options;
     console.log(item.options)
 
-    setTimeout(()=>{
-      this.scrollCalculation(item,skillObjId)
-    },200)
+    setTimeout(() => {
+      this.scrollCalculation(item, skillObjId)
+    }, 200)
 
     // setTimeout(() => {
     //   this.addScrollOncheckMarkToggle(skillObjId, item.options);
@@ -1051,38 +1051,39 @@ export class ApgComponent implements OnInit, OnDestroy {
     }))
   }
 
-  createDataAccessPoint(){
-    return new Promise((resolve,reject)=>{
+  createDataAccessPoint() {
+    return new Promise((resolve, reject) => {
       this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
       this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
-      .subscribe((res: any) => {
-      //  resolve(this.AccessPoint = res._id ) 
-       resolve(res._id ) 
-        console.log(res._id)
-      }, err => {
-        this.toastr.error('Created AP Fail');
-        reject(err)
-        console.log(err)
-      });
+        .subscribe((res: any) => {
+          //  resolve(this.AccessPoint = res._id ) 
+          resolve(res._id)
+          console.log(res._id)
+        }, err => {
+          this.toastr.error('Created AP Fail');
+          reject(err)
+          console.log(err)
+        });
     })
   }
 
-  createDataApg(){
-    this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray ;
+  createDataApg() {
+    this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
     // this.optionsArray = [];
     this.createDataAccessPoint().then(apId => {
       var moduleId = localStorage.getItem('moduleID');
       var apg = {
         "name": this.model.name,
         "description": "",
-        "moduleId": moduleId, 
-        "accessPoints": [apId] };
-      this._service.createAPG(this.regionID,this.locationID,apg,null,moduleId).subscribe((res:any) =>{
+        "moduleId": moduleId,
+        "accessPoints": [apId]
+      };
+      this._service.createAPG(this.regionID, this.locationID, apg, null, moduleId).subscribe((res: any) => {
         console.log(res);
         this.toastr.success('APG successfully Created.');
         this.cancelapg();
         this.optionsArray = [];
-      },err =>{
+      }, err => {
         this.toastr.error('Created APG Fail');
       })
 
@@ -1091,28 +1092,28 @@ export class ApgComponent implements OnInit, OnDestroy {
     });
   }
   //model._Id
-  updateAp(apId,ap,apgId){
+  updateAp(apId, ap, apgId) {
     this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
-    return new Promise((resolve,reject)=>{
-      this._service.updateAP(this.regionID,apId,this.templateAccessPointGroup)
-      .subscribe((res: any) => {
-        console.log(res)
-        resolve(res._id)
-      }), err => {
-      console.log(err)
-    }
+    return new Promise((resolve, reject) => {
+      this._service.updateAP(this.regionID, apId, this.templateAccessPointGroup)
+        .subscribe((res: any) => {
+          console.log(res)
+          resolve(res._id)
+        }), err => {
+          console.log(err)
+        }
     }).then(accespointId => {
-      this._service.updateAPG(this.regionID, apgId, this.model,null)
-      .subscribe((res: any) => {
-        console.log(res)
-        this.cancelapg()
-      }), err => {
-      console.log(err)
-    }
+      this._service.updateAPG(this.regionID, apgId, this.model, null)
+        .subscribe((res: any) => {
+          console.log(res)
+          this.cancelapg()
+        }), err => {
+          console.log(err)
+        }
     }).catch((err) => {
       console.log(err); // never called
     });
-}
+  }
 
   createapgs(data, update) {
     console.log(update)
@@ -1163,49 +1164,49 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.singleAPG(apgID, 'share');
   }
 
-  onclickUpdate(id,apgName) {
+  onclickUpdate(id, apgName) {
     console.log(id)
     this.apgList = [];
-      this.iscreate = true;
-      this.isUpdate = true;
-      if(apgName.module.name == "Data"){
-        var moduleId =  localStorage.getItem('moduleID');
-        const templateAccessPoint = {
-          "name": "",
-          "description": "",
-          "moduleId": moduleId,
-          "data": {
-            "sectionType": "DATA",
-            "unit": " ",
-            "inputType": this.selectedRadio,
-            "inputTypeProperties": {
-              "name": "",
-              "min": "",
-              "max": "",
-              "options": [
-                ""
+    this.iscreate = true;
+    this.isUpdate = true;
+    if (apgName.module.name == "Data") {
+      var moduleId = localStorage.getItem('moduleID');
+      const templateAccessPoint = {
+        "name": "",
+        "description": "",
+        "moduleId": moduleId,
+        "data": {
+          "sectionType": "DATA",
+          "unit": " ",
+          "inputType": this.selectedRadio,
+          "inputTypeProperties": {
+            "name": "",
+            "min": "",
+            "max": "",
+            "options": [
+              ""
             ]
-           }
           }
         }
-        this.templateAccessPointGroup = templateAccessPoint;
-
-        this.dataApCreate= true;
-        this.ismodule = false;
-        this.apCreate = false;
-      }else if(apgName.module.name=="Assessment"||apgName.module.name == "Evaluation"){
-        this.apCreate = true;
       }
-    return new Promise((resolve,reject)=>{
+      this.templateAccessPointGroup = templateAccessPoint;
+
+      this.dataApCreate = true;
+      this.ismodule = false;
+      this.apCreate = false;
+    } else if (apgName.module.name == "Assessment" || apgName.module.name == "Evaluation") {
+      this.apCreate = true;
+    }
+    return new Promise((resolve, reject) => {
       this.singleAPG(id, 'update').then(apId => {
-        console.log('apid===>',apId)
-          resolve(apId)
+        console.log('apid===>', apId)
+        resolve(apId)
       }).catch((err) => {
         console.log(err); // never called
       });
     }).then(accespointId => {
-      console.log('accespointId===>',accespointId)
-      this.getEditAccessPoint(this.regionID,accespointId,apgName.module.name)
+      console.log('accespointId===>', accespointId)
+      this.getEditAccessPoint(this.regionID, accespointId, apgName.module.name)
     }).catch((err) => {
       console.log(err); // never called
     });
@@ -1215,14 +1216,14 @@ export class ApgComponent implements OnInit, OnDestroy {
   singleAPG(id, state) {
     this.blockUI.start('Loading...');
 
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
         this._service.getSingleAPG(this.regionID, id)
           .subscribe((res: any) => {
             this.blockUI.stop();
             console.log('editapg', res)
             this.model = res;
-            console.log('resolve res.accessPoints',res.accessPoints)
+            console.log('resolve res.accessPoints', res.accessPoints)
             resolve(res.accessPoints)
             if (state == 'share') {
               console.log(res)
@@ -1231,7 +1232,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             if (state == 'public') {
               console.log('public ok')
               this.publicAPG(res);
-    
+
             }
           }, err => {
             this.blockUI.stop();
@@ -1252,15 +1253,15 @@ export class ApgComponent implements OnInit, OnDestroy {
     //       if (state == 'public') {
     //         console.log('public ok')
     //         this.publicAPG(res);
-  
+
     //       }
     //     }, err => {
     //       this.blockUI.stop();
     //       console.log(err)
     //     })
     // }, 10);
-      // setTimeout(() => {
-        // }, 1500);
+    // setTimeout(() => {
+    // }, 1500);
   }
 
   // getAllTemplate(){
@@ -1797,7 +1798,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-  autoResize(e, id,name,x) {
+  autoResize(e, id, name, x) {
     console.log(e.target.style)
     console.log(e.target.scrollHeight)
     e.target.style.cssText = 'height:auto';
@@ -1822,7 +1823,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log("over 400")
     }
 
-    this.addReqValue(e.target.value,name,id,x)
+    this.addReqValue(e.target.value, name, id, x)
   }
   minAndMax(e, value, index) {
 
@@ -1839,136 +1840,136 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   radioSelect(type) {
     this.selectedRadio = type;
-    this.templateAccessPointGroup.data.inputType=type;
-    if(type == "RADIO"){
-      this.templateAccessPointGroup.data.unit="";
-      this.templateAccessPointGroup.data.inputTypeProperties.min="";
-      this.templateAccessPointGroup.data.inputTypeProperties.max="";
-    }else if(type == "NUMBER"){
-      this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
-      this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[''];
-      this.templateAccessPointGroup.data.inputTypeProperties.min="";
-      this.templateAccessPointGroup.data.inputTypeProperties.max="";
-    }else{
-      this.templateAccessPointGroup.data.inputTypeProperties.options=[""];
-      this.templateAccessPointGroup.data.inputTypeProperties.options[0]=[""];
-      this.templateAccessPointGroup.data.unit="";
+    this.templateAccessPointGroup.data.inputType = type;
+    if (type == "RADIO") {
+      this.templateAccessPointGroup.data.unit = "";
+      this.templateAccessPointGroup.data.inputTypeProperties.min = "";
+      this.templateAccessPointGroup.data.inputTypeProperties.max = "";
+    } else if (type == "NUMBER") {
+      this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
+      this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
+      this.templateAccessPointGroup.data.inputTypeProperties.min = "";
+      this.templateAccessPointGroup.data.inputTypeProperties.max = "";
+    } else {
+      this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
+      this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [""];
+      this.templateAccessPointGroup.data.unit = "";
     }
   }
-  
-  checkValidation(arr){
+
+  checkValidation(arr) {
     var apgName = this.model.name
     // console.log(apgName)
-    if(this.selectedRadio == 'RADIO'|| apgName.length == 0){
-      if(arr.includes("")){
+    if (this.selectedRadio == 'RADIO' || apgName.length == 0) {
+      if (arr.includes("")) {
         this.valid = false;
-      }else{
+      } else {
         this.valid = true
       }
-    }else if(this.selectedRadio == "NUMBER"|| apgName.length == 0){
-      if(this.templateAccessPointGroup.data.unit == ""){
+    } else if (this.selectedRadio == "NUMBER" || apgName.length == 0) {
+      if (this.templateAccessPointGroup.data.unit == "") {
         this.valid = false;
-      }else{
-        this.valid =true;
+      } else {
+        this.valid = true;
       }
-    }else{
-      var min =this.templateAccessPointGroup.data.inputTypeProperties.min;
-      var max =this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if(min== "" || max==""|| apgName.length == 0){
+    } else {
+      var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
+      var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
+      if (min == "" || max == "" || apgName.length == 0) {
         this.valid = false;
-      }else{
-        this.valid =true;
+      } else {
+        this.valid = true;
       }
     }
   }
-  setInputValueFromObject(arr){
+  setInputValueFromObject(arr) {
     setTimeout(() => {
       console.log($(".data-wrapper").children())
       console.log($(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input"))
       var tempArr = $(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input");
-     for(var i=0;i<arr.length;i++)
-      $(tempArr[i]).val(arr[i])
+      for (var i = 0; i < arr.length; i++)
+        $(tempArr[i]).val(arr[i])
     }, 100);
   }
-  getEditAccessPoint(reginId,accesPointId,apgName){
-    console.log(apgName,'<<<<<<<<<========')
-    if(apgName == "Data"){
-      this._service.getAccessPoint(reginId,accesPointId)
-      .subscribe((res: any) => {
-        console.log(res)
-          this.templateAccessPointGroup = res;
-          this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
-          this.selectedRadio= this.templateAccessPointGroup.data.inputType 
-          console.log(this.optionsArray)
-          this.setInputValueFromObject(this.optionsArray)
-      }, err => {
-        console.log(err)
-      })
-    }else{
-      console.log('asss ==========>>>')
-      this.templateAccessPointGroup=[];
-      var tempArray = accesPointId.map(accesPoint=>{
-        this._service.getAccessPoint(reginId,accesPoint)
+  getEditAccessPoint(reginId, accesPointId, apgName) {
+    console.log(apgName, '<<<<<<<<<========')
+    if (apgName == "Data") {
+      this._service.getAccessPoint(reginId, accesPointId)
         .subscribe((res: any) => {
           console.log(res)
-            this.templateAccessPointGroup.push(res)
+          this.templateAccessPointGroup = res;
+          this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
+          this.selectedRadio = this.templateAccessPointGroup.data.inputType
+          console.log(this.optionsArray)
+          this.setInputValueFromObject(this.optionsArray)
         }, err => {
           console.log(err)
         })
+    } else {
+      console.log('asss ==========>>>')
+      this.templateAccessPointGroup = [];
+      var tempArray = accesPointId.map(accesPoint => {
+        this._service.getAccessPoint(reginId, accesPoint)
+          .subscribe((res: any) => {
+            console.log(res)
+            this.templateAccessPointGroup.push(res)
+          }, err => {
+            console.log(err)
+          })
       })
     }
-    
+
   }
 
-  ChangedTimeValue(obj){
+  ChangedTimeValue(obj) {
     console.log(obj)
     // var range = this.maxValue - this.minValue;
-    var range =  this.templateAccessPointGroup.data.inputTypeProperties.max - this.templateAccessPointGroup.data.inputTypeProperties.min;
+    var range = this.templateAccessPointGroup.data.inputTypeProperties.max - this.templateAccessPointGroup.data.inputTypeProperties.min;
     // var position = ((obj - this.minValue) / range) * 100;
     var position = ((obj - this.templateAccessPointGroup.data.inputTypeProperties.min) / range) * 100;
     var positionOffset = Math.round(20 * position / 100) - (20 / 2);
-    this.exitValue=obj;
+    this.exitValue = obj;
     const box: HTMLElement = document.getElementById('arrowBox');
-   
-    if( this.templateAccessPointGroup.data.inputTypeProperties.max< this.templateAccessPointGroup.data.inputTypeProperties.min){
-      box.setAttribute("style",'display:none');
-    }else{
-      box.setAttribute("style",'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
+
+    if (this.templateAccessPointGroup.data.inputTypeProperties.max < this.templateAccessPointGroup.data.inputTypeProperties.min) {
+      box.setAttribute("style", 'display:none');
+    } else {
+      box.setAttribute("style", 'margin-left:calc(' + position + '% - ' + positionOffset + 'px)');
     }
     console.log(this.templateAccessPointGroup)
   }
-  emptymin:boolean = true;
-  emptymax:boolean = true;
-  overmin: boolean=true;
-  chkValue(v,type){
+  emptymin: boolean = true;
+  emptymax: boolean = true;
+  overmin: boolean = true;
+  chkValue(v, type) {
     console.log(v)
-    if(type=='min'){
-      if(v.length>0){
+    if (type == 'min') {
+      if (v.length > 0) {
         this.emptymin = false;
-      }else{
+      } else {
         this.emptymin = true;
       }
-      
-    }else{
-      if(v.length>0){
+
+    } else {
+      if (v.length > 0) {
         this.emptymax = false;
-      }else{
+      } else {
         this.emptymax = true;
       }
     }
-    if( this.templateAccessPointGroup.data.inputTypeProperties.max<= this.templateAccessPointGroup.data.inputTypeProperties.min){
-      this.overmin=true;
-    }else{
-      this.overmin=false;
+    if (this.templateAccessPointGroup.data.inputTypeProperties.max <= this.templateAccessPointGroup.data.inputTypeProperties.min) {
+      this.overmin = true;
+    } else {
+      this.overmin = false;
     }
   }
-  toShowClear(){
+  toShowClear() {
     return this.optionsArray.length > 1;
   }
-  addDataValueText(i,e){
+  addDataValueText(i, e) {
     console.log(e)
     // this.templateAccessPointGroup.data.inputTypeProperties.options[i] = e.target.value;
-    this.optionsArray[i]=e.target.value;
+    this.optionsArray[i] = e.target.value;
   }
 }
 
