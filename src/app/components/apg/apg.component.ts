@@ -106,7 +106,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public stillDrag: boolean = false;
   public optionsArray: any = [""];
   public groupNumber: number = 0;
-
+  public isExpandArr : any = [];
   public selectedRadio = "NUMBER"
   minValue: any = "";
   maxValue: any = "";
@@ -254,27 +254,27 @@ export class ApgComponent implements OnInit, OnDestroy {
     })
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
 
-      console.log(name)
+      console.log(name === "COLUMNS")
       if (name === "COLUMNS") {
-
+        console.log("fck")
         this.stillDrag = true;
-
         document.addEventListener("mousemove", this.testFunct = () => {
           // console.log(this.stillDrag)
           if (this.stillDrag) {
             setTimeout(function () {
               var container = $(el).parents(".requirements-wrapper")[0];
-              var y = $(".gu-mirror").position().top;
-              var dragHeight = y + $(".gu-mirror").height();
-              var dropHeight = $(container).position().top + $(container).height()
-
-              if (y - $(container).position().top < 10) {
-                container.scrollTop -= 10;
-
-              } else if (dropHeight - dragHeight < 10) {
-                container.scrollTop += 10;
-
+              if($(".gu-mirror").position() && container){
+                var y = $(".gu-mirror").position().top;
+                var dragHeight = y + $(".gu-mirror").height();
+                var dropHeight = $(container).position().top + $(container).height()
+                if (y - $(container).position().top < 10) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 10) {
+                  container.scrollTop += 10;
+  
+                }
               }
+              
             })
           }
         }
@@ -652,7 +652,8 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.apCreate = false;
       }
     } else {
-      
+      console.log("Create new APg", name)
+
       console.log('hi')
       this.sharechecked = ''
       this.shareAPG = true;
@@ -698,7 +699,10 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   chooseModuleType(val, name) {
+    console.log("ModuleId --->" , val)
     this.apgType = name;
+    // if(name == "Assessment")
+    //   this.apgType = "evaluation"
     console.log(name)
     this.ischecked = val;
     localStorage.setItem('moduleID', val);
@@ -1532,6 +1536,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   getAllTemplate(limit, skip) {
+    console.log(this.apgType)
     var moduleId = localStorage.getItem('moduleID');
     console.log(moduleId)
     this._service.getAllTemplate(this.regionID, limit, skip,moduleId)
@@ -1539,6 +1544,14 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log('templateLists', res)
         this.result = res;
         this.templateList = this.templateList.concat(res);
+        if(this.apgType == "Assessment"){
+          for(var i=0;i<this.templateList.length ; i++){
+            for(var j=0;j<this.templateList[i].accessPoints.length ; j++){
+              this.templateList[i].accessPoints[j].isExpand = false;
+            }
+          }
+        }
+       
       }, err => {
         console.log(err)
       })
@@ -1974,6 +1987,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(e)
     // this.templateAccessPointGroup.data.inputTypeProperties.options[i] = e.target.value;
     this.optionsArray[i] = e.target.value;
+  }
+  expandAccessPoint(i,ind){
+    this.templateList[i].accessPoints[ind].isExpand = !this.templateList[i].accessPoints[ind].isExpand;
+    console.log(i,ind)
   }
 }
 
