@@ -194,7 +194,7 @@
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button  *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)" [disabled]="!model.name || isEmpty == true">Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()">Update</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
         </div>
       </div>
     <!-- </form> -->
@@ -360,9 +360,11 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
-            (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" 
+                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" 
+                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
+                  (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
         </div>
       </div>
     </div>
