@@ -1768,21 +1768,43 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err);
       });
   }
-
+  allApgList:any = [];
+  progressAPG:any = [];
+  badgeApg:any = [];
+  evAPG:any = [];
+  dataApgList:any = [];
   getAllAPG(limit, skip) {
     this.blockUI.start('Loading...');
     this._service.getAllAPG(this.regionID, this.selectedAPGTab.id , limit, skip)
       .subscribe((res: any) => {
+        this.apgList = [];
+        this.result = res;
         console.log('apgLists', res)
-        this.apgList = res;
+        if(this.selectedAPGTab.name.toLowerCase() == 'all'){
+          this.allApgList = this.allApgList.concat(res);
+          this.apgList = this.allApgList; 
+        }else if(this.selectedAPGTab.name.toLowerCase() == 'badge'){
+          this.badgeApg = this.badgeApg.concat(res);
+          this.apgList = this.badgeApg;
+        }else if(this.selectedAPGTab.name.toLowerCase() == 'progress'){
+          this.progressAPG = this.progressAPG.concat(res);
+          this.apgList = this.progressAPG;
+        }else if(this.selectedAPGTab.name.toLowerCase() == 'assessment' || this.selectedAPGTab.name.toLowerCase() == 'evaluation'){
+          this.evAPG = this.evAPG.concat(res);
+          this.apgList = this.evAPG;
+        }else if(this.selectedAPGTab.name.toLowerCase() == 'data'){
+          this.dataApgList = this.dataApgList.concat(res);
+          this.apgList = this.dataApgList;
+        }
+        // this.apgList = res;
         // this.result = res;
         // this.apgList = this.apgList.concat(res);
         // console.log("apglists",this.apgList)
-        // if (res.length == 0) {
-        //   this.emptyAPG = true;
-        // } else {
-        //   this.emptyAPG = false;
-        // }
+        if (res.length == 0) {
+          this.emptyAPG = true;
+        } else {
+          this.emptyAPG = false;
+        }
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
