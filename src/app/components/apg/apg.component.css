@@ -137,7 +137,7 @@
 .input-label,
 .input-recommend,
 .modal-title,
-.target {
+.target,.tab-name {
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
 }
 
@@ -1543,3 +1543,22 @@ li.optionlist {
   margin-left: 18px;
 }
 
+.tabs-wrapper{
+   padding: 0px 16px; 
+}
+
+.tabs-wrapper button{
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #2e3d4d;
+    border-bottom: 2px solid #fff;
+}
+
+.active-apg-tab{
+  color: #007fff!important;
+  border-bottom: 2px solid #007fff!important;
+}

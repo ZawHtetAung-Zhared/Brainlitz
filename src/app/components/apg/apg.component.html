@@ -36,6 +36,12 @@
       </button>
     </span>
   </div>
+  <div>
+    <div class="d-flex tabs-wrapper tab-name">
+      <button class="modal-tab" [ngClass]="{'active-apg-tab': selectedAPGTab.name == 'All'}" (click)="onClickApgTab('All')">All</button>
+      <button *ngFor="let module of moduleList" [ngClass]="{'active-apg-tab': selectedAPGTab.name == module.name}"  (click)="onClickApgTab(module.name,module._id)">{{module.name}}</button>
+    </div>
+  </div>
   <div class="apg-wrapper card-columns">
     <div class="card " *ngFor="let apg of apgList; let i = index">
       <div class="single-apg">

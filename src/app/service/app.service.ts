@@ -1720,10 +1720,16 @@ export class appService{
       })
     }
 
-    getAllAPG(id: string,limit:number,skip:number){
+    getAllAPG(id: string,moduleId:string,limit:number,skip:number){
       // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       console.log("APG limit skip",limit,skip);
-      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
+      if(moduleId == ''){
+        console.log('no moduleID')
+        var apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
+      }else{
+        console.log('has moduleID')
+        var apiUrl = this.baseUrl +'/'+ id + '/access-point-group?moduleId=' + moduleId + '&limit=' + limit + '&skip=' + skip;
+      }
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

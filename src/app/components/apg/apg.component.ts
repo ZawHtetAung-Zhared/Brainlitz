@@ -82,6 +82,10 @@ export class ApgComponent implements OnInit, OnDestroy {
   isUpDown: Boolean = false;
   isUpDownHide: Boolean = false;
   apgType: any;
+  selectedAPGTab={
+    'name': '',
+    'id': ''
+  }
 
   //
   
@@ -172,6 +176,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     // return this.stillDrag;
   }
   ngOnInit() {
+    this.selectedAPGTab.name = "All";
+    this.selectedAPGTab.id = '';
     // this.dragulaService
     //   .drag("COLUMNS")
     //   .subscribe(({ name,el, source})  => {
@@ -983,7 +989,6 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     var apg = { "name": "", "description": "", "moduleId": "", "accessPoints": [] };
     var templateID;
-
     console.log(nameparam.name)
 
     this.insertAP().then(res => {
@@ -1674,16 +1679,18 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   getAllAPG(limit, skip) {
     this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID, limit, skip)
+    this._service.getAllAPG(this.regionID, this.selectedAPGTab.id , limit, skip)
       .subscribe((res: any) => {
         console.log('apgLists', res)
-        this.result = res;
-        this.apgList = this.apgList.concat(res);
-        if (res.length == 0) {
-          this.emptyAPG = true;
-        } else {
-          this.emptyAPG = false;
-        }
+        this.apgList = res;
+        // this.result = res;
+        // this.apgList = this.apgList.concat(res);
+        // console.log("apglists",this.apgList)
+        // if (res.length == 0) {
+        //   this.emptyAPG = true;
+        // } else {
+        //   this.emptyAPG = false;
+        // }
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
@@ -1973,6 +1980,18 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(e)
     // this.templateAccessPointGroup.data.inputTypeProperties.options[i] = e.target.value;
     this.optionsArray[i]=e.target.value;
+  }
+
+  onClickApgTab(name,id){
+    if(name == 'All'){
+      this.selectedAPGTab.name = 'All';
+      this.selectedAPGTab.id = '';
+    }else{
+      this.selectedAPGTab.name = name;
+      this.selectedAPGTab.id = id;
+    }
+    this.getAllAPG(20,0);
+    console.log("onClickApgTab",this.selectedAPGTab)
   }
 }
 
