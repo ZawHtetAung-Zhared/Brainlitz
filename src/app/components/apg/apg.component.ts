@@ -89,6 +89,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     'name': '',
     'id': ''
   }
+  allApgList:any = [];
+  progressAPG:any = [];
+  badgeApg:any = [];
+  evAPG:any = [];
+  dataApgList:any = [];
 
   //
   
@@ -1784,11 +1789,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err);
       });
   }
-  allApgList:any = [];
-  progressAPG:any = [];
-  badgeApg:any = [];
-  evAPG:any = [];
-  dataApgList:any = [];
+  
   getAllAPG(limit, skip) {
     this.blockUI.start('Loading...');
     this._service.getAllAPG(this.regionID, this.selectedAPGTab.id , limit, skip)
@@ -2121,6 +2122,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   onClickApgTab(name,id){
+    this.allApgList = [];
+    this.progressAPG = [];
+    this.badgeApg = [];
+    this.evAPG = [];
+    this.dataApgList = [];
     if(name == 'All'){
       this.selectedAPGTab.name = 'All';
       this.selectedAPGTab.id = '';
