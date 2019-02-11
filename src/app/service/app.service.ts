@@ -1741,7 +1741,21 @@ export class appService{
         return result;
       })
     }
-
+    deleteAp(regionId:string, AP_ID:string,){
+      let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(httpOptions)
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
     
     updateAP(regionId:string, AP_ID:string, body:any ){
       let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;

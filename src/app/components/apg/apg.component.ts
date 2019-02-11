@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
+import { csLocale } from 'ngx-bootstrap';
 @Component({
   selector: 'app-apg',
   templateUrl: './apg.component.html',
@@ -24,6 +25,8 @@ import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group
 })
 export class ApgComponent implements OnInit, OnDestroy {
   public valid:boolean;
+  public moduleID:any;
+  public accessPointArrayString: any = []
   public templateAccessPointGroup: any = []
   public templateAccessPoint : {};
   public AccessPoint:any;
@@ -479,6 +482,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
+    this.selectedRadio ="NUMBER"
     //for evaluation APG
     this.templateAccessPointGroup = []
     this.optionsArray = [""];
@@ -707,6 +711,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.apgType = name;
     console.log(name)
     this.ischecked = val;
+    this.moduleID = val;
     localStorage.setItem('moduleID', val);
     setTimeout(() => {
       this.ismodule = false;
@@ -937,6 +942,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.delItem = item
 
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+    let jsonStringIntoArray = JSON.parse(this.accessPointArrayString)
+    // delete element from accesspoint arraystring
+    jsonStringIntoArray.splice(idx, 1)
+    this.accessPointArrayString = JSON.stringify(jsonStringIntoArray)
+    // console.log(JSON.parse(this.accessPointArrayString).splice(idx,1))
+    // console.error(JSON.stringify(JSON.parse(this.accessPointArrayString).splice(idx,1)))
+
+    // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
+    // console.error(JSON.parse(this.accessPointArrayString))
+    console.log(this.accessPointArrayString)
     this.removeValue(name,idx,'','skill')
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
@@ -983,7 +998,65 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(innerBoxHeight.scrollTop)
   }
 
+  callCreateAPI() {
+
+  }
+
+  callEditAPI() {
+
+  }
+     // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
+  editAccessmentApg() {
+    let createdDataCollection = [];
+    let editedDataCollection = [];
+    this.model.accessPoints = [];
+      this.templateAccessPointGroup.forEach((item, index) => {
+        if (item._id) {
+             // Push the item to editedDataCollection Array
+          let identical = JSON.stringify(item) === JSON.stringify(JSON.parse(this.accessPointArrayString));
+          console.log(item)
+          this.model.accessPoints.push(item._id)
+          console.log(this.templateAccessPointGroup)
+          console.log(JSON.parse(this.accessPointArrayString))
+          if (!identical) {
+            editedDataCollection.push(item);
+            console.log(editedDataCollection)
+            // this.updateAp(item._id,item,this.model._id)
+          }
+        } else {
+       // Push the item to createdDataCollection Array
+          createdDataCollection.push(item);
+        }
+      });
+                
+ 
+    // Loop the CreatedDataCollection and call APIs
+      if(createdDataCollection.length) {
+        this.insertAP(createdDataCollection).then((createdIdCollection) => {
+          // Continue to edit the Main Block
+          let accessPoints = this.model['accessPoints'];
+          this.model['accessPoints'] = accessPoints.concat(createdIdCollection);
+          this._service.updateAPG(this.regionID, this.model._id, this.model, null)
+          .subscribe((res: any) => {
+              this.cancelapg();
+            }), err => {
+              console.log("Error in Access Point updating")
+            };
+        }).catch((error) => {
+          console.log("Catching AccessPoint App Error", error);
+        });
+      }
+      if(editedDataCollection.length) {
+        this.updateFunction(editedDataCollection).then((item) => {
+          console.log(item, 'success')
+        }).catch((error) => {
+        console.log("Catching AccessPoint App Error", error);
+      });
+      }
+  }
+
   createEvaluateApgs(nameparam) {
+    this.templateAccessPointGroup
     var moduleId = localStorage.getItem('moduleID');
     var arr;
 
@@ -991,7 +1064,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     var templateID;
     console.log(nameparam.name)
 
-    this.insertAP().then(res => {
+    this.insertAP(this.templateAccessPointGroup).then(res => {
       apg.name = nameparam.name;
       apg.accessPoints = res;
       apg.moduleId = moduleId;
@@ -1012,7 +1085,8 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
-  insertAP() {
+  // Made function param to be reuseable
+  insertAP(dataCollection) {
     var apArr = {
       "name": "",
       "moduleId": "",
@@ -1031,18 +1105,20 @@ export class ApgComponent implements OnInit, OnDestroy {
         }
       }
     }
-
+    
     var moduleId = localStorage.getItem('moduleID');
     var APIdarr = [];
 
-    return Promise.all(this.templateAccessPointGroup.map(ap => {
+    return Promise.all(dataCollection.map(ap => {
       // for(var j=0;j<ap.data.evaluation.details.length;j++){
       //   console.log(ap.name)
       //   
       // }
 
       apArr.name = ap.name;
-      apArr.moduleId = moduleId;
+      apArr.moduleId = this.moduleID;
+      // apArr.moduleId = moduleId;
+      console.log('module ID :', moduleId);
       apArr.data.evaluation = ap.data.evaluation;
       return new Promise((resolve, reject) => {
         this._service.createAP(this.regionID, this.locationID, apArr)
@@ -1098,9 +1174,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId,ap,apgId){
-    this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+    ap.data.inputTypeProperties.options = this.optionsArray;
     return new Promise((resolve,reject)=>{
-      this._service.updateAP(this.regionID,apId,this.templateAccessPointGroup)
+      this._service.updateAP(this.regionID,apId,ap)
       .subscribe((res: any) => {
         console.log(res)
         resolve(res._id)
@@ -1119,6 +1195,11 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(err); // never called
     });
 }
+  updateFunction(dataCollection){
+    return Promise.all(dataCollection.map(item => {
+      return this.updateAp(item._id,item,this.model._id)
+    }))
+  }
 
   createapgs(data, update) {
     console.log(update)
@@ -1205,6 +1286,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     return new Promise((resolve,reject)=>{
       this.singleAPG(id, 'update').then(apId => {
         console.log('apid===>',apId)
+        this.moduleID = this.model.moduleId;
           resolve(apId)
       }).catch((err) => {
         console.log(err); // never called
@@ -1212,6 +1294,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     }).then(accespointId => {
       console.log('accespointId===>',accespointId)
       this.getEditAccessPoint(this.regionID,accespointId,apgName.module.name)
+      .then(dataCollection => {
+        console.log('successs',dataCollection)
+        this.templateAccessPointGroup = dataCollection;
+        this.accessPointArrayString = JSON.stringify(dataCollection);
+      }).catch((err) => {
+        console.log(err); // never called
+      });
+  
+          // this.templateAccessPointGroup.push(res)
+          // this.accessPointArrayString.push(JSON.stringify(res));
     }).catch((err) => {
       console.log(err); // never called
     });
@@ -1904,29 +1996,37 @@ export class ApgComponent implements OnInit, OnDestroy {
   getEditAccessPoint(reginId,accesPointId,apgName){
     console.log(apgName,'<<<<<<<<<========')
     if(apgName == "Data"){
-      this._service.getAccessPoint(reginId,accesPointId)
-      .subscribe((res: any) => {
-        console.log(res)
-          this.templateAccessPointGroup = res;
-          this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
-          this.selectedRadio= this.templateAccessPointGroup.data.inputType 
-          console.log(this.optionsArray)
-          this.setInputValueFromObject(this.optionsArray)
-      }, err => {
-        console.log(err)
-      })
-    }else{
-      console.log('asss ==========>>>')
-      this.templateAccessPointGroup=[];
-      var tempArray = accesPointId.map(accesPoint=>{
-        this._service.getAccessPoint(reginId,accesPoint)
+      return new Promise((resolve, reject) => {
+        this._service.getAccessPoint(reginId,accesPointId)
         .subscribe((res: any) => {
-          console.log(res)
-            this.templateAccessPointGroup.push(res)
+            console.log(res)
+            this.templateAccessPointGroup = res;
+            this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
+            this.selectedRadio= this.templateAccessPointGroup.data.inputType 
+            console.log(this.optionsArray)
+            resolve(res)
+            this.setInputValueFromObject(this.optionsArray)
         }, err => {
           console.log(err)
         })
       })
+    }else{
+      console.log('asss ==========>>>')
+      this.templateAccessPointGroup=[];
+      return Promise.all(accesPointId.map(accesPoint=> {
+        return new Promise((resolve, reject) => {
+          this._service.getAccessPoint(reginId,accesPoint)
+          .subscribe((res: any) => {
+            console.log(res)
+            resolve(res)
+              // this.templateAccessPointGroup.push(res)
+              // this.accessPointArrayString.push(JSON.stringify(res));
+          }, err => {
+            console.log(err)
+            reject(err)
+          })
+        })
+      }));
     }
     
   }
