@@ -25,6 +25,7 @@ import { csLocale } from 'ngx-bootstrap';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   public valid:boolean;
+  public moduleID:any;
   public accessPointArrayString: any = []
   public templateAccessPointGroup: any = []
   public templateAccessPoint : {};
@@ -704,6 +705,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.apgType = name;
     console.log(name)
     this.ischecked = val;
+    this.moduleID = val;
     localStorage.setItem('moduleID', val);
     setTimeout(() => {
       this.ismodule = false;
@@ -940,7 +942,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.accessPointArrayString = JSON.stringify(jsonStringIntoArray)
     // console.log(JSON.parse(this.accessPointArrayString).splice(idx,1))
     // console.error(JSON.stringify(JSON.parse(this.accessPointArrayString).splice(idx,1)))
-    console.warn(JSON.parse(this.accessPointArrayString))
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
     // console.error(JSON.parse(this.accessPointArrayString))
@@ -998,37 +999,31 @@ export class ApgComponent implements OnInit, OnDestroy {
   callEditAPI() {
 
   }
-
+     // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
   editAccessmentApg() {
     let createdDataCollection = [];
     let editedDataCollection = [];
+    this.model.accessPoints = [];
       this.templateAccessPointGroup.forEach((item, index) => {
         if (item._id) {
              // Push the item to editedDataCollection Array
-          
           let identical = JSON.stringify(item) === JSON.stringify(JSON.parse(this.accessPointArrayString));
-          console.log(identical)
+          console.log(item)
+          this.model.accessPoints.push(item._id)
           console.log(this.templateAccessPointGroup)
           console.log(JSON.parse(this.accessPointArrayString))
           if (!identical) {
-
-            console.warn(item.name)
             editedDataCollection.push(item);
             console.log(editedDataCollection)
             // this.updateAp(item._id,item,this.model._id)
           }
         } else {
        // Push the item to createdDataCollection Array
-          // Validate the item is edited or not?
-          // Compare the dataCollection array with original array
-          // If not the same with original, push item to the createdDataCollection Array
           createdDataCollection.push(item);
-          console.warn(item)
         }
       });
                 
-      console.error(editedDataCollection, createdDataCollection);
-      // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
+ 
     // Loop the CreatedDataCollection and call APIs
       if(createdDataCollection.length) {
         this.insertAP(createdDataCollection).then((createdIdCollection) => {
@@ -1052,21 +1047,9 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log("Catching AccessPoint App Error", error);
       });
       }
-      
-      
-
-    // Loop the EditedDataCollection and call APIs
-    // editedDataCollection.forEach(item => {
-    //   // If the status of data == 'edit', Call Edit API
-    //   this.callCreateAPI();
-    // });
-
   }
 
-  
-
   createEvaluateApgs(nameparam) {
-    console.error(this.templateAccessPointGroup);
     this.templateAccessPointGroup
     var moduleId = localStorage.getItem('moduleID');
     var arr;
@@ -1117,7 +1100,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         }
       }
     }
-
+    
     var moduleId = localStorage.getItem('moduleID');
     var APIdarr = [];
 
@@ -1128,7 +1111,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       // }
 
       apArr.name = ap.name;
-      apArr.moduleId = moduleId;
+      apArr.moduleId = this.moduleID;
+      // apArr.moduleId = moduleId;
       console.log('module ID :', moduleId);
       apArr.data.evaluation = ap.data.evaluation;
       return new Promise((resolve, reject) => {
@@ -1297,6 +1281,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     return new Promise((resolve,reject)=>{
       this.singleAPG(id, 'update').then(apId => {
         console.log('apid===>',apId)
+        this.moduleID = this.model.moduleId;
           resolve(apId)
       }).catch((err) => {
         console.log(err); // never called
@@ -2004,16 +1989,19 @@ export class ApgComponent implements OnInit, OnDestroy {
   getEditAccessPoint(reginId,accesPointId,apgName){
     console.log(apgName,'<<<<<<<<<========')
     if(apgName == "Data"){
-      this._service.getAccessPoint(reginId,accesPointId)
-      .subscribe((res: any) => {
-        console.log(res)
-          this.templateAccessPointGroup = res;
-          this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
-          this.selectedRadio= this.templateAccessPointGroup.data.inputType 
-          console.log(this.optionsArray)
-          this.setInputValueFromObject(this.optionsArray)
-      }, err => {
-        console.log(err)
+      return new Promise((resolve, reject) => {
+        this._service.getAccessPoint(reginId,accesPointId)
+        .subscribe((res: any) => {
+            console.log(res)
+            this.templateAccessPointGroup = res;
+            this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
+            this.selectedRadio= this.templateAccessPointGroup.data.inputType 
+            console.log(this.optionsArray)
+            resolve(res)
+            this.setInputValueFromObject(this.optionsArray)
+        }, err => {
+          console.log(err)
+        })
       })
     }else{
       console.log('asss ==========>>>')
