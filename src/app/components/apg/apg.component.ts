@@ -436,6 +436,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
+    this.selectedRadio ="NUMBER"
     //for evaluation APG
     this.templateAccessPointGroup = []
 
