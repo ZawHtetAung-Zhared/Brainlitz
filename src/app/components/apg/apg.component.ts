@@ -864,6 +864,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   scrollCalculation(skillObj,skillId){
+    console.log(skillObj.data.evaluation.details.length)
+    console.log(skillId)
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
     const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
     const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
@@ -871,7 +873,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     var req_total_height=0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
+      console.log(j);
       const requirement: HTMLElement = document.getElementById('requirement' + j);
+      console.log(requirement)
       req_total_height += requirement.clientHeight;
       console.log(req_total_height);
     }
@@ -897,7 +901,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.templateAccessPointGroup[skillId].DownOptions = true;
     }
   }
-  
+
 
   // addScrollOncheckMarkToggle(skillObjId, res) {
   //   console.log("reach checkMarkToggle>>" + skillObjId);
