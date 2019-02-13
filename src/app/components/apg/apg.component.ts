@@ -804,17 +804,17 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.checkProperties(this.formObj)
   }
 
-  removeValue(name, i, x, type) {
-    if (type == 'requirement') {
-      delete this.formObj[name + x + i];
-    } else {
-      delete this.formObj[name + i];
-      for (var k in this.delItem.data.evaluation.details) {
-        delete this.formObj['requirement' + k + i];
+  removeValue(val){
+    this.formObj = {};
+    console.log(val)
+    for(var k = 0; k<val.length; k++){
+      this.formObj["skillName"+k] = val[k].name;
+      for(var kk=0; kk < this.templateAccessPointGroup[k].data.evaluation.details.length; kk++){
+        this.formObj["requirement"+ kk + k] = val[k].data.evaluation.details[kk].name;
       }
     }
-    console.log("delete value from formObj", this.formObj)
-    this.checkProperties(this.formObj);
+    console.log("formObj~~~~",this.formObj)
+    this.checkProperties(this.formObj)
   }
 
   checkProperties(obj) {
@@ -865,7 +865,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
     this.scrollCalculation(skillblog, id);
-    this.removeValue(name, id, x, 'requirement')
+    setTimeout(()=>{
+      this.removeValue(this.templateAccessPointGroup)
+    })
+    // this.removeValue(name,id,x,'requirement')
   }
 
   focusAdd(length, idx) {
@@ -966,7 +969,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     // console.error(JSON.stringify(JSON.parse(this.accessPointArrayString).splice(idx,1)))
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-    this.removeValue(name,idx,'','skill')
+
+    setTimeout(()=>{
+      this.removeValue(this.templateAccessPointGroup)
+    })
+    // this.removeValue(name,idx,'','skill')
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
     // this.removeValue(name,idx,'','skill')
