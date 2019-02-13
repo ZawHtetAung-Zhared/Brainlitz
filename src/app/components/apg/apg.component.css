@@ -1539,3 +1539,6 @@ li.optionlist {
   margin-left: 18px;
 }
 
+.card.card-wrap.share-input {
+  border: none;
+}

@@ -812,6 +812,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     document.getElementById('box' + l + idx).focus();
   }
 
+  // Create in scroll calculation for evaluation 
   scrollCalculation(skillObj,skillId){
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
     const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
@@ -847,6 +848,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Scroll in check Mark toggle in evalution create
   addScrollOncheckMarkToggle(skillObjId, res) {
     console.log("reach checkMarkToggle>>" + skillObjId);
     const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillObjId);
@@ -873,6 +875,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("header height in add smark:" + this.headerHeight);
   }
 
+  //moving scroll in evaluation create
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
@@ -910,6 +913,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  //pushDownClick in evaluation create requirement
   pushDownClick(i) {
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
     // this.isUpDownHide = true;
@@ -919,6 +923,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  //pushUPClick in evaluation create requirement
   pushUpClick(i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
