@@ -512,6 +512,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   // }
 
   goToBack(status) {
+    console.log(status)
     if (status == 'type') {
       console.log('type')
       localStorage.removeItem('moduleID');
@@ -521,6 +522,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.isshare = false;
       this.ismodule = true;
       this.apCreate = false;
+      this.shareAPG = false
       this.model = {};
     } else {
       this.isshare = true;
@@ -1656,7 +1658,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           }
         }
-       
+       console.log(this.templateList)
       }, err => {
         console.log(err)
       })
