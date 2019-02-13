@@ -512,6 +512,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   // }
 
   goToBack(status) {
+    console.log(status)
     if (status == 'type') {
       console.log('type')
       localStorage.removeItem('moduleID');
@@ -521,6 +522,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.isshare = false;
       this.ismodule = true;
       this.apCreate = false;
+      this.shareAPG = false
       this.model = {};
     } else {
       this.isshare = true;
@@ -880,7 +882,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     var req_total_height = 0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
+      console.log(j);
       const requirement: HTMLElement = document.getElementById('requirement' + j);
+      console.log(requirement)
       req_total_height += requirement.clientHeight;
       console.log(req_total_height);
     }
@@ -906,6 +910,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.templateAccessPointGroup[skillId].DownOptions = true;
     }
   }
+
 
   // addScrollOncheckMarkToggle(skillObjId, res) {
   //   console.log("reach checkMarkToggle>>" + skillObjId);
@@ -1653,7 +1658,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           }
         }
-       
+       console.log(this.templateList)
       }, err => {
         console.log(err)
       })
