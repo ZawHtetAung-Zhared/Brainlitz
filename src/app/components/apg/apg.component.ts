@@ -804,17 +804,17 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.checkProperties(this.formObj)
   }
 
-  removeValue(name, i, x, type) {
-    if (type == 'requirement') {
-      delete this.formObj[name + x + i];
-    } else {
-      delete this.formObj[name + i];
-      for (var k in this.delItem.data.evaluation.details) {
-        delete this.formObj['requirement' + k + i];
+  removeValue(val){
+    this.formObj = {};
+    console.log(val)
+    for(var k = 0; k<val.length; k++){
+      this.formObj["skillName"+k] = val[k].name;
+      for(var kk=0; kk < this.templateAccessPointGroup[k].data.evaluation.details.length; kk++){
+        this.formObj["requirement"+ kk + k] = val[k].data.evaluation.details[kk].name;
       }
     }
-    console.log("delete value from formObj", this.formObj)
-    this.checkProperties(this.formObj);
+    console.log("formObj~~~~",this.formObj)
+    this.checkProperties(this.formObj)
   }
 
   checkProperties(obj) {
@@ -865,7 +865,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
     this.scrollCalculation(skillblog, id);
-    this.removeValue(name, id, x, 'requirement')
+    setTimeout(()=>{
+      this.removeValue(this.templateAccessPointGroup)
+    })
+    // this.removeValue(name,id,x,'requirement')
   }
 
   focusAdd(length, idx) {
@@ -874,12 +877,13 @@ export class ApgComponent implements OnInit, OnDestroy {
     document.getElementById('box' + l + idx).focus();
   }
 
-  scrollCalculation(skillObj, skillId) {
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillId);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillId);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillId);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillId);
-    var req_total_height = 0;
+  // Create in scroll calculation for evaluation 
+  scrollCalculation(skillObj,skillId){
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
+    var req_total_height=0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
       console.log(j);
@@ -938,6 +942,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   console.log("header height in add smark:" + this.headerHeight);
   // }
 
+  //moving scroll in evaluation create
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
@@ -966,7 +971,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     // console.error(JSON.stringify(JSON.parse(this.accessPointArrayString).splice(idx,1)))
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
-    this.removeValue(name,idx,'','skill')
+
+    setTimeout(()=>{
+      this.removeValue(this.templateAccessPointGroup)
+    })
+    // this.removeValue(name,idx,'','skill')
 
     // this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
     // this.removeValue(name,idx,'','skill')
@@ -993,6 +1002,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  //pushDownClick in evaluation create requirement
   pushDownClick(i) {
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
     // this.isUpDownHide = true;
@@ -1002,6 +1012,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  //pushUPClick in evaluation create requirement
   pushUpClick(i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);

@@ -254,6 +254,7 @@
   margin-right: 15px;
   margin-left: 15px;
   margin-top: 20px;
+  margin-bottom: 100px;
 }
 
 .apg-wrapper .card {
@@ -1755,4 +1756,7 @@ li.optionlist {
 .active-apg-tab{
   color: #007fff!important;
   border-bottom: 2px solid #007fff!important;
+}
+.card.card-wrap.share-input {
+  border: none;
 }
