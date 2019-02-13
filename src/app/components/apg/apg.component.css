@@ -1747,3 +1747,6 @@ li.optionlist {
   color: #007fff!important;
   border-bottom: 2px solid #007fff!important;
 }
+.card.card-wrap.share-input {
+  border: none;
+}

@@ -874,12 +874,13 @@ export class ApgComponent implements OnInit, OnDestroy {
     document.getElementById('box' + l + idx).focus();
   }
 
-  scrollCalculation(skillObj, skillId) {
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillId);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillId);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillId);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillId);
-    var req_total_height = 0;
+  // Create in scroll calculation for evaluation 
+  scrollCalculation(skillObj,skillId){
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
+    var req_total_height=0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
       console.log(j);
@@ -938,6 +939,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   console.log("header height in add smark:" + this.headerHeight);
   // }
 
+  //moving scroll in evaluation create
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
@@ -993,6 +995,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  //pushDownClick in evaluation create requirement
   pushDownClick(i) {
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
     // this.isUpDownHide = true;
@@ -1002,6 +1005,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
+  //pushUPClick in evaluation create requirement
   pushUpClick(i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);

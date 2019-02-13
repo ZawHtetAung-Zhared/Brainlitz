@@ -526,9 +526,15 @@
             </button>
           </span>
         </div>
+<<<<<<< HEAD
 
         <div class="row apg-share-content" *ngIf="apgType=='Data'">
           <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xxl">
+=======
+        <!-- start Share Data APG list -->
+        <div class="card-columns apg-share-content" *ngIf="apgType=='Data'">
+          <div *ngFor="let temp of templateList; let i=index;" class="card card-wrap share-input">
+>>>>>>> blw-june
             <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
               <div class="d-flex justify-content-between apgBoxHead">
                 <span class="textapgType" [ngClass]="{'selected': sharechecked == temp._id}">{{apgType}}</span>
@@ -571,6 +577,36 @@
                           <li class="optionlist" *ngIf="tobj.data.inputTypeProperties.options.length-1!=j">
                             {{option}}
                           </li>
+                    <!-- DATA_NUMBER -->
+                    <div class="d-flex justify-content-between numberType" *ngIf="tobj.data.inputType=='NUMBER'">
+                        <div>
+                           <span class="textUnitName" [ngClass]="{'selected': sharechecked == temp._id}">Unit:</span><span class="textUnit" [ngClass]="{'selected': sharechecked == temp._id}"> {{tobj.data.unit}}</span>
+                        </div>
+                        <div  class="showType" *ngIf="tobj.data.inputTypeProperties.min==null && tobj.data.inputTypeProperties.max==null">
+                            <img src="../../../assets/img/input-icon.png" class="inputIcon">
+                            <span class="inputText" [ngClass]="{'selected': sharechecked == temp._id}">
+                                Input box  
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- DATA_RANGE -->
+                    <div class="d-flex justify-content-between rangeType" *ngIf="tobj.data.inputType=='RANGE'">
+                        <div>
+                           <span class="textUnitName" [ngClass]="{'selected': sharechecked == temp._id}">Unit:</span><span class="textUnit" [ngClass]="{'selected': sharechecked == temp._id}"> {{tobj.data.unit}}</span>
+                        </div>
+                      
+                        <div  class="showType" *ngIf="tobj.data.inputTypeProperties.min!=null && tobj.data.inputTypeProperties.max!=null">
+                            <img src="../../../assets/img/input-icon.png" class="inputIcon">
+                            <span class="inputText" [ngClass]="{'selected': sharechecked == temp._id}">
+                                Slider  
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- DATA_RADI0 -->
+                    <div class="radioType" *ngIf="tobj.data.inputType=='RADIO'">
+                        <ul class="listGroup" *ngFor="let option of tobj.data.inputTypeProperties.options; let j=index;">
                            
                           <li class="optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j">
                               {{option}}
@@ -585,6 +621,7 @@
             <!-- </label> -->
             
         </div>
+<<<<<<< HEAD
           <!-- <div *ngIf="templateList.length >=20 "
             class="load-more">
             
@@ -623,6 +660,16 @@
                 </div>
               </div>
             </div>
+=======
+         <!-- end Share Data APG list -->
+        <div class="row apg-share-content" *ngIf="apgType!='Data'">
+          <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+            <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
+              <div class="label-checked"></div>
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{temp.name}}"
+                (click)="chooseShareAPG(temp._id, temp.name)"> {{temp.name}}
+            </label>
+>>>>>>> blw-june
           </div>
 
           <div class="row apg-share-content" *ngIf="apgType =='Progress'">
