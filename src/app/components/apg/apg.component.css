@@ -1612,6 +1612,9 @@ li.optionlist {
   color: white;
 
 }
+.heder.selected > * {
+  color:white !important;
+}
 
 .assement-shared-apg {
   max-height: 360px;
@@ -1662,7 +1665,8 @@ li.optionlist {
 }
 
 .accesspoint-name>.head>.down-arrow {
-  float: right;
+  float : right;
+  color : #007fff;
 }
 
 .accesspoint-name-wrapper {
@@ -1728,7 +1732,10 @@ li.optionlist {
 
 .header.selected+div {
   background: #007fff;
-  color: white;
+  color: white !important;
+}
+.header.selected+div>.accesspoint-name>.head>span {
+  color: white !important;
 }
 .tabs-wrapper{
    padding: 0px 16px; 

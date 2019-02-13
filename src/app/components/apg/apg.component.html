@@ -605,7 +605,10 @@
                 <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
                   <div class="head"   [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
                     <span>{{accessPoint.name}}</span>
-                    <span class="down-arrow"  [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind)"><img src="../../../assets/images/system-icons-down.png"></span>
+                    <span class="down-arrow"  [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind)">
+                        <i class="fa fa-angle-down" style="font-size: 25px;"></i>
+                      <!-- <img src="../../../assets/images/system-icons-down.png"> -->
+                    </span>
                     <!-- <span class="down-arrow"  *ngIf="!accessPoint.isExpand" (click)="expandAccessPoint(i,ind)">Up</span> -->
                     <!-- <span class="down-arrow">Up</span> -->
                     <div class="dot-wrapper"*ngIf="!accessPoint.isExpand">
