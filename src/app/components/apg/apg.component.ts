@@ -478,6 +478,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   cancelapg() {
     this.apgList = [];
+    this.clearAPGTypeArr()
     this.model = {};
     this.apCreate = false;
     this.iscreate = false;
@@ -714,15 +715,20 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-
+  pickedMType={
+    "name": '',
+    "id": ''
+  }
   chooseModuleType(val, name) {
     console.log("ModuleId --->" , val)
     this.apgType = name;
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
-    console.log(name)
+    console.log("ModuleName --->",name)
     this.ischecked = val;
     this.moduleID = val;
+    this.pickedMType.name = name;
+    this.pickedMType.id = val;
     localStorage.setItem('moduleID', val);
     setTimeout(() => {
       this.ismodule = false;
@@ -1098,7 +1104,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         .subscribe((res: any) => {
           this.toastr.success('APG successfully Created.');
           console.log(res)
-          this.cancelapg();
+          setTimeout(()=>{
+            this.cancelapg();
+          },200)
+          this.setSelectedTab(this.pickedMType)
         }, err => {
           this.toastr.error('Created APG Fail');
           console.log(err)
@@ -1188,7 +1197,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       this._service.createAPG(this.regionID, this.locationID, apg, null, moduleId).subscribe((res: any) => {
         console.log(res);
         this.toastr.success('APG successfully Created.');
-        this.cancelapg();
+        setTimeout(()=>{
+          this.cancelapg();
+        },200)
+        this.setSelectedTab(this.pickedMType)
         this.optionsArray = [];
       }, err => {
         this.toastr.error('Created APG Fail');
@@ -1244,7 +1256,11 @@ export class ApgComponent implements OnInit, OnDestroy {
             .subscribe((res: any) => {
               this.toastr.success('APG successfully Created.');
               console.log(res)
-              this.cancelapg();
+              setTimeout(()=>{
+                this.cancelapg();
+              },200)
+              this.setSelectedTab(this.pickedMType)
+              // this.cancelapg();
             }, err => {
               this.toastr.error('Created APG Fail');
               console.log(err)
@@ -1269,6 +1285,11 @@ export class ApgComponent implements OnInit, OnDestroy {
           console.log(err)
         })
     }
+  }
+
+  setSelectedTab(apgType){
+    this.selectedAPGTab.name = apgType.name;
+    this.selectedAPGTab.id = apgType.id;
   }
 
   apgPublicShare(apgID) {
@@ -1711,7 +1732,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   showmore(type, skip: any) {
     if (this.isSearch == true) {
       console.log("User Search");
-      this.userSearch(this.keyword, type, 20, skip)
+      this.apgListSearch(this.keyword, type, 20, skip)
     } else {
       console.log("Not user search")
       this.getAllAPG(20, skip);
@@ -1759,7 +1780,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     
   }
 
-  userSearch(searchWord, type, limit, skip) {
+  apgListSearch(searchWord, type, limit, skip) {
     this.keyword = searchWord;
     console.log('hi hello');
     if (skip == '' && limit == '') {
@@ -1770,8 +1791,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
 
     if (searchWord.length != 0) {
+      console.log('ApgType',this.selectedAPGTab.id,this.selectedAPGTab.name)
       this.isSearch = true;
-      this._service.getSearchApg(this.regionID, searchWord, type, '', limit, skip)
+      this._service.getSearchApg(this.regionID, searchWord, type, this.selectedAPGTab.id, '', limit, skip)
         .subscribe((res: any) => {
           console.log(res);
           // this.apgList = res;
@@ -1791,37 +1813,53 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       setTimeout(() => {
         this.apgList = [];
+        this.clearAPGTypeArr()
         this.getAllAPG(limit, skip);
         this.isSearch = false;
-      }, 300);
+      }, 100);
     }
   }
 
-  getApgSearch(keyword, type, limit, skip) {
-    this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
-      .subscribe((res: any) => {
-        console.log(res);
-        this.result = res;
-        if (type == 'apg') {
-          this.apgList = res;
-          // if(this.isFirst == true){
-          //   console.log("First time searching");
-          //   this.apgList = [];
-          //   this.apgList = res;
-          // }else{
-          //   console.log("Not First time searching")
-          //   this.apgList = this.apgList.concat(res);
-          // }  
-        } else {
-          this.templateList = res;
-        }
-      }, err => {
-        console.log(err);
-      });
-  }
+  // checkApgType(){
+  //   if(this.selectedAPGTab.name.toLowerCase() == 'all'){
+  //     console.log('checkApgType',this.selectedAPGTab.id)
+  //   }else if(this.selectedAPGTab.name.toLowerCase() == 'badge'){
+  //     console.log('checkApgType',this.selectedAPGTab.id)
+  //   }else if(this.selectedAPGTab.name.toLowerCase() == 'progress'){
+  //    console.log('checkApgType',this.selectedAPGTab.id)
+  //   }else if(this.selectedAPGTab.name.toLowerCase() == 'assessment' || this.selectedAPGTab.name.toLowerCase() == 'evaluation'){
+  //     console.log('checkApgType',this.selectedAPGTab.id)
+  //   }else if(this.selectedAPGTab.name.toLowerCase() == 'data'){
+  //     console.log('checkApgType',this.selectedAPGTab.id)
+  //   }
+  // }
+
+  // getApgSearch(keyword, type, limit, skip) {
+  //   this._service.getSearchApg(this.regionID, keyword, type, '', limit, skip)
+  //     .subscribe((res: any) => {
+  //       console.log(res);
+  //       this.result = res;
+  //       if (type == 'apg') {
+  //         this.apgList = res;
+  //         // if(this.isFirst == true){
+  //         //   console.log("First time searching");
+  //         //   this.apgList = [];
+  //         //   this.apgList = res;
+  //         // }else{
+  //         //   console.log("Not First time searching")
+  //         //   this.apgList = this.apgList.concat(res);
+  //         // }  
+  //       } else {
+  //         this.templateList = res;
+  //       }
+  //     }, err => {
+  //       console.log(err);
+  //     });
+  // }
   
   getAllAPG(limit, skip) {
     this.blockUI.start('Loading...');
+    console.log(this.selectedAPGTab)
     this._service.getAllAPG(this.regionID, this.selectedAPGTab.id , limit, skip)
       .subscribe((res: any) => {
         this.apgList = [];
@@ -1843,6 +1881,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.dataApgList = this.dataApgList.concat(res);
           this.apgList = this.dataApgList;
         }
+        console.log("APG lists",this.apgList);
         // this.apgList = res;
         // this.result = res;
         // this.apgList = this.apgList.concat(res);
@@ -2154,13 +2193,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.templateList[i].accessPoints[ind].isExpand = !this.templateList[i].accessPoints[ind].isExpand;
     console.log(i,ind)
   }
-
+ searchName;
   onClickApgTab(name,id){
-    this.allApgList = [];
-    this.progressAPG = [];
-    this.badgeApg = [];
-    this.evAPG = [];
-    this.dataApgList = [];
+    this.clearAPGTypeArr()
     if(name == 'All'){
       this.selectedAPGTab.name = 'All';
       this.selectedAPGTab.id = '';
@@ -2170,6 +2205,15 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     this.getAllAPG(20,0);
     console.log("onClickApgTab",this.selectedAPGTab)
+    this.searchName = "";
+  }
+
+  clearAPGTypeArr(){
+    this.allApgList = [];
+    this.progressAPG = [];
+    this.badgeApg = [];
+    this.evAPG = [];
+    this.dataApgList = [];
   }
 }
 

@@ -21,7 +21,7 @@
   </div>
   <div class="input-group col-md-12 mt-30">
     <input class="form-control py-2 input-search-bg" type="search" placeholder="Search APG" id="example-search-input"
-      (input)="userSearch($event.target.value, 'APG','','')" autocomplete="off">
+      (input)="apgListSearch($event.target.value, 'APG','','')" autocomplete="off" [(ngModel)]="searchName">
     <!-- <input 
         class="form-control py-2 input-search-bg" 
         type="search" 
@@ -90,7 +90,7 @@
     <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating progress APG</p>
+        <p>Creating {{apgType}} APG</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -99,7 +99,7 @@
     <div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating progress APG</p>
+        <p>Creating {{apgType}} APG</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
