@@ -304,7 +304,7 @@
                 </div>
               </div>
               <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                maxlength="6" [(ngModel)]="templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                maxlength="6" [(ngModel)]="numberUnit" (focus)="focusMethod($event,'input_method', $event.target.value)"
                 (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required
                 #input_method="ngModel">
               <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
@@ -324,7 +324,7 @@
                 </div>
               </div>
               <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                maxlength="6" [(ngModel)]="templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                maxlength="6" [(ngModel)]="sliderUnit" (focus)="focusMethod($event,'input_method', $event.target.value)"
                 (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required
                 #input_method="ngModel">
               <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
@@ -385,8 +385,10 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" 
+                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" 
+                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
             (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
         </div>
       </div>
