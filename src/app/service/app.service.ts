@@ -1714,7 +1714,7 @@ export class appService{
       })
     }
 
-    getSearchApg(regionID: string, keyword: string, type: string, selectedStr:string, limit:number,skip:number){
+    getSearchApg(regionID: string, keyword: string, type: string, moduleId:string, selectedStr:string, limit:number,skip:number){
       let apiUrl;
       console.log("keyword",keyword);
       console.log("selected str",selectedStr);
@@ -1722,7 +1722,11 @@ export class appService{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
         console.log("apiUrl",apiUrl)
       }else{
-        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        if(moduleId != ''){
+          apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&moduleId=' + moduleId + '&limit=' + limit + '&skip=' + skip;
+        }else{
+          apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        }
       }
       const httpOptions = {
           headers: new HttpHeaders({ 
