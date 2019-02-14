@@ -694,15 +694,9 @@
         </div>
 
         <div class="row apg-share-content" *ngIf="apgType =='Progress'">
-<<<<<<< HEAD
-          <div *ngFor="let temp of templateList; let i=index;" class="share-input progress-share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
-            <div class="header progress-header"  [ngClass]="{'selected': sharechecked == temp._id}">
-              <label class="form-check-label">
-=======
           <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
             <div class="">
               <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
->>>>>>> 9eb5e53f7d496087493999982e8a149ec36642ea
                 <div class="label-checked"></div>
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{temp.name}}"
                   (click)="chooseShareAPG(temp._id, temp.name)"> {{temp.name}}
