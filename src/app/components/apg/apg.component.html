@@ -45,15 +45,39 @@
   </div>
   <div class="apg-wrapper card-columns">
     <div class="card " *ngFor="let apg of apgList; let i = index">
-      <div class="single-apg">
+      <div class="single-apg" [ngStyle]="{'max-height': apg.module.name == 'Progress' ? 190 + 'px' : (apg.module.name == 'Data' ? 312 + 'px' : 360 + 'px')}">
         <div class="info-section">
-          <p class="apg-type" *ngIf="apg.module">
-            {{ apg.module.name }}
-          </p>
-          <p class="apg-type" *ngIf="!apg.module"> - </p>
-          <h4>{{apg.name}}</h4>
-          <div class="apg-scroll">
-            <p class="apg-desc">{{apg.description}}</p>
+          <div [ngClass]="{'bg-apg-header': apg.module.name.toLowerCase() == 'assessment' || apg.module.name.toLowerCase() == 'evaluation','noBg-apg-header': apg.module.name.toLowerCase() == 'progress' || apg.module.name.toLowerCase() == 'badge' || apg.module.name.toLowerCase() == 'data'}">
+            <p class="apg-type" *ngIf="apg.module">
+              {{ apg.module.name }}
+            </p>
+            <p class="apg-type" *ngIf="!apg.module"> - </p>
+            <h4>{{apg.name}}</h4>
+          </div>
+          <div class="apg-scroll" [ngStyle]="{'max-height': apg.module.name == 'Progress' ? 60 + 'px' : (apg.module.name == 'Data' ? 176 + 'px' : 220 + 'px')}">
+            <p *ngIf="apg.module.name.toLowerCase() == 'progress' || apg.module.name.toLowerCase() == 'badge'" class="apg-desc padding-lr">{{apg.description}}</p>
+            <div *ngIf="apg.module.name.toLowerCase() == 'assessment' || apg.module.name.toLowerCase() == 'evaluation'">
+              <div class="ap-wrapper" *ngFor="let ap of apg.accessPoints; let ind = index">
+                <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
+                <div class="d-flex flex-row justify-content-between">
+                  <p class="mb-0">{{ap.name}}=={{ap.isExpand}}</p>
+                  <span class="lists-down-arrow" [ngClass]="{'transform-y': ap.isExpand}" (click)="expandAccessPoint(i,ind,'apg')">
+                    <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
+                  </span>
+                </div>
+                <div *ngIf="!ap.isExpand" class="d-flex flex-row list-dot-wrap">
+                  <span class="dot" *ngFor="let detail of ap.data.evaluation.details"></span>
+                </div>
+                <div *ngIf="ap.isExpand">
+                  <div class="d-flex flex-row" *ngFor="let detail of ap.data.evaluation.details;let idx = index">
+                    <span class="detail-dot"></span><div class="mb-0 list-dot-wrap detail-line apg-desc w-100" [ngClass]="{'hide-border': ap.data.evaluation.details?.length == idx+1}">{{detail.name}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="apg.module.name.toLowerCase() == 'data'" class="padding-lr">
+              <p>Data</p>
+            </div>
           </div>
         </div>
         <div class="d-flex justify-content-between btn-section">
@@ -619,7 +643,7 @@
                     <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
                       <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
                         <span>{{accessPoint.name}}</span>
-                        <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind)">
+                        <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind,'template')">
                           <i class="fa fa-angle-down" style="font-size: 25px;"></i>
                           <!-- <img src="../../../assets/images/system-icons-down.png"> -->
                         </span>
@@ -658,7 +682,7 @@
                     <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
                       <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
                         <span>{{accessPoint.name}}</span>
-                        <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i2+ half,ind)">
+                        <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i2+ half,ind,'template')">
                           <i class="fa fa-angle-down" style="font-size: 25px;"></i>
                           <!-- <img src="../../../assets/images/system-icons-down.png"> -->
                         </span>

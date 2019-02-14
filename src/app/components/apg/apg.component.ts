@@ -1997,6 +1997,14 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.dataApgList = this.dataApgList.concat(res);
           this.apgList = this.dataApgList;
         }
+
+        for(var i=0;i<this.apgList.length;i++){
+          if(this.apgList[i].module.name == 'Assessment' || this.apgList[i].module.name == 'Evaluation'){
+            for(var j=0;j<this.apgList[i].accessPoints.length;j++){
+              this.apgList[i].accessPoints[j].isExpand = false;
+            }
+          }
+        }
         console.log("APG lists",this.apgList);
         // this.apgList = res;
         // this.result = res;
@@ -2347,9 +2355,15 @@ export class ApgComponent implements OnInit, OnDestroy {
     // this.templateAccessPointGroup.data.inputTypeProperties.options[i] = e.target.value;
     this.optionsArray[i] = e.target.value;
   }
-  expandAccessPoint(i, ind) {
-    this.templateList[i].accessPoints[ind].isExpand = !this.templateList[i].accessPoints[ind].isExpand;
-    console.log(i, ind)
+
+  showApDetails:boolean = false;
+  expandAccessPoint(i, ind,type) {
+    if(type == 'apg'){
+      this.apgList[i].accessPoints[ind].isExpand = !this.apgList[i].accessPoints[ind].isExpand;
+    }else{
+      this.templateList[i].accessPoints[ind].isExpand = !this.templateList[i].accessPoints[ind].isExpand;
+      console.log(i, ind)
+    }
   }
 
  searchName;
