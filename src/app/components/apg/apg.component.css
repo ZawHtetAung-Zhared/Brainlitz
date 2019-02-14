@@ -430,7 +430,7 @@
   margin-bottom: 1.7em;
   border-radius: 3px;
   max-height: 312px;
-  overflow: scroll;
+  overflow: overlay;
 }
 
 .module-input label {
@@ -790,6 +790,7 @@
   -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+  max-height: 400px;
 }
 
 .skill-header {
@@ -1781,8 +1782,14 @@ li.optionlist {
   color: #007fff!important;
   border-bottom: 2px solid #007fff!important;
 }
+
 .card.card-wrap.share-input {
   border: none;
+}
+.card-columns{
+  -webkit-column-count: 2;
+    column-count: 2;
+    padding-top: 20px;
 }
 .col1{
   margin-right:10px;
@@ -1796,4 +1803,14 @@ li.optionlist {
 }
 .progress-share-input{
   margin-bottom:20px;
+}
+
+.requirementAddHeight {
+  max-height: 198px;
+  overflow: overlay;
+}
+
+.requirementAddHeight2 {
+  max-height: 166px;
+  overflow: overlay;
 }
