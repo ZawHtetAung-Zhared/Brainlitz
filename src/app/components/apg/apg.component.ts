@@ -171,7 +171,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public optionsArray: any = [""];
   public groupNumber: number = 0;
   public isExpandArr: any = [];
-  public selectedRadio = "NUMBER"
+  public selectedRadio = ""
   minValue: any = "";
   maxValue: any = "";
   exitValue: any;
@@ -586,7 +586,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
-    this.selectedRadio = "NUMBER"
+    this.selectedRadio = ""
     //for evaluation APG
     this.templateAccessPointGroup = []
     this.optionsArray = [""];
@@ -595,12 +595,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     // for tempValue
     this.numberUnit = '';
     this.sliderUnit = '';
-    this.tempRadioType= '';
-    this.tempSliderUnit= '';
-    this.tempNumberUnit= '';
-    this.tempMin= '';
-    this.tempMax= '';
-    this.tempValue= '';
+    this.tempRadioType = '';
+    this.tempSliderUnit = '';
+    this.tempNumberUnit = '';
+    this.tempMin = '';
+    this.tempMax = '';
+    this.tempValue = '';
   }
   // cancelAp() {
   //   this.apgList = [];
@@ -725,6 +725,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
       } else if (name == 'Data') {
         this.templateAccessPointGroup = {}
+        this.selectedRadio = 'NUMBER'
         var moduleId = localStorage.getItem('moduleID');
         // this.templateAccessPoint = {
         //   "name": "",
@@ -819,7 +820,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-  pickedMType={
+  pickedMType = {
     "name": '',
     "id": ''
   }
@@ -828,7 +829,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.apgType = name;
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
-    console.log("ModuleName --->",name)
+    console.log("ModuleName --->", name)
     this.ischecked = val;
     this.moduleID = val;
     this.pickedMType.name = name;
@@ -1216,9 +1217,9 @@ export class ApgComponent implements OnInit, OnDestroy {
         .subscribe((res: any) => {
           this.toastr.success('APG successfully Created.');
           console.log(res)
-          setTimeout(()=>{
+          setTimeout(() => {
             this.cancelapg();
-          },200)
+          }, 200)
           this.setSelectedTab(this.pickedMType)
         }, err => {
           this.toastr.error('Created APG Fail');
@@ -1280,9 +1281,9 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   createDataAccessPoint() {
     return new Promise((resolve, reject) => {
-      if(this.selectedRadio == 'RANGE'){
+      if (this.selectedRadio == 'RANGE') {
         this.templateAccessPointGroup.data.unit = this.sliderUnit
-      }else if (this.selectedRadio == 'NUMBER'){
+      } else if (this.selectedRadio == 'NUMBER') {
         this.templateAccessPointGroup.data.unit = this.numberUnit
       }
       this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
@@ -1313,9 +1314,9 @@ export class ApgComponent implements OnInit, OnDestroy {
       this._service.createAPG(this.regionID, this.locationID, apg, null, moduleId).subscribe((res: any) => {
         console.log(res);
         this.toastr.success('APG successfully Created.');
-        setTimeout(()=>{
+        setTimeout(() => {
           this.cancelapg();
-        },200)
+        }, 200)
         this.setSelectedTab(this.pickedMType)
         this.optionsArray = [];
       }, err => {
@@ -1328,10 +1329,12 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId, ap, apgId) {
-    if(this.selectedRadio == 'RANGE'){
+    if (this.selectedRadio == 'RANGE') {
       this.templateAccessPointGroup.data.unit = this.sliderUnit
-    }else if (this.selectedRadio == 'NUMBER'){
+    } else if (this.selectedRadio == 'NUMBER') {
       this.templateAccessPointGroup.data.unit = this.numberUnit
+    } else {
+      console.log('not data apg')
     }
     ap.data.inputTypeProperties.options = this.optionsArray;
     return new Promise((resolve, reject) => {
@@ -1377,9 +1380,9 @@ export class ApgComponent implements OnInit, OnDestroy {
             .subscribe((res: any) => {
               this.toastr.success('APG successfully Created.');
               console.log(res)
-              setTimeout(()=>{
+              setTimeout(() => {
                 this.cancelapg();
-              },200)
+              }, 200)
               this.setSelectedTab(this.pickedMType)
               // this.cancelapg();
             }, err => {
@@ -1408,7 +1411,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
 
-  setSelectedTab(apgType){
+  setSelectedTab(apgType) {
     this.selectedAPGTab.name = apgType.name;
     this.selectedAPGTab.id = apgType.id;
   }
@@ -1907,7 +1910,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
 
     if (searchWord.length != 0) {
-      console.log('ApgType',this.selectedAPGTab.id,this.selectedAPGTab.name)
+      console.log('ApgType', this.selectedAPGTab.id, this.selectedAPGTab.name)
       this.isSearch = true;
       this._service.getSearchApg(this.regionID, searchWord, type, this.selectedAPGTab.id, '', limit, skip)
         .subscribe((res: any) => {
@@ -1972,11 +1975,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   //       console.log(err);
   //     });
   // }
-  
+
   getAllAPG(limit, skip) {
     this.blockUI.start('Loading...');
     console.log(this.selectedAPGTab)
-    this._service.getAllAPG(this.regionID, this.selectedAPGTab.id , limit, skip)
+    this._service.getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
       .subscribe((res: any) => {
         this.apgList = [];
         this.result = res;
@@ -1997,7 +2000,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.dataApgList = this.dataApgList.concat(res);
           this.apgList = this.dataApgList;
         }
-        console.log("APG lists",this.apgList);
+        console.log("APG lists", this.apgList);
         // this.apgList = res;
         // this.result = res;
         // this.apgList = this.apgList.concat(res);
@@ -2171,7 +2174,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.selectedRadio = type;
     this.setInputValueFromObject(this.optionsArray)
     this.templateAccessPointGroup.data.inputType = type;
-    if(this.tempRadioType){
+    if (this.tempRadioType) {
       console.log('Nice')
       if (this.tempRadioType == "RADIO") {
         this.sliderUnit = '';
@@ -2210,11 +2213,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.templateAccessPointGroup.data.inputTypeProperties.max = "";
         this.sliderUnit = "";
       } else {
-        // this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
-        // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [""];
         this.numberUnit = "";
       }
     }
+    this.chkValue('val', 'type')
   }
 
   checkValidation(arr) {
@@ -2227,7 +2229,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.valid = true
       }
     } else if (this.selectedRadio == "NUMBER" || apgName.length == 0) {
-      if (this.numberUnit== "") {
+      if (this.numberUnit == "") {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2235,7 +2237,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
       var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if (min == "" || max == "" || min >= max || apgName.length == 0 || this.sliderUnit == '' ) {
+      if (min == "" || max == "" || min >= max || apgName.length == 0 || this.sliderUnit == '') {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2264,11 +2266,12 @@ export class ApgComponent implements OnInit, OnDestroy {
             this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
             this.selectedRadio = this.templateAccessPointGroup.data.inputType
             this.tempRadioType = this.templateAccessPointGroup.data.inputType
-            this.tempSliderUnit =  this.templateAccessPointGroup.data.unit
-            this.tempNumberUnit =  this.templateAccessPointGroup.data.unit
+            this.tempSliderUnit = this.templateAccessPointGroup.data.unit
+            this.tempNumberUnit = this.templateAccessPointGroup.data.unit
             this.tempMin = this.templateAccessPointGroup.data.inputTypeProperties.min
             this.tempMax = this.templateAccessPointGroup.data.inputTypeProperties.max
             this.tempValue = this.templateAccessPointGroup.data.inputTypeProperties.options
+            this.chkValue('val', 'type')
             console.log(this.optionsArray)
             resolve(res)
             this.setInputValueFromObject(this.optionsArray)
@@ -2279,6 +2282,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       console.log('asss ==========>>>')
       this.templateAccessPointGroup = [];
+      this.checkProperties(this.formObj)
       return Promise.all(accesPointId.map(accesPoint => {
         return new Promise((resolve, reject) => {
           this._service.getAccessPoint(reginId, accesPoint)
@@ -2319,20 +2323,20 @@ export class ApgComponent implements OnInit, OnDestroy {
   overmin: boolean = true;
   chkValue(v, type) {
     console.log(v)
-    if (type == 'min') {
-      if (v.length > 0) {
-        this.emptymin = false;
-      } else {
-        this.emptymin = true;
-      }
-
+    // if (type == 'min') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.min == '') {
+      this.emptymin = true;
     } else {
-      if (v.length > 0) {
-        this.emptymax = false;
-      } else {
-        this.emptymax = true;
-      }
+      this.emptymin = false;
     }
+    // } 
+    // if(type == 'max') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.max == '') {
+      this.emptymax = true;
+    } else {
+      this.emptymax = false;
+    }
+    // }
     if (this.templateAccessPointGroup.data.inputTypeProperties.max <= this.templateAccessPointGroup.data.inputTypeProperties.min) {
       this.overmin = true;
     } else {
@@ -2352,10 +2356,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(i, ind)
   }
 
- searchName;
-  onClickApgTab(name,id){
+  searchName;
+  onClickApgTab(name, id) {
     this.clearAPGTypeArr()
-    if(name == 'All'){
+    if (name == 'All') {
 
       this.selectedAPGTab.name = 'All';
       this.selectedAPGTab.id = '';
@@ -2363,14 +2367,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.selectedAPGTab.name = name;
       this.selectedAPGTab.id = id;
     }
-    this.getAllAPG(20,0);
-    console.log("onClickApgTab",this.selectedAPGTab)
+    this.getAllAPG(20, 0);
+    console.log("onClickApgTab", this.selectedAPGTab)
     this.searchName = "";
   }
   public get half(): number {
     return Math.ceil(this.templateList.length / 2);
   }
-  clearAPGTypeArr(){
+  clearAPGTypeArr() {
     this.allApgList = [];
     this.progressAPG = [];
     this.badgeApg = [];

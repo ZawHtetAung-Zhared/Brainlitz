@@ -127,8 +127,17 @@
         <div class="d-flex flex-row">
           <div class="d-flex flex-column">
             <label class="evaluation-Name"> Evaluation Name</label>
+            <div class="limit-wordcount ml-auto">
+              <span>{{wordLength}}/60characters</span>
+            </div>
             <input type="text" placeholder="Type skill name here" class="evaluation-name" name="name" required
-              [(ngModel)]="model.name" #name="ngModel">
+              maxlength="60" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
+              (input)="changeMethod($event.target.value)" [(ngModel)]="model.name" #name="ngModel">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+              <div [hidden]="!name.errors.required">
+                Name is required!
+              </div>
+            </div>
           </div>
         </div>
         <div class="inform-wrapper">
@@ -385,10 +394,8 @@
         </div>
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" 
-                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" 
-                  [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
+          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
+          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
             (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
         </div>
       </div>
@@ -605,82 +612,82 @@
           </div> -->
         <div class="apg-share-content" *ngIf="apgType =='Assessment'">
           <div class="col1">
-              <div *ngFor="let template of templateList | slice:0:half ; let i=index" class="assement-shared-apg share-input">
-                  <div class="header" [ngClass]="{'selected': sharechecked == template._id}">
-                    <label class="form-check-label data">
-                      <span class="eval-name">Evaluation</span>
-                      <span class="temp-name">{{template.name}}</span>
-                      <div class="label-checked data" style="float:right"></div>
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{template.name}}"
-                        (click)="chooseShareAPG(template._id, template.name)">
-                    </label>
-                  </div>
-                  <div class="accesspoint-name-wrapper">
-                    <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
-                      <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
-                        <span>{{accessPoint.name}}</span>
-                        <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind)">
-                          <i class="fa fa-angle-down" style="font-size: 25px;"></i>
-                          <!-- <img src="../../../assets/images/system-icons-down.png"> -->
-                        </span>
-                        <!-- <span class="down-arrow"  *ngIf="!accessPoint.isExpand" (click)="expandAccessPoint(i,ind)">Up</span> -->
-                        <!-- <span class="down-arrow">Up</span> -->
-                        <div class="dot-wrapper" *ngIf="!accessPoint.isExpand">
-                          <span class="dot" *ngFor="let dot of accessPoint.data.evaluation.details"></span>
-                        </div>
-                        <div class="dot-wrapper after-expand" *ngIf="accessPoint.isExpand">
-                          <div *ngFor="let dot of accessPoint.data.evaluation.details;let id=index;" style="display: flex; align-items: center;"
-                            [ngClass]="{'no-mb': id==accessPoint.data.evaluation.details.length-1}">
-                            <div class="dot" style="display:inline-block"></div>
-                            <span>{{dot.name}}</span>i
-                          </div>
-    
-    
-                        </div>
+            <div *ngFor="let template of templateList | slice:0:half ; let i=index" class="assement-shared-apg share-input">
+              <div class="header" [ngClass]="{'selected': sharechecked == template._id}">
+                <label class="form-check-label data">
+                  <span class="eval-name">Evaluation</span>
+                  <span class="temp-name">{{template.name}}</span>
+                  <div class="label-checked data" style="float:right"></div>
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{template.name}}"
+                    (click)="chooseShareAPG(template._id, template.name)">
+                </label>
+              </div>
+              <div class="accesspoint-name-wrapper">
+                <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
+                  <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
+                    <span>{{accessPoint.name}}</span>
+                    <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind)">
+                      <i class="fa fa-angle-down" style="font-size: 25px;"></i>
+                      <!-- <img src="../../../assets/images/system-icons-down.png"> -->
+                    </span>
+                    <!-- <span class="down-arrow"  *ngIf="!accessPoint.isExpand" (click)="expandAccessPoint(i,ind)">Up</span> -->
+                    <!-- <span class="down-arrow">Up</span> -->
+                    <div class="dot-wrapper" *ngIf="!accessPoint.isExpand">
+                      <span class="dot" *ngFor="let dot of accessPoint.data.evaluation.details"></span>
+                    </div>
+                    <div class="dot-wrapper after-expand" *ngIf="accessPoint.isExpand">
+                      <div *ngFor="let dot of accessPoint.data.evaluation.details;let id=index;" style="display: flex; align-items: center;"
+                        [ngClass]="{'no-mb': id==accessPoint.data.evaluation.details.length-1}">
+                        <div class="dot" style="display:inline-block"></div>
+                        <span>{{dot.name}}</span>i
                       </div>
+
+
                     </div>
                   </div>
-    
+                </div>
               </div>
+
+            </div>
           </div>
           <div class="col2">
-              <div *ngFor="let template of templateList| slice:half ; let i2=index" class="assement-shared-apg share-input">
-                  <div class="header" [ngClass]="{'selected': sharechecked == template._id}">
-                    <label class="form-check-label data">
-                      <span class="eval-name">Evaluation{{i2 + half}}</span>
-                      <span class="temp-name">{{template.name}}</span>
-                      <div class="label-checked data" style="float:right"></div>
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{template.name}}"
-                        (click)="chooseShareAPG(template._id, template.name)">
-                    </label>
-                  </div>
-                  <div class="accesspoint-name-wrapper">
-                    <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
-                      <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
-                        <span>{{accessPoint.name}}</span>
-                        <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i2+ half,ind)">
-                          <i class="fa fa-angle-down" style="font-size: 25px;"></i>
-                          <!-- <img src="../../../assets/images/system-icons-down.png"> -->
-                        </span>
-                        <!-- <span class="down-arrow"  *ngIf="!accessPoint.isExpand" (click)="expandAccessPoint(i,ind)">Up</span> -->
-                        <!-- <span class="down-arrow">Up</span> -->
-                        <div class="dot-wrapper" *ngIf="!accessPoint.isExpand">
-                          <span class="dot" *ngFor="let dot of accessPoint.data.evaluation.details"></span>
-                        </div>
-                        <div class="dot-wrapper after-expand" *ngIf="accessPoint.isExpand"  [ngClass]="{'transform-y': accessPoint.isExpand}">
-                          <div *ngFor="let dot of accessPoint.data.evaluation.details;let id=index;" style="display: flex; align-items: center;"
-                            [ngClass]="{'no-mb': id==accessPoint.data.evaluation.details.length-1}">
-                            <div class="dot" style="display:inline-block"></div>
-                            <span>{{dot.name}}</span>i
-                          </div>
-    
-    
-                        </div>
+            <div *ngFor="let template of templateList| slice:half ; let i2=index" class="assement-shared-apg share-input">
+              <div class="header" [ngClass]="{'selected': sharechecked == template._id}">
+                <label class="form-check-label data">
+                  <span class="eval-name">Evaluation{{i2 + half}}</span>
+                  <span class="temp-name">{{template.name}}</span>
+                  <div class="label-checked data" style="float:right"></div>
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{template.name}}"
+                    (click)="chooseShareAPG(template._id, template.name)">
+                </label>
+              </div>
+              <div class="accesspoint-name-wrapper">
+                <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
+                  <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
+                    <span>{{accessPoint.name}}</span>
+                    <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i2+ half,ind)">
+                      <i class="fa fa-angle-down" style="font-size: 25px;"></i>
+                      <!-- <img src="../../../assets/images/system-icons-down.png"> -->
+                    </span>
+                    <!-- <span class="down-arrow"  *ngIf="!accessPoint.isExpand" (click)="expandAccessPoint(i,ind)">Up</span> -->
+                    <!-- <span class="down-arrow">Up</span> -->
+                    <div class="dot-wrapper" *ngIf="!accessPoint.isExpand">
+                      <span class="dot" *ngFor="let dot of accessPoint.data.evaluation.details"></span>
+                    </div>
+                    <div class="dot-wrapper after-expand" *ngIf="accessPoint.isExpand" [ngClass]="{'transform-y': accessPoint.isExpand}">
+                      <div *ngFor="let dot of accessPoint.data.evaluation.details;let id=index;" style="display: flex; align-items: center;"
+                        [ngClass]="{'no-mb': id==accessPoint.data.evaluation.details.length-1}">
+                        <div class="dot" style="display:inline-block"></div>
+                        <span>{{dot.name}}</span>i
                       </div>
+
+
                     </div>
                   </div>
-    
+                </div>
               </div>
+
+            </div>
           </div>
         </div>
 
