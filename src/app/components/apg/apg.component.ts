@@ -67,6 +67,15 @@ import {
   styleUrls: ['./apg.component.css']
 })
 export class ApgComponent implements OnInit, OnDestroy {
+  // temp value to selected radio
+  public tempRadioType: any;
+  public tempSliderUnit: any;
+  public tempNumberUnit: any;
+  public tempMin: any;
+  public tempMax: any;
+  public tempValue: any;
+  public sliderUnit: any;
+  public numberUnit: any;
   public valid: boolean;
   public moduleID: any;
   public accessPointArrayString: any = []
@@ -624,13 +633,21 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
-    this.selectedRadio = "NUMBER"
+    this.selectedRadio = ""
     //for evaluation APG
     this.templateAccessPointGroup = []
     this.optionsArray = [""];
     this.getAllAPG(20, 0);
-
     this.formObj = {};
+    // for tempValue
+    this.numberUnit = '';
+    this.sliderUnit = '';
+    this.tempRadioType = '';
+    this.tempSliderUnit = '';
+    this.tempNumberUnit = '';
+    this.tempMin = '';
+    this.tempMax = '';
+    this.tempValue = '';
   }
   // cancelAp() {
   //   this.apgList = [];
@@ -755,6 +772,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         // ismodule == false && iscreate == false && isshare == false && shareAPG == false
       } else if (name == 'Data') {
         this.templateAccessPointGroup = {}
+        this.selectedRadio = 'NUMBER'
         var moduleId = localStorage.getItem('moduleID');
         // this.templateAccessPoint = {
         //   "name": "",
@@ -1311,6 +1329,11 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   createDataAccessPoint() {
     return new Promise((resolve, reject) => {
+      if (this.selectedRadio == 'RANGE') {
+        this.templateAccessPointGroup.data.unit = this.sliderUnit
+      } else if (this.selectedRadio == 'NUMBER') {
+        this.templateAccessPointGroup.data.unit = this.numberUnit
+      }
       this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
       this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
         .subscribe((res: any) => {
@@ -1354,6 +1377,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId, ap, apgId) {
+    if (this.selectedRadio == 'RANGE') {
+      this.templateAccessPointGroup.data.unit = this.sliderUnit
+    } else if (this.selectedRadio == 'NUMBER') {
+      this.templateAccessPointGroup.data.unit = this.numberUnit
+    } else {
+      console.log('not data apg')
+    }
     ap.data.inputTypeProperties.options = this.optionsArray;
     return new Promise((resolve, reject) => {
       this._service.updateAP(this.regionID, apId, ap)
@@ -2190,21 +2220,51 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   radioSelect(type) {
     this.selectedRadio = type;
+    this.setInputValueFromObject(this.optionsArray)
     this.templateAccessPointGroup.data.inputType = type;
-    if (type == "RADIO") {
-      this.templateAccessPointGroup.data.unit = "";
-      this.templateAccessPointGroup.data.inputTypeProperties.min = "";
-      this.templateAccessPointGroup.data.inputTypeProperties.max = "";
-    } else if (type == "NUMBER") {
-      this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
-      this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
-      this.templateAccessPointGroup.data.inputTypeProperties.min = "";
-      this.templateAccessPointGroup.data.inputTypeProperties.max = "";
+    if (this.tempRadioType) {
+      console.log('Nice')
+      if (this.tempRadioType == "RADIO") {
+        this.sliderUnit = '';
+        this.numberUnit = '';
+        this.templateAccessPointGroup.data.inputTypeProperties.min = "";
+        this.templateAccessPointGroup.data.inputTypeProperties.max = "";
+      } else if (this.tempRadioType == "NUMBER") {
+        this.numberUnit = this.tempNumberUnit;
+        this.tempSliderUnit = '';
+        this.sliderUnit = '';
+        this.optionsArray = ['']
+        this.templateAccessPointGroup.data.inputTypeProperties.min = "";
+        this.templateAccessPointGroup.data.inputTypeProperties.max = "";
+      } else {
+        this.optionsArray = ['']
+        this.sliderUnit = this.tempSliderUnit;
+        this.tempNumberUnit = '';
+        this.numberUnit = '';
+        this.templateAccessPointGroup.data.inputTypeProperties.min = this.tempMin;
+        this.templateAccessPointGroup.data.inputTypeProperties.max = this.tempMax;
+        this.numberUnit = '';
+      }
     } else {
-      this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
-      this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [""];
-      this.templateAccessPointGroup.data.unit = "";
+      console.log('else state');
+      if (type == "RADIO") {
+        this.optionsArray = ['']
+        this.sliderUnit = "";
+        this.numberUnit = "";
+        this.templateAccessPointGroup.data.inputTypeProperties.min = "";
+        this.templateAccessPointGroup.data.inputTypeProperties.max = "";
+      } else if (type == "NUMBER") {
+        console.log(this.optionsArray)
+        // this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
+        // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
+        this.templateAccessPointGroup.data.inputTypeProperties.min = "";
+        this.templateAccessPointGroup.data.inputTypeProperties.max = "";
+        this.sliderUnit = "";
+      } else {
+        this.numberUnit = "";
+      }
     }
+    this.chkValue('val', 'type')
   }
 
   checkValidation(arr) {
@@ -2217,7 +2277,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.valid = true
       }
     } else if (this.selectedRadio == "NUMBER" || apgName.length == 0) {
-      if (this.templateAccessPointGroup.data.unit == "") {
+      if (this.numberUnit == "") {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2225,7 +2285,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
       var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if (min == "" || max == "" || apgName.length == 0) {
+      if (min == "" || max == "" || min >= max || apgName.length == 0 || this.sliderUnit == '') {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2249,8 +2309,17 @@ export class ApgComponent implements OnInit, OnDestroy {
           .subscribe((res: any) => {
             console.log(res)
             this.templateAccessPointGroup = res;
+            this.numberUnit = this.templateAccessPointGroup.data.unit;
+            this.sliderUnit = this.templateAccessPointGroup.data.unit;
             this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
             this.selectedRadio = this.templateAccessPointGroup.data.inputType
+            this.tempRadioType = this.templateAccessPointGroup.data.inputType
+            this.tempSliderUnit = this.templateAccessPointGroup.data.unit
+            this.tempNumberUnit = this.templateAccessPointGroup.data.unit
+            this.tempMin = this.templateAccessPointGroup.data.inputTypeProperties.min
+            this.tempMax = this.templateAccessPointGroup.data.inputTypeProperties.max
+            this.tempValue = this.templateAccessPointGroup.data.inputTypeProperties.options
+            this.chkValue('val', 'type')
             console.log(this.optionsArray)
             resolve(res)
             this.setInputValueFromObject(this.optionsArray)
@@ -2261,11 +2330,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       console.log('asss ==========>>>')
       this.templateAccessPointGroup = [];
+      this.checkProperties(this.formObj)
       return Promise.all(accesPointId.map(accesPoint => {
         return new Promise((resolve, reject) => {
           this._service.getAccessPoint(reginId, accesPoint)
             .subscribe((res: any) => {
-              console.log(res)
+              // console.log(res)
               resolve(res)
               // this.templateAccessPointGroup.push(res)
               // this.accessPointArrayString.push(JSON.stringify(res));
@@ -2301,20 +2371,20 @@ export class ApgComponent implements OnInit, OnDestroy {
   overmin: boolean = true;
   chkValue(v, type) {
     console.log(v)
-    if (type == 'min') {
-      if (v.length > 0) {
-        this.emptymin = false;
-      } else {
-        this.emptymin = true;
-      }
-
+    // if (type == 'min') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.min == '') {
+      this.emptymin = true;
     } else {
-      if (v.length > 0) {
-        this.emptymax = false;
-      } else {
-        this.emptymax = true;
-      }
+      this.emptymin = false;
     }
+    // } 
+    // if(type == 'max') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.max == '') {
+      this.emptymax = true;
+    } else {
+      this.emptymax = false;
+    }
+    // }
     if (this.templateAccessPointGroup.data.inputTypeProperties.max <= this.templateAccessPointGroup.data.inputTypeProperties.min) {
       this.overmin = true;
     } else {
