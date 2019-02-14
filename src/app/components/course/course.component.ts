@@ -1523,15 +1523,7 @@ export class CourseComponent implements OnInit {
     // console.error(onlytodayDate)
     // Validate for giving attendence
     if(lessonDate <= onlytodayDate){
-      if(lessonDate == onlytodayDate){
-        if(onlytodayTime >= lsessonTime){
-           this.attendenceButton = true;
-        }else{
-          this.attendenceButton = false;
-        }
-      }else{
-        this.attendenceButton = true;
-      }
+      this.attendenceButton = true;
     }else{
       this.attendenceButton = false;
     }
