@@ -1414,7 +1414,7 @@ label.room-name::before {
 }
 .std-img-wrap,.std-img-wrap1,
 .img-wrap,.user-img-wrap{
-  display: inline-block;
+  /* display: inline-block; */
   position: relative;
   overflow: hidden;
   border-radius: 50%;
@@ -1713,15 +1713,15 @@ button:disabled{
 .single-student{
   border-radius: 28px;
   background-color: #f2f4f5;
-  padding: 6px;
-  padding-top: 12px;
+  /* padding: 6px;
+  padding-top: 12px; */
   margin-bottom: 10px;
-  height: 48px;
+  height: 56px;
 }
 .single-student-modal{
   border-radius: 28px;
   background-color: #f2f4f5;
-  padding: 6px;
+  /* padding: 6px; */
   /* padding-top: 12px; */
   margin-bottom: 10px;
   height: 48px;
