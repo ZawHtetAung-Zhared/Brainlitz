@@ -96,8 +96,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   public locationID = localStorage.getItem('locationId');
   apList: any;
   moduleList: any[] = [];
-  templateList: Array < any > = [];
-  apgList: Array < any > = [];
+  templateList: Array<any> = [];
+  apgList: Array<any> = [];
   apArray: any[] = [];
   @BlockUI() blockUI: NgBlockUI;
   newAPList: any[] = [];
@@ -163,6 +163,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   public groupNumber: number = 0;
   public isExpandArr: any = [];
   public selectedRadio = "NUMBER"
+  public dragEle : any = [];
+  public dropEle : any = [];
   minValue: any = "";
   maxValue: any = "";
   exitValue: any;
@@ -232,6 +234,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   testFunct() {
     var stillDragInTestFunc = this.stillDrag;
+    var templategroug = this.templateAccessPointGroup;
     // return this.stillDrag;
     // return this.stillDrag;
   }
@@ -325,7 +328,19 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.stillDrag = false;
       console.log("CAncel")
       this.dragOut = false;
-
+      console.log("Drag" , this.dragEle , "drop" ,this.dropEle)
+      // if(this.dragEle !== [] && this.dropEle !== []){
+      //   var temp = this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]].name;
+      //   console.log(this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]])
+      //   console.log()
+      //   this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]].name = this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dragEle[0]].name
+  
+      //   this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dragEle[0]].name = temp
+      //   console.log(this.templateAccessPointGroup)
+      // }
+      
+      this.dragEle = [];
+      this.dropEle = [];
     })
     this.dragulaService.drop().subscribe(({
       el,
@@ -336,6 +351,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       // console.log(this.dragId)
       // clearInterval(this.dragId)
       console.log("DRRRROP")
+      console.log("------>>", this.templateAccessPointGroup)
       this.stillDrag = false;
       this.dragOut = false;
     })
@@ -347,26 +363,23 @@ export class ApgComponent implements OnInit, OnDestroy {
 
       console.log(name === "COLUMNS")
       if (name === "COLUMNS") {
-        console.log("fck")
         this.stillDrag = true;
         document.addEventListener("mousemove", this.testFunct = () => {
           // console.log(this.stillDrag)
           if (this.stillDrag) {
-            setTimeout(function () {
-              var container = $(el).parents(".requirements-wrapper")[0];
-              if ($(".gu-mirror").position() && container) {
-                var y = $(".gu-mirror").position().top;
-                var dragHeight = y + $(".gu-mirror").height();
-                var dropHeight = $(container).position().top + $(container).height()
-                if (y - $(container).position().top < 10) {
-                  container.scrollTop -= 10;
-                } else if (dropHeight - dragHeight < 10) {
-                  container.scrollTop += 10;
+            var container = $(el).parents(".requirements-wrapper")[0];
+            if ($(".gu-mirror").position() && container) {
+              var y = $(".gu-mirror").position().top;
+              var dragHeight = y + $(".gu-mirror").height();
+              var dropHeight = $(container).position().top + $(container).height()
+              if (y - $(container).position().top < 10) {
+                container.scrollTop -= 10;
+              } else if (dropHeight - dragHeight < 10) {
+                container.scrollTop += 10;
 
-                }
               }
+            }
 
-            })
           }
         }, false);
 
@@ -379,7 +392,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
         this.dragOut = false;
         var stillDrag = this.stillDrag;
-        document.addEventListener("mousemove", function (event) {
+        document.addEventListener("mousemove", this.testFunct = () => {
           if (stillDrag) {
             // event.preventDefault();
             // console.log($(event.target).parents(".requirement"))
@@ -402,7 +415,9 @@ export class ApgComponent implements OnInit, OnDestroy {
                 // setTimeout(function(){
                 ele.scrollTop += 20
                 if (ele.scrollHeight == ele.scrollTop + container.height()) {
-                  $(ele).append(el)
+
+                  // $(ele).append(el)
+                  //For Scroll Down
                 }
                 // }, 300);
               } else if (y - containerTop <= 20) {
@@ -410,7 +425,38 @@ export class ApgComponent implements OnInit, OnDestroy {
                 // setTimeout(function(){
                 ele.scrollTop -= 20
                 if (ele.scrollTop == 0) {
-                  $(ele).prepend(el)
+                  // var tempGroup = this.templateAccessPointGroup
+                  // var arrId = $(ele).attr('id');
+                  // var arrId1 = $(el).attr("id");
+                  // var index = arrId1.indexOf("requirement");
+                  // var ind = Number(arrId1.slice(index + "requirement".length))
+                  // var sliceRes = arrId.split("-");
+                  // var tempVar =  tempGroup[sliceRes[3]].data.evaluation.details[0].name;
+                  // // console.log(tempVar)
+                  // var tempVar1 = tempGroup[sliceRes[3]].data.evaluation.details[ind].name
+                  // // console.log(tempVar1)
+                  // this.dragEle = [ind , tempVar1 , sliceRes[3]];
+                  // this.dropEle = [0 , tempVar , sliceRes[3]]
+                  
+                  // $(ele).prepend(el)
+                  //For Scroll Up
+
+                  //   console.log(sliceRes)
+                  //   setTimeout(function () {
+                  //     console.log("DDDD")
+                  //     console.log(tempGroup)
+                  //     console.log(tempGroup[sliceRes[3]])
+                  //     tempGroup[sliceRes[3]].data.evaluation.details[0].name = $(el).children("textarea").val();
+                  //     $(el).children("textarea").val(tempVar) ;
+                  //   }, 100)
+                  // });
+
+                  // console.log(sliceRes)
+                  // console.log(this.templateAccessPointGroup[sliceRes[3]])
+                  // console.log($(el).children("textarea").val())
+                  // var tempVar =  this.templateAccessPointGroup[sliceRes[3]].data.evaluation.details[0].name;
+                  
+
                 }
                 // }, 300);
                 // this._scrollUp(container, y);
@@ -432,6 +478,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       container,
       source
     }) => {
+      console.log("shadow", this.templateAccessPointGroup)
 
     })
     this.dragulaService.out().subscribe(({
@@ -653,7 +700,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.optionsArray.push(newValue)
     console.log(data)
   }
-  dataValueClear(item, e ? ) {
+  dataValueClear(item, e?) {
     this.optionsArray.splice(item, 1)
     console.log(this.optionsArray)
     // console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
@@ -802,7 +849,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-  pickedMType={
+  pickedMType = {
     "name": '',
     "id": ''
   }
@@ -811,7 +858,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.apgType = name;
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
-    console.log("ModuleName --->",name)
+    console.log("ModuleName --->", name)
     this.ischecked = val;
     this.moduleID = val;
     this.pickedMType.name = name;
@@ -932,6 +979,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       ]
     };
     this.templateAccessPointGroup[i].data.evaluation.details.push(req);
+    console.log(this.templateAccessPointGroup[i].data.evaluation.details)
     if (this.templateAccessPointGroup.length > 0) {
       console.log("length", this.templateAccessPointGroup[i].data.evaluation.details.length)
       var x = this.templateAccessPointGroup[i].data.evaluation.details.length - 1;
@@ -1199,9 +1247,9 @@ export class ApgComponent implements OnInit, OnDestroy {
         .subscribe((res: any) => {
           this.toastr.success('APG successfully Created.');
           console.log(res)
-          setTimeout(()=>{
+          setTimeout(() => {
             this.cancelapg();
-          },200)
+          }, 200)
           this.setSelectedTab(this.pickedMType)
         }, err => {
           this.toastr.error('Created APG Fail');
@@ -1291,9 +1339,9 @@ export class ApgComponent implements OnInit, OnDestroy {
       this._service.createAPG(this.regionID, this.locationID, apg, null, moduleId).subscribe((res: any) => {
         console.log(res);
         this.toastr.success('APG successfully Created.');
-        setTimeout(()=>{
+        setTimeout(() => {
           this.cancelapg();
-        },200)
+        }, 200)
         this.setSelectedTab(this.pickedMType)
         this.optionsArray = [];
       }, err => {
@@ -1350,9 +1398,9 @@ export class ApgComponent implements OnInit, OnDestroy {
             .subscribe((res: any) => {
               this.toastr.success('APG successfully Created.');
               console.log(res)
-              setTimeout(()=>{
+              setTimeout(() => {
                 this.cancelapg();
-              },200)
+              }, 200)
               this.setSelectedTab(this.pickedMType)
               // this.cancelapg();
             }, err => {
@@ -1381,7 +1429,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
 
-  setSelectedTab(apgType){
+  setSelectedTab(apgType) {
     this.selectedAPGTab.name = apgType.name;
     this.selectedAPGTab.id = apgType.id;
   }
@@ -1880,7 +1928,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
 
     if (searchWord.length != 0) {
-      console.log('ApgType',this.selectedAPGTab.id,this.selectedAPGTab.name)
+      console.log('ApgType', this.selectedAPGTab.id, this.selectedAPGTab.name)
       this.isSearch = true;
       this._service.getSearchApg(this.regionID, searchWord, type, this.selectedAPGTab.id, '', limit, skip)
         .subscribe((res: any) => {
@@ -1945,11 +1993,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   //       console.log(err);
   //     });
   // }
-  
+
   getAllAPG(limit, skip) {
     this.blockUI.start('Loading...');
     console.log(this.selectedAPGTab)
-    this._service.getAllAPG(this.regionID, this.selectedAPGTab.id , limit, skip)
+    this._service.getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
       .subscribe((res: any) => {
         this.apgList = [];
         this.result = res;
@@ -1970,7 +2018,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.dataApgList = this.dataApgList.concat(res);
           this.apgList = this.dataApgList;
         }
-        console.log("APG lists",this.apgList);
+        console.log("APG lists", this.apgList);
         // this.apgList = res;
         // this.result = res;
         // this.apgList = this.apgList.concat(res);
@@ -2286,10 +2334,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(i, ind)
   }
 
- searchName;
-  onClickApgTab(name,id){
+  searchName;
+  onClickApgTab(name, id) {
     this.clearAPGTypeArr()
-    if(name == 'All'){
+    if (name == 'All') {
 
       this.selectedAPGTab.name = 'All';
       this.selectedAPGTab.id = '';
@@ -2297,14 +2345,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.selectedAPGTab.name = name;
       this.selectedAPGTab.id = id;
     }
-    this.getAllAPG(20,0);
-    console.log("onClickApgTab",this.selectedAPGTab)
+    this.getAllAPG(20, 0);
+    console.log("onClickApgTab", this.selectedAPGTab)
     this.searchName = "";
   }
   public get half(): number {
     return Math.ceil(this.templateList.length / 2);
   }
-  clearAPGTypeArr(){
+  clearAPGTypeArr() {
     this.allApgList = [];
     this.progressAPG = [];
     this.badgeApg = [];

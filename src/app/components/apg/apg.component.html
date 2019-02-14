@@ -177,8 +177,10 @@
             </div>
             <div id="requirement-inner-box-{{i}}" class="requirement-inner-box" (scroll)="requirementInnerBox($event,i)"
               dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
+              <!-- {{item.data.evaluation.details | json}} -->
               <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index"
                 style="padding-left:40px;" id="requirement{{x}}">
+                <!-- {{test.name}} -->
                 <span class="img-wrapper">
                   <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                   <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
@@ -683,9 +685,9 @@
         </div>
 
         <div class="row apg-share-content" *ngIf="apgType =='Progress'">
-          <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
-            <div class="header">
-              <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
+          <div *ngFor="let temp of templateList; let i=index;" class="share-input progress-share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
+            <div class="header progress-header"  [ngClass]="{'selected': sharechecked == temp._id}">
+              <label class="form-check-label">
                 <div class="label-checked"></div>
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{temp.name}}"
                   (click)="chooseShareAPG(temp._id, temp.name)"> {{temp.name}}
