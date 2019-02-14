@@ -2210,11 +2210,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.templateAccessPointGroup.data.inputTypeProperties.max = "";
         this.sliderUnit = "";
       } else {
-        // this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
-        // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [""];
         this.numberUnit = "";
       }
     }
+    this.chkValue('val','type')
   }
 
   checkValidation(arr) {
@@ -2269,6 +2268,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             this.tempMin = this.templateAccessPointGroup.data.inputTypeProperties.min
             this.tempMax = this.templateAccessPointGroup.data.inputTypeProperties.max
             this.tempValue = this.templateAccessPointGroup.data.inputTypeProperties.options
+            this.chkValue('val','type')
             console.log(this.optionsArray)
             resolve(res)
             this.setInputValueFromObject(this.optionsArray)
@@ -2319,20 +2319,20 @@ export class ApgComponent implements OnInit, OnDestroy {
   overmin: boolean = true;
   chkValue(v, type) {
     console.log(v)
-    if (type == 'min') {
-      if (v.length > 0) {
-        this.emptymin = false;
-      } else {
+    // if (type == 'min') {
+      if (this.templateAccessPointGroup.data.inputTypeProperties.min == '' ) {
         this.emptymin = true;
-      }
-
-    } else {
-      if (v.length > 0) {
-        this.emptymax = false;
       } else {
-        this.emptymax = true;
+        this.emptymin = false;
       }
-    }
+    // } 
+    // if(type == 'max') {
+      if (this.templateAccessPointGroup.data.inputTypeProperties.max == '' ) {
+        this.emptymax = true;
+      } else {
+        this.emptymax = false;
+      }
+    // }
     if (this.templateAccessPointGroup.data.inputTypeProperties.max <= this.templateAccessPointGroup.data.inputTypeProperties.min) {
       this.overmin = true;
     } else {

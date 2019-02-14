@@ -127,8 +127,19 @@
         <div class="d-flex flex-row">
           <div class="d-flex flex-column">
             <label class="evaluation-Name"> Evaluation Name</label>
-            <input type="text" placeholder="Type skill name here" class="evaluation-name" name="name" required
+            <div class="limit-wordcount ml-auto">
+              <span>{{wordLength}}/60characters</span>
+            </div>
+            <input type="text" placeholder="Type skill name here" class="evaluation-name" name="name" 
+              required maxlength="60"
+              (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
+              (input)="changeMethod($event.target.value)" 
               [(ngModel)]="model.name" #name="ngModel">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+              <div [hidden]="!name.errors.required">
+                Name is required!
+              </div>
+            </div>
           </div>
         </div>
         <div class="inform-wrapper">
