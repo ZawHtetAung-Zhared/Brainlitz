@@ -86,6 +86,7 @@
 
 .apg-share-bottom {
   position: fixed;
+  z-index: 1000;
   width: 100%;
   border-top: 1px solid #eee;
   bottom: 0;
@@ -95,16 +96,31 @@
 }
 
 .shareApgLoadMore {
-  padding-top: 6%;
-  padding-bottom: 6%;
+  /* padding-top: 6%;
+  padding-bottom: 6%; */
+  
 }
-
+/* .loadMore1{
+    /* height: 199px; */
+    /* position: fixed; */
+    /* padding-top: 1%;
+    width: 100%; */
+    /* background: red; */
+    /* bottom: 69px;
+    position: relative; */
+    /* padding-bottom: 20%;
+} */
 .apg-share-content {
   margin-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
   display : flex;
 }
-
+.loadMore1{
+    bottom: 67px;
+    background: white;
+    width: 105%;
+    position: sticky;
+}
 .share-input .label-checked {
   background: #fff;
   border: 2px solid #3d5266;
@@ -1628,17 +1644,18 @@ li.optionlist {
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
   line-height: 12px;
   color: #64707d;
-  top: 20xp;
+  margin-top:4px;
+  display : inline-block;
   position: absolute;
 }
 
 .temp-name {
-  font-size: 18px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
-  line-height: 22px;
-  color: #2e3e4d;
-  position: absolute;
-  top: 38px;
+  margin-top: 20px;
+    font-size: 18px;
+    display: inline-block;
+    font-family: 'Montserrat-Semibold', Arial, sans-serif;
+    line-height: 22px;
+    color: #2e3e4d;
 }
 
 .label-checked.data {
@@ -1668,6 +1685,9 @@ li.optionlist {
 .accesspoint-name>.head>.down-arrow {
   float : right;
   color : #007fff;
+  -webkit-transition: -webkit-transform .5s ease-in-out;
+    -ms-transition: -ms-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;  
 }
 
 .accesspoint-name-wrapper {
@@ -1693,6 +1713,9 @@ li.optionlist {
 .dot-wrapper {
   margin-top: 12px;
   display: flex;
+  -webkit-transition: -webkit-transform .5s ease-in-out;
+    -ms-transition: -ms-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;  
 }
 
 .transform-y {
@@ -1759,4 +1782,14 @@ li.optionlist {
 }
 .card.card-wrap.share-input {
   border: none;
+}
+.col1{
+  margin-right:10px;
+}
+.col2{
+  margin-left:10px;
+}
+.col2,.col1{
+  max-width: 50%;
+  flex:50%;
 }
