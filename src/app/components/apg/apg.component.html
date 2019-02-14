@@ -121,6 +121,7 @@
   </div>
   <div class="apg-form">
     <!-- <form #createDataApgForm="ngForm"> -->
+      <!-- Start Assemenent -->
       <div *ngIf="iscreate == true && apCreate == true">
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
@@ -135,7 +136,7 @@
               create with multiple lines</span>
           </div>
           <div dragula="COLUMNS" class="requirements-wrapper" [(dragulaModel)]="templateAccessPointGroup" drag-scroll>
-            <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
+            <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index;let l = last" id="skill-requirement-id-{{i}}">
               <div class="d-flex flex-column skill-header" style="background:#f2f4f5;" id="skillHeader{{i}}">
                 <div *ngIf="isUpdate == false && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
                   (click)="mainAccessPointClear(item,i,'skillName','create')"></div>
@@ -159,6 +160,7 @@
                   </div>
                   <p style="padding-left:12px;" class="pass-mark">Use passing mark</p>
                 </div>
+    
                 <div class=" pb-3" [ngClass]="{'d-none':!item.options}" id="passMark{{i}}">
                   <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)"
                     name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
@@ -166,8 +168,8 @@
                 </div>
               </div>
               <div id="requirement-inner-box-{{i}}" class="requirement-inner-box" (scroll)="requirementInnerBox($event,i)"
-                dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
-                <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index"
+                dragula={{i}} [(dragulaModel)]="item.data.evaluation.details" [ngClass]="{'requirementAddHeight': !item.options , 'requirementAddHeight2': item.options}">
+                <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index;let last = last"
                   style="padding-left:40px;" id="requirement{{x}}">
                   <span class="img-wrapper">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
@@ -177,6 +179,7 @@
                   <!-- <span class="pr-3"></span> <textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
                     (click)="subAccessPointClear(test,item,i,x,'requirement')"></div>
+                   
                 </div>
               </div>
 
@@ -193,10 +196,14 @@
                   Add new requirement
                 </button>
               </div>
+      
             </div>
+           
             <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p>
-
+           <!-- {{isScroll}} -->
+           <div *ngIf="isScroll"> {{ scrollCalculationAfter(templateAccessPointGroup)}}</div>
           </div>
+          <!-- <div>{{scrollCalculation(0,"create")}}</div> -->
           <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
         </div>
         <div class="d-flex justify-content-end form-footer">
@@ -205,7 +212,9 @@
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
         </div>
       </div>
+       <!-- end Assemenent -->
     <!-- </form> -->
+    <!-- Start Data -->
     <div *ngIf="iscreate == true && dataApCreate == true ">
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
@@ -326,20 +335,21 @@
               <label class="d-flex">
 
                 <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
-                  (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
+                  (input)="chkValue($event.target.value,'min')"  required #min_method="ngModel">
 
                 <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
                    <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
-
+                  
                 <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
                   min="0" max="100" disabled=true value="0" id="apg_rangeId">
-
+              
                 <div class="divslider">
                   <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
                   <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box"
                     min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
                     value="{{templateAccessPointGroup.data.inputTypeProperties.min}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)"
                     >
+                    
                   <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
                 </div>
 
@@ -382,6 +392,7 @@
         </div>
       </div>
     </div>
+    <!-- End Data -->
     <form novalidate #createapgForm="ngForm">
       <div class="row" *ngIf="ismodule == true">
         <div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl"

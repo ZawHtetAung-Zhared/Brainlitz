@@ -18,6 +18,8 @@ import { Router } from '@angular/router';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 import { csLocale } from 'ngx-bootstrap';
+import { promise } from 'protractor';
+import { InvokeFunctionExpr } from '@angular/compiler';
 @Component({
   selector: 'app-apg',
   templateUrl: './apg.component.html',
@@ -94,6 +96,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   badgeApg:any = [];
   evAPG:any = [];
   dataApgList:any = [];
+  isScroll:boolean=true;
 
   //
 
@@ -125,6 +128,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   exitValue: any;
   isEmpty: boolean = true;
   delItem: any;
+  emptymin: boolean = true;
+  emptymax: boolean = true;
+  overmin: boolean = true;
 
   constructor(private modalService: NgbModal,
     private _service: appService,
@@ -512,6 +518,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   // }
 
   goToBack(status) {
+    console.log(this.isScroll)
     console.log(status)
     if (status == 'type') {
       console.log('type')
@@ -660,6 +667,9 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.dataApCreate = true;
         this.ismodule = false;
         this.apCreate = false;
+        this.emptymax=true;
+        this.emptymin=true;
+        this.overmin=true;
       }
       else {
         this.model = {};
@@ -830,7 +840,6 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   subAccessPointAdd(skillBlog, i) {
-
     console.log(this.templateAccessPointGroup)
     console.log('~~~~~~~~', i, skillBlog)
     let req = {
@@ -848,7 +857,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     // this.addscrollEvent(skillBlog,i);
     setTimeout(() => {
-      this.scrollCalculation(skillBlog, i);
+      this.scrollCalculation( i,"create");
       this.focusAdd(skillBlog.data.evaluation.details.length, i)
     }, 200);
     this.checkProperties(this.formObj)
@@ -864,7 +873,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.templateAccessPointGroup[id].data.evaluation.details.splice(x, 1);
     console.log(skillblog)
     // this.removescrollEvent(i,id,x);
-    this.scrollCalculation(skillblog, id);
+    this.scrollCalculation( id,"clear");
     setTimeout(()=>{
       this.removeValue(this.templateAccessPointGroup)
     })
@@ -876,46 +885,63 @@ export class ApgComponent implements OnInit, OnDestroy {
     // console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
     document.getElementById('box' + l + idx).focus();
   }
-
+  scrollCalculationAfter(data){
+    this.isScroll=true;
+    console.log(data)
+    for(var i=0;i<data.length;i++){
+      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+      const skillHeader: HTMLElement = document.getElementById('skillHeader'+i);
+      const skillFooter: HTMLElement = document.getElementById('skillHeader'+i);
+      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+      if (skillHeight.clientHeight < 400 ) {
+        console.log("less than 400")
+        this.templateAccessPointGroup[i].upDownOptions = false;
+        this.templateAccessPointGroup[i].upOptions = false;
+        this.templateAccessPointGroup[i].DownOptions = false;
+      } else {
+        console.log("greater than 400")
+        // skillHeight.setAttribute("style", "height: 400px;");
+        // innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
+        this.templateAccessPointGroup[i].upDownOptions = true;
+        this.templateAccessPointGroup[i].upOptions = false;
+        this.templateAccessPointGroup[i].DownOptions = true;
+      }
+    }
+  }
   // Create in scroll calculation for evaluation 
-  scrollCalculation(skillObj,skillId){
+  scrollCalculation(skillId,type){
+    this.isScroll=false;
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
     const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter'+skillId);
+    const skillFooter: HTMLElement = document.getElementById('skillHeader'+skillId);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
-    var req_total_height=0;
+    var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+  
+    console.log("totalHeight"+totalHeight);
 
-    for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
-      console.log(j);
-      const requirement: HTMLElement = document.getElementById('requirement' + j);
-      console.log(requirement)
-      req_total_height += requirement.clientHeight;
-      console.log(req_total_height);
-    }
-
-    var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + req_total_height;
-    var inboxHight = 400 - (skillHeader.clientHeight + skillFooter.clientHeight);
-
-    console.log(totalHeight);
-
-    if (totalHeight < 400) {
+    if (skillHeight.clientHeight < 400 && type=="create") {
       console.log("less than 400")
-      skillHeight.setAttribute("style", "height: auto;");
-      innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
+      this.templateAccessPointGroup[skillId].upDownOptions = false;
+      this.templateAccessPointGroup[skillId].upOptions = false;
+      this.templateAccessPointGroup[skillId].DownOptions = false;
+    }else if (skillHeight.clientHeight <= 400 && type=="clear") {
+      console.log("less than 400")
       this.templateAccessPointGroup[skillId].upDownOptions = false;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = false;
     } else {
       console.log("greater than 400")
-      skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
+      // skillHeight.setAttribute("style", "height: 400px;");
+      // innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
       this.templateAccessPointGroup[skillId].upDownOptions = true;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = true;
     }
+
+    console.log(skillHeight.clientHeight)
   }
 
-
+  //
   // addScrollOncheckMarkToggle(skillObjId, res) {
   //   console.log("reach checkMarkToggle>>" + skillObjId);
   //   const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillObjId);
@@ -986,8 +1012,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(item.options)
 
     setTimeout(() => {
-      this.scrollCalculation(item, skillObjId)
+      this.scrollCalculation( skillObjId,"create")
     }, 200)
+
 
     // setTimeout(() => {
     //   this.addScrollOncheckMarkToggle(skillObjId, item.options);
@@ -1324,6 +1351,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log('successs',dataCollection)
         this.templateAccessPointGroup = dataCollection;
         this.accessPointArrayString = JSON.stringify(dataCollection);
+        this.sliderMinMax(dataCollection);
       }).catch((err) => {
         console.log(err); // never called
       });
@@ -2117,18 +2145,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
     console.log(this.templateAccessPointGroup)
   }
-  emptymin: boolean = true;
-  emptymax: boolean = true;
-  overmin: boolean = true;
+
   chkValue(v, type) {
-    console.log(v)
     if (type == 'min') {
       if (v.length > 0) {
         this.emptymin = false;
       } else {
         this.emptymin = true;
       }
-
     } else {
       if (v.length > 0) {
         this.emptymax = false;
@@ -2142,6 +2166,13 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.overmin = false;
     }
   }
+  //slider for edit
+  sliderMinMax(obj){
+    console.log("here input focus>>",obj.data.inputTypeProperties.min)
+    this.chkValue(String(obj.data.inputTypeProperties.min),"min");
+    this.chkValue(String(obj.data.inputTypeProperties.max),"max");
+  }
+
   toShowClear() {
     return this.optionsArray.length > 1;
   }
@@ -2171,6 +2202,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.getAllAPG(20,0);
     console.log("onClickApgTab",this.selectedAPGTab)
   }
+
 }
 
 
