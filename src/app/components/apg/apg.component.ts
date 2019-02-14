@@ -1845,6 +1845,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(this.apgType)
     var moduleId = localStorage.getItem('moduleID');
     console.log(moduleId)
+    this.blockUI.start('Loading')
     this._service.getAllTemplate(this.regionID, limit, skip, moduleId)
       .subscribe((res: any) => {
         console.log('templateLists', res)
@@ -1858,6 +1859,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         }
         console.log(this.templateList)
+        setTimeout(() => {
+          this.blockUI.stop();
+        }, 300);
       }, err => {
         console.log(err)
       })
@@ -1906,45 +1910,51 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  showMoreTemplate(skip) {
-    this.getAllTemplate(20, skip);
-  }
-
-  changeSearch(keyword, type) {
-    console.log(keyword)
-    // this.getApgSearch(keyword, type, 20, 0);
-    this.searchWord = keyword;
-    this.isFirst = true;
-    this.itemtype = type;
-    // this.isSearch = true;
-    if (type == 'apg') {
-      if (keyword.length == 0) {
-        this.apgList = [];
-        this.getAllAPG(20, 0)
-      }
-    } else {
-      if (keyword.length == 0) {
-        this.templateList = [];
-        this.getAllTemplate(20, 0)
+  showMoreShareApg(skip){
+    if (this.isSearch == true) {
+        console.log("User Search");
+        this.sharedApgSearch(this.keyword,  20, skip)
       } else {
-        this.getSearchDataTemplate(keyword, 20, 0)
-      }
+        console.log("Not user search")
+        this.getAllTemplate(20, skip);
     }
-  }
-
-  getSearchDataTemplate(keyword, limit, skip) {
-    var moduleId = localStorage.getItem('moduleID');
-    console.log(moduleId)
-    this._service.getSearchTemplate(this.regionID, limit, skip, moduleId, keyword)
+}
+  sharedApgSearch(keyword,limit,skip){
+    this.keyword = keyword;
+    if (skip == '' && limit == '') {
+      console.log("First time search")
+      var isFirst = true;
+      limit = 20;
+      skip = 0;
+    }
+    if( keyword.length != 0 ){
+      this.blockUI.start('Loading...');
+      this._service.getSearchTemplate(this.regionID, limit, skip, this.moduleID, keyword)
       .subscribe((res: any) => {
         console.log('templateLists', res)
+        if (isFirst == true) {
+          console.log("First time searching");
+          this.templateList = [];
+          this.templateList = res;
+        } else {
+          console.log("Not First time searching")
+          // this.apgList = res;
+          this.templateList = this.templateList.concat(res);
+        }
         this.result = res;
-        this.templateList = res;
+        setTimeout(() => {
+          this.blockUI.stop();
+        }, 300);
       }, err => {
         console.log(err)
       })
-
+    }else{
+      setTimeout(() => {
+        this.templateList = [];
+        this.getAllTemplate(20, 0)
+        this.isSearch = false;
+      }, 100);
+    }
   }
 
   apgListSearch(searchWord, type, limit, skip) {
