@@ -91,7 +91,7 @@
     <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating progress APG</p>
+        <p>Creating {{apgType}} APG</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -100,7 +100,7 @@
     <div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating progress APG</p>
+        <p>Creating {{apgType}} APG</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -693,7 +693,7 @@
 
         <div class="row apg-share-content" *ngIf="apgType =='Progress'">
           <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
-            <div class="header">
+            <div class="">
               <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
                 <div class="label-checked"></div>
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{temp.name}}"
