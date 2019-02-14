@@ -24,6 +24,7 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public attendenceButton:any;
   public optionBox:any = false;
   public stdLists: Array<any> = []
   public searching:boolean = false;
@@ -1520,7 +1521,20 @@ export class CourseComponent implements OnInit {
     console.log('.....',this.cancelUi)
     // console.error(onlytodayTime)
     // console.error(onlytodayDate)
-
+    // Validate for giving attendence
+    if(lessonDate <= onlytodayDate){
+      if(lessonDate == onlytodayDate){
+        if(onlytodayTime >= lsessonTime){
+           this.attendenceButton = true;
+        }else{
+          this.attendenceButton = false;
+        }
+      }else{
+        this.attendenceButton = true;
+      }
+    }else{
+      this.attendenceButton = false;
+    }
 
     if(lessonDate >= onlytodayDate){
       console.log('lesson date is grater than and equal to today')
@@ -1761,14 +1775,6 @@ export class CourseComponent implements OnInit {
   }
   uId:any;
   attdBox = false;
-  showAttendanceBox(e,uID){
-    e.preventDefault();
-    e.stopPropagation();
-    this.yPosition = e.layerY;
-    this.uId = uID;
-    this.attdBox = true;
-    console.log("showAttendanceBox Works",this.uId)
-  }
 
   withdrawUser(id){
     let userobj = {
@@ -2913,7 +2919,16 @@ export class CourseComponent implements OnInit {
   globalMakeupPass(){
     //this.isGlobal = true;
   }
-
+  showAttendanceBox(e,uID){
+    if(this.attendenceButton == true) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.yPosition = e.layerY;
+      this.uId = uID;
+      this.attdBox = true;
+      console.log("showAttendanceBox Works",this.uId)
+    }
+  }
   onClickRadio(type,id){
     console.log('LASD~~~',this.LASD)
     var d = new Date(this.LASD).getUTCDate();

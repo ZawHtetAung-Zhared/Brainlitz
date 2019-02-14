@@ -1766,7 +1766,21 @@ button:disabled{
   font-family: 'Montserrat-Medium',Arial,sans-serif;
   position: relative;
 }
-
+.attendance-radio{
+  background: #c2f2d6;
+}
+.absent-radio{
+  background: #ffdbd9;
+}
+.attendance-radio,.absent-radio {
+  border-radius: 25px;
+}
+.present-text{
+  color: #004d20!important;
+}
+.absent-text{
+  color: #801f19!important;
+}
 /* .single-student.no-data-alert{
 
 } */
