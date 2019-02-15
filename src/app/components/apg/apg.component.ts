@@ -1525,14 +1525,24 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.moduleID = this.model.moduleId;
         resolve(apId)
       }).catch((err) => {
-        console.log(err); // never called
+        console.log(err); // never called1
       });
     }).then(accespointId => {
       console.log('accespointId===>',accespointId)
       this.getEditAccessPoint(this.regionID,accespointId,apgName.module.name)
       .then(dataCollection => {
         console.log('successs',dataCollection)
+        let tempArr = [];
         this.templateAccessPointGroup = dataCollection;
+        this.templateAccessPointGroup.map( item => {
+          if(item.data.evaluation.passMark > 0){
+            item.options = true;
+          }else{
+            item.options = false; 
+          }
+          tempArr.push(item)
+        })
+        this.templateAccessPointGroup = tempArr;
         this.accessPointArrayString = JSON.stringify(dataCollection);
         this.sliderMinMax(dataCollection);
       }).catch((err) => {
@@ -2368,7 +2378,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         return new Promise((resolve, reject) => {
           this._service.getAccessPoint(reginId, accesPoint)
             .subscribe((res: any) => {
-              // console.log(res)
+              console.log(res)
               resolve(res)
               // this.templateAccessPointGroup.push(res)
               // this.accessPointArrayString.push(JSON.stringify(res));
