@@ -2271,11 +2271,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   radioSelect(type) {
     this.selectedRadio = type;
-    this.setInputValueFromObject(this.optionsArray)
     this.templateAccessPointGroup.data.inputType = type;
     if (this.tempRadioType) {
       console.log('Nice')
       if (this.tempRadioType == "RADIO") {
+        this.setInputValueFromObject(this.optionsArray)
         this.sliderUnit = '';
         this.numberUnit = '';
         this.templateAccessPointGroup.data.inputTypeProperties.min = "";
@@ -2308,10 +2308,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(this.optionsArray)
         // this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
         // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
+        this.optionsArray = ['']
         this.templateAccessPointGroup.data.inputTypeProperties.min = "";
         this.templateAccessPointGroup.data.inputTypeProperties.max = "";
         this.sliderUnit = "";
       } else {
+        this.optionsArray = ['']
         this.numberUnit = "";
       }
     }
