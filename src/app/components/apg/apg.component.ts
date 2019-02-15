@@ -422,8 +422,8 @@ export class ApgComponent implements OnInit, OnDestroy {
                 ele.scrollTop += 20
                 if (ele.scrollHeight == ele.scrollTop + container.height()) {
 
-                  // $(ele).append(el)
-                  //For Scroll Down
+                  // $(ele).append(el) //For Scroll Down
+     
                 }
                 // }, 300);
               } else if (y - containerTop <= 20) {
@@ -949,17 +949,14 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
 
-  addInputValue(val, name, i) {
-    console.log("val,name", val, name, i)
-    this.formObj[name + i] = val;
-    console.log("adding value to formObj", this.formObj);
-    this.checkProperties(this.formObj)
-  }
-
-  addReqValue(val, name, i, x) {
-    console.log("val,name", val, name, i, x);
-    this.formObj[name + x + i] = val;
-    console.log("adding Req value to formObj", this.formObj);
+  addInputValue() {
+    for (var k = 0; k < this.templateAccessPointGroup.length; k++) {
+      this.formObj["skillName" + k] =this.templateAccessPointGroup[k].name;
+      for (var kk = 0; kk < this.templateAccessPointGroup[k].data.evaluation.details.length; kk++) {
+        this.formObj["requirement" + kk + k] = this.templateAccessPointGroup[k].data.evaluation.details[kk].name;
+      }
+    }
+    console.log("adding Input value to formObj", this.formObj)
     this.checkProperties(this.formObj)
   }
 
@@ -2257,7 +2254,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log("over 400")
     }
 
-    this.addReqValue(e.target.value, name, id, x)
+    this.addInputValue()
   }
   minAndMax(e, value, index) {
 

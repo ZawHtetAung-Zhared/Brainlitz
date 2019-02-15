@@ -54,13 +54,13 @@
             <p class="apg-type" *ngIf="!apg.module"> - </p>
             <h4>{{apg.name}}</h4>
           </div>
-          <div class="apg-scroll" [ngStyle]="{'max-height': apg.module.name == 'Progress' ? 60 + 'px' : (apg.module.name == 'Data' ? 176 + 'px' : 220 + 'px')}">
+          <div class="apg-scroll" [ngStyle]="{'max-height': apg.module.name == 'Progress' ? 63 + 'px' : (apg.module.name == 'Data' ? 185 + 'px' : 220 + 'px')}">
             <p *ngIf="apg.module.name.toLowerCase() == 'progress' || apg.module.name.toLowerCase() == 'badge'" class="apg-desc padding-lr">{{apg.description}}</p>
             <div *ngIf="apg.module.name.toLowerCase() == 'assessment' || apg.module.name.toLowerCase() == 'evaluation'">
               <div class="ap-wrapper" *ngFor="let ap of apg.accessPoints; let ind = index">
                 <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
                 <div class="d-flex flex-row justify-content-between">
-                  <p class="mb-0">{{ap.name}}=={{ap.isExpand}}</p>
+                  <p class="mb-0">{{ap.name}}</p>
                   <span class="lists-down-arrow" [ngClass]="{'transform-y': ap.isExpand}" (click)="expandAccessPoint(i,ind,'apg')">
                     <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
                   </span>
@@ -76,7 +76,28 @@
               </div>
             </div>
             <div *ngIf="apg.module.name.toLowerCase() == 'data'" class="padding-lr">
-              <p>Data</p>
+              <div *ngFor="let ap of apg.accessPoints">
+                <div *ngIf="ap.data.inputType == 'RANGE' || ap.data.inputType == 'NUMBER'">
+                  <div class="d-flex flex-row justify-content-between list-dot-wrap">
+                    <div class="d-flex flex-row">
+                      <span class="textUnitName">Unit:</span><span class="textUnit pl-2">{{ap.data.unit}}</span> 
+                    </div>
+                    <div class="showType">
+                      <img *ngIf="ap.data.inputType == 'NUMBER'" src="../../../assets/img/input-icon.png" class="inputIcon">
+                      <img *ngIf="ap.data.inputType == 'RANGE'" src="../../../assets/img/slider-icon.png" class="inputIcon">
+                      <span class="inputText">
+                        {{(ap.data.inputType == 'RANGE') ? ('Slider') : ('Input box')}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="ap.data.inputType == 'RADIO'">
+                  <div class="d-flex flex-row" *ngFor="let option of ap.data.inputTypeProperties.options; let oIdx= index">
+                    <span class="detail-dot"></span>
+                    <div class="mb-0 list-dot-wrap detail-line apg-desc w-100" [ngClass]="{'hide-border': ap.data.inputTypeProperties.options?.length == oIdx+1 }">{{ option }}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -181,7 +202,7 @@
                     <img class="group-handle" src="../../../assets/images/disable-holder.svg">
                   </span>
                   <input type="text" placeholder="Type skill name here" class="skill-name" name=" {{'skillName' + i }}"
-                    required [(ngModel)]="item.name" (input)="addInputValue($event.target.value,'skillName',i)" required>
+                    required [(ngModel)]="item.name" (input)="addInputValue()" required>
                   <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
                 </div>
                 <div class="d-flex align-items-center">
@@ -244,7 +265,7 @@
             <!-- {{isScroll}} -->
            
             </div>
-            <!-- <div *ngIf="isScroll"> {{ scrollCalculationAfter(templateAccessPointGroup)}}</div> -->
+
             <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p>
             <!-- <div>{{scrollCalculation(0,"create")}}</div> -->
             <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
@@ -630,7 +651,7 @@
                     </div>
 
                     <div class="showType" *ngIf="tobj.data.inputTypeProperties.min!=null && tobj.data.inputTypeProperties.max!=null">
-                      <img src="../../../assets/img/input-icon.png" class="inputIcon">
+                      <img src="../../../assets/img/slider-icon.png" class="inputIcon">
                       <span class="inputText" [ngClass]="{'selected': sharechecked == temp._id}">
                         Slider
                       </span>
