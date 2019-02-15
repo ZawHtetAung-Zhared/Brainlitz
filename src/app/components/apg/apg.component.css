@@ -329,7 +329,7 @@
 }
 
 .apg-scroll {
-  max-height: 75px;
+  /*max-height: 75px;*/
   overflow: overlay;
   /*color: #64707d;
     display: block;
@@ -338,8 +338,45 @@
     text-align: justify;*/
 }
 
+.ap-wrapper{
+  padding-top: 10px;
+  border-bottom: 1px solid #edeff0;
+  margin: 0px 20px;
+  /*margin: 20px 20px 0;*/
+}
+
+div.ap-wrapper:last-child {
+  border-bottom: none;
+}
+
+.hide-border {
+  border-bottom: none!important;
+}
+
+.list-dot-wrap{
+  padding: 17px 0px;
+}
+
+.detail-line{
+  line-height: 0.7;
+  border-bottom: 1px solid #edeff0;
+}
+
+.bg-apg-header{
+  padding: 15px 20px;
+  background: #f2f4f5;
+}
+
+.noBg-apg-header{
+  padding: 15px 20px 0px 20px;
+}
+
+.padding-lr{
+  padding: 0px 20px;
+}
+
 .info-section {
-  padding: 20px 20px 0;
+  /*padding: 20px 20px 0;*/
 }
 
 .btn-section {
@@ -1681,12 +1718,12 @@ li.optionlist {
   padding-bottom: 16px;
 }
 
-.accesspoint-name>.head>.down-arrow {
+.accesspoint-name>.head>.down-arrow,.lists-down-arrow {
   float : right;
   color : #007fff;
   -webkit-transition: -webkit-transform .5s ease-in-out;
-    -ms-transition: -ms-transform .5s ease-in-out;
-    transition: transform .5s ease-in-out;  
+  -ms-transition: -ms-transform .5s ease-in-out;
+  transition: transform .5s ease-in-out;  
 }
 
 .accesspoint-name-wrapper {
@@ -1701,12 +1738,17 @@ li.optionlist {
   border-bottom-left-radius: 4px;
 }
 
-.dot {
+.dot,.detail-dot {
   height: 10px;
   width: 10px;
   background-color: #e3e4e6;
   border-radius: 50%;
   margin-right: 12px;
+}
+
+.detail-dot{
+  margin-top: 17px;
+  margin-bottom: 17px;
 }
 
 .dot-wrapper {
