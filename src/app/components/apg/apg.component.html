@@ -78,7 +78,18 @@
             <div *ngIf="apg.module.name.toLowerCase() == 'data'" class="padding-lr">
               <div *ngFor="let ap of apg.accessPoints">
                 <div *ngIf="ap.data.inputType == 'RANGE' || ap.data.inputType == 'NUMBER'">
-                  {{ap.data.inputType}}
+                  <div class="d-flex flex-row justify-content-between list-dot-wrap">
+                    <div class="d-flex flex-row">
+                      <span class="textUnitName">Unit:</span><span class="textUnit">{{ap.data.unit}}</span> 
+                    </div>
+                    <div class="showType">
+                      <img *ngIf="ap.data.inputType == 'NUMBER'" src="../../../assets/img/input-icon.png" class="inputIcon">
+                      <img *ngIf="ap.data.inputType == 'RANGE'" src="../../../assets/img/slider-icon.png" class="inputIcon">
+                      <span class="inputText">
+                        {{(ap.data.inputType == 'RANGE') ? ('Slider') : ('Input')}}
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div *ngIf="ap.data.inputType == 'RADIO'">
                   <div class="d-flex flex-row" *ngFor="let option of ap.data.inputTypeProperties.options; let oIdx= index">
