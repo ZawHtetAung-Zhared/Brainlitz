@@ -422,8 +422,8 @@ export class ApgComponent implements OnInit, OnDestroy {
                 ele.scrollTop += 20
                 if (ele.scrollHeight == ele.scrollTop + container.height()) {
 
-                  // $(ele).append(el)
-                  //For Scroll Down
+                  // $(ele).append(el) //For Scroll Down
+     
                 }
                 // }, 300);
               } else if (y - containerTop <= 20) {

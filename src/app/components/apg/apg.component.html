@@ -60,7 +60,7 @@
               <div class="ap-wrapper" *ngFor="let ap of apg.accessPoints; let ind = index">
                 <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
                 <div class="d-flex flex-row justify-content-between">
-                  <p class="mb-0">{{ap.name}}=={{ap.isExpand}}</p>
+                  <p class="mb-0">{{ap.name}}</p>
                   <span class="lists-down-arrow" [ngClass]="{'transform-y': ap.isExpand}" (click)="expandAccessPoint(i,ind,'apg')">
                     <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
                   </span>
@@ -76,7 +76,27 @@
               </div>
             </div>
             <div *ngIf="apg.module.name.toLowerCase() == 'data'" class="padding-lr">
-              <p>Data</p>
+              <div *ngFor="let ap of apg.accessPoints">
+                <div *ngIf="ap.data.inputType == 'RANGE' || ap.data.inputType == 'NUMBER'">
+                  <div class="d-flex flex-row justify-content-between list-dot-wrap">
+                    <div class="d-flex flex-row">
+                      <span class="textUnitName">Unit:</span><span class="textUnit">{{ap.data.unit}}</span> 
+                    </div>
+                    <div class="showType">
+                      <img *ngIf="ap.data.inputType == 'NUMBER'" src="../../../assets/img/input-icon.png" class="inputIcon">
+                      <img *ngIf="ap.data.inputType == 'RANGE'" src="../../../assets/img/slider-icon.png" class="inputIcon">
+                      <span class="inputText">
+                        {{(ap.data.inputType == 'RANGE') ? ('Slider') : ('Input')}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="ap.data.inputType == 'RADIO'">
+                  <div class="d-flex flex-row" *ngFor="let option of ap.data.inputTypeProperties.options; let optx = index">
+                    <span class="detail-dot"></span>
+                    <div class="mb-0 list-dot-wrap detail-line apg-desc w-100" [ngClass]="{'hide-border': ap.data.inputTypeProperties.options?.length == optx+1 }">{{ option }}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -618,7 +638,7 @@
                     </div>
 
                     <div class="showType" *ngIf="tobj.data.inputTypeProperties.min!=null && tobj.data.inputTypeProperties.max!=null">
-                      <img src="../../../assets/img/input-icon.png" class="inputIcon">
+                      <img src="../../../assets/img/slider-icon.png" class="inputIcon">
                       <span class="inputText" [ngClass]="{'selected': sharechecked == temp._id}">
                         Slider
                       </span>

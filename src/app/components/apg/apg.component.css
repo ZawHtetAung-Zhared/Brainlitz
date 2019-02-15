@@ -157,7 +157,7 @@
 .input-label,
 .input-recommend,
 .modal-title,
-.target,.tab-name {
+.target,.tab-name,.inputText {
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
 }
 
@@ -1594,18 +1594,20 @@ span.textUnit.selected {
   height: 32px;
   border-radius: 16px;
   background-color: #f2f4f5;
-  padding: 2px 3px 2px 10px;
+  padding: 0px 20px;
+  line-height: 1.9;
+  /*padding: 2px 3px 2px 10px;
+  line-height: 1.6;*/
 }
 
 span.inputText {
   font-size: 14px;
   color: #64707d;
-  padding-top: 8px;
+  /*padding-top: 8px;
   padding-bottom: 8px;
-  padding-left: 5px;
-  font-weight: 600;
+  padding-left: 5px;*/
+  /*font-weight: 600;*/
 }
-
 
 .d-flex.justify-content-between.numberType,
 .d-flex.justify-content-between.rangeType {
