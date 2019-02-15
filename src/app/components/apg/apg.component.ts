@@ -165,7 +165,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public optionsArray: any = [""];
   public groupNumber: number = 0;
   public isExpandArr: any = [];
-  public selectedRadio = "NUMBER"
+  public selectedRadio = "";
   public dragEle : any = [];
   public dropEle : any = [];
   minValue: any = "";
@@ -1161,10 +1161,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     item.data.evaluation.allowZero = !item.data.evaluation.allowZero;
   }
   checkMarkToggle(item, skillObjId) {
-    // this.isGlobal = !this.isGlobal
     item.options = !item.options;
     console.log(item.options)
-
     setTimeout(() => {
       this.scrollCalculation( skillObjId,"create")
     }, 200)
@@ -1948,7 +1946,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       skip = 0;
     }
     if( keyword.length != 0 ){
-      this.blockUI.start('Loading...');
       this._service.getSearchTemplate(this.regionID, limit, skip, this.moduleID, keyword)
       .subscribe((res: any) => {
         console.log('templateLists', res)
@@ -1962,9 +1959,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.templateList = this.templateList.concat(res);
         }
         this.result = res;
-        setTimeout(() => {
-          this.blockUI.stop();
-        }, 300);
       }, err => {
         console.log(err)
       })
@@ -2324,7 +2318,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
       var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if (min == "" || max == "" || min >= max || apgName.length == 0 || this.sliderUnit == '') {
+      if (min === "" || max === "" || min >= max || apgName.length == 0 || this.sliderUnit == '') {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2409,14 +2403,14 @@ export class ApgComponent implements OnInit, OnDestroy {
   chkValue(v, type) {
     console.log(v)
     // if (type == 'min') {
-    if (this.templateAccessPointGroup.data.inputTypeProperties.min == '') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.min === '') {
       this.emptymin = true;
     } else {
       this.emptymin = false;
     }
     // } 
     // if(type == 'max') {
-    if (this.templateAccessPointGroup.data.inputTypeProperties.max == '') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.max === '') {
       this.emptymax = true;
     } else {
       this.emptymax = false;

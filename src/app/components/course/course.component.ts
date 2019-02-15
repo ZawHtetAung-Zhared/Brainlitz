@@ -2978,7 +2978,7 @@ export class CourseComponent implements OnInit {
       })
       setTimeout(() => {
         this.blockUI.stop()
-      }, 10);
+      }, 500);
   }
 
 }

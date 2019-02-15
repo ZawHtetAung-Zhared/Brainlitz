@@ -202,7 +202,7 @@
                   </div>
                   <p style="padding-left:12px;" class="pass-mark">Use passing mark</p>
                 </div>
-                <div class=" pb-3" [ngClass]="{'d-none':!item.options}" id="passMark{{i}}">
+                <div class=" pb-3" [ngClass]="{'d-none': !item.options }" id="passMark{{i}}">
                   <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)"
                     name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
                   <label class="pl-2 pass-label">% to pass</label>
@@ -381,33 +381,45 @@
                   </div>
                 </div>
               </div>
-
               <div class="gap-box">
                 <label class="d-flex">
-
+  
                   <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
-                    (input)="chkValue($event.target.value,'min')"  required #min_method="ngModel">
-
+                    (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
+  
                   <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
-                    <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
-                    
+                     <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
+  
                   <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
                     min="0" max="100" disabled=true value="0" id="apg_rangeId">
-                
+  
                   <div class="divslider">
                     <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
                     <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box"
+                      min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
+                      value="{{templateAccessPointGroup.data.inputTypeProperties.min}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)">
+                    <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
+                  </div>
+                      <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
+                      (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                  </label>
+                </div>
+              <!-- <div class="gap-box">
+                <label class="d-flex">
+                  <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
+                    (input)="chkValue($event.target.value,'min')"  required #min_method="ngModel">
+                  <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
+                    min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                  <div class="divslider">
+                    <div class="box arrow-top" id="arrowBox">{{exitValue}}</div>
+                    <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box" id="apg_rangeId"
                       min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
                       >
                   <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
                     (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
                   </div>
                   </label>
-
-          
-                
-              
-              </div>
+              </div> -->
 
             </div>
             <div *ngIf="selectedRadio == 'RADIO'">
