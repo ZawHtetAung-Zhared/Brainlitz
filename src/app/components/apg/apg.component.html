@@ -54,7 +54,7 @@
             <p class="apg-type" *ngIf="!apg.module"> - </p>
             <h4>{{apg.name}}</h4>
           </div>
-          <div class="apg-scroll" [ngStyle]="{'max-height': apg.module.name == 'Progress' ? 60 + 'px' : (apg.module.name == 'Data' ? 176 + 'px' : 220 + 'px')}">
+          <div class="apg-scroll" [ngStyle]="{'max-height': apg.module.name == 'Progress' ? 63 + 'px' : (apg.module.name == 'Data' ? 185 + 'px' : 220 + 'px')}">
             <p *ngIf="apg.module.name.toLowerCase() == 'progress' || apg.module.name.toLowerCase() == 'badge'" class="apg-desc padding-lr">{{apg.description}}</p>
             <div *ngIf="apg.module.name.toLowerCase() == 'assessment' || apg.module.name.toLowerCase() == 'evaluation'">
               <div class="ap-wrapper" *ngFor="let ap of apg.accessPoints; let ind = index">
@@ -78,23 +78,13 @@
             <div *ngIf="apg.module.name.toLowerCase() == 'data'" class="padding-lr">
               <div *ngFor="let ap of apg.accessPoints">
                 <div *ngIf="ap.data.inputType == 'RANGE' || ap.data.inputType == 'NUMBER'">
-                  <div class="d-flex flex-row justify-content-between list-dot-wrap">
-                    <div class="d-flex flex-row">
-                      <span class="textUnitName">Unit:</span><span class="textUnit">{{ap.data.unit}}</span> 
-                    </div>
-                    <div class="showType">
-                      <img *ngIf="ap.data.inputType == 'NUMBER'" src="../../../assets/img/input-icon.png" class="inputIcon">
-                      <img *ngIf="ap.data.inputType == 'RANGE'" src="../../../assets/img/slider-icon.png" class="inputIcon">
-                      <span class="inputText">
-                        {{(ap.data.inputType == 'RANGE') ? ('Slider') : ('Input')}}
-                      </span>
-                    </div>
-                  </div>
+                  {{ap.data.inputType}}
                 </div>
                 <div *ngIf="ap.data.inputType == 'RADIO'">
-                  <div class="d-flex flex-row" *ngFor="let option of ap.data.inputTypeProperties.options; let optx = index">
+                  <div class="d-flex flex-row" *ngFor="let option of ap.data.inputTypeProperties.options; let oIdx= index">
                     <span class="detail-dot"></span>
-                    <div class="mb-0 list-dot-wrap detail-line apg-desc w-100" [ngClass]="{'hide-border': ap.data.inputTypeProperties.options?.length == optx+1 }">{{ option }}</div>
+                    <div class="mb-0 list-dot-wrap detail-line apg-desc w-100" [ngClass]="{'hide-border': ap.data.inputTypeProperties.options?.length == oIdx+1 }">{{ option }}</div>
+                  </div>
                 </div>
               </div>
             </div>
