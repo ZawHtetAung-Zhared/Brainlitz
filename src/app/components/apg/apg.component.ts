@@ -747,7 +747,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           "data": {
             "evaluation": {
               "allowZero": false,
-              "passMark": 0,
+              "passMark": "",
               "details": [{
                 "name": "",
                 "options": [
@@ -915,7 +915,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       "data": {
         "evaluation": {
           "allowZero": false,
-          "passMark": Number,
+          "passMark": "",
           "details": [{
             "name": "",
             "options": [
@@ -1037,26 +1037,29 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   scrollCalculationAfter(data){
     this.isScroll=true;
-    console.log(data)
-    for(var i=0;i<data.length;i++){
-      const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
-      const skillHeader: HTMLElement = document.getElementById('skillHeader'+i);
-      const skillFooter: HTMLElement = document.getElementById('skillHeader'+i);
-      const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
-      if (skillHeight.clientHeight < 400 ) {
-        console.log("less than 400")
-        this.templateAccessPointGroup[i].upDownOptions = false;
-        this.templateAccessPointGroup[i].upOptions = false;
-        this.templateAccessPointGroup[i].DownOptions = false;
-      } else {
-        console.log("greater than 400")
-        // skillHeight.setAttribute("style", "height: 400px;");
-        // innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
-        this.templateAccessPointGroup[i].upDownOptions = true;
-        this.templateAccessPointGroup[i].upOptions = false;
-        this.templateAccessPointGroup[i].DownOptions = true;
+    setTimeout(() => {
+      // console.log(data)
+      for(var i=0;i<data.length;i++){
+        const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
+        const skillHeader: HTMLElement = document.getElementById('skillHeader'+i);
+        const skillFooter: HTMLElement = document.getElementById('skillHeader'+i);
+        const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
+        if (skillHeight.clientHeight < 400 ) {
+          // console.log("less than 400")
+          this.templateAccessPointGroup[i].upDownOptions = false;
+          this.templateAccessPointGroup[i].upOptions = false;
+          this.templateAccessPointGroup[i].DownOptions = false;
+        } else {
+          // console.log("greater than 400")
+          // skillHeight.setAttribute("style", "height: 400px;");
+          // innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
+          this.templateAccessPointGroup[i].upDownOptions = true;
+          this.templateAccessPointGroup[i].upOptions = false;
+          this.templateAccessPointGroup[i].DownOptions = true;
+        }
       }
-    }
+    }, 10);
+
   }
   // Create in scroll calculation for evaluation 
   scrollCalculation(skillId,type){
@@ -1161,7 +1164,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     item.data.evaluation.allowZero = !item.data.evaluation.allowZero;
   }
   checkMarkToggle(item, skillObjId) {
+    // let temPassMark = this.templateAccessPointGroup[i].data.evaluation.passMark;
     item.options = !item.options;
+    if(!item.options) {
+      item.data.evaluation.passMark = "";
+    }
     console.log(item.options)
     setTimeout(() => {
       this.scrollCalculation( skillObjId,"create")
@@ -1306,7 +1313,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       "data": {
         "evaluation": {
           "allowZero": false,
-          "passMark": 0,
+          "passMark": "",
           "details": [{
             "name": "string",
             "options": [
@@ -1485,7 +1492,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(apgID)
     this.singleAPG(apgID, 'share');
   }
-
   onclickUpdate(id, apgName) {
     console.log(id)
     this.apgList = [];
@@ -1544,7 +1550,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         })
         this.templateAccessPointGroup = tempArr;
         this.accessPointArrayString = JSON.stringify(dataCollection);
-        this.sliderMinMax(dataCollection);
+        setTimeout(() => {
+          this.scrollCalculationAfter(this.templateAccessPointGroup)
+        }, 10);
+        if(apgName.module.name == 'DATA'){
+          this.sliderMinMax(dataCollection);
+        }
       }).catch((err) => {
         console.log(err); // never called
       });
@@ -1582,7 +1593,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             this.blockUI.stop();
             console.log(err)
           })
-      }, 10);
+      }, 300);
     })
     // setTimeout(() => {
     //   this._service.getSingleAPG(this.regionID, id)

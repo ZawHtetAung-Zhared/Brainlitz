@@ -203,7 +203,7 @@
                   <p style="padding-left:12px;" class="pass-mark">Use passing mark</p>
                 </div>
                 <div class=" pb-3" [ngClass]="{'d-none': !item.options }" id="passMark{{i}}">
-                  <input type="number" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)"
+                  <input type="number" placeholder="0" class="pass-mark-input" (input)="minAndMax($event,item.data.evaluation.passMark, i)"
                     name="{{'passMark' + i}}" [(ngModel)]="item.data.evaluation.passMark">
                   <label class="pl-2 pass-label">% to pass</label>
                 </div>
@@ -244,7 +244,7 @@
             <!-- {{isScroll}} -->
            
             </div>
-            <div *ngIf="isScroll"> {{ scrollCalculationAfter(templateAccessPointGroup)}}</div>
+            <!-- <div *ngIf="isScroll"> {{ scrollCalculationAfter(templateAccessPointGroup)}}</div> -->
             <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p>
             <!-- <div>{{scrollCalculation(0,"create")}}</div> -->
             <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
