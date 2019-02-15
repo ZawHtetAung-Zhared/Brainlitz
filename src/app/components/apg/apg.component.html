@@ -80,13 +80,13 @@
                 <div *ngIf="ap.data.inputType == 'RANGE' || ap.data.inputType == 'NUMBER'">
                   <div class="d-flex flex-row justify-content-between list-dot-wrap">
                     <div class="d-flex flex-row">
-                      <span class="textUnitName">Unit:</span><span class="textUnit">{{ap.data.unit}}</span> 
+                      <span class="textUnitName">Unit:</span><span class="textUnit pl-2">{{ap.data.unit}}</span> 
                     </div>
                     <div class="showType">
                       <img *ngIf="ap.data.inputType == 'NUMBER'" src="../../../assets/img/input-icon.png" class="inputIcon">
                       <img *ngIf="ap.data.inputType == 'RANGE'" src="../../../assets/img/slider-icon.png" class="inputIcon">
                       <span class="inputText">
-                        {{(ap.data.inputType == 'RANGE') ? ('Slider') : ('Input')}}
+                        {{(ap.data.inputType == 'RANGE') ? ('Slider') : ('Input box')}}
                       </span>
                     </div>
                   </div>
@@ -202,7 +202,7 @@
                     <img class="group-handle" src="../../../assets/images/disable-holder.svg">
                   </span>
                   <input type="text" placeholder="Type skill name here" class="skill-name" name=" {{'skillName' + i }}"
-                    required [(ngModel)]="item.name" (input)="addInputValue($event.target.value,'skillName',i)" required>
+                    required [(ngModel)]="item.name" (input)="addInputValue()" required>
                   <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
                 </div>
                 <div class="d-flex align-items-center">
@@ -265,7 +265,7 @@
             <!-- {{isScroll}} -->
            
             </div>
-            <div *ngIf="isScroll"> {{ scrollCalculationAfter(templateAccessPointGroup)}}</div>
+           <!--  <div *ngIf="isScroll"> {{ scrollCalculationAfter(templateAccessPointGroup)}}</div> -->
             <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">Add new Skill</p>
             <!-- <div>{{scrollCalculation(0,"create")}}</div> -->
             <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->

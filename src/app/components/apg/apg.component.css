@@ -157,8 +157,12 @@
 .input-label,
 .input-recommend,
 .modal-title,
-.target,.tab-name,.inputText {
+.target,.tab-name {
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
+}
+
+.inputText{
+  font-family: 'Montserrat-Medium', Arial, sans-serif;
 }
 
 .input-recommend {
@@ -1590,11 +1594,11 @@ span.textUnit.selected {
 }
 
 .showType {
-  width: 116px;
+  /*width: 116px;*/
   height: 32px;
   border-radius: 16px;
   background-color: #f2f4f5;
-  padding: 0px 20px;
+  padding: 0px 15px;
   line-height: 1.9;
   /*padding: 2px 3px 2px 10px;
   line-height: 1.6;*/
