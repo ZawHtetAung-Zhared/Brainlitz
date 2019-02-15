@@ -2952,6 +2952,10 @@ export class CourseComponent implements OnInit {
   }
 
   getAssignUsers(d,m,y){
+    this.presentStudent = 0;
+    this.absentStudent = 0;
+    this.noStudent = 0;
+    this.blockUI.start('Loading')
     this._service.getAssignUser(this.regionId,this.currentCourse,d,m,y)
       .subscribe((res:any)=>{
         console.log(res);
@@ -2972,6 +2976,9 @@ export class CourseComponent implements OnInit {
         this.blockUI.stop();
         console.log(err);
       })
+      setTimeout(() => {
+        this.blockUI.stop()
+      }, 10);
   }
 
 }
