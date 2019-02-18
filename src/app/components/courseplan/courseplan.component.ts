@@ -447,7 +447,7 @@ export class CourseplanComponent implements OnInit {
         data.paymentPolicy["taxInclusive"] = false;
       }
 
-      if(this.chooseTax == 'none'){
+      if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
         data.paymentPolicy["taxInclusive"] = null;
       }
     }
@@ -456,6 +456,9 @@ export class CourseplanComponent implements OnInit {
     console.log(data)
     if (type == 'create') {
       console.log("CreatePlan")
+      // if(this.formField.paymentPolicy.taxInclusive == none){
+
+      // }
       this.blockUI.start('Loading...');
       this._service.createCoursePlan(this.regionID, this.locationID, data)
         .subscribe((res: any) => {
