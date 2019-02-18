@@ -665,17 +665,17 @@
                   </div>
 
                   <div class="radioType" *ngIf="tobj.data.inputType=='RADIO'">
-                    <ul class="listGroup" *ngFor="let option of tobj.data.inputTypeProperties.options; let j=index;"
+                    <div class="d-flex flex-row listGroup" *ngFor="let option of tobj.data.inputTypeProperties.options; let j=index;"
                       [ngClass]="{'selected': sharechecked == temp._id}">
 
-                      <li class="optionlist" *ngIf="tobj.data.inputTypeProperties.options.length-1!=j">
+                      <span class="detail-dot"></span><div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist" *ngIf="tobj.data.inputTypeProperties.options.length-1!=j">
                         {{option}}
-                      </li>
+                      </div>
 
-                      <li class="optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j">
+                     <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
                         {{option}}
-                      </li>
-                    </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!-- </div> -->
