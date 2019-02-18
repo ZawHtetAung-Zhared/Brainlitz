@@ -416,8 +416,8 @@ export class CourseplanComponent implements OnInit {
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.proratedLessonFee,
         "miscFee": formData.miscFee,
-        "allowProrated": formData.allowProrated,
-        "taxInclusive" : false
+        "allowProrated": formData.allowProrated
+        // "taxInclusive" : Boolean
       },
       "lesson": {
         "min": formData.minDuration,
@@ -443,13 +443,14 @@ export class CourseplanComponent implements OnInit {
       console.log("TTT", this.chooseTax);
       if (this.chooseTax == 'inclusive') {
         data.paymentPolicy["taxInclusive"] = true;
-      } else {
+      } 
+      if(this.chooseTax == 'exclusive') {
         data.paymentPolicy["taxInclusive"] = false;
       }
 
-      if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
-        data.paymentPolicy["taxInclusive"] = null;
-      }
+      // if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
+      //   data.paymentPolicy["taxInclusive"] = null;
+      // }
     }
  
     console.log(this.depositId)
