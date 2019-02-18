@@ -1204,6 +1204,9 @@ li button{
   color: #2e3e4d;
   font-size: 18px;
 }
+.modal-p{
+  word-break: break-all;
+}
 .detail-fees sup{
     font-size: 12px;
     color: #2e3d4d;

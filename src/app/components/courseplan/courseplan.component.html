@@ -392,7 +392,7 @@
 		</div>
 		<div *ngIf="step6" class="div_step6">
 			<div class="d-flex justify-content-center">
-					<form #childForm6="ngForm" novalidate>
+					<form #childForm6="ngForm" novalidate class="step6-form">
 							<div *ngIf="showSearchAPG" class="inside-data-wrapper"> 
 								<div class="col-md-12">
 									<p class="step-font">Step 6</p>
@@ -557,7 +557,7 @@
 												<p class="back" (click)="backModule()"><i class="fa fa-angle-left left-arrow"></i><span>Pick APG type</span></p>
 												<h3 class="all-title-font">Create APG</h3>
 											</div>
-											<div class="col-md-12" style="padding-top: 40px;">
+											<div class="col-md-6" style="padding-top: 40px;">
 												<!-- <p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p> -->
 												<div class="d-flex justify-content-between">
 													<label class="form-title input-label all-title-font" for="address">APG name</label>  
@@ -566,7 +566,7 @@
 													</div>
 												</div>
 												<p class="input-recommend">We recommend to set APG name as same as Course name.</p>
-												<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" #apgName="ngModel" required>
+												<input class="form-control br-bshadow-none all-left-box-10" type="text" [(ngModel)]='formAPG.name' name="name" placeholder="Name" maxlength="60" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" #apgName="ngModel" required>
 												<div *ngIf="apgName.invalid && (apgName.dirty || apgName.touched)" class="alert alert-danger alert-m-right">
 													<div [hidden]="!apgName.errors.required">
 														APG name is required!
