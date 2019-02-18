@@ -304,7 +304,8 @@ export class TemplateComponent implements OnInit {
 
   getAllTemplate(){
     this.blockUI.start('Loading...');
-    this._service.getAllTemplate(this.regionID, 20, 0)
+    var moduleId;
+    this._service.getAllTemplate(this.regionID, 20, 0,moduleId)
     .subscribe((res:any) => {
        console.log(res.length)
        console.log(res)
@@ -467,3 +468,4 @@ export class TemplateComponent implements OnInit {
     
   }
 }
+
