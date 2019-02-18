@@ -261,9 +261,9 @@ export class CoursecreateComponent implements OnInit {
         if(this.model.paymentPolicy.courseFeeTaxInclusive == undefined){
           this.chooseTax = ""; 
         }else if(this.model.paymentPolicy.courseFeeTaxInclusive == true){
-          this.chooseTax = "Inclusive"; 
+          this.chooseTax = "inclusive"; 
         }else if(this.model.paymentPolicy.courseFeeTaxInclusive == false){
-          this.chooseTax = "Exclusive"; 
+          this.chooseTax = "exclusive"; 
         }
 
         console.log("this.model.taxInclusive",this.model.paymentPolicy.courseFeeTaxInclusive)
@@ -1078,7 +1078,6 @@ export class CoursecreateComponent implements OnInit {
       } else {
         this.courseObj["taxInclusive"] = false;
       }
-
     }
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
