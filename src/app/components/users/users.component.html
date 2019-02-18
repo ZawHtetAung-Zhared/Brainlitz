@@ -189,7 +189,7 @@
           <div>
             <div class="list-wrapper">
               <div class="btn-wrap no-item" *ngIf="custDetail.courses?.length<=0">
-                There is no course from this customer!
+                There is no course for this customer!
               </div>
               <div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
                 <div class="section-one">
@@ -412,7 +412,7 @@
           <div *ngFor="let widget of custDetail.widgets">
             <h6 class="title-space">{{ widget.name }}</h6>
             <div class="btn-wrap no-item" *ngIf="widget.APG.length<=0">
-              There is no {{ widget.name }} for this customer!
+              There is no {{ widget.name | lowercase}} for this customer!
             </div>
             <div>
               <div class="list-wrapper">
