@@ -9,6 +9,7 @@ export class cPlanField {
 	};
 	public paymentPolicy = {
 		allowProrated: false,
+		taxInclusive:false,
 		courseFee: '',
 		proratedLessonFee: '',
 		miscFee: '',

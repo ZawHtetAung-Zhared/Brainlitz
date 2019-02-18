@@ -183,7 +183,14 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("single plan", res);
         this.formField = res;
-
+        // taxInclusive
+        if(this.formField.paymentPolicy.taxInclusive == false ){
+          this.chooseTax = 'Exclusive';
+        }else if(this.formField.paymentPolicy.taxInclusive == true ){
+          this.chooseTax = 'Inclusive';
+        }else{
+          this.chooseTax = 'none';
+        }
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
@@ -408,7 +415,8 @@ export class CourseplanComponent implements OnInit {
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.proratedLessonFee,
         "miscFee": formData.miscFee,
-        "allowProrated": formData.allowProrated
+        "allowProrated": formData.allowProrated,
+        "taxInclusive" : false
       },
       "lesson": {
         "min": formData.minDuration,
@@ -437,11 +445,10 @@ export class CourseplanComponent implements OnInit {
       } else {
         data.paymentPolicy["taxInclusive"] = false;
       }
-
     }
-
+ 
+    console.log(this.depositId)
     console.log(data)
-
     if (type == 'create') {
       console.log("CreatePlan")
       this.blockUI.start('Loading...');
@@ -468,6 +475,10 @@ export class CourseplanComponent implements OnInit {
     } else {
       console.log("editPlan");
       this.blockUI.start('Loading...');
+      if( data.paymentPolicy.deposit== undefined) {
+        console.log(this.formField.paymentPolicy.deposit);
+        data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit
+      }
       this._service.updateSignlecPlan(this.editPlanId, data, this.locationID)
         .subscribe((res: any) => {
           console.log(res);
