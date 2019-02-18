@@ -183,7 +183,15 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("single plan", res);
         this.formField = res;
-
+        // taxInclusive
+        if(!this.formField.paymentPolicy.taxInclusive ){
+          this.chooseTax = 'exclusive';
+        }else{
+          this.chooseTax = 'inclusive';
+        }
+        if(this.formField.paymentPolicy.taxInclusive == null ){
+          this.chooseTax = 'none';
+        }
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
@@ -408,7 +416,8 @@ export class CourseplanComponent implements OnInit {
         "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.proratedLessonFee,
         "miscFee": formData.miscFee,
-        "allowProrated": formData.allowProrated
+        "allowProrated": formData.allowProrated,
+        "taxInclusive" : false
       },
       "lesson": {
         "min": formData.minDuration,
@@ -438,12 +447,18 @@ export class CourseplanComponent implements OnInit {
         data.paymentPolicy["taxInclusive"] = false;
       }
 
+      if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
+        data.paymentPolicy["taxInclusive"] = null;
+      }
     }
-
+ 
+    console.log(this.depositId)
     console.log(data)
-
     if (type == 'create') {
       console.log("CreatePlan")
+      // if(this.formField.paymentPolicy.taxInclusive == none){
+
+      // }
       this.blockUI.start('Loading...');
       this._service.createCoursePlan(this.regionID, this.locationID, data)
         .subscribe((res: any) => {
@@ -468,6 +483,10 @@ export class CourseplanComponent implements OnInit {
     } else {
       console.log("editPlan");
       this.blockUI.start('Loading...');
+      if( data.paymentPolicy.deposit== undefined) {
+        console.log(this.formField.paymentPolicy.deposit);
+        data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit
+      }
       this._service.updateSignlecPlan(this.editPlanId, data, this.locationID)
         .subscribe((res: any) => {
           console.log(res);

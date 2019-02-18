@@ -189,7 +189,7 @@
           <div>
             <div class="list-wrapper">
               <div class="btn-wrap no-item" *ngIf="custDetail.courses?.length<=0">
-                There is no course for this customer!
+                There is no course from this customer!
               </div>
               <div class="child" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
                 <div class="section-one">
@@ -443,7 +443,7 @@
             <h6 class="title-space">Ratings and reviews</h6>
             <div>
               <div class="btn-wrap no-item" *ngIf="custDetail.ratings?.length<=0">
-                There is no Rating and review for this customer!
+                There is no rating and review from this customer!
               </div>
               <div class="card-columns">
                 <div *ngFor="let rating of custDetail.ratings| slice:0:[selectedId.indexOf('rating') != -1 ? custDetail.ratings?.length : 2]"
@@ -709,132 +709,134 @@
                   </span>
                   <!-- <span aria-hidden="true" >×</span> -->
                 </button>
-            </div>
-        
-            <p class="learn-journal  col-md-12" >Progress Book</p>
-            <p class="class-name  col-md-12">{{className}}</p>
-            <div class="no-journal" *ngIf="toShowNoJournl">
-                <img class="no-journal-img" src="./assets/images/noJournal@2x.png">
-                <div style="color:#64707B; top:65%;position:absolute;text-align: center;width:100%">No Journal Yet</div>
+            
+              <p class="learn-journal  col-md-12" >Progress Book</p>
+              <p class="class-name  col-md-12">{{className}}</p>
+          </div>
+        <div class="no-journal" *ngIf="toShowNoJournl">
+            <img class="no-journal-img" src="./assets/images/noJournal@2x.png">
+            <div style="color:#64707B; top:65%;position:absolute;text-align: center;width:100%">No Journal Yet</div>
 
-            </div>
-        <div class="bull-shit" *ngFor="let journal of journals ; let last = last">
+        </div>
+        <div class="bull-shit-gp">
+          <div class="bull-shit" *ngFor="let journal of journals ; let last = last">
           
-          <div class="row eachJournl" *ngIf="journal.type == 1 && !journal.teacherOnly">
-            <div class="journal-side-bar">
-              <div class="img-container" style="background:#cce6ff">
-                <img class="journal-img" src="./assets/images/msg-journal@2x.png" style="width:22px !important">
-              </div>
-              <div class="side-line" [class.last-side-line]="last">
-
-              </div>
-            </div>
-
-            <div class="journal-content" [class.border-bott]="last">
-              <div class="journal-header">
-                Message
-                <div>
-                  <p class="from">from {{journal.sender.preferredName}}</p>
-                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+            <div class="row eachJournl" *ngIf="journal.type == 1 && !journal.teacherOnly">
+              <div class="journal-side-bar">
+                <div class="img-container" style="background:#cce6ff">
+                  <img class="journal-img" src="./assets/images/msg-journal@2x.png" style="width:22px !important">
+                </div>
+                <div class="side-line" [class.last-side-line]="last">
+  
                 </div>
               </div>
-              <div class="journal-detail">
-                <p>
-                  {{journal.message}}
-                </p>
-                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
-
-              </div>
-            </div>
-          </div>
-          <div class="row eachJournl" *ngIf="journal.type == 1 && journal.teacherOnly">
-            <div class="journal-side-bar">
-
-              <div class="img-container" style="background:#b7cfe6">
-                <img class="journal-img" src="./assets/images/private-padlock@2x.png" style="width:14px;height:18px;margin-top:32%">
-              </div>
-              <div class="side-line" [class.last-side-line]="last">
-
-              </div>
-            </div>
-            <div class="journal-content" [class.border-bott]="last">
-              <div class="journal-header">
-                Private notes
-                <div>
-                  <p class="from">from {{journal.sender.preferredName}}</p>
-                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+  
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Message
+                  <div>
+                    <p class="from">from {{journal.sender.preferredName}}</p>
+                    <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                  </div>
+                </div>
+                <div class="journal-detail">
+                  <p>
+                    {{journal.message}}
+                  </p>
+                  <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+  
                 </div>
               </div>
-              <div class="journal-detail">
-                <p>
-                  {{journal.message}}
-                </p>
-                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
-
-              </div>
             </div>
-          </div>
-          <div class="row eachJournl" *ngIf="journal.type == 2">
-            <div class="journal-side-bar">
-
-              <div class="img-container" tyle="background:#f23a30">
-                <img class="journal-img" src="./assets/images/journal-unpaid@2x.png">
-              </div>
-              <div class="side-line" [class.last-side-line]="last">
-
-              </div>
-            </div>
-            <div class="journal-content" [class.border-bott]="last">
-              <div class="journal-header">
-                Payment
-                <div>
-                  <p class="from">from {{journal.sender.preferredName}}</p>
-                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+            <div class="row eachJournl" *ngIf="journal.type == 1 && journal.teacherOnly">
+              <div class="journal-side-bar">
+  
+                <div class="img-container" style="background:#b7cfe6">
+                  <img class="journal-img" src="./assets/images/private-padlock@2x.png" style="width:14px;height:18px;margin-top:32%">
+                </div>
+                <div class="side-line" [class.last-side-line]="last">
+  
                 </div>
               </div>
-              <div class="journal-detail">
-                <p>
-                  {{journal.message}}
-                </p>
-                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
-
-              </div>
-            </div>
-          </div>
-          <div class="row eachJournl" *ngIf="journal.type == 3">
-            <div class="journal-side-bar">
-              <div class="img-container" style="background:#c2f2d6">
-                <img class="journal-img" src="./assets/images/journal-tick@2x.png">
-              </div>
-              <div class="side-line" [class.last-side-line]="last"> 
-
-              </div>
-            </div>
-            <div class="journal-content" [class.border-bott]="last">
-              <div class="journal-header">
-                Attendance
-                <div>
-                  <p class="from">from {{journal.sender.preferredName}}</p>
-                  <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Private notes
+                  <div>
+                    <p class="from">from {{journal.sender.preferredName}}</p>
+                    <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                  </div>
+                </div>
+                <div class="journal-detail">
+                  <p>
+                    {{journal.message}}
+                  </p>
+                  <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+  
                 </div>
               </div>
-              <div class="journal-detail">
-                <p>
-                  {{journal.message}}
-                </p>
-                <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+            </div>
+            <div class="row eachJournl" *ngIf="journal.type == 2">
+              <div class="journal-side-bar">
+  
+                <div class="img-container" tyle="background:#f23a30">
+                  <img class="journal-img" src="./assets/images/journal-unpaid@2x.png">
+                </div>
+                <div class="side-line" [class.last-side-line]="last">
+  
+                </div>
               </div>
-              <div class="attendance-time" [ngSwitch]="journal.type_detail.attendance">
-                <p class="atten-time">{{journal.type_detail.date | utcTime}}</p>
-                <img class="attendance-img" src="assets/images/journal-check@2x.png" *ngSwitchCase="true">
-                <img class="attendance-img" src="assets/images/journalCross@2x.png" *ngSwitchCase="false">
-                <img class="attendance-img" src="assets/images/journalMinus@2x.png" *ngSwitchCase="null">
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Payment
+                  <div>
+                    <p class="from">from {{journal.sender.preferredName}}</p>
+                    <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                  </div>
+                </div>
+                <div class="journal-detail">
+                  <p>
+                    {{journal.message}}
+                  </p>
+                  <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+  
+                </div>
               </div>
             </div>
+            <div class="row eachJournl" *ngIf="journal.type == 3">
+              <div class="journal-side-bar">
+                <div class="img-container" style="background:#c2f2d6">
+                  <img class="journal-img" src="./assets/images/journal-tick@2x.png">
+                </div>
+                <div class="side-line" [class.last-side-line]="last"> 
+  
+                </div>
+              </div>
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Attendance
+                  <div>
+                    <p class="from">from {{journal.sender.preferredName}}</p>
+                    <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                  </div>
+                </div>
+                <div class="journal-detail">
+                  <p>
+                    {{journal.message}}
+                  </p>
+                  <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
+                </div>
+                <div class="attendance-time" [ngSwitch]="journal.type_detail.attendance">
+                  <p class="atten-time">{{journal.type_detail.date | utcTime}}</p>
+                  <img class="attendance-img" src="assets/images/journal-check@2x.png" *ngSwitchCase="true">
+                  <img class="attendance-img" src="assets/images/journalCross@2x.png" *ngSwitchCase="false">
+                  <img class="attendance-img" src="assets/images/journalMinus@2x.png" *ngSwitchCase="null">
+                </div>
+              </div>
+            </div>
+  
+          
+            <div class="row j-load-more" *ngIf="toShowLoadMore && last" (click)="jLoadMore()"><span style="margin-left:auto; margin-right: auto">load more</span></div>
           </div>
-
-        
-          <div class="row j-load-more" *ngIf="toShowLoadMore && last" (click)="jLoadMore()"><span style="margin-left:auto; margin-right: auto">load more</span></div>
         </div>
         
 
