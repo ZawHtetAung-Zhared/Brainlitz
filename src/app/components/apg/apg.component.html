@@ -754,7 +754,7 @@
                       <div class="dot-wrapper" *ngIf="!accessPoint.isExpand">
                         <span class="dot" *ngFor="let dot of accessPoint.data.evaluation.details"></span>
                       </div>
-                      <div class="dot-wrapper after-expand" *ngIf="accessPoint.isExpand" [ngClass]="{'transform-y': accessPoint.isExpand}">
+                      <div class="dot-wrapper after-expand" *ngIf="accessPoint.isExpand">
                         <div *ngFor="let dot of accessPoint.data.evaluation.details;let id=index;" style="display: flex; align-items: center;"
                           [ngClass]="{'no-mb': id==accessPoint.data.evaluation.details.length-1}">
                           <div class="dot" style="display:inline-block"></div>
