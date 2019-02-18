@@ -184,11 +184,13 @@ export class CourseplanComponent implements OnInit {
         console.log("single plan", res);
         this.formField = res;
         // taxInclusive
-        if(this.formField.paymentPolicy.taxInclusive == false ){
-          this.chooseTax = 'Exclusive';
-        }else if(this.formField.paymentPolicy.taxInclusive == true ){
-          this.chooseTax = 'Inclusive';
+        this.formField.paymentPolicy.taxInclusive = false
+        if(!this.formField.paymentPolicy.taxInclusive ){
+          this.chooseTax = 'exclusive';
         }else{
+          this.chooseTax = 'inclusive';
+        }
+        if(this.formField.paymentPolicy.taxInclusive == null ){
           this.chooseTax = 'none';
         }
         console.log(this.formField.lesson.duration)
@@ -444,6 +446,10 @@ export class CourseplanComponent implements OnInit {
         data.paymentPolicy["taxInclusive"] = true;
       } else {
         data.paymentPolicy["taxInclusive"] = false;
+      }
+
+      if(this.chooseTax == 'none'){
+        data.paymentPolicy["taxInclusive"] = null;
       }
     }
  
