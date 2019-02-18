@@ -341,7 +341,10 @@
               </div>
               <h5 (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)" class="medium-font cursor-on">{{ courseGroup.coursePlan.name }}</h5>
               <div class="d-flex header-info light-font">
-                <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} seats</label>
+                <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats!=null">{{ courseGroup.coursePlan.seats }} 
+                  <span class="pl-0" *ngIf="courseGroup.coursePlan.seats>1">seats</span>
+                  <span class="pl-0" *ngIf="courseGroup.coursePlan.seats==1">seat</span>
+                </label>
                 <label class="mb-0 l-height" *ngIf="courseGroup.coursePlan.seats==null">unlimited seats</label>
                 <ul><li class="l-height">{{ courseGroup.coursePlan.lesson.duration | minuteSeconds }} duration</li></ul>
               </div>
@@ -352,7 +355,9 @@
                 <div class="draft-sign" *ngIf="course.draft == true">Draft</div>
                 <div class="d-flex course-wrap">
                   <div [hidden]="course.draft == true" *ngIf="course.seat_left > 0" class="absolute">
-                    {{ course.seat_left }} seats left 
+                    {{ course.seat_left }} 
+                    <span class="pl-0" *ngIf="course.seat_left>1">seats</span>
+                    <span class="pl-0" *ngIf="course.seat_left==1">seat</span> left 
                   </div>
                   <div [hidden]="course.draft == true" *ngIf="course.seat_left == null" class="absolute">
                     unlimited seats
@@ -472,14 +477,14 @@
             <div>
               <h5>Course fee</h5>
               <div *ngIf="detailLists.paymentPolicy.courseFee != null">
-                <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.courseFee>1">{{currency.invCurrencySign}}</sup><b>{{(detailLists.paymentPolicy.courseFee == 0) ? ('-') : (detailLists.paymentPolicy.courseFee)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.courseFee == null">-</b>
             </div>
             <div class="mt-32">
               <h5>Miscellaneous fee</h5>
               <div *ngIf="detailLists.paymentPolicy.miscFee != null">
-                <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.miscFee>1">{{currency.invCurrencySign}}</sup><b>{{(detailLists.paymentPolicy.miscFee == 0) ? ('-') : (detailLists.paymentPolicy.miscFee)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.miscFee == null">-</b>
             </div>
@@ -488,14 +493,14 @@
             <div>
               <h5>Deposit</h5>
               <div *ngIf="detailLists.paymentPolicy.deposit.amount != null">
-                <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.deposit.amount > 0">{{ currency.invCurrencySign }}</sup><b>{{(detailLists.paymentPolicy.deposit.amount == 0) ? ('-') : (detailLists.paymentPolicy.deposit.amount)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.deposit.amount == null">-</b>
             </div>
             <div class="mt-32">
               <h5>Prorated class fee</h5>
               <div *ngIf="detailLists.paymentPolicy.proratedLessonFee != null">
-                <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.proratedLessonFee > 0">{{ currency.invCurrencySign }}</sup><b>{{(detailLists.paymentPolicy.proratedLessonFee == 0) ? ('-') : (detailLists.paymentPolicy.proratedLessonFee)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.proratedLessonFee == null">-</b>
             </div>
@@ -1281,72 +1286,21 @@
                 <div class="col-sm-7 text-right p-0">
                   Sub total
                 </div>
-                <div class="col-sm-5 p-0">
+                <div class="col-sm-5 p-0 text-right">
                 </div>
               </div>
               <div class="col-md-4 text-right">{{ invCurrency.sign }} {{ data.subtotal }}</div>
             </div>
-            <!-- <div class="d-flex pad-10 price-info">
+            <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
-                  {{ data.taxName }}
+                  Tax
                 </div>
-                <div class="col-sm-5 text-right p-0">
-                  ({{ data.taxRate }})
-                </div>
-              </div>
-              <div class="col-md-4 text-right price-info">{{data.currency.sign}}  {{ data.tax }}</div>
-            </div> -->
-            <!-- <div class="d-flex pad-10 price-info">
-              <div class="col-md-8 d-flex p-0">
-                <div class="col-sm-7 text-right p-0">
-                  <p class="mb-0" style="color: #0080ff;" *ngIf="discount==0">Add discount</p>
-                  <div class="mb-0 d-flex float-right" *ngIf="discount>0"><div class="discount-info">(Less)</div><div>Discount</div></div>
-                </div>
-                <div class="col-sm-5 text-right p-0">
-                  <div *ngIf="showBox == true" class="popup-box text-left">
-                    <div id="rectangle"></div>
-                    <div class="p-3">
-                      <h5>Discount</h5>
-                      <div class="d-flex popup-input">
-                        <div class="input-sign">
-                          {{data.currency.sign}}
-                        </div>
-                        <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.discountFee">
-                      </div>
-                    </div>
-                  </div>
-                  <div *ngIf="showBox == true" class="d-flex btns-wrap">
-                    <button type="submit" class="btn" (click)="cancelPopup('discount')">
-                      <span class="closemark">
-                          <div class="closemark_stem"></div>
-                          <div class="closemark_kick"></div>
-                      </span>
-                    </button>
-                    <button type="submit" class="btn" (click)="addDiscount(value)" [disabled]="value.discountFee == undefined || value.discountFee == ''">
-                      <span class="checkmark">
-                          <div class="checkmark_stem"></div>
-                          <div class="checkmark_kick"></div>
-                      </span>
-                    </button>
-                  </div>
-                  <p class="mb-0" (click)="showPopup('discount',discount)"><span *ngIf="discount>0">{{data.currency.sign}}</span>{{discount}}</p>
+                <div class="col-sm-5 p-0 text-right">
                 </div>
               </div>
-              <div class="col-md-4 text-right"></div>
-            </div> -->
-            
-            <!-- <div class="d-flex pad-10 price-info">
-              <div class="col-md-8 d-flex p-0">
-                <div class="col-sm-7 text-right p-0">
-                  (Less)Discount
-                </div>
-                <div class="col-sm-5 text-right p-0 ">
-                  $S 10
-                </div>
-              </div>
-              <div class="col-md-4 text-right">$S 10.00</div>
-            </div> -->
+              <div class="col-md-4 text-right">{{ invCurrency.sign }} {{  data.tax.taxTotal }}</div>
+            </div>
             <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
@@ -1799,10 +1753,20 @@
                   <div class="col-sm-7 text-right p-0">
                     Sub total
                   </div>
-                  <div class="col-sm-5 p-0">
+                  <div class="col-sm-5 p-0 text-right">
                   </div>
                 </div>
                 <div class="col-md-4 text-right">{{ invCurrency.sign }} {{ data.subtotal }}</div>
+              </div>
+              <div class="d-flex pad-10 price-info">
+                <div class="col-md-8 d-flex p-0">
+                  <div class="col-sm-7 text-right p-0">
+                    Tax
+                  </div>
+                  <div class="col-sm-5 p-0 text-right">
+                  </div>
+                </div>
+                <div class="col-md-4 text-right">{{ invCurrency.sign }} {{  data.tax.taxTotal }}</div>
               </div>
               <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
                 <div class="col-md-8 d-flex p-0">
@@ -2061,10 +2025,20 @@
                   <div class="col-sm-7 text-right p-0">
                     Sub total
                   </div>
-                  <div class="col-sm-5 p-0">
+                  <div class="col-sm-5 p-0 text-right">
                   </div>
                 </div>
                 <div class="col-md-4 text-right">{{ invCurrency.sign }} {{ data.subtotal }}</div>
+              </div>
+              <div class="d-flex pad-10 price-info">
+                <div class="col-md-8 d-flex p-0">
+                  <div class="col-sm-7 text-right p-0">
+                    Tax
+                  </div>
+                  <div class="col-sm-5 p-0 text-right">
+                  </div>
+                </div>
+                <div class="col-md-4 text-right">{{ invCurrency.sign }} {{  data.tax.taxTotal }}</div>
               </div>
               <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
                 <div class="col-md-8 d-flex p-0">

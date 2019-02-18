@@ -255,9 +255,18 @@ export class CoursecreateComponent implements OnInit {
         this.startTime = this.model.starttime;
         // if(this.model.taxInclusive == true){
         //   this.chooseTax = "Inclusive"; 
-        // }else{
+        // }else if(this.model.taxInclusive == false){
         //   this.chooseTax = "Exclusive"; 
         // }
+        if(this.model.paymentPolicy.courseFeeTaxInclusive == undefined){
+          this.chooseTax = ""; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == true){
+          this.chooseTax = "Inclusive"; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == false){
+          this.chooseTax = "Exclusive"; 
+        }
+
+        console.log("this.model.taxInclusive",this.model.paymentPolicy.courseFeeTaxInclusive)
         // console.log(this.model.coursePlan.lesson.duration);
         // console.log(this.model.starttime,this.model.duration);
         this.selectedTeacher = this.model.teacher;
