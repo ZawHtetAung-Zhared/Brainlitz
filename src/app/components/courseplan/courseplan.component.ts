@@ -739,7 +739,7 @@ export class CourseplanComponent implements OnInit {
       selectedIdStr = selectedIdArr.toString();
       console.log('selectedIdStr', selectedIdStr);
 
-      this._service.getSearchApg(this.regionID, keyword, type, selectedIdStr, 20, 0)
+      this._service.getSearchApg(this.regionID, keyword, type, '', selectedIdStr, 20, 0)
         .subscribe((res: any) => {
           console.log("apg result", res);
           this.apgList = res;
@@ -748,7 +748,7 @@ export class CourseplanComponent implements OnInit {
           console.log(err);
         });
     } else {
-      this._service.getSearchApg(this.regionID, keyword, type, '', 20, 0)
+      this._service.getSearchApg(this.regionID, keyword, type, '', '', 20, 0)
         .subscribe((res: any) => {
           console.log("apg result", res);
           this.apgList = res;
@@ -767,7 +767,7 @@ export class CourseplanComponent implements OnInit {
 
   getAllAPG(skip, limit) {
     this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID, skip, limit)
+    this._service.getAllAPG(this.regionID, '', skip, limit)
       .subscribe((res: any) => {
         console.log('apgLists', res)
         this.apgList = res;
