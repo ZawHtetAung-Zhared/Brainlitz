@@ -266,6 +266,7 @@ export class InvoiceComponent implements OnInit {
 					var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
 					this.invoice[i].courseFee.fee = Number(cFee);
 					this.invoice[i].courseFee.amount = (this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax).toFixed(2);
+					this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + this.invoice[i].registrationFee.tax + this.invoice[i].miscFee.tax).toFixed(2);
 					console.log("CFee without inclusive tax", this.invoice[i].courseFee.fee);
 					console.log("Amount without inclusive tax", this.invoice[i].courseFee.amount);
 				} else if (this.invoice[i].courseFee.taxInclusive == false) {
@@ -274,6 +275,7 @@ export class InvoiceComponent implements OnInit {
 					this.invoice[i].courseFee.tax = Number(taxAmount);
 					console.log("inclusiveTax for CFee", this.invoice[i].courseFee.tax);
 					this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+					this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + this.invoice[i].registrationFee.tax + this.invoice[i].miscFee.tax).toFixed(2);
 					console.log("CFee with exclusive tax", this.invoice[i].courseFee.fee);
 					console.log("Fee amount with exclusive tax", this.invoice[i].courseFee.amount);
 				}
@@ -320,6 +322,7 @@ export class InvoiceComponent implements OnInit {
 			console.log("Total taxes and deposit", totalTaxes, deposit)
 			this.invoice[i].subtotal = (regFees + miscFees + deposit + this.invoice[i].courseFee.fee).toFixed(2);
 			this.total = Number((Number(this.invoice[i].subtotal) + totalTaxes).toFixed(2));
+			this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + regTax + miscTax).toFixed(2);
 			console.log("Subtotal", this.invoice[i].subtotal);
 			console.log("Total", this.total);
 		}

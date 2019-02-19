@@ -840,6 +840,12 @@ input:checked + .slider:before {
   }
 }
 
+@media (max-width:1365px){
+  .setting-wrapper{
+    width: 100%;
+  }
+}
+
 /* @media only screen and  (max-width:1024px){
   .setting-wrapper{
     width: 960px;
