@@ -1644,11 +1644,11 @@ span.textUnit {
   color: #2e3d4d;
 }
 
-ul.listGroup {
-  font-size: 14px;
-  font-weight: 500;
+.d-flex.flex-row.listGroup {
   color: #64707d;
-  padding: 0;
+  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-size: 14px;
+  text-align: justify;
 }
 
 ul.listGroup.selected {

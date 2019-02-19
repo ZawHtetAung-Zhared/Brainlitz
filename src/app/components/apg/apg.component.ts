@@ -1002,9 +1002,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.formObj["requirement" + x + i] = "";
       console.log('formObj~~~', this.formObj);
     }
+   
     // this.addscrollEvent(skillBlog,i);
     setTimeout(() => {
-      this.scrollCalculation( i,"create");
+      this.scrollCalculation( skillBlog,i);
       this.focusAdd(skillBlog.data.evaluation.details.length, i)
     }, 200);
     this.checkProperties(this.formObj)
@@ -1018,9 +1019,9 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     // }, 0);
     this.templateAccessPointGroup[id].data.evaluation.details.splice(x, 1);
-    console.log(skillblog)
+    console.log(item)
     // this.removescrollEvent(i,id,x);
-    this.scrollCalculation( id,"clear");
+    this.scrollCalculation( skillblog,id);
     setTimeout(()=>{
       this.removeValue(this.templateAccessPointGroup)
     })
@@ -1039,17 +1040,36 @@ export class ApgComponent implements OnInit, OnDestroy {
       for(var i=0;i<data.length;i++){
         const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
         const skillHeader: HTMLElement = document.getElementById('skillHeader'+i);
-        const skillFooter: HTMLElement = document.getElementById('skillHeader'+i);
+        const skillFooter: HTMLElement = document.getElementById('skillFooter'+i);
         const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
-        if (skillHeight.clientHeight < 400 ) {
-          // console.log("less than 400")
+        var req_total_height=0;
+        for (var j = 0; j <data[i].data.evaluation.details.length; j++) {
+          console.log(j);
+          const requirement: HTMLElement = document.getElementById('requirement' + j);
+          console.log(requirement.clientHeight)
+          req_total_height += requirement.clientHeight;
+          console.log(req_total_height);
+        }
+        
+        var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + req_total_height;
+        var inboxHight = 400 - (skillHeader.clientHeight + skillFooter.clientHeight);
+        console.log(skillHeader.clientHeight)
+        console.log(skillFooter.clientHeight)
+        console.log(inboxHight);
+        console.log(totalHeight)
+    
+        if (totalHeight < 400) {
+          console.log("less than 400")
+          skillHeight.setAttribute("style", "height: auto;");
+          innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
           this.templateAccessPointGroup[i].upDownOptions = false;
           this.templateAccessPointGroup[i].upOptions = false;
           this.templateAccessPointGroup[i].DownOptions = false;
         } else {
-          // console.log("greater than 400")
-          // skillHeight.setAttribute("style", "height: 400px;");
-          // innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
+          console.log("greater than 400")
+          skillHeight.setAttribute("style", "height: 400px;");
+          // innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
+          innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
           this.templateAccessPointGroup[i].upDownOptions = true;
           this.templateAccessPointGroup[i].upOptions = false;
           this.templateAccessPointGroup[i].DownOptions = true;
@@ -1059,36 +1079,42 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   }
   // Create in scroll calculation for evaluation 
-  scrollCalculation(skillId,type){
-    this.isScroll=false;
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+skillId);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillId);
-    const skillFooter: HTMLElement = document.getElementById('skillHeader'+skillId);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+skillId);
-    var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
-  
-    console.log("totalHeight"+totalHeight);
+ 
+  scrollCalculation(skillObj, skillId) {
+    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillId);
+    const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillId);
+    const skillFooter: HTMLElement = document.getElementById('skillFooter' + skillId);
+    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + skillId);
+    var req_total_height = 0;
 
-    if (skillHeight.clientHeight < 400 && type=="create") {
+    for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
+      console.log(j);
+      const requirement: HTMLElement = document.getElementById('requirement' + j);
+      console.log(requirement)
+      req_total_height += requirement.clientHeight;
+      console.log(req_total_height);
+    }
+
+    var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + req_total_height;
+    var inboxHight = 400 - (skillHeader.clientHeight + skillFooter.clientHeight);
+
+    console.log(totalHeight);
+
+    if (totalHeight < 400) {
       console.log("less than 400")
-      this.templateAccessPointGroup[skillId].upDownOptions = false;
-      this.templateAccessPointGroup[skillId].upOptions = false;
-      this.templateAccessPointGroup[skillId].DownOptions = false;
-    }else if (skillHeight.clientHeight <= 400 && type=="clear") {
-      console.log("less than 400")
+      skillHeight.setAttribute("style", "height: auto;");
+      innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
       this.templateAccessPointGroup[skillId].upDownOptions = false;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = false;
     } else {
       console.log("greater than 400")
-      // skillHeight.setAttribute("style", "height: 400px;");
-      // innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
+      skillHeight.setAttribute("style", "height: 400px;");
+      innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
       this.templateAccessPointGroup[skillId].upDownOptions = true;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = true;
     }
-
-    console.log(skillHeight.clientHeight)
   }
 
   //
@@ -1135,7 +1161,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   mainAccessPointClear(item, idx, name, type) {
     this.delItem = item
-    console.log(type)
+    console.log(idx)
     this.templateAccessPointGroup.splice(this.templateAccessPointGroup.indexOf(item), 1);
     if (type == 'update') {
       let jsonStringIntoArray = JSON.parse(this.accessPointArrayString)
@@ -1161,27 +1187,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     item.data.evaluation.allowZero = !item.data.evaluation.allowZero;
   }
   checkMarkToggle(item, skillObjId) {
-    // let temPassMark = this.templateAccessPointGroup[i].data.evaluation.passMark;
+    let temPassMark = this.templateAccessPointGroup[skillObjId].data.evaluation.passMark;
+    console.log(item)
     item.options = !item.options;
     if(!item.options) {
       item.data.evaluation.passMark = "";
     }
     console.log(item.options)
     setTimeout(() => {
-      this.scrollCalculation( skillObjId,"create")
-    }, 200)
-
-
-    // setTimeout(() => {
-    //   this.addScrollOncheckMarkToggle(skillObjId, item.options);
-    //   // if(item.options){
-    //   //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-    //   //   console.log(skillHeader.clientHeight)
-    //   // } else{
-    //   //   const skillHeader: HTMLElement = document.getElementById('skillHeader'+skillObjId);
-    //   //   console.log(skillHeader.clientHeight)
-    //   // }
-    // })
+      this.scrollCalculation( item,skillObjId)
+    })
 
   }
 
@@ -2229,30 +2244,32 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(err)
       })
   }
-  autoResize(e, id, name, x) {
+  autoResize(item,e, id, name, x) {
     console.log(e.target.style)
     console.log(e.target.scrollHeight)
+    console.log(id);
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + "px";
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
-    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
+    this.scrollCalculation(item,id);
+    // const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
+    // const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
+    // const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
+    // const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
+    // const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
 
-    this.headerHeight = skillHeader.clientHeight;
-    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
-    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
-    console.log("mHight>>" + mHight)
-    console.log("header height in add scorll:" + this.headerHeight);
-    if (totalHeight < 400) {
-      skillHeight.setAttribute("style", "height: auto;");
-      console.log("under 400")
-    } else {
-      skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
-      console.log("over 400")
-    }
+    // this.headerHeight = skillHeader.clientHeight;
+    // var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    // var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+    // console.log("mHight>>" + mHight)
+    // console.log("header height in add scorll:" + this.headerHeight);
+    // if (totalHeight < 400) {
+    //   skillHeight.setAttribute("style", "height: auto;");
+    //   console.log("under 400")
+    // } else {
+    //   skillHeight.setAttribute("style", "height: 400px;");
+    //   innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
+    //   console.log("over 400")
+    // }
 
     this.addInputValue()
   }
