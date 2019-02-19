@@ -1,50 +1,16 @@
-import {
-  CropPosition
-} from 'ng2-img-cropper/src/model/cropPosition';
-import {
-  cloneWithOffset
-} from 'ngx-bootstrap/chronos/units/offset';
-import {
-  DragScrollModule
-} from 'ngx-drag-scroll';
-import {
-  Component,
-  OnInit,
-  ViewContainerRef,
-  HostListener,
-  style,
-  DoCheck,
-  OnDestroy
-} from '@angular/core';
-import {
-  NgForm
-} from '@angular/forms';
-import {
-  NgbModal,
-  ModalDismissReasons
-} from '@ng-bootstrap/ng-bootstrap';
-import {
-  apgField
-} from './apg';
-import {
-  apField
-} from './apg';
-import {
-  convertField
-} from './apg';
-import {
-  appService
-} from '../../service/app.service';
-import {
-  ToastsManager
-} from 'ng5-toastr/ng5-toastr';
-import {
-  BlockUI,
-  NgBlockUI
-} from 'ng-block-ui';
-import {
-  NgbTypeahead
-} from '@ng-bootstrap/ng-bootstrap';
+import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
+import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
+import { DragScrollModule } from 'ngx-drag-scroll';
+import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { apgField } from './apg';
+import { apField } from './apg';
+import { convertField } from './apg';
+import { appService } from '../../service/app.service';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 import { Router } from '@angular/router';
@@ -183,7 +149,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     private router: Router,
     private dragulaService: DragulaService) {
     console.log(this.templateAccessPointGroup)
-
     dragulaService.cloned().subscribe(({
       clone,
       original,
@@ -1553,10 +1518,14 @@ export class ApgComponent implements OnInit, OnDestroy {
         })
         this.templateAccessPointGroup = tempArr;
         this.accessPointArrayString = JSON.stringify(dataCollection);
-        setTimeout(() => {
-          this.scrollCalculationAfter(this.templateAccessPointGroup)
-        }, 10);
-        if(apgName.module.name == 'DATA'){
+        console.log(apgName.module.name)
+        if(apgName.module.name.toLowerCase() == ('assessment' || 'evaluation')){
+          console.log("evaluation~~~")
+          setTimeout(() => {
+            this.scrollCalculationAfter(this.templateAccessPointGroup)
+          }, 10);
+        }
+        if(apgName.module.name .toLowerCase() == 'data'){
           this.sliderMinMax(dataCollection);
         }
       }).catch((err) => {
@@ -2123,6 +2092,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       })
   }
 
+  closeDeleteModal(){
+    this.modalReference.close();
+  }
+
   onclickDelete(id, alertDelete) {
     this.deleteId = id;
     for (var i in this.apgList) {
@@ -2134,10 +2107,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       backdrop: 'static',
       windowClass: 'deleteModal d-flex justify-content-center align-items-center'
     });
-  }
-
-  closeDeleteModal(){
-    this.modalReference.close();
   }
 
   apgDelete(id) {
@@ -2245,25 +2214,26 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(e.target.scrollHeight)
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + "px";
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
-    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
+    this.scrollCalculation(id,'create')
+    // const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
+    // const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
+    // const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
+    // const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
+    // const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
 
-    this.headerHeight = skillHeader.clientHeight;
-    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
-    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
-    console.log("mHight>>" + mHight)
-    console.log("header height in add scorll:" + this.headerHeight);
-    if (totalHeight < 400) {
-      skillHeight.setAttribute("style", "height: auto;");
-      console.log("under 400")
-    } else {
-      skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
-      console.log("over 400")
-    }
+    // this.headerHeight = skillHeader.clientHeight;
+    // var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    // var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+    // console.log("mHight>>" + mHight)
+    // console.log("header height in add scorll:" + this.headerHeight);
+    // if (totalHeight < 400) {
+    //   skillHeight.setAttribute("style", "height: auto;");
+    //   console.log("under 400")
+    // } else {
+    //   skillHeight.setAttribute("style", "height: 400px;");
+    //   innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
+    //   console.log("over 400")
+    // }
 
     this.addInputValue()
   }

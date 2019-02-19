@@ -255,13 +255,16 @@ export class CoursecreateComponent implements OnInit {
         this.createList(this.model.coursePlan.lesson.duration);
         this.model.durationTimes = this.model.durationTimes;
         this.startTime = this.model.starttime;
-        // if(this.model.taxInclusive == true){
-        //   this.chooseTax = "Inclusive"; 
-        // }else{
-        //   this.chooseTax = "Exclusive"; 
-        // }
-        // console.log(this.model.coursePlan.lesson.duration);
-        // console.log(this.model.starttime,this.model.duration);
+        //for tax option inclusive/exclusive
+        if(this.model.paymentPolicy.courseFeeTaxInclusive == undefined){
+          this.chooseTax = ""; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == true){
+          this.chooseTax = "inclusive"; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == false){
+          this.chooseTax = "exclusive"; 
+        }
+        console.log("this.model.taxInclusive",this.model.paymentPolicy.courseFeeTaxInclusive)
+        /*=====*/
         this.selectedTeacher = this.model.teacher;
         this.staffArrLists.push(this.selectedTeacher.userId)
         console.log("staffArrLists==>",this.staffArrLists)
