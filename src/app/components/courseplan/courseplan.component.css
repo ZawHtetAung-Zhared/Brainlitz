@@ -1543,6 +1543,9 @@ ul.search-apg{
     .form-wrap{
       width: 100%;
     }
+    .step6-form{
+      width: 100%;
+    }
   }
 
   @media (min-width: 1366px) { 
