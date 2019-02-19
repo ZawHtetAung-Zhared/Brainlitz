@@ -461,7 +461,7 @@
                         style="pointer-events: none">
                     </span>
                     <div class="form-group">
-                      <input type="text" class="form-control data-value" placeholder="Type data value here" (input)="addDataValueText(i,$event)"
+                      <input type="text" class="form-control data-value" placeholder="Type data value here" (input)="addDataValueText(i,$event)" id="{{'valueInput'+i}}"
                         name="{{'dataValue'+ i}}" required>
                     </div>
                     <div class="data-close" *ngIf="toShowClear()" (click)="dataValueClear(i,$event)"></div>

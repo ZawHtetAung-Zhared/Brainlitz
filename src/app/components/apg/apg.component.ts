@@ -713,6 +713,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     const newValue = ""
     // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     this.optionsArray.push(newValue)
+    console.log(this.optionsArray.length);
+    setTimeout(() => {
+      var a=  this.optionsArray.length - 1 
+      console.log(a);
+      document.getElementById("valueInput"+a).focus();
+    }, 300);
     console.log(data)
   }
   dataValueClear(item, e?) {
