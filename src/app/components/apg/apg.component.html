@@ -486,9 +486,9 @@
             [ngClass]="{'disable-click': module.name=='Badge'}">
             <label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
               <div class="module-img">
-                <img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png"
+                <img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type.png"
                   class="img-fluid">
-                <img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png"
+                <img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type-a.png"
                   class="img-fluid">
               </div>
               <div class="label-checked"></div>

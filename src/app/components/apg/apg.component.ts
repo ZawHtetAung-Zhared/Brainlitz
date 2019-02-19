@@ -2208,25 +2208,26 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(e.target.scrollHeight)
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + "px";
-    const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
-    const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
-    const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
-    const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
-    const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
+    this.scrollCalculation(id,'create')
+    // const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + id);
+    // const skillHeader: HTMLElement = document.getElementById('skillHeader' + id);
+    // const skillFooterClassName: HTMLElement = document.getElementById('skillFooter' + id);
+    // const skillFooter: HTMLElement = document.getElementById('skillFooter' + id);
+    // const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + id);
 
-    this.headerHeight = skillHeader.clientHeight;
-    var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
-    var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
-    console.log("mHight>>" + mHight)
-    console.log("header height in add scorll:" + this.headerHeight);
-    if (totalHeight < 400) {
-      skillHeight.setAttribute("style", "height: auto;");
-      console.log("under 400")
-    } else {
-      skillHeight.setAttribute("style", "height: 400px;");
-      innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
-      console.log("over 400")
-    }
+    // this.headerHeight = skillHeader.clientHeight;
+    // var totalHeight = this.headerHeight + skillFooter.clientHeight + innerBoxHeight.clientHeight;
+    // var mHight = 400 - (this.headerHeight + skillFooter.clientHeight);
+    // console.log("mHight>>" + mHight)
+    // console.log("header height in add scorll:" + this.headerHeight);
+    // if (totalHeight < 400) {
+    //   skillHeight.setAttribute("style", "height: auto;");
+    //   console.log("under 400")
+    // } else {
+    //   skillHeight.setAttribute("style", "height: 400px;");
+    //   innerBoxHeight.setAttribute("style", "height:" + mHight + "px;overflow:overlay;")
+    //   console.log("over 400")
+    // }
 
     this.addInputValue()
   }
