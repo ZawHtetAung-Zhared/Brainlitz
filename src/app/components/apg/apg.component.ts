@@ -2418,16 +2418,16 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   chkValue(v, type) {
-    console.log(v)
+    console.log(this.templateAccessPointGroup.data.inputTypeProperties.min)
     // if (type == 'min') {
-    if (this.templateAccessPointGroup.data.inputTypeProperties.min === '') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.min === '' || this.templateAccessPointGroup.data.inputTypeProperties.min === null) {
       this.emptymin = true;
     } else {
       this.emptymin = false;
     }
     // } 
     // if(type == 'max') {
-    if (this.templateAccessPointGroup.data.inputTypeProperties.max === '') {
+    if (this.templateAccessPointGroup.data.inputTypeProperties.max === '' || this.templateAccessPointGroup.data.inputTypeProperties.max === null) {
       this.emptymax = true;
     } else {
       this.emptymax = false;
