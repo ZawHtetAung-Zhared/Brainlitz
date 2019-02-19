@@ -2130,6 +2130,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     });
   }
 
+  closeDeleteModal(){
+    this.modalReference.close();
+  }
+
   apgDelete(id) {
     this.modalReference.close();
     this.blockUI.start('Loading...');
@@ -2138,10 +2142,11 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log('deleteapg', res)
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
-        }, 300);
+        }, 200);
         this.toastr.success('Successfully APG deleted.');
         this.apgList = [];
         this.getAllAPG(20, 0);
+        this.clearAPGTypeArr()
       }, err => {
         console.log(err)
       })
