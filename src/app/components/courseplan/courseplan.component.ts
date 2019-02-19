@@ -182,7 +182,14 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("single plan", res);
         this.formField = res;
-
+        if(!this.formField.paymentPolicy.taxInclusive ){
+          this.chooseTax = 'exclusive';
+        }else{
+          this.chooseTax = 'inclusive';
+        }
+        if(this.formField.paymentPolicy.taxInclusive == null ){
+          this.chooseTax = 'none';
+        }
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
@@ -433,13 +440,17 @@ export class CourseplanComponent implements OnInit {
       console.log("TTT", this.chooseTax);
       if (this.chooseTax == 'inclusive') {
         data.paymentPolicy["taxInclusive"] = true;
-      } else {
+      } 
+      if(this.chooseTax == 'exclusive') {
         data.paymentPolicy["taxInclusive"] = false;
       }
 
+      // if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
+      //   data.paymentPolicy["taxInclusive"] = null;
+      // }
     }
 
-    console.log(data)
+    console.log( data.paymentPolicy.deposit)
 
     if (type == 'create') {
       console.log("CreatePlan")
@@ -466,6 +477,11 @@ export class CourseplanComponent implements OnInit {
         })
     } else {
       console.log("editPlan");
+      if( data.paymentPolicy.deposit== undefined) {
+        console.log(this.formField.paymentPolicy.deposit);
+        data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit
+      }
+      console.warn(data.paymentPolicy.deposit);
       this.blockUI.start('Loading...');
       this._service.updateSignlecPlan(this.editPlanId, data, this.locationID)
         .subscribe((res: any) => {

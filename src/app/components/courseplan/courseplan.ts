@@ -11,6 +11,7 @@ export class cPlanField {
 		allowProrated: false,
 		courseFee: '',
 		proratedLessonFee: '',
+		taxInclusive:Boolean,
 		miscFee: '',
 		deposit: '',
 		courseFeeOptions: {}
