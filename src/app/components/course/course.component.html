@@ -412,14 +412,16 @@
             <div>
               <h5>Course fee</h5>
               <div *ngIf="detailLists.paymentPolicy.courseFee != null">
-                <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.courseFee}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.courseFee>0">{{currency.invCurrencySign}}</sup>
+                <b>{{(detailLists.paymentPolicy.courseFee == 0) ? ('-') : (detailLists.paymentPolicy.courseFee)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.courseFee == null">-</b>
             </div>
             <div class="mt-32">
               <h5>Miscellaneous fee</h5>
               <div *ngIf="detailLists.paymentPolicy.miscFee != null">
-                <sup>{{currency.invCurrencySign}}</sup><b>{{detailLists.paymentPolicy.miscFee}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.miscFee>0">{{currency.invCurrencySign}}</sup>
+                <b>{{(detailLists.paymentPolicy.miscFee == 0) ? ('-') : (detailLists.paymentPolicy.miscFee)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.miscFee == null">-</b>
             </div>
@@ -428,14 +430,16 @@
             <div>
               <h5>Deposit</h5>
               <div *ngIf="detailLists.paymentPolicy.deposit.amount != null">
-                <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.deposit.amount}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.deposit.amount>0">{{ currency.invCurrencySign }}</sup>
+                <b>{{(detailLists.paymentPolicy.deposit.amount == 0) ? ('-') : (detailLists.paymentPolicy.deposit.amount)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.deposit.amount == null">-</b>
             </div>
             <div class="mt-32">
               <h5>Prorated class fee</h5>
               <div *ngIf="detailLists.paymentPolicy.proratedLessonFee != null">
-                <sup>{{ currency.invCurrencySign }}</sup><b>{{detailLists.paymentPolicy.proratedLessonFee}}</b>
+                <sup *ngIf="detailLists.paymentPolicy.proratedLessonFee > 0">{{ currency.invCurrencySign }}</sup>
+                <b>{{(detailLists.paymentPolicy.proratedLessonFee == 0) ? ('-') : (detailLists.paymentPolicy.proratedLessonFee)}}</b>
               </div>
               <b *ngIf="detailLists.paymentPolicy.proratedLessonFee == null">-</b>
             </div>
