@@ -461,7 +461,7 @@
                         style="pointer-events: none">
                     </span>
                     <div class="form-group">
-                      <input type="text" class="form-control data-value" placeholder="Type data value here" (input)="addDataValueText(i,$event)"
+                      <input type="text" class="form-control data-value" placeholder="Type data value here" (input)="addDataValueText(i,$event)" id="{{'valueInput'+i}}"
                         name="{{'dataValue'+ i}}" required>
                     </div>
                     <div class="data-close" *ngIf="toShowClear()" (click)="dataValueClear(i,$event)"></div>
@@ -486,9 +486,9 @@
             [ngClass]="{'disable-click': module.name=='Badge'}">
             <label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
               <div class="module-img">
-                <img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png"
+                <img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type.png"
                   class="img-fluid">
-                <img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png"
+                <img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type-a.png"
                   class="img-fluid">
               </div>
               <div class="label-checked"></div>
@@ -839,7 +839,7 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn modal-cancel-btn" (click)="cancelapg('Close click')">Cancel</button>
+    <button type="button" class="btn modal-cancel-btn" (click)="closeDeleteModal()">Cancel</button>
     <button type="submit" class="btn modal-delete-btn" (click)="apgDelete(deleteId)">Delete</button>
   </div>
 </ng-template>
