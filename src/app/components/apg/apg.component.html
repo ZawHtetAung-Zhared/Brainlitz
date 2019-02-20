@@ -283,12 +283,12 @@
           </div>
           <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
         </div>
-        <div class="d-flex justify-content-end form-footer">
+       <!--  <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)"
             [disabled]="!model.name || isEmpty == true">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
-        </div>
+        </div> -->
       </div>
         <!-- end Assemenent -->
       <!-- </form> -->
@@ -330,7 +330,7 @@
             </div>
             <div class="radio-group">
               <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
-              <div class="type-input" [class.activeRadio]="selectedRadio == 'NUMBER'" (click)="radioSelect('NUMBER')">
+              <div class="type-input cousorAdd" [class.activeRadio]="selectedRadio == 'NUMBER'" (click)="radioSelect('NUMBER')">
                 <div class="radio-wrapper">
                   <div class="label-checked"></div>
 
@@ -451,7 +451,7 @@
               </div> -->
 
             </div>
-            <div *ngIf="selectedRadio == 'RADIO'">
+            <div *ngIf="selectedRadio == 'RADIO'" class="mb-90">
               <h4 class="data-list-title"> Data list</h4>
               <div dragula="data_COLUMNS" class="data-wrapper"  [(dragulaModel)]="valueArray">
                 <div *ngFor="let dataValue of valueArray;let i=index;" class="one-selection-wrapper">
@@ -469,7 +469,7 @@
                   </div>
                 </div>
               </div>
-              <span class="newValue" (click)="addDataValue()">Add new data value </span>
+              <span class="newValue cousorAdd" (click)="addDataValue()">Add new data value </span>
             </div>
           </div>
           <div class="d-flex justify-content-end form-footer">
