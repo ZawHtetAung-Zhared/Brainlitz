@@ -77,7 +77,7 @@
   padding: 0 15px;
 }
 
-.cancel-back {
+.cancel-back,.ev-apgName {
   font-size: 16px;
   font-family: 'Montserrat-Medium', Arial, sans-serif;
   color: #2e3d4d !important;
@@ -408,7 +408,7 @@ div.ap-wrapper:last-child {
 
 .form-footer {
   position: fixed;
-  /* width: 100%; */
+  width: 100%; 
   bottom: 0;
   padding: 20px;
   right: 0;
@@ -1184,6 +1184,10 @@ input:checked+.slider:before {
   display: flex;
 }
 
+.cousorAdd{
+  cursor: pointer;
+}
+
 .activeRadio {
   background: #007fff;
   color: white;
@@ -1877,4 +1881,8 @@ li.optionlist {
   /*max-height: 166px;*/
   max-height: 151px;
   overflow: overlay;
+}
+
+.mb-90{
+  margin-bottom: 90px;
 }
