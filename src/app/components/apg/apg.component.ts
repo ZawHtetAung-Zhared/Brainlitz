@@ -29,8 +29,6 @@ export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
   public valueArray :any= [];
   public tempRadioType: any;
-  public sliderUnit: any;
-  public numberUnit: any;
   public valid: boolean;
   public moduleID: any;
   public accessPointArrayString: any = []
@@ -599,8 +597,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.getAllAPG(20, 0);
     this.formObj = {};
     // for tempValue
-    this.numberUnit = '';
-    this.sliderUnit = '';
     this.tempRadioType = '';
   }
   // cancelAp() {
@@ -1351,15 +1347,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   createDataAccessPoint() {
     return new Promise((resolve, reject) => {
-      if (this.selectedRadio == 'RANGE') {
-        this.templateAccessPointGroup.data.unit = this.sliderUnit
-      } else if (this.selectedRadio == 'NUMBER') {
-        this.templateAccessPointGroup.data.unit = this.numberUnit
-      }else{
-        // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+      if (this.selectedRadio == 'RADIO') {
         this.convertObjToArray();
-        console.log(this.templateAccessPointGroup.data.inputTypeProperties.options)
-        console.log(this.valueArray)
       }
       this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
         .subscribe((res: any) => {
@@ -1403,13 +1392,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId, ap, apgId) {
-    if (this.selectedRadio == 'RANGE') {
-      this.templateAccessPointGroup.data.unit = this.sliderUnit
-      this.convertObjToArray()
-    } else if (this.selectedRadio == 'NUMBER') {
-      this.templateAccessPointGroup.data.unit = this.numberUnit
-      this.convertObjToArray()
-    } else if(this.selectedRadio == 'RADIO') {
+   if(this.selectedRadio == 'RADIO') {
       this.convertObjToArray()
     }else{
       console.log('not data apg')
@@ -2294,13 +2277,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   radioSelect(type) {
     this.selectedRadio = type;
     this.templateAccessPointGroup.data.inputType = type;
-      console.log('else state');
       if (type == "RADIO") {
         // this.optionsArray = ['']
         this.valueArray = [{'name':''}]
         console.log(this.valueArray);
-        this.sliderUnit = "";
-        this.numberUnit = "";
+        this.templateAccessPointGroup.data.unit = '';
         this.templateAccessPointGroup.data.inputTypeProperties.min = "";
         this.templateAccessPointGroup.data.inputTypeProperties.max = "";
       } else if (type == "NUMBER") {
@@ -2308,12 +2289,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         // this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
         // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
         // this.optionsArray = ['']
+        this.templateAccessPointGroup.data.unit = '';
         this.templateAccessPointGroup.data.inputTypeProperties.min = "";
         this.templateAccessPointGroup.data.inputTypeProperties.max = "";
-        this.sliderUnit = "";
       } else {
         // this.optionsArray = ['']
-        this.numberUnit = "";
+        this.templateAccessPointGroup.data.unit = '';
       }
     
     this.chkValue('val', 'type')
@@ -2333,7 +2314,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.valid = true
       }
     } else if (this.selectedRadio == "NUMBER" || apgName.length == 0) {
-      if (this.numberUnit == "") {
+      if (this.templateAccessPointGroup.data.unit == "") {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2341,7 +2322,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
       var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if (min === "" || max === "" || min >= max || apgName.length == 0 || this.sliderUnit == '') {
+      if (min === "" || max === "" || min >= max || apgName.length == 0 || this.templateAccessPointGroup.data.unit == "" ) {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2365,8 +2346,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           .subscribe((res: any) => {
             console.log(res)
             this.templateAccessPointGroup = res;
-            this.numberUnit = this.templateAccessPointGroup.data.unit;
-            this.sliderUnit = this.templateAccessPointGroup.data.unit;
             // this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
             this.selectedRadio = this.templateAccessPointGroup.data.inputType
             this.tempRadioType = this.templateAccessPointGroup.data.inputType
