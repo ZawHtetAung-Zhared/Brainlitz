@@ -453,21 +453,19 @@
             </div>
             <div *ngIf="selectedRadio == 'RADIO'">
               <h4 class="data-list-title"> Data list</h4>
-              <div dragula="data_COLUMNS" class="data-wrapper">
-                <div *ngFor="let dataValue of optionsArray;let i=index;trackBy:trackByFn" class="one-selection-wrapper">
-                  <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
+              <div dragula="data_COLUMNS" class="data-wrapper"  [(dragulaModel)]="valueArray">
+                <div *ngFor="let dataValue of valueArray;let i=index;" class="one-selection-wrapper">
                   <div class="d-flex selection-wrapper">
                     <span class="img-wrapper">
-                      <img class="move-sign" *ngIf="optionsArray.length > 1" src="../../../assets/images/disable-holder.svg">
-                      <img class="move-sign" *ngIf="optionsArray.length == 1" src="../../../assets/images/single-holder.svg"
+                      <img class="move-sign" *ngIf="valueArray.length > 1" src="../../../assets/images/disable-holder.svg">
+                      <img class="move-sign" *ngIf="valueArray.length == 1" src="../../../assets/images/single-holder.svg"
                         style="pointer-events: none">
                     </span>
                     <div class="form-group">
-                      <input type="text" class="form-control data-value"
-                       placeholder="Type data value here" (input)="addDataValueText(i,$event)" id="{{'valueInput'+i}}"
-                        name="{{'dataValue'+ i}}" autocomplete="off" required>
+                      <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="dataValue.name"
+                        name="{{'dataValue'+ i}}" id="{{'valueInput'+i}}" autocomplete="off" required>
                     </div>
-                    <div class="data-close" *ngIf="toShowClear()" (click)="dataValueClear(i,$event)"></div>
+                    <div class="data-close" *ngIf="valueArray.length > 1" (click)="dataValueClear(i,$event)"></div>
                   </div>
                 </div>
               </div>
@@ -476,8 +474,8 @@
           </div>
           <div class="d-flex justify-content-end form-footer">
             <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
-            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
+            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(valueArray) ||  valid==false">Create</button>
+            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(valueArray) ||  valid==false"
               (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
           </div>
         </div>
