@@ -1017,7 +1017,8 @@ export class ApgComponent implements OnInit, OnDestroy {
         for (var j = 0; j <data[i].data.evaluation.details.length; j++) {
           console.log(j);
           const requirement: HTMLElement = document.getElementById('requirement' + j);
-          console.log(requirement.clientHeight)
+          console.log(requirement)
+        
           req_total_height += requirement.clientHeight;
           console.log(req_total_height);
         }

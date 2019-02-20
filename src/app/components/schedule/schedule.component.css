@@ -1047,8 +1047,8 @@ tbody td{
   border-bottom: 2px solid #007fff;
 }
 .body-wrap{
-  min-height: 500px;
-  max-height: 500px;
+  min-height: 70vh;
+  max-height: 70vh;
   overflow-y: overlay;
 }
 .single-student{

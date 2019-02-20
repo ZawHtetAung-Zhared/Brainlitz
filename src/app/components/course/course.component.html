@@ -1227,7 +1227,7 @@
   </div>
 
   <!-- for view invoice -->
-  <div class="invoice-wrap" *ngIf="activeUserTab == 'invoice'" >
+  <div class="invoice-wrap" *ngIf="activeUserTab == 'invoice'" id="print-section">
     <app-invoice  [custDetail]="custDetail" [course]="singleUserData" (closed)="cancelInvoiceModal()"></app-invoice>
   </div>
 
