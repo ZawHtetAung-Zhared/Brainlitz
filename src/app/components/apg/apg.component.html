@@ -60,7 +60,7 @@
               <div class="ap-wrapper" *ngFor="let ap of apg.accessPoints; let ind = index">
                 <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
                 <div class="d-flex flex-row justify-content-between">
-                  <p class="mb-0">{{ap.name}}</p>
+                  <p class="mb-0 ev-apgName">{{ap.name}}</p>
                   <span class="lists-down-arrow" [ngClass]="{'transform-y': ap.isExpand}" (click)="expandAccessPoint(i,ind,'apg')">
                     <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
                   </span>
