@@ -1405,12 +1405,15 @@ export class ApgComponent implements OnInit, OnDestroy {
   updateAp(apId, ap, apgId) {
     if (this.selectedRadio == 'RANGE') {
       this.templateAccessPointGroup.data.unit = this.sliderUnit
+      this.convertObjToArray()
     } else if (this.selectedRadio == 'NUMBER') {
       this.templateAccessPointGroup.data.unit = this.numberUnit
-    } else {
+      this.convertObjToArray()
+    } else if(this.selectedRadio == 'RADIO') {
+      this.convertObjToArray()
+    }else{
       console.log('not data apg')
     }
-    this.convertObjToArray()
     // ap.data.inputTypeProperties.options = this.optionsArray;
     return new Promise((resolve, reject) => {
       this._service.updateAP(this.regionID, apId, ap)
