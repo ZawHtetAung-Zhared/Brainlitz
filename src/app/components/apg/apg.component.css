@@ -1200,7 +1200,7 @@ input:checked+.slider:before {
 }
 
 .activeRadio {
-  background: #007fff;
+  background: #007fff!important;
   color: white;
 }
 
