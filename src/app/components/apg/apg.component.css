@@ -1184,6 +1184,16 @@ input:checked+.slider:before {
   display: flex;
 }
 
+.radio-group button{
+  outline: none;
+  border: none;
+}
+
+.radio-group button:disabled{
+  cursor: not-allowed !important;
+  opacity: .65;
+}
+
 .cousorAdd{
   cursor: pointer;
 }
@@ -1193,8 +1203,8 @@ input:checked+.slider:before {
   color: white;
 }
 
-.activeRadio>.radio-wrapper>.huey-child {
-  color: white;
+.activeRadio>.radio-wrapper>.huey-child, .activeRadio>.radio-wrapper>.huey{
+  color: white!important;
 }
 
 .huey {
@@ -1202,13 +1212,16 @@ input:checked+.slider:before {
   line-height: 18px;
   margin-bottom: 0px !important;
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
-
+  color: #2e3d4d;
+  text-align: left;
+  width: 100%;
 }
 
 .huey-child {
   font-family: 'Montserrat-Medium', Arial, sans-serif;
   font-size: 12px;
   color: #64707d;
+  text-align: left;
 }
 
 .form-radio {
