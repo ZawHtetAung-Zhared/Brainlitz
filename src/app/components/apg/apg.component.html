@@ -411,8 +411,7 @@
               <div class="gap-box">
                 <label class="d-flex">
   
-                  <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
-                    (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
+                  <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min" (keypress)="numberOnly($event)" (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
   
                   <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
                      <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
@@ -427,8 +426,7 @@
                       value="{{templateAccessPointGroup.data.inputTypeProperties.min}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)">
                     <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
                   </div>
-                      <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
-                      (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                      <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max" (keypress)="numberOnly($event)" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
                   </label>
                 </div>
               <!-- <div class="gap-box">
@@ -689,7 +687,7 @@
               
               <button class="btn remove-outline" (click)="showmore('apg',apgList.length)">load more</button>
             </div> -->
-          <div class="apg-share-content" *ngIf="apgType =='Assessment'">
+          <div class="apg-share-content" *ngIf="apgType =='Assessment' || apgType =='Evaluation'">
             <div class="col1">
               <div *ngFor="let template of templateList | slice:0:half ; let i=index" class="assement-shared-apg share-input">
                 <div class="header" [ngClass]="{'selected': sharechecked == template._id}">

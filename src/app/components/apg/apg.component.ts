@@ -828,7 +828,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(res)
         this.toastr.success('APG successfully created.');
         this.blockUI.stop();
-        this.cancelapg();
+        setTimeout(()=>{
+          this.cancelapg();
+        },200)
+        this.setSelectedTab(this.pickedMType)
       }, err => {
         this.toastr.success(status + ' Fail.');
         this.blockUI.stop();
@@ -2493,5 +2496,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.badgeApg = [];
     this.evAPG = [];
     this.dataApgList = [];
+  }
+  numberOnly(event, type) {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
   }
 }
