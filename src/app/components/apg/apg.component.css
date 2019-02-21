@@ -1187,6 +1187,7 @@ input:checked+.slider:before {
 .radio-group button{
   outline: none;
   border: none;
+  background: none;
 }
 
 .radio-group button:disabled{
