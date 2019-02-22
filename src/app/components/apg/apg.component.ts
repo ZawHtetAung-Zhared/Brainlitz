@@ -151,8 +151,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       // $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
-    //  this.dragulaService.
-    if (this.dragulaService.find("COLUMNS") == undefined)
+
+    if (this.dragulaService.find("COLUMNS") === undefined)
     console.log('COLUMNS WORKing');
       this.dragulaService.createGroup("COLUMNS", {
         direction: 'vertical',
@@ -163,11 +163,11 @@ export class ApgComponent implements OnInit, OnDestroy {
         // revertOnSpill
         // accepts : (el,target) => console.log(el,target)
       });
-    // if (this.dragulaService.find("0") == undefined)
-    //   this.dragulaService.createGroup("0", {
-    //     direction: 'vertical',
-    //     moves: (el, source, handle) => handle.className === "move-sign"
-    //   });
+        // if (this.dragulaService.find("0") == undefined)
+        //   this.dragulaService.createGroup("0", {
+        //     direction: 'vertical',
+        //     moves: (el, source, handle) => handle.className === "move-sign"
+        //   });
 
     this.dragulaService.drop("COLUMNS").subscribe(({
       el,
@@ -250,11 +250,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       cloneType
     }) => {
       console.log('it is work cloning');
-      console.log($(clone).children(".selection-wrapper").children(".img-wrapper"));
       var tempEle = $(clone).children(".selection-wrapper").children(".img-wrapper");
-      console.log($(clone).children("span"))
       $(clone).height(70)
       $(clone).width(500)
+      $(clone).children(".selection-wrapper").children('.data-close').hide()
       $(clone).children(".data-close").remove();
       tempEle.empty();
 
@@ -290,7 +289,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     //   // $(clone).height(70)
     //   // console.log("OptionsaArray", this.optionsArray)
     //   // $(clone).width(460)
-    //   // $(clone).children(".data-close").remove();
+      // $(clone).children(".data-close").remove();
     // })
     this.dragulaService.cancel().subscribe(({
       name,
@@ -325,6 +324,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       // console.log(this.dragId)
       // clearInterval(this.dragId)
       console.log("DRRRROP")
+    
       console.log("------>>", this.templateAccessPointGroup)
       this.stillDrag = false;
       this.dragOut = false;
@@ -358,7 +358,9 @@ export class ApgComponent implements OnInit, OnDestroy {
         }, false);
 
 
-      } else {
+      }else if(name === "data_COLUMNS"){
+
+      }else {
         console.log("other than")
         this.stillDrag = true;
 
@@ -467,7 +469,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       original,
       cloneType
     }) => {
-
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
       $(clone).children(".img-wrapper").empty()

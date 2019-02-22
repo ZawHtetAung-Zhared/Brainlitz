@@ -1275,7 +1275,9 @@ input:checked+.slider:before {
 .input-result {
   margin-top: 32px;
 }
-
+.input-wrapper{
+  width: 70%;
+}
 .data-value:focus {
   box-shadow: none;
   outline: none;
@@ -1288,7 +1290,7 @@ input:checked+.slider:before {
   margin-bottom: 15px;
   padding: .6rem .75rem;
   margin-left: -.75rem;
-  width: 456px;
+  /* width: 456px; */
   margin-top: 4px;
   padding-bottom: 0px;
   padding-top: 20px;
