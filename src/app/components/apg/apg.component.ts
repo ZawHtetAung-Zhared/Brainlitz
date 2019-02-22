@@ -221,16 +221,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     //     }
     //     // this.msg = `Dragging the ${value[1].innerText}!`;
     //   });
-    if (this.dragulaService.find("data_COLUMNS") == undefined)
-      this.dragulaService.createGroup("data_COLUMNS", {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "move-sign",
-        // invalid: function (el, handle) {
-        //   return false; // don't prevent any drags from initiating by default
-        // }
-        // revertOnSpill
-        // accepts : (el,target) => console.log(el,target)
-      });
+    // if (this.dragulaService.find("data_COLUMNS") == undefined)
+    //   this.dragulaService.createGroup("data_COLUMNS", {
+    //     direction: 'vertical',
+    //     moves: (el, source, handle) => handle.className === "move-sign",
+    //     // invalid: function (el, handle) {
+    //     //   return false; // don't prevent any drags from initiating by default
+    //     // }
+    //     // revertOnSpill
+    //     // accepts : (el,target) => console.log(el,target)
+    //   });
     // this.dragulaService.createGroup("data_COLUMNS", {
     //   direction: 'vertical',
 

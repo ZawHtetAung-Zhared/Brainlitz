@@ -237,7 +237,7 @@
                     <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j,list.date,list.date.dayOfWeek)" class="one-slot" *ngFor="let slot of minNextArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
                     </div>
                   </div> 
-                  <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="slotIdx == i && slotJidx == j && showDp == true">
+                  <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="slotIdx == i && slotJidx == j && showDp == true" >
                     <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
                     <div class="w-100 popUpbox">
                       <div class="d-flex teacher-info">

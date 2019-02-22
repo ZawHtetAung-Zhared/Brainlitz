@@ -8,6 +8,7 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 import * as moment from 'moment';
 import { InvoiceComponent } from '../invoice/invoice.component';
+import { isConstructorDeclaration } from 'typescript';
 declare var $: any;
 @Component({
   selector: 'app-schedule',
@@ -30,7 +31,9 @@ export class ScheduleComponent implements OnInit {
   public arrLeft: any;
   public arrClasses: any;
   public custDetail: any = {};
-  public styleArr;
+  public styleArr={top:"",left:"",right:"0"};
+  public styleArrDefault={top:"",left:"",right:""};
+  public styleArrDefault2={top:"",left:"",right:""};
   public selectedDay = [];
   public lessonId: any;
   public keyword: any = '';
@@ -749,45 +752,59 @@ export class ScheduleComponent implements OnInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    event.target.innerWidth;
-    this.xPosition = $(event.target).offset().left - 150 + $(event.target).width() / 2;
-    this.yPosition = $(event.target).offset().top + $(event.target).height() + 10;
-    this.arrTop = $(event.target).offset().top + $(event.target).height() - 10;
-    this.arrLeft = this.xPosition + 140;
-    if ($(document).height() - this.yPosition < 180) {
-      this.yPosition = $(event.target).offset().top - 170;
-      this.arrTop = this.yPosition + 160;
-      this.arrClasses = {
-        'arr-box': true,
-        'arr-down': true
-      }
-    } else {
-      this.arrClasses = {
-        'arr-box': true,
-        'arr-up': true
-      }
+    console.log(this.styleArr)
+    var t;
+    var f;
+    // console.log(this.styleArrDefault)
+    // console.log(this.styleArr)
+    // if(this.styleArr != null || this.styleArr !=undefined || this.styleArr != ""){
+    //      if(this.styleArr.right=="0px" || this.styleArr.left=="0px"){
+    //       this.styleArr=this.styleArrDefault;
+    //       console.log(this.styleArr)
+    //     }
+    // }
+ 
+    // console.log($(document).width())
+    // console.log(this.xPosition)
+    // console.log(this.yPosition)
+    // console.log("left>>"+$(".create-box").offset().left)
+    // console.log(event.target.left)
+    // console.log(event)
+    // console.log(this.styleArr)
+    // var mainDiv=document.getElementById("testScroll")
+    // console.log(mainDiv.offsetLeft)
+    // event.target.innerWidth;
+    this.xPosition = $(".create-box").offset().left - 150 + $(".create-box").width() / 2;
+    // this.yPosition = $(".create-box").offset().top + $(".create-box").height() + 10;
+    // this.arrTop = $(".create-box").offset().top + $(".create-box").height() - 10;
+    // this.arrLeft = this.xPosition + 140;
+
+    if((this.styleArr.right == "0px" || this.styleArr.right == "" || this.styleArr.left =="0px" || this.styleArr.left =="") && (this.styleArrDefault.left != this.xPosition +"px" || this.styleArrDefault.right != this.xPosition+"px") && $(document).width() - this.xPosition > 300){
+      this.styleArr=this.styleArrDefault;
+      console.log("not side>"+this.styleArr)     
+    }else if( $(document).width() - this.xPosition < 300 && (this.styleArrDefault.left == this.xPosition+"px" || this.styleArrDefault.right == this.xPosition+"px")){
+      this.styleArr=this.styleArrDefault2;
+      console.log("dar not side")
     }
-    if ($(document).width() - this.xPosition < 300) {
-      this.xPosition = 0;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'right': '0px'
-      }
+    console.log("righ>"+this.styleArrDefault.right);
+    console.log("left>"+this.styleArrDefault.left)
+    console.log(this.xPosition)
+    // if((this.styleArr.right != "0px" || this.styleArr.left !="0px")){
+    //   console.log("first")
+    // }
+     if(this.styleArrDefault.left == this.xPosition+"px" || this.styleArrDefault.right == this.xPosition+"px"){
+      
+      console.log("second")
     }
-    else if (this.xPosition < 0) {
-      this.xPosition = 0;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'left': '0px'
-      }
+    if(this.styleArrDefault.left != this.xPosition+"px" || this.styleArrDefault.right != this.xPosition+"px"){
+      console.log("second2")
     }
-    else {
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'left': this.xPosition + "px"
-      }
-    }
+    // if($(document).width() - this.xPosition < 300){
+    //   console.log("third")
+    // }
+   
   }
+
   ngOnInit() {
     
     this.activeTab = 'enroll';
@@ -1875,6 +1892,7 @@ export class ScheduleComponent implements OnInit {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
+    console.log(e)
     // if(this.startTime.min>min && this.startTime.hr > hr ){
     //   var h = hr+1
     //   console.log("add 1~~~>")
@@ -1894,7 +1912,6 @@ export class ScheduleComponent implements OnInit {
     // }
 
     console.log("minSlot", this.minSlotArr);
-
     // var cIdx = this.minSlotArr.indexOf(min);
     // if(cIdx>=0){
     //    var pIdx = cIdx-1;
@@ -1933,10 +1950,17 @@ export class ScheduleComponent implements OnInit {
     this.yPosition = e.layerY + 25;
     this.xPosition = e.layerX - 25;
 
+    console.log($(event.target))
     this.xPosition = $(event.target).offset().left - 150 + $(event.target).width() / 2;
     this.yPosition = $(event.target).offset().top + $(event.target).height() + 10;
     this.arrTop = $(event.target).offset().top + $(event.target).height() - 10;
     this.arrLeft = this.xPosition + 140;
+
+    console.log("xPostiton>"+this.xPosition)
+    console.log("yPosition>"+this.yPosition)
+    console.log("arrTop>"+this.arrTop)
+    console.log("arrLeft>"+this.arrLeft)
+    console.log("width>",$(document).width());
     if ($(document).height() - this.yPosition < 180) {
       this.yPosition = $(event.target).offset().top - 170;
       this.arrTop = this.yPosition + 160;
@@ -1950,25 +1974,44 @@ export class ScheduleComponent implements OnInit {
         'arr-up': true
       }
     }
+    this.styleArrDefault.top=this.yPosition +"px";
+    this.styleArrDefault.left=this.xPosition+"px";
+    // this.styleArrDefault={
+    //   'top': this.yPosition + "px",
+    //   'left': this.xPosition + "px"
+    // }
     if ($(document).width() - this.xPosition < 300) {
+      console.log("here 1")
       this.xPosition = 0;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'right': '0px'
-      }
+      // this.styleArr = {
+      //   'top': this.yPosition + "px",
+      //   'right': '0px'
+      // }
+      this.styleArr.top=this.yPosition+"px";
+      this.styleArr.right="0px";
+      this.styleArr.left="";
+      this.styleArrDefault2=this.styleArr;
     }
     else if (this.xPosition < 0) {
+      console.log("here 2")
       this.xPosition = 0;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'left': '0px'
-      }
+      // this.styleArr = {
+      //   'top': this.yPosition + "px",
+      //   'left': '0px'
+      // }
+      this.styleArr.top=this.yPosition+"px";
+      this.styleArr.left="0px";
+      this.styleArr.right="";
+      this.styleArrDefault2=this.styleArr;
     }
     else {
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'left': this.xPosition + "px"
-      }
+      console.log("here 3")
+      // this.styleArr = {
+      //   'top': this.yPosition + "px",
+      //   'left': this.xPosition + "px"
+      // }
+      this.styleArr.top=this.yPosition+"px";
+      this.styleArr.left=this.xPosition+"px";
     }
     console.log("selected", this.selectedTeacher);
     console.log('selectdate', date);
@@ -2145,15 +2188,19 @@ export class ScheduleComponent implements OnInit {
 
       if ($(document).width() - this.xPosition < 420) {
         this.xPosition = 0;
-        this.styleArr = {
-          'top': this.yPosition + "px",
-          'right': '0px'
-        }
+        // this.styleArr = {
+        //   'top': this.yPosition + "px",
+        //   'right': '0px'
+        // }
+        this.styleArr.top=this.yPosition+"px";
+        this.styleArr.right="0px";
       } else {
-        this.styleArr = {
-          'top': this.yPosition + "px",
-          'left': this.xPosition + 'px'
-        }
+        // this.styleArr = {
+        //   'top': this.yPosition + "px",
+        //   'left': this.xPosition + 'px'
+        // }
+        this.styleArr.top=this.yPosition+"px";
+        this.styleArr.left=this.xPosition+"px";
       }
     }
     this.testshowboxs = true;
