@@ -296,8 +296,12 @@
 .apg-box,
 .single-apg {
   -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  /*-moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);*/
   border-radius: 4px;
   transition: 0.3s all ease-out;
 }
@@ -1336,10 +1340,10 @@ input:checked+.slider:before {
 }
 
 .requirements-wrapper {
+  max-width: 800px;
   max-height: 480px;
-  overflow: auto;
-  width: 800px;
-
+  overflow: overlay;
+  margin-bottom: 70px;
 }
 
 /* input#apg_rangeId {
