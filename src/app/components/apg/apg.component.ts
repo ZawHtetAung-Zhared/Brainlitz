@@ -153,6 +153,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     })
     //  this.dragulaService.
     if (this.dragulaService.find("COLUMNS") == undefined)
+    console.log('COLUMNS WORKing');
       this.dragulaService.createGroup("COLUMNS", {
         direction: 'vertical',
         moves: (el, source, handle) => handle.className === "group-handle",
@@ -162,11 +163,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         // revertOnSpill
         // accepts : (el,target) => console.log(el,target)
       });
-    if (this.dragulaService.find("0") == undefined)
-      this.dragulaService.createGroup("0", {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "move-sign"
-      });
+    // if (this.dragulaService.find("0") == undefined)
+    //   this.dragulaService.createGroup("0", {
+    //     direction: 'vertical',
+    //     moves: (el, source, handle) => handle.className === "move-sign"
+    //   });
+
     this.dragulaService.drop("COLUMNS").subscribe(({
       el,
       target,
@@ -203,38 +205,41 @@ export class ApgComponent implements OnInit, OnDestroy {
     // return this.stillDrag;
     // return this.stillDrag;
   }
+
   ngOnInit() {
     this.selectedAPGTab.name = "All";
     this.selectedAPGTab.id = '';
-    // this.dragulaService
-    //   .drag("COLUMNS")
-    //   .subscribe(({ name,el, source})  => {
-    //     this.stillDrag = true;
-    //     var _this = this;
-    //     console.log(name , el, source)
-    //     if(this.stillDrag){
-    //       document.addEventListener("mousemove", function (event) {
-    //         console.log(_this.stillDrag)
-    //       })
-    //     }
-    //     // this.msg = `Dragging the ${value[1].innerText}!`;
-    //   });
-    if (this.dragulaService.find("data_COLUMNS") == undefined)
-      this.dragulaService.createGroup("data_COLUMNS", {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "move-sign",
-        // invalid: function (el, handle) {
-        //   return false; // don't prevent any drags from initiating by default
-        // }
-        // revertOnSpill
-        // accepts : (el,target) => console.log(el,target)
+    this.dragulaService
+      .drag("COLUMNS")
+      .subscribe(({ name,el, source})  => {
+        this.stillDrag = true;
+        // var _this = this;
+        console.log(name , el, source)
+        if(this.stillDrag){
+          document.addEventListener("mousemove", function (event) {
+            // console.log(_this.stillDrag)
+          })
+        }
+        // this.msg = `Dragging the ${value[1].innerText}!`;
       });
+
+    // remove group 
+    // if (this.dragulaService.find("data_COLUMNS") == undefined)
+    //   this.dragulaService.createGroup("data_COLUMNS", {
+    //     direction: 'vertical',
+    //     moves: (el, source, handle) => handle.className === "move-sign",
+    //     // invalid: function (el, handle) {
+    //     //   return false; // don't prevent any drags from initiating by default
+    //     // }
+    //     // revertOnSpill
+    //     // accepts : (el,target) => console.log(el,target)
+    //   });
     // this.dragulaService.createGroup("data_COLUMNS", {
     //   direction: 'vertical',
 
-    //   // invalid: function (el, handle) {
-    //   //   return false; // don't prevent any drags from initiating by default
-    //   // }
+     // // invalid: function (el, handle) {
+    // //    return false; // don't prevent any drags from initiating by default
+    //  // }
     //   // revertOnSpill
     //   // accepts : (el,target) => console.log(el,target)
     // });
@@ -244,6 +249,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       original,
       cloneType
     }) => {
+      console.log('it is work cloning');
       console.log($(clone).children(".selection-wrapper").children(".img-wrapper"));
       var tempEle = $(clone).children(".selection-wrapper").children(".img-wrapper");
       console.log($(clone).children("span"))
@@ -255,6 +261,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       tempEle.append('<img src="../../../assets/images/grab-holder.svg"  style="margin: 0;position: absolute;width: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
       console.log($(tempEle.children()[0]).css('padding'))
     })
+    // no sibling
+
     this.dragulaService.drop("data_COLUMNS").subscribe(({
       name,
       el,
@@ -262,6 +270,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       source,
       sibling
     }) => {
+      console.log('it is work drpop');
       console.log(name, el, target, source, sibling)
       // console.log(this.optionsArray)
       // var newArray = $(target).find("input");
@@ -272,24 +281,24 @@ export class ApgComponent implements OnInit, OnDestroy {
       //   textArray.push($(newArray[i]).val())
       // }
 
-      // newArray.forEach(element => {
-      //   console.log(element.val())
-      // });
-      // this.optionsArray = textArray
-      // console.log(textArray)
-      // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
-      // $(clone).height(70)
-      // console.log("OptionsaArray", this.optionsArray)
-      // $(clone).width(460)
-      // $(clone).children(".data-close").remove();
-    })
+    //   // newArray.forEach(element => {
+    //   //   console.log(element.val())
+      });
+    //   // this.optionsArray = textArray
+    //   // console.log(textArray)
+    //   // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+    //   // $(clone).height(70)
+    //   // console.log("OptionsaArray", this.optionsArray)
+    //   // $(clone).width(460)
+    //   // $(clone).children(".data-close").remove();
+    // })
     this.dragulaService.cancel().subscribe(({
       name,
       el,
       container,
       source
     }) => {
-
+      console.log('it is work draging data columns');
       this.stillDrag = false;
       console.log("CAncel")
       this.dragOut = false;
@@ -348,8 +357,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         }, false);
 
-
-      } else if (name == "data_COLUMNS") {
 
       } else {
         console.log("other than")
@@ -897,17 +904,17 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log('formObj~~~', this.formObj);
       this.checkProperties(this.formObj)
     }
-    if (this.dragulaService.find(String(this.groupNumber)) == undefined)
+    // if (this.dragulaService.find(String(this.groupNumber)) == undefined)
 
-      this.dragulaService.createGroup(String(this.groupNumber), {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "move-sign"
-        // invalid: function (el, handle) {
-        //   console.log(el,handle)
-        //   return false; // don't prevent any drags from initiating by default
-        // },
-        // });
-      })
+    //   this.dragulaService.createGroup(String(this.groupNumber), {
+    //     direction: 'vertical',
+    //     moves: (el, source, handle) => handle.className === "move-sign"
+    //     // invalid: function (el, handle) {
+    //     //   console.log(el,handle)
+    //     //   return false; // don't prevent any drags from initiating by default
+    //     // },
+    //     // });
+    //   })
 
   }
 
