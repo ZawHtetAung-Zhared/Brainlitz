@@ -29,8 +29,6 @@ export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
   public valueArray :any= [];
   public tempRadioType: any;
-  public sliderUnit: any;
-  public numberUnit: any;
   public valid: boolean;
   public moduleID: any;
   public accessPointArrayString: any = []
@@ -155,6 +153,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     })
     //  this.dragulaService.
     if (this.dragulaService.find("COLUMNS") == undefined)
+    console.log('COLUMNS WORKing');
       this.dragulaService.createGroup("COLUMNS", {
         direction: 'vertical',
         moves: (el, source, handle) => handle.className === "group-handle",
@@ -164,11 +163,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         // revertOnSpill
         // accepts : (el,target) => console.log(el,target)
       });
-    if (this.dragulaService.find("0") == undefined)
-      this.dragulaService.createGroup("0", {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "move-sign"
-      });
+    // if (this.dragulaService.find("0") == undefined)
+    //   this.dragulaService.createGroup("0", {
+    //     direction: 'vertical',
+    //     moves: (el, source, handle) => handle.className === "move-sign"
+    //   });
+
     this.dragulaService.drop("COLUMNS").subscribe(({
       el,
       target,
@@ -205,22 +205,25 @@ export class ApgComponent implements OnInit, OnDestroy {
     // return this.stillDrag;
     // return this.stillDrag;
   }
+
   ngOnInit() {
     this.selectedAPGTab.name = "All";
     this.selectedAPGTab.id = '';
-    // this.dragulaService
-    //   .drag("COLUMNS")
-    //   .subscribe(({ name,el, source})  => {
-    //     this.stillDrag = true;
-    //     var _this = this;
-    //     console.log(name , el, source)
-    //     if(this.stillDrag){
-    //       document.addEventListener("mousemove", function (event) {
-    //         console.log(_this.stillDrag)
-    //       })
-    //     }
-    //     // this.msg = `Dragging the ${value[1].innerText}!`;
-    //   });
+    this.dragulaService
+      .drag("COLUMNS")
+      .subscribe(({ name,el, source})  => {
+        this.stillDrag = true;
+        // var _this = this;
+        console.log(name , el, source)
+        if(this.stillDrag){
+          document.addEventListener("mousemove", function (event) {
+            // console.log(_this.stillDrag)
+          })
+        }
+        // this.msg = `Dragging the ${value[1].innerText}!`;
+      });
+
+    // remove group 
     // if (this.dragulaService.find("data_COLUMNS") == undefined)
     //   this.dragulaService.createGroup("data_COLUMNS", {
     //     direction: 'vertical',
@@ -234,9 +237,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     // this.dragulaService.createGroup("data_COLUMNS", {
     //   direction: 'vertical',
 
-    //   // invalid: function (el, handle) {
-    //   //   return false; // don't prevent any drags from initiating by default
-    //   // }
+     // // invalid: function (el, handle) {
+    // //    return false; // don't prevent any drags from initiating by default
+    //  // }
     //   // revertOnSpill
     //   // accepts : (el,target) => console.log(el,target)
     // });
@@ -246,6 +249,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       original,
       cloneType
     }) => {
+      console.log('it is work cloning');
       console.log($(clone).children(".selection-wrapper").children(".img-wrapper"));
       var tempEle = $(clone).children(".selection-wrapper").children(".img-wrapper");
       console.log($(clone).children("span"))
@@ -257,6 +261,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       tempEle.append('<img src="../../../assets/images/grab-holder.svg"  style="margin: 0;position: absolute;width: 32px;top: 50%;transform: translate(0, -50%);padding:10px;"/>')
       console.log($(tempEle.children()[0]).css('padding'))
     })
+    // no sibling
+
     this.dragulaService.drop("data_COLUMNS").subscribe(({
       name,
       el,
@@ -264,6 +270,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       source,
       sibling
     }) => {
+      console.log('it is work drpop');
       console.log(name, el, target, source, sibling)
       // console.log(this.optionsArray)
       // var newArray = $(target).find("input");
@@ -274,24 +281,24 @@ export class ApgComponent implements OnInit, OnDestroy {
       //   textArray.push($(newArray[i]).val())
       // }
 
-      // newArray.forEach(element => {
-      //   console.log(element.val())
-      // });
-      // this.optionsArray = textArray
-      // console.log(textArray)
-      // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
-      // $(clone).height(70)
-      // console.log("OptionsaArray", this.optionsArray)
-      // $(clone).width(460)
-      // $(clone).children(".data-close").remove();
-    })
+    //   // newArray.forEach(element => {
+    //   //   console.log(element.val())
+      });
+    //   // this.optionsArray = textArray
+    //   // console.log(textArray)
+    //   // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+    //   // $(clone).height(70)
+    //   // console.log("OptionsaArray", this.optionsArray)
+    //   // $(clone).width(460)
+    //   // $(clone).children(".data-close").remove();
+    // })
     this.dragulaService.cancel().subscribe(({
       name,
       el,
       container,
       source
     }) => {
-
+      console.log('it is work draging data columns');
       this.stillDrag = false;
       console.log("CAncel")
       this.dragOut = false;
@@ -350,8 +357,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         }, false);
 
-
-      } else if (name == "data_COLUMNS") {
 
       } else {
         console.log("other than")
@@ -599,8 +604,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.getAllAPG(20, 0);
     this.formObj = {};
     // for tempValue
-    this.numberUnit = '';
-    this.sliderUnit = '';
     this.tempRadioType = '';
   }
   // cancelAp() {
@@ -828,7 +831,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log(res)
         this.toastr.success('APG successfully created.');
         this.blockUI.stop();
-        this.cancelapg();
+        setTimeout(()=>{
+          this.cancelapg();
+        },200)
+        this.setSelectedTab(this.pickedMType)
       }, err => {
         this.toastr.success(status + ' Fail.');
         this.blockUI.stop();
@@ -901,17 +907,17 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log('formObj~~~', this.formObj);
       this.checkProperties(this.formObj)
     }
-    if (this.dragulaService.find(String(this.groupNumber)) == undefined)
+    // if (this.dragulaService.find(String(this.groupNumber)) == undefined)
 
-      this.dragulaService.createGroup(String(this.groupNumber), {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "move-sign"
-        // invalid: function (el, handle) {
-        //   console.log(el,handle)
-        //   return false; // don't prevent any drags from initiating by default
-        // },
-        // });
-      })
+    //   this.dragulaService.createGroup(String(this.groupNumber), {
+    //     direction: 'vertical',
+    //     moves: (el, source, handle) => handle.className === "move-sign"
+    //     // invalid: function (el, handle) {
+    //     //   console.log(el,handle)
+    //     //   return false; // don't prevent any drags from initiating by default
+    //     // },
+    //     // });
+    //   })
 
   }
 
@@ -1352,15 +1358,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   createDataAccessPoint() {
     return new Promise((resolve, reject) => {
-      if (this.selectedRadio == 'RANGE') {
-        this.templateAccessPointGroup.data.unit = this.sliderUnit
-      } else if (this.selectedRadio == 'NUMBER') {
-        this.templateAccessPointGroup.data.unit = this.numberUnit
-      }else{
-        // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
+      if (this.selectedRadio == 'RADIO') {
         this.convertObjToArray();
-        console.log(this.templateAccessPointGroup.data.inputTypeProperties.options)
-        console.log(this.valueArray)
       }
       this._service.createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
         .subscribe((res: any) => {
@@ -1404,13 +1403,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId, ap, apgId) {
-    if (this.selectedRadio == 'RANGE') {
-      this.templateAccessPointGroup.data.unit = this.sliderUnit
-      this.convertObjToArray()
-    } else if (this.selectedRadio == 'NUMBER') {
-      this.templateAccessPointGroup.data.unit = this.numberUnit
-      this.convertObjToArray()
-    } else if(this.selectedRadio == 'RADIO') {
+   if(this.selectedRadio == 'RADIO') {
       this.convertObjToArray()
     }else{
       console.log('not data apg')
@@ -2295,13 +2288,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   radioSelect(type) {
     this.selectedRadio = type;
     this.templateAccessPointGroup.data.inputType = type;
-      console.log('else state');
       if (type == "RADIO") {
         // this.optionsArray = ['']
         this.valueArray = [{'name':''}]
         console.log(this.valueArray);
-        this.sliderUnit = "";
-        this.numberUnit = "";
+        this.templateAccessPointGroup.data.unit = '';
         this.templateAccessPointGroup.data.inputTypeProperties.min = "";
         this.templateAccessPointGroup.data.inputTypeProperties.max = "";
       } else if (type == "NUMBER") {
@@ -2309,12 +2300,12 @@ export class ApgComponent implements OnInit, OnDestroy {
         // this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
         // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
         // this.optionsArray = ['']
+        this.templateAccessPointGroup.data.unit = '';
         this.templateAccessPointGroup.data.inputTypeProperties.min = "";
         this.templateAccessPointGroup.data.inputTypeProperties.max = "";
-        this.sliderUnit = "";
       } else {
         // this.optionsArray = ['']
-        this.numberUnit = "";
+        this.templateAccessPointGroup.data.unit = '';
       }
     
     this.chkValue('val', 'type')
@@ -2334,7 +2325,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.valid = true
       }
     } else if (this.selectedRadio == "NUMBER" || apgName.length == 0) {
-      if (this.numberUnit == "") {
+      if (this.templateAccessPointGroup.data.unit == "") {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2342,7 +2333,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
       var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if (min === "" || max === "" || min >= max || apgName.length == 0 || this.sliderUnit == '') {
+      if (min === "" || max === "" || min >= max || apgName.length == 0 || this.templateAccessPointGroup.data.unit == "" ) {
         this.valid = false;
       } else {
         this.valid = true;
@@ -2366,8 +2357,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           .subscribe((res: any) => {
             console.log(res)
             this.templateAccessPointGroup = res;
-            this.numberUnit = this.templateAccessPointGroup.data.unit;
-            this.sliderUnit = this.templateAccessPointGroup.data.unit;
             // this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
             this.selectedRadio = this.templateAccessPointGroup.data.inputType
             this.tempRadioType = this.templateAccessPointGroup.data.inputType
@@ -2493,5 +2482,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.badgeApg = [];
     this.evAPG = [];
     this.dataApgList = [];
+  }
+  numberOnly(event, type) {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
   }
 }
