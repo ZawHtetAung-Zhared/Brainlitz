@@ -457,7 +457,7 @@
                       <img class="move-sign" *ngIf="valueArray.length == 1" src="../../../assets/images/single-holder.svg"
                         style="pointer-events: none">
                     </span>
-                    <div class="form-group input-wrapper">
+                    <div class="form-group input-wrapper" id="data-input{{i}}">
                       <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="dataValue.name"
                         name="{{'dataValue'+ i}}" id="{{'valueInput'+i}}" autocomplete="off" required>
                     </div>

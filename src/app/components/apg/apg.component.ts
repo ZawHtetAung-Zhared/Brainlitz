@@ -152,17 +152,19 @@ export class ApgComponent implements OnInit, OnDestroy {
       $(clone).children(".close-search").hide();
     })
 
-    if (this.dragulaService.find("COLUMNS") === undefined)
-    console.log('COLUMNS WORKing');
-      this.dragulaService.createGroup("COLUMNS", {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "group-handle",
-        // invalid: function (el, handle) {
-        //   return false; // don't prevent any drags from initiating by default
-        // }
-        // revertOnSpill
-        // accepts : (el,target) => console.log(el,target)
-      });
+
+    if (this.dragulaService.find("COLUMNS") === undefined) {
+      console.log('COLUMNS WORKing');
+        this.dragulaService.createGroup("COLUMNS", {
+          direction: 'vertical',
+          moves: (el, source, handle) => handle.className === "group-handle",
+          // invalid: function (el, handle) {
+          //   return false; // don't prevent any drags from initiating by default
+          // }
+          // revertOnSpill
+          // accepts : (el,target) => console.log(el,target)
+        });
+    }
         // if (this.dragulaService.find("0") == undefined)
         //   this.dragulaService.createGroup("0", {
         //     direction: 'vertical',
@@ -243,6 +245,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     //   // revertOnSpill
     //   // accepts : (el,target) => console.log(el,target)
     // });
+    
     this.dragulaService.cloned("data_COLUMNS").subscribe(({
       name,
       clone,
@@ -359,7 +362,27 @@ export class ApgComponent implements OnInit, OnDestroy {
 
 
       }else if(name === "data_COLUMNS"){
+        this.stillDrag = true;
+        document.addEventListener("mousemove", this.testFunct = () => {
+          // console.log(this.stillDrag)
+          if (this.stillDrag) {
+            var container = $(el).parents(".data-wrapper")[0];
+            var windowHeight = $(window).height()
+            if ($(".gu-mirror").position() && container) {
+              var y = $(".gu-mirror").position().top;
+              if (y  > 900) {
+                var x =+ 3
+                
+                window.scrollBy(0, x);
+              } else if ( y < 900) {
+                console.log('s');
+                var z =- 3
+                window.scrollBy(0, z);
 
+              }
+            }
+          }
+        }, false);
       }else {
         console.log("other than")
         this.stillDrag = true;
@@ -671,6 +694,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     return index;
   }
   addDataValue(data, i) {
+   
     const newValue = ""
     const newObj = {'name' : ''}
     this.valueArray.push(newObj)
@@ -682,7 +706,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(a);
       document.getElementById("valueInput"+a).focus();
     }, 300);
-    console.log(this.valueArray)
   }
   dataValueClear(item, e?) {
     // this.optionsArray.splice(item, 1)
