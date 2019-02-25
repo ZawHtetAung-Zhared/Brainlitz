@@ -203,6 +203,44 @@
   margin-top: 4px;
 }
 
+/* .status-wrapper:hover{
+  left: 50px!important;
+  transition: all 3s ease-in-out;
+} */
+@keyframes example {
+  from {
+    left: -30px;
+  }
+  to {
+    left: 0px;
+  }
+}
+ .apg-status{
+  display: inline!important;
+  position: absolute!important;
+  left: 0px!important;
+  animation-name: example;
+  animation-duration: 1.5s;
+  /* transition: all 5s ease-in-out; */
+} 
+.status-wrapper-share{
+  display: inline;
+  position: absolute;
+  left: -100px;
+}
+.status-wrapper{
+  display: inline;
+  position: absolute;
+  left: 0px;
+}
+.apg-share-padding{
+  margin-left: 14px;
+  padding-left: 11px;
+}
+
+
+/* The element to apply the animation to */
+
 .apg-share,
 .btn-action {
   font-family: 'Montserrat-Regular', Arial, sans-serif;
@@ -1279,7 +1317,9 @@ input:checked+.slider:before {
 .input-result {
   margin-top: 32px;
 }
-
+.input-wrapper{
+  width: 70%;
+}
 .data-value:focus {
   box-shadow: none;
   outline: none;
@@ -1292,7 +1332,7 @@ input:checked+.slider:before {
   margin-bottom: 15px;
   padding: .6rem .75rem;
   margin-left: -.75rem;
-  width: 456px;
+  /* width: 456px; */
   margin-top: 4px;
   padding-bottom: 0px;
   padding-top: 20px;
@@ -1353,6 +1393,21 @@ input:checked+.slider:before {
   max-height: 480px;
   overflow: overlay;
   margin-bottom: 70px;
+}
+.bullet-list-style{
+  display: inline;
+  margin-left: 16px;
+  list-style: none;
+  padding: 0px;
+  position: absolute;
+}
+
+.bullet-list-style li::before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #e3e4e6; /* Change the color */
+  /* display: inline-block; */
+  width: 4px; /* Also needed for space (tweak if needed) */
+  /* margin-left: -1em;  */
 }
 
 /* input#apg_rangeId {

@@ -1,7 +1,7 @@
 import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { DragScrollModule } from 'ngx-drag-scroll';
-import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, DoCheck, OnDestroy   } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -14,7 +14,6 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 import { Router } from '@angular/router';
-
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 import { csLocale } from 'ngx-bootstrap';
@@ -23,10 +22,11 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 @Component({
   selector: 'app-apg',
   templateUrl: './apg.component.html',
-  styleUrls: ['./apg.component.css']
+  styleUrls: ['./apg.component.css'],
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
+  public tempSharedApgId:any;
   public valueArray :any= [];
   public tempRadioType: any;
   public valid: boolean;
@@ -152,23 +152,25 @@ export class ApgComponent implements OnInit, OnDestroy {
       // $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
     })
-    //  this.dragulaService.
-    if (this.dragulaService.find("COLUMNS") == undefined)
-    console.log('COLUMNS WORKing');
-      this.dragulaService.createGroup("COLUMNS", {
-        direction: 'vertical',
-        moves: (el, source, handle) => handle.className === "group-handle",
-        // invalid: function (el, handle) {
-        //   return false; // don't prevent any drags from initiating by default
-        // }
-        // revertOnSpill
-        // accepts : (el,target) => console.log(el,target)
-      });
-    // if (this.dragulaService.find("0") == undefined)
-    //   this.dragulaService.createGroup("0", {
-    //     direction: 'vertical',
-    //     moves: (el, source, handle) => handle.className === "move-sign"
-    //   });
+
+
+    if (this.dragulaService.find("COLUMNS") === undefined) {
+      console.log('COLUMNS WORKing');
+        this.dragulaService.createGroup("COLUMNS", {
+          direction: 'vertical',
+          moves: (el, source, handle) => handle.className === "group-handle",
+          // invalid: function (el, handle) {
+          //   return false; // don't prevent any drags from initiating by default
+          // }
+          // revertOnSpill
+          // accepts : (el,target) => console.log(el,target)
+        });
+    }
+        // if (this.dragulaService.find("0") == undefined)
+        //   this.dragulaService.createGroup("0", {
+        //     direction: 'vertical',
+        //     moves: (el, source, handle) => handle.className === "move-sign"
+        //   });
 
     this.dragulaService.drop("COLUMNS").subscribe(({
       el,
@@ -244,6 +246,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     //   // revertOnSpill
     //   // accepts : (el,target) => console.log(el,target)
     // });
+    
     this.dragulaService.cloned("data_COLUMNS").subscribe(({
       name,
       clone,
@@ -251,11 +254,10 @@ export class ApgComponent implements OnInit, OnDestroy {
       cloneType
     }) => {
       console.log('it is work cloning');
-      console.log($(clone).children(".selection-wrapper").children(".img-wrapper"));
       var tempEle = $(clone).children(".selection-wrapper").children(".img-wrapper");
-      console.log($(clone).children("span"))
       $(clone).height(70)
       $(clone).width(500)
+      $(clone).children(".selection-wrapper").children('.data-close').hide()
       $(clone).children(".data-close").remove();
       tempEle.empty();
 
@@ -291,7 +293,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     //   // $(clone).height(70)
     //   // console.log("OptionsaArray", this.optionsArray)
     //   // $(clone).width(460)
-    //   // $(clone).children(".data-close").remove();
+      // $(clone).children(".data-close").remove();
     // })
     this.dragulaService.cancel().subscribe(({
       name,
@@ -326,6 +328,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       // console.log(this.dragId)
       // clearInterval(this.dragId)
       console.log("DRRRROP")
+    
       console.log("------>>", this.templateAccessPointGroup)
       this.stillDrag = false;
       this.dragOut = false;
@@ -359,7 +362,29 @@ export class ApgComponent implements OnInit, OnDestroy {
         }, false);
 
 
-      } else {
+      }else if(name === "data_COLUMNS"){
+        this.stillDrag = true;
+        document.addEventListener("mousemove", this.testFunct = () => {
+          // console.log(this.stillDrag)
+          if (this.stillDrag) {
+            var container = $(el).parents(".data-wrapper")[0];
+            var windowHeight = $(window).height()
+            if ($(".gu-mirror").position() && container) {
+              var y = $(".gu-mirror").position().top;
+              if (y  > 900) {
+                var x =+ 3
+                
+                window.scrollBy(0, x);
+              } else if ( y < 900) {
+                console.log('s');
+                var z =- 3
+                window.scrollBy(0, z);
+
+              }
+            }
+          }
+        }, false);
+      }else {
         console.log("other than")
         this.stillDrag = true;
 
@@ -468,7 +493,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       original,
       cloneType
     }) => {
-
       $(clone).css('top', $("#clone").height() + "px");
       $(clone).children(".close-search").hide();
       $(clone).children(".img-wrapper").empty()
@@ -646,6 +670,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   addNewAPG() {
+    this.tempSharedApgId = '';
     localStorage.removeItem('moduleID');
     this.ischecked = '';
     this.model = {};
@@ -671,6 +696,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     return index;
   }
   addDataValue(data, i) {
+   
     const newValue = ""
     const newObj = {'name' : ''}
     this.valueArray.push(newObj)
@@ -682,7 +708,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log(a);
       document.getElementById("valueInput"+a).focus();
     }, 300);
-    console.log(this.valueArray)
   }
   dataValueClear(item, e?) {
     // this.optionsArray.splice(item, 1)
@@ -2100,7 +2125,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.dataApgList = this.dataApgList.concat(res);
           this.apgList = this.dataApgList;
         }
-
         for(var i=0;i<this.apgList.length;i++){
           if(this.apgList[i].module.name == 'Assessment' || this.apgList[i].module.name == 'Evaluation'){
             for(var j=0;j<this.apgList[i].accessPoints.length;j++){
@@ -2217,7 +2241,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     let data = {
       'name': apgName,
     }
-    console.log(data)
+    this.tempSharedApgId = id;
+    console.log(data,id)
     this.blockUI.start('Loading...');
     this._service.convertApgTemplate(id, data).subscribe((res: any) => {
       console.log(res)
@@ -2235,7 +2260,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     this._service.updateSingleTemplate(this.regionID, data)
       .subscribe((res: any) => {
         console.log(res)
-        this.getAllTemplate(20, 0);
+        this.clearAPGTypeArr();
+        this.getAllAPG(20, 0);
         this.toastr.success('Successfully shared to public.');
         this.blockUI.stop();
       }, err => {

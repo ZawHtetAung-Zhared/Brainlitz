@@ -1282,7 +1282,9 @@
       </div>
     </div>
   </div>
+  <textarea *ngIf="textAreaOption" name="" id="" class="text-reason" placeholder= "Type reason... " rows="4" [(ngModel)]="reasonValue"></textarea>
   <div class="modal-footer">
+    <div class="mr-auto add-reason" *ngIf="!textAreaOption" (click)= "showTextarea()">Add makeup pass reason</div>
     <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
     <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)" [disabled]="activeCourseInfo.CUSTOMER.length == 0">Confirm</button>
   </div>
