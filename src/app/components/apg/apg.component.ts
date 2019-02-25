@@ -372,7 +372,6 @@ export class ApgComponent implements OnInit, OnDestroy {
             var windowHeight = $(window).height()
             if ($(".gu-mirror").position() && container) {
               var y = $(".gu-mirror").position().top;
-              console.warn(y);
               if (y  > 900) {
                 var x = 5
                 window.scrollBy(0, x);
