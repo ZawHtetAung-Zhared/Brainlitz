@@ -77,7 +77,7 @@
   padding: 0 15px;
 }
 
-.cancel-back {
+.cancel-back,.ev-apgName {
   font-size: 16px;
   font-family: 'Montserrat-Medium', Arial, sans-serif;
   color: #2e3d4d !important;
@@ -203,6 +203,44 @@
   margin-top: 4px;
 }
 
+/* .status-wrapper:hover{
+  left: 50px!important;
+  transition: all 3s ease-in-out;
+} */
+@keyframes example {
+  from {
+    left: -30px;
+  }
+  to {
+    left: 0px;
+  }
+}
+ .apg-status{
+  display: inline!important;
+  position: absolute!important;
+  left: 0px!important;
+  animation-name: example;
+  animation-duration: 1.5s;
+  /* transition: all 5s ease-in-out; */
+} 
+.status-wrapper-share{
+  display: inline;
+  position: absolute;
+  left: -100px;
+}
+.status-wrapper{
+  display: inline;
+  position: absolute;
+  left: 0px;
+}
+.apg-share-padding{
+  margin-left: 14px;
+  padding-left: 11px;
+}
+
+
+/* The element to apply the animation to */
+
 .apg-share,
 .btn-action {
   font-family: 'Montserrat-Regular', Arial, sans-serif;
@@ -296,8 +334,12 @@
 .apg-box,
 .single-apg {
   -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  /*-moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);*/
   border-radius: 4px;
   transition: 0.3s all ease-out;
 }
@@ -408,7 +450,7 @@ div.ap-wrapper:last-child {
 
 .form-footer {
   position: fixed;
-  /* width: 100%; */
+  width: 100%; 
   bottom: 0;
   padding: 20px;
   right: 0;
@@ -1128,6 +1170,15 @@ input:checked+.slider:before {
   transform: translate(0, -50%);
   cursor: all-scroll;
 }
+.move-sign-disable {
+  margin: 0;
+  padding: 10px;
+  position: absolute;
+  /* height: 32px; */
+  top: 50%;
+  transform: translate(0, -50%);
+  cursor: all-scroll;
+}
 
 .group-handle-wrapper {
   padding-left: 5px;
@@ -1184,13 +1235,28 @@ input:checked+.slider:before {
   display: flex;
 }
 
+.radio-group button{
+  outline: none;
+  border: none;
+  background: none;
+}
+
+.radio-group button:disabled{
+  cursor: not-allowed !important;
+  opacity: .65;
+}
+
+.cousorAdd{
+  cursor: pointer;
+}
+
 .activeRadio {
-  background: #007fff;
+  background: #007fff!important;
   color: white;
 }
 
-.activeRadio>.radio-wrapper>.huey-child {
-  color: white;
+.activeRadio>.radio-wrapper>.huey-child, .activeRadio>.radio-wrapper>.huey{
+  color: white!important;
 }
 
 .huey {
@@ -1198,13 +1264,16 @@ input:checked+.slider:before {
   line-height: 18px;
   margin-bottom: 0px !important;
   font-family: 'Montserrat-Semibold', Arial, sans-serif;
-
+  color: #2e3d4d;
+  text-align: left;
+  width: 100%;
 }
 
 .huey-child {
   font-family: 'Montserrat-Medium', Arial, sans-serif;
   font-size: 12px;
   color: #64707d;
+  text-align: left;
 }
 
 .form-radio {
@@ -1248,7 +1317,9 @@ input:checked+.slider:before {
 .input-result {
   margin-top: 32px;
 }
-
+.input-wrapper{
+  width: 70%;
+}
 .data-value:focus {
   box-shadow: none;
   outline: none;
@@ -1261,7 +1332,7 @@ input:checked+.slider:before {
   margin-bottom: 15px;
   padding: .6rem .75rem;
   margin-left: -.75rem;
-  width: 456px;
+  /* width: 456px; */
   margin-top: 4px;
   padding-bottom: 0px;
   padding-top: 20px;
@@ -1318,10 +1389,25 @@ input:checked+.slider:before {
 }
 
 .requirements-wrapper {
+  max-width: 800px;
   max-height: 480px;
-  overflow: auto;
-  width: 800px;
+  overflow: overlay;
+  margin-bottom: 70px;
+}
+.bullet-list-style{
+  display: inline;
+  margin-left: 16px;
+  list-style: none;
+  padding: 0px;
+  position: absolute;
+}
 
+.bullet-list-style li::before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #e3e4e6; /* Change the color */
+  /* display: inline-block; */
+  width: 4px; /* Also needed for space (tweak if needed) */
+  /* margin-left: -1em;  */
 }
 
 /* input#apg_rangeId {
@@ -1562,7 +1648,7 @@ input#apg_rangeId:disabled {
 .divslider {
   display: flex;
   flex-direction: column;
-  padding-left: 22px;
+  padding-top: 30px;
 }
 
 input#apg_rangeId2:active+#arrowBox {
@@ -1644,11 +1730,11 @@ span.textUnit {
   color: #2e3d4d;
 }
 
-ul.listGroup {
-  font-size: 14px;
-  font-weight: 500;
+.d-flex.flex-row.listGroup {
   color: #64707d;
-  padding: 0;
+  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-size: 14px;
+  text-align: justify;
 }
 
 ul.listGroup.selected {
@@ -1877,4 +1963,60 @@ li.optionlist {
   /*max-height: 166px;*/
   max-height: 151px;
   overflow: overlay;
+}
+
+.mb-90{
+  margin-bottom: 90px;
+}
+
+label.minlbl {
+  text-align: center;
+  font-size: 14px;
+  color: #8fa1b3;
+}
+
+/* input:focus ~ .floating-label,
+input:not(:focus):valid ~ .floating-label {
+  top:37vh;
+} */
+
+label.floating-label {
+  position: absolute;
+  pointer-events: none;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  font-size: 14px;
+  color: #8fa1b3;
+  text-align: center;
+  margin-left: 16px;
+  margin-top: 33px;
+}
+.max-min-exp-img{
+  padding-left: 100px;
+    /* padding-top: 20px; */
+}
+
+img.arrow-img {
+  padding-left: 27px;
+}
+
+p.display-txt {
+  width: 31vh; 
+  padding-left: 9vh;
+  color: #64707d;
+  font-size: 14px;
+}
+input.min_input_show {
+  width: 41px;
+  height: 24px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border: 0px;
+  border-radius: 16px;
+  background: #ffff;
+  text-align: center;
+}
+
+.noPaddingInmax{
+  margin-top: 28px;
 }

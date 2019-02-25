@@ -884,9 +884,9 @@ width: 50%;
  }
 
 @media (min-width:706px) and (max-width:769px){
-  .side-bar-wrap{
+  /*.side-bar-wrap{
     top: 151px!important;
-  }
+  }*/
   ul.noti-dropdown{
     margin-top: -140px  !important;
   }

@@ -361,7 +361,7 @@
                   <div *ngIf="paymentData.currencyCode != undefined" class="labelName d-flex">
                     <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
                     <div class="c-sign">
-                      {{paymentData.currencyCode}}
+                      {{paymentData.currencyCode | uppercase}}
                     </div>
                   </div>
                   <div *ngIf="paymentData.currencyCode == undefined" class="labelName d-flex">-</div>
@@ -509,7 +509,7 @@
                       (document:click)="closeBox($event)"> -->
                       <div class="d-flex">
                         <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
-                        <div class="c-input">{{selectedFlag}}</div>
+                        <div class="c-input">{{selectedFlag | uppercase}}</div>
                       </div>
                       <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
                     </div>
@@ -520,7 +520,7 @@
                           <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
                             <div class="currency-flag currency-flag-{{key}}"></div>
                             <div class="c-sign">
-                              {{key}}
+                              {{key | uppercase}}
                             </div>
                           </div>
                         </div>

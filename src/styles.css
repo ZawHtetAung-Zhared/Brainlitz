@@ -493,6 +493,11 @@ span.scrollup.show:hover:before {
     }
 
     .modal-inv,.modal-inv * {
-        visibility: visible; /* make visible modal body and header */
+        /* visibility: visible;  */
+        /* make visible modal body and header */
     }
+    
+    .invoice-container,.invoice-container * {
+      visibility: visible; /* make visible modal body and header */
+  }
 }
