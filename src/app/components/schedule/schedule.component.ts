@@ -31,9 +31,11 @@ export class ScheduleComponent implements OnInit {
   public arrLeft: any;
   public arrClasses: any;
   public custDetail: any = {};
-  public styleArr={top:"",left:"",right:"0"};
-  public styleArrDefault={top:"",left:"",right:""};
-  public styleArrDefault2={top:"",left:"",right:""};
+  // public styleArr={top:"",left:"",right:"0"};
+  // public styleArrDefault={top:"",left:"",right:""};
+  // public styleArrDefault2={top:"",left:"",right:""};
+  public styleArr={};
+  public styleArrDefault={};
   public selectedDay = [];
   public lessonId: any;
   public keyword: any = '';
@@ -752,55 +754,35 @@ export class ScheduleComponent implements OnInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log(this.styleArr)
-    var t;
-    var f;
-    // console.log(this.styleArrDefault)
-    // console.log(this.styleArr)
-    // if(this.styleArr != null || this.styleArr !=undefined || this.styleArr != ""){
-    //      if(this.styleArr.right=="0px" || this.styleArr.left=="0px"){
-    //       this.styleArr=this.styleArrDefault;
-    //       console.log(this.styleArr)
-    //     }
-    // }
- 
-    // console.log($(document).width())
-    // console.log(this.xPosition)
-    // console.log(this.yPosition)
-    // console.log("left>>"+$(".create-box").offset().left)
-    // console.log(event.target.left)
-    // console.log(event)
-    // console.log(this.styleArr)
-    // var mainDiv=document.getElementById("testScroll")
-    // console.log(mainDiv.offsetLeft)
-    // event.target.innerWidth;
-    this.xPosition = $(".create-box").offset().left - 150 + $(".create-box").width() / 2;
+    console.log("<><>",this.styleArrDefault)
+    if(this.styleArr != null || this.styleArr !=undefined){
+        //  if(this.styleArr.right=="0px"){
+          this.styleArr=this.styleArrDefault;
+          console.log(this.styleArrDefault)
+        // }
+    }
+
+    // this.xPosition = $(".create-box").offset().left - 150 + $(".create-box").width() / 2;
     // this.yPosition = $(".create-box").offset().top + $(".create-box").height() + 10;
     // this.arrTop = $(".create-box").offset().top + $(".create-box").height() - 10;
     // this.arrLeft = this.xPosition + 140;
 
-    if((this.styleArr.right == "0px" || this.styleArr.right == "" || this.styleArr.left =="0px" || this.styleArr.left =="") && (this.styleArrDefault.left != this.xPosition +"px" || this.styleArrDefault.right != this.xPosition+"px") && $(document).width() - this.xPosition > 300){
-      this.styleArr=this.styleArrDefault;
-      console.log("not side>"+this.styleArr)     
-    }else if( $(document).width() - this.xPosition < 300 && (this.styleArrDefault.left == this.xPosition+"px" || this.styleArrDefault.right == this.xPosition+"px")){
-      this.styleArr=this.styleArrDefault2;
-      console.log("dar not side")
-    }
-    console.log("righ>"+this.styleArrDefault.right);
-    console.log("left>"+this.styleArrDefault.left)
-    console.log(this.xPosition)
-    // if((this.styleArr.right != "0px" || this.styleArr.left !="0px")){
-    //   console.log("first")
+    // if((this.styleArr.right == "0px" || this.styleArr.right == "" || this.styleArr.left =="0px" || this.styleArr.left =="") && (this.styleArrDefault.left != this.xPosition +"px" || this.styleArrDefault.right != this.xPosition+"px") && $(document).width() - this.xPosition > 300){
+    //   this.styleArr=this.styleArrDefault;
+    //   console.log("not side>"+this.styleArr)     
+    // }else if( $(document).width() - this.xPosition < 300 && (this.styleArrDefault.left == this.xPosition+"px" || this.styleArrDefault.right == this.xPosition+"px")){
+    //   this.styleArr=this.styleArrDefault2;
+    //   console.log("dar not side")
     // }
-     if(this.styleArrDefault.left == this.xPosition+"px" || this.styleArrDefault.right == this.xPosition+"px"){
-      
-      console.log("second")
-    }
-    if(this.styleArrDefault.left != this.xPosition+"px" || this.styleArrDefault.right != this.xPosition+"px"){
-      console.log("second2")
-    }
-    // if($(document).width() - this.xPosition < 300){
-    //   console.log("third")
+  
+    // if($(document).width() - this.xPosition >4 && $(document).width() - this.xPosition < 300){
+    //   console.log("less than 300");
+    //   console.log(this.styleArrDefault2)
+    //   console.log(this.styleArr)
+    //   this.styleArr.left="";
+     
+    // }else if($(document).width() - this.xPosition <4){
+    //   console.log(this.styleArrDefault)
     // }
    
   }
@@ -1974,44 +1956,48 @@ export class ScheduleComponent implements OnInit {
         'arr-up': true
       }
     }
-    this.styleArrDefault.top=this.yPosition +"px";
-    this.styleArrDefault.left=this.xPosition+"px";
-    // this.styleArrDefault={
-    //   'top': this.yPosition + "px",
-    //   'left': this.xPosition + "px"
-    // }
+    // this.styleArrDefault.top=this.yPosition +"px";
+    // this.styleArrDefault.left=this.xPosition+"px";
+    this.styleArrDefault={
+      'top': this.yPosition + "px",
+      'left': this.xPosition + "px"
+    }
+
     if ($(document).width() - this.xPosition < 300) {
       console.log("here 1")
       this.xPosition = 0;
-      // this.styleArr = {
-      //   'top': this.yPosition + "px",
-      //   'right': '0px'
-      // }
-      this.styleArr.top=this.yPosition+"px";
-      this.styleArr.right="0px";
-      this.styleArr.left="";
-      this.styleArrDefault2=this.styleArr;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'right': '0px'
+      }
+      console.log(this.styleArrDefault)
+      // this.styleArr.top=this.yPosition+"px";
+      // this.styleArr.right="0px";
+      // this.styleArr.left="";
+      
+      // this.styleArrDefault=this.styleArr;
+      console.log(this.styleArrDefault)
     }
     else if (this.xPosition < 0) {
       console.log("here 2")
       this.xPosition = 0;
-      // this.styleArr = {
-      //   'top': this.yPosition + "px",
-      //   'left': '0px'
-      // }
-      this.styleArr.top=this.yPosition+"px";
-      this.styleArr.left="0px";
-      this.styleArr.right="";
-      this.styleArrDefault2=this.styleArr;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'left': '0px'
+      }
+      // this.styleArr.top=this.yPosition+"px";
+      // this.styleArr.left="0px";
+      // this.styleArr.right="";
+      // this.styleArrDefault2=this.styleArr;
     }
     else {
       console.log("here 3")
-      // this.styleArr = {
-      //   'top': this.yPosition + "px",
-      //   'left': this.xPosition + "px"
-      // }
-      this.styleArr.top=this.yPosition+"px";
-      this.styleArr.left=this.xPosition+"px";
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'left': this.xPosition + "px"
+      }
+      // this.styleArr.top=this.yPosition+"px";
+      // this.styleArr.left=this.xPosition+"px";
     }
     console.log("selected", this.selectedTeacher);
     console.log('selectdate', date);
@@ -2188,19 +2174,19 @@ export class ScheduleComponent implements OnInit {
 
       if ($(document).width() - this.xPosition < 420) {
         this.xPosition = 0;
-        // this.styleArr = {
-        //   'top': this.yPosition + "px",
-        //   'right': '0px'
-        // }
-        this.styleArr.top=this.yPosition+"px";
-        this.styleArr.right="0px";
+        this.styleArr = {
+          'top': this.yPosition + "px",
+          'right': '0px'
+        }
+        // this.styleArr.top=this.yPosition+"px";
+        // this.styleArr.right="0px";
       } else {
-        // this.styleArr = {
-        //   'top': this.yPosition + "px",
-        //   'left': this.xPosition + 'px'
-        // }
-        this.styleArr.top=this.yPosition+"px";
-        this.styleArr.left=this.xPosition+"px";
+        this.styleArr = {
+          'top': this.yPosition + "px",
+          'left': this.xPosition + 'px'
+        }
+        // this.styleArr.top=this.yPosition+"px";
+        // this.styleArr.left=this.xPosition+"px";
       }
     }
     this.testshowboxs = true;

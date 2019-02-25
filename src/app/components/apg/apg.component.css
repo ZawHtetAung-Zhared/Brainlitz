@@ -1593,7 +1593,7 @@ input#apg_rangeId:disabled {
 .divslider {
   display: flex;
   flex-direction: column;
-  padding-left: 22px;
+  padding-top: 30px;
 }
 
 input#apg_rangeId2:active+#arrowBox {
@@ -1912,4 +1912,56 @@ li.optionlist {
 
 .mb-90{
   margin-bottom: 90px;
+}
+
+label.minlbl {
+  text-align: center;
+  font-size: 14px;
+  color: #8fa1b3;
+}
+
+/* input:focus ~ .floating-label,
+input:not(:focus):valid ~ .floating-label {
+  top:37vh;
+} */
+
+label.floating-label {
+  position: absolute;
+  pointer-events: none;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  font-size: 14px;
+  color: #8fa1b3;
+  text-align: center;
+  margin-left: 15px;
+  margin-top: 24px;
+}
+.max-min-exp-img{
+  padding-left: 100px;
+    /* padding-top: 20px; */
+}
+
+img.arrow-img {
+  padding-left: 27px;
+}
+
+p.display-txt {
+  width: 31vh; 
+  padding-left: 9vh;
+  color: #64707d;
+  font-size: 14px;
+}
+input.min_input_show {
+  width: 41px;
+  height: 24px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border: 0px;
+  border-radius: 16px;
+  background: #ffff;
+  text-align: center;
+}
+
+.noPaddingInmax{
+  margin-top: 20px;
 }

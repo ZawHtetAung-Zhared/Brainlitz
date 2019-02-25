@@ -54,6 +54,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   existAP: boolean = false;
   templateAPG: boolean = false;
   viewType: any = 'apg';
+  maxExit:boolean=false;
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   apList: any;
@@ -769,7 +770,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             "inputType": this.selectedRadio,
             "inputTypeProperties": {
               "name": "",
-              "min": "",
+              "min": "0",
               "max": "",
               "options": [
 
@@ -2491,5 +2492,13 @@ export class ApgComponent implements OnInit, OnDestroy {
     if (event.target.value.search(/^0/) != -1) {
       event.target.value = '';
     }
+  }
+  maxFocus(e){
+    console.log("here max focus")
+    this.maxExit=true;
+  }
+  maxFocusout(e){
+    console.log("here max focus out")
+    this.maxExit=false;
   }
 }

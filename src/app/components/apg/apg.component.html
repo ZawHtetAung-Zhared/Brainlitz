@@ -410,24 +410,41 @@
               </div>
               <div class="gap-box">
                 <label class="d-flex">
+                  <div class="d-flex flex-column">
+                    <label  class="minlbl">Min</label>
+                    <input type="number" class="min_input" value="0" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min" (keypress)="numberOnly($event)" (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
   
-                  <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min" (keypress)="numberOnly($event)" (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
-  
+                  </div>
+               
                   <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
                      <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
   
-                  <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
-                    min="0" max="100" disabled=true value="0" id="apg_rangeId">
-  
-                  <div class="divslider">
-                    <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
+                  <div class="divslider" *ngIf="emptymin == false && emptymax ==false && overmin==false" > 
                     <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box"
                       min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
                       value="{{templateAccessPointGroup.data.inputTypeProperties.min}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)">
                     <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
                   </div>
-                      <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max" (keypress)="numberOnly($event)" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                  <div class="divslider" *ngIf="emptymin == true || emptymax ==true || overmin==true">
+                    <input type="range" class="max-range-box"
+                    min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                  </div>
+                      
+                  <div class="d-flex flex-column">
+                      <label class="minlbl" *ngIf="maxExit">Max</label>
+                      <label class="floating-label" *ngIf="!maxExit">Max</label>
+                      <input type="number" class="max_input" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max" (keypress)="numberOnly($event)" (focus)="maxFocus($event)" (focusout)="maxFocusout($event)" [ngClass]="{'noPaddingInmax': maxExit == false}" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                     
+                  </div>
                   </label>
+                  <div class="justify-content-between showMsg" *ngIf="emptymin == true || emptymax ==true || overmin==true"> 
+                     <img src="../../../assets/img/min-max-explain.png" class="max-min-exp-img">
+                     <img src="../../../assets/img/highlight-arrow.png" class="arrow-img">
+                  </div>
+                  <div class="d-flex flex-column" *ngIf="emptymin == true || emptymax ==true || overmin==true" style="height:200px;">
+                    <p class="display-txt">Add your <input type="text" class="min_input_show" value="Max"> number to ready the slider.</p>
+                     <p class="display-txt">Min number is on us. You can adjust Max and Min numbers to whaterever you want.</p>
+                  </div>
                 </div>
               <!-- <div class="gap-box">
                 <label class="d-flex">
