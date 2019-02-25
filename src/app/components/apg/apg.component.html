@@ -103,8 +103,14 @@
         </div>
         <div class="d-flex justify-content-between btn-section">
           <div>
-            <span *ngIf="apg.share.status== false"><img src="../../../assets/images/shared.png " alt=""></span>
-            <button class="apg-share remove-outline" (click)="apgPublicShare(apg._id)">Share</button>
+            <div *ngIf="tempSharedApgId == apg._id && apg.share.status== true " class="status-wrapper-share ml-2" [ngClass]="{'apg-status': apg.share.status== true}">
+              <span *ngIf="apg.share.status== true"><img src="../../../assets/images/shared.png " alt=""></span>
+            </div>
+            <div *ngIf="tempSharedApgId != apg._id && apg.share.status== true " class="status-wrapper ml-2">
+              <span *ngIf="apg.share.status== true"><img src="../../../assets/images/shared.png " alt=""></span>
+            </div>
+            <span *ngIf="apg.share.status== true"> <ul class="bullet-list-style"><li></li></ul> </span>
+            <button class="apg-share remove-outline" [ngClass]="{'apg-share-padding': apg.share.status== true}" (click)="apgPublicShare(apg._id)">Share</button>
           </div>
           <div>
             <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id,apg)">Edit</button> | <button

@@ -1,7 +1,7 @@
 import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { DragScrollModule } from 'ngx-drag-scroll';
-import { Component, OnInit, ViewContainerRef, HostListener, style, DoCheck, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, DoCheck, OnDestroy   } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { apgField } from './apg';
@@ -14,7 +14,6 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 import { Router } from '@angular/router';
-
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 import { csLocale } from 'ngx-bootstrap';
@@ -23,10 +22,11 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 @Component({
   selector: 'app-apg',
   templateUrl: './apg.component.html',
-  styleUrls: ['./apg.component.css']
+  styleUrls: ['./apg.component.css'],
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
+  public tempSharedApgId:any;
   public valueArray :any= [];
   public tempRadioType: any;
   public valid: boolean;
@@ -669,6 +669,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   addNewAPG() {
+    this.tempSharedApgId = '';
     localStorage.removeItem('moduleID');
     this.ischecked = '';
     this.model = {};
@@ -2123,7 +2124,6 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.dataApgList = this.dataApgList.concat(res);
           this.apgList = this.dataApgList;
         }
-
         for(var i=0;i<this.apgList.length;i++){
           if(this.apgList[i].module.name == 'Assessment' || this.apgList[i].module.name == 'Evaluation'){
             for(var j=0;j<this.apgList[i].accessPoints.length;j++){
@@ -2240,7 +2240,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     let data = {
       'name': apgName,
     }
-    console.log(data)
+    this.tempSharedApgId = id;
+    console.log(data,id)
     this.blockUI.start('Loading...');
     this._service.convertApgTemplate(id, data).subscribe((res: any) => {
       console.log(res)
@@ -2258,7 +2259,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     this._service.updateSingleTemplate(this.regionID, data)
       .subscribe((res: any) => {
         console.log(res)
-        this.getAllTemplate(20, 0);
+        this.clearAPGTypeArr();
+        this.getAllAPG(20, 0);
         this.toastr.success('Successfully shared to public.');
         this.blockUI.stop();
       }, err => {
