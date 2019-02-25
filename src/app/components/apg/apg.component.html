@@ -340,7 +340,7 @@
             <div class="radio-group">
               <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
 
-              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'NUMBER'" (click)="radioSelect('NUMBER')" [disabled]="iscreate == true && isUpdate == true && selectedRadio != 'NUMBER'">
+              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'NUMBER'" (click)="radioSelect('NUMBER')" [disabled]="iscreate == true && isUpdate == true">
                 <div class="radio-wrapper">
                   <div class="label-checked"></div>
 
@@ -353,7 +353,7 @@
 
 
               <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')"> -->
-              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'RANGE'" (click)="radioSelect('RANGE')" [disabled]="iscreate == true && isUpdate == true && selectedRadio != 'RANGE'">
+              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'RANGE'" (click)="radioSelect('RANGE')" [disabled]="iscreate == true && isUpdate == true">
                 <div class="radio-wrapper">
                   <div class="label-checked"></div>
 
@@ -363,7 +363,7 @@
                   <div class="huey-child">Number</div>
                 </div>
               </button>
-              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'RADIO'" (click)="radioSelect('RADIO')" [disabled]="iscreate == true && isUpdate == true && selectedRadio != 'RADIO'">
+              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'RADIO'" (click)="radioSelect('RADIO')" [disabled]="iscreate == true && isUpdate == true">
                 <div class="radio-wrapper">
                   <div class="label-checked"></div>
                   <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
