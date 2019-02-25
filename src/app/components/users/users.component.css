@@ -2255,6 +2255,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .eachJournl {
   padding-top: 24px;
+  margin-right: unset;
 }
 
 .journal-detail {
@@ -2506,4 +2507,13 @@ input[_ngcontent-c1]:focus {
   }
   .notfilled{
     color: #788798!important;
+  }
+
+  .bull-shit-gp{
+    overflow: overlay;
+    height: 71vh;
+  }
+  .jouranlModal .modal-content{
+    height: 90vh;
+
   }
