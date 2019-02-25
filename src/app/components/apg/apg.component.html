@@ -102,7 +102,16 @@
           </div>
         </div>
         <div class="d-flex justify-content-between btn-section">
-          <button class="apg-share remove-outline" (click)="apgPublicShare(apg._id)">Share</button>
+          <div>
+            <div *ngIf="tempSharedApgId == apg._id && apg.share.status== true " class="status-wrapper-share ml-2" [ngClass]="{'apg-status': apg.share.status== true}">
+              <span *ngIf="apg.share.status== true"><img src="../../../assets/images/shared.png " alt=""></span>
+            </div>
+            <div *ngIf="tempSharedApgId != apg._id && apg.share.status== true " class="status-wrapper ml-2">
+              <span *ngIf="apg.share.status== true"><img src="../../../assets/images/shared.png " alt=""></span>
+            </div>
+            <span *ngIf="apg.share.status== true"> <ul class="bullet-list-style"><li></li></ul> </span>
+            <button class="apg-share remove-outline" [ngClass]="{'apg-share-padding': apg.share.status== true}" (click)="apgPublicShare(apg._id)">Share</button>
+          </div>
           <div>
             <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id,apg)">Edit</button> | <button
               class="btn-action remove-outline" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
@@ -457,7 +466,7 @@
                       <img class="move-sign" *ngIf="valueArray.length == 1" src="../../../assets/images/single-holder.svg"
                         style="pointer-events: none">
                     </span>
-                    <div class="form-group">
+                    <div class="form-group input-wrapper" id="data-input{{i}}">
                       <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="dataValue.name"
                         name="{{'dataValue'+ i}}" id="{{'valueInput'+i}}" autocomplete="off" required>
                     </div>
