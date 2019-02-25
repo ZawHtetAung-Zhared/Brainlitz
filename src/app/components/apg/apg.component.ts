@@ -630,6 +630,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.formObj = {};
     // for tempValue
     this.tempRadioType = '';
+    this.idArr = []; 
   }
   // cancelAp() {
   //   this.apgList = [];
@@ -1227,55 +1228,98 @@ export class ApgComponent implements OnInit, OnDestroy {
   callEditAPI() {
 
   }
+
   // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
+  idArr=[];
   editAccessmentApg() {
-    let createdDataCollection = [];
-    let editedDataCollection = [];
-    this.model.accessPoints = [];
-    this.templateAccessPointGroup.forEach((item, index) => {
-      if (item._id) {
-        // Push the item to editedDataCollection Array
-        let identical = JSON.stringify(item) === JSON.stringify(JSON.parse(this.accessPointArrayString));
-        console.log(item)
-        this.model.accessPoints.push(item._id)
-        console.log(this.templateAccessPointGroup)
-        console.log(JSON.parse(this.accessPointArrayString))
-        if (!identical) {
-          editedDataCollection.push(item);
-          console.log(editedDataCollection)
-          // this.updateAp(item._id,item,this.model._id)
-        }
-      } else {
-        // Push the item to createdDataCollection Array
-        createdDataCollection.push(item);
+    var id;
+    console.log("templateAPGroup",this.templateAccessPointGroup)
+    console.log("testArr",this.testArr)
+    return new Promise((resolve,reject)=>{
+      this.templateAccessPointGroup.forEach((item,index)=>{
+        console.log(item,index)
+        setTimeout(()=>{
+          if(item._id == undefined){
+            this.createAPonly(item,this.model.moduleId)
+          }else{
+            console.log("update ap");
+            this.updateAPOnly(item._id,item);
+            this.idArr.push(item._id)
+          }
+        },200)
+        
+      })
+      resolve();
+    }).then(()=>{
+      console.log("idArr",this.idArr);
+      setTimeout(()=>{
+        this.updateEVApgOnly(this.idArr)
+      },1000)
+      // this.updateEVApgOnly(idArr)
+    })
+    
+    
+  }
+
+  updateAPOnly(apId, ap){
+    console.log("update AP only",ap)
+    var editap = {};
+    editap["name"] = ap.name;
+    editap["description"] = ap.description;
+    editap["moduleId"] = ap.moduleId;
+    editap["data"] = {
+      "evaluation": {
+        "allowZero": ap.data.evaluation.allowZero,
+        "passMark": ap.data.evaluation.passMark,
+        "details": ap.data.evaluation.details
       }
+    }
+    console.log(editap)
+    this._service.updateAP(this.regionID, apId, editap)
+    .subscribe((res: any) => {
+      console.log(res)
+    }, err => {
+      console.log(err)
     });
+  }
 
-
-    // Loop the CreatedDataCollection and call APIs
-    if (createdDataCollection.length) {
-      this.insertAP(createdDataCollection).then((createdIdCollection) => {
-        // Continue to edit the Main Block
-        let accessPoints = this.model['accessPoints'];
-        this.model['accessPoints'] = accessPoints.concat(createdIdCollection);
-        this._service.updateAPG(this.regionID, this.model._id, this.model, null)
-          .subscribe((res: any) => {
-            this.cancelapg();
-          }), err => {
-            console.log("Error in Access Point updating")
-          };
-      }).catch((error) => {
-        console.log("Catching AccessPoint App Error", error);
-      });
+  createAPonly(ap,moduleId){
+    console.log('Create Ap',ap)
+    var createap = {};
+    createap["name"] = ap.name;
+    createap["description"] = ap.description;
+    createap["moduleId"] = moduleId;
+    createap["data"] = {
+      "evaluation": {
+        "allowZero": ap.data.evaluation.allowZero,
+        "passMark": ap.data.evaluation.passMark,
+        "details": ap.data.evaluation.details
+      }
     }
-    if (editedDataCollection.length) {
-      this.updateFunction(editedDataCollection).then((item) => {
-        console.log(item, 'success')
-      }).catch((error) => {
-        console.log("Catching AccessPoint App Error", error);
-      });
-    }
+    console.log(createap)
+    this._service.createAP(this.regionID, this.locationID, createap)
+    .subscribe((res:any)=>{
+      console.log(res);
+      this.idArr.push(res._id)
+    },err =>{
+      console.log(err)
+    })
+  }
 
+  updateEVApgOnly(idArray){
+    setTimeout(()=>{
+      console.log("UPDATE")
+      console.log(idArray)
+      this.model.accessPoints =idArray;
+      this._service.updateAPG(this.regionID,this.model._id,this.model,null)
+      .subscribe((res:any)=>{
+        console.log(res)
+        this.cancelapg();
+      },err => {
+        console.log(err)
+      })
+    },200)
+    
   }
 
   createEvaluateApgs(nameparam) {
@@ -1518,6 +1562,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(apgID)
     this.singleAPG(apgID, 'share');
   }
+  testArr:any = [];
   onclickUpdate(id, apgName) {
     console.log(id)
     this.apgList = [];
@@ -1578,6 +1623,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           })
         }
         this.accessPointArrayString = JSON.stringify(dataCollection);
+        this.testArr = dataCollection;
         console.log(apgName.module.name)
         if(apgName.module.name.toLowerCase() == ('assessment' || 'evaluation')){
           console.log("evaluation~~~")
