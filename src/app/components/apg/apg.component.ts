@@ -26,6 +26,7 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
+  public tempDataValue:any;
   public tempSharedApgId:any;
   public valueArray :any= [];
   public tempRadioType: any;
@@ -371,12 +372,13 @@ export class ApgComponent implements OnInit, OnDestroy {
             var windowHeight = $(window).height()
             if ($(".gu-mirror").position() && container) {
               var y = $(".gu-mirror").position().top;
+              console.warn(y);
               if (y  > 900) {
-                var x =+ 3
+                var x = 5
                 window.scrollBy(0, x);
               } else if ( y < 900) {
                 console.log('s');
-                var z =- 3
+                var z = -3
                 window.scrollBy(0, z);
 
               }
@@ -696,7 +698,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     return index;
   }
   addDataValue(data, i) {
-   
+    this.tempDataValue = data
     const newValue = ""
     const newObj = {'name' : ''}
     this.valueArray.push(newObj)
@@ -704,7 +706,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     // this.optionsArray.push(newValue)
     document.addEventListener("click", this.testFunct = () => {
-      if(data== 'newData'){
+      if(this.tempDataValue== 'newData'){
         var windowHeight = $( document ).height();
         window.scrollBy({
           top:  window.innerHeight,
@@ -719,6 +721,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       var a=  this.valueArray.length - 1 
       console.log(a);
       document.getElementById("valueInput"+a).focus();
+      this.tempDataValue = '';
     }, 300);
   }
   dataValueClear(item, e?) {
