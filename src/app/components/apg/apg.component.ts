@@ -372,7 +372,6 @@ export class ApgComponent implements OnInit, OnDestroy {
               var y = $(".gu-mirror").position().top;
               if (y  > 900) {
                 var x =+ 3
-                
                 window.scrollBy(0, x);
               } else if ( y < 900) {
                 console.log('s');
@@ -702,6 +701,18 @@ export class ApgComponent implements OnInit, OnDestroy {
     // this.convertObjToArray()
     // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
     // this.optionsArray.push(newValue)
+    document.addEventListener("click", this.testFunct = () => {
+      if(data== 'newData'){
+        var windowHeight = $( document ).height();
+        window.scrollBy({
+          top:  window.innerHeight,
+          left: 0,
+          behavior: 'smooth'
+        })
+        console.log(windowHeight);
+
+      }
+    }, false);
     setTimeout(() => {
       var a=  this.valueArray.length - 1 
       console.log(a);
