@@ -24,6 +24,8 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public reasonValue:any;
+  public textAreaOption = false;
   public attendenceButton:any;
   public optionBox:any = false;
   public stdLists: Array<any> = []
@@ -1804,10 +1806,13 @@ export class CourseComponent implements OnInit {
   cancelClass(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
   }
-
+  showTextarea(){
+    this.textAreaOption = true;
+  }
   cancelClassFun( lessonId){
     let data = {
-      "lessonId": lessonId
+      "lessonId": lessonId,
+      "message" : this.reasonValue
     }
     console.log(lessonId)
     console.log(this.isGlobal)
@@ -1824,6 +1829,7 @@ export class CourseComponent implements OnInit {
       this.isGlobal = false;
       this.disableCancel = true;
       this.getCourseDetail(this.courseId);
+      this.modalClose()
       // Close Dialog box
       // Show the canceled users
     },err => {
@@ -1832,7 +1838,6 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    this.modalReference.close();
     this.cancelUItext= false;
   }
 
@@ -1840,6 +1845,7 @@ export class CourseComponent implements OnInit {
     this.isGlobal = false;
     this.cancelUItext= false;
     this.cancelUI=false;
+    this.reasonValue= '';
     this.modalReference.close();
     // this.currentDateObj = '';
   }
