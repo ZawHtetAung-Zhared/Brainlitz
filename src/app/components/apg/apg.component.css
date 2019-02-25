@@ -1988,8 +1988,8 @@ label.floating-label {
   font-size: 14px;
   color: #8fa1b3;
   text-align: center;
-  margin-left: 15px;
-  margin-top: 24px;
+  margin-left: 16px;
+  margin-top: 33px;
 }
 .max-min-exp-img{
   padding-left: 100px;
@@ -2018,5 +2018,5 @@ input.min_input_show {
 }
 
 .noPaddingInmax{
-  margin-top: 20px;
+  margin-top: 28px;
 }
