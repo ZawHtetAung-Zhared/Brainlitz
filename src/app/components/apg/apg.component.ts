@@ -1576,6 +1576,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   testArr:any = [];
   onclickUpdate(id, apgName) {
     console.log(id)
+    this.maxExit=true;
     this.apgList = [];
     this.iscreate = true;
     this.isUpdate = true;
