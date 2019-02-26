@@ -16,7 +16,7 @@
 	background: #fff;
   color: #0080ff;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .load-more button:focus{
 	outline: none;
@@ -24,7 +24,7 @@
 .limit-word{
   display: none;
   font-size: 14px;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif !important;
   color: #0080ff;
   position: absolute;
   top: -26px;
@@ -129,7 +129,7 @@ header{
 
 h3.category-h3,
 .category-h5{
-	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
+	font-family: 'Inter-UI-Semibold', Arial,sans-serif;	
 	color: #2f3d4c;
 }
 .d-wrapper {   
@@ -225,7 +225,7 @@ h3.category-h3{
 
 
 .back-to{
-	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-family: 'Inter-UI-Medium', Arial,sans-serif;
 	font-size: 16px;
     color: #2e3d4d !important;
 	padding-left: 0 !important;
@@ -253,7 +253,7 @@ h3.category-h3{
 .category-done {
     padding: 7px 30px;
     width: 105px;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 .category-edit1,
 .category-edit:hover {
