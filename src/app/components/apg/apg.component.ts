@@ -1639,7 +1639,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.accessPointArrayString = JSON.stringify(dataCollection);
         this.testArr = dataCollection;
         console.log(apgName.module.name)
-        if(apgName.module.name.toLowerCase() == ('assessment' || 'evaluation')){
+        if(apgName.module.name.toLowerCase() == 'assessment' || apgName.module.name.toLowerCase() == 'evaluation'){
           console.log("evaluation~~~")
           setTimeout(() => {
             this.scrollCalculationAfter(this.templateAccessPointGroup)

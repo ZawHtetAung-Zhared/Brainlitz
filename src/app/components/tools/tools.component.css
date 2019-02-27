@@ -1,5 +1,5 @@
 .location-name{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   color: #0080ff;
   line-height: 0.5;
   position: relative;
@@ -43,12 +43,12 @@
 .load-more button{
   color: #0080ff;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 
 .sub-title{
   color: #2e3e4d;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   font-size: 18px;
   margin-top: 32px;
 }
@@ -72,7 +72,7 @@ ul.noti-dropdown li{
   color: #2e3d4d;
   border-top: 1px solid #e3e4e6;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   padding: 16px 0;
   margin-right: 20px;
 }
@@ -114,7 +114,7 @@ img.setting-icon {
 }
 .single-noti span {
     font-weight: bold;
-    font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+    font-family: 'Inter-UI-Regular','Arial', sans-serif !important;
     font-size: 1.1em;
     color: #060606;
 }
@@ -156,7 +156,7 @@ img.setting-icon {
 	font-size: 16px;
 	flex: auto;
 	text-align: center;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }
 .tool-checked:last-child label{
 	/*border-right: 1px solid #0080ff;*/
@@ -181,7 +181,7 @@ img.setting-icon {
 	color: #fff !important;	
 }
 .lable-title{
-	font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+	font-family: 'Inter-UI-Semibold','Arial', sans-serif !important;
   font-size: 18px;
   color: #2e3e4d;
 }
@@ -189,7 +189,7 @@ img.setting-icon {
 .limit-word1{
   display: none;
   font-size: 14px;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif !important;
   color: #0080ff;
 }
 .input-wrap .form-group{
@@ -199,7 +199,7 @@ img.setting-icon {
     background: #f7f9fa;
 }
 .input-create{
-  font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Regular','Arial', sans-serif !important;
   border-radius: .25rem;
   border: none;
   margin-bottom: 15px;
@@ -214,7 +214,7 @@ img.setting-icon {
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
 .active-user-form label{
-  font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Semibold','Arial', sans-serif !important;
   font-size: 16px;
   color: #2e3e4d;
 }
@@ -241,7 +241,7 @@ img.setting-icon {
 .title-heading{
 	font-size: 27px;
   padding-left: 15px;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   color: #2e3e4d;
   margin-bottom: 0;
   display: table;
@@ -279,7 +279,7 @@ img.setting-icon {
 	/*min-height: 48px;*/
 	min-width: 22px;
   color: #009940;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 .choose-cat{	
 	/*width: 95.5% !important;*/
@@ -353,7 +353,7 @@ img.setting-icon {
 	border-radius: 0;
 	outline: none;
 	border-left: 3px solid transparent;
-	font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+	font-family: 'Inter-UI-Semibold','Arial', sans-serif !important;
   color: #2e3e4d;
   font-size: 16px;
   -ms-transition: padding-top 300ms linear;
@@ -373,7 +373,7 @@ img.setting-icon {
   margin-bottom: 0;
   font-size: 16px;
   color: #2e3e4d;
-  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+  font-family: 'Inter-UI-SemiBold','Arial', sans-serif;
 }
 .radio-switch {
   position: relative;
@@ -519,7 +519,7 @@ input:checked + .slider:before {
 .title-padding{
 	padding-left: 15px;
 	color: #2f3d4c;
-    font-family: 'Montserrat-Medium';
+    font-family: 'Inter-UI-Medium';
     position: relative;
     z-index: 9;
     background: #FFF;
@@ -536,9 +536,9 @@ input:checked + .slider:before {
 }
 .sentTime{
 	/*color: #788795;
-    font-family: 'Montserrat-Regular';*/
+    font-family: 'Inter-UI-Regular';*/
     color: #64707c;
-    font-family: 'Montserrat-medium';
+    font-family: 'Inter-UI-medium';
     position: relative;
     z-index: 9;
 }
@@ -582,14 +582,14 @@ input:checked + .slider:before {
     font-size: 12px;
     margin-left: 10px;
     color: #717c87;
-    font-family: Montserrat-Regular;
+    font-family: Inter-UI-Regular;
     border-radius: 4px;
 }
 .subject-wrap{
 	background: #f2f4f5;
     color: #64707c;
     font-size: 14px;
-    font-family: 'Montserrat-Regular';
+    font-family: 'Inter-UI-Regular';
     border-radius: 8px;
 }
 .noti-subject{
@@ -598,7 +598,7 @@ input:checked + .slider:before {
 .noti-title{
 	/*color: #525e6a;*/
 	/*color: #788795;*/
-    font-family: 'Montserrat-Medium';
+    font-family: 'Inter-UI-Medium';
     font-size: 16px;
     margin-bottom: 0.7rem;
 }
@@ -608,7 +608,7 @@ input:checked + .slider:before {
     padding-top: 10px;
     font-size: 13px;
     height: 35px;
-    font-family: 'Montserrat-Regular';
+    font-family: 'Inter-UI-Regular';
 }
 .sender-info span{
 	color: #66727e;
@@ -619,12 +619,12 @@ input:checked + .slider:before {
 }
 #senderName{
 	color: #2f3d4c;
-	font-family: 'Montserrat-Medium';
+	font-family: 'Inter-UI-Medium';
 }
 .same-label{
 	height: 17px;
     font-size: 13px;
-    font-family: Montserrat-Regular;
+    font-family: Inter-UI-Regular;
     color: #838d96;
 }
 /*testing timeline*/
@@ -666,7 +666,7 @@ input:checked + .slider:before {
     background: #fff;
 }
 .group-type{
-	font-family: Montserrat-Medium;
+	font-family: Inter-UI-Medium;
     color: #2f3d4c;
 }
 /*testing timeline*/
@@ -820,7 +820,7 @@ width: 50%;
   padding: 8px 20px;
   border-radius: 25px;
   color: #64707d;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   font-size: 14px;
   margin-top: 0px;
   margin-right: 10px;
@@ -857,7 +857,7 @@ width: 50%;
 .input-recommend{
     font-size: 14px;
     color: #64707d;
-    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold',Arial,sans-serif;
     padding-left: 15px;
     padding-top: 15px;
     margin: 0;

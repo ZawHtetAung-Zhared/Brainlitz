@@ -19,7 +19,7 @@
 .load-more button{
   color: #0080ff;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 
 .overlay {
@@ -42,12 +42,12 @@
 .btnC,
 .edit-calnedar-btn,
 ul.calendar-year li{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .title-heading,
 .single-calendar h4,
 .input-label{
-	font-family: 'Montserrat-Semibold',Arial,sans-serif;
+	font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 
 .title-heading{
@@ -59,7 +59,7 @@ ul.calendar-year li{
     margin-top: 23px;
 }
 .btn-create{
-  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif;
   color: #fff;
   background-color: #1682fb;
   border: none;
@@ -138,7 +138,7 @@ ul.calendar-year li:first-child{
     padding: 23px 15px 15px;
 }
 .back-to{
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     color: #2e3d4d !important;
     padding-left: 0 !important;
     cursor: pointer;
@@ -163,7 +163,7 @@ ul.calendar-year li:first-child{
 }
 .btn-submit,
 .btn-cancel{
-    font-family: 'Montserrat-Medium','Arial', sans-serif;
+    font-family: 'Inter-UI-Medium','Arial', sans-serif;
     border: none;
     height: 45px;
     border-radius: 3px;
@@ -192,7 +192,7 @@ ul.calendar-year li:first-child{
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
 .create-input{
-    font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+    font-family: 'Inter-UI-Regular','Arial', sans-serif !important;
     border-radius: .25rem;
     border: none;
     margin-bottom: 15px;
@@ -237,7 +237,7 @@ ul.calendar-year li:first-child{
 	flex: auto;
 	text-align: center;
   width: 72px;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
   cursor: pointer;
 }
 .tool-checked.selected,
@@ -370,7 +370,7 @@ ul.calendar-year li:first-child{
 .btn-edit{
   font-size: 14px;
     color: #ff9500;
-    font-family: 'Montserrat-Medium','Arial', sans-serif;
+    font-family: 'Inter-UI-Medium','Arial', sans-serif;
 }
 .circle1{
   border: 2px solid #007fff;
@@ -452,7 +452,7 @@ ul.calendar-year li:first-child{
 }
 .btn-span{
   color: #0080ff!important;
-  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+  font-family: 'Inter-UI-SemiBold','Arial', sans-serif;
   font-size: 16px;
 }
 
@@ -555,7 +555,7 @@ ul.calendar-year li:first-child{
   padding: 10px 0px;
   background: #fff;
   color: #ff3d33;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   font-size: 16px;
 }
 .text-container {
@@ -585,7 +585,7 @@ ul.calendar-year li:first-child{
 .span-dash{
   font-size: 18px;
   color: #788796;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   line-height: 2.2;
   padding: 0px 10px;
 }
@@ -599,7 +599,7 @@ ul.calendar-year li:first-child{
 .input-recommend{
     font-size: 14px;
     color: #64707d;
-    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold',Arial,sans-serif;
     padding-left: 15px;
 }
 

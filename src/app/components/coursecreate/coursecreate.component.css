@@ -49,13 +49,13 @@ input:-webkit-input-placeholder {
     font-size: 10px !important;
 }
 .font-medium{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .font-semi{
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 textarea, input, select,.font-regular {
-  font-family: "Montserrat-Regular", Arial,sans-serif;
+  font-family: "Inter-UI-Regular", Arial,sans-serif;
 }
 header div{
   height: 1.4rem;
@@ -143,11 +143,11 @@ header div{
 }
 
 .step-font, .txt-default, .small-caption {
-  font-family: 'Montserrat-SemiBold', Arial,sans-serif; 
+  font-family: 'Inter-UI-SemiBold', Arial,sans-serif; 
   color: #64707d;
 }
 .all-title-font {
-  font-family: "Montserrat-SemiBold",Arial,sans-serif;
+  font-family: "Inter-UI-SemiBold",Arial,sans-serif;
   color: #2e3e4d;
   font-size: 18px;
 }
@@ -206,13 +206,13 @@ header div{
 .input-day,.input-lesson {
   /*color: #2e3d4d;*/
   /*font-size: 16px; 
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;*/
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;*/
 }
 
 /*.input-day::placeholder,.input-lesson::placeholder{
   color: #2e3d4d;
   font-size: 16px;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }*/
 .msg{
   color: #2e3d4d;
@@ -1071,7 +1071,7 @@ button:disabled {
   text-align: center;
   font-size: 0.8rem;
   line-height: 1.8;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .skip-arrow:before{
   width: 0;

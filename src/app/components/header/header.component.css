@@ -33,7 +33,7 @@
 
   width: 100%;
   background: #fff;
-  font-family: Montserrat-Regular;
+  font-family: Inter-UI-Regular;
   /*z-index: 99;
   position: fixed;
   top: 0;*/
@@ -51,7 +51,7 @@
 	margin: -12px;
   color: #465360;
   font-size: 18px;
-  font-family: 'Montserrat-Regular', Arial,sans-serif !important;
+  font-family: 'Inter-UI-Regular', Arial,sans-serif !important;
 }
 
 #inputState:focus {
@@ -77,7 +77,7 @@ select {
 
 .location-label{
   color: #76818b;
-  font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif !important;
 }
 
 .menu-border{
@@ -117,7 +117,7 @@ select {
 }
 
 .dropdown-wrap{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   color: #2e3d4d;
 }
 .dropdown-arrow {
@@ -242,7 +242,7 @@ ul.nav-style li a{
   color: #2e3d4d;
   padding-bottom: 0;
   border-bottom: 2px solid transparent;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif !important;
   font-size: 18px;
 }
 ul.nav-style li:hover a{

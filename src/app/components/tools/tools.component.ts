@@ -26,6 +26,7 @@ export class ToolsComponent implements OnInit {
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
+  public checkActive = true;
   public isMidStick:boolean = false;
   public isSticky:boolean = false;
   public isFixed: boolean = true;
@@ -216,6 +217,7 @@ export class ToolsComponent implements OnInit {
   changeSearch(searchWord, type){
     console.log(searchWord)
     console.log(this.active)
+    this.checkActive = true;
     this.isSelected = false;
     this.selectedID = (this.isSelected == false) ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
@@ -297,6 +299,7 @@ export class ToolsComponent implements OnInit {
 
   selectData(id, name, type){
     console.log(id,name,type)
+    this.checkActive = true;
     console.log('~~~~~', this.active.length)
     this.isSelected = true;
     this.selectedID = id;
@@ -315,15 +318,16 @@ export class ToolsComponent implements OnInit {
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
-      "option": type
+      "option": type,
+      "active" : this.checkActive
     }
     dataObj["id"] = this.selectedID;
-    if(this.active.length != 0){
-      dataObj["active"] = true;
-      console.log('active true')
-    }else{
-      console.log('[]')
-    }
+    // if(this.active.length != 0){
+    //   dataObj["active"] = true;
+    //   console.log('active true')
+    // }else{
+    //   console.log('[]')
+    // }
     
     console.log('=====',dataObj)
     this._service.userCount(dataObj)
@@ -439,7 +443,8 @@ export class ToolsComponent implements OnInit {
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
-      "option": 'allcustomer'
+      "option": 'allcustomer',
+      "active" : this.checkActive
     }
     console.log(dataObj)
     setTimeout(()=>{ 
@@ -473,16 +478,19 @@ export class ToolsComponent implements OnInit {
   }
 
   somethingChanged(type){
+    this.checkActive = true
     this.tempList = [];
     this.active = [];
     this.selectedID = undefined
     console.log('what', type)
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
+    console.error(this.checkActive);
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
-      "option": type
+      "option": type,
+      "active" :this.checkActive
     }
 
     console.log(dataObj)
@@ -547,35 +555,38 @@ export class ToolsComponent implements OnInit {
     console.log(e)
     console.log('~~~' ,this.isChecked)
     console.log('~~~' ,this.selectedID)
+    this.checkActive = !this.checkActive;
     this.locationId = localStorage.getItem('locationId');
     let dataObj = {
       "regionId": this.regionID,
       "locationId": this.locationId,
-      "option": this.isChecked
+      "option": this.isChecked,
+      "active": this.checkActive
     }
 
     if(this.selectedID != undefined){
       dataObj["id"] = this.selectedID;
     }
-
+    this.userCountCalc(dataObj);
     var val = type;
-    if(this.active.includes(val) == false){
-      this.active.push(val)
-    }else{
-      val = [val]
-      this.active =this.active.filter(f => !val.includes(f));
-    }
-    console.log(this.active)
-    if(this.active.length != 0){
-      console.log('no zero')
-      dataObj["active"] = true;
-      console.log(dataObj)
-      this.userCountCalc(dataObj);
-    }else{
-      console.log('length is zero')
-      console.log(dataObj)
-      this.userCountCalc(dataObj);
-    }
+    // if(this.active.includes(val) == false){
+    //   this.active.push(val)
+    // }else{
+    //   val = [val]
+    //   this.active =this.active.filter(f => !val.includes(f));
+    //   console.error(val);
+    //   console.warn(this.active);
+    // }
+    // if(this.active.length != 0){
+    //   console.log('no zero')
+    //   dataObj["active"] = true;
+    //   console.log(dataObj)
+    //   this.userCountCalc(dataObj);
+    // }else{
+    //   console.log('length is zero')
+    //   console.log(dataObj)
+    //   this.userCountCalc(dataObj);
+    // }
   }
 
   userCountCalc(obj){
