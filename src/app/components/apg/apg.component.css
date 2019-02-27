@@ -395,6 +395,10 @@ div.ap-wrapper:last-child {
   border-bottom: none;
 }
 
+.changeColor{
+  color: #0080ff!important;
+}
+
 .hide-border {
   border-bottom: none!important;
 }
