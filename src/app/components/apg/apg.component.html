@@ -60,7 +60,7 @@
               <div class="ap-wrapper" *ngFor="let ap of apg.accessPoints; let ind = index">
                 <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
                 <div class="d-flex flex-row justify-content-between">
-                  <p class="mb-0 ev-apgName" [ngClass]="{'hangeColor': ap.isExpand}">{{ap.name}}</p>
+                  <p class="mb-0 ev-apgName" [ngClass]="{'changeColor': ap.isExpand}">{{ap.name}}</p>
                   <span class="lists-down-arrow" [ngClass]="{'transform-y': ap.isExpand}" (click)="expandAccessPoint(i,ind,'apg')">
                     <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
                   </span>
@@ -727,7 +727,7 @@
                 <div class="accesspoint-name-wrapper">
                   <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
                     <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
-                      <span>{{accessPoint.name}}</span>
+                      <span [ngClass]="{'changeColor': accessPoint.isExpand}">{{accessPoint.name}}</span>
                       <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind)">
                         <i class="fa fa-angle-down" style="font-size: 25px;"></i>
                         <!-- <img src="../../../assets/images/system-icons-down.png"> -->
@@ -766,7 +766,7 @@
                 <div class="accesspoint-name-wrapper">
                   <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
                     <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
-                      <span>{{accessPoint.name}}</span>
+                      <span [ngClass]="{'changeColor': accessPoint.isExpand}">{{accessPoint.name}}</span>
                       <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i2+ half,ind)">
                         <i class="fa fa-angle-down" style="font-size: 25px;"></i>
                         <!-- <img src="../../../assets/images/system-icons-down.png"> -->
