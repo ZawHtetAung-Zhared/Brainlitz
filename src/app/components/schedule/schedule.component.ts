@@ -1221,7 +1221,13 @@ export class ScheduleComponent implements OnInit {
             if (this.tempSelectedTeacher == null) {
               this.selectedTeacher = this.staffList.staff[0];
             }
-          } else {
+          }else if(type == 'aa'){
+            this.selectedTeacher = this.tempSelectedTeacher
+            console.log('selected teacher');
+            console.error(this.selectedTeacher);
+            console.error(this.tempSelectedTeacher);
+          }
+           else {
             if (this.staffList.staff) {
               this.tempSelectedTeacher = null;
               this.selectedTeacher = this.staffList.staff[0];
@@ -1231,7 +1237,8 @@ export class ScheduleComponent implements OnInit {
           if (JSON.stringify(this.selectedTeacher) != "{}") {
             this.getStaffTimetable(this.selectedTeacher.userId, repeatDays)
           }
-        } else {
+        }
+         else {
           console.log("no need to call staff timttable")
         }
         // setTimeout(() => {
@@ -1409,13 +1416,17 @@ export class ScheduleComponent implements OnInit {
   }
   activeTeachers1(teacher) {
     this.keyword = '';
-    if (this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length) {
-      this.getschedulestaff('checkbox', this.tempstafflist.length, '0');
-    }
+    console.warn('object');
+    this.selectedTeacher = teacher
+    this.tempSelectedTeacher = teacher;
+    console.error(teacher);
+    console.error(this.selectedTeacher);
+    this.selectedTeacher.userId = teacher.userId;
+ 
     setTimeout(() => {
-      this.selectedTeacher = teacher
-      this.tempSelectedTeacher = teacher;
-      this.selectedTeacher.userId = teacher.userId;
+      if (this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length) {
+        this.getschedulestaff('aa', this.tempstafflist.length, '0');
+      }
       if (this.tempstafflist) {
         $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
       } else {
@@ -1425,7 +1436,6 @@ export class ScheduleComponent implements OnInit {
       this.tempstafflist = [];
       this.modalReference.close();
     }, 400)
-
   }
 
   addEnrollModal(modal, type, courseID, seat) {
