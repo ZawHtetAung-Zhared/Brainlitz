@@ -25,7 +25,7 @@
               [disabled]="isEdit == true" 
               [checked]="selectedDay.indexOf(d.val) !== -1" 
               >
-              <div class="box-label">{{d.day}}</div>
+              <div class="box-label">{{d.day|uppercase}}</div>
             </label>
           </span>
         </div>
@@ -141,7 +141,7 @@
                 (change)="selectDay(d.val ,$event,d.day,'callTimetable')" 
                 [checked]="selectedDay.indexOf(d.val) != -1" 
                 [disabled]="isEdit == true" >
-              <div class="schedule-box-label">{{d.day}}</div>
+              <div class="schedule-box-label">{{d.day|uppercase}}</div>
             </label>
           </span>
         </div>
