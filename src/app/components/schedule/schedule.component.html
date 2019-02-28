@@ -25,7 +25,7 @@
               [disabled]="isEdit == true" 
               [checked]="selectedDay.indexOf(d.val) !== -1" 
               >
-              <div class="box-label">{{d.day}}</div>
+              <div class="box-label">{{d.day|uppercase}}</div>
             </label>
           </span>
         </div>
@@ -141,7 +141,7 @@
                 (change)="selectDay(d.val ,$event,d.day,'callTimetable')" 
                 [checked]="selectedDay.indexOf(d.val) != -1" 
                 [disabled]="isEdit == true" >
-              <div class="schedule-box-label">{{d.day}}</div>
+              <div class="schedule-box-label">{{d.day|uppercase}}</div>
             </label>
           </span>
         </div>
@@ -174,21 +174,34 @@
         </div>
       </div>
       <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
-        <div class="d-flex  teacher-list-wrapper " id="customscroll">
-          <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
-            <div class="d-flex d-flex align-items-center teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
+        <div class="d-flex  teacher-list-wrapper " id="customscroll" [class.teacher-wrapper]="staffList.staff.length >= 6">
+          <div *ngFor="let teacher of staffList.staff; let i = index;" class="">
+            <div class="d-flex teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" id="{{'test' + i}}">
               <div>
-                <div  class="align-self-center tchr-img-wraper">
+                <div  class=" tchr-img-wraper">
+                  <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
+                </div>
+              </div>            
+              <div class="">
+                <p  class=" mb-0 text-teacher-name pt-1 text-padding">{{teacher.preferredName}}</p>
+              </div>
+            </div>
+          </div>      
+        <!-- <div class="d-flex  teacher-list-wrapper " id="customscroll">
+          <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
+            <div class="d-flex d-flex align-items-center teacher-list-padding teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
+              <div>
+                <div  class="align-self-center img-padding tchr-img-wraper">
                   <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
                 </div>
               </div>            
               <div class="align-self-center">
-                <p  class=" mb-0 text-teacher-name align-self-center">{{teacher.preferredName}}</p>
+                <p  class=" mb-0 text-teacher-name text-padding align-self-center">{{teacher.preferredName}}</p>
               </div>
             </div>
-          </div>      
+          </div>       -->
         </div>
-        <div  *ngIf="staffList.staff && staffList.staff.length >= 20" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openmodal(content)>View more</div>
+        <div  *ngIf="staffList.staff && staffList.staff.length >= 6" class=" mb-3 ml-2 text-primary teacher-more-view" (click)=openmodal(content)>View more</div>
         <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
       </div>
 
@@ -237,7 +250,7 @@
                     <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j,list.date,list.date.dayOfWeek)" class="one-slot" *ngFor="let slot of minNextArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
                     </div>
                   </div> 
-                  <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="slotIdx == i && slotJidx == j && showDp == true">
+                  <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="slotIdx == i && slotJidx == j && showDp == true" >
                     <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
                     <div class="w-100 popUpbox">
                       <div class="d-flex teacher-info">

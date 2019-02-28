@@ -18,7 +18,7 @@
 .limit-type-wordcount {
   display: none;
   font-size: 14px;
-  font-family: 'Montserrat-Medium', 'Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
   color: #0080ff;
 }
 
@@ -77,9 +77,9 @@
   padding: 0 15px;
 }
 
-.cancel-back {
+.cancel-back,.ev-apgName {
   font-size: 16px;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #2e3d4d !important;
   cursor: pointer;
 }
@@ -158,11 +158,11 @@
 .input-recommend,
 .modal-title,
 .target,.tab-name {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .inputText{
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .input-recommend {
@@ -193,7 +193,7 @@
 }
 
 .create-input {
-  font-family: 'Montserrat-Regular', 'Arial', sans-serif !important;
+  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: .25rem;
   border: none;
   margin-bottom: 15px;
@@ -203,9 +203,47 @@
   margin-top: 4px;
 }
 
+/* .status-wrapper:hover{
+  left: 50px!important;
+  transition: all 3s ease-in-out;
+} */
+@keyframes example {
+  from {
+    left: -30px;
+  }
+  to {
+    left: 0px;
+  }
+}
+ .apg-status{
+  display: inline!important;
+  position: absolute!important;
+  left: 0px!important;
+  animation-name: example;
+  animation-duration: 1.5s;
+  /* transition: all 5s ease-in-out; */
+} 
+.status-wrapper-share{
+  display: inline;
+  position: absolute;
+  left: -100px;
+}
+.status-wrapper{
+  display: inline;
+  position: absolute;
+  left: 0px;
+}
+.apg-share-padding{
+  margin-left: 14px;
+  padding-left: 11px;
+}
+
+
+/* The element to apply the animation to */
+
 .apg-share,
 .btn-action {
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -243,7 +281,7 @@
 .title-heading {
   font-size: 27px;
   padding-left: 15px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   color: #2e3e4d;
 }
 
@@ -296,8 +334,12 @@
 .apg-box,
 .single-apg {
   -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  /*-moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);*/
   border-radius: 4px;
   transition: 0.3s all ease-out;
 }
@@ -327,7 +369,7 @@
 
 .single-apg .apg-desc {
   color: #64707d;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 14px;
   text-align: justify;
 }
@@ -351,6 +393,10 @@
 
 div.ap-wrapper:last-child {
   border-bottom: none;
+}
+
+.changeColor{
+  color: #0080ff!important;
 }
 
 .hide-border {
@@ -408,7 +454,7 @@ div.ap-wrapper:last-child {
 
 .form-footer {
   position: fixed;
-  /* width: 100%; */
+  width: 100%; 
   bottom: 0;
   padding: 20px;
   right: 0;
@@ -420,7 +466,7 @@ div.ap-wrapper:last-child {
 }
 
 .back-to {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #2e3d4d !important;
   padding-left: 0 !important;
   cursor: pointer;
@@ -532,7 +578,7 @@ div.ap-wrapper:last-child {
 
 .btn-submit,
 .btn-cancel {
-  font-family: 'Montserrat-Medium', 'Arial', sans-serif;
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   border: none;
   height: 45px;
   border-radius: 3px;
@@ -550,7 +596,7 @@ div.ap-wrapper:last-child {
 }
 
 .btn-create {
-  font-family: 'Montserrat-Medium', 'Arial', sans-serif;
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   color: #fff;
   background-color: #1682fb;
   border: none;
@@ -570,7 +616,7 @@ div.ap-wrapper:last-child {
 .modal-cancel-btn,
 .modal-delete-btn {
   font-size: 16px;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   border-radius: 3px;
   height: 44px;
   min-width: 90px;
@@ -677,14 +723,14 @@ div.ap-wrapper:last-child {
 .load-more button {
   color: #0080ff;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 
 .evaluation-Name {
   font-size: 18px;
   color: #2e3e4d;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .icon {
@@ -696,7 +742,7 @@ div.ap-wrapper:last-child {
   text-align: center;
   color: #ffffff;
   font-size: 12px;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-weight: 600;
 }
 
@@ -705,7 +751,7 @@ div.ap-wrapper:last-child {
   color: #007fff;
   font-size: 16px;
   margin: 0px !important;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   background: none;
   border: none;
   outline: none;
@@ -726,7 +772,7 @@ div.ap-wrapper:last-child {
 }
 
 .pass-label {
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   color: #64707d;
   font-size: 14px;
 }
@@ -741,7 +787,7 @@ div.ap-wrapper:last-child {
   font-size: 14px;
   margin-left: 78px;
   text-align: center;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 
 .pass-mark-input::-webkit-inner-spin-button,
@@ -755,11 +801,11 @@ div.ap-wrapper:last-child {
   margin-bottom: 0px !important;
   color: #64707d;
   font-size: 14px;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 
 .add-new-skill {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
   font-weight: 500;
   color: #0080ff;
@@ -778,14 +824,14 @@ div.ap-wrapper:last-child {
   width: 476px;
   font-size: 16px;
   border: none;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   border-bottom: 1px solid #edeff0;
   padding-bottom: 24px;
 }
 
 .skill-name {
   padding-left: 12px;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 16px;
   background: transparent;
   border: none;
@@ -803,7 +849,7 @@ div.ap-wrapper:last-child {
   font-size: 14px;
   color: #64707d;
   font-weight: 500;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .requirement-name {
@@ -1128,6 +1174,15 @@ input:checked+.slider:before {
   transform: translate(0, -50%);
   cursor: all-scroll;
 }
+.move-sign-disable {
+  margin: 0;
+  padding: 10px;
+  position: absolute;
+  /* height: 32px; */
+  top: 50%;
+  transform: translate(0, -50%);
+  cursor: all-scroll;
+}
 
 .group-handle-wrapper {
   padding-left: 5px;
@@ -1184,27 +1239,45 @@ input:checked+.slider:before {
   display: flex;
 }
 
+.radio-group button{
+  outline: none;
+  border: none;
+  background: none;
+}
+
+.radio-group button:disabled{
+  cursor: not-allowed !important;
+  opacity: .65;
+}
+
+.cousorAdd{
+  cursor: pointer;
+}
+
 .activeRadio {
-  background: #007fff;
+  background: #007fff!important;
   color: white;
 }
 
-.activeRadio>.radio-wrapper>.huey-child {
-  color: white;
+.activeRadio>.radio-wrapper>.huey-child, .activeRadio>.radio-wrapper>.huey{
+  color: white!important;
 }
 
 .huey {
   margin-top: 12px;
   line-height: 18px;
   margin-bottom: 0px !important;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
-
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #2e3d4d;
+  text-align: left;
+  width: 100%;
 }
 
 .huey-child {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 12px;
   color: #64707d;
+  text-align: left;
 }
 
 .form-radio {
@@ -1242,26 +1315,28 @@ input:checked+.slider:before {
   font-size: 18px;
   line-height: 22px;
   color: #2e3e4d;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .input-result {
   margin-top: 32px;
 }
-
+.input-wrapper{
+  width: 70%;
+}
 .data-value:focus {
   box-shadow: none;
   outline: none;
 }
 
 .data-value {
-  font-family: 'Montserrat-Regular', 'Arial', sans-serif !important;
+  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: .25rem;
   border: none;
   margin-bottom: 15px;
   padding: .6rem .75rem;
   margin-left: -.75rem;
-  width: 456px;
+  /* width: 456px; */
   margin-top: 4px;
   padding-bottom: 0px;
   padding-top: 20px;
@@ -1303,14 +1378,14 @@ input:checked+.slider:before {
 
 .data-list-title {
   width: 72px;
-  font-family: 'Montserrat-SemiBold', 'Arial', sans-serif !important;
+  font-family: 'Inter-UI-SemiBold', 'Arial', sans-serif !important;
   font-size: 18px;
   color: #2e3e4d;
 }
 
 .newValue {
   width: 151px;
-  font-family: 'Montserrat-Medium', 'Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
   font-size: 16px;
   color: #0080ff;
   padding-top: 20px;
@@ -1318,10 +1393,25 @@ input:checked+.slider:before {
 }
 
 .requirements-wrapper {
+  max-width: 800px;
   max-height: 480px;
-  overflow: auto;
-  width: 800px;
+  overflow: overlay;
+  margin-bottom: 70px;
+}
+.bullet-list-style{
+  display: inline;
+  margin-left: 16px;
+  list-style: none;
+  padding: 0px;
+  position: absolute;
+}
 
+.bullet-list-style li::before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #e3e4e6; /* Change the color */
+  /* display: inline-block; */
+  width: 4px; /* Also needed for space (tweak if needed) */
+  /* margin-left: -1em;  */
 }
 
 /* input#apg_rangeId {
@@ -1562,7 +1652,7 @@ input#apg_rangeId:disabled {
 .divslider {
   display: flex;
   flex-direction: column;
-  padding-left: 22px;
+  padding-top: 30px;
 }
 
 input#apg_rangeId2:active+#arrowBox {
@@ -1644,11 +1734,11 @@ span.textUnit {
   color: #2e3d4d;
 }
 
-ul.listGroup {
-  font-size: 14px;
-  font-weight: 500;
+.d-flex.flex-row.listGroup {
   color: #64707d;
-  padding: 0;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 14px;
+  text-align: justify;
 }
 
 ul.listGroup.selected {
@@ -1697,7 +1787,7 @@ li.optionlist {
 
 .eval-name {
   font-size: 12px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   line-height: 12px;
   color: #64707d;
   margin-top:4px;
@@ -1709,7 +1799,7 @@ li.optionlist {
   margin-top: 20px;
     font-size: 18px;
     display: inline-block;
-    font-family: 'Montserrat-Semibold', Arial, sans-serif;
+    font-family: 'Inter-UI-Semibold', Arial, sans-serif;
     line-height: 22px;
     color: #2e3e4d;
 }
@@ -1877,4 +1967,60 @@ li.optionlist {
   /*max-height: 166px;*/
   max-height: 151px;
   overflow: overlay;
+}
+
+.mb-90{
+  margin-bottom: 90px;
+}
+
+label.minlbl {
+  text-align: center;
+  font-size: 14px;
+  color: #8fa1b3;
+}
+
+/* input:focus ~ .floating-label,
+input:not(:focus):valid ~ .floating-label {
+  top:37vh;
+} */
+
+label.floating-label {
+  position: absolute;
+  pointer-events: none;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  font-size: 14px;
+  color: #8fa1b3;
+  text-align: center;
+  margin-left: 16px;
+  margin-top: 33px;
+}
+.max-min-exp-img{
+  padding-left: 100px;
+    /* padding-top: 20px; */
+}
+
+img.arrow-img {
+  padding-left: 27px;
+}
+
+p.display-txt {
+  width: 31vh; 
+  padding-left: 9vh;
+  color: #64707d;
+  font-size: 14px;
+}
+input.min_input_show {
+  width: 41px;
+  height: 24px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border: 0px;
+  border-radius: 16px;
+  background: #ffff;
+  text-align: center;
+}
+
+.noPaddingInmax{
+  margin-top: 28px;
 }

@@ -219,6 +219,16 @@
               </div>
               <div class="col-md-4 text-right">{{invCurrency.sign}} {{ data.subtotal }}</div>
             </div>
+            <div class="d-flex pad-10 price-info">
+              <div class="col-md-8 d-flex p-0">
+                <div class="col-sm-7 text-right p-0">
+                  Tax
+                </div>
+                <div class="col-sm-5 p-0 text-right">
+                </div>
+              </div>
+              <div class="col-md-4 text-right">{{ invCurrency.sign }} {{  data.tax.taxTotal }}</div>
+            </div>
             <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
@@ -445,6 +455,16 @@
                 </div>
               </div>
               <div class="col-md-4 text-right">{{ invCurrency.sign }} {{ data.subtotal }}</div>
+            </div>
+            <div class="d-flex pad-10 price-info">
+              <div class="col-md-8 d-flex p-0">
+                <div class="col-sm-7 text-right p-0">
+                  Tax
+                </div>
+                <div class="col-sm-5 p-0 text-right">
+                </div>
+              </div>
+              <div class="col-md-4 text-right">{{ invCurrency.sign }} {{  data.tax.taxTotal }}</div>
             </div>
             <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
               <div class="col-md-8 d-flex p-0">

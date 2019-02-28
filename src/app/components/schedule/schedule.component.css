@@ -1,9 +1,9 @@
 .info-label,.info-header,.tab-name,.student-name,.single-user-info h4,.modal-userInfo h4,.invoice-label,
 .invModal-cancel,.send-btn,.payment-label{
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;    
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;    
 }
 .date-label,.modal-userInfo label,.btn-submit,.price-info,.inv-Cname,.payment-item{
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 .info-header{
   font-size: 20px;
@@ -65,12 +65,12 @@
   margin-top: 140px;
   color: #64707d;
   font-size: 28px;
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
 }
 .modal-cancel-btn,
 .modal-delete-btn{
     font-size: 16px;
-    font-family: 'Montserrat-Regular',Arial,sans-serif;
+    font-family: 'Inter-UI-Regular',Arial,sans-serif;
     border-radius: 3px;
     height: 44px;
     min-width: 90px;
@@ -252,7 +252,7 @@
 .invoice-info{
   font-size: 16px;
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 .input-txt,.cash-input{
   color: #788796;
@@ -276,7 +276,7 @@
 .input-sign{
   line-height: 2.7;
   color: #788796;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }
 .overlayInv{
   background-color: rgba(46, 61, 77, 0.4);
@@ -401,13 +401,14 @@
 }
 .schedule-checkboxes-wrapper{
   margin-bottom: 32px;
-  margin-left: 20px;
+  padding-left: 20px;
+  /*margin-left: 20px;*/
 }
 .schedule-title {
     width: 135px;
     height: 34px;  
     margin-bottom: 36px; 
-    font-family: Montserrat-SemiBold;
+    font-family: Inter-UI-SemiBold;
     font-size: 28px;
     font-weight: 600;
     color: #2e3d4d;
@@ -416,12 +417,12 @@
     width: 100%;
     height: 22px;
     font-size: 18px;
-    font-family: Montserrat-SemiBold;
+    font-family: Inter-UI-SemiBold;
     font-weight: 600;
     color: #2e3e4d;
   }
 .pick-day-of-the-week,.no-teacher{
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size: 18px;
   font-weight: 600;
   color: #2e3e4d;
@@ -450,7 +451,9 @@
     border-radius: 4px;
     margin: 16px 10px 5px 0px;
     color: #2e3e4d;
-    padding: 10px 0px 10px 0px;
+    /*padding: 10px 0px 10px 0px;*/
+    padding: 10px;
+    line-height: 2;
     box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     text-align: center;
   }
@@ -491,14 +494,14 @@
 }
 .box-label{
   margin-top: 10px;
-  font-family: Montserrat-SemiBold, Arial,sans-serif;
+  font-family: Inter-UI-SemiBold, Arial,sans-serif;
   /* color: #2e3d4d; */
   font-size: 14px;
 }
-.schedule-box-label{
-  font-family: Montserrat-SemiBold, Arial,sans-serif;
+.schedule-box-label,.single-range{
+  font-family: Inter-UI-SemiBold, Arial,sans-serif;
   /* color: #2e3d4d; */
-  font-size: 14px;
+  font-size: 12px;
 }
 .checkboxes-wrapper{
  margin-bottom: 32px;
@@ -512,7 +515,7 @@
     padding: 12px 0 12px 12px !important;
     background: #f2f4f5;
     border: none;
-    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    font-family: 'Inter-UI-SemiBold', Arial,sans-serif;
     z-index: 2 !important;
 }
 
@@ -529,7 +532,7 @@
   border:0px;
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
   background-color: #ffffff;
-  font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial,sans-serif;
 }
 .scheduleList-dropdown>.form-control {
   position: relative;
@@ -603,7 +606,7 @@ ul.scedule-data-listing li.disabled{
   pointer-events: none;
 }
 .back-to{
-	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-family: 'Inter-UI-Medium', Arial,sans-serif;
 	font-size: 16px;
   color: #2e3d4d !important;
 	padding-left: 0 !important;
@@ -621,7 +624,7 @@ ul.scedule-data-listing li.disabled{
   float: left;
   font-size: 16px;
   color: #2e3d4d;
-  font-family: Montserrat-Medium;
+  font-family: Inter-UI-Medium;
 	margin-bottom: 0;
 	line-height: 1.6;
 	margin-left: 4px;
@@ -647,13 +650,17 @@ ul.scedule-data-listing li.disabled{
 .course-search-down:focus{
   outline: none!important;
 }
+
 .teacher-list{
-  width: 145px!important;
+  /* width: 145px!important; */
   color: #64707d;
-  background:#f2f4f5;
-  border-radius:24px; 
-  padding-left:8px 16px 8px 4px; 
+  background: #f2f4f5;
+  border-radius: 24px;
+  padding-top: 3px;
+  width: 90%;
+  padding-bottom: 3px;
   cursor: pointer;
+  margin-right: 63px;
 }
 .modal-teacher-list{
   width:207px; 
@@ -697,41 +704,46 @@ ul.scedule-data-listing li.disabled{
   overflow:hidden;
 }
 
-
+.text-padding{
+  padding-right: 16px;
+}
 .text-teacher-name{
   font-size:12px!important;
-  word-break: break-all;
   font-size: 14px;
   font-weight: 600;
-  font-family: Montserrat-SemiBold,Arial, sans-serif;
+  font-family: Inter-UI-SemiBold,Arial, sans-serif;
   margin-bottom: none!important;
-  padding: 8px 16px 8px 0px;
 }
 .modal-text-teacher-name{
   font-size:14px!important;
   word-break: break-all;
   font-size: 14px;
   font-weight: 600;
-  font-family: Montserrat-SemiBold,Arial, sans-serif;
+  font-family: Inter-UI-SemiBold,Arial, sans-serif;
   margin-bottom: none!important;
   padding: 8px 16px 8px 0px;
 }
 .teacher-list-wrapper{
   max-width: 85%;
   position: relative;
-  height: 80px;
+  height: 50px;
   z-index: 0;
   overflow-y: hidden; 
   overflow-x: overlay;
 }
 .teacher-more-view{
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
   font-size: 12px;
   padding: 6px;
   cursor: pointer;
   border-radius: 16px; 
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
+.teacher-wrapper{
+  /* background: brown; */
+  overflow: auto;
+}
+
 .close{
   width: 48px;
   height: 48px;
@@ -761,7 +773,7 @@ ul.scedule-data-listing li.disabled{
   transform: rotate(90deg);
 }
 .modal-title{
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size: 28px;
   font-weight: 600;
   color: #2e3d4d;
@@ -830,7 +842,6 @@ thead th,
   top: 0;
   background: #fff;
   color: #2e3d4d;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
   padding: 7px;
   border: 1px solid #edeff0;
   border-bottom: none;
@@ -861,13 +872,13 @@ thead th:first-child,
 .single-slot p {
   margin-bottom: 0;
   font-size: 12px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
   color: #2e3d4d;
 }
 .single-slot span {
   margin-bottom: 0;
   font-size: 12px;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   color: #64707d;
 }
 .single-slot:first-child,
@@ -918,8 +929,8 @@ tbody th {
   top: 0px;
 }*/
 .single-row .monthly span{
-  color: #007bff;
-  font-size: 'Montserrat-Semibold', Arial,sans-serif;
+  color: #64707d;
+  font-size: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .month-wrapper,.month-wrapper1{
   position: absolute;
@@ -972,12 +983,12 @@ tbody td{
   color: #2e3d4d;
   margin-bottom: 0;
   font-size: 12px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .lesson-slot p{
   color: #009940;
   font-size: 12px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .lessons-range{
   position: relative;
@@ -994,7 +1005,7 @@ tbody td{
 .empty-slot p{
   color: #009940;
   font-size: 12px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 */
 .cursor-on{
@@ -1047,8 +1058,8 @@ tbody td{
   border-bottom: 2px solid #007fff;
 }
 .body-wrap{
-  min-height: 500px;
-  max-height: 500px;
+  min-height: 70vh;
+  max-height: 70vh;
   overflow-y: overlay;
 }
 .single-student{
@@ -1131,7 +1142,7 @@ tbody td{
 
 .selected-day{
   background: #cce6ff;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size: 12px;
   border-radius: 2px;
   padding: 4px 8px 4px 8px;
@@ -1142,7 +1153,7 @@ tbody td{
   display:block;
   margin-top: 4px;
   margin-left: 16px;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size: 14px;
   font-weight: 600;
   color: #64707d;
@@ -1233,7 +1244,7 @@ input:checked + .slider:before {
 .switch-label{
   line-height: 1.8;
   margin-left: 16px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   font-size: 18px;
   color: #2e3e4d;
   margin-bottom: 0;
@@ -1282,7 +1293,7 @@ input:checked + .slider:before {
   background: #fff;
   color: #0080ff;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 
 .search-teacher:focus{
@@ -1370,7 +1381,7 @@ ul.options-box,ul.create-box {
   border-bottom: 1px solid #edeff0;
   padding: 20px 0px 16px 0px;;
   cursor: pointer;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 } */
 
 /* ul.options-box li:first-child {
@@ -1385,7 +1396,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   line-height: 24px;
   text-align: center;
   font-size: 12px;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   display: inline-block;
   margin-bottom: 4px;
   padding: 3px;
@@ -1418,17 +1429,17 @@ ul.options-box li:last-child,.create-box li:last-child {
   border-bottom: 1px solid #edeff0;
   padding: 20px 0px 16px 0px;;
   cursor: pointer;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 .course-name{
   color:#2e3e4d;
-  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
 }
 .lessoncount-EndDate{
   font-size: 12px;
-  font-family: 'Montserrat-Medium',Arial, sans-serif;
+  font-family: 'Inter-UI-Medium',Arial, sans-serif;
   font-weight: 500;
 }
 .backdrop{
@@ -1456,7 +1467,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   padding: 4px 8px 4px 8px;
   background: #cce6ff;
   color: #0080ff;
-  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial, sans-serif;
   font-size: 14px;
   margin-bottom: 3px;
   border-top-left-radius: 3px;
@@ -1480,8 +1491,8 @@ ul.options-box li:last-child,.create-box li:last-child {
 }
 .selectSlot{
   background: #80bfff;
-  /*border: 2px solid #007fff;*/
   border-radius: 2px;
+  border: 2px solid #007fff;
 }
 
 .createcouresplan{
@@ -1493,13 +1504,13 @@ ul.options-box li:last-child,.create-box li:last-child {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 .category-title{
-  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial, sans-serif;
   font-size: 16px;
   color: #64707d;
   font-weight: 600;
 }
 .pickCourseplan{
-  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial, sans-serif;
   font-size: 28px;
   color: #2e3d4d;
   font-weight: 600;
@@ -1525,12 +1536,12 @@ ul.options-box li:last-child,.create-box li:last-child {
 .cancel-txt{
   color: #2e3d4d;
   font-size: 16px;
-  font-family: 'Montserrat-Medium',Arial, sans-serif;
+  font-family: 'Inter-UI-Medium',Arial, sans-serif;
 }
 .createCourseText{
   font-size: 18px;
   color: #64707d;
-  font-family: 'Montserrat-Medium',Arial, sans-serif;
+  font-family: 'Inter-UI-Medium',Arial, sans-serif;
 }
 .create-course-plan-list{
   padding-right: 24px;
@@ -1543,13 +1554,13 @@ ul.options-box li:last-child,.create-box li:last-child {
 .createCourseTextSeat{
   color: #64707d;
   font-size: 14px;
-  font-family: 'Montserrat-Regular',Arial, sans-serif;
+  font-family: 'Inter-UI-Regular',Arial, sans-serif;
 }
 .courseplanName{
   color: #2e3e4d;
   font-size: 18px;
   font-weight: 600;
-  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial, sans-serif;
 }
 .lessonDuration{
   padding-left: 23px;
@@ -1558,7 +1569,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   color:#788796;
 }
 .teacher-name{
-  font-family: 'Montserrat-SemiBold',Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial, sans-serif;
   font-size: 16px;
   color:#2e3e4d;
 }

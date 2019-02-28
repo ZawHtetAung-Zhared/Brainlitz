@@ -24,6 +24,8 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public reasonValue:any;
+  public textAreaOption = false;
   public attendenceButton:any;
   public optionBox:any = false;
   public stdLists: Array<any> = []
@@ -1795,6 +1797,7 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
     this.showInvoice = false;
+    this.textAreaOption = false;
     // this.currentDateObj = '';
     this.showStudentOption = '';
     this.xxxhello = '';
@@ -1804,10 +1807,13 @@ export class CourseComponent implements OnInit {
   cancelClass(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
   }
-
+  showTextarea(){
+    this.textAreaOption = true;
+  }
   cancelClassFun( lessonId){
     let data = {
-      "lessonId": lessonId
+      "lessonId": lessonId,
+      "message" : this.reasonValue
     }
     console.log(lessonId)
     console.log(this.isGlobal)
@@ -1824,6 +1830,7 @@ export class CourseComponent implements OnInit {
       this.isGlobal = false;
       this.disableCancel = true;
       this.getCourseDetail(this.courseId);
+      this.modalClose()
       // Close Dialog box
       // Show the canceled users
     },err => {
@@ -1832,7 +1839,6 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    this.modalReference.close();
     this.cancelUItext= false;
   }
 
@@ -1840,6 +1846,7 @@ export class CourseComponent implements OnInit {
     this.isGlobal = false;
     this.cancelUItext= false;
     this.cancelUI=false;
+    this.reasonValue= '';
     this.modalReference.close();
     // this.currentDateObj = '';
   }
@@ -2437,13 +2444,8 @@ export class CourseComponent implements OnInit {
       if(this.invoice[i].courseFee.fee != data){
         console.log("===not same");
         this.updateInvData["courseFee"] = data
-        // this.updateInvData["courseFee"] = {
-        //   'fee': Number(data)
-        // };
         this.invoice[i].courseFee.fee = Number(data);
         console.log(this.invoice[i].courseFee.fee)
-        // formula for calculating the inclusive tax
-        // Product price x RATE OF TAX/ (100+RATE OF TAX);
         if(this.invoice[i].courseFee.taxInclusive == true){
           var taxRate = this.invoice[i].tax.rate;
           var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
@@ -2452,6 +2454,7 @@ export class CourseComponent implements OnInit {
           var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
           this.invoice[i].courseFee.fee = Number(cFee);
           this.invoice[i].courseFee.amount = (this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax).toFixed(2);
+          this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + this.invoice[i].registrationFee.tax + this.invoice[i].miscFee.tax).toFixed(2);
           console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee);
           console.log("Amount without inclusive tax",this.invoice[i].courseFee.amount);
         }else if(this.invoice[i].courseFee.taxInclusive == false){
@@ -2460,6 +2463,7 @@ export class CourseComponent implements OnInit {
           this.invoice[i].courseFee.tax =Number(taxAmount);
           console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
           this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + this.invoice[i].registrationFee.tax + this.invoice[i].miscFee.tax).toFixed(2);
           console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee);
           console.log("Fee amount with exclusive tax",this.invoice[i].courseFee.amount);
         }
@@ -2709,6 +2713,7 @@ export class CourseComponent implements OnInit {
       console.log("Total taxes and deposit",totalTaxes,deposit)
       this.invoice[i].subtotal = (regFees + miscFees + deposit + this.invoice[i].courseFee.fee).toFixed(2);
       this.total = Number((Number(this.invoice[i].subtotal)+ totalTaxes).toFixed(2));
+      this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + regTax + miscTax).toFixed(2);
       // this.invoice[i].total = Number(totalPrice).toFixed(2);
       // this.total = Number(this.invoice[i].total).toFixed(2);
       console.log("Subtotal",this.invoice[i].subtotal);

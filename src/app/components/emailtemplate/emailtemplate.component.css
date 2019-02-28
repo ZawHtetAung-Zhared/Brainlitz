@@ -10,13 +10,13 @@
 }
 .heading-h3,
 .heading-h3-2{
-	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
+	font-family: 'Inter-UI-Semibold', Arial,sans-serif;	
 	color: #2f3d4c;
 }
 .heading-h4{
 	color: #64707d;
 	font-size: 18px;
-	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
+	font-family: 'Inter-UI-Semibold', Arial,sans-serif;	
 }
 .data-content{
 	padding: 0 30px;
@@ -44,7 +44,7 @@ ul.data-ul li{
 	border-bottom: 1px solid #edeff0;
 	padding: 20px 0;
 	color: #2e3d4d;
-	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
+	font-family: 'Inter-UI-Semibold', Arial,sans-serif;	
 	font-size: 16px;
 	border-radius: 2px;
 }
@@ -81,7 +81,7 @@ ul.data-ul li i {
   color: #d4d5d6;
 }
 .back-to{
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     color: #2e3d4d !important;
     padding-left: 0 !important;
     cursor: pointer;
@@ -104,7 +104,7 @@ ul.data-ul li i {
 .edit-btn-btn{
 	font-size: 16px;
 	color: #2e3d4d !important;
-	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-family: 'Inter-UI-Medium', Arial,sans-serif;
 	cursor: pointer;
 }
 .heading-h3-2{
@@ -120,7 +120,7 @@ ul.data-ul li i {
 h4.email-type{
 	font-size: 18px;
 	color: #2e3d4d;
-	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
+	font-family: 'Inter-UI-Semibold', Arial,sans-serif;	
 	margin-bottom: 12px;
 }
 .form-footer {
@@ -140,7 +140,7 @@ h4.email-type{
 }
 .email-info{
 	color: #64707d;
-	font-family: 'Montserrat-Medium', Arial,sans-serif;	
+	font-family: 'Inter-UI-Medium', Arial,sans-serif;	
 }
 .circle-box,
 .circle-box1{
@@ -168,7 +168,7 @@ h4.email-type{
 	color: #64707d;
 	margin-bottom: 16px;
 	font-size: 18px;
-	font-family: 'Montserrat-Regular','Arial', sans-serif;
+	font-family: 'Inter-UI-Regular','Arial', sans-serif;
 }
 .form-group:first-child{
 	border-bottom: 1px solid #edeff0;
@@ -178,7 +178,7 @@ h4.email-type{
 .selected-mail-type{
 	color: #2e3d4d;
 	font-size: 16px;
-	font-family: 'Montserrat-Semibold','Arial', sans-serif;
+	font-family: 'Inter-UI-Semibold','Arial', sans-serif;
 }
 .message-content{
 	-ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -192,7 +192,7 @@ h4.email-type{
   padding: 16px;
   color: #64707d;
   font-size: 14px;
-  font-family: 'Montserrat-Regular','Arial', sans-serif;
+  font-family: 'Inter-UI-Regular','Arial', sans-serif;
 }
 .message-body{
 	position: relative;
@@ -209,7 +209,7 @@ h4.email-type{
 .cancel-button {
   background: #f2f4f5;
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   padding: 10px 20px !important;
   border: none;
   cursor: pointer;
@@ -218,7 +218,7 @@ h4.email-type{
 }
 .create-button {
   background: #007fff;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   padding: 10px 20px !important;
   color: #fff;
   font-size: 16px;

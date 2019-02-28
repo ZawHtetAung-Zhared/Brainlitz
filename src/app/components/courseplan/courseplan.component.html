@@ -392,7 +392,7 @@
 		</div>
 		<div *ngIf="step6" class="div_step6">
 			<div class="d-flex justify-content-center">
-					<form #childForm6="ngForm" novalidate>
+					<form #childForm6="ngForm" novalidate class="step6-form">
 							<div *ngIf="showSearchAPG" class="inside-data-wrapper"> 
 								<div class="col-md-12">
 									<p class="step-font">Step 6</p>
@@ -410,7 +410,7 @@
 									<ng-template #rt let-r="result" let-t="term">
 										  <div class="circle1 plus"></div>
 										  <ngb-highlight [result]="r.name" [term]="t" ></ngb-highlight>
-										  <div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{r.type}}</div>
+										  <div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Inter-UI-SemiBold; font-size: 12px;">{{r.type}}</div>
 										  <hr class="hr-style">
 									</ng-template>
 									<!-- <input 
@@ -511,7 +511,7 @@
 												<button type="button" class="bt btn-apg" (click)="removeSelectedAPG(cAPG)">
 													<div class="circle2 minus"></div>
 													<div class="all-title-font">{{cAPG.name}}</div>
-													<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{cAPG.type}}</div>
+													<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Inter-UI-SemiBold; font-size: 12px;">{{cAPG.type}}</div>
 												</button>	
 											</div>
 											<hr class="hr-style">
@@ -536,8 +536,8 @@
 											  <div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 												  <label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 													  <div class="module-img">
-														<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">
-														<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png" class="img-fluid">
+														<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type.png" class="img-fluid">
+														<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type-a.png" class="img-fluid">
 													  </div>
 														<div class="label-checked"></div>
 														<input class="form-check-input"

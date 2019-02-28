@@ -224,26 +224,26 @@
 									<div *ngIf="isChecked != 'user'" class="form-group">
 										<div *ngIf="isChecked=='allcustomer'" class="form-check active-user-form">
 												<label class="form-check-label">
-													<input type="checkbox" class="form-check-input" name="active" (change)="checkedActive($event, 'active')">
-													Only active users
+													<input type="checkbox" class="form-check-input" name="active" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
+													All user
 												</label>
 										</div>
 										<div *ngIf="isChecked=='allstaff'" class="form-check active-user-form">
 												<label class="form-check-label">
-													<input type="checkbox" class="form-check-input" name="activestaff" (change)="checkedActive($event, 'active')">
-													Only active users
+													<input type="checkbox" class="form-check-input" name="activestaff" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
+													All user
 												</label>
 										</div>
 										<div *ngIf="isChecked=='category'" class="form-check active-user-form">
 												<label class="form-check-label">
-													<input type="checkbox" class="form-check-input" name="activecategory" (change)="checkedActive($event, 'active')">
-													Only active users
+													<input type="checkbox" class="form-check-input" name="activecategory" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
+													All user
 												</label>
 										</div>
 										<div *ngIf="isChecked=='course'" class="form-check active-user-form">
 												<label class="form-check-label">
-													<input type="checkbox" class="form-check-input" name="activecourse" (change)="checkedActive($event, 'active')">
-													Only active users
+													<input type="checkbox" class="form-check-input" name="activecourse" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
+													All user
 												</label>
 										</div>
 									</div>

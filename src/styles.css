@@ -8,25 +8,25 @@
 @import "../node_modules/ng-drag-drop/style.css";
 /* @font-face {
   
-  font-family: 'Montserrat-Light';
-  src:  url('assets/fonts/Montserrat-Light.ttf') format('truetype');
+  font-family: 'Inter-UI-Light';
+  src:  url('assets/fonts/Inter-UI-Light.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Montserrat-Medium';
-  src:  url('assets/fonts/Montserrat-Medium.ttf') format('truetype');
+  font-family: 'Inter-UI-Medium';
+  src:  url('assets/fonts/Inter-UI-Medium.ttf') format('truetype');
 }
 @font-face {
-  font-family: 'Montserrat-Regular';
-  src:  url('assets/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-family: 'Inter-UI-Regular';
+  src:  url('assets/fonts/Inter-UI-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Montserrat-Semibold';
-  src:  url('assets/fonts/Montserrat-SemiBold.ttf') format('truetype');
+  font-family: 'Inter-UI-Semibold';
+  src:  url('assets/fonts/Inter-UI-SemiBold.ttf') format('truetype');
 } */
 
 @font-face {
-  font-family: 'Montserrat-Regular';
+  font-family: 'Inter-UI-Regular';
   font-style:  normal;
   font-weight: 400;
   src: url("assets/fonts/Inter-UI-Regular.woff2") format("woff2"),
@@ -34,7 +34,7 @@
 }
 
 @font-face {
-  font-family: 'Montserrat-Medium';
+  font-family: 'Inter-UI-Medium';
   font-style:  normal;
   font-weight: 500;
   src: url("assets/fonts/Inter-UI-Medium.woff2") format("woff2"),
@@ -42,7 +42,7 @@
 }
 
 @font-face {
-  font-family: 'Montserrat-Semibold';
+  font-family: 'Inter-UI-Semibold';
   font-style:  normal;
   font-weight: 600;
   src: url("assets/fonts/Inter-UI-SemiBold.woff2") format("woff2"),
@@ -51,7 +51,7 @@
 html,
 body{
     height: 100%;
-    font-family: 'Montserrat-Light','Arial', sans-serif !important;
+    font-family: 'Inter-UI-Light','Arial', sans-serif !important;
 }
 .inner-wrapper{
   padding: 30px;
@@ -296,7 +296,7 @@ ng2-timezone-picker.newpick .select2-selection__arrow{
 .newpick .select2-selection__rende#d4d5d6{
   color: #2e3e4d;
   font-size: 16px;
-  font-family: 'Montserrat-SemiBold','Arial', sans-serif;
+  font-family: 'Inter-UI-SemiBold','Arial', sans-serif;
   font-weight: 900;
 }
 
@@ -316,7 +316,7 @@ ng2-timezone-picker.editTimezone .select2-selection--single{
 ng2-timezone-picker.editTimezone .select2-selection__rende#d4d5d6{
   color: #2e3d4d;
   font-size: 16px;
-  font-family: 'Montserrat-Medium','Arial', sans-serif;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif;
 }
 ng2-timezone-picker.editTimezone .select2-selection__arrow b{
   display: none;
@@ -343,7 +343,7 @@ star-rating-comp.custDetail-rating .star-container{
 .limit-wordcount,.limit-wordcount1{
   display: none;
   font-size: 14px;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif !important;
   color: #0080ff;
 }
 
@@ -488,11 +488,18 @@ span.scrollup.show:hover:before {
 
 @media print {
     /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */
+    * { overflow: hidden!important; } 
     body *{
         visibility: hidden;
     }
 
     .modal-inv,.modal-inv * {
-        visibility: visible; /* make visible modal body and header */
+        /* visibility: visible;  */
+        /* make visible modal body and header */
+    }
+    
+    .invoice-container,.invoice-container * {
+      visibility: visible; /* make visible modal body and header */
+      /*display: block;*/
     }
 }

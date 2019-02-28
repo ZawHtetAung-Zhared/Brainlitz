@@ -80,7 +80,7 @@
 } 
 
 .back-modal {
-	font-family: 'Montserrat-Medium', Arial,sans-serif;
+	font-family: 'Inter-UI-Medium', Arial,sans-serif;
   font-size: 16px;
   color: #2e3d4d !important;
   padding-left: 0 !important;
@@ -325,7 +325,7 @@ input:-webkit-input-placeholder {
 
 /*.title-color {
 	color: #0080ff; 
-  font-family: 'Montserrat-Medium', Arial,sans-serif; 
+  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
 }*/
 
 .mr-top {
@@ -417,7 +417,7 @@ input:-webkit-input-placeholder {
   top: -100px;
   background: #fff;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
-  font-family: 'Montserrat-Medium', Arial,sans-serif; 
+  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
 }
 
 .sticky-menu.sticky {
@@ -452,7 +452,7 @@ drag-scroll {
 
 .book-name {
   white-space: pre-wrap;
-  font-family: 'Montserrat-Medium', Arial,sans-serif; 
+  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
   width: 120px;
   height: 40px;
   display: -webkit-box;
@@ -539,7 +539,7 @@ h3.category-h3{
 }
 
 h3.category-h3{
-  font-family: 'Montserrat-Medium', Arial,sans-serif; 
+  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
   color: #2f3d4c;
 }
 
@@ -549,7 +549,7 @@ h3.category-h3, .category-name, .d-wrapper {
 }
 
 .category-name, .step-font, .txt-default, .small-caption {
-  font-family: 'Montserrat-SemiBold', Arial,sans-serif; 
+  font-family: 'Inter-UI-SemiBold', Arial,sans-serif; 
   color: #64707d;
 }
 
@@ -612,7 +612,7 @@ h3.category-h3, .category-name, .d-wrapper {
   padding: 7px 0px;
   background: #fff; 
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 
 .sticky-create {
@@ -624,7 +624,7 @@ h3.category-h3, .category-name, .d-wrapper {
 
 .back-btn,
 .back-to{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;  
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;  
   padding-left: 0 !important;
   cursor: pointer;
   font-size: 16px;
@@ -649,7 +649,7 @@ h3.category-h3, .category-name, .d-wrapper {
   -webkit-transition: all 0.8s ease-in-out;
   -ms-transition: all 0.8s ease-in-out;
   transition: all 0.8s ease-in-out;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 
 .inner-wrapper{
@@ -657,7 +657,7 @@ h3.category-h3, .category-name, .d-wrapper {
 }
 
 .all-title-font {
-  font-family: "Montserrat-SemiBold",Arial,sans-serif;
+  font-family: "Inter-UI-SemiBold",Arial,sans-serif;
   color: #2e3e4d;
 }
 
@@ -666,7 +666,7 @@ h5.all-title-font {
 }
 
 textarea, input, select {
-  font-family: "Montserrat-Regular", Arial,sans-serif;
+  font-family: "Inter-UI-Regular", Arial,sans-serif;
 }
 
 .slide-cancel {
@@ -770,7 +770,7 @@ header{
 }
 
 .header-wrap div{
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }*/
 
 .fa.right-arrow {
@@ -786,7 +786,7 @@ header{
 }
 
 .option-text {
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   color: #8fa1b3;
   font-size: 18px;
 }
@@ -954,7 +954,7 @@ label.pd-lt-10 {
   float: right;
   margin-right: 25px;
   margin-top: 8px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   color: #64707d;
 }
 
@@ -1130,7 +1130,7 @@ ul.search-apg{
 }
 
 .back span{
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   color: #2e3d4d;
   margin-left: 5px;
   font-size: 16px;
@@ -1191,7 +1191,7 @@ ul.search-apg{
 }
 
 .top-para p, .top-para span {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #64707d;
 }
 
@@ -1202,7 +1202,7 @@ ul.search-apg{
 .cancel-button {
     background: #f2f4f5;
     color: #2e3d4d;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     padding: 10px 20px !important;
     border: none;
     cursor: pointer;
@@ -1212,7 +1212,7 @@ ul.search-apg{
 
 .create-button {
     background: #007fff;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     padding: 10px 20px !important;
     color: #fff;
     font-size: 16px;
@@ -1493,7 +1493,7 @@ ul.search-apg{
 .input-recommend{
     font-size: 14px;
     color: #64707d;
-    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 .not_allowPagewekz{
   padding-top: 40px;
@@ -1541,6 +1541,9 @@ ul.search-apg{
 
   @media (max-width:1365px){
     .form-wrap{
+      width: 100%;
+    }
+    .step6-form{
       width: 100%;
     }
   }

@@ -60,7 +60,7 @@
               <div class="ap-wrapper" *ngFor="let ap of apg.accessPoints; let ind = index">
                 <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
                 <div class="d-flex flex-row justify-content-between">
-                  <p class="mb-0">{{ap.name}}</p>
+                  <p class="mb-0 ev-apgName" [ngClass]="{'changeColor': ap.isExpand}">{{ap.name}}</p>
                   <span class="lists-down-arrow" [ngClass]="{'transform-y': ap.isExpand}" (click)="expandAccessPoint(i,ind,'apg')">
                     <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
                   </span>
@@ -102,7 +102,16 @@
           </div>
         </div>
         <div class="d-flex justify-content-between btn-section">
-          <button class="apg-share remove-outline" (click)="apgPublicShare(apg._id)">Share</button>
+          <div>
+            <div *ngIf="tempSharedApgId == apg._id && apg.share.status== true " class="status-wrapper-share ml-2" [ngClass]="{'apg-status': apg.share.status== true}">
+              <span *ngIf="apg.share.status== true"><img src="../../../assets/images/shared.png " alt=""></span>
+            </div>
+            <div *ngIf="tempSharedApgId != apg._id && apg.share.status== true " class="status-wrapper ml-2">
+              <span *ngIf="apg.share.status== true"><img src="../../../assets/images/shared.png " alt=""></span>
+            </div>
+            <span *ngIf="apg.share.status== true"> <ul class="bullet-list-style"><li></li></ul> </span>
+            <button class="apg-share remove-outline" [ngClass]="{'apg-share-padding': apg.share.status== true}" (click)="apgPublicShare(apg._id)">Share</button>
+          </div>
           <div>
             <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id,apg)">Edit</button> | <button
               class="btn-action remove-outline" (click)="onclickDelete(apg._id,alertDelete)">Delete</button>
@@ -236,7 +245,7 @@
                 </div>
               </div>
               <div id="requirement-inner-box-{{i}}" class="requirement-inner-box" (scroll)="requirementInnerBox($event,i)"
-                dragula={{i}} [(dragulaModel)]="item.data.evaluation.details" [ngClass]="{'requirementAddHeight': !item.options , 'requirementAddHeight2': item.options}">
+                dragula={{i}} [(dragulaModel)]="item.data.evaluation.details">
                 <!-- {{item.data.evaluation.details | json}} -->
                 <div class="d-flex container requirement" *ngFor="let test of item.data.evaluation.details; let x = index"
                   style="padding-left:40px;" id="requirement{{x}}">
@@ -245,7 +254,7 @@
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length > 1" src="../../../assets/images/disable-holder.svg">
                     <img class="move-sign" *ngIf="item.data.evaluation.details.length == 1" src="../../../assets/images/single-holder.svg">
                   </span> <textarea rows=1 type="text" id="{{'box'+x+i}}" name="{{'requirement'+ x + i}}" placeholder="Type requirement here"
-                    class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize($event,i,'requirement',x)"></textarea>
+                    class="requirement-name" [(ngModel)]="test.name" required (input)="autoResize(item,$event,i,'requirement',x)"></textarea>
                   <!-- <span class="pr-3"></span> <textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
                   <div *ngIf="item.data.evaluation.details && item.data.evaluation.details.length > 1" class="close-search"
                     (click)="subAccessPointClear(test,item,i,x,'requirement')"></div>
@@ -283,12 +292,12 @@
           </div>
           <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
         </div>
-        <div class="d-flex justify-content-end form-footer">
+       <!--  <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
           <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)"
             [disabled]="!model.name || isEmpty == true">Create</button>
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
-        </div>
+        </div> -->
       </div>
         <!-- end Assemenent -->
       <!-- </form> -->
@@ -330,7 +339,8 @@
             </div>
             <div class="radio-group">
               <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
-              <div class="type-input" [class.activeRadio]="selectedRadio == 'NUMBER'" (click)="radioSelect('NUMBER')">
+
+              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'NUMBER'" (click)="radioSelect('NUMBER')" [disabled]="iscreate == true && isUpdate == true">
                 <div class="radio-wrapper">
                   <div class="label-checked"></div>
 
@@ -339,12 +349,11 @@
                   <div class="huey">Input box</div>
                   <div class="huey-child">Number</div>
                 </div>
+              </button>
 
-
-              </div>
 
               <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')"> -->
-              <div class="type-input" [class.activeRadio]="selectedRadio == 'RANGE'" (click)="radioSelect('RANGE')">
+              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'RANGE'" (click)="radioSelect('RANGE')" [disabled]="iscreate == true && isUpdate == true">
                 <div class="radio-wrapper">
                   <div class="label-checked"></div>
 
@@ -353,8 +362,8 @@
                   <div class="huey">Slider</div>
                   <div class="huey-child">Number</div>
                 </div>
-              </div>
-              <div class="type-input" [class.activeRadio]="selectedRadio == 'RADIO'" (click)="radioSelect('RADIO')">
+              </button>
+              <button class="type-input cousorAdd p-0" [class.activeRadio]="selectedRadio == 'RADIO'" (click)="radioSelect('RADIO')" [disabled]="iscreate == true && isUpdate == true">
                 <div class="radio-wrapper">
                   <div class="label-checked"></div>
                   <input type="radio" name="radio" class="form-radio" [(ngModel)]="selectedRadio" value="selection" />
@@ -363,9 +372,7 @@
                   <br>
                   <div class="huey-child">Text</div>
                 </div>
-
-
-              </div>
+              </button>
             </div>
 
           </div>
@@ -379,7 +386,8 @@
                   </div>
                 </div>
                 <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                  maxlength="6" [(ngModel)]="numberUnit" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                  maxlength="6" [(ngModel)]="this.templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                  autocomplete="off"
                   (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required
                   #input_method="ngModel">
                 <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
@@ -399,7 +407,8 @@
                   </div>
                 </div>
                 <input type="text" class="form-control create-input" placeholder="E.g. cm or mm" name="input-method"
-                  maxlength="6" [(ngModel)]="sliderUnit" (focus)="focusMethod($event,'input_method', $event.target.value)"
+                  autocomplete="off"
+                  maxlength="6" [(ngModel)]="this.templateAccessPointGroup.data.unit" (focus)="focusMethod($event,'input_method', $event.target.value)"
                   (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required
                   #input_method="ngModel">
                 <div *ngIf="input_method.invalid && (input_method.dirty || input_method.touched)" class="alert alert-danger">
@@ -410,26 +419,41 @@
               </div>
               <div class="gap-box">
                 <label class="d-flex">
+                  <div class="d-flex flex-column">
+                    <label  class="minlbl">Min</label>
+                    <input type="number" class="min_input" value="0" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min" (keypress)="numberOnly($event)" (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
   
-                  <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
-                    (input)="chkValue($event.target.value,'min')" required #min_method="ngModel">
-  
+                  </div>
+               
                   <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
                      <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
   
-                  <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
-                    min="0" max="100" disabled=true value="0" id="apg_rangeId">
-  
-                  <div class="divslider">
-                    <!-- <div class="box arrow-top" id="arrowBox">{{exitValue}}</div> -->
+                  <div class="divslider" *ngIf="emptymin == false && emptymax ==false && overmin==false" > 
                     <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box"
                       min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
                       value="{{templateAccessPointGroup.data.inputTypeProperties.min}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)">
                     <output class="box arrow-top" id="arrowBox">{{exitValue}}</output>
                   </div>
-                      <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
-                      (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                  <div class="divslider" *ngIf="emptymin == true || emptymax ==true || overmin==true">
+                    <input type="range" class="max-range-box"
+                    min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                  </div>
+                      
+                  <div class="d-flex flex-column">
+                      <label class="minlbl" *ngIf="maxExit">Max</label>
+                      <label class="floating-label" *ngIf="!maxExit">Max</label>
+                      <input type="number" class="max_input" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max" (keypress)="numberOnly($event)" (focus)="maxFocus($event)" (focusout)="maxFocusout($event)" [ngClass]="{'noPaddingInmax': maxExit == false}" (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                     
+                  </div>
                   </label>
+                  <div class="justify-content-between showMsg" *ngIf="emptymin == true || emptymax ==true || overmin==true"> 
+                     <img src="../../../assets/img/min-max-explain.png" class="max-min-exp-img">
+                     <img src="../../../assets/img/highlight-arrow.png" class="arrow-img">
+                  </div>
+                  <div class="d-flex flex-column" *ngIf="emptymin == true || emptymax ==true || overmin==true" style="height:200px;">
+                    <p class="display-txt">Add your <input type="text" class="min_input_show" value="Max"> number to ready the slider.</p>
+                     <p class="display-txt">Min number is on us. You can adjust Max and Min numbers to whaterever you want.</p>
+                  </div>
                 </div>
               <!-- <div class="gap-box">
                 <label class="d-flex">
@@ -449,32 +473,31 @@
               </div> -->
 
             </div>
-            <div *ngIf="selectedRadio == 'RADIO'">
+            <div *ngIf="selectedRadio == 'RADIO'" class="mb-90">
               <h4 class="data-list-title"> Data list</h4>
-              <div dragula="data_COLUMNS" class="data-wrapper">
-                <div *ngFor="let dataValue of optionsArray;let i=index;trackBy:trackByFn" class="one-selection-wrapper">
-                  <!-- <input type="text" class="data-value" placeholder="Type data value here"> -->
+              <div dragula="data_COLUMNS" class="data-wrapper"  [(dragulaModel)]="valueArray">
+                <div *ngFor="let dataValue of valueArray;let i=index;" class="one-selection-wrapper">
                   <div class="d-flex selection-wrapper">
                     <span class="img-wrapper">
-                      <img class="move-sign" *ngIf="optionsArray.length > 1" src="../../../assets/images/disable-holder.svg">
-                      <img class="move-sign" *ngIf="optionsArray.length == 1" src="../../../assets/images/single-holder.svg"
+                      <img class="move-sign" *ngIf="valueArray.length > 1" src="../../../assets/images/disable-holder.svg">
+                      <img class="move-sign" *ngIf="valueArray.length == 1" src="../../../assets/images/single-holder.svg"
                         style="pointer-events: none">
                     </span>
-                    <div class="form-group">
-                      <input type="text" class="form-control data-value" placeholder="Type data value here" (input)="addDataValueText(i,$event)"
-                        name="{{'dataValue'+ i}}" required>
+                    <div class="form-group input-wrapper" id="data-input{{i}}">
+                      <input type="text" class="form-control data-value" placeholder="Type data value here" [(ngModel)]="dataValue.name"
+                        name="{{'dataValue'+ i}}" id="{{'valueInput'+i}}" autocomplete="off" required>
                     </div>
-                    <div class="data-close" *ngIf="toShowClear()" (click)="dataValueClear(i,$event)"></div>
+                    <div class="data-close" *ngIf="valueArray.length > 1" (click)="dataValueClear(i,$event)"></div>
                   </div>
                 </div>
               </div>
-              <span class="newValue" (click)="addDataValue()">Add new data value </span>
+              <span class="newValue cousorAdd" (click)="addDataValue('newData')">Add new data value </span>
             </div>
           </div>
           <div class="d-flex justify-content-end form-footer">
             <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false">Create</button>
-            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(optionsArray) ||  valid==false"
+            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createDataApg()" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(valueArray) ||  valid==false">Create</button>
+            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="(model.name==undefined || model.name.length == 0) || checkValidation(valueArray) ||  valid==false"
               (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
           </div>
         </div>
@@ -486,9 +509,9 @@
             [ngClass]="{'disable-click': module.name=='Badge'}">
             <label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
               <div class="module-img">
-                <img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png"
+                <img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type.png"
                   class="img-fluid">
-                <img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png"
+                <img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type-a.png"
                   class="img-fluid">
               </div>
               <div class="label-checked"></div>
@@ -665,17 +688,16 @@
                   </div>
 
                   <div class="radioType" *ngIf="tobj.data.inputType=='RADIO'">
-                    <ul class="listGroup" *ngFor="let option of tobj.data.inputTypeProperties.options; let j=index;"
+                    <div class="d-flex flex-row listGroup" *ngFor="let option of tobj.data.inputTypeProperties.options; let j=index;"
                       [ngClass]="{'selected': sharechecked == temp._id}">
-
-                      <li class="optionlist" *ngIf="tobj.data.inputTypeProperties.options.length-1!=j">
+                      <span class="detail-dot"></span><div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist" [ngClass]="{'hide-border': tobj.data.inputTypeProperties.options.length == j+1}">
                         {{option}}
-                      </li>
+                      </div>
 
-                      <li class="optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j">
+                     <!-- <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
                         {{option}}
-                      </li>
-                    </ul>
+                      </div> -->
+                    </div>
                   </div>
                 </div>
                 <!-- </div> -->
@@ -690,7 +712,7 @@
               
               <button class="btn remove-outline" (click)="showmore('apg',apgList.length)">load more</button>
             </div> -->
-          <div class="apg-share-content" *ngIf="apgType =='Assessment'">
+          <div class="apg-share-content" *ngIf="apgType =='Assessment' || apgType =='Evaluation'">
             <div class="col1">
               <div *ngFor="let template of templateList | slice:0:half ; let i=index" class="assement-shared-apg share-input">
                 <div class="header" [ngClass]="{'selected': sharechecked == template._id}">
@@ -705,7 +727,7 @@
                 <div class="accesspoint-name-wrapper">
                   <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
                     <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
-                      <span>{{accessPoint.name}}</span>
+                      <span [ngClass]="{'changeColor': accessPoint.isExpand}">{{accessPoint.name}}</span>
                       <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i,ind)">
                         <i class="fa fa-angle-down" style="font-size: 25px;"></i>
                         <!-- <img src="../../../assets/images/system-icons-down.png"> -->
@@ -744,7 +766,7 @@
                 <div class="accesspoint-name-wrapper">
                   <div *ngFor="let accessPoint of template.accessPoints;let ind=index;" class="accesspoint-name">
                     <div class="head" [ngClass]="{'no-mb': ind==template.accessPoints.length-1}">
-                      <span>{{accessPoint.name}}</span>
+                      <span [ngClass]="{'changeColor': accessPoint.isExpand}">{{accessPoint.name}}</span>
                       <span class="down-arrow" [ngClass]="{'transform-y': accessPoint.isExpand}" (click)="expandAccessPoint(i2+ half,ind)">
                         <i class="fa fa-angle-down" style="font-size: 25px;"></i>
                         <!-- <img src="../../../assets/images/system-icons-down.png"> -->
@@ -839,7 +861,7 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn modal-cancel-btn" (click)="cancelapg('Close click')">Cancel</button>
+    <button type="button" class="btn modal-cancel-btn" (click)="closeDeleteModal()">Cancel</button>
     <button type="submit" class="btn modal-delete-btn" (click)="apgDelete(deleteId)">Delete</button>
   </div>
 </ng-template>
