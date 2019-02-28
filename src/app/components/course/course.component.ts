@@ -1847,6 +1847,7 @@ export class CourseComponent implements OnInit {
     this.cancelUItext= false;
     this.cancelUI=false;
     this.reasonValue= '';
+    this.textAreaOption = false;
     this.modalReference.close();
     // this.currentDateObj = '';
   }
