@@ -1797,6 +1797,7 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
     this.showInvoice = false;
+    this.textAreaOption = false;
     // this.currentDateObj = '';
     this.showStudentOption = '';
     this.xxxhello = '';
