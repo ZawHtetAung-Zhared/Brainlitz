@@ -493,13 +493,6 @@ export class CourseComponent implements OnInit {
 
 
     }
-    closeDropdown(e){
-      var divToHide = document.getElementById('divToHide');
-      if(e.target.parentNode.id != 'divToHide'){
-        console.log("!= divToHide");
-        this.attdBox = false
-      }
-    }
 
   // @HostListener('document:click', ['$event']) clickedOutside($event){
 
@@ -508,6 +501,17 @@ export class CourseComponent implements OnInit {
   //    this.xxxhello = '';
   //    console.log("CLICKED OUTSIDE");
   //  }
+
+
+  //for attendance
+  closeDropdown(e,type){
+    var divToHide = document.getElementById('divToHide');
+    if(e.target.parentNode != null){
+      if(e.target.parentNode.id != 'divToHide'){
+        this.attdBox = false
+      }
+    }
+  }
 
   //start course search
 
