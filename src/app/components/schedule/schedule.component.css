@@ -451,7 +451,9 @@
     border-radius: 4px;
     margin: 16px 10px 5px 0px;
     color: #2e3e4d;
-    padding: 10px 0px 10px 0px;
+    /*padding: 10px 0px 10px 0px;*/
+    padding: 10px;
+    line-height: 2;
     box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
     text-align: center;
   }
@@ -496,10 +498,10 @@
   /* color: #2e3d4d; */
   font-size: 14px;
 }
-.schedule-box-label{
+.schedule-box-label,.single-range{
   font-family: Inter-UI-SemiBold, Arial,sans-serif;
   /* color: #2e3d4d; */
-  font-size: 14px;
+  font-size: 12px;
 }
 .checkboxes-wrapper{
  margin-bottom: 32px;
@@ -840,7 +842,6 @@ thead th,
   top: 0;
   background: #fff;
   color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
   padding: 7px;
   border: 1px solid #edeff0;
   border-bottom: none;
@@ -1490,8 +1491,8 @@ ul.options-box li:last-child,.create-box li:last-child {
 }
 .selectSlot{
   background: #80bfff;
-  /*border: 2px solid #007fff;*/
   border-radius: 2px;
+  border: 2px solid #007fff;
 }
 
 .createcouresplan{
