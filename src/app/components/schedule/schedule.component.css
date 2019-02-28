@@ -737,6 +737,11 @@ ul.scedule-data-listing li.disabled{
   border-radius: 16px; 
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
+.teacher-wrapper{
+  /* background: brown; */
+  overflow: auto;
+}
+
 .close{
   width: 48px;
   height: 48px;
