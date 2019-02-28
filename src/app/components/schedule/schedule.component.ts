@@ -1209,7 +1209,7 @@ export class ScheduleComponent implements OnInit {
       repeatDays = this.selectedDay.toString();
     }
     this.scheduleList = false;
-    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID, limit, skip)
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID)
       .subscribe((res: any) => {
         this.result = res;
         this.staffList = res;
@@ -1257,7 +1257,7 @@ export class ScheduleComponent implements OnInit {
     }
     this.scheduleList = false;
     this.blockUI.start('Loading')
-    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID, limit, skip)
+    this._service.getscheduleStaffList(this.regionId, repeatDays, this.selectedID)
       .subscribe((res: any) => {
         setTimeout(() => {
           this.blockUI.stop();
