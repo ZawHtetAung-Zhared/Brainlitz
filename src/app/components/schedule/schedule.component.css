@@ -657,10 +657,9 @@ ul.scedule-data-listing li.disabled{
   background: #f2f4f5;
   border-radius: 24px;
   padding-top: 3px;
-  width: 90%;
   padding-bottom: 3px;
   cursor: pointer;
-  margin-right: 63px;
+  width: auto;
 }
 .modal-teacher-list{
   width:207px; 
@@ -705,6 +704,7 @@ ul.scedule-data-listing li.disabled{
 }
 
 .text-padding{
+  white-space: nowrap;
   padding-right: 16px;
 }
 .text-teacher-name{
@@ -741,7 +741,8 @@ ul.scedule-data-listing li.disabled{
 }
 .teacher-wrapper{
   /* background: brown; */
-  overflow: auto;
+  overflow-y: hidden;
+  overflow-x: overlay;
 }
 
 .close{

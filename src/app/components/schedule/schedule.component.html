@@ -175,8 +175,8 @@
       </div>
       <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
         <div class="d-flex  teacher-list-wrapper " id="customscroll" [class.teacher-wrapper]="staffList.staff.length >= 6">
-          <div *ngFor="let teacher of staffList.staff; let i = index;" class="">
-            <div class="d-flex teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" id="{{'test' + i}}">
+          <div *ngFor="let teacher of staffList.staff; let i = index;" class="mr-2">
+            <div class="d-flex teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" id="{{'overFlowWidth' + i}}">
               <div>
                 <div  class=" tchr-img-wraper">
                   <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">

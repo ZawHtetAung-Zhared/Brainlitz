@@ -1234,14 +1234,14 @@ export class ScheduleComponent implements OnInit {
         } else {
           console.log("no need to call staff timttable")
         }
-        setTimeout(() => {
-          if(this.staffList.staff.length >= 6){
-            var yPosition = $('#test'+ 5).position().left;
-            $('.teacher-wrapper').width(yPosition +  $('#test'+ 5).width())
+        // setTimeout(() => {
+        //   if(this.staffList.staff.length >= 6){
+        //     var yPosition = $('#overFlowWidth'+ 5).position().left;
+        //     $('.teacher-wrapper').width(yPosition +  $('#overFlowWidth'+ 5).width())
 
-            console.log($('.teacher-wrapper').width());
-          }
-        }, 300);
+        //     console.log($('.teacher-wrapper').width());
+        //   }
+        // }, 300);
       }, (err: any) => {
         // catch the error response from api   
         this.staffList = [];
