@@ -1224,8 +1224,6 @@ export class ScheduleComponent implements OnInit {
           }else if(type == 'aa'){
             this.selectedTeacher = this.tempSelectedTeacher
             console.log('selected teacher');
-            console.error(this.selectedTeacher);
-            console.error(this.tempSelectedTeacher);
           }
            else {
             if (this.staffList.staff) {
@@ -1419,14 +1417,9 @@ export class ScheduleComponent implements OnInit {
     console.warn('object');
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
-    console.error(teacher);
-    console.error(this.selectedTeacher);
     this.selectedTeacher.userId = teacher.userId;
- 
+      this.getschedulestaff('aa', this.tempstafflist.length, '0');
     setTimeout(() => {
-      if (this.tempstafflist && this.staffList.staff.length < this.tempstafflist.length) {
-        this.getschedulestaff('aa', this.tempstafflist.length, '0');
-      }
       if (this.tempstafflist) {
         $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
       } else {
