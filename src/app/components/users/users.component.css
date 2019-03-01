@@ -34,7 +34,7 @@ ul.pass-list li,
 .info-mail,
 .info-about,
 .medium-label-14,
-.enroll-btn {
+.enroll-btn,.rollover-btn {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
 }
@@ -2516,4 +2516,9 @@ input[_ngcontent-c1]:focus {
   .jouranlModal .modal-content{
     height: 90vh;
 
+  }
+  .rollover-btn{
+    text-decoration: underline;
+    color: #2e3d4d;
+    cursor: pointer;
   }
