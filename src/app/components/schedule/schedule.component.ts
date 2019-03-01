@@ -773,7 +773,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    console.log(document.getElementById("#v-wrapper1_id"))
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log("undefined currency", this.currency);
@@ -1183,8 +1183,10 @@ export class ScheduleComponent implements OnInit {
 
   /// Fix Get Sechedule Staff API ///
   getschedulestaff(type,limit,skip){
+    
     setTimeout(() => {
       this.updateScrollbar('v-wrapper')
+      
     }, 1000);
 
     var repeatDays;
@@ -1870,25 +1872,9 @@ export class ScheduleComponent implements OnInit {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
-   
-    this.screenValue=window.innerWidth;
-    // if(this.startTime.min>min && this.startTime.hr > hr ){
-    //   var h = hr+1
-    //   console.log("add 1~~~>")
-    // }else{
-    //   var h = hr
-    //   console.log("original~~~>")
-    // }
-    // this.slotHr = h + ':' + min + ' ' + ampm;
-    // this.clickSlot(hr, min, ampm);
 
-    // if (this.startTime.min > 0 && min == 0) {
-    //   var h = hr + 1;
-    //   console.log("ttt", h, ':', min, ':', ampm);
-    // } else {
-    //   var h = hr;
-    //   console.log("original", h, ':', min, ':', ampm);
-    // }
+    $(".disabledScroll").css("overflow","hidden");
+
 
     console.log("minSlot", this.minSlotArr);
     // var cIdx = this.minSlotArr.indexOf(min);

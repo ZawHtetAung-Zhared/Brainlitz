@@ -1449,6 +1449,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   position: absolute;
   /*z-index:5;*/
   z-index: 10;
+  overflow: hidden;
   background-color: rgba(0,0,0,0.5)!important;
 }
 
