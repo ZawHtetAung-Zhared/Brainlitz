@@ -1613,5 +1613,9 @@ export class UsersComponent implements OnInit {
 		this.dataService.nevigateCourse(course._id)
 	}
 
+	rolloverCourse(){
+		console.log("rolloverCourse works");
+	}
+
 }
 
