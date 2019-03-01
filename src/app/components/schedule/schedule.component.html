@@ -25,7 +25,7 @@
               [disabled]="isEdit == true" 
               [checked]="selectedDay.indexOf(d.val) !== -1" 
               >
-              <div class="box-label">{{d.day}}</div>
+              <div class="box-label">{{d.day|uppercase}}</div>
             </label>
           </span>
         </div>
@@ -141,7 +141,7 @@
                 (change)="selectDay(d.val ,$event,d.day,'callTimetable')" 
                 [checked]="selectedDay.indexOf(d.val) != -1" 
                 [disabled]="isEdit == true" >
-              <div class="schedule-box-label">{{d.day}}</div>
+              <div class="schedule-box-label">{{d.day|uppercase}}</div>
             </label>
           </span>
         </div>
@@ -174,9 +174,9 @@
         </div>
       </div>
       <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
-        <div class="d-flex  teacher-list-wrapper " id="customscroll">
-          <div *ngFor="let teacher of staffList.staff" class="">
-            <div class="d-flex teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
+        <div class="d-flex  teacher-list-wrapper " id="customscroll" [class.teacher-wrapper]="staffList.staff.length >= 6">
+          <div *ngFor="let teacher of staffList.staff; let i = index;" class="mr-2">
+            <div class="d-flex teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" id="{{'overFlowWidth' + i}}">
               <div>
                 <div  class=" tchr-img-wraper">
                   <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
