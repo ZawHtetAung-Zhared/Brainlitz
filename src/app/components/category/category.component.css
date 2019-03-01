@@ -310,6 +310,21 @@ h3.category-h3{
 	height: 67px;
 }
 
+#inp::placeholder {
+  color: #64707d!important;
+  opacity: 1; /* Firefox */
+}
+
+#inp:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color: #64707d!important;
+}
+
+#inp::-ms-input-placeholder { /* Microsoft Edge */
+ color: #64707d!important;
+}
+
+
+
 @media only screen and  (min-width:1366px){
 	.inner-wrapper{
 	  width: 1080px!important;
