@@ -1258,15 +1258,15 @@ export class ScheduleComponent implements OnInit {
   overFlowWidth(index,type){
     if(type == 'button'){
       if(window.innerWidth < 1366 ){
-        for (let i = 0; i < 6; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth'+ i).width());
+        for (let i = 0; i <= 5; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
              this.totalWidth += removeDecimal;
             }
             $('.teacher-wrapper').width(this.totalWidth)
       }
       if(window.innerWidth >= 1366 && window.innerWidth < 1920){
-        for (let i = 0; i < 10; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth'+ i).width());
+        for (let i = 0; i <= 9; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
              this.totalWidth += removeDecimal;
              console.log(removeDecimal);
             }
@@ -1274,8 +1274,8 @@ export class ScheduleComponent implements OnInit {
       }
 
       if(window.innerWidth >= 1920){
-        for (let i = 0; i < 15; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth'+ i).width());
+        for (let i = 0; i <= 14; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
              this.totalWidth += removeDecimal;
              console.log(removeDecimal);
             }
