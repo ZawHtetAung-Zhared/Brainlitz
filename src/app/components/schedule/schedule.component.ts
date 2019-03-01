@@ -18,6 +18,7 @@ declare var $: any;
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
+  public totalWidth = 0;
   public result: any;
   public logo: any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
@@ -1094,10 +1095,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   // Selected Day //
-  selectDay(data, event, day, type): void {
+  selectDay(data, event, day, type,index): void {
     if (type == "callTimetable") {
       setTimeout(() => {
-        this.getschedulestaff('checkbox', this.staffList.staff.length, '0');
+        this.getschedulestaff('checkbox', this.staffList.staff.length, '0',index);
       }, 200)
     }
     var dayIdx = this.selectedDay.indexOf(data);
@@ -1173,11 +1174,11 @@ export class ScheduleComponent implements OnInit {
       this.isFousCategory = false;
     }, 300);
   }
-  selectDataApiCall(category) {
+  selectDataApiCall(category,index) {
     this.selectedTeacher = {};
     console.log("selectDataApiCall works", category)
     this.selectData(category);
-    this.getschedulestaff('button', '20', '0')
+    this.getschedulestaff('button', '20', '0',index)
     $('.teacher-list-wrapper').scrollLeft(0);
   }
 
@@ -1197,7 +1198,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   /// Fix Get Sechedule Staff API ///
-  getschedulestaff(type,limit,skip){
+  getschedulestaff(type,limit,skip,index){
     setTimeout(() => {
       this.updateScrollbar('v-wrapper')
     }, 1000);
@@ -1221,7 +1222,7 @@ export class ScheduleComponent implements OnInit {
             if (this.tempSelectedTeacher == null) {
               this.selectedTeacher = this.staffList.staff[0];
             }
-          }else if(type == 'aa'){
+          }else if(type == 'modalteacher'){
             this.selectedTeacher = this.tempSelectedTeacher
             console.log('selected teacher');
           }
@@ -1239,18 +1240,86 @@ export class ScheduleComponent implements OnInit {
          else {
           console.log("no need to call staff timttable")
         }
-        // setTimeout(() => {
-        //   if(this.staffList.staff.length >= 6){
-        //     var yPosition = $('#overFlowWidth'+ 5).position().left;
-        //     $('.teacher-wrapper').width(yPosition +  $('#overFlowWidth'+ 5).width())
+        setTimeout(() => {
 
-        //     console.log($('.teacher-wrapper').width());
-        //   }
-        // }, 300);
+          if(type == 'modalteacher'){
+            this.overFlowWidth(index,type);
+          }else if(type =='button'){
+            this.overFlowWidth(20,type);
+          }
+
+        }, 300);
+
       }, (err: any) => {
         // catch the error response from api   
         this.staffList = [];
       })
+  }
+  overFlowWidth(index,type){
+    if(type == 'button'){
+      if(window.innerWidth < 1366 ){
+        for (let i = 0; i < 6; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width());
+             this.totalWidth += removeDecimal;
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+      if(window.innerWidth >= 1366 && window.innerWidth < 1920){
+        for (let i = 0; i < 10; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width());
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+
+      if(window.innerWidth >= 1920){
+        for (let i = 0; i < 15; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width());
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+
+    }
+    if(type == 'modalteacher'){
+      if(window.innerWidth < 1366 ){
+        console.log(index - 6,'index =======',index);
+        for (let i = index - 5 ; i <= index; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal,'###',i);
+            }
+            console.warn(this.totalWidth);
+            $('.teacher-wrapper').width(this.totalWidth)
+            // $('.teacher-list-wrapper').scrollLeft( $('.teacher-wrapper').width());
+            // $('.teacher-list-wrapper').scrollLeft( $('.teacher-wrapper').width());
+      }
+      if(window.innerWidth >= 1366 && window.innerWidth < 1920){
+        for (let i = index - 9; i <= index; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width())+ 8;
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+            // $('.teacher-list-wrapper').scrollLeft( $('.teacher-wrapper').width());
+      }
+      if(window.innerWidth >= 1920){
+        for (let i = index - 14; i <= index; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal,'###',i);
+            }
+            console.log(index,'indexx=======')
+            console.warn(this.totalWidth);
+            $('.teacher-wrapper').width(this.totalWidth)
+           
+      }
+      console.warn($('#overFlowWidth'+ index));
+      // $('.teacher-list-wrapper').scrollLeft($('#overFlowWidth'+ index).position().left);
+    }
+    this.totalWidth  = 0;
   }
   // for modal
   getViewAllStaff(type, skip, limit) {
@@ -1412,16 +1481,15 @@ export class ScheduleComponent implements OnInit {
     }
 
   }
-  activeTeachers1(teacher) {
+  activeTeachers1(teacher,index) {
     this.keyword = '';
-    console.warn('object');
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-      this.getschedulestaff('aa', this.tempstafflist.length, '0');
+      this.getschedulestaff('modalteacher', this.tempstafflist.length, '0',index);
     setTimeout(() => {
       if (this.tempstafflist) {
-        $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+        $('.teacher-list-wrapper').scrollLeft(110 * (this.tempstafflist.indexOf(this.selectedTeacher)));
       } else {
         $('.teacher-list-wrapper').scrollLeft(0);
       }
