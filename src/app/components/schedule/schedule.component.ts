@@ -31,6 +31,9 @@ export class ScheduleComponent implements OnInit {
   public arrLeft: any;
   public arrClasses: any;
   public custDetail: any = {};
+  public createBoxLength;
+  public isSide:boolean=false;
+  public screenValue;
   // public styleArr={top:"",left:"",right:"0"};
   // public styleArrDefault={top:"",left:"",right:""};
   // public styleArrDefault2={top:"",left:"",right:""};
@@ -752,39 +755,21 @@ export class ScheduleComponent implements OnInit {
     this.slotIdx = '';
     this.slotJidx = '';
   }
+  
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log("<><>",this.styleArrDefault)
-    if(this.styleArr != null || this.styleArr !=undefined){
-        //  if(this.styleArr.right=="0px"){
-          this.styleArr=this.styleArrDefault;
-          console.log(this.styleArrDefault)
-        // }
-    }
-
-    // this.xPosition = $(".create-box").offset().left - 150 + $(".create-box").width() / 2;
-    // this.yPosition = $(".create-box").offset().top + $(".create-box").height() + 10;
-    // this.arrTop = $(".create-box").offset().top + $(".create-box").height() - 10;
-    // this.arrLeft = this.xPosition + 140;
-
-    // if((this.styleArr.right == "0px" || this.styleArr.right == "" || this.styleArr.left =="0px" || this.styleArr.left =="") && (this.styleArrDefault.left != this.xPosition +"px" || this.styleArrDefault.right != this.xPosition+"px") && $(document).width() - this.xPosition > 300){
-    //   this.styleArr=this.styleArrDefault;
-    //   console.log("not side>"+this.styleArr)     
-    // }else if( $(document).width() - this.xPosition < 300 && (this.styleArrDefault.left == this.xPosition+"px" || this.styleArrDefault.right == this.xPosition+"px")){
-    //   this.styleArr=this.styleArrDefault2;
-    //   console.log("dar not side")
-    // }
+    if(this.isSide){
+      if(this.screenValue <= window.innerWidth){
+        this.styleArr = {
+        'top': this.yPosition + "px",
+        'right': '0px'
+        }
   
-    // if($(document).width() - this.xPosition >4 && $(document).width() - this.xPosition < 300){
-    //   console.log("less than 300");
-    //   console.log(this.styleArrDefault2)
-    //   console.log(this.styleArr)
-    //   this.styleArr.left="";
-     
-    // }else if($(document).width() - this.xPosition <4){
-    //   console.log(this.styleArrDefault)
-    // }
-   
+      }else{
+        this.styleArr=this.styleArrDefault; 
+      }
+    }
   }
 
   ngOnInit() {
@@ -1885,7 +1870,8 @@ export class ScheduleComponent implements OnInit {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
-    console.log(e)
+   
+    this.screenValue=window.innerWidth;
     // if(this.startTime.min>min && this.startTime.hr > hr ){
     //   var h = hr+1
     //   console.log("add 1~~~>")
@@ -1967,48 +1953,36 @@ export class ScheduleComponent implements OnInit {
         'arr-up': true
       }
     }
-    // this.styleArrDefault.top=this.yPosition +"px";
-    // this.styleArrDefault.left=this.xPosition+"px";
-    this.styleArrDefault={
+
+    this.styleArrDefault = {
       'top': this.yPosition + "px",
       'left': this.xPosition + "px"
     }
-
     if ($(document).width() - this.xPosition < 300) {
       console.log("here 1")
-      this.xPosition = 0;
+      // this.xPosition = 0;
+      this.isSide=true;
       this.styleArr = {
         'top': this.yPosition + "px",
         'right': '0px'
       }
-      console.log(this.styleArrDefault)
-      // this.styleArr.top=this.yPosition+"px";
-      // this.styleArr.right="0px";
-      // this.styleArr.left="";
-      
-      // this.styleArrDefault=this.styleArr;
-      console.log(this.styleArrDefault)
     }
     else if (this.xPosition < 0) {
       console.log("here 2")
-      this.xPosition = 0;
+      this.isSide=true;
+      // this.xPosition = 0;
       this.styleArr = {
         'top': this.yPosition + "px",
         'left': '0px'
       }
-      // this.styleArr.top=this.yPosition+"px";
-      // this.styleArr.left="0px";
-      // this.styleArr.right="";
-      // this.styleArrDefault2=this.styleArr;
     }
     else {
       console.log("here 3")
+      this.isSide=false;
       this.styleArr = {
         'top': this.yPosition + "px",
         'left': this.xPosition + "px"
       }
-      // this.styleArr.top=this.yPosition+"px";
-      // this.styleArr.left=this.xPosition+"px";
     }
     console.log("selected", this.selectedTeacher);
     console.log('selectdate', date);
