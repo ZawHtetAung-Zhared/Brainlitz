@@ -1022,7 +1022,6 @@ export class CourseplanComponent implements OnInit {
     else {
       console.log('error')
     }
-    this.formField.lesson.duration = this.timeInminutes;
     console.log('durationMinutes', this.timeInminutes)
 
   }
