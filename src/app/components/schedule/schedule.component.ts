@@ -18,6 +18,8 @@ declare var $: any;
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
+  public totalWidth = 0;
+  public scrollLeftPosition= 0;
   public result: any;
   public logo: any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
@@ -759,6 +761,7 @@ export class ScheduleComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    this.overFlowWidth(20,'button')
     if(this.isSide){
       if(this.screenValue <= window.innerWidth){
         this.styleArr = {
@@ -1079,10 +1082,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   // Selected Day //
-  selectDay(data, event, day, type): void {
+  selectDay(data, event, day, type,index): void {
     if (type == "callTimetable") {
       setTimeout(() => {
-        this.getschedulestaff('checkbox', this.staffList.staff.length, '0');
+        this.getschedulestaff('checkbox', this.staffList.staff.length, '0',index);
       }, 200)
     }
     var dayIdx = this.selectedDay.indexOf(data);
@@ -1158,11 +1161,11 @@ export class ScheduleComponent implements OnInit {
       this.isFousCategory = false;
     }, 300);
   }
-  selectDataApiCall(category) {
+  selectDataApiCall(category,index) {
     this.selectedTeacher = {};
     console.log("selectDataApiCall works", category)
     this.selectData(category);
-    this.getschedulestaff('button', '20', '0')
+    this.getschedulestaff('button', '20', '0',index)
     $('.teacher-list-wrapper').scrollLeft(0);
   }
 
@@ -1182,8 +1185,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   /// Fix Get Sechedule Staff API ///
-  getschedulestaff(type,limit,skip){
-    
+  getschedulestaff(type,limit,skip,index){
     setTimeout(() => {
       this.updateScrollbar('v-wrapper')
       
@@ -1208,7 +1210,7 @@ export class ScheduleComponent implements OnInit {
             if (this.tempSelectedTeacher == null) {
               this.selectedTeacher = this.staffList.staff[0];
             }
-          }else if(type == 'aa'){
+          }else if(type == 'modalteacher'){
             this.selectedTeacher = this.tempSelectedTeacher
             console.log('selected teacher');
           }
@@ -1226,18 +1228,115 @@ export class ScheduleComponent implements OnInit {
          else {
           console.log("no need to call staff timttable")
         }
-        // setTimeout(() => {
-        //   if(this.staffList.staff.length >= 6){
-        //     var yPosition = $('#overFlowWidth'+ 5).position().left;
-        //     $('.teacher-wrapper').width(yPosition +  $('#overFlowWidth'+ 5).width())
+        setTimeout(() => {
 
-        //     console.log($('.teacher-wrapper').width());
-        //   }
-        // }, 300);
+          if(type == 'modalteacher'){
+            this.overFlowWidth(index,type);
+          }else if(type =='button'){
+            this.overFlowWidth(20,type);
+          }
+
+        }, 300);
+
       }, (err: any) => {
         // catch the error response from api   
         this.staffList = [];
       })
+  }
+  overFlowWidth(index,type){
+    var arr = index
+  // for normal calling
+    if(type == 'button'){
+      if(window.innerWidth < 1366 ){
+        for (let i = 0; i <= 5; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+      if(window.innerWidth >= 1366 && window.innerWidth < 1920){
+        for (let i = 0; i <= 9; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+
+      if(window.innerWidth >= 1920){
+        for (let i = 0; i <= 14; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+
+    }
+    // for modal 
+    if(type == 'modalteacher'){
+      // for screensize less than 1366
+      if(window.innerWidth < 1366 ){
+        console.log(index - 6,'index =======',index);
+        if(index >= 6){
+          for (let i = index - 5 ; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal,'###',i);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)  
+        }
+        if(index < 6){
+          for (let i = 0; i <= 5; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+        }
+      }
+  // for screensize greater than 1366 and less than 1920
+      if(window.innerWidth >= 1366 && window.innerWidth < 1920){
+        if(index >= 10){
+          for (let i = index - 9; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width())+ 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal);
+            }
+          $('.teacher-wrapper').width(this.totalWidth)
+        }
+
+        if(index < 10){
+          for (let i = 0; i <= 9; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+              console.log(removeDecimal);
+          }
+          $('.teacher-wrapper').width(this.totalWidth)
+        }
+      }
+
+// for screensize less than 1920
+      if(window.innerWidth >= 1920){
+        if (index >= 15) {
+          for (let i = index - 14; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal,'###',i);
+              }
+            console.log(index,'indexx=======')
+            $('.teacher-wrapper').width(this.totalWidth)
+        }
+        if(index < 15){
+          for (let i = 0; i <= 14; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+              console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+        }
+      }
+    }
+    this.totalWidth  = 0;
   }
   // for modal
   getViewAllStaff(type, skip, limit) {
@@ -1385,12 +1484,12 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-    if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
-      $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
-    }
-    else {
-      $('.teacher-list-wrapper').scrollLeft(0);
-    }
+    // if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
+    //   $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
+    // }
+    // else {
+    //   $('.teacher-list-wrapper').scrollLeft(0);
+    // }
     console.log(this.selectedDay);
     if (this.selectedDay.length == 0) {
       this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
@@ -1399,22 +1498,32 @@ export class ScheduleComponent implements OnInit {
     }
 
   }
-  activeTeachers1(teacher) {
+  activeTeachers1(teacher,index) {
+
     this.keyword = '';
-    console.warn('object');
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-      this.getschedulestaff('aa', this.tempstafflist.length, '0');
+      this.getschedulestaff('modalteacher', this.tempstafflist.length, '0',index);
     setTimeout(() => {
       if (this.tempstafflist) {
-        $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+        // $('.teacher-list-wrapper').scrollLeft(75 *2);
+        $('.teacher-list-wrapper').scrollLeft(100 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+       console.log(50 * (this.tempstafflist.indexOf(this.selectedTeacher)))
       } else {
         $('.teacher-list-wrapper').scrollLeft(0);
       }
+      // for (let i = 6; i <= arr; i++) {
+      //   console.log(i, 'index')
+      //   var a =Math.round($('#overFlowWidth'+ i).width()) * 2 
+      //   this.scrollLeftPosition += a;
+      //   console.log(a);
+      // }
+
       this.staff.staffId = '';
       this.tempstafflist = [];
       this.modalReference.close();
+      this.scrollLeftPosition = 0
     }, 400)
   }
 
