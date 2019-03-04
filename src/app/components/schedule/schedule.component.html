@@ -55,7 +55,7 @@
             <li *ngFor="let category of categoryList" (click)="selectData(category)">{{category.name}}</li>
           </ul>
         </div>
-        <button type="button" id="categoryList" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button','20', '0')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+        <button type="button" id="categoryList" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button','20', '0','20')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
       </form>
     </div>
   </div>
