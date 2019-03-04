@@ -192,6 +192,7 @@ export class CourseplanComponent implements OnInit {
         if(this.formField.paymentPolicy.taxInclusive == null ){
           this.chooseTax = 'none';
         }
+        this.tempDuration = res.lesson.duration;
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
