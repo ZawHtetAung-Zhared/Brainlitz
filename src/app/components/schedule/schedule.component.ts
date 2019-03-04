@@ -1285,6 +1285,13 @@ export class ScheduleComponent implements OnInit {
                console.log(removeDecimal,'###',i);
             }
             $('.teacher-wrapper').width(this.totalWidth)  
+            var tempNum = index - 6;
+            for (let i = 0; i <= tempNum; i++) {
+              console.log(i)
+              var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8
+              this.scrollLeftPosition += removeDecimal;
+              console.log(removeDecimal);
+            }
         }
         if(index < 6){
           for (let i = 0; i <= 5; i++) {
@@ -1296,6 +1303,13 @@ export class ScheduleComponent implements OnInit {
       }
   // for screensize greater than 1366 and less than 1920
       if(window.innerWidth >= 1366 && window.innerWidth < 1920){
+        var tempNum = index - 10;
+        for (let i = 0; i <= tempNum; i++) {
+          console.log(i)
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8
+          this.scrollLeftPosition += removeDecimal;
+          console.log(removeDecimal);
+        }
         if(index >= 10){
           for (let i = index - 9; i <= index; i++) {
             var removeDecimal = Math.round($('#overFlowWidth'+ i).width())+ 8;
@@ -1317,6 +1331,13 @@ export class ScheduleComponent implements OnInit {
 
 // for screensize less than 1920
       if(window.innerWidth >= 1920){
+        var tempNum = index - 15;
+        for (let i = 0; i <= tempNum; i++) {
+          console.log(i)
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8
+          this.scrollLeftPosition += removeDecimal;
+          console.log(removeDecimal);
+        }
         if (index >= 15) {
           for (let i = index - 14; i <= index; i++) {
             var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
@@ -1335,6 +1356,8 @@ export class ScheduleComponent implements OnInit {
             $('.teacher-wrapper').width(this.totalWidth)
         }
       }
+   
+      $('.teacher-list-wrapper').scrollLeft(this.scrollLeftPosition);
     }
     this.totalWidth  = 0;
   }
@@ -1507,19 +1530,13 @@ export class ScheduleComponent implements OnInit {
       this.getschedulestaff('modalteacher', this.tempstafflist.length, '0',index);
     setTimeout(() => {
       if (this.tempstafflist) {
-        // $('.teacher-list-wrapper').scrollLeft(75 *2);
-        $('.teacher-list-wrapper').scrollLeft(100 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+        // $('.teacher-list-wrapper').scrollLeft(75 *2 + 78 * 2 + 118 * 2);
+        // $('.teacher-list-wrapper').scrollLeft(100 * (this.tempstafflist.indexOf(this.selectedTeacher)));
        console.log(50 * (this.tempstafflist.indexOf(this.selectedTeacher)))
       } else {
         $('.teacher-list-wrapper').scrollLeft(0);
       }
-      // for (let i = 6; i <= arr; i++) {
-      //   console.log(i, 'index')
-      //   var a =Math.round($('#overFlowWidth'+ i).width()) * 2 
-      //   this.scrollLeftPosition += a;
-      //   console.log(a);
-      // }
-
+    
       this.staff.staffId = '';
       this.tempstafflist = [];
       this.modalReference.close();

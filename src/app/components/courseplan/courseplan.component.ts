@@ -24,6 +24,7 @@ export class CourseplanComponent implements OnInit {
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef, private _router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
   }
+  public tempDuration:any;
   public optionFee: boolean = false;
   public showModal: boolean = false;
   public showsubModal: boolean = true;
@@ -124,6 +125,7 @@ export class CourseplanComponent implements OnInit {
   public chooseTax;
   public clickableSteps: Array<any> = ['step1'];
   ngOnInit() {
+    this.formField.lesson.duration = '0 min'
     this.showModal = true;
     this.showsubModal = false;
     this.showLoading = true;
@@ -176,7 +178,7 @@ export class CourseplanComponent implements OnInit {
     }
 
   }
-
+  
   editCPlan(planId) {
     this._service.getSinglePlan(planId, this.locationID)
       .subscribe((res: any) => {
@@ -274,6 +276,7 @@ export class CourseplanComponent implements OnInit {
     if (m > 0) {
       this.selectedMinRange = m;
     }
+    this.formField.lesson.duration = this.formField.lesson.duration + ' min'
   }
 
   @ViewChild('parentForm') mainForm;
@@ -419,7 +422,7 @@ export class CourseplanComponent implements OnInit {
       "lesson": {
         "min": formData.minDuration,
         "max": formData.maxDuration,
-        "duration": this.formField.lesson.duration
+        "duration": this.tempDuration
       },
       "allowPagewerkz": this.step5FormaData.allowpagewerkz,
       "age": {
@@ -481,7 +484,6 @@ export class CourseplanComponent implements OnInit {
         console.log(this.formField.paymentPolicy.deposit);
         data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit
       }
-      console.warn(data.paymentPolicy.deposit);
       this.blockUI.start('Loading...');
       this._service.updateSignlecPlan(this.editPlanId, data, this.locationID)
         .subscribe((res: any) => {
@@ -1022,6 +1024,8 @@ export class CourseplanComponent implements OnInit {
     else {
       console.log('error')
     }
+    this.tempDuration = this.timeInminutes;
+    this.formField.lesson.duration = this.timeInminutes + ' min';
     console.log('durationMinutes', this.timeInminutes)
 
   }

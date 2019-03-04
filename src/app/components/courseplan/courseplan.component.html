@@ -286,8 +286,8 @@
 								</div>
 								<div class="display-style" style="padding-top: 40px;">
 									<div class="col-md-6">
-										<label class="all-title-font"> Duration </label>
-										<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
+										<label class="all-title-font"> Duration</label>
+										<input type="number" placeholder="{{formField.lesson.duration}}" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly (click)="durationProgress($event)" style="background: none;">
 										<div class="bg-box duration-progress">
 											<div id="rectangle"></div>
 											<div class="gap-box">
@@ -338,7 +338,7 @@
 									</div>
 								</div>
 								<div class="button-wrapper">
-									<button type="button" class="btn sticky-create" [disabled]="formField.lesson.duration == undefined || formField.lesson.duration == 0 " (click)="continueStep('step4', childForm4.value)">Continue</button>
+									<button type="button" class="btn sticky-create" [disabled]="formField.lesson.duration == undefined || formField.lesson.duration == 0 || formField.lesson.duration == '0 min'" (click)="continueStep('step4', childForm4.value)">Continue</button>
 									<div [hidden]="!step4" class="back-modal" (click)="backStep('step4')"><i class="fa fa-angle-left"></i> <p>Back</p></div>
 								</div>
 							</div>
