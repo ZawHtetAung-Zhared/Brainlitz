@@ -19,6 +19,7 @@ export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
   public totalWidth = 0;
+  public scrollLeftPosition= 0;
   public result: any;
   public logo: any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
@@ -1256,6 +1257,7 @@ export class ScheduleComponent implements OnInit {
       })
   }
   overFlowWidth(index,type){
+    var arr = index
     if(type == 'button'){
       if(window.innerWidth < 1366 ){
         for (let i = 0; i <= 5; i++) {
@@ -1293,8 +1295,19 @@ export class ScheduleComponent implements OnInit {
             }
             console.warn(this.totalWidth);
             $('.teacher-wrapper').width(this.totalWidth)
-            // $('.teacher-list-wrapper').scrollLeft( $('.teacher-wrapper').width());
-            // $('.teacher-list-wrapper').scrollLeft( $('.teacher-wrapper').width());
+
+            for (let i = 0; i <= arr; i++) {
+              var a =Math.round($('#overFlowWidth'+ i).width()) + 8 
+              this.scrollLeftPosition += a;
+              console.log(a);
+            }
+            console.log(index);
+            document.getElementById('customscroll').scrollLeft =  this.scrollLeftPosition ;
+            if(index == 0 || index < 6  ){
+              document.getElementById('customscroll').scrollLeft =  0 ;
+            }
+            console.error(this.scrollLeftPosition );
+            // $('.teacher-list-wrapper').scrollLeft(this.scrollLeftPosition + Math.round($('#overFlowWidth'+ index).width()));
       }
       if(window.innerWidth >= 1366 && window.innerWidth < 1920){
         for (let i = index - 9; i <= index; i++) {
@@ -1303,7 +1316,6 @@ export class ScheduleComponent implements OnInit {
              console.log(removeDecimal);
             }
             $('.teacher-wrapper').width(this.totalWidth)
-            // $('.teacher-list-wrapper').scrollLeft( $('.teacher-wrapper').width());
       }
       if(window.innerWidth >= 1920){
         for (let i = index - 14; i <= index; i++) {
@@ -1317,7 +1329,6 @@ export class ScheduleComponent implements OnInit {
            
       }
       console.warn($('#overFlowWidth'+ index));
-      // $('.teacher-list-wrapper').scrollLeft($('#overFlowWidth'+ index).position().left);
     }
     this.totalWidth  = 0;
   }
@@ -1482,20 +1493,24 @@ export class ScheduleComponent implements OnInit {
 
   }
   activeTeachers1(teacher,index) {
+    console.error(index)
+    var arr = index
+
     this.keyword = '';
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
       this.getschedulestaff('modalteacher', this.tempstafflist.length, '0',index);
     setTimeout(() => {
-      if (this.tempstafflist) {
-        $('.teacher-list-wrapper').scrollLeft(110 * (this.tempstafflist.indexOf(this.selectedTeacher)));
-      } else {
-        $('.teacher-list-wrapper').scrollLeft(0);
-      }
+      // if (this.tempstafflist) {
+      //   $('.teacher-list-wrapper').scrollLeft(110 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+      // } else {
+      //   $('.teacher-list-wrapper').scrollLeft(0);
+      // }
       this.staff.staffId = '';
       this.tempstafflist = [];
       this.modalReference.close();
+      this.scrollLeftPosition = 0
     }, 400)
   }
 
