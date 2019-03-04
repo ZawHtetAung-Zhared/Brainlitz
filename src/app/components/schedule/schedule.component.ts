@@ -1874,7 +1874,7 @@ export class ScheduleComponent implements OnInit {
   getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
 
     $(".disabledScroll").css("overflow","hidden");
-
+    this.screenValue=window.innerWidth;
 
     console.log("minSlot", this.minSlotArr);
     // var cIdx = this.minSlotArr.indexOf(min);
