@@ -742,7 +742,7 @@ ul.scedule-data-listing li.disabled{
 .teacher-wrapper{
   /* background: brown; */
   overflow-y: hidden;
-  overflow-x: overlay;
+  overflow-x: scroll;
 }
 
 .close{

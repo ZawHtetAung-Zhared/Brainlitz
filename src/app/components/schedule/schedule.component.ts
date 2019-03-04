@@ -756,6 +756,7 @@ export class ScheduleComponent implements OnInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
+    this.overFlowWidth(20,'button')
     console.log("<><>",this.styleArrDefault)
     if(this.styleArr != null || this.styleArr !=undefined){
         //  if(this.styleArr.right=="0px"){
@@ -1258,6 +1259,7 @@ export class ScheduleComponent implements OnInit {
   }
   overFlowWidth(index,type){
     var arr = index
+  // for normal calling
     if(type == 'button'){
       if(window.innerWidth < 1366 ){
         for (let i = 0; i <= 5; i++) {
@@ -1285,50 +1287,68 @@ export class ScheduleComponent implements OnInit {
       }
 
     }
+    // for modal 
     if(type == 'modalteacher'){
+      // for screensize less than 1366
       if(window.innerWidth < 1366 ){
         console.log(index - 6,'index =======',index);
-        for (let i = index - 5 ; i <= index; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
-             this.totalWidth += removeDecimal;
-             console.log(removeDecimal,'###',i);
+        if(index >= 6){
+          for (let i = index - 5 ; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal,'###',i);
             }
-            console.warn(this.totalWidth);
+            $('.teacher-wrapper').width(this.totalWidth)  
+        }
+        if(index < 6){
+          for (let i = 0; i <= 5; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+            }
             $('.teacher-wrapper').width(this.totalWidth)
-
-            for (let i = 0; i <= arr; i++) {
-              var a =Math.round($('#overFlowWidth'+ i).width()) + 8 
-              this.scrollLeftPosition += a;
-              console.log(a);
-            }
-            console.log(index);
-            document.getElementById('customscroll').scrollLeft =  this.scrollLeftPosition ;
-            if(index == 0 || index < 6  ){
-              document.getElementById('customscroll').scrollLeft =  0 ;
-            }
-            console.error(this.scrollLeftPosition );
-            // $('.teacher-list-wrapper').scrollLeft(this.scrollLeftPosition + Math.round($('#overFlowWidth'+ index).width()));
+        }
       }
+  // for screensize greater than 1366 and less than 1920
       if(window.innerWidth >= 1366 && window.innerWidth < 1920){
-        for (let i = index - 9; i <= index; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth'+ i).width())+ 8;
-             this.totalWidth += removeDecimal;
-             console.log(removeDecimal);
+        if(index >= 10){
+          for (let i = index - 9; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width())+ 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal);
             }
-            $('.teacher-wrapper').width(this.totalWidth)
+          $('.teacher-wrapper').width(this.totalWidth)
+        }
+
+        if(index < 10){
+          for (let i = 0; i <= 9; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+              console.log(removeDecimal);
+          }
+          $('.teacher-wrapper').width(this.totalWidth)
+        }
       }
+
+// for screensize less than 1920
       if(window.innerWidth >= 1920){
-        for (let i = index - 14; i <= index; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
-             this.totalWidth += removeDecimal;
-             console.log(removeDecimal,'###',i);
-            }
+        if (index >= 15) {
+          for (let i = index - 14; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal,'###',i);
+              }
             console.log(index,'indexx=======')
-            console.warn(this.totalWidth);
             $('.teacher-wrapper').width(this.totalWidth)
-           
+        }
+        if(index < 15){
+          for (let i = 0; i <= 14; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+              console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+        }
       }
-      console.warn($('#overFlowWidth'+ index));
     }
     this.totalWidth  = 0;
   }
@@ -1478,12 +1498,12 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-    if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
-      $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
-    }
-    else {
-      $('.teacher-list-wrapper').scrollLeft(0);
-    }
+    // if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
+    //   $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
+    // }
+    // else {
+    //   $('.teacher-list-wrapper').scrollLeft(0);
+    // }
     console.log(this.selectedDay);
     if (this.selectedDay.length == 0) {
       this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
@@ -1493,8 +1513,6 @@ export class ScheduleComponent implements OnInit {
 
   }
   activeTeachers1(teacher,index) {
-    console.error(index)
-    var arr = index
 
     this.keyword = '';
     this.selectedTeacher = teacher
@@ -1502,11 +1520,20 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher.userId = teacher.userId;
       this.getschedulestaff('modalteacher', this.tempstafflist.length, '0',index);
     setTimeout(() => {
-      // if (this.tempstafflist) {
-      //   $('.teacher-list-wrapper').scrollLeft(110 * (this.tempstafflist.indexOf(this.selectedTeacher)));
-      // } else {
-      //   $('.teacher-list-wrapper').scrollLeft(0);
+      if (this.tempstafflist) {
+        // $('.teacher-list-wrapper').scrollLeft(75 *2);
+        $('.teacher-list-wrapper').scrollLeft(100 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+       console.log(50 * (this.tempstafflist.indexOf(this.selectedTeacher)))
+      } else {
+        $('.teacher-list-wrapper').scrollLeft(0);
+      }
+      // for (let i = 6; i <= arr; i++) {
+      //   console.log(i, 'index')
+      //   var a =Math.round($('#overFlowWidth'+ i).width()) * 2 
+      //   this.scrollLeftPosition += a;
+      //   console.log(a);
       // }
+
       this.staff.staffId = '';
       this.tempstafflist = [];
       this.modalReference.close();
