@@ -668,3 +668,9 @@
         </div>
 	</form>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+	<div class="invoice-wrap" *ngIf="showInvoice == true">
+		<app-invoice [custDetail]="userDetail" [course]="courseDetails" (closed)="cancelInvoiceModal()"></app-invoice>
+	</div>
+</ng-template>

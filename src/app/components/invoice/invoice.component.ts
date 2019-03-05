@@ -1,6 +1,8 @@
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { appService } from '../../service/app.service';
+import { DataService } from '../../service/data.service';
+import { Router } from '@angular/router';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 
 @Component({
@@ -50,7 +52,7 @@ export class InvoiceComponent implements OnInit {
 	public regionId = localStorage.getItem('regionId');
 	public locationID = localStorage.getItem('locationId');
 	@BlockUI() blockUI: NgBlockUI;
-	constructor(private _service: appService, public toastr: ToastsManager) { }
+	constructor(private _service: appService, public toastr: ToastsManager, private router: Router, private dataService: DataService) { }
 	@Input() custDetail;
 	@Input() course;
 	@Output() closed = new EventEmitter<boolean>();
@@ -342,6 +344,8 @@ export class InvoiceComponent implements OnInit {
 		this.invPayment = [];
 		this.cancelInvoiceModal();
 		this.closed.emit(true);
+		console.log(this.closed.emit)
+		// this.modalReference.close();
 	}
 	sendInvoice() {
 		console.log("send Invoice", this.invoiceID);
@@ -435,9 +439,9 @@ export class InvoiceComponent implements OnInit {
 		this.isEditInv = false;
 		this.singleInv = [];
 		this.updateInvData = {};
-
 		this.invPayment = [];
-		console.log("hideMisc", this.hideMisc)
+		console.log("hideMisc", this.hideMisc);
+		
 		// this.getCourseDetail(this.detailLists._id);
 		// this.getUsersInCourse(this.detailLists._id);
 

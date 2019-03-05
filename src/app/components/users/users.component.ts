@@ -1619,12 +1619,12 @@ export class UsersComponent implements OnInit {
 			'courseId': id,
 			'userId': this.custDetail.user.userId,
 			'category': {
-				'id': '5c04b5cc754e2a63cbe853e0',
-				'name': "class_transfer"
+				'id': course.category._id,
+				'name': course.category.name
 			},
 			'coursePlan': {
-				'id': '5c6a7f4e4a7f4d408b956ae0',
-				'name': "asd"
+				'id': course.coursePlan._id,
+				'name': course.coursePlan.name
 			}
 		}
 		this.router.navigate(['/schedule']);

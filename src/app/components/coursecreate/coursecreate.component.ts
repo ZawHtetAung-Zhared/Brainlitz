@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener, AfterViewInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -18,6 +18,7 @@ declare var $: any;
   styleUrls: ['./coursecreate.component.css']
 })
 export class CoursecreateComponent implements OnInit {
+  @ViewChild("content") modalContent: TemplateRef<any>;
   public regionID = localStorage.getItem('regionId');
   public currentLocation = localStorage.getItem('locationId');
   public locationName = localStorage.getItem('locationName');
@@ -108,6 +109,8 @@ export class CoursecreateComponent implements OnInit {
   feeOptShow: boolean = false;
   chooseTax: any = '';
   public flexiOn: boolean = false;
+  public rolloverCId:any;
+  public modalReference: any;
 
   @ViewChild('start') nameInputRef: ElementRef;
   @ViewChild('end') name1InputRef: ElementRef;
@@ -453,9 +456,11 @@ export class CoursecreateComponent implements OnInit {
         console.log("this.coursePlan == null");
         console.log('backtocourse')
         if(this.course.type == 'rollover'){
+          // this.enrollUser(this.course.courseId,this.course.userId);
           // this.router.navigate(['/customer']);
           // this.dataService.nevigateCustomer(this.course.userId);
           // this._service.backCourse();
+          this._service.backCourse();
         }else{
           this._service.backCourse();
         }
@@ -1236,8 +1241,6 @@ export class CoursecreateComponent implements OnInit {
     }
 
     console.log("Course", this.courseObj);
-    //test
-    // this.backToCourses('','5c7cf43224dbb761a89bcbe5');
     this.blockUI.start('Loading...');
     this._service.createCourse(this.regionID, this.courseObj, this.save, this.conflitCourseId, this.addCheck, this.currentLocation, flexy)
       .subscribe((res: any) => {
@@ -1265,7 +1268,10 @@ export class CoursecreateComponent implements OnInit {
           localStorage.removeItem('coursePlanId');
           localStorage.removeItem('splan');
           if(this.course.type == 'rollover'){
-
+            console.log("RES",res)
+            let createdId = res.body.courseId;
+            this.enrollUser(createdId, this.course.userId);
+            // this.backToCourses('',res.body.courseId)
           }else{
             this.backToCourses('',res.body.courseId);
           }
@@ -1315,6 +1321,58 @@ export class CoursecreateComponent implements OnInit {
         }
       });
   }
+
+  userDetail:any = {};
+  courseDetails:any;
+  showInvoice:boolean = false;
+  enrollUser(createdCID,userID){
+    console.log("courseID",createdCID)
+    return new Promise((resolve,reject)=>{
+      this._service.editProfile(this.regionID, userID)
+      .subscribe((res:any) => {
+        console.log("res UserDetail",res)
+        this.userDetail.user = res;
+      })
+
+      this._service.getSingleCourse(createdCID, this.locationId)
+      .subscribe((res:any) => {
+        console.log("res CourseDetail",res)
+        this.courseDetails = res;
+      })
+      resolve();
+    }).then(()=>{
+      let body = {
+         'courseId': createdCID,
+         'userId': userID,
+         'userType': 'customer'
+       }
+       // this.modalReference = this.modalService.open('invModal', { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+       setTimeout(()=>{
+         this._service.assignUser(this.regionID,body, this.locationId)
+         .subscribe((res:any) => {
+           // this.showInvoice = true;
+           this.modalReference = this.modalService.open(this.modalContent, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'})
+             this.showInvoice = true;
+             Object.assign(this.courseDetails , res)
+             console.log("CALL INVOICE",this.courseDetails)
+             console.log("==>",this.userDetail)
+         })
+       },500)
+      
+    })
+
+  }
+
+  cancelInvoiceModal(){
+    this.modalReference.close();
+      this.router.navigate(['/customer']);
+      this.dataService.nevigateCustomer(this.course.userId);
+      setTimeout(()=>{
+        this.dataService.nevigateSchedule('');
+        localStorage.removeItem('courseID');
+      },300)
+  }
+  
 
   // updateCourse(){
   //   this.courseObj= {
