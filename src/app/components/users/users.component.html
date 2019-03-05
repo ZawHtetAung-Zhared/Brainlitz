@@ -452,13 +452,13 @@
                 <div *ngFor="let rating of custDetail.ratings| slice:0:[selectedId.indexOf('rating') != -1 ? custDetail.ratings?.length : 2]"
                   class="card card-wrap">
                   <div class="d-flex">
-                    <ngb-rating [(rate)]="custDetail.rating" readonly ="true" max="5" style="padding-left:10px">
+                    <ngb-rating [(rate)]="rating.rating" readonly ="true" max="5" >
                       <ng-template let-fill="fill" let-index="index">
                         <span *ngIf="fill === 100" class="star" [class.filled]="fill === 100" >&#9733;</span>
                         <span *ngIf="fill !== 100" class="star" [class.notfilled]="fill !== 100" >&#9734;</span>
 
                       </ng-template>
-                      </ngb-rating>                    <span class="ml-auto medium-label-12">{{ rating.updatedDate }}</span>
+                      </ngb-rating> <span class="ml-auto medium-label-12">{{ rating.updatedDate }}</span>
                   </div>
                   <p class="medium-label-14" style="color: #2e3d4d">
                     <read-more class="cust-readmore" [text]="rating.message"></read-more>
