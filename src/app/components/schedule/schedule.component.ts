@@ -2219,6 +2219,7 @@ export class ScheduleComponent implements OnInit {
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
+    this.showDp = true;
     console.log(e);
     console.log(course.seat)
     console.log(course.seat.left)
