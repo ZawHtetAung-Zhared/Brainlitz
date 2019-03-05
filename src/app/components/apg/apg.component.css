@@ -354,7 +354,7 @@
 .single-apg {
   margin-bottom: 20px;
   margin-top: 5px;
-  border:solid 1px rgba(0, 0, 0, 0.05);
+  border:solid 1px rgba(0, 0, 0, 0.05); /* card box shadow for safari */
 }
 
 .apg-type {

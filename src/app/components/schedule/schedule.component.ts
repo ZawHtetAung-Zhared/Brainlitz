@@ -762,15 +762,16 @@ export class ScheduleComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.overFlowWidth(20,'button')
+    //to define is side or not
     if(this.isSide){
       if(this.screenValue <= window.innerWidth){
         this.styleArr = {
         'top': this.yPosition + "px",
         'right': '0px'
         }
-  
+        //if left or right side position zero fix
       }else{
-        this.styleArr=this.styleArrDefault; 
+        this.styleArr=this.styleArrDefault; //if not left or right side position depend on first time click position
       }
     }
   }
@@ -2000,7 +2001,7 @@ export class ScheduleComponent implements OnInit {
   getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
 
     $(".disabledScroll").css("overflow","hidden");
-    this.screenValue=window.innerWidth;
+    this.screenValue=window.innerWidth; //for resize condition to mactch window size
 
     console.log("minSlot", this.minSlotArr);
     // var cIdx = this.minSlotArr.indexOf(min);
@@ -2072,7 +2073,7 @@ export class ScheduleComponent implements OnInit {
     }
     if ($(document).width() - this.xPosition < 300) {
       console.log("here 1")
-      // this.xPosition = 0;
+      this.xPosition = 0;
       this.isSide=true;
       this.styleArr = {
         'top': this.yPosition + "px",
@@ -2082,7 +2083,7 @@ export class ScheduleComponent implements OnInit {
     else if (this.xPosition < 0) {
       console.log("here 2")
       this.isSide=true;
-      // this.xPosition = 0;
+      this.xPosition = 0;
       this.styleArr = {
         'top': this.yPosition + "px",
         'left': '0px'

@@ -1045,44 +1045,37 @@ export class ApgComponent implements OnInit, OnDestroy {
     // console.log("target~~~",l,idx,document.getElementById('box' + l + idx))
     document.getElementById('box' + l + idx).focus();
   }
+
+
+  //scroll calculation in update for evaluation 
   scrollCalculationAfter(data){
     this.isScroll=true;
-    console.log("test git")
+    
+    //using setTimeout() for finish html create to get each div hegiht next calculate the totoal height and if div hight extra 400 add scroll and arrow if not remove scroll and arrow
     setTimeout(() => {
-      // console.log(data)
       for(var i=0;i<data.length;i++){
         const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-'+i);
         const skillHeader: HTMLElement = document.getElementById('skillHeader'+i);
         const skillFooter: HTMLElement = document.getElementById('skillFooter'+i);
         const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-'+i);
         var req_total_height=0;
+
         for (var j = 0; j <data[i].data.evaluation.details.length; j++) {
-          console.log(j);
           const requirement: HTMLElement = document.getElementById('requirement' + j);
-          console.log(requirement)
-        
           req_total_height += requirement.clientHeight;
-          console.log(req_total_height);
         }
         
         var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + req_total_height;
         var inboxHight = 400 - (skillHeader.clientHeight + skillFooter.clientHeight);
-        console.log(skillHeader.clientHeight)
-        console.log(skillFooter.clientHeight)
-        console.log(inboxHight);
-        console.log(totalHeight)
-    
+
         if (totalHeight < 400) {
-          console.log("less than 400")
           skillHeight.setAttribute("style", "height: auto;");
           innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
           this.templateAccessPointGroup[i].upDownOptions = false;
           this.templateAccessPointGroup[i].upOptions = false;
           this.templateAccessPointGroup[i].DownOptions = false;
         } else {
-          console.log("greater than 400")
           skillHeight.setAttribute("style", "height: 400px;");
-          // innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
           innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
           this.templateAccessPointGroup[i].upDownOptions = true;
           this.templateAccessPointGroup[i].upOptions = false;
@@ -1092,8 +1085,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     }, 10);
 
   }
+
   // Create in scroll calculation for evaluation 
- 
   scrollCalculation(skillObj, skillId) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + skillId);
     const skillHeader: HTMLElement = document.getElementById('skillHeader' + skillId);
@@ -1102,27 +1095,20 @@ export class ApgComponent implements OnInit, OnDestroy {
     var req_total_height = 0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
-      console.log(j);
       const requirement: HTMLElement = document.getElementById('requirement' + j);
-      console.log(requirement)
       req_total_height += requirement.clientHeight;
-      console.log(req_total_height);
     }
 
     var totalHeight = skillHeader.clientHeight + skillFooter.clientHeight + req_total_height;
     var inboxHight = 400 - (skillHeader.clientHeight + skillFooter.clientHeight);
 
-    console.log(totalHeight);
-
     if (totalHeight < 400) {
-      console.log("less than 400")
       skillHeight.setAttribute("style", "height: auto;");
       innerBoxHeight.setAttribute("style", "height:auto;overflow:none;")
       this.templateAccessPointGroup[skillId].upDownOptions = false;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = false;
     } else {
-      console.log("greater than 400")
       skillHeight.setAttribute("style", "height: 400px;");
       innerBoxHeight.setAttribute("style", "height:" + inboxHight + "px;overflow:overlay;")
       this.templateAccessPointGroup[skillId].upDownOptions = true;
@@ -1158,11 +1144,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   console.log("header height in add smark:" + this.headerHeight);
   // }
 
-  //moving scroll in evaluation create
+  //moving scroll add arrow in evaluation create and update
   requirementInnerBox($event, i) {
     const skillHeight: HTMLElement = document.getElementById('skill-requirement-id-' + i);
     const innerBoxHeight: HTMLElement = document.getElementById('requirement-inner-box-' + i);
-
+    
     if ((innerBoxHeight.scrollHeight - innerBoxHeight.scrollTop) == innerBoxHeight.clientHeight) {
       this.templateAccessPointGroup[i].upOptions = true;
       this.templateAccessPointGroup[i].DownOptions = false;
@@ -1170,7 +1156,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.templateAccessPointGroup[i].upOptions = false;
       this.templateAccessPointGroup[i].DownOptions = true;
     }
-    console.log("dar")
   }
 
   mainAccessPointClear(item, idx, name, type) {

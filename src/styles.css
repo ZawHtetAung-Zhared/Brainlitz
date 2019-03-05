@@ -488,14 +488,9 @@ span.scrollup.show:hover:before {
 
 @media print {
     /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */
-    * { overflow: hidden!important; } 
+    * { overflow: hidden!important; }  /*to fix print more show page count*/
     body *{
         visibility: hidden;
-    }
-
-    .modal-inv,.modal-inv * {
-        /* visibility: visible;  */
-        /* make visible modal body and header */
     }
     
     .invoice-container,.invoice-container * {
