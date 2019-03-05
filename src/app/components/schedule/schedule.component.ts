@@ -763,14 +763,17 @@ export class ScheduleComponent implements OnInit {
   onResize(event) {
     this.overFlowWidth(20,'button')
     //to define is side or not
+    var diff=window.innerWidth - this.screenValue;
     if(this.isSide){
-      if(this.screenValue <= window.innerWidth){
+      if(diff <= 40){
+        console.log("less than")
         this.styleArr = {
         'top': this.yPosition + "px",
         'right': '0px'
         }
         //if left or right side position zero fix
       }else{
+        console.log("greater than")
         this.styleArr=this.styleArrDefault; //if not left or right side position depend on first time click position
       }
     }
