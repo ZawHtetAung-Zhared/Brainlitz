@@ -399,7 +399,7 @@ input:-webkit-input-placeholder {
   display: none;
   position: absolute;
   right: 5%;
-  bottom: -95px;
+  bottom: -120px;
   z-index: 9;
 }
 
@@ -497,6 +497,7 @@ drag-scroll {
 
 .gap-box {
   padding: 15px 0;
+  margin-top: 10px;
 }
 
 .book-range {

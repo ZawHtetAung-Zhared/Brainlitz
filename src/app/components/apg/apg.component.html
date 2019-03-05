@@ -44,7 +44,7 @@
     </div>
   </div>
   <div class="apg-wrapper card-columns">
-    <div class="card " *ngFor="let apg of apgList; let i = index">
+    <div class="card" *ngFor="let apg of apgList; let i = index">
       <div class="single-apg" [ngStyle]="{'max-height': apg.module.name == 'Progress' ? 190 + 'px' : (apg.module.name == 'Data' ? 312 + 'px' : 360 + 'px')}">
         <div class="info-section">
           <div [ngClass]="{'bg-apg-header': apg.module.name.toLowerCase() == 'assessment' || apg.module.name.toLowerCase() == 'evaluation','noBg-apg-header': apg.module.name.toLowerCase() == 'progress' || apg.module.name.toLowerCase() == 'badge' || apg.module.name.toLowerCase() == 'data'}">

@@ -1295,6 +1295,15 @@ h5 {
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 }
 
+.child_two {
+  flex: 1 0 40%;
+  margin: 20px;
+  /* padding: 20px;  */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
 .title-space {
   padding: 20px 20px 0 20px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;

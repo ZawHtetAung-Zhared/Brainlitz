@@ -102,6 +102,8 @@ export class CoursecreateComponent implements OnInit {
   public tempVar: any;
   public tempValue: any;
   public feesOptions: any;
+  public isCreateFix: boolean = false;
+
   objectKeys = Object.keys;
   isEdit: boolean = false;
   taxOptShow: boolean = false;
@@ -361,15 +363,16 @@ export class CoursecreateComponent implements OnInit {
 
   }
 
-  @HostListener("window:scroll", [])
-  scrollHandler() {
-    let num = this.doc.documentElement.scrollTop;
-    if (num > 20) {
-      this.doc.getElementById("navbar").style.top = "0";
-    } else {
-      this.doc.getElementById("navbar").style.top = "-120px";
-    }
-  }
+  // @HostListener("window:scroll", [])
+  // scrollHandler() {
+  //   let num = this.doc.documentElement.scrollTop;
+  //   console.log("scroll>",num)
+  //   if (num > 20) {
+  //     this.doc.getElementById("navbar").style.top = "0";
+  //   } else {
+  //     this.doc.getElementById("navbar").style.top = "-120px";
+  //   }
+  // }
 
   getAllLocations() {
     this._service.getLocations(this.regionID, 20, 0, false)
@@ -378,6 +381,14 @@ export class CoursecreateComponent implements OnInit {
         this.locationList = res;
       })
   }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+		if (window.pageYOffset > 40) {
+			this.isCreateFix = true;
+		} else {
+			this.isCreateFix = false;
+		}
+	}
 
 
 

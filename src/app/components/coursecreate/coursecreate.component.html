@@ -1,4 +1,4 @@
-<div id="navbar">
+<div class="navbar" [ngClass]="{'sticky-bar' : isCreateFix == true}">
 	<div class="d-flex justify-content-between">
 		<div class="d-flex justify-content-center flex-column">
 			<div class="d-flex back" (click)="backToCourses('back','')">
