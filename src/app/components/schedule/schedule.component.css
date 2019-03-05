@@ -980,6 +980,32 @@ tbody td{
   border-radius: 2px;
   padding: 6px 8px;
 }
+.cancelledClass{
+  background: #f2f4f5!important;
+}
+.cancel-icon{
+  width: 12px;
+  height: 12px;
+  text-align: center;
+  background: #788796;
+  border-radius: 100%;
+}
+.cancel-text{
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+  font-size: 12px;
+  color: #64707d;
+}
+.cancelled-course-Code{
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  color: #2e3d4d!important;
+  font-size: 12px;
+}
+.dash-icon{
+  color: white!important;
+  /* position: absolute; */
+  /* left: 11px; */
+  /* top: 4px; */
+}
 .lesson-slot h6{
   color: #2e3d4d;
   margin-bottom: 0;
