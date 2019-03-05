@@ -2296,6 +2296,68 @@ export class ScheduleComponent implements OnInit {
     console.log(this.courseInfo)
     console.log(course);
     console.log(lesson)
+
+    
+    e.preventDefault();
+    e.stopPropagation();
+    this.yPosition = e.layerY + 25;
+    this.xPosition = e.layerX - 25;
+
+    console.log($(event.target))
+    this.xPosition = $(event.target).offset().left - 150 + $(event.target).width() / 2;
+    this.yPosition = $(event.target).offset().top + $(event.target).height() + 10;
+    this.arrTop = $(event.target).offset().top + $(event.target).height() - 10;
+    this.arrLeft = this.xPosition + 140;
+
+    console.log("xPostiton>"+this.xPosition)
+    console.log("yPosition>"+this.yPosition)
+    console.log("arrTop>"+this.arrTop)
+    console.log("arrLeft>"+this.arrLeft)
+    console.log("width>",$(document).width());
+    if ($(document).height() - this.yPosition < 180) {
+      this.yPosition = $(event.target).offset().top - 170;
+      this.arrTop = this.yPosition + 160;
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      }
+    } else {
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-up': true
+      }
+    }
+
+    this.styleArrDefault = {
+      'top': this.yPosition + "px",
+      'left': this.xPosition + "px"
+    }
+    if ($(document).width() - this.xPosition < 300) {
+      console.log("here 1")
+      this.xPosition = 0;
+      this.isSide=true;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'right': '0px'
+      }
+    }
+    else if (this.xPosition < 0) {
+      console.log("here 2")
+      this.isSide=true;
+      this.xPosition = 0;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'left': '0px'
+      }
+    }
+    else {
+      console.log("here 3")
+      this.isSide=false;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'left': this.xPosition + "px"
+      }
+    }
   }
 
 
