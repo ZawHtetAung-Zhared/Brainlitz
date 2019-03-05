@@ -696,7 +696,7 @@ export class ScheduleComponent implements OnInit {
     });
 
     this._service.goplan.subscribe(() => {
-      console.log('go plan')
+      console.log('go to plan')
       this.isCategory = false;
       this.isPlan = true;
       this.goBackCat = true;
