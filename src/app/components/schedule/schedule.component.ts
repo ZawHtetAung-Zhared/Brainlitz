@@ -688,7 +688,7 @@ export class ScheduleComponent implements OnInit {
     });
 
     this._service.goCat.subscribe(() => {
-      console.log('goback22', this.goBackCat)
+      console.log('gobackk22', this.goBackCat)
       this.goBackCat = false;
       this.isCategory = true;
       this.isPlan = false;
