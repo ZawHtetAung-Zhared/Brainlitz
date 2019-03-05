@@ -1613,8 +1613,22 @@ export class UsersComponent implements OnInit {
 		this.dataService.nevigateCourse(course._id)
 	}
 
-	rolloverCourse(){
-		console.log("rolloverCourse works");
+	rolloverCourse(id,course){
+		console.log("rolloverCourse works",id,course);
+		var obj ={
+			'courseId': id,
+			'userId': this.custDetail.user.userId,
+			'category': {
+				'id': '5c04b5cc754e2a63cbe853e0',
+				'name': "class_transfer"
+			},
+			'coursePlan': {
+				'id': '5c6a7f4e4a7f4d408b956ae0',
+				'name': "asd"
+			}
+		}
+		this.router.navigate(['/schedule']);
+		this.dataService.nevigateSchedule(obj);
 	}
 
 }

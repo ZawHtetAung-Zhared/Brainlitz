@@ -11,8 +11,11 @@ export class DataService {
   currentCustomer = this.customerId.asObservable();
 
   //data sharing
-    private courseId = new BehaviorSubject('');
-    cId = this.courseId.asObservable();
+  private courseId = new BehaviorSubject('');
+  cId = this.courseId.asObservable();
+
+  private rolloverCourse = new BehaviorSubject('');
+  rolloverCId = this.rolloverCourse.asObservable();
 
   constructor() { }
 
@@ -25,7 +28,11 @@ export class DataService {
   }
 
   nevigateCDetail(id:string){
-      this.courseId.next(id);
-    }
+    this.courseId.next(id);
+  }
+
+  nevigateSchedule(id:any){
+    this.rolloverCourse.next(id);
+  }
 
 }

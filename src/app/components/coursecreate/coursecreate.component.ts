@@ -22,7 +22,7 @@ export class CoursecreateComponent implements OnInit {
   public currentLocation = localStorage.getItem('locationId');
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
-  public courseID = localStorage.getItem('courseID');
+  public course = JSON.parse(localStorage.getItem('courseID'));
   public currency = JSON.parse(localStorage.getItem('currency'));
   public scheduleObj = JSON.parse(localStorage.getItem('scheduleObj'));
   @BlockUI() blockUI: NgBlockUI;
@@ -119,7 +119,7 @@ export class CoursecreateComponent implements OnInit {
   test;
   ngOnInit() {
     console.log("CPLan", this.coursePlan)
-    console.log("CourseID", this.courseID);
+    console.log("CourseID", this.course);
     console.log("Currency", this.currency);
     // this.isChecked = 'end';
     this.isSelected = 'AM';
@@ -130,10 +130,15 @@ export class CoursecreateComponent implements OnInit {
     // this.getAllLocations();
     window.scroll(0, 0);
     // this.goBackCat = true;
-    if (this.courseID) {
-      console.log("Draft True", this.courseID);
-      this.showDraftCourse(this.courseID);
-      // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions; 
+    if (this.course) {
+      if(this.course.type == 'edit'){
+        console.log("Draft True", this.course);
+        this.showDraftCourse(this.course.courseId, 'edit');
+        // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions; 
+      }else if(this.course.type == 'rollover'){
+        console.log('Rollover');
+        this.showDraftCourse(this.course.courseId, 'rollover');
+      } 
     } else if (this.coursePlan) {
       console.log("course Create");
       this.isChecked = 'end';
@@ -219,7 +224,7 @@ export class CoursecreateComponent implements OnInit {
   //   }
   // }
 
-  showDraftCourse(cId) {
+  showDraftCourse(cId,type) {
     console.log("Function Works");
     this.getAllLocations();
     this.blockUI.start('Loading...');
@@ -302,14 +307,20 @@ export class CoursecreateComponent implements OnInit {
         this.maxDate = this.changeDateStrtoObj(res.endDate, "end");
         this.save = true;
         this.addCheck = true;
-        this.conflitCourseId = res._id;
-        if (this.model.draft == true) {
-          console.log("Draft ===>", this.model.draft);
-          this.createCourse('withDraf');
+        // this.conflitCourseId = res._id;
+        if(type == 'edit'){
+          this.conflitCourseId = res._id;
+          if (this.model.draft == true) {
+            console.log("Draft ===>", this.model.draft);
+            this.createCourse('withDraf');
+            this.isEdit = false;
+          } else {
+            this.isEdit = true;
+          }
+        }else{
           this.isEdit = false;
-        } else {
-          this.isEdit = true;
         }
+        
       });
   }
 
@@ -441,7 +452,13 @@ export class CoursecreateComponent implements OnInit {
       }else{
         console.log("this.coursePlan == null");
         console.log('backtocourse')
-        this._service.backCourse();
+        if(this.course.type == 'rollover'){
+          // this.router.navigate(['/customer']);
+          // this.dataService.nevigateCustomer(this.course.userId);
+          // this._service.backCourse();
+        }else{
+          this._service.backCourse();
+        }
       }
     }
 
@@ -1219,6 +1236,8 @@ export class CoursecreateComponent implements OnInit {
     }
 
     console.log("Course", this.courseObj);
+    //test
+    // this.backToCourses('','5c7cf43224dbb761a89bcbe5');
     this.blockUI.start('Loading...');
     this._service.createCourse(this.regionID, this.courseObj, this.save, this.conflitCourseId, this.addCheck, this.currentLocation, flexy)
       .subscribe((res: any) => {
@@ -1245,7 +1264,11 @@ export class CoursecreateComponent implements OnInit {
           }, 300);
           localStorage.removeItem('coursePlanId');
           localStorage.removeItem('splan');
-          this.backToCourses('',res.body.courseId);
+          if(this.course.type == 'rollover'){
+
+          }else{
+            this.backToCourses('',res.body.courseId);
+          }
         }
       }, err => {
         console.log(err);
@@ -1537,5 +1560,17 @@ export class CoursecreateComponent implements OnInit {
     }
 
   }
+
+  //for rollover
+  // enrollUser(){
+  //   let body = {
+
+  //   }
+  //   this._service.assignUser(this.regionID,body,this.locationId)
+  //   .subscribe((res:any) => {
+  //     console.log("--->assignUser",res);
+      
+  //   })
+  // }
 
 }

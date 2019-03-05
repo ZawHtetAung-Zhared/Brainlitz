@@ -1417,6 +1417,9 @@ ul.options-box li:last-child,.create-box li:last-child {
 .lesson-slot-box{
   color: #d4d5d6;
 }
+.hilight-arrow{
+  color:#2e3e4d;
+}
 .lesson-slot-li:hover .lesson-slot-box{
   color:#2e3e4d!important;
 }
@@ -1636,6 +1639,10 @@ ul.options-box li:last-child,.create-box li:last-child {
   border:0px;
   outline:0px;
   width: 100%;
+}
+
+.hilight-plan{
+  color: #64707d;
 }
 
 @media only screen and  (min-width:1366px){

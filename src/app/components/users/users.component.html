@@ -208,7 +208,7 @@
                   </div>
                  <div class="div-dotted-box">
                     <p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
-                    <label class="rollover-btn" (click)="rolloverCourse()">Rollover this course</label>
+                    <label class="rollover-btn" (click)="rolloverCourse(course._id,course)">Rollover this course</label>
                     <div class="d-flex align-items-center">
                       <div>
                         <div *ngIf="course.teacher" class="tr-img-wrap">
