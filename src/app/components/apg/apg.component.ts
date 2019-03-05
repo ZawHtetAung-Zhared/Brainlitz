@@ -1047,6 +1047,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   scrollCalculationAfter(data){
     this.isScroll=true;
+    console.log("test git")
     setTimeout(() => {
       // console.log(data)
       for(var i=0;i<data.length;i++){
