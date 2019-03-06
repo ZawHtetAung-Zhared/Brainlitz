@@ -301,40 +301,6 @@
       </div>
         <!-- end Assemenent -->
       <!-- </form> -->
-      <div *ngIf="iscreate == true && selfAssessment == true">
-        <div class="w-100 d-flex h-100">
-          <div class=" col-8 p-0 form-side">
-            <div class="form-group name-input-wrapper col-11 pr-0 pl-0">
-              <div class="d-flex justify-content-between">
-                <label class="form-title input-label" for="address"> SelfAssessment Name </label>
-                <div class="limit-wordcount">
-                  <span>{{wordLength}}/60characters</span>
-                </div>
-              </div>
-              <input type="text" class="form-control selfAssessmentName col-12" placeholder="Type SelfAssessment name here" name="name"
-                maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
-                (input)="changeMethod($event.target.value)" required #name="ngModel" autocomplete="off" >
-              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-                <div [hidden]="!name.errors.required">
-                  Name is required!
-                </div>
-              </div>
-            </div>
-            <div class="inform-wrapper p-0">
-              <p class="icon"><span class="icon">i</span></p>  <span class="inform-text">Some information about how  do PD and QUESTION 
-                create with multiple lines</span>
-            </div>
-          </div>
-          <div class="col-4 p-0 ">
-            PD Setting
-          </div>
-        </div>
-        <div class="d-flex justify-content-end form-footer">
-          <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-          <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" >Create</button>
-          <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" >Update</button>
-        </div>
-      </div>
       <!-- Start Data -->
       <div *ngIf="iscreate == true && dataApCreate == true ">
         <div class="col-md-12 col-lg-8 input-wrap">

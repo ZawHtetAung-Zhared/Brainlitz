@@ -828,14 +828,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.emptymax=true;
         this.emptymin=true;
         this.overmin=true;
-      }else if(name == 'SelfAssessment'){
-        this.dataApCreate = false;
-        this.selfAssessment = true;
-        this.ismodule = false;
-        this.apCreate = false;
-        this.iscreate = true;
-      }
-      else {
+      }else {
         this.model = {};
         this.dataApCreate = false;
         this.selfAssessment = false
