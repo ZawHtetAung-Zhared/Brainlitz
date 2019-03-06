@@ -74,6 +74,7 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     DateFormatPipe,
     HourMinsPipe,
     calculatePMPipe,
-    InvoiceComponent
+    InvoiceComponent,
+    TestwerkzComponent
   ],
   imports: [
     BrowserModule,
