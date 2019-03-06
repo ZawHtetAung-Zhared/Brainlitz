@@ -149,12 +149,6 @@
     <!-- <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a> -->
     <!-- <a class="back-to" *ngIf="isshare == true && isUpdate == false" (click)="goToBack('create')">< Pick APG type</a> -->
 
-<<<<<<< HEAD
-    <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
-      <div class="back-to" (click)="goToBack('share')">
-        <i class="fa fa-angle-left"></i>
-        <p>Creating {{apgType}} APG</p>
-=======
       <div class="d-flex justify-content-between" *ngIf="iscreate == true  && isUpdate == false">
         <div class="back-to" (click)="goToBack('share')">
           <i class="fa fa-angle-left"></i>
@@ -162,18 +156,11 @@
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
         <a *ngIf="!selfAssessment" class="cancel-back" (click)="cancelapg()">Cancel</a>
->>>>>>> 1f5f86c83e58506a48c3427380b1d6f96277f178
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
     </div>
 
-<<<<<<< HEAD
-    <div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
-      <div class="back-to" (click)="goToBack('share')">
-        <i class="fa fa-angle-left"></i>
-        <p>Creating {{apgType}} APG</p>
-=======
       <div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
         <div class="back-to" (click)="goToBack('share')">
           <i class="fa fa-angle-left"></i>
@@ -181,7 +168,6 @@
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
         <a ngif="!selfAssessment" class="cancel-back" (click)="cancelapg()">Cancel</a>
->>>>>>> 1f5f86c83e58506a48c3427380b1d6f96277f178
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -220,17 +206,6 @@
               </div>
             </div>
           </div>
-<<<<<<< HEAD
-        </div>
-        <div class="inform-wrapper">
-          <span class="icon">i</span> <span class="inform-text">Some information about how do skill and requirement
-            create with multiple lines</span>
-        </div>
-        <div dragula="COLUMNS" class="requirements-wrapper" [(dragulaModel)]="templateAccessPointGroup" drag-scroll>
-          <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
-            <div class="d-flex flex-column skill-header" style="background:#f2f4f5;" id="skillHeader{{i}}">
-              <!-- <div *ngIf="isUpdate == false && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
-=======
           <div class="inform-wrapper">
            <p class="icon"><span class="icon">i</span></p> <span class="inform-text">Some information about how do skill and requirement
               create with multiple lines</span>
@@ -239,7 +214,6 @@
             <div class="skill-requirement-wrapper mb-3" *ngFor="let item of templateAccessPointGroup; let i=index" id="skill-requirement-id-{{i}}">
               <div class="d-flex flex-column skill-header" style="background:#f2f4f5;" id="skillHeader{{i}}">
                 <!-- <div *ngIf="isUpdate == false && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
->>>>>>> 1f5f86c83e58506a48c3427380b1d6f96277f178
                   (click)="mainAccessPointClear(item,i,'skillName','create')"></div>
                 <div *ngIf=" isUpdate == true && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
                   (click)="mainAccessPointClear(item,i,'skillName','update')"></div> -->
@@ -548,25 +522,6 @@
             (click)="updateAp(model.accessPoints, this.templateAccessPointGroup,model._id)">Update</button>
         </div>
       </div>
-<<<<<<< HEAD
-    </div>
-    <!-- End Data -->
-    <form novalidate #createapgForm="ngForm">
-      <div class="row" *ngIf="ismodule == true">
-        <div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl"
-          [ngClass]="{'disable-click': module.name=='Badge'}">
-          <label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
-            <div class="module-img">
-              <img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type.png"
-                class="img-fluid">
-              <img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type-a.png"
-                class="img-fluid">
-            </div>
-            <div class="label-checked"></div>
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="module._id" value="{{module.name}}"
-              (click)="chooseModuleType(module._id, module.name)"> {{module.name}}
-          </label>
-=======
       <!-- End Data -->
       <form novalidate #createapgForm="ngForm">
         <div class="row" *ngIf="ismodule == true">
@@ -585,7 +540,6 @@
             </label>
           </div>
           <!-- <div (click)="chooseModuleType('123','selfAssessment')">Button</div> -->
->>>>>>> 1f5f86c83e58506a48c3427380b1d6f96277f178
         </div>
       </div>
       <div *ngIf="iscreate == false && isshare == true">
@@ -621,15 +575,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
-        <div class="col-md-8 input-wrap">
-          <div class="form-group">
-            <div class="d-flex justify-content-between">
-              <label class="form-title input-label" for="address">APG name</label>
-              <div class="limit-wordcount">
-                <span>{{wordLength}}/60characters</span>
-=======
         <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false && selfAssessment == false ">
           <div class="col-md-8 input-wrap">
             <div class="form-group">
@@ -638,7 +583,6 @@
                 <div class="limit-wordcount">
                   <span>{{wordLength}}/60characters</span>
                 </div>
->>>>>>> 1f5f86c83e58506a48c3427380b1d6f96277f178
               </div>
             </div>
             <p class="input-recommend">We recommend to set APG name as same as Course name.</p>
@@ -871,18 +815,6 @@
 
             </div>
           </div>
-<<<<<<< HEAD
-        </div>
-
-        <div class="row apg-share-content" *ngIf="apgType =='Progress'">
-          <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
-            <div class="">
-              <label class="form-check-label" [ngClass]="{'selected': sharechecked == temp._id}">
-                <div class="label-checked"></div>
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="temp._id" value="{{temp.name}}"
-                  (click)="chooseShareAPG(temp._id, temp.name)"> {{temp.name}}
-              </label>
-=======
           <div class="row apg-share-content" *ngIf="apgType =='Progress'">
             <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
               <div class="">
@@ -892,7 +824,6 @@
                     (click)="chooseShareAPG(temp._id, temp.name)"> {{temp.name}}
                 </label>
               </div>
->>>>>>> 1f5f86c83e58506a48c3427380b1d6f96277f178
             </div>
           </div>
         </div>
