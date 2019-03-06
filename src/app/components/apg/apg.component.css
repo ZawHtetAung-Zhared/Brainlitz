@@ -740,7 +740,7 @@ div.ap-wrapper:last-child {
 .icon {
   display: inline-block;
   width: 16px;
-  line-height: 16px;
+  height: 16px;
   background: #8fa1b3;
   border-radius: 10px;
   text-align: center;

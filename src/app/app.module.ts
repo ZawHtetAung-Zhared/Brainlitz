@@ -74,8 +74,13 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
+<<<<<<< HEAD
 import { MediumEditorModule } from 'angular2-medium-editor';
 import { MarkdownModule } from 'angular2-markdown';
+=======
+import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
+
+>>>>>>> 1f5f86c83e58506a48c3427380b1d6f96277f178
 @NgModule({
   declarations: [
     AppComponent,
@@ -127,7 +132,8 @@ import { MarkdownModule } from 'angular2-markdown';
     DateFormatPipe,
     HourMinsPipe,
     calculatePMPipe,
-    InvoiceComponent
+    InvoiceComponent,
+    TestwerkzComponent
   ],
   imports: [
     BrowserModule,
