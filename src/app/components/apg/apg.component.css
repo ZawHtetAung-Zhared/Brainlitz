@@ -2028,3 +2028,9 @@ input.min_input_show {
 .noPaddingInmax{
   margin-top: 28px;
 }
+/* self Assessment Apg */
+
+.form-side{
+  height:100vh;
+  border-right: 1px solid #edeff0;
+}

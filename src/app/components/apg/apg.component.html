@@ -148,7 +148,7 @@
           <p>Creating {{apgType}} APG</p>
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
-        <a class="cancel-back" (click)="cancelapg()">Cancel</a>
+        <a *ngIf="!selfAssessment" class="cancel-back" (click)="cancelapg()">Cancel</a>
       </div>
 
       <div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
@@ -157,7 +157,7 @@
           <p>Creating {{apgType}} APG</p>
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
-        <a class="cancel-back" (click)="cancelapg()">Cancel</a>
+        <a ngif="!selfAssessment" class="cancel-back" (click)="cancelapg()">Cancel</a>
       </div>
     </div>
     <div class="location-group">
@@ -302,6 +302,16 @@
         <!-- end Assemenent -->
       <!-- </form> -->
       <!-- Start Data -->
+      <div *ngIf="iscreate == true && selfAssessment == true">
+        <div class="w-100 d-flex h-100">
+          <div class=" col-8 p-0 form-side">
+            SelfAssessment Name
+          </div>
+          <div class="col-4 p-0 ">
+            PD Setting
+          </div>
+        </div>
+      </div>
       <div *ngIf="iscreate == true && dataApCreate == true ">
         <div class="col-md-12 col-lg-8 input-wrap">
           <div class="form-group ">
@@ -519,6 +529,7 @@
                 (click)="chooseModuleType(module._id, module.name)"> {{module.name}}
             </label>
           </div>
+          <!-- <div (click)="chooseModuleType('123','selfAssessment')">Button</div> -->
         </div>
         <div *ngIf="iscreate == false && isshare == true">
           <div class="d-flex flex-row">
@@ -553,7 +564,7 @@
           </div>
         </div>
 
-        <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false ">
+        <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false && selfAssessment == false ">
           <div class="col-md-8 input-wrap">
             <div class="form-group">
               <div class="d-flex justify-content-between">
@@ -792,7 +803,6 @@
               </div>
             </div>
           </div>
-
           <div class="row apg-share-content" *ngIf="apgType =='Progress'">
             <div *ngFor="let temp of templateList; let i=index;" class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl">
               <div class="">

@@ -26,6 +26,7 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
+  public  selfAssessment = false;
   public tempDataValue:any;
   public tempSharedApgId:any;
   public valueArray :any= [];
@@ -619,6 +620,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.ismodule = false;
     this.isUpdate = false;
     this.shareAPG = false;
+    this.selfAssessment = false;
     this.isshare = false;
     this.isGlobal = false;
     this.selectedRadio = ""
@@ -745,6 +747,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.ismodule = false;
         this.apCreate = true;
         this.dataApCreate = false;
+        this.selfAssessment = false;
         const templateAccessPoint = {
           "name": "",
           "description": "",
@@ -820,14 +823,22 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.templateAccessPointGroup = templateAccessPoint;
         this.dataApCreate = true;
         this.ismodule = false;
+        this.selfAssessment = false;
         this.apCreate = false;
         this.emptymax=true;
         this.emptymin=true;
         this.overmin=true;
+      }else if(name == 'SelfAssessment'){
+        this.dataApCreate = false;
+        this.selfAssessment = true;
+        this.ismodule = false;
+        this.apCreate = false;
+        this.iscreate = true;
       }
       else {
         this.model = {};
         this.dataApCreate = false;
+        this.selfAssessment = false
         this.iscreate = true;
         this.isshare = false;
         this.apCreate = false;
