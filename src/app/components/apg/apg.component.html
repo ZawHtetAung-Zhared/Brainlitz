@@ -195,7 +195,7 @@
             </div>
           </div>
           <div class="inform-wrapper">
-            <span class="icon">i</span> <span class="inform-text">Some information about how do skill and requirement
+           <p class="icon"><span class="icon">i</span></p> <span class="inform-text">Some information about how do skill and requirement
               create with multiple lines</span>
           </div>
           <div dragula="COLUMNS" class="requirements-wrapper" [(dragulaModel)]="templateAccessPointGroup" drag-scroll>
@@ -313,7 +313,7 @@
               </div>
               <input type="text" class="form-control selfAssessmentName col-12" placeholder="Type SelfAssessment name here" name="name"
                 maxlength="60" [(ngModel)]="model.name" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'name')"
-                (input)="changeMethod($event.target.value)" required #name="ngModel">
+                (input)="changeMethod($event.target.value)" required #name="ngModel" autocomplete="off" >
               <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
                 <div [hidden]="!name.errors.required">
                   Name is required!
@@ -321,7 +321,7 @@
               </div>
             </div>
             <div class="inform-wrapper p-0">
-              <span class="icon">i</span> <span class="inform-text">Some information about how  do PD and QUESTION 
+              <p class="icon"><span class="icon">i</span></p>  <span class="inform-text">Some information about how  do PD and QUESTION 
                 create with multiple lines</span>
             </div>
           </div>
