@@ -138,6 +138,14 @@ export class ApgComponent implements OnInit, OnDestroy {
   emptymin: boolean = true;
   emptymax: boolean = true;
   overmin: boolean = true;
+  
+  //for input type select event start
+  event: MouseEvent;
+  mouseClientX : number = 0;
+  mouseClientY: number = 0;
+  textEditor : string = "B / U / I | Img";
+  selectedText : any;
+  //for input type select event
 
   constructor(private modalService: NgbModal,
     private _service: appService,
@@ -2573,4 +2581,35 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("here max focus out")
     this.maxExit=false;
   }
+  // selectedTextFunc(t,e : MouseEvent){
+  
+  //   console.log(window.getSelection().getRangeAt(0))
+  //   console.log(window.getSelection().toString())
+  //   this.selectedText = window.getSelection().toString();
+  //     $('.something').css('display','block')
+
+  //     $('.something').css('top',(this.mouseClientY-20) + 'px')
+  
+  //     $('.something').css('left',this.mouseClientX + 'px')
+  // }
+  // onEvent(e){
+  //   this.mouseClientX = e.layerX;
+  //   this.mouseClientY = e.layerY;
+
+  // }
+  // onBlur(t1){
+  //   console.log(t1)
+  //  t1.close();
+  // }
+  // onINput(t,e){
+  //   console.log(t);
+  //   console.log(e)
+  // }
+  // onBold(){
+  //   console.log(this.selectedText.textContent)
+  //   var bold = document.createElement("b");
+  //   bold.textContent = this.selectedText.textContent;
+  //   $(".skill-name").append(bold)
+  //   console.log(window.getSelection().toString())
+  // }
 }

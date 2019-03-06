@@ -74,7 +74,8 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
-
+import { MediumEditorModule } from 'angular2-medium-editor';
+import { MarkdownModule } from 'angular2-markdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -149,7 +150,9 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     SortableModule.forRoot(),
     NgDragDropModule.forRoot(),
     StarRatingModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    MediumEditorModule,
+    MarkdownModule.forRoot(),
   ],
   providers: [
     appService,
