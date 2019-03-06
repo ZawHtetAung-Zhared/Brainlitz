@@ -2095,7 +2095,13 @@ export class ScheduleComponent implements OnInit {
       let obj = {
         'courseId': this.rolloverCourse.courseId,
         'userId': this.rolloverCourse.userId,
-        'type': 'rollover'
+        'type': 'rollover',
+        'plan': {
+          "name": plan.name,
+          "id": plan._id,
+          "duration": plan.lesson.duration,
+          "paymentPolicy": plan.paymentPolicy
+        }
       }
       localStorage.setItem("courseID",JSON.stringify(obj));
       localStorage.removeItem('cPlan');

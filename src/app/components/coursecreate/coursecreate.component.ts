@@ -152,8 +152,17 @@ export class CoursecreateComponent implements OnInit {
       this.model.duration = this.coursePlan.duration;
       this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
+      console.log("~~~~~",this.feesOptions)
+      if(this.feesOptions == undefined){
+        console.log("No Fees OPtions",this.feesOptions)
+        this.chooseFee = "no";
+      }else{
+        console.log("Has Fees OPtions",this.feesOptions)
+        this.chooseFee = '';
+      }
       this.model.location = this.locationName;
       this.locationId = this.currentLocation;
+      console.log("feeOptions",this.feesOptions)
       // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
       if (this.scheduleObj) {
         this.scheduleCourse();
@@ -253,14 +262,6 @@ export class CoursecreateComponent implements OnInit {
         this.locationId = this.model.locationId;
         console.log("this location", this.locationId);
         this.selectedDay = this.model.repeatDays;
-        this.planId = this.model.coursePlan.coursePlanId;
-        this.planName = this.model.coursePlan.name;
-        console.log("plan in draft", this.planName);
-        console.log(this.model.coursePlan.lesson.duration * this.model.durationTimes);
-        this.model.duration = this.model.coursePlan.lesson.duration * this.model.durationTimes;
-        console.log(this.model.duration);
-        this.calculateDuration(this.model.starttime, this.model.duration);
-        this.createList(this.model.coursePlan.lesson.duration);
         this.model.durationTimes = this.model.durationTimes;
         this.startTime = this.model.starttime;
         //for tax option inclusive/exclusive
@@ -295,7 +296,11 @@ export class CoursecreateComponent implements OnInit {
           this.tempValue = res.lessonCount;
         }
         this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
-        this.chooseFee = this.model.paymentPolicy.courseFee;
+        if(this.feesOptions == undefined){
+          this.chooseFee = "no";
+        }else{
+          this.chooseFee = this.model.paymentPolicy.courseFee;
+        }
 
         // var selectedDays= this.model.repeatDays;
         this.temp["endDate"] = this.model.endDate;
@@ -312,6 +317,14 @@ export class CoursecreateComponent implements OnInit {
         this.addCheck = true;
         // this.conflitCourseId = res._id;
         if(type == 'edit'){
+          this.planId = this.model.coursePlan.coursePlanId;
+          this.planName = this.model.coursePlan.name;
+          console.log("plan in draft", this.planName);
+          console.log(this.model.coursePlan.lesson.duration * this.model.durationTimes);
+          this.model.duration = this.model.coursePlan.lesson.duration * this.model.durationTimes;
+          console.log(this.model.duration);
+          this.calculateDuration(this.model.starttime, this.model.duration);
+          this.createList(this.model.coursePlan.lesson.duration);
           this.conflitCourseId = res._id;
           if (this.model.draft == true) {
             console.log("Draft ===>", this.model.draft);
@@ -321,6 +334,14 @@ export class CoursecreateComponent implements OnInit {
             this.isEdit = true;
           }
         }else{
+          this.planId = this.course.plan.id;
+          this.planName = this.course.plan.name;
+          console.log("plan in draft", this.planName);
+          console.log(this.course.plan.duration * this.model.durationTimes);
+          this.model.duration = this.course.plan.duration * this.model.durationTimes;
+          console.log(this.model.duration);
+          this.calculateDuration(this.model.starttime, this.model.duration);
+          this.createList(this.course.plan.duration);
           this.isEdit = false;
         }
         
@@ -529,6 +550,7 @@ export class CoursecreateComponent implements OnInit {
     //   }
     //   this.model.lessonCount = "";
     // }
+    console.log("type",type,"tempVar",this.tempVar)
     this.isChecked = type;
     if (this.tempVar) {
       if (this.tempVar == this.isChecked) {
@@ -1102,9 +1124,10 @@ export class CoursecreateComponent implements OnInit {
       "ignoreLessons": JSON.stringify(this.ignoreArr),
     };
 
-    if (this.chooseFee != '') {
-      console.log("KKKK", this.chooseFee);
-      this.courseObj["courseFee"] = this.chooseFee;
+    if(this.chooseFee != ''){
+      if(this.chooseFee != "no"){
+        this.courseObj["courseFee"] = this.chooseFee;
+      }
     }
 
     if (this.chooseTax != '') {
@@ -1123,23 +1146,50 @@ export class CoursecreateComponent implements OnInit {
       // this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       this.courseObj["repeatDays"] = this.selectedDay;
 
+      console.log(this.model.end,this.model.lessonCount, this.flexiOn)
       if (this.flexiOn == false) {
         this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
       }
-      if (this.model.end && this.flexiOn == false) {
-        console.log("Is end date???", this.model.end)
-        this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-        this.temp["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-        this.tempVar = "end";
-        this.tempValue = this.model.end;
-        this.model.lessonCount = null;
-      } else {
-        console.log("Lesson???", this.model.lessonCount)
-        this.courseObj["lessonCount"] = this.model.lessonCount;
-        this.temp["lessonCount"] = this.model.lessonCount;
-        this.tempVar = "lesson";
-        this.tempValue = this.model.lessonCount;
-        this.model.end = null;
+      if(this.course == null){
+        if (this.model.end && this.flexiOn == false) {
+          console.log("Is end date???", this.model.end)
+          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+          this.temp["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+          this.tempVar = "end";
+          this.tempValue = this.model.end;
+          this.model.lessonCount = null;
+        } else {
+          console.log("Lesson???", this.model.lessonCount)
+          this.courseObj["lessonCount"] = this.model.lessonCount;
+          this.temp["lessonCount"] = this.model.lessonCount;
+          this.tempVar = "lesson";
+          this.tempValue = this.model.lessonCount;
+          this.model.end = null;
+        }
+      }else{
+        if(this.course.type == 'rollover'){
+          if (this.model.end) {
+            console.log("isChecked",this.isChecked)
+            if(this.isChecked == 'end'){
+              console.log("~~~end")
+              this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+              this.temp["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+              this.tempVar = "end";
+              this.tempValue = this.model.end;
+              this.model.lessonCount = null;
+            }
+          }
+          if(this.model.lessonCount){
+            if(this.isChecked == 'lesson'){
+              console.log("~~~lesson", this.model.lessonCount)
+              this.courseObj["lessonCount"] = this.model.lessonCount;
+              this.temp["lessonCount"] = this.model.lessonCount;
+              this.tempVar = "lesson";
+              this.tempValue = this.model.lessonCount;
+              this.model.end = null;
+            }
+          }
+        }
       }
       this.temp["durationTimes"] = this.model.durationTimes;
       this.temp["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
@@ -1149,6 +1199,7 @@ export class CoursecreateComponent implements OnInit {
       var testObj = JSON.parse(localStorage.getItem("tempObj"));
       console.log("Temp obj", testObj)
       console.log("Not First Time");
+      console.log(this.model.end,this.model.lessonCount, this.flexiOn)
 
       if (this.model.end) {
         console.log("this.model.end", this.model.end)
@@ -1369,7 +1420,11 @@ export class CoursecreateComponent implements OnInit {
       this.dataService.nevigateCustomer(this.course.userId);
       setTimeout(()=>{
         this.dataService.nevigateSchedule('');
+        this.staffArrLists = [];
+        localStorage.removeItem('cPlan');
         localStorage.removeItem('courseID');
+        localStorage.removeItem('tempObj');
+        localStorage.removeItem('scheduleObj');
       },300)
   }
   
