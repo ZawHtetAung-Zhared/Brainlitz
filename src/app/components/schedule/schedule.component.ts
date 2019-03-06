@@ -780,7 +780,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(document.getElementById("#v-wrapper1_id"))
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log("undefined currency", this.currency);
@@ -2428,7 +2427,6 @@ export class ScheduleComponent implements OnInit {
     var scrollbar = document.getElementById('fixed-bottom-test')
     var content = document.getElementById('testScroll');
     var inner = document.getElementById('innerScrollbar');
-    
     if(content != null){
       inner.style.width = content.scrollWidth + "px";
       if(type == 'v-wrapper'){
