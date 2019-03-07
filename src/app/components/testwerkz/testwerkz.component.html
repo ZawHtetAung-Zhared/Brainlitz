@@ -33,11 +33,11 @@
             </div>
           </div>
           <input type="text" id="inp" [ngClass]="{'onfocus': isfocus == true}" class="form-control create-btn"
-            placeholder="+ Create new tagwerkz" name="name" [(ngModel)]="tagWerkz.name" required #name="ngModel" (focus)="focusFunction('create','', $event.target.value )"
+            placeholder="+ Create new tagwerkz" name="name" autocomplete="off" [(ngModel)]="tagWerkz.name" required #name="ngModel" (focus)="focusFunction('create','', $event.target.value )"
             (blur)="blurMethod($event, 'create')" (input)="changeMethod($event.target.value)" *ngIf="isEditComplete == false"
             maxlength="60">
           <input type="text" id="inp" [ngClass]="{'onfocus': isfocus == true, 'blury': iseditfocus == true}" class="form-control"
-            placeholder="+ Create new TagWerkz" name="name" (focus)="focusFunction('create')" *ngIf="isEditComplete == true"
+            placeholder="+ Create new TagWerkz" name="name" autocomplete="off" (focus)="focusFunction('create')" *ngIf="isEditComplete == true"
             disabled>
           <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': isfocus == true}">
             <button type="submit" class="btn" (click)="close('create')">
@@ -73,7 +73,7 @@
               </div>
             </div>
             <input type="text" id="tag._id" class="form-control" [ngClass]="{'onfocus': editValue == tag._id, 'blury': (iseditfocus == true && editValue != tag._id)}"
-              name="name" [(ngModel)]="tag.name" required #name="ngModel" (focus)="focusFunction('edit',tag._id, $event.target.value)"
+              name="name" [(ngModel)]="tag.name" autocomplete="off" required #name="ngModel" (focus)="focusFunction('edit',tag._id, $event.target.value)"
               (blur)="blurMethod($event, 'create')" (input)="changeMethod($event.target.value)" maxlength="60">
             <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == tag._id}">
               <button type="submit" class="btn" (click)="close('edit', tag._id)">
@@ -123,7 +123,7 @@
               </div>
               <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off" placeholder="Type SelfAssessment name here"
                 name="name" maxlength="60" [(ngModel)]="concept.name" (focus)="focusMethod($event,'name', $event.target.value)"
-                (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required #name="ngModel">
+                (blur)="blurMethod($event,'input_method')"  (input)="changeMethod($event.target.value)" required #name="ngModel">
               <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
                     <div [hidden]="!name.errors.required">
                       Name is required!

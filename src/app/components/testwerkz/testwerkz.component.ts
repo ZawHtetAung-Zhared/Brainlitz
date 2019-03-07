@@ -125,8 +125,6 @@ export class TestwerkzComponent implements OnInit {
       console.log(err)
     })
   }
-  // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/tags/5c80a8b42996a1201d10c8d0
-  // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/tags/5c80ab98109bc8263b48bf96
   focusMethod(e, status, word) {
     this.wordLength = word.length;
     if (status == 'name') {
