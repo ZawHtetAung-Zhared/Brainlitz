@@ -131,12 +131,8 @@ export class TestwerkzComponent implements OnInit {
   focusMethod(e, status, word) {
     this.wordLength = word.length;
     if (status == 'name') {
-      $('.limit-wordcount').show('slow');
-    } else if (status = "input_method") {
       $('.limit-type-wordcount').show('slow');
-    } else {
-      $('.limit-wordcount1').show('slow');
-    }
+    } 
   }
   
 
@@ -157,7 +153,7 @@ export class TestwerkzComponent implements OnInit {
   blurMethod(e, status){
     console.log('blur', e);
     let wp = this.wordLength;
-    $('.limit-word').hide('slow');
+    $('.limit-type-wordcount').hide('slow');
     this.wordLength = 0;
   }
   changeMethod(val : string){
