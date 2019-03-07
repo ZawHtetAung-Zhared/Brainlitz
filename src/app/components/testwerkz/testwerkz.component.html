@@ -121,7 +121,7 @@
                       <span>{{wordLength}}/60characters</span>
                     </div> -->
               </div>
-              <input type="text" class="form-control selfAssessmentName col-12" placeholder="Type SelfAssessment name here"
+              <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off" placeholder="Type SelfAssessment name here"
                 name="name" maxlength="60" [(ngModel)]="concept.name" (focus)="focusMethod($event,'name', $event.target.value)"
                 (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required #name="ngModel">
               <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">

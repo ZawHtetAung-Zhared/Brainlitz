@@ -453,7 +453,7 @@ h3.category-h3 {
 }
 
 .form-side {
-  width: 75%;
+  /* width: 75%; */
   height: 100vh;
 }
 #conceptWrapper{
@@ -527,18 +527,6 @@ h3.category-h3 {
   margin-left: 15px;
 }
 
-@media only screen and (min-width:1366px) {
-  .inner-wrapper {
-    width: 1080px !important;
-    margin: 0 auto;
-  }
-
-}
-@media (min-width: 700px) and (max-width: 1800px) {
-  #conceptWrapper{
-    width: 85%!important;
-  }
-}
 
 .pd-header{
   max-height:300px;
@@ -550,4 +538,27 @@ h3.category-h3 {
 }
 .pd-header>img{
   max-height:100px;
+}
+@media only screen and (min-width:1366px) {
+  .inner-wrapper {
+    width: 1080px !important;
+    margin: 0 auto;
+  }
+
+}
+@media (min-width: 700px) and (max-width: 2000px) {
+  #conceptWrapper{
+    width: 85%!important;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 900px) {
+  .form-side{
+    width: 65%!important;
+  }
+}
+@media only screen and (min-width: 910px){
+  .form-side{
+    width: 75%!important;
+  }
 }
