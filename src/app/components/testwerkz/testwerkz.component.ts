@@ -92,6 +92,7 @@ export class TestwerkzComponent implements OnInit {
       this.classCreate = false;
     }
   }
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log($event);
     // console.log("scrolling");
@@ -102,6 +103,14 @@ export class TestwerkzComponent implements OnInit {
     } else {
       console.log('less than 100')
       this.navIsFixed = false;
+    }
+    if (window.pageYOffset > 81) {      
+      $('.setting-sidebar').css({top: 65}) 
+    }
+    else if(window.pageYOffset < 0){
+      $('.setting-sidebar').css({top: 165}) 
+    } else {   
+      $('.setting-sidebar').css({top: 165}) 
     }
   }
 

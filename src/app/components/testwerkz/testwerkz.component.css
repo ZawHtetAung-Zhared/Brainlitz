@@ -466,6 +466,8 @@ h3.category-h3 {
   max-width: 256px;
   right: 0px;
   height: 100vh;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
 }
 
 .name-input-wrapper {
