@@ -541,6 +541,58 @@ h3.category-h3 {
 .pd-header>img{
   max-height:100px;
 }
+
+/* start image upload modal css */
+.d-flex.justify-content-center.drop_zone {
+  padding-top: 100px;
+}
+
+button.btn.btn-submit.insertBtn {
+  width: 90px;
+  height: 44px;
+  opacity: 0.5;
+}
+.modal-body.img_upload {
+  width: 912px;
+  height: 524px;
+  border: dashed 2px #d4d5d6;
+  margin: 32px 32px 32px 22px;
+}
+
+img.img_drop {
+  width: 108px;
+  height: 90px;
+  margin-left: 60px;
+}
+
+label.drop_drap_txt {
+  font-size: 20px;
+  color: #64707d;
+  margin-left: 60px;
+  margin-top: 16px;
+  margin-bottom: unset;
+}
+
+
+span.drop_sp {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64707d;
+  margin-left: 53px;  
+}
+
+button.btn.btn-submit.uploadImgBtn {
+  width: 200px;
+  height: 44px;
+  background: #007fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  margin-top: 48px;
+}
+
+/* end image upload modal css */
 @media only screen and (min-width:1366px) {
   .inner-wrapper {
     width: 1080px !important;

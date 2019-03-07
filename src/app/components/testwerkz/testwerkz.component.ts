@@ -5,6 +5,8 @@ import {
 } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { TargetLocator } from 'selenium-webdriver';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 declare var $:any;
 @Component({
   selector: 'app-testwerkz',
@@ -26,6 +28,7 @@ export class TestwerkzComponent implements OnInit {
   public iseditfocus = false;
   public otherfocus = false;
   public isEditComplete :boolean = false;
+  public modalReference: any;
   public classCreate= false;
   public concept = {
   }
@@ -34,7 +37,7 @@ export class TestwerkzComponent implements OnInit {
   public placeholderVar = "Enter Questions";
   public tagsWerkzList = []
   public regionID = localStorage.getItem('regionId');
-  constructor(private _service: appService,) {
+  constructor(private _service: appService,private modalService: NgbModal) {
 
   }
 
@@ -256,5 +259,9 @@ export class TestwerkzComponent implements OnInit {
       // }
    })
    console.log(str)
+  }
+
+  openImgModal(content) {
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
   }
 }
