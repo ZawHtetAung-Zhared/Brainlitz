@@ -3,10 +3,10 @@ import {
   OnInit,
   HostListener
 } from '@angular/core';
+import { appService } from '../../service/app.service';
 import { TargetLocator } from 'selenium-webdriver';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
-import { appService } from '../../service/app.service';
 
 
 declare var $:any;
@@ -21,7 +21,7 @@ export class TestwerkzComponent implements OnInit {
   public isUpdate = false;
   public conceptList = true;
   public isfocus = false;
-  public item :any ={}
+  public tagWerkz :any ={}
   public editValue:any;
   public ischecked:any;
   public goBackCat= false;
@@ -39,49 +39,10 @@ export class TestwerkzComponent implements OnInit {
   public translateToMarkDown: string;
   public testVar = "";
   public placeholderVar = "Enter Questions";
-  public test = [
-    {
-      createdDate: "2019-02-27T06:36:13.902Z",
-      name: "Data Testing",
-      regionId: "5af915541de9052c869687a3",
-      updatedDate: "2019-02-27T06:36:13.902Z",
-      __v: 0,
-      _id: "5c762fdd4c95553a8670d66"
-    },
-    {
-      createdDate: "2019-02-27T06:36:13.902Z",
-      name: "Data Testing1",
-      regionId: "5af915541de9052c869687a3",
-      updatedDate: "2019-02-27T06:36:13.902Z",
-      __v: 0,
-      _id: "5c762fdd4c95553a8670666"
-    },
-    {
-      createdDate: "2019-02-27T06:36:13.902Z",
-      name: "Data Testing2",
-      regionId: "5af915541de9052c869687a3",
-      updatedDate: "2019-02-27T06:36:13.902Z",
-      __v: 0,
-      _id: "5c762fdd4c9553a8670d666"
-    },
-    {
-      createdDate: "2019-02-27T06:36:13.902Z",
-      name: "Data Testing3",
-      regionId: "5af915541de9052c869687a3",
-      updatedDate: "2019-02-27T06:36:13.902Z",
-      __v: 0,
-      _id: "5c762fdd495553a8670d666"
-    },
-    {
-      createdDate: "2019-02-27T06:36:13.902Z",
-      name: "Data Testing4",
-      regionId: "5af915541de9052c869687a3",
-      updatedDate: "2019-02-27T06:36:13.902Z",
-      __v: 0,
-      _id: "5c762fddc95553a8670d666"
-    }
-  ]
-  constructor(private modalService: NgbModal, private _service: appService) {}
+  public tagsWerkzList = []
+  constructor(private _service: appService,private modalService: NgbModal) {
+
+  }
 
   ngOnInit() {
     if(window.innerWidth > 1366){
@@ -121,10 +82,51 @@ export class TestwerkzComponent implements OnInit {
       $('.setting-sidebar').css({top: 165}) 
     }
   }
+  createTagWerkz(item) {
+    this.isfocus = !this.isfocus;
+    console.log(item);
+    console.warn(this.tagWerkz);
+    this._service.createTagWerkz(this.regionID,item)
+    .subscribe((res:any) => {    
+      console.log(res);
+      this.tagWerkz = {};
+      this.getAllTag();
+  }, err => {
+    console.log(err)
+  })
+  }
 
   goToTestWerkz() {
-    this.testWerkzCategory = true
-    this.conceptList = false;
+      this.testWerkzCategory = true
+      this.conceptList = false;
+      this.getAllTag();
+  }
+
+  getAllTag(){
+    this._service.getAllTags(this.regionID)
+    .subscribe((res:any) => {    
+      console.log(res);
+      this.tagsWerkzList = res;
+  }, err => {
+    console.log(err)
+  })
+  }
+  updateTagWerkz(data){
+    console.log("Update Category",data, data._id);
+      this.iseditfocus = false;
+      // this.isEditComplete = false;
+      let obj = {
+        "name":data.name
+      }
+      this.editValue = ''
+      this._service.updateTagsWerkz(this.regionID,data._id,obj)
+      .subscribe((res:any) => {    
+        console.log(res);
+        this.getAllTag();
+        this.tagWerkz = {};
+    }, err => {
+      console.log(err)
+    })
   }
   focusMethod(e, status, word) {
     this.wordLength = word.length;
@@ -170,13 +172,9 @@ export class TestwerkzComponent implements OnInit {
       this.iseditfocus = !this.iseditfocus;
       this.editValue = ''
     }
-    this.item = {};
+    this.tagWerkz = {};
   }
-  createCategory(item) {
-    this.isfocus = !this.isfocus;
-  	console.log(item);
-    this.item = {};
-  }
+ 
   somethingChanged(val, name){
     console.log('hi', val)
     this.conceptCreate = true;
@@ -189,19 +187,7 @@ export class TestwerkzComponent implements OnInit {
     //   this.goBackCat = true;
     // }, 300);
   }
-  updateCategory(data, name){
-    console.log("Update Category",data, name);
-    let obj = {
-      'name': name,
-      'regionId': data.regionId,
-      '_id': data._id
-    }
-    console.log(obj)
-      this.iseditfocus = false;
-      // this.isEditComplete = false;
-      this.item = {};
-      this.editValue = ''
-  }
+ 
   backToList(){
     this.conceptList = true;
     this.conceptCreate =  false;

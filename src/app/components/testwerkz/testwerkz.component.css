@@ -653,6 +653,10 @@ p.g_title {
   border: solid 1px #edeff0;
   border-radius: 4px;
 }
+.row.imgGp {
+  overflow: overlay;
+  max-height: 400px;
+}
 .imgDiv{
   margin-top: 16px;
 }
