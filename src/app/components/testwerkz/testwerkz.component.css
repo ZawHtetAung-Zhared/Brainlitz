@@ -458,6 +458,11 @@ h3.category-h3 {
 
 .setting-sidebar {
   border-left: 1px solid #edeff0;
+  position: fixed;
+  width: 256px;
+  max-width: 256px;
+  right: 0px;
+  height: 100vh;
 }
 
 .name-input-wrapper {

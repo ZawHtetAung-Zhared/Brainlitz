@@ -24,8 +24,8 @@ export class TestwerkzComponent implements OnInit {
   public iseditfocus = false;
   public otherfocus = false;
   public isEditComplete :boolean = false;
+  public classCreate= false;
   public concept = {
-
   }
   
   public test = [
@@ -72,7 +72,25 @@ export class TestwerkzComponent implements OnInit {
   ]
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(window.innerWidth >= 1366){
+      this.classCreate = true;
+    }
+    if(window.innerWidth > 1366){
+      this.classCreate = false;
+    }
+    console.warn('it is work');
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if(window.innerWidth >= 1366){
+      this.classCreate = true;
+    }
+    if(window.innerWidth > 1366){
+      this.classCreate = false;
+    }
+    console.warn('it is work');
+  }
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log($event);
     // console.log("scrolling");
