@@ -5,6 +5,9 @@ import {
 } from '@angular/core';
 import { TargetLocator } from 'selenium-webdriver';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { FileUploader } from 'ng2-file-upload';
+import { appService } from '../../service/app.service';
+
 
 declare var $:any;
 @Component({
@@ -28,7 +31,9 @@ export class TestwerkzComponent implements OnInit {
   public otherfocus = false;
   public isEditComplete :boolean = false;
   public modalReference: any;
+  public contentArr: any=[];
   public classCreate= false;
+  public regionID = localStorage.getItem('regionId');
   public concept = {
   }
   public translateToMarkDown: string;
@@ -76,7 +81,7 @@ export class TestwerkzComponent implements OnInit {
       _id: "5c762fddc95553a8670d666"
     }
   ]
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private _service: appService) {}
 
   ngOnInit() {
     if(window.innerWidth > 1366){
@@ -271,7 +276,34 @@ export class TestwerkzComponent implements OnInit {
    console.log(str)
   }
 
+  // image upload modal 
   openImgModal(content) {
+    console.log("open modal")
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getContent();
+  }
+ getContent(){
+  this._service.getContent(this.regionID)
+    .subscribe((res: any) => {
+      this.contentArr=res;
+      console.log(res)
+    }, err => {
+      console.log(err)
+    });
+ }
+  cancelModal(type) {
+    this.modalReference.close();
+  }
+  ongetImg(event){
+    const file = event.target.files[0]
+    console.log(file)
+    this._service.loadImage(this.regionID, file)
+      .subscribe((res: any) => {
+        this.contentArr=res.meta;
+        this.getContent();
+        console.log(res.meta)
+      }, err => {
+        console.log(err);
+      });
   }
 }

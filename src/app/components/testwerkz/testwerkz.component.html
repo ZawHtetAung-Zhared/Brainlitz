@@ -172,20 +172,50 @@
     <!-- <div class="modal-header">
     
     </div> -->
-    <div class="modal-body img_upload">
+    <div class="modal-body img_upload" *ngIf="contentArr.length == 0">
       <div class="d-flex justify-content-center drop_zone">
           <div class="d-flex flex-column drop_zone_middle">
             <img src="../../../assets/img/image-drop.png" class="img_drop">
             <label class="drop_drap_txt">Drag & drop</label>
             <span class="drop_sp">image anywhere or</span>
-            <button type="button" class="btn btn-submit uploadImgBtn">Upload image</button>
+            <div class="upload-btn-wrapper">
+                <button class="btn btn-submit uploadImgBtn">Upload image</button>
+                <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="ongetImg($event)"/>
+            </div>
           </div>
       </div>
   
     </div>
+    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0">
+      <div class="d-flex drop_zone_middle_eixtData">
+          <img src="../../../assets/img/image-drop.png" class="eimg_drop">
+          <div class="d-flex  flex-column lblGp">
+              <label class="edrop_drap_txt">Drag & drop</label>
+              <span class="edrop_sp">image anywhere or</span>
+          </div>
+          <div class="upload-btn-wrapper">
+              <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
+              <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="ongetImg($event)"/>
+          </div>
+      </div>
+      <div class="d-flex flex-column gallery">
+        <p class="g_title">Image gallery</p>
+        <div class="row imgGp">
+          <div class="col-md-2 imgDiv" *ngFor="let imgArr of contentArr;">
+              <div class="inner-imgDiv">
+                  <img src={{imgArr.url}} class="gShowImag">
+              </div>
+                
+
+             
+          </div>
+            
+        </div>
+      </div>
+    </div>
   
     <div class="modal-footer">
-      <a class="cancelbtn">Cancel</a>
+      <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
       <button type="button" class="btn btn-submit insertBtn">Insert</button>
     </div>
   </ng-template>

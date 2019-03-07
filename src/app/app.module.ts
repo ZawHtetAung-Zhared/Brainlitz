@@ -75,7 +75,9 @@ import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
-import { MediumEditorModule } from 'angular2-medium-editor'
+import { MediumEditorModule } from 'angular2-medium-editor';
+import { FileUploadModule } from 'ng2-file-upload';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -152,7 +154,8 @@ import { MediumEditorModule } from 'angular2-medium-editor'
     NgDragDropModule.forRoot(),
     StarRatingModule,
     Ng2TelInputModule,
-    MediumEditorModule
+    MediumEditorModule,
+    FileUploadModule
   ],
   providers: [
     appService,

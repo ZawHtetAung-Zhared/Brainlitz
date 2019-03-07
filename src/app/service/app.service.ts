@@ -2214,5 +2214,37 @@ export class appService{
       })
     }
 
+    // get contents for modal gallary show
+    getContent(regionId: string): Observable<any>{
+      let url = this.baseUrl+ '/' + regionId + '/contents';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
+    loadImage(regionId: string,file : File): Observable<any>{
+      let url = this.baseUrl+ '/' + regionId + '/contents';
+      let form = new FormData();
+      form.append('file', file );
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, form, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    } 
+
+
 }
 
