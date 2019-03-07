@@ -4,6 +4,8 @@ import {
   HostListener
 } from '@angular/core';
 import { TargetLocator } from 'selenium-webdriver';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 declare var $:any;
 @Component({
   selector: 'app-testwerkz',
@@ -25,6 +27,7 @@ export class TestwerkzComponent implements OnInit {
   public iseditfocus = false;
   public otherfocus = false;
   public isEditComplete :boolean = false;
+  public modalReference: any;
   public concept = {
 
   }
@@ -73,7 +76,7 @@ export class TestwerkzComponent implements OnInit {
       _id: "5c762fddc95553a8670d666"
     }
   ]
-  constructor() {}
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit() {}
   @HostListener('window:scroll', ['$event']) onScroll($event) {
@@ -241,5 +244,9 @@ export class TestwerkzComponent implements OnInit {
       // }
    })
    console.log(str)
+  }
+
+  openImgModal(content) {
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
   }
 }

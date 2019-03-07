@@ -158,9 +158,34 @@
     </div>
     <div class="d-flex justify-content-end form-footer">
       <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+      <button type="button" class="btn btn-submit" (click)=openImgModal(imgModal)>Image Upload</button>
       <button *ngIf="isUpdate == false" type="button" class="btn btn-submit">Create</button>
       <button *ngIf="isUpdate == true" type="button" class="btn btn-submit">Update</button>
     </div>
   </div>
+
   <!-- For Concept Create End -->
   <block-ui message="Deafult Message"></block-ui>
+
+  <!-- modal for image upload -->
+  <ng-template #imgModal let-modal>
+    <!-- <div class="modal-header">
+    
+    </div> -->
+    <div class="modal-body img_upload">
+      <div class="d-flex justify-content-center drop_zone">
+          <div class="d-flex flex-column drop_zone_middle">
+            <img src="../../../assets/img/image-drop.png" class="img_drop">
+            <label class="drop_drap_txt">Drag & drop</label>
+            <span class="drop_sp">image anywhere or</span>
+            <button type="button" class="btn btn-submit uploadImgBtn">Upload image</button>
+          </div>
+      </div>
+  
+    </div>
+  
+    <div class="modal-footer">
+      <a class="cancelbtn">Cancel</a>
+      <button type="button" class="btn btn-submit insertBtn">Insert</button>
+    </div>
+  </ng-template>
