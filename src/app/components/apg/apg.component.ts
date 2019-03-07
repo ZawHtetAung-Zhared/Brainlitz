@@ -26,7 +26,6 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
-  public  selfAssessment = false;
   public tempDataValue:any;
   public tempSharedApgId:any;
   public valueArray :any= [];
@@ -139,6 +138,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   emptymin: boolean = true;
   emptymax: boolean = true;
   overmin: boolean = true;
+  
 
   constructor(private modalService: NgbModal,
     private _service: appService,
@@ -620,7 +620,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.ismodule = false;
     this.isUpdate = false;
     this.shareAPG = false;
-    this.selfAssessment = false;
     this.isshare = false;
     this.isGlobal = false;
     this.selectedRadio = ""
@@ -747,7 +746,6 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.ismodule = false;
         this.apCreate = true;
         this.dataApCreate = false;
-        this.selfAssessment = false;
         const templateAccessPoint = {
           "name": "",
           "description": "",
@@ -823,15 +821,14 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.templateAccessPointGroup = templateAccessPoint;
         this.dataApCreate = true;
         this.ismodule = false;
-        this.selfAssessment = false;
         this.apCreate = false;
         this.emptymax=true;
         this.emptymin=true;
         this.overmin=true;
-      }else {
+      }
+      else {
         this.model = {};
         this.dataApCreate = false;
-        this.selfAssessment = false
         this.iscreate = true;
         this.isshare = false;
         this.apCreate = false;
@@ -2577,4 +2574,35 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("here max focus out")
     this.maxExit=false;
   }
+  // selectedTextFunc(t,e : MouseEvent){
+  
+  //   console.log(window.getSelection().getRangeAt(0))
+  //   console.log(window.getSelection().toString())
+  //   this.selectedText = window.getSelection().toString();
+  //     $('.something').css('display','block')
+
+  //     $('.something').css('top',(this.mouseClientY-20) + 'px')
+  
+  //     $('.something').css('left',this.mouseClientX + 'px')
+  // }
+  // onEvent(e){
+  //   this.mouseClientX = e.layerX;
+  //   this.mouseClientY = e.layerY;
+
+  // }
+  // onBlur(t1){
+  //   console.log(t1)
+  //  t1.close();
+  // }
+  // onINput(t,e){
+  //   console.log(t);
+  //   console.log(e)
+  // }
+  // onBold(){
+  //   console.log(this.selectedText.textContent)
+  //   var bold = document.createElement("b");
+  //   bold.textContent = this.selectedText.textContent;
+  //   $(".skill-name").append(bold)
+  //   console.log(window.getSelection().toString())
+  // }
 }

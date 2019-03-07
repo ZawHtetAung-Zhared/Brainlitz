@@ -3,6 +3,7 @@ import {
   OnInit,
   HostListener
 } from '@angular/core';
+import { TargetLocator } from 'selenium-webdriver';
 declare var $:any;
 @Component({
   selector: 'app-testwerkz',
@@ -27,7 +28,9 @@ export class TestwerkzComponent implements OnInit {
   public classCreate= false;
   public concept = {
   }
-  
+  public translateToMarkDown: string;
+  public testVar = "";
+  public placeholderVar = "Enter Questions";
   public test = [
     {
       createdDate: "2019-02-27T06:36:13.902Z",
@@ -199,5 +202,60 @@ export class TestwerkzComponent implements OnInit {
   }
   editComplete(){
     this.isEditComplete = !this.isEditComplete;
+  }
+  translate(t){
+    var str ="";
+    console.log(t)
+    console.log($(t))
+    console.log($(t).children(".medium-editor-element"))
+    var tempEle = $(t).children(".medium-editor-element");
+    tempEle.children().each(function() {
+      console.log($(this))
+      var $temp = $(this)
+      var $target = $(this).children();
+      console.log($target)
+      if($target.children().length == 0){
+        console.log($temp)
+        console.log($temp.text())
+        str = $temp.text();
+      }else{
+        while($target.children().length > 0){
+          console.log($target.prop("tagName"))
+          if($target.prop("tagName") == "B"){
+            console.log("bb")
+            str += "**";
+          }else if($target.prop("tagName") == "U"){
+            console.log("__")
+            str += "__";
+  
+          }
+          else if($target.prop("tagName") == "I"){
+            console.log("*")
+            str += "*";
+          }
+          $target = $target.children();
+        }
+      }
+     
+      if($target.prop("tagName") == "B"){
+        console.log("bb")
+        str += "**";
+      }else if($target.prop("tagName") == "U"){
+        console.log("__")
+        str += "__";
+
+      }
+      else if($target.prop("tagName") == "I"){
+        console.log("*")
+        str += "*";
+      }
+      // console.log($target.end())
+      // if($(this).hasClass("medium-editor-element")){
+      //   console.log("only")
+      //   console.log($(this))
+      //   str = str + ($(this).text())
+      // }
+   })
+   console.log(str)
   }
 }

@@ -75,7 +75,7 @@ import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
-
+import { MediumEditorModule } from 'angular2-medium-editor'
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,6 +104,7 @@ import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
     ScheduleWeekDaysPipe,
     GroupByPipe,
     ConvertTimeFormatPipe,
+    TestwerkzComponent,
     GetDayPipe,
     GetUtcTimePipe,
     GetFormatData,
@@ -127,8 +128,7 @@ import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
     DateFormatPipe,
     HourMinsPipe,
     calculatePMPipe,
-    InvoiceComponent,
-    TestwerkzComponent
+    InvoiceComponent
   ],
   imports: [
     BrowserModule,
@@ -151,7 +151,8 @@ import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
     SortableModule.forRoot(),
     NgDragDropModule.forRoot(),
     StarRatingModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    MediumEditorModule
   ],
   providers: [
     appService,
