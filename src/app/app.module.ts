@@ -76,7 +76,12 @@ import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
 import { MediumEditorModule } from 'angular2-medium-editor';
+<<<<<<< HEAD
 import { UpNDown} from 'upndown'
+=======
+import { FileUploadModule } from 'ng2-file-upload';
+
+>>>>>>> e7a10a5125a0acc1b05e08cfaa1b122595ffca69
 @NgModule({
   declarations: [
     AppComponent,
@@ -153,7 +158,8 @@ import { UpNDown} from 'upndown'
     NgDragDropModule.forRoot(),
     StarRatingModule,
     Ng2TelInputModule,
-    MediumEditorModule
+    MediumEditorModule,
+    FileUploadModule
   ],
   providers: [
     appService,

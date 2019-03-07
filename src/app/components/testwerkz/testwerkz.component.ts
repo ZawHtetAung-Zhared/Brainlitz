@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator } from "selenium-webdriver";
 import { pd } from "./apg";
@@ -7,6 +8,20 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
 declare var $: any;
 // declare var upndown:any;
 var upndown = require("upndown");
+=======
+import {
+  Component,
+  OnInit,
+  HostListener
+} from '@angular/core';
+import { appService } from '../../service/app.service';
+import { TargetLocator } from 'selenium-webdriver';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { FileUploader } from 'ng2-file-upload';
+
+
+declare var $:any;
+>>>>>>> e7a10a5125a0acc1b05e08cfaa1b122595ffca69
 @Component({
   selector: "app-testwerkz",
   templateUrl: "./testwerkz.component.html",
@@ -18,6 +33,7 @@ export class TestwerkzComponent implements OnInit {
   public isUpdate = false;
   public conceptList = true;
   public isfocus = false;
+<<<<<<< HEAD
   public item: any = {};
   public editValue: any;
   public ischecked: any;
@@ -119,6 +135,50 @@ export class TestwerkzComponent implements OnInit {
     console.log($event);
   }
   @HostListener("window:scroll", ["$event"]) onScroll($event) {
+=======
+  public tagWerkz :any ={}
+  public editValue:any;
+  public ischecked:any;
+  public goBackCat= false;
+  public wordLength :any ;
+  public navIsFixed: boolean = false;
+  public iseditfocus = false;
+  public otherfocus = false;
+  public isEditComplete :boolean = false;
+  public modalReference: any;
+  public contentArr: any=[];
+  public classCreate= false;
+  public regionID = localStorage.getItem('regionId');
+  public concept = {
+  }
+  public translateToMarkDown: string;
+  public testVar = "";
+  public placeholderVar = "Enter Questions";
+  public tagsWerkzList = []
+  constructor(private _service: appService,private modalService: NgbModal) {
+
+  }
+
+  ngOnInit() {
+    if(window.innerWidth > 1366){
+      this.classCreate = true;
+    }
+    if(window.innerWidth <= 1366){
+      this.classCreate = false;
+    }
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if(window.innerWidth > 1366){
+      this.classCreate = true;
+    }
+    if(window.innerWidth <= 1366){
+      this.classCreate = false;
+    }
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+>>>>>>> e7a10a5125a0acc1b05e08cfaa1b122595ffca69
     // console.log($event);
     // console.log("scrolling");
     // console.log(window.pageYOffset)
@@ -129,11 +189,65 @@ export class TestwerkzComponent implements OnInit {
       console.log("less than 100");
       this.navIsFixed = false;
     }
+    if (window.pageYOffset > 81) {      
+      $('.setting-sidebar').css({top: 65}) 
+    }
+    else if(window.pageYOffset < 0){
+      $('.setting-sidebar').css({top: 165}) 
+    } else {   
+      $('.setting-sidebar').css({top: 165}) 
+    }
+  }
+  createTagWerkz(item) {
+    this.isfocus = !this.isfocus;
+    console.log(item);
+    console.warn(this.tagWerkz);
+    this._service.createTagWerkz(this.regionID,item)
+    .subscribe((res:any) => {    
+      console.log(res);
+      this.tagWerkz = {};
+      this.getAllTag();
+  }, err => {
+    console.log(err)
+  })
   }
 
   goToTestWerkz() {
+<<<<<<< HEAD
     this.testWerkzCategory = true;
     this.conceptList = false;
+=======
+      this.testWerkzCategory = true
+      this.conceptList = false;
+      this.getAllTag();
+  }
+
+  getAllTag(){
+    this._service.getAllTags(this.regionID)
+    .subscribe((res:any) => {    
+      console.log(res);
+      this.tagsWerkzList = res;
+  }, err => {
+    console.log(err)
+  })
+  }
+  updateTagWerkz(data){
+    console.log("Update Category",data, data._id);
+      this.iseditfocus = false;
+      // this.isEditComplete = false;
+      let obj = {
+        "name":data.name
+      }
+      this.editValue = ''
+      this._service.updateTagsWerkz(this.regionID,data._id,obj)
+      .subscribe((res:any) => {    
+        console.log(res);
+        this.getAllTag();
+        this.tagWerkz = {};
+    }, err => {
+      console.log(err)
+    })
+>>>>>>> e7a10a5125a0acc1b05e08cfaa1b122595ffca69
   }
   focusMethod(e, status, word) {
     this.wordLength = word.length;
@@ -178,6 +292,7 @@ export class TestwerkzComponent implements OnInit {
       this.iseditfocus = !this.iseditfocus;
       this.editValue = "";
     }
+<<<<<<< HEAD
     this.item = {};
   }
   createCategory(item) {
@@ -187,6 +302,13 @@ export class TestwerkzComponent implements OnInit {
   }
   somethingChanged(val, name) {
     console.log("hi", val);
+=======
+    this.tagWerkz = {};
+  }
+ 
+  somethingChanged(val, name){
+    console.log('hi', val)
+>>>>>>> e7a10a5125a0acc1b05e08cfaa1b122595ffca69
     this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
@@ -197,6 +319,7 @@ export class TestwerkzComponent implements OnInit {
     //   this.goBackCat = true;
     // }, 300);
   }
+<<<<<<< HEAD
   updateCategory(data, name) {
     console.log("Update Category", data, name);
     let obj = {
@@ -211,6 +334,10 @@ export class TestwerkzComponent implements OnInit {
     this.editValue = "";
   }
   backToList() {
+=======
+ 
+  backToList(){
+>>>>>>> e7a10a5125a0acc1b05e08cfaa1b122595ffca69
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
@@ -305,6 +432,7 @@ export class TestwerkzComponent implements OnInit {
       if (type == "answer") {
         this.concepts[i].question[j].answers.push({ answer: "" });
       }
+<<<<<<< HEAD
     }
   }
   addQuestion(j) {
@@ -365,3 +493,50 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 }
+=======
+      else if($target.prop("tagName") == "I"){
+        console.log("*")
+        str += "*";
+      }
+      // console.log($target.end())
+      // if($(this).hasClass("medium-editor-element")){
+      //   console.log("only")
+      //   console.log($(this))
+      //   str = str + ($(this).text())
+      // }
+   })
+   console.log(str)
+  }
+
+  // image upload modal 
+  openImgModal(content) {
+    console.log("open modal")
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getContent();
+  }
+ getContent(){
+  this._service.getContent(this.regionID)
+    .subscribe((res: any) => {
+      this.contentArr=res;
+      console.log(res)
+    }, err => {
+      console.log(err)
+    });
+ }
+  cancelModal(type) {
+    this.modalReference.close();
+  }
+  ongetImg(event){
+    const file = event.target.files[0]
+    console.log(file)
+    this._service.loadImage(this.regionID, file)
+      .subscribe((res: any) => {
+        this.contentArr=res.meta;
+        this.getContent();
+        console.log(res.meta)
+      }, err => {
+        console.log(err);
+      });
+  }
+}
+>>>>>>> e7a10a5125a0acc1b05e08cfaa1b122595ffca69
