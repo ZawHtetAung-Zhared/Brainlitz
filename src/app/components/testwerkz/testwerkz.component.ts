@@ -73,23 +73,21 @@ export class TestwerkzComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    if(window.innerWidth >= 1366){
+    if(window.innerWidth > 1366){
       this.classCreate = true;
     }
-    if(window.innerWidth > 1366){
+    if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    console.warn('it is work');
   }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    if(window.innerWidth >= 1366){
+    if(window.innerWidth > 1366){
       this.classCreate = true;
     }
-    if(window.innerWidth > 1366){
+    if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    console.warn('it is work');
   }
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log($event);

@@ -133,9 +133,9 @@
 <!-- For Concept Create Start -->
 <div *ngIf="conceptCreate">
   <div class="w-100  h-100">
-      <div class="w-100 d-flex mt-1 h-100">
-          <div class="pl-3 col-md-8 col-xl-8 p-0 form-side">
-            <div class="align-items-center d-flex flex-column w-100">
+      <div class="w-100 d-flex mt-1 h-100" [ngClass]="{'justify-content-center': classCreate == true, 'align-items-center':classCreate == true}" id="conceptWrapper">
+          <div class="pl-3 p-0 form-side">
+            <div class=" d-flex flex-column w-100" [ngClass]="{'align-items-center': classCreate == true}">
               <div class="">
                 <div class="mr-auto p-2 pl-0 pb-0" (click)="backToTestWerkz()">
                   <div class="back-to pt-2 d-flex">

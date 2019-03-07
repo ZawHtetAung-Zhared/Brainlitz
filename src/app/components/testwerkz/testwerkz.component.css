@@ -453,9 +453,12 @@ h3.category-h3 {
 }
 
 .form-side {
+  width: 75%;
   height: 100vh;
 }
+#conceptWrapper{
 
+}
 .setting-sidebar {
   border-left: 1px solid #edeff0;
   position: fixed;
@@ -528,5 +531,11 @@ h3.category-h3 {
   .inner-wrapper {
     width: 1080px !important;
     margin: 0 auto;
+  }
+
+}
+@media (min-width: 700px) and (max-width: 1800px) {
+  #conceptWrapper{
+    width: 85%!important;
   }
 }
