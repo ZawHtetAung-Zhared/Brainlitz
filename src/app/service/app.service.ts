@@ -893,6 +893,9 @@ export class appService{
       })
     } 
 
+
+
+
     getSinglePlan(planID: string, locationId: string){
       this.getLocalstorage();
       let url = this.baseUrl + '/courseplan/' + planID + '?locationId=' + locationId;
@@ -967,7 +970,6 @@ export class appService{
         return result;
       })
     }
-
     updateCategory(id:string, body:any){
       let apiUrl = this.baseUrl + '/category/' + id;
       const options = {
@@ -2213,6 +2215,49 @@ export class appService{
         return result;
       })
     }
+
+    createTagWerkz(regionId: string, data: object): Observable<any>{
+      let url = this.baseUrl + '/' + regionId + '/tags'
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    } 
+    getAllTags(regionID:string){
+      let apiUrl = this.baseUrl + '/' + regionID + '/tags'
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+    updateTagsWerkz(regionID:string,tagsID:string,body){
+      let apiUrl = this.baseUrl + '/' + regionID + '/tags/' + tagsID
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+    // "http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/tags/5c80a8b42996a1201d10c8d0" 
+
 
 }
 
