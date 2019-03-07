@@ -75,7 +75,8 @@ import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
-import { MediumEditorModule } from 'angular2-medium-editor'
+import { MediumEditorModule } from 'angular2-medium-editor';
+import { UpNDown} from 'upndown'
 @NgModule({
   declarations: [
     AppComponent,

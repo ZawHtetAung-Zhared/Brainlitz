@@ -122,30 +122,54 @@
                     </div> -->
               </div>
               <input type="text" class="form-control selfAssessmentName col-12" placeholder="Type SelfAssessment name here"
-                name="name" maxlength="60" [(ngModel)]="concept.name" (focus)="focusMethod($event,'name', $event.target.value)"
-                (blur)="blurMethod($event,'input_method')" (input)="changeMethod($event.target.value)" required #name="ngModel">
-              <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-                    <div [hidden]="!name.errors.required">
-                      Name is required!
-                    </div>
-                  </div> -->
+                name="name" maxlength="60" (focus)="focusMethod($event,'name', $event.target.value)" (blur)="blurMethod($event,'input_method')"
+                (input)="changeMethod($event.target.value)" required>
             </div>
             <div class="inform-wrapper p-0">
               <p class="icon"> <span class="icon">i</span> </p> <span class="inform-text">Some information about how do
                 PD and QUESTION
                 create with multiple lines</span>
             </div>
-            <div class="pd-wrapper">
-              <div class="pd-header">
-                <medium-editor [(editorModel)]="testVar" [editorOptions]="{'toolbar': {'buttons': ['bold', 'italic', 'underline', 'image']}}"></medium-editor>
-              </div>
-              <div class="pd-body">
-                <medium-editor [(editorModel)]="testVar" #t [editorPlaceholder]="placeholderVar" [editorOptions]="{'toolbar': {'buttons': ['bold', 'italic', 'underline', 'image']}}" (input)="translate(t)"></medium-editor>
-                <ul>
-                  <input type="radio">
-                </ul>
+            <ng-template #content let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title">Modal title</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+                </div>
+              </ng-template>
+            <div *ngFor="let pd of concepts; let i = index">
+              <div class="pd-wrapper">
+                <div class="pd-header">
+                  <span>{{i+1}}</span>
+                  <medium-editor  dragula="COLUMNS" [(editorModel)]="pd.pdName" #pdtag [editorOptions]="{'toolbar': {'buttons': ['bold', 'italic', 'underline', 'image']}}"
+                    (input)="onInput(content,$event,pdtag,'pd')"></medium-editor>
+                </div>
+                <div class="pd-body">
+                  <div *ngFor="let question of pd.question; let j = index">
+                      <span>{{j+1}}</span>
+
+                    <medium-editor [(editorModel)]="question.questionName" #questiontag (click)="onClickEditor(question)"
+                      [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(content,$event,questiontag,'question',j)"></medium-editor>
+                    <button (click)="addQuestion(i)">Add question</button>
+                    <div *ngFor="let answer of question.answers;let k = index">
+                      <div class="answer-wrapper">
+                        <medium-editor [(editorModel)]="answer.answer" #answertag (click)="onClickEditor(answer)"
+                          [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(content,$event,answertag,'answer',j,k)"></medium-editor>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            <button (click)="addPd()">Add PD</button>
+
           </div>
         </div>
       </div>
