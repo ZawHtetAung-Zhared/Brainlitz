@@ -453,11 +453,21 @@ h3.category-h3 {
 }
 
 .form-side {
+  /* width: 75%; */
   height: 100vh;
 }
+#conceptWrapper{
 
+}
 .setting-sidebar {
   border-left: 1px solid #edeff0;
+  position: fixed;
+  width: 256px;
+  max-width: 256px;
+  right: 0px;
+  height: 100vh;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
 }
 
 .name-input-wrapper {
@@ -519,12 +529,7 @@ h3.category-h3 {
   margin-left: 15px;
 }
 
-@media only screen and (min-width:1366px) {
-  .inner-wrapper {
-    width: 1080px !important;
-    margin: 0 auto;
-  }
-}
+
 .pd-header{
   max-height:300px;
   max-width:100%;
@@ -588,3 +593,26 @@ button.btn.btn-submit.uploadImgBtn {
 }
 
 /* end image upload modal css */
+@media only screen and (min-width:1366px) {
+  .inner-wrapper {
+    width: 1080px !important;
+    margin: 0 auto;
+  }
+
+}
+@media (min-width: 700px) and (max-width: 2000px) {
+  #conceptWrapper{
+    width: 85%!important;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 900px) {
+  .form-side{
+    width: 65%!important;
+  }
+}
+@media only screen and (min-width: 910px){
+  .form-side{
+    width: 75%!important;
+  }
+}

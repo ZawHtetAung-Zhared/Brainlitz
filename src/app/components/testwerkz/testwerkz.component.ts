@@ -28,8 +28,8 @@ export class TestwerkzComponent implements OnInit {
   public otherfocus = false;
   public isEditComplete :boolean = false;
   public modalReference: any;
+  public classCreate= false;
   public concept = {
-
   }
   public translateToMarkDown: string;
   public testVar = "";
@@ -78,7 +78,24 @@ export class TestwerkzComponent implements OnInit {
   ]
   constructor(private modalService: NgbModal) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(window.innerWidth > 1366){
+      this.classCreate = true;
+    }
+    if(window.innerWidth <= 1366){
+      this.classCreate = false;
+    }
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if(window.innerWidth > 1366){
+      this.classCreate = true;
+    }
+    if(window.innerWidth <= 1366){
+      this.classCreate = false;
+    }
+  }
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     // console.log($event);
     // console.log("scrolling");
@@ -89,6 +106,14 @@ export class TestwerkzComponent implements OnInit {
     } else {
       console.log('less than 100')
       this.navIsFixed = false;
+    }
+    if (window.pageYOffset > 81) {      
+      $('.setting-sidebar').css({top: 65}) 
+    }
+    else if(window.pageYOffset < 0){
+      $('.setting-sidebar').css({top: 165}) 
+    } else {   
+      $('.setting-sidebar').css({top: 165}) 
     }
   }
 
