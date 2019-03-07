@@ -172,7 +172,6 @@
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
     </div>
-  </div>
   <div class="location-group">
     <h3 *ngIf="ismodule == true" class="title-heading">Pick APG type</h3>
     <p *ngIf="ismodule == true" class="input-recommend" style="padding-left: 15px">
@@ -541,7 +540,6 @@
           </div>
           <!-- <div (click)="chooseModuleType('123','selfAssessment')">Button</div> -->
         </div>
-      </div>
       <div *ngIf="iscreate == false && isshare == true">
         <div class="d-flex flex-row">
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
@@ -619,7 +617,6 @@
           <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" [disabled]="!createapgForm.valid"
             (click)="createapgs(model, true, currentID)">Update</button>
         </div>
-      </div>
       <!-- <div *ngIf="dataApg == 'Data'">
 
           <div class="col-md-8 input-wrap">

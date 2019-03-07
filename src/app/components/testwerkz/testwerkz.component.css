@@ -525,3 +525,14 @@ h3.category-h3 {
     margin: 0 auto;
   }
 }
+.pd-header{
+  max-height:300px;
+  max-width:100%;
+  background: lemonchiffon;
+}
+.pd-wrapper{
+  border:1px solid grey;
+}
+.pd-header>img{
+  max-height:100px;
+}

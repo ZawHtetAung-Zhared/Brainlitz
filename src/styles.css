@@ -6,6 +6,9 @@
 @import '~font-awesome/css/font-awesome.css';
 @import 'intl-tel-input/build/css/intlTelInput.css';
 @import "../node_modules/ng-drag-drop/style.css";
+@import "../node_modules/medium-editor/dist/css/medium-editor.min.css";
+@import "../node_modules/medium-editor/dist/css/themes/beagle.css";
+
 /* @font-face {
   
   font-family: 'Inter-UI-Light';

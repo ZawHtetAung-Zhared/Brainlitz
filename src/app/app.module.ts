@@ -74,7 +74,8 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
-
+import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
+import { MediumEditorModule } from 'angular2-medium-editor'
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,6 +104,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     ScheduleWeekDaysPipe,
     GroupByPipe,
     ConvertTimeFormatPipe,
+    TestwerkzComponent,
     GetDayPipe,
     GetUtcTimePipe,
     GetFormatData,
@@ -150,7 +152,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     NgDragDropModule.forRoot(),
     StarRatingModule,
     Ng2TelInputModule,
-
+    MediumEditorModule
   ],
   providers: [
     appService,
