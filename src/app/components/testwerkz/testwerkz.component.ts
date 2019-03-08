@@ -32,7 +32,7 @@ export class TestwerkzComponent implements OnInit {
   public iseditfocus = false;
   public otherfocus = false;
   public isEditComplete: boolean = false;
-
+  
   public translateToMarkDown: string;
   public testVar = "";
   public placeholderVar = "Enter Questions";
@@ -56,7 +56,8 @@ export class TestwerkzComponent implements OnInit {
   public concept = {
   }
   public tagsWerkzList = []
-  
+  public tempContentArr:any =[];
+  public selectedImgArr:any =[];
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
 
   ngOnInit() {
@@ -404,49 +405,81 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  onslectedImgDiv(i){
-    console.log(this.contentArr);
-  
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const circle: HTMLElement = document.getElementById('cricle'+i);
-    console.log(imgDiv.style.border)
-    if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
-      imgDiv.setAttribute("style","border:solid;color:#007fff;");
-      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;");
-    }else{
-      imgDiv.setAttribute("style","border:none;");
-      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;");
-    }
-    
-  }
+  //open image modal
   openImgModal(content) {
     console.log("open modal")
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
-    this.getContent();
+    this.getAllContent();
   }
- getContent(){
+
+  //get all content
+ getAllContent(){
   this._service.getContent(this.regionID)
     .subscribe((res: any) => {
       this.contentArr=res;
+      this.tempContentArr=res;
       console.log(res)
     }, err => {
       console.log(err)
     });
  }
-  cancelModal(type) {
+  cancelModal() {
     this.modalReference.close();
   }
-  ongetImg(event){
+  
+  //image upload
+  onloadImg(event){
     const file = event.target.files[0]
     console.log(file)
     this._service.loadImage(this.regionID, file)
       .subscribe((res: any) => {
-        this.contentArr=res.meta;
-        this.getContent();
-        console.log(res.meta)
+        // this.contentArr=res.meta;
+        this.getAllContent();
+        setTimeout(() => {
+          this.autoSelectedImg(res.meta);
+          console.log(res.meta)
+        },300);
       }, err => {
         console.log(err);
       });
+  }
+
+  //autoselected img after img load
+  autoSelectedImg(resturnobj){
+    
+    for(var i=0;i<resturnobj.length;i++){
+      for(var j=0;j<this.tempContentArr.length;j++){
+        console.error(resturnobj[i]._id );
+        console.error(this.tempContentArr[j]._id);
+        console.log(resturnobj[i]._id == this.tempContentArr[j]._id);
+        if(resturnobj[i]._id == this.tempContentArr[j]._id){
+          this.onslectedImgDiv(j,this.tempContentArr[j]);
+          // break;
+        }
+      }
+    }
+  
+  }
+  //mutiselect img
+  onslectedImgDiv(i,img){
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const circle: HTMLElement = document.getElementById('cricle'+i);
+    if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
+      this.selectedImgArr.push(img);
+      imgDiv.setAttribute("style","border:solid;color:#007fff;");
+      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;");
+    }else{
+      imgDiv.setAttribute("style","border:none;");
+      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;");
+      
+      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
+    }
+    
+  }
+
+  insertImg(){
+    console.log(this.selectedImgArr);
+    this.cancelModal();
   }
 }
 
