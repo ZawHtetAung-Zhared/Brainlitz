@@ -610,6 +610,21 @@ button.btn.btn-submit.uploadImgBtn {
   top: 0;
   opacity: 0;
 }
+i.fa.fa-check {
+  color: #ffffff00;
+  position: absolute;
+  font-size: 10px;
+}
+i.fa.fa-trash {
+  position: absolute;
+  right: 0;
+  padding-top: 9px;
+  padding-right: 10px;
+  opacity: 0;
+  color: white;
+  z-index: 2;
+}
+
 /* eixt image */
 .modal-body.eimg_upload {
   height: 672px;
@@ -684,6 +699,17 @@ p.g_title {
 .d-flex.flex-column.gallery {
   padding-top: 24px;
 }
+.Imgoverlay {
+  position: absolute;
+  top: 0;
+  width: 132px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.5s ease;
+  border-radius: 4px;
+}
+
+
 /* end image upload modal css */
 
 @media only screen and (min-width:1366px) {

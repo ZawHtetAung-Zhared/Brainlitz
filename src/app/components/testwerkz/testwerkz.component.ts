@@ -58,6 +58,7 @@ export class TestwerkzComponent implements OnInit {
   public tagsWerkzList = []
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
+  public clickType: boolean=false;
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
 
   ngOnInit() {
@@ -464,23 +465,68 @@ export class TestwerkzComponent implements OnInit {
   onslectedImgDiv(i,img){
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const circle: HTMLElement = document.getElementById('cricle'+i);
+    const check: HTMLElement = document.getElementById('check'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    console.log(trash.style.cssText)
+    console.log(imgDiv.style.border)
+    if(trash.style.opacity == '1'){
+
+    }
     if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
       this.selectedImgArr.push(img);
+      console.log(this.selectedImgArr);
       imgDiv.setAttribute("style","border:solid;color:#007fff;");
-      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;");
+      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+      check.setAttribute("style","color:white;");
     }else{
       imgDiv.setAttribute("style","border:none;");
-      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;");
-      
+      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+      check.setAttribute("style","color:#ffffff00;");
       this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
+      console.log(this.selectedImgArr);
     }
     
+  }
+
+  onImgMouseEvent(e,i){
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
+    console.log(imgDiv.style.border)
+    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
+      this.clickType=true;
+      trash.setAttribute("style","opacity: 1;");
+      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
+    }else{
+      this.clickType=false;
+      trash.setAttribute("style","opacity: 0;")
+      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+    }
+    console.log(e.type)
   }
 
   insertImg(){
     console.log(this.selectedImgArr);
     this.cancelModal();
+    this.selectedImgArr=[];
   }
+
+  onremoveClick(id){
+    this._service.onDeleteContent(this.regionID,id)
+    .subscribe((res: any) => {
+      console.log(res)
+      // this.contentArr=res.meta;
+      this.getAllContent();
+      setTimeout(() => {
+        this.autoSelectedImg(res.meta);
+        console.log(res.meta)
+      },300);
+    }, err => {
+      console.log(err);
+    });
+    // this.onslectedImgDiv(i,img,"exitBorder");
+  }
+  
 }
 
 

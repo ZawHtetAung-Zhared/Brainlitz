@@ -2286,6 +2286,20 @@ export class appService{
         return result;
       })
     }
+
+    onDeleteContent(regionid,contentId){
+      console.log(regionid)
+      let apiUrl = this.baseUrl + '/' + regionid  + '/contents/' + contentId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        return res;
+      })
+    }
     // "http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/tags/5c80a8b42996a1201d10c8d0" 
 
 
