@@ -46,7 +46,7 @@
               <div class="closemark_kick"></div>
             </span>
           </button>
-          <button type="submit" class="btn" (click)="createTagWerkz(tagWerkz)" [disabled]="tagWerkz.name && tagWerkz.name.length == 0">
+          <button type="submit" class="btn" (click)="createTagWerkz(tagWerkz)" [disabled]=" tagWerkz.name == '' || tagWerkz.name.length < 0 || tagWerkz.name.length == 0 ">
             <span class="checkmark">
               <div class="checkmark_stem"></div>
               <div class="checkmark_kick"></div>
@@ -151,7 +151,8 @@
                   <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
                 </div>
               </ng-template> -->
-            <div *ngFor="let pd of concepts; let i = index">
+              <!-- Thiha Soe UI Start -->
+            <!-- <div *ngFor="let pd of concepts; let i = index">
               <div class="pd-wrapper">
                 <div class="pd-header">
                   <span>{{i+1}}</span>
@@ -174,8 +175,54 @@
                   </div>
                 </div>
               </div>
+            </div> -->
+               <!-- Thiha Soe UI End -->
+               <!-- Wai Yan UI Start -->
+            <div *ngFor="let pd of concepts; let i = index">
+              <div class="d-flex flex-column pd-blog mb-2">
+                <!-- for header start -->
+                <div class="pd-name-wrapper d-flex container align-items-center">
+                  <div class="pd-icon-wrapper align-items-center d-flex">
+                    <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+                    <span class="pd-No">1</span>
+                  </div>
+                  <div class="pd-name-input-wrapper">
+                    <input type="text" name="" id="" placeholder="type concept name here" class="w-100 pd-name">
+                    <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
+                  </div>
+                </div>
+              <!-- for header End -->
+
+                <div class="pd-blog-wrapper d-flex">
+                  <div class="w-100 question-section d-flex">
+                    <div class="pd-icon-wrapper align-items-center mt-3 d-flex">
+                      <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+                      <span class="pd-No">1</span>
+                    </div>  
+                    <div class="pd-name-input-wrapper d-flex flex-column">
+                      <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea>
+                      <div class="d-flex" style="padding-top: 20px;">
+                        <label class="question-checkbox">
+                            <input type="checkbox" checked="checked">
+                            <span class="answer-checkmark"></span>
+                          </label>
+                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="add-new-question">
+                  <p class="mb-0">Add new question</p>
+                </div>
+              </div>
+            </div> 
+              <!-- Wai Yan UI End -->
+            <div class="d-flex pl-3 mt-3">
+              <p  (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
+                <span>+</span>
+              </p>
+              <p (click)="addPd()" class="mb-0 mt-1 pl-3 new-pd-text">Add new performance demand</p>
             </div>
-            <button (click)="addPd()">Add PD</button>
 
           </div>
         </div>
