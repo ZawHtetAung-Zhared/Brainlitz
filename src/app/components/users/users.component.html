@@ -208,7 +208,7 @@
                   </div>
                  <div class="div-dotted-box">
                     <p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
-                    <label class="rollover-btn" (click)="rolloverCourse()">Rollover this course</label>
+                    <label class="rollover-btn" (click)="rolloverCourse(course._id,course)">Rollover this course</label>
                     <div class="d-flex align-items-center">
                       <div>
                         <div *ngIf="course.teacher" class="tr-img-wrap">
@@ -475,7 +475,7 @@
                           slice:0:20)+'...':(rating.teacher_info.preferredName) }}</p>
                       </div>
                     </div>
-                    <div class="timetable-col course-wrap info-wrap">
+                    <div class="timetable-col course-wrap">
                       <label class="medium-label-12 mb-0">Course</label>
                       <p class="teacher-label-12 mb-0">{{ rating.course_info.name }}</p>
                     </div>
@@ -824,7 +824,7 @@
                     Attendance
                     <div>
                       <p class="from">from {{journal.sender.preferredName}}</p>
-                      <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                      <p class="date float-right">{{journal.updatedDate | timezoneDate}}</p>
                     </div>
                   </div>
                   <div class="journal-detail">

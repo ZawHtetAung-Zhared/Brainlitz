@@ -1310,7 +1310,12 @@ export class CourseComponent implements OnInit {
   }
 
   goToConflict(courseId){
-    localStorage.setItem("courseID",courseId);
+    //both conflit and edit use this type 'edit' and localStorage.setItem("courseID") is also used in schedule
+    let obj = {
+      'courseId': courseId,
+      'type': 'edit'
+    }
+    localStorage.setItem("courseID",JSON.stringify(obj));
     localStorage.removeItem('cPlan');
     localStorage.removeItem('tempObj');
     // this.router.navigate(['/courseCreate']);

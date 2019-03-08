@@ -234,25 +234,25 @@
 										<div *ngIf="isChecked=='allcustomer'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="active" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes withdrawn students"
 												</label>
 										</div>
 										<div *ngIf="isChecked=='allstaff'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="activestaff" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes non-teaching staffs"
 												</label>
 										</div>
 										<div *ngIf="isChecked=='category'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="activecategory" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes withdrawn students"
 												</label>
 										</div>
 										<div *ngIf="isChecked=='course'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="activecourse" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes withdrawn students"
 												</label>
 										</div>
 									</div>
