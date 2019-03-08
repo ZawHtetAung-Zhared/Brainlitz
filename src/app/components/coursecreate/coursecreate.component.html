@@ -1,4 +1,4 @@
-<div id="navbar">
+<div class="navbar" [ngClass]="{'sticky-bar' : isCreateFix == true}">
 	<div class="d-flex justify-content-between">
 		<div class="d-flex justify-content-center flex-column">
 			<div class="d-flex back" (click)="backToCourses('back','')">
@@ -14,9 +14,9 @@
 		</div>
 		<div class="d-flex justify-content-center flex-column">
 			<div>
-		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
-		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
 		         <!-- for flexible -->
 		        <!-- <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
@@ -657,9 +657,9 @@
 				</div>
 			</div>
 			<div>	
-		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
-		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
+		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
 		        <!-- for flexible  -->
 		        <!-- <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
@@ -668,3 +668,9 @@
         </div>
 	</form>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+	<div class="invoice-wrap" *ngIf="showInvoice == true">
+		<app-invoice [custDetail]="userDetail" [course]="courseDetails" (closed)="cancelInvoiceModal()"></app-invoice>
+	</div>
+</ng-template>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef, HostListener, EventEmitter, AfterViewInit } from '@angular/core';
 
 import { appService } from '../../service/app.service';
+import { DataService } from '../../service/data.service';
 import { MinuteSecondsPipe } from '../../service/pipe/time.pipe'
 import { NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -18,6 +19,8 @@ declare var $: any;
 export class ScheduleComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
+  public totalWidth = 0;
+  public scrollLeftPosition= 0;
   public result: any;
   public logo: any = localStorage.getItem("OrgLogo");
   public currency = JSON.parse(localStorage.getItem('currency'));
@@ -31,6 +34,9 @@ export class ScheduleComponent implements OnInit {
   public arrLeft: any;
   public arrClasses: any;
   public custDetail: any = {};
+  public createBoxLength;
+  public isSide:boolean=false;
+  public screenValue;
   // public styleArr={top:"",left:"",right:"0"};
   // public styleArrDefault={top:"",left:"",right:""};
   // public styleArrDefault2={top:"",left:"",right:""};
@@ -132,6 +138,7 @@ export class ScheduleComponent implements OnInit {
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model: any = {};
+  rolloverCourse: any;
   public listings = [
     {
       'name': 'Dec'
@@ -671,7 +678,7 @@ export class ScheduleComponent implements OnInit {
   //   this.scheduleList=false;
   // }
 
-  constructor(private _service: appService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
+  constructor(private _service: appService, private dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
       console.log('goooo')
@@ -683,7 +690,7 @@ export class ScheduleComponent implements OnInit {
     });
 
     this._service.goCat.subscribe(() => {
-      console.log('goback22', this.goBackCat)
+      console.log('gobackk22', this.goBackCat)
       this.goBackCat = false;
       this.isCategory = true;
       this.isPlan = false;
@@ -691,7 +698,7 @@ export class ScheduleComponent implements OnInit {
     });
 
     this._service.goplan.subscribe(() => {
-      console.log('go plan')
+      console.log('go to plan')
       this.isCategory = false;
       this.isPlan = true;
       this.goBackCat = true;
@@ -752,43 +759,29 @@ export class ScheduleComponent implements OnInit {
     this.slotIdx = '';
     this.slotJidx = '';
   }
+  
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log("<><>",this.styleArrDefault)
-    if(this.styleArr != null || this.styleArr !=undefined){
-        //  if(this.styleArr.right=="0px"){
-          this.styleArr=this.styleArrDefault;
-          console.log(this.styleArrDefault)
-        // }
+    this.overFlowWidth(20,'button')
+    //to define is side or not
+    var diff=window.innerWidth - this.screenValue;
+    if(this.isSide){
+      if(diff <= 40){
+        console.log("less than")
+        this.styleArr = {
+        'top': this.yPosition + "px",
+        'right': '0px'
+        }
+        //if left or right side position zero fix
+      }else{
+        console.log("greater than")
+        this.styleArr=this.styleArrDefault; //if not left or right side position depend on first time click position
+      }
     }
-
-    // this.xPosition = $(".create-box").offset().left - 150 + $(".create-box").width() / 2;
-    // this.yPosition = $(".create-box").offset().top + $(".create-box").height() + 10;
-    // this.arrTop = $(".create-box").offset().top + $(".create-box").height() - 10;
-    // this.arrLeft = this.xPosition + 140;
-
-    // if((this.styleArr.right == "0px" || this.styleArr.right == "" || this.styleArr.left =="0px" || this.styleArr.left =="") && (this.styleArrDefault.left != this.xPosition +"px" || this.styleArrDefault.right != this.xPosition+"px") && $(document).width() - this.xPosition > 300){
-    //   this.styleArr=this.styleArrDefault;
-    //   console.log("not side>"+this.styleArr)     
-    // }else if( $(document).width() - this.xPosition < 300 && (this.styleArrDefault.left == this.xPosition+"px" || this.styleArrDefault.right == this.xPosition+"px")){
-    //   this.styleArr=this.styleArrDefault2;
-    //   console.log("dar not side")
-    // }
-  
-    // if($(document).width() - this.xPosition >4 && $(document).width() - this.xPosition < 300){
-    //   console.log("less than 300");
-    //   console.log(this.styleArrDefault2)
-    //   console.log(this.styleArr)
-    //   this.styleArr.left="";
-     
-    // }else if($(document).width() - this.xPosition <4){
-    //   console.log(this.styleArrDefault)
-    // }
-   
   }
 
   ngOnInit() {
-    
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log("undefined currency", this.currency);
@@ -804,6 +797,25 @@ export class ScheduleComponent implements OnInit {
       }
     }
     this.getRegionalInfo();
+
+    //for rolloverCourse
+    setTimeout(()=>{
+      this.dataservice.rolloverCId.subscribe( cId =>  this.rolloverCourse = cId)
+      console.log("rolloverCID",this.rolloverCourse);
+      if(this.rolloverCourse != ''){
+        console.log("redirect to pick course plan");
+        this.scheduleList = false;
+        this.courseCreate = true;
+        this.isCategory = false;
+        this.isPlan = false;
+        this.isCourseCreate = false;
+        this.selectedID = this.rolloverCourse.category.id;
+        this.item.itemID = this.rolloverCourse.category.name;
+        this.courseplanLists = [];
+        this.getAllCoursePlan('0', '20');
+      }
+    },300)
+
   }
 
   ngAfterViewInit() {
@@ -1094,10 +1106,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   // Selected Day //
-  selectDay(data, event, day, type): void {
+  selectDay(data, event, day, type,index): void {
     if (type == "callTimetable") {
       setTimeout(() => {
-        this.getschedulestaff('checkbox', this.staffList.staff.length, '0');
+        this.getschedulestaff('checkbox', this.staffList.staff.length, '0',index);
       }, 200)
     }
     var dayIdx = this.selectedDay.indexOf(data);
@@ -1173,11 +1185,11 @@ export class ScheduleComponent implements OnInit {
       this.isFousCategory = false;
     }, 300);
   }
-  selectDataApiCall(category) {
+  selectDataApiCall(category,index) {
     this.selectedTeacher = {};
     console.log("selectDataApiCall works", category)
     this.selectData(category);
-    this.getschedulestaff('button', '20', '0')
+    this.getschedulestaff('button', '20', '0',index)
     $('.teacher-list-wrapper').scrollLeft(0);
   }
 
@@ -1197,9 +1209,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   /// Fix Get Sechedule Staff API ///
-  getschedulestaff(type,limit,skip){
+  getschedulestaff(type,limit,skip,index){
     setTimeout(() => {
       this.updateScrollbar('v-wrapper')
+      
     }, 1000);
 
     var repeatDays;
@@ -1221,7 +1234,7 @@ export class ScheduleComponent implements OnInit {
             if (this.tempSelectedTeacher == null) {
               this.selectedTeacher = this.staffList.staff[0];
             }
-          }else if(type == 'aa'){
+          }else if(type == 'modalteacher'){
             this.selectedTeacher = this.tempSelectedTeacher
             console.log('selected teacher');
           }
@@ -1239,18 +1252,138 @@ export class ScheduleComponent implements OnInit {
          else {
           console.log("no need to call staff timttable")
         }
-        // setTimeout(() => {
-        //   if(this.staffList.staff.length >= 6){
-        //     var yPosition = $('#overFlowWidth'+ 5).position().left;
-        //     $('.teacher-wrapper').width(yPosition +  $('#overFlowWidth'+ 5).width())
+        setTimeout(() => {
 
-        //     console.log($('.teacher-wrapper').width());
-        //   }
-        // }, 300);
+          if(type == 'modalteacher'){
+            this.overFlowWidth(index,type);
+          }else if(type =='button'){
+            this.overFlowWidth(20,type);
+          }
+
+        }, 300);
+
       }, (err: any) => {
         // catch the error response from api   
         this.staffList = [];
       })
+  }
+  overFlowWidth(index,type){
+    var arr = index
+  // for normal calling
+    if(type == 'button'){
+      if(window.innerWidth < 1366 ){
+        for (let i = 0; i <= 5; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+      if(window.innerWidth >= 1366 && window.innerWidth < 1920){
+        for (let i = 0; i <= 9; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+
+      if(window.innerWidth >= 1920){
+        for (let i = 0; i <= 14; i++) {
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+             this.totalWidth += removeDecimal;
+             console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+      }
+
+    }
+    // for modal 
+    if(type == 'modalteacher'){
+      // for screensize less than 1366
+      if(window.innerWidth < 1366 ){
+        console.log(index - 6,'index =======',index);
+        if(index >= 6){
+          for (let i = index - 5 ; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal,'###',i);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)  
+            var tempNum = index - 6;
+            for (let i = 0; i <= tempNum; i++) {
+              console.log(i)
+              var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8
+              this.scrollLeftPosition += removeDecimal;
+              console.log(removeDecimal);
+            }
+        }
+        if(index < 6){
+          for (let i = 0; i <= 5; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+        }
+      }
+  // for screensize greater than 1366 and less than 1920
+      if(window.innerWidth >= 1366 && window.innerWidth < 1920){
+        var tempNum = index - 10;
+        for (let i = 0; i <= tempNum; i++) {
+          console.log(i)
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8
+          this.scrollLeftPosition += removeDecimal;
+          console.log(removeDecimal);
+        }
+        if(index >= 10){
+          for (let i = index - 9; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width())+ 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal);
+            }
+          $('.teacher-wrapper').width(this.totalWidth)
+        }
+
+        if(index < 10){
+          for (let i = 0; i <= 9; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+              console.log(removeDecimal);
+          }
+          $('.teacher-wrapper').width(this.totalWidth)
+        }
+      }
+
+// for screensize less than 1920
+      if(window.innerWidth >= 1920){
+        var tempNum = index - 15;
+        for (let i = 0; i <= tempNum; i++) {
+          console.log(i)
+          var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8
+          this.scrollLeftPosition += removeDecimal;
+          console.log(removeDecimal);
+        }
+        if (index >= 15) {
+          for (let i = index - 14; i <= index; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+               this.totalWidth += removeDecimal;
+               console.log(removeDecimal,'###',i);
+              }
+            console.log(index,'indexx=======')
+            $('.teacher-wrapper').width(this.totalWidth)
+        }
+        if(index < 15){
+          for (let i = 0; i <= 14; i++) {
+            var removeDecimal = Math.round($('#overFlowWidth'+ i).width()) + 8;
+              this.totalWidth += removeDecimal;
+              console.log(removeDecimal);
+            }
+            $('.teacher-wrapper').width(this.totalWidth)
+        }
+      }
+   
+      $('.teacher-list-wrapper').scrollLeft(this.scrollLeftPosition);
+    }
+    this.totalWidth  = 0;
   }
   // for modal
   getViewAllStaff(type, skip, limit) {
@@ -1398,12 +1531,12 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-    if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
-      $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
-    }
-    else {
-      $('.teacher-list-wrapper').scrollLeft(0);
-    }
+    // if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
+    //   $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
+    // }
+    // else {
+    //   $('.teacher-list-wrapper').scrollLeft(0);
+    // }
     console.log(this.selectedDay);
     if (this.selectedDay.length == 0) {
       this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
@@ -1412,22 +1545,26 @@ export class ScheduleComponent implements OnInit {
     }
 
   }
-  activeTeachers1(teacher) {
+  activeTeachers1(teacher,index) {
+
     this.keyword = '';
-    console.warn('object');
     this.selectedTeacher = teacher
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-      this.getschedulestaff('aa', this.tempstafflist.length, '0');
+      this.getschedulestaff('modalteacher', this.tempstafflist.length, '0',index);
     setTimeout(() => {
       if (this.tempstafflist) {
-        $('.teacher-list-wrapper').scrollLeft(150 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+        // $('.teacher-list-wrapper').scrollLeft(75 *2 + 78 * 2 + 118 * 2);
+        // $('.teacher-list-wrapper').scrollLeft(100 * (this.tempstafflist.indexOf(this.selectedTeacher)));
+       console.log(50 * (this.tempstafflist.indexOf(this.selectedTeacher)))
       } else {
         $('.teacher-list-wrapper').scrollLeft(0);
       }
+    
       this.staff.staffId = '';
       this.tempstafflist = [];
       this.modalReference.close();
+      this.scrollLeftPosition = 0
     }, 400)
   }
 
@@ -1885,24 +2022,9 @@ export class ScheduleComponent implements OnInit {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
-    console.log(e)
-    // if(this.startTime.min>min && this.startTime.hr > hr ){
-    //   var h = hr+1
-    //   console.log("add 1~~~>")
-    // }else{
-    //   var h = hr
-    //   console.log("original~~~>")
-    // }
-    // this.slotHr = h + ':' + min + ' ' + ampm;
-    // this.clickSlot(hr, min, ampm);
 
-    // if (this.startTime.min > 0 && min == 0) {
-    //   var h = hr + 1;
-    //   console.log("ttt", h, ':', min, ':', ampm);
-    // } else {
-    //   var h = hr;
-    //   console.log("original", h, ':', min, ':', ampm);
-    // }
+    $(".disabledScroll").css("overflow","hidden");
+    this.screenValue=window.innerWidth; //for resize condition to mactch window size
 
     console.log("minSlot", this.minSlotArr);
     // var cIdx = this.minSlotArr.indexOf(min);
@@ -1967,48 +2089,36 @@ export class ScheduleComponent implements OnInit {
         'arr-up': true
       }
     }
-    // this.styleArrDefault.top=this.yPosition +"px";
-    // this.styleArrDefault.left=this.xPosition+"px";
-    this.styleArrDefault={
+
+    this.styleArrDefault = {
       'top': this.yPosition + "px",
       'left': this.xPosition + "px"
     }
-
     if ($(document).width() - this.xPosition < 300) {
       console.log("here 1")
       this.xPosition = 0;
+      this.isSide=true;
       this.styleArr = {
         'top': this.yPosition + "px",
         'right': '0px'
       }
-      console.log(this.styleArrDefault)
-      // this.styleArr.top=this.yPosition+"px";
-      // this.styleArr.right="0px";
-      // this.styleArr.left="";
-      
-      // this.styleArrDefault=this.styleArr;
-      console.log(this.styleArrDefault)
     }
     else if (this.xPosition < 0) {
       console.log("here 2")
+      this.isSide=true;
       this.xPosition = 0;
       this.styleArr = {
         'top': this.yPosition + "px",
         'left': '0px'
       }
-      // this.styleArr.top=this.yPosition+"px";
-      // this.styleArr.left="0px";
-      // this.styleArr.right="";
-      // this.styleArrDefault2=this.styleArr;
     }
     else {
       console.log("here 3")
+      this.isSide=false;
       this.styleArr = {
         'top': this.yPosition + "px",
         'left': this.xPosition + "px"
       }
-      // this.styleArr.top=this.yPosition+"px";
-      // this.styleArr.left=this.xPosition+"px";
     }
     console.log("selected", this.selectedTeacher);
     console.log('selectdate', date);
@@ -2089,10 +2199,43 @@ export class ScheduleComponent implements OnInit {
       "paymentPolicy": plan.paymentPolicy,
       "from": 'schedule'
     };
-    this.goBackCat = false;
-    this.isCourseCreate = true;
-    localStorage.setItem('cPlan', JSON.stringify(planObj));
-    localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj))
+    // this.goBackCat = false;
+    // this.isCourseCreate = true;
+    console.log('redirect rolloverCourse to courseCreate',this.rolloverCourse)
+    if(this.rolloverCourse != ''){
+      var isSame:boolean;
+      console.log("for rollover");
+      this.goBackCat = false;
+      this.isCourseCreate = true;
+      if(this.rolloverCourse.coursePlan.id == plan._id){
+        isSame = true;
+      }else{
+        isSame = false;
+      }
+      //rollover course use this type 'rollover' and localStorage.setItem("courseID") is also used in course
+      let obj = {
+        'courseId': this.rolloverCourse.courseId,
+        'userId': this.rolloverCourse.userId,
+        'type': 'rollover',
+        'isSamePlan': isSame,
+        'plan': {
+          "name": plan.name,
+          "id": plan._id,
+          "duration": plan.lesson.duration,
+          "paymentPolicy": plan.paymentPolicy
+        }
+      }
+      localStorage.setItem("courseID",JSON.stringify(obj));
+      localStorage.removeItem('cPlan');
+      localStorage.removeItem('scheduleObj');
+
+    }else{
+      this.goBackCat = false;
+      this.isCourseCreate = true;
+      localStorage.removeItem('courseID');
+      localStorage.setItem('cPlan', JSON.stringify(planObj));
+      localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj))
+    }    
     // console.log("scheduleObj",this.scheduleObj);
   }
 
@@ -2133,6 +2276,7 @@ export class ScheduleComponent implements OnInit {
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
+    this.showDp = true;
     console.log(e);
     console.log(course.seat)
     console.log(course.seat.left)
@@ -2208,6 +2352,68 @@ export class ScheduleComponent implements OnInit {
     console.log(this.courseInfo)
     console.log(course);
     console.log(lesson)
+
+    
+    e.preventDefault();
+    e.stopPropagation();
+    this.yPosition = e.layerY + 25;
+    this.xPosition = e.layerX - 25;
+
+    console.log($(event.target))
+    this.xPosition = $(event.target).offset().left - 150 + $(event.target).width() / 2;
+    this.yPosition = $(event.target).offset().top + $(event.target).height() + 10;
+    this.arrTop = $(event.target).offset().top + $(event.target).height() - 10;
+    this.arrLeft = this.xPosition + 140;
+
+    console.log("xPostiton>"+this.xPosition)
+    console.log("yPosition>"+this.yPosition)
+    console.log("arrTop>"+this.arrTop)
+    console.log("arrLeft>"+this.arrLeft)
+    console.log("width>",$(document).width());
+    if ($(document).height() - this.yPosition < 180) {
+      this.yPosition = $(event.target).offset().top - 170;
+      this.arrTop = this.yPosition + 160;
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      }
+    } else {
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-up': true
+      }
+    }
+
+    this.styleArrDefault = {
+      'top': this.yPosition + "px",
+      'left': this.xPosition + "px"
+    }
+    if ($(document).width() - this.xPosition < 300) {
+      console.log("here 1")
+      this.xPosition = 0;
+      this.isSide=true;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'right': '0px'
+      }
+    }
+    else if (this.xPosition < 0) {
+      console.log("here 2")
+      this.isSide=true;
+      this.xPosition = 0;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'left': '0px'
+      }
+    }
+    else {
+      console.log("here 3")
+      this.isSide=false;
+      this.styleArr = {
+        'top': this.yPosition + "px",
+        'left': this.xPosition + "px"
+      }
+    }
   }
 
 
@@ -2275,7 +2481,6 @@ export class ScheduleComponent implements OnInit {
     var scrollbar = document.getElementById('fixed-bottom-test')
     var content = document.getElementById('testScroll');
     var inner = document.getElementById('innerScrollbar');
-    
     if(content != null){
       inner.style.width = content.scrollWidth + "px";
       if(type == 'v-wrapper'){

@@ -742,7 +742,7 @@ ul.scedule-data-listing li.disabled{
 .teacher-wrapper{
   /* background: brown; */
   overflow-y: hidden;
-  overflow-x: overlay;
+  overflow-x: scroll;
 }
 
 .close{
@@ -812,7 +812,7 @@ ul.scedule-data-listing li.disabled{
   width: 100%;
   margin-top: 30px;
   min-height: 450px;
-  max-height: 750px;
+  max-height: 860px;
   /* height: 2000px; */
   overflow: overlay;
   overflow-x: overlay;
@@ -979,6 +979,32 @@ tbody td{
   background: #c2f2d6;
   border-radius: 2px;
   padding: 6px 8px;
+}
+.cancelledClass{
+  background: #f2f4f5!important;
+}
+.cancel-icon{
+  width: 12px;
+  height: 12px;
+  text-align: center;
+  background: #788796;
+  border-radius: 100%;
+}
+.cancel-text{
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+  font-size: 12px;
+  color: #64707d;
+}
+.cancelled-course-Code{
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  color: #2e3d4d!important;
+  font-size: 12px;
+}
+.dash-icon{
+  color: white!important;
+  /* position: absolute; */
+  /* left: 11px; */
+  /* top: 4px; */
 }
 .lesson-slot h6{
   color: #2e3d4d;
@@ -1417,6 +1443,9 @@ ul.options-box li:last-child,.create-box li:last-child {
 .lesson-slot-box{
   color: #d4d5d6;
 }
+.hilight-arrow{
+  color:#2e3e4d;
+}
 .lesson-slot-li:hover .lesson-slot-box{
   color:#2e3e4d!important;
 }
@@ -1449,6 +1478,7 @@ ul.options-box li:last-child,.create-box li:last-child {
   position: absolute;
   /*z-index:5;*/
   z-index: 10;
+  overflow: hidden;
   background-color: rgba(0,0,0,0.5)!important;
 }
 
@@ -1636,6 +1666,10 @@ ul.options-box li:last-child,.create-box li:last-child {
   border:0px;
   outline:0px;
   width: 100%;
+}
+
+.hilight-plan{
+  color: #64707d;
 }
 
 @media only screen and  (min-width:1366px){

@@ -1310,7 +1310,12 @@ export class CourseComponent implements OnInit {
   }
 
   goToConflict(courseId){
-    localStorage.setItem("courseID",courseId);
+    //both conflit and edit use this type 'edit' and localStorage.setItem("courseID") is also used in schedule
+    let obj = {
+      'courseId': courseId,
+      'type': 'edit'
+    }
+    localStorage.setItem("courseID",JSON.stringify(obj));
     localStorage.removeItem('cPlan');
     localStorage.removeItem('tempObj');
     // this.router.navigate(['/courseCreate']);
@@ -1815,15 +1820,25 @@ export class CourseComponent implements OnInit {
     this.textAreaOption = true;
   }
   cancelClassFun( lessonId){
-    let data = {
-      "lessonId": lessonId,
-      "message" : this.reasonValue
+    var cancelData;
+    if(this.reasonValue == null || this.reasonValue.length == 0 || this.reasonValue == undefined){
+      var noReason = {
+        "lessonId": lessonId
+      }
+      cancelData = noReason
+    }else{
+      var reason = {
+        "lessonId": lessonId,
+        "message" : this.reasonValue
+      }
+      cancelData = reason
     }
+    
     console.log(lessonId)
     console.log(this.isGlobal)
     // Call cancel class api service
     this.blockUI.start('Loading...');
-    this._service.cancelUsersFromClass(this.courseId, data, this.isGlobal)
+    this._service.cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
     .subscribe((res:any) => {
       // Success function
       this.blockUI.stop();

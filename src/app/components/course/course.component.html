@@ -256,7 +256,7 @@
         <div class="card btn-card">
           <button *ngIf="courseDemo.createCP != ''" class="btn btn-large d-flex align-items-center justify-content-center"
             (click)="changeRoute()">
-            <p class="addCourseBtn">+</p>
+            <!-- <p class="addCourseBtn">+</p> -->
             <p class="btn-largeLabel">Add new course plan</p>
           </button>
         </div>
@@ -325,8 +325,8 @@
                       <span *ngIf="course.teacher == undefined" class="staff-info medium-font">-
                       </span>
                     </div>
-                    <div class="second-info">
-                      <div *ngIf="course.type == null" class="time-wrap">
+                    <div class="d-flex justify-content-between second-info">
+                      <div *ngIf="course.type == null">
                         <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                           {{ day }}
                         </span>
@@ -336,13 +336,13 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="course.type == 'FLEXY'" class="time-wrap flexy-status">
+                      <div *ngIf="course.type == 'FLEXY'" class="flexy-status">
                         <span>Flexible timetable</span>
                       </div>
                       <div *ngIf="!course.draft" class="btnCustomer-wrap">
                         <button *ngIf="course.seat_left != 0 && courseDemo.assignStudent != ''" class="btn-addC d-flex justify-content-center align-items-center"
                           (click)="addUserModal('customer',customerModal, 'outside', course._id)">
-                          <p class="btn-plusicon"> + </p>
+                          <!-- <p class="btn-plusicon"> + </p> -->
                           <p>Add customer</p>
                         </button>
                       </div>
@@ -1237,7 +1237,7 @@
   <div class="modal-header">
     <div class="d-flex flex-column ">
       <h3 class="makeup-pass-title">Give makeup pass</h3>
-      <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+      <!-- <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
       <p *ngIf="pplLists.CUSTOMER.length == 0" class="makeup-pass-text warning-text">Please register students into the
         class to issue makeup pass</p>
     </div>

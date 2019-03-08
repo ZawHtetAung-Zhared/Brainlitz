@@ -72,6 +72,7 @@ export class ToolsComponent implements OnInit {
   public notiSidebar:any = [];
   public notiSidebarDemo:any = [];
   public apgSidebar:any = [];
+  public testWerkz:any = []
   public quizwerkzSidebar:any = [];
   public calendarSidebar:any = [];
 
@@ -114,7 +115,7 @@ export class ToolsComponent implements OnInit {
     this.apgSidebar = ["CREATEAPG"];
     this.quizwerkzSidebar =["VIEWQUIZWERKZ","CREATEQUIZWERKZ","EDITQUIZWERKZ","DELETEQUIZWERKZ"]
     this.calendarSidebar  =["CREATECALENDAR","ADDHOLIDAY","EDITHOLIDAY","DELETEHOLIDAY"]
-      
+    this.testWerkz = ['TestWerkz']
     this.notiSidebar = this.notiSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     this.apgSidebar = this.apgSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
     this.quizwerkzSidebar = this.quizwerkzSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
