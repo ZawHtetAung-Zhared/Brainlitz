@@ -2088,14 +2088,21 @@ export class ScheduleComponent implements OnInit {
     // this.isCourseCreate = true;
     console.log('redirect rolloverCourse to courseCreate',this.rolloverCourse)
     if(this.rolloverCourse != ''){
+      var isSame:boolean;
       console.log("for rollover");
       this.goBackCat = false;
       this.isCourseCreate = true;
+      if(this.rolloverCourse.coursePlan.id == plan._id){
+        isSame = true;
+      }else{
+        isSame = false;
+      }
       //rollover course use this type 'rollover' and localStorage.setItem("courseID") is also used in course
       let obj = {
         'courseId': this.rolloverCourse.courseId,
         'userId': this.rolloverCourse.userId,
         'type': 'rollover',
+        'isSamePlan': isSame,
         'plan': {
           "name": plan.name,
           "id": plan._id,

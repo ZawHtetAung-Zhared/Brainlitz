@@ -824,7 +824,7 @@
                     Attendance
                     <div>
                       <p class="from">from {{journal.sender.preferredName}}</p>
-                      <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
+                      <p class="date float-right">{{journal.updatedDate | timezoneDate}}</p>
                     </div>
                   </div>
                   <div class="journal-detail">

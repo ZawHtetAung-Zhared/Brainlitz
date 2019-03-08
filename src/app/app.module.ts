@@ -73,6 +73,7 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
+import { TZDatePipe } from './service/pipe/tzdate.pipe'
 import { InvoiceComponent } from './components/invoice/invoice.component';
 
 @NgModule({
@@ -126,6 +127,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     DateFormatPipe,
     HourMinsPipe,
     calculatePMPipe,
+    TZDatePipe,
     InvoiceComponent
   ],
   imports: [

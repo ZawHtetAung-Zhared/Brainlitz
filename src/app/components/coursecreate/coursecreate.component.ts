@@ -140,7 +140,7 @@ export class CoursecreateComponent implements OnInit {
         // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions; 
       }else if(this.course.type == 'rollover'){
         console.log('Rollover');
-        this.showDraftCourse(this.course.courseId, 'rollover');
+        this.rolloverCourse(this.course.courseId, 'rollover');
       } 
     } else if (this.coursePlan) {
       console.log("course Create");
@@ -316,36 +316,128 @@ export class CoursecreateComponent implements OnInit {
         this.save = true;
         this.addCheck = true;
         // this.conflitCourseId = res._id;
-        if(type == 'edit'){
-          this.planId = this.model.coursePlan.coursePlanId;
-          this.planName = this.model.coursePlan.name;
-          console.log("plan in draft", this.planName);
-          console.log(this.model.coursePlan.lesson.duration * this.model.durationTimes);
-          this.model.duration = this.model.coursePlan.lesson.duration * this.model.durationTimes;
-          console.log(this.model.duration);
-          this.calculateDuration(this.model.starttime, this.model.duration);
-          this.createList(this.model.coursePlan.lesson.duration);
-          this.conflitCourseId = res._id;
-          if (this.model.draft == true) {
-            console.log("Draft ===>", this.model.draft);
-            this.createCourse('withDraf');
-            this.isEdit = false;
-          } else {
-            this.isEdit = true;
-          }
-        }else{
-          this.planId = this.course.plan.id;
-          this.planName = this.course.plan.name;
-          console.log("plan in draft", this.planName);
-          console.log(this.course.plan.duration * this.model.durationTimes);
-          this.model.duration = this.course.plan.duration * this.model.durationTimes;
-          console.log(this.model.duration);
-          this.calculateDuration(this.model.starttime, this.model.duration);
-          this.createList(this.course.plan.duration);
+        this.planId = this.model.coursePlan.coursePlanId;
+        this.planName = this.model.coursePlan.name;
+        console.log("plan in draft", this.planName);
+        console.log(this.model.coursePlan.lesson.duration * this.model.durationTimes);
+        this.model.duration = this.model.coursePlan.lesson.duration * this.model.durationTimes;
+        console.log(this.model.duration);
+        this.calculateDuration(this.model.starttime, this.model.duration);
+        this.createList(this.model.coursePlan.lesson.duration);
+        this.conflitCourseId = res._id;
+        if (this.model.draft == true) {
+          console.log("Draft ===>", this.model.draft);
+          this.createCourse('withDraf');
           this.isEdit = false;
+        } else {
+          this.isEdit = true;
         }
+
         
       });
+  }
+
+  rolloverCourse(cId,type){
+    console.log("Function Works");
+    this.getAllLocations();
+    this.blockUI.start('Loading...');
+    this._service.getSingleCourse(cId, this.currentLocation)
+    .subscribe((res: any) => {
+      console.log("Course Detail", res);
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
+        this.isChecked = 'end';
+        this.model = res;
+        this.model.end = "";
+        this.model.lessonCount = "";
+        this.courseFeess = res.paymentPolicy.courseFee;
+        if (this.model.type == "FLEXY") {
+          this.flexiOn = true;
+        } else {
+          var idx = this.model.lessons.length-1;
+          this.setStartD(this.model.lessons[idx].startDate);
+        }
+        this.model.location = this.model.location.name;
+        this.locationId = this.model.locationId;
+        console.log("this location", this.locationId);
+        this.selectedDay = this.model.repeatDays;
+        this.model.durationTimes = this.model.durationTimes;
+        this.startTime = this.model.starttime;
+        //for tax option inclusive/exclusive
+        if(this.model.paymentPolicy.courseFeeTaxInclusive == undefined){
+          this.chooseTax = ""; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == true){
+          this.chooseTax = "inclusive"; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == false){
+          this.chooseTax = "exclusive"; 
+        }
+        console.log("this.model.taxInclusive",this.model.paymentPolicy.courseFeeTaxInclusive)
+        /*=====*/
+        this.selectedTeacher = this.model.teacher;
+        this.staffArrLists.push(this.selectedTeacher.userId)
+        console.log("staffArrLists==>",this.staffArrLists)
+        var assiatantsArr = this.model.assistants;
+        for (var i in assiatantsArr) {
+          console.log("Assistant", assiatantsArr[i]);
+          this.selectedUserLists.push(assiatantsArr[i]);
+          this.selectedAssistants.push(assiatantsArr[i].userId);
+          this.staffArrLists.push(assiatantsArr[i].userId)
+          console.log("staffArrLists==>",this.staffArrLists)
+
+        }
+        this.temp["startDate"] = this.model.startDate;
+        // this.temp["lessonCount"] = this.model.lessonCount;
+        this.temp["repeatDays"] = this.selectedDay;
+        this.temp["durationTimes"] = this.model.durationTimes;
+        localStorage.setItem("tempObj", JSON.stringify(this.temp));
+        this.planId = this.course.plan.id;
+        this.planName = this.course.plan.name;
+        console.log("plan in draft", this.planName);
+        console.log(this.course.plan.duration * this.model.durationTimes);
+        this.model.duration = this.course.plan.duration * this.model.durationTimes;
+        console.log(this.model.duration);
+        if(this.course.isSamePlan == true){
+          this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
+          if(this.feesOptions == undefined){
+            this.chooseFee = "no";
+          }else{
+            this.chooseFee = this.model.paymentPolicy.courseFee;
+          }
+        }else{
+          this.feesOptions = this.course.plan.paymentPolicy.courseFeeOptions;
+          console.log("~~~~~",this.feesOptions)
+          if(this.feesOptions == undefined){
+            console.log("No Fees OPtions",this.feesOptions)
+            this.chooseFee = "no";
+          }else{
+            console.log("Has Fees OPtions",this.feesOptions)
+            this.chooseFee = '';
+          }
+        }
+        this.calculateDuration(this.model.starttime, this.model.duration);
+        this.createList(this.course.plan.duration);
+        this.isEdit = false;
+    })
+  }
+
+  setStartD(date){
+    console.log('date',date);
+    var newD = new Date(date)
+    var dmyFormat = newD.getUTCDate()+ '-' + (newD.getUTCMonth()+1) + '-' + newD.getUTCFullYear();
+    console.log("~~dFormat",dmyFormat);
+    var new_date = moment(dmyFormat, "DD.MM.YYYY");
+    console.log("new",new_date);
+    var addDays = new_date.add(7, 'days').format('YYYY-MM-DD');
+    console.log(addDays);
+    let test = addDays + date.substring(date.search("T"),date.search("Z")+1);
+    console.log("test",test)
+    this.model.start = this.changeDateStrtoObj(test, "start");
+    console.log('startD',this.model.start)
+    this.model.starttime = test.substr(test.search("T") + 1, 5);
+    console.log(this.model.starttime)
+    this.setToTimerange(this.model.starttime);
+    this.minDate = this.model.start;
   }
 
   setToTimerange(time) {
@@ -1150,46 +1242,20 @@ export class CoursecreateComponent implements OnInit {
       if (this.flexiOn == false) {
         this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
       }
-      if(this.course == null){
-        if (this.model.end && this.flexiOn == false) {
-          console.log("Is end date???", this.model.end)
-          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-          this.temp["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-          this.tempVar = "end";
-          this.tempValue = this.model.end;
-          this.model.lessonCount = null;
-        } else {
-          console.log("Lesson???", this.model.lessonCount)
-          this.courseObj["lessonCount"] = this.model.lessonCount;
-          this.temp["lessonCount"] = this.model.lessonCount;
-          this.tempVar = "lesson";
-          this.tempValue = this.model.lessonCount;
-          this.model.end = null;
-        }
-      }else{
-        if(this.course.type == 'rollover'){
-          if (this.model.end) {
-            console.log("isChecked",this.isChecked)
-            if(this.isChecked == 'end'){
-              console.log("~~~end")
-              this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-              this.temp["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-              this.tempVar = "end";
-              this.tempValue = this.model.end;
-              this.model.lessonCount = null;
-            }
-          }
-          if(this.model.lessonCount){
-            if(this.isChecked == 'lesson'){
-              console.log("~~~lesson", this.model.lessonCount)
-              this.courseObj["lessonCount"] = this.model.lessonCount;
-              this.temp["lessonCount"] = this.model.lessonCount;
-              this.tempVar = "lesson";
-              this.tempValue = this.model.lessonCount;
-              this.model.end = null;
-            }
-          }
-        }
+      if (this.model.end && this.flexiOn == false) {
+        console.log("Is end date???", this.model.end)
+        this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+        this.temp["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+        this.tempVar = "end";
+        this.tempValue = this.model.end;
+        this.model.lessonCount = null;
+      } else {
+        console.log("Lesson???", this.model.lessonCount)
+        this.courseObj["lessonCount"] = this.model.lessonCount;
+        this.temp["lessonCount"] = this.model.lessonCount;
+        this.tempVar = "lesson";
+        this.tempValue = this.model.lessonCount;
+        this.model.end = null;
       }
       this.temp["durationTimes"] = this.model.durationTimes;
       this.temp["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
