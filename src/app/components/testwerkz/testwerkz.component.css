@@ -62,12 +62,6 @@
   top: 0;
 }
 
-
-
-
-
-
-
 .mb-20 {
   margin-bottom: 20px;
 }
@@ -322,7 +316,18 @@ h3.category-h3 {
 .cagetory-item .form-check {
   padding: 0;
 }
-
+.inform-text{
+  font-size: 14px;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+  color: #64707d;
+  font-weight: 500;
+}
+.setting-text{
+  font-size: 14px;
+  font-weight: 500;
+  color:#2e3d4d;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+}
 
 .back-to {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;

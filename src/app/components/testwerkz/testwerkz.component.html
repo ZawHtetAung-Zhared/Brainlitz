@@ -114,16 +114,16 @@
                 <p>Back</p>
               </div>
             </div>
-            <h3 class="assessment-title">Creating SelfAssessment Apg</h3>
+            <h3 class="assessment-title">Creating Concept</h3>
             <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
               <div class="d-flex justify-content-between">
-                <label class="form-title input-label" for="address"> SelfAssessment Name </label>
+                <label class="form-title input-label" for="address"> Concept name </label>
                 <div class="limit-type-wordcount">
                   <span>{{wordLength}}/60characters</span>
                 </div>
               </div>
 
-              <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off" placeholder="Type SelfAssessment name here"
+              <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off" placeholder="Type Concept name here"
                 name="name" maxlength="60" [(ngModel)]="concept.name" (focus)="focusMethod($event,'name', $event.target.value)"
                 (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" required #name="ngModel">
               <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
@@ -192,7 +192,7 @@
                     <span class="pd-No" style="color:#64707d;">1</span>
                   </div>
                   <div class="pd-name-input-wrapper">
-                    <input type="text" name="" id="" placeholder="type concept name here" class="w-100 pd-name">
+                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                   </div>
                 </div>
@@ -251,7 +251,7 @@
           </div>
           <div class="p-3">
             <div class="d-flex justify-content-between w-100" style="border-bottom: 1px solid #edeff0;">
-              <p>Description</p>
+              <p class="setting-text">Description</p>
               <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
                 <label class="switch">
                   <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
@@ -262,14 +262,14 @@
             <div class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
               <div class="d-flex align-items-center">
                 <p><i class="fa fa-angle-right"></i></p> 
-                <p class="pl-2"> Video</p> 
+                <p class="pl-2 setting-text"> Video</p> 
               </div>
               <p  (click)="addPd()" class="plus-sign-video d-flex justify-content-center align-items-center">
                 <span>+</span>
               </p>
             </div>
             <div class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
-              <p>Randomize count</p>  
+              <p class="setting-text">Randomize count</p>  
               <input type="text" class="randomize-count" placeholder="0">
             </div>
           </div>
