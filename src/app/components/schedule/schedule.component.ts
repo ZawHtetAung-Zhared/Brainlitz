@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef, HostListener, EventEmitter, AfterViewInit } from '@angular/core';
 
 import { appService } from '../../service/app.service';
+import { DataService } from '../../service/data.service';
 import { MinuteSecondsPipe } from '../../service/pipe/time.pipe'
 import { NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -137,6 +138,7 @@ export class ScheduleComponent implements OnInit {
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
   model: any = {};
+  rolloverCourse: any;
   public listings = [
     {
       'name': 'Dec'
@@ -676,7 +678,7 @@ export class ScheduleComponent implements OnInit {
   //   this.scheduleList=false;
   // }
 
-  constructor(private _service: appService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
+  constructor(private _service: appService, private dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
       console.log('goooo')
@@ -795,6 +797,25 @@ export class ScheduleComponent implements OnInit {
       }
     }
     this.getRegionalInfo();
+
+    //for rolloverCourse
+    setTimeout(()=>{
+      this.dataservice.rolloverCId.subscribe( cId =>  this.rolloverCourse = cId)
+      console.log("rolloverCID",this.rolloverCourse);
+      if(this.rolloverCourse != ''){
+        console.log("redirect to pick course plan");
+        this.scheduleList = false;
+        this.courseCreate = true;
+        this.isCategory = false;
+        this.isPlan = false;
+        this.isCourseCreate = false;
+        this.selectedID = this.rolloverCourse.category.id;
+        this.item.itemID = this.rolloverCourse.category.name;
+        this.courseplanLists = [];
+        this.getAllCoursePlan('0', '20');
+      }
+    },300)
+
   }
 
   ngAfterViewInit() {
@@ -2178,10 +2199,43 @@ export class ScheduleComponent implements OnInit {
       "paymentPolicy": plan.paymentPolicy,
       "from": 'schedule'
     };
-    this.goBackCat = false;
-    this.isCourseCreate = true;
-    localStorage.setItem('cPlan', JSON.stringify(planObj));
-    localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj))
+    // this.goBackCat = false;
+    // this.isCourseCreate = true;
+    console.log('redirect rolloverCourse to courseCreate',this.rolloverCourse)
+    if(this.rolloverCourse != ''){
+      var isSame:boolean;
+      console.log("for rollover");
+      this.goBackCat = false;
+      this.isCourseCreate = true;
+      if(this.rolloverCourse.coursePlan.id == plan._id){
+        isSame = true;
+      }else{
+        isSame = false;
+      }
+      //rollover course use this type 'rollover' and localStorage.setItem("courseID") is also used in course
+      let obj = {
+        'courseId': this.rolloverCourse.courseId,
+        'userId': this.rolloverCourse.userId,
+        'type': 'rollover',
+        'isSamePlan': isSame,
+        'plan': {
+          "name": plan.name,
+          "id": plan._id,
+          "duration": plan.lesson.duration,
+          "paymentPolicy": plan.paymentPolicy
+        }
+      }
+      localStorage.setItem("courseID",JSON.stringify(obj));
+      localStorage.removeItem('cPlan');
+      localStorage.removeItem('scheduleObj');
+
+    }else{
+      this.goBackCat = false;
+      this.isCourseCreate = true;
+      localStorage.removeItem('courseID');
+      localStorage.setItem('cPlan', JSON.stringify(planObj));
+      localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj))
+    }    
     // console.log("scheduleObj",this.scheduleObj);
   }
 
