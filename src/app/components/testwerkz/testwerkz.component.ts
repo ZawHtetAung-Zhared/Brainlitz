@@ -48,7 +48,9 @@ export class TestwerkzComponent implements OnInit {
     updateOnEmptySelection: false
   };
 
-  public tagWerkz :any ={}
+  public tagWerkz = {
+    "name":''
+  }
   public modalReference: any;
   public contentArr: any=[];
   public classCreate= false;
@@ -137,7 +139,9 @@ export class TestwerkzComponent implements OnInit {
     this._service.createTagWerkz(this.regionID,item)
     .subscribe((res:any) => {    
       console.log(res);
-      this.tagWerkz = {};
+      this.tagWerkz = {
+        "name" : ''
+      };
       this.getAllTag();
   }, err => {
     console.log(err)
@@ -171,7 +175,9 @@ export class TestwerkzComponent implements OnInit {
       .subscribe((res:any) => {    
         console.log(res);
         this.getAllTag();
-        this.tagWerkz = {};
+        this.tagWerkz = {
+          "name" :''
+        };
     }, err => {
       console.log(err)
     })
@@ -215,7 +221,10 @@ export class TestwerkzComponent implements OnInit {
       this.iseditfocus = !this.iseditfocus;
       this.editValue = "";
     }
-    this.tagWerkz = {};
+    this.tagWerkz = {
+      "name" : ''
+    };
+    this.getAllTag();
   }
  
   somethingChanged(val, name){
@@ -447,6 +456,10 @@ export class TestwerkzComponent implements OnInit {
       }, err => {
         console.log(err);
       });
+    }
+    autoResize(e){
+      e.target.style.cssText = 'height:auto';
+      e.target.style.height = e.target.scrollHeight + "px";
   }
 }
 

@@ -537,6 +537,155 @@ h3.category-h3 {
 }
 
 
+/* pd-blog Wai-Yan Start */
+.pd-blog{
+  max-width: 480px;
+  min-height: 233px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+.pd-name-wrapper{
+  background: #f2f4f5;
+  border-radius: 8px;
+  padding: 20px;
+}
+.pd-blog-wrapper{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.question-section{
+  padding: 0px 0px 20px 0px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.pd-icon-wrapper{
+  width: 45px;
+  height: 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #007fff;
+}
+.flex-icon{
+  width: 12px;
+  height: 14px;
+  margin: 8px;
+}
+.pd-No{
+  color: #fff;
+}
+.pd-name{
+  background: inherit;
+  border: none;
+}
+.question-name{
+  resize: none;
+  overflow: hidden;
+  border: none;
+  height: 40px;
+  padding-top: 14px;
+  background: inherit;
+}
+.add-new-question{
+  padding: 20px;
+}
+.add-new-question p{
+  color:#007fff;
+  font-family: 'InterUI-Regular',Arial, sans-serif;
+  font-size: 16px;
+}
+.pd-name:focus,.question-name:focus,.answer-input:focus{
+  outline: none!important;
+}
+.pd-name-input-wrapper{
+  width: 90%;
+  padding-left: 20px;
+}
+.answer-input{
+  border: none;
+}
+.plus-sign{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.plus-sign span{
+  font-size: 25px;
+  color:#007fff;
+}
+.new-pd-text{
+  font-size: 16px;
+  font-family: 'InterUI-Regular',Arial, sans-serif;
+  color:#007fff;
+}
+.question-checkbox {
+  display: block;
+  top: 6px;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.question-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.answer-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  border-radius:50%;
+  width: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #007fff;
+}
+
+/* When the checkbox is checked, add a blue background */
+.question-checkbox input:checked ~ .answer-checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.answer-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.question-checkbox input:checked ~ .answer-checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.question-checkbox .answer-checkmark:after {
+  left: 4px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+/* pd-blog Wai-Yan End */
+
 .pd-header{
   max-height:300px;
   max-width:100%;
@@ -685,6 +834,7 @@ p.g_title {
   padding-top: 24px;
 }
 /* end image upload modal css */
+
 
 @media only screen and (min-width:1366px) {
   .inner-wrapper {
