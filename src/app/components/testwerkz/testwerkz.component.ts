@@ -18,6 +18,9 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public showSettingSidebar = true;
+  public isGlobal = false;
+  public modelType:any;
   public testWerkzCategory = false;
   public conceptCreate = false;
   public isUpdate = false;
@@ -415,8 +418,9 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //open image modal
-  openImgModal(content) {
+  openImgModal(content,type) {
     console.log("open modal")
+    this.modelType = type;
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
     this.getAllContent();
   }
@@ -489,7 +493,13 @@ export class TestwerkzComponent implements OnInit {
     }
     
   }
-
+  showSetting(){
+    this.showSettingSidebar = true;
+  }
+  closeSetting(){
+    console.log('object');
+    this.showSettingSidebar = false;
+  }
   insertImg(){
     console.log(this.selectedImgArr);
     this.cancelModal();

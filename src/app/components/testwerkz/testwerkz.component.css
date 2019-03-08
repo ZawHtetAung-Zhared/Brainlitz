@@ -565,6 +565,13 @@ h3.category-h3 {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #007fff;
 }
+.check-icon-wrapper{
+  width: 45px;
+  height: 24px;
+  border-radius:4px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #007fff;
+}
 .flex-icon{
   width: 12px;
   height: 14px;
@@ -593,7 +600,7 @@ h3.category-h3 {
   font-family: 'InterUI-Regular',Arial, sans-serif;
   font-size: 16px;
 }
-.pd-name:focus,.question-name:focus,.answer-input:focus{
+.pd-name:focus,.question-name:focus,.answer-input:focus,.randomize-count:focus{
   outline: none!important;
 }
 .pd-name-input-wrapper{
@@ -610,9 +617,115 @@ h3.category-h3 {
   background: #fff;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
+.plus-sign-video{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.close-sign{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+ 
+}
+.close-sign:hover{
+  background: #f2f4f5;
+}
+.pd-setting{
+  color:#2e3d4d;
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Switch Button Start */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 33px;
+  height: 20px;
+  margin-top: 8px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "\2012";
+    color: #d8dbde;
+    height: 14px;
+    width: 14px;
+    left: 1px;
+    top: 1px;
+    background-color: #64707d;
+    -webkit-transition: .4s;
+     transition: .4s; 
+    text-align: center;
+    vertical-align: middle;
+    background-position: center;
+    line-height: 1;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+input:checked + .slider {
+  border: 2px solid #0080ff;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3!important;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+  background: #0080ff;
+  content: "";
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.slider.round {
+  border-radius: 34px;
+  border: 2px solid #64707d;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* Switch Button end */
 .plus-sign span{
   font-size: 25px;
   color:#007fff;
+}
+.plus-sign-video span{
+  font-size: 23px;;
+  color:#007fff;
+}
+.randomize-count{
+  width: 32px;
+  height: 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: none;
+  text-align: center;
 }
 .new-pd-text{
   font-size: 16px;
@@ -835,6 +948,13 @@ p.g_title {
 }
 /* end image upload modal css */
 
+/* for video upload modal start */
+.video-drop-wrapper{
+  height: 160px;
+  margin: 32px;
+  border: dashed 2px #d4d5d6;
+}
+/* for video upload modal end */
 
 @media only screen and (min-width:1366px) {
   .inner-wrapper {
