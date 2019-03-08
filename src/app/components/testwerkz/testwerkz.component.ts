@@ -1,4 +1,3 @@
-
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator } from "selenium-webdriver";
 import { pd } from "./apg";
@@ -18,9 +17,6 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
-  public showSettingSidebar = true;
-  public isGlobal = false;
-  public modelType:any;
   public testWerkzCategory = false;
   public conceptCreate = false;
   public isUpdate = false;
@@ -63,7 +59,6 @@ export class TestwerkzComponent implements OnInit {
   public tagsWerkzList = []
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
-  public clickType: boolean=false;
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
 
   ngOnInit() {
@@ -137,6 +132,13 @@ export class TestwerkzComponent implements OnInit {
       $('.setting-sidebar').css({top: 165}) 
     }
   }
+
+  //get html tag in div
+  turn(){
+    var myDiv = document.getElementById('editor1');
+    console.log("myD",myDiv.innerHTML)
+  }
+
   createTagWerkz(item) {
     this.isfocus = !this.isfocus;
     console.log(item);
@@ -418,10 +420,11 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
+  //open image modal for tooltip
+
   //open image modal
-  openImgModal(content,type) {
+  openImgModal(content) {
     console.log("open modal")
-    this.modelType = type;
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
     this.getAllContent();
   }
@@ -439,6 +442,7 @@ export class TestwerkzComponent implements OnInit {
  }
   cancelModal() {
     this.modalReference.close();
+    this.selectedImgArr = [];
   }
   
   //image upload
@@ -482,75 +486,27 @@ export class TestwerkzComponent implements OnInit {
   onslectedImgDiv(i,img){
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const circle: HTMLElement = document.getElementById('cricle'+i);
-    const check: HTMLElement = document.getElementById('check'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    console.log(trash.style.cssText)
-    console.log(imgDiv.style.border)
-    if(trash.style.opacity == '1'){
-
-    }
     if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
       this.selectedImgArr.push(img);
-      console.log(this.selectedImgArr);
       imgDiv.setAttribute("style","border:solid;color:#007fff;");
-      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
-      check.setAttribute("style","color:white;");
+      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;");
     }else{
       imgDiv.setAttribute("style","border:none;");
-      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
-      check.setAttribute("style","color:#ffffff00;");
+      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;");
+      
       this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
-      console.log(this.selectedImgArr);
     }
     
   }
 
-  onImgMouseEvent(e,i){
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
-    console.log(imgDiv.style.border)
-    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
-      this.clickType=true;
-      trash.setAttribute("style","opacity: 1;");
-      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
-    }else{
-      this.clickType=false;
-      trash.setAttribute("style","opacity: 0;")
-      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
-    }
-    console.log(e.type)
-  }
-
-  showSetting(){
-    this.showSettingSidebar = true;
-  }
-  closeSetting(){
-    console.log('object');
-    this.showSettingSidebar = false;
-  }
   insertImg(){
     console.log(this.selectedImgArr);
+    for(var i in this.selectedImgArr){
+      console.log(this.selectedImgArr[i].url,'img');
+      document.execCommand("InsertImage", false, this.selectedImgArr[i].url);
+    }
     this.cancelModal();
-    this.selectedImgArr=[];
   }
-
-  onremoveClick(id){
-    this._service.onDeleteContent(this.regionID,id)
-    .subscribe((res: any) => {
-      console.log(res)
-      // this.contentArr=res.meta;
-      this.getAllContent();
-      setTimeout(() => {
-        this.autoSelectedImg(res.meta);
-        console.log(res.meta)
-      },300);
-    }, err => {
-      console.log(err);
-    });
-    // this.onslectedImgDiv(i,img,"exitBorder");
-  }
-  
 }
 
 
