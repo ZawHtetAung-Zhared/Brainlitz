@@ -62,12 +62,6 @@
   top: 0;
 }
 
-
-
-
-
-
-
 .mb-20 {
   margin-bottom: 20px;
 }
@@ -322,7 +316,18 @@ h3.category-h3 {
 .cagetory-item .form-check {
   padding: 0;
 }
-
+.inform-text{
+  font-size: 14px;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+  color: #64707d;
+  font-weight: 500;
+}
+.setting-text{
+  font-size: 14px;
+  font-weight: 500;
+  color:#2e3d4d;
+  font-family: 'InterUI-Medium',Arial, sans-serif;
+}
 
 .back-to {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
@@ -537,6 +542,268 @@ h3.category-h3 {
 }
 
 
+/* pd-blog Wai-Yan Start */
+.pd-blog{
+  max-width: 480px;
+  min-height: 233px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+.pd-name-wrapper{
+  background: #f2f4f5;
+  border-radius: 8px;
+  padding: 20px;
+}
+.pd-blog-wrapper{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.question-section{
+  padding: 0px 0px 20px 0px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.pd-icon-wrapper{
+  width: 45px;
+  height: 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #007fff;
+}
+.check-icon-wrapper{
+  width: 45px;
+  height: 24px;
+  border-radius:4px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #007fff;
+}
+.flex-icon{
+  width: 12px;
+  height: 14px;
+  margin: 8px;
+}
+.pd-No{
+  color: #fff;
+}
+.pd-name{
+  background: inherit;
+  border: none;
+}
+.question-name{
+  resize: none;
+  overflow: hidden;
+  border: none;
+  height: 40px;
+  padding-top: 14px;
+  background: inherit;
+}
+.add-new-question{
+  padding: 20px;
+}
+.add-new-question p{
+  color:#007fff;
+  font-family: 'InterUI-Regular',Arial, sans-serif;
+  font-size: 16px;
+}
+.pd-name:focus,.question-name:focus,.answer-input:focus,.randomize-count:focus{
+  outline: none!important;
+}
+.pd-name-input-wrapper{
+  width: 90%;
+  padding-left: 20px;
+}
+.answer-input{
+  border: none;
+}
+.plus-sign{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.plus-sign-video{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.close-sign{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+ 
+}
+.close-sign:hover{
+  background: #f2f4f5;
+}
+.pd-setting{
+  color:#2e3d4d;
+  font-family: 'InterUI-SemiBold',Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Switch Button Start */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 33px;
+  height: 20px;
+  margin-top: 8px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "\2012";
+    color: #d8dbde;
+    height: 14px;
+    width: 14px;
+    left: 1px;
+    top: 1px;
+    background-color: #64707d;
+    -webkit-transition: .4s;
+     transition: .4s; 
+    text-align: center;
+    vertical-align: middle;
+    background-position: center;
+    line-height: 1;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+input:checked + .slider {
+  border: 2px solid #0080ff;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3!important;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+  background: #0080ff;
+  content: "";
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.slider.round {
+  border-radius: 34px;
+  border: 2px solid #64707d;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* Switch Button end */
+.plus-sign span{
+  font-size: 25px;
+  color:#007fff;
+}
+.plus-sign-video span{
+  font-size: 23px;;
+  color:#007fff;
+}
+.randomize-count{
+  width: 32px;
+  height: 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: none;
+  text-align: center;
+}
+.new-pd-text{
+  font-size: 16px;
+  font-family: 'InterUI-Regular',Arial, sans-serif;
+  color:#007fff;
+}
+.question-checkbox {
+  display: block;
+  top: 6px;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.question-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.answer-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  border-radius:50%;
+  width: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #007fff;
+}
+
+/* When the checkbox is checked, add a blue background */
+.question-checkbox input:checked ~ .answer-checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.answer-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.question-checkbox input:checked ~ .answer-checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.question-checkbox .answer-checkmark:after {
+  left: 4px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+/* pd-blog Wai-Yan End */
+
 .pd-header{
   max-height:300px;
   max-width:100%;
@@ -711,6 +978,14 @@ p.g_title {
 
 
 /* end image upload modal css */
+
+/* for video upload modal start */
+.video-drop-wrapper{
+  height: 160px;
+  margin: 32px;
+  border: dashed 2px #d4d5d6;
+}
+/* for video upload modal end */
 
 @media only screen and (min-width:1366px) {
   .inner-wrapper {

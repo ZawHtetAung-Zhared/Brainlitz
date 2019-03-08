@@ -1,6 +1,6 @@
 <!-- For Concept Group List Start -->
 <div *ngIf="conceptList" class="d-flex justify-content-end pr-5 w-100 mt-1">
-  <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag Werkz </button>
+  <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
 </div>
 <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
 <!-- For test List End -->
@@ -20,7 +20,7 @@
         <button *ngIf="isEditComplete == true" class="btn category-done " (click)="editComplete()">Done</button>
       </div>
     </div>
-    <h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Pick TagWerkz</h3>
+    <h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Pick Tag</h3>
   </header>
   <div>
     <!-- <p class="card-text" [style.display]="'none'">hola</p> -->
@@ -33,11 +33,11 @@
           </div>
         </div>
         <input type="text" id="inp" [ngClass]="{'onfocus': isfocus == true}" class="form-control create-btn"
-          placeholder="+ Create new tagwerkz" name="name" autocomplete="off" [(ngModel)]="tagWerkz.name" required #name="ngModel"
+          placeholder="+ Create new tag" name="name" autocomplete="off" [(ngModel)]="tagWerkz.name" required #name="ngModel"
           (focus)="focusFunction('create','', $event.target.value )" (blur)="blurMethod($event, 'create')" (input)="changeMethod($event.target.value)"
           *ngIf="isEditComplete == false" maxlength="60">
         <input type="text" id="inp" [ngClass]="{'onfocus': isfocus == true, 'blury': iseditfocus == true}" class="form-control"
-          placeholder="+ Create new TagWerkz" name="name" autocomplete="off" (focus)="focusFunction('create')" *ngIf="isEditComplete == true"
+          placeholder="+ Create new tag" name="name" autocomplete="off" (focus)="focusFunction('create')" *ngIf="isEditComplete == true"
           disabled>
         <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': isfocus == true}">
           <button type="submit" class="btn" (click)="close('create')">
@@ -46,7 +46,7 @@
               <div class="closemark_kick"></div>
             </span>
           </button>
-          <button type="submit" class="btn" (click)="createTagWerkz(tagWerkz)" [disabled]="tagWerkz.name && tagWerkz.name.length == 0">
+          <button type="submit" class="btn" (click)="createTagWerkz(tagWerkz)" [disabled]=" tagWerkz.name == '' || tagWerkz.name.length < 0 || tagWerkz.name.length == 0 ">
             <span class="checkmark">
               <div class="checkmark_stem"></div>
               <div class="checkmark_kick"></div>
@@ -114,16 +114,16 @@
                 <p>Back</p>
               </div>
             </div>
-            <h3 class="assessment-title">Creating SelfAssessment Apg</h3>
+            <h3 class="assessment-title">Creating Concept</h3>
             <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
               <div class="d-flex justify-content-between">
-                <label class="form-title input-label" for="address"> SelfAssessment Name </label>
+                <label class="form-title input-label" for="address"> Concept name </label>
                 <div class="limit-type-wordcount">
                   <span>{{wordLength}}/60characters</span>
                 </div>
               </div>
 
-              <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off" placeholder="Type SelfAssessment name here"
+              <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off" placeholder="Type Concept name here"
                 name="name" maxlength="60" [(ngModel)]="concept.name" (focus)="focusMethod($event,'name', $event.target.value)"
                 (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" required #name="ngModel">
               <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
@@ -150,8 +150,9 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
                 </div>
-              </ng-template> -->
-            <div *ngFor="let pd of concepts; let i = index">
+              </ng-template>  -->
+              <!-- Thiha Soe UI Start -->
+            <!-- <div *ngFor="let pd of concepts; let i = index">
               <div class="pd-wrapper">
                 <div class="pd-header">
                   <span>{{i+1}}</span>
@@ -174,19 +175,108 @@
                   </div>
                 </div>
               </div>
+            </div> -->
+               <!-- Thiha Soe UI End -->
+
+               <!-- Wai Yan UI Start -->
+            <div *ngFor="let pd of concepts; let i = index">
+              <div class="d-flex flex-column pd-blog mb-2" (click)=showSetting()>
+                <!-- for header start -->
+                <div class="pd-name-wrapper d-flex container align-items-center">
+                  <div class="pd-icon-wrapper align-items-center d-flex">
+                    <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+                    <span class="pd-No">1</span>
+                  </div>
+                  <div class="pd-icon-wrapper bg-white align-items-center d-flex">
+                    <img src="../../../assets/images/un-thunder-flash-w.png" alt="" class="flex-icon">
+                    <span class="pd-No" style="color:#64707d;">1</span>
+                  </div>
+                  <div class="pd-name-input-wrapper">
+                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name">
+                    <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
+                  </div>
+                </div>
+              <!-- for header End -->
+
+                <div class="pd-blog-wrapper d-flex">
+                  <div class="w-100 question-section d-flex">
+                    <div class="check-icon-wrapper align-items-center mt-3 d-flex">
+                      <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
+                      <span class="pd-No">1</span>
+                    </div>  
+                    <div class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
+                      <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
+                      <span class="pd-No" style="color:#64707d;">1</span>
+                    </div>  
+                    <div class="pd-name-input-wrapper d-flex flex-column" style="width:90%; padding-left:20px;">
+                      <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea>
+                      <div class="d-flex" style="padding-top: 20px;">
+                        <label class="question-checkbox">
+                            <input type="checkbox" checked="checked">
+                            <span class="answer-checkmark"></span>
+                          </label>
+                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="add-new-question">
+                  <p class="mb-0">Add new question</p>
+                </div>
+              </div>
+            </div> 
+              <!-- Wai Yan UI End -->
+            <div class="d-flex pl-3 mt-3">
+              <p  (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
+                <span>+</span>
+              </p>
+              <p (click)="addPd()" class="mb-0 mt-1 pl-3 new-pd-text">Add new performance demand</p>
             </div>
-            <button (click)="addPd()">Add PD</button>
 
           </div>
         </div>
       </div>
       <!-- Note Setting Max-width = 256px -->
-      <div class="col-4 p-0 setting-sidebar">
-        <div class="pt-2">
-          Setting Here
+      <div class="col-4 p-0 setting-sidebar" *ngIf="showSettingSidebar">
+        <div class="pt-2 d-flex flex-column">
+          <div class="d-flex p-3">
+            <div class="pd-icon-wrapper align-items-center d-flex">
+              <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+              <span class="pd-No">1</span>
+            </div>
+            <p class="mr-auto pl-3 pd-setting"> PD Setting  </p> 
+            <p  (click)="closeSetting()" class="close-sign d-flex justify-content-center align-items-center">
+              <span><img src="../../../assets/img/settingclose/settings-close.png" alt=""></span>
+            </p>
+          </div>
+          <div class="p-3">
+            <div class="d-flex justify-content-between w-100" style="border-bottom: 1px solid #edeff0;">
+              <p class="setting-text">Description</p>
+              <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+                <label class="switch">
+                  <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
+              <div class="d-flex align-items-center">
+                <p><i class="fa fa-angle-right"></i></p> 
+                <p class="pl-2 setting-text"> Video</p> 
+              </div>
+              <p  (click)="addPd()" class="plus-sign-video d-flex justify-content-center align-items-center">
+                <span>+</span>
+              </p>
+            </div>
+            <div class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
+              <p class="setting-text">Randomize count</p>  
+              <input type="text" class="randomize-count" placeholder="0">
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="d-flex justify-content-end form-footer">
       <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
       <button type="button" class="btn btn-submit" (click)=openImgModal(imgModal)>Image Upload</button>
