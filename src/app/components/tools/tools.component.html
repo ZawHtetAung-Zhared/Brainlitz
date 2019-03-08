@@ -61,6 +61,15 @@
 						</span>
 					</button>
 				</div>
+				<!-- <div *ngIf="testWerkz.length > 0" [ngClass]="{'active': notiType == 'testWerkz'}" class="tab-wrap">			
+					<button class="btn noti-tab w-100" (click)="clickTab('testWerkz')">
+						<span class="btnSpan">
+								<img *ngIf="notiType == 'calendar'" class="setting-icon" src="./assets/images/calendar_a@2x.png">
+								<img *ngIf="notiType != 'calendar'" class="setting-icon" src="./assets/images/calendar@2x.png">
+							<span>TagWerkz</span>
+						</span>
+					</button>
+				</div> -->
 			</div>
 			</div>
 			<!-- <div class="d-flex flex-column w-100 align-items-center"> -->
@@ -225,25 +234,25 @@
 										<div *ngIf="isChecked=='allcustomer'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="active" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes withdrawn students"
 												</label>
 										</div>
 										<div *ngIf="isChecked=='allstaff'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="activestaff" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes non-teaching staffs"
 												</label>
 										</div>
 										<div *ngIf="isChecked=='category'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="activecategory" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes withdrawn students"
 												</label>
 										</div>
 										<div *ngIf="isChecked=='course'" class="form-check active-user-form">
 												<label class="form-check-label">
 													<input type="checkbox" class="form-check-input" name="activecourse" [checked]="!checkActive" (change)="checkedActive($event, 'active')">
-													All user
+													"All user" with "Includes withdrawn students"
 												</label>
 										</div>
 									</div>
@@ -388,6 +397,9 @@
 						</div>
 						<div class="d-flex flex-column main-wrapper w-100 h-100" *ngIf="notiType == 'calendar'">          
 								<app-calendar class="control-apg"></app-calendar>          
+						</div>    
+						<div class="d-flex flex-column  w-100 h-100" *ngIf="notiType == 'testWerkz'">          
+								<app-testwerkz class="control-apg"></app-testwerkz>          
 						</div>    
 				</div> 
 			<!-- </div> -->

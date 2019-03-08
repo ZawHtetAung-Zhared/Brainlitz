@@ -34,7 +34,7 @@ ul.pass-list li,
 .info-mail,
 .info-about,
 .medium-label-14,
-.enroll-btn {
+.enroll-btn,.rollover-btn {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
 }
@@ -1295,6 +1295,15 @@ h5 {
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 }
 
+.child_two {
+  flex: 1 0 40%;
+  margin: 20px;
+  /* padding: 20px;  */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
 .title-space {
   padding: 20px 20px 0 20px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
@@ -2516,4 +2525,9 @@ input[_ngcontent-c1]:focus {
   .jouranlModal .modal-content{
     height: 90vh;
 
+  }
+  .rollover-btn{
+    text-decoration: underline;
+    color: #2e3d4d;
+    cursor: pointer;
   }

@@ -1,0 +1,253 @@
+<!-- For Concept Group List Start -->
+<div *ngIf="conceptList" class="d-flex justify-content-end pr-5 w-100 mt-1">
+  <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag Werkz </button>
+</div>
+<div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
+<!-- For test List End -->
+
+<!-- For test list create and Edit Start -->
+<div *ngIf="testWerkzCategory">
+  <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}" style="height: 115px;" class="pl-5">
+    <div class="d-flex pr-5 d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
+      <div class="mr-auto p-2 pl-0 pb-0" (click)="backToList()">
+        <div class="back-to d-flex">
+          <i class="fa fa-angle-left"></i>
+          <p>Back</p>
+        </div>
+      </div>
+      <div class="pr-5">
+        <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()" class="btn category-edit">Edit</button>
+        <button *ngIf="isEditComplete == true" class="btn category-done " (click)="editComplete()">Done</button>
+      </div>
+    </div>
+    <h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Pick TagWerkz</h3>
+  </header>
+  <div>
+    <!-- <p class="card-text" [style.display]="'none'">hola</p> -->
+    <div class="row pr-5 pl-5 justify-content-start mb-20">
+      <div class="col-md-4 category-btn">
+        <!-- <form novalidate #tagWerkz="ngForm"> -->
+        <div class="d-flex justify-content-between">
+          <div class="limit-word">
+            <span>{{wordLength}}/60characters</span>
+          </div>
+        </div>
+        <input type="text" id="inp" [ngClass]="{'onfocus': isfocus == true}" class="form-control create-btn"
+          placeholder="+ Create new tagwerkz" name="name" autocomplete="off" [(ngModel)]="tagWerkz.name" required #name="ngModel"
+          (focus)="focusFunction('create','', $event.target.value )" (blur)="blurMethod($event, 'create')" (input)="changeMethod($event.target.value)"
+          *ngIf="isEditComplete == false" maxlength="60">
+        <input type="text" id="inp" [ngClass]="{'onfocus': isfocus == true, 'blury': iseditfocus == true}" class="form-control"
+          placeholder="+ Create new TagWerkz" name="name" autocomplete="off" (focus)="focusFunction('create')" *ngIf="isEditComplete == true"
+          disabled>
+        <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': isfocus == true}">
+          <button type="submit" class="btn" (click)="close('create')">
+            <span class="closemark">
+              <div class="closemark_stem"></div>
+              <div class="closemark_kick"></div>
+            </span>
+          </button>
+          <button type="submit" class="btn" (click)="createTagWerkz(tagWerkz)" [disabled]="tagWerkz.name && tagWerkz.name.length == 0">
+            <span class="checkmark">
+              <div class="checkmark_stem"></div>
+              <div class="checkmark_kick"></div>
+            </span>
+          </button>
+        </div>
+        <!-- </form> -->
+      </div>
+      <div class="col-md-4 cagetory-item" *ngFor="let tag of tagsWerkzList; let i = index">
+        <!-- <form novalidate #tagWerkz="ngForm"> -->
+        <div *ngIf="isEditComplete == false" class="form-check">
+          <label class="form-check-label cat-label d-flex flex-column justify-content-center" [ngClass]="{'selected': ischecked == tag._id, 'blury': isfocus == true}">
+            <div>
+              <div class="label-checked"></div>
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="tag._id" (click)="somethingChanged(tag._id, tag.name)"
+                value="{{tag.name}}"> {{tag.name}}
+            </div>
+          </label>
+        </div>
+        <div *ngIf="isEditComplete == true" class="editcategory-item">
+          <div class="d-flex justify-content-between">
+            <div class="limit-word limit-{{tag._id}}">
+              <span>{{wordLength}}/60characters</span>
+            </div>
+          </div>
+          <input type="text" id="tag._id" class="form-control" [ngClass]="{'onfocus': editValue == tag._id, 'blury': (iseditfocus == true && editValue != tag._id)}"
+            name="name" [(ngModel)]="tag.name" autocomplete="off" required #name="ngModel" (focus)="focusFunction('edit',tag._id, $event.target.value)"
+            (blur)="blurMethod($event, 'create')" (input)="changeMethod($event.target.value)" maxlength="60">
+          <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == tag._id}">
+            <button type="submit" class="btn" (click)="close('edit', tag._id)">
+              <span class="closemark">
+                <div class="closemark_stem"></div>
+                <div class="closemark_kick"></div>
+              </span>
+            </button>
+            <button type="submit" class="btn" (click)="updateTagWerkz(tag)" [disabled]="tag.name.length == 0">
+              <span class="checkmark">
+                <div class="checkmark_stem"></div>
+                <div class="checkmark_kick"></div>
+              </span>
+            </button>
+          </div>
+        </div>
+        <!-- </form> -->
+      </div>
+    </div>
+  </div>
+  <!-- <div  class="d-flex justify-content-center load-more">
+      <button class="btn" (click)="showMore()">load more</button>
+    </div> -->
+</div>
+<!-- For test list create and Edit End -->
+
+<!-- For Concept Create Start -->
+<div *ngIf="conceptCreate">
+  <div class="w-100  h-100">
+    <div class="w-100 d-flex mt-1 h-100" [ngClass]="{'justify-content-center': classCreate == true, 'align-items-center':classCreate == true}"
+      id="conceptWrapper">
+      <div class="pl-3 p-0 form-side">
+        <div class=" d-flex flex-column w-100" [ngClass]="{'align-items-center': classCreate == true}">
+          <div class="">
+            <div class="mr-auto p-2 pl-0 pb-0" (click)="backToTestWerkz()">
+              <div class="back-to pt-2 d-flex">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+            </div>
+            <h3 class="assessment-title">Creating SelfAssessment Apg</h3>
+            <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
+              <div class="d-flex justify-content-between">
+                <label class="form-title input-label" for="address"> SelfAssessment Name </label>
+                <div class="limit-type-wordcount">
+                  <span>{{wordLength}}/60characters</span>
+                </div>
+              </div>
+
+              <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off" placeholder="Type SelfAssessment name here"
+                name="name" maxlength="60" [(ngModel)]="concept.name" (focus)="focusMethod($event,'name', $event.target.value)"
+                (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" required #name="ngModel">
+              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                <div [hidden]="!name.errors.required">
+                  Name is required!
+                </div>
+              </div>
+            </div>
+            <div class="inform-wrapper p-0">
+              <p class="icon"> <span class="icon">i</span> </p> <span class="inform-text">Some information about how do
+                PD and QUESTION
+                create with multiple lines</span>
+            </div>
+            <!-- <ng-template #content let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title">Modal title</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+                </div>
+              </ng-template> -->
+            <div *ngFor="let pd of concepts; let i = index">
+              <div class="pd-wrapper">
+                <div class="pd-header">
+                  <span>{{i+1}}</span>
+                  <medium-editor dragula="COLUMNS" [(editorModel)]="pd.pdName" #pdtag [editorOptions]="{'toolbar': {'buttons': ['bold', 'italic', 'underline', 'image']}}"
+                    (input)="onInput(content,$event,pdtag,'pd')"></medium-editor>
+                </div>
+                <div class="pd-body">
+                  <div *ngFor="let question of pd.question; let j = index">
+                    <span>{{j+1}}</span>
+
+                    <medium-editor [(editorModel)]="question.questionName" #questiontag (click)="onClickEditor(question)"
+                      [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(content,$event,questiontag,'question',j)"></medium-editor>
+                    <button (click)="addQuestion(i)">Add question</button>
+                    <div *ngFor="let answer of question.answers;let k = index">
+                      <div class="answer-wrapper">
+                        <medium-editor [(editorModel)]="answer.answer" #answertag (click)="onClickEditor(answer)"
+                          [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(content,$event,answertag,'answer',j,k)"></medium-editor>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button (click)="addPd()">Add PD</button>
+
+          </div>
+        </div>
+      </div>
+      <!-- Note Setting Max-width = 256px -->
+      <div class="col-4 p-0 setting-sidebar">
+        <div class="pt-2">
+          Setting Here
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end form-footer">
+      <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+      <button type="button" class="btn btn-submit" (click)=openImgModal(imgModal)>Image Upload</button>
+      <button *ngIf="isUpdate == false" type="button" class="btn btn-submit">Create</button>
+      <button *ngIf="isUpdate == true" type="button" class="btn btn-submit">Update</button>
+    </div>
+  </div>
+
+  <!-- For Concept Create End -->
+  <block-ui message="Deafult Message"></block-ui>
+
+  <!-- modal for image upload -->
+  <ng-template #imgModal let-modal>
+    <!-- <div class="modal-header">
+    
+    </div> -->
+    <div class="modal-body img_upload" *ngIf="contentArr.length == 0">
+      <div class="d-flex justify-content-center drop_zone">
+        <div class="d-flex flex-column drop_zone_middle">
+          <img src="../../../assets/img/image-drop.png" class="img_drop">
+          <label class="drop_drap_txt">Drag & drop</label>
+          <span class="drop_sp">image anywhere or</span>
+          <div class="upload-btn-wrapper">
+            <button class="btn btn-submit uploadImgBtn">Upload image</button>
+            <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="ongetImg($event)" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0">
+      <div class="d-flex drop_zone_middle_eixtData">
+        <img src="../../../assets/img/image-drop.png" class="eimg_drop">
+        <div class="d-flex  flex-column lblGp">
+          <label class="edrop_drap_txt">Drag & drop</label>
+          <span class="edrop_sp">image anywhere or</span>
+        </div>
+        <div class="upload-btn-wrapper">
+          <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
+          <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="ongetImg($event)" />
+        </div>
+      </div>
+      <div class="d-flex flex-column gallery">
+        <p class="g_title">Image gallery</p>
+        <div class="row imgGp">
+          <div class="col-md-2 imgDiv" *ngFor="let imgArr of contentArr;let i=index;">
+            <div class="inner-imgDiv" (click)="onslectedImgDiv(i,imgArr)" id="img-{{i}}">
+              <div id="cricle{{i}}"></div>
+              <img src={{imgArr.url}} class="gShowImag">
+            </div>
+
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
+      <button type="button" class="btn btn-submit insertBtn">Insert</button>
+    </div>
+  </ng-template>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ViewContainerRef, ElementRef, Inject, HostListener, AfterViewInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DOCUMENT } from "@angular/platform-browser";
 import { NgbModal, ModalDismissReasons, NgbModalRef, NgbDateStruct, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -18,11 +18,12 @@ declare var $: any;
   styleUrls: ['./coursecreate.component.css']
 })
 export class CoursecreateComponent implements OnInit {
+  @ViewChild("content") modalContent: TemplateRef<any>;
   public regionID = localStorage.getItem('regionId');
   public currentLocation = localStorage.getItem('locationId');
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
-  public courseID = localStorage.getItem('courseID');
+  public course = JSON.parse(localStorage.getItem('courseID'));
   public currency = JSON.parse(localStorage.getItem('currency'));
   public scheduleObj = JSON.parse(localStorage.getItem('scheduleObj'));
   @BlockUI() blockUI: NgBlockUI;
@@ -102,12 +103,16 @@ export class CoursecreateComponent implements OnInit {
   public tempVar: any;
   public tempValue: any;
   public feesOptions: any;
+  public isCreateFix: boolean = false;
+
   objectKeys = Object.keys;
   isEdit: boolean = false;
   taxOptShow: boolean = false;
   feeOptShow: boolean = false;
   chooseTax: any = '';
   public flexiOn: boolean = false;
+  public rolloverCId:any;
+  public modalReference: any;
 
   @ViewChild('start') nameInputRef: ElementRef;
   @ViewChild('end') name1InputRef: ElementRef;
@@ -119,7 +124,7 @@ export class CoursecreateComponent implements OnInit {
   test;
   ngOnInit() {
     console.log("CPLan", this.coursePlan)
-    console.log("CourseID", this.courseID);
+    console.log("CourseID", this.course);
     console.log("Currency", this.currency);
     // this.isChecked = 'end';
     this.isSelected = 'AM';
@@ -130,10 +135,15 @@ export class CoursecreateComponent implements OnInit {
     // this.getAllLocations();
     window.scroll(0, 0);
     // this.goBackCat = true;
-    if (this.courseID) {
-      console.log("Draft True", this.courseID);
-      this.showDraftCourse(this.courseID);
-      // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions; 
+    if (this.course) {
+      if(this.course.type == 'edit'){
+        console.log("Draft True", this.course);
+        this.showDraftCourse(this.course.courseId, 'edit');
+        // this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions; 
+      }else if(this.course.type == 'rollover'){
+        console.log('Rollover');
+        this.rolloverCourse(this.course.courseId, 'rollover');
+      } 
     } else if (this.coursePlan) {
       console.log("course Create");
       this.isChecked = 'end';
@@ -144,8 +154,17 @@ export class CoursecreateComponent implements OnInit {
       this.model.duration = this.coursePlan.duration;
       this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
+      console.log("~~~~~",this.feesOptions)
+      if(this.feesOptions == undefined){
+        console.log("No Fees OPtions",this.feesOptions)
+        this.chooseFee = "no";
+      }else{
+        console.log("Has Fees OPtions",this.feesOptions)
+        this.chooseFee = '';
+      }
       this.model.location = this.locationName;
       this.locationId = this.currentLocation;
+      console.log("feeOptions",this.feesOptions)
       // this.feeOptList(this.coursePlan.paymentPolicy.courseFeeOptions);
       if (this.scheduleObj) {
         this.scheduleCourse();
@@ -219,7 +238,7 @@ export class CoursecreateComponent implements OnInit {
   //   }
   // }
 
-  showDraftCourse(cId) {
+  showDraftCourse(cId,type) {
     console.log("Function Works");
     this.getAllLocations();
     this.blockUI.start('Loading...');
@@ -245,14 +264,6 @@ export class CoursecreateComponent implements OnInit {
         this.locationId = this.model.locationId;
         console.log("this location", this.locationId);
         this.selectedDay = this.model.repeatDays;
-        this.planId = this.model.coursePlan.coursePlanId;
-        this.planName = this.model.coursePlan.name;
-        console.log("plan in draft", this.planName);
-        console.log(this.model.coursePlan.lesson.duration * this.model.durationTimes);
-        this.model.duration = this.model.coursePlan.lesson.duration * this.model.durationTimes;
-        console.log(this.model.duration);
-        this.calculateDuration(this.model.starttime, this.model.duration);
-        this.createList(this.model.coursePlan.lesson.duration);
         this.model.durationTimes = this.model.durationTimes;
         this.startTime = this.model.starttime;
         //for tax option inclusive/exclusive
@@ -287,7 +298,11 @@ export class CoursecreateComponent implements OnInit {
           this.tempValue = res.lessonCount;
         }
         this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
-        this.chooseFee = this.model.paymentPolicy.courseFee;
+        if(this.feesOptions == undefined){
+          this.chooseFee = "no";
+        }else{
+          this.chooseFee = this.model.paymentPolicy.courseFee;
+        }
 
         // var selectedDays= this.model.repeatDays;
         this.temp["endDate"] = this.model.endDate;
@@ -302,6 +317,15 @@ export class CoursecreateComponent implements OnInit {
         this.maxDate = this.changeDateStrtoObj(res.endDate, "end");
         this.save = true;
         this.addCheck = true;
+        // this.conflitCourseId = res._id;
+        this.planId = this.model.coursePlan.coursePlanId;
+        this.planName = this.model.coursePlan.name;
+        console.log("plan in draft", this.planName);
+        console.log(this.model.coursePlan.lesson.duration * this.model.durationTimes);
+        this.model.duration = this.model.coursePlan.lesson.duration * this.model.durationTimes;
+        console.log(this.model.duration);
+        this.calculateDuration(this.model.starttime, this.model.duration);
+        this.createList(this.model.coursePlan.lesson.duration);
         this.conflitCourseId = res._id;
         if (this.model.draft == true) {
           console.log("Draft ===>", this.model.draft);
@@ -310,7 +334,112 @@ export class CoursecreateComponent implements OnInit {
         } else {
           this.isEdit = true;
         }
+
+        
       });
+  }
+
+  rolloverCourse(cId,type){
+    console.log("Function Works");
+    this.getAllLocations();
+    this.blockUI.start('Loading...');
+    this._service.getSingleCourse(cId, this.currentLocation)
+    .subscribe((res: any) => {
+      console.log("Course Detail", res);
+        setTimeout(() => {
+          this.blockUI.stop(); // Stop blocking
+        }, 300);
+        this.isChecked = 'end';
+        this.model = res;
+        this.model.end = "";
+        this.model.lessonCount = "";
+        this.courseFeess = res.paymentPolicy.courseFee;
+        if (this.model.type == "FLEXY") {
+          this.flexiOn = true;
+        } else {
+          var idx = this.model.lessons.length-1;
+          this.setStartD(this.model.lessons[idx].startDate);
+        }
+        this.model.location = this.model.location.name;
+        this.locationId = this.model.locationId;
+        console.log("this location", this.locationId);
+        this.selectedDay = this.model.repeatDays;
+        this.model.durationTimes = this.model.durationTimes;
+        this.startTime = this.model.starttime;
+        //for tax option inclusive/exclusive
+        if(this.model.paymentPolicy.courseFeeTaxInclusive == undefined){
+          this.chooseTax = ""; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == true){
+          this.chooseTax = "inclusive"; 
+        }else if(this.model.paymentPolicy.courseFeeTaxInclusive == false){
+          this.chooseTax = "exclusive"; 
+        }
+        console.log("this.model.taxInclusive",this.model.paymentPolicy.courseFeeTaxInclusive)
+        /*=====*/
+        this.selectedTeacher = this.model.teacher;
+        this.staffArrLists.push(this.selectedTeacher.userId)
+        console.log("staffArrLists==>",this.staffArrLists)
+        var assiatantsArr = this.model.assistants;
+        for (var i in assiatantsArr) {
+          console.log("Assistant", assiatantsArr[i]);
+          this.selectedUserLists.push(assiatantsArr[i]);
+          this.selectedAssistants.push(assiatantsArr[i].userId);
+          this.staffArrLists.push(assiatantsArr[i].userId)
+          console.log("staffArrLists==>",this.staffArrLists)
+
+        }
+        this.temp["startDate"] = this.model.startDate;
+        // this.temp["lessonCount"] = this.model.lessonCount;
+        this.temp["repeatDays"] = this.selectedDay;
+        this.temp["durationTimes"] = this.model.durationTimes;
+        localStorage.setItem("tempObj", JSON.stringify(this.temp));
+        this.planId = this.course.plan.id;
+        this.planName = this.course.plan.name;
+        console.log("plan in draft", this.planName);
+        console.log(this.course.plan.duration * this.model.durationTimes);
+        this.model.duration = this.course.plan.duration * this.model.durationTimes;
+        console.log(this.model.duration);
+        if(this.course.isSamePlan == true){
+          this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
+          if(this.feesOptions == undefined){
+            this.chooseFee = "no";
+          }else{
+            this.chooseFee = this.model.paymentPolicy.courseFee;
+          }
+        }else{
+          this.feesOptions = this.course.plan.paymentPolicy.courseFeeOptions;
+          console.log("~~~~~",this.feesOptions)
+          if(this.feesOptions == undefined){
+            console.log("No Fees OPtions",this.feesOptions)
+            this.chooseFee = "no";
+          }else{
+            console.log("Has Fees OPtions",this.feesOptions)
+            this.chooseFee = '';
+          }
+        }
+        this.calculateDuration(this.model.starttime, this.model.duration);
+        this.createList(this.course.plan.duration);
+        this.isEdit = false;
+    })
+  }
+
+  setStartD(date){
+    console.log('date',date);
+    var newD = new Date(date)
+    var dmyFormat = newD.getUTCDate()+ '-' + (newD.getUTCMonth()+1) + '-' + newD.getUTCFullYear();
+    console.log("~~dFormat",dmyFormat);
+    var new_date = moment(dmyFormat, "DD.MM.YYYY");
+    console.log("new",new_date);
+    var addDays = new_date.add(7, 'days').format('YYYY-MM-DD');
+    console.log(addDays);
+    let test = addDays + date.substring(date.search("T"),date.search("Z")+1);
+    console.log("test",test)
+    this.model.start = this.changeDateStrtoObj(test, "start");
+    console.log('startD',this.model.start)
+    this.model.starttime = test.substr(test.search("T") + 1, 5);
+    console.log(this.model.starttime)
+    this.setToTimerange(this.model.starttime);
+    this.minDate = this.model.start;
   }
 
   setToTimerange(time) {
@@ -361,15 +490,16 @@ export class CoursecreateComponent implements OnInit {
 
   }
 
-  @HostListener("window:scroll", [])
-  scrollHandler() {
-    let num = this.doc.documentElement.scrollTop;
-    if (num > 20) {
-      this.doc.getElementById("navbar").style.top = "0";
-    } else {
-      this.doc.getElementById("navbar").style.top = "-120px";
-    }
-  }
+  // @HostListener("window:scroll", [])
+  // scrollHandler() {
+  //   let num = this.doc.documentElement.scrollTop;
+  //   console.log("scroll>",num)
+  //   if (num > 20) {
+  //     this.doc.getElementById("navbar").style.top = "0";
+  //   } else {
+  //     this.doc.getElementById("navbar").style.top = "-120px";
+  //   }
+  // }
 
   getAllLocations() {
     this._service.getLocations(this.regionID, 20, 0, false)
@@ -378,6 +508,14 @@ export class CoursecreateComponent implements OnInit {
         this.locationList = res;
       })
   }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+		if (window.pageYOffset > 40) {
+			this.isCreateFix = true;
+		} else {
+			this.isCreateFix = false;
+		}
+	}
 
 
 
@@ -441,7 +579,15 @@ export class CoursecreateComponent implements OnInit {
       }else{
         console.log("this.coursePlan == null");
         console.log('backtocourse')
-        this._service.backCourse();
+        if(this.course.type == 'rollover'){
+          // this.enrollUser(this.course.courseId,this.course.userId);
+          // this.router.navigate(['/customer']);
+          // this.dataService.nevigateCustomer(this.course.userId);
+          // this._service.backCourse();
+          this._service.backCourse();
+        }else{
+          this._service.backCourse();
+        }
       }
     }
 
@@ -507,6 +653,7 @@ export class CoursecreateComponent implements OnInit {
     //   }
     //   this.model.lessonCount = "";
     // }
+    console.log("type",type,"tempVar",this.tempVar)
     this.isChecked = type;
     if (this.tempVar) {
       if (this.tempVar == this.isChecked) {
@@ -1080,9 +1227,10 @@ export class CoursecreateComponent implements OnInit {
       "ignoreLessons": JSON.stringify(this.ignoreArr),
     };
 
-    if (this.chooseFee != '') {
-      console.log("KKKK", this.chooseFee);
-      this.courseObj["courseFee"] = this.chooseFee;
+    if(this.chooseFee != ''){
+      if(this.chooseFee != "no"){
+        this.courseObj["courseFee"] = this.chooseFee;
+      }
     }
 
     if (this.chooseTax != '') {
@@ -1101,6 +1249,7 @@ export class CoursecreateComponent implements OnInit {
       // this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       this.courseObj["repeatDays"] = this.selectedDay;
 
+      console.log(this.model.end,this.model.lessonCount, this.flexiOn)
       if (this.flexiOn == false) {
         this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
       }
@@ -1127,6 +1276,7 @@ export class CoursecreateComponent implements OnInit {
       var testObj = JSON.parse(localStorage.getItem("tempObj"));
       console.log("Temp obj", testObj)
       console.log("Not First Time");
+      console.log(this.model.end,this.model.lessonCount, this.flexiOn)
 
       if (this.model.end) {
         console.log("this.model.end", this.model.end)
@@ -1245,7 +1395,14 @@ export class CoursecreateComponent implements OnInit {
           }, 300);
           localStorage.removeItem('coursePlanId');
           localStorage.removeItem('splan');
-          this.backToCourses('',res.body.courseId);
+          if(this.course.type == 'rollover'){
+            console.log("RES",res)
+            let createdId = res.body.courseId;
+            this.enrollUser(createdId, this.course.userId);
+            // this.backToCourses('',res.body.courseId)
+          }else{
+            this.backToCourses('',res.body.courseId);
+          }
         }
       }, err => {
         console.log(err);
@@ -1292,6 +1449,62 @@ export class CoursecreateComponent implements OnInit {
         }
       });
   }
+
+  userDetail:any = {};
+  courseDetails:any;
+  showInvoice:boolean = false;
+  enrollUser(createdCID,userID){
+    console.log("courseID",createdCID)
+    return new Promise((resolve,reject)=>{
+      this._service.editProfile(this.regionID, userID)
+      .subscribe((res:any) => {
+        console.log("res UserDetail",res)
+        this.userDetail.user = res;
+      })
+
+      this._service.getSingleCourse(createdCID, this.locationId)
+      .subscribe((res:any) => {
+        console.log("res CourseDetail",res)
+        this.courseDetails = res;
+      })
+      resolve();
+    }).then(()=>{
+      let body = {
+         'courseId': createdCID,
+         'userId': userID,
+         'userType': 'customer'
+       }
+       // this.modalReference = this.modalService.open('invModal', { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
+       setTimeout(()=>{
+         this._service.assignUser(this.regionID,body, this.locationId)
+         .subscribe((res:any) => {
+           // this.showInvoice = true;
+           this.modalReference = this.modalService.open(this.modalContent, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'})
+             this.showInvoice = true;
+             Object.assign(this.courseDetails , res)
+             console.log("CALL INVOICE",this.courseDetails)
+             console.log("==>",this.userDetail)
+         })
+       },500)
+      
+    })
+
+  }
+
+  cancelInvoiceModal(){
+    this.modalReference.close();
+      this.router.navigate(['/customer']);
+      this.dataService.nevigateCustomer(this.course.userId);
+      setTimeout(()=>{
+        this.dataService.nevigateSchedule('');
+        this.staffArrLists = [];
+        localStorage.removeItem('cPlan');
+        localStorage.removeItem('courseID');
+        localStorage.removeItem('tempObj');
+        localStorage.removeItem('scheduleObj');
+      },300)
+  }
+  
 
   // updateCourse(){
   //   this.courseObj= {
@@ -1537,5 +1750,17 @@ export class CoursecreateComponent implements OnInit {
     }
 
   }
+
+  //for rollover
+  // enrollUser(){
+  //   let body = {
+
+  //   }
+  //   this._service.assignUser(this.regionID,body,this.locationId)
+  //   .subscribe((res:any) => {
+  //     console.log("--->assignUser",res);
+      
+  //   })
+  // }
 
 }

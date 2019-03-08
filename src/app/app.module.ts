@@ -73,7 +73,11 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
+import { TZDatePipe } from './service/pipe/tzdate.pipe'
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
+import { MediumEditorModule } from 'angular2-medium-editor';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -103,6 +107,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     ScheduleWeekDaysPipe,
     GroupByPipe,
     ConvertTimeFormatPipe,
+    TestwerkzComponent,
     GetDayPipe,
     GetUtcTimePipe,
     GetFormatData,
@@ -126,6 +131,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     DateFormatPipe,
     HourMinsPipe,
     calculatePMPipe,
+    TZDatePipe,
     InvoiceComponent
   ],
   imports: [
@@ -149,7 +155,9 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     SortableModule.forRoot(),
     NgDragDropModule.forRoot(),
     StarRatingModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    MediumEditorModule,
+    FileUploadModule
   ],
   providers: [
     appService,
