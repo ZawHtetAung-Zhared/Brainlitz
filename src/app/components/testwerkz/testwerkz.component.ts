@@ -345,8 +345,10 @@ export class TestwerkzComponent implements OnInit {
     if ($(window.getSelection().focusNode).children("img").length > 0) {
 
     if(event.type != "deleteContentBackward"){
-      this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
+      // this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
       // imgTag.attr('src','second.jpg');
+      this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+      this.getAllContent();
 
     }
   }
@@ -536,10 +538,32 @@ export class TestwerkzComponent implements OnInit {
     console.log('object');
     this.showSettingSidebar = false;
   }
+  caretPosition:any;
+  caretPos(){
+    this.caretPosition = window.getSelection().anchorOffset;
+    console.log("caretPosition",this.caretPosition);
+  }
   insertImg(){
     console.log(this.selectedImgArr);
+    console.log(this.caretPosition)
+    // document.execCommand("InsertImage", false, "http://placekitten.com/200/300");
+    document.getElementById("editor1").focus();
+    setTimeout(()=>{
+//       var as = document.getElementById("editable");
+//    var el=as.childNodes[1].childNodes[0];//goal is to get ('we') id to write (object Text)
+//   var range = document.createRange();
+//      var sel = window.getSelection();
+// range.setStart(el, 1);
+// range.collapse(true);
+// sel.removeAllRanges();
+// sel.addRange(range);
+      for(var i in this.selectedImgArr){
+        console.log(this.selectedImgArr[i].url,'img');
+        document.execCommand("InsertImage", false, this.selectedImgArr[i].url);
+      }
+    },100)
     this.cancelModal();
-    this.selectedImgArr=[];
+    // this.selectedImgArr=[];
   }
 
   onremoveClick(id){
