@@ -179,19 +179,19 @@
                 <div class="pd-header">
                   <span>{{i+1}}</span>
                   <medium-editor dragula="COLUMNS" [(editorModel)]="pd.pdName" #pdtag [editorOptions]="{'toolbar': {'buttons': ['bold', 'italic', 'underline', 'image']}}"
-                    (input)="onInput(content,$event,pdtag,'pd')"></medium-editor>
+                    (input)="onInput(imgModal,$event,pdtag,'pd')"></medium-editor>
                 </div>
                 <div class="pd-body">
                   <div *ngFor="let question of pd.question; let j = index">
                     <span>{{j+1}}</span>
 
                     <medium-editor [(editorModel)]="question.questionName" #questiontag (click)="onClickEditor(question)"
-                      [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(content,$event,questiontag,'question',j)"></medium-editor>
+                      [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(imgModal,$event,questiontag,'question',j)"></medium-editor>
                     <button (click)="addQuestion(i)">Add question</button>
                     <div *ngFor="let answer of question.answers;let k = index">
                       <div class="answer-wrapper">
                         <medium-editor [(editorModel)]="answer.answer" #answertag (click)="onClickEditor(answer)"
-                          [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(content,$event,answertag,'answer',j,k)"></medium-editor>
+                          [editorPlaceholder]="placeholderVar" [editorOptions]=toolBarOptions (input)="onInput(imgModal,$event,answertag,'answer',j,k)"></medium-editor>
                       </div>
                     </div>
                   </div>
@@ -199,6 +199,21 @@
               </div>
             </div> -->
                <!-- Thiha Soe UI End -->
+
+            <!-- test markdown -->
+            <fieldset>
+              <button class="fontStyle" onclick="document.execCommand('italic',false,null);" title="Italicize Highlighted Text"><i>I</i>
+              </button>
+              <button class="fontStyle" onclick="document.execCommand( 'bold',false,null);" title="Bold Highlighted Text"><b>B</b>
+              </button>
+              <button class="fontStyle" onclick="document.execCommand( 'underline',false,null);"><u>U</u>
+              </button>
+              <button type="button" class="btn btn-submit" (click)=openImgModal(imgModal)>Image Upload</button>
+              <button type="button" (click)="turn()">
+                turn
+              </button>
+            </fieldset>
+            <h2>Caret Position</h2>==>{{caretPosition}}
 
                <!-- Wai Yan UI Start -->
             <div *ngFor="let pd of concepts; let i = index">
@@ -209,41 +224,43 @@
                     <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
                     <span class="pd-No">1</span>
                   </div>
-                  <div class="pd-icon-wrapper bg-white align-items-center d-flex">
+                  <!-- <div class="pd-icon-wrapper bg-white align-items-center d-flex">
                     <img src="../../../assets/images/un-thunder-flash-w.png" alt="" class="flex-icon">
                     <span class="pd-No" style="color:#64707d;">1</span>
-                  </div>
+                  </div> -->
                   <div class="pd-name-input-wrapper">
-                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name">
+                    <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
+                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'')">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                   </div>
                 </div>
               <!-- for header End -->
 
-                <div class="pd-blog-wrapper d-flex">
-                  <div class="w-100 question-section d-flex">
+                <div class="pd-blog-wrapper">
+                  <div *ngFor="let question of pd.question; let j = index" class="w-100 question-section d-flex">
                     <div class="check-icon-wrapper align-items-center mt-3 d-flex">
                       <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
                       <span class="pd-No">1</span>
                     </div>  
-                    <div class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
+                    <!-- <div class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
                       <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
                       <span class="pd-No" style="color:#64707d;">1</span>
-                    </div>  
+                    </div>  --> 
                     <div class="pd-name-input-wrapper d-flex flex-column" style="width:90%; padding-left:20px;">
-                      <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea>
-                      <div class="d-flex" style="padding-top: 20px;">
+                      <div id="q-{{i}}{{j}}" contenteditable="true" (focus)="onFocus('question',i,j,'')"></div>
+                      <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
+                      <div class="d-flex" style="padding-top: 20px;" *ngFor="let answer of question.answers">
                         <label class="question-checkbox">
                             <input type="checkbox" checked="checked">
                             <span class="answer-checkmark"></span>
                           </label>
-                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice">
+                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')" (keydown)="onKeydown($event,i ,j)">
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="add-new-question">
-                  <p class="mb-0">Add new question</p>
+                  <p (click)="addQuestion(i)" class="mb-0">Add new question</p>
                 </div>
               </div>
             </div> 
@@ -259,7 +276,7 @@
         </div>
       </div>
       <!-- Note Setting Max-width = 256px -->
-      <div class="col-4 p-0 setting-sidebar" *ngIf="showSettingSidebar">
+      <div class="col-4 p-0 setting-sidebar" *ngIf="showSettingSidebar" [ngClass]="{'greater-than': greterThan,'less-than': lessThan,'forElse': forElse }">
         <div class="pt-2 d-flex flex-column">
           <div class="d-flex p-3">
             <div class="pd-icon-wrapper align-items-center d-flex">
@@ -349,7 +366,7 @@
             (mouseleave)="onImgMouseEvent($event,i)">
               <div id="cricle{{i}}"><i _ngcontent-c1="" class="fa fa-check" id="check{{i}}"></i></div>
               <div (click)="onremoveClick(imgArr._id)"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{i}}"></i></div>
-              <img src={{imgArr.url}} class="gShowImag">
+              <img src={{img.url}} class="gShowImag">
               <div class="Imgoverlay" id="Imgoverlay{{i}}"></div>
             </div>
 

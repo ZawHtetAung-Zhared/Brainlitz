@@ -8,8 +8,10 @@ import { appService } from '../../service/app.service';
 import { FileUploader } from 'ng2-file-upload';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { c } from "@angular/core/src/render3";
 // declare var upndown:any;
 var upndown = require("upndown");
+var TurndownService = require('turndown').default;
 
 
 
@@ -20,6 +22,9 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public greterThan = false;
+  public lessThan = false;
+  public forElse = false;
   public showSettingSidebar = true;
   public isGlobal = false;
   public modelType:any;
@@ -42,7 +47,7 @@ export class TestwerkzComponent implements OnInit {
   public testVar = "";
   public placeholderVar = "Enter Questions";
   public pd: pd = new pd();
-
+ 
   public concepts: any[];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
@@ -69,8 +74,30 @@ export class TestwerkzComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService,public toastr: ToastsManager) {}
+  public clickType: boolean=false;
+  public editableId:any = "";
+  public focusType = "";
 
   ngOnInit() {
+    var turndownService = new TurndownService();
+    // for underline
+    // turndownService.addRule('Tada', {
+    //   filter:'u',
+    //   replacement: function (content) {
+    //     return '~' + content + '~'
+    //   }
+    // })
+
+    // for div
+    turndownService.addRule('Tada', {
+      filter:'div',
+      replacement: function (content) {
+        return  content + ''
+      }
+    })
+    // console.warn(turndownService.turndown('Which process used by plants and other organisms to convert light energy <div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>'));
+    var a = turndownService.turndown('Which process used by plants and other organisms to convert light energy into chemical energy<div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>')
+    // console.error(typeof a)
     if(window.innerWidth > 1366){
       this.classCreate = true;
     }
@@ -134,17 +161,26 @@ export class TestwerkzComponent implements OnInit {
     }
     if (window.pageYOffset > 81) {      
       $('.setting-sidebar').css({top: 65}) 
+       this.greterThan = true;
+       this.lessThan = false;
+       this.forElse = false;
     }
     else if(window.pageYOffset < 0){
+      this.greterThan = false;
+      this.lessThan = true;
+      this.forElse = false;
       $('.setting-sidebar').css({top: 165}) 
     } else {   
+      this.greterThan = false;
+      this.lessThan = false;
+      this.forElse = true;
       $('.setting-sidebar').css({top: 165}) 
     }
   }
 
   //get html tag in div
   turn(){
-    var myDiv = document.getElementById('editor1');
+    var myDiv = document.getElementById('pd-0');
     console.log("myD",myDiv.innerHTML)
   }
   
@@ -223,6 +259,7 @@ export class TestwerkzComponent implements OnInit {
     console.log("blur", e);
     let wp = this.wordLength;
     $('.limit-type-wordcount').hide('slow');
+    $('.limit-word').hide('slow');
     this.wordLength = 0;
   }
   changeMethod(val: string) {
@@ -306,7 +343,14 @@ export class TestwerkzComponent implements OnInit {
     // var toHtml = $(t).children('medium-editor-element')[0].innerHTML;
     // console.log(toHtml)
   }
-
+  onKeydown(e,i ,j){
+    console.warn(this.concepts);
+    if(e.key === 'Enter'){
+      this.concepts[i].question[j].answers.push({
+        answer: ""
+      })
+    }
+  }
   addQuestion(j) {
     console.log("add querstion");
     console.log(this.concepts[j].question);
@@ -349,8 +393,10 @@ export class TestwerkzComponent implements OnInit {
     if ($(window.getSelection().focusNode).children("img").length > 0) {
 
     if(event.type != "deleteContentBackward"){
-      this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
+      // this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
       // imgTag.attr('src','second.jpg');
+      this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+      this.getAllContent();
 
     }
   }
@@ -441,7 +487,7 @@ export class TestwerkzComponent implements OnInit {
  getAllContent(){
    this.ImgArr=[];
    this.blockUI.start('Loading...');
-  this._service.getContent(this.regionID)
+   this._service.getContent(this.regionID)
     .subscribe((res: any) => {
       this.contentArr=res;
       
@@ -450,6 +496,7 @@ export class TestwerkzComponent implements OnInit {
           this.ImgArr.push(res[i]);
         }
       }
+      console.log(this.ImgArr)
       this.tempContentArr=this.ImgArr;
       this.blockUI.stop();
     }, err => {
@@ -458,6 +505,7 @@ export class TestwerkzComponent implements OnInit {
  }
   cancelModal() {
     this.modalReference.close();
+    this.selectedImgArr = [];
   }
   
   //image upload
@@ -546,16 +594,70 @@ export class TestwerkzComponent implements OnInit {
   }
 
   showSetting(){
+    if (window.pageYOffset > 81) {      
+       this.greterThan = true;
+       this.lessThan = false;
+       this.forElse = false;
+    }
+    else if(window.pageYOffset < 0){
+      this.greterThan = false;
+      this.lessThan = true;
+      this.forElse = false;
+    } else {   
+      this.greterThan = false;
+      this.lessThan = false;
+      this.forElse = true;
+    }
     this.showSettingSidebar = true;
   }
   closeSetting(){
     console.log('object');
     this.showSettingSidebar = false;
   }
+  // caretPosition:any;
+  // caretPos(){
+  //   this.caretPosition = window.getSelection().anchorOffset;
+  //   console.log("caretPosition",this.caretPosition);
+  // }
+//   insertImg(){
+//     console.log(this.selectedImgArr);
+//     console.log(this.caretPosition)
+//     // document.execCommand("InsertImage", false, "http://placekitten.com/200/300");
+//     document.getElementById("editor1").focus();
+//     setTimeout(()=>{
+// //       var as = document.getElementById("editable");
+// //    var el=as.childNodes[1].childNodes[0];//goal is to get ('we') id to write (object Text)
+// //   var range = document.createRange();
+// //      var sel = window.getSelection();
+// // range.setStart(el, 1);
+// // range.collapse(true);
+// // sel.removeAllRanges();
+// // sel.addRange(range);
+//       for(var i in this.selectedImgArr){
+//         console.log(this.selectedImgArr[i].url,'img');
+//         document.execCommand("InsertImage", false, this.selectedImgArr[i].url);
+//       }
+//     },100)
+//     this.cancelModal();
+//     // this.selectedImgArr=[];
+//   }
+
   insertImg(){
-    console.log(this.selectedImgArr);
-    this.cancelModal();
-    this.selectedImgArr=[];
+     console.log(this.selectedImgArr);
+     console.log("editableID",this.editableId)
+     var e = document.getElementById(this.editableId);
+     e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
+     var k = document.getElementById("img"+this.editableId);
+     for(var i in this.selectedImgArr){
+       console.log(this.selectedImgArr[i].url,'img');
+       var url = this.selectedImgArr[i].url;
+       console.log(url)
+       // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+       k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
+     }
+     // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
+     // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
+     this.cancelModal();
   }
 
   onremoveClick(id){
@@ -576,11 +678,15 @@ export class TestwerkzComponent implements OnInit {
     });
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
-  
+
+  onFocus(type,idx1,idx2){
+    this.editableId = "";
+    this.focusType = type;
+    if(type == 'question'){
+      this.editableId = 'q'+'-'+idx1+idx2;
+      console.log(this.editableId)
+    }
+    
+  }
+
 }
-
-
-
-      
-  // image upload modal 
- 
