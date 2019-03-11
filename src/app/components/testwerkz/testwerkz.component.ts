@@ -628,7 +628,7 @@ export class TestwerkzComponent implements OnInit {
        var url = this.selectedImgArr[i].url;
        console.log(url)
        // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
-       k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="'+url+'"></img></div></div>');
+       k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
      }
      // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
      // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
