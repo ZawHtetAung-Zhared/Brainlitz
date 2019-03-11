@@ -8,6 +8,7 @@ import { appService } from '../../service/app.service';
 import { FileUploader } from 'ng2-file-upload';
 // declare var upndown:any;
 var upndown = require("upndown");
+var TurndownService = require('turndown').default;
 
 
 
