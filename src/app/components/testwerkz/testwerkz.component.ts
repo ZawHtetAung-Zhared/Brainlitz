@@ -69,6 +69,8 @@ export class TestwerkzComponent implements OnInit {
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
   public clickType: boolean=false;
+  public editableId:any = "";
+  public focusType = "";
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
 
   ngOnInit() {
@@ -173,7 +175,7 @@ export class TestwerkzComponent implements OnInit {
 
   //get html tag in div
   turn(){
-    var myDiv = document.getElementById('editor1');
+    var myDiv = document.getElementById('pd-0');
     console.log("myD",myDiv.innerHTML)
   }
   
@@ -379,8 +381,10 @@ export class TestwerkzComponent implements OnInit {
     if ($(window.getSelection().focusNode).children("img").length > 0) {
 
     if(event.type != "deleteContentBackward"){
-      this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
+      // this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
       // imgTag.attr('src','second.jpg');
+      this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+      this.getAllContent();
 
     }
   }
@@ -480,6 +484,7 @@ export class TestwerkzComponent implements OnInit {
  }
   cancelModal() {
     this.modalReference.close();
+    this.selectedImgArr = [];
   }
   
   //image upload
@@ -584,10 +589,50 @@ export class TestwerkzComponent implements OnInit {
     console.log('object');
     this.showSettingSidebar = false;
   }
+  // caretPosition:any;
+  // caretPos(){
+  //   this.caretPosition = window.getSelection().anchorOffset;
+  //   console.log("caretPosition",this.caretPosition);
+  // }
+//   insertImg(){
+//     console.log(this.selectedImgArr);
+//     console.log(this.caretPosition)
+//     // document.execCommand("InsertImage", false, "http://placekitten.com/200/300");
+//     document.getElementById("editor1").focus();
+//     setTimeout(()=>{
+// //       var as = document.getElementById("editable");
+// //    var el=as.childNodes[1].childNodes[0];//goal is to get ('we') id to write (object Text)
+// //   var range = document.createRange();
+// //      var sel = window.getSelection();
+// // range.setStart(el, 1);
+// // range.collapse(true);
+// // sel.removeAllRanges();
+// // sel.addRange(range);
+//       for(var i in this.selectedImgArr){
+//         console.log(this.selectedImgArr[i].url,'img');
+//         document.execCommand("InsertImage", false, this.selectedImgArr[i].url);
+//       }
+//     },100)
+//     this.cancelModal();
+//     // this.selectedImgArr=[];
+//   }
+
   insertImg(){
-    console.log(this.selectedImgArr);
-    this.cancelModal();
-    this.selectedImgArr=[];
+     console.log(this.selectedImgArr);
+     console.log("editableID",this.editableId)
+     var e = document.getElementById(this.editableId);
+     e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
+     var k = document.getElementById("img"+this.editableId);
+     for(var i in this.selectedImgArr){
+       console.log(this.selectedImgArr[i].url,'img');
+       var url = this.selectedImgArr[i].url;
+       console.log(url)
+       // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+       k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="'+url+'"></img></div></div>');
+     }
+     // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
+     // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
+     this.cancelModal();
   }
 
   onremoveClick(id){
@@ -605,11 +650,15 @@ export class TestwerkzComponent implements OnInit {
     });
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
+
+  onFocus(type,idx1,idx2){
+    this.editableId = "";
+    this.focusType = type;
+    if(type == 'question'){
+      this.editableId = 'q'+'-'+idx1+idx2;
+      console.log(this.editableId)
+    }
+    
+  }
   
 }
-
-
-
-      
-  // image upload modal 
- 
