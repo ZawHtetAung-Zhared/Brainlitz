@@ -5,7 +5,8 @@ export class pd{
            questionName : string;
            answers : [
                 {
-                    answer: string;
+                    answer: string,
+                    rightAnswer: false;
                 }
            ]
            

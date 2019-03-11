@@ -231,12 +231,12 @@
                     <img src="../../../assets/images/un-thunder-flash-w.png" alt="" class="flex-icon">
                     <span class="pd-No" style="color:#64707d;">1</span>
                   </div> -->
-                  <div class="pd-name-input-wrapper">
+                  <div class="pd-name-input-wrapper"> 
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
                     <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'','')">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                   </div>
-                </div>
+                </div> 
               <!-- for header End -->
 
                 <div class="pd-blog-wrapper">
@@ -245,6 +245,8 @@
                       <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
                       <span class="pd-No">{{j+1}}</span>
                     </div>  
+
+
                     <!-- <div class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
                       <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
                       <span class="pd-No" style="color:#64707d;">1</span>
@@ -259,12 +261,41 @@
                       </div>
                       <div id="q-{{i}}{{j}}" class="mt-3 question" contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'')"></div>
                       <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
-                      <div class="d-flex" style="padding-top: 20px;">
-                        <label class="question-checkbox">
+                      <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
+
+                        <!-- <label class="question-checkbox">
                             <input type="checkbox" checked="checked">
                             <span class="answer-checkmark"></span>
-                          </label>
-                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')">
+                          </label> -->
+
+
+                          <!-- <img src="{{ }}" alt=""> -->
+                           <div class="d-flex">
+                            <button (click)="openImgModal(imgModal,i,j)" >test</button>
+                            <div *ngIf="index == 0 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 0 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 1"><img src="../../../assets/img/answerIcon/bChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 2 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 2 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 3 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 3 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 4 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 4 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 5 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 5 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 6 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 6 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 7 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 7 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
+                            <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')" (keydown)="onKeydown($event,i ,j)">
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -275,6 +306,7 @@
               </div>
             </div> 
               <!-- Wai Yan UI End -->
+
             <div class="d-flex pl-3 mt-3">
               <p  (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
                 <span>+</span>
@@ -365,22 +397,20 @@
         </div>
         <div class="upload-btn-wrapper">
           <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
-          <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="onloadImg($event)" />
+          <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="onloadImg($event)" multiple/>
         </div>
       </div>
       <div class="d-flex flex-column gallery">
         <p class="g_title">Image gallery</p>
         <div class="row imgGp">
-          <div class="col-md-2 imgDiv" *ngFor="let imgArr of contentArr;let i=index;">
-            <div class="inner-imgDiv" (click)="onslectedImgDiv(i,imgArr)" id="img-{{i}}" (mouseenter)="onImgMouseEvent($event,i)"
+          <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr;let i=index;">
+            <div class="inner-imgDiv" (click)="onslectedImgDiv(i,img)" id="img-{{i}}" (mouseenter)="onImgMouseEvent($event,i)"
             (mouseleave)="onImgMouseEvent($event,i)">
               <div id="cricle{{i}}"><i _ngcontent-c1="" class="fa fa-check" id="check{{i}}"></i></div>
               <div (click)="onremoveClick(imgArr._id)"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{i}}"></i></div>
-              <img src={{imgArr.url}} class="gShowImag">
+              <img src={{img.url}} class="gShowImag">
               <div class="Imgoverlay" id="Imgoverlay{{i}}"></div>
             </div>
-
-
 
           </div>
 

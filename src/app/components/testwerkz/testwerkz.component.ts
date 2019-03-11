@@ -6,6 +6,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { appService } from '../../service/app.service';
 import { FileUploader } from 'ng2-file-upload';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { c } from "@angular/core/src/render3";
 // declare var upndown:any;
 var upndown = require("upndown");
@@ -45,7 +47,6 @@ export class TestwerkzComponent implements OnInit {
   public testVar = "";
   public placeholderVar = "Enter Questions";
   public pd: pd = new pd();
-
   public pdLists: any[];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
@@ -67,21 +68,25 @@ export class TestwerkzComponent implements OnInit {
   public tagsWerkzList = []
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
+  public ImgArr:any =[];
+  @BlockUI() blockUI: NgBlockUI;
+
+  constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService,public toastr: ToastsManager) {}
   public clickType: boolean=false;
   public editableId:any = "";
   public focusType = "";
-  constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
+  public focusPlace:any;
+
+
+
+// waiyan's code start
+
+public performanceDemands = [];
+// waiyan's code end
+
 
   ngOnInit() {
     var turndownService = new TurndownService();
-    // for underline
-    // turndownService.addRule('Tada', {
-    //   filter:'u',
-    //   replacement: function (content) {
-    //     return '~' + content + '~'
-    //   }
-    // })
-
     // for div
     turndownService.addRule('Tada', {
       filter:'div',
@@ -89,7 +94,6 @@ export class TestwerkzComponent implements OnInit {
         return  content + ''
       }
     })
-    // console.warn(turndownService.turndown('Which process used by plants and other organisms to convert light energy <div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>'));
     var a = turndownService.turndown('Which process used by plants and other organisms to convert light energy into chemical energy<div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>')
     // console.error(typeof a)
     // var a = turndownService.turndown('![](https://brainlitz-dev.s3.amazonaws.com/orgLogo/ClassWerkz.png)')
@@ -108,7 +112,8 @@ export class TestwerkzComponent implements OnInit {
             questionName: "",
             answers: [
               {
-                answer: ""
+                answer: "",
+                rightAnswer:false
               }
             ],
             rightAnswer: 0
@@ -125,7 +130,53 @@ export class TestwerkzComponent implements OnInit {
     // this.concepts[0].question[0].answers[1].answer = "answer1";
     // this.concepts[0].question[0].answers[2].answer = "answer4";
     // this.concepts[0].question[0].rightAnswer = 0;
+
     console.log(this.pdLists);
+
+    // waiyan's code start
+    this.performanceDemands = [
+      {
+        pdName: "",
+        question: [
+          {
+            "name": "string",
+            "description": "string",
+            "question": "string",
+            "allowedAttempts": 0,
+            "questionType": "MCQ-OPTION",
+            "viewType": "LIST",
+            "contents": [
+              {
+                "contentId": "string",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ],
+            "answers": [
+              {
+                "name": "string",
+                "answer": "string",
+                "imgUrl": "string",
+                "correctness": 0,
+                "contents": [
+                  {
+                    "contentId": "string",
+                    "sequence": 0,
+                    "start": 0,
+                    "end": 0,
+                    "playAt": "BEFORE"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    // waiyan's code end
+
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log("click");
@@ -196,7 +247,6 @@ export class TestwerkzComponent implements OnInit {
   createTagWerkz(item) {
     this.isfocus = !this.isfocus;
     console.log(item);
-    console.warn(this.tagWerkz);
     this._service.createTagWerkz(this.regionID,item)
     .subscribe((res:any) => {    
       console.log(res);
@@ -352,7 +402,41 @@ export class TestwerkzComponent implements OnInit {
     // var toHtml = $(t).children('medium-editor-element')[0].innerHTML;
     // console.log(toHtml)
   }
+  onKeydown(e,i ,j){
 
+    if(e.key === 'Enter'){
+      if(this.concepts[i].question[j].answers.length < 8 ){
+        this.concepts[i].question[j].answers.push({
+          answer: "",
+          rightAnswer:false
+        })
+        this.performanceDemands[i].question[j].answers.push(
+          {
+            "name": "string",
+            "answer": "string",
+            "imgUrl": "string",
+            "correctness": 0,
+            "contents": [
+              {
+                "contentId": "string",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ]
+          }
+        )
+      }
+    }
+  }
+  trueAnswer(i,j,index){
+    if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
+      this.performanceDemands[i].question[j].answers[index].correctness  = 100;
+    }else{
+      this.performanceDemands[i].question[j].answers[index].correctness = 0;
+    }
+  }
   addQuestion(j) {
     console.log("add querstion");
     console.log(this.pdLists[j].question);
@@ -365,7 +449,47 @@ export class TestwerkzComponent implements OnInit {
       ],
       rightAnswer: 0
     });
+
     console.log(this.pdLists[j]);
+
+    // waiyan's code start
+    this.performanceDemands[j].question.push(
+      {
+        "name": "string",
+        "description": "string",
+        "question": "string",
+        "allowedAttempts": 0,
+        "questionType": "MCQ-OPTION",
+        "viewType": "LIST",
+        "contents": [
+          {
+            "contentId": "string",
+            "sequence": 0,
+            "start": 0,
+            "end": 0,
+            "playAt": "BEFORE"
+          }
+        ],
+        "answers": [
+          {
+            "name": "string",
+            "answer": "string",
+            "imgUrl": "string",
+            "correctness": 0,
+            "contents": [
+              {
+                "contentId": "string",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ]
+          }
+        ]
+      }
+    )
+    // waiyan's code end
   }
   addPd() {
     this.pdLists.push({
@@ -487,11 +611,20 @@ export class TestwerkzComponent implements OnInit {
 
   //get all content
  getAllContent(){
-  this._service.getContent(this.regionID)
+   this.ImgArr=[];
+   this.blockUI.start('Loading...');
+   this._service.getContent(this.regionID)
     .subscribe((res: any) => {
       this.contentArr=res;
-      this.tempContentArr=res;
-      console.log(res)
+      
+      for(var i=0;i<res.length;i++){
+        if(res[i].type =='image/gif' || res[i].type=='image/png' || res[i].type=='image/jpeg'){
+          this.ImgArr.push(res[i]);
+        }
+      }
+      console.log(this.ImgArr)
+      this.tempContentArr=this.ImgArr;
+      this.blockUI.stop();
     }, err => {
       console.log(err)
     });
@@ -503,52 +636,57 @@ export class TestwerkzComponent implements OnInit {
   
   //image upload
   onloadImg(event){
-    const file = event.target.files[0]
-    console.log(file)
+    const file = event.target.files;
+
+  
+    this.blockUI.start('Loading...');
     this._service.loadImage(this.regionID, file)
       .subscribe((res: any) => {
         // this.contentArr=res.meta;
+        // this.toastr.success('Successfully Content Upload.');
         this.getAllContent();
+        console.log(res)
         setTimeout(() => {
           this.autoSelectedImg(res.meta);
-          console.log(res.meta)
         },300);
+        this.blockUI.stop();
       }, err => {
         console.log(err);
+        // this.toastr.error('Fail Content Upload.');
       });
     }
-    autoResize(e){
+    
+  autoResize(e){
       e.target.style.cssText = 'height:auto';
       e.target.style.height = e.target.scrollHeight + "px";
   }
 
   //autoselected img after img load
   autoSelectedImg(resturnobj){
-    
+    console.log(resturnobj)
+    console.log(this.tempContentArr)
     for(var i=0;i<resturnobj.length;i++){
       for(var j=0;j<this.tempContentArr.length;j++){
-        console.error(resturnobj[i]._id );
-        console.error(this.tempContentArr[j]._id);
-        console.log(resturnobj[i]._id == this.tempContentArr[j]._id);
+        console.log(resturnobj[i]._id == this.tempContentArr[j]._id)
+        console.log(resturnobj[i]._id)
+        console.log(this.tempContentArr[j]._id)
         if(resturnobj[i]._id == this.tempContentArr[j]._id){
           this.onslectedImgDiv(j,this.tempContentArr[j]);
           // break;
         }
       }
     }
-  
   }
+
   //mutiselect img
   onslectedImgDiv(i,img){
+    console.log(i,img);
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const circle: HTMLElement = document.getElementById('cricle'+i);
     const check: HTMLElement = document.getElementById('check'+i);
     const trash: HTMLElement = document.getElementById('trash'+i);
-    console.log(trash.style.cssText)
-    console.log(imgDiv.style.border)
-    if(trash.style.opacity == '1'){
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
 
-    }
     if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
       this.selectedImgArr.push(img);
       console.log(this.selectedImgArr);
@@ -559,6 +697,8 @@ export class TestwerkzComponent implements OnInit {
       imgDiv.setAttribute("style","border:none;");
       circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
       check.setAttribute("style","color:#ffffff00;");
+      trash.setAttribute("style","opacity: 0;")
+      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
       this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
       console.log(this.selectedImgArr);
     }
@@ -571,15 +711,13 @@ export class TestwerkzComponent implements OnInit {
     const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
     console.log(imgDiv.style.border)
     if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
-      this.clickType=true;
       trash.setAttribute("style","opacity: 1;");
       overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
     }else{
-      this.clickType=false;
       trash.setAttribute("style","opacity: 0;")
       overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
     }
-    console.log(e.type)
+    // console.log(e.type)
   }
 
   showSetting(){
@@ -650,10 +788,12 @@ export class TestwerkzComponent implements OnInit {
   }
 
   onremoveClick(id){
+    console.log(id)
     this._service.onDeleteContent(this.regionID,id)
     .subscribe((res: any) => {
       console.log(res)
       // this.contentArr=res.meta;
+       this.toastr.success('Successfully Content deleted.');
       this.getAllContent();
       setTimeout(() => {
         this.autoSelectedImg(res.meta);
@@ -661,10 +801,11 @@ export class TestwerkzComponent implements OnInit {
       },300);
     }, err => {
       console.log(err);
+      this.toastr.error('Fail Content deleted.');
     });
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
-  focusPlace:any;
+  
   onFocus(type,idx1,idx2,idx3){
     this.editableId = "";
     this.focusType = type;
@@ -682,9 +823,6 @@ export class TestwerkzComponent implements OnInit {
     }
     
   }
-
-
-
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
   //   if(e.target.parentNode != null){
@@ -707,5 +845,4 @@ export class TestwerkzComponent implements OnInit {
     this.pdLists = [];
     this.concept = {};
   }
-  
 }

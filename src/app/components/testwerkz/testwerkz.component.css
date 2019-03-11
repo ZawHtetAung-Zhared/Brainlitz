@@ -624,6 +624,7 @@ h3.category-h3 {
 }
 .answer-input{
   border: none;
+  padding-left: 16px;
 }
 .plus-sign{
   width: 32px;
@@ -979,7 +980,7 @@ p.g_title {
 .Imgoverlay {
   position: absolute;
   top: 0;
-  width: 132px;
+  width: 136px;
   height: 100%;
   background: rgba(0, 0, 0, 0);
   transition: background 0.5s ease;
