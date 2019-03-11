@@ -405,8 +405,8 @@ public performanceDemands = [];
   onKeydown(e,i ,j){
 
     if(e.key === 'Enter'){
-      if(this.concepts[i].question[j].answers.length < 8 ){
-        this.concepts[i].question[j].answers.push({
+      if(this.pdLists[i].question[j].answers.length < 8 ){
+        this.pdLists[i].question[j].answers.push({
           answer: "",
           rightAnswer:false
         })
