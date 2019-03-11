@@ -511,7 +511,8 @@ export class TestwerkzComponent implements OnInit {
   //image upload
   onloadImg(event){
     const file = event.target.files;
-    console.log(file)
+
+  
     this.blockUI.start('Loading...');
     this._service.loadImage(this.regionID, file)
       .subscribe((res: any) => {
