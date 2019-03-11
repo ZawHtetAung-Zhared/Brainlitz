@@ -107,7 +107,8 @@ export class TestwerkzComponent implements OnInit {
             questionName: "",
             answers: [
               {
-                answer: ""
+                answer: "",
+                rightAnswer:false
               }
             ],
             rightAnswer: 0
@@ -182,7 +183,6 @@ export class TestwerkzComponent implements OnInit {
   createTagWerkz(item) {
     this.isfocus = !this.isfocus;
     console.log(item);
-    console.warn(this.tagWerkz);
     this._service.createTagWerkz(this.regionID,item)
     .subscribe((res:any) => {    
       console.log(res);
@@ -339,11 +339,13 @@ export class TestwerkzComponent implements OnInit {
     // console.log(toHtml)
   }
   onKeydown(e,i ,j){
-    console.warn(this.concepts);
     if(e.key === 'Enter'){
-      this.concepts[i].question[j].answers.push({
-        answer: ""
-      })
+      if(this.concepts[i].question[j].answers.length < 8 ){
+        this.concepts[i].question[j].answers.push({
+          answer: "",
+          rightAnswer:false
+        })
+      }
     }
   }
   addQuestion(j) {
