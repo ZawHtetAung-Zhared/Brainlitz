@@ -46,7 +46,7 @@ export class TestwerkzComponent implements OnInit {
   public placeholderVar = "Enter Questions";
   public pd: pd = new pd();
 
-  public concepts: any[];
+  public pdLists: any[];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -63,8 +63,7 @@ export class TestwerkzComponent implements OnInit {
   public contentArr: any=[];
   public classCreate= false;
   public regionID = localStorage.getItem('regionId');
-  public concept = {
-  }
+  public concept = {};
   public tagsWerkzList = []
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
@@ -93,13 +92,15 @@ export class TestwerkzComponent implements OnInit {
     // console.warn(turndownService.turndown('Which process used by plants and other organisms to convert light energy <div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>'));
     var a = turndownService.turndown('Which process used by plants and other organisms to convert light energy into chemical energy<div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>')
     // console.error(typeof a)
+    // var a = turndownService.turndown('![](https://brainlitz-dev.s3.amazonaws.com/orgLogo/ClassWerkz.png)')
+    // console.log('a',a);
     if(window.innerWidth > 1366){
       this.classCreate = true;
     }
     if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    this.concepts = [
+    this.pdLists = [
       {
         pdName: "",
         question: [
@@ -115,8 +116,8 @@ export class TestwerkzComponent implements OnInit {
         ]
       }
     ];
-    for (var i = 0; i < this.concepts.length; i++) {
-      console.log(this.concepts[i]);
+    for (var i = 0; i < this.pdLists.length; i++) {
+      console.log(this.pdLists[i]);
     }
     // console.log(this.concepts[0].pdName="pdName")
     // this.concepts[0].question[0].questionName = "answerName";
@@ -124,11 +125,12 @@ export class TestwerkzComponent implements OnInit {
     // this.concepts[0].question[0].answers[1].answer = "answer1";
     // this.concepts[0].question[0].answers[2].answer = "answer4";
     // this.concepts[0].question[0].rightAnswer = 0;
-    console.log(this.concepts);
+    console.log(this.pdLists);
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log("click");
     console.log($event);
+
   }
   
 
@@ -175,8 +177,20 @@ export class TestwerkzComponent implements OnInit {
 
   //get html tag in div
   turn(){
-    var myDiv = document.getElementById('pd-0');
+    var myDiv = document.getElementById('q-00');
     console.log("myD",myDiv.innerHTML)
+    setTimeout(()=>{
+      var turndownService = new TurndownService();
+      turndownService.addRule('Tada', {
+        filter:'div',
+        replacement: function (content) {
+          return  content + ''
+        }
+      })
+      var a = turndownService.turndown(myDiv);
+      console.log("turn to markdown",a)
+    },200)
+    
   }
   
   createTagWerkz(item) {
@@ -312,7 +326,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log(t.children('medium-editor-element'))
     if (e.inputType == "insertParagraph") {
       console.log("ddfdfdfdfdfdfdf");
-      this.concepts[i].question[j].answers.push({ answer: "" });
+      this.pdLists[i].question[j].answers.push({ answer: "" });
     } else {
       var toChild = $(t).children();
       var res = "";
@@ -341,8 +355,8 @@ export class TestwerkzComponent implements OnInit {
 
   addQuestion(j) {
     console.log("add querstion");
-    console.log(this.concepts[j].question);
-    this.concepts[j].question.push({
+    console.log(this.pdLists[j].question);
+    this.pdLists[j].question.push({
       questionName: "",
       answers: [
         {
@@ -351,10 +365,10 @@ export class TestwerkzComponent implements OnInit {
       ],
       rightAnswer: 0
     });
-    console.log(this.concepts[j]);
+    console.log(this.pdLists[j]);
   }
   addPd() {
-    this.concepts.push({
+    this.pdLists.push({
       pdName: "",
       question: [
         {
@@ -368,7 +382,7 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     });
-    console.log(this.concepts);
+    console.log(this.pdLists);
   }
 
   onClickEditor(t) {}
@@ -415,7 +429,7 @@ export class TestwerkzComponent implements OnInit {
     // }
     if (event.inputType == "insertParagraph") {
       if (type == "answer") {
-        this.concepts[i].question[j].answers.push({ answer: "" });
+        this.pdLists[i].question[j].answers.push({ answer: "" });
       }
 
     }
@@ -650,15 +664,48 @@ export class TestwerkzComponent implements OnInit {
     });
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
-
-  onFocus(type,idx1,idx2){
+  focusPlace:any;
+  onFocus(type,idx1,idx2,idx3){
     this.editableId = "";
     this.focusType = type;
-    if(type == 'question'){
-      this.editableId = 'q'+'-'+idx1+idx2;
-      console.log(this.editableId)
+    switch (type) {
+      case "pd":
+        this.focusPlace = 'pd' + idx1;
+        break;
+      case "question":
+        this.focusPlace = 'q' + idx1 + idx2;
+        this.editableId = 'q'+'-'+idx1+idx2;
+        console.log(this.editableId)
+        break;
+      case "answer":
+        this.focusPlace = 'a' + idx1 + idx2 + idx3;
     }
     
+  }
+
+
+
+  // closeDropdown(e,type){
+  //   var divToHide = document.getElementById(this.editableId);
+  //   if(e.target.parentNode != null){
+  //     console.log("~~~hide tooltip");
+  //     if(e.target.parentNode.id != divToHide){
+  //       console.log("not same")
+  //       this.focusPlace = '';
+  //     }
+  //   }
+  // }
+
+  // focusoutMethod(){
+  //   console.log("~~~focusOut");
+  // }
+
+  cancelConcept(){
+    this.conceptCreate = false;
+    this.testWerkzCategory =false;
+    this.conceptList = true;
+    this.pdLists = [];
+    this.concept = {};
   }
   
 }
