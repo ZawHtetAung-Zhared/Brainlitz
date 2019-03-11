@@ -1,3 +1,12 @@
+.greater-than{
+  top: 65px;
+}
+.less-than{
+  top: 165px;
+}
+.forElse{
+  top: 165px;
+}
 .btn-create {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   color: #fff;

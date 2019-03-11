@@ -6,6 +6,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { appService } from '../../service/app.service';
 import { FileUploader } from 'ng2-file-upload';
+import { c } from "@angular/core/src/render3";
 // declare var upndown:any;
 var upndown = require("upndown");
 var TurndownService = require('turndown').default;
@@ -19,6 +20,9 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public greterThan = false;
+  public lessThan = false;
+  public forElse = false;
   public showSettingSidebar = true;
   public isGlobal = false;
   public modelType:any;
@@ -67,6 +71,25 @@ export class TestwerkzComponent implements OnInit {
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
 
   ngOnInit() {
+    var turndownService = new TurndownService();
+    // for underline
+    // turndownService.addRule('Tada', {
+    //   filter:'u',
+    //   replacement: function (content) {
+    //     return '~' + content + '~'
+    //   }
+    // })
+
+    // for div
+    turndownService.addRule('Tada', {
+      filter:'div',
+      replacement: function (content) {
+        return  content + ''
+      }
+    })
+    // console.warn(turndownService.turndown('Which process used by plants and other organisms to convert light energy <div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>'));
+    var a = turndownService.turndown('Which process used by plants and other organisms to convert light energy into chemical energy<div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>')
+    // console.error(typeof a)
     if(window.innerWidth > 1366){
       this.classCreate = true;
     }
@@ -130,10 +153,19 @@ export class TestwerkzComponent implements OnInit {
     }
     if (window.pageYOffset > 81) {      
       $('.setting-sidebar').css({top: 65}) 
+       this.greterThan = true;
+       this.lessThan = false;
+       this.forElse = false;
     }
     else if(window.pageYOffset < 0){
+      this.greterThan = false;
+      this.lessThan = true;
+      this.forElse = false;
       $('.setting-sidebar').css({top: 165}) 
     } else {   
+      this.greterThan = false;
+      this.lessThan = false;
+      this.forElse = true;
       $('.setting-sidebar').css({top: 165}) 
     }
   }
@@ -212,6 +244,7 @@ export class TestwerkzComponent implements OnInit {
     console.log("blur", e);
     let wp = this.wordLength;
     $('.limit-type-wordcount').hide('slow');
+    $('.limit-word').hide('slow');
     this.wordLength = 0;
   }
   changeMethod(val: string) {
@@ -495,6 +528,20 @@ export class TestwerkzComponent implements OnInit {
     
   }
   showSetting(){
+    if (window.pageYOffset > 81) {      
+       this.greterThan = true;
+       this.lessThan = false;
+       this.forElse = false;
+    }
+    else if(window.pageYOffset < 0){
+      this.greterThan = false;
+      this.lessThan = true;
+      this.forElse = false;
+    } else {   
+      this.greterThan = false;
+      this.lessThan = false;
+      this.forElse = true;
+    }
     this.showSettingSidebar = true;
   }
   closeSetting(){
