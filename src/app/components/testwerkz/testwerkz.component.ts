@@ -78,16 +78,16 @@ export class TestwerkzComponent implements OnInit {
   public editableId:any = "";
   public focusType = "";
 
+
+
+// waiyan's code start
+
+public performanceDemands = [];
+// waiyan's code end
+
+
   ngOnInit() {
     var turndownService = new TurndownService();
-    // for underline
-    // turndownService.addRule('Tada', {
-    //   filter:'u',
-    //   replacement: function (content) {
-    //     return '~' + content + '~'
-    //   }
-    // })
-
     // for div
     turndownService.addRule('Tada', {
       filter:'div',
@@ -95,7 +95,6 @@ export class TestwerkzComponent implements OnInit {
         return  content + ''
       }
     })
-    // console.warn(turndownService.turndown('Which process used by plants and other organisms to convert light energy <div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>'));
     var a = turndownService.turndown('Which process used by plants and other organisms to convert light energy into chemical energy<div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>')
     // console.error(typeof a)
     if(window.innerWidth > 1366){
@@ -112,7 +111,8 @@ export class TestwerkzComponent implements OnInit {
             questionName: "",
             answers: [
               {
-                answer: ""
+                answer: "",
+                rightAnswer:false
               }
             ],
             rightAnswer: 0
@@ -130,6 +130,50 @@ export class TestwerkzComponent implements OnInit {
     // this.concepts[0].question[0].answers[2].answer = "answer4";
     // this.concepts[0].question[0].rightAnswer = 0;
     console.log(this.concepts);
+
+    // waiyan's code start
+    this.performanceDemands = [
+      {
+        pdName: "",
+        question: [
+          {
+            "name": "string",
+            "description": "string",
+            "question": "string",
+            "allowedAttempts": 0,
+            "questionType": "MCQ-OPTION",
+            "viewType": "LIST",
+            "contents": [
+              {
+                "contentId": "string",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ],
+            "answers": [
+              {
+                "name": "string",
+                "answer": "string",
+                "imgUrl": "string",
+                "correctness": 0,
+                "contents": [
+                  {
+                    "contentId": "string",
+                    "sequence": 0,
+                    "start": 0,
+                    "end": 0,
+                    "playAt": "BEFORE"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    // waiyan's code end
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log("click");
@@ -187,7 +231,6 @@ export class TestwerkzComponent implements OnInit {
   createTagWerkz(item) {
     this.isfocus = !this.isfocus;
     console.log(item);
-    console.warn(this.tagWerkz);
     this._service.createTagWerkz(this.regionID,item)
     .subscribe((res:any) => {    
       console.log(res);
@@ -344,11 +387,38 @@ export class TestwerkzComponent implements OnInit {
     // console.log(toHtml)
   }
   onKeydown(e,i ,j){
-    console.warn(this.concepts);
+
     if(e.key === 'Enter'){
-      this.concepts[i].question[j].answers.push({
-        answer: ""
-      })
+      if(this.concepts[i].question[j].answers.length < 8 ){
+        this.concepts[i].question[j].answers.push({
+          answer: "",
+          rightAnswer:false
+        })
+        this.performanceDemands[i].question[j].answers.push(
+          {
+            "name": "string",
+            "answer": "string",
+            "imgUrl": "string",
+            "correctness": 0,
+            "contents": [
+              {
+                "contentId": "string",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ]
+          }
+        )
+      }
+    }
+  }
+  trueAnswer(i,j,index){
+    if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
+      this.performanceDemands[i].question[j].answers[index].correctness  = 100;
+    }else{
+      this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
   }
   addQuestion(j) {
@@ -364,6 +434,45 @@ export class TestwerkzComponent implements OnInit {
       rightAnswer: 0
     });
     console.log(this.concepts[j]);
+
+    // waiyan's code start
+    this.performanceDemands[j].question.push(
+      {
+        "name": "string",
+        "description": "string",
+        "question": "string",
+        "allowedAttempts": 0,
+        "questionType": "MCQ-OPTION",
+        "viewType": "LIST",
+        "contents": [
+          {
+            "contentId": "string",
+            "sequence": 0,
+            "start": 0,
+            "end": 0,
+            "playAt": "BEFORE"
+          }
+        ],
+        "answers": [
+          {
+            "name": "string",
+            "answer": "string",
+            "imgUrl": "string",
+            "correctness": 0,
+            "contents": [
+              {
+                "contentId": "string",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ]
+          }
+        ]
+      }
+    )
+    // waiyan's code end
   }
   addPd() {
     this.concepts.push({
