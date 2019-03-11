@@ -259,7 +259,7 @@
         </div>
       </div>
       <!-- Note Setting Max-width = 256px -->
-      <div class="col-4 p-0 setting-sidebar" *ngIf="showSettingSidebar">
+      <div class="col-4 p-0 setting-sidebar" *ngIf="showSettingSidebar" [ngClass]="{'greater-than': greterThan,'less-than': lessThan,'forElse': forElse }">
         <div class="pt-2 d-flex flex-column">
           <div class="d-flex p-3">
             <div class="pd-icon-wrapper align-items-center d-flex">
