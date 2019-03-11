@@ -249,12 +249,12 @@
                     <div class="pd-name-input-wrapper d-flex flex-column" style="width:90%; padding-left:20px;">
                       <div id="q-{{i}}{{j}}" contenteditable="true" (focus)="onFocus('question',i,j,'')"></div>
                       <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
-                      <div class="d-flex" style="padding-top: 20px;">
+                      <div class="d-flex" style="padding-top: 20px;" *ngFor="let answer of question.answers">
                         <label class="question-checkbox">
                             <input type="checkbox" checked="checked">
                             <span class="answer-checkmark"></span>
                           </label>
-                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')">
+                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')" (keydown)="onKeydown($event,i ,j)">
                       </div>
                     </div>
                   </div>

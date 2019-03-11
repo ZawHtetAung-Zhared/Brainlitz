@@ -338,7 +338,14 @@ export class TestwerkzComponent implements OnInit {
     // var toHtml = $(t).children('medium-editor-element')[0].innerHTML;
     // console.log(toHtml)
   }
-
+  onKeydown(e,i ,j){
+    console.warn(this.concepts);
+    if(e.key === 'Enter'){
+      this.concepts[i].question[j].answers.push({
+        answer: ""
+      })
+    }
+  }
   addQuestion(j) {
     console.log("add querstion");
     console.log(this.concepts[j].question);
@@ -660,5 +667,5 @@ export class TestwerkzComponent implements OnInit {
     }
     
   }
-  
+
 }
