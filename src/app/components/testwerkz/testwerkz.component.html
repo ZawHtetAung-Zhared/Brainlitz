@@ -217,23 +217,23 @@
 
                <!-- Wai Yan UI Start -->
             <div *ngFor="let pd of concepts; let i = index">
-              <div class="d-flex flex-column pd-blog mb-2" (click)=showSetting()>
+              <div class="d-flex flex-column pd-blog mb-2" (click)=showSetting()> 
                 <!-- for header start -->
                 <div class="pd-name-wrapper d-flex container align-items-center">
                   <div class="pd-icon-wrapper align-items-center d-flex">
                     <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
                     <span class="pd-No">1</span>
-                  </div>
+                  </div> 
                   <!-- <div class="pd-icon-wrapper bg-white align-items-center d-flex">
                     <img src="../../../assets/images/un-thunder-flash-w.png" alt="" class="flex-icon">
                     <span class="pd-No" style="color:#64707d;">1</span>
                   </div> -->
-                  <div class="pd-name-input-wrapper">
+                  <div class="pd-name-input-wrapper"> 
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
-                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'')">
+                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'')"> 
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                   </div>
-                </div>
+                </div> 
               <!-- for header End -->
 
                 <div class="pd-blog-wrapper">
@@ -242,21 +242,26 @@
                       <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
                       <span class="pd-No">1</span>
                     </div>  
+
+
                     <!-- <div class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
                       <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
                       <span class="pd-No" style="color:#64707d;">1</span>
                     </div>  --> 
+
                     <div class="pd-name-input-wrapper d-flex flex-column" style="width:90%; padding-left:20px;">
-                      <div id="q-{{i}}{{j}}" contenteditable="true" (focus)="onFocus('question',i,j,'')"></div>
+                      <div id="q-{{i}}{{j}}" contenteditable="true" (focus)="onFocus('question',i,j,'')"></div>  
                       <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
-                      <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">
+                      <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
+
                         <!-- <label class="question-checkbox">
                             <input type="checkbox" checked="checked">
                             <span class="answer-checkmark"></span>
                           </label> -->
 
+
                           <!-- <img src="{{ }}" alt=""> -->
-                          <div class="d-flex">
+                           <div class="d-flex">
                             <button (click)="openImgModal(imgModal,i,j)" >test</button>
                             <div *ngIf="index == 0 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
                             <div *ngIf="index == 0 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
@@ -292,6 +297,7 @@
               </div>
             </div> 
               <!-- Wai Yan UI End -->
+
             <div class="d-flex pl-3 mt-3">
               <p  (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
                 <span>+</span>

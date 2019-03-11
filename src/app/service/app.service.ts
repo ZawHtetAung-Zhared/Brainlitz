@@ -2231,7 +2231,7 @@ export class appService{
       }) 
     }
 
-    loadImage(regionId: string,file : File): Observable<any>{
+    loadImage(regionId: string,file : any): Observable<any>{
       let url = this.baseUrl+ '/' + regionId + '/contents';
       let form = new FormData();
       form.append('file', file );
