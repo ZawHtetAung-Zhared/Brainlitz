@@ -6,6 +6,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { appService } from '../../service/app.service';
 import { FileUploader } from 'ng2-file-upload';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 // declare var upndown:any;
 var upndown = require("upndown");
 
@@ -63,8 +65,10 @@ export class TestwerkzComponent implements OnInit {
   public tagsWerkzList = []
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
-  public clickType: boolean=false;
-  constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
+  public ImgArr:any =[];
+  @BlockUI() blockUI: NgBlockUI;
+
+  constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService,public toastr: ToastsManager) {}
 
   ngOnInit() {
     if(window.innerWidth > 1366){
@@ -435,11 +439,19 @@ export class TestwerkzComponent implements OnInit {
 
   //get all content
  getAllContent(){
+   this.ImgArr=[];
+   this.blockUI.start('Loading...');
   this._service.getContent(this.regionID)
     .subscribe((res: any) => {
       this.contentArr=res;
-      this.tempContentArr=res;
-      console.log(res)
+      
+      for(var i=0;i<res.length;i++){
+        if(res[i].type =='image/gif' || res[i].type=='image/png' || res[i].type=='image/jpeg'){
+          this.ImgArr.push(res[i]);
+        }
+      }
+      this.tempContentArr=this.ImgArr;
+      this.blockUI.stop();
     }, err => {
       console.log(err)
     });
@@ -450,52 +462,56 @@ export class TestwerkzComponent implements OnInit {
   
   //image upload
   onloadImg(event){
-    const file = event.target.files[0]
+    const file = event.target.files;
     console.log(file)
+    this.blockUI.start('Loading...');
     this._service.loadImage(this.regionID, file)
       .subscribe((res: any) => {
         // this.contentArr=res.meta;
+        // this.toastr.success('Successfully Content Upload.');
         this.getAllContent();
+        console.log(res)
         setTimeout(() => {
           this.autoSelectedImg(res.meta);
-          console.log(res.meta)
         },300);
+        this.blockUI.stop();
       }, err => {
         console.log(err);
+        // this.toastr.error('Fail Content Upload.');
       });
     }
-    autoResize(e){
+    
+  autoResize(e){
       e.target.style.cssText = 'height:auto';
       e.target.style.height = e.target.scrollHeight + "px";
   }
 
   //autoselected img after img load
   autoSelectedImg(resturnobj){
-    
+    console.log(resturnobj)
+    console.log(this.tempContentArr)
     for(var i=0;i<resturnobj.length;i++){
       for(var j=0;j<this.tempContentArr.length;j++){
-        console.error(resturnobj[i]._id );
-        console.error(this.tempContentArr[j]._id);
-        console.log(resturnobj[i]._id == this.tempContentArr[j]._id);
+        console.log(resturnobj[i]._id == this.tempContentArr[j]._id)
+        console.log(resturnobj[i]._id)
+        console.log(this.tempContentArr[j]._id)
         if(resturnobj[i]._id == this.tempContentArr[j]._id){
           this.onslectedImgDiv(j,this.tempContentArr[j]);
           // break;
         }
       }
     }
-  
   }
+
   //mutiselect img
   onslectedImgDiv(i,img){
+    console.log(i,img);
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const circle: HTMLElement = document.getElementById('cricle'+i);
     const check: HTMLElement = document.getElementById('check'+i);
     const trash: HTMLElement = document.getElementById('trash'+i);
-    console.log(trash.style.cssText)
-    console.log(imgDiv.style.border)
-    if(trash.style.opacity == '1'){
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
 
-    }
     if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
       this.selectedImgArr.push(img);
       console.log(this.selectedImgArr);
@@ -506,6 +522,8 @@ export class TestwerkzComponent implements OnInit {
       imgDiv.setAttribute("style","border:none;");
       circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
       check.setAttribute("style","color:#ffffff00;");
+      trash.setAttribute("style","opacity: 0;")
+      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
       this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
       console.log(this.selectedImgArr);
     }
@@ -518,15 +536,13 @@ export class TestwerkzComponent implements OnInit {
     const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
     console.log(imgDiv.style.border)
     if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
-      this.clickType=true;
       trash.setAttribute("style","opacity: 1;");
       overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
     }else{
-      this.clickType=false;
       trash.setAttribute("style","opacity: 0;")
       overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
     }
-    console.log(e.type)
+    // console.log(e.type)
   }
 
   showSetting(){
@@ -543,10 +559,12 @@ export class TestwerkzComponent implements OnInit {
   }
 
   onremoveClick(id){
+    console.log(id)
     this._service.onDeleteContent(this.regionID,id)
     .subscribe((res: any) => {
       console.log(res)
       // this.contentArr=res.meta;
+       this.toastr.success('Successfully Content deleted.');
       this.getAllContent();
       setTimeout(() => {
         this.autoSelectedImg(res.meta);
@@ -554,6 +572,7 @@ export class TestwerkzComponent implements OnInit {
       },300);
     }, err => {
       console.log(err);
+      this.toastr.error('Fail Content deleted.');
     });
     // this.onslectedImgDiv(i,img,"exitBorder");
   }

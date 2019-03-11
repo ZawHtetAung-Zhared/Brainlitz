@@ -344,16 +344,14 @@
       <div class="d-flex flex-column gallery">
         <p class="g_title">Image gallery</p>
         <div class="row imgGp">
-          <div class="col-md-2 imgDiv" *ngFor="let imgArr of contentArr;let i=index;">
-            <div class="inner-imgDiv" (click)="onslectedImgDiv(i,imgArr)" id="img-{{i}}" (mouseenter)="onImgMouseEvent($event,i)"
+          <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr;let i=index;">
+            <div class="inner-imgDiv" (click)="onslectedImgDiv(i,img)" id="img-{{i}}" (mouseenter)="onImgMouseEvent($event,i)"
             (mouseleave)="onImgMouseEvent($event,i)">
               <div id="cricle{{i}}"><i _ngcontent-c1="" class="fa fa-check" id="check{{i}}"></i></div>
               <div (click)="onremoveClick(imgArr._id)"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{i}}"></i></div>
               <img src={{imgArr.url}} class="gShowImag">
               <div class="Imgoverlay" id="Imgoverlay{{i}}"></div>
             </div>
-
-
 
           </div>
 

@@ -2231,10 +2231,10 @@ export class appService{
       }) 
     }
 
-    loadImage(regionId: string,file : File): Observable<any>{
+    loadImage(regionId: string,fileArr): Observable<any>{
       let url = this.baseUrl+ '/' + regionId + '/contents';
       let form = new FormData();
-      form.append('file', file );
+      form.append('file', fileArr);
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})

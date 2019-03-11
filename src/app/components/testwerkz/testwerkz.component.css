@@ -969,7 +969,7 @@ p.g_title {
 .Imgoverlay {
   position: absolute;
   top: 0;
-  width: 132px;
+  width: 136px;
   height: 100%;
   background: rgba(0, 0, 0, 0);
   transition: background 0.5s ease;
