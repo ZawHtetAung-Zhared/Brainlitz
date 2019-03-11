@@ -249,34 +249,39 @@
                     <div class="pd-name-input-wrapper d-flex flex-column" style="width:90%; padding-left:20px;">
                       <div id="q-{{i}}{{j}}" contenteditable="true" (focus)="onFocus('question',i,j,'')"></div>
                       <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
-                      <div class="d-flex" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">
+                      <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">
                         <!-- <label class="question-checkbox">
                             <input type="checkbox" checked="checked">
                             <span class="answer-checkmark"></span>
                           </label> -->
-                          <div *ngIf="index == 0 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
-                          <div *ngIf="index == 0 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
 
-                          <div *ngIf="index == 1"><img src="../../../assets/img/answerIcon/bChoice.svg" alt=""></div>
-
-                          <div *ngIf="index == 2 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
-                          <div *ngIf="index == 2 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
-
-                          <div *ngIf="index == 3 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
-                          <div *ngIf="index == 3 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
-
-                          <div *ngIf="index == 4 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
-                          <div *ngIf="index == 4 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
-
-                          <div *ngIf="index == 5 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
-                          <div *ngIf="index == 5 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
-
-                          <div *ngIf="index == 6 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
-                          <div *ngIf="index == 6 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
-
-                          <div *ngIf="index == 7 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
-                          <div *ngIf="index == 7 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
-                          <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')" (keydown)="onKeydown($event,i ,j)">
+                          <!-- <img src="{{ }}" alt=""> -->
+                          <div class="d-flex">
+                            <button (click)="openImgModal(imgModal,i,j)" >test</button>
+                            <div *ngIf="index == 0 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 0 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 1"><img src="../../../assets/img/answerIcon/bChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 2 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 2 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 3 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 3 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 4 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 4 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 5 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 5 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 6 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 6 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
+  
+                            <div *ngIf="index == 7 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 7 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
+                            <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')" (keydown)="onKeydown($event,i ,j)">
+                          </div>
                       </div>
                     </div>
                   </div>

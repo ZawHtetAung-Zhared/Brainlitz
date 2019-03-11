@@ -339,6 +339,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log(toHtml)
   }
   onKeydown(e,i ,j){
+
     if(e.key === 'Enter'){
       if(this.concepts[i].question[j].answers.length < 8 ){
         this.concepts[i].question[j].answers.push({
