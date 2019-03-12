@@ -221,7 +221,7 @@
                <!-- Wai Yan UI Start -->
             <!-- <div *ngFor="let pd of pdLists; let i = index"> -->
             <div *ngFor="let pd of performanceDemands; let i = index">
-              <div class="d-flex flex-column pd-blog mb-2" (click)=showSetting()>
+              <div class="d-flex flex-column pd-blog mb-2">
                 <!-- for header start -->
                 <div class="pd-name-wrapper d-flex container align-items-center">
                   <div *ngIf="this.focusPlace == ('pd'+i)" class="pd-icon-wrapper align-items-center d-flex">
@@ -233,6 +233,10 @@
                     <span class="pd-No" style="color:#64707d;">{{i+1}}</span>
                   </div>
                   <div class="pd-name-input-wrapper"> 
+                    <div class="answer-tooltip-wrap" *ngIf="this.focusPlace == ('pd'+i)">
+                      <button (click)=openImgModal(imgModal)><img src="assets/img/text-edit-image.png"></button>
+                      <div class="answer-carret-box"></div>
+                    </div>
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
                     <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'','')">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
@@ -374,6 +378,10 @@
               <input type="text" class="randomize-count" placeholder="0">
             </div>
           </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center delete-btnWrap">
+          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length>1" (click)="delete(focusType)">Delete</button>
+          <button *ngIf="(focusType.type == 'question' || focusType.type == 'answer') && performanceDemands[focusType.parentIdx].question.length>1" (click)="delete(focusType)">Delete</button>
         </div>
       </div>
     </div>

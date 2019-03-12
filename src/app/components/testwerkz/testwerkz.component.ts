@@ -28,7 +28,7 @@ export class TestwerkzComponent implements OnInit {
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
-  public showSettingSidebar = true;
+  public showSettingSidebar = false;
   public isGlobal = false;
   public modelType:any;
   public testWerkzCategory = false;
@@ -75,11 +75,12 @@ export class TestwerkzComponent implements OnInit {
   public imgId:any;
   public clickType: boolean=false;
   public editableId:any = "";
-  public focusType = {
-    'type': "",
-    'no': "",
-    'parentIdx': ""
-  };
+  // public focusType = {
+  //   'type': "",
+  //   'no': "",
+  //   'parentIdx': ""
+  // };
+  public focusType:any = {};
   public focusPlace:any;
   @BlockUI() blockUI: NgBlockUI;
 
@@ -141,50 +142,50 @@ public performanceDemands = [];
 
     console.log(this.pdLists);
 
-    // waiyan's code start
-    this.performanceDemands = [
-      {
-        pdName: "",
-        question: [
-          {
-            "name": "string",
-            "description": "string",
-            "question": "string",
-            "allowedAttempts": 0,
-            "questionType": "MCQ-OPTION",
-            "pickMultiple": false,
-            "viewType": "LIST",
-            "contents": [
-              {
-                "contentId": "string",
-                "sequence": 0,
-                "start": 0,
-                "end": 0,
-                "playAt": "BEFORE"
-              }
-            ],
-            "answers": [
-              {
-                "name": "string",
-                "answer": "string",
-                "imgUrl": "string",
-                "correctness": 0,
-                "contents": [
-                  {
-                    "contentId": "string",
-                    "sequence": 0,
-                    "start": 0,
-                    "end": 0,
-                    "playAt": "BEFORE"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-    // waiyan's code end
+    // // waiyan's code start
+    // this.performanceDemands = [
+    //   {
+    //     pdName: "",
+    //     question: [
+    //       {
+    //         "name": "string",
+    //         "description": "string",
+    //         "question": "string",
+    //         "allowedAttempts": 0,
+    //         "questionType": "MCQ-OPTION",
+    //         "pickMultiple": false,
+    //         "viewType": "LIST",
+    //         "contents": [
+    //           {
+    //             "contentId": "string",
+    //             "sequence": 0,
+    //             "start": 0,
+    //             "end": 0,
+    //             "playAt": "BEFORE"
+    //           }
+    //         ],
+    //         "answers": [
+    //           {
+    //             "name": "string",
+    //             "answer": "string",
+    //             "imgUrl": "string",
+    //             "correctness": 0,
+    //             "contents": [
+    //               {
+    //                 "contentId": "string",
+    //                 "sequence": 0,
+    //                 "start": 0,
+    //                 "end": 0,
+    //                 "playAt": "BEFORE"
+    //               }
+    //             ]
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // ]
+    // // waiyan's code end
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
@@ -272,6 +273,8 @@ public performanceDemands = [];
       this.testWerkzCategory = true
       this.conceptList = false;
       this.getAllTag();
+      this.addPd();
+      this.showSettingSidebar = false;
   }
 
   getAllTag(){
@@ -895,6 +898,7 @@ public performanceDemands = [];
     this.editableId = "";
     this.focusPlace = "";
     this.focusType.type = type;
+    this.showSetting();
     switch (type) {
       case "pd":
         this.focusPlace = 'pd' + idx1;
@@ -943,11 +947,28 @@ public performanceDemands = [];
     console.log(this.performanceDemands)
   }
 
+  delete(itemType){
+    console.log("delete type",itemType);
+    if(itemType.type == 'pd'){
+      if(this.performanceDemands.length>1){
+        this.performanceDemands.splice(itemType.no,1);
+      }
+    }else if(itemType.type == 'question' || itemType.type == 'answer'){
+      if(this.performanceDemands[itemType.parentIdx].question.length > 1){
+        this.performanceDemands[itemType.parentIdx].question.splice(itemType.no,1);
+      }
+    }
+    this.focusType = {};
+    this.showSettingSidebar = false;
+  }
+
   cancelConcept(){
     this.conceptCreate = false;
     this.testWerkzCategory =false;
     this.conceptList = true;
-    this.pdLists = [];
+    this.performanceDemands = [];
     this.concept = {};
+    this.focusType = {};
+    this.ischecked = ""
   }
 }
