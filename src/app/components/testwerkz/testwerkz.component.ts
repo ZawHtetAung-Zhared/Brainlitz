@@ -9,6 +9,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { c } from "@angular/core/src/render3";
+import { type } from "os";
 // declare var upndown:any;
 var upndown = require("upndown");
 var TurndownService = require('turndown').default;
@@ -69,6 +70,7 @@ export class TestwerkzComponent implements OnInit {
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
   public ImgArr:any =[];
+  public imgId:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService,public toastr: ToastsManager) {}
@@ -645,7 +647,7 @@ public performanceDemands = [];
 
   //open image modal
   openImgModal(content,type) {
-    console.log("open modal")
+    console.log("open modal>",type)
     this.modelType = type;
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
     this.getAllContent();
@@ -678,9 +680,8 @@ public performanceDemands = [];
   
   //image upload
   onloadImg(event){
+    console.log("dar")
     const file = event.target.files;
-
-  
     this.blockUI.start('Loading...');
     this._service.loadImage(this.regionID, file)
       .subscribe((res: any) => {
@@ -705,6 +706,7 @@ public performanceDemands = [];
 
   //autoselected img after img load
   autoSelectedImg(resturnobj){
+    console.log(this.selectedImgArr)
     console.log(resturnobj)
     console.log(this.tempContentArr)
     for(var i=0;i<resturnobj.length;i++){
@@ -723,29 +725,57 @@ public performanceDemands = [];
   //mutiselect img
   onslectedImgDiv(i,img){
     console.log(i,img);
+    console.log(this.modelType)
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const circle: HTMLElement = document.getElementById('cricle'+i);
     const check: HTMLElement = document.getElementById('check'+i);
     const trash: HTMLElement = document.getElementById('trash'+i);
     const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
+    if(this.modelType=="single"){
+       //add selected 
+       this.selectedImgArr=img;
+        imgDiv.setAttribute("style","border:solid;color:#007fff;");
+        circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+        check.setAttribute("style","color:white;");
 
-    if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
-      this.selectedImgArr.push(img);
-      console.log(this.selectedImgArr);
-      imgDiv.setAttribute("style","border:solid;color:#007fff;");
-      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
-      check.setAttribute("style","color:white;");
+        console.log(this.imgId)
+        //remove selected
+        if(this.imgId != undefined){
+          const imgDiv2: HTMLElement = document.getElementById('img-'+this.imgId);
+          const circle2: HTMLElement = document.getElementById('cricle'+this.imgId);
+          const check2: HTMLElement = document.getElementById('check'+this.imgId);
+          const trash2: HTMLElement = document.getElementById('trash'+this.imgId);
+          const overlay2: HTMLElement = document.getElementById('Imgoverlay'+this.imgId);
+          imgDiv2.setAttribute("style","border:none;");
+          circle2.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+          check2.setAttribute("style","color:#ffffff00;");
+          trash2.setAttribute("style","opacity: 0;")
+          overlay2.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+        }
+        console.log(this.imgId);
+        this.imgId=i;
+        
     }else{
-      imgDiv.setAttribute("style","border:none;");
-      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
-      check.setAttribute("style","color:#ffffff00;");
-      trash.setAttribute("style","opacity: 0;")
-      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
-      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
-      console.log(this.selectedImgArr);
+      if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
+        this.selectedImgArr.push(img);
+        console.log(this.selectedImgArr);
+        imgDiv.setAttribute("style","border:solid;color:#007fff;");
+        circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+        check.setAttribute("style","color:white;");
+      }else{
+        imgDiv.setAttribute("style","border:none;");
+        circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+        check.setAttribute("style","color:#ffffff00;");
+        trash.setAttribute("style","opacity: 0;")
+        overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+        this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
+        console.log(this.selectedImgArr);
+      }
     }
-    
+   
   }
+
+
 
   onImgMouseEvent(e,i){
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
