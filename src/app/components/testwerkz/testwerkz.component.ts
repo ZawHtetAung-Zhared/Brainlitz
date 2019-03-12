@@ -24,7 +24,6 @@ declare var $:any;
 })
 export class TestwerkzComponent implements OnInit {
   public answerTootips:any;
-  public answerTootipsOptions=false;
   public pdIndex :any;
   public questionIndex:any;
   public answerIndex:any;
@@ -671,7 +670,6 @@ public performanceDemands = [];
      this.pdIndex = i;
      this.questionIndex= j;
      this.answerIndex = index;
-     console.warn(this.pdIndex, this.questionIndex, this.answerIndex);
     this.modelType = type;
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
     this.getAllContent();
@@ -868,8 +866,8 @@ public performanceDemands = [];
   insertImg(){
      console.log(this.selectedImgArr);
      console.log("editableID",this.editableId)
-     this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
      if(this.editableId != ""){
+       console.log('question ===== insert img');
        var e = document.getElementById(this.editableId);
        e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
        var k = document.getElementById("img"+this.editableId);
@@ -881,6 +879,11 @@ public performanceDemands = [];
          k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
        }
      }   
+
+     if(this.modelType == 'single'){
+       console.log('answer === ');
+      this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
+     }
      // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
      // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
      this.cancelModal();
@@ -908,6 +911,7 @@ public performanceDemands = [];
   onFocus(type,idx1,idx2,idx3){
     this.editableId = "";
     this.focusPlace = "";
+    this.answerTootips = '';
     this.focusType.type = type;
     switch (type) {
       case "pd":
@@ -928,14 +932,13 @@ public performanceDemands = [];
         this.focusType.parentIdx = idx1
     }
     if(type  == 'answer'){
-      this.answerTootipsOptions = true;
+      // this.answerTootipsOptions = true;
       this.answerTootips = idx1 + idx2 + idx3;
     }
     
   }
   hideTooltip(){
-    // console.error('object');
-    // this.answerTootipsOptions =false;
+
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
@@ -953,7 +956,7 @@ public performanceDemands = [];
   // }
   pickMultipleAns(item){
     console.log(item);
-    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = true;
+    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
     console.log(this.performanceDemands)
   }
 
