@@ -104,26 +104,26 @@ public performanceDemands = [];
     if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    this.pdLists = [
-      {
-        pdName: "",
-        question: [
-          {
-            questionName: "",
-            answers: [
-              {
-                answer: "",
-                rightAnswer:false
-              }
-            ],
-            rightAnswer: 0
-          }
-        ]
-      }
-    ];
-    for (var i = 0; i < this.pdLists.length; i++) {
-      console.log(this.pdLists[i]);
-    }
+    // this.pdLists = [
+    //   {
+    //     pdName: "",
+    //     question: [
+    //       {
+    //         questionName: "",
+    //         answers: [
+    //           {
+    //             answer: "",
+    //             rightAnswer:false
+    //           }
+    //         ],
+    //         rightAnswer: 0
+    //       }
+    //     ]
+    //   }
+    // ];
+    // for (var i = 0; i < this.pdLists.length; i++) {
+    //   console.log(this.pdLists[i]);
+    // }
     // console.log(this.concepts[0].pdName="pdName")
     // this.concepts[0].question[0].questionName = "answerName";
     // this.concepts[0].question[0].answers[0].answer = "answer1";
@@ -439,18 +439,18 @@ public performanceDemands = [];
   }
   addQuestion(j) {
     console.log("add querstion");
-    console.log(this.pdLists[j].question);
-    this.pdLists[j].question.push({
-      questionName: "",
-      answers: [
-        {
-          answer: ""
-        }
-      ],
-      rightAnswer: 0
-    });
+    // console.log(this.pdLists[j].question);
+    // this.pdLists[j].question.push({
+    //   questionName: "",
+    //   answers: [
+    //     {
+    //       answer: ""
+    //     }
+    //   ],
+    //   rightAnswer: 0
+    // });
 
-    console.log(this.pdLists[j]);
+    // console.log(this.pdLists[j]);
 
     // waiyan's code start
     this.performanceDemands[j].question.push(
@@ -492,21 +492,21 @@ public performanceDemands = [];
     // waiyan's code end
   }
   addPd() {
-    this.pdLists.push({
-      pdName: "",
-      question: [
-        {
-          questionName: "",
-          answers: [
-            {
-              answer: ""
-            }
-          ],
-          rightAnswer: 0
-        }
-      ]
-    });
-    console.log(this.pdLists);
+    // this.pdLists.push({
+    //   pdName: "",
+    //   question: [
+    //     {
+    //       questionName: "",
+    //       answers: [
+    //         {
+    //           answer: ""
+    //         }
+    //       ],
+    //       rightAnswer: 0
+    //     }
+    //   ]
+    // });
+    // console.log(this.pdLists);
     this.performanceDemands.push(
       {
 
@@ -549,6 +549,7 @@ public performanceDemands = [];
         ]
       }
     )
+    console.log(this.performanceDemands);
   }
 
   onClickEditor(t) {}
