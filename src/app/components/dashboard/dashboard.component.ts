@@ -158,14 +158,14 @@ export class DashboardComponent implements OnInit {
   ngAfterViewInit() {
     // this.item.operatingHour = {
     //   'start':{
-    //     'hr':Number,
-    //     'min':Number,
-    //     "meridiem":String
+    //     'hr':0,
+    //     'min':0,
+    //     "meridiem":'AM'
     //   },
     //   'end':{
-    //     'hr':Number,
-    //     'min':Number,
-    //     "meridiem":String
+    //     'hr':0,
+    //     'min':0,
+    //     "meridiem":"PM"
     //   }
     // }
 
@@ -233,6 +233,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAdministrator() {
+    console.log("getAdministrator works")
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
     this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
@@ -242,10 +243,14 @@ export class DashboardComponent implements OnInit {
         this.item.name = res.name;
         this.item.timezone = res.timezone;
         this.item.url = res.url;
-
-        this.item.operatingHour = res.operatingHour;
+        if(res.operatingHour == undefined){
+          this.item.operatingHour.start = {hr: 0, min: 0, meridiem: "AM"};
+          this.item.operatingHour.end = {hr: 0, min: 0, meridiem: "PM"};
+        }else{
+          this.item.operatingHour = res.operatingHour;
+        }
         console.log('~~~', this.item)
-        localStorage.setItem('timezone', this.item.timezone)
+        localStorage.setItem('timezone', this.item.timezone);
         // let test=moment().tz("Singapore").format();
         // console.log(test)
         const offset = moment.tz("Asia/Singapore").utcOffset();
