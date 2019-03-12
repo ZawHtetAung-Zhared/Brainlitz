@@ -462,6 +462,7 @@ public performanceDemands = [];
       {
 
         pdName: "",
+        contentsArr: [],
         question: [
           {
             "name": "",
@@ -821,7 +822,10 @@ public performanceDemands = [];
        console.log('answer === ');
       this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
      }else{
-       console.log("pd Insert Img======")
+       console.log("pd Insert Img======");
+       this.performanceDemands[this.focusType.no].contentsArr = this.selectedImgArr;
+       console.log(this.performanceDemands[this.focusType.no])
+       
      }
      // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
      // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
