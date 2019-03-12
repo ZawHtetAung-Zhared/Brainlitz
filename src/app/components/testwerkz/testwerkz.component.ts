@@ -405,11 +405,12 @@ public performanceDemands = [];
   onKeydown(e,i ,j){
 
     if(e.key === 'Enter'){
-      if(this.pdLists[i].question[j].answers.length < 8 ){
-        this.pdLists[i].question[j].answers.push({
-          answer: "",
-          rightAnswer:false
-        })
+      if(this.performanceDemands[i].question[j].answers.length < 8 ){
+        // this.pdLists[i].question[j].answers.push({
+        //   answer: "",
+        //   rightAnswer:false
+        // })
+
         this.performanceDemands[i].question[j].answers.push(
           {
             "name": "string",
