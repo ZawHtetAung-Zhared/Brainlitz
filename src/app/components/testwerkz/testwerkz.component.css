@@ -1020,11 +1020,25 @@ p.g_title {
   z-index: 999;
   border-radius: 4px;
 }
+.answer-tooltip-wrap{
+  background: #2e3e4d;
+  width: 44px;
+  position: absolute;
+  z-index: 999;
+  left: 30px;
+  top: -36px;
+  border-radius: 4px;
+}
 
 .tooltip-wrap button{
   background: none;
   border: none;
   margin: 3px 0px;
+}
+.answer-tooltip-wrap button{
+  background: none;
+  border: none;
+  margin: 3px 3px;
 }
 
 .carret-box {
@@ -1035,6 +1049,16 @@ p.g_title {
   border-right: solid 10px transparent;
   position: absolute;
   left: 10px;
+  top: 32px;
+}
+.answer-carret-box{
+  width: 20px;
+  height: 20px;
+  border-top: solid 10px #2e3e4d;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+  position: absolute;
+  left: 4px;
   top: 32px;
 }
 
