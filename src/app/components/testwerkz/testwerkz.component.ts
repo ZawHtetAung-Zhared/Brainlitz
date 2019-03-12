@@ -69,13 +69,17 @@ export class TestwerkzComponent implements OnInit {
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
   public ImgArr:any =[];
+  public clickType: boolean=false;
+  public editableId:any = "";
+  public focusType = {
+    'type': "",
+    'no': "",
+    'parentIdx': ""
+  };
+  public focusPlace:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService,public toastr: ToastsManager) {}
-  public clickType: boolean=false;
-  public editableId:any = "";
-  public focusType = "";
-  public focusPlace:any;
 
 
 
@@ -144,6 +148,7 @@ public performanceDemands = [];
             "question": "string",
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
+            "pickMultiple": false,
             "viewType": "LIST",
             "contents": [
               {
@@ -461,6 +466,7 @@ public performanceDemands = [];
         "question": "string",
         "allowedAttempts": 0,
         "questionType": "MCQ-OPTION",
+        "pickMultiple": false,
         "viewType": "LIST",
         "contents": [
           {
@@ -519,6 +525,7 @@ public performanceDemands = [];
             "question": "string",
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
+            "pickMultiple": false,
             "viewType": "LIST",
             "contents": [
               {
@@ -855,18 +862,24 @@ public performanceDemands = [];
   onFocus(type,idx1,idx2,idx3){
     this.editableId = "";
     this.focusPlace = "";
-    this.focusType = type;
+    this.focusType.type = type;
     switch (type) {
       case "pd":
         this.focusPlace = 'pd' + idx1;
+        this.focusType.no = idx1
+        this.focusType.parentIdx = ""
         break;
       case "question":
         this.focusPlace = 'q' + idx1 + idx2;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1
         this.editableId = 'q'+'-'+idx1+idx2;
         console.log(this.editableId)
         break;
       case "answer":
         this.focusPlace = 'a' + idx1 + idx2 + idx3;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1
     }
     
   }
@@ -884,6 +897,11 @@ public performanceDemands = [];
   // focusoutMethod(){
   //   console.log("~~~focusOut");
   // }
+  pickMultipleAns(item){
+    console.log(item);
+    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = true;
+    console.log(this.performanceDemands)
+  }
 
   cancelConcept(){
     this.conceptCreate = false;

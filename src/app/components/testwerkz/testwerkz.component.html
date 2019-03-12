@@ -322,19 +322,29 @@
           <div class="d-flex p-3">
             <div class="pd-icon-wrapper align-items-center d-flex">
               <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
-              <span class="pd-No">1</span>
+              <span class="pd-No">{{this.focusType.no + 1}}</span>
             </div>
-            <p class="mr-auto pl-3 pd-setting"> PD Setting  </p> 
+            <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'pd'"> PD Setting  </p> 
+            <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'question' || focusType.type == 'answer'"> Question Setting </p> 
             <p  (click)="closeSetting()" class="close-sign d-flex justify-content-center align-items-center">
               <span><img src="../../../assets/img/settingclose/settings-close.png" alt=""></span>
             </p>
           </div>
           <div class="p-3">
-            <div class="d-flex justify-content-between w-100" style="border-bottom: 1px solid #edeff0;">
+            <div *ngIf="this.focusType.type == 'pd'" class="d-flex justify-content-between w-100" style="border-bottom: 1px solid #edeff0;">
               <p class="setting-text">Description</p>
               <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
                 <label class="switch">
                   <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            <div *ngIf="focusType.type == 'question' || focusType.type == 'answer'" class="d-flex justify-content-between w-100" style="border-bottom: 1px solid #edeff0;">
+              <p class="setting-text">Pick multiple</p>
+              <div class="toggle-wrap">
+                <label class="switch">
+                  <input type="checkbox"  (click)="pickMultipleAns(this.focusType)" [checked]="performanceDemands[focusType.parentIdx].question[focusType.no].pickMultiple">
                   <span class="slider round"></span>
                 </label>
               </div>
@@ -344,12 +354,16 @@
                 <p><i class="fa fa-angle-right"></i></p> 
                 <p class="pl-2 setting-text"> Video</p> 
               </div>
-              <p  (click)="addPd()" class="plus-sign-video d-flex justify-content-center align-items-center">
+              <p class="plus-sign-video d-flex justify-content-center align-items-center">
                 <span>+</span>
               </p>
             </div>
-            <div class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
+            <div *ngIf="this.focusType.type == 'pd'" class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
               <p class="setting-text">Randomize count</p>  
+              <input type="text" class="randomize-count" placeholder="0">
+            </div>
+            <div *ngIf="focusType.type == 'question' || focusType.type == 'answer'" class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
+              <p class="setting-text">Duplicate question</p>  
               <input type="text" class="randomize-count" placeholder="0">
             </div>
           </div>
