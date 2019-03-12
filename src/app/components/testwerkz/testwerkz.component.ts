@@ -22,6 +22,8 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public answerTootips:any;
+  public answerTootipsOptions=false;
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
@@ -867,7 +869,15 @@ public performanceDemands = [];
       case "answer":
         this.focusPlace = 'a' + idx1 + idx2 + idx3;
     }
+    if(type  == 'answer'){
+      this.answerTootipsOptions = true;
+      this.answerTootips = idx1 + idx2 + idx3;
+    }
     
+  }
+  hideTooltip(){
+    // console.error('object');
+    // this.answerTootipsOptions =false;
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
