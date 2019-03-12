@@ -25,6 +25,9 @@ declare var $:any;
 export class TestwerkzComponent implements OnInit {
   public answerTootips:any;
   public answerTootipsOptions=false;
+  public pdIndex :any;
+  public questionIndex:any;
+  public answerIndex:any;
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
@@ -656,6 +659,16 @@ public performanceDemands = [];
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
     this.getAllContent();
   }
+  answerOpenImgModal(content,type,i,j,index) {
+    console.log("open modal>",type)
+     this.pdIndex = i;
+     this.questionIndex= j;
+     this.answerIndex = index;
+     console.warn(this.pdIndex, this.questionIndex, this.answerIndex);
+    this.modelType = type;
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getAllContent();
+  }
 
   //get all content
  getAllContent(){
@@ -848,6 +861,7 @@ public performanceDemands = [];
   insertImg(){
      console.log(this.selectedImgArr);
      console.log("editableID",this.editableId)
+     this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
      if(this.editableId != ""){
        var e = document.getElementById(this.editableId);
        e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');

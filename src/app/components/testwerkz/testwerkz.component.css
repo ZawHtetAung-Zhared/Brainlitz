@@ -1029,7 +1029,10 @@ p.g_title {
   top: -36px;
   border-radius: 4px;
 }
-
+.answer-img{
+  width: 120px;
+  height: 120px;
+}
 .tooltip-wrap button{
   background: none;
   border: none;
