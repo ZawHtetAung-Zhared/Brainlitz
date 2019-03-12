@@ -23,6 +23,7 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public answerType = 'radio';
   public answerTootips:any;
   public pdIndex :any;
   public questionIndex:any;
@@ -419,7 +420,7 @@ public performanceDemands = [];
     // console.log(toHtml)
   }
   onKeydown(e,i ,j){
-
+    
     if(e.key === 'Enter'){
       if(this.performanceDemands[i].question[j].answers.length < 8 ){
         // this.pdLists[i].question[j].answers.push({
@@ -448,7 +449,7 @@ public performanceDemands = [];
       }
     }
   }
-  trueAnswer(i,j,index){
+  trueAnswer(i,j,index,answer){
     if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
       this.performanceDemands[i].question[j].answers[index].correctness  = 100;
     }else{
@@ -944,7 +945,6 @@ public performanceDemands = [];
       this.answerTootips =  idx1 + idx2 + idx3 + 'a';
       this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
     }
-    
   }
   hideTooltip(type,idx1,idx2,idx3){
     if(type == 'hideTooltip'){
@@ -971,6 +971,11 @@ public performanceDemands = [];
     console.log(item);
     this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
     console.log(this.performanceDemands)
+    if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+      this.answerType = 'checkbox'
+    }else{
+      this.answerType = 'radio'
+    }
   }
 
   cancelConcept(){
