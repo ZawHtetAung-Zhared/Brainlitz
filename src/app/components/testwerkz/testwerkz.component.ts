@@ -171,6 +171,7 @@ public performanceDemands = [];
                 "answer": "",
                 "imgUrl": "",
                 "correctness": 0,
+                "showTooltip":false,
                 "contents": [
                   {
                     "contentId": "",
@@ -277,10 +278,14 @@ public performanceDemands = [];
   }
 
   getAllTag(){
+    this.blockUI.start('Loading')
     this._service.getAllTags(this.regionID)
     .subscribe((res:any) => {    
       console.log(res);
       this.tagsWerkzList = res;
+      setTimeout(() => {
+        this.blockUI.stop()
+      }, 300);
   }, err => {
     console.log(err)
   })
@@ -355,8 +360,8 @@ public performanceDemands = [];
     this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
-    localStorage.setItem("categoryID", val);
-    localStorage.setItem("categoryName", name);
+    // localStorage.setItem("categoryID", val);
+    // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
     //   console.log("--waiting--")
     //   this.goBackCat = true;
@@ -428,6 +433,7 @@ public performanceDemands = [];
             "answer": "string",
             "imgUrl": "",
             "correctness": 0,
+            "showTooltip":false,
             "contents": [
               {
                 "contentId": "string",
@@ -489,6 +495,7 @@ public performanceDemands = [];
             "answer": "",
             "imgUrl": "",
             "correctness": 0,
+            "showTooltip":false,
             "contents": [
               {
                 "contentId": "",
@@ -548,6 +555,7 @@ public performanceDemands = [];
                 "answer": "",
                 "imgUrl": "",
                 "correctness": 0,
+                "showTooltip":false,
                 "contents": [
                   {
                     "contentId": "",
@@ -933,12 +941,17 @@ public performanceDemands = [];
     }
     if(type  == 'answer'){
       // this.answerTootipsOptions = true;
-      this.answerTootips = idx1 + idx2 + idx3;
+      this.answerTootips =  idx1 + idx2 + idx3 + 'a';
+      this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
     }
     
   }
-  hideTooltip(){
-
+  hideTooltip(type,idx1,idx2,idx3){
+    if(type == 'hideTooltip'){
+      setTimeout(() => {
+        this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+      }, 150);
+    }
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
