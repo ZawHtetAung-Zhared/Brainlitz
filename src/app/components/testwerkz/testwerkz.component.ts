@@ -772,16 +772,18 @@ public performanceDemands = [];
   insertImg(){
      console.log(this.selectedImgArr);
      console.log("editableID",this.editableId)
-     var e = document.getElementById(this.editableId);
-     e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
-     var k = document.getElementById("img"+this.editableId);
-     for(var i in this.selectedImgArr){
-       console.log(this.selectedImgArr[i].url,'img');
-       var url = this.selectedImgArr[i].url;
-       console.log(url)
-       // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
-       k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
-     }
+     if(this.editableId != ""){
+       var e = document.getElementById(this.editableId);
+       e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
+       var k = document.getElementById("img"+this.editableId);
+       for(var i in this.selectedImgArr){
+         console.log(this.selectedImgArr[i].url,'img');
+         var url = this.selectedImgArr[i].url;
+         console.log(url)
+         // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+         k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
+       }
+     }   
      // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
      // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
      this.cancelModal();
@@ -808,6 +810,7 @@ public performanceDemands = [];
   
   onFocus(type,idx1,idx2,idx3){
     this.editableId = "";
+    this.focusPlace = "";
     this.focusType = type;
     switch (type) {
       case "pd":

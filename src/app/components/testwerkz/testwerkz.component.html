@@ -223,14 +223,14 @@
               <div class="d-flex flex-column pd-blog mb-2" (click)=showSetting()>
                 <!-- for header start -->
                 <div class="pd-name-wrapper d-flex container align-items-center">
-                  <div class="pd-icon-wrapper align-items-center d-flex">
+                  <div *ngIf="this.focusPlace == ('pd'+i)" class="pd-icon-wrapper align-items-center d-flex">
                     <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
                     <span class="pd-No">{{i+1}}</span>
                   </div>
-                  <!-- <div class="pd-icon-wrapper bg-white align-items-center d-flex">
+                  <div *ngIf="this.focusPlace != ('pd'+i)" class="pd-icon-wrapper bg-white align-items-center d-flex">
                     <img src="../../../assets/images/un-thunder-flash-w.png" alt="" class="flex-icon">
-                    <span class="pd-No" style="color:#64707d;">1</span>
-                  </div> -->
+                    <span class="pd-No" style="color:#64707d;">{{i+1}}</span>
+                  </div>
                   <div class="pd-name-input-wrapper"> 
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
                     <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'','')">
@@ -241,16 +241,14 @@
 
                 <div class="pd-blog-wrapper">
                   <div *ngFor="let question of pd.question; let j = index" class="w-100 question-section d-flex">
-                    <div class="check-icon-wrapper align-items-center mt-3 d-flex">
+                    <div *ngIf="this.focusPlace == ('q'+i+j)" class="check-icon-wrapper align-items-center mt-3 d-flex">
                       <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
                       <span class="pd-No">{{j+1}}</span>
                     </div>  
-
-
-                    <!-- <div class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
+                    <div *ngIf="this.focusPlace != ('q'+i+j)" class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
                       <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
-                      <span class="pd-No" style="color:#64707d;">1</span>
-                    </div>  --> 
+                      <span class="pd-No" style="color:#64707d;">{{j+1}}</span>
+                    </div>  
                     <div class="pd-name-input-wrapper question-wrap d-flex flex-column">
                       <div class="tooltip-wrap" *ngIf="this.focusPlace == ('q'+i+j)">
                         <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
