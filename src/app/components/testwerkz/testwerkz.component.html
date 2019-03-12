@@ -130,8 +130,8 @@
       id="conceptWrapper">
       <div class="pl-3 p-0 form-side">
         <div class=" d-flex flex-column w-100" [ngClass]="{'align-items-center': classCreate == true}">
-          <div class="">
-            <div class="mr-auto p-2 pl-0 pb-0 createForm-wrap" (click)="backToTestWerkz()">
+          <div class="createForm-wrap">
+            <div class="mr-auto p-2 pl-0 pb-0" (click)="backToTestWerkz()">
               <div class="back-to pt-2 d-flex">
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
@@ -234,7 +234,7 @@
                   </div>
                   <div class="pd-name-input-wrapper"> 
                     <div class="answer-tooltip-wrap" *ngIf="this.focusPlace == ('pd'+i)">
-                      <button (click)=openImgModal(imgModal)><img src="assets/img/text-edit-image.png"></button>
+                      <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                       <div class="answer-carret-box"></div>
                     </div>
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
@@ -259,7 +259,7 @@
                         <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
                         <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
                         <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
-                        <button (click)=openImgModal(imgModal)><img src="assets/img/text-edit-image.png"></button>
+                        <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                          <div class="carret-box"></div>
                       </div>
                       <div id="q-{{i}}{{j}}" class="mt-3 question" contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'')"></div>
