@@ -276,7 +276,7 @@
                                       <div class="answer-carret-box"></div>
                                   </div>
                                 <div class="d-flex">
-                                  <div *ngIf="index == 0 && answer.correctness == 100" ><input type="checkbox d-none" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
+                                  <div *ngIf="index == 0 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
                                   <div *ngIf="index == 0 && answer.correctness == 0" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
         
                                   <div *ngIf="index == 1 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/b_choice_a.png" alt="" style="width:20px;height:20px;"></div>
