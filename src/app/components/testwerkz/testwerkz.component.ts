@@ -24,7 +24,9 @@ declare var $:any;
 })
 export class TestwerkzComponent implements OnInit {
   public answerTootips:any;
-  public answerTootipsOptions=false;
+  public pdIndex :any;
+  public questionIndex:any;
+  public answerIndex:any;
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
@@ -113,79 +115,8 @@ public performanceDemands = [];
     if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    // this.pdLists = [
-    //   {
-    //     pdName: "",
-    //     question: [
-    //       {
-    //         questionName: "",
-    //         answers: [
-    //           {
-    //             answer: "",
-    //             rightAnswer:false
-    //           }
-    //         ],
-    //         rightAnswer: 0
-    //       }
-    //     ]
-    //   }
-    // ];
-    // for (var i = 0; i < this.pdLists.length; i++) {
-    //   console.log(this.pdLists[i]);
-    // }
-    // console.log(this.concepts[0].pdName="pdName")
-    // this.concepts[0].question[0].questionName = "answerName";
-    // this.concepts[0].question[0].answers[0].answer = "answer1";
-    // this.concepts[0].question[0].answers[1].answer = "answer1";
-    // this.concepts[0].question[0].answers[2].answer = "answer4";
-    // this.concepts[0].question[0].rightAnswer = 0;
 
     console.log(this.pdLists);
-
-    // // waiyan's code start
-    // this.performanceDemands = [
-    //   {
-    //     pdName: "",
-    //     question: [
-    //       {
-    //         "name": "string",
-    //         "description": "string",
-    //         "question": "string",
-    //         "allowedAttempts": 0,
-    //         "questionType": "MCQ-OPTION",
-    //         "pickMultiple": false,
-    //         "viewType": "LIST",
-    //         "contents": [
-    //           {
-    //             "contentId": "string",
-    //             "sequence": 0,
-    //             "start": 0,
-    //             "end": 0,
-    //             "playAt": "BEFORE"
-    //           }
-    //         ],
-    //         "answers": [
-    //           {
-    //             "name": "string",
-    //             "answer": "string",
-    //             "imgUrl": "string",
-    //             "correctness": 0,
-    //             "contents": [
-    //               {
-    //                 "contentId": "string",
-    //                 "sequence": 0,
-    //                 "start": 0,
-    //                 "end": 0,
-    //                 "playAt": "BEFORE"
-    //               }
-    //             ]
-    //           }
-    //         ]
-    //       }
-    //     ]
-    //   }
-    // ]
-    // // waiyan's code end
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
@@ -278,10 +209,14 @@ public performanceDemands = [];
   }
 
   getAllTag(){
+    this.blockUI.start('Loading')
     this._service.getAllTags(this.regionID)
     .subscribe((res:any) => {    
       console.log(res);
       this.tagsWerkzList = res;
+      setTimeout(() => {
+        this.blockUI.stop()
+      }, 300);
   }, err => {
     console.log(err)
   })
@@ -356,8 +291,8 @@ public performanceDemands = [];
     this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
-    localStorage.setItem("categoryID", val);
-    localStorage.setItem("categoryName", name);
+    // localStorage.setItem("categoryID", val);
+    // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
     //   console.log("--waiting--")
     //   this.goBackCat = true;
@@ -427,8 +362,9 @@ public performanceDemands = [];
           {
             "name": "string",
             "answer": "string",
-            "imgUrl": "string",
+            "imgUrl": "",
             "correctness": 0,
+            "showTooltip":false,
             "contents": [
               {
                 "contentId": "string",
@@ -468,16 +404,16 @@ public performanceDemands = [];
     // waiyan's code start
     this.performanceDemands[j].question.push(
       {
-        "name": "string",
-        "description": "string",
-        "question": "string",
+        "name": "",
+        "description": "",
+        "question": "",
         "allowedAttempts": 0,
         "questionType": "MCQ-OPTION",
         "pickMultiple": false,
         "viewType": "LIST",
         "contents": [
           {
-            "contentId": "string",
+            "contentId": "",
             "sequence": 0,
             "start": 0,
             "end": 0,
@@ -486,13 +422,14 @@ public performanceDemands = [];
         ],
         "answers": [
           {
-            "name": "string",
-            "answer": "string",
-            "imgUrl": "string",
+            "name": "",
+            "answer": "",
+            "imgUrl": "",
             "correctness": 0,
+            "showTooltip":false,
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -527,16 +464,16 @@ public performanceDemands = [];
         pdName: "",
         question: [
           {
-            "name": "string",
-            "description": "string",
-            "question": "string",
+            "name": "",
+            "description": "",
+            "question": "",
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
             "pickMultiple": false,
             "viewType": "LIST",
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -545,13 +482,14 @@ public performanceDemands = [];
             ],
             "answers": [
               {
-                "name": "string",
-                "answer": "string",
-                "imgUrl": "string",
+                "name": "",
+                "answer": "",
+                "imgUrl": "",
                 "correctness": 0,
+                "showTooltip":false,
                 "contents": [
                   {
-                    "contentId": "string",
+                    "contentId": "",
                     "sequence": 0,
                     "start": 0,
                     "end": 0,
@@ -662,6 +600,15 @@ public performanceDemands = [];
   //open image modal
   openImgModal(content,type) {
     console.log("open modal>",type)
+    this.modelType = type;
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getAllContent();
+  }
+  answerOpenImgModal(content,type,i,j,index) {
+    console.log("open modal>",type)
+     this.pdIndex = i;
+     this.questionIndex= j;
+     this.answerIndex = index;
     this.modelType = type;
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
     this.getAllContent();
@@ -859,6 +806,7 @@ public performanceDemands = [];
      console.log(this.selectedImgArr);
      console.log("editableID",this.editableId)
      if(this.editableId != ""){
+       console.log('question ===== insert img');
        var e = document.getElementById(this.editableId);
        e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
        var k = document.getElementById("img"+this.editableId);
@@ -870,6 +818,11 @@ public performanceDemands = [];
          k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
        }
      }   
+
+     if(this.modelType == 'single'){
+       console.log('answer === ');
+      this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
+     }
      // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
      // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
      this.cancelModal();
@@ -897,6 +850,7 @@ public performanceDemands = [];
   onFocus(type,idx1,idx2,idx3){
     this.editableId = "";
     this.focusPlace = "";
+    this.answerTootips = '';
     this.focusType.type = type;
     this.showSetting();
     switch (type) {
@@ -918,14 +872,18 @@ public performanceDemands = [];
         this.focusType.parentIdx = idx1
     }
     if(type  == 'answer'){
-      this.answerTootipsOptions = true;
-      this.answerTootips = idx1 + idx2 + idx3;
+      // this.answerTootipsOptions = true;
+      this.answerTootips =  idx1 + idx2 + idx3 + 'a';
+      this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
     }
     
   }
-  hideTooltip(){
-    // console.error('object');
-    // this.answerTootipsOptions =false;
+  hideTooltip(type,idx1,idx2,idx3){
+    if(type == 'hideTooltip'){
+      setTimeout(() => {
+        this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+      }, 150);
+    }
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
@@ -943,7 +901,7 @@ public performanceDemands = [];
   // }
   pickMultipleAns(item){
     console.log(item);
-    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = true;
+    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
     console.log(this.performanceDemands)
   }
 
