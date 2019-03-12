@@ -938,4 +938,8 @@ public performanceDemands = [];
     this.focusType = {};
     this.ischecked = ""
   }
+
+  createConcept(){
+    console.log("pdQuestion",this.performanceDemands);
+  }
 }
