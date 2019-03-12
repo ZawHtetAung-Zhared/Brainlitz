@@ -150,16 +150,16 @@ public performanceDemands = [];
         pdName: "",
         question: [
           {
-            "name": "string",
-            "description": "string",
-            "question": "string",
+            "name": "",
+            "description": "",
+            "question": "",
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
             "pickMultiple": false,
             "viewType": "LIST",
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -168,13 +168,13 @@ public performanceDemands = [];
             ],
             "answers": [
               {
-                "name": "string",
-                "answer": "string",
-                "imgUrl": "string",
+                "name": "",
+                "answer": "",
+                "imgUrl": "",
                 "correctness": 0,
                 "contents": [
                   {
-                    "contentId": "string",
+                    "contentId": "",
                     "sequence": 0,
                     "start": 0,
                     "end": 0,
@@ -427,7 +427,7 @@ public performanceDemands = [];
           {
             "name": "string",
             "answer": "string",
-            "imgUrl": "string",
+            "imgUrl": "",
             "correctness": 0,
             "contents": [
               {
@@ -468,16 +468,16 @@ public performanceDemands = [];
     // waiyan's code start
     this.performanceDemands[j].question.push(
       {
-        "name": "string",
-        "description": "string",
-        "question": "string",
+        "name": "",
+        "description": "",
+        "question": "",
         "allowedAttempts": 0,
         "questionType": "MCQ-OPTION",
         "pickMultiple": false,
         "viewType": "LIST",
         "contents": [
           {
-            "contentId": "string",
+            "contentId": "",
             "sequence": 0,
             "start": 0,
             "end": 0,
@@ -486,13 +486,13 @@ public performanceDemands = [];
         ],
         "answers": [
           {
-            "name": "string",
-            "answer": "string",
-            "imgUrl": "string",
+            "name": "",
+            "answer": "",
+            "imgUrl": "",
             "correctness": 0,
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -527,16 +527,16 @@ public performanceDemands = [];
         pdName: "",
         question: [
           {
-            "name": "string",
-            "description": "string",
-            "question": "string",
+            "name": "",
+            "description": "",
+            "question": "",
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
             "pickMultiple": false,
             "viewType": "LIST",
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -545,13 +545,13 @@ public performanceDemands = [];
             ],
             "answers": [
               {
-                "name": "string",
-                "answer": "string",
-                "imgUrl": "string",
+                "name": "",
+                "answer": "",
+                "imgUrl": "",
                 "correctness": 0,
                 "contents": [
                   {
-                    "contentId": "string",
+                    "contentId": "",
                     "sequence": 0,
                     "start": 0,
                     "end": 0,
