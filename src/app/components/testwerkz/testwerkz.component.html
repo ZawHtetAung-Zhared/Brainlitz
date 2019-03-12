@@ -219,7 +219,8 @@
             <!-- <button (click)="turn()">Turn</button> -->
 
                <!-- Wai Yan UI Start -->
-            <div *ngFor="let pd of pdLists; let i = index">
+            <!-- <div *ngFor="let pd of pdLists; let i = index"> -->
+            <div *ngFor="let pd of performanceDemands; let i = index">
               <div class="d-flex flex-column pd-blog mb-2" (click)=showSetting()>
                 <!-- for header start -->
                 <div class="pd-name-wrapper d-flex container align-items-center">
@@ -269,29 +270,29 @@
 
                           <!-- <img src="{{ }}" alt=""> -->
                            <div class="d-flex">
-                            <button (click)="openImgModal(imgModal,i,j)" >test</button>
-                            <div *ngIf="index == 0 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
-                            <div *ngIf="index == 0 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
+                            <!-- <button (click)="openImgModal(imgModal,i,j)" >test</button> -->
+                            <div *ngIf="index == 0 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 0 && answer.correctness == 0" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
   
                             <div *ngIf="index == 1"><img src="../../../assets/img/answerIcon/bChoice.svg" alt=""></div>
   
-                            <div *ngIf="index == 2 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
-                            <div *ngIf="index == 2 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
+                            <div *ngIf="index == 2 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 2 && answer.correctness == 0" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
   
-                            <div *ngIf="index == 3 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
-                            <div *ngIf="index == 3 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
+                            <div *ngIf="index == 3 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 3 && answer.correctness == 0" (click) = " trueAnswer(i,j,index)"><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
   
-                            <div *ngIf="index == 4 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
-                            <div *ngIf="index == 4 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
+                            <div *ngIf="index == 4 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 4 && answer.correctness == 0" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
   
-                            <div *ngIf="index == 5 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
-                            <div *ngIf="index == 5 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
+                            <div *ngIf="index == 5 && answer.correctness == 100" (click) = " trueAnswer(i,j,index)"><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 5 && answer.correctness == 0" (click) = " trueAnswer(i,j,index)"><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
   
-                            <div *ngIf="index == 6 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
-                            <div *ngIf="index == 6 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
+                            <div *ngIf="index == 6 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 6 && answer.correctness == 0" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
   
-                            <div *ngIf="index == 7 && answer.rightAnswer == true" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
-                            <div *ngIf="index == 7 && answer.rightAnswer == false" (click) = " answer.rightAnswer = !answer.rightAnswer"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
+                            <div *ngIf="index == 7 && answer.correctness == 100" (click) = "trueAnswer(i,j,index) "><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
+                            <div *ngIf="index == 7 && answer.correctness == 0" (click) = " trueAnswer(i,j,index)"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
                             <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focus)="onFocus('answer',i,j,'')" (keydown)="onKeydown($event,i ,j)">
                           </div>
                       </div>
