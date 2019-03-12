@@ -279,7 +279,7 @@
                                     <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
                                       <div class="answer-carret-box"></div>
                                   </div>
-                                <div class="d-flex">
+                                <div class="d-flex" *ngIf="answerType == 'checkbox'">
                                     <label for="{{'answer'+index}}">
                                       <input type="{{answerType}}" id="{{'answer'+index}}" name="answerlist" (click) = "trueAnswer(i,j,index,answer.answer) " class="d-none" value="{{answer.answer}}">
                                       <div *ngIf="index == 0 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
@@ -298,6 +298,28 @@
                                       <div *ngIf="index == 6 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
                                       <div *ngIf="index == 7 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
                                       <div *ngIf="index == 7 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
+                                    </label>
+                                  <input type="text" class="bg-white w-100 answer-input" [(ngModel)]="answer.answer" placeholder="choice"  (focusout) = "hideTooltip('hideTooltip',i,j,index)" (focus)="onFocus('answer',i,j,index)" (keydown)="onKeydown($event,i ,j)">
+                                </div>
+                                <div class="d-flex" *ngIf="answerType == 'radio'">
+                                    <label for="{{'answer'+index}}">
+                                      <input type="{{answerType}}" id="{{'answer'+index}}" name="answerlist" (click) = "trueAnswerRadio(i,j,index,answer.answer) " class="d-none" value="{{answer.answer}}">
+                                      <div *ngIf="index == 0 && tempTest == answer.answer" ><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 0 && tempTest != answer.answer"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
+                                      <div *ngIf="index == 1 && tempTest == answer.answer" ><img src="../../../assets/img/answerIcon/b_choice_a.png" alt="" style="width:20px;height:20px;"></div>
+                                      <div *ngIf="index == 1 && tempTest != answer.answer" ><img src="../../../assets/img/answerIcon/bChoice.svg" alt=""></div>
+                                      <div *ngIf="index == 2 && tempTest == answer.answer"><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 2 && tempTest != answer.answer"><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
+                                      <div *ngIf="index == 3 && tempTest == answer.answer" ><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 3 && tempTest != answer.answer" ><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
+                                      <div *ngIf="index == 4 && tempTest == answer.answer" ><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 4 && tempTest != answer.answer" ><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
+                                      <div *ngIf="index == 5 && tempTest == answer.answer" ><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 5 && tempTest != answer.answer" ><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
+                                      <div *ngIf="index == 6 && tempTest == answer.answer" ><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 6 && tempTest != answer.answer" ><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
+                                      <div *ngIf="index == 7 && tempTest == answer.answer" ><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 7 && tempTest != answer.answer"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
                                     </label>
                                   <input type="text" class="bg-white w-100 answer-input" [(ngModel)]="answer.answer" placeholder="choice"  (focusout) = "hideTooltip('hideTooltip',i,j,index)" (focus)="onFocus('answer',i,j,index)" (keydown)="onKeydown($event,i ,j)">
                                 </div>

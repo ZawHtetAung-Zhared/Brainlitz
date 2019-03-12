@@ -24,6 +24,10 @@ declare var $:any;
 })
 export class TestwerkzComponent implements OnInit {
   public answerType = 'radio';
+  public tempTest:any;
+  // public id1:any;
+  // public id2:any;
+  // public id3:any;
   public answerTootips:any;
   public pdIndex :any;
   public questionIndex:any;
@@ -386,6 +390,26 @@ public performanceDemands = [];
     }else{
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
+  }
+  trueAnswerRadio(i,j,index,answer){
+    this.tempTest = answer
+    if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
+      this.performanceDemands[i].question[j].answers[index].correctness  = 100;
+     
+      if(this.pdIndex !=undefined && this.questionIndex != undefined && this.answerIndex != undefined){
+        this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].correctness  = 0;
+      }
+      this.pdIndex=i;
+      this.questionIndex=j;
+      this.answerIndex=index;
+     
+    }else{
+      this.performanceDemands[i].question[j].answers[index].correctness = 0;
+    }
+    const check2: HTMLElement = document.getElementById('answer'+ index);
+    var testing = $("input[name='answerlist']:checked")
+    console.error(testing);
+    console.error(check2.checked);
   }
   addQuestion(j) {
     console.log("add querstion");
@@ -884,6 +908,7 @@ public performanceDemands = [];
         this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
       }, 150);
     }
+   console.warn( this.performanceDemands);
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
