@@ -1,0 +1,52 @@
+ <div class="d-flex">
+
+                                    <label for="{{'answer'+0}}">
+                                      <input *ngIf="index == 0"  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 0 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 0 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
+                                    </label>
+
+                                    <label for="{{'answer'+1}}">
+                                      <input *ngIf="index == 1"  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 1 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/b_choice_a.png" alt="" style="width:20px;height:20px;"></div>
+                                      <div *ngIf="index == 1 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/bChoice.svg" alt=""></div>
+                                    </label>
+
+                                    <label for="{{'answer'+2}}">
+                                      <input *ngIf="index == 2"  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 2 && answer.correctness == 100"><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 2 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
+                                    </label>
+
+                                    <label for="{{'answer'+3}}">
+                                      <input *ngIf="index == 3"  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 3 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 3 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
+                                    </label>
+
+                                    <label for="{{'answer'+4}}">
+                                      <input *ngIf="index == 4 "  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 4 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 4 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
+                                    </label>
+
+                                    <label for="{{'answer'+5}}">
+                                      <input *ngIf="index == 5"  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 5 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 5 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
+                                    </label>
+
+                                    <label for="{{'answer'+6}}">
+                                      <input *ngIf="index == 6"  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 6 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 6 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
+                                    </label>
+
+                                    <label for="{{'answer'+7}}">
+                                      <input *ngIf="index == 7"  type="{{answerType}}" id="{{'answer'+index}}" name="answer" (click) = "trueAnswer(i,j,index) " class="d-none">
+                                      <div *ngIf="index == 7 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
+                                      <div *ngIf="index == 7 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
+                                    </label>
+                                  <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focusout) = "hideTooltip('hideTooltip',i,j,index)" (focus)="onFocus('answer',i,j,index)" (keydown)="onKeydown($event,i ,j)">
+                                </div>
+                          </div>
