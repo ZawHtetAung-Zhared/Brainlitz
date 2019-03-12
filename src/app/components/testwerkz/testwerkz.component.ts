@@ -23,6 +23,8 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public answerTootips:any;
+  public answerTootipsOptions=false;
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
@@ -106,26 +108,26 @@ public performanceDemands = [];
     if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    this.pdLists = [
-      {
-        pdName: "",
-        question: [
-          {
-            questionName: "",
-            answers: [
-              {
-                answer: "",
-                rightAnswer:false
-              }
-            ],
-            rightAnswer: 0
-          }
-        ]
-      }
-    ];
-    for (var i = 0; i < this.pdLists.length; i++) {
-      console.log(this.pdLists[i]);
-    }
+    // this.pdLists = [
+    //   {
+    //     pdName: "",
+    //     question: [
+    //       {
+    //         questionName: "",
+    //         answers: [
+    //           {
+    //             answer: "",
+    //             rightAnswer:false
+    //           }
+    //         ],
+    //         rightAnswer: 0
+    //       }
+    //     ]
+    //   }
+    // ];
+    // for (var i = 0; i < this.pdLists.length; i++) {
+    //   console.log(this.pdLists[i]);
+    // }
     // console.log(this.concepts[0].pdName="pdName")
     // this.concepts[0].question[0].questionName = "answerName";
     // this.concepts[0].question[0].answers[0].answer = "answer1";
@@ -407,11 +409,12 @@ public performanceDemands = [];
   onKeydown(e,i ,j){
 
     if(e.key === 'Enter'){
-      if(this.pdLists[i].question[j].answers.length < 8 ){
-        this.pdLists[i].question[j].answers.push({
-          answer: "",
-          rightAnswer:false
-        })
+      if(this.performanceDemands[i].question[j].answers.length < 8 ){
+        // this.pdLists[i].question[j].answers.push({
+        //   answer: "",
+        //   rightAnswer:false
+        // })
+
         this.performanceDemands[i].question[j].answers.push(
           {
             "name": "string",
@@ -441,18 +444,18 @@ public performanceDemands = [];
   }
   addQuestion(j) {
     console.log("add querstion");
-    console.log(this.pdLists[j].question);
-    this.pdLists[j].question.push({
-      questionName: "",
-      answers: [
-        {
-          answer: ""
-        }
-      ],
-      rightAnswer: 0
-    });
+    // console.log(this.pdLists[j].question);
+    // this.pdLists[j].question.push({
+    //   questionName: "",
+    //   answers: [
+    //     {
+    //       answer: ""
+    //     }
+    //   ],
+    //   rightAnswer: 0
+    // });
 
-    console.log(this.pdLists[j]);
+    // console.log(this.pdLists[j]);
 
     // waiyan's code start
     this.performanceDemands[j].question.push(
@@ -494,21 +497,21 @@ public performanceDemands = [];
     // waiyan's code end
   }
   addPd() {
-    this.pdLists.push({
-      pdName: "",
-      question: [
-        {
-          questionName: "",
-          answers: [
-            {
-              answer: ""
-            }
-          ],
-          rightAnswer: 0
-        }
-      ]
-    });
-    console.log(this.pdLists);
+    // this.pdLists.push({
+    //   pdName: "",
+    //   question: [
+    //     {
+    //       questionName: "",
+    //       answers: [
+    //         {
+    //           answer: ""
+    //         }
+    //       ],
+    //       rightAnswer: 0
+    //     }
+    //   ]
+    // });
+    // console.log(this.pdLists);
     this.performanceDemands.push(
       {
 
@@ -551,6 +554,7 @@ public performanceDemands = [];
         ]
       }
     )
+    console.log(this.performanceDemands);
   }
 
   onClickEditor(t) {}
@@ -896,7 +900,15 @@ public performanceDemands = [];
       case "answer":
         this.focusPlace = 'a' + idx1 + idx2 + idx3;
     }
+    if(type  == 'answer'){
+      this.answerTootipsOptions = true;
+      this.answerTootips = idx1 + idx2 + idx3;
+    }
     
+  }
+  hideTooltip(){
+    // console.error('object');
+    // this.answerTootipsOptions =false;
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
