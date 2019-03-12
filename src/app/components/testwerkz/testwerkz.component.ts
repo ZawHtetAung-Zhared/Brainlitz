@@ -28,6 +28,11 @@ export class TestwerkzComponent implements OnInit {
   // public id1:any;
   // public id2:any;
   // public id3:any;
+  // Component
+  public answerSymbols = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  public imagePath = '../../../assets/img/answerIcon/';
+  public answerSymbolSVG = 'Choice_reverse.svg';
+  public answerSymbolReverseSVG = 'Choice.svg';
   public answerTootips:any;
   public pdIndex :any;
   public questionIndex:any;
@@ -365,14 +370,14 @@ public performanceDemands = [];
 
         this.performanceDemands[i].question[j].answers.push(
           {
-            "name": "string",
-            "answer": "string",
+            "name": "",
+            "answer": "",
             "imgUrl": "",
             "correctness": 0,
             "showTooltip":false,
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -393,6 +398,7 @@ public performanceDemands = [];
   }
   trueAnswerRadio(i,j,index,answer){
     this.tempTest = answer
+    // console.error(i,j,index,answer);
     if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
       this.performanceDemands[i].question[j].answers[index].correctness  = 100;
      
@@ -406,10 +412,7 @@ public performanceDemands = [];
     }else{
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
-    const check2: HTMLElement = document.getElementById('answer'+ index);
-    var testing = $("input[name='answerlist']:checked")
-    console.error(testing);
-    console.error(check2.checked);
+  
   }
   addQuestion(j) {
     console.log("add querstion");
@@ -912,7 +915,6 @@ public performanceDemands = [];
         this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
       }, 150);
     }
-   console.warn( this.performanceDemands);
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
@@ -928,15 +930,30 @@ public performanceDemands = [];
   // focusoutMethod(){
   //   console.log("~~~focusOut");
   // }
-  pickMultipleAns(item){
-    console.log(item);
-    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
-    console.log(this.performanceDemands)
-    if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
-      this.answerType = 'checkbox'
+  // pickMultipleAns(item){
+  //   console.log(item);
+  //   this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
+  //   console.log(this.performanceDemands)
+  //   if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+  //     this.answerType = 'checkbox'
+  //   }else{
+  //     this.answerType = 'radio'
+  //   }
+  // }
+  pickMultipleAns(item) {
+    const dataArray = this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no];
+    let isMultiSelect = dataArray.pickMultiple;
+    isMultiSelect = !isMultiSelect ;
+    
+    // If isMultiSelect === true, change the input type into checkbox
+    if(isMultiSelect){
+      this.answerType = 'checkbox';
     }else{
-      this.answerType = 'radio'
+      this.answerType = 'radio';
     }
+    console.log(dataArray);
+    dataArray.answers.map( (answer, i) => answer.correctness = 0 )
+
   }
 
   delete(itemType){
