@@ -507,6 +507,48 @@ public performanceDemands = [];
       ]
     });
     console.log(this.pdLists);
+    this.performanceDemands.push(
+      {
+
+        pdName: "",
+        question: [
+          {
+            "name": "string",
+            "description": "string",
+            "question": "string",
+            "allowedAttempts": 0,
+            "questionType": "MCQ-OPTION",
+            "viewType": "LIST",
+            "contents": [
+              {
+                "contentId": "string",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ],
+            "answers": [
+              {
+                "name": "string",
+                "answer": "string",
+                "imgUrl": "string",
+                "correctness": 0,
+                "contents": [
+                  {
+                    "contentId": "string",
+                    "sequence": 0,
+                    "start": 0,
+                    "end": 0,
+                    "playAt": "BEFORE"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    )
   }
 
   onClickEditor(t) {}
