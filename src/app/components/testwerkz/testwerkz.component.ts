@@ -31,7 +31,7 @@ export class TestwerkzComponent implements OnInit {
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
-  public showSettingSidebar = true;
+  public showSettingSidebar = false;
   public isGlobal = false;
   public modelType:any;
   public testWerkzCategory = false;
@@ -78,11 +78,12 @@ export class TestwerkzComponent implements OnInit {
   public imgId:any;
   public clickType: boolean=false;
   public editableId:any = "";
-  public focusType = {
-    'type': "",
-    'no': "",
-    'parentIdx': ""
-  };
+  // public focusType = {
+  //   'type': "",
+  //   'no': "",
+  //   'parentIdx': ""
+  // };
+  public focusType:any = {};
   public focusPlace:any;
   @BlockUI() blockUI: NgBlockUI;
 
@@ -115,80 +116,8 @@ public performanceDemands = [];
     if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    // this.pdLists = [
-    //   {
-    //     pdName: "",
-    //     question: [
-    //       {
-    //         questionName: "",
-    //         answers: [
-    //           {
-    //             answer: "",
-    //             rightAnswer:false
-    //           }
-    //         ],
-    //         rightAnswer: 0
-    //       }
-    //     ]
-    //   }
-    // ];
-    // for (var i = 0; i < this.pdLists.length; i++) {
-    //   console.log(this.pdLists[i]);
-    // }
-    // console.log(this.concepts[0].pdName="pdName")
-    // this.concepts[0].question[0].questionName = "answerName";
-    // this.concepts[0].question[0].answers[0].answer = "answer1";
-    // this.concepts[0].question[0].answers[1].answer = "answer1";
-    // this.concepts[0].question[0].answers[2].answer = "answer4";
-    // this.concepts[0].question[0].rightAnswer = 0;
 
     console.log(this.pdLists);
-
-    // waiyan's code start
-    this.performanceDemands = [
-      {
-        pdName: "",
-        question: [
-          {
-            "name": "",
-            "description": "",
-            "question": "",
-            "allowedAttempts": 0,
-            "questionType": "MCQ-OPTION",
-            "pickMultiple": false,
-            "viewType": "LIST",
-            "contents": [
-              {
-                "contentId": "",
-                "sequence": 0,
-                "start": 0,
-                "end": 0,
-                "playAt": "BEFORE"
-              }
-            ],
-            "answers": [
-              {
-                "name": "",
-                "answer": "",
-                "imgUrl": "",
-                "correctness": 0,
-                "showTooltip":false,
-                "contents": [
-                  {
-                    "contentId": "",
-                    "sequence": 0,
-                    "start": 0,
-                    "end": 0,
-                    "playAt": "BEFORE"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-    // waiyan's code end
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
@@ -276,6 +205,8 @@ public performanceDemands = [];
       this.testWerkzCategory = true
       this.conceptList = false;
       this.getAllTag();
+      this.addPd();
+      this.showSettingSidebar = false;
   }
 
   getAllTag(){
@@ -887,11 +818,11 @@ public performanceDemands = [];
          // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
          k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
        }
-     }   
-
-     if(this.modelType == 'single'){
+     }else if(this.modelType == 'single'){
        console.log('answer === ');
       this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
+     }else{
+       console.log("pd Insert Img======")
      }
      // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
      // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
@@ -922,6 +853,7 @@ public performanceDemands = [];
     this.focusPlace = "";
     this.answerTootips = '';
     this.focusType.type = type;
+    this.showSetting();
     switch (type) {
       case "pd":
         this.focusPlace = 'pd' + idx1;
@@ -978,11 +910,28 @@ public performanceDemands = [];
     }
   }
 
+  delete(itemType){
+    console.log("delete type",itemType);
+    if(itemType.type == 'pd'){
+      if(this.performanceDemands.length>1){
+        this.performanceDemands.splice(itemType.no,1);
+      }
+    }else if(itemType.type == 'question' || itemType.type == 'answer'){
+      if(this.performanceDemands[itemType.parentIdx].question.length > 1){
+        this.performanceDemands[itemType.parentIdx].question.splice(itemType.no,1);
+      }
+    }
+    this.focusType = {};
+    this.showSettingSidebar = false;
+  }
+
   cancelConcept(){
     this.conceptCreate = false;
     this.testWerkzCategory =false;
     this.conceptList = true;
-    this.pdLists = [];
+    this.performanceDemands = [];
     this.concept = {};
+    this.focusType = {};
+    this.ischecked = ""
   }
 }

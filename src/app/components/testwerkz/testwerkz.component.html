@@ -130,7 +130,7 @@
       id="conceptWrapper">
       <div class="pl-3 p-0 form-side">
         <div class=" d-flex flex-column w-100" [ngClass]="{'align-items-center': classCreate == true}">
-          <div class="">
+          <div class="createForm-wrap">
             <div class="mr-auto p-2 pl-0 pb-0" (click)="backToTestWerkz()">
               <div class="back-to pt-2 d-flex">
                 <i class="fa fa-angle-left"></i>
@@ -221,7 +221,7 @@
                <!-- Wai Yan UI Start -->
             <!-- <div *ngFor="let pd of pdLists; let i = index"> -->
             <div *ngFor="let pd of performanceDemands; let i = index">
-              <div class="d-flex flex-column pd-blog mb-2" (click)=showSetting()>
+              <div class="d-flex flex-column pd-blog mb-2">
                 <!-- for header start -->
                 <div class="pd-name-wrapper d-flex container align-items-center">
                   <div *ngIf="this.focusPlace == ('pd'+i)" class="pd-icon-wrapper align-items-center d-flex">
@@ -233,6 +233,10 @@
                     <span class="pd-No" style="color:#64707d;">{{i+1}}</span>
                   </div>
                   <div class="pd-name-input-wrapper"> 
+                    <div class="answer-tooltip-wrap" *ngIf="this.focusPlace == ('pd'+i)">
+                      <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
+                      <div class="answer-carret-box"></div>
+                    </div>
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
                     <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'','')">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
@@ -255,7 +259,7 @@
                         <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
                         <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
                         <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
-                        <button (click)=openImgModal(imgModal)><img src="assets/img/text-edit-image.png"></button>
+                        <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                          <div class="carret-box"></div>
                       </div>
                       <div id="q-{{i}}{{j}}" class="mt-3 question" contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'')"></div>
@@ -295,7 +299,7 @@
                                       <div *ngIf="index == 7 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
                                       <div *ngIf="index == 7 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
                                     </label>
-                                  <input type="text" class="bg-white w-100 answer-input" placeholder="choice"  (focusout) = "hideTooltip('hideTooltip',i,j,index)" (focus)="onFocus('answer',i,j,index)" (keydown)="onKeydown($event,i ,j)">
+                                  <input type="text" class="bg-white w-100 answer-input" [(ngModel)]="answer.answer" placeholder="choice"  (focusout) = "hideTooltip('hideTooltip',i,j,index)" (focus)="onFocus('answer',i,j,index)" (keydown)="onKeydown($event,i ,j)">
                                 </div>
                           </div>
                          
@@ -371,6 +375,10 @@
               <input type="text" class="randomize-count" placeholder="0">
             </div>
           </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center delete-btnWrap">
+          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length>1" (click)="delete(focusType)">Delete</button>
+          <button *ngIf="(focusType.type == 'question' || focusType.type == 'answer') && performanceDemands[focusType.parentIdx].question.length>1" (click)="delete(focusType)">Delete</button>
         </div>
       </div>
     </div>
