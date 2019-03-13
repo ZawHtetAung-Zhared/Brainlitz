@@ -139,6 +139,7 @@ export class ScheduleComponent implements OnInit {
   // clickInit:boolean = false;
   model: any = {};
   rolloverCourse: any;
+  highlightPlan:any;
   public listings = [
     {
       'name': 'Dec'
@@ -760,14 +761,14 @@ export class ScheduleComponent implements OnInit {
     this.slotJidx = '';
   }
   
-
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.overFlowWidth(20,'button')
     //to define is side or not
     var diff=window.innerWidth - this.screenValue;
+    console.log(diff)
     if(this.isSide){
-      if(diff <= 40){
+      if(diff <= 40 && diff >=0){
         console.log("less than")
         this.styleArr = {
         'top': this.yPosition + "px",
@@ -780,7 +781,7 @@ export class ScheduleComponent implements OnInit {
       }
     }
   }
-  highlightPlan:any;
+
   ngOnInit() {
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
