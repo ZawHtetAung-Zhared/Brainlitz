@@ -398,20 +398,28 @@ public performanceDemands = [];
   }
   trueAnswerRadio(i,j,index,answer){
     this.tempTest = answer
+    const dataArray = this.performanceDemands[i].question[j];
+    dataArray.answers.map( (answer) => answer.correctness = 0 )
+    console.log( JSON.stringify(dataArray));
     // console.error(i,j,index,answer);
-    if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
-      this.performanceDemands[i].question[j].answers[index].correctness  = 100;
+
+    // answer.correctness  = 100;
+    dataArray.answers[index].correctness = 100;
+    console.log( JSON.stringify(dataArray));
+
+    // if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
+    //   this.performanceDemands[i].question[j].answers[index].correctness  = 100;
+      
+      // if(this.pdIndex !=undefined && this.questionIndex != undefined && this.answerIndex != undefined){
+      //   this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].correctness  = 0;
+      // }
+      // this.pdIndex=i;
+      // this.questionIndex=j;
+      // this.answerIndex=index;
      
-      if(this.pdIndex !=undefined && this.questionIndex != undefined && this.answerIndex != undefined){
-        this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].correctness  = 0;
-      }
-      this.pdIndex=i;
-      this.questionIndex=j;
-      this.answerIndex=index;
-     
-    }else{
-      this.performanceDemands[i].question[j].answers[index].correctness = 0;
-    }
+    // }else{
+    //   this.performanceDemands[i].question[j].answers[index].correctness = 0;
+    // }
   
   }
   addQuestion(j) {
