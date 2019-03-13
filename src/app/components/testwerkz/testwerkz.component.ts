@@ -23,12 +23,23 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public answerType = 'radio';
+  // public id1:any;
+  // public id2:any;
+  // public id3:any;
+  // Component
+  public answerSymbols = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  public imagePath = '../../../assets/img/answerIcon/';
+  public answerSymbolSVG = 'Choice_reverse.svg';
+  public answerSymbolReverseSVG = 'Choice.svg';
   public answerTootips:any;
-  public answerTootipsOptions=false;
+  public pdIndex :any;
+  public questionIndex:any;
+  public answerIndex:any;
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
-  public showSettingSidebar = true;
+  public showSettingSidebar = false;
   public isGlobal = false;
   public modelType:any;
   public testWerkzCategory = false;
@@ -72,16 +83,20 @@ export class TestwerkzComponent implements OnInit {
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
   public ImgArr:any =[];
+  public imgIdArr:any =[];
   public imgId:any;
-  public imgIdArr:any=[];
-  public isClick= false;
+  public clickType: boolean=false;
+  public editableId:any = "";
+  // public focusType = {
+  //   'type': "",
+  //   'no': "",
+  //   'parentIdx': ""
+  // };
+  public focusType:any = {};
+  public focusPlace:any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService,public toastr: ToastsManager) {}
-  public clickType: boolean=false;
-  public editableId:any = "";
-  public focusType = "";
-  public focusPlace:any;
 
 
 
@@ -111,78 +126,8 @@ public performanceDemands = [];
     if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    // this.pdLists = [
-    //   {
-    //     pdName: "",
-    //     question: [
-    //       {
-    //         questionName: "",
-    //         answers: [
-    //           {
-    //             answer: "",
-    //             rightAnswer:false
-    //           }
-    //         ],
-    //         rightAnswer: 0
-    //       }
-    //     ]
-    //   }
-    // ];
-    // for (var i = 0; i < this.pdLists.length; i++) {
-    //   console.log(this.pdLists[i]);
-    // }
-    // console.log(this.concepts[0].pdName="pdName")
-    // this.concepts[0].question[0].questionName = "answerName";
-    // this.concepts[0].question[0].answers[0].answer = "answer1";
-    // this.concepts[0].question[0].answers[1].answer = "answer1";
-    // this.concepts[0].question[0].answers[2].answer = "answer4";
-    // this.concepts[0].question[0].rightAnswer = 0;
 
     console.log(this.pdLists);
-
-    // waiyan's code start
-    this.performanceDemands = [
-      {
-        pdName: "",
-        question: [
-          {
-            "name": "string",
-            "description": "string",
-            "question": "string",
-            "allowedAttempts": 0,
-            "questionType": "MCQ-OPTION",
-            "viewType": "LIST",
-            "contents": [
-              {
-                "contentId": "string",
-                "sequence": 0,
-                "start": 0,
-                "end": 0,
-                "playAt": "BEFORE"
-              }
-            ],
-            "answers": [
-              {
-                "name": "string",
-                "answer": "string",
-                "imgUrl": "string",
-                "correctness": 0,
-                "contents": [
-                  {
-                    "contentId": "string",
-                    "sequence": 0,
-                    "start": 0,
-                    "end": 0,
-                    "playAt": "BEFORE"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-    // waiyan's code end
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
@@ -270,13 +215,19 @@ public performanceDemands = [];
       this.testWerkzCategory = true
       this.conceptList = false;
       this.getAllTag();
+      this.addPd();
+      this.showSettingSidebar = false;
   }
 
   getAllTag(){
+    this.blockUI.start('Loading')
     this._service.getAllTags(this.regionID)
     .subscribe((res:any) => {    
       console.log(res);
       this.tagsWerkzList = res;
+      setTimeout(() => {
+        this.blockUI.stop()
+      }, 300);
   }, err => {
     console.log(err)
   })
@@ -351,8 +302,8 @@ public performanceDemands = [];
     this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
-    localStorage.setItem("categoryID", val);
-    localStorage.setItem("categoryName", name);
+    // localStorage.setItem("categoryID", val);
+    // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
     //   console.log("--waiting--")
     //   this.goBackCat = true;
@@ -410,7 +361,7 @@ public performanceDemands = [];
     // console.log(toHtml)
   }
   onKeydown(e,i ,j){
-
+    
     if(e.key === 'Enter'){
       if(this.performanceDemands[i].question[j].answers.length < 8 ){
         // this.pdLists[i].question[j].answers.push({
@@ -420,13 +371,14 @@ public performanceDemands = [];
 
         this.performanceDemands[i].question[j].answers.push(
           {
-            "name": "string",
-            "answer": "string",
-            "imgUrl": "string",
+            "name": "",
+            "answer": "",
+            "imgUrl": "",
             "correctness": 0,
+            "showTooltip":false,
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -438,12 +390,23 @@ public performanceDemands = [];
       }
     }
   }
-  trueAnswer(i,j,index){
+  trueAnswer(i,j,index,answer){
     if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
       this.performanceDemands[i].question[j].answers[index].correctness  = 100;
     }else{
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
+
+  }
+
+  trueAnswerRadio(i,j,index,answer){
+    console.log(this.performanceDemands);
+    const dataArray = this.performanceDemands[i].question[j];
+    dataArray.answers.map( (answer) => answer.correctness = 0 )
+    // console.log( JSON.stringify(dataArray));
+    dataArray.answers[index].correctness = 100;
+    // console.log( JSON.stringify(dataArray));
+  
   }
   addQuestion(j) {
     console.log("add querstion");
@@ -463,15 +426,17 @@ public performanceDemands = [];
     // waiyan's code start
     this.performanceDemands[j].question.push(
       {
-        "name": "string",
-        "description": "string",
-        "question": "string",
+        "name": "",
+        "description": "",
+        "question": "",
         "allowedAttempts": 0,
         "questionType": "MCQ-OPTION",
+        "pickMultiple": false,
+        "showTooltip" : false,
         "viewType": "LIST",
         "contents": [
           {
-            "contentId": "string",
+            "contentId": "",
             "sequence": 0,
             "start": 0,
             "end": 0,
@@ -480,13 +445,14 @@ public performanceDemands = [];
         ],
         "answers": [
           {
-            "name": "string",
-            "answer": "string",
-            "imgUrl": "string",
+            "name": "",
+            "answer": "",
+            "imgUrl": "",
             "correctness": 0,
+            "showTooltip":false,
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -518,18 +484,22 @@ public performanceDemands = [];
     this.performanceDemands.push(
       {
 
-        pdName: "",
-        question: [
+        "pdName": "",
+        "showTooltip":false,
+        "contentsArr": [],
+        "question": [
           {
-            "name": "string",
-            "description": "string",
-            "question": "string",
+            "name": "",
+            "description": "",
+            "question": "",
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
+            "pickMultiple": false,
+            "showTooltip" : false,
             "viewType": "LIST",
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -538,13 +508,14 @@ public performanceDemands = [];
             ],
             "answers": [
               {
-                "name": "string",
-                "answer": "string",
-                "imgUrl": "string",
+                "name": "",
+                "answer": "",
+                "imgUrl": "",
                 "correctness": 0,
+                "showTooltip":false,
                 "contents": [
                   {
-                    "contentId": "string",
+                    "contentId": "",
                     "sequence": 0,
                     "start": 0,
                     "end": 0,
@@ -655,6 +626,15 @@ public performanceDemands = [];
   //open image modal
   openImgModal(content,type) {
     console.log("open modal>",type)
+    this.modelType = type;
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getAllContent();
+  }
+  answerOpenImgModal(content,type,i,j,index) {
+    console.log("open modal>",type)
+     this.pdIndex = i;
+     this.questionIndex= j;
+     this.answerIndex = index;
     this.modelType = type;
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
     this.getAllContent();
@@ -928,6 +908,7 @@ autoImgLoop(arr){
      console.log(this.selectedImgArr);
      console.log("editableID",this.editableId)
      if(this.editableId != ""){
+       console.log('question ===== insert img');
        var e = document.getElementById(this.editableId);
        e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
        var k = document.getElementById("img"+this.editableId);
@@ -938,7 +919,15 @@ autoImgLoop(arr){
          // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
          k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
        }
-     }   
+     }else if(this.modelType == 'single'){
+       console.log('answer === ');
+      this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
+     }else{
+       console.log("pd Insert Img======");
+       this.performanceDemands[this.focusType.no].contentsArr = this.selectedImgArr;
+       console.log(this.performanceDemands[this.focusType.no])
+       
+     }
      // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
      // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
      this.cancelModal();
@@ -975,28 +964,47 @@ autoImgLoop(arr){
   onFocus(type,idx1,idx2,idx3){
     this.editableId = "";
     this.focusPlace = "";
-    this.focusType = type;
+    this.answerTootips = '';
+    this.focusType.type = type;
+    this.showSetting();
     switch (type) {
       case "pd":
         this.focusPlace = 'pd' + idx1;
+        this.focusType.no = idx1
+        this.focusType.parentIdx = ""
+        this.performanceDemands[idx1].showTooltip = true
         break;
       case "question":
         this.focusPlace = 'q' + idx1 + idx2;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1
         this.editableId = 'q'+'-'+idx1+idx2;
         console.log(this.editableId)
+        this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "answer":
         this.focusPlace = 'a' + idx1 + idx2 + idx3;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1
     }
     if(type  == 'answer'){
-      this.answerTootipsOptions = true;
-      this.answerTootips = idx1 + idx2 + idx3;
+      // this.answerTootipsOptions = true;
+      this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
     }
-    
   }
-  hideTooltip(){
-    // console.error('object');
-    // this.answerTootipsOptions =false;
+  hideTooltip(hideTooltip,type,idx1,idx2,idx3){
+    if(hideTooltip == 'hideTooltip'){
+      setTimeout(() => {
+        if(type == 'answer'){
+          this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+        }else if(type == 'question'){
+          this.performanceDemands[idx1].question[idx2].showTooltip = false;
+        }else{
+          this.performanceDemands[idx1].showTooltip = false;
+          console.log('object');
+        }
+      }, 150);
+    }
   }
   // closeDropdown(e,type){
   //   var divToHide = document.getElementById(this.editableId);
@@ -1012,12 +1020,57 @@ autoImgLoop(arr){
   // focusoutMethod(){
   //   console.log("~~~focusOut");
   // }
+  // pickMultipleAns(item){
+  //   console.log(item);
+  //   this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
+  //   console.log(this.performanceDemands)
+  //   if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+  //     this.answerType = 'checkbox'
+  //   }else{
+  //     this.answerType = 'radio'
+  //   }
+  // }
+  pickMultipleAns(item) {
+    const dataArray = this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no];
+    var isMultiSelect = dataArray.pickMultiple;
+    isMultiSelect = !isMultiSelect ;
+    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple
+    if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+        this.answerType = 'checkbox'
+      }else{
+        this.answerType = 'radio'
+      }
+    console.log(dataArray);
+    dataArray.answers.map( (answer, i) => answer.correctness = 0 )
+
+  }
+
+  delete(itemType){
+    console.log("delete type",itemType);
+    if(itemType.type == 'pd'){
+      if(this.performanceDemands.length>1){
+        this.performanceDemands.splice(itemType.no,1);
+      }
+    }else if(itemType.type == 'question' || itemType.type == 'answer'){
+      if(this.performanceDemands[itemType.parentIdx].question.length > 1){
+        this.performanceDemands[itemType.parentIdx].question.splice(itemType.no,1);
+      }
+    }
+    this.focusType = {};
+    this.showSettingSidebar = false;
+  }
 
   cancelConcept(){
     this.conceptCreate = false;
     this.testWerkzCategory =false;
     this.conceptList = true;
-    this.pdLists = [];
+    this.performanceDemands = [];
     this.concept = {};
+    this.focusType = {};
+    this.ischecked = ""
+  }
+
+  createConcept(){
+    console.log("pdQuestion",this.performanceDemands);
   }
 }

@@ -139,6 +139,7 @@ export class ScheduleComponent implements OnInit {
   // clickInit:boolean = false;
   model: any = {};
   rolloverCourse: any;
+  highlightPlan:any;
   public listings = [
     {
       'name': 'Dec'
@@ -760,7 +761,6 @@ export class ScheduleComponent implements OnInit {
     this.slotJidx = '';
   }
   
-
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.overFlowWidth(20,'button')
@@ -798,7 +798,6 @@ export class ScheduleComponent implements OnInit {
       }
     }
     this.getRegionalInfo();
-
     //for rolloverCourse
     setTimeout(()=>{
       this.dataservice.rolloverCId.subscribe( cId =>  this.rolloverCourse = cId)
@@ -812,8 +811,13 @@ export class ScheduleComponent implements OnInit {
         this.isCourseCreate = false;
         this.selectedID = this.rolloverCourse.category.id;
         this.item.itemID = this.rolloverCourse.category.name;
+         this. highlightPlan = this.rolloverCourse.coursePlan.id;
+         this.selectedCategory._id = this.rolloverCourse.category.id;
+         this.selectedCategory.name = this.rolloverCourse.category.name;
         this.courseplanLists = [];
         this.getAllCoursePlan('0', '20');
+      }else{
+        this. highlightPlan = ""
       }
     },300)
 
@@ -2277,7 +2281,7 @@ export class ScheduleComponent implements OnInit {
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
-    this.showDp = true;
+    // this.showDp = true;
     console.log(e);
     console.log(course.seat)
     console.log(course.seat.left)
