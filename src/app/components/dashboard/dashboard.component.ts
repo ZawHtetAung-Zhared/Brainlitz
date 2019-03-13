@@ -399,7 +399,6 @@ export class DashboardComponent implements OnInit {
   updateRegionalInfo(data, type) {
     console.log(data);
     console.log(this.startT, this.endT)
-    console.log(this.startT.split(":"));
     // this.startT = this.validateTime(this.startT)
     // this.endT = this.validateTime(this.endT)
     console.log(this.startT)
@@ -432,6 +431,7 @@ export class DashboardComponent implements OnInit {
       'meridiem': this.eisSelected
     }
     this.item.operatingHour["end"] = end;
+    console.log("DATA~~~",data)
     this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
       .subscribe((res: any) => {
         this.toastr.success('Successfully Updated.');
