@@ -355,8 +355,9 @@
       <div class="col-4 p-0 setting-sidebar" *ngIf="showSettingSidebar" [ngClass]="{'greater-than': greterThan,'less-than': lessThan,'forElse': forElse }">
         <div class="pt-2 d-flex flex-column">
           <div class="d-flex p-3">
-            <div class="pd-icon-wrapper align-items-center d-flex">
-              <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+            <div class="align-items-center d-flex" [ngClass]="{'pd-icon-wrapper': focusType.type == 'pd', 'check-icon-wrapper':focusType.type == 'question' || focusType.type == 'answer'}">
+              <img *ngIf="focusType.type == 'pd'" src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+              <img *ngIf="focusType.type == 'question' || focusType.type == 'answer'" src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
               <span class="pd-No">{{this.focusType.no + 1}}</span>
             </div>
             <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'pd'"> PD Setting  </p> 
