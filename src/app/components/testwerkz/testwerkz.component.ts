@@ -1,6 +1,6 @@
 
 import { Component, OnInit, HostListener } from "@angular/core";
-import { TargetLocator } from "selenium-webdriver";
+import { TargetLocator, promise } from "selenium-webdriver";
 import { pd } from "./apg";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DragulaService, DragulaModule } from 'ng2-dragula';
@@ -56,7 +56,7 @@ export class TestwerkzComponent implements OnInit {
   public iseditfocus = false;
   public otherfocus = false;
   public isEditComplete: boolean = false;
-  
+  public isRemove:boolean=false;
   public translateToMarkDown: string;
   public testVar = "";
   public placeholderVar = "Enter Questions";
@@ -83,6 +83,7 @@ export class TestwerkzComponent implements OnInit {
   public tempContentArr:any =[];
   public selectedImgArr:any =[];
   public ImgArr:any =[];
+  public imgIdArr:any =[];
   public imgId:any;
   public clickType: boolean=false;
   public editableId:any = "";
@@ -106,6 +107,7 @@ public performanceDemands = [];
 
 
   ngOnInit() {
+    // this.testing()
     var turndownService = new TurndownService();
     // for div
     turndownService.addRule('Tada', {
@@ -642,25 +644,34 @@ public performanceDemands = [];
  getAllContent(){
    this.ImgArr=[];
    this.blockUI.start('Loading...');
-   this._service.getContent(this.regionID)
+   return new Promise((resolve,reject)=>{
+    this._service.getContent(this.regionID)
     .subscribe((res: any) => {
       this.contentArr=res;
-      
+  
       for(var i=0;i<res.length;i++){
         if(res[i].type =='image/gif' || res[i].type=='image/png' || res[i].type=='image/jpeg'){
           this.ImgArr.push(res[i]);
         }
       }
-      console.log(this.ImgArr)
       this.tempContentArr=this.ImgArr;
+    
+    
+      console.log(this.ImgArr)
+      
+      resolve();
       this.blockUI.stop();
     }, err => {
       console.log(err)
     });
+   })
+ 
  }
   cancelModal() {
     this.modalReference.close();
     this.selectedImgArr = [];
+    this.imgIdArr=[];
+    this.imgId=undefined;
   }
   
   //image upload
@@ -672,17 +683,33 @@ public performanceDemands = [];
       .subscribe((res: any) => {
         // this.contentArr=res.meta;
         // this.toastr.success('Successfully Content Upload.');
-        this.getAllContent();
-        console.log(res)
-        setTimeout(() => {
-          this.autoSelectedImg(res.meta);
-        },300);
+        
+        this.getAllContent().then(()=>{
+          console.log("here me>",res);
+          setTimeout(() => {
+            this.autoSelectedImg(res.meta)
+          }, 300);
+         
+        })
         this.blockUI.stop();
       }, err => {
         console.log(err);
         // this.toastr.error('Fail Content Upload.');
       });
     }
+
+    // testing(){
+    //   console.log('console')
+    //   new Promise(function(resolve, reject) {
+    //       resolve('foo');
+    //   }).catch();
+    // }
+
+    // testin(){
+    //   this.testing().then(res=>{
+
+    //   })
+    // }
     
   autoResize(e){
       e.target.style.cssText = 'height:auto';
@@ -691,16 +718,12 @@ public performanceDemands = [];
 
   //autoselected img after img load
   autoSelectedImg(resturnobj){
+    console.log(this.modelType);
     console.log(this.selectedImgArr)
-    console.log(resturnobj)
-    console.log(this.tempContentArr)
     for(var i=0;i<resturnobj.length;i++){
       for(var j=0;j<this.tempContentArr.length;j++){
-        console.log(resturnobj[i]._id == this.tempContentArr[j]._id)
-        console.log(resturnobj[i]._id)
-        console.log(this.tempContentArr[j]._id)
         if(resturnobj[i]._id == this.tempContentArr[j]._id){
-          this.onslectedImgDiv(j,this.tempContentArr[j]);
+          this.onslectedImgDiv(this.tempContentArr[j]._id,this.tempContentArr[j]);
           // break;
         }
       }
@@ -709,64 +732,119 @@ public performanceDemands = [];
 
   //mutiselect img
   onslectedImgDiv(i,img){
-    console.log(i,img);
-    console.log(this.modelType)
+    console.log(this.isRemove,"is remove",i);
+
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const circle: HTMLElement = document.getElementById('cricle'+i);
     const check: HTMLElement = document.getElementById('check'+i);
     const trash: HTMLElement = document.getElementById('trash'+i);
     const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
     if(this.modelType=="single"){
+      console.log("is single",this.imgId)
        //add selected 
-       this.selectedImgArr=img;
-        imgDiv.setAttribute("style","border:solid;color:#007fff;");
-        circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
-        check.setAttribute("style","color:white;");
+       if(!this.isRemove){
+        this.selectedImgArr=img;
+        this.imgIdArr=i; 
+        if(this.imgId != undefined && this.imgId != i ){
+          this.removerSelected(this.imgId);
+          imgDiv.setAttribute("style","border:solid;color:#007fff;");
+          circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+          check.setAttribute("style","color:white;");
+          this.ischecked=true
+          console.log("here if")
+        }else{
+          console.log("hree else")
+          if(imgDiv.style.border =="solid"){
+            this.removerSelected(this.imgId)
+          }else{
+            imgDiv.setAttribute("style","border:solid;color:#007fff;");
+            circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+            check.setAttribute("style","color:white;");
 
-        console.log(this.imgId)
-        //remove selected
-        if(this.imgId != undefined){
-          const imgDiv2: HTMLElement = document.getElementById('img-'+this.imgId);
-          const circle2: HTMLElement = document.getElementById('cricle'+this.imgId);
-          const check2: HTMLElement = document.getElementById('check'+this.imgId);
-          const trash2: HTMLElement = document.getElementById('trash'+this.imgId);
-          const overlay2: HTMLElement = document.getElementById('Imgoverlay'+this.imgId);
-          imgDiv2.setAttribute("style","border:none;");
-          circle2.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
-          check2.setAttribute("style","color:#ffffff00;");
-          trash2.setAttribute("style","opacity: 0;")
-          overlay2.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+          }
         }
-        console.log(this.imgId);
         this.imgId=i;
-        
+       }
+      
     }else{
-      if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
-        this.selectedImgArr.push(img);
-        console.log(this.selectedImgArr);
-        imgDiv.setAttribute("style","border:solid;color:#007fff;");
-        circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
-        check.setAttribute("style","color:white;");
-      }else{
-        imgDiv.setAttribute("style","border:none;");
-        circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
-        check.setAttribute("style","color:#ffffff00;");
-        trash.setAttribute("style","opacity: 0;")
-        overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+      console.log(this.imgIdArr.includes(i));
+      console.log(this.imgIdArr)
+      if(this.isRemove){
+        console.log("is remove")
         this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
-        console.log(this.selectedImgArr);
-      }
+        this.imgIdArr.splice(this.imgIdArr.indexOf(i),1)
+        this.autoImgLoop(this.imgIdArr);
+        this.isRemove=false;
+        
+      }else{
+        console.log(this.imgIdArr.includes(i))
+        if(this.imgIdArr.includes(i)){
+          console.log("is remove seleccted")
+          this.removerSelected(i);
+        }else{
+          console.log("else")
+          this.imgIdArr.push(i);
+          this.selectedImgArr.push(img);
+          this.autoImgLoop(this.imgIdArr);
+        }
+      } 
     }
-   
+    this.isRemove=false;
+    console.log(this.imgIdArr)
+  }
+removerSelected(i){
+  console.log(this.selectedImgArr , i)
+  const imgDiv3: HTMLElement = document.getElementById('img-'+i);
+  const circle3: HTMLElement = document.getElementById('cricle'+i);
+  const check3: HTMLElement = document.getElementById('check'+i);
+  const trash3: HTMLElement = document.getElementById('trash'+i);
+  const overlay3: HTMLElement = document.getElementById('Imgoverlay'+i);
+  imgDiv3.setAttribute("style","border:none;");
+  circle3.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+  check3.setAttribute("style","color:#ffffff00;");
+  trash3.setAttribute("style","opacity: 0;")
+  overlay3.setAttribute("style"," background: rgba(0, 0, 0, 0);");
+  if(this.modelType == 'single'){
+    this.selectedImgArr=[];
+    this.imgIdArr=[];
+
+    // this.imgId=undefined;
+    console.log(this.imgId)
+
+    // if(String(this.imgId)== i){
+    //   this.imgId=undefined;
+    //   console.log("hrerer",this.imgId)
+    // }
+  }else{
+    this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
+    this.imgIdArr.splice(this.imgIdArr.indexOf(i),1)
   }
 
+}
+autoImgLoop(arr){
+  console.log(arr);
+  for(var i=0;i<arr.length;i++){
+    const imgDiv: HTMLElement = document.getElementById('img-'+arr[i]);
+    const circle: HTMLElement = document.getElementById('cricle'+arr[i]);
+    const check: HTMLElement = document.getElementById('check'+arr[i]);
+    const trash: HTMLElement = document.getElementById('trash'+arr[i]);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+arr[i]);
+      console.log(imgDiv)
+      console.log(circle);
+      console.log(check)
+      imgDiv.setAttribute("style","border:solid;color:#007fff;");
+      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+      check.setAttribute("style","color:white;");
+      console.log(arr[i]);
+  }
+}
 
 
   onImgMouseEvent(e,i){
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const trash: HTMLElement = document.getElementById('trash'+i);
     const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
-    console.log(imgDiv.style.border)
+ 
     if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
       trash.setAttribute("style","opacity: 1;");
       overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
@@ -857,16 +935,25 @@ public performanceDemands = [];
 
   onremoveClick(id){
     console.log(id)
+    this.isRemove=true;
     this._service.onDeleteContent(this.regionID,id)
     .subscribe((res: any) => {
       console.log(res)
       // this.contentArr=res.meta;
        this.toastr.success('Successfully Content deleted.');
-      this.getAllContent();
-      setTimeout(() => {
-        this.autoSelectedImg(res.meta);
-        console.log(res.meta)
-      },300);
+       this.getAllContent().then(()=>{
+        console.log("here me>",res);
+        setTimeout(() => {
+          console.log(this.selectedImgArr)
+          console.log(this.imgIdArr)
+          if(this.modelType == "multiple"){
+            this.autoImgLoop(this.imgIdArr)
+          }else{
+            this.imgId=undefined
+          }
+          
+        }, 300);
+      })
     }, err => {
       console.log(err);
       this.toastr.error('Fail Content deleted.');
