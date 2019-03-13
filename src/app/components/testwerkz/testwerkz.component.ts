@@ -24,7 +24,6 @@ declare var $:any;
 })
 export class TestwerkzComponent implements OnInit {
   public answerType = 'radio';
-  public tempTest:any;
   // public id1:any;
   // public id2:any;
   // public id3:any;
@@ -395,31 +394,16 @@ public performanceDemands = [];
     }else{
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
+
   }
+
   trueAnswerRadio(i,j,index,answer){
-    this.tempTest = answer
+    console.log(this.performanceDemands);
     const dataArray = this.performanceDemands[i].question[j];
     dataArray.answers.map( (answer) => answer.correctness = 0 )
-    console.log( JSON.stringify(dataArray));
-    // console.error(i,j,index,answer);
-
-    // answer.correctness  = 100;
+    // console.log( JSON.stringify(dataArray));
     dataArray.answers[index].correctness = 100;
-    console.log( JSON.stringify(dataArray));
-
-    // if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
-    //   this.performanceDemands[i].question[j].answers[index].correctness  = 100;
-      
-      // if(this.pdIndex !=undefined && this.questionIndex != undefined && this.answerIndex != undefined){
-      //   this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].correctness  = 0;
-      // }
-      // this.pdIndex=i;
-      // this.questionIndex=j;
-      // this.answerIndex=index;
-     
-    // }else{
-    //   this.performanceDemands[i].question[j].answers[index].correctness = 0;
-    // }
+    // console.log( JSON.stringify(dataArray));
   
   }
   addQuestion(j) {
@@ -913,7 +897,6 @@ public performanceDemands = [];
     }
     if(type  == 'answer'){
       // this.answerTootipsOptions = true;
-      this.answerTootips =  idx1 + idx2 + idx3 + 'a';
       this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
     }
   }
@@ -950,15 +933,14 @@ public performanceDemands = [];
   // }
   pickMultipleAns(item) {
     const dataArray = this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no];
-    let isMultiSelect = dataArray.pickMultiple;
+    var isMultiSelect = dataArray.pickMultiple;
     isMultiSelect = !isMultiSelect ;
-    
-    // If isMultiSelect === true, change the input type into checkbox
-    if(isMultiSelect){
-      this.answerType = 'checkbox';
-    }else{
-      this.answerType = 'radio';
-    }
+    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple
+    if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+        this.answerType = 'checkbox'
+      }else{
+        this.answerType = 'radio'
+      }
     console.log(dataArray);
     dataArray.answers.map( (answer, i) => answer.correctness = 0 )
 
