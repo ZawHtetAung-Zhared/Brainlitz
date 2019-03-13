@@ -148,7 +148,7 @@
           <p>Creating {{apgType}} APG</p>
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
-        <a *ngIf="!selfAssessment" class="cancel-back" (click)="cancelapg()">Cancel</a>
+        <a class="cancel-back" (click)="cancelapg()">Cancel</a>
       </div>
 
       <div class="d-flex justify-content-between" *ngIf="shareAPG == true  && isUpdate == false">
@@ -157,7 +157,7 @@
           <p>Creating {{apgType}} APG</p>
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
-        <a ngif="!selfAssessment" class="cancel-back" (click)="cancelapg()">Cancel</a>
+        <a class="cancel-back" (click)="cancelapg()">Cancel</a>
       </div>
     </div>
     <div class="location-group">
@@ -554,7 +554,7 @@
           </div>
         </div>
 
-        <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false && selfAssessment == false ">
+        <div *ngIf="iscreate == true && apCreate == false && dataApCreate == false">
           <div class="col-md-8 input-wrap">
             <div class="form-group">
               <div class="d-flex justify-content-between">
