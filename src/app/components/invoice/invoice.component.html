@@ -255,7 +255,7 @@
         <button *ngIf="isEditInv == true" class="btn send-btn" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0"
           (click)="updateInvoice()">Save</button>
         <button class="btn btn-submit" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0 || isEditInv == true"
-          (click)="showPayOption()">Pay now</button>
+          (click)="showPayOption()">Paid On</button>
       </div>
     </div>
   </div>
@@ -541,7 +541,7 @@
           <button class="back-inv cursor-on" (click)="backToInvoice()">
             <i class="fa fa-angle-left"></i><span>Back</span>
           </button>
-          <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Pay now</button>
+          <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Paid On</button>
         </div>
   </div>
 </div>
