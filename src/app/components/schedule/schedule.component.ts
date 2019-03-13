@@ -780,7 +780,7 @@ export class ScheduleComponent implements OnInit {
       }
     }
   }
-
+  highlightPlan:any;
   ngOnInit() {
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
@@ -797,7 +797,6 @@ export class ScheduleComponent implements OnInit {
       }
     }
     this.getRegionalInfo();
-
     //for rolloverCourse
     setTimeout(()=>{
       this.dataservice.rolloverCId.subscribe( cId =>  this.rolloverCourse = cId)
@@ -811,8 +810,13 @@ export class ScheduleComponent implements OnInit {
         this.isCourseCreate = false;
         this.selectedID = this.rolloverCourse.category.id;
         this.item.itemID = this.rolloverCourse.category.name;
+         this. highlightPlan = this.rolloverCourse.coursePlan.id;
+         this.selectedCategory._id = this.rolloverCourse.category.id;
+         this.selectedCategory.name = this.rolloverCourse.category.name;
         this.courseplanLists = [];
         this.getAllCoursePlan('0', '20');
+      }else{
+        this. highlightPlan = ""
       }
     },300)
 

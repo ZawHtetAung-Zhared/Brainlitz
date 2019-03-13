@@ -559,6 +559,7 @@ export class CoursecreateComponent implements OnInit {
 
   backToCourses(ToCourses,cId) {
     // console.log('backtocourse')
+    console.log("cID")
     console.log("backToCourses works");
     if (this.isEdit == true) {
       console.log("this.isEdit",this.isEdit);
@@ -571,6 +572,7 @@ export class CoursecreateComponent implements OnInit {
         if(this.coursePlan.from == "schedule" && ToCourses == ''){
           console.log('backtocourse schedule')
           this.router.navigate(['course/']);
+          console.log(cId)
           this.dataService.nevigateCDetail(cId);
         }else if((this.coursePlan.from == "courses" && ToCourses == '') || (this.coursePlan.from = "schedule" && ToCourses == 'back') || (this.coursePlan.from = "courses" && ToCourses == 'back')){
           console.log('backtocourse')
@@ -1374,18 +1376,10 @@ export class CoursecreateComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res);
         this.blockUI.stop();
-        // localStorage.removeItem('coursePlanId');
-        // localStorage.removeItem('splan');
-        localStorage.removeItem('cPlan');
-        localStorage.removeItem('courseID');
-        // localStorage.removeItem('tempObj');
-        // this.router.navigate(['course/']); 
 
         console.log(res.status);
         if (res.status === 201) {
-
           this.toastr.success('You have no conflict.');
-
           this.addCheck = false;
           console.log('201 status', this.addCheck)
         } else {
@@ -1395,14 +1389,19 @@ export class CoursecreateComponent implements OnInit {
           }, 300);
           localStorage.removeItem('coursePlanId');
           localStorage.removeItem('splan');
-          if(this.course.type == 'rollover'){
-            console.log("RES",res)
-            let createdId = res.body.courseId;
-            this.enrollUser(createdId, this.course.userId);
-            // this.backToCourses('',res.body.courseId)
+          if(this.course){
+            if(this.course.type == 'rollover'){
+              console.log("RES",res)
+              let createdId = res.body.courseId;
+              this.enrollUser(createdId, this.course.userId);
+            }else{
+              console.log("edit")
+              this.backToCourses('',res.body.courseId);
+            }
           }else{
             this.backToCourses('',res.body.courseId);
           }
+       
         }
       }, err => {
         console.log(err);
