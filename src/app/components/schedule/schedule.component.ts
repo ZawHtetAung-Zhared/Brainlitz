@@ -766,8 +766,9 @@ export class ScheduleComponent implements OnInit {
     this.overFlowWidth(20,'button')
     //to define is side or not
     var diff=window.innerWidth - this.screenValue;
+    console.log(diff)
     if(this.isSide){
-      if(diff <= 40){
+      if(diff <= 40 && diff >=0){
         console.log("less than")
         this.styleArr = {
         'top': this.yPosition + "px",

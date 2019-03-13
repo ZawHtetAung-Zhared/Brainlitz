@@ -413,12 +413,12 @@
         <p class="g_title">Image gallery</p>
         <div class="row imgGp">
           <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr;let i=index;">
-            <div class="inner-imgDiv" (click)="onslectedImgDiv(i,img)" id="img-{{i}}" (mouseenter)="onImgMouseEvent($event,i)"
-            (mouseleave)="onImgMouseEvent($event,i)">
-              <div id="cricle{{i}}"><i _ngcontent-c1="" class="fa fa-check" id="check{{i}}"></i></div>
-              <div (click)="onremoveClick(img._id)"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{i}}"></i></div>
+            <div class="inner-imgDiv" (click)="onslectedImgDiv(img._id,img)" id="img-{{img._id}}" (mouseenter)="onImgMouseEvent($event,img._id)"
+            (mouseleave)="onImgMouseEvent($event,img._id)">
+              <div id="cricle{{img._id}}"><i _ngcontent-c1="" class="fa fa-check" id="check{{img._id}}"></i></div>
+              <div (click)="onremoveClick(img._id)"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{img._id}}"></i></div>
               <img src={{img.url}} class="gShowImag">
-              <div class="Imgoverlay" id="Imgoverlay{{i}}"></div>
+              <div class="Imgoverlay" id="Imgoverlay{{img._id}}"></div>
             </div>
 
           </div>
