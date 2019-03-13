@@ -2231,10 +2231,13 @@ export class appService{
       }) 
     }
 
-    loadImage(regionId: string,file : File): Observable<any>{
+    loadImage(regionId: string,fileArr:any): Observable<any>{
       let url = this.baseUrl+ '/' + regionId + '/contents';
       let form = new FormData();
-      form.append('file', file );
+      for(var i=0;i<fileArr.length;i++){
+        form.append('file', fileArr[i]);
+      }
+     
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})
@@ -2286,8 +2289,65 @@ export class appService{
         return result;
       })
     }
-    // "http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/tags/5c80a8b42996a1201d10c8d0" 
 
+    onDeleteContent(regionid,contentId){
+      console.log(regionid)
+      let apiUrl = this.baseUrl + '/' + regionid  + '/contents/' + contentId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        return res;
+      })
+    }
+    // "http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/tags/5c80a8b42996a1201d10c8d0" 
+    createPDQuestion(regionId:string,data:any){
+      let url = this.baseUrl + '/' + regionId + '/questions';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    createPD(regionId:string,data:any){
+      let url = this.baseUrl + '/' + regionId + '/performance-demands';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    createConcept(regionId:string,data:any){
+      let url = this.baseUrl + '/' + regionId + '/concepts';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 
 }
 

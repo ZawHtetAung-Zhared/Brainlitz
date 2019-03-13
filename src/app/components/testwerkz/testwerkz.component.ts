@@ -6,8 +6,13 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { appService } from '../../service/app.service';
 import { FileUploader } from 'ng2-file-upload';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { c } from "@angular/core/src/render3";
+import { type } from "os";
 // declare var upndown:any;
 var upndown = require("upndown");
+var TurndownService = require('turndown').default;
 
 
 
@@ -18,6 +23,25 @@ declare var $:any;
   styleUrls: ["./testwerkz.component.css"]
 })
 export class TestwerkzComponent implements OnInit {
+  public answerType = 'radio';
+  // public id1:any;
+  // public id2:any;
+  // public id3:any;
+  // Component
+  public answerSymbols = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  public imagePath = '../../../assets/img/answerIcon/';
+  public answerSymbolSVG = 'Choice_reverse.svg';
+  public answerSymbolReverseSVG = 'Choice.svg';
+  public answerTootips:any;
+  public pdIndex :any;
+  public questionIndex:any;
+  public answerIndex:any;
+  public greterThan = false;
+  public lessThan = false;
+  public forElse = false;
+  public showSettingSidebar = false;
+  public isGlobal = false;
+  public modelType:any;
   public testWerkzCategory = false;
   public conceptCreate = false;
   public isUpdate = false;
@@ -32,13 +56,12 @@ export class TestwerkzComponent implements OnInit {
   public iseditfocus = false;
   public otherfocus = false;
   public isEditComplete: boolean = false;
-
+  
   public translateToMarkDown: string;
   public testVar = "";
   public placeholderVar = "Enter Questions";
   public pd: pd = new pd();
-
-  public concepts: any[];
+  public pdLists: any[];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -48,54 +71,67 @@ export class TestwerkzComponent implements OnInit {
     updateOnEmptySelection: false
   };
 
-  public tagWerkz :any ={}
+  public tagWerkz = {
+    "name":''
+  }
   public modalReference: any;
   public contentArr: any=[];
   public classCreate= false;
   public regionID = localStorage.getItem('regionId');
-  public concept = {
-  }
+  public concept = {};
   public tagsWerkzList = []
-  
-  constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService) {}
+  public tempContentArr:any =[];
+  public selectedImgArr:any =[];
+  public ImgArr:any =[];
+  public imgId:any;
+  public clickType: boolean=false;
+  public editableId:any = "";
+  // public focusType = {
+  //   'type': "",
+  //   'no': "",
+  //   'parentIdx': ""
+  // };
+  public focusType:any = {};
+  public focusPlace:any;
+  @BlockUI() blockUI: NgBlockUI;
+
+  constructor(private _service: appService,private modalService: NgbModal,private dragulaService: DragulaService,public toastr: ToastsManager) {}
+
+
+
+// waiyan's code start
+
+public performanceDemands = [];
+// waiyan's code end
+
 
   ngOnInit() {
+    var turndownService = new TurndownService();
+    // for div
+    turndownService.addRule('Tada', {
+      filter:'div',
+      replacement: function (content) {
+        return  content + ''
+      }
+    })
+    var a = turndownService.turndown('Which process used by plants and other organisms to convert light energy into chemical energy<div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>')
+    // console.error(typeof a)
+    // var a = turndownService.turndown('![](https://brainlitz-dev.s3.amazonaws.com/orgLogo/ClassWerkz.png)')
+    // console.log('a',a);
     if(window.innerWidth > 1366){
       this.classCreate = true;
     }
     if(window.innerWidth <= 1366){
       this.classCreate = false;
     }
-    this.concepts = [
-      {
-        pdName: "",
-        question: [
-          {
-            questionName: "",
-            answers: [
-              {
-                answer: ""
-              }
-            ],
-            rightAnswer: 0
-          }
-        ]
-      }
-    ];
-    for (var i = 0; i < this.concepts.length; i++) {
-      console.log(this.concepts[i]);
-    }
-    // console.log(this.concepts[0].pdName="pdName")
-    // this.concepts[0].question[0].questionName = "answerName";
-    // this.concepts[0].question[0].answers[0].answer = "answer1";
-    // this.concepts[0].question[0].answers[1].answer = "answer1";
-    // this.concepts[0].question[0].answers[2].answer = "answer4";
-    // this.concepts[0].question[0].rightAnswer = 0;
-    console.log(this.concepts);
+
+    console.log(this.pdLists);
+
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log("click");
     console.log($event);
+
   }
   
 
@@ -123,21 +159,50 @@ export class TestwerkzComponent implements OnInit {
     }
     if (window.pageYOffset > 81) {      
       $('.setting-sidebar').css({top: 65}) 
+       this.greterThan = true;
+       this.lessThan = false;
+       this.forElse = false;
     }
     else if(window.pageYOffset < 0){
+      this.greterThan = false;
+      this.lessThan = true;
+      this.forElse = false;
       $('.setting-sidebar').css({top: 165}) 
     } else {   
+      this.greterThan = false;
+      this.lessThan = false;
+      this.forElse = true;
       $('.setting-sidebar').css({top: 165}) 
     }
   }
+
+  //get html tag in div
+  turn(){
+    var myDiv = document.getElementById('q-00');
+    console.log("myD",myDiv.innerHTML)
+    setTimeout(()=>{
+      var turndownService = new TurndownService();
+      turndownService.addRule('Tada', {
+        filter:'div',
+        replacement: function (content) {
+          return  content + ''
+        }
+      })
+      var a = turndownService.turndown(myDiv);
+      console.log("turn to markdown",a)
+    },200)
+    
+  }
+  
   createTagWerkz(item) {
     this.isfocus = !this.isfocus;
     console.log(item);
-    console.warn(this.tagWerkz);
     this._service.createTagWerkz(this.regionID,item)
     .subscribe((res:any) => {    
       console.log(res);
-      this.tagWerkz = {};
+      this.tagWerkz = {
+        "name" : ''
+      };
       this.getAllTag();
   }, err => {
     console.log(err)
@@ -148,13 +213,19 @@ export class TestwerkzComponent implements OnInit {
       this.testWerkzCategory = true
       this.conceptList = false;
       this.getAllTag();
+      this.addPd();
+      this.showSettingSidebar = false;
   }
 
   getAllTag(){
+    this.blockUI.start('Loading')
     this._service.getAllTags(this.regionID)
     .subscribe((res:any) => {    
       console.log(res);
       this.tagsWerkzList = res;
+      setTimeout(() => {
+        this.blockUI.stop()
+      }, 300);
   }, err => {
     console.log(err)
   })
@@ -171,7 +242,9 @@ export class TestwerkzComponent implements OnInit {
       .subscribe((res:any) => {    
         console.log(res);
         this.getAllTag();
-        this.tagWerkz = {};
+        this.tagWerkz = {
+          "name" :''
+        };
     }, err => {
       console.log(err)
     })
@@ -201,6 +274,7 @@ export class TestwerkzComponent implements OnInit {
     console.log("blur", e);
     let wp = this.wordLength;
     $('.limit-type-wordcount').hide('slow');
+    $('.limit-word').hide('slow');
     this.wordLength = 0;
   }
   changeMethod(val: string) {
@@ -215,7 +289,10 @@ export class TestwerkzComponent implements OnInit {
       this.iseditfocus = !this.iseditfocus;
       this.editValue = "";
     }
-    this.tagWerkz = {};
+    this.tagWerkz = {
+      "name" : ''
+    };
+    this.getAllTag();
   }
  
   somethingChanged(val, name){
@@ -223,8 +300,8 @@ export class TestwerkzComponent implements OnInit {
     this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
-    localStorage.setItem("categoryID", val);
-    localStorage.setItem("categoryName", name);
+    // localStorage.setItem("categoryID", val);
+    // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
     //   console.log("--waiting--")
     //   this.goBackCat = true;
@@ -255,7 +332,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log(t.children('medium-editor-element'))
     if (e.inputType == "insertParagraph") {
       console.log("ddfdfdfdfdfdfdf");
-      this.concepts[i].question[j].answers.push({ answer: "" });
+      this.pdLists[i].question[j].answers.push({ answer: "" });
     } else {
       var toChild = $(t).children();
       var res = "";
@@ -281,37 +358,175 @@ export class TestwerkzComponent implements OnInit {
     // var toHtml = $(t).children('medium-editor-element')[0].innerHTML;
     // console.log(toHtml)
   }
+  onKeydown(e,i ,j){
+    
+    if(e.key === 'Enter'){
+      if(this.performanceDemands[i].question[j].answers.length < 8 ){
+        // this.pdLists[i].question[j].answers.push({
+        //   answer: "",
+        //   rightAnswer:false
+        // })
 
+        this.performanceDemands[i].question[j].answers.push(
+          {
+            "name": "",
+            "answer": "",
+            "imgUrl": "",
+            "correctness": 0,
+            "showTooltip":false,
+            "contents": [
+              {
+                "contentId": "",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ]
+          }
+        )
+      }
+    }
+  }
+  trueAnswer(i,j,index,answer){
+    if(this.performanceDemands[i].question[j].answers[index].correctness === 0){
+      this.performanceDemands[i].question[j].answers[index].correctness  = 100;
+    }else{
+      this.performanceDemands[i].question[j].answers[index].correctness = 0;
+    }
+
+  }
+
+  trueAnswerRadio(i,j,index,answer){
+    console.log(this.performanceDemands);
+    const dataArray = this.performanceDemands[i].question[j];
+    dataArray.answers.map( (answer) => answer.correctness = 0 )
+    // console.log( JSON.stringify(dataArray));
+    dataArray.answers[index].correctness = 100;
+    // console.log( JSON.stringify(dataArray));
+  
+  }
   addQuestion(j) {
     console.log("add querstion");
-    console.log(this.concepts[j].question);
-    this.concepts[j].question.push({
-      questionName: "",
-      answers: [
-        {
-          answer: ""
-        }
-      ],
-      rightAnswer: 0
-    });
-    console.log(this.concepts[j]);
+    // console.log(this.pdLists[j].question);
+    // this.pdLists[j].question.push({
+    //   questionName: "",
+    //   answers: [
+    //     {
+    //       answer: ""
+    //     }
+    //   ],
+    //   rightAnswer: 0
+    // });
+
+    // console.log(this.pdLists[j]);
+
+    // waiyan's code start
+    this.performanceDemands[j].question.push(
+      {
+        "name": "",
+        "description": "",
+        "question": "",
+        "allowedAttempts": 0,
+        "questionType": "MCQ-OPTION",
+        "pickMultiple": false,
+        "showTooltip" : false,
+        "viewType": "LIST",
+        "contents": [
+          {
+            "contentId": "",
+            "sequence": 0,
+            "start": 0,
+            "end": 0,
+            "playAt": "BEFORE"
+          }
+        ],
+        "answers": [
+          {
+            "name": "",
+            "answer": "",
+            "imgUrl": "",
+            "correctness": 0,
+            "showTooltip":false,
+            "contents": [
+              {
+                "contentId": "",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ]
+          }
+        ]
+      }
+    )
+    // waiyan's code end
   }
   addPd() {
-    this.concepts.push({
-      pdName: "",
-      question: [
-        {
-          questionName: "",
-          answers: [
-            {
-              answer: ""
-            }
-          ],
-          rightAnswer: 0
-        }
-      ]
-    });
-    console.log(this.concepts);
+    // this.pdLists.push({
+    //   pdName: "",
+    //   question: [
+    //     {
+    //       questionName: "",
+    //       answers: [
+    //         {
+    //           answer: ""
+    //         }
+    //       ],
+    //       rightAnswer: 0
+    //     }
+    //   ]
+    // });
+    // console.log(this.pdLists);
+    this.performanceDemands.push(
+      {
+
+        "pdName": "",
+        "showTooltip":false,
+        "contentsArr": [],
+        "question": [
+          {
+            "name": "",
+            "description": "",
+            "question": "",
+            "allowedAttempts": 0,
+            "questionType": "MCQ-OPTION",
+            "pickMultiple": false,
+            "showTooltip" : false,
+            "viewType": "LIST",
+            "contents": [
+              {
+                "contentId": "",
+                "sequence": 0,
+                "start": 0,
+                "end": 0,
+                "playAt": "BEFORE"
+              }
+            ],
+            "answers": [
+              {
+                "name": "",
+                "answer": "",
+                "imgUrl": "",
+                "correctness": 0,
+                "showTooltip":false,
+                "contents": [
+                  {
+                    "contentId": "",
+                    "sequence": 0,
+                    "start": 0,
+                    "end": 0,
+                    "playAt": "BEFORE"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    )
+    console.log(this.performanceDemands);
   }
 
   onClickEditor(t) {}
@@ -324,8 +539,10 @@ export class TestwerkzComponent implements OnInit {
     if ($(window.getSelection().focusNode).children("img").length > 0) {
 
     if(event.type != "deleteContentBackward"){
-      this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
+      // this.modalService.open(content, { backdropClass: "light-blue-backdrop" });
       // imgTag.attr('src','second.jpg');
+      this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+      this.getAllContent();
 
     }
   }
@@ -356,7 +573,7 @@ export class TestwerkzComponent implements OnInit {
     // }
     if (event.inputType == "insertParagraph") {
       if (type == "answer") {
-        this.concepts[i].question[j].answers.push({ answer: "" });
+        this.pdLists[i].question[j].answers.push({ answer: "" });
       }
 
     }
@@ -404,54 +621,369 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  onslectedImgDiv(i){
-    console.log(this.contentArr);
-  
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const circle: HTMLElement = document.getElementById('cricle'+i);
-    console.log(imgDiv.style.border)
-    if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
-      imgDiv.setAttribute("style","border:solid;color:#007fff;");
-      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;");
-    }else{
-      imgDiv.setAttribute("style","border:none;");
-      circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;");
-    }
-    
-  }
-  openImgModal(content) {
-    console.log("open modal")
+  //open image modal
+  openImgModal(content,type) {
+    console.log("open modal>",type)
+    this.modelType = type;
     this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
-    this.getContent();
+    this.getAllContent();
   }
- getContent(){
-  this._service.getContent(this.regionID)
+  answerOpenImgModal(content,type,i,j,index) {
+    console.log("open modal>",type)
+     this.pdIndex = i;
+     this.questionIndex= j;
+     this.answerIndex = index;
+    this.modelType = type;
+    this.modalReference = this.modalService.open(content, { backdrop: 'static', keyboard: false, windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.getAllContent();
+  }
+
+  //get all content
+ getAllContent(){
+   this.ImgArr=[];
+   this.blockUI.start('Loading...');
+   this._service.getContent(this.regionID)
     .subscribe((res: any) => {
       this.contentArr=res;
-      console.log(res)
+      
+      for(var i=0;i<res.length;i++){
+        if(res[i].type =='image/gif' || res[i].type=='image/png' || res[i].type=='image/jpeg'){
+          this.ImgArr.push(res[i]);
+        }
+      }
+      console.log(this.ImgArr)
+      this.tempContentArr=this.ImgArr;
+      this.blockUI.stop();
     }, err => {
       console.log(err)
     });
  }
-  cancelModal(type) {
+  cancelModal() {
     this.modalReference.close();
+    this.selectedImgArr = [];
   }
-  ongetImg(event){
-    const file = event.target.files[0]
-    console.log(file)
+  
+  //image upload
+  onloadImg(event){
+    console.log("dar")
+    const file = event.target.files;
+    this.blockUI.start('Loading...');
     this._service.loadImage(this.regionID, file)
       .subscribe((res: any) => {
-        this.contentArr=res.meta;
-        this.getContent();
-        console.log(res.meta)
+        // this.contentArr=res.meta;
+        // this.toastr.success('Successfully Content Upload.');
+        this.getAllContent();
+        console.log(res)
+        setTimeout(() => {
+          this.autoSelectedImg(res.meta);
+        },300);
+        this.blockUI.stop();
       }, err => {
         console.log(err);
+        // this.toastr.error('Fail Content Upload.');
       });
+    }
+    
+  autoResize(e){
+      e.target.style.cssText = 'height:auto';
+      e.target.style.height = e.target.scrollHeight + "px";
+  }
+
+  //autoselected img after img load
+  autoSelectedImg(resturnobj){
+    console.log(this.selectedImgArr)
+    console.log(resturnobj)
+    console.log(this.tempContentArr)
+    for(var i=0;i<resturnobj.length;i++){
+      for(var j=0;j<this.tempContentArr.length;j++){
+        console.log(resturnobj[i]._id == this.tempContentArr[j]._id)
+        console.log(resturnobj[i]._id)
+        console.log(this.tempContentArr[j]._id)
+        if(resturnobj[i]._id == this.tempContentArr[j]._id){
+          this.onslectedImgDiv(j,this.tempContentArr[j]);
+          // break;
+        }
+      }
+    }
+  }
+
+  //mutiselect img
+  onslectedImgDiv(i,img){
+    console.log(i,img);
+    console.log(this.modelType)
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const circle: HTMLElement = document.getElementById('cricle'+i);
+    const check: HTMLElement = document.getElementById('check'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
+    if(this.modelType=="single"){
+       //add selected 
+       this.selectedImgArr=img;
+        imgDiv.setAttribute("style","border:solid;color:#007fff;");
+        circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+        check.setAttribute("style","color:white;");
+
+        console.log(this.imgId)
+        //remove selected
+        if(this.imgId != undefined){
+          const imgDiv2: HTMLElement = document.getElementById('img-'+this.imgId);
+          const circle2: HTMLElement = document.getElementById('cricle'+this.imgId);
+          const check2: HTMLElement = document.getElementById('check'+this.imgId);
+          const trash2: HTMLElement = document.getElementById('trash'+this.imgId);
+          const overlay2: HTMLElement = document.getElementById('Imgoverlay'+this.imgId);
+          imgDiv2.setAttribute("style","border:none;");
+          circle2.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+          check2.setAttribute("style","color:#ffffff00;");
+          trash2.setAttribute("style","opacity: 0;")
+          overlay2.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+        }
+        console.log(this.imgId);
+        this.imgId=i;
+        
+    }else{
+      if(imgDiv.style.border == "" || imgDiv.style.border=="none"){
+        this.selectedImgArr.push(img);
+        console.log(this.selectedImgArr);
+        imgDiv.setAttribute("style","border:solid;color:#007fff;");
+        circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+        check.setAttribute("style","color:white;");
+      }else{
+        imgDiv.setAttribute("style","border:none;");
+        circle.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+        check.setAttribute("style","color:#ffffff00;");
+        trash.setAttribute("style","opacity: 0;")
+        overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+        this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
+        console.log(this.selectedImgArr);
+      }
+    }
+   
+  }
+
+
+
+  onImgMouseEvent(e,i){
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
+    console.log(imgDiv.style.border)
+    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
+      trash.setAttribute("style","opacity: 1;");
+      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
+    }else{
+      trash.setAttribute("style","opacity: 0;")
+      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+    }
+    // console.log(e.type)
+  }
+
+  showSetting(){
+    if (window.pageYOffset > 81) {      
+       this.greterThan = true;
+       this.lessThan = false;
+       this.forElse = false;
+    }
+    else if(window.pageYOffset < 0){
+      this.greterThan = false;
+      this.lessThan = true;
+      this.forElse = false;
+    } else {   
+      this.greterThan = false;
+      this.lessThan = false;
+      this.forElse = true;
+    }
+    this.showSettingSidebar = true;
+  }
+  closeSetting(){
+    console.log('object');
+    this.showSettingSidebar = false;
+  }
+  // caretPosition:any;
+  // caretPos(){
+  //   this.caretPosition = window.getSelection().anchorOffset;
+  //   console.log("caretPosition",this.caretPosition);
+  // }
+//   insertImg(){
+//     console.log(this.selectedImgArr);
+//     console.log(this.caretPosition)
+//     // document.execCommand("InsertImage", false, "http://placekitten.com/200/300");
+//     document.getElementById("editor1").focus();
+//     setTimeout(()=>{
+// //       var as = document.getElementById("editable");
+// //    var el=as.childNodes[1].childNodes[0];//goal is to get ('we') id to write (object Text)
+// //   var range = document.createRange();
+// //      var sel = window.getSelection();
+// // range.setStart(el, 1);
+// // range.collapse(true);
+// // sel.removeAllRanges();
+// // sel.addRange(range);
+//       for(var i in this.selectedImgArr){
+//         console.log(this.selectedImgArr[i].url,'img');
+//         document.execCommand("InsertImage", false, this.selectedImgArr[i].url);
+//       }
+//     },100)
+//     this.cancelModal();
+//     // this.selectedImgArr=[];
+//   }
+
+  insertImg(){
+     console.log(this.selectedImgArr);
+     console.log("editableID",this.editableId)
+     if(this.editableId != ""){
+       console.log('question ===== insert img');
+       var e = document.getElementById(this.editableId);
+       e.innerHTML += ('<div id="img'+ this.editableId +'" class="row"></div>');
+       var k = document.getElementById("img"+this.editableId);
+       for(var i in this.selectedImgArr){
+         console.log(this.selectedImgArr[i].url,'img');
+         var url = this.selectedImgArr[i].url;
+         console.log(url)
+         // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+         k.innerHTML += ('<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="'+url+'"></img></div></div>');
+       }
+     }else if(this.modelType == 'single'){
+       console.log('answer === ');
+      this.performanceDemands[this.pdIndex].question[this.questionIndex].answers[this.answerIndex].imgUrl = this.selectedImgArr.url
+     }else{
+       console.log("pd Insert Img======");
+       this.performanceDemands[this.focusType.no].contentsArr = this.selectedImgArr;
+       console.log(this.performanceDemands[this.focusType.no])
+       
+     }
+     // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
+     // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
+     this.cancelModal();
+  }
+
+  onremoveClick(id){
+    console.log(id)
+    this._service.onDeleteContent(this.regionID,id)
+    .subscribe((res: any) => {
+      console.log(res)
+      // this.contentArr=res.meta;
+       this.toastr.success('Successfully Content deleted.');
+      this.getAllContent();
+      setTimeout(() => {
+        this.autoSelectedImg(res.meta);
+        console.log(res.meta)
+      },300);
+    }, err => {
+      console.log(err);
+      this.toastr.error('Fail Content deleted.');
+    });
+    // this.onslectedImgDiv(i,img,"exitBorder");
+  }
+  
+  onFocus(type,idx1,idx2,idx3){
+    this.editableId = "";
+    this.focusPlace = "";
+    this.answerTootips = '';
+    this.focusType.type = type;
+    this.showSetting();
+    switch (type) {
+      case "pd":
+        this.focusPlace = 'pd' + idx1;
+        this.focusType.no = idx1
+        this.focusType.parentIdx = ""
+        this.performanceDemands[idx1].showTooltip = true
+        break;
+      case "question":
+        this.focusPlace = 'q' + idx1 + idx2;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1
+        this.editableId = 'q'+'-'+idx1+idx2;
+        console.log(this.editableId)
+        this.performanceDemands[idx1].question[idx2].showTooltip = true;
+        break;
+      case "answer":
+        this.focusPlace = 'a' + idx1 + idx2 + idx3;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1
+    }
+    if(type  == 'answer'){
+      // this.answerTootipsOptions = true;
+      this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
+    }
+  }
+  hideTooltip(hideTooltip,type,idx1,idx2,idx3){
+    if(hideTooltip == 'hideTooltip'){
+      setTimeout(() => {
+        if(type == 'answer'){
+          this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+        }else if(type == 'question'){
+          this.performanceDemands[idx1].question[idx2].showTooltip = false;
+        }else{
+          this.performanceDemands[idx1].showTooltip = false;
+          console.log('object');
+        }
+      }, 150);
+    }
+  }
+  // closeDropdown(e,type){
+  //   var divToHide = document.getElementById(this.editableId);
+  //   if(e.target.parentNode != null){
+  //     console.log("~~~hide tooltip");
+  //     if(e.target.parentNode.id != divToHide){
+  //       console.log("not same")
+  //       this.focusPlace = '';
+  //     }
+  //   }
+  // }
+
+  // focusoutMethod(){
+  //   console.log("~~~focusOut");
+  // }
+  // pickMultipleAns(item){
+  //   console.log(item);
+  //   this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
+  //   console.log(this.performanceDemands)
+  //   if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+  //     this.answerType = 'checkbox'
+  //   }else{
+  //     this.answerType = 'radio'
+  //   }
+  // }
+  pickMultipleAns(item) {
+    const dataArray = this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no];
+    var isMultiSelect = dataArray.pickMultiple;
+    isMultiSelect = !isMultiSelect ;
+    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple
+    if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+        this.answerType = 'checkbox'
+      }else{
+        this.answerType = 'radio'
+      }
+    console.log(dataArray);
+    dataArray.answers.map( (answer, i) => answer.correctness = 0 )
+
+  }
+
+  delete(itemType){
+    console.log("delete type",itemType);
+    if(itemType.type == 'pd'){
+      if(this.performanceDemands.length>1){
+        this.performanceDemands.splice(itemType.no,1);
+      }
+    }else if(itemType.type == 'question' || itemType.type == 'answer'){
+      if(this.performanceDemands[itemType.parentIdx].question.length > 1){
+        this.performanceDemands[itemType.parentIdx].question.splice(itemType.no,1);
+      }
+    }
+    this.focusType = {};
+    this.showSettingSidebar = false;
+  }
+
+  cancelConcept(){
+    this.conceptCreate = false;
+    this.testWerkzCategory =false;
+    this.conceptList = true;
+    this.performanceDemands = [];
+    this.concept = {};
+    this.focusType = {};
+    this.ischecked = ""
+  }
+
+  createConcept(){
+    console.log("pdQuestion",this.performanceDemands);
   }
 }
-
-
-
-      
-  // image upload modal 
- 

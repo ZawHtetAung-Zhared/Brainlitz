@@ -488,6 +488,18 @@ span.scrollup.show:hover:before {
   opacity: 0 !important;
   pointer-events: none;
 }
+.innerD{
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f2f4f5;
+}
+.editableImg{
+  width:100%;
+  max-height:120px
+}
 
 @media print {
     /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */
