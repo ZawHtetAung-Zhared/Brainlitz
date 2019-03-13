@@ -24,6 +24,14 @@ declare var $:any;
 })
 export class TestwerkzComponent implements OnInit {
   public answerType = 'radio';
+  // public id1:any;
+  // public id2:any;
+  // public id3:any;
+  // Component
+  public answerSymbols = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  public imagePath = '../../../assets/img/answerIcon/';
+  public answerSymbolSVG = 'Choice_reverse.svg';
+  public answerSymbolReverseSVG = 'Choice.svg';
   public answerTootips:any;
   public pdIndex :any;
   public questionIndex:any;
@@ -361,14 +369,14 @@ public performanceDemands = [];
 
         this.performanceDemands[i].question[j].answers.push(
           {
-            "name": "string",
-            "answer": "string",
+            "name": "",
+            "answer": "",
             "imgUrl": "",
             "correctness": 0,
             "showTooltip":false,
             "contents": [
               {
-                "contentId": "string",
+                "contentId": "",
                 "sequence": 0,
                 "start": 0,
                 "end": 0,
@@ -386,6 +394,17 @@ public performanceDemands = [];
     }else{
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
+
+  }
+
+  trueAnswerRadio(i,j,index,answer){
+    console.log(this.performanceDemands);
+    const dataArray = this.performanceDemands[i].question[j];
+    dataArray.answers.map( (answer) => answer.correctness = 0 )
+    // console.log( JSON.stringify(dataArray));
+    dataArray.answers[index].correctness = 100;
+    // console.log( JSON.stringify(dataArray));
+  
   }
   addQuestion(j) {
     console.log("add querstion");
@@ -411,6 +430,7 @@ public performanceDemands = [];
         "allowedAttempts": 0,
         "questionType": "MCQ-OPTION",
         "pickMultiple": false,
+        "showTooltip" : false,
         "viewType": "LIST",
         "contents": [
           {
@@ -462,9 +482,10 @@ public performanceDemands = [];
     this.performanceDemands.push(
       {
 
-        pdName: "",
-        contentsArr: [],
-        question: [
+        "pdName": "",
+        "showTooltip":false,
+        "contentsArr": [],
+        "question": [
           {
             "name": "",
             "description": "",
@@ -472,6 +493,7 @@ public performanceDemands = [];
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
             "pickMultiple": false,
+            "showTooltip" : false,
             "viewType": "LIST",
             "contents": [
               {
@@ -863,6 +885,7 @@ public performanceDemands = [];
         this.focusPlace = 'pd' + idx1;
         this.focusType.no = idx1
         this.focusType.parentIdx = ""
+        this.performanceDemands[idx1].showTooltip = true
         break;
       case "question":
         this.focusPlace = 'q' + idx1 + idx2;
@@ -870,6 +893,7 @@ public performanceDemands = [];
         this.focusType.parentIdx = idx1
         this.editableId = 'q'+'-'+idx1+idx2;
         console.log(this.editableId)
+        this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "answer":
         this.focusPlace = 'a' + idx1 + idx2 + idx3;
@@ -878,14 +902,20 @@ public performanceDemands = [];
     }
     if(type  == 'answer'){
       // this.answerTootipsOptions = true;
-      this.answerTootips =  idx1 + idx2 + idx3 + 'a';
       this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
     }
   }
-  hideTooltip(type,idx1,idx2,idx3){
-    if(type == 'hideTooltip'){
+  hideTooltip(hideTooltip,type,idx1,idx2,idx3){
+    if(hideTooltip == 'hideTooltip'){
       setTimeout(() => {
-        this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+        if(type == 'answer'){
+          this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+        }else if(type == 'question'){
+          this.performanceDemands[idx1].question[idx2].showTooltip = false;
+        }else{
+          this.performanceDemands[idx1].showTooltip = false;
+          console.log('object');
+        }
       }, 150);
     }
   }
@@ -903,15 +933,29 @@ public performanceDemands = [];
   // focusoutMethod(){
   //   console.log("~~~focusOut");
   // }
-  pickMultipleAns(item){
-    console.log(item);
-    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
-    console.log(this.performanceDemands)
+  // pickMultipleAns(item){
+  //   console.log(item);
+  //   this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple;
+  //   console.log(this.performanceDemands)
+  //   if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
+  //     this.answerType = 'checkbox'
+  //   }else{
+  //     this.answerType = 'radio'
+  //   }
+  // }
+  pickMultipleAns(item) {
+    const dataArray = this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no];
+    var isMultiSelect = dataArray.pickMultiple;
+    isMultiSelect = !isMultiSelect ;
+    this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple = !this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple
     if(this.performanceDemands[this.focusType.parentIdx].question[this.focusType.no].pickMultiple == true){
-      this.answerType = 'checkbox'
-    }else{
-      this.answerType = 'radio'
-    }
+        this.answerType = 'checkbox'
+      }else{
+        this.answerType = 'radio'
+      }
+    console.log(dataArray);
+    dataArray.answers.map( (answer, i) => answer.correctness = 0 )
+
   }
 
   delete(itemType){

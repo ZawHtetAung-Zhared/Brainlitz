@@ -233,12 +233,13 @@
                     <span class="pd-No" style="color:#64707d;">{{i+1}}</span>
                   </div>
                   <div class="pd-name-input-wrapper"> 
-                    <div class="answer-tooltip-wrap" *ngIf="this.focusPlace == ('pd'+i)">
+                    <!-- <div class="answer-tooltip-wrap" *ngIf="this.focusPlace == ('pd'+i)"> -->
+                    <div class="answer-tooltip-wrap" *ngIf="pd.showTooltip">
                       <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                       <div class="answer-carret-box"></div>
                     </div>
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
-                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'','')">
+                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'','')" (focusout) = "hideTooltip('hideTooltip','pD',i,j,index)">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                     <div *ngIf="pd.contentsArr.length > 0" class="row">
                       <div class="col-md-4" *ngFor="let img of pd.contentsArr">
@@ -262,14 +263,15 @@
                       <span class="pd-No" style="color:#64707d;">{{j+1}}</span>
                     </div>  
                     <div class="pd-name-input-wrapper question-wrap d-flex flex-column">
-                      <div class="tooltip-wrap" *ngIf="this.focusPlace == ('q'+i+j)">
+                      <div class="tooltip-wrap" *ngIf="question.showTooltip">
+                      <!-- <div class="tooltip-wrap" *ngIf="this.focusPlace == ('q'+i+j)"> -->
                         <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
                         <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
                         <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
                         <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                          <div class="carret-box"></div>
                       </div>
-                      <div id="q-{{i}}{{j}}" class="mt-3 question" contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'')"></div>
+                      <div id="q-{{i}}{{j}}" class="mt-3 question" contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'')" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)"></div>
                       <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                       <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
                         <!-- <label class="question-checkbox">
@@ -277,39 +279,57 @@
                             <span class="answer-checkmark"></span>
                           </label> -->
                           <!-- <img src="{{ }}" alt=""> -->
-                          <div *ngIf="answer.imgUrl.length > 0" >
-                              <img src="{{answer.imgUrl}}" alt="" class="answer-img">
-                          </div> 
+                       
                           <div class="d-flex flex-column" style="position:relative;">
                                 <div class="answer-tooltip-wrap" *ngIf="answer.showTooltip" >
                                 <!-- <div class="answer-tooltip-wrap" *ngIf="this.answerTootips == (i + j + index + 'a')" > -->
-                                    <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
+                                   <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
                                       <div class="answer-carret-box"></div>
                                   </div>
-                                <div class="d-flex">
-                                    <label for="{{'answer'+index}}">
-                                      <input type="{{answerType}}" id="{{'answer'+index}}" name="answerlist" (click) = "trueAnswer(i,j,index,answer.answer) " class="d-none" value="{{answer.answer}}">
-                                      <div *ngIf="index == 0 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/aChoice_a.svg" alt=""></div>
-                                      <div *ngIf="index == 0 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/aChoice.svg" alt=""></div>
-                                      <div *ngIf="index == 1 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/b_choice_a.png" alt="" style="width:20px;height:20px;"></div>
-                                      <div *ngIf="index == 1 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/bChoice.svg" alt=""></div>
-                                      <div *ngIf="index == 2 && answer.correctness == 100"><img src="../../../assets/img/answerIcon/cChoice_a.svg" alt=""></div>
-                                      <div *ngIf="index == 2 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/cChoice.svg" alt=""></div>
-                                      <div *ngIf="index == 3 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/dChoice_a.svg" alt=""></div>
-                                      <div *ngIf="index == 3 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/dChoice.svg" alt=""></div>
-                                      <div *ngIf="index == 4 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/eChoice_a.svg" alt=""></div>
-                                      <div *ngIf="index == 4 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/eChoice.svg" alt=""></div>
-                                      <div *ngIf="index == 5 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/fChoice_a.svg" alt=""></div>
-                                      <div *ngIf="index == 5 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/fChoice.svg" alt=""></div>
-                                      <div *ngIf="index == 6 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/gChoice_a.svg" alt=""></div>
-                                      <div *ngIf="index == 6 && answer.correctness == 0" ><img src="../../../assets/img/answerIcon/gChoice.svg" alt=""></div>
-                                      <div *ngIf="index == 7 && answer.correctness == 100" ><img src="../../../assets/img/answerIcon/hChoice_a.svg" alt=""></div>
-                                      <div *ngIf="index == 7 && answer.correctness == 0"><img src="../../../assets/img/answerIcon/hChoice.svg" alt=""></div>
+                                <div class="d-flex" *ngIf="question.pickMultiple" >
+                                    <label for="{{'answer'+index + i + j}}">
+                                      <input type="{{answerType}}" 
+                                             id="{{'answer'+index + i + j}}" 
+                                             name="{{'answerlist' + index + i + j }}" 
+                                             (click) = "trueAnswer(i,j,index,answer.answer) " 
+                                             class="d-none" value="{{answer.answer}}">
+                                      <div *ngFor="let symbol of answerSymbols; let symbolIndex = index">
+                                        <div *ngIf="index == symbolIndex  && answer.correctness == 100" ><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}" alt=""></div>
+                                        <div *ngIf="index == symbolIndex && answer.correctness == 0" ><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}" alt=""></div>
+                                      </div>
                                     </label>
-                                  <input type="text" class="bg-white w-100 answer-input" [(ngModel)]="answer.answer" placeholder="choice"  (focusout) = "hideTooltip('hideTooltip',i,j,index)" (focus)="onFocus('answer',i,j,index)" (keydown)="onKeydown($event,i ,j)">
+                                  <input type="text" 
+                                         class="bg-white pb-1 w-100 answer-input" 
+                                         [(ngModel)]="answer.answer" placeholder="choice"  
+                                         (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
+                                         (focus)="onFocus('answer',i,j,index)" 
+                                         [ngClass]="{'answer-text': answer.correctness == 100}"
+                                         (keydown)="onKeydown($event,i ,j)">
+                                </div>
+                                <div class="d-flex" *ngIf="!question.pickMultiple">
+                                    <label for="{{'answer'+index + i + j }}">
+                                      <input type="{{answerType}}" 
+                                             id="{{'answer'+index +i + j}}" 
+                                             name="{{'answerlist' + index + i + j  }}" 
+                                             (click) = "trueAnswerRadio(i,j,index,answer.answer) " 
+                                             class="d-none">
+                                      <div *ngFor="let symbol of answerSymbols; let symbolIndex = index">
+                                       <div *ngIf="index == symbolIndex  && answer.correctness == 100" ><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}" alt=""></div>
+                                        <div *ngIf="index == symbolIndex && answer.correctness == 0" ><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}" alt=""></div>
+                                      </div>
+                                   </label>
+                                  <input type="text" 
+                                         class="bg-white pb-1 w-100 answer-input" 
+                                         [(ngModel)]="answer.answer" placeholder="choice"  
+                                         (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
+                                         [ngClass]="{'answer-text': answer.correctness == 100}"
+                                         (focus)="onFocus('answer',i,j,index)" 
+                                         (keydown)="onKeydown($event,i ,j)">
                                 </div>
                           </div>
-                         
+                          <div *ngIf="answer.imgUrl.length > 0" >
+                            <img src="{{answer.imgUrl}}" alt="" class="answer-img">
+                        </div> 
                       </div>
                     </div>
                   </div>
