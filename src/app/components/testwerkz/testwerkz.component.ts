@@ -430,6 +430,7 @@ public performanceDemands = [];
         "allowedAttempts": 0,
         "questionType": "MCQ-OPTION",
         "pickMultiple": false,
+        "showTooltip" : false,
         "viewType": "LIST",
         "contents": [
           {
@@ -481,9 +482,10 @@ public performanceDemands = [];
     this.performanceDemands.push(
       {
 
-        pdName: "",
-        contentsArr: [],
-        question: [
+        "pdName": "",
+        "showTooltip":false,
+        "contentsArr": [],
+        "question": [
           {
             "name": "",
             "description": "",
@@ -491,6 +493,7 @@ public performanceDemands = [];
             "allowedAttempts": 0,
             "questionType": "MCQ-OPTION",
             "pickMultiple": false,
+            "showTooltip" : false,
             "viewType": "LIST",
             "contents": [
               {
@@ -882,6 +885,7 @@ public performanceDemands = [];
         this.focusPlace = 'pd' + idx1;
         this.focusType.no = idx1
         this.focusType.parentIdx = ""
+        this.performanceDemands[idx1].showTooltip = true
         break;
       case "question":
         this.focusPlace = 'q' + idx1 + idx2;
@@ -889,6 +893,7 @@ public performanceDemands = [];
         this.focusType.parentIdx = idx1
         this.editableId = 'q'+'-'+idx1+idx2;
         console.log(this.editableId)
+        this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "answer":
         this.focusPlace = 'a' + idx1 + idx2 + idx3;
@@ -900,10 +905,17 @@ public performanceDemands = [];
       this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = true;
     }
   }
-  hideTooltip(type,idx1,idx2,idx3){
-    if(type == 'hideTooltip'){
+  hideTooltip(hideTooltip,type,idx1,idx2,idx3){
+    if(hideTooltip == 'hideTooltip'){
       setTimeout(() => {
-        this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+        if(type == 'answer'){
+          this.performanceDemands[idx1].question[idx2].answers[idx3].showTooltip = false;
+        }else if(type == 'question'){
+          this.performanceDemands[idx1].question[idx2].showTooltip = false;
+        }else{
+          this.performanceDemands[idx1].showTooltip = false;
+          console.log('object');
+        }
       }, 150);
     }
   }
