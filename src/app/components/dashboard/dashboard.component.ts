@@ -158,14 +158,14 @@ export class DashboardComponent implements OnInit {
   ngAfterViewInit() {
     // this.item.operatingHour = {
     //   'start':{
-    //     'hr':Number,
-    //     'min':Number,
-    //     "meridiem":String
+    //     'hr':0,
+    //     'min':0,
+    //     "meridiem":'AM'
     //   },
     //   'end':{
-    //     'hr':Number,
-    //     'min':Number,
-    //     "meridiem":String
+    //     'hr':0,
+    //     'min':0,
+    //     "meridiem":"PM"
     //   }
     // }
 
@@ -233,6 +233,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAdministrator() {
+    console.log("getAdministrator works")
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
     this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
@@ -242,10 +243,14 @@ export class DashboardComponent implements OnInit {
         this.item.name = res.name;
         this.item.timezone = res.timezone;
         this.item.url = res.url;
-
-        this.item.operatingHour = res.operatingHour;
+        if(res.operatingHour == undefined){
+          this.item.operatingHour.start = {hr: 0, min: 0, meridiem: "AM"};
+          this.item.operatingHour.end = {hr: 0, min: 0, meridiem: "PM"};
+        }else{
+          this.item.operatingHour = res.operatingHour;
+        }
         console.log('~~~', this.item)
-        localStorage.setItem('timezone', this.item.timezone)
+        localStorage.setItem('timezone', this.item.timezone);
         // let test=moment().tz("Singapore").format();
         // console.log(test)
         const offset = moment.tz("Asia/Singapore").utcOffset();
@@ -392,42 +397,31 @@ export class DashboardComponent implements OnInit {
     return starTTemp;
   }
   updateRegionalInfo(data, type) {
-    console.log(data);
-    console.log(this.startT, this.endT)
-    console.log(this.startT.split(":"));
-    // this.startT = this.validateTime(this.startT)
-    // this.endT = this.validateTime(this.endT)
-    console.log(this.startT)
-    console.log(type);
-    console.log("data", data)
+    console.log(data,type)
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
-    // var timeString = this.startT;
-    // var H = timeString.substr(0, 2);
-    // var h = (H % 12) || 12;
-    // var ampm = H < 12 ? "AM" : "PM";
-    // // const a = h + timeString.substr(2, 3) + ampm;
-    // var mmm = Number(timeString.substring(3, 5));
-    // var testmin = timeString.length == 5 ? Number(timeString.slice(3, 8)) : Number(timeString.slice(3, 8));
-    let start = {
-      'hr': this.srangeHr,
-      'min': this.srangeMin,
-      'meridiem': this.sisSelected
+    if(type == "url"){
+      console.log("url");
+      console.log(data);
+    }else if(type == "timezone"){
+       console.log("timezone");
+       console.log(this.startT);
+       let start = {
+          'hr': this.srangeHr,
+          'min': this.srangeMin,
+          'meridiem': this.sisSelected
+        }
+        this.item.operatingHour["start"] = start;
+        let end = {
+          'hr': this.erangeHr,
+          'min': this.erangeMin,
+          'meridiem': this.eisSelected
+        }
+        this.item.operatingHour["end"] = end;
     }
-    this.item.operatingHour["start"] = start;
-    // var timeString1 = this.endT;
-    // var H1 = timeString1.substr(0, 2);
-    // var h1 = (H1 % 12) || 12;
-    // var ampm1 = H1 < 12 ? "AM" : "PM";
-    // var mm1 = Number(timeString1.substring(3, 5));
-    // const b = h1 + timeString1.substr(2, 3) + ampm1;
-    let end = {
-      'hr': this.erangeHr,
-      'min': this.erangeMin,
-      'meridiem': this.eisSelected
-    }
-    this.item.operatingHour["end"] = end;
-    this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
+    console.log("DATA~~~",data)
+    setTimeout(()=>{
+      this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
       .subscribe((res: any) => {
         this.toastr.success('Successfully Updated.');
         console.log('~~~', res)
@@ -441,6 +435,8 @@ export class DashboardComponent implements OnInit {
       }, err => {
         console.log(err)
       })
+    },100)
+    
   }
 
   cancelUpdate() {

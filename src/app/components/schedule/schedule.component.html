@@ -114,13 +114,13 @@
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 course-plan-list create-course-plan-list" *ngFor="let item of courseplanLists" >
             <div  class="d-flex couresplanList justify-content-between" (click)="selectPlan(item)">
               <div class=" d-flex flex-column">
-                <span class="courseplanName mb-1" [ngClass]="{'hilight-plan': rolloverCourse.coursePlan.id == item._id}">{{item.name}}</span>
+                <span class="courseplanName mb-1" [ngClass]="{'hilight-plan': highlightPlan == item._id}">{{item.name}}</span>
                 <div class="d-flex">
                   <span class="createCourseTextSeat">{{(item.seats == null) ? ("unlimited") : (item.seats)}} seats</span><ul class="lessonDuration"><li class="createCourseTextSeat">{{item.lesson.duration |minuteSeconds}} duration</li></ul>
                 </div>
               </div>
               <div class="align-slef-center pt-3">
-                <i class="fa lesson-slot-box fa-2x  fa-angle-right" [ngClass]="{'hilight-arrow': rolloverCourse.coursePlan.id == item._id}"></i>
+                <i class="fa lesson-slot-box fa-2x  fa-angle-right" [ngClass]="{'hilight-arrow': highlightPlan == item._id}"></i>
               </div>
             </div>
           </div>
@@ -317,7 +317,7 @@
                         </ul>
                       </div>
                       <div *ngIf="timetable.lesson.cancel">
-                        <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="slotIdx == i && slotJidx == j && showDp == true" >
+                        <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" >
                             <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
                             <div class="w-100 popUpbox">
                               <div class="d-flex teacher-info">
@@ -354,7 +354,7 @@
                     </div>
                   </div>
                   <div *ngIf="i != 0">
-                    <div class="lesson-slot" [ngClass]="{'cancelledClass': timetable.lesson.cancel}" [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month,'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': ((i*52)+2) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4.03) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)">
+                    <div class="lesson-slot" [ngClass]="{'cancelledClass': timetable.lesson.cancel, 'my-class': finalLists[i-1].date.month != finalLists[i].date.month,'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': ((i*52)+2) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4.03) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)">
                     <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
                       <div *ngIf="!timetable.lesson.cancel">
                         <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.course.courseCode}}</h6>
@@ -400,7 +400,7 @@
                         </ul>
                       </div>
                       <div *ngIf="timetable.lesson.cancel">
-                        <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="slotIdx == i && slotJidx == j && showDp == true" >
+                        <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" >
                             <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
                             <div class="w-100 popUpbox">
                               <div class="d-flex teacher-info">
