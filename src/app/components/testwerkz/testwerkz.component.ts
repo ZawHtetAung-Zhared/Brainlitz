@@ -1328,6 +1328,9 @@ export class TestwerkzComponent implements OnInit {
     conceptFormat.pd = formattedPdIds;
     _this._service.createConcept(_this.regionID, conceptFormat).subscribe(res => {
       console.log("FINALLY", res);
+      this.cancelConcept();
+    },err=>{
+      console.log("err")
     });
   }
 
