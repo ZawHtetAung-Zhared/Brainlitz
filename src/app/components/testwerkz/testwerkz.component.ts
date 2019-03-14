@@ -356,7 +356,9 @@ export class TestwerkzComponent implements OnInit {
     // console.log(toHtml)
   }
   onKeydown(e, i, j, index) {
-    // var newAnswerFoucs=  i + j + (++index) 
+    var answerIndex = index
+    var newAnswerFoucs=  String(i.toString() + j.toString() + String(++answerIndex ))
+    var deleteAnswerFocus=  String(i.toString() + j.toString() + String(answerIndex - 2))
     if (e.key === "Enter") {
       if (this.performanceDemands[i].question[j].answers.length < 8) {
         // this.pdLists[i].question[j].answers.push({
@@ -381,17 +383,31 @@ export class TestwerkzComponent implements OnInit {
           ]
         });
       }
-      // document.getElementById("answer"+ newAnswerFoucs).focus();
+      if(index < 7){
+        var answerId = `answer${newAnswerFoucs}` ;
+        setTimeout(() => {
+          document.getElementById(answerId).focus();
+        }, 10);
+      }
+
     }
 
-    // if(e.key == 'Backspace'){
-    //   var selectedAnswer = this.performanceDemands[i].question[j].answers[index].answer;
-    //   if(this.performanceDemands[i].question[j].answers.length > 1 ){
-    //     if(selectedAnswer == '' || selectedAnswer == undefined || selectedAnswer == null || selectedAnswer.length <= 0){
-    //       this.performanceDemands[i].question[j].answers.splice(index, 1)
-    //     }
-    //   }
-    // }
+    if(e.key == 'Backspace'){
+      var selectedAnswer = this.performanceDemands[i].question[j].answers[index].answer;
+
+      if(this.performanceDemands[i].question[j].answers.length > 1 ){
+        if(selectedAnswer == '' || selectedAnswer == undefined || selectedAnswer == null || selectedAnswer.length <= 0){
+          this.performanceDemands[i].question[j].answers.splice(index, 1)
+
+          if(index >= 1){
+            var answerId = `answer${deleteAnswerFocus}` ;
+            setTimeout(() => {
+              document.getElementById(answerId).focus();
+            }, 10);
+          }
+        }
+      }
+    }
   }
   trueAnswer(i, j, index, answer) {
     if (
@@ -401,6 +417,7 @@ export class TestwerkzComponent implements OnInit {
     } else {
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
+    this.onFocus('check',i,j,index);
   }
 
   trueAnswerRadio(i, j, index, answer) {
@@ -409,6 +426,7 @@ export class TestwerkzComponent implements OnInit {
     dataArray.answers.map(answer => (answer.correctness = 0));
     // console.log( JSON.stringify(dataArray));
     dataArray.answers[index].correctness = 100;
+    this.onFocus('check',i,j,index);
     // console.log( JSON.stringify(dataArray));
   }
   addQuestion(j) {
@@ -1057,6 +1075,14 @@ export class TestwerkzComponent implements OnInit {
         console.log(this.editableId);
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
+      case "check":
+        this.focusPlace = "a" + idx1 + idx2 + idx3;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1;
+        if(type == 'check'){
+          this.focusType.type = 'answer';
+        }
+        break;
       case "answer":
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx2;
@@ -1311,9 +1337,9 @@ export class TestwerkzComponent implements OnInit {
 
   creationConceptProcess(formattedPdIds, _this) {
     // Create Concept
-    var moduleId = localStorage.getItem('moduleID')
+    // var moduleId = localStorage.getItem('moduleID')
     const conceptFormat = {
-      "moduleId": moduleId,
+      // "moduleId": moduleId,
       "name": this.concept.name,
       "tag": [
         {

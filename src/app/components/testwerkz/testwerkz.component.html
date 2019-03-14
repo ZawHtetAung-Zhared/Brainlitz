@@ -324,6 +324,7 @@
                                          (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
                                          [ngClass]="{'answer-text': answer.correctness == 100}"
                                          (focus)="onFocus('answer',i,j,index)" 
+                                         id="{{'answer' + i + j + index}}"
                                          (keydown)="onKeydown($event,i ,j,index)">
                                 </div>
                           </div>
