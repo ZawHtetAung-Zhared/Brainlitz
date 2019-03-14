@@ -441,7 +441,8 @@
       </div>
 
     </div>
-    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0">
+   
+    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0" appDnd (filesChangeEmiter)="onFilesChange($event)" (filesInvalidEmiter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp','jpeg']" >
       <div class="d-flex drop_zone_middle_eixtData">
         <img src="../../../assets/img/image-drop.png" class="eimg_drop">
         <div class="d-flex  flex-column lblGp">
@@ -450,10 +451,15 @@
         </div>
         <div class="upload-btn-wrapper">
           <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
-          <input type="file" name="imgFile" *ngIf="modelType == 'multiple'" accept="image/x-png,image/gif,image/jpeg" (change)="onloadImg($event)" multiple/>
-          <input type="file" *ngIf="modelType == 'single'" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="onloadImg($event)" single/>
+          <input type="file" #fileInput name="imgFile" *ngIf="modelType == 'multiple'" accept="image/x-png,image/gif,image/jpeg" (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" multiple/>
+          <input type="file"#fileInput *ngIf="modelType == 'single'" name="imgFile" accept="image/x-png,image/gif,image/jpeg"  (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" single/>
         </div>
         
+      <!-- <div class="dropzone" appDnd (filesChangeEmiter)="onFilesChange($event)" (filesInvalidEmiter)="onFileInvalids($event)" >
+        <div class="text-wrapper">
+          <div class="centered">Drop your file here!</div>
+        </div>
+      </div> -->
       </div>
       <div class="d-flex flex-column gallery">
         <p class="g_title">Image gallery</p>
@@ -462,7 +468,7 @@
             <div class="inner-imgDiv" (click)="onslectedImgDiv(img._id,img)" id="img-{{img._id}}" (mouseenter)="onImgMouseEvent($event,img._id)"
             (mouseleave)="onImgMouseEvent($event,img._id)">
               <div id="cricle{{img._id}}"><i _ngcontent-c1="" class="fa fa-check" id="check{{img._id}}"></i></div>
-              <div (click)="onremoveClick(img._id)"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{img._id}}"></i></div>
+              <div (click)="onremoveClick(img._id)" id="trashdiv-{{img._id}}" class="trashDiv"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{img._id}}"></i></div>
               <img src={{img.url}} class="gShowImag">
               <div class="Imgoverlay" id="Imgoverlay{{img._id}}"></div>
             </div>
