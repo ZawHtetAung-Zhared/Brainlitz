@@ -116,10 +116,7 @@ export class TestwerkzComponent implements OnInit {
   // waiyan's code end
 
   ngOnInit() {
-    this.dragulaService.drag()
-      .subscribe((e)=>{
-        console.log(e)
-      })
+    // $('.col-md-4').draggable({handle: '.editableImg'});
     // this.testing()
     console.log(Promise);
     var turndownService = new TurndownService();
@@ -974,6 +971,7 @@ export class TestwerkzComponent implements OnInit {
     if (this.editableId != "") {
       console.log("question ===== insert img");
       var e = document.getElementById(this.editableId);
+      
       e.innerHTML +=
         '<div id="img' +
         this.editableId +
@@ -982,15 +980,50 @@ export class TestwerkzComponent implements OnInit {
         '"></div>';
       var k = document.getElementById("img" + this.editableId);
       for (var i in this.selectedImgArr) {
-        console.log(this.selectedImgArr[i].url, "img");
+        // console.log(this.selectedImgArr[i].url, "img");
         var url = this.selectedImgArr[i].url;
-        console.log(url);
+        // console.log(url);
         // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
         k.innerHTML +=
-          '<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="' +
+          '<img class="editableImg" src="' +
           url +
-          '"></img></div></div>';
+          '"></img>';
+       
+        
       }
+      console.log(this.selectedImgArr.length %3)
+      $(e).children(".img-wrapper").css('justify-content' , 'space-between')
+
+      if(this.selectedImgArr.length % 3 == 0){
+        console.log(e)
+      }else{
+        $(e).children(".img-wrapper").children("img").css('margin-top', '0px');
+        $(e).children(".img-wrapper").children("img").css('margin-bottom', '10px');
+      }
+      setTimeout(function(){
+        console.log($(k).children(".editableImg"))
+        $(k).children(".editableImg").each(function(i,e) {
+          console.log($(e).height());
+          var imgWidth = $(e).width()
+          var imgHeight = $(e).height()
+          var maxWidthAndHeight = 120;
+          console.log(imgWidth,imgHeight)
+          if(imgHeight < maxWidthAndHeight){
+            var res = maxWidthAndHeight - imgHeight;
+            console.log(res);
+            $(e).css('padding-top', res/2)
+            $(e).css('padding-bottom', res/2)
+
+          }
+          if(imgWidth < maxWidthAndHeight){
+            console.log("less than 120")
+            var res = maxWidthAndHeight - imgWidth;
+            console.log(res);
+            $(e).css('padding-left', res/2)
+            $(e).css('padding-right', res/2)
+          }
+        });
+      },100)
       this.turn(this.editableId,this.focusType)
     } else if (this.modelType == "single") {
       console.log("answer === ");
@@ -1169,9 +1202,9 @@ export class TestwerkzComponent implements OnInit {
   //get html tag in div
   turn(qId,fType){
     var markdownQues:any;
-    console.log("qId~~~",qId,fType)
+    // console.log("qId~~~",qId,fType)
     var myDiv = document.getElementById(qId);
-    console.log("myD",myDiv.innerHTML)
+    // console.log("myD",myDiv.innerHTML)
     setTimeout(()=>{
       var turndownService = new TurndownService();
       turndownService.addRule('Tada', {
@@ -1338,8 +1371,13 @@ export class TestwerkzComponent implements OnInit {
     // Concept API Calling
     _this.creationConceptProcess(formattedPdIds, _this);
   }
-
-  
+  onDragStart(e){
+    console.log(e)
+    // e.preventDefault();
+  }
+  onDrop(e){
+    console.log(e)
+  }
   
  
 // waiyan's code end
