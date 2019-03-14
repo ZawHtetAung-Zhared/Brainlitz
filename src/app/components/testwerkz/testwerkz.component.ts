@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 // import { AppComponent } from "./../../app.component";
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
@@ -548,6 +549,9 @@ export class TestwerkzComponent implements OnInit {
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
     ) {
+      if(event.inputType == "insertText"){
+        document.execCommand("undo", false);
+      }
       if (event.inputType == "insertParagraph") {
 
         var thisDiv =  $(this.clickEle).hasClass("img-wrapper") || $(this.clickEle).parents(".img-wrapper");
@@ -1009,15 +1013,29 @@ export class TestwerkzComponent implements OnInit {
        
         
       }
-      console.log(this.selectedImgArr.length %3)
-      $(e).children(".img-wrapper").css('justify-content' , 'space-between')
-
-      if(this.selectedImgArr.length % 3 == 0){
+      var imgsLength =  $(e).children(".img-wrapper").children("img").length;
+      if(imgsLength % 3 == 0){
         console.log(e)
       }else{
-        $(e).children(".img-wrapper").children("img").css('margin-top', '0px');
-        $(e).children(".img-wrapper").children("img").css('margin-bottom', '10px');
+        var marginOfFirst = Number($($(e).children(".img-wrapper").children("img")[0]).css('margin-left').replace("px",""))
+        console.log($($(e).children(".img-wrapper").children("img")[0]).css('margin-left'))
+        if(imgsLength % 3 ==1){
+          var lastimg = $($(e).children(".img-wrapper").children("img")[--imgsLength])
+          lastimg.css('margin-left' , marginOfFirst)
+          lastimg.css('margin-right' , marginOfFirst)
+        }
+        if(imgsLength % 3 ==2){
+          var lastEle = $($(e).children(".img-wrapper").children("img")[--imgsLength])
+          var beforeLast = $($(e).children(".img-wrapper").children("img")[--imgsLength]);
+          lastEle.css('margin-left' , marginOfFirst)
+          lastEle.css('margin-right' , marginOfFirst)
+          beforeLast.css('margin-left' , marginOfFirst)
+          beforeLast.css('margin-right' , marginOfFirst)
+        }
       }
+      $('.editableImg').css('margin-top','10px')
+      $('.editableImg').css('margin-bottom','10px')
+
       setTimeout(function(){
         console.log($(k).children(".editableImg"))
         $(k).children(".editableImg").each(function(i,e) {
