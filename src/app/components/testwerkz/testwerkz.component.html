@@ -243,6 +243,7 @@
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                     <div *ngIf="pd.contentsArr.length > 0" class="row">
                       <div class="col-md-4" *ngFor="let img of pd.contentsArr">
+                        <!-- <img src="/assets/images/remove-white.png"> -->
                         <div class="innerPd p-0">
                           <img class="editableImg" src="{{img.url}}">
                         </div>
@@ -286,9 +287,9 @@
                                       <div class="answer-carret-box"></div>
                                   </div>
                                 <div class="d-flex" *ngIf="question.pickMultiple" >
-                                    <label for="{{'answer'+index + i + j}}">
+                                    <label for="{{'answerMultiple'+index + i + j}}">
                                       <input type="{{answerType}}" 
-                                             id="{{'answer'+index + i + j}}" 
+                                             id="{{'answerMultiple'+index + i + j}}" 
                                              name="{{'answerlist' + index + i + j }}" 
                                              (click) = "trueAnswer(i,j,index,answer.answer) " 
                                              class="d-none" value="{{answer.answer}}">
@@ -307,15 +308,15 @@
                                          (keydown)="onKeydown($event,i ,j,index)">
                                 </div>
                                 <div class="d-flex" *ngIf="!question.pickMultiple">
-                                    <label for="{{'answer'+index + i + j }}">
+                                    <label for="{{'answerSingle'+index + i + j }}">
                                       <input type="{{answerType}}" 
-                                             id="{{'answer'+index +i + j}}" 
+                                             id="{{'answerSingle'+index +i + j}}" 
                                              name="{{'answerlist' + index + i + j  }}" 
                                              (click) = "trueAnswerRadio(i,j,index,answer.answer) " 
                                              class="d-none">
-                                      <div *ngFor="let symbol of answerSymbols; let symbolIndex = index">
-                                       <div *ngIf="index == symbolIndex  && answer.correctness == 100" ><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}" alt=""></div>
-                                        <div *ngIf="index == symbolIndex && answer.correctness == 0" ><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}" alt=""></div>
+                                      <div *ngFor="let symbol of answerSymbols; let reverserSymbolIndex = index">
+                                       <div *ngIf="index == reverserSymbolIndex  && answer.correctness == 100" ><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}" alt=""></div>
+                                        <div *ngIf="index == reverserSymbolIndex && answer.correctness == 0" ><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}" alt=""></div>
                                       </div>
                                    </label>
                                   <input type="text" 
@@ -324,6 +325,7 @@
                                          (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
                                          [ngClass]="{'answer-text': answer.correctness == 100}"
                                          (focus)="onFocus('answer',i,j,index)" 
+                                         id="{{'answer' + i + j + index}}"
                                          (keydown)="onKeydown($event,i ,j,index)">
                                 </div>
                           </div>
