@@ -1094,7 +1094,9 @@ p.g_title {
   align-items: center;
   background: #fff;
 }
-
+.img-wrapper{
+  justify-content: space-around;
+}
 .answer-text{
   color: #0080ff;
   font-family: 'InterUI-Medium',Arial, sans-serif;
