@@ -551,11 +551,11 @@ export class TestwerkzComponent implements OnInit {
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
     ) {
-      if(event.inputType == "insertText"){
+      if(event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
-      }
+      if(event.inputType == "insertText")
+        document.execCommand("undo", false);
       if (event.inputType == "insertParagraph") {
-
         var thisDiv =  $(this.clickEle).hasClass("img-wrapper") || $(this.clickEle).parents(".img-wrapper");
         if($(this.clickEle).hasClass("img-wrapper")){
           thisDiv =  this.clickEle;
@@ -564,19 +564,14 @@ export class TestwerkzComponent implements OnInit {
         var tempBr = document.createElement("br");
         $(tempDiv).append(tempBr);
         $(thisDiv).after(tempDiv)
-        // $(content).append(tempDiv);
         document.execCommand("undo", false);
         var range = document.createRange(),
-          sel = window.getSelection();
+        sel = window.getSelection();
         range.setStart(tempDiv, 0);
         range.setEnd(tempDiv, 0);
         sel.removeAllRanges();
         sel.addRange(range);
-        // document.execCommand('insertParagraph',false);
-        // setTimeout( function () {
-        //   document.execCommand("insertParagraph")
-        // }, 0 );
-        // $(tempDiv).focus()
+        this.clickEle = tempDiv;
       }
     }
     $(content)
