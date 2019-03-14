@@ -4,13 +4,12 @@ import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
 import { pd } from "./apg";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { DragulaService, DragulaModule } from "ng2-dragula";
-import { appService } from "../../service/app.service";
-import { FileUploader } from "ng2-file-upload";
-import { BlockUI, NgBlockUI } from "ng-block-ui";
-import { ToastsManager } from "ng5-toastr/ng5-toastr";
-import { c } from "@angular/core/src/render3";
+import { DragulaService, DragulaModule } from 'ng2-dragula';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { type } from "os";
+import { appService } from "../../service/app.service";
+import { BlockUI, NgBlockUI } from "ng-block-ui";
+import { c } from "@angular/core/src/render3";
 import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
 
@@ -67,6 +66,7 @@ export class TestwerkzComponent implements OnInit {
   public placeholderVar = "Enter Questions";
   public pd: pd = new pd();
   public pdLists: any[];
+  public isDrop : boolean=false;
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -80,20 +80,22 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any = [];
-  public classCreate = false;
-  public regionID = localStorage.getItem("regionId");
+  public contentArr: any=[];
+  public classCreate= false;
+  public regionID = localStorage.getItem('regionId');
+  public tagsWerkzList = []
+  public tempContentArr:any =[];
+  public selectedImgArr:any =[];
+  public ImgArr:any =[];
+  public imgIdArr:any =[];
+  public imgId:any;
+  public clickType: boolean=false;
+  public editableId:any = "";
+  private fileList : any = [];
+  private invalidFiles : any = [];
   public concept = {
     "name":''
   };
-  public tagsWerkzList = [];
-  public tempContentArr: any = [];
-  public selectedImgArr: any = [];
-  public ImgArr: any = [];
-  public imgIdArr: any = [];
-  public imgId: any;
-  public clickType: boolean = false;
-  public editableId: any = "";
   public clickEle: any = "";
   // public focusType = {
   //   'type': "",
@@ -743,17 +745,22 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //image upload
-  onloadImg(event) {
-    console.log("dar");
-    const file = event.target.files;
-    this.blockUI.start("Loading...");
-    this._service.loadImage(this.regionID, file).subscribe(
-      (res: any) => {
-        // this.contentArr=res.meta;
-        // this.toastr.success('Successfully Content Upload.');
-
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
+  onloadImg(event){
+    console.log("hello",this.isDrop)
+    console.log("dar",event)
+    if(this.isDrop){
+      var file = event;
+      this.isDrop=false;
+    }else{
+      var file = event.target.files;
+    }
+    console.log(file)
+    this.blockUI.start('Loading...');
+    this._service.loadImage(this.regionID, file)
+      .subscribe((res: any) => {    
+        //getAllContent() use pormise because of html create value after use in ts    
+        this.getAllContent().then(()=>{
+          console.log("here me>",res);
           setTimeout(() => {
             this.autoSelectedImg(res.meta);
           }, 300);
@@ -762,10 +769,8 @@ export class TestwerkzComponent implements OnInit {
       },
       err => {
         console.log(err);
-        // this.toastr.error('Fail Content Upload.');
-      }
-    );
-  }
+      });
+    }
 
   // testing(){
   //   console.log('console')
@@ -803,14 +808,15 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //mutiselect img
-  onslectedImgDiv(i, img) {
-    console.log(this.isRemove, "is remove", i);
+  onslectedImgDiv(i,img){
+    console.log(this.isRemove,"is remove",i);
 
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const circle: HTMLElement = document.getElementById("cricle" + i);
-    const check: HTMLElement = document.getElementById("check" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const circle: HTMLElement = document.getElementById('cricle'+i);
+    const check: HTMLElement = document.getElementById('check'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
+    // console.log(trashdiv.onclick)
     if (this.modelType == "single") {
       console.log("is single", this.imgId);
       //add selected
@@ -824,6 +830,7 @@ export class TestwerkzComponent implements OnInit {
             "style",
             "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
           );
+          trashdiv.setAttribute("style","display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
           console.log("here if");
@@ -838,6 +845,7 @@ export class TestwerkzComponent implements OnInit {
               "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
             );
             check.setAttribute("style", "color:white;");
+            trashdiv.setAttribute("style","display:block;")
           }
         }
         this.imgId = i;
@@ -864,77 +872,71 @@ export class TestwerkzComponent implements OnInit {
         }
       }
     }
-    this.isRemove = false;
-    console.log(this.imgIdArr);
+    this.isRemove=false;
+    console.log(this.imgIdArr)
   }
-  removerSelected(i) {
-    console.log(this.selectedImgArr, i);
-    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
-    const circle3: HTMLElement = document.getElementById("cricle" + i);
-    const check3: HTMLElement = document.getElementById("check" + i);
-    const trash3: HTMLElement = document.getElementById("trash" + i);
-    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
-    imgDiv3.setAttribute("style", "border:none;");
-    circle3.setAttribute(
-      "style",
-      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
-    );
-    check3.setAttribute("style", "color:#ffffff00;");
-    trash3.setAttribute("style", "opacity: 0;");
-    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
-    if (this.modelType == "single") {
-      this.selectedImgArr = [];
-      this.imgIdArr = [];
+removerSelected(i){
+  console.log(this.selectedImgArr , i)
+  const imgDiv3: HTMLElement = document.getElementById('img-'+i);
+  const circle3: HTMLElement = document.getElementById('cricle'+i);
+  const check3: HTMLElement = document.getElementById('check'+i);
+  const trash3: HTMLElement = document.getElementById('trash'+i);
+  const overlay3: HTMLElement = document.getElementById('Imgoverlay'+i);
+  const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
+  imgDiv3.setAttribute("style","border:none;");
+  circle3.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+  check3.setAttribute("style","color:#ffffff00;");
+  trash3.setAttribute("style","opacity: 0;")
+  overlay3.setAttribute("style"," background: rgba(0, 0, 0, 0);");
+  trashdiv.setAttribute("style","display:none")
+    if(this.modelType == 'single'){
+      this.selectedImgArr=[];
+      this.imgIdArr=[];
 
       // this.imgId=undefined;
-      console.log(this.imgId);
+      console.log(this.imgId)
 
       // if(String(this.imgId)== i){
       //   this.imgId=undefined;
       //   console.log("hrerer",this.imgId)
       // }
-    } else {
-      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
-      this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
+    }else{
+      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
+      this.imgIdArr.splice(this.imgIdArr.indexOf(i),1)
     }
-  }
-  autoImgLoop(arr) {
-    console.log(arr);
-    for (var i = 0; i < arr.length; i++) {
-      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
-      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
-      const check: HTMLElement = document.getElementById("check" + arr[i]);
-      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
-      const overlay: HTMLElement = document.getElementById(
-        "Imgoverlay" + arr[i]
-      );
-      console.log(imgDiv);
+
+}
+autoImgLoop(arr){
+  console.log(arr);
+  for(var i=0;i<arr.length;i++){
+    const imgDiv: HTMLElement = document.getElementById('img-'+arr[i]);
+    const circle: HTMLElement = document.getElementById('cricle'+arr[i]);
+    const check: HTMLElement = document.getElementById('check'+arr[i]);
+    const trash: HTMLElement = document.getElementById('trash'+arr[i]);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+arr[i]);
+    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+arr[i]);
+      console.log(imgDiv)
       console.log(circle);
-      console.log(check);
-      imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-      circle.setAttribute(
-        "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      );
-      check.setAttribute("style", "color:white;");
+      console.log(check)
+      imgDiv.setAttribute("style","border:solid;color:#007fff;");
+      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+      check.setAttribute("style","color:white;");
+      trashdiv.setAttribute("style","display:block")
       console.log(arr[i]);
     }
   }
 
-  onImgMouseEvent(e, i) {
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
-
-    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
-      trash.setAttribute("style", "opacity: 1;");
-      overlay.setAttribute(
-        "style",
-        "display:block;  background: rgba(0, 0, 0, .3);"
-      );
-    } else {
-      trash.setAttribute("style", "opacity: 0;");
-      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+  onImgMouseEvent(e,i){
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
+ 
+    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
+      trash.setAttribute("style","opacity: 1;");
+      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
+    }else{
+      trash.setAttribute("style","opacity: 0;")
+      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
     }
     // console.log(e.type)
   }
@@ -1076,32 +1078,36 @@ export class TestwerkzComponent implements OnInit {
     this.cancelModal();
   }
 
-  onremoveClick(id) {
-    console.log(id);
-    this.isRemove = true;
-    this._service.onDeleteContent(this.regionID, id).subscribe(
-      (res: any) => {
-        console.log(res);
-        // this.contentArr=res.meta;
-        this.toastr.success("Successfully Content deleted.");
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
-          setTimeout(() => {
-            console.log(this.selectedImgArr);
-            console.log(this.imgIdArr);
-            if (this.modelType == "multiple") {
-              this.autoImgLoop(this.imgIdArr);
-            } else {
-              this.imgId = undefined;
-            }
-          }, 300);
-        });
-      },
-      err => {
-        console.log(err);
-        this.toastr.error("Fail Content deleted.");
-      }
-    );
+  // onClickFileupload(fileInput){
+  //   fileInput.value=null;
+  //   console.log(fileInput.value)
+  // }
+
+  onremoveClick(id){
+    console.log(id)
+    this.isRemove=true;
+    this._service.onDeleteContent(this.regionID,id)
+    .subscribe((res: any) => {
+      console.log(res)
+      // this.contentArr=res.meta;
+       this.toastr.success('Successfully Content deleted.');
+       this.getAllContent().then(()=>{
+        console.log("here me>",res);
+        setTimeout(() => {
+          console.log(this.selectedImgArr)
+          console.log(this.imgIdArr)
+          if(this.modelType == "multiple"){
+            this.autoImgLoop(this.imgIdArr)
+          }else{
+            this.imgId=undefined
+          }
+          
+        }, 300);
+      })
+    }, err => {
+      console.log(err);
+      this.toastr.error('Fail Content deleted.');
+    });
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
 
@@ -1384,6 +1390,22 @@ export class TestwerkzComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  //file drop method for valids
+  onFilesChange(fileList : Array<File>){
+    console.log(fileList.length)
+    if(fileList.length !=0){
+      this.isDrop=true
+      this.fileList = fileList;
+      this.onloadImg(fileList);  //file upload call api
+      console.log("exit1",this.fileList)
+    }
+  }
+
+  //file drop method for invalids
+  onFileInvalids(fileList : Array<File>){
+    this.invalidFiles = fileList;
   }
 
   creationConceptProcess(formattedPdIds, _this) {
