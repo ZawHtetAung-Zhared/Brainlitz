@@ -1095,6 +1095,12 @@ p.g_title {
   background: #fff;
 }
 
+.img-pd{
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+
 .answer-text{
   color: #0080ff;
   font-family: 'InterUI-Medium',Arial, sans-serif;

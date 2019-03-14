@@ -108,7 +108,9 @@ export class TestwerkzComponent implements OnInit {
     private modalService: NgbModal,
     private dragulaService: DragulaService,
     public toastr: ToastsManager
-  ) {}
+  ) {
+    
+  }
 
   // waiyan's code start
 
@@ -116,10 +118,6 @@ export class TestwerkzComponent implements OnInit {
   // waiyan's code end
 
   ngOnInit() {
-    this.dragulaService.drag()
-      .subscribe((e)=>{
-        console.log(e)
-      })
     // this.testing()
     console.log(Promise);
     var turndownService = new TurndownService();
@@ -1185,6 +1183,11 @@ export class TestwerkzComponent implements OnInit {
       this.performanceDemands[fType.parentIdx].question[fType.no].question = markdownQues;
       console.log("performanceDemands",this.performanceDemands);
     },200)
+  }
+
+  removePDImg(img){
+    console.log("Delete Img",img)
+
   }
   // HSYL code
 
