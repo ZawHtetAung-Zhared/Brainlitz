@@ -1146,6 +1146,7 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
+    // questionFormat.answers = question.answers
     console.warn("createQuestions",question, _this.regionID, questionFormat, callback)
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
