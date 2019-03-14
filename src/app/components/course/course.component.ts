@@ -1699,22 +1699,29 @@ export class CourseComponent implements OnInit {
         this.showInvoice = true;
       }
     }
+
+    var invData = {
+      'invoice': data.invoice
+    }
+    this.courseInfo = this.detailLists;
+    Object.assign(this.courseInfo ,invData)
+    console.log("-------->courseInfo" , this.courseInfo)
     
-    this.getRegionInfo();
-    console.log(this.invoiceInfo);
-    var invoiceId = data.invoice._id;
-    this.blockUI.start('Loading...');
-    this._service.getSingleInvoice(invoiceId)
-    .subscribe((res:any) => {
-      this.blockUI.stop();
-      console.log('invoice detail',res);
-      this.singleInv.push(res);
-      this.invoice = this.singleInv;
-      console.log("invoice",this.invoice);
-      this.showOneInvoice(this.invoice);
-    }, err => {
-      console.log(err);
-    })
+    // this.getRegionInfo();
+    // console.log(this.invoiceInfo);
+    // var invoiceId = data.invoice._id;
+    // this.blockUI.start('Loading...');
+    // this._service.getSingleInvoice(invoiceId)
+    // .subscribe((res:any) => {
+    //   this.blockUI.stop();
+    //   console.log('invoice detail',res);
+    //   this.singleInv.push(res);
+    //   this.invoice = this.singleInv;
+    //   console.log("invoice",this.invoice);
+    //   this.showOneInvoice(this.invoice);
+    // }, err => {
+    //   console.log(err);
+    // })
   }
 
   showOneInvoice(invoice){
