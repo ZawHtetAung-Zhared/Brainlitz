@@ -52,6 +52,7 @@ export class TestwerkzComponent implements OnInit {
   public item: any = {};
   public editValue: any;
   public ischecked: any;
+  public tagID:any;
   public goBackCat = false;
   public wordLength: any;
   public navIsFixed: boolean = false;
@@ -80,7 +81,9 @@ export class TestwerkzComponent implements OnInit {
   public contentArr: any = [];
   public classCreate = false;
   public regionID = localStorage.getItem("regionId");
-  public concept = {};
+  public concept = {
+    "name":''
+  };
   public tagsWerkzList = [];
   public tempContentArr: any = [];
   public selectedImgArr: any = [];
@@ -121,12 +124,6 @@ export class TestwerkzComponent implements OnInit {
         return content + "";
       }
     });
-    var a = turndownService.turndown(
-      'Which process used by plants and other organisms to convert light energy into chemical energy<div id="d-0" class="row"><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155195152918736333332r5CAq.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/15519542038359737506babe-2972220_960_720.jpg"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155201857345666107561download.png"></div></div><div class="col-md-4"><div class="innerD p-0"><img style="width:100%" src="https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155202109769328281321download%20%281%29.jpeg"></div></div></div>'
-    );
-    // console.error(typeof a)
-    // var a = turndownService.turndown('![](https://brainlitz-dev.s3.amazonaws.com/orgLogo/ClassWerkz.png)')
-    // console.log('a',a);
     if (window.innerWidth > 1366) {
       this.classCreate = true;
     }
@@ -178,23 +175,6 @@ export class TestwerkzComponent implements OnInit {
       this.forElse = true;
       $(".setting-sidebar").css({ top: 165 });
     }
-  }
-
-  //get html tag in div
-  turn() {
-    var myDiv = document.getElementById("q-00");
-    console.log("myD", myDiv.innerHTML);
-    setTimeout(() => {
-      var turndownService = new TurndownService();
-      turndownService.addRule("Tada", {
-        filter: "div",
-        replacement: function(content) {
-          return content + "";
-        }
-      });
-      var a = turndownService.turndown(myDiv);
-      console.log("turn to markdown", a);
-    }, 200);
   }
 
   createTagWerkz(item) {
@@ -309,6 +289,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
+    this.tagID = val;
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
@@ -367,7 +348,8 @@ export class TestwerkzComponent implements OnInit {
     // var toHtml = $(t).children('medium-editor-element')[0].innerHTML;
     // console.log(toHtml)
   }
-  onKeydown(e, i, j) {
+  onKeydown(e, i, j, index) {
+    // var newAnswerFoucs=  i + j + (++index) 
     if (e.key === "Enter") {
       if (this.performanceDemands[i].question[j].answers.length < 8) {
         // this.pdLists[i].question[j].answers.push({
@@ -392,7 +374,17 @@ export class TestwerkzComponent implements OnInit {
           ]
         });
       }
+      // document.getElementById("answer"+ newAnswerFoucs).focus();
     }
+
+    // if(e.key == 'Backspace'){
+    //   var selectedAnswer = this.performanceDemands[i].question[j].answers[index].answer;
+    //   if(this.performanceDemands[i].question[j].answers.length > 1 ){
+    //     if(selectedAnswer == '' || selectedAnswer == undefined || selectedAnswer == null || selectedAnswer.length <= 0){
+    //       this.performanceDemands[i].question[j].answers.splice(index, 1)
+    //     }
+    //   }
+    // }
   }
   trueAnswer(i, j, index, answer) {
     if (
@@ -435,7 +427,6 @@ export class TestwerkzComponent implements OnInit {
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
       pickMultiple: false,
-      showTooltip: false,
       viewType: "LIST",
       contents: [
         {
@@ -495,7 +486,6 @@ export class TestwerkzComponent implements OnInit {
           allowedAttempts: 0,
           questionType: "MCQ-OPTION",
           pickMultiple: false,
-          showTooltip: false,
           viewType: "LIST",
           contents: [
             {
@@ -951,6 +941,7 @@ export class TestwerkzComponent implements OnInit {
           url +
           '"></img></div></div>';
       }
+      this.inputQuestion(this.editableId,this.focusType)
     } else if (this.modelType == "single") {
       console.log("answer === ");
       this.performanceDemands[this.pdIndex].question[
@@ -958,10 +949,8 @@ export class TestwerkzComponent implements OnInit {
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
     } else {
       console.log("pd Insert Img======");
-      this.performanceDemands[
-        this.focusType.no
-      ].contentsArr = this.selectedImgArr;
-      console.log(this.performanceDemands[this.focusType.no]);
+      var contArr = this.performanceDemands[this.focusType.no].contentsArr;
+      Array.prototype.push.apply(contArr,this.selectedImgArr); 
     }
     // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
     // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
@@ -1016,7 +1005,7 @@ export class TestwerkzComponent implements OnInit {
         this.focusType.parentIdx = idx1;
         this.editableId = "q" + "-" + idx1 + idx2;
         console.log(this.editableId);
-        this.performanceDemands[idx1].question[idx2].showTooltip = true;
+        // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "answer":
         this.focusPlace = "a" + idx1 + idx2 + idx3;
@@ -1038,7 +1027,7 @@ export class TestwerkzComponent implements OnInit {
             idx3
           ].showTooltip = false;
         } else if (type == "question") {
-          this.performanceDemands[idx1].question[idx2].showTooltip = false;
+          // this.performanceDemands[idx1].question[idx2].showTooltip = false;
         } else {
           this.performanceDemands[idx1].showTooltip = false;
           console.log("object");
@@ -1115,22 +1104,59 @@ export class TestwerkzComponent implements OnInit {
     this.testWerkzCategory = false;
     this.conceptList = true;
     this.performanceDemands = [];
-    this.concept = {};
+    this.concept = {
+      "name":''
+    };
     this.focusType = {};
     this.ischecked = "";
   }
+// HSYL code
+  inputQuestion(quesId,type){
+    console.log("event",quesId)
+    this.turn(quesId,type)
+  }
 
-  // createConcept(){
-  //   console.log("pdQuestion",this.performanceDemands);
-  // }
+  //get html tag in div
+  turn(qId,fType){
+    var markdownQues:any;
+    console.log("qId~~~",qId,fType)
+    var myDiv = document.getElementById(qId);
+    console.log("myD",myDiv.innerHTML)
+    setTimeout(()=>{
+      var turndownService = new TurndownService();
+      turndownService.addRule('Tada', {
+        filter:'div',
+        replacement: function (content) {
+          return  content + ''
+        }
+      })
+      markdownQues = turndownService.turndown(myDiv);
+      console.log("turn to markdown",markdownQues);
+      this.performanceDemands[fType.parentIdx].question[fType.no].quesiton = markdownQues;
+      console.log("performanceDemands",this.performanceDemands);
+    },200)
+  }
+  // HSYL code
 
-  createQuestions(_this, question, callback) {
+// waiyan's code start
+  createConcept() {
+    console.log("---------------------");
+    console.log(this.performanceDemands);
+    console.log("---------------------");
+
+    async.map(this.performanceDemands, this.pdLoop.bind(null, this), this.pdLoopDone.bind(null, this));
+
+  }
+  createQuestions(_this, pd, question, callback) {
+    console.log("_THIS QUESTION", _this, pd);
+    console.log("_THIS QUESTION", pd);
     console.log("_THIS QUESTION", _this);
     // Update quesiton object and pass it to api
+    const testArr = [];
     const questionFormat = {
       name: "",
       description: "",
-      question: "Hello",
+      question: "",
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
       viewType: "LIST",
@@ -1146,18 +1172,32 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
-    // questionFormat.answers = question.answers
-    console.warn("createQuestions",question, _this.regionID, questionFormat, callback)
+    question.answers.map(answer => {
+      var tempObj ={
+        "name":'',
+        "answer":'',
+        "correctness":0,
+        "contents":[]
+      }
+      tempObj.name = answer.name
+      tempObj.answer = answer.answer
+      tempObj.correctness = answer.correctness
+      console.log(tempObj)
+      testArr.push(tempObj)
+      console.log(testArr)
+    })
+    questionFormat.answers = testArr
+    questionFormat.question = pd.question;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
         console.log(res);
         var questionId = JSON.parse(JSON.stringify(res));
 
-        console.error(questionId.meta._id);
+        console.log(questionId.meta._id);
         callback(null, questionId.meta._id);
       },
       err => {
-        console.warn(err);
+        console.log(err);
       }
     );
   }
@@ -1166,32 +1206,40 @@ export class TestwerkzComponent implements OnInit {
     // API CALL 
     // Question Creatoion Loop
     console.log("THIS", _this);
-    async.map(pd.question, _this.createQuestions.bind(null, _this), _this.createQuesitonsDone.bind(null, pd, _this, pdCallback));
+    async.map(pd.question, _this.createQuestions.bind(null, _this, pd), _this.createQuesitonsDone.bind(null, pd, _this, pdCallback));
     // After ASYNC, pd.quesitons
   }
 
   createQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
     // const questionIds = questionIds;
+    console.log(pd.contentsArr);
     const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }) );
   
-    _this.creationPDProcess(_this, formattedQuestionIDs, pdCallback)
+    _this.creationPDProcess(_this, pd, formattedQuestionIDs, pdCallback)
     
   }
     
-  creationPDProcess(_this, formattedQuestionIDs, pdCallback) {
+  creationPDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
     // Create PD
     let pdCreateFormat = {
       "name": "string",
-      "description": "string",
       "questions": [],
       "contents": [],
     }
-
+    const tempContentArray = [];
+    pd.contentsArr.map( (contentObj,index) => {
+      var tempContentObj = {
+        "contentId" : '',
+        "sequence": 0,
+      }
+      tempContentObj.contentId = contentObj._id
+      tempContentObj.sequence = ++index;
+      tempContentArray.push(tempContentObj)
+    })
     // Get pd.questions
     pdCreateFormat.questions = formattedQuestionIDs;
-
-    console.group("HELLO", pdCreateFormat, formattedQuestionIDs);
-    console.groupEnd();
+    pdCreateFormat.name = pd.pdName;
+    pdCreateFormat.contents = tempContentArray;
     // OR
     // pd.name = string",
     // pd.description = string",
@@ -1200,26 +1248,24 @@ export class TestwerkzComponent implements OnInit {
       res => {
         const createdPdId = JSON.parse(JSON.stringify(res));
 
-        console.error(createdPdId.meta._id);
+        console.log(createdPdId.meta._id);
         pdCallback(null, createdPdId.meta._id);
       },
       err => {
-        console.warn(err);
+        console.log(err);
       }
     );
   }
 
   creationConceptProcess(formattedPdIds, _this) {
     // Create Concept
+    var moduleId = localStorage.getItem('moduleID')
     const conceptFormat = {
-      "passingGrade": 0,
-      "questionCount": 0,
-      "moduleId": "5b3ca2e944bccf35c86706b0",
-      "name": "string",
-      "description": "string",
+      "moduleId": moduleId,
+      "name": this.concept.name,
       "tag": [
         {
-          "tagId": "5c80a8b42996a1201d10c8d0"
+          "tagId": this.tagID
         }
       ],
       "pd": [],
@@ -1228,11 +1274,8 @@ export class TestwerkzComponent implements OnInit {
     }
 
     conceptFormat.pd = formattedPdIds;
-
-    console.group("conceptFormat", conceptFormat);
-    console.groupEnd();
     _this._service.createConcept(_this.regionID, conceptFormat).subscribe(res => {
-      console.warn("FINALLY", res);
+      console.log("FINALLY", res);
     });
   }
 
@@ -1246,209 +1289,10 @@ export class TestwerkzComponent implements OnInit {
     _this.creationConceptProcess(formattedPdIds, _this);
   }
 
-  createConcept() {
-    // console.log("pdQuestion", this.performanceDemands);
-    // const _this = this;
-    // const questionArray = [
-    //   {
-    //     name: "",
-    //     description: "",
-    //     question: "Hello",
-    //     allowedAttempts: 0,
-    //     questionType: "MCQ-OPTION",
-    //     viewType: "LIST",
-    //     contents: [],
-    //     answers: [
-    //       {
-    //         name: "",
-    //         answer: "",
-    //         imgUrl:
-    //           "https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155245147905155934231download%20%281%29.jpeg",
-    //         correctness: 100,
-    //         contents: []
-    //       }
-    //     ]
-    //   },
-    // ]
-
-    // const pdArray = [
-    //   {
-    //     "name": "hello",
-    //     "description": "string",
-    //     "questions": [
-          
-    //     ],
-    //     "contents": [
-
-    //     ],
-    //     // "createdDate": "string",
-    //     // "updatedDate": "string"
-    //   },
-    //   {
-    //     "name": "welcome",
-    //     "description": "string",
-    //     "questions": [
-          
-    //     ],
-    //     "contents": [
-
-    //     ],
-    //     // "createdDate": "string",
-    //     // "updatedDate": "string"
-    //   }
-    // ]
-
-    // function createQuestion(question, callback) {
-    //   _this._service.createPDQuestion(_this.regionID, question).subscribe(
-    //     res => {
-    //       console.log(res);
-    //       var questionId = JSON.parse(JSON.stringify(res));
-
-    //       console.error(questionId.meta._id);
-    //       callback(null, questionId.meta._id);
-    //     },
-    //     err => {
-    //       // console.warn(err);
-    //     }
-    //   );
-    // }
-
   
-    // //The done function must take an error first
-    // // and the results array second
-    // function done(error, result) {
-    //   const questionIds = result
-    //   console.log(questionIds);
-    // }
-    
-    // async.map(questionArray, createQuestion, done);
-
-
-    // // create PD
-    // function pdDone(error, result) {
-    //   const questionIds = result
-    //   console.log(questionIds);
-    // }
-
-    // async.map(_this.performanceDemands, pdLoop, pdDone);
-
-    // function createPd(pd, callback) {
-    //   async.map(pd.question, createPd, pdDone);
-
-    //   _this._service.createPD(_this.regionID, pd).subscribe(res => {
-    //      console.warn(res);
-    //      var pdTest = {
-    //        pdId: "5c88bf8e2b75dd3c4018024a",
-    //        sequence: 1
-    //      };
-    //      var prdId = JSON.parse(JSON.stringify(res));
-    //      callback(null, prdId.meta._id);
+  
  
-    //    });
-    //  }
-
-    // function pdLoop(pd, callback) {
-    //   async.map(pd.question, createPd, pdLoopDone);
-
-    // }
-
-    // function pdLoopDone(error, result) {
-    //   let questionIds = result
-
-    //   questionIds = JSON.parse(JSON.stringify(result));
-    //   // collection of questions Ids
-    //   const questions = questionIds.map(id => { questionId: id })
-    //   console.log(questions);
-    //   _this.performanceDemands.map(pd => {
-        
-    //   })
-    // }
-
-  }
-  
-  
-  createQuestion() {
-    console.warn("---------------------");
-    console.warn(this.performanceDemands);
-    console.warn("---------------------");
-
-    /// open browser thinking?
-
-    async.map(this.performanceDemands, this.pdLoop.bind(null, this), this.pdLoopDone.bind(null, this));
-
-    // this.performanceDemands.map(pd => {
-    //     async.map(pd.question, this.createQuestions.bind(null, this), this.createQuesitonsDone.bind(null, pd));
-    // });
+// waiyan's code end
 
 
-    // return Promise.all(
-    //   this.performanceDemands.map(pd => {
-    //     // Call Async loop to get all of quesiton IDs
-    //     async.map(pd.question, this.createQuestions.bind(null, this), this.createQuesitonsDone.bind(null, pd));
-    //   })
-    // );
-  }
-
-  createPD(pd) {
-    var tempPd = {
-      name: "pdname",
-      description: "string",
-      questions: [
-        {
-          questionId: "5c88a9802b75dd3c40180203"
-        }
-      ],
-      contents: []
-    };
-    tempPd.name = pd.name;
-    return new Promise((resolve, reject) => {
-      this._service.createPD(this.regionID, pd).subscribe(res => {
-        console.warn(res);
-        var pdTest = {
-          pdId: "5c88bf8e2b75dd3c4018024a",
-          sequence: 1
-        };
-        var resToJSON = JSON.parse(JSON.stringify(res));
-        pdTest.pdId = resToJSON.meta._id;
-        this.tempPdArray.push(pdTest);
-        console.warn(this.tempPdArray);
-      });
-      resolve(this.tempPdArray);
-    }).then(result => {
-      console.warn(result);
-      this.createConceptTest(this.tempPdArray);
-    });
-  }
-
-  createConceptTest(pdArray) {
-    var conecpt = {
-      passingGrade: 0,
-      questionCount: 0,
-      moduleId: "5b3ca2e944bccf35c86706b0",
-      name: "Life Of",
-      description: "string",
-      tag: [
-        {
-          tagId: "5c80a8b42996a1201d10c8d0"
-        }
-      ],
-      pd: [
-        {
-          pdId: "5c88bf8e2b75dd3c4018024a",
-          sequence: 1
-        }
-      ],
-      contents: []
-    };
-
-    conecpt.pd = pdArray;
-    setTimeout(() => {
-      this._service.createConcept(this.regionID, conecpt).subscribe(res => {
-        console.warn(res);
-      });
-    }, 3000);
-  }
-
-  tempQuestionArr: any = [];
-  tempPdArray: any = [];
 }
