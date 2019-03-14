@@ -239,7 +239,7 @@
                       <div class="answer-carret-box"></div>
                     </div>
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
-                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" (focus)="onFocus('pd',i,'','')" (focusout) = "hideTooltip('hideTooltip','pD',i,j,index)">
+                    <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" [(ngModel)]="pd.pdName" (focus)="onFocus('pd',i,'','')" (focusout) = "hideTooltip('hideTooltip','pD',i,j,index)">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                     <div *ngIf="pd.contentsArr.length > 0" class="row">
                       <div class="col-md-4" *ngFor="let img of pd.contentsArr">
@@ -263,15 +263,14 @@
                       <span class="pd-No" style="color:#64707d;">{{j+1}}</span>
                     </div>  
                     <div class="pd-name-input-wrapper question-wrap d-flex flex-column">
-                      <div class="tooltip-wrap" *ngIf="question.showTooltip">
-                      <!-- <div class="tooltip-wrap" *ngIf="this.focusPlace == ('q'+i+j)"> -->
+                      <div class="tooltip-wrap" *ngIf="this.focusPlace == ('q'+i+j)">
                         <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
                         <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
                         <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
                         <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                          <div class="carret-box"></div>
                       </div>
-                      <div id="q-{{i}}{{j}}" class="mt-3 question" #t dragula="COLUMNS" contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',$event)" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)" (input)= "onInput(t,$event)"></div>
+                      <div id="q-{{i}}{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',$event)" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)" (input)= "onInput(t,$event,editableId,focusType)"></div>
                       <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                       <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
                         <!-- <label class="question-checkbox">
@@ -304,7 +303,8 @@
                                          (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
                                          (focus)="onFocus('answer',i,j,index)" 
                                          [ngClass]="{'answer-text': answer.correctness == 100}"
-                                         (keydown)="onKeydown($event,i ,j)">
+                                         id="{{'answer' + i + j + index}}"
+                                         (keydown)="onKeydown($event,i ,j,index)">
                                 </div>
                                 <div class="d-flex" *ngIf="!question.pickMultiple">
                                     <label for="{{'answer'+index + i + j }}">
@@ -324,7 +324,7 @@
                                          (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
                                          [ngClass]="{'answer-text': answer.correctness == 100}"
                                          (focus)="onFocus('answer',i,j,index)" 
-                                         (keydown)="onKeydown($event,i ,j)">
+                                         (keydown)="onKeydown($event,i ,j,index)">
                                 </div>
                           </div>
                           <div *ngIf="answer.imgUrl.length > 0" >
@@ -355,8 +355,9 @@
       <div class="col-4 p-0 setting-sidebar" *ngIf="showSettingSidebar" [ngClass]="{'greater-than': greterThan,'less-than': lessThan,'forElse': forElse }">
         <div class="pt-2 d-flex flex-column">
           <div class="d-flex p-3">
-            <div class="pd-icon-wrapper align-items-center d-flex">
-              <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+            <div class="align-items-center d-flex" [ngClass]="{'pd-icon-wrapper': focusType.type == 'pd', 'check-icon-wrapper':focusType.type == 'question' || focusType.type == 'answer'}">
+              <img *ngIf="focusType.type == 'pd'" src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+              <img *ngIf="focusType.type == 'question' || focusType.type == 'answer'" src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
               <span class="pd-No">{{this.focusType.no + 1}}</span>
             </div>
             <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'pd'"> PD Setting  </p> 

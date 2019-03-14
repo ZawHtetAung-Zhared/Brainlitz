@@ -33,6 +33,8 @@
     "angular2-markdown": "^2.2.3",
     "angular2-medium-editor": "^1.3.1",
     "angular2-oauth2": "^1.3.10",
+    "async": "^2.6.2",
+    "bluebird": "^3.5.3",
     "bootstrap": "^4.1.1",
     "copy-to-clipboard": "^3.0.8",
     "core-js": "^2.5.7",
