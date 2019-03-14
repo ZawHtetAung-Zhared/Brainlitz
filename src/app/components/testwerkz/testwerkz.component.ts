@@ -1182,7 +1182,7 @@ export class TestwerkzComponent implements OnInit {
       })
       markdownQues = turndownService.turndown(myDiv);
       console.log("turn to markdown",markdownQues);
-      this.performanceDemands[fType.parentIdx].question[fType.no].quesiton = markdownQues;
+      this.performanceDemands[fType.parentIdx].question[fType.no].question = markdownQues;
       console.log("performanceDemands",this.performanceDemands);
     },200)
   }
@@ -1193,9 +1193,11 @@ export class TestwerkzComponent implements OnInit {
     console.log("---------------------");
     console.log(this.performanceDemands);
     console.log("---------------------");
-
+    this.blockUI.start('Loading...')
     async.map(this.performanceDemands, this.pdLoop.bind(null, this), this.pdLoopDone.bind(null, this));
-
+    setTimeout(() => {
+      this.blockUI.stop()
+    }, 300);
   }
   createQuestions(_this, pd, question, callback) {
     console.log("_THIS QUESTION", _this, pd);
@@ -1237,7 +1239,7 @@ export class TestwerkzComponent implements OnInit {
       console.log(testArr)
     })
     questionFormat.answers = testArr
-    questionFormat.question = pd.question;
+    questionFormat.question = question.question;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
         console.log(res);
