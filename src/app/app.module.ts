@@ -77,7 +77,8 @@ import { TZDatePipe } from './service/pipe/tzdate.pipe'
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
 import { MediumEditorModule } from 'angular2-medium-editor';
-import { FileUploadModule } from 'ng2-file-upload';
+import {DndDirective} from './components/testwerkz/dnd.directive';
+
 
 @NgModule({
   declarations: [
@@ -132,7 +133,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     HourMinsPipe,
     calculatePMPipe,
     TZDatePipe,
-    InvoiceComponent
+    InvoiceComponent,
+    DndDirective
   ],
   imports: [
     BrowserModule,
@@ -156,8 +158,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     NgDragDropModule.forRoot(),
     StarRatingModule,
     Ng2TelInputModule,
-    MediumEditorModule,
-    FileUploadModule
+    MediumEditorModule
   ],
   providers: [
     appService,

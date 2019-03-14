@@ -1,15 +1,15 @@
+import { Input } from '@angular/core';
 // import { AppComponent } from "./../../app.component";
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
 import { pd } from "./apg";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { DragulaService, DragulaModule } from "ng2-dragula";
-import { appService } from "../../service/app.service";
-import { FileUploader } from "ng2-file-upload";
-import { BlockUI, NgBlockUI } from "ng-block-ui";
-import { ToastsManager } from "ng5-toastr/ng5-toastr";
-import { c } from "@angular/core/src/render3";
+import { DragulaService, DragulaModule } from 'ng2-dragula';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { type } from "os";
+import { appService } from "../../service/app.service";
+import { BlockUI, NgBlockUI } from "ng-block-ui";
+import { c } from "@angular/core/src/render3";
 import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
 
@@ -66,6 +66,7 @@ export class TestwerkzComponent implements OnInit {
   public placeholderVar = "Enter Questions";
   public pd: pd = new pd();
   public pdLists: any[];
+  public isDrop : boolean=false;
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -79,20 +80,22 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any = [];
-  public classCreate = false;
-  public regionID = localStorage.getItem("regionId");
+  public contentArr: any=[];
+  public classCreate= false;
+  public regionID = localStorage.getItem('regionId');
+  public tagsWerkzList = []
+  public tempContentArr:any =[];
+  public selectedImgArr:any =[];
+  public ImgArr:any =[];
+  public imgIdArr:any =[];
+  public imgId:any;
+  public clickType: boolean=false;
+  public editableId:any = "";
+  private fileList : any = [];
+  private invalidFiles : any = [];
   public concept = {
     "name":''
   };
-  public tagsWerkzList = [];
-  public tempContentArr: any = [];
-  public selectedImgArr: any = [];
-  public ImgArr: any = [];
-  public imgIdArr: any = [];
-  public imgId: any;
-  public clickType: boolean = false;
-  public editableId: any = "";
   public clickEle: any = "";
   // public focusType = {
   //   'type': "",
@@ -354,7 +357,9 @@ export class TestwerkzComponent implements OnInit {
     // console.log(toHtml)
   }
   onKeydown(e, i, j, index) {
-    // var newAnswerFoucs=  i + j + (++index) 
+    var answerIndex = index
+    var newAnswerFoucs=  String(i.toString() + j.toString() + String(++answerIndex ))
+    var deleteAnswerFocus=  String(i.toString() + j.toString() + String(answerIndex - 2))
     if (e.key === "Enter") {
       if (this.performanceDemands[i].question[j].answers.length < 8) {
         // this.pdLists[i].question[j].answers.push({
@@ -379,17 +384,31 @@ export class TestwerkzComponent implements OnInit {
           ]
         });
       }
-      // document.getElementById("answer"+ newAnswerFoucs).focus();
+      if(index < 7){
+        var answerId = `answer${newAnswerFoucs}` ;
+        setTimeout(() => {
+          document.getElementById(answerId).focus();
+        }, 10);
+      }
+
     }
 
-    // if(e.key == 'Backspace'){
-    //   var selectedAnswer = this.performanceDemands[i].question[j].answers[index].answer;
-    //   if(this.performanceDemands[i].question[j].answers.length > 1 ){
-    //     if(selectedAnswer == '' || selectedAnswer == undefined || selectedAnswer == null || selectedAnswer.length <= 0){
-    //       this.performanceDemands[i].question[j].answers.splice(index, 1)
-    //     }
-    //   }
-    // }
+    if(e.key == 'Backspace'){
+      var selectedAnswer = this.performanceDemands[i].question[j].answers[index].answer;
+
+      if(this.performanceDemands[i].question[j].answers.length > 1 ){
+        if(selectedAnswer == '' || selectedAnswer == undefined || selectedAnswer == null || selectedAnswer.length <= 0){
+          this.performanceDemands[i].question[j].answers.splice(index, 1)
+
+          if(index >= 1){
+            var answerId = `answer${deleteAnswerFocus}` ;
+            setTimeout(() => {
+              document.getElementById(answerId).focus();
+            }, 10);
+          }
+        }
+      }
+    }
   }
   trueAnswer(i, j, index, answer) {
     if (
@@ -399,6 +418,7 @@ export class TestwerkzComponent implements OnInit {
     } else {
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
+    this.onFocus('check',i,j,index);
   }
 
   trueAnswerRadio(i, j, index, answer) {
@@ -407,6 +427,7 @@ export class TestwerkzComponent implements OnInit {
     dataArray.answers.map(answer => (answer.correctness = 0));
     // console.log( JSON.stringify(dataArray));
     dataArray.answers[index].correctness = 100;
+    this.onFocus('check',i,j,index);
     // console.log( JSON.stringify(dataArray));
   }
   addQuestion(j) {
@@ -531,8 +552,11 @@ export class TestwerkzComponent implements OnInit {
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
     ) {
+      if(event.inputType == "deleteContentBackward")
+        document.execCommand("undo", false);
+      if(event.inputType == "insertText")
+        document.execCommand("undo", false);
       if (event.inputType == "insertParagraph") {
-
         var thisDiv =  $(this.clickEle).hasClass("img-wrapper") || $(this.clickEle).parents(".img-wrapper");
         if($(this.clickEle).hasClass("img-wrapper")){
           thisDiv =  this.clickEle;
@@ -541,19 +565,14 @@ export class TestwerkzComponent implements OnInit {
         var tempBr = document.createElement("br");
         $(tempDiv).append(tempBr);
         $(thisDiv).after(tempDiv)
-        // $(content).append(tempDiv);
         document.execCommand("undo", false);
         var range = document.createRange(),
-          sel = window.getSelection();
+        sel = window.getSelection();
         range.setStart(tempDiv, 0);
         range.setEnd(tempDiv, 0);
         sel.removeAllRanges();
         sel.addRange(range);
-        // document.execCommand('insertParagraph',false);
-        // setTimeout( function () {
-        //   document.execCommand("insertParagraph")
-        // }, 0 );
-        // $(tempDiv).focus()
+        this.clickEle = tempDiv;
       }
     }
     $(content)
@@ -722,17 +741,22 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //image upload
-  onloadImg(event) {
-    console.log("dar");
-    const file = event.target.files;
-    this.blockUI.start("Loading...");
-    this._service.loadImage(this.regionID, file).subscribe(
-      (res: any) => {
-        // this.contentArr=res.meta;
-        // this.toastr.success('Successfully Content Upload.');
-
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
+  onloadImg(event){
+    console.log("hello",this.isDrop)
+    console.log("dar",event)
+    if(this.isDrop){
+      var file = event;
+      this.isDrop=false;
+    }else{
+      var file = event.target.files;
+    }
+    console.log(file)
+    this.blockUI.start('Loading...');
+    this._service.loadImage(this.regionID, file)
+      .subscribe((res: any) => {    
+        //getAllContent() use pormise because of html create value after use in ts    
+        this.getAllContent().then(()=>{
+          console.log("here me>",res);
           setTimeout(() => {
             this.autoSelectedImg(res.meta);
           }, 300);
@@ -741,10 +765,8 @@ export class TestwerkzComponent implements OnInit {
       },
       err => {
         console.log(err);
-        // this.toastr.error('Fail Content Upload.');
-      }
-    );
-  }
+      });
+    }
 
   // testing(){
   //   console.log('console')
@@ -782,14 +804,15 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //mutiselect img
-  onslectedImgDiv(i, img) {
-    console.log(this.isRemove, "is remove", i);
+  onslectedImgDiv(i,img){
+    console.log(this.isRemove,"is remove",i);
 
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const circle: HTMLElement = document.getElementById("cricle" + i);
-    const check: HTMLElement = document.getElementById("check" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const circle: HTMLElement = document.getElementById('cricle'+i);
+    const check: HTMLElement = document.getElementById('check'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
+    // console.log(trashdiv.onclick)
     if (this.modelType == "single") {
       console.log("is single", this.imgId);
       //add selected
@@ -803,6 +826,7 @@ export class TestwerkzComponent implements OnInit {
             "style",
             "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
           );
+          trashdiv.setAttribute("style","display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
           console.log("here if");
@@ -817,6 +841,7 @@ export class TestwerkzComponent implements OnInit {
               "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
             );
             check.setAttribute("style", "color:white;");
+            trashdiv.setAttribute("style","display:block;")
           }
         }
         this.imgId = i;
@@ -843,77 +868,71 @@ export class TestwerkzComponent implements OnInit {
         }
       }
     }
-    this.isRemove = false;
-    console.log(this.imgIdArr);
+    this.isRemove=false;
+    console.log(this.imgIdArr)
   }
-  removerSelected(i) {
-    console.log(this.selectedImgArr, i);
-    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
-    const circle3: HTMLElement = document.getElementById("cricle" + i);
-    const check3: HTMLElement = document.getElementById("check" + i);
-    const trash3: HTMLElement = document.getElementById("trash" + i);
-    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
-    imgDiv3.setAttribute("style", "border:none;");
-    circle3.setAttribute(
-      "style",
-      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
-    );
-    check3.setAttribute("style", "color:#ffffff00;");
-    trash3.setAttribute("style", "opacity: 0;");
-    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
-    if (this.modelType == "single") {
-      this.selectedImgArr = [];
-      this.imgIdArr = [];
+removerSelected(i){
+  console.log(this.selectedImgArr , i)
+  const imgDiv3: HTMLElement = document.getElementById('img-'+i);
+  const circle3: HTMLElement = document.getElementById('cricle'+i);
+  const check3: HTMLElement = document.getElementById('check'+i);
+  const trash3: HTMLElement = document.getElementById('trash'+i);
+  const overlay3: HTMLElement = document.getElementById('Imgoverlay'+i);
+  const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
+  imgDiv3.setAttribute("style","border:none;");
+  circle3.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+  check3.setAttribute("style","color:#ffffff00;");
+  trash3.setAttribute("style","opacity: 0;")
+  overlay3.setAttribute("style"," background: rgba(0, 0, 0, 0);");
+  trashdiv.setAttribute("style","display:none")
+    if(this.modelType == 'single'){
+      this.selectedImgArr=[];
+      this.imgIdArr=[];
 
       // this.imgId=undefined;
-      console.log(this.imgId);
+      console.log(this.imgId)
 
       // if(String(this.imgId)== i){
       //   this.imgId=undefined;
       //   console.log("hrerer",this.imgId)
       // }
-    } else {
-      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
-      this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
+    }else{
+      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
+      this.imgIdArr.splice(this.imgIdArr.indexOf(i),1)
     }
-  }
-  autoImgLoop(arr) {
-    console.log(arr);
-    for (var i = 0; i < arr.length; i++) {
-      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
-      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
-      const check: HTMLElement = document.getElementById("check" + arr[i]);
-      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
-      const overlay: HTMLElement = document.getElementById(
-        "Imgoverlay" + arr[i]
-      );
-      console.log(imgDiv);
+
+}
+autoImgLoop(arr){
+  console.log(arr);
+  for(var i=0;i<arr.length;i++){
+    const imgDiv: HTMLElement = document.getElementById('img-'+arr[i]);
+    const circle: HTMLElement = document.getElementById('cricle'+arr[i]);
+    const check: HTMLElement = document.getElementById('check'+arr[i]);
+    const trash: HTMLElement = document.getElementById('trash'+arr[i]);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+arr[i]);
+    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+arr[i]);
+      console.log(imgDiv)
       console.log(circle);
-      console.log(check);
-      imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-      circle.setAttribute(
-        "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      );
-      check.setAttribute("style", "color:white;");
+      console.log(check)
+      imgDiv.setAttribute("style","border:solid;color:#007fff;");
+      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
+      check.setAttribute("style","color:white;");
+      trashdiv.setAttribute("style","display:block")
       console.log(arr[i]);
     }
   }
 
-  onImgMouseEvent(e, i) {
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
-
-    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
-      trash.setAttribute("style", "opacity: 1;");
-      overlay.setAttribute(
-        "style",
-        "display:block;  background: rgba(0, 0, 0, .3);"
-      );
-    } else {
-      trash.setAttribute("style", "opacity: 0;");
-      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+  onImgMouseEvent(e,i){
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
+ 
+    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
+      trash.setAttribute("style","opacity: 1;");
+      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
+    }else{
+      trash.setAttribute("style","opacity: 0;")
+      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
     }
     // console.log(e.type)
   }
@@ -972,6 +991,7 @@ export class TestwerkzComponent implements OnInit {
     if (this.editableId != "") {
       console.log("question ===== insert img");
       var e = document.getElementById(this.editableId);
+      
       e.innerHTML +=
         '<div id="img' +
         this.editableId +
@@ -980,15 +1000,64 @@ export class TestwerkzComponent implements OnInit {
         '"></div>';
       var k = document.getElementById("img" + this.editableId);
       for (var i in this.selectedImgArr) {
-        console.log(this.selectedImgArr[i].url, "img");
+        // console.log(this.selectedImgArr[i].url, "img");
         var url = this.selectedImgArr[i].url;
-        console.log(url);
+        // console.log(url);
         // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
         k.innerHTML +=
-          '<div class="col-md-4"><div class="innerD p-0"><img class="editableImg" src="' +
+          '<img class="editableImg" src="' +
           url +
-          '"></img></div></div>';
+          '"></img>';
+       
+        
       }
+      var imgsLength =  $(e).children(".img-wrapper").children("img").length;
+      if(imgsLength % 3 == 0){
+        console.log(e)
+      }else{
+        var marginOfFirst = Number($($(e).children(".img-wrapper").children("img")[0]).css('margin-left').replace("px",""))
+        console.log($($(e).children(".img-wrapper").children("img")[0]).css('margin-left'))
+        if(imgsLength % 3 ==1){
+          var lastimg = $($(e).children(".img-wrapper").children("img")[--imgsLength])
+          lastimg.css('margin-left' , marginOfFirst)
+          lastimg.css('margin-right' , marginOfFirst)
+        }
+        if(imgsLength % 3 ==2){
+          var lastEle = $($(e).children(".img-wrapper").children("img")[--imgsLength])
+          var beforeLast = $($(e).children(".img-wrapper").children("img")[--imgsLength]);
+          lastEle.css('margin-left' , marginOfFirst)
+          lastEle.css('margin-right' , marginOfFirst)
+          beforeLast.css('margin-left' , marginOfFirst)
+          beforeLast.css('margin-right' , marginOfFirst)
+        }
+      }
+      $('.editableImg').css('margin-top','10px')
+      $('.editableImg').css('margin-bottom','10px')
+
+      setTimeout(function(){
+        console.log($(k).children(".editableImg"))
+        $(k).children(".editableImg").each(function(i,e) {
+          console.log($(e).height());
+          var imgWidth = $(e).width()
+          var imgHeight = $(e).height()
+          var maxWidthAndHeight = 120;
+          console.log(imgWidth,imgHeight)
+          if(imgHeight < maxWidthAndHeight){
+            var res = maxWidthAndHeight - imgHeight;
+            console.log(res);
+            $(e).css('padding-top', res/2)
+            $(e).css('padding-bottom', res/2)
+
+          }
+          if(imgWidth < maxWidthAndHeight){
+            console.log("less than 120")
+            var res = maxWidthAndHeight - imgWidth;
+            console.log(res);
+            $(e).css('padding-left', res/2)
+            $(e).css('padding-right', res/2)
+          }
+        });
+      },100)
       this.turn(this.editableId,this.focusType)
     } else if (this.modelType == "single") {
       console.log("answer === ");
@@ -1005,32 +1074,36 @@ export class TestwerkzComponent implements OnInit {
     this.cancelModal();
   }
 
-  onremoveClick(id) {
-    console.log(id);
-    this.isRemove = true;
-    this._service.onDeleteContent(this.regionID, id).subscribe(
-      (res: any) => {
-        console.log(res);
-        // this.contentArr=res.meta;
-        this.toastr.success("Successfully Content deleted.");
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
-          setTimeout(() => {
-            console.log(this.selectedImgArr);
-            console.log(this.imgIdArr);
-            if (this.modelType == "multiple") {
-              this.autoImgLoop(this.imgIdArr);
-            } else {
-              this.imgId = undefined;
-            }
-          }, 300);
-        });
-      },
-      err => {
-        console.log(err);
-        this.toastr.error("Fail Content deleted.");
-      }
-    );
+  // onClickFileupload(fileInput){
+  //   fileInput.value=null;
+  //   console.log(fileInput.value)
+  // }
+
+  onremoveClick(id){
+    console.log(id)
+    this.isRemove=true;
+    this._service.onDeleteContent(this.regionID,id)
+    .subscribe((res: any) => {
+      console.log(res)
+      // this.contentArr=res.meta;
+       this.toastr.success('Successfully Content deleted.');
+       this.getAllContent().then(()=>{
+        console.log("here me>",res);
+        setTimeout(() => {
+          console.log(this.selectedImgArr)
+          console.log(this.imgIdArr)
+          if(this.modelType == "multiple"){
+            this.autoImgLoop(this.imgIdArr)
+          }else{
+            this.imgId=undefined
+          }
+          
+        }, 300);
+      })
+    }, err => {
+      console.log(err);
+      this.toastr.error('Fail Content deleted.');
+    });
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
 
@@ -1054,6 +1127,14 @@ export class TestwerkzComponent implements OnInit {
         this.editableId = "q" + "-" + idx1 + idx2;
         console.log(this.editableId);
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
+        break;
+      case "check":
+        this.focusPlace = "a" + idx1 + idx2 + idx3;
+        this.focusType.no = idx2;
+        this.focusType.parentIdx = idx1;
+        if(type == 'check'){
+          this.focusType.type = 'answer';
+        }
         break;
       case "answer":
         this.focusPlace = "a" + idx1 + idx2 + idx3;
@@ -1167,9 +1248,9 @@ export class TestwerkzComponent implements OnInit {
   //get html tag in div
   turn(qId,fType){
     var markdownQues:any;
-    console.log("qId~~~",qId,fType)
+    // console.log("qId~~~",qId,fType)
     var myDiv = document.getElementById(qId);
-    console.log("myD",myDiv.innerHTML)
+    // console.log("myD",myDiv.innerHTML)
     setTimeout(()=>{
       var turndownService = new TurndownService();
       turndownService.addRule('Tada', {
@@ -1312,11 +1393,27 @@ export class TestwerkzComponent implements OnInit {
     );
   }
 
+  //file drop method for valids
+  onFilesChange(fileList : Array<File>){
+    console.log(fileList.length)
+    if(fileList.length !=0){
+      this.isDrop=true
+      this.fileList = fileList;
+      this.onloadImg(fileList);  //file upload call api
+      console.log("exit1",this.fileList)
+    }
+  }
+
+  //file drop method for invalids
+  onFileInvalids(fileList : Array<File>){
+    this.invalidFiles = fileList;
+  }
+
   creationConceptProcess(formattedPdIds, _this) {
     // Create Concept
-    var moduleId = localStorage.getItem('moduleID')
+    // var moduleId = localStorage.getItem('moduleID')
     const conceptFormat = {
-      "moduleId": moduleId,
+      // "moduleId": moduleId,
       "name": this.concept.name,
       "tag": [
         {
@@ -1346,8 +1443,13 @@ export class TestwerkzComponent implements OnInit {
     // Concept API Calling
     _this.creationConceptProcess(formattedPdIds, _this);
   }
-
-  
+  onDragStart(e){
+    console.log(e)
+    // e.preventDefault();
+  }
+  onDrop(e){
+    console.log(e)
+  }
   
  
 // waiyan's code end
