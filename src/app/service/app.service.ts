@@ -2349,5 +2349,20 @@ export class appService{
       })
     }
 
+    editConcept(regionId:string, id: string){
+      
+      let apiUrl = this.baseUrl  + '/' + regionId + '/performance-demands/' + id;     
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
 }
 
