@@ -1,6 +1,7 @@
 <!-- For Concept Group List Start -->
 <div *ngIf="conceptList" class="d-flex justify-content-end pr-5 w-100 mt-1">
   <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
+  <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b1d36286d9c5aaefdb6f0')"> Edit tag </button>
 </div>
 <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
 <!-- For test List End -->
@@ -124,20 +125,27 @@
 <!-- For test list create and Edit End -->
 
 <!-- For Concept Create Start -->
-<div *ngIf="conceptCreate">
+<div *ngIf="conceptCreate || conceptEdit">
   <div class="w-100  h-100">
     <div class="w-100 d-flex mt-1 h-100" [ngClass]="{'justify-content-center': classCreate == true, 'align-items-center':classCreate == true}"
       id="conceptWrapper">
       <div class="pl-3 p-0 form-side">
         <div class=" d-flex flex-column w-100" [ngClass]="{'align-items-center': classCreate == true}">
           <div class="createForm-wrap">
-            <div class="mr-auto p-2 pl-0 pb-0" (click)="backToTestWerkz()">
+            <div class="mr-auto p-2 pl-0 pb-0" (click)="backToTestWerkz()" *ngIf="conceptCreate">
               <div class="back-to pt-2 d-flex">
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
               </div>
             </div>
-            <h3 class="assessment-title">Creating Concept</h3>
+            <div class="mr-auto p-2 pl-0 pb-0" (click)="backToList()" *ngIf="conceptEdit">
+              <div class="back-to pt-2 d-flex">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+            </div>
+            <h3 class="assessment-title" *ngIf="conceptCreate">Creating Concept</h3>
+            <h3 class="assessment-title" *ngIf="conceptEdit">Edit Concept</h3>
             <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
               <div class="d-flex justify-content-between">
                 <label class="form-title input-label" for="address"> Concept name </label>
@@ -437,7 +445,7 @@
           <label class="drop_drap_txt">Drag & drop</label>
           <span class="drop_sp">image anywhere or</span>
           <div class="upload-btn-wrapper">
-        
+              <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
             <button class="btn btn-submit uploadImgBtn">Upload image</button>
             <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="onloadImg($event)" />
           </div>

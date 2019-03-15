@@ -12,6 +12,7 @@ import { BlockUI, NgBlockUI } from "ng-block-ui";
 import { c } from "@angular/core/src/render3";
 import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
+import { nsend } from 'q';
 
 // declare var upndown:any;
 var Promise = require("bluebird");
@@ -47,6 +48,7 @@ export class TestwerkzComponent implements OnInit {
   public modelType: any;
   public testWerkzCategory = false;
   public conceptCreate = false;
+  public conceptEdit = false;
   public isUpdate = false;
   public conceptList = true;
   public isfocus = false;
@@ -81,19 +83,20 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any = [];
-  public classCreate = false;
-  public regionID = localStorage.getItem("regionId");
-  public tagsWerkzList = [];
-  public tempContentArr: any = [];
-  public selectedImgArr: any = [];
-  public ImgArr: any = [];
-  public imgIdArr: any = [];
-  public imgId: any;
-  public clickType: boolean = false;
-  public editableId: any = "";
-  private fileList: any = [];
-  private invalidFiles: any = [];
+  public contentArr: any=[];
+  public classCreate= false;
+  public regionID = localStorage.getItem('regionId');
+  public tagsWerkzList = []
+  public tempContentArr:any =[];
+  public selectedImgArr:any =[];
+  public ImgArr:any =[];
+  public imgIdArr:any =[];
+  public imgId:any;
+  public clickType: boolean=false;
+  public editableId:any = "";
+  private fileList : any = [];
+  private invalidFiles : any = [];
+  public ptest:any =[];
   public concept = {
     name: ""
   };
@@ -105,6 +108,7 @@ export class TestwerkzComponent implements OnInit {
   // };
   public focusType: any = {};
   public focusPlace: any;
+  public conceptsObj:any={};
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -309,11 +313,13 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
+    this.conceptEdit=false;
   }
   backToTestWerkz() {
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
+    this.conceptEdit=false;
   }
   edit() {
     this.isEditComplete = true;
@@ -458,6 +464,9 @@ export class TestwerkzComponent implements OnInit {
       name: "",
       description: "",
       question: "",
+      html:{
+        question:""
+      },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
       pickMultiple: false,
@@ -517,6 +526,9 @@ export class TestwerkzComponent implements OnInit {
           name: "",
           description: "",
           question: "",
+          html:{
+            question:""
+          },
           allowedAttempts: 0,
           questionType: "MCQ-OPTION",
           pickMultiple: false,
@@ -712,6 +724,15 @@ export class TestwerkzComponent implements OnInit {
     this.getAllContent();
   }
 
+  
+  cancelModal() {
+    this.modalReference.close();
+    this.selectedImgArr = [];
+    this.imgIdArr = [];
+    this.imgId = undefined;
+  }
+
+  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
   getAllContent() {
     this.ImgArr = [];
@@ -743,12 +764,6 @@ export class TestwerkzComponent implements OnInit {
       );
     });
   }
-  cancelModal() {
-    this.modalReference.close();
-    this.selectedImgArr = [];
-    this.imgIdArr = [];
-    this.imgId = undefined;
-  }
 
   //image upload
   onloadImg(event) {
@@ -779,25 +794,7 @@ export class TestwerkzComponent implements OnInit {
     );
   }
 
-  // testing(){
-  //   console.log('console')
-  //   new Promise(function(resolve, reject) {
-  //       resolve('foo');
-  //   }).catch();
-  // }
-
-  // testin(){
-  //   this.testing().then(res=>{
-
-  //   })
-  // }
-
-  autoResize(e) {
-    e.target.style.cssText = "height:auto";
-    e.target.style.height = e.target.scrollHeight + "px";
-  }
-
-  //autoselected img after img load
+  //this is use for autoselected when upload finish or deleted finsih (this is only selected previous selection image after upload)
   autoSelectedImg(resturnobj) {
     console.log(this.modelType);
     console.log(this.selectedImgArr);
@@ -814,16 +811,17 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  //mutiselect img
-  onslectedImgDiv(i, img) {
-    console.log(this.isRemove, "is remove", i);
+  //selected image use with css 
+  //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
+  onslectedImgDiv(i,img){
+    console.log(this.isRemove,"is remove",i);
 
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const circle: HTMLElement = document.getElementById("cricle" + i);
-    const check: HTMLElement = document.getElementById("check" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-    // console.log(trashdiv.onclick)
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const circle: HTMLElement = document.getElementById('cricle'+i);
+    const check: HTMLElement = document.getElementById('check'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
+    
     if (this.modelType == "single") {
       console.log("is single", this.imgId);
       //add selected
@@ -840,9 +838,7 @@ export class TestwerkzComponent implements OnInit {
           trashdiv.setAttribute("style", "display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
-          console.log("here if");
         } else {
-          console.log("hree else");
           if (imgDiv.style.border == "solid") {
             this.removerSelected(this.imgId);
           } else {
@@ -882,26 +878,25 @@ export class TestwerkzComponent implements OnInit {
     this.isRemove = false;
     console.log(this.imgIdArr);
   }
-  removerSelected(i) {
-    console.log(this.selectedImgArr, i);
-    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
-    const circle3: HTMLElement = document.getElementById("cricle" + i);
-    const check3: HTMLElement = document.getElementById("check" + i);
-    const trash3: HTMLElement = document.getElementById("trash" + i);
-    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
-    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-    imgDiv3.setAttribute("style", "border:none;");
-    circle3.setAttribute(
-      "style",
-      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
-    );
-    check3.setAttribute("style", "color:#ffffff00;");
-    trash3.setAttribute("style", "opacity: 0;");
-    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
-    trashdiv.setAttribute("style", "display:none");
-    if (this.modelType == "single") {
-      this.selectedImgArr = [];
-      this.imgIdArr = [];
+
+  //this is remove for image selected from gallery modal (this method can slected multiple or single)
+removerSelected(i){
+  console.log(this.selectedImgArr , i)
+  const imgDiv3: HTMLElement = document.getElementById('img-'+i);
+  const circle3: HTMLElement = document.getElementById('cricle'+i);
+  const check3: HTMLElement = document.getElementById('check'+i);
+  const trash3: HTMLElement = document.getElementById('trash'+i);
+  const overlay3: HTMLElement = document.getElementById('Imgoverlay'+i);
+  const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
+  imgDiv3.setAttribute("style","border:none;");
+  circle3.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
+  check3.setAttribute("style","color:#ffffff00;");
+  trash3.setAttribute("style","opacity: 0;")
+  overlay3.setAttribute("style"," background: rgba(0, 0, 0, 0);");
+  trashdiv.setAttribute("style","display:none")
+    if(this.modelType == 'single'){
+      this.selectedImgArr=[];
+      this.imgIdArr=[];
 
       // this.imgId=undefined;
       console.log(this.imgId);
@@ -914,21 +909,20 @@ export class TestwerkzComponent implements OnInit {
       this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
       this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
     }
-  }
-  autoImgLoop(arr) {
-    console.log(arr);
-    for (var i = 0; i < arr.length; i++) {
-      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
-      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
-      const check: HTMLElement = document.getElementById("check" + arr[i]);
-      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
-      const overlay: HTMLElement = document.getElementById(
-        "Imgoverlay" + arr[i]
-      );
-      const trashdiv: HTMLElement = document.getElementById(
-        "trashdiv-" + arr[i]
-      );
-      console.log(imgDiv);
+
+}
+
+//this is use for selected image value loop
+autoImgLoop(arr){
+  console.log(arr);
+  for(var i=0;i<arr.length;i++){
+    const imgDiv: HTMLElement = document.getElementById('img-'+arr[i]);
+    const circle: HTMLElement = document.getElementById('cricle'+arr[i]);
+    const check: HTMLElement = document.getElementById('check'+arr[i]);
+    const trash: HTMLElement = document.getElementById('trash'+arr[i]);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+arr[i]);
+    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+arr[i]);
+      console.log(imgDiv)
       console.log(circle);
       console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
@@ -942,24 +936,75 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  onImgMouseEvent(e, i) {
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
-
-    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
-      trash.setAttribute("style", "opacity: 1;");
-      overlay.setAttribute(
-        "style",
-        "display:block;  background: rgba(0, 0, 0, .3);"
-      );
-    } else {
-      trash.setAttribute("style", "opacity: 0;");
-      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+  //when over image from galery modal mouse over or mouse out
+  onImgMouseEvent(e,i){
+    const imgDiv: HTMLElement = document.getElementById('img-'+i);
+    const trash: HTMLElement = document.getElementById('trash'+i);
+    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
+ 
+    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
+      trash.setAttribute("style","opacity: 1;");
+      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
+    }else{
+      trash.setAttribute("style","opacity: 0;")
+      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
     }
     // console.log(e.type)
   }
 
+  //delete image
+  onremoveClick(id){
+    console.log(id)
+    this.isRemove=true;
+    this._service.onDeleteContent(this.regionID,id)
+    .subscribe((res: any) => {
+      console.log(res)
+      // this.contentArr=res.meta;
+       this.toastr.success('Successfully Content deleted.');
+       //getAllContent() use pormise because of html create value after use in ts    
+       this.getAllContent().then(()=>{
+        console.log("here me>",res);
+        setTimeout(() => {
+          console.log(this.selectedImgArr)
+          console.log(this.imgIdArr)
+          if(this.modelType == "multiple"){
+            this.autoImgLoop(this.imgIdArr)
+          }else{
+            this.imgId=undefined
+          }
+          
+        }, 300);
+      })
+    }, err => {
+      console.log(err);
+      this.toastr.error('Fail Content deleted.');
+    });
+    // this.onslectedImgDiv(i,img,"exitBorder");
+  }
+/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+
+
+  // testing(){
+  //   console.log('console')
+  //   new Promise(function(resolve, reject) {
+  //       resolve('foo');
+  //   }).catch();
+  // }
+
+  // testin(){
+  //   this.testing().then(res=>{
+
+  //   })
+  // }
+  
+
+  autoResize(e) {
+    e.target.style.cssText = "height:auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+  }
+
+
+  
   showSetting() {
     if (window.pageYOffset > 81) {
       this.greterThan = true;
@@ -1156,46 +1201,13 @@ export class TestwerkzComponent implements OnInit {
     });
     $(".editableImg").mouseout(function(event) {
       console.log(event);
-      if (event.offsetX >= 119) $(".img-span").remove();
-      else if (event.offsetY >= 119) $(".img-span").remove();
+      if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
+      else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
       else console.log("out but not out");
     });
   }
 
-  // onClickFileupload(fileInput){
-  //   fileInput.value=null;
-  //   console.log(fileInput.value)
-  // }
-
-  onremoveClick(id) {
-    console.log(id);
-    this.isRemove = true;
-    this._service.onDeleteContent(this.regionID, id).subscribe(
-      (res: any) => {
-        console.log(res);
-        // this.contentArr=res.meta;
-        this.toastr.success("Successfully Content deleted.");
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
-          setTimeout(() => {
-            console.log(this.selectedImgArr);
-            console.log(this.imgIdArr);
-            if (this.modelType == "multiple") {
-              this.autoImgLoop(this.imgIdArr);
-            } else {
-              this.imgId = undefined;
-            }
-          }, 300);
-        });
-      },
-      err => {
-        console.log(err);
-        this.toastr.error("Fail Content deleted.");
-      }
-    );
-    // this.onslectedImgDiv(i,img,"exitBorder");
-  }
-
+  
   onFocus(type, idx1, idx2, idx3) {
     this.editableId = "";
     this.focusPlace = "";
@@ -1339,8 +1351,8 @@ export class TestwerkzComponent implements OnInit {
     var markdownQues: any;
     // console.log("qId~~~",qId,fType)
     var myDiv = document.getElementById(qId);
-    // console.log("myD",myDiv.innerHTML)
-    setTimeout(() => {
+    console.log("myD",myDiv.innerHTML)
+    setTimeout(()=>{
       var turndownService = new TurndownService();
       turndownService.addRule("Tada", {
         filter: "div",
@@ -1349,12 +1361,11 @@ export class TestwerkzComponent implements OnInit {
         }
       });
       markdownQues = turndownService.turndown(myDiv);
-      console.log("turn to markdown", markdownQues);
-      this.performanceDemands[fType.parentIdx].question[
-        fType.no
-      ].question = markdownQues;
-      console.log("performanceDemands", this.performanceDemands);
-    }, 200);
+      console.log("turn to markdown",markdownQues);
+      this.performanceDemands[fType.parentIdx].question[fType.no].html.question = String(myDiv.innerHTML)
+      this.performanceDemands[fType.parentIdx].question[fType.no].question = markdownQues;
+      console.log("performanceDemands",this.performanceDemands);
+    },200)
   }
 
   removePDImg(img) {
@@ -1387,6 +1398,9 @@ export class TestwerkzComponent implements OnInit {
       name: "",
       description: "",
       question: "",
+      html:{
+        question:""
+      },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
       viewType: "LIST",
@@ -1418,6 +1432,7 @@ export class TestwerkzComponent implements OnInit {
     });
     questionFormat.answers = testArr;
     questionFormat.question = question.question;
+    questionFormat.html = question.html;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
         console.log(res);
@@ -1553,6 +1568,53 @@ export class TestwerkzComponent implements OnInit {
   onDrop(e) {
     console.log(e);
   }
+  
+ 
+// waiyan's code end
 
-  // waiyan's code end
+/** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+onUpdateTeskWerkz(id){
+  console.log(id);
+  this.conceptEdit = true;
+  this.testWerkzCategory = false;
+  this.conceptList=false;
+  console.log(this.conceptList)
+  this._service.getConceptById(this.regionID,id).subscribe((res:any)=>{
+    console.log(res);
+    this.conceptsObj=res;
+    this.concept.name=res.name;
+    this.getPDById(res.pd);
+  },err=>{
+    console.log(err);
+  })
+  console.log(this.ptest)
+  // this.performanceDemands=this.ptest;
+}
+
+getPDById(pdObj){
+  for(let i=0;i<pdObj.length;i++){
+    console.log(pdObj[i]);
+    this._service.getPDById(this.regionID,pdObj[i].pdId).subscribe((res:any)=>{
+      console.log(res);
+      this.ptest.push(res);
+      console.error(this.ptest)
+      this.getQueById(res.questions,i);
+    },err=>{
+      console.log(err);
+    });
+  }
+}
+
+getQueById(qObj,id){
+ console.log(this.ptest,id);
+  for(let i=0;i<qObj.length;i++){
+    this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
+      console.log(res);
+      this.ptest[id].questions[i]=res;
+    },err=>{
+      console.log(err);
+    });
+  }
+}
+/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }
