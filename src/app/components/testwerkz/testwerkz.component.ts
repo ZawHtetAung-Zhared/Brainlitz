@@ -13,9 +13,10 @@ import { c } from "@angular/core/src/render3";
 import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
 import { nsend } from 'q';
+import { resolve } from 'path';
 
 // declare var upndown:any;
-var Promise = require("bluebird");
+// var Promise = require("bluebird");
 const async = require("async")  
 var upndown = require("upndown");
 var TurndownService = require("turndown").default;
@@ -210,7 +211,8 @@ export class TestwerkzComponent implements OnInit {
     this.testWerkzCategory = true;
     this.conceptList = false;
     this.getAllTag();
-    this.addPd();
+    // this.addPd();
+    console.log(this.performanceDemands)
     this.showSettingSidebar = false;
   }
 
@@ -302,6 +304,8 @@ export class TestwerkzComponent implements OnInit {
     this.testWerkzCategory = false;
     this.ischecked = val;
     this.tagID = val;
+    this.addPd();
+    console.log(this.performanceDemands)
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
@@ -367,13 +371,13 @@ export class TestwerkzComponent implements OnInit {
     var newAnswerFoucs=  String(i.toString() + j.toString() + String(++answerIndex ))
     var deleteAnswerFocus=  String(i.toString() + j.toString() + String(answerIndex - 2))
     if (e.key === "Enter") {
-      if (this.performanceDemands[i].question[j].answers.length < 8) {
+      if (this.performanceDemands[i].questions[j].answers.length < 8) {
         // this.pdLists[i].question[j].answers.push({
         //   answer: "",
         //   rightAnswer:false
         // })
 
-        this.performanceDemands[i].question[j].answers.push({
+        this.performanceDemands[i].questions[j].answers.push({
           name: "",
           answer: "",
           imgUrl: "",
@@ -400,11 +404,11 @@ export class TestwerkzComponent implements OnInit {
     }
 
     if(e.key == 'Backspace'){
-      var selectedAnswer = this.performanceDemands[i].question[j].answers[index].answer;
+      var selectedAnswer = this.performanceDemands[i].questions[j].answers[index].answer;
 
-      if(this.performanceDemands[i].question[j].answers.length > 1 ){
+      if(this.performanceDemands[i].questions[j].answers.length > 1 ){
         if(selectedAnswer == '' || selectedAnswer == undefined || selectedAnswer == null || selectedAnswer.length <= 0){
-          this.performanceDemands[i].question[j].answers.splice(index, 1)
+          this.performanceDemands[i].questions[j].answers.splice(index, 1)
 
           if(index >= 1){
             var answerId = `answer${deleteAnswerFocus}` ;
@@ -418,18 +422,18 @@ export class TestwerkzComponent implements OnInit {
   }
   trueAnswer(i, j, index, answer) {
     if (
-      this.performanceDemands[i].question[j].answers[index].correctness === 0
+      this.performanceDemands[i].questions[j].answers[index].correctness === 0
     ) {
-      this.performanceDemands[i].question[j].answers[index].correctness = 100;
+      this.performanceDemands[i].questions[j].answers[index].correctness = 100;
     } else {
-      this.performanceDemands[i].question[j].answers[index].correctness = 0;
+      this.performanceDemands[i].questions[j].answers[index].correctness = 0;
     }
     this.onFocus('check',i,j,index);
   }
 
   trueAnswerRadio(i, j, index, answer) {
     console.log(this.performanceDemands);
-    const dataArray = this.performanceDemands[i].question[j];
+    const dataArray = this.performanceDemands[i].questions[j];
     dataArray.answers.map(answer => (answer.correctness = 0));
     // console.log( JSON.stringify(dataArray));
     dataArray.answers[index].correctness = 100;
@@ -452,7 +456,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log(this.pdLists[j]);
 
     // waiyan's code start
-    this.performanceDemands[j].question.push({
+    this.performanceDemands[j].questions.push({
       name: "",
       description: "",
       question: "",
@@ -509,23 +513,17 @@ export class TestwerkzComponent implements OnInit {
     //   ]
     // });
     // console.log(this.pdLists);
-    this.performanceDemands.push({
-      pdName: "",
-      showTooltip: false,
-      contentsArr: [],
-      question: [
-        {
-          name: "",
-          description: "",
-          question: "",
-          html:{
-            question:""
-          },
-          allowedAttempts: 0,
-          questionType: "MCQ-OPTION",
-          pickMultiple: false,
-          viewType: "LIST",
-          contents: [
+    this.performanceDemands.push( {
+       _id: "",
+       name: "", 
+       contents: [
+      ],
+       questions: [ 
+           {
+            _id: "", 
+           allowedAttempts: 0, 
+           viewType: "LIST", 
+           contents: [
             {
               contentId: "",
               sequence: 0,
@@ -534,27 +532,69 @@ export class TestwerkzComponent implements OnInit {
               playAt: "BEFORE"
             }
           ],
-          answers: [
+           name: "", 
+           description: "", 
+           question: "", 
+           html:
             {
-              name: "",
-              answer: "",
-              imgUrl: "",
-              correctness: 0,
-              showTooltip: false,
-              contents: [
-                {
-                  contentId: "",
-                  sequence: 0,
-                  start: 0,
-                  end: 0,
-                  playAt: "BEFORE"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    });
+                question: "" 
+            }, 
+          questionType: "",
+          answers: [ 
+                { 
+                  _id: "", 
+                  name: "", 
+                  answer: "", 
+                  imgUrl:"",
+                  correctness: 0,
+                  contents: [] 
+                 }]
+                }]
+    })
+    // this.performanceDemands.push({
+    //   name: "",
+    //   contents: [],
+    //   questions: [
+    //     {
+    //       question: "",
+    //       description: "",
+    //       html:{
+    //         question:""
+    //       },
+    //       allowedAttempts: 0,
+    //       questionType: "MCQ-OPTION",
+    //       pickMultiple: false,
+    //       viewType: "LIST",
+    //       contents: [
+    //         {
+    //           contentId: "",
+    //           sequence: 0,
+    //           start: 0,
+    //           end: 0,
+    //           playAt: "BEFORE"
+    //         }
+    //       ],
+    //       answers: [
+    //         {
+    //           name: "",
+    //           answer: "",
+    //           imgUrl: "",
+    //           correctness: 0,
+    //           showTooltip: false,
+    //           contents: [
+    //             {
+    //               contentId: "",
+    //               sequence: 0,
+    //               start: 0,
+    //               end: 0,
+    //               playAt: "BEFORE"
+    //             }
+    //           ]
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // });
     console.log(this.performanceDemands);
   }
 
@@ -1120,7 +1160,16 @@ autoImgLoop(arr){
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
     } else {
       console.log("pd Insert Img======");
-      var contArr = this.performanceDemands[this.focusType.no].contentsArr;
+      
+      // var obj = {
+      //   contentId: "",
+      //   sequence: 0,
+      //   start: 0,
+      //   end: 0,
+      //   playAt: "BEFORE",
+      //   url:""
+      // }
+      var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr,this.selectedImgArr); 
     }
     // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
@@ -1134,6 +1183,8 @@ autoImgLoop(arr){
     this.focusPlace = "";
     this.answerTootips = "";
     this.focusType.type = type;
+    console.log(this.performanceDemands)
+    console.log(this.performanceDemands.length)
     this.showSetting();
     switch (type) {
       case "pd":
@@ -1165,16 +1216,16 @@ autoImgLoop(arr){
     }
     if (type == "answer") {
       // this.answerTootipsOptions = true;
-      this.performanceDemands[idx1].question[idx2].answers[
-        idx3
-      ].showTooltip = true;
+      // this.performanceDemands[idx1].question[idx2].answers[
+      //   idx3
+      // ].showTooltip = true;
     }
   }
   hideTooltip(hideTooltip, type, idx1, idx2, idx3) {
     if (hideTooltip == "hideTooltip") {
       setTimeout(() => {
         if (type == "answer") {
-          this.performanceDemands[idx1].question[idx2].answers[
+          this.performanceDemands[idx1].questions[idx2].answers[
             idx3
           ].showTooltip = false;
         } else if (type == "question") {
@@ -1239,8 +1290,8 @@ autoImgLoop(arr){
         this.performanceDemands.splice(itemType.no, 1);
       }
     } else if (itemType.type == "question" || itemType.type == "answer") {
-      if (this.performanceDemands[itemType.parentIdx].question.length > 1) {
-        this.performanceDemands[itemType.parentIdx].question.splice(
+      if (this.performanceDemands[itemType.parentIdx].questions.length > 1) {
+        this.performanceDemands[itemType.parentIdx].questions.splice(
           itemType.no,
           1
         );
@@ -1283,8 +1334,8 @@ autoImgLoop(arr){
       })
       markdownQues = turndownService.turndown(myDiv);
       console.log("turn to markdown",markdownQues);
-      this.performanceDemands[fType.parentIdx].question[fType.no].html.question = String(myDiv.innerHTML)
-      this.performanceDemands[fType.parentIdx].question[fType.no].question = markdownQues;
+      this.performanceDemands[fType.parentIdx].questions[fType.no].html.question = String(myDiv.innerHTML)
+      this.performanceDemands[fType.parentIdx].questions[fType.no].question = markdownQues;
       console.log("performanceDemands",this.performanceDemands);
     },200)
   }
@@ -1338,11 +1389,13 @@ autoImgLoop(arr){
       var tempObj ={
         "name":'',
         "answer":'',
+        "imgUrl":'',
         "correctness":0,
         "contents":[]
       }
       tempObj.name = answer.name
       tempObj.answer = answer.answer
+      tempObj.imgUrl = answer.imgUrl;
       tempObj.correctness = answer.correctness
       console.log(tempObj)
       testArr.push(tempObj)
@@ -1483,42 +1536,44 @@ autoImgLoop(arr){
 // waiyan's code end
 
 /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
-onUpdateTeskWerkz(id){
+ async onUpdateTeskWerkz(id){
   console.log(id);
   this.conceptEdit = true;
   this.testWerkzCategory = false;
   this.conceptList=false;
   console.log(this.conceptList)
-  this._service.getConceptById(this.regionID,id).subscribe((res:any)=>{
+  await this._service.getConceptById(this.regionID,id).subscribe(async (res:any)=>{
     console.log(res);
     this.conceptsObj=res;
     this.concept.name=res.name;
-    this.getPDById(res.pd);
+   await this.getPDById(res.pd);
+
+   
   },err=>{
     console.log(err);
   })
   console.log(this.ptest)
-  // this.performanceDemands=this.ptest;
+  this.performanceDemands=this.ptest;
 }
 
-getPDById(pdObj){
+async getPDById(pdObj){
   for(let i=0;i<pdObj.length;i++){
     console.log(pdObj[i]);
-    this._service.getPDById(this.regionID,pdObj[i].pdId).subscribe((res:any)=>{
+    await this._service.getPDById(this.regionID,pdObj[i].pdId).subscribe(async (res:any)=>{
       console.log(res);
       this.ptest.push(res);
       console.error(this.ptest)
-      this.getQueById(res.questions,i);
+       await this.getQueById(res.questions,i);
     },err=>{
       console.log(err);
     });
   }
 }
 
-getQueById(qObj,id){
+async getQueById(qObj,id){
  console.log(this.ptest,id);
   for(let i=0;i<qObj.length;i++){
-    this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
+    await this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
       console.log(res);
       this.ptest[id].questions[i]=res;
     },err=>{
