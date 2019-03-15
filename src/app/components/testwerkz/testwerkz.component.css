@@ -1094,6 +1094,13 @@ p.g_title {
   align-items: center;
   background: #fff;
 }
+
+.img-pd{
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+
 .img-wrapper{
   justify-content: space-around;
 }

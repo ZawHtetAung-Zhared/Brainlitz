@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 // import { AppComponent } from "./../../app.component";
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
@@ -111,7 +112,9 @@ export class TestwerkzComponent implements OnInit {
     private modalService: NgbModal,
     private dragulaService: DragulaService,
     public toastr: ToastsManager
-  ) {}
+  ) {
+    
+  }
 
   // waiyan's code start
 
@@ -119,7 +122,6 @@ export class TestwerkzComponent implements OnInit {
   // waiyan's code end
 
   ngOnInit() {
-    // $('.col-md-4').draggable({handle: '.editableImg'});
     // this.testing()
     console.log(Promise);
     var turndownService = new TurndownService();
@@ -551,8 +553,11 @@ export class TestwerkzComponent implements OnInit {
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
     ) {
+      if(event.inputType == "deleteContentBackward")
+        document.execCommand("undo", false);
+      if(event.inputType == "insertText")
+        document.execCommand("undo", false);
       if (event.inputType == "insertParagraph") {
-
         var thisDiv =  $(this.clickEle).hasClass("img-wrapper") || $(this.clickEle).parents(".img-wrapper");
         if($(this.clickEle).hasClass("img-wrapper")){
           thisDiv =  this.clickEle;
@@ -561,19 +566,14 @@ export class TestwerkzComponent implements OnInit {
         var tempBr = document.createElement("br");
         $(tempDiv).append(tempBr);
         $(thisDiv).after(tempDiv)
-        // $(content).append(tempDiv);
         document.execCommand("undo", false);
         var range = document.createRange(),
-          sel = window.getSelection();
+        sel = window.getSelection();
         range.setStart(tempDiv, 0);
         range.setEnd(tempDiv, 0);
         sel.removeAllRanges();
         sel.addRange(range);
-        // document.execCommand('insertParagraph',false);
-        // setTimeout( function () {
-        //   document.execCommand("insertParagraph")
-        // }, 0 );
-        // $(tempDiv).focus()
+        this.clickEle = tempDiv;
       }
     }
     $(content)
@@ -1054,15 +1054,29 @@ autoImgLoop(arr){
        
         
       }
-      console.log(this.selectedImgArr.length %3)
-      $(e).children(".img-wrapper").css('justify-content' , 'space-between')
-
-      if(this.selectedImgArr.length % 3 == 0){
+      var imgsLength =  $(e).children(".img-wrapper").children("img").length;
+      if(imgsLength % 3 == 0){
         console.log(e)
       }else{
-        $(e).children(".img-wrapper").children("img").css('margin-top', '0px');
-        $(e).children(".img-wrapper").children("img").css('margin-bottom', '10px');
+        var marginOfFirst = Number($($(e).children(".img-wrapper").children("img")[0]).css('margin-left').replace("px",""))
+        console.log($($(e).children(".img-wrapper").children("img")[0]).css('margin-left'))
+        if(imgsLength % 3 ==1){
+          var lastimg = $($(e).children(".img-wrapper").children("img")[--imgsLength])
+          lastimg.css('margin-left' , marginOfFirst)
+          lastimg.css('margin-right' , marginOfFirst)
+        }
+        if(imgsLength % 3 ==2){
+          var lastEle = $($(e).children(".img-wrapper").children("img")[--imgsLength])
+          var beforeLast = $($(e).children(".img-wrapper").children("img")[--imgsLength]);
+          lastEle.css('margin-left' , marginOfFirst)
+          lastEle.css('margin-right' , marginOfFirst)
+          beforeLast.css('margin-left' , marginOfFirst)
+          beforeLast.css('margin-right' , marginOfFirst)
+        }
       }
+      $('.editableImg').css('margin-top','10px')
+      $('.editableImg').css('margin-bottom','10px')
+
       setTimeout(function(){
         console.log($(k).children(".editableImg"))
         $(k).children(".editableImg").each(function(i,e) {
@@ -1262,6 +1276,11 @@ autoImgLoop(arr){
       console.log("performanceDemands",this.performanceDemands);
     },200)
   }
+
+  removePDImg(img){
+    console.log("Delete Img",img)
+
+  }
   // HSYL code
 
 // waiyan's code start
@@ -1401,9 +1420,10 @@ autoImgLoop(arr){
     this.invalidFiles = fileList;
   }
 
-  creationConceptProcess(formattedPdIds, _this) {
+  creationConceptProcess(formattedPdIds, hello) {
     // Create Concept
     // var moduleId = localStorage.getItem('moduleID')
+    console.log('this',hello)
     const conceptFormat = {
       // "moduleId": moduleId,
       "name": this.concept.name,
@@ -1418,7 +1438,7 @@ autoImgLoop(arr){
     }
 
     conceptFormat.pd = formattedPdIds;
-    _this._service.createConcept(_this.regionID, conceptFormat).subscribe(res => {
+    this._service.createConcept(this.regionID, conceptFormat).subscribe(res => {
       console.log("FINALLY", res);
       this.cancelConcept();
     },err=>{
