@@ -450,6 +450,9 @@ export class TestwerkzComponent implements OnInit {
       name: "",
       description: "",
       question: "",
+      html:{
+        question:""
+      },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
       pickMultiple: false,
@@ -509,6 +512,9 @@ export class TestwerkzComponent implements OnInit {
           name: "",
           description: "",
           question: "",
+          html:{
+            question:""
+          },
           allowedAttempts: 0,
           questionType: "MCQ-OPTION",
           pickMultiple: false,
@@ -1250,7 +1256,7 @@ autoImgLoop(arr){
     var markdownQues:any;
     // console.log("qId~~~",qId,fType)
     var myDiv = document.getElementById(qId);
-    // console.log("myD",myDiv.innerHTML)
+    console.log("myD",myDiv.innerHTML)
     setTimeout(()=>{
       var turndownService = new TurndownService();
       turndownService.addRule('Tada', {
@@ -1261,6 +1267,7 @@ autoImgLoop(arr){
       })
       markdownQues = turndownService.turndown(myDiv);
       console.log("turn to markdown",markdownQues);
+      this.performanceDemands[fType.parentIdx].question[fType.no].html.question = String(myDiv.innerHTML)
       this.performanceDemands[fType.parentIdx].question[fType.no].question = markdownQues;
       console.log("performanceDemands",this.performanceDemands);
     },200)
@@ -1293,6 +1300,9 @@ autoImgLoop(arr){
       name: "",
       description: "",
       question: "",
+      html:{
+        question:""
+      },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
       viewType: "LIST",
@@ -1324,6 +1334,7 @@ autoImgLoop(arr){
     })
     questionFormat.answers = testArr
     questionFormat.question = question.question;
+    questionFormat.html = question.html;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
         console.log(res);
