@@ -2349,14 +2349,48 @@ export class appService{
       })
     }
 
-    editConcept(regionId:string, id: string){
+    getConceptById(regionId:string, id: string){
       
-      let apiUrl = this.baseUrl  + '/' + regionId + '/performance-demands/' + id;     
+      let apiUrl = this.baseUrl  + '/' + regionId + '/concepts/' + id;  
+      console.log(apiUrl)   
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
+      console.log(this.tokenType+' '+this.accessToken)
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getPDById(regionId:string, id: string){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/performance-demands/' + id;  
+      console.log(apiUrl)   
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(this.tokenType+' '+this.accessToken)
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getQuesById(regionId:string, id: string){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/questions/' + id;  
+      console.log(apiUrl)   
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(this.tokenType+' '+this.accessToken)
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 

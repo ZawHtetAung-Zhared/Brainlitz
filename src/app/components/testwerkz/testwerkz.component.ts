@@ -12,6 +12,7 @@ import { BlockUI, NgBlockUI } from "ng-block-ui";
 import { c } from "@angular/core/src/render3";
 import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
+import { nsend } from 'q';
 
 // declare var upndown:any;
 var Promise = require("bluebird");
@@ -94,6 +95,7 @@ export class TestwerkzComponent implements OnInit {
   public editableId:any = "";
   private fileList : any = [];
   private invalidFiles : any = [];
+  public ptest:any =[];
   public concept = {
     "name":''
   };
@@ -105,6 +107,7 @@ export class TestwerkzComponent implements OnInit {
   // };
   public focusType: any = {};
   public focusPlace: any;
+  public conceptsObj:any={};
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -311,11 +314,13 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
+    this.conceptEdit=false;
   }
   backToTestWerkz() {
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
+    this.conceptEdit=false;
   }
   edit() {
     this.isEditComplete = true;
@@ -1471,6 +1476,44 @@ onUpdateTeskWerkz(id){
   console.log(id);
   this.conceptEdit = true;
   this.testWerkzCategory = false;
+  this.conceptList=false;
+  console.log(this.conceptList)
+  this._service.getConceptById(this.regionID,id).subscribe((res:any)=>{
+    console.log(res);
+    this.conceptsObj=res;
+    this.concept.name=res.name;
+    this.getPDById(res.pd);
+  },err=>{
+    console.log(err);
+  })
+  console.log(this.ptest)
+  // this.performanceDemands=this.ptest;
+}
+
+getPDById(pdObj){
+  for(let i=0;i<pdObj.length;i++){
+    console.log(pdObj[i]);
+    this._service.getPDById(this.regionID,pdObj[i].pdId).subscribe((res:any)=>{
+      console.log(res);
+      this.ptest.push(res);
+      console.error(this.ptest)
+      this.getQueById(res.questions,i);
+    },err=>{
+      console.log(err);
+    });
+  }
+}
+
+getQueById(qObj,id){
+ console.log(this.ptest,id);
+  for(let i=0;i<qObj.length;i++){
+    this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
+      console.log(res);
+      this.ptest[id].questions[i]=res;
+    },err=>{
+      console.log(err);
+    });
+  }
 }
 /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }
