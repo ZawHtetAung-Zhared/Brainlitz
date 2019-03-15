@@ -1409,9 +1409,10 @@ autoImgLoop(arr){
     this.invalidFiles = fileList;
   }
 
-  creationConceptProcess(formattedPdIds, _this) {
+  creationConceptProcess(formattedPdIds, hello) {
     // Create Concept
     // var moduleId = localStorage.getItem('moduleID')
+    console.log('this',hello)
     const conceptFormat = {
       // "moduleId": moduleId,
       "name": this.concept.name,
@@ -1426,7 +1427,7 @@ autoImgLoop(arr){
     }
 
     conceptFormat.pd = formattedPdIds;
-    _this._service.createConcept(_this.regionID, conceptFormat).subscribe(res => {
+    this._service.createConcept(this.regionID, conceptFormat).subscribe(res => {
       console.log("FINALLY", res);
       this.cancelConcept();
     },err=>{
