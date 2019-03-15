@@ -1,11 +1,11 @@
-import { Input } from '@angular/core';
+import { Input } from "@angular/core";
 // import { AppComponent } from "./../../app.component";
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
 import { pd } from "./apg";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { DragulaService, DragulaModule } from 'ng2-dragula';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { DragulaService, DragulaModule } from "ng2-dragula";
+import { ToastsManager } from "ng5-toastr/ng5-toastr";
 import { type } from "os";
 import { appService } from "../../service/app.service";
 import { BlockUI, NgBlockUI } from "ng-block-ui";
@@ -15,7 +15,7 @@ import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable
 
 // declare var upndown:any;
 var Promise = require("bluebird");
-const async = require("async")  
+const async = require("async");
 var upndown = require("upndown");
 var TurndownService = require("turndown").default;
 
@@ -53,7 +53,7 @@ export class TestwerkzComponent implements OnInit {
   public item: any = {};
   public editValue: any;
   public ischecked: any;
-  public tagID:any;
+  public tagID: any;
   public goBackCat = false;
   public wordLength: any;
   public navIsFixed: boolean = false;
@@ -66,7 +66,8 @@ export class TestwerkzComponent implements OnInit {
   public placeholderVar = "Enter Questions";
   public pd: pd = new pd();
   public pdLists: any[];
-  public isDrop : boolean=false;
+  public isDrop: boolean = false;
+  public isHover: boolean = false;
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -80,21 +81,21 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any=[];
-  public classCreate= false;
-  public regionID = localStorage.getItem('regionId');
-  public tagsWerkzList = []
-  public tempContentArr:any =[];
-  public selectedImgArr:any =[];
-  public ImgArr:any =[];
-  public imgIdArr:any =[];
-  public imgId:any;
-  public clickType: boolean=false;
-  public editableId:any = "";
-  private fileList : any = [];
-  private invalidFiles : any = [];
+  public contentArr: any = [];
+  public classCreate = false;
+  public regionID = localStorage.getItem("regionId");
+  public tagsWerkzList = [];
+  public tempContentArr: any = [];
+  public selectedImgArr: any = [];
+  public ImgArr: any = [];
+  public imgIdArr: any = [];
+  public imgId: any;
+  public clickType: boolean = false;
+  public editableId: any = "";
+  private fileList: any = [];
+  private invalidFiles: any = [];
   public concept = {
-    "name":''
+    name: ""
   };
   public clickEle: any = "";
   // public focusType = {
@@ -111,9 +112,7 @@ export class TestwerkzComponent implements OnInit {
     private modalService: NgbModal,
     private dragulaService: DragulaService,
     public toastr: ToastsManager
-  ) {
-    
-  }
+  ) {}
 
   // waiyan's code start
 
@@ -357,9 +356,13 @@ export class TestwerkzComponent implements OnInit {
     // console.log(toHtml)
   }
   onKeydown(e, i, j, index) {
-    var answerIndex = index
-    var newAnswerFoucs=  String(i.toString() + j.toString() + String(++answerIndex ))
-    var deleteAnswerFocus=  String(i.toString() + j.toString() + String(answerIndex - 2))
+    var answerIndex = index;
+    var newAnswerFoucs = String(
+      i.toString() + j.toString() + String(++answerIndex)
+    );
+    var deleteAnswerFocus = String(
+      i.toString() + j.toString() + String(answerIndex - 2)
+    );
     if (e.key === "Enter") {
       if (this.performanceDemands[i].question[j].answers.length < 8) {
         // this.pdLists[i].question[j].answers.push({
@@ -384,24 +387,29 @@ export class TestwerkzComponent implements OnInit {
           ]
         });
       }
-      if(index < 7){
-        var answerId = `answer${newAnswerFoucs}` ;
+      if (index < 7) {
+        var answerId = `answer${newAnswerFoucs}`;
         setTimeout(() => {
           document.getElementById(answerId).focus();
         }, 10);
       }
-
     }
 
-    if(e.key == 'Backspace'){
-      var selectedAnswer = this.performanceDemands[i].question[j].answers[index].answer;
+    if (e.key == "Backspace") {
+      var selectedAnswer = this.performanceDemands[i].question[j].answers[index]
+        .answer;
 
-      if(this.performanceDemands[i].question[j].answers.length > 1 ){
-        if(selectedAnswer == '' || selectedAnswer == undefined || selectedAnswer == null || selectedAnswer.length <= 0){
-          this.performanceDemands[i].question[j].answers.splice(index, 1)
+      if (this.performanceDemands[i].question[j].answers.length > 1) {
+        if (
+          selectedAnswer == "" ||
+          selectedAnswer == undefined ||
+          selectedAnswer == null ||
+          selectedAnswer.length <= 0
+        ) {
+          this.performanceDemands[i].question[j].answers.splice(index, 1);
 
-          if(index >= 1){
-            var answerId = `answer${deleteAnswerFocus}` ;
+          if (index >= 1) {
+            var answerId = `answer${deleteAnswerFocus}`;
             setTimeout(() => {
               document.getElementById(answerId).focus();
             }, 10);
@@ -418,7 +426,7 @@ export class TestwerkzComponent implements OnInit {
     } else {
       this.performanceDemands[i].question[j].answers[index].correctness = 0;
     }
-    this.onFocus('check',i,j,index);
+    this.onFocus("check", i, j, index);
   }
 
   trueAnswerRadio(i, j, index, answer) {
@@ -427,7 +435,7 @@ export class TestwerkzComponent implements OnInit {
     dataArray.answers.map(answer => (answer.correctness = 0));
     // console.log( JSON.stringify(dataArray));
     dataArray.answers[index].correctness = 100;
-    this.onFocus('check',i,j,index);
+    this.onFocus("check", i, j, index);
     // console.log( JSON.stringify(dataArray));
   }
   addQuestion(j) {
@@ -552,22 +560,23 @@ export class TestwerkzComponent implements OnInit {
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
     ) {
-      if(event.inputType == "deleteContentBackward")
+      if (event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
-      if(event.inputType == "insertText")
-        document.execCommand("undo", false);
+      if (event.inputType == "insertText") document.execCommand("undo", false);
       if (event.inputType == "insertParagraph") {
-        var thisDiv =  $(this.clickEle).hasClass("img-wrapper") || $(this.clickEle).parents(".img-wrapper");
-        if($(this.clickEle).hasClass("img-wrapper")){
-          thisDiv =  this.clickEle;
+        var thisDiv =
+          $(this.clickEle).hasClass("img-wrapper") ||
+          $(this.clickEle).parents(".img-wrapper");
+        if ($(this.clickEle).hasClass("img-wrapper")) {
+          thisDiv = this.clickEle;
         }
         var tempDiv = document.createElement("div");
         var tempBr = document.createElement("br");
         $(tempDiv).append(tempBr);
-        $(thisDiv).after(tempDiv)
+        $(thisDiv).after(tempDiv);
         document.execCommand("undo", false);
         var range = document.createRange(),
-        sel = window.getSelection();
+          sel = window.getSelection();
         range.setStart(tempDiv, 0);
         range.setEnd(tempDiv, 0);
         sel.removeAllRanges();
@@ -586,6 +595,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(event);
     var $focused = $(":focus");
     console.log($focused);
+
     // console.log(ele);
     // console.log(type);
     // console.log(window.getSelection().getRangeAt(0))
@@ -600,7 +610,7 @@ export class TestwerkzComponent implements OnInit {
     //   this.getAllContent();
 
     // }
-    this.turn(editableId,focusType)
+    this.turn(editableId, focusType);
   }
   // if ($(window.getSelection().focusNode).children("img").length > 0) {
   //   if(event.type != "deleteContentBackward"){
@@ -741,22 +751,22 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //image upload
-  onloadImg(event){
-    console.log("hello",this.isDrop)
-    console.log("dar",event)
-    if(this.isDrop){
+  onloadImg(event) {
+    console.log("hello", this.isDrop);
+    console.log("dar", event);
+    if (this.isDrop) {
       var file = event;
-      this.isDrop=false;
-    }else{
+      this.isDrop = false;
+    } else {
       var file = event.target.files;
     }
-    console.log(file)
-    this.blockUI.start('Loading...');
-    this._service.loadImage(this.regionID, file)
-      .subscribe((res: any) => {    
-        //getAllContent() use pormise because of html create value after use in ts    
-        this.getAllContent().then(()=>{
-          console.log("here me>",res);
+    console.log(file);
+    this.blockUI.start("Loading...");
+    this._service.loadImage(this.regionID, file).subscribe(
+      (res: any) => {
+        //getAllContent() use pormise because of html create value after use in ts
+        this.getAllContent().then(() => {
+          console.log("here me>", res);
           setTimeout(() => {
             this.autoSelectedImg(res.meta);
           }, 300);
@@ -765,8 +775,9 @@ export class TestwerkzComponent implements OnInit {
       },
       err => {
         console.log(err);
-      });
-    }
+      }
+    );
+  }
 
   // testing(){
   //   console.log('console')
@@ -804,14 +815,14 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //mutiselect img
-  onslectedImgDiv(i,img){
-    console.log(this.isRemove,"is remove",i);
+  onslectedImgDiv(i, img) {
+    console.log(this.isRemove, "is remove", i);
 
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const circle: HTMLElement = document.getElementById('cricle'+i);
-    const check: HTMLElement = document.getElementById('check'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
+    const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const circle: HTMLElement = document.getElementById("cricle" + i);
+    const check: HTMLElement = document.getElementById("check" + i);
+    const trash: HTMLElement = document.getElementById("trash" + i);
+    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
     // console.log(trashdiv.onclick)
     if (this.modelType == "single") {
       console.log("is single", this.imgId);
@@ -826,7 +837,7 @@ export class TestwerkzComponent implements OnInit {
             "style",
             "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
           );
-          trashdiv.setAttribute("style","display:block;");
+          trashdiv.setAttribute("style", "display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
           console.log("here if");
@@ -841,7 +852,7 @@ export class TestwerkzComponent implements OnInit {
               "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
             );
             check.setAttribute("style", "color:white;");
-            trashdiv.setAttribute("style","display:block;")
+            trashdiv.setAttribute("style", "display:block;");
           }
         }
         this.imgId = i;
@@ -868,71 +879,83 @@ export class TestwerkzComponent implements OnInit {
         }
       }
     }
-    this.isRemove=false;
-    console.log(this.imgIdArr)
+    this.isRemove = false;
+    console.log(this.imgIdArr);
   }
-removerSelected(i){
-  console.log(this.selectedImgArr , i)
-  const imgDiv3: HTMLElement = document.getElementById('img-'+i);
-  const circle3: HTMLElement = document.getElementById('cricle'+i);
-  const check3: HTMLElement = document.getElementById('check'+i);
-  const trash3: HTMLElement = document.getElementById('trash'+i);
-  const overlay3: HTMLElement = document.getElementById('Imgoverlay'+i);
-  const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
-  imgDiv3.setAttribute("style","border:none;");
-  circle3.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
-  check3.setAttribute("style","color:#ffffff00;");
-  trash3.setAttribute("style","opacity: 0;")
-  overlay3.setAttribute("style"," background: rgba(0, 0, 0, 0);");
-  trashdiv.setAttribute("style","display:none")
-    if(this.modelType == 'single'){
-      this.selectedImgArr=[];
-      this.imgIdArr=[];
+  removerSelected(i) {
+    console.log(this.selectedImgArr, i);
+    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
+    const circle3: HTMLElement = document.getElementById("cricle" + i);
+    const check3: HTMLElement = document.getElementById("check" + i);
+    const trash3: HTMLElement = document.getElementById("trash" + i);
+    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
+    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+    imgDiv3.setAttribute("style", "border:none;");
+    circle3.setAttribute(
+      "style",
+      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
+    );
+    check3.setAttribute("style", "color:#ffffff00;");
+    trash3.setAttribute("style", "opacity: 0;");
+    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+    trashdiv.setAttribute("style", "display:none");
+    if (this.modelType == "single") {
+      this.selectedImgArr = [];
+      this.imgIdArr = [];
 
       // this.imgId=undefined;
-      console.log(this.imgId)
+      console.log(this.imgId);
 
       // if(String(this.imgId)== i){
       //   this.imgId=undefined;
       //   console.log("hrerer",this.imgId)
       // }
-    }else{
-      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i),1)
-      this.imgIdArr.splice(this.imgIdArr.indexOf(i),1)
+    } else {
+      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+      this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
     }
-
-}
-autoImgLoop(arr){
-  console.log(arr);
-  for(var i=0;i<arr.length;i++){
-    const imgDiv: HTMLElement = document.getElementById('img-'+arr[i]);
-    const circle: HTMLElement = document.getElementById('cricle'+arr[i]);
-    const check: HTMLElement = document.getElementById('check'+arr[i]);
-    const trash: HTMLElement = document.getElementById('trash'+arr[i]);
-    const overlay: HTMLElement = document.getElementById('Imgoverlay'+arr[i]);
-    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+arr[i]);
-      console.log(imgDiv)
+  }
+  autoImgLoop(arr) {
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
+      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
+      const check: HTMLElement = document.getElementById("check" + arr[i]);
+      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
+      const overlay: HTMLElement = document.getElementById(
+        "Imgoverlay" + arr[i]
+      );
+      const trashdiv: HTMLElement = document.getElementById(
+        "trashdiv-" + arr[i]
+      );
+      console.log(imgDiv);
       console.log(circle);
-      console.log(check)
-      imgDiv.setAttribute("style","border:solid;color:#007fff;");
-      circle.setAttribute("style","border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;");
-      check.setAttribute("style","color:white;");
-      trashdiv.setAttribute("style","display:block")
+      console.log(check);
+      imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+      circle.setAttribute(
+        "style",
+        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+      );
+      check.setAttribute("style", "color:white;");
+      trashdiv.setAttribute("style", "display:block");
       console.log(arr[i]);
     }
   }
 
-  onImgMouseEvent(e,i){
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
- 
-    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
-      trash.setAttribute("style","opacity: 1;");
-      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
-    }else{
-      trash.setAttribute("style","opacity: 0;")
-      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+  onImgMouseEvent(e, i) {
+    const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const trash: HTMLElement = document.getElementById("trash" + i);
+    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
+
+    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
+      trash.setAttribute("style", "opacity: 1;");
+      overlay.setAttribute(
+        "style",
+        "display:block;  background: rgba(0, 0, 0, .3);"
+      );
+    } else {
+      trash.setAttribute("style", "opacity: 0;");
+      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
     }
     // console.log(e.type)
   }
@@ -991,11 +1014,11 @@ autoImgLoop(arr){
     if (this.editableId != "") {
       console.log("question ===== insert img");
       var e = document.getElementById(this.editableId);
-      
+
       e.innerHTML +=
         '<div id="img' +
         this.editableId +
-        '" class="row img-wrapper"  dragula="' +
+        '" class=" img-wrapper"  dragula="' +
         this.editableId +
         '"></div>';
       var k = document.getElementById("img" + this.editableId);
@@ -1004,61 +1027,89 @@ autoImgLoop(arr){
         var url = this.selectedImgArr[i].url;
         // console.log(url);
         // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
-        k.innerHTML +=
-          '<img class="editableImg" src="' +
-          url +
-          '"></img>';
-       
-        
+        k.innerHTML += '<img class="editableImg" src="' + url + '"></img>';
       }
-      var imgsLength =  $(e).children(".img-wrapper").children("img").length;
-      if(imgsLength % 3 == 0){
-        console.log(e)
-      }else{
-        var marginOfFirst = Number($($(e).children(".img-wrapper").children("img")[0]).css('margin-left').replace("px",""))
-        console.log($($(e).children(".img-wrapper").children("img")[0]).css('margin-left'))
-        if(imgsLength % 3 ==1){
-          var lastimg = $($(e).children(".img-wrapper").children("img")[--imgsLength])
-          lastimg.css('margin-left' , marginOfFirst)
-          lastimg.css('margin-right' , marginOfFirst)
-        }
-        if(imgsLength % 3 ==2){
-          var lastEle = $($(e).children(".img-wrapper").children("img")[--imgsLength])
-          var beforeLast = $($(e).children(".img-wrapper").children("img")[--imgsLength]);
-          lastEle.css('margin-left' , marginOfFirst)
-          lastEle.css('margin-right' , marginOfFirst)
-          beforeLast.css('margin-left' , marginOfFirst)
-          beforeLast.css('margin-right' , marginOfFirst)
-        }
-      }
-      $('.editableImg').css('margin-top','10px')
-      $('.editableImg').css('margin-bottom','10px')
+      var imgsLength = $(e)
+        .children(".img-wrapper")
+        .children("img").length;
+      // if (imgsLength % 3 == 0) {
+      //   console.log(e);
+      // } else {
+      //   var marginOfFirst = Number(
+      //     $(
+      //       $(e)
+      //         .children(".img-wrapper")
+      //         .children("img")[0]
+      //     )
+      //       .css("margin-left")
+      //       .replace("px", "")
+      //   );
 
-      setTimeout(function(){
-        console.log($(k).children(".editableImg"))
-        $(k).children(".editableImg").each(function(i,e) {
-          console.log($(e).height());
-          var imgWidth = $(e).width()
-          var imgHeight = $(e).height()
-          var maxWidthAndHeight = 120;
-          console.log(imgWidth,imgHeight)
-          if(imgHeight < maxWidthAndHeight){
-            var res = maxWidthAndHeight - imgHeight;
-            console.log(res);
-            $(e).css('padding-top', res/2)
-            $(e).css('padding-bottom', res/2)
+      //   if (imgsLength < 3) {
+      //     marginOfFirst = 7.516;
+      //   }
+      //   console.log(
+      //     $(
+      //       $(e)
+      //         .children(".img-wrapper")
+      //         .children("img")[0]
+      //     ).css("margin-left")
+      //   );
+      //   if (imgsLength % 3 == 1) {
+      //     var lastimg = $(
+      //       $(e)
+      //         .children(".img-wrapper")
+      //         .children("img")[--imgsLength]
+      //     );
+      //     lastimg.css("margin-left", marginOfFirst);
+      //     lastimg.css("margin-right", marginOfFirst);
+      //   }
+      //   if (imgsLength % 3 == 2) {
+      //     var lastEle = $(
+      //       $(e)
+      //         .children(".img-wrapper")
+      //         .children("img")[--imgsLength]
+      //     );
+      //     var beforeLast = $(
+      //       $(e)
+      //         .children(".img-wrapper")
+      //         .children("img")[--imgsLength]
+      //     );
+      //     lastEle.css("margin-left", marginOfFirst);
+      //     lastEle.css("margin-right", marginOfFirst);
+      //     beforeLast.css("margin-left", marginOfFirst);
+      //     beforeLast.css("margin-right", marginOfFirst);
+      //   }
+      // }
+      // $(".editableImg").css("margin-top", "10px");
+      // $(".editableImg").css("margin-bottom", "10px");
 
-          }
-          if(imgWidth < maxWidthAndHeight){
-            console.log("less than 120")
-            var res = maxWidthAndHeight - imgWidth;
-            console.log(res);
-            $(e).css('padding-left', res/2)
-            $(e).css('padding-right', res/2)
-          }
-        });
-      },100)
-      this.turn(this.editableId,this.focusType)
+      setTimeout(function() {
+        // console.log($(k).children(".editableImg"))
+        $(k)
+          .children(".editableImg")
+          .each(function(i, e) {
+            // console.log($(e).height());
+            var imgWidth = $(e).width();
+            var imgHeight = $(e).height();
+            var maxWidthAndHeight = 120;
+            console.log(imgWidth, imgHeight);
+            if (imgHeight < maxWidthAndHeight) {
+              var res = maxWidthAndHeight - imgHeight;
+              console.log(res);
+              $(e).css("padding-top", res / 2);
+              $(e).css("padding-bottom", res / 2);
+            }
+            if (imgWidth < maxWidthAndHeight) {
+              // console.log("less than 120")
+              var res = maxWidthAndHeight - imgWidth;
+              // console.log(res);
+              $(e).css("padding-left", res / 2);
+              $(e).css("padding-right", res / 2);
+            }
+          });
+      }, 100);
+      this.turn(this.editableId, this.focusType);
     } else if (this.modelType == "single") {
       console.log("answer === ");
       this.performanceDemands[this.pdIndex].question[
@@ -1067,11 +1118,48 @@ autoImgLoop(arr){
     } else {
       console.log("pd Insert Img======");
       var contArr = this.performanceDemands[this.focusType.no].contentsArr;
-      Array.prototype.push.apply(contArr,this.selectedImgArr); 
+      Array.prototype.push.apply(contArr, this.selectedImgArr);
     }
-    // e.innerHTML += ('<span class="tag">{'+field+'}<span onclick=removePlaceholder(this) class="remove">x</span></span>&nbsp;')
-    // e.innerHTML += ('<div><img src="http://placekitten.com/200/300"></img><div>');
     this.cancelModal();
+    console.log($(".editableImg"));
+    var img;
+    var _this = this;
+    $(".editableImg").hover(function(event) {
+      img = this;
+      var posLeft = 105 + $(this).position().left;
+      var posTop = $(this).position().top;
+      $(this).after(
+        $(`<span class='img-span' 
+          style='z-index: 1001;position:
+           absolute;
+           top: ${posTop}px;
+           left: ${posLeft}px;
+           cursor: pointer;
+           padding-top: 10px;'
+           >
+            <img src='./assets/images/remove-white.png'>
+           </span>`)
+      );
+      console.log(event);
+      if (event.type == "mouseout") {
+        if (event.offsetX <= 119 || event.offsetY <= 119)
+          console.log("out but not out");
+        else console.log("completely cout");
+      }
+      $(".img-span").click(function() {
+        console.log("img span hover");
+        console.log(_this.isHover);
+        $(img).remove();
+        $(".img-span").remove();
+        // console.log($(img).remove());
+      });
+    });
+    $(".editableImg").mouseout(function(event) {
+      console.log(event);
+      if (event.offsetX >= 119) $(".img-span").remove();
+      else if (event.offsetY >= 119) $(".img-span").remove();
+      else console.log("out but not out");
+    });
   }
 
   // onClickFileupload(fileInput){
@@ -1079,31 +1167,32 @@ autoImgLoop(arr){
   //   console.log(fileInput.value)
   // }
 
-  onremoveClick(id){
-    console.log(id)
-    this.isRemove=true;
-    this._service.onDeleteContent(this.regionID,id)
-    .subscribe((res: any) => {
-      console.log(res)
-      // this.contentArr=res.meta;
-       this.toastr.success('Successfully Content deleted.');
-       this.getAllContent().then(()=>{
-        console.log("here me>",res);
-        setTimeout(() => {
-          console.log(this.selectedImgArr)
-          console.log(this.imgIdArr)
-          if(this.modelType == "multiple"){
-            this.autoImgLoop(this.imgIdArr)
-          }else{
-            this.imgId=undefined
-          }
-          
-        }, 300);
-      })
-    }, err => {
-      console.log(err);
-      this.toastr.error('Fail Content deleted.');
-    });
+  onremoveClick(id) {
+    console.log(id);
+    this.isRemove = true;
+    this._service.onDeleteContent(this.regionID, id).subscribe(
+      (res: any) => {
+        console.log(res);
+        // this.contentArr=res.meta;
+        this.toastr.success("Successfully Content deleted.");
+        this.getAllContent().then(() => {
+          console.log("here me>", res);
+          setTimeout(() => {
+            console.log(this.selectedImgArr);
+            console.log(this.imgIdArr);
+            if (this.modelType == "multiple") {
+              this.autoImgLoop(this.imgIdArr);
+            } else {
+              this.imgId = undefined;
+            }
+          }, 300);
+        });
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Content deleted.");
+      }
+    );
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
 
@@ -1132,8 +1221,8 @@ autoImgLoop(arr){
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
-        if(type == 'check'){
-          this.focusType.type = 'answer';
+        if (type == "check") {
+          this.focusType.type = "answer";
         }
         break;
       case "answer":
@@ -1234,53 +1323,58 @@ autoImgLoop(arr){
     this.conceptList = true;
     this.performanceDemands = [];
     this.concept = {
-      "name":''
+      name: ""
     };
     this.focusType = {};
     this.ischecked = "";
   }
-// HSYL code
-  inputQuestion(quesId,type){
-    console.log("event",quesId)
-    this.turn(quesId,type)
+  // HSYL code
+  inputQuestion(quesId, type) {
+    console.log("event", quesId);
+    this.turn(quesId, type);
   }
 
   //get html tag in div
-  turn(qId,fType){
-    var markdownQues:any;
+  turn(qId, fType) {
+    var markdownQues: any;
     // console.log("qId~~~",qId,fType)
     var myDiv = document.getElementById(qId);
     // console.log("myD",myDiv.innerHTML)
-    setTimeout(()=>{
+    setTimeout(() => {
       var turndownService = new TurndownService();
-      turndownService.addRule('Tada', {
-        filter:'div',
-        replacement: function (content) {
-          return  content + ''
+      turndownService.addRule("Tada", {
+        filter: "div",
+        replacement: function(content) {
+          return content + "";
         }
-      })
+      });
       markdownQues = turndownService.turndown(myDiv);
-      console.log("turn to markdown",markdownQues);
-      this.performanceDemands[fType.parentIdx].question[fType.no].question = markdownQues;
-      console.log("performanceDemands",this.performanceDemands);
-    },200)
+      console.log("turn to markdown", markdownQues);
+      this.performanceDemands[fType.parentIdx].question[
+        fType.no
+      ].question = markdownQues;
+      console.log("performanceDemands", this.performanceDemands);
+    }, 200);
   }
 
-  removePDImg(img){
-    console.log("Delete Img",img)
-
+  removePDImg(img) {
+    console.log("Delete Img", img);
   }
   // HSYL code
 
-// waiyan's code start
+  // waiyan's code start
   createConcept() {
     console.log("---------------------");
     console.log(this.performanceDemands);
     console.log("---------------------");
-    this.blockUI.start('Loading...')
-    async.map(this.performanceDemands, this.pdLoop.bind(null, this), this.pdLoopDone.bind(null, this));
+    this.blockUI.start("Loading...");
+    async.map(
+      this.performanceDemands,
+      this.pdLoop.bind(null, this),
+      this.pdLoopDone.bind(null, this)
+    );
     setTimeout(() => {
-      this.blockUI.stop()
+      this.blockUI.stop();
     }, 300);
   }
   createQuestions(_this, pd, question, callback) {
@@ -1309,20 +1403,20 @@ autoImgLoop(arr){
       ]
     };
     question.answers.map(answer => {
-      var tempObj ={
-        "name":'',
-        "answer":'',
-        "correctness":0,
-        "contents":[]
-      }
-      tempObj.name = answer.name
-      tempObj.answer = answer.answer
-      tempObj.correctness = answer.correctness
-      console.log(tempObj)
-      testArr.push(tempObj)
-      console.log(testArr)
-    })
-    questionFormat.answers = testArr
+      var tempObj = {
+        name: "",
+        answer: "",
+        correctness: 0,
+        contents: []
+      };
+      tempObj.name = answer.name;
+      tempObj.answer = answer.answer;
+      tempObj.correctness = answer.correctness;
+      console.log(tempObj);
+      testArr.push(tempObj);
+      console.log(testArr);
+    });
+    questionFormat.answers = testArr;
     questionFormat.question = question.question;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
@@ -1339,39 +1433,42 @@ autoImgLoop(arr){
   }
 
   pdLoop(_this, pd, pdCallback) {
-    // API CALL 
+    // API CALL
     // Question Creatoion Loop
     console.log("THIS", _this);
-    async.map(pd.question, _this.createQuestions.bind(null, _this, pd), _this.createQuesitonsDone.bind(null, pd, _this, pdCallback));
+    async.map(
+      pd.question,
+      _this.createQuestions.bind(null, _this, pd),
+      _this.createQuesitonsDone.bind(null, pd, _this, pdCallback)
+    );
     // After ASYNC, pd.quesitons
   }
 
   createQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
     // const questionIds = questionIds;
     console.log(pd.contentsArr);
-    const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }) );
-  
-    _this.creationPDProcess(_this, pd, formattedQuestionIDs, pdCallback)
-    
+    const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }));
+
+    _this.creationPDProcess(_this, pd, formattedQuestionIDs, pdCallback);
   }
-    
+
   creationPDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
     // Create PD
     let pdCreateFormat = {
-      "name": "string",
-      "questions": [],
-      "contents": [],
-    }
+      name: "string",
+      questions: [],
+      contents: []
+    };
     const tempContentArray = [];
-    pd.contentsArr.map( (contentObj,index) => {
+    pd.contentsArr.map((contentObj, index) => {
       var tempContentObj = {
-        "contentId" : '',
-        "sequence": 0,
-      }
-      tempContentObj.contentId = contentObj._id
+        contentId: "",
+        sequence: 0
+      };
+      tempContentObj.contentId = contentObj._id;
       tempContentObj.sequence = ++index;
-      tempContentArray.push(tempContentObj)
-    })
+      tempContentArray.push(tempContentObj);
+    });
     // Get pd.questions
     pdCreateFormat.questions = formattedQuestionIDs;
     pdCreateFormat.name = pd.pdName;
@@ -1394,45 +1491,47 @@ autoImgLoop(arr){
   }
 
   //file drop method for valids
-  onFilesChange(fileList : Array<File>){
-    console.log(fileList.length)
-    if(fileList.length !=0){
-      this.isDrop=true
+  onFilesChange(fileList: Array<File>) {
+    console.log(fileList.length);
+    if (fileList.length != 0) {
+      this.isDrop = true;
       this.fileList = fileList;
-      this.onloadImg(fileList);  //file upload call api
-      console.log("exit1",this.fileList)
+      this.onloadImg(fileList); //file upload call api
+      console.log("exit1", this.fileList);
     }
   }
 
   //file drop method for invalids
-  onFileInvalids(fileList : Array<File>){
+  onFileInvalids(fileList: Array<File>) {
     this.invalidFiles = fileList;
   }
 
   creationConceptProcess(formattedPdIds, hello) {
     // Create Concept
     // var moduleId = localStorage.getItem('moduleID')
-    console.log('this',hello)
+    console.log("this", hello);
     const conceptFormat = {
       // "moduleId": moduleId,
-      "name": this.concept.name,
-      "tag": [
+      name: this.concept.name,
+      tag: [
         {
-          "tagId": this.tagID
+          tagId: this.tagID
         }
       ],
-      "pd": [],
-      "contents": [
-      ]
-    }
+      pd: [],
+      contents: []
+    };
 
     conceptFormat.pd = formattedPdIds;
-    this._service.createConcept(this.regionID, conceptFormat).subscribe(res => {
-      console.log("FINALLY", res);
-      this.cancelConcept();
-    },err=>{
-      console.log("err")
-    });
+    this._service.createConcept(this.regionID, conceptFormat).subscribe(
+      res => {
+        console.log("FINALLY", res);
+        this.cancelConcept();
+      },
+      err => {
+        console.log("err");
+      }
+    );
   }
 
   pdLoopDone(_this, error, pdIds) {
@@ -1440,20 +1539,20 @@ autoImgLoop(arr){
       console.error("Error in pdLoopDone", error);
       return;
     }
-    const formattedPdIds = pdIds.map((id, index) => ({ pdId: id, sequence: ++index}))
+    const formattedPdIds = pdIds.map((id, index) => ({
+      pdId: id,
+      sequence: ++index
+    }));
     // Concept API Calling
     _this.creationConceptProcess(formattedPdIds, _this);
   }
-  onDragStart(e){
-    console.log(e)
+  onDragStart(e) {
+    console.log(e);
     // e.preventDefault();
   }
-  onDrop(e){
-    console.log(e)
+  onDrop(e) {
+    console.log(e);
   }
-  
- 
-// waiyan's code end
 
-
+  // waiyan's code end
 }
