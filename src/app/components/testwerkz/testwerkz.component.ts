@@ -46,6 +46,7 @@ export class TestwerkzComponent implements OnInit {
   public modelType: any;
   public testWerkzCategory = false;
   public conceptCreate = false;
+  public conceptEdit = false;
   public isUpdate = false;
   public conceptList = true;
   public isfocus = false;
@@ -702,6 +703,15 @@ export class TestwerkzComponent implements OnInit {
     this.getAllContent();
   }
 
+  
+  cancelModal() {
+    this.modalReference.close();
+    this.selectedImgArr = [];
+    this.imgIdArr = [];
+    this.imgId = undefined;
+  }
+
+  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
   getAllContent() {
     this.ImgArr = [];
@@ -733,12 +743,6 @@ export class TestwerkzComponent implements OnInit {
       );
     });
   }
-  cancelModal() {
-    this.modalReference.close();
-    this.selectedImgArr = [];
-    this.imgIdArr = [];
-    this.imgId = undefined;
-  }
 
   //image upload
   onloadImg(event){
@@ -768,25 +772,7 @@ export class TestwerkzComponent implements OnInit {
       });
     }
 
-  // testing(){
-  //   console.log('console')
-  //   new Promise(function(resolve, reject) {
-  //       resolve('foo');
-  //   }).catch();
-  // }
-
-  // testin(){
-  //   this.testing().then(res=>{
-
-  //   })
-  // }
-
-  autoResize(e) {
-    e.target.style.cssText = "height:auto";
-    e.target.style.height = e.target.scrollHeight + "px";
-  }
-
-  //autoselected img after img load
+  //this is use for autoselected when upload finish or deleted finsih (this is only selected previous selection image after upload)
   autoSelectedImg(resturnobj) {
     console.log(this.modelType);
     console.log(this.selectedImgArr);
@@ -803,7 +789,8 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  //mutiselect img
+  //selected image use with css 
+  //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i,img){
     console.log(this.isRemove,"is remove",i);
 
@@ -812,7 +799,7 @@ export class TestwerkzComponent implements OnInit {
     const check: HTMLElement = document.getElementById('check'+i);
     const trash: HTMLElement = document.getElementById('trash'+i);
     const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
-    // console.log(trashdiv.onclick)
+    
     if (this.modelType == "single") {
       console.log("is single", this.imgId);
       //add selected
@@ -829,9 +816,7 @@ export class TestwerkzComponent implements OnInit {
           trashdiv.setAttribute("style","display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
-          console.log("here if");
         } else {
-          console.log("hree else");
           if (imgDiv.style.border == "solid") {
             this.removerSelected(this.imgId);
           } else {
@@ -871,6 +856,8 @@ export class TestwerkzComponent implements OnInit {
     this.isRemove=false;
     console.log(this.imgIdArr)
   }
+
+  //this is remove for image selected from gallery modal (this method can slected multiple or single)
 removerSelected(i){
   console.log(this.selectedImgArr , i)
   const imgDiv3: HTMLElement = document.getElementById('img-'+i);
@@ -902,6 +889,8 @@ removerSelected(i){
     }
 
 }
+
+//this is use for selected image value loop
 autoImgLoop(arr){
   console.log(arr);
   for(var i=0;i<arr.length;i++){
@@ -922,6 +911,7 @@ autoImgLoop(arr){
     }
   }
 
+  //when over image from galery modal mouse over or mouse out
   onImgMouseEvent(e,i){
     const imgDiv: HTMLElement = document.getElementById('img-'+i);
     const trash: HTMLElement = document.getElementById('trash'+i);
@@ -937,6 +927,59 @@ autoImgLoop(arr){
     // console.log(e.type)
   }
 
+  //delete image
+  onremoveClick(id){
+    console.log(id)
+    this.isRemove=true;
+    this._service.onDeleteContent(this.regionID,id)
+    .subscribe((res: any) => {
+      console.log(res)
+      // this.contentArr=res.meta;
+       this.toastr.success('Successfully Content deleted.');
+       //getAllContent() use pormise because of html create value after use in ts    
+       this.getAllContent().then(()=>{
+        console.log("here me>",res);
+        setTimeout(() => {
+          console.log(this.selectedImgArr)
+          console.log(this.imgIdArr)
+          if(this.modelType == "multiple"){
+            this.autoImgLoop(this.imgIdArr)
+          }else{
+            this.imgId=undefined
+          }
+          
+        }, 300);
+      })
+    }, err => {
+      console.log(err);
+      this.toastr.error('Fail Content deleted.');
+    });
+    // this.onslectedImgDiv(i,img,"exitBorder");
+  }
+/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+
+
+  // testing(){
+  //   console.log('console')
+  //   new Promise(function(resolve, reject) {
+  //       resolve('foo');
+  //   }).catch();
+  // }
+
+  // testin(){
+  //   this.testing().then(res=>{
+
+  //   })
+  // }
+  
+
+  autoResize(e) {
+    e.target.style.cssText = "height:auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+  }
+
+
+  
   showSetting() {
     if (window.pageYOffset > 81) {
       this.greterThan = true;
@@ -1060,39 +1103,7 @@ autoImgLoop(arr){
     this.cancelModal();
   }
 
-  // onClickFileupload(fileInput){
-  //   fileInput.value=null;
-  //   console.log(fileInput.value)
-  // }
-
-  onremoveClick(id){
-    console.log(id)
-    this.isRemove=true;
-    this._service.onDeleteContent(this.regionID,id)
-    .subscribe((res: any) => {
-      console.log(res)
-      // this.contentArr=res.meta;
-       this.toastr.success('Successfully Content deleted.');
-       this.getAllContent().then(()=>{
-        console.log("here me>",res);
-        setTimeout(() => {
-          console.log(this.selectedImgArr)
-          console.log(this.imgIdArr)
-          if(this.modelType == "multiple"){
-            this.autoImgLoop(this.imgIdArr)
-          }else{
-            this.imgId=undefined
-          }
-          
-        }, 300);
-      })
-    }, err => {
-      console.log(err);
-      this.toastr.error('Fail Content deleted.');
-    });
-    // this.onslectedImgDiv(i,img,"exitBorder");
-  }
-
+  
   onFocus(type, idx1, idx2, idx3) {
     this.editableId = "";
     this.focusPlace = "";
@@ -1435,5 +1446,11 @@ autoImgLoop(arr){
  
 // waiyan's code end
 
-
+/** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+onUpdateTeskWerkz(id){
+  console.log(id);
+  this.conceptEdit = true;
+  this.testWerkzCategory = false;
+}
+/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }
