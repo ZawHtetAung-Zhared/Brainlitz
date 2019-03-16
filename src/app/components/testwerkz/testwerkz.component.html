@@ -291,7 +291,7 @@
                                 <!-- <img src="{{ }}" alt=""> -->
                              
                                 <div class="d-flex flex-column" style="position:relative;">
-                                      <div class="answer-tooltip-wrap"  id="{{'answerTootips' + i + j + index}}" >
+                                      <div class="answer-tooltip-wrap"  *ngIf="answer.showTooltip" >
                                       <!-- <div class="answer-tooltip-wrap" *ngIf="this.answerTootips == (i + j + index + 'a')" > -->
                                          <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
                                             <div class="answer-carret-box"></div>
