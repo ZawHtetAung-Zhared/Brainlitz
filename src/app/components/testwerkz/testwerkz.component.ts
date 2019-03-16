@@ -564,6 +564,7 @@ export class TestwerkzComponent implements OnInit {
                   _id: "", 
                   name: "", 
                   answer: "", 
+                  showTooltip: false,
                   imgUrl:"",
                   correctness: 0,
                   contents: [] 
@@ -1305,12 +1306,12 @@ autoImgLoop(arr){
         this.focusType.parentIdx = idx1;
     }
     if (type == "answer") {
-      var tootipsId = $('#answerTootips' + idx1 + idx2 + idx3)
-      tootipsId.show()
+      // var tootipsId = $('#answerTootips' + idx1 + idx2 + idx3)
+      // tootipsId.show()
       // this.answerTootipsOptions = true;
-      // this.performanceDemands[idx1].question[idx2].answers[
-      //   idx3
-      // ].showTooltip = true;
+      this.performanceDemands[idx1].questions[idx2].answers[
+        idx3
+      ].showTooltip = true;
     }
   }
   hideTooltip(hideTooltip, type, idx1, idx2, idx3) {
@@ -1461,9 +1462,8 @@ autoImgLoop(arr){
     }, 300);
   }
   createQuestions(_this, pd, question, callback) {
-    console.log("_THIS QUESTION", _this, pd);
-    console.log("_THIS QUESTION", pd);
-    console.log("_THIS QUESTION", _this);
+    console.group("Create QUestion");
+    console.groupEnd();
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
@@ -1505,6 +1505,7 @@ autoImgLoop(arr){
       console.log(testArr)
     })
     questionFormat.answers = testArr
+    questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
@@ -1524,9 +1525,9 @@ autoImgLoop(arr){
   pdLoop(_this, pd, pdCallback) {
     // API CALL
     // Question Creatoion Loop
-    console.log("THIS", _this);
+    console.log("PD LOOP", JSON.stringify(pd.questions));
     async.map(
-      pd.question,
+      pd.questions,
       _this.createQuestions.bind(null, _this, pd),
       _this.createQuesitonsDone.bind(null, pd, _this, pdCallback)
     );
@@ -1549,7 +1550,7 @@ autoImgLoop(arr){
       contents: []
     };
     const tempContentArray = [];
-    pd.contentsArr.map((contentObj, index) => {
+    pd.contents.map((contentObj, index) => {
       var tempContentObj = {
         contentId: "",
         sequence: 0
