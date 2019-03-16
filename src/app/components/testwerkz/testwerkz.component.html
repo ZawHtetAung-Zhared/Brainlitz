@@ -296,9 +296,9 @@
                                          <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
                                             <div class="answer-carret-box"></div>
                                         </div>
-                                      <div class="d-flex" *ngIf="question.pickMultiple" >
+                                      <div class="d-flex" *ngIf="question.questionType == 'MCQ-CHECKBOX'" >
                                           <label for="{{'answerMultiple'+index + i + j}}">
-                                            <input type="{{answerType}}" 
+                                            <input type="checkbox" 
                                                    id="{{'answerMultiple'+index + i + j}}" 
                                                    name="{{'answerlist' + index + i + j }}" 
                                                    (click) = "trueAnswer(i,j,index,answer.answer) " 
@@ -317,9 +317,9 @@
                                                id="{{'answer' + i + j + index}}"
                                                (keydown)="onKeydown($event,i ,j,index)">
                                       </div>
-                                      <div class="d-flex" *ngIf="!question.pickMultiple">
+                                      <div class="d-flex" *ngIf="question.questionType == 'MCQ-OPTION'">
                                           <label for="{{'answerSingle'+index + i + j }}">
-                                            <input type="{{answerType}}" 
+                                            <input type="radio" 
                                                    id="{{'answerSingle'+index +i + j}}" 
                                                    name="{{'answerlist' + index + i + j  }}" 
                                                    (click) = "trueAnswerRadio(i,j,index,answer.answer) " 
@@ -394,7 +394,7 @@
               <p class="setting-text">Pick multiple</p>
               <div class="toggle-wrap">
                 <label class="switch">
-                  <!-- <input type="checkbox"  (click)="pickMultipleAns(this.focusType)" [checked]="performanceDemands[focusType.parentIdx].question[focusType.no].pickMultiple"> -->
+                  <input type="checkbox"  (click)="pickMultipleAns(this.focusType)" [checked]="performanceDemands[focusType.parentIdx].questions[focusType.no].questionType == 'MCQ-CHECKBOX'">
                   <span class="slider round"></span>
                 </label>
               </div>

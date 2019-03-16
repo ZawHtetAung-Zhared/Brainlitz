@@ -547,7 +547,7 @@ export class TestwerkzComponent implements OnInit {
             {
                 question: "" 
             }, 
-          questionType: "",
+          questionType: "MCQ-OPTION",
           answers: [ 
                 { 
                   _id: "", 
@@ -1342,23 +1342,29 @@ autoImgLoop(arr){
   // }
   pickMultipleAns(item) {
     const dataArray = this.performanceDemands[this.focusType.parentIdx]
-      .question[this.focusType.no];
+      .questions[this.focusType.no];
     var isMultiSelect = dataArray.pickMultiple;
     isMultiSelect = !isMultiSelect;
-    this.performanceDemands[this.focusType.parentIdx].question[
-      this.focusType.no
-    ].pickMultiple = !this.performanceDemands[this.focusType.parentIdx]
-      .question[this.focusType.no].pickMultiple;
-    if (
-      this.performanceDemands[this.focusType.parentIdx].question[
-        this.focusType.no
-      ].pickMultiple == true
-    ) {
-      this.answerType = "checkbox";
-    } else {
-      this.answerType = "radio";
-    }
+    // this.performanceDemands[this.focusType.parentIdx].questions[
+    //   this.focusType.no
+    // ].pickMultiple = !this.performanceDemands[this.focusType.parentIdx]
+    //   .questions[this.focusType.no].pickMultiple;
+    // if (
+    //   this.performanceDemands[this.focusType.parentIdx].questions[
+    //     this.focusType.no
+    //   ].pickMultiple == true
+    // ) {
+    //   this.answerType = "checkbox";
+    // } else {
+    //   this.answerType = "radio";
+    // }
     console.log(dataArray);
+    // dataArray.questionType = 'MCQ-OPTION'
+    if (dataArray.questionType === 'MCQ-OPTION') {
+      dataArray.questionType = 'MCQ-CHECKBOX'
+    }else{
+      dataArray.questionType = 'MCQ-OPTION'
+    }
     dataArray.answers.map((answer, i) => (answer.correctness = 0));
   }
 
