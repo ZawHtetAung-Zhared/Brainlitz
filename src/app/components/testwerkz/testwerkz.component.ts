@@ -12,7 +12,7 @@ import { BlockUI, NgBlockUI } from "ng-block-ui";
 import { c } from "@angular/core/src/render3";
 import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
-import { nsend } from 'q';
+import { nsend } from "q";
 
 // declare var upndown:any;
 var Promise = require("bluebird");
@@ -69,7 +69,7 @@ export class TestwerkzComponent implements OnInit {
   public pd: pd = new pd();
   public pdLists: any[];
   public isDrop: boolean = false;
-  public isHover: boolean = false;
+  public selectEle: any;
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -83,20 +83,20 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any=[];
-  public classCreate= false;
-  public regionID = localStorage.getItem('regionId');
-  public tagsWerkzList = []
-  public tempContentArr:any =[];
-  public selectedImgArr:any =[];
-  public ImgArr:any =[];
-  public imgIdArr:any =[];
-  public imgId:any;
-  public clickType: boolean=false;
-  public editableId:any = "";
-  private fileList : any = [];
-  private invalidFiles : any = [];
-  public ptest:any =[];
+  public contentArr: any = [];
+  public classCreate = false;
+  public regionID = localStorage.getItem("regionId");
+  public tagsWerkzList = [];
+  public tempContentArr: any = [];
+  public selectedImgArr: any = [];
+  public ImgArr: any = [];
+  public imgIdArr: any = [];
+  public imgId: any;
+  public clickType: boolean = false;
+  public editableId: any = "";
+  private fileList: any = [];
+  private invalidFiles: any = [];
+  public ptest: any = [];
   public concept = {
     name: ""
   };
@@ -108,7 +108,7 @@ export class TestwerkzComponent implements OnInit {
   // };
   public focusType: any = {};
   public focusPlace: any;
-  public conceptsObj:any={};
+  public conceptsObj: any = {};
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -147,6 +147,48 @@ export class TestwerkzComponent implements OnInit {
     console.log("click");
     console.log($event);
     this.clickEle = $event;
+  }
+  @HostListener("mouseover", ["$event"])
+  onMouseEnter(event: any) {
+    // Logs the id of the element
+    // where the event is originally invoked.
+
+    if ($(event.target).parents(".img-wrapper").length > 0) {
+      var img;
+      var _this = this;
+      $(".editableImg").mouseenter(function(event) {
+        img = this;
+        var posLeft = 105 + $(this).position().left;
+        var posTop = $(this).position().top;
+        $(this).after(
+          $(`<span class='img-span' 
+          style='z-index: 1001;position:
+           absolute;
+           top: ${posTop}px;
+           left: ${posLeft}px;
+           cursor: pointer;
+           padding-top: 10px;'
+           >
+            <img src='./assets/images/remove-white.png'>
+           </span>`)
+        );
+        console.log(event);
+
+        $(".img-span").click(function() {
+          console.log("img span hover");
+          $(img).remove();
+          $(".img-span").remove();
+          // console.log($(img).remove());
+        });
+      });
+      $(".editableImg").mouseout(function(event) {
+        console.log(event);
+        if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
+        else if (event.offsetY >= 119 || event.offsetY < 0)
+          $(".img-span").remove();
+        else console.log("out but not out");
+      });
+    }
   }
 
   @HostListener("window:resize", ["$event"])
@@ -313,13 +355,13 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
-    this.conceptEdit=false;
+    this.conceptEdit = false;
   }
   backToTestWerkz() {
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
-    this.conceptEdit=false;
+    this.conceptEdit = false;
   }
   edit() {
     this.isEditComplete = true;
@@ -464,8 +506,8 @@ export class TestwerkzComponent implements OnInit {
       name: "",
       description: "",
       question: "",
-      html:{
-        question:""
+      html: {
+        question: ""
       },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
@@ -526,8 +568,8 @@ export class TestwerkzComponent implements OnInit {
           name: "",
           description: "",
           question: "",
-          html:{
-            question:""
+          html: {
+            question: ""
           },
           allowedAttempts: 0,
           questionType: "MCQ-OPTION",
@@ -568,6 +610,7 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
+    console.log("OOOn input ", event);
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -594,6 +637,7 @@ export class TestwerkzComponent implements OnInit {
         sel.removeAllRanges();
         sel.addRange(range);
         this.clickEle = tempDiv;
+        console.log(sel);
       }
     }
     $(content)
@@ -603,11 +647,9 @@ export class TestwerkzComponent implements OnInit {
         return this.nodeType != 1;
       })
       .wrap("<div />");
-
-    console.log(event);
-    var $focused = $(":focus");
-    console.log($focused);
-
+    this.selectEle = content;
+    // console.log(this.selectEle)
+    // console.log(window.getSelection())
     // console.log(ele);
     // console.log(type);
     // console.log(window.getSelection().getRangeAt(0))
@@ -724,7 +766,6 @@ export class TestwerkzComponent implements OnInit {
     this.getAllContent();
   }
 
-  
   cancelModal() {
     this.modalReference.close();
     this.selectedImgArr = [];
@@ -811,17 +852,17 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  //selected image use with css 
+  //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
-  onslectedImgDiv(i,img){
-    console.log(this.isRemove,"is remove",i);
+  onslectedImgDiv(i, img) {
+    console.log(this.isRemove, "is remove", i);
 
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const circle: HTMLElement = document.getElementById('cricle'+i);
-    const check: HTMLElement = document.getElementById('check'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
-    
+    const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const circle: HTMLElement = document.getElementById("cricle" + i);
+    const check: HTMLElement = document.getElementById("check" + i);
+    const trash: HTMLElement = document.getElementById("trash" + i);
+    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+
     if (this.modelType == "single") {
       console.log("is single", this.imgId);
       //add selected
@@ -880,23 +921,26 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
-removerSelected(i){
-  console.log(this.selectedImgArr , i)
-  const imgDiv3: HTMLElement = document.getElementById('img-'+i);
-  const circle3: HTMLElement = document.getElementById('cricle'+i);
-  const check3: HTMLElement = document.getElementById('check'+i);
-  const trash3: HTMLElement = document.getElementById('trash'+i);
-  const overlay3: HTMLElement = document.getElementById('Imgoverlay'+i);
-  const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
-  imgDiv3.setAttribute("style","border:none;");
-  circle3.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
-  check3.setAttribute("style","color:#ffffff00;");
-  trash3.setAttribute("style","opacity: 0;")
-  overlay3.setAttribute("style"," background: rgba(0, 0, 0, 0);");
-  trashdiv.setAttribute("style","display:none")
-    if(this.modelType == 'single'){
-      this.selectedImgArr=[];
-      this.imgIdArr=[];
+  removerSelected(i) {
+    console.log(this.selectedImgArr, i);
+    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
+    const circle3: HTMLElement = document.getElementById("cricle" + i);
+    const check3: HTMLElement = document.getElementById("check" + i);
+    const trash3: HTMLElement = document.getElementById("trash" + i);
+    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
+    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+    imgDiv3.setAttribute("style", "border:none;");
+    circle3.setAttribute(
+      "style",
+      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
+    );
+    check3.setAttribute("style", "color:#ffffff00;");
+    trash3.setAttribute("style", "opacity: 0;");
+    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+    trashdiv.setAttribute("style", "display:none");
+    if (this.modelType == "single") {
+      this.selectedImgArr = [];
+      this.imgIdArr = [];
 
       // this.imgId=undefined;
       console.log(this.imgId);
@@ -909,20 +953,23 @@ removerSelected(i){
       this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
       this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
     }
+  }
 
-}
-
-//this is use for selected image value loop
-autoImgLoop(arr){
-  console.log(arr);
-  for(var i=0;i<arr.length;i++){
-    const imgDiv: HTMLElement = document.getElementById('img-'+arr[i]);
-    const circle: HTMLElement = document.getElementById('cricle'+arr[i]);
-    const check: HTMLElement = document.getElementById('check'+arr[i]);
-    const trash: HTMLElement = document.getElementById('trash'+arr[i]);
-    const overlay: HTMLElement = document.getElementById('Imgoverlay'+arr[i]);
-    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+arr[i]);
-      console.log(imgDiv)
+  //this is use for selected image value loop
+  autoImgLoop(arr) {
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
+      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
+      const check: HTMLElement = document.getElementById("check" + arr[i]);
+      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
+      const overlay: HTMLElement = document.getElementById(
+        "Imgoverlay" + arr[i]
+      );
+      const trashdiv: HTMLElement = document.getElementById(
+        "trashdiv-" + arr[i]
+      );
+      console.log(imgDiv);
       console.log(circle);
       console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
@@ -937,52 +984,55 @@ autoImgLoop(arr){
   }
 
   //when over image from galery modal mouse over or mouse out
-  onImgMouseEvent(e,i){
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
- 
-    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
-      trash.setAttribute("style","opacity: 1;");
-      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
-    }else{
-      trash.setAttribute("style","opacity: 0;")
-      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+  onImgMouseEvent(e, i) {
+    const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const trash: HTMLElement = document.getElementById("trash" + i);
+    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
+
+    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
+      trash.setAttribute("style", "opacity: 1;");
+      overlay.setAttribute(
+        "style",
+        "display:block;  background: rgba(0, 0, 0, .3);"
+      );
+    } else {
+      trash.setAttribute("style", "opacity: 0;");
+      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
     }
     // console.log(e.type)
   }
 
   //delete image
-  onremoveClick(id){
-    console.log(id)
-    this.isRemove=true;
-    this._service.onDeleteContent(this.regionID,id)
-    .subscribe((res: any) => {
-      console.log(res)
-      // this.contentArr=res.meta;
-       this.toastr.success('Successfully Content deleted.');
-       //getAllContent() use pormise because of html create value after use in ts    
-       this.getAllContent().then(()=>{
-        console.log("here me>",res);
-        setTimeout(() => {
-          console.log(this.selectedImgArr)
-          console.log(this.imgIdArr)
-          if(this.modelType == "multiple"){
-            this.autoImgLoop(this.imgIdArr)
-          }else{
-            this.imgId=undefined
-          }
-          
-        }, 300);
-      })
-    }, err => {
-      console.log(err);
-      this.toastr.error('Fail Content deleted.');
-    });
+  onremoveClick(id) {
+    console.log(id);
+    this.isRemove = true;
+    this._service.onDeleteContent(this.regionID, id).subscribe(
+      (res: any) => {
+        console.log(res);
+        // this.contentArr=res.meta;
+        this.toastr.success("Successfully Content deleted.");
+        //getAllContent() use pormise because of html create value after use in ts
+        this.getAllContent().then(() => {
+          console.log("here me>", res);
+          setTimeout(() => {
+            console.log(this.selectedImgArr);
+            console.log(this.imgIdArr);
+            if (this.modelType == "multiple") {
+              this.autoImgLoop(this.imgIdArr);
+            } else {
+              this.imgId = undefined;
+            }
+          }, 300);
+        });
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Content deleted.");
+      }
+    );
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
-/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
-
+  /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 
   // testing(){
   //   console.log('console')
@@ -996,15 +1046,12 @@ autoImgLoop(arr){
 
   //   })
   // }
-  
 
   autoResize(e) {
     e.target.style.cssText = "height:auto";
     e.target.style.height = e.target.scrollHeight + "px";
   }
 
-
-  
   showSetting() {
     if (window.pageYOffset > 81) {
       this.greterThan = true;
@@ -1054,7 +1101,7 @@ autoImgLoop(arr){
   //   }
 
   insertImg() {
-    console.log(this.selectedImgArr);
+    console.log(this.selectEle);
     console.log("editableID", this.editableId);
     if (this.editableId != "") {
       console.log("question ===== insert img");
@@ -1072,7 +1119,7 @@ autoImgLoop(arr){
         var url = this.selectedImgArr[i].url;
         // console.log(url);
         // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
-        k.innerHTML += '<img class="editableImg" src="' + url + '"></img>';
+        k.innerHTML += '<img class="editableImg" src="' + url + '"  ></img>';
       }
       var imgsLength = $(e)
         .children(".img-wrapper")
@@ -1167,47 +1214,8 @@ autoImgLoop(arr){
     }
     this.cancelModal();
     console.log($(".editableImg"));
-    var img;
-    var _this = this;
-    $(".editableImg").hover(function(event) {
-      img = this;
-      var posLeft = 105 + $(this).position().left;
-      var posTop = $(this).position().top;
-      $(this).after(
-        $(`<span class='img-span' 
-          style='z-index: 1001;position:
-           absolute;
-           top: ${posTop}px;
-           left: ${posLeft}px;
-           cursor: pointer;
-           padding-top: 10px;'
-           >
-            <img src='./assets/images/remove-white.png'>
-           </span>`)
-      );
-      console.log(event);
-      if (event.type == "mouseout") {
-        if (event.offsetX <= 119 || event.offsetY <= 119)
-          console.log("out but not out");
-        else console.log("completely cout");
-      }
-      $(".img-span").click(function() {
-        console.log("img span hover");
-        console.log(_this.isHover);
-        $(img).remove();
-        $(".img-span").remove();
-        // console.log($(img).remove());
-      });
-    });
-    $(".editableImg").mouseout(function(event) {
-      console.log(event);
-      if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
-      else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
-      else console.log("out but not out");
-    });
   }
 
-  
   onFocus(type, idx1, idx2, idx3) {
     this.editableId = "";
     this.focusPlace = "";
@@ -1351,8 +1359,8 @@ autoImgLoop(arr){
     var markdownQues: any;
     // console.log("qId~~~",qId,fType)
     var myDiv = document.getElementById(qId);
-    console.log("myD",myDiv.innerHTML)
-    setTimeout(()=>{
+    // console.log("myD",myDiv.innerHTML)
+    setTimeout(() => {
       var turndownService = new TurndownService();
       turndownService.addRule("Tada", {
         filter: "div",
@@ -1361,11 +1369,15 @@ autoImgLoop(arr){
         }
       });
       markdownQues = turndownService.turndown(myDiv);
-      console.log("turn to markdown",markdownQues);
-      this.performanceDemands[fType.parentIdx].question[fType.no].html.question = String(myDiv.innerHTML)
-      this.performanceDemands[fType.parentIdx].question[fType.no].question = markdownQues;
-      console.log("performanceDemands",this.performanceDemands);
-    },200)
+      // console.log("turn to markdown",markdownQues);
+      this.performanceDemands[fType.parentIdx].question[
+        fType.no
+      ].html.question = String(myDiv.innerHTML);
+      this.performanceDemands[fType.parentIdx].question[
+        fType.no
+      ].question = markdownQues;
+      // console.log("performanceDemands",this.performanceDemands);
+    }, 200);
   }
 
   removePDImg(img) {
@@ -1398,8 +1410,8 @@ autoImgLoop(arr){
       name: "",
       description: "",
       question: "",
-      html:{
-        question:""
+      html: {
+        question: ""
       },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
@@ -1563,58 +1575,70 @@ autoImgLoop(arr){
   }
   onDragStart(e) {
     console.log(e);
+    console.log($(".img-span"));
+    $(".img-span").remove();
     // e.preventDefault();
   }
   onDrop(e) {
     console.log(e);
   }
+
+  // waiyan's code end
+
+  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+  onUpdateTeskWerkz(id) {
+    console.log(id);
+    this.conceptEdit = true;
+    this.testWerkzCategory = false;
+    this.conceptList = false;
+    console.log(this.conceptList);
+    this._service.getConceptById(this.regionID, id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.conceptsObj = res;
+        this.concept.name = res.name;
+        this.getPDById(res.pd);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    console.log(this.ptest);
+    // this.performanceDemands=this.ptest;
+  }
+
+  getPDById(pdObj) {
+    for (let i = 0; i < pdObj.length; i++) {
+      console.log(pdObj[i]);
+      this._service.getPDById(this.regionID, pdObj[i].pdId).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.ptest.push(res);
+          console.error(this.ptest);
+          this.getQueById(res.questions, i);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+  }
+
+  getQueById(qObj, id) {
+    console.log(this.ptest, id);
+    for (let i = 0; i < qObj.length; i++) {
+      this._service.getQuesById(this.regionID, qObj[i].questionId).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.ptest[id].questions[i] = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+  }
+
   
- 
-// waiyan's code end
-
-/** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
-onUpdateTeskWerkz(id){
-  console.log(id);
-  this.conceptEdit = true;
-  this.testWerkzCategory = false;
-  this.conceptList=false;
-  console.log(this.conceptList)
-  this._service.getConceptById(this.regionID,id).subscribe((res:any)=>{
-    console.log(res);
-    this.conceptsObj=res;
-    this.concept.name=res.name;
-    this.getPDById(res.pd);
-  },err=>{
-    console.log(err);
-  })
-  console.log(this.ptest)
-  // this.performanceDemands=this.ptest;
-}
-
-getPDById(pdObj){
-  for(let i=0;i<pdObj.length;i++){
-    console.log(pdObj[i]);
-    this._service.getPDById(this.regionID,pdObj[i].pdId).subscribe((res:any)=>{
-      console.log(res);
-      this.ptest.push(res);
-      console.error(this.ptest)
-      this.getQueById(res.questions,i);
-    },err=>{
-      console.log(err);
-    });
-  }
-}
-
-getQueById(qObj,id){
- console.log(this.ptest,id);
-  for(let i=0;i<qObj.length;i++){
-    this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
-      console.log(res);
-      this.ptest[id].questions[i]=res;
-    },err=>{
-      console.log(err);
-    });
-  }
-}
-/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+  /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }

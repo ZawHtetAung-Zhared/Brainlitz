@@ -249,7 +249,7 @@
                     <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
                     <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" [(ngModel)]="pd.pdName" (focus)="onFocus('pd',i,'','')" (focusout) = "hideTooltip('hideTooltip','pD',i,j,index)">
                     <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
-                    <div *ngIf="pd.contentsArr.length > 0" class="row">
+                    <div *ngIf="pd.contentsArr.length > 0" class="row" dragula={{i}}>
                       <div class="col-md-4 position-relative" *ngFor="let img of pd.contentsArr">
                         <img (click)="removePDImg(img)" class="img-pd" src="./assets/img/remove-white.png">
                         <div class="innerPd p-0">
