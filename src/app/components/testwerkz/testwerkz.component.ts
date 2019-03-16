@@ -503,6 +503,17 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     });
+    var lastIndex = this.performanceDemands[j].questions.length - 1;
+    // this.performanceDemands[j].questions[lastIndex].answers[0]
+    console.warn(lastIndex);
+    var idNumber = j + String(lastIndex) + '0'
+    console.log(idNumber);
+   var answerTootips = $('#answerTootips'+idNumber)
+  //  var answerTootips = $('#answerTootips'+ j + String(lastIndex) + '0')
+   console.error(answerTootips);
+   setTimeout(() => {
+    answerTootips.hide()
+   }, 300);
     // waiyan's code end
   }
   addPd() {
@@ -1197,7 +1208,7 @@ autoImgLoop(arr){
       this.turn(this.editableId, this.focusType);
     } else if (this.modelType == "single") {
       console.log("answer === ");
-      this.performanceDemands[this.pdIndex].question[
+      this.performanceDemands[this.pdIndex].questions[
         this.questionIndex
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
     } else {
@@ -1294,6 +1305,8 @@ autoImgLoop(arr){
         this.focusType.parentIdx = idx1;
     }
     if (type == "answer") {
+      var tootipsId = $('#answerTootips' + idx1 + idx2 + idx3)
+      tootipsId.show()
       // this.answerTootipsOptions = true;
       // this.performanceDemands[idx1].question[idx2].answers[
       //   idx3
@@ -1307,6 +1320,8 @@ autoImgLoop(arr){
           this.performanceDemands[idx1].questions[idx2].answers[
             idx3
           ].showTooltip = false;
+          var tootipsId = $('#answerTootips' + idx1 + idx2 + idx3)
+          tootipsId.hide()
         } else if (type == "question") {
           // this.performanceDemands[idx1].question[idx2].showTooltip = false;
         } else {
