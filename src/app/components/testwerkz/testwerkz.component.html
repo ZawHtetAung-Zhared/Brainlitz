@@ -419,7 +419,6 @@
           </div>
         </div>
         <div class="d-flex justify-content-center align-items-center delete-btnWrap">
-          {{performanceDemands?.length}}
           <button *ngIf="focusType.type == 'pd' && performanceDemands?.length>1" (click)="delete(focusType)">Delete</button>
           <button *ngIf="(focusType.type == 'question' || focusType.type == 'answer') && performanceDemands[focusType.parentIdx].questions.length>1" (click)="delete(focusType)">Delete</button>
         </div>
