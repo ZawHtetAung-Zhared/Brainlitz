@@ -1,7 +1,29 @@
 <!-- For Concept Group List Start -->
-<div *ngIf="conceptList" class="d-flex justify-content-end pr-5 w-100 mt-1">
+<!-- <div *ngIf="conceptList" class="d-flex justify-content-end pr-5 w-100 mt-1">
   <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
   <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
+</div> -->
+<div *ngIf="conceptList" class="conceptlists-wrapper">
+  <div class="d-flex justify-content-between w-100 mt-3 pdLR-30">
+    <h4>Concept</h4>
+    <div>
+      <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
+      <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
+    </div>
+  </div>
+  <div class="card-columns pdLR-30">
+    <div class="card" *ngFor="let concept of conceptsArr">
+      <div class="single-concept">
+        <div class="pad-15">
+          <label class="tag-name mb-0">Tag</label>
+          <p class="conceptName mb-0">{{concept.name}}</p>
+        </div>
+        <div class="btnEdit-wrap d-flex justify-content-end">
+          <button class="btn btn-edit" (click)="onUpdateTeskWerkz(concept._id)">Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
 <!-- For test List End -->
@@ -230,6 +252,7 @@
             <!-- <div *ngFor="let pd of pdLists; let i = index"> -->
             <div >
                 <!-- {{performanceDemands | json}} -->
+             
                 <div *ngFor="let pd of performanceDemands; let i = index">
                     <div class="d-flex flex-column pd-blog mb-2">
                       <!-- for header start -->
@@ -281,7 +304,12 @@
                               <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                                <div class="carret-box"></div>
                             </div>
-                            <div id="q-{{i}}{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',$event)" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)"></div>
+                            <div id="q-{{i}}{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',$event)" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)" >
+
+                            </div>
+                            <!-- <div id="q-{{i}}{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',$event)" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)" *ngIf="conceptEdit">
+
+                            </div> -->
                             <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                             <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
                               <!-- <label class="question-checkbox">

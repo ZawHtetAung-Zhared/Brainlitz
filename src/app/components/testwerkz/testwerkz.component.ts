@@ -33,6 +33,7 @@ export class TestwerkzComponent implements OnInit {
   // public id2:any;
   // public id3:any;
   // Component
+  public conceptsArr = [];
   public answerSymbols = ["a", "b", "c", "d", "e", "f", "g", "h"];
   public imagePath = "../../../assets/img/answerIcon/";
   public answerSymbolSVG = "Choice_reverse.svg";
@@ -71,6 +72,7 @@ export class TestwerkzComponent implements OnInit {
   public pdLists: any[];
   public isDrop: boolean = false;
   public isHover: boolean = false;
+  public markDownHtml_arr:any=[];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -143,6 +145,7 @@ export class TestwerkzComponent implements OnInit {
     }
 
     console.log(this.pdLists);
+    this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log("click");
@@ -187,6 +190,14 @@ export class TestwerkzComponent implements OnInit {
       this.forElse = true;
       $(".setting-sidebar").css({ top: 165 });
     }
+  }
+
+  getConceptLists(){
+    this._service.getAllConcept(this.regionID)
+    .subscribe((res:any)=>{
+      console.log("Concept lists",res);
+      this.conceptsArr = res;
+    })
   }
 
   createTagWerkz(item) {
@@ -314,6 +325,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
+    this.performanceDemands=[];
+    this.ptest=[];
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
@@ -324,6 +337,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit=false;
+    this.performanceDemands=[];
   }
   edit() {
     this.isEditComplete = true;
@@ -535,6 +549,7 @@ export class TestwerkzComponent implements OnInit {
     this.performanceDemands.push( {
        _id: "",
        name: "", 
+       showTooltip:false,
        contents: [
       ],
        questions: [ 
@@ -620,6 +635,7 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
+    console.log(this.clickEle);
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -1402,8 +1418,9 @@ autoImgLoop(arr){
     this.showSettingSidebar = false;
   }
 
-  cancelConcept() {
+  cancelConcept(type) {
     this.conceptCreate = false;
+    this.conceptEdit=false;
     this.testWerkzCategory = false;
     this.conceptList = true;
     this.performanceDemands = [];
@@ -1412,6 +1429,8 @@ autoImgLoop(arr){
     };
     this.focusType = {};
     this.ischecked = "";
+    this.performanceDemands=[];
+    this.ptest=[];
   }
   // HSYL code
   inputQuestion(quesId, type) {
@@ -1644,7 +1663,7 @@ autoImgLoop(arr){
     this._service.createConcept(this.regionID, conceptFormat).subscribe(
       res => {
         console.log("FINALLY", res);
-        this.cancelConcept();
+        this.cancelConcept('redirect');
       },
       err => {
         console.log("err");
@@ -1675,9 +1694,11 @@ autoImgLoop(arr){
  
 // waiyan's code end
 
-/** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+/** ************** *** ************** *** **************  start concept update*** ************** *** ************** *** ************** *** ************** */
  async onUpdateTeskWerkz(id){
   console.log(id);
+  
+ 
   this.conceptEdit = true;
   this.testWerkzCategory = false;
   this.conceptList=false;
@@ -1694,6 +1715,7 @@ autoImgLoop(arr){
   })
   console.log(this.ptest)
   this.performanceDemands=this.ptest;
+
 }
 
 async getPDById(pdObj){
@@ -1710,16 +1732,33 @@ async getPDById(pdObj){
   }
 }
 
-async getQueById(qObj,id){
+ getQueById(qObj,id){
  console.log(this.ptest,id);
+
   for(let i=0;i<qObj.length;i++){
-    await this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
-      console.log(res);
-      this.ptest[id].questions[i]=res;
-    },err=>{
-      console.log(err);
-    });
+  
+        this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
+        console.log(res.html.question);
+        this.markDownHtml_arr.push(res.html.question);
+        setTimeout(() => {
+        document.getElementById("q-"+id+i).innerHTML=res.html.question;
+        console.log(document.getElementById("dd"));
+        }, 200);
+        this.ptest[id].showTooltip=false;
+        this.ptest[id].questions[i]=res;
+      },err=>{
+        console.log(err);
+      });
+   
+   
+
+    // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
+    // console.log("q-"+id+i);
+    // console.log(inner_markDown);
+    
   }
+ 
+  
 }
 /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }
