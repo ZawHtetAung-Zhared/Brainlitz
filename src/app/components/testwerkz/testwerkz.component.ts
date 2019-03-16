@@ -1723,7 +1723,7 @@ export class TestwerkzComponent implements OnInit {
     });
     // Get pd.questions
     pdCreateFormat.questions = formattedQuestionIDs;
-    pdCreateFormat.name = pd.pdName;
+    pdCreateFormat.name = pd.name;
     pdCreateFormat.contents = tempContentArray;
     // OR
     // pd.name = string",
@@ -2068,7 +2068,7 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
   });
   // Get pd.questions
   pdCreateFormat.questions = formattedQuestionIDs;
-  pdCreateFormat.name = pd.pdName;
+  pdCreateFormat.name = pd.name;
   pdCreateFormat.contents = tempContentArray;
   // OR
   // pd.name = string",
