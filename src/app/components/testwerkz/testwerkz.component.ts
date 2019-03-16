@@ -12,8 +12,8 @@ import { BlockUI, NgBlockUI } from "ng-block-ui";
 import { c } from "@angular/core/src/render3";
 import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
-import { nsend } from 'q';
-import { resolve } from 'path';
+import { nsend } from "q";
+import { resolve } from "path";
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -71,6 +71,7 @@ export class TestwerkzComponent implements OnInit {
   public pd: pd = new pd();
   public pdLists: any[];
   public isDrop: boolean = false;
+  public selectEle: any;
   public isHover: boolean = false;
   public markDownHtml_arr:any=[];
   public toolBarOptions = {
@@ -86,23 +87,24 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any=[];
-  public classCreate= false;
-  public regionID = localStorage.getItem('regionId');
-  public tagsWerkzList = []
-  public tempContentArr:any =[];
-  public selectedImgArr:any =[];
-  public ImgArr:any =[];
-  public imgIdArr:any =[];
-  public imgId:any;
-  public clickType: boolean=false;
-  public editableId:any = "";
-  private fileList : any = [];
-  private invalidFiles : any = [];
-  public ptest:any =[];
+  public contentArr: any = [];
+  public classCreate = false;
+  public regionID = localStorage.getItem("regionId");
+  public tagsWerkzList = [];
+  public tempContentArr: any = [];
+  public selectedImgArr: any = [];
+  public ImgArr: any = [];
+  public imgIdArr: any = [];
+  public imgId: any;
+  public clickType: boolean = false;
+  public editableId: any = "";
+  private fileList: any = [];
+  private invalidFiles: any = [];
+  public ptest: any = [];
   public concept = {
     name: ""
   };
+  public dropDiv: any;
   public clickEle: any = "";
   // public focusType = {
   //   'type': "",
@@ -111,7 +113,7 @@ export class TestwerkzComponent implements OnInit {
   // };
   public focusType: any = {};
   public focusPlace: any;
-  public conceptsObj:any={};
+  public conceptsObj: any = {};
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -150,9 +152,59 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
-    console.log("click");
-    console.log($event);
+    console.log("click", this.clickEle);
+    console.log($event.className);
+    if ($event.className == "question-insert-img") {
+      console.log("Aha");
+      this.selectEle = this.clickEle;
+    }
     this.clickEle = $event;
+  }
+  @HostListener("mouseover", ["$event"])
+  onMouseEnter(event: any) {
+    // Logs the id of the element
+    // where the event is originally invoked.
+
+    if ($(event.target).parents(".img-wrapper").length > 0) {
+      var img;
+      var _this = this;
+      $(".editableImg").mouseenter(function(event) {
+        img = this;
+        var posLeft = 105 + $(this).position().left;
+        var posTop = $(this).position().top;
+        $(this).after(
+          $(`<span class='img-span' 
+          style='z-index: 1001;position:
+           absolute;
+           top: ${posTop}px;
+           left: ${posLeft}px;
+           cursor: pointer;
+           padding-top: 10px;'
+           >
+            <img src='./assets/images/remove-white.png'>
+           </span>`)
+        );
+
+        $(".img-span").click(function() {
+          console.log($(img).siblings(".editableImg"))
+          console.log($(img).parent())
+          $(".img-span").remove();
+          if($(img).siblings(".editableImg").length ==0){
+            $(img).parent().remove();
+
+          }
+          // console.log($(img).remove());
+          $(img).remove();
+
+        });
+      });
+      $(".editableImg").mouseout(function(event) {
+        if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
+        else if (event.offsetY >= 119 || event.offsetY < 0)
+          $(".img-span").remove();
+        else console.log("out but not out");
+      });
+    }
   }
 
   @HostListener("window:resize", ["$event"])
@@ -224,7 +276,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = false;
     this.getAllTag();
     // this.addPd();
-    console.log(this.performanceDemands)
+    console.log(this.performanceDemands);
     this.showSettingSidebar = false;
   }
 
@@ -317,7 +369,7 @@ export class TestwerkzComponent implements OnInit {
     this.ischecked = val;
     this.tagID = val;
     this.addPd();
-    console.log(this.performanceDemands)
+    console.log(this.performanceDemands);
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
@@ -332,7 +384,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
-    this.conceptEdit=false;
+    this.conceptEdit = false;
   }
   backToTestWerkz() {
     this.conceptList = false;
@@ -422,8 +474,9 @@ export class TestwerkzComponent implements OnInit {
     }
 
     if (e.key == "Backspace") {
-      var selectedAnswer = this.performanceDemands[i].questions[j].answers[index]
-        .answer;
+      var selectedAnswer = this.performanceDemands[i].questions[j].answers[
+        index
+      ].answer;
 
       if (this.performanceDemands[i].questions[j].answers.length > 1) {
         if (
@@ -484,8 +537,8 @@ export class TestwerkzComponent implements OnInit {
       name: "",
       description: "",
       question: "",
-      html:{
-        question:""
+      html: {
+        question: ""
       },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
@@ -522,14 +575,14 @@ export class TestwerkzComponent implements OnInit {
     var lastIndex = this.performanceDemands[j].questions.length - 1;
     // this.performanceDemands[j].questions[lastIndex].answers[0]
     console.warn(lastIndex);
-    var idNumber = j + String(lastIndex) + '0'
+    var idNumber = j + String(lastIndex) + "0";
     console.log(idNumber);
-   var answerTootips = $('#answerTootips'+idNumber)
-  //  var answerTootips = $('#answerTootips'+ j + String(lastIndex) + '0')
-   console.error(answerTootips);
-   setTimeout(() => {
-    answerTootips.hide()
-   }, 300);
+    var answerTootips = $("#answerTootips" + idNumber);
+    //  var answerTootips = $('#answerTootips'+ j + String(lastIndex) + '0')
+    console.error(answerTootips);
+    setTimeout(() => {
+      answerTootips.hide();
+    }, 300);
     // waiyan's code end
   }
   addPd() {
@@ -568,26 +621,27 @@ export class TestwerkzComponent implements OnInit {
               playAt: "BEFORE"
             }
           ],
-           name: "", 
-           description: "", 
-           question: "", 
-           html:
-            {
-                question: "" 
-            }, 
+          name: "",
+          description: "",
+          question: "",
+          html: {
+            question: ""
+          },
           questionType: "MCQ-OPTION",
-          answers: [ 
-                { 
-                  _id: "", 
-                  name: "", 
-                  answer: "", 
-                  showTooltip: false,
-                  imgUrl:"",
-                  correctness: 0,
-                  contents: [] 
-                 }]
-                }]
-    })
+          answers: [
+            {
+              _id: "",
+              name: "",
+              answer: "",
+              showTooltip: false,
+              imgUrl: "",
+              correctness: 0,
+              contents: []
+            }
+          ]
+        }
+      ]
+    });
     // this.performanceDemands.push({
     //   name: "",
     //   contents: [],
@@ -637,7 +691,6 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
-    console.log(this.clickEle);
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -645,6 +698,7 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
       if (event.inputType == "insertText") document.execCommand("undo", false);
+  
       if (event.inputType == "insertParagraph") {
         var thisDiv =
           $(this.clickEle).hasClass("img-wrapper") ||
@@ -656,6 +710,7 @@ export class TestwerkzComponent implements OnInit {
         var tempBr = document.createElement("br");
         $(tempDiv).append(tempBr);
         $(thisDiv).after(tempDiv);
+        this.selectEle = tempDiv;
         document.execCommand("undo", false);
         var range = document.createRange(),
           sel = window.getSelection();
@@ -664,6 +719,7 @@ export class TestwerkzComponent implements OnInit {
         sel.removeAllRanges();
         sel.addRange(range);
         this.clickEle = tempDiv;
+        console.log(sel);
       }
     }
     $(content)
@@ -673,11 +729,8 @@ export class TestwerkzComponent implements OnInit {
         return this.nodeType != 1;
       })
       .wrap("<div />");
-
-    console.log(event);
-    var $focused = $(":focus");
-    console.log($focused);
-
+    // console.log(this.selectEle)
+    // console.log(window.getSelection())
     // console.log(ele);
     // console.log(type);
     // console.log(window.getSelection().getRangeAt(0))
@@ -768,7 +821,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //open image modal
-  openImgModal(content, type) {
+  openImgModal(content, type, t?) {
+    $(t).blur();
     console.log("open modal>", type);
     this.modelType = type;
     this.modalReference = this.modalService.open(content, {
@@ -794,7 +848,6 @@ export class TestwerkzComponent implements OnInit {
     this.getAllContent();
   }
 
-  
   cancelModal() {
     this.modalReference.close();
     this.selectedImgArr = [];
@@ -881,17 +934,17 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  //selected image use with css 
+  //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
-  onslectedImgDiv(i,img){
-    console.log(this.isRemove,"is remove",i);
+  onslectedImgDiv(i, img) {
+    console.log(this.isRemove, "is remove", i);
 
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const circle: HTMLElement = document.getElementById('cricle'+i);
-    const check: HTMLElement = document.getElementById('check'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
-    
+    const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const circle: HTMLElement = document.getElementById("cricle" + i);
+    const check: HTMLElement = document.getElementById("check" + i);
+    const trash: HTMLElement = document.getElementById("trash" + i);
+    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+
     if (this.modelType == "single") {
       console.log("is single", this.imgId);
       //add selected
@@ -950,23 +1003,26 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
-removerSelected(i){
-  console.log(this.selectedImgArr , i)
-  const imgDiv3: HTMLElement = document.getElementById('img-'+i);
-  const circle3: HTMLElement = document.getElementById('cricle'+i);
-  const check3: HTMLElement = document.getElementById('check'+i);
-  const trash3: HTMLElement = document.getElementById('trash'+i);
-  const overlay3: HTMLElement = document.getElementById('Imgoverlay'+i);
-  const trashdiv: HTMLElement = document.getElementById('trashdiv-'+i);
-  imgDiv3.setAttribute("style","border:none;");
-  circle3.setAttribute("style","border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;");
-  check3.setAttribute("style","color:#ffffff00;");
-  trash3.setAttribute("style","opacity: 0;")
-  overlay3.setAttribute("style"," background: rgba(0, 0, 0, 0);");
-  trashdiv.setAttribute("style","display:none")
-    if(this.modelType == 'single'){
-      this.selectedImgArr=[];
-      this.imgIdArr=[];
+  removerSelected(i) {
+    console.log(this.selectedImgArr, i);
+    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
+    const circle3: HTMLElement = document.getElementById("cricle" + i);
+    const check3: HTMLElement = document.getElementById("check" + i);
+    const trash3: HTMLElement = document.getElementById("trash" + i);
+    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
+    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+    imgDiv3.setAttribute("style", "border:none;");
+    circle3.setAttribute(
+      "style",
+      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
+    );
+    check3.setAttribute("style", "color:#ffffff00;");
+    trash3.setAttribute("style", "opacity: 0;");
+    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+    trashdiv.setAttribute("style", "display:none");
+    if (this.modelType == "single") {
+      this.selectedImgArr = [];
+      this.imgIdArr = [];
 
       // this.imgId=undefined;
       console.log(this.imgId);
@@ -979,20 +1035,23 @@ removerSelected(i){
       this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
       this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
     }
+  }
 
-}
-
-//this is use for selected image value loop
-autoImgLoop(arr){
-  console.log(arr);
-  for(var i=0;i<arr.length;i++){
-    const imgDiv: HTMLElement = document.getElementById('img-'+arr[i]);
-    const circle: HTMLElement = document.getElementById('cricle'+arr[i]);
-    const check: HTMLElement = document.getElementById('check'+arr[i]);
-    const trash: HTMLElement = document.getElementById('trash'+arr[i]);
-    const overlay: HTMLElement = document.getElementById('Imgoverlay'+arr[i]);
-    const trashdiv: HTMLElement = document.getElementById('trashdiv-'+arr[i]);
-      console.log(imgDiv)
+  //this is use for selected image value loop
+  autoImgLoop(arr) {
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
+      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
+      const check: HTMLElement = document.getElementById("check" + arr[i]);
+      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
+      const overlay: HTMLElement = document.getElementById(
+        "Imgoverlay" + arr[i]
+      );
+      const trashdiv: HTMLElement = document.getElementById(
+        "trashdiv-" + arr[i]
+      );
+      console.log(imgDiv);
       console.log(circle);
       console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
@@ -1007,52 +1066,55 @@ autoImgLoop(arr){
   }
 
   //when over image from galery modal mouse over or mouse out
-  onImgMouseEvent(e,i){
-    const imgDiv: HTMLElement = document.getElementById('img-'+i);
-    const trash: HTMLElement = document.getElementById('trash'+i);
-    const overlay: HTMLElement = document.getElementById('Imgoverlay'+i);
- 
-    if(e.type == "mouseenter" && (imgDiv.style.border=="solid")){
-      trash.setAttribute("style","opacity: 1;");
-      overlay.setAttribute("style","display:block;  background: rgba(0, 0, 0, .3);")
-    }else{
-      trash.setAttribute("style","opacity: 0;")
-      overlay.setAttribute("style"," background: rgba(0, 0, 0, 0);")
+  onImgMouseEvent(e, i) {
+    const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const trash: HTMLElement = document.getElementById("trash" + i);
+    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
+
+    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
+      trash.setAttribute("style", "opacity: 1;");
+      overlay.setAttribute(
+        "style",
+        "display:block;  background: rgba(0, 0, 0, .3);"
+      );
+    } else {
+      trash.setAttribute("style", "opacity: 0;");
+      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
     }
     // console.log(e.type)
   }
 
   //delete image
-  onremoveClick(id){
-    console.log(id)
-    this.isRemove=true;
-    this._service.onDeleteContent(this.regionID,id)
-    .subscribe((res: any) => {
-      console.log(res)
-      // this.contentArr=res.meta;
-       this.toastr.success('Successfully Content deleted.');
-       //getAllContent() use pormise because of html create value after use in ts    
-       this.getAllContent().then(()=>{
-        console.log("here me>",res);
-        setTimeout(() => {
-          console.log(this.selectedImgArr)
-          console.log(this.imgIdArr)
-          if(this.modelType == "multiple"){
-            this.autoImgLoop(this.imgIdArr)
-          }else{
-            this.imgId=undefined
-          }
-          
-        }, 300);
-      })
-    }, err => {
-      console.log(err);
-      this.toastr.error('Fail Content deleted.');
-    });
+  onremoveClick(id) {
+    console.log(id);
+    this.isRemove = true;
+    this._service.onDeleteContent(this.regionID, id).subscribe(
+      (res: any) => {
+        console.log(res);
+        // this.contentArr=res.meta;
+        this.toastr.success("Successfully Content deleted.");
+        //getAllContent() use pormise because of html create value after use in ts
+        this.getAllContent().then(() => {
+          console.log("here me>", res);
+          setTimeout(() => {
+            console.log(this.selectedImgArr);
+            console.log(this.imgIdArr);
+            if (this.modelType == "multiple") {
+              this.autoImgLoop(this.imgIdArr);
+            } else {
+              this.imgId = undefined;
+            }
+          }, 300);
+        });
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Content deleted.");
+      }
+    );
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
-/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
-
+  /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 
   // testing(){
   //   console.log('console')
@@ -1066,15 +1128,12 @@ autoImgLoop(arr){
 
   //   })
   // }
-  
 
   autoResize(e) {
     e.target.style.cssText = "height:auto";
     e.target.style.height = e.target.scrollHeight + "px";
   }
 
-
-  
   showSetting() {
     if (window.pageYOffset > 81) {
       this.greterThan = true;
@@ -1122,82 +1181,52 @@ autoImgLoop(arr){
   //     this.cancelModal();
   //     // this.selectedImgArr=[];
   //   }
-
+  checkFocusPosition() {
+    console.log(this.selectEle);
+    if (
+      this.selectEle.className == "img-wrapper" ||
+      $(this.selectEle).parents(".img-wrapper").length > 0
+    ) {
+      return true;
+    } else return false;
+  }
   insertImg() {
-    console.log(this.selectedImgArr);
+    var inImageWrapper = this.checkFocusPosition();
+    console.log(inImageWrapper);
     console.log("editableID", this.editableId);
     if (this.editableId != "") {
+      var res = this.editableId.split("-");
       console.log("question ===== insert img");
+      var imgWrapperId = "img-" + ++res[1] + "-" + new Date().getTime();
+
       var e = document.getElementById(this.editableId);
-
-      e.innerHTML +=
-        '<div id="img' +
-        this.editableId +
-        '" class=" img-wrapper"  dragula="' +
-        this.editableId +
-        '"></div>';
-      var k = document.getElementById("img" + this.editableId);
-      for (var i in this.selectedImgArr) {
-        // console.log(this.selectedImgArr[i].url, "img");
-        var url = this.selectedImgArr[i].url;
-        // console.log(url);
-        // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
-        k.innerHTML += '<img class="editableImg" src="' + url + '"></img>';
+      if (inImageWrapper) {
+        for (var i in this.selectedImgArr) {
+          // console.log(this.selectedImgArr[i].url, "img");
+          var url = this.selectedImgArr[i].url;
+          // console.log(url);
+          // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+          $(this.selectEle).append(
+            $('<img class="editableImg" src="' + url + '"  ></img>')
+          );
+          k = this.selectEle;
+        }
+      } else {
+        var tempWrapperDiv = $(
+          `<div id="${imgWrapperId}" class="img-wrapper"></div>`
+        );
+        console.log(tempWrapperDiv);
+        $(e).append(tempWrapperDiv);
+        var k = document.getElementById(imgWrapperId);
+        for (var i in this.selectedImgArr) {
+          // console.log(this.selectedImgArr[i].url, "img");
+          var url = this.selectedImgArr[i].url;
+          // console.log(url);
+          // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+          k.innerHTML += '<img class="editableImg" src="' + url + '"  ></img>';
+        }
       }
-      var imgsLength = $(e)
-        .children(".img-wrapper")
-        .children("img").length;
-      // if (imgsLength % 3 == 0) {
-      //   console.log(e);
-      // } else {
-      //   var marginOfFirst = Number(
-      //     $(
-      //       $(e)
-      //         .children(".img-wrapper")
-      //         .children("img")[0]
-      //     )
-      //       .css("margin-left")
-      //       .replace("px", "")
-      //   );
-
-      //   if (imgsLength < 3) {
-      //     marginOfFirst = 7.516;
-      //   }
-      //   console.log(
-      //     $(
-      //       $(e)
-      //         .children(".img-wrapper")
-      //         .children("img")[0]
-      //     ).css("margin-left")
-      //   );
-      //   if (imgsLength % 3 == 1) {
-      //     var lastimg = $(
-      //       $(e)
-      //         .children(".img-wrapper")
-      //         .children("img")[--imgsLength]
-      //     );
-      //     lastimg.css("margin-left", marginOfFirst);
-      //     lastimg.css("margin-right", marginOfFirst);
-      //   }
-      //   if (imgsLength % 3 == 2) {
-      //     var lastEle = $(
-      //       $(e)
-      //         .children(".img-wrapper")
-      //         .children("img")[--imgsLength]
-      //     );
-      //     var beforeLast = $(
-      //       $(e)
-      //         .children(".img-wrapper")
-      //         .children("img")[--imgsLength]
-      //     );
-      //     lastEle.css("margin-left", marginOfFirst);
-      //     lastEle.css("margin-right", marginOfFirst);
-      //     beforeLast.css("margin-left", marginOfFirst);
-      //     beforeLast.css("margin-right", marginOfFirst);
-      //   }
-      // }
-      // $(".editableImg").css("margin-top", "10px");
-      // $(".editableImg").css("margin-bottom", "10px");
+      // e.innerHTML +=`<div id="${imgWrapperId}" class="img-wrapper"></div>`;
 
       setTimeout(function() {
         // console.log($(k).children(".editableImg"))
@@ -1232,7 +1261,7 @@ autoImgLoop(arr){
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
     } else {
       console.log("pd Insert Img======");
-      
+
       // var obj = {
       //   contentId: "",
       //   sequence: 0,
@@ -1242,75 +1271,40 @@ autoImgLoop(arr){
       //   url:""
       // }
       var contArr = this.performanceDemands[this.focusType.no].contents;
-      Array.prototype.push.apply(contArr,this.selectedImgArr); 
+      Array.prototype.push.apply(contArr, this.selectedImgArr);
     }
     this.cancelModal();
     console.log($(".editableImg"));
-    var img;
-    var _this = this;
-    $(".editableImg").hover(function(event) {
-      img = this;
-      var posLeft = 105 + $(this).position().left;
-      var posTop = $(this).position().top;
-      $(this).after(
-        $(`<span class='img-span' 
-          style='z-index: 1001;position:
-           absolute;
-           top: ${posTop}px;
-           left: ${posLeft}px;
-           cursor: pointer;
-           padding-top: 10px;'
-           >
-            <img src='./assets/images/remove-white.png'>
-           </span>`)
-      );
-      console.log(event);
-      if (event.type == "mouseout") {
-        if (event.offsetX <= 119 || event.offsetY <= 119)
-          console.log("out but not out");
-        else console.log("completely cout");
-      }
-      $(".img-span").click(function() {
-        console.log("img span hover");
-        console.log(_this.isHover);
-        $(img).remove();
-        $(".img-span").remove();
-        // console.log($(img).remove());
-      });
-    });
-    $(".editableImg").mouseout(function(event) {
-      console.log(event);
-      if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
-      else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
-      else console.log("out but not out");
-    });
   }
 
-  
+  showID:any;
   onFocus(type, idx1, idx2, idx3) {
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
     this.focusType.type = type;
+    this.showID = "";
     console.log(this.performanceDemands)
     console.log(this.performanceDemands.length)
     this.showSetting();
     switch (type) {
       case "pd":
+        this.showID = "";
         this.focusPlace = "pd" + idx1;
         this.focusType.no = idx1;
         this.focusType.parentIdx = "";
         this.performanceDemands[idx1].showTooltip = true;
         break;
       case "question":
+        this.showID = "q" + idx1 + idx2;
         this.focusPlace = "q" + idx1 + idx2;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
-        this.editableId = "q" + "-" + idx1 + idx2;
-        console.log(this.editableId);
+        this.editableId = "q" + "-" + idx1 + "-" + idx2;
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
+        this.showID = "";
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
@@ -1332,16 +1326,19 @@ autoImgLoop(arr){
       ].showTooltip = true;
     }
   }
-  hideTooltip(hideTooltip, type, idx1, idx2, idx3) {
+  hideTooltip(hideTooltip, type, idx1, idx2, idx3, t?) {
+    console.log("focusout", type);
     if (hideTooltip == "hideTooltip") {
       setTimeout(() => {
         if (type == "answer") {
           this.performanceDemands[idx1].questions[idx2].answers[
             idx3
           ].showTooltip = false;
-          var tootipsId = $('#answerTootips' + idx1 + idx2 + idx3)
-          tootipsId.hide()
+          var tootipsId = $("#answerTootips" + idx1 + idx2 + idx3);
+          tootipsId.hide();
         } else if (type == "question") {
+          console.log(t);
+          // $('.tooltip-wrap').hide();
           // this.performanceDemands[idx1].question[idx2].showTooltip = false;
         } else {
           this.performanceDemands[idx1].showTooltip = false;
@@ -1350,16 +1347,23 @@ autoImgLoop(arr){
       }, 150);
     }
   }
-  // closeDropdown(e,type){
-  //   var divToHide = document.getElementById(this.editableId);
-  //   if(e.target.parentNode != null){
-  //     console.log("~~~hide tooltip");
-  //     if(e.target.parentNode.id != divToHide){
-  //       console.log("not same")
-  //       this.focusPlace = '';
-  //     }
-  //   }
-  // }
+  closeDropdown(e){
+    console.log(e)
+    console.log(e.target.parentNode)
+    var pId = this.editableId;
+    console.log(pId)
+
+    console.log( $(e.target).parents())
+    console.log('#'+pId)
+    if(pId != ""){
+      if($(e.target)[0].id == pId || $(e.target).parents('#' +pId).length > 0){
+
+      }else{
+        this.showID = "";
+      }
+    }
+   
+  }
 
   // focusoutMethod(){
   //   console.log("~~~focusOut");
@@ -1394,10 +1398,10 @@ autoImgLoop(arr){
     // }
     console.log(dataArray);
     // dataArray.questionType = 'MCQ-OPTION'
-    if (dataArray.questionType === 'MCQ-OPTION') {
-      dataArray.questionType = 'MCQ-CHECKBOX'
-    }else{
-      dataArray.questionType = 'MCQ-OPTION'
+    if (dataArray.questionType === "MCQ-OPTION") {
+      dataArray.questionType = "MCQ-CHECKBOX";
+    } else {
+      dataArray.questionType = "MCQ-OPTION";
     }
     dataArray.answers.map((answer, i) => (answer.correctness = 0));
   }
@@ -1440,13 +1444,42 @@ autoImgLoop(arr){
     this.turn(quesId, type);
   }
 
+  public isConceptFormValid = false; // Global
+
+  validateForm () {
+    if (!this.concept.name) {
+      this.isConceptFormValid = false;
+      return this.isConceptFormValid;
+    }
+
+    const pds = this.performanceDemands;
+    const checkPDs = pds.map((pd) => {
+      if (!pd.name) { return false; }
+      
+      const questions = pd.questions.map((quest) => {
+        if (!quest.question) { return false; }  
+
+        const noAnswer = quest.answers.some((ans) => ans.answer === '');
+
+        if (!noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        
+        return false;
+      });
+      
+      return !questions.includes(false) 
+    });
+    
+    this.isConceptFormValid = !checkPDs.includes(false);
+    return this.isConceptFormValid;
+}
+
   //get html tag in div
   turn(qId, fType) {
     var markdownQues: any;
     // console.log("qId~~~",qId,fType)
     var myDiv = document.getElementById(qId);
-    console.log("myD",myDiv.innerHTML)
-    setTimeout(()=>{
+    // console.log("myD",myDiv.innerHTML)
+    setTimeout(() => {
       var turndownService = new TurndownService();
       turndownService.addRule("Tada", {
         filter: "div",
@@ -1455,11 +1488,15 @@ autoImgLoop(arr){
         }
       });
       markdownQues = turndownService.turndown(myDiv);
-      console.log("turn to markdown",markdownQues);
-      this.performanceDemands[fType.parentIdx].questions[fType.no].html.question = String(myDiv.innerHTML)
-      this.performanceDemands[fType.parentIdx].questions[fType.no].question = markdownQues;
-      console.log("performanceDemands",this.performanceDemands);
-    },200)
+      console.log("turn to markdown", markdownQues);
+      this.performanceDemands[fType.parentIdx].questions[
+        fType.no
+      ].html.question = String(myDiv.innerHTML);
+      this.performanceDemands[fType.parentIdx].questions[
+        fType.no
+      ].question = markdownQues;
+      console.log("performanceDemands", this.performanceDemands);
+    }, 200);
   }
 
   removePDImg(img) {
@@ -1491,8 +1528,8 @@ autoImgLoop(arr){
       name: "",
       description: "",
       question: "",
-      html:{
-        question:""
+      html: {
+        question: ""
       },
       allowedAttempts: 0,
       questionType: "MCQ-OPTION",
@@ -1510,22 +1547,22 @@ autoImgLoop(arr){
       ]
     };
     question.answers.map(answer => {
-      var tempObj ={
-        "name":'',
-        "answer":'',
-        "imgUrl":'',
-        "correctness":0,
-        "contents":[]
-      }
-      tempObj.name = answer.name
-      tempObj.answer = answer.answer
+      var tempObj = {
+        name: "",
+        answer: "",
+        imgUrl: "",
+        correctness: 0,
+        contents: []
+      };
+      tempObj.name = answer.name;
+      tempObj.answer = answer.answer;
       tempObj.imgUrl = answer.imgUrl;
-      tempObj.correctness = answer.correctness
-      console.log(tempObj)
-      testArr.push(tempObj)
-      console.log(testArr)
-    })
-    questionFormat.answers = testArr
+      tempObj.correctness = answer.correctness;
+      console.log(tempObj);
+      testArr.push(tempObj);
+      console.log(testArr);
+    });
+    questionFormat.answers = testArr;
     questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
@@ -1660,53 +1697,74 @@ autoImgLoop(arr){
     _this.creationConceptProcess(formattedPdIds, _this);
   }
   onDragStart(e) {
-    console.log(e);
+    console.log(e.target);
+    console.log($(".img-span"));
+    $(".img-span").remove();
     // e.preventDefault();
   }
   onDrop(e) {
     console.log(e);
+    if (e.target.className != "editableImg") {
+      console.log("not that");
+      // document.execCommand("undo");
+      this.dropDiv = false;
+    } else {
+      this.dropDiv = true;
+    }
+    // console.log(this.dropDiv.id)
+    // console.log(e)
+    // console.log(e.target.id)
+    // console.log(e.target.id == this.dropDiv.id);
+    // if(e.target.id != this.dropDiv.id)
+    //   console.log("gg")
   }
+
   
  
 // waiyan's code end
 
-/** ************** *** ************** *** **************  start concept update*** ************** *** ************** *** ************** *** ************** */
- async onUpdateTeskWerkz(id){
-  console.log(id);
-  
-  // this.conceptId=id;
-  this.conceptEdit = true;
-  this.testWerkzCategory = false;
-  this.conceptList=false;
-  console.log(this.conceptList)
-  await this._service.getConceptById(this.regionID,id).subscribe(async (res:any)=>{
-    console.log(res);
-    this.conceptsObj=res;
-    this.concept.name=res.name;
-   await this.getPDById(res.pd);
 
-   
-  },err=>{
-    console.log(err);
-  })
-  console.log(this.ptest)
-  this.performanceDemands=this.ptest;
+  // waiyan's code end
 
-}
-
-async getPDById(pdObj){
-  for(let i=0;i<pdObj.length;i++){
-    console.log(pdObj[i]);
-    await this._service.getPDById(this.regionID,pdObj[i].pdId).subscribe(async (res:any)=>{
-      console.log(res);
-      this.ptest.push(res);
-      console.error(this.ptest)
-       await this.getQueById(res.questions,i);
-    },err=>{
-      console.log(err);
-    });
+  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+  async onUpdateTeskWerkz(id) {
+    console.log(id);
+    this.showSettingSidebar = false;
+    this.conceptEdit = true;
+    this.testWerkzCategory = false;
+    this.conceptList = false;
+    console.log(this.conceptList);
+    await this._service.getConceptById(this.regionID, id).subscribe(
+      async (res: any) => {
+        console.log(res);
+        this.conceptsObj = res;
+        this.concept.name = res.name;
+        await this.getPDById(res.pd);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    console.log(this.ptest);
+    this.performanceDemands = this.ptest;
   }
-}
+
+  async getPDById(pdObj) {
+    for (let i = 0; i < pdObj.length; i++) {
+      console.log(pdObj[i]);
+      await this._service.getPDById(this.regionID, pdObj[i].pdId).subscribe(
+        async (res: any) => {
+          console.log(res);
+          this.ptest.push(res);
+          console.error(this.ptest);
+          await this.getQueById(res.questions, i);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+  }
 
  getQueById(qObj,id){
  console.log(this.ptest,id);
