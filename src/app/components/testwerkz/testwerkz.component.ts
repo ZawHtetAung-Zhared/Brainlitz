@@ -34,6 +34,7 @@ export class TestwerkzComponent implements OnInit {
   // public id3:any;
   // Component
   public conceptsArr = [];
+  public showRMIcon:any= "";
   public answerSymbols = ["a", "b", "c", "d", "e", "f", "g", "h"];
   public imagePath = "../../../assets/img/answerIcon/";
   public answerSymbolSVG = "Choice_reverse.svg";
@@ -1282,6 +1283,45 @@ autoImgLoop(arr){
       else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
       else console.log("out but not out");
     });
+
+
+
+  }
+  mouseOver(e,idx){
+    console.log(e.target.className)
+    console.log("over ");
+    console.log($(event.target).children(".img-pd"))
+        console.log($(event.target).siblings(".img-pd"))
+    if($(e.target).hasClass("editablePDImg") ){
+          $(e.target).siblings(".img-pd").show();
+
+    }
+      if($(e.target).hasClass("innerPd")){
+          $(e.target).children(".img-pd").show();
+
+    }
+  }
+  mouseOut(event){
+    console.log("out ");
+    console.log($(event.target).children(".img-pd"))
+        console.log($(event.target).siblings(".img-pd"))
+
+    if (event.offsetX >= 119 || event.offsetX < 0) {
+      if($(event.target).hasClass("editablePDImg") ){
+         $(event.target).siblings(".img-pd").hide();
+       }
+      if($(event.target).hasClass("innerPd")){
+        $(event.target).children(".img-pd").hide();
+      }
+    }
+    else if (event.offsetY >= 119 || event.offsetY < 0){
+      if($(event.target).hasClass("editablePDImg") ){
+        $(event.target).siblings(".img-pd").hide();
+      }
+      if($(event.target).hasClass("innerPd")){
+        $(event.target).children(".img-pd").hide();
+      }
+    }else console.log("out but not out" , this.showRMIcon);
   }
 
   showID:any;
@@ -1504,8 +1544,9 @@ autoImgLoop(arr){
     },200)
   }
 
-  removePDImg(img) {
+  removePDImg(img,idx,pdIdx) {
     console.log("Delete Img", img);
+    this.performanceDemands[pdIdx].contents.splice(idx, 1);
   }
   // HSYL code
 

@@ -1099,6 +1099,13 @@ p.g_title {
   position: absolute;
   right: 4px;
   top: 4px;
+  border-radius: 50%;
+  box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.4);
+  display:none;
+}
+
+.editablePDImg{
+  width: 100%;
 }
 
 .img-wrapper{
