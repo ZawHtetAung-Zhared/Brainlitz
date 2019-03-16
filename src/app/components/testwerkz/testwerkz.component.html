@@ -15,7 +15,7 @@
     <div class="card" *ngFor="let concept of conceptsArr">
       <div class="single-concept">
         <div class="pad-15">
-          <label class="tag-name mb-0">Tag</label>
+          <label class="tag-name mb-0" *ngFor="let tag of concept.tag">{{tag.name}}</label>
           <p class="conceptName mb-0">{{concept.name}}</p>
         </div>
         <div class="btnEdit-wrap d-flex justify-content-end">
@@ -286,7 +286,7 @@
                     <!-- for header End -->
       
                       <div class="pd-blog-wrapper">
-                        <div *ngFor="let question of pd.questions; let j = index" class="w-100 question-section d-flex">
+                        <div *ngFor="let question of pd.questions; let j = index" class="w-100 question-section d-flex" id="divToHide">
                           <div *ngIf="this.focusPlace == ('q'+i+j)" class="check-icon-wrapper align-items-center mt-3 d-flex">
                             <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
                             <span class="pd-No">{{j+1}}</span>
@@ -295,15 +295,15 @@
                             <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
                             <span class="pd-No" style="color:#64707d;">{{j+1}}</span>
                           </div>  
-                          <div class="pd-name-input-wrapper question-wrap d-flex flex-column">
-                            <div class="tooltip-wrap" *ngIf="this.focusPlace == ('q'+i+j)">
+                          <div id="divToHide" class="pd-name-input-wrapper question-wrap d-flex flex-column">
+                            <div class="tooltip-wrap" *ngIf="showID == ('q'+i+j)">
                               <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
                               <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
                               <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
                               <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                                <div class="carret-box"></div>
                             </div>
-                            <div id="q-{{i}}{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',$event)" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)"></div>
+                            <div id="q-{{i}}{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',$event)" (focusout) = "hideTooltip('hideTooltip','question',i,j,index)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (document:click)="closeDropdown($event)"></div>
                             <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                             <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
                               <!-- <label class="question-checkbox">

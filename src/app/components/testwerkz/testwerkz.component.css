@@ -1202,6 +1202,8 @@ p.g_title {
   background: none;
   border: none;
   color: orange;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 14px;
 }
 .conceptName,.tag-name{
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
