@@ -1447,7 +1447,7 @@ autoImgLoop(arr){
     }
 
     const pds = this.performanceDemands;
-    this.isConceptFormValid = pds.some((pd) => {
+    const checkPDs = pds.map((pd) => {
       if (!pd.name) { return false; }
       
       const questions = pd.questions.map((quest) => {
@@ -1463,6 +1463,7 @@ autoImgLoop(arr){
       return !questions.includes(false) 
     });
     
+    this.isConceptFormValid = !checkPDs.includes(false);
     return this.isConceptFormValid;
 }
 
