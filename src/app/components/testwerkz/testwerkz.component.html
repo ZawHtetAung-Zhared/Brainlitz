@@ -1,7 +1,29 @@
 <!-- For Concept Group List Start -->
-<div *ngIf="conceptList" class="d-flex justify-content-end pr-5 w-100 mt-1">
+<!-- <div *ngIf="conceptList" class="d-flex justify-content-end pr-5 w-100 mt-1">
   <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
-  <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8c80ea36493a448895399c')"> Edit tag </button>
+  <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
+</div> -->
+<div *ngIf="conceptList" class="conceptlists-wrapper">
+  <div class="d-flex justify-content-between w-100 mt-3 pdLR-30">
+    <h4>Concept</h4>
+    <div>
+      <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
+      <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
+    </div>
+  </div>
+  <div class="card-columns pdLR-30">
+    <div class="card" *ngFor="let concept of conceptsArr">
+      <div class="single-concept">
+        <div class="pad-15">
+          <label class="tag-name mb-0">Tag</label>
+          <p class="conceptName mb-0">{{concept.name}}</p>
+        </div>
+        <div class="btnEdit-wrap d-flex justify-content-end">
+          <button class="btn btn-edit" (click)="onUpdateTeskWerkz(concept._id)">Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
 <!-- For test List End -->
@@ -297,7 +319,7 @@
                                 <!-- <img src="{{ }}" alt=""> -->
                              
                                 <div class="d-flex flex-column" style="position:relative;">
-                                      <div class="answer-tooltip-wrap"  id="{{'answerTootips' + i + j + index}}" >
+                                      <div class="answer-tooltip-wrap"  *ngIf="answer.showTooltip" >
                                       <!-- <div class="answer-tooltip-wrap" *ngIf="this.answerTootips == (i + j + index + 'a')" > -->
                                          <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
                                             <div class="answer-carret-box"></div>
@@ -432,7 +454,7 @@
     </div>
 
     <div class="d-flex justify-content-end form-footer">
-      <button type="button" class="btn btn-cancel" (click)="cancelConcept()">Cancel</button>
+      <button type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">Cancel</button>
       <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'multiple')">Image Upload</button> -->
       <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'single')">SingleImage Upload</button> -->
       <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createConcept()">Create</button>
