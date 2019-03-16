@@ -33,6 +33,7 @@ export class TestwerkzComponent implements OnInit {
   // public id2:any;
   // public id3:any;
   // Component
+  public conceptsArr = [];
   public answerSymbols = ["a", "b", "c", "d", "e", "f", "g", "h"];
   public imagePath = "../../../assets/img/answerIcon/";
   public answerSymbolSVG = "Choice_reverse.svg";
@@ -143,6 +144,7 @@ export class TestwerkzComponent implements OnInit {
     }
 
     console.log(this.pdLists);
+    this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log("click");
@@ -187,6 +189,14 @@ export class TestwerkzComponent implements OnInit {
       this.forElse = true;
       $(".setting-sidebar").css({ top: 165 });
     }
+  }
+
+  getConceptLists(){
+    this._service.getAllConcept(this.regionID)
+    .subscribe((res:any)=>{
+      console.log("Concept lists",res);
+      this.conceptsArr = res;
+    })
   }
 
   createTagWerkz(item) {
@@ -608,6 +618,7 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
+    console.log(this.clickEle);
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -1386,7 +1397,7 @@ autoImgLoop(arr){
     this.showSettingSidebar = false;
   }
 
-  cancelConcept() {
+  cancelConcept(type) {
     this.conceptCreate = false;
     this.testWerkzCategory = false;
     this.conceptList = true;
@@ -1396,6 +1407,9 @@ autoImgLoop(arr){
     };
     this.focusType = {};
     this.ischecked = "";
+    if(type == 'redirect'){
+      this.getConceptLists();
+    }
   }
   // HSYL code
   inputQuestion(quesId, type) {
@@ -1600,7 +1614,7 @@ autoImgLoop(arr){
     this._service.createConcept(this.regionID, conceptFormat).subscribe(
       res => {
         console.log("FINALLY", res);
-        this.cancelConcept();
+        this.cancelConcept('redirect');
       },
       err => {
         console.log("err");
