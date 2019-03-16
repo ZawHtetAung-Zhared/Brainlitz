@@ -307,7 +307,7 @@
                               <button #btn (click)="openImgModal(imgModal,'multiple',btn)" class="question-insert-img"><img class="question-insert-img" src="assets/img/text-edit-image.png"></button>
                                <div class="carret-box"></div>
                             </div>
-                            <div id="q-{{i}}-{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',t)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (document:click)="closeDropdown($event)"></div>
+                            <div id="q-{{i}}-{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',t)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)"></div>
                             <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                             <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
                               <!-- <label class="question-checkbox">

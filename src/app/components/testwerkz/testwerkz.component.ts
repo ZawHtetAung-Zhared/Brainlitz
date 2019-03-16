@@ -1425,23 +1425,44 @@ export class TestwerkzComponent implements OnInit {
       }, 150);
     }
   }
-  closeDropdown(e){
-    console.log(e)
-    console.log(e.target.parentNode)
-    var pId = this.editableId;
-    console.log(pId)
+  // closeDropdown(e){
+  //   console.log(e)
+  //   console.log(e.target.parentNode)
+  //   var pId = this.editableId;
+  //   console.log(pId)
 
-    console.log( $(e.target).parents())
-    console.log('#'+pId)
-    if(pId != ""){
-      if($(e.target)[0].id == pId || $(e.target).parents('#' +pId).length > 0){
+  //   console.log( $(e.target).parents())
+  //   console.log('#'+pId)
+  //   if(pId != ""){
+  //     if($(e.target)[0].id == pId || $(e.target).parents('#' +pId).length > 0){
 
-      }else{
-        this.showID = "";
-      }
-    }
+  //     }else{
+  //       this.showID = "";
+  //     }
+  //   }
    
-  }
+  // }
+  // closeDropdown(e,type){
+  //   console.log(e)
+  //   console.log(e.target.parentNode)
+  //   // var divToHide = document.getElementById('divToHide');
+  //   var pId = this.editableId;
+  //   if(e.target.parentNode != null){
+  //     console.log(e.target.parentNode.id)
+  //     // console.log(divToHide)
+  //     // if(e.target.parentNode.id != 'divToHide' || e.target.parentNode.id != pId){
+  //     //   console.log("same")
+  //     //   this.showID = '';
+  //     // }
+  //     if(e.target.parentNode.id == 'divToHide' || e.target.parentNode.id == pId){
+  //       console.log("same")
+
+  //     }else if(e.target.parentNode.id != 'divToHide' || e.target.parentNode.id != pId){
+  //       console.log("not same")
+  //       this.showID = "";
+  //     }
+  //   }
+  // }
 
   // focusoutMethod(){
   //   console.log("~~~focusOut");
