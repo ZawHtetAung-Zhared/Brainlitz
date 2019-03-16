@@ -1419,6 +1419,34 @@ autoImgLoop(arr){
     this.turn(quesId, type);
   }
 
+  public isConceptFormValid = false; // Global
+
+  validateForm () {
+    if (!this.concept.name) {
+      this.isConceptFormValid = false;
+      return this.isConceptFormValid;
+    }
+
+    const pds = this.performanceDemands;
+    this.isConceptFormValid = pds.some((pd) => {
+      if (!pd.name) { return false; }
+      
+      const questions = pd.questions.map((quest) => {
+        if (!quest.question) { return false; }  
+
+        const noAnswer = quest.answers.some((ans) => ans.answer === '');
+
+        if (!noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        
+        return false;
+      });
+      
+      return !questions.includes(false) 
+    });
+    
+    return this.isConceptFormValid;
+}
+
   //get html tag in div
   turn(qId, fType) {
     var markdownQues: any;

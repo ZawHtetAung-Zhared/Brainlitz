@@ -427,10 +427,21 @@
 
     <div class="d-flex justify-content-end form-footer">
       <button type="button" class="btn btn-cancel" (click)="cancelConcept()">Cancel</button>
-      <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'multiple')">Image Upload</button> -->
-      <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'single')">SingleImage Upload</button> -->
-      <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createConcept()">Create</button>
-      <button *ngIf="isUpdate == true" type="button" class="btn btn-submit">Update</button>
+
+      <div *ngIf="!isUpdate">
+        <div class="d-none">{{validateForm()}}</div>
+        <button 
+          type="button" 
+          class="btn btn-submit" 
+          [disabled]="!isConceptFormValid" 
+          (click)="createConcept()">
+            Create
+        </button>
+      </div>
+      
+      <div *ngIf="isUpdate == true" >
+          <button type="button" class="btn btn-submit">Update</button>
+      </div>
     </div>
   </div>
 
