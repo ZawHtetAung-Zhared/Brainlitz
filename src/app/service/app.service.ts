@@ -2319,6 +2319,21 @@ export class appService{
       })
     }
 
+    updatePDQuestion(regionId:string,data:any,id:string){
+      let url = this.baseUrl + '/' + regionId + '/questions/'+id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
     createPD(regionId:string,data:any){
       let url = this.baseUrl + '/' + regionId + '/performance-demands';
       const httpOptions = {
@@ -2334,6 +2349,21 @@ export class appService{
       })
     }
 
+    updatePD(regionId:string,data:any,id:any){
+      let url = this.baseUrl + '/' + regionId + '/performance-demands/'+id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
     createConcept(regionId:string,data:any){
       let url = this.baseUrl + '/' + regionId + '/concepts';
       const httpOptions = {
@@ -2342,6 +2372,21 @@ export class appService{
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    updateConcept(regionId:string,data:any,id:string){
+      let url = this.baseUrl + '/' + regionId + '/concepts/'+id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(url, data, httpOptions)
       .map((res:Response) => {
         let result = res; 
         console.log(result)

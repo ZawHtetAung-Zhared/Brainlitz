@@ -123,6 +123,8 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code start
 
+  public conceptId:string;
+
   public performanceDemands = [];
   // waiyan's code end
 
@@ -1544,6 +1546,7 @@ autoImgLoop(arr){
   pdLoop(_this, pd, pdCallback) {
     // API CALL
     // Question Creatoion Loop
+    console.log(pd)
     console.log("PD LOOP", JSON.stringify(pd.questions));
     async.map(
       pd.questions,
@@ -1615,7 +1618,7 @@ autoImgLoop(arr){
     this.invalidFiles = fileList;
   }
 
-  creationConceptProcess(formattedPdIds, hello) {
+  creationConceptProcess(formattedPdIds, hello,id) {
     // Create Concept
     // var moduleId = localStorage.getItem('moduleID')
     console.log("this", hello);
@@ -1644,6 +1647,7 @@ autoImgLoop(arr){
   }
 
   pdLoopDone(_this, error, pdIds) {
+    console.log(pdIds)
     if (error) {
       console.error("Error in pdLoopDone", error);
       return;
@@ -1670,7 +1674,7 @@ autoImgLoop(arr){
  async onUpdateTeskWerkz(id){
   console.log(id);
   
- 
+  // this.conceptId=id;
   this.conceptEdit = true;
   this.testWerkzCategory = false;
   this.conceptList=false;
@@ -1706,7 +1710,6 @@ async getPDById(pdObj){
 
  getQueById(qObj,id){
  console.log(this.ptest,id);
-
   for(let i=0;i<qObj.length;i++){
   
         this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
@@ -1721,16 +1724,207 @@ async getPDById(pdObj){
       },err=>{
         console.log(err);
       });
-   
-   
-
     // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
     // console.log("q-"+id+i);
     // console.log(inner_markDown);
     
-  }
- 
-  
+    }
 }
+
+updateConcept(id) {
+  console.log("---------------------");
+  console.log(this.performanceDemands);
+  console.log("---------------------",id);
+  this.blockUI.start("Loading...");
+  
+  async.map(
+    this.performanceDemands,
+    this.updatepdLoop.bind(null,this,id),
+    this.updatepdLoopDone.bind(null, this,id)
+  );
+  setTimeout(() => {
+    this.blockUI.stop();
+  }, 300);
+}
+
+updatepdLoop(_this, id,pd ,pdCallback) {
+  console.log(_this,pd);
+  console.log(id)
+  // API CALL
+  // Question Creatoion Loop
+  console.log("PD LOOP", JSON.stringify(pd.questions));
+  async.map(
+    pd.questions,
+    _this.updateQuestions.bind(null, _this, pd,id),
+    _this.updateQuesitonsDone.bind(null, pd, _this, pdCallback)
+  );
+  // After ASYNC, pd.quesitons
+}
+
+updatepdLoopDone(_this,conceptId,error,pdIds) {
+
+  console.log(error)
+  console.log(pdIds)
+  console.log(conceptId)
+  console.log(_this)
+  if (error) {
+    console.error("Error in pdLoopDone", error);
+    return;
+  }
+  const formattedPdIds = pdIds.map((id, index) => ({
+    pdId: id,
+    sequence: ++index
+  }));
+  // Concept API Calling
+  _this.updateConceptProcess(formattedPdIds, _this,conceptId);
+  console.log(conceptId)
+}
+updateConceptProcess(formattedPdIds, hello,cid) {
+  // Create Concept
+  // var moduleId = localStorage.getItem('moduleID')
+  console.log("this", hello);
+  console.log(formattedPdIds)
+  console.log(cid)
+  const conceptFormat = {
+    // "moduleId": moduleId,
+    name: this.concept.name,
+    tag: [
+      {
+        tagId: this.tagID
+      }
+    ],
+    pd: [],
+    contents: []
+  };
+
+  conceptFormat.pd = formattedPdIds;
+  this._service.updateConcept(this.regionID, conceptFormat,cid
+    ).subscribe(
+    res => {
+      console.log("FINALLY", res);
+      this.cancelConcept('redirect');
+    },
+    err => {
+      console.log("err");
+    }
+  );
+}
+
+updateQuestions(_this, pd, id,question, callback) {
+  console.group("Create QUestion");
+  console.log(pd)
+  console.log(question._id)
+  console.groupEnd();
+  // Update quesiton object and pass it to api
+  const testArr = [];
+  const questionFormat = {
+    name: "",
+    description: "",
+    question: "",
+    html:{
+      question:""
+    },
+    allowedAttempts: 0,
+    questionType: "MCQ-OPTION",
+    viewType: "LIST",
+    contents: [],
+    answers: [
+      {
+        name: "",
+        answer: "",
+        imgUrl:
+          "https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155245147905155934231download%20%281%29.jpeg",
+        correctness: 100,
+        contents: []
+      }
+    ]
+  };
+  question.answers.map(answer => {
+    var tempObj ={
+      "name":'',
+      "answer":'',
+      "imgUrl":'',
+      "correctness":0,
+      "contents":[]
+    }
+    tempObj.name = answer.name
+    tempObj.answer = answer.answer
+    tempObj.imgUrl = answer.imgUrl;
+    tempObj.correctness = answer.correctness
+    console.log(tempObj)
+    testArr.push(tempObj)
+    console.log(testArr)
+  })
+  questionFormat.answers = testArr
+  questionFormat.questionType = question.questionType;
+  questionFormat.question = question.question;
+  questionFormat.html = question.html;
+  _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
+    res => {
+      console.log(res);
+      var questionId = JSON.parse(JSON.stringify(res));
+
+      console.log(questionId.meta._id);
+      callback(null, questionId.meta._id);
+    },
+    err => {
+      console.log(err);
+    }
+  );
+}
+
+
+updateQuesitonsDone(pd, _this, pdCallback, error, questionIds){
+  console.log(pd)
+  console.log(_this)
+  console.log(error)
+  console.log(questionIds)
+  // const questionIds = questionIds;
+  console.log(pd.contentsArr);
+  const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }));
+
+  _this.updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback);
+}
+
+updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
+  // Create PD
+  let pdCreateFormat = {
+    name: "string",
+    questions: [],
+    contents: []
+  };
+  console.log(formattedQuestionIDs)
+  console.log(pd)
+  const tempContentArray = [];
+  pd.contents.map((contentObj, index) => {
+    var tempContentObj = {
+      contentId: "",
+      sequence: 0
+    };
+    tempContentObj.contentId = contentObj._id;
+    tempContentObj.sequence = ++index;
+    tempContentArray.push(tempContentObj);
+  });
+  // Get pd.questions
+  pdCreateFormat.questions = formattedQuestionIDs;
+  pdCreateFormat.name = pd.pdName;
+  pdCreateFormat.contents = tempContentArray;
+  // OR
+  // pd.name = string",
+  // pd.description = string",
+
+  _this._service.updatePD(_this.regionID, pdCreateFormat,pd._id).subscribe(
+    res => {
+      const createdPdId = JSON.parse(JSON.stringify(res));
+
+      console.log(createdPdId.meta._id);
+      pdCallback(null, createdPdId.meta._id);
+    },
+    err => {
+      console.log(err);
+    }
+  );
+}
+
 /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }

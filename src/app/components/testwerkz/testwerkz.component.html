@@ -8,7 +8,7 @@
     <h4>Concept</h4>
     <div>
       <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
-      <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
+      <!-- <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button> -->
     </div>
   </div>
   <div class="card-columns pdLR-30">
@@ -457,8 +457,9 @@
       <button type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">Cancel</button>
       <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'multiple')">Image Upload</button> -->
       <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'single')">SingleImage Upload</button> -->
-      <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createConcept()">Create</button>
-      <button *ngIf="isUpdate == true" type="button" class="btn btn-submit">Update</button>
+      {{conceptEdit}}
+      <button *ngIf="conceptEdit == false" type="button" class="btn btn-submit" (click)="createConcept()">Create</button>
+      <button *ngIf="conceptEdit == true" type="button" class="btn btn-submit" (click)="updateConcept('5c8b7c80dd6ff06bc903f1d5')">Update</button>
     </div>
   </div>
 
