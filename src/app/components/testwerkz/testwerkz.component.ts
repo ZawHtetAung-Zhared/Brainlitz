@@ -1284,23 +1284,26 @@ autoImgLoop(arr){
     });
   }
 
-  
+  showID:any;
   onFocus(type, idx1, idx2, idx3) {
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
     this.focusType.type = type;
+    this.showID = "";
     console.log(this.performanceDemands)
     console.log(this.performanceDemands.length)
     this.showSetting();
     switch (type) {
       case "pd":
+        this.showID = "";
         this.focusPlace = "pd" + idx1;
         this.focusType.no = idx1;
         this.focusType.parentIdx = "";
         this.performanceDemands[idx1].showTooltip = true;
         break;
       case "question":
+        this.showID = "q" + idx1 + idx2;
         this.focusPlace = "q" + idx1 + idx2;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
@@ -1309,6 +1312,7 @@ autoImgLoop(arr){
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
+        this.showID = "";
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
@@ -1348,16 +1352,27 @@ autoImgLoop(arr){
       }, 150);
     }
   }
-  // closeDropdown(e,type){
-  //   var divToHide = document.getElementById(this.editableId);
-  //   if(e.target.parentNode != null){
-  //     console.log("~~~hide tooltip");
-  //     if(e.target.parentNode.id != divToHide){
-  //       console.log("not same")
-  //       this.focusPlace = '';
-  //     }
-  //   }
-  // }
+  closeDropdown(e,type){
+    console.log(e)
+    console.log(e.target.parentNode)
+    // var divToHide = document.getElementById('divToHide');
+    var pId = this.editableId;
+    if(e.target.parentNode != null){
+      console.log(e.target.parentNode.id)
+      // console.log(divToHide)
+      // if(e.target.parentNode.id != 'divToHide' || e.target.parentNode.id != pId){
+      //   console.log("same")
+      //   this.showID = '';
+      // }
+      if(e.target.parentNode.id == 'divToHide' || e.target.parentNode.id == pId){
+        console.log("same")
+
+      }else if(e.target.parentNode.id != 'divToHide' || e.target.parentNode.id != pId){
+        console.log("not same")
+        this.showID = "";
+      }
+    }
+  }
 
   // focusoutMethod(){
   //   console.log("~~~focusOut");
