@@ -72,6 +72,7 @@ export class TestwerkzComponent implements OnInit {
   public pdLists: any[];
   public isDrop: boolean = false;
   public isHover: boolean = false;
+  public markDownHtml_arr:any=[];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -324,6 +325,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
+    this.performanceDemands=[];
+    this.ptest=[];
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
@@ -334,6 +337,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit=false;
+    this.performanceDemands=[];
   }
   edit() {
     this.isEditComplete = true;
@@ -545,6 +549,7 @@ export class TestwerkzComponent implements OnInit {
     this.performanceDemands.push( {
        _id: "",
        name: "", 
+       showTooltip:false,
        contents: [
       ],
        questions: [ 
@@ -1430,6 +1435,7 @@ autoImgLoop(arr){
 
   cancelConcept(type) {
     this.conceptCreate = false;
+    this.conceptEdit=false;
     this.testWerkzCategory = false;
     this.conceptList = true;
     this.performanceDemands = [];
@@ -1438,15 +1444,42 @@ autoImgLoop(arr){
     };
     this.focusType = {};
     this.ischecked = "";
-    if(type == 'redirect'){
-      this.getConceptLists();
-    }
+    this.performanceDemands=[];
+    this.ptest=[];
   }
   // HSYL code
   inputQuestion(quesId, type) {
     console.log("event", quesId);
     this.turn(quesId, type);
   }
+
+  public isConceptFormValid = false; // Global
+
+  validateForm () {
+    if (!this.concept.name) {
+      this.isConceptFormValid = false;
+      return this.isConceptFormValid;
+    }
+
+    const pds = this.performanceDemands;
+    this.isConceptFormValid = pds.some((pd) => {
+      if (!pd.name) { return false; }
+      
+      const questions = pd.questions.map((quest) => {
+        if (!quest.question) { return false; }  
+
+        const noAnswer = quest.answers.some((ans) => ans.answer === '');
+
+        if (!noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        
+        return false;
+      });
+      
+      return !questions.includes(false) 
+    });
+    
+    return this.isConceptFormValid;
+}
 
   //get html tag in div
   turn(qId, fType) {
@@ -1676,9 +1709,11 @@ autoImgLoop(arr){
  
 // waiyan's code end
 
-/** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+/** ************** *** ************** *** **************  start concept update*** ************** *** ************** *** ************** *** ************** */
  async onUpdateTeskWerkz(id){
   console.log(id);
+  
+ 
   this.conceptEdit = true;
   this.testWerkzCategory = false;
   this.conceptList=false;
@@ -1695,6 +1730,7 @@ autoImgLoop(arr){
   })
   console.log(this.ptest)
   this.performanceDemands=this.ptest;
+
 }
 
 async getPDById(pdObj){
@@ -1711,16 +1747,33 @@ async getPDById(pdObj){
   }
 }
 
-async getQueById(qObj,id){
+ getQueById(qObj,id){
  console.log(this.ptest,id);
+
   for(let i=0;i<qObj.length;i++){
-    await this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
-      console.log(res);
-      this.ptest[id].questions[i]=res;
-    },err=>{
-      console.log(err);
-    });
+  
+        this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
+        console.log(res.html.question);
+        this.markDownHtml_arr.push(res.html.question);
+        setTimeout(() => {
+        document.getElementById("q-"+id+i).innerHTML=res.html.question;
+        console.log(document.getElementById("dd"));
+        }, 200);
+        this.ptest[id].showTooltip=false;
+        this.ptest[id].questions[i]=res;
+      },err=>{
+        console.log(err);
+      });
+   
+   
+
+    // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
+    // console.log("q-"+id+i);
+    // console.log(inner_markDown);
+    
   }
+ 
+  
 }
 /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }
