@@ -2398,5 +2398,20 @@ export class appService{
       })
     }
 
+    getAllConcept(regionId:string){
+      let url = this.baseUrl + '/' + regionId + '/concepts';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
+
 }
 

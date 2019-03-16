@@ -33,6 +33,7 @@ export class TestwerkzComponent implements OnInit {
   // public id2:any;
   // public id3:any;
   // Component
+  public conceptsArr = [];
   public answerSymbols = ["a", "b", "c", "d", "e", "f", "g", "h"];
   public imagePath = "../../../assets/img/answerIcon/";
   public answerSymbolSVG = "Choice_reverse.svg";
@@ -71,6 +72,8 @@ export class TestwerkzComponent implements OnInit {
   public pdLists: any[];
   public isDrop: boolean = false;
   public selectEle: any;
+  public isHover: boolean = false;
+  public markDownHtml_arr:any=[];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -144,6 +147,7 @@ export class TestwerkzComponent implements OnInit {
     }
 
     console.log(this.pdLists);
+    this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log("click", this.clickEle);
@@ -238,6 +242,14 @@ export class TestwerkzComponent implements OnInit {
       this.forElse = true;
       $(".setting-sidebar").css({ top: 165 });
     }
+  }
+
+  getConceptLists(){
+    this._service.getAllConcept(this.regionID)
+    .subscribe((res:any)=>{
+      console.log("Concept lists",res);
+      this.conceptsArr = res;
+    })
   }
 
   createTagWerkz(item) {
@@ -365,6 +377,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
+    this.performanceDemands=[];
+    this.ptest=[];
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
@@ -374,7 +388,8 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
-    this.conceptEdit = false;
+    this.conceptEdit=false;
+    this.performanceDemands=[];
   }
   edit() {
     this.isEditComplete = true;
@@ -584,16 +599,18 @@ export class TestwerkzComponent implements OnInit {
     //   ]
     // });
     // console.log(this.pdLists);
-    this.performanceDemands.push({
-      _id: "",
-      name: "",
-      contents: [],
-      questions: [
-        {
-          _id: "",
-          allowedAttempts: 0,
-          viewType: "LIST",
-          contents: [
+    this.performanceDemands.push( {
+       _id: "",
+       name: "", 
+       showTooltip:false,
+       contents: [
+      ],
+       questions: [ 
+           {
+            _id: "", 
+           allowedAttempts: 0, 
+           viewType: "LIST", 
+           contents: [
             {
               contentId: "",
               sequence: 0,
@@ -672,8 +689,6 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
-    console.log("OOOn input ", event);
-    console.log(event.inputType == "insertFromDrop" && !this.dropDiv)
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -681,9 +696,7 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
       if (event.inputType == "insertText") document.execCommand("undo", false);
-      if (event.inputType == "insertFromDrop" && !this.dropDiv) {
-        // document.execCommand("undo", false);
-      }
+  
       if (event.inputType == "insertParagraph") {
         var thisDiv =
           $(this.clickEle).hasClass("img-wrapper") ||
@@ -1262,22 +1275,26 @@ export class TestwerkzComponent implements OnInit {
     console.log($(".editableImg"));
   }
 
-  onFocus(type, idx1, idx2, idx3, t?) {
+  showID:any;
+  onFocus(type, idx1, idx2, idx3) {
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
     this.focusType.type = type;
-    console.log(this.performanceDemands);
-    console.log(this.performanceDemands.length);
+    this.showID = "";
+    console.log(this.performanceDemands)
+    console.log(this.performanceDemands.length)
     this.showSetting();
     switch (type) {
       case "pd":
+        this.showID = "";
         this.focusPlace = "pd" + idx1;
         this.focusType.no = idx1;
         this.focusType.parentIdx = "";
         this.performanceDemands[idx1].showTooltip = true;
         break;
       case "question":
+        this.showID = "q" + idx1 + idx2;
         this.focusPlace = "q" + idx1 + idx2;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
@@ -1285,6 +1302,7 @@ export class TestwerkzComponent implements OnInit {
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
+        this.showID = "";
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
@@ -1327,16 +1345,16 @@ export class TestwerkzComponent implements OnInit {
       }, 150);
     }
   }
-  // closeDropdown(e,type){
-  //   var divToHide = document.getElementById(this.editableId);
-  //   if(e.target.parentNode != null){
-  //     console.log("~~~hide tooltip");
-  //     if(e.target.parentNode.id != divToHide){
-  //       console.log("not same")
-  //       this.focusPlace = '';
-  //     }
-  //   }
-  // }
+  closeDropdown(e,type){
+    console.log(e)
+    console.log(e.target.parentNode)
+    var pId = this.editableId;
+    if($(e.target)[0].id == pId || $(e.target).parents("#" + pId).length > 0){
+
+    }else{
+      this.showID = "";
+    }
+  }
 
   // focusoutMethod(){
   //   console.log("~~~focusOut");
@@ -1397,8 +1415,9 @@ export class TestwerkzComponent implements OnInit {
     this.showSettingSidebar = false;
   }
 
-  cancelConcept() {
+  cancelConcept(type) {
     this.conceptCreate = false;
+    this.conceptEdit=false;
     this.testWerkzCategory = false;
     this.conceptList = true;
     this.performanceDemands = [];
@@ -1407,12 +1426,43 @@ export class TestwerkzComponent implements OnInit {
     };
     this.focusType = {};
     this.ischecked = "";
+    this.performanceDemands=[];
+    this.ptest=[];
   }
   // HSYL code
   inputQuestion(quesId, type) {
     console.log("event", quesId);
     this.turn(quesId, type);
   }
+
+  public isConceptFormValid = false; // Global
+
+  validateForm () {
+    if (!this.concept.name) {
+      this.isConceptFormValid = false;
+      return this.isConceptFormValid;
+    }
+
+    const pds = this.performanceDemands;
+    const checkPDs = pds.map((pd) => {
+      if (!pd.name) { return false; }
+      
+      const questions = pd.questions.map((quest) => {
+        if (!quest.question) { return false; }  
+
+        const noAnswer = quest.answers.some((ans) => ans.answer === '');
+
+        if (!noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        
+        return false;
+      });
+      
+      return !questions.includes(false) 
+    });
+    
+    this.isConceptFormValid = !checkPDs.includes(false);
+    return this.isConceptFormValid;
+}
 
   //get html tag in div
   turn(qId, fType) {
@@ -1615,7 +1665,7 @@ export class TestwerkzComponent implements OnInit {
     this._service.createConcept(this.regionID, conceptFormat).subscribe(
       res => {
         console.log("FINALLY", res);
-        this.cancelConcept();
+        this.cancelConcept('redirect');
       },
       err => {
         console.log("err");
@@ -1657,6 +1707,11 @@ export class TestwerkzComponent implements OnInit {
     // if(e.target.id != this.dropDiv.id)
     //   console.log("gg")
   }
+
+  
+ 
+// waiyan's code end
+
 
   // waiyan's code end
 
@@ -1700,22 +1755,33 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  async getQueById(qObj, id) {
-    console.log(this.ptest, id);
-    for (let i = 0; i < qObj.length; i++) {
-      await this._service
-        .getQuesById(this.regionID, qObj[i].questionId)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            this.ptest[id].questions[i] = res;
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    }
+ getQueById(qObj,id){
+ console.log(this.ptest,id);
 
-    /** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+  for(let i=0;i<qObj.length;i++){
+  
+        this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
+        console.log(res.html.question);
+        this.markDownHtml_arr.push(res.html.question);
+        setTimeout(() => {
+        document.getElementById("q-"+id+i).innerHTML=res.html.question;
+        console.log(document.getElementById("dd"));
+        }, 200);
+        this.ptest[id].showTooltip=false;
+        this.ptest[id].questions[i]=res;
+      },err=>{
+        console.log(err);
+      });
+   
+   
+
+    // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
+    // console.log("q-"+id+i);
+    // console.log(inner_markDown);
+    
   }
+ 
+  
+}
+/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
 }

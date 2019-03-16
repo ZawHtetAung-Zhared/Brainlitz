@@ -505,6 +505,7 @@ export class CourseComponent implements OnInit {
 
   //for attendance
   closeDropdown(e,type){
+    console.log("e.target.parentNode.id",e.target.parentNode.id)
     var divToHide = document.getElementById('divToHide');
     if(e.target.parentNode != null){
       if(e.target.parentNode.id != 'divToHide'){
