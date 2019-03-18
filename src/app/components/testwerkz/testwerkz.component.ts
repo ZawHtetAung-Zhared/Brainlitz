@@ -1584,13 +1584,23 @@ export class TestwerkzComponent implements OnInit {
     const pds = this.performanceDemands;
     const checkPDs = pds.map((pd) => {
       if (!pd.name) { return false; }
-      
+      var noAnswer = false;
       const questions = pd.questions.map((quest) => {
         if (!quest.question) { return false; }  
+        const test = quest.answers.map((ans) => {
+          if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "")){
+            // console.log("has one~~~");
+            // has on ans (Img Or text)
+            noAnswer = true;
+          }
+          // else{
+          //   console.log("true~~~");
+          // }
+        })
+         if (noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        // const noAnswer = quest.answers.some((ans) => ans.answer === '');
 
-        const noAnswer = quest.answers.some((ans) => ans.answer === '');
-
-        if (!noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        // if (!noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
         
         return false;
       });

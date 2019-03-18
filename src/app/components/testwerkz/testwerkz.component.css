@@ -553,6 +553,7 @@ h3.category-h3 {
   color: #fff;
   background-color: #1682fb;
   margin-left: 15px;
+  padding: 10px;
 }
 
 
@@ -1025,6 +1026,9 @@ p.g_title {
   top: -20px;
   z-index: 999;
   border-radius: 4px;
+}
+.bd-left{
+  border-left: 1px solid #fff;
 }
 .answer-tooltip-wrap{
   background: #2e3e4d;
