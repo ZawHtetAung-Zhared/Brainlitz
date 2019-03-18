@@ -1189,12 +1189,15 @@ export class TestwerkzComponent implements OnInit {
   //   }
   checkFocusPosition() {
     console.log(this.selectEle);
-    if (
-      this.selectEle.className == "img-wrapper" ||
-      $(this.selectEle).parents(".img-wrapper").length > 0
-    ) {
-      return true;
-    } else return false;
+    if(this.selectEle != undefined){
+      if (
+        this.selectEle.className == "img-wrapper" ||
+        $(this.selectEle).parents(".img-wrapper").length > 0
+      ) {
+        return true;
+      } else return false;
+    }
+    
   }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
@@ -1409,9 +1412,11 @@ export class TestwerkzComponent implements OnInit {
     if (hideTooltip == "hideTooltip") {
       setTimeout(() => {
         if (type == "answer") {
-          this.performanceDemands[idx1].questions[idx2].answers[
-            idx3
-          ].showTooltip = false;
+          if(this.performanceDemands[idx1] != undefined &&  this.performanceDemands[idx1].questions[idx2] != undefined &&  this.performanceDemands[idx1].questions[idx2].answers[idx3] != undefined){
+            this.performanceDemands[idx1].questions[idx2].answers[
+              idx3
+            ].showTooltip = false;
+          }
           var tootipsId = $("#answerTootips" + idx1 + idx2 + idx3);
           tootipsId.hide();
         } else if (type == "question") {
