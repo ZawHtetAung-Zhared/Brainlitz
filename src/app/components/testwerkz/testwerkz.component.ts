@@ -968,9 +968,11 @@ export class TestwerkzComponent implements OnInit {
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
+        console.log(img)
         this.selectedImgArr = img;
         this.imgIdArr = i;
         if (this.imgId != undefined && this.imgId != i) {
+          console.log(this.selectedImgArr)
           this.removerSelected(this.imgId);
           imgDiv.setAttribute("style", "border:solid;color:#007fff;");
           circle.setAttribute(
@@ -1020,6 +1022,7 @@ export class TestwerkzComponent implements OnInit {
     }
     this.isRemove = false;
     console.log(this.imgIdArr);
+    console.log("this.selectedImgArr",this.selectedImgArr)
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
@@ -1041,8 +1044,8 @@ export class TestwerkzComponent implements OnInit {
     overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
     trashdiv.setAttribute("style", "display:none");
     if (this.modelType == "single") {
-      this.selectedImgArr = [];
-      this.imgIdArr = [];
+      // this.selectedImgArr = [];
+      // this.imgIdArr = [];
 
       // this.imgId=undefined;
       // console.log(this.imgId);
@@ -1201,6 +1204,7 @@ export class TestwerkzComponent implements OnInit {
   //     this.cancelModal();
   //     // this.selectedImgArr=[];
   //   }
+  
   checkFocusPosition() {
     console.log(this.selectEle);
     if (this.selectEle != undefined) {
@@ -1281,23 +1285,27 @@ export class TestwerkzComponent implements OnInit {
       this.performanceDemands[this.pdIndex].questions[
         this.questionIndex
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
-      var imgWidth = $(".answer-img").width();
-      var imgHeight = $(".answer-img").height();
-      var maxWidthAndHeight = 120;
-      console.log(imgWidth, imgHeight);
-      if (imgHeight < maxWidthAndHeight) {
-        var topAndBottom = maxWidthAndHeight - imgHeight;
-        console.log(res);
-        $(e).css("padding-top", topAndBottom / 2);
-        $(e).css("padding-bottom", topAndBottom / 2);
-      }
-      if (imgWidth < maxWidthAndHeight) {
-        // console.log("less than 120")
-        var leftAndRight = maxWidthAndHeight - imgWidth;
-        // console.log(res);
-        $(e).css("padding-left", leftAndRight / 2);
-        $(e).css("padding-right", leftAndRight / 2);
-      }
+      // setTimeout(function(){
+      //   var img = $(".answer-img");
+      //   var imgWidth = img.width();
+      //   var imgHeight = img.height();
+      //   var maxWidthAndHeight = 120;
+      //   console.log(imgWidth, imgHeight);
+      //   if (imgHeight < maxWidthAndHeight) {
+      //     var topAndBottom = maxWidthAndHeight - imgHeight;
+      //     console.log(topAndBottom);
+      //     img.css("padding-top", topAndBottom / 2);
+      //     img.css("padding-bottom", topAndBottom / 2);
+      //   }
+      //   if (imgWidth < maxWidthAndHeight) {
+      //     // console.log("less than 120")
+      //     var leftAndRight = maxWidthAndHeight - imgWidth;
+      //     console.log(leftAndRight);
+      //     img.css("padding-left", leftAndRight / 2);
+      //     img.css("padding-right", leftAndRight / 2);
+      //   }
+      // },200)
+      
     } else {
       console.log("pd Insert Img======");
 

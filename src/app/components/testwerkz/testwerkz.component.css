@@ -1035,10 +1035,25 @@ p.g_title {
   top: -36px;
   border-radius: 4px;
 }
-/* .answer-img{
+.answer-img{
+  max-width: 120px;
+  max-height: 120px;
+  background: #f2f4f5;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  margin: auto;
+  background: #ccc;
+}
+.answer-img-wrapper{
   width: 120px;
+  border-radius: 4px;
+  position: relative;
   height: 120px;
-} */
+  background-color: #ccc;
+}
 .tooltip-wrap button{
   background: none;
   border: none;
@@ -1106,6 +1121,7 @@ p.g_title {
 
 .editablePDImg{
   width: 100%;
+  max-height: 120px;
 }
 
 .img-wrapper{

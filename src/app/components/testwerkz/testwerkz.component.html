@@ -322,9 +322,9 @@
                           <!-- <img src="{{ }}" alt=""> -->
 
                           <div class="d-flex flex-column" style="position:relative;">
-                            <div class="answer-tooltip-wrap" *ngIf="answer.showTooltip">
+                            <div class="answer-tooltip-wrap" (click)="answerOpenImgModal(imgModal,'single',i,j,index)" *ngIf="answer.showTooltip">
                               <!-- <div class="answer-tooltip-wrap" *ngIf="this.answerTootips == (i + j + index + 'a')" > -->
-                              <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
+                              <button ><img src="assets/img/text-edit-image.png"></button>
                               <div class="answer-carret-box"></div>
                             </div>
                             <div class="d-flex" *ngIf="question.questionType == 'MCQ-CHECKBOX'">
@@ -360,7 +360,8 @@
                                 id="{{'answer' + i + j + index}}" (keydown)="onKeydown($event,i ,j,index)">
                             </div>
                           </div>
-                          <div *ngIf="answer.imgUrl.length > 0">
+                
+                          <div class="answer-img-wrapper" *ngIf="answer.imgUrl.length > 0">
                             <img src="{{answer.imgUrl}}" alt="" class="answer-img">
                           </div>
                         </div>
