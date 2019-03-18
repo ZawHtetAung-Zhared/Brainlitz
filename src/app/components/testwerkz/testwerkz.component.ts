@@ -1829,7 +1829,8 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code end
 
-  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+ /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
+  //start get method
   async onUpdateTeskWerkz(id) {
     console.log(id);
     this.conceptId = id;
@@ -1892,6 +1893,9 @@ export class TestwerkzComponent implements OnInit {
     }
 }
 
+  //end get method
+
+  //start put method
 updateConcept(id) {
   console.log("---------------------");
   console.log(this.performanceDemands);
@@ -1940,6 +1944,7 @@ updatepdLoopDone(_this,conceptId,error,pdIds) {
   _this.updateConceptProcess(formattedPdIds, _this,conceptId);
   console.log(conceptId)
 }
+
 updateConceptProcess(formattedPdIds, hello,cid) {
   // Create Concept
   // var moduleId = localStorage.getItem('moduleID')
@@ -2020,18 +2025,37 @@ updateQuestions(_this, pd, id,question, callback) {
   questionFormat.questionType = question.questionType;
   questionFormat.question = question.question;
   questionFormat.html = question.html;
-  _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
-    res => {
-      console.log(res);
-      var questionId = JSON.parse(JSON.stringify(res));
+  console.log(question._id)
+  if(question._id =="" || question._id==undefined){
+    console.log("is create");
+    _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
 
-      console.log(questionId.meta._id);
-      callback(null, questionId.meta._id);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }else{
+    console.log("is update");
+    _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
+  
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  
 }
 
 
@@ -2073,7 +2097,19 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
   // OR
   // pd.name = string",
   // pd.description = string",
+  if(pd._id =="" || pd._id==undefined){
+    _this._service.createPD(_this.regionID, pdCreateFormat).subscribe(
+      res => {
+        const createdPdId = JSON.parse(JSON.stringify(res));
 
+        console.log(createdPdId.meta._id);
+        pdCallback(null, createdPdId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   _this._service.updatePD(_this.regionID, pdCreateFormat,pd._id).subscribe(
     res => {
       const createdPdId = JSON.parse(JSON.stringify(res));
@@ -2086,6 +2122,6 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
     }
   );
 }
-
-/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+//end put method
+/** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
 }
