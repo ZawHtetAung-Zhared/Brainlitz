@@ -581,12 +581,10 @@ export class TestwerkzComponent implements OnInit {
     });
     var lastIndex = this.performanceDemands[j].questions.length - 1;
     // this.performanceDemands[j].questions[lastIndex].answers[0]
-    console.warn(lastIndex);
     var idNumber = j + String(lastIndex) + "0";
     console.log(idNumber);
     var answerTootips = $("#answerTootips" + idNumber);
     //  var answerTootips = $('#answerTootips'+ j + String(lastIndex) + '0')
-    console.error(answerTootips);
     setTimeout(() => {
       answerTootips.hide();
     }, 300);
@@ -1421,7 +1419,9 @@ export class TestwerkzComponent implements OnInit {
           // $('.tooltip-wrap').hide();
           // this.performanceDemands[idx1].question[idx2].showTooltip = false;
         } else {
-          this.performanceDemands[idx1].showTooltip = false;
+          if(this.performanceDemands[idx1] != undefined){
+            this.performanceDemands[idx1].showTooltip = false;
+          }
           console.log("object");
         }
       }, 150);
