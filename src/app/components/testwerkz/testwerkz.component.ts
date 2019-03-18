@@ -64,6 +64,7 @@ export class TestwerkzComponent implements OnInit {
   public navIsFixed: boolean = false;
   public iseditfocus = false;
   public otherfocus = false;
+  public isDisabelInsert = false;
   public isEditComplete: boolean = false;
   public isRemove: boolean = false;
   public translateToMarkDown: string;
@@ -289,6 +290,7 @@ export class TestwerkzComponent implements OnInit {
     // this.addPd();
     console.log(this.performanceDemands);
     this.showSettingSidebar = false;
+    this.concept.name="";
   }
 
   getAllTag() {
@@ -953,8 +955,6 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
-    console.log(this.isRemove, "is remove", i);
-
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
     const check: HTMLElement = document.getElementById("check" + i);
@@ -962,7 +962,6 @@ export class TestwerkzComponent implements OnInit {
     const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
 
     if (this.modelType == "single") {
-      console.log("is single", this.imgId);
       //add selected
       if (!this.isRemove) {
         this.selectedImgArr = img;
@@ -977,9 +976,11 @@ export class TestwerkzComponent implements OnInit {
           trashdiv.setAttribute("style", "display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
+          this.isDisabelInsert=true;
         } else {
           if (imgDiv.style.border == "solid") {
             this.removerSelected(this.imgId);
+            this.isDisabelInsert=false;
           } else {
             imgDiv.setAttribute("style", "border:solid;color:#007fff;");
             circle.setAttribute(
@@ -988,15 +989,14 @@ export class TestwerkzComponent implements OnInit {
             );
             check.setAttribute("style", "color:white;");
             trashdiv.setAttribute("style", "display:block;");
+            this.isDisabelInsert=true;
           }
         }
         this.imgId = i;
       }
     } else {
-      console.log(this.imgIdArr.includes(i));
-      console.log(this.imgIdArr);
       if (this.isRemove) {
-        console.log("is remove");
+        // console.log("is remove");
         this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
         this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
         this.autoImgLoop(this.imgIdArr);
@@ -1004,10 +1004,10 @@ export class TestwerkzComponent implements OnInit {
       } else {
         console.log(this.imgIdArr.includes(i));
         if (this.imgIdArr.includes(i)) {
-          console.log("is remove seleccted");
+          // console.log("is remove seleccted");
           this.removerSelected(i);
         } else {
-          console.log("else");
+          // console.log("else");
           this.imgIdArr.push(i);
           this.selectedImgArr.push(img);
           this.autoImgLoop(this.imgIdArr);
@@ -1020,7 +1020,7 @@ export class TestwerkzComponent implements OnInit {
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
   removerSelected(i) {
-    console.log(this.selectedImgArr, i);
+    // console.log(this.selectedImgArr, i);
     const imgDiv3: HTMLElement = document.getElementById("img-" + i);
     const circle3: HTMLElement = document.getElementById("cricle" + i);
     const check3: HTMLElement = document.getElementById("check" + i);
@@ -1041,7 +1041,7 @@ export class TestwerkzComponent implements OnInit {
       this.imgIdArr = [];
 
       // this.imgId=undefined;
-      console.log(this.imgId);
+      // console.log(this.imgId);
 
       // if(String(this.imgId)== i){
       //   this.imgId=undefined;
@@ -1067,9 +1067,9 @@ export class TestwerkzComponent implements OnInit {
       const trashdiv: HTMLElement = document.getElementById(
         "trashdiv-" + arr[i]
       );
-      console.log(imgDiv);
-      console.log(circle);
-      console.log(check);
+      // console.log(imgDiv);
+      // console.log(circle);
+      // console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
       circle.setAttribute(
         "style",
@@ -1077,7 +1077,7 @@ export class TestwerkzComponent implements OnInit {
       );
       check.setAttribute("style", "color:white;");
       trashdiv.setAttribute("style", "display:block");
-      console.log(arr[i]);
+      // console.log(arr[i]);
     }
   }
 
@@ -1106,15 +1106,15 @@ export class TestwerkzComponent implements OnInit {
     this.isRemove = true;
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
         this.getAllContent().then(() => {
-          console.log("here me>", res);
+          // console.log("here me>", res);
           setTimeout(() => {
-            console.log(this.selectedImgArr);
-            console.log(this.imgIdArr);
+            // console.log(this.selectedImgArr);
+            // console.log(this.imgIdArr);
             if (this.modelType == "multiple") {
               this.autoImgLoop(this.imgIdArr);
             } else {
@@ -1199,12 +1199,15 @@ export class TestwerkzComponent implements OnInit {
   //   }
   checkFocusPosition() {
     console.log(this.selectEle);
-    if (
-      this.selectEle.className == "img-wrapper" ||
-      $(this.selectEle).parents(".img-wrapper").length > 0
-    ) {
-      return true;
-    } else return false;
+    if(this.selectEle != undefined){
+      if (
+        this.selectEle.className == "img-wrapper" ||
+        $(this.selectEle).parents(".img-wrapper").length > 0
+      ) {
+        return true;
+      } else return false;
+    }
+    
   }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
@@ -1420,9 +1423,11 @@ export class TestwerkzComponent implements OnInit {
     if (hideTooltip == "hideTooltip") {
       setTimeout(() => {
         if (type == "answer") {
-          this.performanceDemands[idx1].questions[idx2].answers[
-            idx3
-          ].showTooltip = false;
+          if(this.performanceDemands[idx1] != undefined &&  this.performanceDemands[idx1].questions[idx2] != undefined &&  this.performanceDemands[idx1].questions[idx2].answers[idx3] != undefined){
+            this.performanceDemands[idx1].questions[idx2].answers[
+              idx3
+            ].showTooltip = false;
+          }
           var tootipsId = $("#answerTootips" + idx1 + idx2 + idx3);
           tootipsId.hide();
         } else if (type == "question") {
@@ -1847,7 +1852,8 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code end
 
-  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+ /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
+  //start get method
   async onUpdateTeskWerkz(id) {
     console.log(id);
     this.conceptId = id;
@@ -1910,6 +1916,9 @@ export class TestwerkzComponent implements OnInit {
     }
 }
 
+  //end get method
+
+  //start put method
 updateConcept(id) {
   console.log("---------------------");
   console.log(this.performanceDemands);
@@ -1958,6 +1967,7 @@ updatepdLoopDone(_this,conceptId,error,pdIds) {
   _this.updateConceptProcess(formattedPdIds, _this,conceptId);
   console.log(conceptId)
 }
+
 updateConceptProcess(formattedPdIds, hello,cid) {
   // Create Concept
   // var moduleId = localStorage.getItem('moduleID')
@@ -2038,18 +2048,37 @@ updateQuestions(_this, pd, id,question, callback) {
   questionFormat.questionType = question.questionType;
   questionFormat.question = question.question;
   questionFormat.html = question.html;
-  _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
-    res => {
-      console.log(res);
-      var questionId = JSON.parse(JSON.stringify(res));
+  console.log(question._id)
+  if(question._id =="" || question._id==undefined){
+    console.log("is create");
+    _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
 
-      console.log(questionId.meta._id);
-      callback(null, questionId.meta._id);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }else{
+    console.log("is update");
+    _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
+  
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  
 }
 
 
@@ -2091,7 +2120,19 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
   // OR
   // pd.name = string",
   // pd.description = string",
+  if(pd._id =="" || pd._id==undefined){
+    _this._service.createPD(_this.regionID, pdCreateFormat).subscribe(
+      res => {
+        const createdPdId = JSON.parse(JSON.stringify(res));
 
+        console.log(createdPdId.meta._id);
+        pdCallback(null, createdPdId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   _this._service.updatePD(_this.regionID, pdCreateFormat,pd._id).subscribe(
     res => {
       const createdPdId = JSON.parse(JSON.stringify(res));
@@ -2104,6 +2145,6 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
     }
   );
 }
-
-/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+//end put method
+/** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
 }
