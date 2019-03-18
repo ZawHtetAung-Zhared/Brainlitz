@@ -207,6 +207,8 @@ export class TestwerkzComponent implements OnInit {
           }
           // console.log($(img).remove());
           $(img).remove();
+          console.log("Delete Img",_this.editableId, _this.focusType)
+          _this.turn(_this.editableId, _this.focusType);
 
         });
       });
@@ -1298,39 +1300,42 @@ export class TestwerkzComponent implements OnInit {
     }
     this.cancelModal();
     console.log($(".editableImg"));
-    var img;
-    var _this = this;
-    $(".editableImg").hover(function(event) {
-      $('.img-span').remove();
-      console.log($('.img-span'))
-      img = this;
-      var posLeft = 105 + $(this).position().left;
-      var posTop = $(this).position().top;
-      $(this).after(
-        $(`<span class='img-span' 
-          style='z-index: 1001;position:
-           absolute;
-           top: ${posTop}px;
-           left: ${posLeft}px;
-           cursor: pointer;
-           padding-top: 10px;'
-           >
-            <img src='./assets/images/remove-white.png'>
-           </span>`)
-      );
-        console.log($('.img-span'))
-      $(".img-span").click(function() {
-        $(img).remove();
-        $(".img-span").remove();
-        // console.log($(img).remove());
-      });
-    });
-    $(".editableImg").mouseout(function(event) {
-      console.log(event);
-      if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
-      else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
-      else console.log("out but not out");
-    });
+    // var img;
+    // var _this = this;
+    // $(".editableImg").hover(function(event) {
+    //   $('.img-span').remove();
+    //   console.log($('.img-span'))
+    //   img = this;
+    //   var posLeft = 105 + $(this).position().left;
+    //   var posTop = $(this).position().top;
+    //   $(this).after(
+    //     $(`<span class='img-span' 
+    //       style='z-index: 1001;position:
+    //        absolute;
+    //        top: ${posTop}px;
+    //        left: ${posLeft}px;
+    //        cursor: pointer;
+    //        padding-top: 10px;'
+    //        >
+    //         <img src='./assets/images/remove-white.png'>
+    //        </span>`)
+    //   );
+    //     console.log($('.img-span'))
+    //   $(".img-span").click(function() {
+    //     $(img).remove();
+    //     $(".img-span").remove();
+    //     console.log($(img).parents(".question"))
+    //     // console.log($(img).remove());
+    //     console.log("Delete Img",_this.editableId, _this.focusType)
+    //     _this.turn(_this.editableId, _this.focusType);
+    //   });
+    // });
+    // $(".editableImg").mouseout(function(event) {
+    //   console.log(event);
+    //   if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
+    //   else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
+    //   else console.log("out but not out");
+    // });
 
 
 
