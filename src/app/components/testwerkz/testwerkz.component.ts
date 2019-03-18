@@ -954,9 +954,11 @@ export class TestwerkzComponent implements OnInit {
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
+        console.log(img)
         this.selectedImgArr = img;
         this.imgIdArr = i;
         if (this.imgId != undefined && this.imgId != i) {
+          console.log(this.selectedImgArr)
           this.removerSelected(this.imgId);
           imgDiv.setAttribute("style", "border:solid;color:#007fff;");
           circle.setAttribute(
@@ -1006,6 +1008,7 @@ export class TestwerkzComponent implements OnInit {
     }
     this.isRemove = false;
     console.log(this.imgIdArr);
+    console.log("this.selectedImgArr",this.selectedImgArr)
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
@@ -1027,8 +1030,8 @@ export class TestwerkzComponent implements OnInit {
     overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
     trashdiv.setAttribute("style", "display:none");
     if (this.modelType == "single") {
-      this.selectedImgArr = [];
-      this.imgIdArr = [];
+      // this.selectedImgArr = [];
+      // this.imgIdArr = [];
 
       // this.imgId=undefined;
       // console.log(this.imgId);
@@ -1268,6 +1271,7 @@ export class TestwerkzComponent implements OnInit {
       this.performanceDemands[this.pdIndex].questions[
         this.questionIndex
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
+      console.log("~~~selectedImgArr.url",this.selectedImgArr.url)
     } else {
       console.log("pd Insert Img======");
 

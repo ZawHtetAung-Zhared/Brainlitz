@@ -1106,6 +1106,7 @@ p.g_title {
 
 .editablePDImg{
   width: 100%;
+  max-height: 120px;
 }
 
 .img-wrapper{
