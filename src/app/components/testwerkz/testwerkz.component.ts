@@ -105,7 +105,8 @@ export class TestwerkzComponent implements OnInit {
   public concept = {
     name: ""
   };
-  public dropDiv: any;
+  public dragItem: any;
+  public dragItemParent : any;
   public clickEle: any = "";
   // public focusType = {
   //   'type': "",
@@ -153,6 +154,7 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
+    console.log(this.dragItem)
     var clickedEle = $event;
     console.log(clickedEle)
     console.log($(clickedEle).hasClass("question"))
@@ -160,10 +162,12 @@ export class TestwerkzComponent implements OnInit {
     if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
-    if (clickedEle.className == "tooltip-wrap" || $(clickedEle).parents(".tooltip-wrap").length > 0 || $(clickedEle).hasClass("question")  || $(clickedEle).parents(".question").length > 0) {
+    if (clickedEle.className == "tooltip-wrap" || $(clickedEle).parents(".tooltip-wrap").length > 0 || $(clickedEle).hasClass("question")  || $(clickedEle).parents(".question").length > 0 || $(this.dragItem).hasClass("question")) {
       console.log("dddd")
-    }else
+    }else{
       this.showID = "";
+      this.dragItem = "";
+    }
 
     this.clickEle = $event;
   }
@@ -696,7 +700,12 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
-    console.log(event)
+    if(event.inputType == "insertFromDrop"){
+      if($(window.getSelection().focusNode).attr("class") == ""){
+        console.log($(this.dragItem))
+        $(this.dragItemParent).append(this.dragItem)
+      }
+    }
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -706,6 +715,7 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "insertText") document.execCommand("undo", false);
   
       if (event.inputType == "insertParagraph") {
+        // console.log(win)
         var thisDiv =
           $(this.clickEle).hasClass("img-wrapper") ||
           $(this.clickEle).parents(".img-wrapper");
@@ -1284,6 +1294,8 @@ export class TestwerkzComponent implements OnInit {
     var img;
     var _this = this;
     $(".editableImg").hover(function(event) {
+      $('.img-span').remove();
+      console.log($('.img-span'))
       img = this;
       var posLeft = 105 + $(this).position().left;
       var posTop = $(this).position().top;
@@ -1299,11 +1311,7 @@ export class TestwerkzComponent implements OnInit {
             <img src='./assets/images/remove-white.png'>
            </span>`)
       );
-      if (event.type == "mouseout") {
-        if (event.offsetX <= 119 || event.offsetY <= 119)
-          console.log("out but not out");
-        else console.log("completely cout");
-      }
+        console.log($('.img-span'))
       $(".img-span").click(function() {
         $(img).remove();
         $(".img-span").remove();
@@ -1378,6 +1386,7 @@ export class TestwerkzComponent implements OnInit {
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
         this.editableId = "q" + "-" + idx1 + "-" + idx2;
+        this.dragItem = document.getElementById(this.editableId)
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
@@ -1403,7 +1412,9 @@ export class TestwerkzComponent implements OnInit {
       ].showTooltip = true;
     }
   }
-
+  onFocusOut(e){
+    this.dragItem = "";
+  }
   hideTooltip(hideTooltip, type, idx1, idx2, idx3, t?) {
     console.log("focusout", type);
     if (hideTooltip == "hideTooltip") {
@@ -1802,20 +1813,25 @@ export class TestwerkzComponent implements OnInit {
     _this.creationConceptProcess(formattedPdIds, _this);
   }
   onDragStart(e) {
+    this.dragItem = e.target;
     console.log($(e.target).parents(".img-wrapper")[0]);
     console.log($(".img-span"));
     $(".img-span").remove();
     // e.preventDefault();
   }
   onDrop(e) {
-    console.log($(e.target).hasClass(".img-wrapper"));
-    if (e.target.className != "editableImg") {
-      console.log("not that");
-      // document.execCommand("undo");
-      this.dropDiv = false;
-    } else {
-      this.dropDiv = true;
+    console.log(e);
+    if($(e.target).hasClass('img-wrapper')){
+      this.dragItemParent = e.target;
     }
+    console.log(this.dragItemParent)
+    // if (e.target.className != "editableImg") {
+    //   console.log("not that");
+    //   // document.execCommand("undo");
+    //   this.dropDiv = false;
+    // } else {
+    //   this.dropDiv = true;
+    // }
     // console.log(this.dropDiv.id)
     // console.log(e)
     // console.log(e.target.id)
