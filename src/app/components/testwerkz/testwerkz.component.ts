@@ -153,12 +153,18 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
-    console.log("click", this.clickEle);
-    console.log($event.className);
-    if ($event.className == "question-insert-img") {
-      console.log("Aha");
+    var clickedEle = $event;
+    console.log(clickedEle)
+    console.log($(clickedEle).hasClass("question"))
+    console.log($(clickedEle).parents(".question").length)
+    if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
+    if (clickedEle.className == "tooltip-wrap" || $(clickedEle).parents(".tooltip-wrap").length > 0 || $(clickedEle).hasClass("question")  || $(clickedEle).parents(".question").length > 0) {
+      console.log("dddd")
+    }else
+      this.showID = "";
+
     this.clickEle = $event;
   }
   @HostListener("mouseover", ["$event"])
@@ -692,6 +698,7 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
+    console.log(event)
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -1294,15 +1301,12 @@ export class TestwerkzComponent implements OnInit {
             <img src='./assets/images/remove-white.png'>
            </span>`)
       );
-      console.log(event);
       if (event.type == "mouseout") {
         if (event.offsetX <= 119 || event.offsetY <= 119)
           console.log("out but not out");
         else console.log("completely cout");
       }
       $(".img-span").click(function() {
-        console.log("img span hover");
-        console.log(_this.isHover);
         $(img).remove();
         $(".img-span").remove();
         // console.log($(img).remove());
@@ -1318,6 +1322,7 @@ export class TestwerkzComponent implements OnInit {
 
 
   }
+
   mouseOver(e,idx){
     console.log(e.target.className)
     console.log("over ");
@@ -1333,10 +1338,6 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   mouseOut(event){
-    console.log("out ");
-    console.log($(event.target).children(".img-pd"))
-        console.log($(event.target).siblings(".img-pd"))
-
     if (event.offsetX >= 119 || event.offsetX < 0) {
       if($(event.target).hasClass("editablePDImg") ){
          $(event.target).siblings(".img-pd").hide();
@@ -1404,6 +1405,7 @@ export class TestwerkzComponent implements OnInit {
       ].showTooltip = true;
     }
   }
+
   hideTooltip(hideTooltip, type, idx1, idx2, idx3, t?) {
     console.log("focusout", type);
     if (hideTooltip == "hideTooltip") {
@@ -1800,13 +1802,13 @@ export class TestwerkzComponent implements OnInit {
     _this.creationConceptProcess(formattedPdIds, _this);
   }
   onDragStart(e) {
-    console.log(e.target);
+    console.log($(e.target).parents(".img-wrapper")[0]);
     console.log($(".img-span"));
     $(".img-span").remove();
     // e.preventDefault();
   }
   onDrop(e) {
-    console.log(e);
+    console.log($(e.target).hasClass(".img-wrapper"));
     if (e.target.className != "editableImg") {
       console.log("not that");
       // document.execCommand("undo");
