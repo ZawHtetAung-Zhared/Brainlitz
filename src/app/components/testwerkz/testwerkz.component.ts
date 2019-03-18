@@ -153,12 +153,18 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
-    console.log("click", this.clickEle);
-    console.log($event.className);
-    if ($event.className == "question-insert-img") {
-      console.log("Aha");
+    var clickedEle = $event;
+    console.log(clickedEle)
+    console.log($(clickedEle).hasClass("question"))
+    console.log($(clickedEle).parents(".question").length)
+    if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
+    if (clickedEle.className == "tooltip-wrap" || $(clickedEle).parents(".tooltip-wrap").length > 0 || $(clickedEle).hasClass("question")  || $(clickedEle).parents(".question").length > 0) {
+      console.log("dddd")
+    }else
+      this.showID = "";
+
     this.clickEle = $event;
   }
   @HostListener("mouseover", ["$event"])
@@ -575,12 +581,10 @@ export class TestwerkzComponent implements OnInit {
     });
     var lastIndex = this.performanceDemands[j].questions.length - 1;
     // this.performanceDemands[j].questions[lastIndex].answers[0]
-    console.warn(lastIndex);
     var idNumber = j + String(lastIndex) + "0";
     console.log(idNumber);
     var answerTootips = $("#answerTootips" + idNumber);
     //  var answerTootips = $('#answerTootips'+ j + String(lastIndex) + '0')
-    console.error(answerTootips);
     setTimeout(() => {
       answerTootips.hide();
     }, 300);
@@ -692,6 +696,7 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
+    console.log(event)
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -1294,15 +1299,12 @@ export class TestwerkzComponent implements OnInit {
             <img src='./assets/images/remove-white.png'>
            </span>`)
       );
-      console.log(event);
       if (event.type == "mouseout") {
         if (event.offsetX <= 119 || event.offsetY <= 119)
           console.log("out but not out");
         else console.log("completely cout");
       }
       $(".img-span").click(function() {
-        console.log("img span hover");
-        console.log(_this.isHover);
         $(img).remove();
         $(".img-span").remove();
         // console.log($(img).remove());
@@ -1318,6 +1320,7 @@ export class TestwerkzComponent implements OnInit {
 
 
   }
+
   mouseOver(e,idx){
     console.log(e.target.className)
     console.log("over ");
@@ -1333,10 +1336,6 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   mouseOut(event){
-    console.log("out ");
-    console.log($(event.target).children(".img-pd"))
-        console.log($(event.target).siblings(".img-pd"))
-
     if (event.offsetX >= 119 || event.offsetX < 0) {
       if($(event.target).hasClass("editablePDImg") ){
          $(event.target).siblings(".img-pd").hide();
@@ -1404,6 +1403,7 @@ export class TestwerkzComponent implements OnInit {
       ].showTooltip = true;
     }
   }
+
   hideTooltip(hideTooltip, type, idx1, idx2, idx3, t?) {
     console.log("focusout", type);
     if (hideTooltip == "hideTooltip") {
@@ -1419,7 +1419,9 @@ export class TestwerkzComponent implements OnInit {
           // $('.tooltip-wrap').hide();
           // this.performanceDemands[idx1].question[idx2].showTooltip = false;
         } else {
-          this.performanceDemands[idx1].showTooltip = false;
+          if(this.performanceDemands[idx1] != undefined){
+            this.performanceDemands[idx1].showTooltip = false;
+          }
           console.log("object");
         }
       }, 150);
@@ -1800,13 +1802,13 @@ export class TestwerkzComponent implements OnInit {
     _this.creationConceptProcess(formattedPdIds, _this);
   }
   onDragStart(e) {
-    console.log(e.target);
+    console.log($(e.target).parents(".img-wrapper")[0]);
     console.log($(".img-span"));
     $(".img-span").remove();
     // e.preventDefault();
   }
   onDrop(e) {
-    console.log(e);
+    console.log($(e.target).hasClass(".img-wrapper"));
     if (e.target.className != "editableImg") {
       console.log("not that");
       // document.execCommand("undo");
@@ -1829,7 +1831,8 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code end
 
-  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+ /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
+  //start get method
   async onUpdateTeskWerkz(id) {
     console.log(id);
     this.conceptId = id;
@@ -1892,6 +1895,9 @@ export class TestwerkzComponent implements OnInit {
     }
 }
 
+  //end get method
+
+  //start put method
 updateConcept(id) {
   console.log("---------------------");
   console.log(this.performanceDemands);
@@ -1940,6 +1946,7 @@ updatepdLoopDone(_this,conceptId,error,pdIds) {
   _this.updateConceptProcess(formattedPdIds, _this,conceptId);
   console.log(conceptId)
 }
+
 updateConceptProcess(formattedPdIds, hello,cid) {
   // Create Concept
   // var moduleId = localStorage.getItem('moduleID')
@@ -2020,18 +2027,37 @@ updateQuestions(_this, pd, id,question, callback) {
   questionFormat.questionType = question.questionType;
   questionFormat.question = question.question;
   questionFormat.html = question.html;
-  _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
-    res => {
-      console.log(res);
-      var questionId = JSON.parse(JSON.stringify(res));
+  console.log(question._id)
+  if(question._id =="" || question._id==undefined){
+    console.log("is create");
+    _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
 
-      console.log(questionId.meta._id);
-      callback(null, questionId.meta._id);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }else{
+    console.log("is update");
+    _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
+  
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  
 }
 
 
@@ -2073,7 +2099,19 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
   // OR
   // pd.name = string",
   // pd.description = string",
+  if(pd._id =="" || pd._id==undefined){
+    _this._service.createPD(_this.regionID, pdCreateFormat).subscribe(
+      res => {
+        const createdPdId = JSON.parse(JSON.stringify(res));
 
+        console.log(createdPdId.meta._id);
+        pdCallback(null, createdPdId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   _this._service.updatePD(_this.regionID, pdCreateFormat,pd._id).subscribe(
     res => {
       const createdPdId = JSON.parse(JSON.stringify(res));
@@ -2086,6 +2124,6 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
     }
   );
 }
-
-/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+//end put method
+/** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
 }

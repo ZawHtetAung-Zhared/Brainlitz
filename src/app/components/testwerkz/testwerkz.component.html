@@ -205,7 +205,7 @@
                   <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
                 </div>
               </ng-template>  -->
-              <!-- Thiha Soe UI Start -->
+            <!-- Thiha Soe UI Start -->
             <!-- <div *ngFor="let pd of concepts; let i = index">
               <div class="pd-wrapper">
                 <div class="pd-header">
@@ -230,7 +230,7 @@
                 </div>
               </div>
             </div> -->
-               <!-- Thiha Soe UI End -->
+            <!-- Thiha Soe UI End -->
 
             <!-- test markdown -->
             <!-- <fieldset>
@@ -249,141 +249,135 @@
             </div> -->
             <!-- <button (click)="turn()">Turn</button> -->
 
-               <!-- Wai Yan UI Start -->
+            <!-- Wai Yan UI Start -->
             <!-- <div *ngFor="let pd of pdLists; let i = index"> -->
-            <div >
-                <!-- {{performanceDemands | json}} -->
-             
-                <div *ngFor="let pd of performanceDemands; let i = index">
-                    <div class="d-flex flex-column pd-blog mb-2">
-                      <!-- for header start -->
-                      <div class="pd-name-wrapper d-flex container align-items-center">
-                        <div *ngIf="this.focusPlace == ('pd'+i)" class="pd-icon-wrapper align-items-center d-flex">
-                          <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
-                          <span class="pd-No">{{i+1}}</span>
-                        </div>
-                        <div *ngIf="this.focusPlace != ('pd'+i)" class="pd-icon-wrapper bg-white align-items-center d-flex">
-                          <img src="../../../assets/images/un-thunder-flash-w.png" alt="" class="flex-icon">
-                          <span class="pd-No" style="color:#64707d;">{{i+1}}</span>
-                        </div>
-                        <div class="pd-name-input-wrapper"> 
-                          <!-- <div class="answer-tooltip-wrap" *ngIf="this.focusPlace == ('pd'+i)"> -->
-                          <div class="answer-tooltip-wrap" *ngIf="pd.showTooltip">
-                            <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
-                            <div class="answer-carret-box"></div>
+            <div>
+              <!-- {{performanceDemands | json}} -->
+
+              <div *ngFor="let pd of performanceDemands; let i = index">
+                <div class="d-flex flex-column pd-blog mb-2">
+                  <!-- for header start -->
+                  <div class="pd-name-wrapper d-flex container align-items-center">
+                    <div *ngIf="this.focusPlace == ('pd'+i)" class="pd-icon-wrapper align-items-center d-flex">
+                      <img src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
+                      <span class="pd-No">{{i+1}}</span>
+                    </div>
+                    <div *ngIf="this.focusPlace != ('pd'+i)" class="pd-icon-wrapper bg-white align-items-center d-flex">
+                      <img src="../../../assets/images/un-thunder-flash-w.png" alt="" class="flex-icon">
+                      <span class="pd-No" style="color:#64707d;">{{i+1}}</span>
+                    </div>
+                    <div class="pd-name-input-wrapper">
+                      <!-- <div class="answer-tooltip-wrap" *ngIf="this.focusPlace == ('pd'+i)"> -->
+                      <div class="answer-tooltip-wrap" *ngIf="pd.showTooltip">
+                        <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
+                        <div class="answer-carret-box"></div>
+                      </div>
+                      <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
+                      <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name"
+                        [(ngModel)]="pd.name" (focus)="onFocus('pd',i,'','')" (focusout)="hideTooltip('hideTooltip','pD',i,j,index)">
+                      <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
+                      <div *ngIf="pd.contents.length > 0" class="row" dragula={{i}} [(dragulaModel)]="pd.contents">
+                        <div class="col-md-4 position-relative" *ngFor="let img of pd.contents;let idx = index">
+
+                          <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
+                          <div class="innerPd p-0" (mouseenter)="mouseOver($event,idx)" (mouseout)="mouseOut($event)">
+                            <img class="editablePDImg" src="{{img.url}}">
+                            <img (click)="removePDImg(img,idx,i)" class="img-pd rmIcon" src="./assets/img/remove-white.png">
+
                           </div>
-                          <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
-                          <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name" [(ngModel)]="pd.name" (focus)="onFocus('pd',i,'','')" (focusout) = "hideTooltip('hideTooltip','pD',i,j,index)">
-                          <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
-                          <div *ngIf="pd.contents.length > 0" class="row"  dragula={{i}} [(dragulaModel)]="pd.contents">
-                            <div class="col-md-4 position-relative" *ngFor="let img of pd.contents;let idx = index">
-                           
-                                <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
-                                <div class="innerPd p-0" (mouseenter)="mouseOver($event,idx)" (mouseout)="mouseOut($event)">
-                                  <img class="editablePDImg" src="{{img.url}}">
-                                  <img (click)="removePDImg(img,idx,i)" class="img-pd rmIcon" src="./assets/img/remove-white.png">
-                                  
-                                </div>
-                            </div>
-                          </div>
                         </div>
-                      </div> 
-                    <!-- for header End -->
-      
-                      <div class="pd-blog-wrapper">
-                        <div *ngFor="let question of pd.questions; let j = index" class="w-100 question-section d-flex" id="divToHide">
-                          <div *ngIf="this.focusPlace == ('q'+i+j)" class="check-icon-wrapper align-items-center mt-3 d-flex">
-                            <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
-                            <span class="pd-No">{{j+1}}</span>
-                          </div>  
-                          <div *ngIf="this.focusPlace != ('q'+i+j)" class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
-                            <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
-                            <span class="pd-No" style="color:#64707d;">{{j+1}}</span>
-                          </div>  
-                          <div id="divToHide" class="pd-name-input-wrapper question-wrap d-flex flex-column">
-                            <div class="tooltip-wrap" *ngIf="showID == ('q'+i+j)">
-                              <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
-                              <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
-                              <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
-                              <button #btn (click)="openImgModal(imgModal,'multiple',btn)" class="question-insert-img"><img class="question-insert-img" src="assets/img/text-edit-image.png"></button>
-                               <div class="carret-box"></div>
-                            </div>
-                            <div id="q-{{i}}-{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here" (focus)="onFocus('question',i,j,'',t)" (input)= "onInput(t,$event,editableId,focusType)" (dragstart)="onDragStart($event)" (drop)="onDrop($event)"></div>
-                            <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
-                            <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">  
-                              <!-- <label class="question-checkbox">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- for header End -->
+
+                  <div class="pd-blog-wrapper">
+                    <div *ngFor="let question of pd.questions; let j = index" class="w-100 question-section d-flex" id="divToHide">
+                      <div *ngIf="this.focusPlace == ('q'+i+j)" class="check-icon-wrapper align-items-center mt-3 d-flex">
+                        <img src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
+                        <span class="pd-No">{{j+1}}</span>
+                      </div>
+                      <div *ngIf="this.focusPlace != ('q'+i+j)" class="check-icon-wrapper bg-white align-items-center mt-3 d-flex">
+                        <img src="../../../assets/images/check-rect.png" alt="" class="flex-icon">
+                        <span class="pd-No" style="color:#64707d;">{{j+1}}</span>
+                      </div>
+                      <div id="divToHide" class="pd-name-input-wrapper question-wrap d-flex flex-column">
+                          <div class="tooltip-wrap" *ngIf="showID == ('q'+i+j)">
+                            <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
+                            <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
+                            <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
+                            <button #btn (click)="openImgModal(imgModal,'multiple',btn)" class="question-insert-img"><img
+                                class="question-insert-img" src="assets/img/text-edit-image.png"></button>
+                            <div class="carret-box"></div>
+                          </div>
+                          <div id="q-{{i}}-{{j}}" class="mt-3 question" #t contenteditable="true" data-placeholder="Type question here"
+                            (focus)="onFocus('question',i,j,'',t)" (input)="onInput(t,$event,editableId,focusType)"
+                            (dragstart)="onDragStart($event)" (drop)="onDrop($event)"></div>
+                        <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
+                        <div class="" style="padding-top: 20px;" *ngFor="let answer of question.answers;let index = index;">
+                          <!-- <label class="question-checkbox">
                                   <input type="checkbox" checked="checked">
                                   <span class="answer-checkmark"></span>
                                 </label> -->
-                                <!-- <img src="{{ }}" alt=""> -->
-                             
-                                <div class="d-flex flex-column" style="position:relative;">
-                                      <div class="answer-tooltip-wrap"  *ngIf="answer.showTooltip" >
-                                      <!-- <div class="answer-tooltip-wrap" *ngIf="this.answerTootips == (i + j + index + 'a')" > -->
-                                         <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
-                                            <div class="answer-carret-box"></div>
-                                        </div>
-                                      <div class="d-flex" *ngIf="question.questionType == 'MCQ-CHECKBOX'" >
-                                          <label for="{{'answerMultiple'+index + i + j}}">
-                                            <input type="checkbox" 
-                                                   id="{{'answerMultiple'+index + i + j}}" 
-                                                   name="{{'answerlist' + index + i + j }}" 
-                                                   (click) = "trueAnswer(i,j,index,answer.answer) " 
-                                                   class="d-none" value="{{answer.answer}}">
-                                            <div *ngFor="let symbol of answerSymbols; let symbolIndex = index">
-                                              <div *ngIf="index == symbolIndex  && answer.correctness == 100" ><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}" alt=""></div>
-                                              <div *ngIf="index == symbolIndex && answer.correctness == 0" ><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}" alt=""></div>
-                                            </div>
-                                          </label>
-                                        <input type="text" 
-                                               class="bg-white pb-1 w-100 answer-input" 
-                                               [(ngModel)]="answer.answer" placeholder="choice"  
-                                               (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
-                                               (focus)="onFocus('answer',i,j,index)" 
-                                               [ngClass]="{'answer-text': answer.correctness == 100}"
-                                               id="{{'answer' + i + j + index}}"
-                                               (keydown)="onKeydown($event,i ,j,index)">
-                                      </div>
-                                      <div class="d-flex" *ngIf="question.questionType == 'MCQ-OPTION'">
-                                          <label for="{{'answerSingle'+index + i + j }}">
-                                            <input type="radio" 
-                                                   id="{{'answerSingle'+index +i + j}}" 
-                                                   name="{{'answerlist' + index + i + j  }}" 
-                                                   (click) = "trueAnswerRadio(i,j,index,answer.answer) " 
-                                                   class="d-none">
-                                            <div *ngFor="let symbol of answerSymbols; let reverserSymbolIndex = index">
-                                             <div *ngIf="index == reverserSymbolIndex  && answer.correctness == 100" ><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}" alt=""></div>
-                                              <div *ngIf="index == reverserSymbolIndex && answer.correctness == 0" ><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}" alt=""></div>
-                                            </div>
-                                         </label>
-                                        <input type="text" 
-                                               class="bg-white pb-1 w-100 answer-input" 
-                                               [(ngModel)]="answer.answer" placeholder="choice"  
-                                               (focusout) = "hideTooltip('hideTooltip','answer',i,j,index)" 
-                                               [ngClass]="{'answer-text': answer.correctness == 100}"
-                                               (focus)="onFocus('answer',i,j,index)" 
-                                               id="{{'answer' + i + j + index}}"
-                                               (keydown)="onKeydown($event,i ,j,index)">
-                                      </div>
-                                </div>
-                                <div *ngIf="answer.imgUrl.length > 0" >
-                                  <img src="{{answer.imgUrl}}" alt="" class="answer-img">
-                              </div> 
+                          <!-- <img src="{{ }}" alt=""> -->
+
+                          <div class="d-flex flex-column" style="position:relative;">
+                            <div class="answer-tooltip-wrap" *ngIf="answer.showTooltip">
+                              <!-- <div class="answer-tooltip-wrap" *ngIf="this.answerTootips == (i + j + index + 'a')" > -->
+                              <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
+                              <div class="answer-carret-box"></div>
                             </div>
+                            <div class="d-flex" *ngIf="question.questionType == 'MCQ-CHECKBOX'">
+                              <label for="{{'answerMultiple'+index + i + j}}">
+                                <input type="checkbox" id="{{'answerMultiple'+index + i + j}}" name="{{'answerlist' + index + i + j }}"
+                                  (click)="trueAnswer(i,j,index,answer.answer) " class="d-none" value="{{answer.answer}}">
+                                <div *ngFor="let symbol of answerSymbols; let symbolIndex = index">
+                                  <div *ngIf="index == symbolIndex  && answer.correctness == 100"><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}"
+                                      alt=""></div>
+                                  <div *ngIf="index == symbolIndex && answer.correctness == 0"><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}"
+                                      alt=""></div>
+                                </div>
+                              </label>
+                              <input type="text" class="bg-white pb-1 w-100 answer-input" [(ngModel)]="answer.answer"
+                                placeholder="choice" (focusout)="hideTooltip('hideTooltip','answer',i,j,index)" (focus)="onFocus('answer',i,j,index)"
+                                [ngClass]="{'answer-text': answer.correctness == 100}" id="{{'answer' + i + j + index}}"
+                                (keydown)="onKeydown($event,i ,j,index)">
+                            </div>
+                            <div class="d-flex" *ngIf="question.questionType == 'MCQ-OPTION'">
+                              <label for="{{'answerSingle'+index + i + j }}">
+                                <input type="radio" id="{{'answerSingle'+index +i + j}}" name="{{'answerlist' + index + i + j  }}"
+                                  (click)="trueAnswerRadio(i,j,index,answer.answer) " class="d-none">
+                                <div *ngFor="let symbol of answerSymbols; let reverserSymbolIndex = index">
+                                  <div *ngIf="index == reverserSymbolIndex  && answer.correctness == 100"><img src="{{imagePath}}{{symbol}}{{answerSymbolSVG}}"
+                                      alt=""></div>
+                                  <div *ngIf="index == reverserSymbolIndex && answer.correctness == 0"><img src="{{imagePath}}{{symbol}}{{answerSymbolReverseSVG}}"
+                                      alt=""></div>
+                                </div>
+                              </label>
+                              <input type="text" class="bg-white pb-1 w-100 answer-input" [(ngModel)]="answer.answer"
+                                placeholder="choice" (focusout)="hideTooltip('hideTooltip','answer',i,j,index)"
+                                [ngClass]="{'answer-text': answer.correctness == 100}" (focus)="onFocus('answer',i,j,index)"
+                                id="{{'answer' + i + j + index}}" (keydown)="onKeydown($event,i ,j,index)">
+                            </div>
+                          </div>
+                          <div *ngIf="answer.imgUrl.length > 0">
+                            <img src="{{answer.imgUrl}}" alt="" class="answer-img">
                           </div>
                         </div>
                       </div>
-                      <div class="add-new-question">
-                        <p (click)="addQuestion(i)" class="mb-0">Add new question</p>
-                      </div>
                     </div>
-                </div> 
+                  </div>
+                  <div class="add-new-question">
+                    <p (click)="addQuestion(i)" class="mb-0">Add new question</p>
+                  </div>
+                </div>
+              </div>
             </div>
-           
-              <!-- Wai Yan UI End -->
+
+            <!-- Wai Yan UI End -->
 
             <div class="d-flex pl-3 mt-3">
-              <p  (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
+              <p (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
                 <span>+</span>
               </p>
               <p (click)="addPd()" class="mb-0 mt-1 pl-3 new-pd-text">Add new performance demand</p>
@@ -398,12 +392,14 @@
           <div class="d-flex p-3">
             <div class="align-items-center d-flex" [ngClass]="{'pd-icon-wrapper': focusType.type == 'pd', 'check-icon-wrapper':focusType.type == 'question' || focusType.type == 'answer'}">
               <img *ngIf="focusType.type == 'pd'" src="../../../assets/images/thunder-flash-w.png" alt="" class="flex-icon">
-              <img *ngIf="focusType.type == 'question' || focusType.type == 'answer'" src="../../../assets/images/checked-rect.png" alt="" class="flex-icon">
+              <img *ngIf="focusType.type == 'question' || focusType.type == 'answer'" src="../../../assets/images/checked-rect.png"
+                alt="" class="flex-icon">
               <span class="pd-No">{{this.focusType.no + 1}}</span>
             </div>
-            <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'pd'"> PD Setting  </p> 
-            <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'question' || focusType.type == 'answer'"> Question Setting </p> 
-            <p  (click)="closeSetting()" class="close-sign d-flex justify-content-center align-items-center">
+            <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'pd'"> PD Setting </p>
+            <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'question' || focusType.type == 'answer'">
+              Question Setting </p>
+            <p (click)="closeSetting()" class="close-sign d-flex justify-content-center align-items-center">
               <span><img src="../../../assets/img/settingclose/settings-close.png" alt=""></span>
             </p>
           </div>
@@ -417,37 +413,40 @@
                 </label>
               </div>
             </div>
-            <div *ngIf="focusType.type == 'question' || focusType.type == 'answer'" class="d-flex justify-content-between w-100" style="border-bottom: 1px solid #edeff0;">
+            <div *ngIf="focusType.type == 'question' || focusType.type == 'answer'" class="d-flex justify-content-between w-100"
+              style="border-bottom: 1px solid #edeff0;">
               <p class="setting-text">Pick multiple</p>
               <div class="toggle-wrap">
                 <label class="switch">
-                  <input type="checkbox"  (click)="pickMultipleAns(this.focusType)" [checked]="performanceDemands[focusType.parentIdx].questions[focusType.no].questionType == 'MCQ-CHECKBOX'">
+                  <input type="checkbox" (click)="pickMultipleAns(this.focusType)" [checked]="performanceDemands[focusType.parentIdx].questions[focusType.no].questionType == 'MCQ-CHECKBOX'">
                   <span class="slider round"></span>
                 </label>
               </div>
             </div>
             <div class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
               <div class="d-flex align-items-center">
-                <p><i class="fa fa-angle-right"></i></p> 
-                <p class="pl-2 setting-text"> Video</p> 
+                <p><i class="fa fa-angle-right"></i></p>
+                <p class="pl-2 setting-text"> Video</p>
               </div>
               <p class="plus-sign-video d-flex justify-content-center align-items-center">
                 <span>+</span>
               </p>
             </div>
             <div *ngIf="this.focusType.type == 'pd'" class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
-              <p class="setting-text">Randomize count</p>  
+              <p class="setting-text">Randomize count</p>
               <input type="text" class="randomize-count" placeholder="0">
             </div>
-            <div *ngIf="focusType.type == 'question' || focusType.type == 'answer'" class="d-flex justify-content-between mt-3 w-100" style="border-bottom: 1px solid #edeff0;">
-              <p class="setting-text">Duplicate question</p>  
+            <div *ngIf="focusType.type == 'question' || focusType.type == 'answer'" class="d-flex justify-content-between mt-3 w-100"
+              style="border-bottom: 1px solid #edeff0;">
+              <p class="setting-text">Duplicate question</p>
               <input type="text" class="randomize-count" placeholder="0">
             </div>
           </div>
         </div>
         <div class="d-flex justify-content-center align-items-center delete-btnWrap">
           <button *ngIf="focusType.type == 'pd' && performanceDemands?.length>1" (click)="delete(focusType)">Delete</button>
-          <button *ngIf="(focusType.type == 'question' || focusType.type == 'answer') && performanceDemands[focusType.parentIdx].questions.length>1" (click)="delete(focusType)">Delete</button>
+          <button *ngIf="(focusType.type == 'question' || focusType.type == 'answer') && performanceDemands[focusType.parentIdx].questions.length>1"
+            (click)="delete(focusType)">Delete</button>
         </div>
       </div>
     </div>
@@ -460,17 +459,13 @@
 
       <div *ngIf="!conceptEdit">
         <div class="d-none">{{validateForm()}}</div>
-        <button 
-          type="button" 
-          class="btn btn-submit" 
-          [disabled]="!isConceptFormValid" 
-          (click)="createConcept()">
-            Create
+        <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="createConcept()">
+          Create
         </button>
       </div>
-      
-      <div *ngIf="conceptEdit" >
-          <button type="button" class="btn btn-submit" (click)="updateConcept(conceptId)">Update</button>
+
+      <div *ngIf="conceptEdit">
+        <button type="button" class="btn btn-submit" (click)="updateConcept(conceptId)">Update</button>
       </div>
     </div>
   </div>
@@ -490,7 +485,7 @@
           <label class="drop_drap_txt">Drag & drop</label>
           <span class="drop_sp">image anywhere or</span>
           <div class="upload-btn-wrapper">
-              <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
+            <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
             <button class="btn btn-submit uploadImgBtn">Upload image</button>
             <input type="file" name="imgFile" accept="image/x-png,image/gif,image/jpeg" (change)="onloadImg($event)" />
           </div>
@@ -498,8 +493,9 @@
       </div>
 
     </div>
-   
-    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0" appDnd (filesChangeEmiter)="onFilesChange($event)" (filesInvalidEmiter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp','jpeg']" >
+
+    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0" appDnd (filesChangeEmiter)="onFilesChange($event)"
+      (filesInvalidEmiter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp','jpeg']">
       <div class="d-flex drop_zone_middle_eixtData">
         <img src="../../../assets/img/image-drop.png" class="eimg_drop">
         <div class="d-flex  flex-column lblGp">
@@ -507,20 +503,23 @@
           <span class="edrop_sp">image anywhere or</span>
         </div>
         <div class="upload-btn-wrapper">
-            <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
-          <input type="file" #fileInput name="imgFile" *ngIf="modelType == 'multiple'" accept="image/x-png,image/gif,image/jpeg" (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" multiple/>
-          <input type="file"#fileInput *ngIf="modelType == 'single'" name="imgFile" accept="image/x-png,image/gif,image/jpeg"  (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" single/>
+          <button class="btn btn-submit uploadImgBtn exit-img">Upload image</button>
+          <input type="file" #fileInput name="imgFile" *ngIf="modelType == 'multiple'" accept="image/x-png,image/gif,image/jpeg"
+            (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" multiple />
+          <input type="file" #fileInput *ngIf="modelType == 'single'" name="imgFile" accept="image/x-png,image/gif,image/jpeg"
+            (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" single />
         </div>
-        
+
       </div>
       <div class="d-flex flex-column gallery">
         <p class="g_title">Image gallery</p>
         <div class="row imgGp">
           <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr;let i=index;">
             <div class="inner-imgDiv" (click)="onslectedImgDiv(img._id,img)" id="img-{{img._id}}" (mouseenter)="onImgMouseEvent($event,img._id)"
-            (mouseleave)="onImgMouseEvent($event,img._id)">
+              (mouseleave)="onImgMouseEvent($event,img._id)">
               <div id="cricle{{img._id}}"><i _ngcontent-c1="" class="fa fa-check" id="check{{img._id}}"></i></div>
-              <div (click)="onremoveClick(img._id)" id="trashdiv-{{img._id}}" class="trashDiv"><i _ngcontent-c1="" class="fa fa-trash" id="trash{{img._id}}"></i></div>
+              <div (click)="onremoveClick(img._id)" id="trashdiv-{{img._id}}" class="trashDiv"><i _ngcontent-c1=""
+                  class="fa fa-trash" id="trash{{img._id}}"></i></div>
               <img src={{img.url}} class="gShowImag">
               <div class="Imgoverlay" id="Imgoverlay{{img._id}}"></div>
             </div>
