@@ -277,7 +277,7 @@
                         [(ngModel)]="pd.name" (focus)="onFocus('pd',i,'','')" (focusout)="hideTooltip('hideTooltip','pD',i,j,index)">
                       <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                       <div *ngIf="pd.contents.length > 0" class="row" dragula={{i}} [(dragulaModel)]="pd.contents">
-                        <div class="col-md-4 position-relative" *ngFor="let img of pd.contents;let idx = index">
+                        <div class="col-md-4 position-relative mb-3" *ngFor="let img of pd.contents;let idx = index">
 
                           <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
                           <div class="innerPd p-0" (mouseenter)="mouseOver($event,idx)" (mouseout)="mouseOut($event)">

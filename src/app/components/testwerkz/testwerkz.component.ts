@@ -1639,10 +1639,13 @@ export class TestwerkzComponent implements OnInit {
         // }
         var noAnswer = false;
         const test = quest.answers.map((ans) => {
-          if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "")){
+          if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "") || (ans.answer != "" && ans.imgUrl != "")){
             // console.log("has one~~~");
             // has on ans (Img Or text)
             noAnswer = true;
+          }else if(ans.answer == "" && ans.imgUrl == ""){
+            // console.log("not has one")
+            noAnswer = false;
           }
           // else{
           //   console.log("true~~~");
