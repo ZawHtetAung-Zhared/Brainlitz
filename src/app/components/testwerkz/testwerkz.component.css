@@ -1212,14 +1212,22 @@ p.g_title {
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 14px;
 }
-.conceptName,.tag-name{
+.conceptName,.tag-name,.testwerkzTitle,.cTitle{
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-.conceptName{
+.conceptName,.cTitle{
   color: #2e3e4d;
   font-size: 18px;
+}
+.cTitle{
+  line-height: 2.5;
 }
 .tag-name{
   font-size: 12px;
   color: #64707d;
+}
+.testwerkzTitle{
+  font-size: 27px;
+  padding-left: 30px;
+  color: #2e3e4d;
 }
