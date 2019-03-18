@@ -2151,43 +2151,16 @@ export class TestwerkzComponent implements OnInit {
   deleteAnswerImg(i,j,index){
     this.performanceDemands[i].questions[j].answers[index].imgUrl='';
   }
-  onmouseEnter(e){
-    console.log(e)
-    console.log("over ");
-    console.log($(event.target).children(".ans-image"))
-    console.log($(event.target).siblings(".ans-image"))
-    $(event.target).children(".ans-image").show();
-      // if ($(e.target).hasClass("editablePDImg")) {
-      //   $(e.target)
-      //     .siblings(".img-pd")
-      //     .show();
-      // }
-    // if($(e.target).hasClass("answer-img") ){
-    //   console.error('first condition');
-    //       $(e.target).siblings(".ans-image").show();
+  onmouseEnter(e,i,j,index){
+    var Id = String(i) + String(j) + String(index)
+    var imgId = $('#imgID' + Id)
+    imgId[0].style.display = 'block'
 
-    // }
-    //   if($(e.target).hasClass("answer-img-wrapper")){
-    //     console.error('second condition');
-    //       $(e.target).children(".ans-image").show();
-    // }
   }
-  onmouseLeave(event){
-    console.log(event)
-    console.log(event.offsetX,event.offsetY)
-    // if (event.offsetX >= 119 || event.offsetX < 0) 
-    //   $(".ans-image").hide()
-    //     else if (event.offsetY >= 119 || event.offsetY < 0)
-    //     $(".ans-image").hide();
-    //     else $(event.target).show();
-    //   // $(event.target).siblings(".ans-image").hide();
-    //   console.warn('mouse leave');
-    if(event.offsetX < -3 || event.offsetX > 120) {
-      $(".ans-image").hide();
-    }
-    if(event.offsetY < 1 || event.offsetY > 120) {
-      $(".ans-image").hide();
-    }
+  onmouseLeave(event,i,j,index){
+    var Id = String(i) + String(j) + String(index)
+    var imgId = $('#imgID' + Id)
+    imgId[0].style.display = 'none'
   }
   updateQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
     console.log(pd);

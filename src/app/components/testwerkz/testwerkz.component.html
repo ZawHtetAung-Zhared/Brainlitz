@@ -360,12 +360,13 @@
                                 id="{{'answer' + i + j + index}}" (keydown)="onKeydown($event,i ,j,index)" autocomplete="off">
                             </div>
                           </div>
-                
-                          <div class="answer-img-wrapper" *ngIf="answer.imgUrl.length > 0" (mouseenter)="onmouseEnter($event)" (mouseout)="onmouseLeave($event)">
+                        <div (mouseover)="onmouseEnter($event,i,j,index)" (mouseout)="onmouseLeave($event,i,j,index)" style="width:200px;">
+                          <div class="answer-img-wrapper" *ngIf="answer.imgUrl.length > 0" >
                               <img src="{{answer.imgUrl}}" alt="" class="answer-img" >
-                              <img (click)="deleteAnswerImg(i,j,index)" class="ans-image" src="./assets/img/remove-white.png">
+                              <img (click)="deleteAnswerImg(i,j,index)" class="ans-image" src="./assets/img/remove-white.png" id="{{'imgID' + i + j +index}}">
                           </div>
                         </div>
+                      </div>
                       </div>
                     </div>
                   </div>
