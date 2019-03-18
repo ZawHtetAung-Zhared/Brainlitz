@@ -464,7 +464,8 @@
       </div>
 
       <div *ngIf="conceptEdit">
-        <button type="button" class="btn btn-submit" (click)="updateConcept(conceptId)">Update</button>
+        <div class="d-none">{{validateForm()}}</div>
+        <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="updateConcept(conceptId)">Update</button>
       </div>
     </div>
   </div>
