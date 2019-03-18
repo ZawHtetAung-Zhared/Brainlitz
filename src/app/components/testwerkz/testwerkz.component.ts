@@ -64,6 +64,7 @@ export class TestwerkzComponent implements OnInit {
   public navIsFixed: boolean = false;
   public iseditfocus = false;
   public otherfocus = false;
+  public isDisabelInsert = false;
   public isEditComplete: boolean = false;
   public isRemove: boolean = false;
   public translateToMarkDown: string;
@@ -105,7 +106,8 @@ export class TestwerkzComponent implements OnInit {
   public concept = {
     name: ""
   };
-  public dropDiv: any;
+  public dragItem: any;
+  public dragItemParent : any;
   public clickEle: any = "";
   // public focusType = {
   //   'type': "",
@@ -153,12 +155,21 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
-    console.log("click", this.clickEle);
-    console.log($event.className);
-    if ($event.className == "question-insert-img") {
-      console.log("Aha");
+    console.log(this.dragItem)
+    var clickedEle = $event;
+    console.log(clickedEle)
+    console.log($(clickedEle).hasClass("question"))
+    console.log($(clickedEle).parents(".question").length)
+    if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
+    if (clickedEle.className == "tooltip-wrap" || $(clickedEle).parents(".tooltip-wrap").length > 0 || $(clickedEle).hasClass("question")  || $(clickedEle).parents(".question").length > 0 || $(this.dragItem).hasClass("question")) {
+      console.log("dddd")
+    }else{
+      this.showID = "";
+      this.dragItem = "";
+    }
+
     this.clickEle = $event;
   }
   @HostListener("mouseover", ["$event"])
@@ -279,6 +290,7 @@ export class TestwerkzComponent implements OnInit {
     // this.addPd();
     console.log(this.performanceDemands);
     this.showSettingSidebar = false;
+    this.concept.name="";
   }
 
   getAllTag() {
@@ -575,12 +587,10 @@ export class TestwerkzComponent implements OnInit {
     });
     var lastIndex = this.performanceDemands[j].questions.length - 1;
     // this.performanceDemands[j].questions[lastIndex].answers[0]
-    console.warn(lastIndex);
     var idNumber = j + String(lastIndex) + "0";
     console.log(idNumber);
     var answerTootips = $("#answerTootips" + idNumber);
     //  var answerTootips = $('#answerTootips'+ j + String(lastIndex) + '0')
-    console.error(answerTootips);
     setTimeout(() => {
       answerTootips.hide();
     }, 300);
@@ -692,6 +702,12 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
+    if(event.inputType == "insertFromDrop"){
+      if($(window.getSelection().focusNode).attr("class") == ""){
+        console.log($(this.dragItem))
+        $(this.dragItemParent).append(this.dragItem)
+      }
+    }
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper")
@@ -701,6 +717,7 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "insertText") document.execCommand("undo", false);
   
       if (event.inputType == "insertParagraph") {
+        // console.log(win)
         var thisDiv =
           $(this.clickEle).hasClass("img-wrapper") ||
           $(this.clickEle).parents(".img-wrapper");
@@ -938,8 +955,6 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
-    console.log(this.isRemove, "is remove", i);
-
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
     const check: HTMLElement = document.getElementById("check" + i);
@@ -947,12 +962,13 @@ export class TestwerkzComponent implements OnInit {
     const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
 
     if (this.modelType == "single") {
-      console.log("is single", this.imgId);
       //add selected
       if (!this.isRemove) {
+        console.log(img)
         this.selectedImgArr = img;
         this.imgIdArr = i;
         if (this.imgId != undefined && this.imgId != i) {
+          console.log(this.selectedImgArr)
           this.removerSelected(this.imgId);
           imgDiv.setAttribute("style", "border:solid;color:#007fff;");
           circle.setAttribute(
@@ -962,9 +978,11 @@ export class TestwerkzComponent implements OnInit {
           trashdiv.setAttribute("style", "display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
+          this.isDisabelInsert=true;
         } else {
           if (imgDiv.style.border == "solid") {
             this.removerSelected(this.imgId);
+            this.isDisabelInsert=false;
           } else {
             imgDiv.setAttribute("style", "border:solid;color:#007fff;");
             circle.setAttribute(
@@ -973,15 +991,14 @@ export class TestwerkzComponent implements OnInit {
             );
             check.setAttribute("style", "color:white;");
             trashdiv.setAttribute("style", "display:block;");
+            this.isDisabelInsert=true;
           }
         }
         this.imgId = i;
       }
     } else {
-      console.log(this.imgIdArr.includes(i));
-      console.log(this.imgIdArr);
       if (this.isRemove) {
-        console.log("is remove");
+        // console.log("is remove");
         this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
         this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
         this.autoImgLoop(this.imgIdArr);
@@ -989,10 +1006,10 @@ export class TestwerkzComponent implements OnInit {
       } else {
         console.log(this.imgIdArr.includes(i));
         if (this.imgIdArr.includes(i)) {
-          console.log("is remove seleccted");
+          // console.log("is remove seleccted");
           this.removerSelected(i);
         } else {
-          console.log("else");
+          // console.log("else");
           this.imgIdArr.push(i);
           this.selectedImgArr.push(img);
           this.autoImgLoop(this.imgIdArr);
@@ -1001,11 +1018,12 @@ export class TestwerkzComponent implements OnInit {
     }
     this.isRemove = false;
     console.log(this.imgIdArr);
+    console.log("this.selectedImgArr",this.selectedImgArr)
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
   removerSelected(i) {
-    console.log(this.selectedImgArr, i);
+    // console.log(this.selectedImgArr, i);
     const imgDiv3: HTMLElement = document.getElementById("img-" + i);
     const circle3: HTMLElement = document.getElementById("cricle" + i);
     const check3: HTMLElement = document.getElementById("check" + i);
@@ -1022,11 +1040,11 @@ export class TestwerkzComponent implements OnInit {
     overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
     trashdiv.setAttribute("style", "display:none");
     if (this.modelType == "single") {
-      this.selectedImgArr = [];
-      this.imgIdArr = [];
+      // this.selectedImgArr = [];
+      // this.imgIdArr = [];
 
       // this.imgId=undefined;
-      console.log(this.imgId);
+      // console.log(this.imgId);
 
       // if(String(this.imgId)== i){
       //   this.imgId=undefined;
@@ -1052,9 +1070,9 @@ export class TestwerkzComponent implements OnInit {
       const trashdiv: HTMLElement = document.getElementById(
         "trashdiv-" + arr[i]
       );
-      console.log(imgDiv);
-      console.log(circle);
-      console.log(check);
+      // console.log(imgDiv);
+      // console.log(circle);
+      // console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
       circle.setAttribute(
         "style",
@@ -1062,7 +1080,7 @@ export class TestwerkzComponent implements OnInit {
       );
       check.setAttribute("style", "color:white;");
       trashdiv.setAttribute("style", "display:block");
-      console.log(arr[i]);
+      // console.log(arr[i]);
     }
   }
 
@@ -1091,15 +1109,15 @@ export class TestwerkzComponent implements OnInit {
     this.isRemove = true;
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
         this.getAllContent().then(() => {
-          console.log("here me>", res);
+          // console.log("here me>", res);
           setTimeout(() => {
-            console.log(this.selectedImgArr);
-            console.log(this.imgIdArr);
+            // console.log(this.selectedImgArr);
+            // console.log(this.imgIdArr);
             if (this.modelType == "multiple") {
               this.autoImgLoop(this.imgIdArr);
             } else {
@@ -1184,12 +1202,15 @@ export class TestwerkzComponent implements OnInit {
   //   }
   checkFocusPosition() {
     console.log(this.selectEle);
-    if (
-      this.selectEle.className == "img-wrapper" ||
-      $(this.selectEle).parents(".img-wrapper").length > 0
-    ) {
-      return true;
-    } else return false;
+    if(this.selectEle != undefined){
+      if (
+        this.selectEle.className == "img-wrapper" ||
+        $(this.selectEle).parents(".img-wrapper").length > 0
+      ) {
+        return true;
+      } else return false;
+    }
+    
   }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
@@ -1260,6 +1281,7 @@ export class TestwerkzComponent implements OnInit {
       this.performanceDemands[this.pdIndex].questions[
         this.questionIndex
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
+      console.log("~~~selectedImgArr.url",this.selectedImgArr.url)
     } else {
       console.log("pd Insert Img======");
 
@@ -1279,6 +1301,8 @@ export class TestwerkzComponent implements OnInit {
     var img;
     var _this = this;
     $(".editableImg").hover(function(event) {
+      $('.img-span').remove();
+      console.log($('.img-span'))
       img = this;
       var posLeft = 105 + $(this).position().left;
       var posTop = $(this).position().top;
@@ -1294,15 +1318,8 @@ export class TestwerkzComponent implements OnInit {
             <img src='./assets/images/remove-white.png'>
            </span>`)
       );
-      console.log(event);
-      if (event.type == "mouseout") {
-        if (event.offsetX <= 119 || event.offsetY <= 119)
-          console.log("out but not out");
-        else console.log("completely cout");
-      }
+        console.log($('.img-span'))
       $(".img-span").click(function() {
-        console.log("img span hover");
-        console.log(_this.isHover);
         $(img).remove();
         $(".img-span").remove();
         // console.log($(img).remove());
@@ -1318,6 +1335,7 @@ export class TestwerkzComponent implements OnInit {
 
 
   }
+
   mouseOver(e,idx){
     console.log(e.target.className)
     console.log("over ");
@@ -1333,10 +1351,6 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   mouseOut(event){
-    console.log("out ");
-    console.log($(event.target).children(".img-pd"))
-        console.log($(event.target).siblings(".img-pd"))
-
     if (event.offsetX >= 119 || event.offsetX < 0) {
       if($(event.target).hasClass("editablePDImg") ){
          $(event.target).siblings(".img-pd").hide();
@@ -1379,6 +1393,7 @@ export class TestwerkzComponent implements OnInit {
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
         this.editableId = "q" + "-" + idx1 + "-" + idx2;
+        this.dragItem = document.getElementById(this.editableId)
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
@@ -1404,14 +1419,19 @@ export class TestwerkzComponent implements OnInit {
       ].showTooltip = true;
     }
   }
+  onFocusOut(e){
+    this.dragItem = "";
+  }
   hideTooltip(hideTooltip, type, idx1, idx2, idx3, t?) {
     console.log("focusout", type);
     if (hideTooltip == "hideTooltip") {
       setTimeout(() => {
         if (type == "answer") {
-          this.performanceDemands[idx1].questions[idx2].answers[
-            idx3
-          ].showTooltip = false;
+          if(this.performanceDemands[idx1] != undefined &&  this.performanceDemands[idx1].questions[idx2] != undefined &&  this.performanceDemands[idx1].questions[idx2].answers[idx3] != undefined){
+            this.performanceDemands[idx1].questions[idx2].answers[
+              idx3
+            ].showTooltip = false;
+          }
           var tootipsId = $("#answerTootips" + idx1 + idx2 + idx3);
           tootipsId.hide();
         } else if (type == "question") {
@@ -1419,7 +1439,9 @@ export class TestwerkzComponent implements OnInit {
           // $('.tooltip-wrap').hide();
           // this.performanceDemands[idx1].question[idx2].showTooltip = false;
         } else {
-          this.performanceDemands[idx1].showTooltip = false;
+          if(this.performanceDemands[idx1] != undefined){
+            this.performanceDemands[idx1].showTooltip = false;
+          }
           console.log("object");
         }
       }, 150);
@@ -1800,20 +1822,25 @@ export class TestwerkzComponent implements OnInit {
     _this.creationConceptProcess(formattedPdIds, _this);
   }
   onDragStart(e) {
-    console.log(e.target);
+    this.dragItem = e.target;
+    console.log($(e.target).parents(".img-wrapper")[0]);
     console.log($(".img-span"));
     $(".img-span").remove();
     // e.preventDefault();
   }
   onDrop(e) {
     console.log(e);
-    if (e.target.className != "editableImg") {
-      console.log("not that");
-      // document.execCommand("undo");
-      this.dropDiv = false;
-    } else {
-      this.dropDiv = true;
+    if($(e.target).hasClass('img-wrapper')){
+      this.dragItemParent = e.target;
     }
+    console.log(this.dragItemParent)
+    // if (e.target.className != "editableImg") {
+    //   console.log("not that");
+    //   // document.execCommand("undo");
+    //   this.dropDiv = false;
+    // } else {
+    //   this.dropDiv = true;
+    // }
     // console.log(this.dropDiv.id)
     // console.log(e)
     // console.log(e.target.id)
@@ -1829,7 +1856,8 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code end
 
-  /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+ /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
+  //start get method
   async onUpdateTeskWerkz(id) {
     console.log(id);
     this.conceptId = id;
@@ -1892,6 +1920,9 @@ export class TestwerkzComponent implements OnInit {
     }
 }
 
+  //end get method
+
+  //start put method
 updateConcept(id) {
   console.log("---------------------");
   console.log(this.performanceDemands);
@@ -1940,6 +1971,7 @@ updatepdLoopDone(_this,conceptId,error,pdIds) {
   _this.updateConceptProcess(formattedPdIds, _this,conceptId);
   console.log(conceptId)
 }
+
 updateConceptProcess(formattedPdIds, hello,cid) {
   // Create Concept
   // var moduleId = localStorage.getItem('moduleID')
@@ -2020,18 +2052,37 @@ updateQuestions(_this, pd, id,question, callback) {
   questionFormat.questionType = question.questionType;
   questionFormat.question = question.question;
   questionFormat.html = question.html;
-  _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
-    res => {
-      console.log(res);
-      var questionId = JSON.parse(JSON.stringify(res));
+  console.log(question._id)
+  if(question._id =="" || question._id==undefined){
+    console.log("is create");
+    _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
 
-      console.log(questionId.meta._id);
-      callback(null, questionId.meta._id);
-    },
-    err => {
-      console.log(err);
-    }
-  );
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }else{
+    console.log("is update");
+    _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
+      res => {
+        console.log(res);
+        var questionId = JSON.parse(JSON.stringify(res));
+  
+        console.log(questionId.meta._id);
+        callback(null, questionId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  
 }
 
 
@@ -2073,7 +2124,19 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
   // OR
   // pd.name = string",
   // pd.description = string",
+  if(pd._id =="" || pd._id==undefined){
+    _this._service.createPD(_this.regionID, pdCreateFormat).subscribe(
+      res => {
+        const createdPdId = JSON.parse(JSON.stringify(res));
 
+        console.log(createdPdId.meta._id);
+        pdCallback(null, createdPdId.meta._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   _this._service.updatePD(_this.regionID, pdCreateFormat,pd._id).subscribe(
     res => {
       const createdPdId = JSON.parse(JSON.stringify(res));
@@ -2086,6 +2149,6 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
     }
   );
 }
-
-/** ************** *** ************** *** **************  end Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
+//end put method
+/** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
 }
