@@ -1189,12 +1189,15 @@ export class TestwerkzComponent implements OnInit {
   //   }
   checkFocusPosition() {
     console.log(this.selectEle);
-    if (
-      this.selectEle.className == "img-wrapper" ||
-      $(this.selectEle).parents(".img-wrapper").length > 0
-    ) {
-      return true;
-    } else return false;
+    if(this.selectEle != undefined){
+      if (
+        this.selectEle.className == "img-wrapper" ||
+        $(this.selectEle).parents(".img-wrapper").length > 0
+      ) {
+        return true;
+      } else return false;
+    }
+    
   }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
