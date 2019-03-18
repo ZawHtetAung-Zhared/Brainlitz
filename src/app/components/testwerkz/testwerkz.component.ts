@@ -34,7 +34,7 @@ export class TestwerkzComponent implements OnInit {
   // public id3:any;
   // Component
   public conceptsArr = [];
-  public showRMIcon:any= "";
+  public showRMIcon: any = "";
   public answerSymbols = ["a", "b", "c", "d", "e", "f", "g", "h"];
   public imagePath = "../../../assets/img/answerIcon/";
   public answerSymbolSVG = "Choice_reverse.svg";
@@ -75,7 +75,7 @@ export class TestwerkzComponent implements OnInit {
   public isDrop: boolean = false;
   public selectEle: any;
   public isHover: boolean = false;
-  public markDownHtml_arr:any=[];
+  public markDownHtml_arr: any = [];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -107,7 +107,7 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public dragItem: any;
-  public dragItemParent : any;
+  public dragItemParent: any;
   public clickEle: any = "";
   // public focusType = {
   //   'type': "",
@@ -128,7 +128,7 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code start
 
-  public conceptId:string;
+  public conceptId: string;
 
   public performanceDemands = [];
   // waiyan's code end
@@ -155,17 +155,23 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists();
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
-    console.log(this.dragItem)
+    console.log(this.dragItem);
     var clickedEle = $event;
-    console.log(clickedEle)
-    console.log($(clickedEle).hasClass("question"))
-    console.log($(clickedEle).parents(".question").length)
+    console.log(clickedEle);
+    console.log($(clickedEle).hasClass("question"));
+    console.log($(clickedEle).parents(".question").length);
     if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
-    if (clickedEle.className == "tooltip-wrap" || $(clickedEle).parents(".tooltip-wrap").length > 0 || $(clickedEle).hasClass("question")  || $(clickedEle).parents(".question").length > 0 || $(this.dragItem).hasClass("question")) {
-      console.log("dddd")
-    }else{
+    if (
+      clickedEle.className == "tooltip-wrap" ||
+      $(clickedEle).parents(".tooltip-wrap").length > 0 ||
+      $(clickedEle).hasClass("question") ||
+      $(clickedEle).parents(".question").length > 0 ||
+      $(this.dragItem).hasClass("question")
+    ) {
+      console.log("dddd");
+    } else {
       this.showID = "";
       this.dragItem = "";
     }
@@ -198,12 +204,13 @@ export class TestwerkzComponent implements OnInit {
         );
 
         $(".img-span").click(function() {
-          console.log($(img).siblings(".editableImg"))
-          console.log($(img).parent())
+          console.log($(img).siblings(".editableImg"));
+          console.log($(img).parent());
           $(".img-span").remove();
-          if($(img).siblings(".editableImg").length ==0){
-            $(img).parent().remove();
-
+          if ($(img).siblings(".editableImg").length == 0) {
+            $(img)
+              .parent()
+              .remove();
           }
           // console.log($(img).remove());
           $(img).remove();
@@ -260,12 +267,11 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  getConceptLists(){
-    this._service.getAllConcept(this.regionID)
-    .subscribe((res:any)=>{
-      console.log("Concept lists",res);
+  getConceptLists() {
+    this._service.getAllConcept(this.regionID).subscribe((res: any) => {
+      console.log("Concept lists", res);
       this.conceptsArr = res;
-    })
+    });
   }
 
   createTagWerkz(item) {
@@ -292,7 +298,7 @@ export class TestwerkzComponent implements OnInit {
     // this.addPd();
     console.log(this.performanceDemands);
     this.showSettingSidebar = false;
-    this.concept.name="";
+    this.concept.name = "";
   }
 
   getAllTag() {
@@ -394,8 +400,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
-    this.performanceDemands=[];
-    this.ptest=[];
+    this.performanceDemands = [];
+    this.ptest = [];
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
@@ -405,8 +411,8 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
-    this.conceptEdit=false;
-    this.performanceDemands=[];
+    this.conceptEdit = false;
+    this.performanceDemands = [];
   }
   edit() {
     this.isEditComplete = true;
@@ -614,18 +620,17 @@ export class TestwerkzComponent implements OnInit {
     //   ]
     // });
     // console.log(this.pdLists);
-    this.performanceDemands.push( {
-       _id: "",
-       name: "", 
-       showTooltip:false,
-       contents: [
-      ],
-       questions: [ 
-           {
-            _id: "", 
-           allowedAttempts: 0, 
-           viewType: "LIST", 
-           contents: [
+    this.performanceDemands.push({
+      _id: "",
+      name: "",
+      showTooltip: false,
+      contents: [],
+      questions: [
+        {
+          _id: "",
+          allowedAttempts: 0,
+          viewType: "LIST",
+          contents: [
             {
               contentId: "",
               sequence: 0,
@@ -704,10 +709,10 @@ export class TestwerkzComponent implements OnInit {
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
-    if(event.inputType == "insertFromDrop"){
-      if($(window.getSelection().focusNode).attr("class") == ""){
-        console.log($(this.dragItem))
-        $(this.dragItemParent).append(this.dragItem)
+    if (event.inputType == "insertFromDrop") {
+      if ($(window.getSelection().focusNode).attr("class") == "") {
+        console.log($(this.dragItem));
+        $(this.dragItemParent).append(this.dragItem);
       }
     }
     if (
@@ -717,7 +722,7 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
       if (event.inputType == "insertText") document.execCommand("undo", false);
-  
+
       if (event.inputType == "insertParagraph") {
         // console.log(win)
         var thisDiv =
@@ -980,11 +985,11 @@ export class TestwerkzComponent implements OnInit {
           trashdiv.setAttribute("style", "display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
-          this.isDisabelInsert=true;
+          this.isDisabelInsert = true;
         } else {
           if (imgDiv.style.border == "solid") {
             this.removerSelected(this.imgId);
-            this.isDisabelInsert=false;
+            this.isDisabelInsert = false;
           } else {
             imgDiv.setAttribute("style", "border:solid;color:#007fff;");
             circle.setAttribute(
@@ -993,7 +998,7 @@ export class TestwerkzComponent implements OnInit {
             );
             check.setAttribute("style", "color:white;");
             trashdiv.setAttribute("style", "display:block;");
-            this.isDisabelInsert=true;
+            this.isDisabelInsert = true;
           }
         }
         this.imgId = i;
@@ -1202,9 +1207,10 @@ export class TestwerkzComponent implements OnInit {
   //     this.cancelModal();
   //     // this.selectedImgArr=[];
   //   }
+  
   checkFocusPosition() {
     console.log(this.selectEle);
-    if(this.selectEle != undefined){
+    if (this.selectEle != undefined) {
       if (
         this.selectEle.className == "img-wrapper" ||
         $(this.selectEle).parents(".img-wrapper").length > 0
@@ -1212,7 +1218,6 @@ export class TestwerkzComponent implements OnInit {
         return true;
       } else return false;
     }
-    
   }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
@@ -1279,11 +1284,31 @@ export class TestwerkzComponent implements OnInit {
       }, 100);
       this.turn(this.editableId, this.focusType);
     } else if (this.modelType == "single") {
-      console.log("answer === ");
+      console.log("answer === " , $(".answer-img") , );
       this.performanceDemands[this.pdIndex].questions[
         this.questionIndex
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
-      console.log("~~~selectedImgArr.url",this.selectedImgArr.url)
+      // setTimeout(function(){
+      //   var img = $(".answer-img");
+      //   var imgWidth = img.width();
+      //   var imgHeight = img.height();
+      //   var maxWidthAndHeight = 120;
+      //   console.log(imgWidth, imgHeight);
+      //   if (imgHeight < maxWidthAndHeight) {
+      //     var topAndBottom = maxWidthAndHeight - imgHeight;
+      //     console.log(topAndBottom);
+      //     img.css("padding-top", topAndBottom / 2);
+      //     img.css("padding-bottom", topAndBottom / 2);
+      //   }
+      //   if (imgWidth < maxWidthAndHeight) {
+      //     // console.log("less than 120")
+      //     var leftAndRight = maxWidthAndHeight - imgWidth;
+      //     console.log(leftAndRight);
+      //     img.css("padding-left", leftAndRight / 2);
+      //     img.css("padding-right", leftAndRight / 2);
+      //   }
+      // },200)
+      
     } else {
       console.log("pd Insert Img======");
 
@@ -1341,48 +1366,57 @@ export class TestwerkzComponent implements OnInit {
 
   }
 
-  mouseOver(e,idx){
-    console.log(e.target.className)
+  mouseOver(e, idx) {
+    console.log(e.target.className);
     console.log("over ");
-    console.log($(event.target).children(".img-pd"))
-        console.log($(event.target).siblings(".img-pd"))
-    if($(e.target).hasClass("editablePDImg") ){
-          $(e.target).siblings(".img-pd").show();
-
+    console.log($(event.target).children(".img-pd"));
+    console.log($(event.target).siblings(".img-pd"));
+    if ($(e.target).hasClass("editablePDImg")) {
+      $(e.target)
+        .siblings(".img-pd")
+        .show();
     }
-      if($(e.target).hasClass("innerPd")){
-          $(e.target).children(".img-pd").show();
-
+    if ($(e.target).hasClass("innerPd")) {
+      $(e.target)
+        .children(".img-pd")
+        .show();
     }
   }
-  mouseOut(event){
+  mouseOut(event) {
     if (event.offsetX >= 119 || event.offsetX < 0) {
-      if($(event.target).hasClass("editablePDImg") ){
-         $(event.target).siblings(".img-pd").hide();
-       }
-      if($(event.target).hasClass("innerPd")){
-        $(event.target).children(".img-pd").hide();
+      if ($(event.target).hasClass("editablePDImg")) {
+        $(event.target)
+          .siblings(".img-pd")
+          .hide();
       }
-    }
-    else if (event.offsetY >= 119 || event.offsetY < 0){
-      if($(event.target).hasClass("editablePDImg") ){
-        $(event.target).siblings(".img-pd").hide();
+      if ($(event.target).hasClass("innerPd")) {
+        $(event.target)
+          .children(".img-pd")
+          .hide();
       }
-      if($(event.target).hasClass("innerPd")){
-        $(event.target).children(".img-pd").hide();
+    } else if (event.offsetY >= 119 || event.offsetY < 0) {
+      if ($(event.target).hasClass("editablePDImg")) {
+        $(event.target)
+          .siblings(".img-pd")
+          .hide();
       }
-    }else console.log("out but not out" , this.showRMIcon);
+      if ($(event.target).hasClass("innerPd")) {
+        $(event.target)
+          .children(".img-pd")
+          .hide();
+      }
+    } else console.log("out but not out", this.showRMIcon);
   }
 
-  showID:any;
+  showID: any;
   onFocus(type, idx1, idx2, idx3) {
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
     this.focusType.type = type;
     this.showID = "";
-    console.log(this.performanceDemands)
-    console.log(this.performanceDemands.length)
+    console.log(this.performanceDemands);
+    console.log(this.performanceDemands.length);
     this.showSetting();
     switch (type) {
       case "pd":
@@ -1398,7 +1432,7 @@ export class TestwerkzComponent implements OnInit {
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
         this.editableId = "q" + "-" + idx1 + "-" + idx2;
-        this.dragItem = document.getElementById(this.editableId)
+        this.dragItem = document.getElementById(this.editableId);
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
@@ -1424,7 +1458,7 @@ export class TestwerkzComponent implements OnInit {
       ].showTooltip = true;
     }
   }
-  onFocusOut(e){
+  onFocusOut(e) {
     this.dragItem = "";
   }
   hideTooltip(hideTooltip, type, idx1, idx2, idx3, t?) {
@@ -1432,7 +1466,12 @@ export class TestwerkzComponent implements OnInit {
     if (hideTooltip == "hideTooltip") {
       setTimeout(() => {
         if (type == "answer") {
-          if(this.performanceDemands[idx1] != undefined &&  this.performanceDemands[idx1].questions[idx2] != undefined &&  this.performanceDemands[idx1].questions[idx2].answers[idx3] != undefined){
+          if (
+            this.performanceDemands[idx1] != undefined &&
+            this.performanceDemands[idx1].questions[idx2] != undefined &&
+            this.performanceDemands[idx1].questions[idx2].answers[idx3] !=
+              undefined
+          ) {
             this.performanceDemands[idx1].questions[idx2].answers[
               idx3
             ].showTooltip = false;
@@ -1444,7 +1483,7 @@ export class TestwerkzComponent implements OnInit {
           // $('.tooltip-wrap').hide();
           // this.performanceDemands[idx1].question[idx2].showTooltip = false;
         } else {
-          if(this.performanceDemands[idx1] != undefined){
+          if (this.performanceDemands[idx1] != undefined) {
             this.performanceDemands[idx1].showTooltip = false;
           }
           console.log("object");
@@ -1467,7 +1506,7 @@ export class TestwerkzComponent implements OnInit {
   //       this.showID = "";
   //     }
   //   }
-   
+
   // }
   // closeDropdown(e,type){
   //   console.log(e)
@@ -1552,7 +1591,7 @@ export class TestwerkzComponent implements OnInit {
 
   cancelConcept(type) {
     this.conceptCreate = false;
-    this.conceptEdit=false;
+    this.conceptEdit = false;
     this.testWerkzCategory = false;
     this.conceptList = true;
     this.performanceDemands = [];
@@ -1561,9 +1600,9 @@ export class TestwerkzComponent implements OnInit {
     };
     this.focusType = {};
     this.ischecked = "";
-    this.performanceDemands=[];
-    this.ptest=[];
-    if(type == 'redirect'){
+    this.performanceDemands = [];
+    this.ptest = [];
+    if (type == "redirect") {
       this.getConceptLists();
     }
   }
@@ -1575,18 +1614,30 @@ export class TestwerkzComponent implements OnInit {
 
   public isConceptFormValid = false; // Global
 
-  validateForm () {
+  validateForm() {
     if (!this.concept.name) {
       this.isConceptFormValid = false;
       return this.isConceptFormValid;
     }
 
     const pds = this.performanceDemands;
-    const checkPDs = pds.map((pd) => {
-      if (!pd.name) { return false; }
-      var noAnswer = false;
-      const questions = pd.questions.map((quest) => {
-        if (!quest.question) { return false; }  
+
+    const checkPDs = pds.map(pd => {
+      if (!pd.name) {
+        return false;
+      }
+
+      const questions = pd.questions.map(quest => {
+        if (!quest.question) {
+          return false;
+        }
+
+        // const noAnswer = quest.answers.some(ans => ans.answer === "");
+
+        // if (!noAnswer) {
+        //   return quest.answers.some(ans => ans.correctness === 100);
+        // }
+        var noAnswer = false;
         const test = quest.answers.map((ans) => {
           if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "")){
             // console.log("has one~~~");
@@ -1598,19 +1649,16 @@ export class TestwerkzComponent implements OnInit {
           // }
         })
          if (noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
-        // const noAnswer = quest.answers.some((ans) => ans.answer === '');
 
-        // if (!noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
-        
         return false;
       });
-      
-      return !questions.includes(false) 
+
+      return !questions.includes(false);
     });
-    
+
     this.isConceptFormValid = !checkPDs.includes(false);
     return this.isConceptFormValid;
-}
+  }
 
   //get html tag in div
   turn(qId, fType) {
@@ -1638,7 +1686,7 @@ export class TestwerkzComponent implements OnInit {
     }, 200);
   }
 
-  removePDImg(img,idx,pdIdx) {
+  removePDImg(img, idx, pdIdx) {
     console.log("Delete Img", img);
     this.performanceDemands[pdIdx].contents.splice(idx, 1);
   }
@@ -1723,7 +1771,7 @@ export class TestwerkzComponent implements OnInit {
   pdLoop(_this, pd, pdCallback) {
     // API CALL
     // Question Creatoion Loop
-    console.log(pd)
+    console.log(pd);
     console.log("PD LOOP", JSON.stringify(pd.questions));
     async.map(
       pd.questions,
@@ -1795,7 +1843,7 @@ export class TestwerkzComponent implements OnInit {
     this.invalidFiles = fileList;
   }
 
-  creationConceptProcess(formattedPdIds, hello,id) {
+  creationConceptProcess(formattedPdIds, hello, id) {
     // Create Concept
     // var moduleId = localStorage.getItem('moduleID')
     console.log("this", hello);
@@ -1815,7 +1863,7 @@ export class TestwerkzComponent implements OnInit {
     this._service.createConcept(this.regionID, conceptFormat).subscribe(
       res => {
         console.log("FINALLY", res);
-        this.cancelConcept('redirect');
+        this.cancelConcept("redirect");
       },
       err => {
         console.log("err");
@@ -1824,7 +1872,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   pdLoopDone(_this, error, pdIds) {
-    console.log(pdIds)
+    console.log(pdIds);
     if (error) {
       console.error("Error in pdLoopDone", error);
       return;
@@ -1845,10 +1893,10 @@ export class TestwerkzComponent implements OnInit {
   }
   onDrop(e) {
     console.log(e);
-    if($(e.target).hasClass('img-wrapper')){
+    if ($(e.target).hasClass("img-wrapper")) {
       this.dragItemParent = e.target;
     }
-    console.log(this.dragItemParent)
+    console.log(this.dragItemParent);
     // if (e.target.className != "editableImg") {
     //   console.log("not that");
     //   // document.execCommand("undo");
@@ -1864,14 +1912,11 @@ export class TestwerkzComponent implements OnInit {
     //   console.log("gg")
   }
 
-  
- 
-// waiyan's code end
-
+  // waiyan's code end
 
   // waiyan's code end
 
- /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
+  /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
   //start get method
   async onUpdateTeskWerkz(id) {
     console.log(id);
@@ -1912,235 +1957,247 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
- getQueById(qObj,id){
- console.log(this.ptest,id);
-  for(let i=0;i<qObj.length;i++){
-  
-        this._service.getQuesById(this.regionID,qObj[i].questionId).subscribe((res:any)=>{
-        console.log(res.html.question);
-        this.markDownHtml_arr.push(res.html.question);
-        setTimeout(() => {
-        document.getElementById("q-"+id+'-'+i).innerHTML=res.html.question;
-        console.log(document.getElementById("dd"));
-        }, 200);
-        this.ptest[id].showTooltip=false;
-        this.ptest[id].questions[i]=res;
-      },err=>{
-        console.log(err);
-      });
-    // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
-    // console.log("q-"+id+i);
-    // console.log(inner_markDown);
-    
+  getQueById(qObj, id) {
+    console.log(this.ptest, id);
+    for (let i = 0; i < qObj.length; i++) {
+      this._service.getQuesById(this.regionID, qObj[i].questionId).subscribe(
+        (res: any) => {
+          console.log(res.html.question);
+          this.markDownHtml_arr.push(res.html.question);
+          setTimeout(() => {
+            document.getElementById("q-" + id + "-" + i).innerHTML =
+              res.html.question;
+            console.log(document.getElementById("dd"));
+          }, 200);
+          this.ptest[id].showTooltip = false;
+          this.ptest[id].questions[i] = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+      // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
+      // console.log("q-"+id+i);
+      // console.log(inner_markDown);
     }
-}
+  }
 
   //end get method
 
   //start put method
-updateConcept(id) {
-  console.log("---------------------");
-  console.log(this.performanceDemands);
-  console.log("---------------------",id);
-  this.blockUI.start("Loading...");
-  
-  async.map(
-    this.performanceDemands,
-    this.updatepdLoop.bind(null,this,id),
-    this.updatepdLoopDone.bind(null, this,id)
-  );
-  setTimeout(() => {
-    this.blockUI.stop();
-  }, 300);
-}
+  updateConcept(id) {
+    console.log("---------------------");
+    console.log(this.performanceDemands);
+    console.log("---------------------", id);
+    this.blockUI.start("Loading...");
 
-updatepdLoop(_this, id,pd ,pdCallback) {
-  console.log(_this,pd);
-  console.log(id)
-  // API CALL
-  // Question Creatoion Loop
-  console.log("PD LOOP", JSON.stringify(pd.questions));
-  async.map(
-    pd.questions,
-    _this.updateQuestions.bind(null, _this, pd,id),
-    _this.updateQuesitonsDone.bind(null, pd, _this, pdCallback)
-  );
-  // After ASYNC, pd.quesitons
-}
-
-updatepdLoopDone(_this,conceptId,error,pdIds) {
-
-  console.log(error)
-  console.log(pdIds)
-  console.log(conceptId)
-  console.log(_this)
-  if (error) {
-    console.error("Error in pdLoopDone", error);
-    return;
+    async.map(
+      this.performanceDemands,
+      this.updatepdLoop.bind(null, this, id),
+      this.updatepdLoopDone.bind(null, this, id)
+    );
+    setTimeout(() => {
+      this.blockUI.stop();
+    }, 300);
   }
-  const formattedPdIds = pdIds.map((id, index) => ({
-    pdId: id,
-    sequence: ++index
-  }));
-  // Concept API Calling
-  _this.updateConceptProcess(formattedPdIds, _this,conceptId);
-  console.log(conceptId)
-}
 
-updateConceptProcess(formattedPdIds, hello,cid) {
-  // Create Concept
-  // var moduleId = localStorage.getItem('moduleID')
-  console.log("this", hello);
-  console.log(formattedPdIds)
-  console.log(cid)
-  const conceptFormat = {
-    // "moduleId": moduleId,
-    name: this.concept.name,
-    tag: [
-      {
-        tagId: this.tagID
-      }
-    ],
-    pd: [],
-    contents: []
-  };
+  updatepdLoop(_this, id, pd, pdCallback) {
+    console.log(_this, pd);
+    console.log(id);
+    // API CALL
+    // Question Creatoion Loop
+    console.log("PD LOOP", JSON.stringify(pd.questions));
+    async.map(
+      pd.questions,
+      _this.updateQuestions.bind(null, _this, pd, id),
+      _this.updateQuesitonsDone.bind(null, pd, _this, pdCallback)
+    );
+    // After ASYNC, pd.quesitons
+  }
 
-  conceptFormat.pd = formattedPdIds;
-  this._service.updateConcept(this.regionID, conceptFormat,cid
-    ).subscribe(
-    res => {
-      console.log("FINALLY", res);
-      this.cancelConcept('redirect');
-    },
-    err => {
-      console.log("err");
+  updatepdLoopDone(_this, conceptId, error, pdIds) {
+    console.log(error);
+    console.log(pdIds);
+    console.log(conceptId);
+    console.log(_this);
+    if (error) {
+      console.error("Error in pdLoopDone", error);
+      return;
     }
-  );
-}
+    const formattedPdIds = pdIds.map((id, index) => ({
+      pdId: id,
+      sequence: ++index
+    }));
+    // Concept API Calling
+    _this.updateConceptProcess(formattedPdIds, _this, conceptId);
+    console.log(conceptId);
+  }
 
-updateQuestions(_this, pd, id,question, callback) {
-  console.group("Create QUestion");
-  console.log(pd)
-  console.log(question._id)
-  console.groupEnd();
-  // Update quesiton object and pass it to api
-  const testArr = [];
-  const questionFormat = {
-    name: "",
-    description: "",
-    question: "",
-    html:{
-      question:""
-    },
-    allowedAttempts: 0,
-    questionType: "MCQ-OPTION",
-    viewType: "LIST",
-    contents: [],
-    answers: [
-      {
+  updateConceptProcess(formattedPdIds, hello, cid) {
+    // Create Concept
+    // var moduleId = localStorage.getItem('moduleID')
+    console.log("this", hello);
+    console.log(formattedPdIds);
+    console.log(cid);
+    const conceptFormat = {
+      // "moduleId": moduleId,
+      name: this.concept.name,
+      tag: [
+        {
+          tagId: this.tagID
+        }
+      ],
+      pd: [],
+      contents: []
+    };
+
+    conceptFormat.pd = formattedPdIds;
+    this._service.updateConcept(this.regionID, conceptFormat, cid).subscribe(
+      res => {
+        console.log("FINALLY", res);
+        this.cancelConcept("redirect");
+      },
+      err => {
+        console.log("err");
+      }
+    );
+  }
+
+  updateQuestions(_this, pd, id, question, callback) {
+    console.group("Create QUestion");
+    console.log(pd);
+    console.log(question._id);
+    console.groupEnd();
+    // Update quesiton object and pass it to api
+    const testArr = [];
+    const questionFormat = {
+      name: "",
+      description: "",
+      question: "",
+      html: {
+        question: ""
+      },
+      allowedAttempts: 0,
+      questionType: "MCQ-OPTION",
+      viewType: "LIST",
+      contents: [],
+      answers: [
+        {
+          name: "",
+          answer: "",
+          imgUrl:
+            "https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155245147905155934231download%20%281%29.jpeg",
+          correctness: 100,
+          contents: []
+        }
+      ]
+    };
+    question.answers.map(answer => {
+      var tempObj = {
         name: "",
         answer: "",
-        imgUrl:
-          "https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/contents/image/155245147905155934231download%20%281%29.jpeg",
-        correctness: 100,
+        imgUrl: "",
+        correctness: 0,
         contents: []
-      }
-    ]
-  };
-  question.answers.map(answer => {
-    var tempObj ={
-      "name":'',
-      "answer":'',
-      "imgUrl":'',
-      "correctness":0,
-      "contents":[]
+      };
+      tempObj.name = answer.name;
+      tempObj.answer = answer.answer;
+      tempObj.imgUrl = answer.imgUrl;
+      tempObj.correctness = answer.correctness;
+      console.log(tempObj);
+      testArr.push(tempObj);
+      console.log(testArr);
+    });
+    questionFormat.answers = testArr;
+    questionFormat.questionType = question.questionType;
+    questionFormat.question = question.question;
+    questionFormat.html = question.html;
+    console.log(question._id);
+    if (question._id == "" || question._id == undefined) {
+      console.log("is create");
+      _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
+        res => {
+          console.log(res);
+          var questionId = JSON.parse(JSON.stringify(res));
+
+          console.log(questionId.meta._id);
+          callback(null, questionId.meta._id);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      console.log("is update");
+      _this._service
+        .updatePDQuestion(_this.regionID, questionFormat, question._id)
+        .subscribe(
+          res => {
+            console.log(res);
+            var questionId = JSON.parse(JSON.stringify(res));
+
+            console.log(questionId.meta._id);
+            callback(null, questionId.meta._id);
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
-    tempObj.name = answer.name
-    tempObj.answer = answer.answer
-    tempObj.imgUrl = answer.imgUrl;
-    tempObj.correctness = answer.correctness
-    console.log(tempObj)
-    testArr.push(tempObj)
-    console.log(testArr)
-  })
-  questionFormat.answers = testArr
-  questionFormat.questionType = question.questionType;
-  questionFormat.question = question.question;
-  questionFormat.html = question.html;
-  console.log(question._id)
-  if(question._id =="" || question._id==undefined){
-    console.log("is create");
-    _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
-      res => {
-        console.log(res);
-        var questionId = JSON.parse(JSON.stringify(res));
-
-        console.log(questionId.meta._id);
-        callback(null, questionId.meta._id);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }else{
-    console.log("is update");
-    _this._service.updatePDQuestion(_this.regionID, questionFormat,question._id).subscribe(
-      res => {
-        console.log(res);
-        var questionId = JSON.parse(JSON.stringify(res));
-  
-        console.log(questionId.meta._id);
-        callback(null, questionId.meta._id);
-      },
-      err => {
-        console.log(err);
-      }
-    );
   }
-  
-}
 
+  updateQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
+    console.log(pd);
+    console.log(_this);
+    console.log(error);
+    console.log(questionIds);
+    // const questionIds = questionIds;
+    console.log(pd.contentsArr);
+    const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }));
 
-updateQuesitonsDone(pd, _this, pdCallback, error, questionIds){
-  console.log(pd)
-  console.log(_this)
-  console.log(error)
-  console.log(questionIds)
-  // const questionIds = questionIds;
-  console.log(pd.contentsArr);
-  const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }));
+    _this.updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback);
+  }
 
-  _this.updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback);
-}
-
-updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
-  // Create PD
-  let pdCreateFormat = {
-    name: "string",
-    questions: [],
-    contents: []
-  };
-  console.log(formattedQuestionIDs)
-  console.log(pd)
-  const tempContentArray = [];
-  pd.contents.map((contentObj, index) => {
-    var tempContentObj = {
-      contentId: "",
-      sequence: 0
+  updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
+    // Create PD
+    let pdCreateFormat = {
+      name: "string",
+      questions: [],
+      contents: []
     };
-    tempContentObj.contentId = contentObj._id;
-    tempContentObj.sequence = ++index;
-    tempContentArray.push(tempContentObj);
-  });
-  // Get pd.questions
-  pdCreateFormat.questions = formattedQuestionIDs;
-  pdCreateFormat.name = pd.name;
-  pdCreateFormat.contents = tempContentArray;
-  // OR
-  // pd.name = string",
-  // pd.description = string",
-  if(pd._id =="" || pd._id==undefined){
-    _this._service.createPD(_this.regionID, pdCreateFormat).subscribe(
+    console.log(formattedQuestionIDs);
+    console.log(pd);
+    const tempContentArray = [];
+    pd.contents.map((contentObj, index) => {
+      var tempContentObj = {
+        contentId: "",
+        sequence: 0
+      };
+      tempContentObj.contentId = contentObj._id;
+      tempContentObj.sequence = ++index;
+      tempContentArray.push(tempContentObj);
+    });
+    // Get pd.questions
+    pdCreateFormat.questions = formattedQuestionIDs;
+    pdCreateFormat.name = pd.name;
+    pdCreateFormat.contents = tempContentArray;
+    // OR
+    // pd.name = string",
+    // pd.description = string",
+    if (pd._id == "" || pd._id == undefined) {
+      _this._service.createPD(_this.regionID, pdCreateFormat).subscribe(
+        res => {
+          const createdPdId = JSON.parse(JSON.stringify(res));
+
+          console.log(createdPdId.meta._id);
+          pdCallback(null, createdPdId.meta._id);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+    _this._service.updatePD(_this.regionID, pdCreateFormat, pd._id).subscribe(
       res => {
         const createdPdId = JSON.parse(JSON.stringify(res));
 
@@ -2152,18 +2209,6 @@ updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback) {
       }
     );
   }
-  _this._service.updatePD(_this.regionID, pdCreateFormat,pd._id).subscribe(
-    res => {
-      const createdPdId = JSON.parse(JSON.stringify(res));
-
-      console.log(createdPdId.meta._id);
-      pdCallback(null, createdPdId.meta._id);
-    },
-    err => {
-      console.log(err);
-    }
-  );
-}
-//end put method
-/** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
+  //end put method
+  /** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
 }
