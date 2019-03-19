@@ -1219,7 +1219,7 @@ p.g_title {
   padding: 0px 30px;
 }
 .pad-15{
-  padding:15px;
+ padding: 15px 15px 0px 15px;
 }
 .card{
   border: none;
@@ -1230,9 +1230,11 @@ p.g_title {
   border-radius: 4px;
   -webkit-transition: 0.3s all ease-out;
   transition: 0.3s all ease-out;
+  max-height: 312px;
 }
 .btnEdit-wrap{
   border-top: 1px solid #edeff0;
+  padding: 5px;
 }
 .btn-edit{
   background: none;
@@ -1243,6 +1245,9 @@ p.g_title {
 }
 .conceptName,.tag-name,.testwerkzTitle,.cTitle{
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+.pd-text{
+  font-family: 'InterUI-Medium',Arial, sans-serif;
 }
 .conceptName,.cTitle{
   color: #2e3e4d;
@@ -1259,4 +1264,19 @@ p.g_title {
   font-size: 27px;
   padding-left: 30px;
   color: #2e3e4d;
+}
+.pd-text{
+  font-size: 14px;
+  color: #64707d;
+}
+.pdLine-wrap{
+  border-bottom: 1px solid #edeff0;
+  padding: 10px 0px;
+}
+.pdlist-wrap{
+  max-height: 195px;
+  overflow: overlay;
+}
+div.pdLine-wrap:last-child{
+  border-bottom: none;
 }
