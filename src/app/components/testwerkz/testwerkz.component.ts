@@ -157,9 +157,6 @@ export class TestwerkzComponent implements OnInit {
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log(this.dragItem);
     var clickedEle = $event;
-    console.log(clickedEle);
-    console.log($(clickedEle).hasClass("question"));
-    console.log($(clickedEle).parents(".question").length);
     if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
@@ -268,9 +265,13 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getConceptLists() {
+    this.blockUI.start('Loading')
     this._service.getAllConcept(this.regionID).subscribe((res: any) => {
       console.log("Concept lists", res);
       this.conceptsArr = res;
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
     });
   }
 
@@ -715,9 +716,12 @@ export class TestwerkzComponent implements OnInit {
         $(this.dragItemParent).append(this.dragItem);
       }
     }
+    console.log($(window.getSelection().focusNode).parents(".img-wrapper").length ||$(window.getSelection().focusNode).hasClass("img-wrapper"))
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
-      $(this.clickEle).hasClass("img-wrapper")
+      $(this.clickEle).hasClass("img-wrapper") ||
+      $(window.getSelection().focusNode).parents(".img-wrapper").length>0 ||
+      $(window.getSelection().focusNode).hasClass("img-wrapper")
     ) {
       if (event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
@@ -726,10 +730,10 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "insertParagraph") {
         // console.log(win)
         var thisDiv =
-          $(this.clickEle).hasClass("img-wrapper") ||
-          $(this.clickEle).parents(".img-wrapper");
-        if ($(this.clickEle).hasClass("img-wrapper")) {
-          thisDiv = this.clickEle;
+          $(window.getSelection().focusNode).hasClass("img-wrapper") ||
+          $(window.getSelection().focusNode).parents(".img-wrapper");
+        if ($(window.getSelection().focusNode).hasClass("img-wrapper")) {
+          thisDiv = $(window.getSelection().focusNode;
         }
         var tempDiv = document.createElement("div");
         var tempBr = document.createElement("br");
@@ -1711,8 +1715,6 @@ export class TestwerkzComponent implements OnInit {
     }, 300);
   }
   createQuestions(_this, pd, question, callback) {
-    console.group("Create QUestion");
-    console.groupEnd();
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
@@ -1934,6 +1936,7 @@ export class TestwerkzComponent implements OnInit {
         console.log(res);
         this.conceptsObj = res;
         this.concept.name = res.name;
+        this.tagID = res.tag[0].tagId;
         await this.getPDById(res.pd);
       },
       err => {
@@ -2067,10 +2070,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   updateQuestions(_this, pd, id, question, callback) {
-    console.group("Create QUestion");
     console.log(pd);
     console.log(question._id);
-    console.groupEnd();
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
