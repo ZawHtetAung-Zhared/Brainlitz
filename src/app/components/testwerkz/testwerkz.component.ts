@@ -2065,10 +2065,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   updateQuestions(_this, pd, id, question, callback) {
-    console.group("Create QUestion");
     console.log(pd);
     console.log(question._id);
-    console.groupEnd();
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
