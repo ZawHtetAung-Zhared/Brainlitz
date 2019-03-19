@@ -1711,8 +1711,6 @@ export class TestwerkzComponent implements OnInit {
     }, 300);
   }
   createQuestions(_this, pd, question, callback) {
-    console.group("Create QUestion");
-    console.groupEnd();
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
