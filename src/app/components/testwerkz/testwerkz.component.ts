@@ -268,9 +268,13 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getConceptLists() {
+    this.blockUI.start('Loading')
     this._service.getAllConcept(this.regionID).subscribe((res: any) => {
       console.log("Concept lists", res);
       this.conceptsArr = res;
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
     });
   }
 
