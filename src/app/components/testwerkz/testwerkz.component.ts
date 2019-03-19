@@ -157,9 +157,6 @@ export class TestwerkzComponent implements OnInit {
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log(this.dragItem);
     var clickedEle = $event;
-    console.log(clickedEle);
-    console.log($(clickedEle).hasClass("question"));
-    console.log($(clickedEle).parents(".question").length);
     if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
@@ -715,9 +712,12 @@ export class TestwerkzComponent implements OnInit {
         $(this.dragItemParent).append(this.dragItem);
       }
     }
+    console.log($(window.getSelection().focusNode).parents(".img-wrapper").length ||$(window.getSelection().focusNode).hasClass("img-wrapper"))
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
-      $(this.clickEle).hasClass("img-wrapper")
+      $(this.clickEle).hasClass("img-wrapper") ||
+      $(window.getSelection().focusNode).parents(".img-wrapper").length>0 ||
+      $(window.getSelection().focusNode).hasClass("img-wrapper")
     ) {
       if (event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
@@ -726,10 +726,10 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "insertParagraph") {
         // console.log(win)
         var thisDiv =
-          $(this.clickEle).hasClass("img-wrapper") ||
-          $(this.clickEle).parents(".img-wrapper");
-        if ($(this.clickEle).hasClass("img-wrapper")) {
-          thisDiv = this.clickEle;
+          $(window.getSelection().focusNode).hasClass("img-wrapper") ||
+          $(window.getSelection().focusNode).parents(".img-wrapper");
+        if ($(window.getSelection().focusNode).hasClass("img-wrapper")) {
+          thisDiv = $(window.getSelection().focusNode;
         }
         var tempDiv = document.createElement("div");
         var tempBr = document.createElement("br");
