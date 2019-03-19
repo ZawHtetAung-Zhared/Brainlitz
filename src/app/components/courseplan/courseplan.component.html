@@ -205,7 +205,7 @@
 		</div>	
 		<div *ngIf="step3" class="div_step3">
 			<div class="d-flex justify-content-center">
-					<form #childForm3="ngForm" novalidate>
+					<form class="form-wrap" #childForm3="ngForm" novalidate>
 							<div class="inside-data-wrapper">
 								<div class="col-md-12">
 									<p class="step-font">Step 3</p>
@@ -234,7 +234,7 @@
 										<div class="col-md-4">
 											<div>
 												<div class="input-group input-group-bg mb-2 mr-sm-2">
-													<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
+													<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
 													<hr class="limit-hr-length">
 												</div>
 											</div>
@@ -245,7 +245,7 @@
 													<div class="input-group-prepend">
 													  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">{{ currency.invCurrencySign }}</div>
 													</div>
-													<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
+													<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
 													(focus)="showFocus($event,'optionFee')"
 												  (focusout)="hideFocus($event,'optionFee')"
 													>
@@ -275,7 +275,7 @@
 		</div>
 		<div *ngIf="step4" class="div_step4">
 			<div class="d-flex justify-content-center">
-					<form #childForm4="ngForm" novalidate>
+					<form class="form-wrap" #childForm4="ngForm" novalidate>
 							<div class="inside-data-wrapper">
 								<div class="col-md-12">
 									<p class="step-font">Step 4</p>
@@ -286,8 +286,8 @@
 								</div>
 								<div class="display-style" style="padding-top: 40px;">
 									<div class="col-md-6">
-										<label class="all-title-font"> Duration </label>
-										<input type="number" placeholder="{{readyOnlyRange}}" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly #durationLesson="ngModel" (click)="durationProgress($event)" style="background: none;">
+										<label class="all-title-font"> Duration</label>
+										<input type="number" placeholder="{{formField.lesson.duration}}" class="form-control br-bshadow-none hoverReadonly all-left-box-10" [(ngModel)]='formField.lesson.duration' min="1" id="duration" name="lesson_duration" readonly (click)="durationProgress($event)" style="background: none;">
 										<div class="bg-box duration-progress">
 											<div id="rectangle"></div>
 											<div class="gap-box">
@@ -322,7 +322,7 @@
 											<label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
 											<div>
 												 <div class="form-group has-feedback" (click)="holidayDropdown()">
-													<input class="cursor-on form-control br-bshadow-none"  name="holiday"  type="text" [(ngModel)]="formField.holidayCalendarName" placeholder="None" autocomplete="off"><span class="fa fa-angle-down holiday-downicon"></span>
+													<input class="cursor-on form-control br-bshadow-none"  name="holiday"  readonly type="text" [(ngModel)]="formField.holidayCalendarName" placeholder="None" autocomplete="off"><span class="fa fa-angle-down holiday-downicon"></span>
 												 </div>
 												 <div class="dropdown-wrap">
 												  <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
@@ -338,7 +338,7 @@
 									</div>
 								</div>
 								<div class="button-wrapper">
-									<button type="button" class="btn sticky-create" [disabled]="formField.lesson.duration == undefined || formField.lesson.duration == 0 " (click)="continueStep('step4', childForm4.value)">Continue</button>
+									<button type="button" class="btn sticky-create" [disabled]="formField.lesson.duration == undefined || formField.lesson.duration == 0 || formField.lesson.duration == '0 min'" (click)="continueStep('step4', childForm4.value)">Continue</button>
 									<div [hidden]="!step4" class="back-modal" (click)="backStep('step4')"><i class="fa fa-angle-left"></i> <p>Back</p></div>
 								</div>
 							</div>
@@ -347,7 +347,7 @@
 		</div>	
 		<div *ngIf="step5" class="div_step5">
 			<div class="d-flex justify-content-center">
-					<form #childForm5="ngForm" novalidate>
+					<form #childForm5="ngForm" class="form-wrap" novalidate>
 							<div class="inside-data-wrapper">
 								<div class="col-md-12">
 									<p class="step-font">Step 5</p>
@@ -392,7 +392,7 @@
 		</div>
 		<div *ngIf="step6" class="div_step6">
 			<div class="d-flex justify-content-center">
-					<form #childForm6="ngForm" novalidate>
+					<form #childForm6="ngForm" novalidate class="step6-form">
 							<div *ngIf="showSearchAPG" class="inside-data-wrapper"> 
 								<div class="col-md-12">
 									<p class="step-font">Step 6</p>
@@ -410,7 +410,7 @@
 									<ng-template #rt let-r="result" let-t="term">
 										  <div class="circle1 plus"></div>
 										  <ngb-highlight [result]="r.name" [term]="t" ></ngb-highlight>
-										  <div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{r.type}}</div>
+										  <div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Inter-UI-SemiBold; font-size: 12px;">{{r.type}}</div>
 										  <hr class="hr-style">
 									</ng-template>
 									<!-- <input 
@@ -464,13 +464,13 @@
 												</div>
 											</div>
 										</div>
-										<div *ngIf="showfixedcreate == true" class="fixedText">
+										<!-- <div *ngIf="showfixedcreate == true" class="fixedText">
 											<div class="top-line">
 												<button type="button" class="bt btn-apg" (click)="goToModule()">
 													<div class="circle3 plus"></div>Create new APG
 												</button>
 											</div>
-										</div>
+										</div> -->
 									</div>
 			
 									<!-- <div *ngIf="showfixedcreate == true" class="fixedText">
@@ -511,7 +511,7 @@
 												<button type="button" class="bt btn-apg" (click)="removeSelectedAPG(cAPG)">
 													<div class="circle2 minus"></div>
 													<div class="all-title-font">{{cAPG.name}}</div>
-													<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Montserrat-SemiBold; font-size: 12px;">{{cAPG.type}}</div>
+													<div style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Inter-UI-SemiBold; font-size: 12px;">{{cAPG.type}}</div>
 												</button>	
 											</div>
 											<hr class="hr-style">
@@ -536,8 +536,8 @@
 											  <div *ngFor="let module of moduleList; let i=index;" class="module-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl" [ngClass]="{'disable-click': module.name=='Badge'}">
 												  <label class="form-check-label" [ngClass]="{'selected': ischecked == module._id}">
 													  <div class="module-img">
-														<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/img/{{module.name}}-type.png" class="img-fluid">
-														<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/img/{{module.name}}-type_a.png" class="img-fluid">
+														<img *ngIf="ischecked != module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type.png" class="img-fluid">
+														<img *ngIf="ischecked == module._id" class="setting-icon" src="./assets/icons/{{(module.name.toLowerCase()=='assessment') ? ('evaluation') : (module.name.toLowerCase())}}-type-a.png" class="img-fluid">
 													  </div>
 														<div class="label-checked"></div>
 														<input class="form-check-input"

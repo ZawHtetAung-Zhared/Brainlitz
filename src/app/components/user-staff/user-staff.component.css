@@ -74,7 +74,7 @@ input:checked + .slider:before {
   margin-left: 5px;
 }
 .location-name{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   color: #0080ff;
   line-height: 0.5;
   position: relative;
@@ -93,7 +93,7 @@ input:checked + .slider:before {
 .limit-wordcount,.limit-wordcount1,.limit-wordcount2{
   display: none;
   font-size: 14px;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif !important;
   color: #0080ff;
   position: absolute;
   right: 0;
@@ -117,16 +117,16 @@ input:checked + .slider:before {
     background: #fff;
   color: #0080ff;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 h3, h5 {
-    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif;
     color: #2e3d4d;
     word-wrap: break-word;
 }
 
 .create-button-pos {
-    font-family: 'Montserrat-Regular', Arial,sans-serif;
+    font-family: 'Inter-UI-Regular', Arial,sans-serif;
     color: #2e3d4d;
     word-wrap: break-word;
 }
@@ -234,7 +234,7 @@ h3, h5 {
 }
 
 .info-mail {
-    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif !important;
     color: #64707d;
     font-size: 14px;
     word-wrap: break-word;
@@ -243,7 +243,7 @@ h3, h5 {
 }
 
 .info-about{
-    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif !important;
     color: #2e3d4d;
     font-size: 14px;
     word-wrap: break-word;
@@ -262,7 +262,7 @@ h3, h5 {
 }
 
 .staff-label{
-    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif !important;
     color: #64707d;
     font-size: 12px;
     margin-bottom: 0!important;
@@ -319,7 +319,7 @@ h3, h5 {
 }
 
 .back-staff-txt {
-    font-family: 'Montserrat-Medium', Arial,sans-serif !important;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif !important;
     color: #2e3d4d;
     font-size: 16px;
     margin: 0;
@@ -327,7 +327,7 @@ h3, h5 {
 }
 
 .label-txt {
-    font-family: 'Montserrat-Semibold', Arial,sans-serif !important;
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif !important;
     color: #2e3d4d;
     font-size: 18px;
 }
@@ -343,7 +343,7 @@ h3, h5 {
 }
 
 .permission-name {
-    font-family: 'Montserrat-Semibold', Arial,sans-serif !important;
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif !important;
     font-size: 14px;
 }
 
@@ -373,7 +373,7 @@ h3, h5 {
 }
 .form-wrap textarea,
 .form-wrap input{
-    font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+    font-family: 'Inter-UI-Regular','Arial', sans-serif !important;
     border-radius: .25rem;
     border: none;
     padding: .6rem .75rem;
@@ -469,7 +469,7 @@ span.capitalize {
 }
 
 .profile-box p {
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     color: #0080ff;
     font-size: 16px;
     position: absolute;
@@ -484,7 +484,7 @@ span.capitalize {
 .cancel-button {
     background: #f2f4f5;
     color: #2e3d4d;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     padding: 10px 20px !important;
     border: none;
     cursor: pointer;
@@ -494,7 +494,7 @@ span.capitalize {
 
 .create-button {
     background: #007fff;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     padding: 10px 20px !important;
     color: #fff;
     font-size: 16px;
@@ -646,7 +646,7 @@ input[type=radio]:checked ~ label{
     background: none;
     padding: 5px 60px;
     cursor: pointer;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 .crop-box button:focus{
     outline: none;
@@ -672,7 +672,7 @@ input[type=radio]:checked ~ label{
 .heading-space{
     padding: 15px;
     font-size: 16px;
-    font-family: Montserrat-Medium;
+    font-family: Inter-UI-Medium;
     color: #2e3d4d;
 }
 
@@ -698,7 +698,7 @@ input[type=radio]:checked ~ label{
 }
 
 .guardian-main-wrap{
-    overflow: auto;
+    overflow: overlay;
     overflow-y: hidden;
     margin: 0 auto;
     white-space: nowrap;
@@ -736,7 +736,7 @@ input[type=radio]:checked ~ label{
 .cust-about{
     border-bottom: 1px dotted #64707d;
     width: 80%;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     font-size: 15px;
     color: #2e3d4d;
 }
@@ -750,7 +750,7 @@ input[type=radio]:checked ~ label{
 .info-p{
     font-size: 15px;
     color: #2e3e4d;
-    font-family: 'Montserrat-SemiBold', Arial,sans-serif;
+    font-family: 'Inter-UI-SemiBold', Arial,sans-serif;
     /*padding: 5px; */
 }
 .gurdian-wrap{
@@ -769,7 +769,7 @@ input[type=radio]:checked ~ label{
 }
 .details-list-wrap{
     max-height: 170px;
-    overflow: auto;
+    overflow: overlay;
 }
 .child-detail{
     flex: 1 0 40%;
@@ -779,8 +779,14 @@ input[type=radio]:checked ~ label{
 .input-recommend{
     font-size: 14px;
     color: #64707d;
-    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold',Arial,sans-serif;
     padding-top: 15px;
+}
+
+.texHeight[type=number]::-webkit-inner-spin-button, 
+.texHeight[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 @media only screen and (max-width: 768px){

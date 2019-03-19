@@ -6,7 +6,7 @@
       <div class="mr-auto p-2 pl-0 pb-0">
         <div class="back-to" (click)="backtoCourses()">
           <i class="fa fa-angle-left"></i>
-          <p>Courses</p>
+          <p>Back</p>
         </div>
       </div> 
       <div>
@@ -21,7 +21,7 @@
       <div class="mr-auto p-2 pl-0 pb-0">
         <div class="back-to" (click)="backtoCourses()">
           <i class="fa fa-angle-left"></i>
-          <p>Courses</p>
+          <p>Back</p>
         </div>
       </div> 
       <div class="mr-auto p-2 pb-0">
@@ -45,7 +45,7 @@
             </div>
           </div>
           <input 
-            type="text" 
+            type="text" id="inp"
             [ngClass]="{'onfocus': isfocus == true}"
             class="form-control create-btn" 
             placeholder="+ Create new category" 
@@ -57,18 +57,16 @@
             (blur)="blurMethod($event, 'create')"
             (input)="changeMethod($event.target.value)"
             *ngIf="isEditComplete == false"
-            maxlength="60"
-            >
+            maxlength="60">
             <input 
-            type="text" 
+            type="text" id="inp"
             [ngClass]="{'onfocus': isfocus == true, 'blury': iseditfocus == true}"
             class="form-control" 
             placeholder="+ Create new category" 
             name="name" 
             (focus)="focusFunction('create')"
             *ngIf="isEditComplete == true" 
-            disabled 
-            >
+            disabled>
           <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': isfocus == true}"> 
             <button type="submit" class="btn" (click)="close('create')">
               <span class="closemark">

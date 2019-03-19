@@ -18,6 +18,7 @@ import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import { DataService } from "../../service/data.service";
 import { equalSegments } from '@angular/router/src/url_tree';
+import { InvoiceComponent } from '../invoice/invoice.component';
 
 declare var $: any;
 
@@ -31,6 +32,7 @@ export class UsersComponent implements OnInit {
 	@ViewChild('stuffPic') stuffPic: ElementRef;
 	userid: any;
 	acResult: any;
+	public selectedCourse : any;
 	public activePass: any = '';
 	public currentPassObj: any;
 	public makeupLists: any;
@@ -157,6 +159,7 @@ export class UsersComponent implements OnInit {
 	public invPayment:any = [];
 	public noSetting:boolean = false;
 
+	
 	constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router, private dataService: DataService) { 	
 		this.toastr.setRootViewContainerRef(vcr);
 		// this._service.goUserCourseDetail.subscribe(() => {
@@ -946,6 +949,10 @@ export class UsersComponent implements OnInit {
 
 	callEnrollModal(enrollModal, userId) {
 		console.log(userId)
+		console.log(enrollModal)
+		this.showInvoice = false;
+		this.showPaidInvoice = false;
+		console.log(this.showInvoice , this.showPaidInvoice)
 		this.modalReference = this.modalService.open(enrollModal, { backdrop: 'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
 		this.getAC(20, 0, userId)
 	}
@@ -963,6 +970,8 @@ export class UsersComponent implements OnInit {
 	}
 
 	enrollUser(course) {
+		console.log(course)
+		this.selectedCourse = course;
 		console.log(this.custDetail);
 		let courseId = course._id;
 		let body = {
@@ -973,7 +982,9 @@ export class UsersComponent implements OnInit {
 		this._service.assignUser(this.regionID, body, this.locationID)
 			.subscribe((res: any) => {
 				console.log(res);
+				console.log(this.custDetail)
 				this.toastr.success('Successfully Enrolled.');
+				Object.assign(this.selectedCourse, res)
 				// this.showDetails(this.custDetail.user.userId);
 				// this.closeModel();
 				/* for invoice*/
@@ -1475,6 +1486,8 @@ export class UsersComponent implements OnInit {
 
 	}
 	viewInvoice(enrollModal, course) {
+		this.selectedCourse = course;
+		console.log(enrollModal,course)
 		this.singleInv = [];
 		console.log("zzz", course.invoice.status);
 		if (course.invoice.status == "PAID") {
@@ -1598,6 +1611,24 @@ export class UsersComponent implements OnInit {
 		// localStorage.setItem('userCourse',course._id);
 		this.router.navigate(['/course']);
 		this.dataService.nevigateCourse(course._id)
+	}
+
+	rolloverCourse(id,course){
+		console.log("rolloverCourse works",id,course);
+		var obj ={
+			'courseId': id,
+			'userId': this.custDetail.user.userId,
+			'category': {
+				'id': course.category._id,
+				'name': course.category.name
+			},
+			'coursePlan': {
+				'id': course.coursePlan._id,
+				'name': course.coursePlan.name
+			}
+		}
+		this.router.navigate(['/schedule']);
+		this.dataService.nevigateSchedule(obj);
 	}
 
 }

@@ -210,6 +210,8 @@ export class HeaderComponent implements OnInit {
     console.log("===>ClickHeaderTab")
     this._dataservice.nevigateCourse('');
     this._dataservice.nevigateCustomer('');
+    this._dataservice.nevigateCDetail('');
+    this._dataservice.nevigateSchedule('');
   }
 
 }

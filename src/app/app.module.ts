@@ -7,6 +7,8 @@ import { FormsModule }    from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
+import { DragulaModule } from 'ng2-dragula';
+import { NgDragDropModule } from 'ng-drag-drop';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import { AppRoutingModule } from './app.routes';
@@ -36,7 +38,7 @@ import {ToastModule} from 'ng5-toastr/ng5-toastr';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
-import { TimepickerModule } from 'ngx-bootstrap';
+import { TimepickerModule, SortableModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
@@ -71,7 +73,12 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
+import { TZDatePipe } from './service/pipe/tzdate.pipe'
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
+import { MediumEditorModule } from 'angular2-medium-editor';
+import {DndDirective} from './components/testwerkz/dnd.directive';
+
 
 @NgModule({
   declarations: [
@@ -101,6 +108,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     ScheduleWeekDaysPipe,
     GroupByPipe,
     ConvertTimeFormatPipe,
+    TestwerkzComponent,
     GetDayPipe,
     GetUtcTimePipe,
     GetFormatData,
@@ -124,7 +132,9 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     DateFormatPipe,
     HourMinsPipe,
     calculatePMPipe,
-    InvoiceComponent
+    TZDatePipe,
+    InvoiceComponent,
+    DndDirective
   ],
   imports: [
     BrowserModule,
@@ -143,8 +153,12 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
      // confirmButtonType: 'danger' // set defaults here
     //}),
     DragScrollModule,
+    DragulaModule.forRoot(),
+    SortableModule.forRoot(),
+    NgDragDropModule.forRoot(),
     StarRatingModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    MediumEditorModule
   ],
   providers: [
     appService,

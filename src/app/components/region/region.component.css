@@ -61,7 +61,10 @@ header{
     background: #e6ecf2;
 }
 h3.region-h3{
-	font-family: 'Montserrat-Semibold', Arial,sans-serif;	
+	font-family: 'Inter-UI-Semibold', Arial,sans-serif;	
 	color: #2f3d4c;
 	margin-bottom: 0em;
+}
+.region-item a{
+	min-height: 57px;
 }

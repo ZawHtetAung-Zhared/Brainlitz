@@ -24,7 +24,7 @@ export class CourseplanComponent implements OnInit {
   constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef, private _router: Router) {
     this.toastr.setRootViewContainerRef(vcr);
   }
-
+  public tempDuration:any;
   public optionFee: boolean = false;
   public showModal: boolean = false;
   public showsubModal: boolean = true;
@@ -39,7 +39,7 @@ export class CourseplanComponent implements OnInit {
   allowchecked: boolean = false;
   allowMakeup: boolean = false;
   checkedCatId: any;
-  public courseplanLists: any;
+  public courseplanLists: any =  [];
   public showLoading: boolean = false;
   // formField = {};
   formField: cPlanField = new cPlanField();
@@ -125,6 +125,7 @@ export class CourseplanComponent implements OnInit {
   public chooseTax;
   public clickableSteps: Array<any> = ['step1'];
   ngOnInit() {
+    this.formField.lesson.duration = '0 min'
     this.showModal = true;
     this.showsubModal = false;
     this.showLoading = true;
@@ -177,13 +178,21 @@ export class CourseplanComponent implements OnInit {
     }
 
   }
-
+  
   editCPlan(planId) {
     this._service.getSinglePlan(planId, this.locationID)
       .subscribe((res: any) => {
         console.log("single plan", res);
         this.formField = res;
-
+        if(!this.formField.paymentPolicy.taxInclusive ){
+          this.chooseTax = 'exclusive';
+        }else{
+          this.chooseTax = 'inclusive';
+        }
+        if(this.formField.paymentPolicy.taxInclusive == null ){
+          this.chooseTax = 'none';
+        }
+        this.tempDuration = res.lesson.duration;
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
@@ -268,6 +277,7 @@ export class CourseplanComponent implements OnInit {
     if (m > 0) {
       this.selectedMinRange = m;
     }
+    this.formField.lesson.duration = this.formField.lesson.duration + ' min'
   }
 
   @ViewChild('parentForm') mainForm;
@@ -413,7 +423,7 @@ export class CourseplanComponent implements OnInit {
       "lesson": {
         "min": formData.minDuration,
         "max": formData.maxDuration,
-        "duration": this.formField.lesson.duration
+        "duration": this.tempDuration
       },
       "allowPagewerkz": this.step5FormaData.allowpagewerkz,
       "age": {
@@ -434,13 +444,17 @@ export class CourseplanComponent implements OnInit {
       console.log("TTT", this.chooseTax);
       if (this.chooseTax == 'inclusive') {
         data.paymentPolicy["taxInclusive"] = true;
-      } else {
+      } 
+      if(this.chooseTax == 'exclusive') {
         data.paymentPolicy["taxInclusive"] = false;
       }
 
+      // if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
+      //   data.paymentPolicy["taxInclusive"] = null;
+      // }
     }
 
-    console.log(data)
+    console.log( data.paymentPolicy.deposit)
 
     if (type == 'create') {
       console.log("CreatePlan")
@@ -467,6 +481,10 @@ export class CourseplanComponent implements OnInit {
         })
     } else {
       console.log("editPlan");
+      if( data.paymentPolicy.deposit== undefined) {
+        console.log(this.formField.paymentPolicy.deposit);
+        data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit
+      }
       this.blockUI.start('Loading...');
       this._service.updateSignlecPlan(this.editPlanId, data, this.locationID)
         .subscribe((res: any) => {
@@ -740,7 +758,7 @@ export class CourseplanComponent implements OnInit {
       selectedIdStr = selectedIdArr.toString();
       console.log('selectedIdStr', selectedIdStr);
 
-      this._service.getSearchApg(this.regionID, keyword, type, selectedIdStr, 20, 0)
+      this._service.getSearchApg(this.regionID, keyword, type, '', selectedIdStr, 20, 0)
         .subscribe((res: any) => {
           console.log("apg result", res);
           this.apgList = res;
@@ -749,7 +767,7 @@ export class CourseplanComponent implements OnInit {
           console.log(err);
         });
     } else {
-      this._service.getSearchApg(this.regionID, keyword, type, '', 20, 0)
+      this._service.getSearchApg(this.regionID, keyword, type, '', '', 20, 0)
         .subscribe((res: any) => {
           console.log("apg result", res);
           this.apgList = res;
@@ -768,7 +786,7 @@ export class CourseplanComponent implements OnInit {
 
   getAllAPG(skip, limit) {
     this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID, skip, limit)
+    this._service.getAllAPG(this.regionID, '', skip, limit)
       .subscribe((res: any) => {
         console.log('apgLists', res)
         this.apgList = res;
@@ -1007,7 +1025,8 @@ export class CourseplanComponent implements OnInit {
     else {
       console.log('error')
     }
-    this.formField.lesson.duration = this.timeInminutes;
+    this.tempDuration = this.timeInminutes;
+    this.formField.lesson.duration = this.timeInminutes + ' min';
     console.log('durationMinutes', this.timeInminutes)
 
   }
@@ -1434,10 +1453,16 @@ export class CourseplanComponent implements OnInit {
     console.log("arr", this.optArr);
   }
   addOrRemoveClassOfStep(ele){
+    var max=this.clickableSteps[this.clickableSteps.length -1];
     ele.parents("li").removeClass("done");
     ele.parents("li").prevAll("li").addClass('done')
     ele.parents("li").prevAll("li").removeClass('active');
-    ele.parents("li").nextAll("li").removeClass('done active');
+    ele.parents("li").nextAll("li").removeClass('active');
+    for(var i=0; i<this.clickableSteps.length ; i++){
+      $("#" + this.clickableSteps[i]).children("a").css('background-color', '#0080ff');
+    }
+    if(max != ele.parents("li").attr('id'))
+      ele.parents("li").addClass("done")
   }
   stepClick(event, step) {
     if (this.clickableSteps.includes(step)) {

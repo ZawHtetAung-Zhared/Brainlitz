@@ -1,3 +1,15 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.invoice-wrap{
+  max-height: 70vh;
+  min-height: 70vh;
+  overflow : overlay;
+}
+
 .disable-click{
   pointer-events: none;
   opacity: 0.6
@@ -12,19 +24,24 @@
   color: #f1f1f1;
 }
 
-#navbar {
+.navbar.sticky-bar {
+  top: 0;
+}
+
+.navbar {
   padding: 15px 30px;
   background: #ffffff;
   position: fixed;
-  top: -120px;
+  top: -80px;
   width: 100%;
   display:block;
-  transition: top 0.3s;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   z-index: 999 !important;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 }
 
-#navbar a {
+.navbar a {
   float: left;
   display: block;
   color: #f2f2f2;
@@ -34,7 +51,7 @@
   font-size: 17px;
 }
 
-#navbar a:hover {
+.navbar a:hover {
   background: #ddd;
   color: black;
 }
@@ -43,13 +60,13 @@ input:-webkit-input-placeholder {
     font-size: 10px !important;
 }
 .font-medium{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .font-semi{
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 textarea, input, select,.font-regular {
-  font-family: "Montserrat-Regular", Arial,sans-serif;
+  font-family: "Inter-UI-Regular", Arial,sans-serif;
 }
 header div{
   height: 1.4rem;
@@ -137,11 +154,11 @@ header div{
 }
 
 .step-font, .txt-default, .small-caption {
-  font-family: 'Montserrat-SemiBold', Arial,sans-serif; 
+  font-family: 'Inter-UI-SemiBold', Arial,sans-serif; 
   color: #64707d;
 }
 .all-title-font {
-  font-family: "Montserrat-SemiBold",Arial,sans-serif;
+  font-family: "Inter-UI-SemiBold",Arial,sans-serif;
   color: #2e3e4d;
   font-size: 18px;
 }
@@ -200,13 +217,13 @@ header div{
 .input-day,.input-lesson {
   /*color: #2e3d4d;*/
   /*font-size: 16px; 
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;*/
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;*/
 }
 
 /*.input-day::placeholder,.input-lesson::placeholder{
   color: #2e3d4d;
   font-size: 16px;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }*/
 .msg{
   color: #2e3d4d;
@@ -312,7 +329,9 @@ header div{
   width: 362px;
   display: none;
   position: absolute;
-  right: 30%;
+  left: 0%;
+  margin-top:10px;
+
   /*bottom: -95px;*/
   z-index: 9;
 }
@@ -339,7 +358,7 @@ header div{
    -webkit-transform: translate(30px, 20px) rotate(180deg); 
   transform: translate(30px, 20px) rotate(180deg);
   top: -40px;
-  left: 130px;
+  left:20%;
   border-width: 10px;
   border-style: solid;
   border-color: #fff transparent transparent transparent;
@@ -528,7 +547,7 @@ header div{
   background: #fff;
   color: #2e3d4d !important;
   max-height: 250px;
-  overflow: auto;
+  overflow: overlay;
 }
 .carret{
   width: 0;
@@ -567,7 +586,7 @@ header div{
   background: #fff;
   color: #2e3d4d !important;
   max-height: 250px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .feeOpt-dropdown:after {
@@ -596,7 +615,7 @@ header div{
   background: #fff;
   color: #2e3d4d !important;
   max-height: 250px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .taxOpt-dropdown:after {
@@ -699,7 +718,7 @@ header div{
 }
 .teacher-list-box{
   /*height: 300px;*/
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   /*padding: 0 16px;*/
   border-radius: 0 0 4px 4px;
@@ -712,12 +731,12 @@ header div{
 }
 .list-wrap{
   padding: 0 16px;
-  overflow-y: auto;
+  overflow-y: overlay;
   height: 300px;
 }
 .user-list-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -1025,7 +1044,7 @@ button:disabled {
 .table-body{
   padding-top: 20px;
   min-height: 180px;
-  overflow: auto;
+  overflow: overlay;
 }
 .time-info{
   padding: 15px 20px 0px 20px;
@@ -1063,7 +1082,7 @@ button:disabled {
   text-align: center;
   font-size: 0.8rem;
   line-height: 1.8;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .skip-arrow:before{
   width: 0;
@@ -1202,6 +1221,12 @@ button:disabled {
 
     .hideStaff{
       display: none!important;
+    }
+
+    .input-lesson[type=number]::-webkit-inner-spin-button, 
+    .input-lesson[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
     }
 
     @media only screen and  (min-width:1366px){

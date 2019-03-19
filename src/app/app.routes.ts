@@ -14,6 +14,7 @@ import { ToolsComponent } from './components/tools/tools.component';
 import { ReportComponent } from './components/report/report.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
 import { HomeComponent } from './components/home/home.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
 

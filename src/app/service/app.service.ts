@@ -211,10 +211,13 @@ export class appService{
       let url = this.baseUrl1 + '/organization-credentials/' + orgCode;      
       const httpOptions = {
           headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',
             'secretkey': 'PAK2jf8WrS', 'local': '1'})
+            
       };    
       const httpOptions2 = {
           headers: new HttpHeaders({ 
+            'Content-Type': 'application/json',
             'secretkey': 'PAK2jf8WrS'})
       };
       
@@ -369,9 +372,25 @@ export class appService{
       }) 
     }
 
-    getAllTemplate(id, limit: number, skip: number){
+    getAllTemplate(id, limit: number, skip: number,moduleId: string){
       this.getLocalstorage();
-      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit + '&skip=' + skip;
+      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit +'&moduleId=' + moduleId+ '&skip=' + skip;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {       
+          return res;
+      })
+    }
+
+    
+
+    getSearchTemplate(id, limit: number, skip: number,moduleId: string,keyword:string){
+      this.getLocalstorage();
+      let url = this.baseUrl + '/' + id + '/access-point-template?all=1&limit=' + limit +'&moduleId=' + moduleId+ '&skip=' + skip+ '&keyword=' + keyword;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -791,9 +810,9 @@ export class appService{
     //       return result;
     //   }) 
     // }
-    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string): Observable<any>{
+    getscheduleStaffList(regionid:string, daysOfWeek:string, categoryId:string, limit:string, skip:string): Observable<any>{
       this.getLocalstorage()
-      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId;
+      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek + '&categoryId=' +  categoryId + '&limit=' + limit + '&skip=' + skip;
     //  console.log(url, ' Url')
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -843,7 +862,7 @@ export class appService{
           return result;
       }) 
     }
-    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,limit:number,skip:number): Observable<any>{
+    getscheduleSearchStaffList(regionid:string,daysOfWeek:string,categoryId:string,keyword:string,skip:number, limit:number): Observable<any>{
       this.getLocalstorage()
      let url = this.baseUrl + '/' + regionid + '/schedule/stafflist?daysOfWeek=' + daysOfWeek.toString() + '&categoryId=' + categoryId + '&keyword=' + keyword + '&limit=' + limit + '&skip=' + skip;
       const httpOptions = {
@@ -873,6 +892,9 @@ export class appService{
         return result;
       })
     } 
+
+
+
 
     getSinglePlan(planID: string, locationId: string){
       this.getLocalstorage();
@@ -948,7 +970,6 @@ export class appService{
         return result;
       })
     }
-
     updateCategory(id:string, body:any){
       let apiUrl = this.baseUrl + '/category/' + id;
       const options = {
@@ -1695,7 +1716,7 @@ export class appService{
       })
     }
 
-    getSearchApg(regionID: string, keyword: string, type: string, selectedStr:string, limit:number,skip:number){
+    getSearchApg(regionID: string, keyword: string, type: string, moduleId:string, selectedStr:string, limit:number,skip:number){
       let apiUrl;
       console.log("keyword",keyword);
       console.log("selected str",selectedStr);
@@ -1703,7 +1724,11 @@ export class appService{
         apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&nin=' + selectedStr + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
         console.log("apiUrl",apiUrl)
       }else{
-        apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        if(moduleId != ''){
+          apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&moduleId=' + moduleId + '&limit=' + limit + '&skip=' + skip;
+        }else{
+          apiUrl = this.baseUrl + '/' + regionID + '/access-point-group/search?keyword=' + keyword + '&type=' + type + '&limit=' + limit + '&skip=' + skip;
+        }
       }
       const httpOptions = {
           headers: new HttpHeaders({ 
@@ -1717,10 +1742,16 @@ export class appService{
       })
     }
 
-    getAllAPG(id: string,limit:number,skip:number){
+    getAllAPG(id: string,moduleId:string,limit:number,skip:number){
       // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
       console.log("APG limit skip",limit,skip);
-      let apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
+      if(moduleId == ''){
+        console.log('no moduleID')
+        var apiUrl = this.baseUrl +'/'+ id + '/access-point-group?limit=' + limit + '&skip=' + skip;
+      }else{
+        console.log('has moduleID')
+        var apiUrl = this.baseUrl +'/'+ id + '/access-point-group?moduleId=' + moduleId + '&limit=' + limit + '&skip=' + skip;
+      }
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -1729,6 +1760,35 @@ export class appService{
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res;  
+        return result;
+      })
+    }
+    deleteAp(regionId:string, AP_ID:string,){
+      let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(httpOptions)
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+    
+    updateAP(regionId:string, AP_ID:string, body:any ){
+      let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;
+      const options = {
+          headers: new HttpHeaders({  
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body, options)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
         return result;
       })
     }
@@ -1748,7 +1808,40 @@ export class appService{
         return result;
       })
     } 
-     
+
+    getAccessPoint(regionId:string,AP_ID:Array<any>){
+      this.getLocalstorage();
+      let apiUrl = this.baseUrl + '/' + regionId +'/access-point/' + AP_ID;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+          'Content-Type': 'application/json', 
+          'authorization': this.tokenType + ' ' + this.accessToken})
+    };
+    return this.httpClient.get(apiUrl, httpOptions)
+    .map((res:Response) => {
+      let result = res;  
+      return result;
+    })
+    }
+
+    createAPG2(id: string, locationid:string, data:Object, moduleId: string): Observable<any>{
+      console.log(data)
+      this.getLocalstorage();
+      let apiUrl; 
+      apiUrl = this.baseUrl + '/' + id + '/access-point-group?moduleId=' + moduleId + '&locationId=' + locationid;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
     createAPG(id: string, locationid:string, data: object, templateId: string, moduleId: string): Observable<any>{
       console.log(data, templateId)
       this.getLocalstorage();
@@ -2107,6 +2200,262 @@ export class appService{
         let result = res;
         return result;
       })
+    }
+
+    markAttendance(courseId:string,body,d,m,y){
+      let apiUrl = this.baseUrl + '/' + courseId + '/attendance?date=' + d + '&month=' + m + '&year=' + y;
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    // get contents for modal gallary show
+    getContent(regionId: string): Observable<any>{
+      let url = this.baseUrl+ '/' + regionId + '/contents';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        console.log(result);        
+        return result;
+      }) 
+    }
+
+    loadImage(regionId: string,fileArr:any): Observable<any>{
+      let url = this.baseUrl+ '/' + regionId + '/contents';
+      let form = new FormData();
+      for(var i=0;i<fileArr.length;i++){
+        form.append('file', fileArr[i]);
+      }
+     
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, form, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    } 
+    createTagWerkz(regionId: string, data: object): Observable<any>{
+      let url = this.baseUrl + '/' + regionId + '/tags'
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    } 
+    getAllTags(regionID:string){
+      let apiUrl = this.baseUrl + '/' + regionID + '/tags'
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+    updateTagsWerkz(regionID:string,tagsID:string,body){
+      let apiUrl = this.baseUrl + '/' + regionID + '/tags/' + tagsID
+      const httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(apiUrl,body,httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+    }
+
+    onDeleteContent(regionid,contentId){
+      console.log(regionid)
+      let apiUrl = this.baseUrl + '/' + regionid  + '/contents/' + contentId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(apiUrl, httpOptions)
+      .map((res:Response) => {
+        return res;
+      })
+    }
+    // "http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/tags/5c80a8b42996a1201d10c8d0" 
+    createPDQuestion(regionId:string,data:any){
+      let url = this.baseUrl + '/' + regionId + '/questions';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    updatePDQuestion(regionId:string,data:any,id:string){
+      let url = this.baseUrl + '/' + regionId + '/questions/'+id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    createPD(regionId:string,data:any){
+      let url = this.baseUrl + '/' + regionId + '/performance-demands';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    updatePD(regionId:string,data:any,id:any){
+      let url = this.baseUrl + '/' + regionId + '/performance-demands/'+id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    createConcept(regionId:string,data:any){
+      let url = this.baseUrl + '/' + regionId + '/concepts';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    updateConcept(regionId:string,data:any,id:string){
+      let url = this.baseUrl + '/' + regionId + '/concepts/'+id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
+
+    getConceptById(regionId:string, id: string){
+      
+      let apiUrl = this.baseUrl  + '/' + regionId + '/concepts/' + id;  
+      console.log(apiUrl)   
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(this.tokenType+' '+this.accessToken)
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getPDById(regionId:string, id: string){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/performance-demands/' + id;  
+      console.log(apiUrl)   
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(this.tokenType+' '+this.accessToken)
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getQuesById(regionId:string, id: string){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/questions/' + id;  
+      console.log(apiUrl)   
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(this.tokenType+' '+this.accessToken)
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    getAllConcept(regionId:string){
+      let url = this.baseUrl + '/' + regionId + '/concepts';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
     }
 
 }

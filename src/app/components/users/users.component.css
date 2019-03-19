@@ -1,8 +1,6 @@
 ul.pass-list li,
 .xxxdate,
 .expired-text,
-.unpaid-text,
-.paid-text,
 .pass-text,
 .view-invoice,
 .claim-text,
@@ -13,8 +11,19 @@ ul.pass-list li,
 .class-info-footer button,
 .user-name,
 .input-recommend {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 14px;
+}
+
+.unpaid-text,
+.paid-text{
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 12px;
+  padding-left: 16px;
+}
+
+.paid-text{
+  padding-left: 22px;
 }
 
 .makeup-desc,
@@ -25,8 +34,8 @@ ul.pass-list li,
 .info-mail,
 .info-about,
 .medium-label-14,
-.enroll-btn {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+.enroll-btn,.rollover-btn {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
 }
 
@@ -35,7 +44,12 @@ ul.pass-list li,
 .teacher-label-12,
 .class-body-one sup {
   font-size: 12px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+.class-label-12{
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .makeup-box label,
@@ -43,7 +57,7 @@ ul.pass-list li,
 .makeup-head p,
 .medium-label-12 {
   font-size: 12px;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .pb-20 {
@@ -112,7 +126,7 @@ ul.pass-list li {
 }
 
 .overflow-x {
-  overflow-x: auto;
+  overflow-x: overlay;
 }
 
 .xxxdate {
@@ -126,14 +140,14 @@ ul.pass-list li {
   font-size: 12px !important;
   padding: 0 !important;
   color: #64707d;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .timeline {
   border-radius: 4px;
   padding: 16px 0px;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: overlay;
   position: relative;
   /*height: 75px;*/
 }
@@ -173,7 +187,7 @@ ul.pass-list li {
   border-right: 0;
   padding: 12px;
   flex: auto;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   cursor: pointer;
 }
 
@@ -277,7 +291,7 @@ ul.pass-list li {
 
 .tr-name,
 .expired-title {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 16px;
 }
 
@@ -324,7 +338,7 @@ ul.pass-list li {
 }
 
 .makeup-box strong {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   color: #2e3d4d;
   text-transform: uppercase;
 }
@@ -335,7 +349,7 @@ ul.pass-list li {
 }
 
 .makeup-box p {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   margin-bottom: 4px;
 }
 
@@ -343,13 +357,13 @@ ul.pass-list li {
   padding: 0 20px 20px 20px;
   margin-top: 20px;
   max-height: 726px;
-  overflow: scroll;
+  overflow: overlay;
 }
 
 .makeup-title {
   color: #2e3d4d;
   font-size: 16px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   margin-bottom: 8px;
 }
 
@@ -367,7 +381,7 @@ ul.pass-list li {
 .makeup-desc {
   max-height: 42px;
   min-height: 42px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .makeup-body {
@@ -404,7 +418,7 @@ ul.pass-list li {
 }
 
 .makeup-head span {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .ml-12 {
@@ -428,14 +442,21 @@ ul.pass-list li {
 
 .fees {
   line-height: 1;
+  padding-top: 20px;
+  padding-right: 20px;
 }
 
 .view-invoice {
   line-height: 2.5;
+  padding: 0;
 }
 
 .view-invoice:focus {
   box-shadow: none;
+}
+
+.invoiceBtnGp{
+  float: right;
 }
 
 .view-invoice,
@@ -448,12 +469,43 @@ ul.pass-list li {
 }
 
 .section-one {
-  border-bottom: 2px dotted #8fa1b3;
   padding-bottom: 20px;
 }
 
+
+.div-dotted-box {
+  border-bottom: 2px dotted #8fa1b3;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .section-two {
-  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.left_box_box{
+  width: 65px;
+  height: 24px;
+
+}
+
+.div-left-arrow{
+  width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid #ffffff;
+    position: absolute;
+}
+
+.arrowBox{
+  padding-top: 10px;
+}
+
+.leftBox_label{
+  font-size: 12px;
+  padding-left: 16px;
 }
 
 .tab-wrap {
@@ -469,7 +521,7 @@ ul.pass-list li {
 }
 
 .tab-btn {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   border-radius: 0;
   border-bottom: 2px solid transparent;
   padding: 20px;
@@ -494,7 +546,7 @@ ul.pass-list li {
 }
 
 .location-name {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
   line-height: 0.5;
   position: relative;
@@ -528,7 +580,7 @@ ul.pass-list li {
   font-size: 0.8rem;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   position: absolute;
   right: 0;
   padding: 4px;
@@ -613,13 +665,13 @@ ul.pass-list li {
 
 h3,
 h5 {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   color: #2e3d4d;
   word-wrap: break-word;
 }
 
 .create-button-pos {
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   color: #2e3d4d;
   word-wrap: break-word;
   cursor: pointer;
@@ -821,7 +873,7 @@ h5 {
 }
 
 .back-staff-txt {
-  font-family: 'Montserrat-Medium', Arial, sans-serif !important;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #2e3d4d;
   font-size: 16px;
   margin: 0;
@@ -829,7 +881,7 @@ h5 {
 }
 
 .label-txt {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif !important;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
   color: #2e3d4d;
   font-size: 18px;
 }
@@ -866,7 +918,7 @@ h5 {
 
 .form-wrap textarea,
 .form-wrap input {
-  font-family: 'Montserrat-Regular', 'Arial', sans-serif !important;
+  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: .25rem;
   border: none;
   padding: .6rem .75rem;
@@ -954,7 +1006,7 @@ h5 {
 }
 
 .profile-box p {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
   font-size: 16px;
   position: absolute;
@@ -969,7 +1021,7 @@ h5 {
 .cancel-button {
   background: #f2f4f5;
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
   padding: 10px 20px !important;
   border: none;
@@ -979,7 +1031,7 @@ h5 {
 
 .create-button {
   background: #007fff;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
   padding: 10px 20px !important;
   color: #fff;
@@ -1069,7 +1121,7 @@ h5 {
   background: none;
   padding: 5px 60px;
   cursor: pointer;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .crop-box button:focus {
@@ -1092,7 +1144,7 @@ h5 {
 .heading-space {
   padding: 15px;
   font-size: 16px;
-  font-family: Montserrat-Medium;
+  font-family: Inter-UI-Medium;
   color: #2e3d4d;
 }
 
@@ -1126,7 +1178,7 @@ h5 {
 }
 
 .guardian-main-wrap {
-  overflow: auto;
+  overflow: overlay;
   overflow-y: hidden;
   margin: 0 auto;
   white-space: nowrap;
@@ -1173,7 +1225,7 @@ h5 {
 .cust-about {
   border-bottom: 1px dotted #64707d;
   width: 80%;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 15px;
   color: #2e3d4d;
 }
@@ -1194,7 +1246,7 @@ h5 {
 
 .info-p {
   font-size: 18px;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   color: #2e3e4d;
   margin-bottom: 8px;
   /*padding: 5px; */
@@ -1217,7 +1269,7 @@ h5 {
 
 .details-list-wrap {
   max-height: 170px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .child-detail {
@@ -1237,7 +1289,16 @@ h5 {
 .child {
   flex: 1 0 40%;
   margin: 20px;
-  padding: 20px;
+  padding: 20px; 
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
+.child_two {
+  flex: 1 0 40%;
+  margin: 20px;
+  /* padding: 20px;  */
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
@@ -1245,7 +1306,7 @@ h5 {
 
 .title-space {
   padding: 20px 20px 0 20px;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 
 .medium-label-14 {
@@ -1273,7 +1334,7 @@ h5 {
 
 .btn-showmore {
   color: #0080ff;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 15px;
   background: none;
   border: none;
@@ -1341,7 +1402,7 @@ h5 {
 .j-load-more {
   cursor: default;
   font-size: 14px;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   width: 99%;
   background: white;
   text-align: center;
@@ -1410,7 +1471,7 @@ h5 {
 .cust-about {
   border-bottom: 1px dotted #64707d;
   width: 80%;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 15px;
   color: #2e3d4d;
 }
@@ -1431,7 +1492,7 @@ h5 {
 
 .info-p {
   font-size: 18px;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   color: #2e3e4d;
   margin-bottom: 8px;
   word-break: break-all;
@@ -1455,7 +1516,7 @@ h5 {
 
 .details-list-wrap {
   max-height: 170px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 .child-detail {
@@ -1491,7 +1552,7 @@ h5 {
 }
 
 .inner-secondCol h6 {
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 
 .activity-wrapper {
@@ -1517,17 +1578,17 @@ h5 {
 
 .scrollable {
   max-height: 200px;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .scrollable-card {
   max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .scrollable-list {
   max-height: 570px;
-  overflow: scroll;
+  overflow: overlay;
 }
 
 .form-divider {
@@ -1536,7 +1597,7 @@ h5 {
 }
 
 .no-item {
-  font-family: 'Montserrat-Medium', Arial, sans-serif !important;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #64707d;
   font-size: 15px;
   padding-bottom: 15px;
@@ -1584,7 +1645,7 @@ h5 {
 .invoice-label {
   color: #2e3e4d;
   font-size: 18px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .class-body-one sup {
@@ -1596,7 +1657,7 @@ h5 {
   margin-bottom: 3px;
   font-size: 14px;
   color: #64707d;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 
 .class-body-one b,
@@ -1604,7 +1665,7 @@ h5 {
 .back-inv {
   font-size: 16px;
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .class-body-two b,
@@ -1734,7 +1795,7 @@ h5 {
 .send-btn {
   font-size: 16px;
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .invModal-cancel {
@@ -1899,7 +1960,7 @@ h5 {
 .input-sign {
   line-height: 2.7;
   color: #788796;
-  font-family: 'Montserrat-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 
 .discount-info {
@@ -2003,7 +2064,7 @@ h5 {
 .payment-label,
 .payment-item,
 .inv-Cname {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .price-info,
@@ -2104,7 +2165,7 @@ h5 {
 
 .paid-amount,
 .c-label {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .paid-amount span {
@@ -2123,7 +2184,7 @@ h5 {
   background: #c2f2d6;
   padding: 5px 0px;
   font-size: 24px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .modal-footer {
@@ -2133,7 +2194,7 @@ h5 {
 .container-height {
   min-height: 670px;
   max-height: 670px;
-  overflow: auto;
+  overflow: overlay;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -2160,7 +2221,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .from,
 .date {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 
   display: inline;
 }
@@ -2175,7 +2236,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .atten-time {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding: 0px;
   margin: 0px;
   margin-left: 8px;
@@ -2203,10 +2264,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .eachJournl {
   padding-top: 24px;
+  margin-right: unset;
 }
 
 .journal-detail {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 
   font-size: 16px;
   line-height: 24px;
@@ -2246,7 +2308,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .journal-header {
   display: inline-block;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   width: 100%;
   font-size: 18px;
   font-weight: 600;
@@ -2257,7 +2319,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .cus-name {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   display: inline-block;
   padding-top: 32px;
   font-size: 14px;
@@ -2265,14 +2327,14 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .class-name {
-  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   margin-bottom: 12px;
   font-size: 16px;
   color: #64707d;
 }
 
 .learn-journal {
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   margin-bottom: 12px;
   font-size: 28px;
 }
@@ -2288,6 +2350,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .modal-content {
+  height: 80vh;
   width: 1000px !important;
 }
 
@@ -2340,7 +2403,7 @@ input[type=number]::-webkit-outer-spin-button {
   text-align: center;
   color: red;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 input[_ngcontent-c1]:focus {
@@ -2439,3 +2502,32 @@ input[_ngcontent-c1]:focus {
      
     }
   } */
+  .star {
+    color: #b0c4de;
+  }
+  .filled {
+    color: #788798!important;
+  }
+  .bad {
+    color: #deb0b0;
+  }
+  .filled.bad {
+    color: #788798!important;
+  }
+  .notfilled{
+    color: #788798!important;
+  }
+
+  .bull-shit-gp{
+    overflow: overlay;
+    height: 71vh;
+  }
+  .jouranlModal .modal-content{
+    height: 90vh;
+
+  }
+  .rollover-btn{
+    text-decoration: underline;
+    color: #2e3d4d;
+    cursor: pointer;
+  }

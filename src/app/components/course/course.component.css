@@ -1,6 +1,6 @@
 .users-wrap-box{
   max-height: 350px;
-  overflow: scroll;
+  overflow: overlay;
 }
 .warning-text{
   color: red !important;
@@ -76,7 +76,7 @@ input:checked + .slider:before {
 .switch-label{
   line-height: 1.8;
   margin-left: 16px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   font-size: 18px;
   color: #2e3e4d;
   margin-bottom: 0;
@@ -112,7 +112,7 @@ input:checked + .slider:before {
   font-size: 18px;
   color: #2e3e4d;
   margin-bottom: 0;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 .input-wrap .form-group{
   border-bottom: 1px solid rgba(0,0,0,.1);
@@ -121,7 +121,7 @@ input:checked + .slider:before {
   box-shadow: none;
 }
 .create-input {
-    font-family: 'Montserrat-Regular','Arial', sans-serif !important;
+    font-family: 'Inter-UI-Regular','Arial', sans-serif !important;
     border-radius: .25rem;
     border: none;
     margin-bottom: 15px;
@@ -242,7 +242,7 @@ input:checked + .slider:before {
 .recent-search-title{
   font-size: 12px;
   color: #64707d;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   letter-spacing: 0.25px;
 }
 ul.recent-lists{
@@ -252,7 +252,7 @@ ul.recent-lists{
 }
 ul.recent-lists li{ 
   color: #2e3d4d;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   font-size: 14px;
   background: url(../../../assets/img/search-ico@2x.png) no-repeat;
   background-size: 16px;
@@ -265,7 +265,7 @@ ul.recent-lists li:last-child {
     margin-bottom: 0 !important;
 }
 .as-section{
-  position: absolute;
+  position: relative;
   border: 1px solid #eee;
   border-radius: 4px;
   width: 100%;
@@ -290,20 +290,20 @@ ul.recent-lists li:last-child {
 }
 .as-section label {
   color: #2e3d4d;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   font-size: 18px;
   line-height: 2.3;
   margin-bottom: 0;
 }
 .as-section p{
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   color: #64707d;
   font-size: 16px;
 }
 .reset-as,
 .cancel-as,
 .search-as{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   font-size: 16px;
 }
 .reset-as{
@@ -331,7 +331,7 @@ ul.data-listing{
   padding: 0;
   list-style: none;
   height: 250px;
-  overflow: auto;
+  overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
 }
@@ -390,7 +390,7 @@ ul.data-listing li.disabled{
   padding: 8px 16px;
   color: #64707d;
   flex: 0 0 auto;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }
 .remove-data{
   width: 16px;
@@ -400,7 +400,7 @@ ul.data-listing li.disabled{
 .placeholder-text{
   color: #788796;
   font-size: 16px;
-  font-family: 'Montserrat-Light',Arial,sans-serif;
+  font-family: 'Inter-UI-Light',Arial,sans-serif;
   line-height: 2;
 }
 .single-day {
@@ -415,7 +415,7 @@ ul.data-listing li.disabled{
   color: #2e3d4d;
   font-size: 16px;
   line-height: 1;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .single-day.selected{
   background: #1683FB;
@@ -450,7 +450,7 @@ ul.data-listing li.disabled{
   background-color: #f2f4f5;
   border: none;
   color: #788796;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
   padding: 10px;
 }
 .time-box{
@@ -473,7 +473,7 @@ ul.data-listing li.disabled{
   color: #0080ff;  
   flex: auto;
   text-align: center;  
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
   cursor: pointer;
   width: 45px;
   padding: 5px 0px;
@@ -570,7 +570,7 @@ ul.data-listing li.disabled{
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 ul.as-loop{
   padding: 0;
@@ -585,7 +585,7 @@ ul.as-loop li:last-child span{
   display: none;
 }
 
-ul.options-box {
+ul.options-box,.att-box {
   position: absolute;
   width: 40%;
   background: #fff;
@@ -599,6 +599,11 @@ ul.options-box {
   margin-left: 40px;
   /*bottom: 0px;*/
   border-radius: 4px;
+}
+.att-box{
+  width: 230px;
+  margin-left: 0;
+  padding: 16px;
 }
 .carret-box {
   width: 20px;
@@ -619,7 +624,7 @@ ul.options-box li {
   padding: 16px 0;
   cursor: pointer;
   transition: 0.2s ease-out all;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 ul.options-box li:hover{
   color: #64707d;
@@ -638,7 +643,7 @@ ul.options-box li button:hover{
 
 .progress-wrap{
   color: #0080ff;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   font-size: 14px;
   margin-top: 12px;
 }
@@ -661,7 +666,7 @@ ul.options-box li button:hover{
   margin-bottom: 20px;
 }
 .location-name{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   color: #0080ff;
   line-height: 0.5;
   position: relative;
@@ -718,16 +723,18 @@ ul.options-box li button:hover{
     font-size: 10px;
     background: #fff0e6;
     color: #e66000;
-    font-family: 'Montserrat-Medium',Arial,sans-serif;
+    font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .single-user-wrap{
-  max-height: 305px;
-  overflow-y: auto;
+  max-height: 200px;
+  overflow-y: overlay;
 }
 .user-row-wrap{
   min-height: 305px;
   height: 305px;
   margin-bottom: 20px;
+  overflow-y:overlay;
+  overflow-x:hidden;
 }
 .disable-add{
   /* pointer-events: none; */
@@ -746,7 +753,7 @@ ul.options-box li button:hover{
   text-align: center;
   color: red;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .modal-close:focus{
     outline: none;
@@ -785,7 +792,7 @@ ul.options-box li button:hover{
     background: #fff;
   color: #0080ff;
   font-size: 14px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;
   outline: none;
   border: none;
 }
@@ -828,7 +835,7 @@ li button{
 
 .scrollable
 {
-      overflow-y: scroll;
+      overflow-y: overlay;
       min-height: 0;
       /*height: 100vh;*/
  }
@@ -843,17 +850,17 @@ li button{
   margin-top: 20px;
 }
 .header-font{
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   color: #2e3e4d;
 }
 .btn-large{
   width: 100%;
   height: 60px;
   background: #f2f4f5;
-  color: #64707d;
+  color: #0080ff;
 }
 .btn-largeLabel{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   font-size: 18px;
   margin-bottom: 0;
 }
@@ -873,7 +880,7 @@ li button{
 .course-view{
 	min-height: 600px;
     max-height: 600px;
-    overflow-y: auto;
+    overflow-y: overlay;
 }
 
 .card-columns {
@@ -924,7 +931,7 @@ li button{
 }
 .addCourseBtn{
   font-size: 25px;
-  font-family: 'Montserrat-Light',Arial,sans-serif;
+  font-family: 'Inter-UI-Light',Arial,sans-serif;
   padding: 0px 10px 0px 10px;
   margin-bottom: 0;
 }
@@ -938,15 +945,14 @@ li button{
   position: absolute;
   top: 10px;
   right: 0;
-  padding: 0px 4px 0px 4px;
-  height: 20px;
-  background: #007fff;
-  color: #ffffff;
+  padding: 4px;
+  background: #cce6ff;
+  color: #004080;
   text-align: center;
   font-size: 0.8rem;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .no-seat{
   position: absolute;
@@ -960,7 +966,7 @@ li button{
   font-size: 0.8rem;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .date-wrap{
   width: 30%;
@@ -971,16 +977,16 @@ li button{
   margin-bottom: 20px;
 }
 .light-font{
-  font-family: 'Montserrat-Light',Arial,sans-serif;
+  font-family: 'Inter-UI-Light',Arial,sans-serif;
 }
 .medium-font,.price-info,.payment-item,.inv-Cname{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .regular-font{
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }
 .semibold,.invoice-label,.tax-status{
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
 }
 .course-info{
   width: 100%;
@@ -988,7 +994,7 @@ li button{
 }
 .course-label{
   color: #2e3e4d;
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 .btn-card{
   border: 0;
@@ -1002,46 +1008,46 @@ li button{
   cursor: pointer;
 }
 .second-info{
-  display: flex;
   padding-top: 10px;
 }
 .time-wrap{
   width: 60%;
 }
 .btnCustomer-wrap{
-  width: 50%;
+  /*width: 50%;*/
   padding: 5px;
   /*padding: 5px 0px 5px 0px;*/
-  /*font-family: Montserrat-Regular;*/
+  /*font-family: Inter-UI-Regular;*/
 }
 .btn-addC p{
   margin-bottom: 0;
 }
 .btn-addC{
-  background: #f2f4f5;
-  border: 0;
+  background: #fff;
+  border: 2px solid #0080ff;
   width: 100%;
   border-radius: 4px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
-  color: #2e3d4d;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
+  color: #0080ff;
+  padding: 5px;
   cursor: pointer;
 }
 .btn-plusicon{
   font-size: 22px;
-  font-family: 'Montserrat-light',Arial,sans-serif;
+  font-family: 'Inter-UI-light',Arial,sans-serif;
 }
 .btn-label{
   font-size: 15px;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }
 .link-wrap{
   text-align: center;
   padding: 15px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .link-btn{
   text-decoration: none;
-  color: #64707d;
+  color: #0080ff!important;
   cursor: pointer;
 }
 .time-color{
@@ -1059,14 +1065,14 @@ li button{
   width: 100%;
   font-size: 14px;
   color: #415567;
-  font-family: Montserrat-Regular;
+  font-family: Inter-UI-Regular;
 }
 .plusicon{
   position: absolute;
   left: 7px;
   top: 0px;
   font-size: 24px;
-  font-family: Montserrat-Light;
+  font-family: Inter-UI-Light;
 }
 .toggle {
   color: #415567;
@@ -1090,7 +1096,7 @@ li button{
 .modal-ctime p,
 .modal-dfees h5,.modal-duration,.modal-userInfo label,
 .invoice-info,.user-name,.back-inv,.c-label,.paid-amount{
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 .single-progress h4,
 .back-to,
@@ -1130,7 +1136,7 @@ li button{
 .modal-cfees,
 .modal-ctime h5,
 .modal-dfees b,.payment-label,.invModal-cancel,.send-btn{
-  font-family: 'Montserrat-Semibold',Arial,sans-serif;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 
 .modal-userInfo{
@@ -1188,9 +1194,9 @@ li button{
 .detail-info p{
   min-height: 80px;
   height: 80px;
-  overflow: scroll;
+  overflow: overlay;
   color: #64707d;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
   line-height: 1.7;
   margin-bottom: 0;
   font-size: 16px;
@@ -1207,12 +1213,12 @@ li button{
 .detail-fees sup{
     font-size: 12px;
     color: #2e3d4d;
-    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .detail-fees h5{
   color: #64707d;
   font-size: 16px;
-  font-family: 'Montserrat-Regular', Arial,sans-serif;
+  font-family: 'Inter-UI-Regular', Arial,sans-serif;
 }
 .detail-box {
   border-radius: 8px;
@@ -1262,7 +1268,7 @@ li button{
 .cdetail p,
 .course-time p{
   color: #64707d;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
   line-height: 1.7;
   margin-bottom: 0;
   font-size: 14px;
@@ -1336,7 +1342,7 @@ label.room-name::before {
   top: 9px;
 }
 .btn-create{
-  font-family: 'Montserrat-Light','Arial', sans-serif;
+  font-family: 'Inter-UI-Light','Arial', sans-serif;
   color: #fff;
   background-color: #1682fb;
   border: none;
@@ -1358,6 +1364,10 @@ label.room-name::before {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 20px;
   margin-bottom: 20px;
+}
+.input-day{
+  -webkit-appearance: none;
+-webkit-box-shadow: 0 1px 3px 2px rgba(213,213,213,0.3) 
 }
 .single-user{
   /*cursor: pointer;*/
@@ -1407,7 +1417,7 @@ label.room-name::before {
 }
 .std-img-wrap,.std-img-wrap1,
 .img-wrap,.user-img-wrap{
-  display: inline-block;
+  /* display: inline-block; */
   position: relative;
   overflow: hidden;
   border-radius: 50%;
@@ -1531,10 +1541,11 @@ label.room-name::before {
 .confirm-text p{
     color: #64707d;
 }
+
 .modal-cancel-btn,
 .modal-delete-btn{
     font-size: 16px;
-    font-family: 'Montserrat-Regular',Arial,sans-serif;
+    font-family: 'Inter-UI-Regular',Arial,sans-serif;
     border-radius: 3px;
     height: 44px;
     min-width: 90px;
@@ -1565,6 +1576,13 @@ label.room-name::before {
 .modal-footer{
   padding: 24px 32px;
   border-top: 1px solid #edeff0;
+  width: 100%;
+  bottom: 0;
+}
+.invoice-wrap, .form-wrap{
+  max-height: 70vh;
+  min-height: 70vh;
+  overflow : overlay;
 }
 .target{
     color: #ff3d33;
@@ -1643,7 +1661,7 @@ label.room-name::before {
 }
 .user-list-box{
   height: 300px;
-  overflow: auto;
+  overflow: overlay;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 0 16px;
   border-radius: 0 0 4px 4px;
@@ -1681,7 +1699,7 @@ button:disabled{
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   padding: 16px 20px;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: overlay;
   position: relative;
   height: 75px;
 }
@@ -1698,15 +1716,15 @@ button:disabled{
 .single-student{
   border-radius: 28px;
   background-color: #f2f4f5;
-  padding: 6px;
-  padding-top: 12px;
+  /* padding: 6px;
+  padding-top: 12px; */
   margin-bottom: 10px;
-  height: 48px;
+  height: 56px;
 }
 .single-student-modal{
   border-radius: 28px;
   background-color: #f2f4f5;
-  padding: 6px;
+  /* padding: 6px; */
   /* padding-top: 12px; */
   margin-bottom: 10px;
   height: 48px;
@@ -1714,7 +1732,7 @@ button:disabled{
 /* .single-student p{
   margin-bottom: 0;
   font-size: 16px;
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
   color: #2e3d4d;
   padding-left: 12px;
 } */
@@ -1722,20 +1740,20 @@ button:disabled{
   background: #fff;
   border: solid 2px #007fff;
   color: #0080ff;
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
   font-size: 14px;
   padding: 9px 12px;
   line-height: 1;
   max-height: 36px;
 }
 .class-day{
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
   color: #64707d;
   font-size: 14px;
   margin-bottom: 0;
 }
 .class-date{
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
   color: #2e3d4d;
   font-size: 20px;
   margin-bottom: 0;
@@ -1748,10 +1766,24 @@ button:disabled{
 .absent-alert
 {
   font-size: 16px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   position: relative;
 }
-
+.attendance-radio{
+  background: #c2f2d6;
+}
+.absent-radio{
+  background: #ffdbd9;
+}
+.attendance-radio,.absent-radio {
+  border-radius: 25px;
+}
+.present-text{
+  color: #004d20!important;
+}
+.absent-text{
+  color: #801f19!important;
+}
 /* .single-student.no-data-alert{
 
 } */
@@ -1766,6 +1798,12 @@ button:disabled{
 }
 .single-student.absent-alert p{
   color: #7d1e19 !important;
+}
+.single-student.active-alert{
+  background: #007fff;
+}
+.single-student.active-alert p{
+  color: #ffffff !important;
 }
 .absent::before,
 .no-data::before {
@@ -1793,13 +1831,13 @@ button:disabled{
 .single-date b{
   color: #2e3d4d;
   font-size: 14px;
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
 }
 .single-date p{
   margin-bottom: 0;
   color: #64707d;
   font-size: 12px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .today p,
 .today b{
@@ -1839,7 +1877,7 @@ button:disabled{
   margin-top: 140px;
   color: #64707d;
   font-size: 28px;
-  font-family: 'Montserrat-SemiBold',Arial,sans-serif;
+  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
 }
 
 .cursor-on{
@@ -1861,7 +1899,9 @@ button:disabled{
 
 .invoice-container{
   padding: 32px 32px 0 32px;
-  min-height: 670px;
+  min-height: 80vh;
+  height:80vh;
+  overflow: overlay;
 }
 
 .logo-wrapper{
@@ -2032,7 +2072,7 @@ button:disabled{
 .input-sign{
   line-height: 2.7;
   color: #788796;
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }
 
 .discount-info{
@@ -2236,7 +2276,7 @@ input[type=number]::-webkit-outer-spin-button {
   height: 44px;
   border-radius: 3px;
   background: #f2f4f5;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size:16px;
   font-weight: 600;
   line-height: 20px;
@@ -2247,7 +2287,7 @@ input[type=number]::-webkit-outer-spin-button {
   height: 44px;
   border-radius: 3px;
   background: #fff;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size:16px;
   font-weight: 600;
   line-height: 20px;
@@ -2260,7 +2300,7 @@ input[type=number]::-webkit-outer-spin-button {
   width: 96px;
   height: 44px;
   border-radius: 3px;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size:16px;
   font-weight: 600;
   line-height: 20px;
@@ -2288,11 +2328,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .checkmark_stem {
   position: absolute;
-  width:2px;
-  height:9px;
+  width:3px;
+  height:10px;
   background-color:#007fff;
   left: 7px;
-  top: 3px;
+  top: 2px;
 }
 
 .checkmark_kick {
@@ -2350,13 +2390,13 @@ input[type=number]::-webkit-outer-spin-button {
   margin: -1rem -1rem -1rem auto;
 } 
 .makeup-pass-title{
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size: 28px;
   font-weight: 600;
   color: #2e3d4d;
 }
 .makeup-pass-text{
-  font-family: Montserrat-Medium;
+  font-family: Inter-UI-Medium;
   font-size: 14px;
   color: #64707d;
   font-weight: 500;
@@ -2385,7 +2425,7 @@ input[type=number]::-webkit-outer-spin-button {
   line-height: 2.2;
   text-align: center;
   padding: 8px 12px;
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 
 .user-image {
@@ -2452,29 +2492,29 @@ input[type=number]::-webkit-outer-spin-button {
 .class-info-head b,.invoice-label{
     color: #2e3e4d;
     font-size: 18px;
-    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .class-body-one sup{
     font-size: 12px;
     color: #2e3d4d;
-    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .class-body-one h5,
 .class-body-two h5{
     margin-bottom: 3px;
     font-size: 14px;
     color: #64707d;
-    font-family: 'Montserrat-Regular', Arial,sans-serif;
+    font-family: 'Inter-UI-Regular', Arial,sans-serif;
 }
 .class-body-one b,.invoice-info{
     font-size: 16px;
     color: #2e3d4d;
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 .class-body-two b{
     font-size: 14px;
     color: #2e3e4d;
-    font-family: 'Montserrat-Semibold', Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif;
 }
 .class-info-footer{
     padding-top: 16px;
@@ -2484,7 +2524,7 @@ input[type=number]::-webkit-outer-spin-button {
 .class-info-footer button{
     color: #0080ff;
     font-size: 14px;
-    font-family: 'Montserrat-Semibold', Arial,sans-serif;    
+    font-family: 'Inter-UI-Semibold', Arial,sans-serif;    
     padding: 0;
     background: none;
 }
@@ -2504,7 +2544,7 @@ input[type=number]::-webkit-outer-spin-button {
 .tabs-inv{
     min-height: 670px;
     max-height: 670px;
-    overflow: auto;
+    overflow: overlay;
 }
 
 .back-inv{
@@ -2552,7 +2592,7 @@ input[type=number]::-webkit-outer-spin-button {
   background: #c2f2d6;
   padding: 5px 0px;
   font-size: 24px;
-  font-family: 'Montserrat-Semibold', Arial,sans-serif;    
+  font-family: 'Inter-UI-Semibold', Arial,sans-serif;    
 }
 
 .invC-m{
@@ -2565,6 +2605,12 @@ input[type=number]::-webkit-outer-spin-button {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 20px;
 }
+.add-reason{
+  color: #0080ff;
+  font-size: 16px;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
+  font-weight: 500;
+}
 
 .makeup-icon{
   display: inline-block;
@@ -2575,20 +2621,33 @@ input[type=number]::-webkit-outer-spin-button {
   text-align:center;
   color:#ffffff;
   font-size: 12px;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   
   font-weight: 600;
 }
 .cancel-text{
   font-size:16px;
-  font-family:Montserrat-Medium;
+  font-family:Inter-UI-Medium;
   color:#64707d;
   position: relative;
   margin-bottom: 1.75rem!important;
   /* line-height:20px; */
     /* padding:12px 0px 36px 0px; */
 }
+.text-reason:focus{
+  outline: 0px!important;
+}
 
+.text-reason{
+  border: none;
+  resize: none;
+  padding-left: 20px;
+  box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.08);
+  overflow-y: scroll;
+  height: 80px;
+  padding-top: 16px;
+  padding-right: 20px;
+}
 .clickable-user{
   color: #0080ff!important;
   cursor: pointer;
@@ -2605,6 +2664,11 @@ button:focus {
   outline: none;
   box-shadow: none;
 }
+
+.m-bottom{
+  margin-bottom: 200px;
+}
+
 @media only screen and  (min-width:1366px){
   .inner-wrapper{
     width: 1080px!important;
@@ -2643,4 +2707,122 @@ button:focus {
    
   }
 } */
+
+.input-lesson [type=number]::-webkit-inner-spin-button, 
+.input-lesson [type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/*attadence radio*/
+/* The container */
+.radio-present,.radio-absent {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /*border: 1px solid #00b34a;*/
+}
+/*.radio-absent{
+  border: 1px solid #ff3d33;
+}*/
+
+/* Hide the browser's default radio button */
+.radio-present input,.radio-absent input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-present p,.radio-absent p{
+  padding: 0px 10px;
+  font-size: 14px;
+  line-height: 2.2;
+  color: #00b34a;
+}
+
+.radio-absent p{
+  color: #f23a30;
+}
+
+/* Create a custom radio button */
+.radio-present .checkmark,.radio-absent .checkmark {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  height: 15px;
+  width: 15px;
+  /*background-color: #eee;*/
+  background-color: #fff;
+  border: 1.5px solid #00b34a;
+  border-radius: 50%;
+  top: 8px;
+}
+
+.radio-absent .checkmark{
+  border: 1.5px solid #ff3d33;
+}
+
+.present-wrap{
+  border: 1px solid #00b34a;
+  border-radius: 25px;
+}
+.absent-wrap{
+  border: 1px solid #ff3d33;
+  border-radius: 25px;
+  margin-left: 18px;
+}
+
+/* On mouse-over, add a grey background color */
+/*.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}*/
+
+/* When the radio button is checked, add a blue background */
+.radio-present input:checked ~ .checkmark {
+  background-color: #fff;
+  border: 1.5px solid #00662b;
+}
+
+.radio-absent input:checked ~ .checkmark{
+  background-color: #fff;
+  border: 1.5px solid #801f19;
+}
+
+/*.radio-present input:checked ~ .radio-present{
+  background: #c2f2d6;
+}*/
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-present input:checked ~ .checkmark:after, .radio-absent input:checked ~ .checkmark:after{
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-present .checkmark:after,.radio-absent .checkmark:after {
+  right: 3px;
+  bottom: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00662b;
+}
+
+.radio-absent .checkmark:after{
+  background: #801f19;
+}
+
 

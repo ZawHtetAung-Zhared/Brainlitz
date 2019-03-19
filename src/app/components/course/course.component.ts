@@ -1,3 +1,4 @@
+import { InvoiceComponent } from './../invoice/invoice.component';
 import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
@@ -10,6 +11,7 @@ import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { last } from 'rxjs/operator/last';
+
 // import { start } from 'repl';
 declare var $:any;
 
@@ -22,6 +24,10 @@ declare var $:any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code:any ;
+  public reasonValue:any;
+  public textAreaOption = false;
+  public attendenceButton:any;
+  public optionBox:any = false;
   public stdLists: Array<any> = []
   public searching:boolean = false;
   public yPosition:any;
@@ -102,7 +108,8 @@ export class CourseComponent implements OnInit {
   public activeCourseInfo:any = {};
   public todayDate:any;
   public LASD:any; //lastActiveStartDate
-
+  public custDetail : any = {};
+  public courseInfo : any = {};
   public momentTodayDate:any;
   public showCancelButton:boolean = false;
   public lastActiveStartDate:any;
@@ -190,6 +197,7 @@ export class CourseComponent implements OnInit {
   public invPayment = [];
   public invStatus:any;
   public noSetting:boolean = false;
+  public isoutSideClick:boolean = false;
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -261,6 +269,19 @@ export class CourseComponent implements OnInit {
       this.getCoursePlanDetail(this.editplanId);
       this.courseList = []
     })
+
+    // this.dataservice.cId.subscribe((cId)=>{
+    //   console.log("cid~~",cId)
+    //   this.courseId = cId
+    //   console.log("go to CDetail",this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   this.isCourseDetail = true;
+    //   this.showCourseDetail(this.courseId);
+    //   this.courseList = []
+    // })
   }
   cID:string;
   ngOnInit() {
@@ -269,6 +290,13 @@ export class CourseComponent implements OnInit {
     if(this.cID != ''){
       setTimeout(() => {
         this.showCourseDetail(this.cID)
+      }, 300);
+    }
+
+    this.dataservice.cId.subscribe( cid => this.courseId = cid)
+    if(this.courseId != ''){
+      setTimeout(() => {
+        this.showCourseDetail(this.courseId)
       }, 300);
     }
     let recentTemp = localStorage.getItem('recentSearchLists')
@@ -397,6 +425,7 @@ export class CourseComponent implements OnInit {
     }
 
   }
+  
   @HostListener('document:click', ['$event'])
   public test(event): void {
     // for category Search
@@ -440,6 +469,27 @@ export class CourseComponent implements OnInit {
       })
       this.endTime = false;
       }
+      // For student option box
+    if(this.optionBox != true){
+      $('.options-box').css({ 'display': "none" });
+    }else{
+      $('.options-box').css({ 'display': "block" });
+      $('.options-box').click(function (event) {
+        event.stopPropagation();
+      })
+      this.optionBox = false;
+      }
+
+
+    // if(this.attdBox != true){
+    //   $('.att-box').css({ 'display': "none" });
+    // }else{
+    //   $('.att-box').css({ 'display': "block" });
+    //   $('.att-box').click(function (event) {
+    //     event.stopPropagation();
+    //   })
+    //   this.attdBox = false;
+    // }
 
 
     }
@@ -452,16 +502,36 @@ export class CourseComponent implements OnInit {
   //    console.log("CLICKED OUTSIDE");
   //  }
 
+
+  //for attendance
+  closeDropdown(e,type){
+    console.log("e.target.parentNode.id",e.target.parentNode.id)
+    var divToHide = document.getElementById('divToHide');
+    if(e.target.parentNode != null){
+      if(e.target.parentNode.id != 'divToHide'){
+        this.attdBox = false
+      }
+    }
+  }
+
   //start course search
 
   focusCourseSearch(){
     console.log('focusing ...')
     this.iscourseSearch = true;
+    this.isoutSideClick=false;
   }
   focusOut(){
     console.log('focusout : called');
       this.iscourseSearch = false;
   }
+
+  //if searching click the overlay
+  clickoutSide(){
+    this.isoutSideClick=true;
+    this.iscourseSearch = false;
+  }
+  
   hideCourseSearch(){
     console.log(this.iswordcount)
     // this.iswordcount = true;
@@ -618,23 +688,23 @@ export class CourseComponent implements OnInit {
     console.log(this.isvalid)
   }
 
-  closeFix(event, datePicker) {
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-start col-md-6 pr-12 pl-zero"
-    })
-    if(parentWrap.length == 0){
-      datePicker.close();
-    }
-  }
+  // closeFix(event, datePicker) {
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "xxx-start col-md-6 pr-12 pl-zero"
+  //   })
+  //   if(parentWrap.length == 0){
+  //     datePicker.close();
+  //   }
+  // }
 
-  closeFixEnd(event, endPicker){
-    var parentWrap = event.path.filter(function(res){
-      return res.className == "xxx-end col-md-6 pl-12"
-    })
-    if(parentWrap.length == 0){
-      endPicker.close();
-    }
-  }
+  // closeFixEnd(event, endPicker){
+  //   var parentWrap = event.path.filter(function(res){
+  //     return res.className == "xxx-end col-md-6 pl-12"
+  //   })
+  //   if(parentWrap.length == 0){
+  //     endPicker.close();
+  //   }
+  // }
 
   closeSimpleSearch(event){
     // this.iscourseSearch = false;
@@ -1241,7 +1311,12 @@ export class CourseComponent implements OnInit {
   }
 
   goToConflict(courseId){
-    localStorage.setItem("courseID",courseId);
+    //both conflit and edit use this type 'edit' and localStorage.setItem("courseID") is also used in schedule
+    let obj = {
+      'courseId': courseId,
+      'type': 'edit'
+    }
+    localStorage.setItem("courseID",JSON.stringify(obj));
     localStorage.removeItem('cPlan');
     localStorage.removeItem('tempObj');
     // this.router.navigate(['/courseCreate']);
@@ -1458,7 +1533,12 @@ export class CourseComponent implements OnInit {
     console.log('.....',this.cancelUi)
     // console.error(onlytodayTime)
     // console.error(onlytodayDate)
-
+    // Validate for giving attendence
+    if(lessonDate <= onlytodayDate){
+      this.attendenceButton = true;
+    }else{
+      this.attendenceButton = false;
+    }
 
     if(lessonDate >= onlytodayDate){
       console.log('lesson date is grater than and equal to today')
@@ -1604,11 +1684,11 @@ export class CourseComponent implements OnInit {
     console.log("detail seats left",this.detailLists.seat_left)
     console.log(this.selectedUserLists.length)
     console.log(this.isSeatAvailable)
-
+    console.log(this.showInvoice = false)
+    console.log(this.showPayment = false)
   }
 
   viewInvoice(data){
-    this.getSingleCustomer(data.userId);
     this.isvalidID = 'inside';
     this.singleInv = [];
     console.log("user data in view inv",data);
@@ -1620,22 +1700,29 @@ export class CourseComponent implements OnInit {
         this.showInvoice = true;
       }
     }
+
+    var invData = {
+      'invoice': data.invoice
+    }
+    this.courseInfo = this.detailLists;
+    Object.assign(this.courseInfo ,invData)
+    console.log("-------->courseInfo" , this.courseInfo)
     
-    this.getRegionInfo();
-    console.log(this.invoiceInfo);
-    var invoiceId = data.invoice._id;
-    this.blockUI.start('Loading...');
-    this._service.getSingleInvoice(invoiceId)
-    .subscribe((res:any) => {
-      this.blockUI.stop();
-      console.log('invoice detail',res);
-      this.singleInv.push(res);
-      this.invoice = this.singleInv;
-      console.log("invoice",this.invoice);
-      this.showOneInvoice(this.invoice);
-    }, err => {
-      console.log(err);
-    })
+    // this.getRegionInfo();
+    // console.log(this.invoiceInfo);
+    // var invoiceId = data.invoice._id;
+    // this.blockUI.start('Loading...');
+    // this._service.getSingleInvoice(invoiceId)
+    // .subscribe((res:any) => {
+    //   this.blockUI.stop();
+    //   console.log('invoice detail',res);
+    //   this.singleInv.push(res);
+    //   this.invoice = this.singleInv;
+    //   console.log("invoice",this.invoice);
+    //   this.showOneInvoice(this.invoice);
+    // }, err => {
+    //   console.log(err);
+    // })
   }
 
   showOneInvoice(invoice){
@@ -1683,12 +1770,10 @@ export class CourseComponent implements OnInit {
   showOptionsBox(stdID, e){
     e.preventDefault();
     e.stopPropagation();
-    console.log("stdID",stdID);
-    console.log(e)
-    console.log(e.layerY)
     this.yPosition = e.layerY + 40;
     // this.yPosition = e.offsetY - 30;
     this.showStudentOption = stdID;
+    this.optionBox = true;
     this.xxxhello = stdID;
     console.log(this.showStudentOption)
     // this.router.navigate(['/customer']);
@@ -1699,6 +1784,8 @@ export class CourseComponent implements OnInit {
     this.router.navigate(['/customer']);
     this.dataservice.nevigateCustomer(id);
   }
+  uId:any;
+  attdBox = false;
 
   withdrawUser(id){
     let userobj = {
@@ -1727,6 +1814,7 @@ export class CourseComponent implements OnInit {
     this.selectedCustomer = {};
     this.selectedTeacherLists = []
     this.showInvoice = false;
+    this.textAreaOption = false;
     // this.currentDateObj = '';
     this.showStudentOption = '';
     this.xxxhello = '';
@@ -1736,16 +1824,29 @@ export class CourseComponent implements OnInit {
   cancelClass(content){
     this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
   }
-
+  showTextarea(){
+    this.textAreaOption = true;
+  }
   cancelClassFun( lessonId){
-    let data = {
-      "lessonId": lessonId
+    var cancelData;
+    if(this.reasonValue == null || this.reasonValue.length == 0 || this.reasonValue == undefined){
+      var noReason = {
+        "lessonId": lessonId
+      }
+      cancelData = noReason
+    }else{
+      var reason = {
+        "lessonId": lessonId,
+        "message" : this.reasonValue
+      }
+      cancelData = reason
     }
+    
     console.log(lessonId)
     console.log(this.isGlobal)
     // Call cancel class api service
     this.blockUI.start('Loading...');
-    this._service.cancelUsersFromClass(this.courseId, data, this.isGlobal)
+    this._service.cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
     .subscribe((res:any) => {
       // Success function
       this.blockUI.stop();
@@ -1756,6 +1857,7 @@ export class CourseComponent implements OnInit {
       this.isGlobal = false;
       this.disableCancel = true;
       this.getCourseDetail(this.courseId);
+      this.modalClose()
       // Close Dialog box
       // Show the canceled users
     },err => {
@@ -1764,7 +1866,6 @@ export class CourseComponent implements OnInit {
       console.error('cancle user from class has got error',  err);
       // Do something
     })
-    this.modalReference.close();
     this.cancelUItext= false;
   }
 
@@ -1772,6 +1873,8 @@ export class CourseComponent implements OnInit {
     this.isGlobal = false;
     this.cancelUItext= false;
     this.cancelUI=false;
+    this.reasonValue= '';
+    this.textAreaOption = false;
     this.modalReference.close();
     // this.currentDateObj = '';
   }
@@ -1848,13 +1951,19 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  getSingleCustomer(ID){
+  getSingleCustomer(ID , type?){
     this.blockUI.start('Loading...');
     console.log("this.selectedCustomer",this.selectedCustomer)
     this._service.editProfile(this.regionId, ID)
     .subscribe((res:any) => {
       this.blockUI.stop();
       console.log('selected Customer',res);
+      console.log(res)
+      
+      this.activeUserTab = type;
+      
+      this.custDetail.user = res;
+      console.log("custDetail --->" , this.custDetail)
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists)
@@ -2082,6 +2191,10 @@ export class CourseComponent implements OnInit {
      this.blockUI.start('Loading...');
      this._service.assignUser(this.regionId,body, this.locationID)
      .subscribe((res:any) => {
+       console.log("-------->" , res)
+       this.courseInfo = this.detailLists;
+       Object.assign(this.courseInfo , res)
+       console.log("-------->" , this.courseInfo)
        this.blockUI.stop();
        console.log("res Assign customer",res);
        if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
@@ -2304,7 +2417,8 @@ export class CourseComponent implements OnInit {
       "name": plan.name,
       "id": plan.coursePlanId,
       "duration": plan.lesson.duration,
-      "paymentPolicy": plan.paymentPolicy
+      "paymentPolicy": plan.paymentPolicy,
+      "from": "courses"
     };
     localStorage.setItem('cPlan',JSON.stringify(planObj));
     localStorage.removeItem('courseID');
@@ -2358,13 +2472,8 @@ export class CourseComponent implements OnInit {
       if(this.invoice[i].courseFee.fee != data){
         console.log("===not same");
         this.updateInvData["courseFee"] = data
-        // this.updateInvData["courseFee"] = {
-        //   'fee': Number(data)
-        // };
         this.invoice[i].courseFee.fee = Number(data);
         console.log(this.invoice[i].courseFee.fee)
-        // formula for calculating the inclusive tax
-        // Product price x RATE OF TAX/ (100+RATE OF TAX);
         if(this.invoice[i].courseFee.taxInclusive == true){
           var taxRate = this.invoice[i].tax.rate;
           var taxAmount = (this.invoice[i].courseFee.fee * taxRate / (100 + taxRate)).toFixed(2);
@@ -2373,6 +2482,7 @@ export class CourseComponent implements OnInit {
           var cFee = (this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax).toFixed(2);
           this.invoice[i].courseFee.fee = Number(cFee);
           this.invoice[i].courseFee.amount = (this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax).toFixed(2);
+          this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + this.invoice[i].registrationFee.tax + this.invoice[i].miscFee.tax).toFixed(2);
           console.log("CFee without inclusive tax",this.invoice[i].courseFee.fee);
           console.log("Amount without inclusive tax",this.invoice[i].courseFee.amount);
         }else if(this.invoice[i].courseFee.taxInclusive == false){
@@ -2381,6 +2491,7 @@ export class CourseComponent implements OnInit {
           this.invoice[i].courseFee.tax =Number(taxAmount);
           console.log("inclusiveTax for CFee",this.invoice[i].courseFee.tax);
           this.invoice[i].courseFee.amount = this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+          this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + this.invoice[i].registrationFee.tax + this.invoice[i].miscFee.tax).toFixed(2);
           console.log("CFee with exclusive tax",this.invoice[i].courseFee.fee);
           console.log("Fee amount with exclusive tax",this.invoice[i].courseFee.amount);
         }
@@ -2630,6 +2741,7 @@ export class CourseComponent implements OnInit {
       console.log("Total taxes and deposit",totalTaxes,deposit)
       this.invoice[i].subtotal = (regFees + miscFees + deposit + this.invoice[i].courseFee.fee).toFixed(2);
       this.total = Number((Number(this.invoice[i].subtotal)+ totalTaxes).toFixed(2));
+      this.invoice[i].tax.taxTotal = (this.invoice[i].courseFee.tax + regTax + miscTax).toFixed(2);
       // this.invoice[i].total = Number(totalPrice).toFixed(2);
       // this.total = Number(this.invoice[i].total).toFixed(2);
       console.log("Subtotal",this.invoice[i].subtotal);
@@ -2685,7 +2797,7 @@ export class CourseComponent implements OnInit {
     console.log("show Tabs Modal",type, data)
     this.showStudentOption = '';
     this.xxxhello = '';
-    this.activeUserTab = type;
+    this.getSingleCustomer(data.userId , type)
     this.singleUserData = data;
     this.modalReference = this.modalService.open(modal, { backdrop:'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center'});
     console.log("user data",data);
@@ -2696,6 +2808,11 @@ export class CourseComponent implements OnInit {
         this.viewInvoice(data);
       }
     }
+    else if(type=="makeup"){
+      this.activeUserTab = type;
+      console.log("ddddd")
+    }
+      
   }
 
   getAllAC(limit, skip, userId){
@@ -2826,6 +2943,75 @@ export class CourseComponent implements OnInit {
 
   globalMakeupPass(){
     //this.isGlobal = true;
+  }
+  showAttendanceBox(e,uID){
+    if(this.attendenceButton == true) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.yPosition = e.layerY;
+      this.uId = uID;
+      this.attdBox = true;
+      console.log("showAttendanceBox Works",this.uId)
+    }
+  }
+  onClickRadio(type,id){
+    console.log('LASD~~~',this.LASD)
+    var d = new Date(this.LASD).getUTCDate();
+    var m = new Date(this.LASD).getUTCMonth()+1;
+    var y = new Date(this.LASD).getUTCFullYear();
+    var obj = {
+      'studentId': id
+    };
+    if(type == 'present'){
+      obj["attendance"] = "true";
+    }else{
+      obj["attendance"] = "false";
+    }
+    console.log(d,'/',m,'/',y);
+    console.log("obj~~~",obj);
+    console.log(this.courseId)
+    this._service.markAttendance(this.courseId,obj,d,m,y)
+    .subscribe((res:any) => {
+      this.toastr.success(res.message);
+      console.log("res",res);
+      // this.getUsersInCourse(this.courseId);
+      this.activeTab = 'Class';
+      this.attdBox = false;
+      this.getAssignUsers(d,m,y)
+    },err => {
+      console.log(err);
+      this.toastr.error("")
+    })
+  }
+
+  getAssignUsers(d,m,y){
+    this.presentStudent = 0;
+    this.absentStudent = 0;
+    this.noStudent = 0;
+    this.blockUI.start('Loading')
+    this._service.getAssignUser(this.regionId,this.currentCourse,d,m,y)
+      .subscribe((res:any)=>{
+        console.log(res);
+        this.activeCourseInfo = res;
+        for(let j=0; j < this.activeCourseInfo.CUSTOMER.length; j++){
+          if(this.activeCourseInfo.CUSTOMER[j].attendance == true){
+            this.presentStudent += 1;
+          }else if(this.activeCourseInfo.CUSTOMER[j].attendance == false){
+            this.absentStudent += 1;
+          }else{
+            this.noStudent += 1;
+          }
+        }
+        if(this.LASD != null ){
+          this.cancelButtonShowHide();
+        }
+      },err =>{
+        this.blockUI.stop();
+        console.log(err);
+      })
+      setTimeout(() => {
+        this.blockUI.stop()
+      }, 500);
   }
 
 }

@@ -1,5 +1,5 @@
 .location-name{
-  font-family: 'Montserrat-Medium',Arial,sans-serif;
+  font-family: 'Inter-UI-Medium',Arial,sans-serif;
   color: #0080ff;
   line-height: 0.5;
   position: relative;
@@ -13,7 +13,7 @@
   display: table;
 }
 .back-to{
-    font-family: 'Montserrat-Medium', Arial,sans-serif;
+    font-family: 'Inter-UI-Medium', Arial,sans-serif;
     color: #2e3d4d !important;
     padding-left: 0 !important;
     cursor: pointer;
@@ -132,7 +132,7 @@ ul li {
 }
 
 h3, h4, h5 {
-	font-family: 'Montserrat-Semibold',Arial,sans-serif;
+	font-family: 'Inter-UI-Semibold',Arial,sans-serif;
   color: #2e3e4d;
 }
 
@@ -145,13 +145,13 @@ h5 {
 }
 
 h2 {
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
   color: #64707d;
   font-size: 36px;
 }
 
 .card-wrap h5 {
-  font-family: 'Montserrat-Regular',Arial,sans-serif;
+  font-family: 'Inter-UI-Regular',Arial,sans-serif;
   color: #fff;
   font-size: 18px;
 }
@@ -287,7 +287,7 @@ button.detail-bg:focus {
   top: -5px;
   left: 17px;
   color: #2e3d4d;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   cursor: pointer;
 }
 
@@ -342,7 +342,7 @@ h3.head-rating-count {
 	margin-right: 10px;
   font-size: 48px;
   color: #64707d;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 
 .flex-show {
@@ -400,13 +400,13 @@ h3.head-rating-count {
 .teacher-average-font {
   padding-top: 10px;
   color: #64707d;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   font-size: 12px;
   letter-spacing: 0.5px;
 }
 
 .teacher-detail-font {
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   color: #64707d;
   font-size: 16px;
   letter-spacing: 0.5px;
@@ -416,7 +416,7 @@ h3.head-rating-count {
   color: #64707d;
   padding-left: 10px;
   font-size: 12px;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
   line-height: 0.5;
 }
 
@@ -481,7 +481,7 @@ h3.head-rating-count {
   border-radius: 0;
   outline: none;
   border-left: 3px solid transparent;
-  font-family: 'Montserrat-Medium','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Medium','Arial', sans-serif !important;
 }
 .noti-tab:focus{
   outline: none;
@@ -503,7 +503,7 @@ h3.head-rating-count {
   outline: none;
   background: transparent;
   /*border-left: 3px solid transparent;*/  
-  font-family: 'Montserrat-Semibold','Arial', sans-serif !important;
+  font-family: 'Inter-UI-Semibold','Arial', sans-serif !important;
   color: #2e3e4d;
   font-size: 16px;
 }
@@ -534,7 +534,7 @@ h3.head-rating-count {
   top: -100px;
   background: #fff;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
-  font-family: 'Montserrat-Medium', Arial,sans-serif; 
+  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
 }
 
 .sticky {
@@ -622,7 +622,7 @@ h3.head-rating-count {
   -webkit-box-shadow: 2px 11px 40px 1px rgba(0,0,0,1);
   box-shadow: 2px 11px 40px 1px rgba(0,0,0,1);
   cursor: pointer;
-  font-family: 'Montserrat-Medium', Arial,sans-serif;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }
 
 .mr-top-right {
@@ -650,7 +650,7 @@ h3.head-rating-count {
 .input-recommend{
     font-size: 14px;
     color: #64707d;
-    font-family: 'Montserrat-Semibold',Arial,sans-serif;
+    font-family: 'Inter-UI-Semibold',Arial,sans-serif;
     margin-left: 15px;
 }
 
@@ -747,5 +747,19 @@ h3.head-rating-count {
   }
 }
 
-
+.star {
+  color: #b0c4de;
+}
+.filled {
+  color: #788798!important;
+}
+.bad {
+  color: #deb0b0;
+}
+.filled.bad {
+  color: #788798!important;
+}
+.notfilled{
+  color: #788798!important;
+}
 
