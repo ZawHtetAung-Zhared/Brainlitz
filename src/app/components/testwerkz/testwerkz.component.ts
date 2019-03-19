@@ -1986,7 +1986,113 @@ export class TestwerkzComponent implements OnInit {
       // console.log(inner_markDown);
     }
   }
+  getSingleConcept(cID){
+    this.conceptId = cID;
+    this.showSettingSidebar = false;
+    this.conceptEdit = true;
+    this.testWerkzCategory = false;
+    this.conceptList = false;
+    this._service.getConceptById(this.regionID, cID).subscribe((res:any) => {
+      console.log(res)
+      this.conceptsObj = res;
+      this.concept.name = res.name;
+      async.map(res.pd, this.singlePdLoop.bind(null, this,res.pd),this.singlePdDone.bind(null, this))      
+    },err =>{
+      console.log(err)
+    })
+  }
+  singlePdDone(err,result){
+    console.warn(result)
+  }
+  singlePdLoop(_this,pdArray,pd , pdCallback){
+    // function for pd loop
+    console.error(pdArray.indexOf(pd)); 
+    var pdIndex = pdArray.indexOf(pd)
+    console.log(pd.pdId, '========');
+    console.log(_this,pd,pdIndex)
+    _this._service.getPDById(_this.regionID, pd.pdId).subscribe(res => {
+      console.log(res)
+      _this.ptest.push(res);
+      console.warn(_this.ptest);
+      async.map(res.questions,_this.questionLooop.bind(null,_this,res.questions,pdIndex),pdCallback)
+    },err => {
+      console.error(err)
+    })
 
+  }
+  questionLooop(_that, questionArray,pdIndex,question , questionCallback){
+    var questId = questionArray.indexOf(question)
+    console.error(questId,pdIndex);
+    console.log(question);
+    _that._service.getQuesById(_that.regionID, question.questionId).subscribe(res => {
+      console.log(res);
+      console.log();
+    
+      setTimeout(() => {
+        var quesitonHtml = document.getElementById("q-" + pdIndex + "-" + questId);
+        // console.warn(quesitonHtml,'====',res.html.question);
+        document.getElementById("q-" + pdIndex + "-" + questId).innerHTML =
+          res.html.question;
+        console.log(quesitonHtml);
+      }, 200);
+      _that.ptest[pdIndex].showTooltip = false;
+      _that.ptest[pdIndex].questions[questId] = res;
+      _that.performanceDemands = _that.ptest
+      console.error(_that.ptest);
+      console.warn(_that.performanceDemands);
+    },err => {
+      console.error(err);
+    })
+  }
+  // pdLoop(_this, pd, pdCallback) {
+  //   // API CALL
+  //   // Question Creatoion Loop
+  //   console.log(pd);
+  //   console.log("PD LOOP", JSON.stringify(pd.questions));
+  //   async.map(
+  //     pd.questions,
+  //     _this.createQuestions.bind(null, _this, pd),
+  //     _this.createQuesitonsDone.bind(null, pd, _this, pdCallback)
+  //   );
+  //   // After ASYNC, pd.quesitons
+  // }
+  testingg(){
+    async.map(
+      [1, 2, 3], 
+      function(data, callback) {
+        callback(null, "Success");
+      }, 
+      function(error, result){
+        if (error) {
+          // Do something
+        }else{
+          console.log(result)
+        }
+      }
+    )
+
+async.map(
+  [1, 2, 3], 
+  function(data, callback) {
+    // data param is an element from array, In this case 1/2/3
+    // callback param is the last function of async.map
+    // if developer wants to pass the data, pass to callback
+    // pass the data back to callback function (the last fucntion)
+    callback(null, "Success");
+  }, 
+  function(error, result){
+    // you can trigger the error if there's an error from above function
+    // catch the error like below
+    if (error) {
+      // Do something
+    }
+
+    // result is the collection of array from s
+    // In this case, result = ['Success', 'Success', 'Success'] 
+    // Coz passed "Success" string from sencond function Eg. callback(null, "Success");
+  }
+)
+  }
   //end get method
 
   //start put method
