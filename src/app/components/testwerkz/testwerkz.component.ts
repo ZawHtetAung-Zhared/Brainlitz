@@ -733,7 +733,7 @@ export class TestwerkzComponent implements OnInit {
           $(window.getSelection().focusNode).hasClass("img-wrapper") ||
           $(window.getSelection().focusNode).parents(".img-wrapper");
         if ($(window.getSelection().focusNode).hasClass("img-wrapper")) {
-          thisDiv = $(window.getSelection().focusNode;
+          thisDiv = $(window.getSelection().focusNode);
         }
         var tempDiv = document.createElement("div");
         var tempBr = document.createElement("br");
