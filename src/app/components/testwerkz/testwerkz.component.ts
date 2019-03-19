@@ -1936,6 +1936,7 @@ export class TestwerkzComponent implements OnInit {
         console.log(res);
         this.conceptsObj = res;
         this.concept.name = res.name;
+        this.tagID = res.tag[0].tagId;
         await this.getPDById(res.pd);
       },
       err => {
