@@ -265,9 +265,13 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getConceptLists() {
+    this.blockUI.start('Loading')
     this._service.getAllConcept(this.regionID).subscribe((res: any) => {
       console.log("Concept lists", res);
       this.conceptsArr = res;
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
     });
   }
 
@@ -1639,10 +1643,13 @@ export class TestwerkzComponent implements OnInit {
         // }
         var noAnswer = false;
         const test = quest.answers.map((ans) => {
-          if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "")){
+          if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "") || (ans.answer != "" && ans.imgUrl != "")){
             // console.log("has one~~~");
             // has on ans (Img Or text)
             noAnswer = true;
+          }else if(ans.answer == "" && ans.imgUrl == ""){
+            // console.log("not has one")
+            noAnswer = false;
           }
           // else{
           //   console.log("true~~~");
@@ -1708,8 +1715,6 @@ export class TestwerkzComponent implements OnInit {
     }, 300);
   }
   createQuestions(_this, pd, question, callback) {
-    console.group("Create QUestion");
-    console.groupEnd();
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
@@ -1931,6 +1936,7 @@ export class TestwerkzComponent implements OnInit {
         console.log(res);
         this.conceptsObj = res;
         this.concept.name = res.name;
+        this.tagID = res.tag[0].tagId;
         await this.getPDById(res.pd);
       },
       err => {
@@ -2064,10 +2070,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   updateQuestions(_this, pd, id, question, callback) {
-    console.group("Create QUestion");
     console.log(pd);
     console.log(question._id);
-    console.groupEnd();
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
@@ -2145,7 +2149,20 @@ export class TestwerkzComponent implements OnInit {
         );
     }
   }
+  deleteAnswerImg(i,j,index){
+    this.performanceDemands[i].questions[j].answers[index].imgUrl='';
+  }
+  onmouseEnter(e,i,j,index){
+    var Id = String(i) + String(j) + String(index)
+    var imgId = $('#imgID' + Id)
+    imgId[0].style.display = 'block'
 
+  }
+  onmouseLeave(event,i,j,index){
+    var Id = String(i) + String(j) + String(index)
+    var imgId = $('#imgID' + Id)
+    imgId[0].style.display = 'none'
+  }
   updateQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
     console.log(pd);
     console.log(_this);

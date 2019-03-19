@@ -277,7 +277,7 @@
                         [(ngModel)]="pd.name" (focus)="onFocus('pd',i,'','')" (focusout)="hideTooltip('hideTooltip','pD',i,j,index)">
                       <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                       <div *ngIf="pd.contents.length > 0" class="row" dragula={{i}} [(dragulaModel)]="pd.contents">
-                        <div class="col-md-4 position-relative" *ngFor="let img of pd.contents;let idx = index">
+                        <div class="col-md-4 position-relative mb-3" *ngFor="let img of pd.contents;let idx = index">
 
                           <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
                           <div class="innerPd p-0" (mouseenter)="mouseOver($event,idx)" (mouseout)="mouseOut($event)">
@@ -360,11 +360,13 @@
                                 id="{{'answer' + i + j + index}}" (keydown)="onKeydown($event,i ,j,index)" autocomplete="off">
                             </div>
                           </div>
-                
-                          <div class="answer-img-wrapper" *ngIf="answer.imgUrl.length > 0">
-                            <img src="{{answer.imgUrl}}" alt="" class="answer-img">
+                        <div (mouseover)="onmouseEnter($event,i,j,index)" (mouseout)="onmouseLeave($event,i,j,index)" style="width:200px;">
+                          <div class="answer-img-wrapper" *ngIf="answer.imgUrl.length > 0" >
+                              <img src="{{answer.imgUrl}}" alt="" class="answer-img" >
+                              <img (click)="deleteAnswerImg(i,j,index)" class="ans-image" src="./assets/img/remove-white.png" id="{{'imgID' + i + j +index}}">
                           </div>
                         </div>
+                      </div>
                       </div>
                     </div>
                   </div>
