@@ -277,7 +277,7 @@
                         [(ngModel)]="pd.name" (focus)="onFocus('pd',i,'','')" (focusout)="hideTooltip('hideTooltip','pD',i,j,index)">
                       <!-- <textarea name="" id="" class="w-100 pd-name" (input)="autoResize($event)"></textarea> -->
                       <div *ngIf="pd.contents.length > 0" class="row" dragula={{i}} [(dragulaModel)]="pd.contents">
-                        <div class="col-md-4 position-relative" *ngFor="let img of pd.contents;let idx = index">
+                        <div class="col-md-4 position-relative mb-3" *ngFor="let img of pd.contents;let idx = index">
 
                           <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
                           <div class="innerPd p-0" (mouseenter)="mouseOver($event,idx)" (mouseout)="mouseOut($event)">
@@ -305,8 +305,8 @@
                           <div class="tooltip-wrap" *ngIf="showID == ('q'+i+j)">
                             <button onclick="document.execCommand('bold',false,null);"><img src="assets/img/text-edit-bold.png"></button>
                             <button onclick="document.execCommand( 'italic',false,null);"><img src="assets/img/text-edit-italic.png"></button>
-                            <button onclick="document.execCommand( 'insertorderedlist',false,null);">L</button>
-                            <button #btn (click)="openImgModal(imgModal,'multiple',btn)" class="question-insert-img"><img
+                            <button class="bd-left" onclick="document.execCommand( 'insertorderedlist',false,null);"><img src="assets/img/ordered-list.png"></button>
+                            <button #btn (click)="openImgModal(imgModal,'multiple',btn)" class="question-insert-img bd-left"><img
                                 class="question-insert-img" src="assets/img/text-edit-image.png"></button>
                             <div class="carret-box"></div>
                           </div>
@@ -322,9 +322,9 @@
                           <!-- <img src="{{ }}" alt=""> -->
 
                           <div class="d-flex flex-column" style="position:relative;">
-                            <div class="answer-tooltip-wrap" *ngIf="answer.showTooltip">
+                            <div class="answer-tooltip-wrap" (click)="answerOpenImgModal(imgModal,'single',i,j,index)" *ngIf="answer.showTooltip">
                               <!-- <div class="answer-tooltip-wrap" *ngIf="this.answerTootips == (i + j + index + 'a')" > -->
-                              <button (click)="answerOpenImgModal(imgModal,'single',i,j,index)"><img src="assets/img/text-edit-image.png"></button>
+                              <button ><img src="assets/img/text-edit-image.png"></button>
                               <div class="answer-carret-box"></div>
                             </div>
                             <div class="d-flex" *ngIf="question.questionType == 'MCQ-CHECKBOX'">
@@ -341,7 +341,7 @@
                               <input type="text" class="bg-white pb-1 w-100 answer-input" [(ngModel)]="answer.answer"
                                 placeholder="choice" (focusout)="hideTooltip('hideTooltip','answer',i,j,index)" (focus)="onFocus('answer',i,j,index)"
                                 [ngClass]="{'answer-text': answer.correctness == 100}" id="{{'answer' + i + j + index}}"
-                                (keydown)="onKeydown($event,i ,j,index)">
+                                (keydown)="onKeydown($event,i ,j,index)" autocomplete="off">
                             </div>
                             <div class="d-flex" *ngIf="question.questionType == 'MCQ-OPTION'">
                               <label for="{{'answerSingle'+index + i + j }}">
@@ -357,14 +357,16 @@
                               <input type="text" class="bg-white pb-1 w-100 answer-input" [(ngModel)]="answer.answer"
                                 placeholder="choice" (focusout)="hideTooltip('hideTooltip','answer',i,j,index)"
                                 [ngClass]="{'answer-text': answer.correctness == 100}" (focus)="onFocus('answer',i,j,index)"
-                                id="{{'answer' + i + j + index}}" (keydown)="onKeydown($event,i ,j,index)">
+                                id="{{'answer' + i + j + index}}" (keydown)="onKeydown($event,i ,j,index)" autocomplete="off">
                             </div>
                           </div>
-                
-                          <div *ngIf="answer.imgUrl.length > 0">
-                            <img src="{{answer.imgUrl}}" alt="" class="answer-img">
+                        <div (mouseover)="onmouseEnter($event,i,j,index)" (mouseout)="onmouseLeave($event,i,j,index)" style="width:200px;">
+                          <div class="answer-img-wrapper" *ngIf="answer.imgUrl.length > 0" >
+                              <img src="{{answer.imgUrl}}" alt="" class="answer-img" >
+                              <img (click)="deleteAnswerImg(i,j,index)" class="ans-image" src="./assets/img/remove-white.png" id="{{'imgID' + i + j +index}}">
                           </div>
                         </div>
+                      </div>
                       </div>
                     </div>
                   </div>
