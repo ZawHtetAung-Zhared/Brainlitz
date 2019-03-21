@@ -1986,112 +1986,121 @@ export class TestwerkzComponent implements OnInit {
       // console.log(inner_markDown);
     }
   }
-  getSingleConcept(cID){
-    this.conceptId = cID;
-    this.showSettingSidebar = false;
-    this.conceptEdit = true;
-    this.testWerkzCategory = false;
-    this.conceptList = false;
-    this._service.getConceptById(this.regionID, cID).subscribe((res:any) => {
+
+  mainfunc(cID){
+    const _that =this;
+    _that.blockUI.start('Loading')
+    _that.conceptId = cID;
+    _that.showSettingSidebar = false;
+    _that.conceptEdit = true;
+    _that.testWerkzCategory = false;
+    _that.conceptList = false;
+
+    _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log(res)
-      this.conceptsObj = res;
-      this.concept.name = res.name;
-      async.map(res.pd, this.singlePdLoop.bind(null, this,res.pd),this.singlePdDone.bind(null, this))      
+      _that.conceptsObj = res;
+      _that.concept.name = res.name;    
+      async.map(
+        res.pd, 
+        _that.getPDID.bind(null,_that), 
+        _that.getPDbyID.bind(null,_that)
+      )  
     },err =>{
       console.log(err)
     })
+  setTimeout(() => {
+    _that.blockUI.stop()
+  }, 500);
   }
-  singlePdDone(err,result){
-    console.warn(result)
+  getPDID(_that,pd,callback){
+    console.log(pd.pdId, 'getPDID function ')
+    callback(null,pd.pdId)
   }
-  singlePdLoop(_this,pdArray,pd , pdCallback){
-    // function for pd loop
-    console.error(pdArray.indexOf(pd)); 
-    var pdIndex = pdArray.indexOf(pd)
-    console.log(pd.pdId, '========');
-    console.log(_this,pd,pdIndex)
-    _this._service.getPDById(_this.regionID, pd.pdId).subscribe(res => {
+
+  getPDbyID(_that,error,result){
+    console.log('getPDbyID function',result)
+    async.map(
+      result,
+      _that.getPDObject.bind(null,_that),
+      _that.pdObjectArray.bind(null,_that)
+    )
+  }
+  getPDObject(_that,pdObj,callback){
+    console.log(pdObj,'getPDObject function')
+    _that._service.getPDById(_that.regionID, pdObj).subscribe(res => {
       console.log(res)
-      _this.ptest.push(res);
-      console.warn(_this.ptest);
-      async.map(res.questions,_this.questionLooop.bind(null,_this,res.questions,pdIndex),pdCallback)
+      callback(null,res)
     },err => {
       console.error(err)
     })
-
   }
-  questionLooop(_that, questionArray,pdIndex,question , questionCallback){
-    var questId = questionArray.indexOf(question)
-    console.error(questId,pdIndex);
-    console.log(question);
-    _that._service.getQuesById(_that.regionID, question.questionId).subscribe(res => {
+  pdObjectArray(_that,error,result){
+    console.log(result,'pdObjectArray function')
+    _that.ptest = result
+    console.warn(_that.ptest);
+    async.map(
+      result,
+      _that.getSinglePd.bind(null,_that,result),
+      _that.getSinglePd.bind(null,_that)
+    )
+  }
+  getSinglePd(_that,result,singlePD,callback){
+    console.log(singlePD)
+    var pdIndex  = result.indexOf(singlePD)
+    // console.error(pdIndex);
+    async.map(
+      singlePD.questions,
+      _that.getQuestionArray.bind(null,_that,singlePD.questions),
+      _that.getgQuestionObject.bind(null,_that,pdIndex,singlePD.questions)
+      )
+    // callback(null,singlePD)
+  }
+
+  getSinglePdDone(_that,error,result){
+
+    console.error(result);
+  }
+
+  getQuestionArray(_that,questionArray,question,callback){
+    console.log(question, 'getQuestionArray function')
+    callback(null,question.questionId)
+  }
+  getgQuestionObject(_that,pdIndex,questionArray,error,result){
+    console.error(questionArray);
+    console.log(result, 'getgQuestionObject function')
+    async.map(
+      result,
+      _that.fun1.bind(null,_that,pdIndex,result),
+      _that.fun2.bind(null,_that,pdIndex)
+    )
+  }
+  fun1(_that,pdIndex,result,Id,callback){
+    console.log(result);
+    console.error(pdIndex);
+    console.warn(result.indexOf(Id))
+    _that._service.getQuesById(_that.regionID,Id).subscribe(res => {
       console.log(res);
-      console.log();
-    
-      setTimeout(() => {
-        var quesitonHtml = document.getElementById("q-" + pdIndex + "-" + questId);
-        // console.warn(quesitonHtml,'====',res.html.question);
-        document.getElementById("q-" + pdIndex + "-" + questId).innerHTML =
-          res.html.question;
-        console.log(quesitonHtml);
-      }, 200);
-      _that.ptest[pdIndex].showTooltip = false;
-      _that.ptest[pdIndex].questions[questId] = res;
-      _that.performanceDemands = _that.ptest
-      console.error(_that.ptest);
-      console.warn(_that.performanceDemands);
+      callback(null,res)
     },err => {
       console.error(err);
     })
   }
-  // pdLoop(_this, pd, pdCallback) {
-  //   // API CALL
-  //   // Question Creatoion Loop
-  //   console.log(pd);
-  //   console.log("PD LOOP", JSON.stringify(pd.questions));
-  //   async.map(
-  //     pd.questions,
-  //     _this.createQuestions.bind(null, _this, pd),
-  //     _this.createQuesitonsDone.bind(null, pd, _this, pdCallback)
-  //   );
-  //   // After ASYNC, pd.quesitons
-  // }
-  testingg(){
-    async.map(
-      [1, 2, 3], 
-      function(data, callback) {
-        callback(null, "Success");
-      }, 
-      function(error, result){
-        if (error) {
-          // Do something
-        }else{
-          console.log(result)
-        }
-      }
-    )
-
-async.map(
-  [1, 2, 3], 
-  function(data, callback) {
-    // data param is an element from array, In this case 1/2/3
-    // callback param is the last function of async.map
-    // if developer wants to pass the data, pass to callback
-    // pass the data back to callback function (the last fucntion)
-    callback(null, "Success");
-  }, 
-  function(error, result){
-    // you can trigger the error if there's an error from above function
-    // catch the error like below
-    if (error) {
-      // Do something
-    }
-
-    // result is the collection of array from s
-    // In this case, result = ['Success', 'Success', 'Success'] 
-    // Coz passed "Success" string from sencond function Eg. callback(null, "Success");
-  }
-)
+  fun2(_that,pdIndex,error,result){
+    _that.ptest[pdIndex].questions = result;
+    _that.performanceDemands = _that.ptest;
+    console.error(_that.performanceDemands);
+    _that.performanceDemands.map((pd,pdIndex) =>{
+      console.warn(pd,pdIndex)
+      pd.questions.map((question,Qindex) => {
+        console.log(question,Qindex)
+        // setTimeout(() => {
+        //   if ( question.html) {
+        //     document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
+        //     question.html.question;
+        //   }
+        // }, 200);
+      })
+    })
   }
   //end get method
 
