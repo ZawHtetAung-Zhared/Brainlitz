@@ -1893,13 +1893,25 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
-      var tempContentObj = {
-        contentId: "",
-        sequence: 0
-      };
-      tempContentObj.contentId = contentObj._id;
-      tempContentObj.sequence = ++index;
-      tempContentArray.push(tempContentObj);
+      if(contentObj.duration){
+        var tempVideoContentObj = {
+          contentId: "",
+          sequence: 0,
+          start: 0,
+          end: contentObj.duration,
+        };
+        tempVideoContentObj.contentId = contentObj._id;
+        tempVideoContentObj.sequence = ++index;
+        tempContentArray.push(tempVideoContentObj);
+      }else{
+        var tempImgContentObj = {
+          contentId: "",
+          sequence: 0,
+        };
+        tempImgContentObj.contentId = contentObj._id;
+        tempImgContentObj.sequence = ++index;
+        tempContentArray.push(tempImgContentObj);
+      }
     });
     // Get pd.questions
     pdCreateFormat.questions = formattedQuestionIDs;
