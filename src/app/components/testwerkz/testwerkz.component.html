@@ -39,7 +39,8 @@
           </div>
         </div>
         <div class="btnEdit-wrap d-flex justify-content-end">
-          <button class="btn btn-edit" (click)="onUpdateTeskWerkz(concept._id)">Edit</button>
+          <button class="btn btn-edit" (click)="getSingleConcept(concept._id)">Edit</button>
+          <!-- <button class="btn btn-edit" (click)="onUpdateTeskWerkz(concept._id)">Edit</button> -->
         </div>
       </div>
     </div>
@@ -290,7 +291,7 @@
                       <div class="answer-tooltip-wrap" *ngIf="pd.showTooltip">
                         <button (click)="openImgModal(imgModal,'multiple')"><img src="assets/img/text-edit-image.png"></button>
                         <div class="answer-carret-box"></div>
-                      </div>
+                      </div> {{pd.pdId}}
                       <!-- <div id="pd-{{i}}" contenteditable="true" (focus)="onFocus('pd',i,'','')"></div> -->
                       <input type="text" name="" id="" placeholder="type performance demand name here" class="w-100 pd-name"
                         [(ngModel)]="pd.name" (focus)="onFocus('pd',i,'','')" (focusout)="hideTooltip('hideTooltip','pD',i,j,index)">
