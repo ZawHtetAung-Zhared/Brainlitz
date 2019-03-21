@@ -538,7 +538,7 @@ h3.category-h3 {
 
 .form-footer {
   position: fixed;
-  width: 100%;
+  width: 82%;
   bottom: 0;
   padding: 20px;
   right: 0;
@@ -1122,6 +1122,10 @@ p.g_title {
   background: #fff;
 }
 
+.imgWrap{
+  background: #f2f4f5;
+}
+
 .img-pd{
   position: absolute;
   right: 4px;
@@ -1219,7 +1223,7 @@ p.g_title {
   padding: 0px 30px;
 }
 .pad-15{
-  padding:15px;
+ padding: 15px 15px 0px 15px;
 }
 .card{
   border: none;
@@ -1230,19 +1234,31 @@ p.g_title {
   border-radius: 4px;
   -webkit-transition: 0.3s all ease-out;
   transition: 0.3s all ease-out;
+  max-height: 312px;
 }
 .btnEdit-wrap{
   border-top: 1px solid #edeff0;
+  padding: 5px;
 }
-.btn-edit{
+.btn-edit,.btn-delete{
   background: none;
   border: none;
-  color: orange;
+  outline: none;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 14px;
 }
+.btn-edit{
+  color: orange;
+}
+.btn-delete{
+  color: #ff3d33;
+  cursor: pointer;
+}
 .conceptName,.tag-name,.testwerkzTitle,.cTitle{
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+.pd-text{
+  font-family: 'InterUI-Medium',Arial, sans-serif;
 }
 .conceptName,.cTitle{
   color: #2e3e4d;
@@ -1259,4 +1275,39 @@ p.g_title {
   font-size: 27px;
   padding-left: 30px;
   color: #2e3e4d;
+}
+.pd-text{
+  font-size: 14px;
+  color: #64707d;
+}
+.pdLine-wrap{
+  border-bottom: 1px solid #edeff0;
+  padding: 10px 0px;
+}
+.pdlist-wrap{
+  max-height: 195px;
+  overflow: overlay;
+}
+div.pdLine-wrap:last-child{
+  border-bottom: none;
+}
+.imgWrap{
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+}
+.imgWrap img{
+  max-height: 120px;
+  max-width: 120px;
+}
+
+.modal-delete-btn{
+  background: #ff3d33;
+  color: #fff;
+}
+.target{
+    color: #ff3d33;
 }

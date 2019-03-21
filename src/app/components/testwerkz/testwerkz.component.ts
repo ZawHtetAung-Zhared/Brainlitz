@@ -104,7 +104,8 @@ export class TestwerkzComponent implements OnInit {
   private invalidFiles: any = [];
   public ptest: any = [];
   public concept = {
-    name: ""
+    name: "",
+    id: ""
   };
   public dragItem: any;
   public dragItemParent: any;
@@ -157,9 +158,6 @@ export class TestwerkzComponent implements OnInit {
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log(this.dragItem);
     var clickedEle = $event;
-    console.log(clickedEle);
-    console.log($(clickedEle).hasClass("question"));
-    console.log($(clickedEle).parents(".question").length);
     if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
     }
@@ -719,9 +717,12 @@ export class TestwerkzComponent implements OnInit {
         $(this.dragItemParent).append(this.dragItem);
       }
     }
+    console.log($(window.getSelection().focusNode).parents(".img-wrapper").length ||$(window.getSelection().focusNode).hasClass("img-wrapper"))
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
-      $(this.clickEle).hasClass("img-wrapper")
+      $(this.clickEle).hasClass("img-wrapper") ||
+      $(window.getSelection().focusNode).parents(".img-wrapper").length>0 ||
+      $(window.getSelection().focusNode).hasClass("img-wrapper")
     ) {
       if (event.inputType == "deleteContentBackward")
         document.execCommand("undo", false);
@@ -730,10 +731,10 @@ export class TestwerkzComponent implements OnInit {
       if (event.inputType == "insertParagraph") {
         // console.log(win)
         var thisDiv =
-          $(this.clickEle).hasClass("img-wrapper") ||
-          $(this.clickEle).parents(".img-wrapper");
-        if ($(this.clickEle).hasClass("img-wrapper")) {
-          thisDiv = this.clickEle;
+          $(window.getSelection().focusNode).hasClass("img-wrapper") ||
+          $(window.getSelection().focusNode).parents(".img-wrapper");
+        if ($(window.getSelection().focusNode).hasClass("img-wrapper")) {
+          thisDiv = $(window.getSelection().focusNode);
         }
         var tempDiv = document.createElement("div");
         var tempBr = document.createElement("br");
@@ -1326,6 +1327,7 @@ export class TestwerkzComponent implements OnInit {
       // }
       var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr, this.selectedImgArr);
+      console.log(this.performanceDemands)
     }
     this.cancelModal();
     console.log($(".editableImg"));
@@ -1600,7 +1602,8 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.performanceDemands = [];
     this.concept = {
-      name: ""
+      name: "",
+      id: ""
     };
     this.focusType = {};
     this.ischecked = "";
@@ -2361,4 +2364,19 @@ export class TestwerkzComponent implements OnInit {
   }
   //end put method
   /** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
+
+  onClickDeleteConcept(content,concept){
+    console.log("concept",content,concept)
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });
+  }
+  conceptDelete(conceptId){
+    console.log("onClickDelete",conceptId);
+    this.modalReference.close();
+    this._service.deleteConcept(this.regionID,conceptId)
+    .subscribe((res:any)=>{
+      this.toastr.error("Successfully delete")
+      console.log(res);
+      this.cancelConcept('redirect');
+    })
+  }
 }
