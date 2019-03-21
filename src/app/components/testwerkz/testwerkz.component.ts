@@ -1923,71 +1923,74 @@ export class TestwerkzComponent implements OnInit {
 
   /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
   //start get method
-  async onUpdateTeskWerkz(id) {
-    console.log(id);
-    this.conceptId = id;
-    this.showSettingSidebar = false;
-    this.conceptEdit = true;
-    this.testWerkzCategory = false;
-    this.conceptList = false;
-    console.log(this.conceptList);
-    await this._service.getConceptById(this.regionID, id).subscribe(
-      async (res: any) => {
-        console.log(res);
-        this.conceptsObj = res;
-        this.concept.name = res.name;
-        await this.getPDById(res.pd);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-    console.log(this.ptest);
-    this.performanceDemands = this.ptest;
-  }
+  // june june code start (getSingleConcept)
+  // async onUpdateTeskWerkz(id) {
+  //   console.log(id);
+  //   this.conceptId = id;
+  //   this.showSettingSidebar = false;
+  //   this.conceptEdit = true;
+  //   this.testWerkzCategory = false;
+  //   this.conceptList = false;
+  //   console.log(this.conceptList);
+  //   await this._service.getConceptById(this.regionID, id).subscribe(
+  //     async (res: any) => {
+  //       console.log(res);
+  //       this.conceptsObj = res;
+  //       this.concept.name = res.name;
+  //       await this.getPDById(res.pd);
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  //   console.log(this.ptest);
+  //   this.performanceDemands = this.ptest;
+  // }
 
-  async getPDById(pdObj) {
-    for (let i = 0; i < pdObj.length; i++) {
-      console.log(pdObj[i]);
-      await this._service.getPDById(this.regionID, pdObj[i].pdId).subscribe(
-        async (res: any) => {
-          console.log(res);
-          this.ptest.push(res);
-          await this.getQueById(res.questions, i);
-        },
-        err => {
-          console.log(err);
-        }
-      );
-    }
-  }
+  // async getPDById(pdObj) {
+  //   for (let i = 0; i < pdObj.length; i++) {
+  //     console.log(pdObj[i]);
+  //     await this._service.getPDById(this.regionID, pdObj[i].pdId).subscribe(
+  //       async (res: any) => {
+  //         console.log(res);
+  //         this.ptest.push(res);
+  //         await this.getQueById(res.questions, i);
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+  //   }
+  // }
 
-  getQueById(qObj, id) {
-    console.log(this.ptest, id);
-    for (let i = 0; i < qObj.length; i++) {
-      this._service.getQuesById(this.regionID, qObj[i].questionId).subscribe(
-        (res: any) => {
-          console.log(res.html.question);
-          this.markDownHtml_arr.push(res.html.question);
-          setTimeout(() => {
-            document.getElementById("q-" + id + "-" + i).innerHTML =
-              res.html.question;
-            console.log(document.getElementById("dd"));
-          }, 200);
-          this.ptest[id].showTooltip = false;
-          this.ptest[id].questions[i] = res;
-        },
-        err => {
-          console.log(err);
-        }
-      );
-      // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
-      // console.log("q-"+id+i);
-      // console.log(inner_markDown);
-    }
-  }
+  // getQueById(qObj, id) {
+  //   console.log(this.ptest, id);
+  //   for (let i = 0; i < qObj.length; i++) {
+  //     this._service.getQuesById(this.regionID, qObj[i].questionId).subscribe(
+  //       (res: any) => {
+  //         console.log(res.html.question);
+  //         this.markDownHtml_arr.push(res.html.question);
+  //         setTimeout(() => {
+  //           document.getElementById("q-" + id + "-" + i).innerHTML =
+  //             res.html.question;
+  //           console.log(document.getElementById("dd"));
+  //         }, 200);
+  //         this.ptest[id].showTooltip = false;
+  //         this.ptest[id].questions[i] = res;
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+  //     // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
+  //     // console.log("q-"+id+i);
+  //     // console.log(inner_markDown);
+  //   }
+  // }
+// june june code end (getSingleConcept)
 
-  mainfunc(cID){
+// WaiYan code Start(getSingleConcept)
+  getSingleConcept(cID){
     const _that =this;
     _that.blockUI.start('Loading')
     _that.conceptId = cID;
@@ -2020,7 +2023,7 @@ export class TestwerkzComponent implements OnInit {
 
   getPDbyID(_that,error,result){
     if(error){
-      console.error(error)
+      console.error(error, 'error in getPDbyID function')
     }
     console.log('getPDbyID function',result)
     async.map(
@@ -2040,7 +2043,7 @@ export class TestwerkzComponent implements OnInit {
   }
   pdObjectArray(_that,error,result){
     if(error){
-      console.error(error)
+      console.error(error, 'error in pdObjectArray function')
     }
     console.log(result,'pdObjectArray function')
     _that.ptest = result
@@ -2075,7 +2078,7 @@ export class TestwerkzComponent implements OnInit {
   }
   getgQuestionObject(_that,pdIndex,questionArray,error,result){
     if(error){
-      console.error(error)
+      console.error(error, 'error in getgQuestionObject function')
     }
     console.log(questionArray);
     console.log(result, 'getgQuestionObject function')
@@ -2098,7 +2101,7 @@ export class TestwerkzComponent implements OnInit {
   }
   assignValue(_that,pdIndex,error,result){
     if(error){
-      console.error(error)
+      console.error(error, 'error in assignValue function')
     }
       _that.ptest[pdIndex].questions = result;
       _that.performanceDemands = _that.ptest;
@@ -2107,17 +2110,18 @@ export class TestwerkzComponent implements OnInit {
         console.log(pd,pdIndex)
         pd.questions.map((question,Qindex) => {
           console.log(question,Qindex)
-          // setTimeout(() => {
-          //   if ( question.html) {
-          //     document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
-          //     question.html.question;
-          //   }
-          // }, 200);
+          setTimeout(() => {
+            if ( question.html) {
+              document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
+              question.html.question;
+            }
+          }, 200);
         })
       })
 
   }
   //end get method
+// WaiYan code end(getSingleConcept)
 
   //start put method
   updateConcept(id) {
