@@ -27,9 +27,13 @@
                 <p class="mb-0">
                   {{ pd.name }}
                 </p>
-                <!-- <div *ngFor="let content of pd.contents">
-                  <img src="">
-                </div> -->
+                <div class="row">
+                  <div class="col-md-4" *ngFor="let content of pd.contents">
+                    <div class="imgWrap">
+                      <img src="{{content.url}}">
+                    </div>
+                  </div>
+                </div>   
               </div>
             </div>
           </div>

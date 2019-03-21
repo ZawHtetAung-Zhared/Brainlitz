@@ -1327,6 +1327,7 @@ export class TestwerkzComponent implements OnInit {
       // }
       var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr, this.selectedImgArr);
+      console.log(this.performanceDemands)
     }
     this.cancelModal();
     console.log($(".editableImg"));

@@ -1122,6 +1122,10 @@ p.g_title {
   background: #fff;
 }
 
+.imgWrap{
+  background: #f2f4f5;
+}
+
 .img-pd{
   position: absolute;
   right: 4px;
@@ -1287,6 +1291,19 @@ p.g_title {
 div.pdLine-wrap:last-child{
   border-bottom: none;
 }
+.imgWrap{
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+}
+.imgWrap img{
+  max-height: 120px;
+  max-width: 120px;
+}
+
 .modal-delete-btn{
   background: #ff3d33;
   color: #fff;
