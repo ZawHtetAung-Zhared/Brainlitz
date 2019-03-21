@@ -2217,8 +2217,14 @@ export class appService{
     }
 
     // get contents for modal gallary show
-    getContent(regionId: string): Observable<any>{
-      let url = this.baseUrl+ '/' + regionId + '/contents';
+    getContent(regionId: string , type?:string): Observable<any>{
+      console.log(type)
+      let url;
+      if(type == "" || type == undefined){
+        url = this.baseUrl+ '/' + regionId + '/contents';
+      }
+      else
+        url =  this.baseUrl+ '/' + regionId + '/contents/?type=' + type;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})

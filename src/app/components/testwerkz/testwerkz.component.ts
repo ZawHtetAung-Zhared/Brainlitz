@@ -84,7 +84,7 @@ export class TestwerkzComponent implements OnInit {
     sticky: false,
     updateOnEmptySelection: false
   };
-
+  public contentType: string;
   public tagWerkz = {
     name: ""
   };
@@ -96,6 +96,8 @@ export class TestwerkzComponent implements OnInit {
   public tempContentArr: any = [];
   public selectedImgArr: any = [];
   public ImgArr: any = [];
+  public videoArr: any = [];
+  public selectedVideoArr: any = [];
   public imgIdArr: any = [];
   public imgId: any;
   public clickType: boolean = false;
@@ -211,9 +213,8 @@ export class TestwerkzComponent implements OnInit {
           }
           // console.log($(img).remove());
           $(img).remove();
-          console.log("Delete Img",_this.editableId, _this.focusType)
+          console.log("Delete Img", _this.editableId, _this.focusType);
           _this.turn(_this.editableId, _this.focusType);
-
         });
       });
       $(".editableImg").mouseout(function(event) {
@@ -265,7 +266,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getConceptLists() {
-    this.blockUI.start('Loading')
+    this.blockUI.start("Loading");
     this._service.getAllConcept(this.regionID).subscribe((res: any) => {
       console.log("Concept lists", res);
       this.conceptsArr = res;
@@ -716,11 +717,14 @@ export class TestwerkzComponent implements OnInit {
         $(this.dragItemParent).append(this.dragItem);
       }
     }
-    console.log($(window.getSelection().focusNode).parents(".img-wrapper").length ||$(window.getSelection().focusNode).hasClass("img-wrapper"))
+    console.log(
+      $(window.getSelection().focusNode).parents(".img-wrapper").length ||
+        $(window.getSelection().focusNode).hasClass("img-wrapper")
+    );
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper") ||
-      $(window.getSelection().focusNode).parents(".img-wrapper").length>0 ||
+      $(window.getSelection().focusNode).parents(".img-wrapper").length > 0 ||
       $(window.getSelection().focusNode).hasClass("img-wrapper")
     ) {
       if (event.inputType == "deleteContentBackward")
@@ -733,7 +737,7 @@ export class TestwerkzComponent implements OnInit {
           $(window.getSelection().focusNode).hasClass("img-wrapper") ||
           $(window.getSelection().focusNode).parents(".img-wrapper");
         if ($(window.getSelection().focusNode).hasClass("img-wrapper")) {
-          thisDiv = $(window.getSelection().focusNode;
+          thisDiv = $(window.getSelection().focusNode);
         }
         var tempDiv = document.createElement("div");
         var tempBr = document.createElement("br");
@@ -851,6 +855,7 @@ export class TestwerkzComponent implements OnInit {
 
   //open image modal
   openImgModal(content, type, t?) {
+    this.contentType = "image";
     $(t).blur();
     console.log("open modal>", type);
     this.modelType = type;
@@ -859,6 +864,19 @@ export class TestwerkzComponent implements OnInit {
       keyboard: false,
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
+    });
+    this.getAllContent();
+  }
+  openVideoModal(content) {
+    // $(t).blur();
+    this.contentType = "video";
+    console.log("open modal>", content);
+    this.modelType = "video";
+    this.modalReference = this.modalService.open(content, {
+      backdrop: "static",
+      keyboard: false,
+      windowClass:
+        "video-modal modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
     this.getAllContent();
   }
@@ -888,24 +906,28 @@ export class TestwerkzComponent implements OnInit {
   //get all content
   getAllContent() {
     this.ImgArr = [];
+    this.videoArr = [];
     this.blockUI.start("Loading...");
     return new Promise((resolve, reject) => {
-      this._service.getContent(this.regionID).subscribe(
+      this._service.getContent(this.regionID, this.contentType).subscribe(
         (res: any) => {
+          console.log(res);
           this.contentArr = res;
 
           for (var i = 0; i < res.length; i++) {
-            if (
-              res[i].type == "image/gif" ||
-              res[i].type == "image/png" ||
-              res[i].type == "image/jpeg"
-            ) {
-              this.ImgArr.push(res[i]);
-            }
+            if (this.contentType == "image") {
+              if (
+                res[i].type == "image/gif" ||
+                res[i].type == "image/png" ||
+                res[i].type == "image/jpeg"
+              ) {
+                this.ImgArr.push(res[i]);
+              }
+            } else this.videoArr.push(res[i]);
           }
           this.tempContentArr = this.ImgArr;
 
-          console.log(this.ImgArr);
+          console.log(this.videoArr);
 
           resolve();
           this.blockUI.stop();
@@ -918,7 +940,19 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //image upload
-  onloadImg(event) {
+  onMetadata(e, id) {
+    console.log("metadata: ", e);
+    console.log("duration: ", e.target.duration);
+    this.videoArr[id]["duration"] = e.target.duration;
+    console.log(this.videoArr);
+
+    // var canvas1 = document.getElementById('canvas-' + id);
+    // var ctx = canvas1.getContext('2d');
+    // var video :any = e.target;
+    // canvas1.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    // console.log(canvas1)
+  }
+  onloadImg(event, ele?) {
     console.log("hello", this.isDrop);
     console.log("dar", event);
     if (this.isDrop) {
@@ -971,15 +1005,15 @@ export class TestwerkzComponent implements OnInit {
     const check: HTMLElement = document.getElementById("check" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
     const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-
+    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
-        console.log(img)
+        console.log(img);
         this.selectedImgArr = img;
         this.imgIdArr = i;
         if (this.imgId != undefined && this.imgId != i) {
-          console.log(this.selectedImgArr)
+          console.log(this.selectedImgArr);
           this.removerSelected(this.imgId);
           imgDiv.setAttribute("style", "border:solid;color:#007fff;");
           circle.setAttribute(
@@ -995,7 +1029,10 @@ export class TestwerkzComponent implements OnInit {
             this.removerSelected(this.imgId);
             this.isDisabelInsert = false;
           } else {
-            imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+            imgDiv.setAttribute(
+              "style",
+              "border:solid;color:#007fff;border-width:3px;"
+            );
             circle.setAttribute(
               "style",
               "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
@@ -1007,6 +1044,27 @@ export class TestwerkzComponent implements OnInit {
         }
         this.imgId = i;
       }
+    } else if (this.modelType == "video") {
+      console.log(i, img);
+      console.log(imgDiv);
+      if ($(imgDiv).hasClass("highlight")) {
+        $(imgDiv).removeClass("highlight");
+        this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
+      } else {
+        $(imgDiv).addClass("highlight");
+        this.selectedVideoArr.push(img);
+      }
+      trash.setAttribute("style", "opacity: 1;");
+      overlay.setAttribute(
+        "style",
+        "display:block;  background: rgba(0, 0, 0, .3);"
+      );
+      circle.setAttribute(
+        "style",
+        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+      );
+      check.setAttribute("style", "color:white;");
+      console.log(this.selectedVideoArr);
     } else {
       if (this.isRemove) {
         // console.log("is remove");
@@ -1029,7 +1087,7 @@ export class TestwerkzComponent implements OnInit {
     }
     this.isRemove = false;
     console.log(this.imgIdArr);
-    console.log("this.selectedImgArr",this.selectedImgArr)
+    console.log("this.selectedImgArr", this.selectedImgArr);
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
@@ -1053,10 +1111,8 @@ export class TestwerkzComponent implements OnInit {
     if (this.modelType == "single") {
       // this.selectedImgArr = [];
       // this.imgIdArr = [];
-
       // this.imgId=undefined;
       // console.log(this.imgId);
-
       // if(String(this.imgId)== i){
       //   this.imgId=undefined;
       //   console.log("hrerer",this.imgId)
@@ -1100,17 +1156,37 @@ export class TestwerkzComponent implements OnInit {
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
     const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
-
-    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
-      trash.setAttribute("style", "opacity: 1;");
-      overlay.setAttribute(
-        "style",
-        "display:block;  background: rgba(0, 0, 0, .3);"
-      );
+    // console.log(this.contentType)
+    // console.log(imgDiv)
+    // console.log(e)
+    if (this.contentType == "video") {
+      // console.log('invideo')
+      if ($(imgDiv).hasClass("highlight") && e.type == "mouseenter") {
+        // console.log('inmouseenter')
+        trash.setAttribute("style", "opacity: 1;");
+        // console.log(trash)
+        // console.log(overlay)
+        overlay.setAttribute(
+          "style",
+          "display:block;  background: rgba(0, 0, 0, .3);"
+        );
+      } else {
+        trash.setAttribute("style", "opacity: 0;");
+        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      }
     } else {
-      trash.setAttribute("style", "opacity: 0;");
-      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
+        trash.setAttribute("style", "opacity: 1;");
+        overlay.setAttribute(
+          "style",
+          "display:block;  background: rgba(0, 0, 0, .3);"
+        );
+      } else {
+        trash.setAttribute("style", "opacity: 0;");
+        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      }
     }
+
     // console.log(e.type)
   }
 
@@ -1211,7 +1287,7 @@ export class TestwerkzComponent implements OnInit {
   //     this.cancelModal();
   //     // this.selectedImgArr=[];
   //   }
-  
+
   checkFocusPosition() {
     console.log(this.selectEle);
     if (this.selectEle != undefined) {
@@ -1288,7 +1364,7 @@ export class TestwerkzComponent implements OnInit {
       }, 100);
       this.turn(this.editableId, this.focusType);
     } else if (this.modelType == "single") {
-      console.log("answer === " , $(".answer-img") , );
+      console.log("answer === ", $(".answer-img"));
       this.performanceDemands[this.pdIndex].questions[
         this.questionIndex
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
@@ -1312,7 +1388,13 @@ export class TestwerkzComponent implements OnInit {
       //     img.css("padding-right", leftAndRight / 2);
       //   }
       // },200)
-      
+    } else if (this.modelType == "video") {
+      console.log(this.selectedVideoArr);
+      console.log(this.focusType);
+      console.log(this.performanceDemands);
+      var contArr = this.performanceDemands[this.focusType.no].contents;
+      Array.prototype.push.apply(contArr, this.selectedVideoArr);
+      console.log(this.performanceDemands);
     } else {
       console.log("pd Insert Img======");
 
@@ -1326,6 +1408,7 @@ export class TestwerkzComponent implements OnInit {
       // }
       var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr, this.selectedImgArr);
+      console.log(this.performanceDemands);
     }
     this.cancelModal();
     console.log($(".editableImg"));
@@ -1338,7 +1421,7 @@ export class TestwerkzComponent implements OnInit {
     //   var posLeft = 105 + $(this).position().left;
     //   var posTop = $(this).position().top;
     //   $(this).after(
-    //     $(`<span class='img-span' 
+    //     $(`<span class='img-span'
     //       style='z-index: 1001;position:
     //        absolute;
     //        top: ${posTop}px;
@@ -1365,16 +1448,13 @@ export class TestwerkzComponent implements OnInit {
     //   else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
     //   else console.log("out but not out");
     // });
-
-
-
   }
 
   mouseOver(e, idx) {
-    console.log(e.target.className);
-    console.log("over ");
-    console.log($(event.target).children(".img-pd"));
-    console.log($(event.target).siblings(".img-pd"));
+    // console.log(e.target.className);
+    // console.log("over ");
+    // console.log($(event.target).children(".img-pd"));
+    // console.log($(event.target).siblings(".img-pd"));
     if ($(e.target).hasClass("editablePDImg")) {
       $(e.target)
         .siblings(".img-pd")
@@ -1642,20 +1722,26 @@ export class TestwerkzComponent implements OnInit {
         //   return quest.answers.some(ans => ans.correctness === 100);
         // }
         var noAnswer = false;
-        const test = quest.answers.map((ans) => {
-          if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "") || (ans.answer != "" && ans.imgUrl != "")){
+        const test = quest.answers.map(ans => {
+          if (
+            (ans.answer == "" && ans.imgUrl != "") ||
+            (ans.answer != "" && ans.imgUrl == "") ||
+            (ans.answer != "" && ans.imgUrl != "")
+          ) {
             // console.log("has one~~~");
             // has on ans (Img Or text)
             noAnswer = true;
-          }else if(ans.answer == "" && ans.imgUrl == ""){
+          } else if (ans.answer == "" && ans.imgUrl == "") {
             // console.log("not has one")
             noAnswer = false;
           }
           // else{
           //   console.log("true~~~");
           // }
-        })
-         if (noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        });
+        if (noAnswer) {
+          return quest.answers.some(ans => ans.correctness === 100);
+        }
 
         return false;
       });
@@ -2149,19 +2235,18 @@ export class TestwerkzComponent implements OnInit {
         );
     }
   }
-  deleteAnswerImg(i,j,index){
-    this.performanceDemands[i].questions[j].answers[index].imgUrl='';
+  deleteAnswerImg(i, j, index) {
+    this.performanceDemands[i].questions[j].answers[index].imgUrl = "";
   }
-  onmouseEnter(e,i,j,index){
-    var Id = String(i) + String(j) + String(index)
-    var imgId = $('#imgID' + Id)
-    imgId[0].style.display = 'block'
-
+  onmouseEnter(e, i, j, index) {
+    var Id = String(i) + String(j) + String(index);
+    var imgId = $("#imgID" + Id);
+    imgId[0].style.display = "block";
   }
-  onmouseLeave(event,i,j,index){
-    var Id = String(i) + String(j) + String(index)
-    var imgId = $('#imgID' + Id)
-    imgId[0].style.display = 'none'
+  onmouseLeave(event, i, j, index) {
+    var Id = String(i) + String(j) + String(index);
+    var imgId = $("#imgID" + Id);
+    imgId[0].style.display = "none";
   }
   updateQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
     console.log(pd);

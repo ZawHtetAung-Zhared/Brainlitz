@@ -136,7 +136,12 @@ main {
   max-width: 960px !important;
   width: 960px !important;
 }
-
+.video-modal .modal-dialog {
+  width: 1024px !important;
+  max-width: 1024px !important;
+  height: 768px !important;
+  max-height: 768px !important;
+}
 .modal-xl .modal-header {
   padding: 32px 32px 0 32px !important;
   border-bottom: none;
@@ -557,7 +562,12 @@ span.scrollup.show:hover:before {
   flex-wrap: wrap;
   display:flex;
 }
-
+.highlight{
+  -webkit-box-shadow: 0px 0px 0px 3px rgba(0,127,255,1);
+-moz-box-shadow: 0px 0px 0px 3px rgba(0,127,255,1);
+box-shadow: 0px 0px 0px 3px rgba(0,127,255,1);
+border:0px !important;
+}
 @media print {
 
   /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */

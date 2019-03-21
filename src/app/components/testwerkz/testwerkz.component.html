@@ -280,10 +280,12 @@
                         <div class="col-md-4 position-relative mb-3" *ngFor="let img of pd.contents;let idx = index">
 
                           <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
-                          <div class="innerPd p-0" (mouseenter)="mouseOver($event,idx)" (mouseout)="mouseOut($event)">
-                            <img class="editablePDImg" src="{{img.url}}">
+                          <div class="innerPd p-0" (mouseenter)="mouseOver($event,idx)" (mouseout)="mouseOut($event)" [ngClass]="img.duration ? 'transparent-bg' : ''">
+                            <img class="editablePDImg" src="{{img.url}}" *ngIf="!img.duration">
+                            <img src="../../../assets/images/play-icon.png" class='play-img' *ngIf="img.duration">
+                            <video class="editablePDImg" width="120" height="72" preload="metadata" *ngIf="img.duration" src={{img.url}} >
+                            </video>
                             <img (click)="removePDImg(img,idx,i)" class="img-pd rmIcon" src="./assets/img/remove-white.png">
-
                           </div>
                         </div>
                       </div>
@@ -431,7 +433,7 @@
                 <p><i class="fa fa-angle-right"></i></p>
                 <p class="pl-2 setting-text"> Video</p>
               </div>
-              <p class="plus-sign-video d-flex justify-content-center align-items-center">
+              <p class="plus-sign-video d-flex justify-content-center align-items-center"  (click)="openVideoModal(videoModal)">
                 <span>+</span>
               </p>
             </div>
@@ -544,4 +546,75 @@
         <button type="button" class="btn btn-submit insertBtn" *ngIf="isDisabelInsert" (click)="insertImg()">Insert</button>
         <button type="button" class="btn btn-submit insertBtn" *ngIf="!isDisabelInsert" disabled=true>Insert</button>
       </div>
+  </ng-template>
+
+  <!-- modal for video upload -->
+  <ng-template #videoModal let-modal>
+    <!-- <div class="modal-header">
+    
+    </div> -->
+    <div class="modal-body img_upload" *ngIf="contentArr.length == 0">
+      <div class="d-flex justify-content-center drop_zone for-video">
+        <div class="d-flex flex-column drop_zone_middle">
+          <img src="../../../assets/img/image-drop.png" class="img_drop">
+          <label class="drop_drap_txt">Drag & drop</label>
+          <span class="drop_sp">video anywhere or</span>
+          <div class="upload-btn-wrapper">
+            <button class="btn btn-submit uploadImgBtn exit-img">Upload video</button>
+            <!-- <button class="btn btn-submit uploadImgBtn">Upload image</button> -->
+            <input type="file" name="imgFile" accept="video/mp4,video/*" (change)="onloadImg($event)" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0" appDnd (filesChangeEmiter)="onFilesChange($event)"
+      (filesInvalidEmiter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp','jpeg']">
+      <div class="d-flex drop_zone_middle_eixtData for-video">
+        <img src="../../../assets/img/image-drop.png" class="eimg_drop">
+        <div class="d-flex  flex-column lblGp">
+          <label class="edrop_drap_txt">Drag & drop</label>
+          <span class="edrop_sp">image anywhere or</span>
+        </div>
+        <div class="upload-btn-wrapper">
+          <button class="btn btn-submit uploadImgBtn exit-img">Upload video</button>
+          <input type="file" name="imgFile" accept="video/mp4,video/*" (change)="onloadImg($event)" />
+
+          <!-- <input type="file" #fileInput name="imgFile" *ngIf="modelType == 'video'" accept="image/x-png,image/gif,image/jpeg"
+            (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" multiple /> -->
+          <!-- <input type="file" #fileInput *ngIf="modelType == 'single'" name="imgFile" accept="image/x-png,image/gif,image/jpeg"
+            (click)="fileInput.value = null" id="fileUpload" (change)="onloadImg($event)" single /> -->
+        </div>
+
+      </div>
+      <div class="d-flex flex-column gallery">
+        <p class="g_title">Video gallery</p>
+
+        <div class="row imgGp">
+          <div class="col-md-3 imgDiv" *ngFor="let video of videoArr;let i=index;">
+            <div class="inner-imgVideo" (click)="onslectedImgDiv(video._id,video)" id="img-{{video._id}}" (mouseenter)="onImgMouseEvent($event,video._id)"
+              (mouseleave)="onImgMouseEvent($event,video._id)">
+              <div id="cricle{{video._id}}" class="video-circle"><i _ngcontent-c1="" class="fa fa-check" id="check{{video._id}}"></i></div>
+              <div (click)="onremoveClick(video._id)" id="trashdiv-{{video._id}}" class="video-trashDiv"><i _ngcontent-c1=""
+                  class="fa fa-trash" id="trash{{video._id}}"></i></div>
+                  <video width="216" height="130" preload="metadata" src={{video.url}} (loadedmetadata)="onMetadata($event,i)">
+                    </video>
+                    <!-- <canvas id="canvas-{{video._id}}" ></canvas> -->
+              <div id="play{{video._id}}" class="play-circle"><img src="../../../assets/images/play-icon.png"></div>
+
+              <div class="Imgoverlay video" id="Imgoverlay{{video._id}}"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
+      <button type="button" class="btn btn-submit insertBtn" [disabled]="selectedVideoArr.length == 0" (click)="insertImg()">Insert</button>
+      <!-- <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length ==0" disabled=true>Insert</button> -->
+    </div>
   </ng-template>
