@@ -1601,7 +1601,8 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.performanceDemands = [];
     this.concept = {
-      name: ""
+      name: "",
+      id: ""
     };
     this.focusType = {};
     this.ischecked = "";
