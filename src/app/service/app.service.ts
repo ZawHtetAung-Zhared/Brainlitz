@@ -2464,5 +2464,20 @@ export class appService{
       }) 
     }
 
+    deleteConcept(regionId:string,conceptId:string){
+      let url = this.baseUrl + '/' + regionId + '/concepts/' + conceptId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
+
 }
 

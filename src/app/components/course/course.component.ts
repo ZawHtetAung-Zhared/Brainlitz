@@ -136,7 +136,7 @@ export class CourseComponent implements OnInit {
   public currency = JSON.parse(localStorage.getItem('currency'));
   public invCurrency : any ={};
   public pplLists:any;
-  public apgLists:any;
+  public apgLists:any = {};
   public removeUser:any;
   public currentCourse:any;
   public activeTab:any = '';
