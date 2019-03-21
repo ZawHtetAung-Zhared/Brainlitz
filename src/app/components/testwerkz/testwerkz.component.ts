@@ -1999,7 +1999,8 @@ export class TestwerkzComponent implements OnInit {
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log(res)
       _that.conceptsObj = res;
-      _that.concept.name = res.name;    
+      _that.concept.name = res.name;   
+      _that.tagID = res.tag[0].tagId; 
       async.map(
         res.pd, 
         _that.getPDID.bind(null,_that), 
@@ -2080,11 +2081,11 @@ export class TestwerkzComponent implements OnInit {
     console.log(result, 'getgQuestionObject function')
     async.map(
       result,
-      _that.fun1.bind(null,_that,pdIndex,result),
-      _that.fun2.bind(null,_that,pdIndex)
+      _that.getQuesById.bind(null,_that,pdIndex,result),
+      _that.assignValue.bind(null,_that,pdIndex)
     )
   }
-  fun1(_that,pdIndex,result,Id,callback){
+  getQuesById(_that,pdIndex,result,Id,callback){
     console.log(result);
     console.log(pdIndex);
     console.log(result.indexOf(Id))
@@ -2095,7 +2096,7 @@ export class TestwerkzComponent implements OnInit {
       console.error(err);
     })
   }
-  fun2(_that,pdIndex,error,result){
+  assignValue(_that,pdIndex,error,result){
     if(error){
       console.error(error)
     }
@@ -2106,12 +2107,12 @@ export class TestwerkzComponent implements OnInit {
         console.log(pd,pdIndex)
         pd.questions.map((question,Qindex) => {
           console.log(question,Qindex)
-          setTimeout(() => {
-            if ( question.html) {
-              document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
-              question.html.question;
-            }
-          }, 200);
+          // setTimeout(() => {
+          //   if ( question.html) {
+          //     document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
+          //     question.html.question;
+          //   }
+          // }, 200);
         })
       })
 
