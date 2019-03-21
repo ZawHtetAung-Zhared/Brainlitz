@@ -104,7 +104,8 @@ export class TestwerkzComponent implements OnInit {
   private invalidFiles: any = [];
   public ptest: any = [];
   public concept = {
-    name: ""
+    name: "",
+    id: ""
   };
   public dragItem: any;
   public dragItemParent: any;
@@ -1936,6 +1937,7 @@ export class TestwerkzComponent implements OnInit {
         console.log(res);
         this.conceptsObj = res;
         this.concept.name = res.name;
+        this.concept.id = res._id;
         this.tagID = res.tag[0].tagId;
         await this.getPDById(res.pd);
       },
@@ -2228,4 +2230,19 @@ export class TestwerkzComponent implements OnInit {
   }
   //end put method
   /** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
+
+  onClickDeleteConcept(content,concept){
+    console.log("concept",content,concept)
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });
+  }
+  conceptDelete(conceptId){
+    console.log("onClickDelete",conceptId);
+    this.modalReference.close();
+    this._service.deleteConcept(this.regionID,conceptId)
+    .subscribe((res:any)=>{
+      this.toastr.error("Successfully delete")
+      console.log(res);
+      this.cancelConcept('redirect');
+    })
+  }
 }

@@ -469,22 +469,20 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-end form-footer">
-      <button type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">Cancel</button>
-      <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'multiple')">Image Upload</button> -->
-      <!-- <button type="button" class="btn btn-submit" (click)="openImgModal(imgModal,'single')">SingleImage Upload</button> -->
-
-
-      <div *ngIf="!conceptEdit">
-        <div class="d-none">{{validateForm()}}</div>
-        <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="createConcept()">
-          Create
-        </button>
-      </div>
-
-      <div *ngIf="conceptEdit">
-        <div class="d-none">{{validateForm()}}</div>
-        <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="updateConcept(conceptId)">Update</button>
+    <div class="d-flex justify-content-between form-footer">
+      <button type="button" class="btn-delete" (click)="onClickDeleteConcept(deletemodal,concept)">Delete</button>
+      <div class="d-flex">
+        <button type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">Cancel</button>
+        <div *ngIf="!conceptEdit">
+          <div class="d-none">{{validateForm()}}</div>
+          <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="createConcept()">
+            Create
+          </button>
+        </div>
+        <div *ngIf="conceptEdit">
+          <div class="d-none">{{validateForm()}}</div>
+          <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="updateConcept(conceptId)">Update</button>
+        </div>
       </div>
     </div>
   </div>
@@ -559,4 +557,20 @@
         <button type="button" class="btn btn-submit insertBtn" *ngIf="isDisabelInsert" (click)="insertImg()">Insert</button>
         <button type="button" class="btn btn-submit insertBtn" *ngIf="!isDisabelInsert" disabled=true>Insert</button>
       </div>
+  </ng-template>
+
+  <ng-template #deletemodal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title">Confirm delete?</h3>
+      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button> -->
+    </div>
+    <div class="modal-body pdf-confirm">
+      <p>Are You sure you want to delete <span class="target">"{{concept.name}}"</span>?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn modal-delete-btn" (click)="conceptDelete(concept.id)">Delete</button>
+    </div>
   </ng-template>

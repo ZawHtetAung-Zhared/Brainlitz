@@ -538,7 +538,7 @@ h3.category-h3 {
 
 .form-footer {
   position: fixed;
-  width: 100%;
+  width: 82%;
   bottom: 0;
   padding: 20px;
   right: 0;
@@ -1236,12 +1236,19 @@ p.g_title {
   border-top: 1px solid #edeff0;
   padding: 5px;
 }
-.btn-edit{
+.btn-edit,.btn-delete{
   background: none;
   border: none;
-  color: orange;
+  outline: none;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 14px;
+}
+.btn-edit{
+  color: orange;
+}
+.btn-delete{
+  color: #ff3d33;
+  cursor: pointer;
 }
 .conceptName,.tag-name,.testwerkzTitle,.cTitle{
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
@@ -1279,4 +1286,11 @@ p.g_title {
 }
 div.pdLine-wrap:last-child{
   border-bottom: none;
+}
+.modal-delete-btn{
+  background: #ff3d33;
+  color: #fff;
+}
+.target{
+    color: #ff3d33;
 }
