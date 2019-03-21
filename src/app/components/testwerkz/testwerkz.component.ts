@@ -2092,7 +2092,8 @@ export class TestwerkzComponent implements OnInit {
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log(res)
       _that.conceptsObj = res;
-      _that.concept.name = res.name;   
+      _that.concept.name = res.name;  
+      _that.concept.id = res._id; 
       _that.tagID = res.tag[0].tagId; 
       async.map(
         res.pd, 
