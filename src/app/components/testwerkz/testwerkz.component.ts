@@ -2018,6 +2018,9 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getPDbyID(_that,error,result){
+    if(error){
+      console.error(error)
+    }
     console.log('getPDbyID function',result)
     async.map(
       result,
@@ -2035,9 +2038,12 @@ export class TestwerkzComponent implements OnInit {
     })
   }
   pdObjectArray(_that,error,result){
+    if(error){
+      console.error(error)
+    }
     console.log(result,'pdObjectArray function')
     _that.ptest = result
-    console.warn(_that.ptest);
+    console.log(_that.ptest);
     async.map(
       result,
       _that.getSinglePd.bind(null,_that,result),
@@ -2045,20 +2051,21 @@ export class TestwerkzComponent implements OnInit {
     )
   }
   getSinglePd(_that,result,singlePD,callback){
+    console.log(result);
     console.log(singlePD)
     var pdIndex  = result.indexOf(singlePD)
-    // console.error(pdIndex);
+    console.log(pdIndex);
     async.map(
       singlePD.questions,
       _that.getQuestionArray.bind(null,_that,singlePD.questions),
       _that.getgQuestionObject.bind(null,_that,pdIndex,singlePD.questions)
       )
-    // callback(null,singlePD)
+    // callback(null,'singlePD')
   }
 
   getSinglePdDone(_that,error,result){
 
-    console.error(result);
+    console.log(result);
   }
 
   getQuestionArray(_that,questionArray,question,callback){
@@ -2066,7 +2073,10 @@ export class TestwerkzComponent implements OnInit {
     callback(null,question.questionId)
   }
   getgQuestionObject(_that,pdIndex,questionArray,error,result){
-    console.error(questionArray);
+    if(error){
+      console.error(error)
+    }
+    console.log(questionArray);
     console.log(result, 'getgQuestionObject function')
     async.map(
       result,
@@ -2076,8 +2086,8 @@ export class TestwerkzComponent implements OnInit {
   }
   fun1(_that,pdIndex,result,Id,callback){
     console.log(result);
-    console.error(pdIndex);
-    console.warn(result.indexOf(Id))
+    console.log(pdIndex);
+    console.log(result.indexOf(Id))
     _that._service.getQuesById(_that.regionID,Id).subscribe(res => {
       console.log(res);
       callback(null,res)
@@ -2086,21 +2096,25 @@ export class TestwerkzComponent implements OnInit {
     })
   }
   fun2(_that,pdIndex,error,result){
-    _that.ptest[pdIndex].questions = result;
-    _that.performanceDemands = _that.ptest;
-    console.error(_that.performanceDemands);
-    _that.performanceDemands.map((pd,pdIndex) =>{
-      console.warn(pd,pdIndex)
-      pd.questions.map((question,Qindex) => {
-        console.log(question,Qindex)
-        // setTimeout(() => {
-        //   if ( question.html) {
-        //     document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
-        //     question.html.question;
-        //   }
-        // }, 200);
+    if(error){
+      console.error(error)
+    }
+      _that.ptest[pdIndex].questions = result;
+      _that.performanceDemands = _that.ptest;
+      console.log(_that.performanceDemands);
+      _that.performanceDemands.map((pd,pdIndex) =>{
+        console.log(pd,pdIndex)
+        pd.questions.map((question,Qindex) => {
+          console.log(question,Qindex)
+          setTimeout(() => {
+            if ( question.html) {
+              document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
+              question.html.question;
+            }
+          }, 200);
+        })
       })
-    })
+
   }
   //end get method
 
