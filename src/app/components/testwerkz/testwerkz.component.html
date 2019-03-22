@@ -31,23 +31,10 @@
                 <p class="mb-0">
                   {{ pd.name }}
                 </p>
-<<<<<<< HEAD
-                <div class="row">
-                  <div class="col-md-4" *ngFor="let content of pd.contents">
-                    <div
-                      *ngIf="
-                        content.type.substring(0, content.type.search('/')) ==
-                        'image'
-                      "
-                      class="imgWrap"
-                    >
-                      <img src="{{ content.url }}" />
-=======
                 <div class="d-flex flex-wrap">
                   <div class="onePD" *ngFor="let content of pd.contents">
                     <div *ngIf="(content.type.substring(0,content.type.search('/'))) == 'image'" class="imgWrap">
                       <img src="{{content.url}}">
->>>>>>> 67ddf4919d63bcfd4de841e00b29a8db6609e6f9
                     </div>
                     <div
                       *ngIf="
