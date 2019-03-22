@@ -75,7 +75,9 @@ export class TestwerkzComponent implements OnInit {
   public isDrop: boolean = false;
   public selectEle: any;
   public isHover: boolean = false;
+  public isCollapse : boolean = true;
   public markDownHtml_arr: any = [];
+  public settingContents : any = [];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -1392,65 +1394,17 @@ export class TestwerkzComponent implements OnInit {
       //   }
       // },200)
     } else if (this.modelType == "video") {
-      console.log(this.selectedVideoArr);
-      console.log(this.focusType);
-      console.log(this.performanceDemands);
       var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
-      console.log(this.performanceDemands);
+      this.settingContents = this.settingContents.concat(this.selectedVideoArr)
     } else {
       console.log("pd Insert Img======");
-
-      // var obj = {
-      //   contentId: "",
-      //   sequence: 0,
-      //   start: 0,
-      //   end: 0,
-      //   playAt: "BEFORE",
-      //   url:""
-      // }
       var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr, this.selectedImgArr);
       console.log(this.performanceDemands);
     }
     this.cancelModal();
     console.log($(".editableImg"));
-    // var img;
-    // var _this = this;
-    // $(".editableImg").hover(function(event) {
-    //   $('.img-span').remove();
-    //   console.log($('.img-span'))
-    //   img = this;
-    //   var posLeft = 105 + $(this).position().left;
-    //   var posTop = $(this).position().top;
-    //   $(this).after(
-    //     $(`<span class='img-span'
-    //       style='z-index: 1001;position:
-    //        absolute;
-    //        top: ${posTop}px;
-    //        left: ${posLeft}px;
-    //        cursor: pointer;
-    //        padding-top: 10px;'
-    //        >
-    //         <img src='./assets/images/remove-white.png'>
-    //        </span>`)
-    //   );
-    //     console.log($('.img-span'))
-    //   $(".img-span").click(function() {
-    //     $(img).remove();
-    //     $(".img-span").remove();
-    //     console.log($(img).parents(".question"))
-    //     // console.log($(img).remove());
-    //     console.log("Delete Img",_this.editableId, _this.focusType)
-    //     _this.turn(_this.editableId, _this.focusType);
-    //   });
-    // });
-    // $(".editableImg").mouseout(function(event) {
-    //   console.log(event);
-    //   if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
-    //   else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
-    //   else console.log("out but not out");
-    // });
   }
 
   mouseOver(e, idx) {
@@ -1497,23 +1451,36 @@ export class TestwerkzComponent implements OnInit {
 
   showID: any;
   onFocus(type, idx1, idx2, idx3) {
+    this.settingContents = [];
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
+    var tempType = this.focusType.type;
     this.focusType.type = type;
     this.showID = "";
-    console.log(this.performanceDemands);
+    console.log(this.performanceDemands , type , idx1);
     console.log(this.performanceDemands.length);
     this.showSetting();
     switch (type) {
       case "pd":
+        if(this.focusType.no != idx1 || tempType != type)
+          this.isCollapse = true;
+
         this.showID = "";
         this.focusPlace = "pd" + idx1;
         this.focusType.no = idx1;
         this.focusType.parentIdx = "";
         this.performanceDemands[idx1].showTooltip = true;
+        this.performanceDemands[idx1].contents.forEach(element => {
+          if(this.isVideo(element))
+            this.settingContents.push(element);
+        console.log(this.settingContents)
+        });
         break;
       case "question":
+      if(this.focusType.no != idx2 || tempType != type)
+        this.isCollapse = true;
+
         this.showID = "q" + idx1 + idx2;
         this.focusPlace = "q" + idx1 + idx2;
         this.focusType.no = idx2;
@@ -1532,11 +1499,15 @@ export class TestwerkzComponent implements OnInit {
         }
         break;
       case "answer":
+      if(this.focusType.no != idx2 || tempType != type)
+      this.isCollapse = true;
+
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
     }
     if (type == "answer") {
+      
       // var tootipsId = $('#answerTootips' + idx1 + idx2 + idx3)
       // tootipsId.show()
       // this.answerTootipsOptions = true;
@@ -1785,6 +1756,7 @@ export class TestwerkzComponent implements OnInit {
 
   removePDImg(img, idx, pdIdx) {
     console.log("Delete Img", img);
+
     this.performanceDemands[pdIdx].contents.splice(idx, 1);
   }
   // HSYL code
@@ -2474,8 +2446,64 @@ export class TestwerkzComponent implements OnInit {
     this._service.deleteConcept(this.regionID,conceptId)
     .subscribe((res:any)=>{
       this.toastr.error("Successfully delete")
-      console.log(res);
       this.cancelConcept('redirect');
     })
+  }
+  isVideo(img){
+    let testString = img.type;
+    if(testString.includes("video"))
+      return true;
+    else 
+      return false;
+  }
+  onClickSettingArrow(e){
+    console.log(e)
+    this.contentType = 'video';
+    // if(this.isCollapse)
+    //   this.getAllContent();
+    this.isCollapse = !this.isCollapse;
+
+  }
+  onselectedVideoDiv(e,id,video){
+    $("#img-s-" + id).children("video").toggleClass("highlight-video");
+    if($("#img-s-" + id).children("video").hasClass("highlight-video")){
+      $("#img-s-" + id).children(".setting-trash").css('opacity','1');
+
+    }else
+    $("#img-s-" + id).children("i").css('opacity','0');
+  }
+  onHoverVideoDiv(e,id){
+    // console.log(id)
+    // console.log(e.target)
+    // console.log($(e.target).children("video"))
+    // console.log($(e.target).children("i"))
+    if(e.type == "mouseenter"){
+      if($(e.target).children("video").hasClass("highlight-video"))
+        $(e.target).children(".setting-trash").css('opacity','1');
+      else
+        $(e.target).children(".setting-trash").css('opacity','0');
+    }
+    else
+      $(e.target).children(".setting-trash").css('opacity','0');
+  }
+  deleteSettingContents(i){
+    this.settingContents.splice(i, 1)
+    console.log(this.focusType)
+    let videoArr = [];
+
+    if(this.focusType.type == 'pd'){
+      console.log(this.performanceDemands[this.focusType.no])
+      this.performanceDemands[this.focusType.no].contents.forEach((element,ind) => {
+        if(this.isVideo(element)){
+          console.log(ind)
+          videoArr.push(ind)
+        }
+      });
+      console.log(this.settingContents)
+      console.log(videoArr)
+      console.log(videoArr[i])
+      var deleteId = videoArr[i]
+      this.performanceDemands[this.focusType.no].contents.splice(deleteId, 1)
+    }
   }
 }
