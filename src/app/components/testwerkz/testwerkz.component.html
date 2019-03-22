@@ -574,7 +574,7 @@
     <div class="modal-body img_upload" *ngIf="contentArr.length == 0">
       <div class="d-flex justify-content-center drop_zone for-video">
         <div class="d-flex flex-column drop_zone_middle">
-          <img src="../../../assets/img/image-drop.png" class="img_drop">
+          <img src="../../../assets/images/video-drop.png" class="img_drop">
           <label class="drop_drap_txt">Drag & drop</label>
           <span class="drop_sp">video anywhere or</span>
           <div class="upload-btn-wrapper">
@@ -588,9 +588,9 @@
     </div>
 
     <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0" appDnd (filesChangeEmiter)="onFilesChange($event)"
-      (filesInvalidEmiter)="onFileInvalids($event)" [allowed_extensions]="['png', 'jpg', 'bmp','jpeg']">
+      (filesInvalidEmiter)="onFileInvalids($event)" [allowed_extensions]="['mp4','mov']">
       <div class="d-flex drop_zone_middle_eixtData for-video">
-        <img src="../../../assets/img/image-drop.png" class="eimg_drop">
+        <img src="../../../assets/images/video-drop.png" class="eimg_drop">
         <div class="d-flex  flex-column lblGp">
           <label class="edrop_drap_txt">Drag & drop</label>
           <span class="edrop_sp">image anywhere or</span>
