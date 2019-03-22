@@ -1056,6 +1056,7 @@ img.gShowImag {
   width: 100%;
   height: 100%;
   border-radius: 4px;
+  object-fit: cover;
 }
 
 .d-flex.flex-column.gallery {
@@ -1228,10 +1229,6 @@ p.g_title {
   background: #fff;
 }
 
-.imgWrap{
-  background: #f2f4f5;
-}
-
 .img-pd{
   position: absolute;
   right: 4px;
@@ -1287,7 +1284,37 @@ border-radius: 4px;
     width: 75% !important;
   }
 }
+/*formfooter delete button media query*/
+@media (min-width: 500px) and (max-width: 991px) {
+  .form-footer {
+    width: 75%;
+  }
+}
 
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199px) { 
+  .form-footer{
+    width: 75%;
+  }
+ }
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) and (max-width: 1999px) { 
+  .form-footer{
+    width: 82%;
+  }
+}
+@media (min-width: 2000px){
+ .form-footer{
+    width: 82%;
+  }
+}
+/*@media only screen and  (min-width:1366px){
+ .form-footer{
+    
+  }
+}
+*/
 /* #testtt input[type="checkbox"] {
   display: none;
 } */
@@ -1355,8 +1382,8 @@ border-radius: 4px;
   column-count: 2;
 }
 
-.pdLR-30 {
-  padding: 0px 30px;
+.pdLR-15 {
+  padding: 0px 15px;
 }
 .pad-15{
  padding: 15px 15px 0px 15px;
@@ -1425,6 +1452,11 @@ border-radius: 4px;
 .pd-text{
   font-family: 'InterUI-Medium',Arial, sans-serif;
 }
+.onePD{
+  /*width: calc(25% - 10px);*/
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
 .conceptName,.cTitle{
   color: #2e3e4d;
   font-size: 18px;
@@ -1441,7 +1473,7 @@ border-radius: 4px;
 
 .testwerkzTitle {
   font-size: 27px;
-  padding-left: 30px;
+  /*padding-left: 30px;*/
   color: #2e3e4d;
 }
 .pd-text{
@@ -1460,16 +1492,16 @@ div.pdLine-wrap:last-child{
   border-bottom: none;
 }
 .imgWrap{
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #f2f4f5;
 }
 .imgWrap img,.imgWrap video{
-  max-height: 120px;
-  max-width: 120px;
+  max-width: 100px;
+  max-height: 100px;
 }
 
 .modal-delete-btn{
