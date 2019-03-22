@@ -14,6 +14,7 @@ import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
 import { nsend } from "q";
 import { resolve } from "path";
+import { ConsoleReporter } from "jasmine";
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -120,6 +121,7 @@ export class TestwerkzComponent implements OnInit {
   public focusType: any = {};
   public focusPlace: any;
   public conceptsObj: any = {};
+  public contentPage: number = 1;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -867,7 +869,8 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.contentPage=1;
+    this.getAllContent(this.contentPage,20);
   }
   openVideoModal(content) {
     // $(t).blur();
@@ -880,7 +883,7 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "video-modal modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.getAllContent(1,20);
   }
   answerOpenImgModal(content, type, i, j, index) {
     console.log("open modal>", type);
@@ -894,7 +897,7 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.getAllContent(1,20);
   }
 
   cancelModal() {
@@ -903,36 +906,44 @@ export class TestwerkzComponent implements OnInit {
     this.imgIdArr = [];
     this.imgId = undefined;
     this.selectedVideoArr = [];
+    this.contentPage=0;
+    this.ImgArr=[];
   }
 
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
-  getAllContent() {
-    this.ImgArr = [];
+  getAllContent(page,size) {
+    // this.ImgArr = [];
     this.videoArr = [];
+   console.error(page,size)
+    
     this.blockUI.start("Loading...");
-    return new Promise((resolve, reject) => {
-      this._service.getContent(this.regionID, this.contentType).subscribe(
+    console.log(this.ImgArr)
+       return new Promise((resolve, reject) => {
+      this._service.getContent(this.regionID,page,size,this.contentType).subscribe(
         (res: any) => {
-          console.log(res);
-          this.contentArr = res;
-
-          for (var i = 0; i < res.length; i++) {
-            if (this.contentType == "image") {
-              if (
-                res[i].type == "image/gif" ||
-                res[i].type == "image/png" ||
-                res[i].type == "image/jpeg"
-              ) {
-                this.ImgArr.push(res[i]);
-              }
-            } else this.videoArr.push(res[i]);
+          console.error(res);
+          if(res.length > 0){
+            this.contentArr = res;
+            console.log(this.contentArr)
+            for (var i = 0; i < res.length; i++) {
+              if (this.contentType == "image") {
+                if (
+                  res[i].type == "image/gif" ||
+                  res[i].type == "image/png" ||
+                  res[i].type == "image/jpeg"
+                ) {
+                  this.ImgArr.push(res[i]);
+                }
+              } else this.videoArr.push(res[i]);
+            }
+            this.tempContentArr.push(this.ImgArr);
+            console.log(this.videoArr);
+            resolve();
+          }else{
+            console.log(this.ImgArr)
+            this.ImgArr=this.ImgArr;
           }
-          this.tempContentArr = this.ImgArr;
-
-          console.log(this.videoArr);
-
-          resolve();
           this.blockUI.stop();
         },
         err => {
@@ -940,8 +951,17 @@ export class TestwerkzComponent implements OnInit {
         }
       );
     });
+
+   
   }
 
+  showMoreContent(length){
+    this.contentPage+=1;
+    console.log(this.contentPage)
+    console.log(this.ImgArr)
+    this.getAllContent(this.contentPage,20);
+    console.log(length)
+  }
   //image upload
   onMetadata(e, id) {
     console.log("metadata: ", e);
@@ -956,25 +976,31 @@ export class TestwerkzComponent implements OnInit {
     // console.log(canvas1)
   }
   onloadImg(event, ele?) {
-    console.log("hello", this.isDrop);
-    console.log("dar", event);
+    // console.log("hello", this.isDrop);
+   let l=0;
+    // console.error(this.contentPage)
     if (this.isDrop) {
       var file = event;
       this.isDrop = false;
+      l=event.length;
     } else {
       var file = event.target.files;
+      l=event.target.files.length;
     }
-    console.log(file);
+    console.log(this.ImgArr.length +l);
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
         //getAllContent() use pormise because of html create value after use in ts
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
-          setTimeout(() => {
-            this.autoSelectedImg(res.meta);
-          }, 300);
-        });
+        this.ImgArr=[];
+        for(let i=1;i<=this.contentPage;i++){
+          this.getAllContent(i,20).then(() => {
+            setTimeout(() => {
+              this.autoSelectedImg(res.meta);
+            }, 300);
+          });
+        }
+      
         this.blockUI.stop();
       },
       err => {
@@ -1130,6 +1156,7 @@ export class TestwerkzComponent implements OnInit {
   autoImgLoop(arr) {
     console.log(arr);
     for (var i = 0; i < arr.length; i++) {
+      console.log(arr[i]);
       const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
       const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
       const check: HTMLElement = document.getElementById("check" + arr[i]);
@@ -1140,9 +1167,9 @@ export class TestwerkzComponent implements OnInit {
       const trashdiv: HTMLElement = document.getElementById(
         "trashdiv-" + arr[i]
       );
-      // console.log(imgDiv);
-      // console.log(circle);
-      // console.log(check);
+      console.log(imgDiv);
+      console.log(circle);
+      console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
       circle.setAttribute(
         "style",
@@ -1196,25 +1223,32 @@ export class TestwerkzComponent implements OnInit {
   //delete image
   onremoveClick(id) {
     console.log(id);
+    this.ImgArr=[];
     this.isRemove = true;
+    console.log(this.contentPage)
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
         // console.log(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
-        this.getAllContent().then(() => {
-          // console.log("here me>", res);
-          setTimeout(() => {
-            // console.log(this.selectedImgArr);
-            // console.log(this.imgIdArr);
-            if (this.modelType == "multiple") {
-              this.autoImgLoop(this.imgIdArr);
-            } else {
-              this.imgId = undefined;
-            }
-          }, 300);
-        });
+        for(let i=1;i<=this.contentPage;i++){
+          console.log(i);
+          this.getAllContent(i,20).then(() => {
+            // console.log("here me>", res);
+            setTimeout(() => {
+              // console.log(this.selectedImgArr);
+              // console.log(this.imgIdArr);
+              if (this.modelType == "multiple") {
+                this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
+                this.autoImgLoop(this.imgIdArr);
+              } else {
+                this.imgId = undefined;
+              }
+            }, 300);
+          });
+        }
+  
       },
       err => {
         console.log(err);

@@ -1453,3 +1453,12 @@ div.pdLine-wrap:last-child{
 .target{
     color: #ff3d33;
 }
+.remove-outline:focus {
+  outline: none;
+  box-shadow: none;
+  background: none;
+}
+
+.remove-outline {
+  background: none;
+}
