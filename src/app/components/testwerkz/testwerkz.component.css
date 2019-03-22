@@ -1475,6 +1475,7 @@ div.pdLine-wrap:last-child{
 }
 .imgWrap img,.imgWrap video{
   max-width: 100px;
+  max-height: 100px;
 }
 
 .modal-delete-btn{
