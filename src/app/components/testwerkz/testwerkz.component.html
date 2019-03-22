@@ -1175,7 +1175,12 @@
         </div>
       </div>
     </div>
-
+<!-- {{ImgArr.length}} -->
+    <div class="d-flex justify-content-center">
+      <div *ngIf="contentArr.length >= 20">
+        <button class="btn remove-outline" (click)="showMoreContent(ImgArr.length)">load more</button>
+      </div>
+    </div>
     <div class="modal-footer" *ngIf="this.modelType == 'multiple'">
       <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
       <button
