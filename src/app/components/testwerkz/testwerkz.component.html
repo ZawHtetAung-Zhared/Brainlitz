@@ -3,16 +3,16 @@
   <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
   <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
 </div> -->
-<div *ngIf="conceptList" class="main-wrapper">
-  <h2 class="testwerkzTitle mt-3">TestWerkz</h2>
-  <div class="d-flex justify-content-between w-100 mt-3 pdLR-30 mb-3">
+<div *ngIf="conceptList" class="pdLR-15">
+  <h2 class="testwerkzTitle pdLR-15 mt-3">TestWerkz</h2>
+  <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3">
     <label class="cTitle mb-0">Concept</label>
     <div>
       <button class="btn btn-create" (click)="goToTestWerkz()"> Add new concept</button>
       <!-- <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button> -->
     </div>
   </div>
-  <div class="card-columns pdLR-30">
+  <div class="card-columns pdLR-15">
     <div class="card" *ngFor="let concept of conceptsArr">
       <div class="single-concept">
         <div class="pad-15">
@@ -27,8 +27,8 @@
                 <p class="mb-0">
                   {{ pd.name }}
                 </p>
-                <div class="row">
-                  <div class="col-md-4" *ngFor="let content of pd.contents">
+                <div class="d-flex flex-wrap">
+                  <div class="onePD" *ngFor="let content of pd.contents">
                     <div *ngIf="(content.type.substring(0,content.type.search('/'))) == 'image'" class="imgWrap">
                       <img src="{{content.url}}">
                     </div>
