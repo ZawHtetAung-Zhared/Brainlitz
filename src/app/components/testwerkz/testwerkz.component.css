@@ -1284,7 +1284,37 @@ border-radius: 4px;
     width: 75% !important;
   }
 }
+/*formfooter delete button media query*/
+@media (min-width: 500px) and (max-width: 991px) {
+  .form-footer {
+    width: 75%;
+  }
+}
 
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199px) { 
+  .form-footer{
+    width: 75%;
+  }
+ }
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) and (max-width: 1999px) { 
+  .form-footer{
+    width: 82%;
+  }
+}
+@media (min-width: 2000px){
+ .form-footer{
+    width: 82%;
+  }
+}
+/*@media only screen and  (min-width:1366px){
+ .form-footer{
+    
+  }
+}
+*/
 /* #testtt input[type="checkbox"] {
   display: none;
 } */
