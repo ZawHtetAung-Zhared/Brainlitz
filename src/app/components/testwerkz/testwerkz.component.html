@@ -23,14 +23,17 @@
               <div>
                 <img src="/assets/images/un-thunder-flash-w.png">
               </div>
-              <div class="pd-text pl-2">
+              <div class="pd-text pl-2 w-100">
                 <p class="mb-0">
                   {{ pd.name }}
                 </p>
                 <div class="row">
                   <div class="col-md-4" *ngFor="let content of pd.contents">
-                    <div class="imgWrap">
+                    <div *ngIf="(content.type.substring(0,content.type.search('/'))) == 'image'" class="imgWrap">
                       <img src="{{content.url}}">
+                    </div>
+                    <div *ngIf="(content.type.substring(0,content.type.search('/'))) == 'video'" class="imgWrap">
+                      <video src="{{content.url}}" autoplay="false"></video>
                     </div>
                   </div>
                 </div>   

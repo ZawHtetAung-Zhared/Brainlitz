@@ -1439,9 +1439,9 @@ div.pdLine-wrap:last-child{
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: #f2f4f5;
 }
-.imgWrap img{
+.imgWrap img,.imgWrap video{
   max-height: 120px;
   max-width: 120px;
 }
