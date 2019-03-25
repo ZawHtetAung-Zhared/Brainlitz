@@ -125,6 +125,7 @@ export class TestwerkzComponent implements OnInit {
   public focusType: any = {};
   public focusPlace: any;
   public conceptsObj: any = {};
+  public contentPage: number = 1;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -882,7 +883,8 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.contentPage=1;
+    this.getAllContent(this.contentPage,20);
   }
   openVideoModal(content) {
     // $(t).blur();
@@ -895,7 +897,7 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "video-modal modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.getAllContent(1,20);
   }
   answerOpenImgModal(content, type, i, j, index) {
     console.log("open modal>", type);
@@ -909,7 +911,7 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.getAllContent(1,20);
   }
 
   cancelModal() {
@@ -918,36 +920,44 @@ export class TestwerkzComponent implements OnInit {
     this.imgIdArr = [];
     this.imgId = undefined;
     this.selectedVideoArr = [];
+    this.contentPage=0;
+    this.ImgArr=[];
   }
 
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
-  getAllContent() {
-    this.ImgArr = [];
+  getAllContent(page,size) {
+    // this.ImgArr = [];
     this.videoArr = [];
+   console.error(page,size)
+    
     this.blockUI.start("Loading...");
-    return new Promise((resolve, reject) => {
-      this._service.getContent(this.regionID, this.contentType).subscribe(
+    console.log(this.ImgArr)
+       return new Promise((resolve, reject) => {
+      this._service.getContent(this.regionID,page,size,this.contentType).subscribe(
         (res: any) => {
-          console.log(res);
-          this.contentArr = res;
-
-          for (var i = 0; i < res.length; i++) {
-            if (this.contentType == "image") {
-              if (
-                res[i].type == "image/gif" ||
-                res[i].type == "image/png" ||
-                res[i].type == "image/jpeg"
-              ) {
-                this.ImgArr.push(res[i]);
-              }
-            } else this.videoArr.push(res[i]);
+          console.error(res);
+          if(res.length > 0){
+            this.contentArr = res;
+            console.log(this.contentArr)
+            for (var i = 0; i < res.length; i++) {
+              if (this.contentType == "image") {
+                if (
+                  res[i].type == "image/gif" ||
+                  res[i].type == "image/png" ||
+                  res[i].type == "image/jpeg"
+                ) {
+                  this.ImgArr.push(res[i]);
+                }
+              } else this.videoArr.push(res[i]);
+            }
+            this.tempContentArr.push(this.ImgArr);
+            console.log(this.videoArr);
+            resolve();
+          }else{
+            console.log(this.ImgArr)
+            this.ImgArr=this.ImgArr;
           }
-          this.tempContentArr = this.ImgArr;
-
-          console.log(this.videoArr);
-
-          resolve();
           this.blockUI.stop();
         },
         err => {
@@ -955,8 +965,17 @@ export class TestwerkzComponent implements OnInit {
         }
       );
     });
+
+   
   }
 
+  showMoreContent(length){
+    this.contentPage+=1;
+    console.log(this.contentPage)
+    console.log(this.ImgArr)
+    this.getAllContent(this.contentPage,20);
+    console.log(length)
+  }
   //image upload
   onMetadata(e, id) {
     console.log("metadata: ", e);
@@ -971,25 +990,31 @@ export class TestwerkzComponent implements OnInit {
     // console.log(canvas1)
   }
   onloadImg(event, ele?) {
-    console.log("hello", this.isDrop);
-    console.log("dar", event);
+    // console.log("hello", this.isDrop);
+   let l=0;
+    // console.error(this.contentPage)
     if (this.isDrop) {
       var file = event;
       this.isDrop = false;
+      l=event.length;
     } else {
       var file = event.target.files;
+      l=event.target.files.length;
     }
-    console.log(file);
+    console.log(this.ImgArr.length +l);
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
         //getAllContent() use pormise because of html create value after use in ts
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
-          setTimeout(() => {
-            this.autoSelectedImg(res.meta);
-          }, 300);
-        });
+        this.ImgArr=[];
+        for(let i=1;i<=this.contentPage;i++){
+          this.getAllContent(i,20).then(() => {
+            setTimeout(() => {
+              this.autoSelectedImg(res.meta);
+            }, 300);
+          });
+        }
+      
         this.blockUI.stop();
       },
       err => {
@@ -1019,6 +1044,7 @@ export class TestwerkzComponent implements OnInit {
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
     const check: HTMLElement = document.getElementById("check" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
@@ -1038,6 +1064,10 @@ export class TestwerkzComponent implements OnInit {
             "style",
             "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
           );
+          gShowImag.setAttribute(
+            "style",
+            "max-width:133px;max-height:130px;"
+          );
           trashdiv.setAttribute("style", "display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
@@ -1050,6 +1080,10 @@ export class TestwerkzComponent implements OnInit {
             imgDiv.setAttribute(
               "style",
               "border:solid;color:#007fff;border-width:3px;"
+            );
+            gShowImag.setAttribute(
+              "style",
+              "max-width:130px;max-height:130px;"
             );
             circle.setAttribute(
               "style",
@@ -1126,7 +1160,11 @@ export class TestwerkzComponent implements OnInit {
     const trash3: HTMLElement = document.getElementById("trash" + i);
     const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
     const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     imgDiv3.setAttribute("style", "border:none;");
+    gShowImag.setAttribute("style", 
+      "max-width:135px;max-height:135px;"
+      );
     circle3.setAttribute(
       "style",
       "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
@@ -1154,23 +1192,29 @@ export class TestwerkzComponent implements OnInit {
   autoImgLoop(arr) {
     console.log(arr);
     for (var i = 0; i < arr.length; i++) {
+      console.log(arr[i]);
       const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
       const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
       const check: HTMLElement = document.getElementById("check" + arr[i]);
       const trash: HTMLElement = document.getElementById("trash" + arr[i]);
+      const gShowImag: HTMLElement = document.getElementById("gShowImag-" + arr[i]);
       const overlay: HTMLElement = document.getElementById(
         "Imgoverlay" + arr[i]
       );
       const trashdiv: HTMLElement = document.getElementById(
         "trashdiv-" + arr[i]
       );
-      // console.log(imgDiv);
-      // console.log(circle);
-      // console.log(check);
+      console.log(imgDiv);
+      console.log(circle);
+      console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+      gShowImag.setAttribute(
+        "style",
+        "max-width:130px;max-height:130px;"
+      );
       circle.setAttribute(
         "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;top:6px; left:26px; z-index: 2;"
       );
       check.setAttribute("style", "color:white;");
       trashdiv.setAttribute("style", "display:block");
@@ -1220,25 +1264,32 @@ export class TestwerkzComponent implements OnInit {
   //delete image
   onremoveClick(id) {
     console.log(id);
+    this.ImgArr=[];
     this.isRemove = true;
+    console.log(this.contentPage)
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
         // console.log(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
-        this.getAllContent().then(() => {
-          // console.log("here me>", res);
-          setTimeout(() => {
-            // console.log(this.selectedImgArr);
-            // console.log(this.imgIdArr);
-            if (this.modelType == "multiple") {
-              this.autoImgLoop(this.imgIdArr);
-            } else {
-              this.imgId = undefined;
-            }
-          }, 300);
-        });
+        for(let i=1;i<=this.contentPage;i++){
+          console.log(i);
+          this.getAllContent(i,20).then(() => {
+            // console.log("here me>", res);
+            setTimeout(() => {
+              // console.log(this.selectedImgArr);
+              // console.log(this.imgIdArr);
+              if (this.modelType == "multiple") {
+                this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
+                this.autoImgLoop(this.imgIdArr);
+              } else {
+                this.imgId = undefined;
+              }
+            }, 300);
+          });
+        }
+  
       },
       err => {
         console.log(err);
@@ -2101,33 +2152,34 @@ export class TestwerkzComponent implements OnInit {
 // WaiYan code Start(getSingleConcept)
   getSingleConcept(cID){
     const _that =this;
-    _that.blockUI.start('Loading')
-    _that.conceptId = cID;
-    _that.showSettingSidebar = false;
     _that.conceptEdit = true;
-    _that.testWerkzCategory = false;
-    _that.conceptList = false;
-
+   
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
-      console.log(res)
+      // console.log(res)
       _that.conceptsObj = res;
       _that.concept.name = res.name;  
       _that.concept.id = res._id; 
-      _that.tagID = res.tag[0].tagId; 
+      _that.tagID = res.tag[0].tagId;
+      _that.blockUI.start('Loading') 
       async.map(
         res.pd, 
         _that.getPDID.bind(null,_that), 
         _that.getPDbyID.bind(null,_that)
       )  
+      _that.conceptId = cID;
+      _that.showSettingSidebar = false;
+      _that.testWerkzCategory = false;
+      _that.conceptList = false;  
+      setTimeout(() => {
+        _that.blockUI.stop()
+      }, 500);
     },err =>{
       console.log(err)
     })
-  setTimeout(() => {
-    _that.blockUI.stop()
-  }, 500);
+
   }
   getPDID(_that,pd,callback){
-    console.log(pd.pdId, 'getPDID function ')
+    // console.log(pd.pdId, 'getPDID function ')
     callback(null,pd.pdId)
   }
 
@@ -2135,7 +2187,7 @@ export class TestwerkzComponent implements OnInit {
     if(error){
       console.error(error, 'error in getPDbyID function')
     }
-    console.log('getPDbyID function',result)
+    // console.log('getPDbyID function',result)
     async.map(
       result,
       _that.getPDObject.bind(null,_that),
@@ -2143,9 +2195,9 @@ export class TestwerkzComponent implements OnInit {
     )
   }
   getPDObject(_that,pdObj,callback){
-    console.log(pdObj,'getPDObject function')
+    // console.log(pdObj,'getPDObject function')
     _that._service.getPDById(_that.regionID, pdObj).subscribe(res => {
-      console.log(res)
+      // console.log(res)
       callback(null,res)
     },err => {
       console.error(err)
@@ -2155,7 +2207,7 @@ export class TestwerkzComponent implements OnInit {
     if(error){
       console.error(error, 'error in pdObjectArray function')
     }
-    console.log(result,'pdObjectArray function')
+    // console.log(result,'pdObjectArray function')
     _that.ptest = result
     console.log(_that.ptest);
     async.map(
@@ -2165,8 +2217,8 @@ export class TestwerkzComponent implements OnInit {
     )
   }
   getSinglePd(_that,result,singlePD,callback){
-    console.log(result);
-    console.log(singlePD)
+    // console.log(result);
+    // console.log(singlePD)
     var pdIndex  = result.indexOf(singlePD)
     console.log(pdIndex);
     async.map(
@@ -2178,20 +2230,19 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getSinglePdDone(_that,error,result){
-
     console.log(result);
   }
 
   getQuestionArray(_that,questionArray,question,callback){
-    console.log(question, 'getQuestionArray function')
+    // console.log(question, 'getQuestionArray function')
     callback(null,question.questionId)
   }
   getgQuestionObject(_that,pdIndex,questionArray,error,result){
     if(error){
       console.error(error, 'error in getgQuestionObject function')
     }
-    console.log(questionArray);
-    console.log(result, 'getgQuestionObject function')
+    // console.log(questionArray);
+    // console.log(result, 'getgQuestionObject function')
     async.map(
       result,
       _that.getQuesById.bind(null,_that,pdIndex,result),
@@ -2203,7 +2254,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(pdIndex);
     console.log(result.indexOf(Id))
     _that._service.getQuesById(_that.regionID,Id).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       callback(null,res)
     },err => {
       console.error(err);
@@ -2217,7 +2268,7 @@ export class TestwerkzComponent implements OnInit {
       _that.performanceDemands = _that.ptest;
       console.log(_that.performanceDemands);
       _that.performanceDemands.map((pd,pdIndex) =>{
-        console.log(pd,pdIndex)
+        // console.log(pd,pdIndex)
         pd.questions.map((question,Qindex) => {
           console.log(question,Qindex)
           setTimeout(() => {
