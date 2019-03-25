@@ -1144,7 +1144,7 @@
             *ngFor="let img of ImgArr; let i = index"
           >
             <div
-              class="inner-imgDiv"
+              class="d-flex justify-content-center align-items-center inner-imgDiv"
               (click)="onslectedImgDiv(img._id, img)"
               id="img-{{ img._id }}"
               (mouseenter)="onImgMouseEvent($event, img._id)"
@@ -1168,7 +1168,7 @@
                   id="trash{{ img._id }}"
                 ></i>
               </div>
-              <img src="{{ img.url }}" class="gShowImag" />
+              <img src="{{ img.url }}" class="gShowImag" id="gShowImag-{{ img._id }}" />
               <div class="Imgoverlay" id="Imgoverlay{{ img._id }}"></div>
             </div>
           </div>

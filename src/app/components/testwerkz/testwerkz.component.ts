@@ -1031,6 +1031,7 @@ export class TestwerkzComponent implements OnInit {
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
     const check: HTMLElement = document.getElementById("check" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
@@ -1050,6 +1051,10 @@ export class TestwerkzComponent implements OnInit {
             "style",
             "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
           );
+          gShowImag.setAttribute(
+            "style",
+            "max-width:133px;max-height:130px;"
+          );
           trashdiv.setAttribute("style", "display:block;");
           check.setAttribute("style", "color:white;");
           this.ischecked = true;
@@ -1062,6 +1067,10 @@ export class TestwerkzComponent implements OnInit {
             imgDiv.setAttribute(
               "style",
               "border:solid;color:#007fff;border-width:3px;"
+            );
+            gShowImag.setAttribute(
+              "style",
+              "max-width:133px;max-height:130px;"
             );
             circle.setAttribute(
               "style",
@@ -1129,7 +1138,11 @@ export class TestwerkzComponent implements OnInit {
     const trash3: HTMLElement = document.getElementById("trash" + i);
     const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
     const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     imgDiv3.setAttribute("style", "border:none;");
+    gShowImag.setAttribute("style", 
+      "max-width:135px;max-height:135px;"
+      );
     circle3.setAttribute(
       "style",
       "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
@@ -1162,6 +1175,7 @@ export class TestwerkzComponent implements OnInit {
       const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
       const check: HTMLElement = document.getElementById("check" + arr[i]);
       const trash: HTMLElement = document.getElementById("trash" + arr[i]);
+      const gShowImag: HTMLElement = document.getElementById("gShowImag-" + arr[i]);
       const overlay: HTMLElement = document.getElementById(
         "Imgoverlay" + arr[i]
       );
@@ -1172,9 +1186,13 @@ export class TestwerkzComponent implements OnInit {
       console.log(circle);
       console.log(check);
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+      gShowImag.setAttribute(
+        "style",
+        "max-width:133px;max-height:130px;"
+      );
       circle.setAttribute(
         "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;top:6px; left:26px; z-index: 2;"
       );
       check.setAttribute("style", "color:white;");
       trashdiv.setAttribute("style", "display:block");
