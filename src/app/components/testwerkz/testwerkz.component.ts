@@ -918,7 +918,7 @@ export class TestwerkzComponent implements OnInit {
   getAllContent(page,size) {
     // this.ImgArr = [];
     this.videoArr = [];
-  //  console.error(page,size)
+  // assess
     
     this.blockUI.start("Loading...");
     // console.log(this.ImgArr)
