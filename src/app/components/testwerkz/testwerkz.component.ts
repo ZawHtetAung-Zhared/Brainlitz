@@ -1,4 +1,5 @@
-import { Input } from "@angular/core";
+import { element } from 'protractor';
+import { Input, ComponentFactoryResolver } from "@angular/core";
 // import { AppComponent } from "./../../app.component";
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
@@ -14,6 +15,7 @@ import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
 import { nsend } from "q";
 import { resolve } from "path";
+import { connect } from 'tls';
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -77,7 +79,7 @@ export class TestwerkzComponent implements OnInit {
   public isHover: boolean = false;
   public isCollapse : boolean = true;
   public markDownHtml_arr: any = [];
-  public settingContents : any = [];
+  public settingContents: any = [];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -91,7 +93,8 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any = [];
+  public content_size:any;
+  public contentArr:any=[];
   public classCreate = false;
   public regionID = localStorage.getItem("regionId");
   public tagsWerkzList = [];
@@ -111,6 +114,7 @@ export class TestwerkzComponent implements OnInit {
     name: "",
     id: ""
   };
+  public selectedDuration : any = {};
   public dragItem: any;
   public dragItemParent: any;
   public clickEle: any = "";
@@ -123,6 +127,7 @@ export class TestwerkzComponent implements OnInit {
   public focusPlace: any;
   public conceptsObj: any = {};
   public contentPage: number = 1;
+  public contentRes:any=[];
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -144,6 +149,13 @@ export class TestwerkzComponent implements OnInit {
     console.log(Promise);
     var turndownService = new TurndownService();
     // for div
+    this.dragulaService.cloned().subscribe(({name,clone,original})=>{
+      console.log(name,clone,original)
+      console.log($(original).children().children(".rmIcon"))
+      $(original).children().children(".rmIcon").css('display','none');
+    })  
+
+    
     turndownService.addRule("Tada", {
       filter: "div",
       replacement: function(content) {
@@ -159,6 +171,8 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists();
+
+
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log(this.dragItem);
@@ -612,6 +626,7 @@ export class TestwerkzComponent implements OnInit {
     // waiyan's code end
   }
   addPd() {
+    this.settingContents.push({contents : []})
     // this.pdLists.push({
     //   pdName: "",
     //   question: [
@@ -939,14 +954,16 @@ export class TestwerkzComponent implements OnInit {
       isFirst = false;
     }
     this.blockUI.start("Loading...");
-    console.log(this.ImgArr)
+    // console.log(this.ImgArr)
        return new Promise((resolve, reject) => {
       this._service.getContent(this.regionID,page,size,keyword,this.contentType).subscribe(
         (res: any) => {
           this.result = res;
+          // console.error(res);
+          this.contentRes=res;
           if(res.length > 0){
-            this.contentArr = res;
-            console.log(this.contentArr)
+            this.contentArr=res;
+            this.content_size=size;
             for (var i = 0; i < res.length; i++) {
               if (this.contentType == "image") {
                 if (
@@ -959,7 +976,7 @@ export class TestwerkzComponent implements OnInit {
               } else {
               }
             }
-            this.tempContentArr.push(this.ImgArr);
+            this.tempContentArr=this.ImgArr;
             console.log(this.videoArr);
             resolve();
           }else{
@@ -1010,30 +1027,25 @@ export class TestwerkzComponent implements OnInit {
     // console.log(canvas1)
   }
   onloadImg(event, ele?) {
-    // console.log("hello", this.isDrop);
-   let l=0;
-    // console.error(this.contentPage)
     if (this.isDrop) {
       var file = event;
       this.isDrop = false;
-      l=event.length;
     } else {
       var file = event.target.files;
-      l=event.target.files.length;
     }
-    console.log(this.ImgArr.length +l);
+    // console.error(this.contentPage)
+    // console.error(this.selectedImgArr);
+    // console.error(20*this.contentPage)
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
         //getAllContent() use pormise because of html create value after use in ts
         this.ImgArr=[];
-        for(let i=1;i<=this.contentPage;i++){
-          this.getAllContent(i,20,'').then(() => {
+          this.getAllContent(1,20*this.contentPage,'').then(() => {
             setTimeout(() => {
               this.autoSelectedImg(res.meta);
             }, 300);
           });
-        }
       
         this.blockUI.stop();
       },
@@ -1045,10 +1057,14 @@ export class TestwerkzComponent implements OnInit {
 
   //this is use for autoselected when upload finish or deleted finsih (this is only selected previous selection image after upload)
   autoSelectedImg(resturnobj) {
-    console.log(this.modelType);
-    console.log(this.selectedImgArr);
-    for (var i = 0; i < resturnobj.length; i++) {
-      for (var j = 0; j < this.tempContentArr.length; j++) {
+    // console.log(this.modelType);
+    // console.log(this.selectedImgArr);
+    // console.log(resturnobj);
+    // console.log(this.tempContentArr)
+    for (let i = 0; i < resturnobj.length; i++) {
+      for (let j = 0; j < this.tempContentArr.length; j++) {
+        // console.log(resturnobj[i]._id )
+        // console.log(this.tempContentArr[j]._id)
         if (resturnobj[i]._id == this.tempContentArr[j]._id) {
           this.onslectedImgDiv(
             this.tempContentArr[j]._id,
@@ -1063,6 +1079,7 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
+    console.log(i,img)
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
@@ -1121,21 +1138,30 @@ export class TestwerkzComponent implements OnInit {
       console.log(imgDiv);
       if ($(imgDiv).hasClass("highlight")) {
         $(imgDiv).removeClass("highlight");
+        console.log(circle , check)
         this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
+        circle.setAttribute(
+          "style",
+          "border: transparent; border-radius: 50%;width: 16px; height: 16px;position: absolute;background:transparent;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        );
+        check.setAttribute("style", "color:transparent;");
+        trash.setAttribute("style", "opacity: 0;");
+
       } else {
         $(imgDiv).addClass("highlight");
         this.selectedVideoArr.push(img);
+        trash.setAttribute("style", "opacity: 1;");
+        overlay.setAttribute(
+          "style",
+          "display:block;  background: rgba(0, 0, 0, .3);"
+        );
+        circle.setAttribute(
+          "style",
+          "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        );
+        check.setAttribute("style", "color:white;");
       }
-      trash.setAttribute("style", "opacity: 1;");
-      overlay.setAttribute(
-        "style",
-        "display:block;  background: rgba(0, 0, 0, .3);"
-      );
-      circle.setAttribute(
-        "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      );
-      check.setAttribute("style", "color:white;");
+
       console.log(this.selectedVideoArr);
     } else {
       if (this.isRemove) {
@@ -1201,9 +1227,7 @@ export class TestwerkzComponent implements OnInit {
 
   //this is use for selected image value loop
   autoImgLoop(arr) {
-    console.log(arr);
     for (var i = 0; i < arr.length; i++) {
-      console.log(arr[i]);
       const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
       const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
       const check: HTMLElement = document.getElementById("check" + arr[i]);
@@ -1215,9 +1239,7 @@ export class TestwerkzComponent implements OnInit {
       const trashdiv: HTMLElement = document.getElementById(
         "trashdiv-" + arr[i]
       );
-      console.log(imgDiv);
-      console.log(circle);
-      console.log(check);
+
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
       gShowImag.setAttribute(
         "style",
@@ -1277,20 +1299,15 @@ export class TestwerkzComponent implements OnInit {
     console.log(id);
     this.ImgArr=[];
     this.isRemove = true;
-    console.log(this.contentPage)
+    // console.error(this.contentPage*20)
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
         // console.log(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
-        for(let i=1;i<=this.contentPage;i++){
-          console.log(i);
-          this.getAllContent(i,20,'').then(() => {
-            // console.log("here me>", res);
+          this.getAllContent(1,(20*this.contentPage),'').then(() => {
             setTimeout(() => {
-              // console.log(this.selectedImgArr);
-              // console.log(this.imgIdArr);
               if (this.modelType == "multiple") {
                 this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
                 this.autoImgLoop(this.imgIdArr);
@@ -1299,8 +1316,6 @@ export class TestwerkzComponent implements OnInit {
               }
             }, 300);
           });
-        }
-  
       },
       err => {
         console.log(err);
@@ -1479,8 +1494,21 @@ export class TestwerkzComponent implements OnInit {
       // },200)
     } else if (this.modelType == "video") {
       var contArr = this.performanceDemands[this.focusType.no].contents;
+ 
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
-      this.settingContents = this.settingContents.concat(this.selectedVideoArr)
+      for(var i in this.selectedVideoArr){
+
+        console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+        // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      }
+
+      this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      console.log(this.settingContents)
+      console.log(this.selectedVideoArr)
+      this.performanceDemands[this.focusType.no].contents.forEach(element => {
+        element.start = 0;
+        element.end = element.duration;
+      });
     } else {
       console.log("pd Insert Img======");
       var contArr = this.performanceDemands[this.focusType.no].contents;
@@ -1535,7 +1563,7 @@ export class TestwerkzComponent implements OnInit {
 
   showID: any;
   onFocus(type, idx1, idx2, idx3) {
-    this.settingContents = [];
+    // this.settingContents = [];
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
@@ -1555,14 +1583,14 @@ export class TestwerkzComponent implements OnInit {
         this.focusType.no = idx1;
         this.focusType.parentIdx = "";
         this.performanceDemands[idx1].showTooltip = true;
-        this.performanceDemands[idx1].contents.forEach(element => {
-          if(this.isVideo(element))
-            this.settingContents.push(element);
-        console.log(this.settingContents)
-        });
+        // this.performanceDemands[idx1].contents.forEach(element => {
+        //   if(this.isVideo(element))
+        //     this.settingContents[idx1].push(element);
+        // console.log(this.settingContents)
+        // });
         break;
       case "question":
-      if(this.focusType.no != idx2 || tempType != type)
+      if(this.focusType.no != idx2 || tempType != type || this.focusType.parentIdx != idx1) 
         this.isCollapse = true;
 
         this.showID = "q" + idx1 + idx2;
@@ -2542,19 +2570,38 @@ export class TestwerkzComponent implements OnInit {
   }
   onClickSettingArrow(e){
     console.log(e)
+    console.log(this.focusType)
     this.contentType = 'video';
     // if(this.isCollapse)
     //   this.getAllContent();
     this.isCollapse = !this.isCollapse;
-
+    console.log(this.settingContents)
   }
   onselectedVideoDiv(e,id,video){
-    $("#img-s-" + id).children("video").toggleClass("highlight-video");
-    if($("#img-s-" + id).children("video").hasClass("highlight-video")){
-      $("#img-s-" + id).children(".setting-trash").css('opacity','1');
 
-    }else
-    $("#img-s-" + id).children("i").css('opacity','0');
+    console.log(e)
+    if($(e.target).hasClass('duration')){
+
+    }else{
+      $(".vd").children("video").removeClass("highlight-video")
+      $(".duration-wrapper").hide();
+      console.log(this.focusType)
+      console.log(this.performanceDemands)
+      // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
+      // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
+      // // console.log(timeString)
+      // var res= timeString.split(":");
+      // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+      // video.start = 0;
+      $("#img-s-" + id).children(".duration-wrapper").show();
+      $("#img-s-" + id).children("video").toggleClass("highlight-video");
+      if($("#img-s-" + id).children("video").hasClass("highlight-video")){
+        $("#img-s-" + id).children(".setting-trash").css('opacity','1');
+  
+      }else
+      $("#img-s-" + id).children("i").css('opacity','0');
+    }
+    
   }
   onHoverVideoDiv(e,id){
     // console.log(id)
@@ -2571,7 +2618,7 @@ export class TestwerkzComponent implements OnInit {
       $(e.target).children(".setting-trash").css('opacity','0');
   }
   deleteSettingContents(i){
-    this.settingContents.splice(i, 1)
+    this.settingContents[this.focusType.no].contents.splice(i, 1)
     console.log(this.focusType)
     let videoArr = [];
 
@@ -2583,9 +2630,6 @@ export class TestwerkzComponent implements OnInit {
           videoArr.push(ind)
         }
       });
-      console.log(this.settingContents)
-      console.log(videoArr)
-      console.log(videoArr[i])
       var deleteId = videoArr[i]
       this.performanceDemands[this.focusType.no].contents.splice(deleteId, 1)
     }
