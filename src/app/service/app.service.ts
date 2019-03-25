@@ -2217,15 +2217,21 @@ export class appService{
     }
 
     // get contents for modal gallary show
-    getContent(regionId: string , p:number, size:number, type?:string): Observable<any>{
+    getContent(regionId: string , p:number, size:number, keyword:string, type?:string): Observable<any>{
       // console.log(type,p,size)
       let url;
     
       if(type == "" || type == undefined){
         url = this.baseUrl+ '/' + regionId + '/contents/?&page='+p+'&size='+size;
       }
-      else
-        url =  this.baseUrl+ '/' + regionId + '/contents/?type=' + type+"&page="+p+"&size="+size;
+      else{
+        if(keyword && keyword.length >= 1){
+          url =  this.baseUrl+ '/' + regionId + '/contents/?type=' + type+'&keyword=' + keyword +"&page="+p+"&size="+size;
+        }else{
+          url =  this.baseUrl+ '/' + regionId + '/contents/?type=' + type+"&page="+p+"&size="+size;
+        }
+      }
+      // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/contents/?type=video&keyword=w&page=1&size=20
       const httpOptions = {
           headers: new HttpHeaders({ 
             'authorization': this.tokenType + ' ' + this.accessToken})

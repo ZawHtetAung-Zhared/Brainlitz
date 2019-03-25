@@ -871,7 +871,7 @@ export class TestwerkzComponent implements OnInit {
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
     this.contentPage=1;
-    this.getAllContent(this.contentPage,20);
+    this.getAllContent(this.contentPage,20,'');
   }
   openVideoModal(content) {
     // $(t).blur();
@@ -884,7 +884,8 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "video-modal modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent(1,20);
+    this.contentPage=1;
+    this.getAllContent(1,20,'');
   }
   answerOpenImgModal(content, type, i, j, index) {
     console.log("open modal>", type);
@@ -898,7 +899,7 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent(1,20);
+    this.getAllContent(1,20,'');
   }
 
   cancelModal() {
@@ -910,20 +911,39 @@ export class TestwerkzComponent implements OnInit {
     this.contentPage=0;
     this.ImgArr=[];
   }
-
+  public searchWord:any;
+  public isSearch:any;
+  public result:any;
+  contentSearch(keyword){
+    this.searchWord = keyword;
+    this.getAllContent(1,20,keyword)
+  }
+  showMoreVideo(){
+    this.contentPage += 1;
+    if(this.isSearch == true){
+      this.getAllContent(this.contentPage,20,this.searchWord)
+    }else{
+      this.getAllContent(this.contentPage,20,'')
+    }
+  }
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
-  getAllContent(page,size) {
+  getAllContent(page,size,keyword) {
     // this.ImgArr = [];
-    this.videoArr = [];
+    // this.videoArr = [];
    console.error(page,size)
-    
+    var isFirst;
+    if(page === 1){
+      isFirst = true;
+    }else{
+      isFirst = false;
+    }
     this.blockUI.start("Loading...");
     console.log(this.ImgArr)
        return new Promise((resolve, reject) => {
-      this._service.getContent(this.regionID,page,size,this.contentType).subscribe(
+      this._service.getContent(this.regionID,page,size,keyword,this.contentType).subscribe(
         (res: any) => {
-          console.error(res);
+          this.result = res;
           if(res.length > 0){
             this.contentArr = res;
             console.log(this.contentArr)
@@ -936,7 +956,8 @@ export class TestwerkzComponent implements OnInit {
                 ) {
                   this.ImgArr.push(res[i]);
                 }
-              } else this.videoArr.push(res[i]);
+              } else {
+              }
             }
             this.tempContentArr.push(this.ImgArr);
             console.log(this.videoArr);
@@ -944,6 +965,19 @@ export class TestwerkzComponent implements OnInit {
           }else{
             console.log(this.ImgArr)
             this.ImgArr=this.ImgArr;
+          }
+
+          if (isFirst == true) {
+            this.videoArr = res;
+            this.isSearch = true;
+            this.contentPage = 1;
+            console.log(this.videoArr,'first time searching');
+          }else{
+            this.isSearch = false;
+            res.map(content => {
+              this.videoArr.push(content)
+            })
+            console.log(this.videoArr,'not first time searching');
           }
           this.blockUI.stop();
         },
@@ -953,14 +987,13 @@ export class TestwerkzComponent implements OnInit {
       );
     });
 
-   
   }
 
   showMoreContent(length){
     this.contentPage+=1;
     console.log(this.contentPage)
     console.log(this.ImgArr)
-    this.getAllContent(this.contentPage,20);
+    this.getAllContent(this.contentPage,20,'');
     console.log(length)
   }
   //image upload
@@ -995,7 +1028,7 @@ export class TestwerkzComponent implements OnInit {
         //getAllContent() use pormise because of html create value after use in ts
         this.ImgArr=[];
         for(let i=1;i<=this.contentPage;i++){
-          this.getAllContent(i,20).then(() => {
+          this.getAllContent(i,20,'').then(() => {
             setTimeout(() => {
               this.autoSelectedImg(res.meta);
             }, 300);
@@ -1253,7 +1286,7 @@ export class TestwerkzComponent implements OnInit {
         //getAllContent() use pormise because of html create value after use in ts
         for(let i=1;i<=this.contentPage;i++){
           console.log(i);
-          this.getAllContent(i,20).then(() => {
+          this.getAllContent(i,20,'').then(() => {
             // console.log("here me>", res);
             setTimeout(() => {
               // console.log(this.selectedImgArr);
