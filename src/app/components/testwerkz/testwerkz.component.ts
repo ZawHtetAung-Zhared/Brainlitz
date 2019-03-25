@@ -2117,33 +2117,35 @@ export class TestwerkzComponent implements OnInit {
 // WaiYan code Start(getSingleConcept)
   getSingleConcept(cID){
     const _that =this;
-    _that.blockUI.start('Loading')
-    _that.conceptId = cID;
-    _that.showSettingSidebar = false;
-    _that.conceptEdit = true;
-    _that.testWerkzCategory = false;
-    _that.conceptList = false;
-
+   
+   
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
-      console.log(res)
+      // console.log(res)
       _that.conceptsObj = res;
       _that.concept.name = res.name;  
       _that.concept.id = res._id; 
-      _that.tagID = res.tag[0].tagId; 
+      _that.tagID = res.tag[0].tagId;
+      _that.blockUI.start('Loading') 
       async.map(
         res.pd, 
         _that.getPDID.bind(null,_that), 
         _that.getPDbyID.bind(null,_that)
       )  
+      _that.conceptId = cID;
+      _that.showSettingSidebar = false;
+      _that.conceptEdit = true;
+      _that.testWerkzCategory = false;
+      _that.conceptList = false;  
+      setTimeout(() => {
+        _that.blockUI.stop()
+      }, 500);
     },err =>{
       console.log(err)
     })
-  setTimeout(() => {
-    _that.blockUI.stop()
-  }, 500);
+
   }
   getPDID(_that,pd,callback){
-    console.log(pd.pdId, 'getPDID function ')
+    // console.log(pd.pdId, 'getPDID function ')
     callback(null,pd.pdId)
   }
 
@@ -2151,7 +2153,7 @@ export class TestwerkzComponent implements OnInit {
     if(error){
       console.error(error, 'error in getPDbyID function')
     }
-    console.log('getPDbyID function',result)
+    // console.log('getPDbyID function',result)
     async.map(
       result,
       _that.getPDObject.bind(null,_that),
@@ -2159,9 +2161,9 @@ export class TestwerkzComponent implements OnInit {
     )
   }
   getPDObject(_that,pdObj,callback){
-    console.log(pdObj,'getPDObject function')
+    // console.log(pdObj,'getPDObject function')
     _that._service.getPDById(_that.regionID, pdObj).subscribe(res => {
-      console.log(res)
+      // console.log(res)
       callback(null,res)
     },err => {
       console.error(err)
@@ -2171,7 +2173,7 @@ export class TestwerkzComponent implements OnInit {
     if(error){
       console.error(error, 'error in pdObjectArray function')
     }
-    console.log(result,'pdObjectArray function')
+    // console.log(result,'pdObjectArray function')
     _that.ptest = result
     console.log(_that.ptest);
     async.map(
@@ -2181,8 +2183,8 @@ export class TestwerkzComponent implements OnInit {
     )
   }
   getSinglePd(_that,result,singlePD,callback){
-    console.log(result);
-    console.log(singlePD)
+    // console.log(result);
+    // console.log(singlePD)
     var pdIndex  = result.indexOf(singlePD)
     console.log(pdIndex);
     async.map(
@@ -2194,20 +2196,19 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getSinglePdDone(_that,error,result){
-
     console.log(result);
   }
 
   getQuestionArray(_that,questionArray,question,callback){
-    console.log(question, 'getQuestionArray function')
+    // console.log(question, 'getQuestionArray function')
     callback(null,question.questionId)
   }
   getgQuestionObject(_that,pdIndex,questionArray,error,result){
     if(error){
       console.error(error, 'error in getgQuestionObject function')
     }
-    console.log(questionArray);
-    console.log(result, 'getgQuestionObject function')
+    // console.log(questionArray);
+    // console.log(result, 'getgQuestionObject function')
     async.map(
       result,
       _that.getQuesById.bind(null,_that,pdIndex,result),
@@ -2219,7 +2220,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(pdIndex);
     console.log(result.indexOf(Id))
     _that._service.getQuesById(_that.regionID,Id).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       callback(null,res)
     },err => {
       console.error(err);
@@ -2233,7 +2234,7 @@ export class TestwerkzComponent implements OnInit {
       _that.performanceDemands = _that.ptest;
       console.log(_that.performanceDemands);
       _that.performanceDemands.map((pd,pdIndex) =>{
-        console.log(pd,pdIndex)
+        // console.log(pd,pdIndex)
         pd.questions.map((question,Qindex) => {
           console.log(question,Qindex)
           setTimeout(() => {
