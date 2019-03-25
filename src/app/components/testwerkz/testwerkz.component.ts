@@ -2117,7 +2117,7 @@ export class TestwerkzComponent implements OnInit {
 // WaiYan code Start(getSingleConcept)
   getSingleConcept(cID){
     const _that =this;
-   
+    _that.conceptEdit = true;
    
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       // console.log(res)
@@ -2133,7 +2133,6 @@ export class TestwerkzComponent implements OnInit {
       )  
       _that.conceptId = cID;
       _that.showSettingSidebar = false;
-      _that.conceptEdit = true;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
       setTimeout(() => {
