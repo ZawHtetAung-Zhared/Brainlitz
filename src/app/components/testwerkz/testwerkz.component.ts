@@ -1,4 +1,5 @@
-import { Input } from "@angular/core";
+import { element } from 'protractor';
+import { Input, ComponentFactoryResolver } from "@angular/core";
 // import { AppComponent } from "./../../app.component";
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
@@ -14,6 +15,7 @@ import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
 import { nsend } from "q";
 import { resolve } from "path";
+import { connect } from 'tls';
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -77,7 +79,7 @@ export class TestwerkzComponent implements OnInit {
   public isHover: boolean = false;
   public isCollapse : boolean = true;
   public markDownHtml_arr: any = [];
-  public settingContents : any = [];
+  public settingContents: any = [];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -112,6 +114,7 @@ export class TestwerkzComponent implements OnInit {
     name: "",
     id: ""
   };
+  public selectedDuration : any = {};
   public dragItem: any;
   public dragItemParent: any;
   public clickEle: any = "";
@@ -146,6 +149,13 @@ export class TestwerkzComponent implements OnInit {
     console.log(Promise);
     var turndownService = new TurndownService();
     // for div
+    this.dragulaService.cloned().subscribe(({name,clone,original})=>{
+      console.log(name,clone,original)
+      console.log($(original).children().children(".rmIcon"))
+      $(original).children().children(".rmIcon").css('display','none');
+    })  
+
+    
     turndownService.addRule("Tada", {
       filter: "div",
       replacement: function(content) {
@@ -161,6 +171,8 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists();
+
+
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log(this.dragItem);
@@ -614,6 +626,7 @@ export class TestwerkzComponent implements OnInit {
     // waiyan's code end
   }
   addPd() {
+    this.settingContents.push({contents : []})
     // this.pdLists.push({
     //   pdName: "",
     //   question: [
@@ -1091,21 +1104,30 @@ export class TestwerkzComponent implements OnInit {
       console.log(imgDiv);
       if ($(imgDiv).hasClass("highlight")) {
         $(imgDiv).removeClass("highlight");
+        console.log(circle , check)
         this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
+        circle.setAttribute(
+          "style",
+          "border: transparent; border-radius: 50%;width: 16px; height: 16px;position: absolute;background:transparent;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        );
+        check.setAttribute("style", "color:transparent;");
+        trash.setAttribute("style", "opacity: 0;");
+
       } else {
         $(imgDiv).addClass("highlight");
         this.selectedVideoArr.push(img);
+        trash.setAttribute("style", "opacity: 1;");
+        overlay.setAttribute(
+          "style",
+          "display:block;  background: rgba(0, 0, 0, .3);"
+        );
+        circle.setAttribute(
+          "style",
+          "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        );
+        check.setAttribute("style", "color:white;");
       }
-      trash.setAttribute("style", "opacity: 1;");
-      overlay.setAttribute(
-        "style",
-        "display:block;  background: rgba(0, 0, 0, .3);"
-      );
-      circle.setAttribute(
-        "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      );
-      check.setAttribute("style", "color:white;");
+
       console.log(this.selectedVideoArr);
     } else {
       if (this.isRemove) {
@@ -1438,8 +1460,21 @@ export class TestwerkzComponent implements OnInit {
       // },200)
     } else if (this.modelType == "video") {
       var contArr = this.performanceDemands[this.focusType.no].contents;
+ 
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
-      this.settingContents = this.settingContents.concat(this.selectedVideoArr)
+      for(var i in this.selectedVideoArr){
+
+        console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+        // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      }
+
+      this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      console.log(this.settingContents)
+      console.log(this.selectedVideoArr)
+      this.performanceDemands[this.focusType.no].contents.forEach(element => {
+        element.start = 0;
+        element.end = element.duration;
+      });
     } else {
       console.log("pd Insert Img======");
       var contArr = this.performanceDemands[this.focusType.no].contents;
@@ -1494,7 +1529,7 @@ export class TestwerkzComponent implements OnInit {
 
   showID: any;
   onFocus(type, idx1, idx2, idx3) {
-    this.settingContents = [];
+    // this.settingContents = [];
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
@@ -1514,14 +1549,14 @@ export class TestwerkzComponent implements OnInit {
         this.focusType.no = idx1;
         this.focusType.parentIdx = "";
         this.performanceDemands[idx1].showTooltip = true;
-        this.performanceDemands[idx1].contents.forEach(element => {
-          if(this.isVideo(element))
-            this.settingContents.push(element);
-        console.log(this.settingContents)
-        });
+        // this.performanceDemands[idx1].contents.forEach(element => {
+        //   if(this.isVideo(element))
+        //     this.settingContents[idx1].push(element);
+        // console.log(this.settingContents)
+        // });
         break;
       case "question":
-      if(this.focusType.no != idx2 || tempType != type)
+      if(this.focusType.no != idx2 || tempType != type || this.focusType.parentIdx != idx1) 
         this.isCollapse = true;
 
         this.showID = "q" + idx1 + idx2;
@@ -2501,19 +2536,38 @@ export class TestwerkzComponent implements OnInit {
   }
   onClickSettingArrow(e){
     console.log(e)
+    console.log(this.focusType)
     this.contentType = 'video';
     // if(this.isCollapse)
     //   this.getAllContent();
     this.isCollapse = !this.isCollapse;
-
+    console.log(this.settingContents)
   }
   onselectedVideoDiv(e,id,video){
-    $("#img-s-" + id).children("video").toggleClass("highlight-video");
-    if($("#img-s-" + id).children("video").hasClass("highlight-video")){
-      $("#img-s-" + id).children(".setting-trash").css('opacity','1');
 
-    }else
-    $("#img-s-" + id).children("i").css('opacity','0');
+    console.log(e)
+    if($(e.target).hasClass('duration')){
+
+    }else{
+      $(".vd").children("video").removeClass("highlight-video")
+      $(".duration-wrapper").hide();
+      console.log(this.focusType)
+      console.log(this.performanceDemands)
+      // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
+      // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
+      // // console.log(timeString)
+      // var res= timeString.split(":");
+      // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+      // video.start = 0;
+      $("#img-s-" + id).children(".duration-wrapper").show();
+      $("#img-s-" + id).children("video").toggleClass("highlight-video");
+      if($("#img-s-" + id).children("video").hasClass("highlight-video")){
+        $("#img-s-" + id).children(".setting-trash").css('opacity','1');
+  
+      }else
+      $("#img-s-" + id).children("i").css('opacity','0');
+    }
+    
   }
   onHoverVideoDiv(e,id){
     // console.log(id)
@@ -2530,7 +2584,7 @@ export class TestwerkzComponent implements OnInit {
       $(e.target).children(".setting-trash").css('opacity','0');
   }
   deleteSettingContents(i){
-    this.settingContents.splice(i, 1)
+    this.settingContents[this.focusType.no].contents.splice(i, 1)
     console.log(this.focusType)
     let videoArr = [];
 
@@ -2542,9 +2596,6 @@ export class TestwerkzComponent implements OnInit {
           videoArr.push(ind)
         }
       });
-      console.log(this.settingContents)
-      console.log(videoArr)
-      console.log(videoArr[i])
       var deleteId = videoArr[i]
       this.performanceDemands[this.focusType.no].contents.splice(deleteId, 1)
     }
