@@ -1070,7 +1070,7 @@ export class TestwerkzComponent implements OnInit {
             );
             gShowImag.setAttribute(
               "style",
-              "max-width:133px;max-height:130px;"
+              "max-width:130px;max-height:130px;"
             );
             circle.setAttribute(
               "style",
@@ -1188,7 +1188,7 @@ export class TestwerkzComponent implements OnInit {
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
       gShowImag.setAttribute(
         "style",
-        "max-width:133px;max-height:130px;"
+        "max-width:130px;max-height:130px;"
       );
       circle.setAttribute(
         "style",
