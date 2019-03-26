@@ -3,6 +3,13 @@
   <button class="btn btn-create" (click)="goToTestWerkz()"> Add new tag </button>
   <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
 </div> -->
+<!-- *ngIf="conceptCreate &&  greterThan  && conceptEdit"  -->
+<div *ngIf="greterThan && (conceptEdit || conceptCreate)"  class="d-flex w-100 align-items-center sticky-back-bar">
+  <div class="back-to d-flex"  (click)="backToTestWerkz()">
+    <i class="fa fa-angle-left"></i>
+    <p>Back</p>
+  </div>
+</div>
 <div *ngIf="conceptList" class="pdLR-15">
   <h2 class="testwerkzTitle pdLR-15 mt-3">TestWerkz</h2>
   <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3">
@@ -41,9 +48,10 @@
                     </div>
                     <div *ngIf="
                         content.type.substring(0, content.type.search('/')) ==
-                        'video'
-                      " class="imgWrap">
-                      <video src="{{ content.url }}" autoplay="false"></video>
+                        'video' "
+                      class="imgWrap"
+                    >
+                      <video src="{{ content.url }}"></video>
                     </div>
                   </div>
                 </div>

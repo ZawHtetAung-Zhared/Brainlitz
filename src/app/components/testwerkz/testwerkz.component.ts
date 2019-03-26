@@ -254,10 +254,10 @@ export class TestwerkzComponent implements OnInit {
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
-    if (window.innerWidth > 1366) {
+    if (window.innerWidth > 1200) {
       this.classCreate = true;
     }
-    if (window.innerWidth <= 1366) {
+    if (window.innerWidth <= 1200) {
       this.classCreate = false;
     }
   }
@@ -327,8 +327,30 @@ export class TestwerkzComponent implements OnInit {
     console.log(this.performanceDemands);
     this.showSettingSidebar = false;
     this.concept.name = "";
+    this.showHideSideBar('hide')
   }
-
+  showHideSideBar(type){
+    const notiSideBar: HTMLElement  = document.getElementById('noti-sidebar');
+    const header:HTMLElement = document.getElementById('header');
+    const header2:HTMLElement = document.getElementById('header2');
+    const largeCol:HTMLElement = document.getElementById('large-col');
+    if(type == 'hide'){
+      notiSideBar.setAttribute("style", "display:none;");
+      header.setAttribute("style", "display:none;");
+      header2.setAttribute("style", "display:none;");
+      largeCol.setAttribute("style", "width:100%!important;");
+    }else{
+      notiSideBar.setAttribute("style", "display:block;");
+      header.setAttribute("style", "display:block;");
+      header2.setAttribute("style", "display:block;");
+      if (window.innerWidth > 1200 && window.innerWidth < 1900) {
+        largeCol.setAttribute("style", "width:82%!important;");
+      }
+      if (window.innerWidth > 992 && window.innerWidth < 1199) {
+        largeCol.setAttribute("style", "width:75%!important;");
+      }
+    }
+  }
   getAllTag() {
     this.blockUI.start("Loading");
     this._service.getAllTags(this.regionID).subscribe(
@@ -419,18 +441,22 @@ export class TestwerkzComponent implements OnInit {
     this.pickedTag.id = val;
     this.pickedTag.name = name;
     console.log(this.performanceDemands);
-    if(this.pickedTag.state != ""){
-      console.log("not first time pick")
-      if(this.pickedTag.state == 'conceptCreate'){
-        this.conceptCreate = true;
-        this.addPd();
-      }else{
-        this.conceptEdit = true;
-      }
-    }else{
-      console.log("first time pick")
+    if((this.pickedTag.state != "" && this.pickedTag.state == 'conceptCreate') || this.pickedTag.state == ""){
       this.conceptCreate = true;
       this.addPd();
+    }else if(this.pickedTag.state != "" && this.pickedTag.state == 'conceptEdit'){
+      this.conceptEdit = true;
+      console.log(this.performanceDemands)
+      setTimeout(()=>{
+        var pd = this.performanceDemands;
+        for(var i=0;i<pd.length;i++){
+          for(var j=0;j<pd[i].questions.length;j++){
+            if(pd[i].questions[j].html){
+              document.getElementById("q-" + i + "-" + j).innerHTML = pd[i].questions[j].html.question;
+            }
+          }
+        }
+      },200)   
     }
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
@@ -441,6 +467,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
+    this.showHideSideBar('show')
     this.performanceDemands = [];
     this.ptest = [];
     this.conceptList = true;
@@ -1854,6 +1881,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   cancelConcept(type) {
+    this.showHideSideBar('show')
     this.conceptCreate = false;
     this.conceptEdit = false;
     this.testWerkzCategory = false;
@@ -2294,6 +2322,7 @@ export class TestwerkzComponent implements OnInit {
         _that.getPDbyID.bind(null,_that)
       )  
       _that.conceptId = cID;
+      this.showHideSideBar('hide')
       _that.showSettingSidebar = false;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
