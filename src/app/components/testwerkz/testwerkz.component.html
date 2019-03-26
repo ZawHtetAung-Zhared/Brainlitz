@@ -968,7 +968,7 @@
               <div
                 class="vd"
                 *ngFor="let video of settingContents[focusType.no].contents; let i = index"
-                (click)="onselectedVideoDiv($event, video._id, video)"
+                (click)="onselectedVideoDiv($event, i, video)"
                 (mouseenter)="onHoverVideoDiv($event, video._id)"
                 (mouseleave)="onHoverVideoDiv($event, video._id)"
                 id="img-s-{{ video._id }}"
@@ -1012,7 +1012,7 @@
                 <div
                   class="vd"
                   *ngFor="let video of settingContents[focusType.parentIdx].contents; let i = index"
-                  (click)="onselectedVideoDiv($event, video._id, video)"
+                  (click)="onselectedVideoDiv($event, i, video)"
                   (mouseenter)="onHoverVideoDiv($event, video._id)"
                   (mouseleave)="onHoverVideoDiv($event, video._id)"
                   id="img-s-{{ video._id }}"
@@ -1377,10 +1377,12 @@
           <div
             class="col-md-3 imgDiv"
             *ngFor="let video of videoArr; let i = index"
+            [class.disabled]="!video.duration"
           >
             <div
               class="inner-imgVideo"
               (click)="onslectedImgDiv(video._id, video)"
+              
               id="img-{{ video._id }}"
               (mouseenter)="onImgMouseEvent($event, video._id)"
               (mouseleave)="onImgMouseEvent($event, video._id)"
