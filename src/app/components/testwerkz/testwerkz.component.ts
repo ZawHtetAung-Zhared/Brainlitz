@@ -986,6 +986,7 @@ export class TestwerkzComponent implements OnInit {
     this.selectedVideoArr = [];
     this.contentPage=0;
     this.ImgArr=[];
+    this.isDisabelInsert=false;
   }
   public searchWord:any;
   public isSearch:any;
@@ -1155,6 +1156,11 @@ export class TestwerkzComponent implements OnInit {
         // console.log(img);
         this.selectedImgArr = img;
         this.imgIdArr = i;
+        console.log(imgDiv)
+        console.error( $(imgDiv).hasClass("addImgDivBorder"))
+        console.error(imgDiv.style.border == "solid");
+        this.isDisabelInsert = true;
+
         // if (this.imgId != undefined && this.imgId != i) {
         //   console.log(this.selectedImgArr);
         //   // this.removerSelected(this.imgId);
