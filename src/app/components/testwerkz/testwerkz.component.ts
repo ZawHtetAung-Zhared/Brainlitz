@@ -2097,15 +2097,18 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
+      _this.changeTimeFormat(contentObj,'asdasd')
       if(contentObj.duration){
         var tempVideoContentObj = {
           contentId: "",
           sequence: 0,
-          start: 0,
-          end: contentObj.duration,
+          start:0,
+          end: 0
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
