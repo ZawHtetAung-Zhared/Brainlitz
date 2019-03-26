@@ -2047,7 +2047,7 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     question.contents.map( (contentObj,index) => {
-      _this.changeTimeFormat(contentObj,'asdasd')
+      _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
         var tempVideoContentObj = {
           contentId: "",
@@ -2138,7 +2138,7 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
-      _this.changeTimeFormat(contentObj,'asdasd')
+      _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
         var tempVideoContentObj = {
           contentId: "",

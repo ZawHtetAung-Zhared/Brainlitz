@@ -4,10 +4,34 @@
   <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
 </div> -->
 <!-- *ngIf="conceptCreate &&  greterThan  && conceptEdit"  -->
-<div *ngIf="greterThan && (conceptEdit || conceptCreate)"  class="d-flex w-100 align-items-center sticky-back-bar">
-  <div class="back-to d-flex"  (click)="backToTestWerkz()">
+<div *ngIf="greterThan && (conceptEdit || conceptCreate)"  class="d-flex w-100 align-items-center justify-content-between sticky-back-bar">
+  <div class="back-to d-flex" *ngIf="!conceptEdit" (click)="backToTag('conceptCreate')">
     <i class="fa fa-angle-left"></i>
     <p>Back</p>
+  </div>
+  <div class="back-to d-flex" *ngIf="conceptEdit" (click)="backToTag('conceptEdit')">
+    <i class="fa fa-angle-left"></i>
+    <p>Back</p>
+  </div>
+  <div>
+    <div *ngIf="!conceptEdit"><h5 class="mb-0 create-title text-center">Create Concept</h5></div>
+    <div *ngIf="conceptEdit"><h5 class="mb-0 create-title text-center">Update Concept</h5></div>
+    <div class="d-flex flex-row concept_info ">
+      <p class="mb-0">tag</p><span class="dott">&#183;</span><p class="mb-0">{{ pickedTag.name }}</p>	
+    </div>
+  </div>
+  <div *ngIf="!conceptEdit" class="mr-2">
+    <div class="d-none">{{ validateForm() }}</div>
+    <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="createConcept()">
+      Create
+    </button>
+  </div>
+  <div *ngIf="conceptEdit" class="mr-2">
+    <div class="d-none">{{ validateForm() }}</div>
+    <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid"
+      (click)="updateConcept(conceptId)">
+      Update
+    </button>
   </div>
 </div>
 <div *ngIf="conceptList" class="pdLR-15">
