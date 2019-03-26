@@ -267,6 +267,7 @@
 					<div>
 						<div>
 							<span *ngFor="let d of days">
+								{{selectedDay.indexOf(d.val)}}
 								<label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
 									<!-- <span><i class="fa fa-check"></i></span> -->
 									<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
@@ -274,7 +275,7 @@
 									
 					                <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1">
 					                <div class="box-label">{{d.day}}</div>
-					            </label>
+					      </label>
 							</span>
 						</div>
 					</div>

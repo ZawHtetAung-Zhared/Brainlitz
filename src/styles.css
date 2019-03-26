@@ -148,7 +148,7 @@ main {
 }
 
 .modal-xl .modal-body {
-  padding: 16px 32px 32px 32px !important;
+  padding: 16px 32px 6px 32px !important;
 }
 
 .deleteModal .modal-dialog {
