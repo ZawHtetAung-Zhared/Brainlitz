@@ -1669,7 +1669,26 @@ div.pdLine-wrap:last-child {
   background: white;
   height: 80.35px
 }
+.create-title{
+  font-size: 16px;
+  color: #2e3e4d;
+  cursor: pointer;
+  font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 
+}
+.concept_info p{
+  color: #64707d;
+  font-size: 14px;
+  line-height: 1.7
+}
+.dott {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #788796;
+  font-size: 30px;
+  margin-top: -13px;
+}
 @media only screen and (min-width: 900px){
   .pd-blog{
       min-width: 560px!important;
