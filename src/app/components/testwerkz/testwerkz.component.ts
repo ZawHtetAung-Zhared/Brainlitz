@@ -93,7 +93,8 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any = [];
+  public content_size:any;
+  public contentArr:any=[];
   public classCreate = false;
   public regionID = localStorage.getItem("regionId");
   public tagsWerkzList = [];
@@ -126,6 +127,7 @@ export class TestwerkzComponent implements OnInit {
   public focusPlace: any;
   public conceptsObj: any = {};
   public contentPage: number = 1;
+  public contentRes:any=[];
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -884,7 +886,7 @@ export class TestwerkzComponent implements OnInit {
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
     this.contentPage=1;
-    this.getAllContent(this.contentPage,20);
+    this.getAllContent(this.contentPage,20,'');
   }
   openVideoModal(content) {
     // $(t).blur();
@@ -897,7 +899,8 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "video-modal modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent(1,20);
+    this.contentPage=1;
+    this.getAllContent(1,20,'');
   }
   answerOpenImgModal(content, type, i, j, index) {
     console.log("open modal>", type);
@@ -911,7 +914,7 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent(1,20);
+    this.getAllContent(1,20,'');
   }
 
   cancelModal() {
@@ -923,23 +926,45 @@ export class TestwerkzComponent implements OnInit {
     this.contentPage=0;
     this.ImgArr=[];
   }
-
+  public searchWord:any;
+  public isSearch:any;
+  public result:any;
+  contentSearch(keyword){
+    this.searchWord = keyword;
+    this.getAllContent(1,20,keyword)
+  }
+  showMoreVideo(){
+    this.contentPage += 1;
+    if(this.isSearch == true){
+      this.getAllContent(this.contentPage,20,this.searchWord)
+    }else{
+      this.getAllContent(this.contentPage,20,'')
+    }
+  }
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
-  getAllContent(page,size) {
+  getAllContent(page,size,keyword) {
     // this.ImgArr = [];
-    this.videoArr = [];
+    // this.videoArr = [];
    console.error(page,size)
     console.log(this.contentType)
+    var isFirst;
+    if(page === 1){
+      isFirst = true;
+    }else{
+      isFirst = false;
+    }
     this.blockUI.start("Loading...");
-    console.log(this.ImgArr)
+    // console.log(this.ImgArr)
        return new Promise((resolve, reject) => {
-      this._service.getContent(this.regionID,page,size,this.contentType).subscribe(
+      this._service.getContent(this.regionID,page,size,keyword,this.contentType).subscribe(
         (res: any) => {
-          console.error(res);
+          this.result = res;
+          // console.error(res);
+          this.contentRes=res;
           if(res.length > 0){
-            this.contentArr = res;
-            console.log(this.contentArr)
+            this.contentArr=res;
+            this.content_size=size;
             for (var i = 0; i < res.length; i++) {
               if (this.contentType == "image") {
                 if (
@@ -949,14 +974,28 @@ export class TestwerkzComponent implements OnInit {
                 ) {
                   this.ImgArr.push(res[i]);
                 }
-              } else this.videoArr.push(res[i]);
+              } else {
+              }
             }
-            this.tempContentArr.push(this.ImgArr);
+            this.tempContentArr=this.ImgArr;
             console.log(this.videoArr);
             resolve();
           }else{
             console.log(this.ImgArr)
             this.ImgArr=this.ImgArr;
+          }
+
+          if (isFirst == true) {
+            this.videoArr = res;
+            this.isSearch = true;
+            this.contentPage = 1;
+            console.log(this.videoArr,'first time searching');
+          }else{
+            this.isSearch = false;
+            res.map(content => {
+              this.videoArr.push(content)
+            })
+            console.log(this.videoArr,'not first time searching');
           }
           this.blockUI.stop();
         },
@@ -966,14 +1005,13 @@ export class TestwerkzComponent implements OnInit {
       );
     });
 
-   
   }
 
   showMoreContent(length){
     this.contentPage+=1;
     console.log(this.contentPage)
     console.log(this.ImgArr)
-    this.getAllContent(this.contentPage,20);
+    this.getAllContent(this.contentPage,20,'');
     console.log(length)
   }
   //image upload
@@ -990,30 +1028,25 @@ export class TestwerkzComponent implements OnInit {
     // console.log(canvas1)
   }
   onloadImg(event, ele?) {
-    // console.log("hello", this.isDrop);
-   let l=0;
-    // console.error(this.contentPage)
     if (this.isDrop) {
       var file = event;
       this.isDrop = false;
-      l=event.length;
     } else {
       var file = event.target.files;
-      l=event.target.files.length;
     }
-    console.log(this.ImgArr.length +l);
+    // console.error(this.contentPage)
+    // console.error(this.selectedImgArr);
+    // console.error(20*this.contentPage)
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
         //getAllContent() use pormise because of html create value after use in ts
         this.ImgArr=[];
-        for(let i=1;i<=this.contentPage;i++){
-          this.getAllContent(i,20).then(() => {
+          this.getAllContent(1,20*this.contentPage,'').then(() => {
             setTimeout(() => {
               this.autoSelectedImg(res.meta);
             }, 300);
           });
-        }
       
         this.blockUI.stop();
       },
@@ -1025,10 +1058,14 @@ export class TestwerkzComponent implements OnInit {
 
   //this is use for autoselected when upload finish or deleted finsih (this is only selected previous selection image after upload)
   autoSelectedImg(resturnobj) {
-    console.log(this.modelType);
-    console.log(this.selectedImgArr);
-    for (var i = 0; i < resturnobj.length; i++) {
-      for (var j = 0; j < this.tempContentArr.length; j++) {
+    // console.log(this.modelType);
+    // console.log(this.selectedImgArr);
+    // console.log(resturnobj);
+    // console.log(this.tempContentArr)
+    for (let i = 0; i < resturnobj.length; i++) {
+      for (let j = 0; j < this.tempContentArr.length; j++) {
+        // console.log(resturnobj[i]._id )
+        // console.log(this.tempContentArr[j]._id)
         if (resturnobj[i]._id == this.tempContentArr[j]._id) {
           this.onslectedImgDiv(
             this.tempContentArr[j]._id,
@@ -1043,6 +1080,7 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
+    console.log(i,img)
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
@@ -1190,9 +1228,7 @@ export class TestwerkzComponent implements OnInit {
 
   //this is use for selected image value loop
   autoImgLoop(arr) {
-    console.log(arr);
     for (var i = 0; i < arr.length; i++) {
-      console.log(arr[i]);
       const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
       const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
       const check: HTMLElement = document.getElementById("check" + arr[i]);
@@ -1204,9 +1240,7 @@ export class TestwerkzComponent implements OnInit {
       const trashdiv: HTMLElement = document.getElementById(
         "trashdiv-" + arr[i]
       );
-      console.log(imgDiv);
-      console.log(circle);
-      console.log(check);
+
       imgDiv.setAttribute("style", "border:solid;color:#007fff;");
       gShowImag.setAttribute(
         "style",
@@ -1266,20 +1300,15 @@ export class TestwerkzComponent implements OnInit {
     console.log(id);
     this.ImgArr=[];
     this.isRemove = true;
-    console.log(this.contentPage)
+    // console.error(this.contentPage*20)
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
         // console.log(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
-        for(let i=1;i<=this.contentPage;i++){
-          console.log(i);
-          this.getAllContent(i,20).then(() => {
-            // console.log("here me>", res);
+          this.getAllContent(1,(20*this.contentPage),'').then(() => {
             setTimeout(() => {
-              // console.log(this.selectedImgArr);
-              // console.log(this.imgIdArr);
               if (this.modelType == "multiple") {
                 this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
                 this.autoImgLoop(this.imgIdArr);
@@ -1288,8 +1317,6 @@ export class TestwerkzComponent implements OnInit {
               }
             }, 300);
           });
-        }
-  
       },
       err => {
         console.log(err);
