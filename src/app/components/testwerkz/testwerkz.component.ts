@@ -1594,8 +1594,8 @@ export class TestwerkzComponent implements OnInit {
       // },200)
     } else if (this.modelType == "video") {
       var contArr = this.performanceDemands[this.focusType.no].contents;
- 
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
+      console.log("contArr",contArr);
       // for(var i in this.selectedVideoArr){
 
       //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
@@ -2636,7 +2636,12 @@ export class TestwerkzComponent implements OnInit {
         contentId: "",
         sequence: 0
       };
-      tempContentObj.contentId = contentObj._id;
+      console.log("###############contentObj._id",contentObj._id);
+      if(contentObj._id == undefined){
+        tempContentObj.contentId = contentObj.contentId;
+      }else{
+        tempContentObj.contentId = contentObj._id;
+      }
       tempContentObj.sequence = ++index;
       tempContentArray.push(tempContentObj);
     });

@@ -49,8 +49,9 @@
                     <div *ngIf="
                         content.type.substring(0, content.type.search('/')) ==
                         'video' "
-                      class="imgWrap"
+                      class="vidWrap"
                     >
+                      <img src="/assets/img/play-16-x-16.png">
                       <video src="{{ content.url }}"></video>
                     </div>
                   </div>

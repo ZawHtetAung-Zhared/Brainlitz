@@ -1585,7 +1585,7 @@ div.pdLine-wrap:last-child {
   border-bottom: none;
 }
 
-.imgWrap {
+.imgWrap,.vidWrap {
   width: 100px;
   height: 100px;
   display: flex;
@@ -1594,8 +1594,18 @@ div.pdLine-wrap:last-child {
   background: #f2f4f5;
 }
 
+.vidWrap{
+  position: relative;
+}
+
+.vidWrap img{
+  position: absolute;
+  bottom: 15px;
+  left: 5px;
+}
+
 .imgWrap img,
-.imgWrap video {
+.vidWrap video {
   max-width: 100px;
   max-height: 100px;
 }
