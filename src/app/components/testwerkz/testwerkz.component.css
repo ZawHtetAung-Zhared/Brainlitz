@@ -1016,6 +1016,7 @@ i.fa.fa-trash {
 
 .d-flex.drop_zone_middle_eixtData {
   width: 912px;
+  /* width: 957px; */
   height: 160px;
   border: dashed 2px #d4d5d6;
   padding: 32px 0px 32px 150px;
@@ -1076,7 +1077,7 @@ p.g_title {
 
 .row.imgGp {
   overflow: overlay;
-  max-height: 400px;
+  max-height: 340px;
 }
 
 .imgDiv {
@@ -1630,3 +1631,24 @@ div.pdLine-wrap:last-child {
   cursor: pointer;
 }
 
+.input-search-bg:focus,.btn-design:focus{
+  outline: none!important;
+  box-shadow: none!important;
+}
+.btn-design:active{
+  color: #788796!important;
+  background-color: #f2f4f5!important;
+  border: none!important;
+}
+.video-pick{
+  width: 131px;
+  height: 32px;
+  border-radius: 17px;
+  background: #cce6ff;
+
+}
+.slected-content-text{
+  color: #004080;
+  font-family: 'InterUI-Medium',Arial, Helvetica;
+  font-size: 14px;
+}
