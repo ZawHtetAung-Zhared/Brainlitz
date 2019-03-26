@@ -60,7 +60,11 @@ export class TestwerkzComponent implements OnInit {
   public item: any = {};
   public editValue: any;
   public ischecked: any;
-  public tagID: any;
+  public pickedTag: any = {
+    "id": "",
+    "name": "",
+    "state": ""
+  };
   public goBackCat = false;
   public wordLength: any;
   public navIsFixed: boolean = false;
@@ -128,6 +132,7 @@ export class TestwerkzComponent implements OnInit {
   public conceptsObj: any = {};
   public contentPage: number = 1;
   public contentRes:any=[];
+
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -171,7 +176,10 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists();
-
+    console.log(this.focusType = {
+      'no' : 0,
+      'type' : 'pd'
+    })
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
@@ -246,10 +254,10 @@ export class TestwerkzComponent implements OnInit {
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
-    if (window.innerWidth > 1366) {
+    if (window.innerWidth > 1200) {
       this.classCreate = true;
     }
-    if (window.innerWidth <= 1366) {
+    if (window.innerWidth <= 1200) {
       this.classCreate = false;
     }
   }
@@ -319,8 +327,30 @@ export class TestwerkzComponent implements OnInit {
     console.log(this.performanceDemands);
     this.showSettingSidebar = false;
     this.concept.name = "";
+    this.showHideSideBar('hide')
   }
-
+  showHideSideBar(type){
+    const notiSideBar: HTMLElement  = document.getElementById('noti-sidebar');
+    const header:HTMLElement = document.getElementById('header');
+    const header2:HTMLElement = document.getElementById('header2');
+    const largeCol:HTMLElement = document.getElementById('large-col');
+    if(type == 'hide'){
+      notiSideBar.setAttribute("style", "display:none;");
+      header.setAttribute("style", "display:none;");
+      header2.setAttribute("style", "display:none;");
+      largeCol.setAttribute("style", "width:100%!important;");
+    }else{
+      notiSideBar.setAttribute("style", "display:block;");
+      header.setAttribute("style", "display:block;");
+      header2.setAttribute("style", "display:block;");
+      if (window.innerWidth > 1200 && window.innerWidth < 1900) {
+        largeCol.setAttribute("style", "width:82%!important;");
+      }
+      if (window.innerWidth > 992 && window.innerWidth < 1199) {
+        largeCol.setAttribute("style", "width:75%!important;");
+      }
+    }
+  }
   getAllTag() {
     this.blockUI.start("Loading");
     this._service.getAllTags(this.regionID).subscribe(
@@ -405,12 +435,29 @@ export class TestwerkzComponent implements OnInit {
 
   somethingChanged(val, name) {
     console.log("hi", val);
-    this.conceptCreate = true;
+    // this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
-    this.tagID = val;
-    this.addPd();
+    this.pickedTag.id = val;
+    this.pickedTag.name = name;
     console.log(this.performanceDemands);
+    if((this.pickedTag.state != "" && this.pickedTag.state == 'conceptCreate') || this.pickedTag.state == ""){
+      this.conceptCreate = true;
+      this.addPd();
+    }else if(this.pickedTag.state != "" && this.pickedTag.state == 'conceptEdit'){
+      this.conceptEdit = true;
+      console.log(this.performanceDemands)
+      setTimeout(()=>{
+        var pd = this.performanceDemands;
+        for(var i=0;i<pd.length;i++){
+          for(var j=0;j<pd[i].questions.length;j++){
+            if(pd[i].questions[j].html){
+              document.getElementById("q-" + i + "-" + j).innerHTML = pd[i].questions[j].html.question;
+            }
+          }
+        }
+      },200)   
+    }
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
@@ -420,6 +467,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
+    this.showHideSideBar('show')
     this.performanceDemands = [];
     this.ptest = [];
     this.conceptList = true;
@@ -427,13 +475,26 @@ export class TestwerkzComponent implements OnInit {
     this.testWerkzCategory = false;
     this.conceptEdit = false;
     this.videoArr = [];
+    this.pickedTag = {
+      "id": "",
+      "name": "",
+      "state": ""
+    };
+    this.ischecked = "";
   }
-  backToTestWerkz() {
+  backToTag(type) {
+    console.log("TYPE~~~",type)
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit = false;
-    this.performanceDemands = [];
+    if(type == 'conceptCreate'){
+      this.performanceDemands = [];
+      this.pickedTag.state = "conceptCreate"
+    }else{
+      this.pickedTag.state = "conceptEdit"
+    }
+    // this.performanceDemands = [];
   }
   edit() {
     this.isEditComplete = true;
@@ -587,13 +648,13 @@ export class TestwerkzComponent implements OnInit {
       pickMultiple: false,
       viewType: "LIST",
       contents: [
-        {
-          contentId: "",
-          sequence: 0,
-          start: 0,
-          end: 0,
-          playAt: "BEFORE"
-        }
+        // {
+        //   contentId: "",
+        //   sequence: 0,
+        //   start: 0,
+        //   end: 0,
+        //   playAt: "BEFORE"
+        // }
       ],
       answers: [
         {
@@ -626,7 +687,6 @@ export class TestwerkzComponent implements OnInit {
     // waiyan's code end
   }
   addPd() {
-    this.settingContents.push({contents : []})
     // this.pdLists.push({
     //   pdName: "",
     //   question: [
@@ -653,13 +713,13 @@ export class TestwerkzComponent implements OnInit {
           allowedAttempts: 0,
           viewType: "LIST",
           contents: [
-            {
-              contentId: "",
-              sequence: 0,
-              start: 0,
-              end: 0,
-              playAt: "BEFORE"
-            }
+            // {
+            //   contentId: "",
+            //   sequence: 0,
+            //   start: 0,
+            //   end: 0,
+            //   playAt: "BEFORE"
+            // }
           ],
           name: "",
           description: "",
@@ -903,6 +963,7 @@ export class TestwerkzComponent implements OnInit {
     this.getAllContent(1,20,'');
   }
   answerOpenImgModal(content, type, i, j, index) {
+    this.contentType = "image";
     console.log("open modal>", type);
     this.pdIndex = i;
     this.questionIndex = j;
@@ -1019,7 +1080,7 @@ export class TestwerkzComponent implements OnInit {
     console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
     console.log(this.videoArr);
-
+    return true;
     // var canvas1 = document.getElementById('canvas-' + id);
     // var ctx = canvas1.getContext('2d');
     // var video :any = e.target;
@@ -1408,11 +1469,53 @@ export class TestwerkzComponent implements OnInit {
       } else return false;
     }
   }
+  changeTimeFormat(element , type){
+    if(this.isVideo(element)){
+      if(type == 'toString'){
+        element.start = 0;
+        var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        var res= timeString.split(":");
+        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        res= timeString.split(":");
+        element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    }
+    else{
+      let res = element.start.split(" ");
+      let total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+      element.start = total;
+
+      res =  element.end.split(" ");
+      total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+      element.end  = total;
+    }
+    }
+  
+    
+  }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
     console.log(inImageWrapper);
     console.log("editableID", this.editableId);
-    if (this.editableId != "") {
+    if(this.editableId != "" && this.modelType == 'video'){
+      console.log("----------" , this.focusType)
+      var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents;
+ 
+      Array.prototype.push.apply(contArr, this.selectedVideoArr);
+      // for(var i in this.selectedVideoArr){
+
+      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      // }
+
+      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.forEach(element => {
+        this.changeTimeFormat(element,'toString');
+      });
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].showVideo = true;
+      console.log(this.performanceDemands)
+    }
+    else if (this.editableId != "") {
       var res = this.editableId.split("-");
       console.log("question ===== insert img");
       var imgWrapperId = "img-" + ++res[1] + "-" + new Date().getTime();
@@ -1501,19 +1604,28 @@ export class TestwerkzComponent implements OnInit {
       var contArr = this.performanceDemands[this.focusType.no].contents;
  
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
-      for(var i in this.selectedVideoArr){
+      // for(var i in this.selectedVideoArr){
 
-        console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
-        // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
-      }
+      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      // }
 
-      this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
       console.log(this.settingContents)
       console.log(this.selectedVideoArr)
       this.performanceDemands[this.focusType.no].contents.forEach(element => {
-        element.start = 0;
-        element.end = element.duration;
+        this.changeTimeFormat(element,'toString')
+        // element.start = 0;
+        // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        // var res= timeString.split(":");
+        // element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        // res= timeString.split(":");
+        // element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // element.start = 0;
+        // element.end = element.duration;
       });
+      console.log(this.performanceDemands);
     } else {
       console.log("pd Insert Img======");
       var contArr = this.performanceDemands[this.focusType.no].contents;
@@ -1525,10 +1637,16 @@ export class TestwerkzComponent implements OnInit {
   }
 
   mouseOver(e, idx) {
+    console.log(e,idx)
     // console.log(e.target.className);
     // console.log("over ");
     // console.log($(event.target).children(".img-pd"));
     // console.log($(event.target).siblings(".img-pd"));
+    if ($(e.target).hasClass("question-vd")) {
+      $(e.target)
+        .children(".img-pd")
+        .show();
+    }
     if ($(e.target).hasClass("editablePDImg")) {
       $(e.target)
         .siblings(".img-pd")
@@ -1541,6 +1659,8 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   mouseOut(event) {
+    console.log(event.offsetX , event.offsetY)
+    console.log(event.target)
     if (event.offsetX >= 119 || event.offsetX < 0) {
       if ($(event.target).hasClass("editablePDImg")) {
         $(event.target)
@@ -1564,6 +1684,7 @@ export class TestwerkzComponent implements OnInit {
           .hide();
       }
     } else console.log("out but not out", this.showRMIcon);
+
   }
 
   showID: any;
@@ -1765,6 +1886,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   cancelConcept(type) {
+    this.showHideSideBar('show')
     this.conceptCreate = false;
     this.conceptEdit = false;
     this.testWerkzCategory = false;
@@ -1778,6 +1900,11 @@ export class TestwerkzComponent implements OnInit {
     this.ischecked = "";
     this.performanceDemands = [];
     this.ptest = [];
+    this.pickedTag = {
+      "id": "",
+      "name": "",
+      "state": ""
+    };
     if (type == "redirect") {
       this.getConceptLists();
     }
@@ -1895,7 +2022,7 @@ export class TestwerkzComponent implements OnInit {
   }
   createQuestions(_this, pd, question, callback) {
     // Update quesiton object and pass it to api
-    const testArr = [];
+    const tempArr = [];
     const questionFormat = {
       name: "",
       description: "",
@@ -1918,6 +2045,32 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
+    const tempContentArray = [];
+    question.contents.map( (contentObj,index) => {
+      _this.changeTimeFormat(contentObj,'asdasd')
+      if(contentObj.duration){
+        var tempVideoContentObj = {
+          contentId: "",
+          sequence: 0,
+          start:0,
+          end: 0
+        };
+        tempVideoContentObj.contentId = contentObj._id;
+        tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
+        tempContentArray.push(tempVideoContentObj);
+      }else{
+        var tempImgContentObj = {
+          contentId: "",
+          sequence: 0,
+        };
+        tempImgContentObj.contentId = contentObj._id;
+        tempImgContentObj.sequence = ++index;
+        tempContentArray.push(tempImgContentObj);
+      }
+    })
+
     question.answers.map(answer => {
       var tempObj = {
         name: "",
@@ -1931,13 +2084,16 @@ export class TestwerkzComponent implements OnInit {
       tempObj.imgUrl = answer.imgUrl;
       tempObj.correctness = answer.correctness;
       console.log(tempObj);
-      testArr.push(tempObj);
-      console.log(testArr);
+      tempArr.push(tempObj);
+      console.log(tempArr);
+      
     });
-    questionFormat.answers = testArr;
+    
+    questionFormat.answers = tempArr;
     questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
+    questionFormat.contents = tempContentArray;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
         console.log(res);
@@ -1982,15 +2138,18 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
+      _this.changeTimeFormat(contentObj,'asdasd')
       if(contentObj.duration){
         var tempVideoContentObj = {
           contentId: "",
           sequence: 0,
-          start: 0,
-          end: contentObj.duration,
+          start:0,
+          end: 0
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2048,7 +2207,7 @@ export class TestwerkzComponent implements OnInit {
       name: this.concept.name,
       tag: [
         {
-          tagId: this.tagID
+          tagId: this.pickedTag.id
         }
       ],
       pd: [],
@@ -2184,13 +2343,15 @@ export class TestwerkzComponent implements OnInit {
   getSingleConcept(cID){
     const _that =this;
     _that.conceptEdit = true;
-   
+   _that.getAllTag();
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
-      // console.log(res)
+      console.log("SingleConcept",res)
       _that.conceptsObj = res;
       _that.concept.name = res.name;  
       _that.concept.id = res._id; 
-      _that.tagID = res.tag[0].tagId;
+      _that.pickedTag.id = res.tag[0].tagId;
+      _that.pickedTag.name = res.tag[0].name;
+      _that.ischecked = res.tag[0].tagId;
       _that.blockUI.start('Loading') 
       async.map(
         res.pd, 
@@ -2198,6 +2359,7 @@ export class TestwerkzComponent implements OnInit {
         _that.getPDbyID.bind(null,_that)
       )  
       _that.conceptId = cID;
+      this.showHideSideBar('hide')
       _that.showSettingSidebar = false;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
@@ -2375,7 +2537,7 @@ export class TestwerkzComponent implements OnInit {
       name: this.concept.name,
       tag: [
         {
-          tagId: this.tagID
+          tagId: this.pickedTag.id
         }
       ],
       pd: [],
@@ -2576,15 +2738,13 @@ export class TestwerkzComponent implements OnInit {
   onClickSettingArrow(e){
     console.log(e)
     console.log(this.focusType)
+    console.log(this.performanceDemands)
     this.contentType = 'video';
     // if(this.isCollapse)
     //   this.getAllContent();
     this.isCollapse = !this.isCollapse;
-    console.log(this.settingContents)
   }
   onselectedVideoDiv(e,id,video){
-
-    console.log(e)
     if($(e.target).hasClass('duration')){
 
     }else{
@@ -2592,19 +2752,20 @@ export class TestwerkzComponent implements OnInit {
       $(".duration-wrapper").hide();
       console.log(this.focusType)
       console.log(this.performanceDemands)
+      var videoDiv = $(e.target).parents(".vd");
       // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
       // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
       // // console.log(timeString)
       // var res= timeString.split(":");
       // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
       // video.start = 0;
-      $("#img-s-" + id).children(".duration-wrapper").show();
-      $("#img-s-" + id).children("video").toggleClass("highlight-video");
-      if($("#img-s-" + id).children("video").hasClass("highlight-video")){
-        $("#img-s-" + id).children(".setting-trash").css('opacity','1');
-  
+      videoDiv.children(".duration-wrapper").show();
+      videoDiv.children("video").toggleClass("highlight-video");
+      if(videoDiv.children("video").hasClass("highlight-video")){
+        videoDiv.children(".setting-trash").css('opacity','1');
+        
       }else
-      $("#img-s-" + id).children("i").css('opacity','0');
+      videoDiv.children("i").css('opacity','0');
     }
     
   }
@@ -2623,10 +2784,10 @@ export class TestwerkzComponent implements OnInit {
       $(e.target).children(".setting-trash").css('opacity','0');
   }
   deleteSettingContents(i){
-    this.settingContents[this.focusType.no].contents.splice(i, 1)
-    console.log(this.focusType)
+    // this.settingContents[this.focusType.no].contents.splice(i, 1)
+    // console.log(this.focusType)
     let videoArr = [];
-
+    console.log(i)
     if(this.focusType.type == 'pd'){
       console.log(this.performanceDemands[this.focusType.no])
       this.performanceDemands[this.focusType.no].contents.forEach((element,ind) => {
@@ -2638,5 +2799,13 @@ export class TestwerkzComponent implements OnInit {
       var deleteId = videoArr[i]
       this.performanceDemands[this.focusType.no].contents.splice(deleteId, 1)
     }
+    else if(this.focusType.type == 'question'){
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
+
+    }
+  }
+  removeQuestionVideo(video , i){
+    console.log(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no])
+    this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
   }
 }
