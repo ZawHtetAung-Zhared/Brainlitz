@@ -107,7 +107,7 @@
       <div class="mr-auto p-2 pl-0 pb-0" (click)="backToList()">
         <div class="back-to d-flex">
           <i class="fa fa-angle-left"></i>
-          <p>Back</p>
+          <p>TestWerkz</p>
         </div>
       </div>
       <div class="pr-5">
@@ -302,24 +302,23 @@
           <div class="createForm-wrap">
             <div
               class="mr-auto p-2 pl-0 pb-0"
-              (click)="backToTestWerkz()"
-              *ngIf="conceptCreate"
-            >
+              (click)="backToTag('conceptCreate')" *ngIf="!conceptEdit">
               <div class="back-to pt-2 d-flex">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p>Pick tag</p>
               </div>
             </div>
             <div
               class="mr-auto p-2 pl-0 pb-0"
-              (click)="backToList()"
+              (click)="backToTag('conceptEdit')"
               *ngIf="conceptEdit"
             >
               <div class="back-to pt-2 d-flex">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p>Pick tag</p>
               </div>
             </div>
+            <label class="inform-text mb-0 mt-2">#{{ pickedTag.name }}</label>
             <h3 class="assessment-title" *ngIf="conceptCreate">
               Creating Concept
             </h3>
