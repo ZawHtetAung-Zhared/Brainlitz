@@ -441,18 +441,22 @@ export class TestwerkzComponent implements OnInit {
     this.pickedTag.id = val;
     this.pickedTag.name = name;
     console.log(this.performanceDemands);
-    if(this.pickedTag.state != ""){
-      console.log("not first time pick")
-      if(this.pickedTag.state == 'conceptCreate'){
-        this.conceptCreate = true;
-        this.addPd();
-      }else{
-        this.conceptEdit = true;
-      }
-    }else{
-      console.log("first time pick")
+    if((this.pickedTag.state != "" && this.pickedTag.state == 'conceptCreate') || this.pickedTag.state == ""){
       this.conceptCreate = true;
       this.addPd();
+    }else if(this.pickedTag.state != "" && this.pickedTag.state == 'conceptEdit'){
+      this.conceptEdit = true;
+      console.log(this.performanceDemands)
+      setTimeout(()=>{
+        var pd = this.performanceDemands;
+        for(var i=0;i<pd.length;i++){
+          for(var j=0;j<pd[i].questions.length;j++){
+            if(pd[i].questions[j].html){
+              document.getElementById("q-" + i + "-" + j).innerHTML = pd[i].questions[j].html.question;
+            }
+          }
+        }
+      },200)   
     }
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
@@ -1461,14 +1465,15 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
-    if(type == 'toString'){
-      element.start = 0;
-      var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-      var res= timeString.split(":");
-      element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-      timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
-      res= timeString.split(":");
-      element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    if(this.isVideo(element)){
+      if(type == 'toString'){
+        element.start = 0;
+        var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        var res= timeString.split(":");
+        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        res= timeString.split(":");
+        element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
     }
     else{
       let res = element.start.split(" ");
@@ -1479,6 +1484,8 @@ export class TestwerkzComponent implements OnInit {
       total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
       element.end  = total;
     }
+    }
+  
     
   }
   insertImg() {

@@ -1657,6 +1657,9 @@ div.pdLine-wrap:last-child {
   font-family: 'InterUI-Medium',Arial, Helvetica;
   font-size: 14px;
 }
+.question-vd .play-img {
+  left:12px !important;
+}
 .sticky-back-bar{
   position: fixed;
   left: 0;

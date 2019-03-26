@@ -48,9 +48,10 @@
                     </div>
                     <div *ngIf="
                         content.type.substring(0, content.type.search('/')) ==
-                        'video'
-                      " class="imgWrap">
-                      <video src="{{ content.url }}" autoplay="false"></video>
+                        'video' "
+                      class="imgWrap"
+                    >
+                      <video src="{{ content.url }}"></video>
                     </div>
                   </div>
                 </div>
