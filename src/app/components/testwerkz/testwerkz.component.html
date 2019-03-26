@@ -1205,29 +1205,31 @@
           />
         </div>
       </div>
+
       <div class="d-flex flex-column gallery">
         <p class="g_title">Image gallery</p>
         <div class="row imgGp">
           <div
             class="col-md-2 imgDiv"
-            *ngFor="let img of ImgArr; let i = index"
+            *ngFor="let img of ImgArr; let i = index"  
           >
+          <!-- {{ imgIdArr.indexOf(img._id)}} -->
             <div
-              class="d-flex justify-content-center align-items-center inner-imgDiv"
+              class="d-flex justify-content-center align-items-center inner-imgDiv" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
               (click)="onslectedImgDiv(img._id, img)"
               id="img-{{ img._id }}"
               (mouseenter)="onImgMouseEvent($event, img._id)"
               (mouseleave)="onImgMouseEvent($event, img._id)"
             >
-              <div id="cricle{{ img._id }}">
+              <div id="cricle{{ img._id }}" [ngClass]="{'iconCheck': imgIdArr.indexOf(img._id) != -1}">
                 <i
                   _ngcontent-c1=""
                   class="fa fa-check"
-                  id="check{{ img._id }}"
+                  id="check{{ img._id }}"  [ngClass]="{'check': imgIdArr.indexOf(img._id) != -1}"
                 ></i>
               </div>
               <div
-                (click)="onremoveClick(img._id)"
+                (click)="onremoveClick(img._id)" [ngClass]="{'trashdivClass': imgIdArr.indexOf(img._id) != -1}"
                 id="trashdiv-{{ img._id }}"
                 class="trashDiv"
               >
@@ -1237,7 +1239,7 @@
                   id="trash{{ img._id }}"
                 ></i>
               </div>
-              <img src="{{ img.url }}" class="gShowImag" id="gShowImag-{{ img._id }}" />
+              <img src="{{ img.url }}" class="gShowImag" id="gShowImag-{{ img._id }}"  [ngClass]="{'addgshwoImg': imgIdArr.indexOf(img._id) != -1}"/>
               <div class="Imgoverlay" id="Imgoverlay{{ img._id }}"></div>
             </div>
           </div>

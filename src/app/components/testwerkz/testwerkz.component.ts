@@ -946,7 +946,7 @@ export class TestwerkzComponent implements OnInit {
   getAllContent(page,size,keyword) {
     // this.ImgArr = [];
     // this.videoArr = [];
-   console.error(page,size)
+  //  console.error(page,size)
     var isFirst;
     if(page === 1){
       isFirst = true;
@@ -1079,7 +1079,8 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
-    console.log(i,img)
+    // console.log(i,img)
+    // console.error(this.modelType)
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
@@ -1090,47 +1091,47 @@ export class TestwerkzComponent implements OnInit {
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
-        console.log(img);
+        // console.log(img);
         this.selectedImgArr = img;
         this.imgIdArr = i;
-        if (this.imgId != undefined && this.imgId != i) {
-          console.log(this.selectedImgArr);
-          this.removerSelected(this.imgId);
-          imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-          circle.setAttribute(
-            "style",
-            "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-          );
-          gShowImag.setAttribute(
-            "style",
-            "max-width:133px;max-height:130px;"
-          );
-          trashdiv.setAttribute("style", "display:block;");
-          check.setAttribute("style", "color:white;");
-          this.ischecked = true;
-          this.isDisabelInsert = true;
-        } else {
-          if (imgDiv.style.border == "solid") {
-            this.removerSelected(this.imgId);
-            this.isDisabelInsert = false;
-          } else {
-            imgDiv.setAttribute(
-              "style",
-              "border:solid;color:#007fff;border-width:3px;"
-            );
-            gShowImag.setAttribute(
-              "style",
-              "max-width:130px;max-height:130px;"
-            );
-            circle.setAttribute(
-              "style",
-              "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-            );
-            check.setAttribute("style", "color:white;");
-            trashdiv.setAttribute("style", "display:block;");
-            this.isDisabelInsert = true;
-          }
-        }
+        // if (this.imgId != undefined && this.imgId != i) {
+        //   console.log(this.selectedImgArr);
+        //   // this.removerSelected(this.imgId);
+        //   imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+        //   circle.setAttribute(
+        //     "style",
+        //     "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        //   );
+        //   gShowImag.setAttribute(
+        //     "style",
+        //     "max-width:133px;max-height:130px;"
+        //   );
+        //   trashdiv.setAttribute("style", "display:block;");
+        //   check.setAttribute("style", "color:white;");
+        //   this.ischecked = true;
+        //   this.isDisabelInsert = true;
+        // } else {
+        //   if (imgDiv.style.border == "solid") {
+        //     // this.removerSelected(this.imgId);
+        //     this.isDisabelInsert = false;
+        //   } else {
+        //     imgDiv.setAttribute(
+        //       "style",
+        //       "border:solid;color:#007fff;border-width:3px;"
+        //     );
+        //     gShowImag.setAttribute(
+        //       "style",
+        //       "max-width:130px;max-height:130px;"
+        //     );
+        //     circle.setAttribute(
+        //       "style",
+        //       "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        //     );
+        //     check.setAttribute("style", "color:white;");
+        //     trashdiv.setAttribute("style", "display:block;");
+        //     this.isDisabelInsert = true;
+        //   }
+        // }
         this.imgId = i;
       }
     } else if (this.modelType == "video") {
@@ -1168,92 +1169,95 @@ export class TestwerkzComponent implements OnInit {
         // console.log("is remove");
         this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
         this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-        this.autoImgLoop(this.imgIdArr);
+        // this.autoImgLoop(this.imgIdArr);
         this.isRemove = false;
       } else {
         console.log(this.imgIdArr.includes(i));
         if (this.imgIdArr.includes(i)) {
           // console.log("is remove seleccted");
-          this.removerSelected(i);
+          this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+          this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
+          // this.removerSelected(i);
         } else {
           // console.log("else");
           this.imgIdArr.push(i);
           this.selectedImgArr.push(img);
-          this.autoImgLoop(this.imgIdArr);
+          // this.autoImgLoop(this.imgIdArr);
         }
       }
     }
     this.isRemove = false;
-    console.log(this.imgIdArr);
-    console.log("this.selectedImgArr", this.selectedImgArr);
+    // console.error(this.imgIdArr);
+    // console.error("this.selectedImgArr", this.selectedImgArr);
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
-  removerSelected(i) {
-    // console.log(this.selectedImgArr, i);
-    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
-    const circle3: HTMLElement = document.getElementById("cricle" + i);
-    const check3: HTMLElement = document.getElementById("check" + i);
-    const trash3: HTMLElement = document.getElementById("trash" + i);
-    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
-    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
-    imgDiv3.setAttribute("style", "border:none;");
-    gShowImag.setAttribute("style", 
-      "max-width:135px;max-height:135px;"
-      );
-    circle3.setAttribute(
-      "style",
-      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
-    );
-    check3.setAttribute("style", "color:#ffffff00;");
-    trash3.setAttribute("style", "opacity: 0;");
-    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
-    trashdiv.setAttribute("style", "display:none");
-    if (this.modelType == "single") {
-      // this.selectedImgArr = [];
-      // this.imgIdArr = [];
-      // this.imgId=undefined;
-      // console.log(this.imgId);
-      // if(String(this.imgId)== i){
-      //   this.imgId=undefined;
-      //   console.log("hrerer",this.imgId)
-      // }
-    } else {
-      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
-      this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-    }
-  }
+  // removerSelected(i) {
+  //   // console.log(this.selectedImgArr, i);
+  //   const imgDiv3: HTMLElement = document.getElementById("img-" + i);
+  //   const circle3: HTMLElement = document.getElementById("cricle" + i);
+  //   const check3: HTMLElement = document.getElementById("check" + i);
+  //   const trash3: HTMLElement = document.getElementById("trash" + i);
+  //   const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
+  //   const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+  //   const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
+  //   imgDiv3.setAttribute("style", "border:none;");
+  //   gShowImag.setAttribute("style", 
+  //     "max-width:135px;max-height:135px;"
+  //     );
+  //   circle3.setAttribute(
+  //     "style",
+  //     "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
+  //   );
+  //   check3.setAttribute("style", "color:#ffffff00;");
+  //   trash3.setAttribute("style", "opacity: 0;");
+  //   overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+  //   trashdiv.setAttribute("style", "display:none");
+  //   if (this.modelType == "single") {
+  //     // this.selectedImgArr = [];
+  //     // this.imgIdArr = [];
+  //     // this.imgId=undefined;
+  //     // console.log(this.imgId);
+  //     // if(String(this.imgId)== i){
+  //     //   this.imgId=undefined;
+  //     //   console.log("hrerer",this.imgId)
+  //     // }
+  //   } else {
+  //     this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+  //     this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
+  //   }
+  // }
 
   //this is use for selected image value loop
-  autoImgLoop(arr) {
-    for (var i = 0; i < arr.length; i++) {
-      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
-      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
-      const check: HTMLElement = document.getElementById("check" + arr[i]);
-      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
-      const gShowImag: HTMLElement = document.getElementById("gShowImag-" + arr[i]);
-      const overlay: HTMLElement = document.getElementById(
-        "Imgoverlay" + arr[i]
-      );
-      const trashdiv: HTMLElement = document.getElementById(
-        "trashdiv-" + arr[i]
-      );
+  // autoImgLoop(arr) {
+  //   console.error(arr)
+  //   for (var i = 0; i < arr.length; i++) {
+  //     const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
+  //     const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
+  //     const check: HTMLElement = document.getElementById("check" + arr[i]);
+  //     const trash: HTMLElement = document.getElementById("trash" + arr[i]);
+  //     const gShowImag: HTMLElement = document.getElementById("gShowImag-" + arr[i]);
+  //     const overlay: HTMLElement = document.getElementById(
+  //       "Imgoverlay" + arr[i]
+  //     );
+  //     const trashdiv: HTMLElement = document.getElementById(
+  //       "trashdiv-" + arr[i]
+  //     );
 
-      imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-      gShowImag.setAttribute(
-        "style",
-        "max-width:130px;max-height:130px;"
-      );
-      circle.setAttribute(
-        "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;top:6px; left:26px; z-index: 2;"
-      );
-      check.setAttribute("style", "color:white;");
-      trashdiv.setAttribute("style", "display:block");
-      // console.log(arr[i]);
-    }
-  }
+  //     imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+  //     gShowImag.setAttribute(
+  //       "style",
+  //       "max-width:130px;max-height:130px;"
+  //     );
+  //     circle.setAttribute(
+  //       "style",
+  //       "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;top:6px; left:26px; z-index: 2;"
+  //     );
+  //     check.setAttribute("style", "color:white;");
+  //     trashdiv.setAttribute("style", "display:block");
+  //     // console.log(arr[i]);
+  //   }
+  // }
 
   //when over image from galery modal mouse over or mouse out
   onImgMouseEvent(e, i) {
@@ -1279,7 +1283,8 @@ export class TestwerkzComponent implements OnInit {
         overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
       }
     } else {
-      if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
+      if (e.type == "mouseenter" && $(imgDiv).hasClass("addImgDivBorder")) {
+        console.log("is me")
         trash.setAttribute("style", "opacity: 1;");
         overlay.setAttribute(
           "style",
@@ -1310,7 +1315,7 @@ export class TestwerkzComponent implements OnInit {
             setTimeout(() => {
               if (this.modelType == "multiple") {
                 this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
-                this.autoImgLoop(this.imgIdArr);
+                // this.autoImgLoop(this.imgIdArr);
               } else {
                 this.imgId = undefined;
               }
