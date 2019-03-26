@@ -94,7 +94,7 @@
       <div class="mr-auto p-2 pl-0 pb-0" (click)="backToList()">
         <div class="back-to d-flex">
           <i class="fa fa-angle-left"></i>
-          <p>Back</p>
+          <p>TestWerkz</p>
         </div>
       </div>
       <div class="pr-5">
@@ -210,18 +210,25 @@
       <div class="pl-3 p-0 form-side">
         <div class=" d-flex flex-column w-100" [ngClass]="{ 'align-items-center': classCreate == true }">
           <div class="createForm-wrap">
-            <div class="mr-auto p-2 pl-0 pb-0" (click)="backToTestWerkz()" *ngIf="conceptCreate">
+            <div
+              class="mr-auto p-2 pl-0 pb-0"
+              (click)="backToTag('conceptCreate')" *ngIf="!conceptEdit">
               <div class="back-to pt-2 d-flex">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p>Pick tag</p>
               </div>
             </div>
-            <div class="mr-auto p-2 pl-0 pb-0" (click)="backToList()" *ngIf="conceptEdit">
+            <div
+              class="mr-auto p-2 pl-0 pb-0"
+              (click)="backToTag('conceptEdit')"
+              *ngIf="conceptEdit"
+            >
               <div class="back-to pt-2 d-flex">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p>Pick tag</p>
               </div>
             </div>
+            <label class="inform-text mb-0 mt-2">#{{ pickedTag.name }}</label>
             <h3 class="assessment-title" *ngIf="conceptCreate">
               Creating Concept
             </h3>
@@ -819,6 +826,12 @@
       </div>
     </div>
     <div class="modal-footer" *ngIf="this.modelType == 'multiple'">
+    <div *ngIf="selectedImgArr && selectedImgArr.length >= 1 " class="mr-auto ml-3 d-flex justify-content-center align-items-center video-pick">
+        <p class="slected-content-text mb-0 pb-0">
+          <span *ngIf="selectedImgArr.length == 1"> A  image picked</span>
+          <span *ngIf="selectedImgArr.length > 1">{{ selectedImgArr.length }} images picked</span>
+        </p>
+      </div>
       <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
       <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length != 0" (click)="insertImg()">
         Insert
@@ -886,7 +899,7 @@
       <div class="d-flex flex-column gallery">
         <p class="g_title">Video gallery</p>
         <!-- <input type="text" class="w-100" (input)= "contentSearch($event.target.value)" > -->
-        <div class="input-group mt-30">
+        <div class="input-group mt-3 mb-3">
           <span class="input-group-append">
             <button class="bt btn-design btn-outline-secondary" type="button">
               <i class="fa fa-search search-size"></i>
@@ -924,6 +937,12 @@
       </div>
     </div>
     <div class="modal-footer">
+      <div *ngIf="selectedVideoArr && selectedVideoArr.length >= 1 " class="mr-auto ml-3 d-flex justify-content-center align-items-center video-pick">
+        <p class="slected-content-text mb-0 pb-0">
+          <span *ngIf="selectedVideoArr.length == 1"> A  video picked</span>
+          <span *ngIf="selectedVideoArr.length > 1">{{ selectedVideoArr.length }} videos picked</span>
+        </p>
+      </div>
       <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
       <button type="button" class="btn btn-submit insertBtn" [disabled]="selectedVideoArr.length == 0"
         (click)="insertImg()">
