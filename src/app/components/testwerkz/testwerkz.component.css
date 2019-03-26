@@ -1634,3 +1634,6 @@ div.pdLine-wrap:last-child {
   cursor: pointer;
 }
 
+.question-vd .play-img{
+  left: 13px !important;
+} 

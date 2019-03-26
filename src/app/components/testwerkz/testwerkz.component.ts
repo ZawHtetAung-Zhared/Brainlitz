@@ -171,7 +171,10 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists();
-
+    console.log(this.focusType = {
+      'no' : 0,
+      'type' : 'pd'
+    })
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
@@ -587,13 +590,13 @@ export class TestwerkzComponent implements OnInit {
       pickMultiple: false,
       viewType: "LIST",
       contents: [
-        {
-          contentId: "",
-          sequence: 0,
-          start: 0,
-          end: 0,
-          playAt: "BEFORE"
-        }
+        // {
+        //   contentId: "",
+        //   sequence: 0,
+        //   start: 0,
+        //   end: 0,
+        //   playAt: "BEFORE"
+        // }
       ],
       answers: [
         {
@@ -626,7 +629,6 @@ export class TestwerkzComponent implements OnInit {
     // waiyan's code end
   }
   addPd() {
-    this.settingContents.push({contents : []})
     // this.pdLists.push({
     //   pdName: "",
     //   question: [
@@ -653,13 +655,13 @@ export class TestwerkzComponent implements OnInit {
           allowedAttempts: 0,
           viewType: "LIST",
           contents: [
-            {
-              contentId: "",
-              sequence: 0,
-              start: 0,
-              end: 0,
-              playAt: "BEFORE"
-            }
+            // {
+            //   contentId: "",
+            //   sequence: 0,
+            //   start: 0,
+            //   end: 0,
+            //   playAt: "BEFORE"
+            // }
           ],
           name: "",
           description: "",
@@ -1404,11 +1406,50 @@ export class TestwerkzComponent implements OnInit {
       } else return false;
     }
   }
+  changeTimeFormat(element , type){
+    if(type == 'toString'){
+      element.start = 0;
+      var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+      var res= timeString.split(":");
+      element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+      timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+      res= timeString.split(":");
+      element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    }
+    else{
+      let res = element.start.split(" ");
+      let total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+      element.start = total;
+
+      res =  element.end.split(" ");
+      total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+      element.end  = total;
+    }
+    
+  }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
     console.log(inImageWrapper);
     console.log("editableID", this.editableId);
-    if (this.editableId != "") {
+    if(this.editableId != "" && this.modelType == 'video'){
+      console.log("----------" , this.focusType)
+      var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents;
+ 
+      Array.prototype.push.apply(contArr, this.selectedVideoArr);
+      // for(var i in this.selectedVideoArr){
+
+      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      // }
+
+      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.forEach(element => {
+        this.changeTimeFormat(element,'toString');
+      });
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].showVideo = true;
+      console.log(this.performanceDemands)
+    }
+    else if (this.editableId != "") {
       var res = this.editableId.split("-");
       console.log("question ===== insert img");
       var imgWrapperId = "img-" + ++res[1] + "-" + new Date().getTime();
@@ -1497,19 +1538,28 @@ export class TestwerkzComponent implements OnInit {
       var contArr = this.performanceDemands[this.focusType.no].contents;
  
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
-      for(var i in this.selectedVideoArr){
+      // for(var i in this.selectedVideoArr){
 
-        console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
-        // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
-      }
+      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      // }
 
-      this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
       console.log(this.settingContents)
       console.log(this.selectedVideoArr)
       this.performanceDemands[this.focusType.no].contents.forEach(element => {
-        element.start = 0;
-        element.end = element.duration;
+        this.changeTimeFormat(element,'toString')
+        // element.start = 0;
+        // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        // var res= timeString.split(":");
+        // element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        // res= timeString.split(":");
+        // element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // element.start = 0;
+        // element.end = element.duration;
       });
+      console.log(this.performanceDemands);
     } else {
       console.log("pd Insert Img======");
       var contArr = this.performanceDemands[this.focusType.no].contents;
@@ -1521,10 +1571,16 @@ export class TestwerkzComponent implements OnInit {
   }
 
   mouseOver(e, idx) {
+    console.log(e,idx)
     // console.log(e.target.className);
     // console.log("over ");
     // console.log($(event.target).children(".img-pd"));
     // console.log($(event.target).siblings(".img-pd"));
+    if ($(e.target).hasClass("question-vd")) {
+      $(e.target)
+        .children(".img-pd")
+        .show();
+    }
     if ($(e.target).hasClass("editablePDImg")) {
       $(e.target)
         .siblings(".img-pd")
@@ -1537,6 +1593,8 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   mouseOut(event) {
+    console.log(event.offsetX , event.offsetY)
+    console.log(event.target)
     if (event.offsetX >= 119 || event.offsetX < 0) {
       if ($(event.target).hasClass("editablePDImg")) {
         $(event.target)
@@ -1560,6 +1618,7 @@ export class TestwerkzComponent implements OnInit {
           .hide();
       }
     } else console.log("out but not out", this.showRMIcon);
+
   }
 
   showID: any;
@@ -1743,7 +1802,6 @@ export class TestwerkzComponent implements OnInit {
   }
 
   delete(itemType) {
-    this.settingContents.splice(itemType.no, 1)
     console.log("delete type", itemType);
     if (itemType.type == "pd") {
       if (this.performanceDemands.length > 1) {
@@ -2573,16 +2631,13 @@ export class TestwerkzComponent implements OnInit {
   onClickSettingArrow(e){
     console.log(e)
     console.log(this.focusType)
+    console.log(this.performanceDemands)
     this.contentType = 'video';
     // if(this.isCollapse)
     //   this.getAllContent();
     this.isCollapse = !this.isCollapse;
-    console.log(this.settingContents)
   }
   onselectedVideoDiv(e,id,video){
-
-    console.log($(e.target).hasClass('duration'))
-    console.log(e.target)
     if($(e.target).hasClass('duration')){
 
     }else{
@@ -2601,7 +2656,7 @@ export class TestwerkzComponent implements OnInit {
       videoDiv.children("video").toggleClass("highlight-video");
       if(videoDiv.children("video").hasClass("highlight-video")){
         videoDiv.children(".setting-trash").css('opacity','1');
-  
+        
       }else
       videoDiv.children("i").css('opacity','0');
     }
@@ -2622,10 +2677,10 @@ export class TestwerkzComponent implements OnInit {
       $(e.target).children(".setting-trash").css('opacity','0');
   }
   deleteSettingContents(i){
-    this.settingContents[this.focusType.no].contents.splice(i, 1)
-    console.log(this.focusType)
+    // this.settingContents[this.focusType.no].contents.splice(i, 1)
+    // console.log(this.focusType)
     let videoArr = [];
-
+    console.log(i)
     if(this.focusType.type == 'pd'){
       console.log(this.performanceDemands[this.focusType.no])
       this.performanceDemands[this.focusType.no].contents.forEach((element,ind) => {
@@ -2637,5 +2692,13 @@ export class TestwerkzComponent implements OnInit {
       var deleteId = videoArr[i]
       this.performanceDemands[this.focusType.no].contents.splice(deleteId, 1)
     }
+    else if(this.focusType.type == 'question'){
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
+
+    }
+  }
+  removeQuestionVideo(video , i){
+    console.log(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no])
+    this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
   }
 }
