@@ -1399,7 +1399,7 @@ p.g_title {
 }
 
 .video-trashDiv i {
-  right: 14px !important;
+  right: 26px !important;
 }
 
 .img-span {
@@ -1614,4 +1614,8 @@ div.pdLine-wrap:last-child {
 
 .remove-outline {
   background: none;
+}
+.disabled{
+  pointer-events: none;
+  cursor: not-allowed; 
 }

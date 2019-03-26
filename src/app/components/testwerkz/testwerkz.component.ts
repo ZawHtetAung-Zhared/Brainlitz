@@ -930,7 +930,7 @@ export class TestwerkzComponent implements OnInit {
     // this.ImgArr = [];
     this.videoArr = [];
    console.error(page,size)
-    
+    console.log(this.contentType)
     this.blockUI.start("Loading...");
     console.log(this.ImgArr)
        return new Promise((resolve, reject) => {
@@ -982,7 +982,7 @@ export class TestwerkzComponent implements OnInit {
     console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
     console.log(this.videoArr);
-
+    return true;
     // var canvas1 = document.getElementById('canvas-' + id);
     // var ctx = canvas1.getContext('2d');
     // var video :any = e.target;
@@ -1716,6 +1716,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   delete(itemType) {
+    this.settingContents.splice(itemType.no, 1)
     console.log("delete type", itemType);
     if (itemType.type == "pd") {
       if (this.performanceDemands.length > 1) {
@@ -2553,7 +2554,8 @@ export class TestwerkzComponent implements OnInit {
   }
   onselectedVideoDiv(e,id,video){
 
-    console.log(e)
+    console.log($(e.target).hasClass('duration'))
+    console.log(e.target)
     if($(e.target).hasClass('duration')){
 
     }else{
@@ -2561,19 +2563,20 @@ export class TestwerkzComponent implements OnInit {
       $(".duration-wrapper").hide();
       console.log(this.focusType)
       console.log(this.performanceDemands)
+      var videoDiv = $(e.target).parents(".vd");
       // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
       // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
       // // console.log(timeString)
       // var res= timeString.split(":");
       // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
       // video.start = 0;
-      $("#img-s-" + id).children(".duration-wrapper").show();
-      $("#img-s-" + id).children("video").toggleClass("highlight-video");
-      if($("#img-s-" + id).children("video").hasClass("highlight-video")){
-        $("#img-s-" + id).children(".setting-trash").css('opacity','1');
+      videoDiv.children(".duration-wrapper").show();
+      videoDiv.children("video").toggleClass("highlight-video");
+      if(videoDiv.children("video").hasClass("highlight-video")){
+        videoDiv.children(".setting-trash").css('opacity','1');
   
       }else
-      $("#img-s-" + id).children("i").css('opacity','0');
+      videoDiv.children("i").css('opacity','0');
     }
     
   }
