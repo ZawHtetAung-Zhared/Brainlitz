@@ -2017,7 +2017,7 @@ export class TestwerkzComponent implements OnInit {
   }
   createQuestions(_this, pd, question, callback) {
     // Update quesiton object and pass it to api
-    const testArr = [];
+    const tempArr = [];
     const questionFormat = {
       name: "",
       description: "",
@@ -2040,6 +2040,32 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
+    const tempContentArray = [];
+    question.contents.map( (contentObj,index) => {
+      _this.changeTimeFormat(contentObj,'asdasd')
+      if(contentObj.duration){
+        var tempVideoContentObj = {
+          contentId: "",
+          sequence: 0,
+          start:0,
+          end: 0
+        };
+        tempVideoContentObj.contentId = contentObj._id;
+        tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
+        tempContentArray.push(tempVideoContentObj);
+      }else{
+        var tempImgContentObj = {
+          contentId: "",
+          sequence: 0,
+        };
+        tempImgContentObj.contentId = contentObj._id;
+        tempImgContentObj.sequence = ++index;
+        tempContentArray.push(tempImgContentObj);
+      }
+    })
+
     question.answers.map(answer => {
       var tempObj = {
         name: "",
@@ -2053,13 +2079,16 @@ export class TestwerkzComponent implements OnInit {
       tempObj.imgUrl = answer.imgUrl;
       tempObj.correctness = answer.correctness;
       console.log(tempObj);
-      testArr.push(tempObj);
-      console.log(testArr);
+      tempArr.push(tempObj);
+      console.log(tempArr);
+      
     });
-    questionFormat.answers = testArr;
+    
+    questionFormat.answers = tempArr;
     questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
+    questionFormat.contents = tempContentArray;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
         console.log(res);
