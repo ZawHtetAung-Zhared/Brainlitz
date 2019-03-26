@@ -30,15 +30,15 @@
 
 
 .greater-than {
-  top: 65px;
+  top: 65px!important;
 }
 
 .less-than {
-  top: 165px;
+  top: 0px!important;
 }
 
 .forElse {
-  top: 165px;
+  top: 0px!important;
 }
 
 .btn-create {
@@ -573,7 +573,7 @@ h3.category-h3 {
 
 .form-footer {
   position: fixed;
-  width: 82%;
+  width: 100%;
   bottom: 0;
   padding: 20px;
   right: 0;
@@ -597,6 +597,7 @@ h3.category-h3 {
   max-width: 480px;
   min-height: 233px;
   border-radius: 8px;
+  min-width: 480px; 
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
 }
@@ -1303,7 +1304,7 @@ p.g_title {
 
 @media (min-width: 700px) and (max-width: 2000px) {
   #conceptWrapper {
-    width: 85% !important;
+    width: 70% !important;
   }
 }
 
@@ -1320,21 +1321,21 @@ p.g_title {
 }
 
 /*formfooter delete button media query*/
-@media (min-width: 500px) and (max-width: 991px) {
+/* @media (min-width: 500px) and (max-width: 991px) {
   .form-footer {
     width: 75%;
   }
-}
+} */
 
 /*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) and (max-width: 1199px) {
+/* @media (min-width: 992px) and (max-width: 1199px) {
   .form-footer {
     width: 75%;
   }
-}
+} */
 
 /*Extra large devices (large desktops, 1200px and up)*/
-@media (min-width: 1200px) and (max-width: 1999px) {
+/* @media (min-width: 1200px) and (max-width: 1999px) {
   .form-footer {
     width: 82%;
   }
@@ -1344,7 +1345,7 @@ p.g_title {
   .form-footer {
     width: 82%;
   }
-}
+} */
 
 /*@media only screen and  (min-width:1366px){
  .form-footer{
@@ -1655,4 +1656,20 @@ div.pdLine-wrap:last-child {
   color: #004080;
   font-family: 'InterUI-Medium',Arial, Helvetica;
   font-size: 14px;
+}
+.sticky-back-bar{
+  position: fixed;
+  left: 0;
+  box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
+  padding-left: 50px;
+  z-index: 999;
+  background: white;
+  height: 80.35px
+}
+
+@media only screen and (min-width: 900px){
+  .pd-blog{
+      min-width: 560px!important;
+      max-width: 560px!important;
+  }
 }

@@ -246,10 +246,10 @@ export class TestwerkzComponent implements OnInit {
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
-    if (window.innerWidth > 1366) {
+    if (window.innerWidth > 1200) {
       this.classCreate = true;
     }
-    if (window.innerWidth <= 1366) {
+    if (window.innerWidth <= 1200) {
       this.classCreate = false;
     }
   }
@@ -319,8 +319,30 @@ export class TestwerkzComponent implements OnInit {
     console.log(this.performanceDemands);
     this.showSettingSidebar = false;
     this.concept.name = "";
+    this.showHideSideBar('hide')
   }
-
+  showHideSideBar(type){
+    const notiSideBar: HTMLElement  = document.getElementById('noti-sidebar');
+    const header:HTMLElement = document.getElementById('header');
+    const header2:HTMLElement = document.getElementById('header2');
+    const largeCol:HTMLElement = document.getElementById('large-col');
+    if(type == 'hide'){
+      notiSideBar.setAttribute("style", "display:none;");
+      header.setAttribute("style", "display:none;");
+      header2.setAttribute("style", "display:none;");
+      largeCol.setAttribute("style", "width:100%!important;");
+    }else{
+      notiSideBar.setAttribute("style", "display:block;");
+      header.setAttribute("style", "display:block;");
+      header2.setAttribute("style", "display:block;");
+      if (window.innerWidth > 1200 && window.innerWidth < 1900) {
+        largeCol.setAttribute("style", "width:82%!important;");
+      }
+      if (window.innerWidth > 992 && window.innerWidth < 1199) {
+        largeCol.setAttribute("style", "width:75%!important;");
+      }
+    }
+  }
   getAllTag() {
     this.blockUI.start("Loading");
     this._service.getAllTags(this.regionID).subscribe(
@@ -420,6 +442,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
+    this.showHideSideBar('show')
     this.performanceDemands = [];
     this.ptest = [];
     this.conceptList = true;
@@ -1762,6 +1785,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   cancelConcept(type) {
+    this.showHideSideBar('show')
     this.conceptCreate = false;
     this.conceptEdit = false;
     this.testWerkzCategory = false;
@@ -2181,7 +2205,6 @@ export class TestwerkzComponent implements OnInit {
   getSingleConcept(cID){
     const _that =this;
     _that.conceptEdit = true;
-   
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       // console.log(res)
       _that.conceptsObj = res;
@@ -2195,6 +2218,7 @@ export class TestwerkzComponent implements OnInit {
         _that.getPDbyID.bind(null,_that)
       )  
       _that.conceptId = cID;
+      this.showHideSideBar('hide')
       _that.showSettingSidebar = false;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
