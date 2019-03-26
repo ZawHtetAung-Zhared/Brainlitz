@@ -1438,14 +1438,15 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
-    if(type == 'toString'){
-      element.start = 0;
-      var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-      var res= timeString.split(":");
-      element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-      timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
-      res= timeString.split(":");
-      element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    if(this.isVideo(element)){
+      if(type == 'toString'){
+        element.start = 0;
+        var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        var res= timeString.split(":");
+        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        res= timeString.split(":");
+        element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
     }
     else{
       let res = element.start.split(" ");
@@ -1456,6 +1457,8 @@ export class TestwerkzComponent implements OnInit {
       total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
       element.end  = total;
     }
+    }
+  
     
   }
   insertImg() {
