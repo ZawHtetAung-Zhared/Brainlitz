@@ -805,20 +805,21 @@
             (change)="onloadImg($event)" single />
         </div>
       </div>
+
       <div class="d-flex flex-column gallery">
         <p class="g_title">Image gallery</p>
         <div class="row imgGp">
           <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr; let i = index">
             <div class="d-flex justify-content-center align-items-center inner-imgDiv"
-              (click)="onslectedImgDiv(img._id, img)" id="img-{{ img._id }}"
+              (click)="onslectedImgDiv(img._id, img)" id="img-{{ img._id }}" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
               (mouseenter)="onImgMouseEvent($event, img._id)" (mouseleave)="onImgMouseEvent($event, img._id)">
-              <div id="cricle{{ img._id }}">
-                <i _ngcontent-c1="" class="fa fa-check" id="check{{ img._id }}"></i>
+              <div id="cricle{{ img._id }}" [ngClass]="{'iconCheck': imgIdArr.indexOf(img._id) != -1}">
+                <i _ngcontent-c1="" class="fa fa-check" id="check{{ img._id }}" [ngClass]="{'check': imgIdArr.indexOf(img._id) != -1}"></i>
               </div>
-              <div (click)="onremoveClick(img._id)" id="trashdiv-{{ img._id }}" class="trashDiv">
+              <div (click)="onremoveClick(img._id)" id="trashdiv-{{ img._id }}" class="trashDiv" [ngClass]="{'trashdivClass': imgIdArr.indexOf(img._id) != -1}">
                 <i _ngcontent-c1="" class="fa fa-trash" id="trash{{ img._id }}"></i>
               </div>
-              <img src="{{ img.url }}" class="gShowImag" id="gShowImag-{{ img._id }}" />
+              <img src="{{ img.url }}" class="gShowImag" id="gShowImag-{{ img._id }}"  [ngClass]="{'addgshwoImg': imgIdArr.indexOf(img._id) != -1}"/>
               <div class="Imgoverlay" id="Imgoverlay{{ img._id }}"></div>
             </div>
           </div>
@@ -883,7 +884,7 @@
       </div>
     </div>
 
-    <div class="modal-body eimg_upload" *ngIf="contentArr.length != 0" appDnd
+    <div class="modal-body eimg_upload_video" *ngIf="contentArr.length != 0" appDnd
       (filesChangeEmiter)="onFilesChange($event)" (filesInvalidEmiter)="onFileInvalids($event)"
       [allowed_extensions]="['mp4', 'mov']">
       <div class="d-flex drop_zone_middle_eixtData for-video">
