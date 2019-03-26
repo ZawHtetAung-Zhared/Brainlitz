@@ -60,7 +60,11 @@ export class TestwerkzComponent implements OnInit {
   public item: any = {};
   public editValue: any;
   public ischecked: any;
-  public tagID: any;
+  public pickedTag: any = {
+    "id": "",
+    "name": "",
+    "state": ""
+  };
   public goBackCat = false;
   public wordLength: any;
   public navIsFixed: boolean = false;
@@ -128,6 +132,7 @@ export class TestwerkzComponent implements OnInit {
   public conceptsObj: any = {};
   public contentPage: number = 1;
   public contentRes:any=[];
+
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -427,12 +432,25 @@ export class TestwerkzComponent implements OnInit {
 
   somethingChanged(val, name) {
     console.log("hi", val);
-    this.conceptCreate = true;
+    // this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
-    this.tagID = val;
-    this.addPd();
+    this.pickedTag.id = val;
+    this.pickedTag.name = name;
     console.log(this.performanceDemands);
+    if(this.pickedTag.state != ""){
+      console.log("not first time pick")
+      if(this.pickedTag.state == 'conceptCreate'){
+        this.conceptCreate = true;
+        this.addPd();
+      }else{
+        this.conceptEdit = true;
+      }
+    }else{
+      console.log("first time pick")
+      this.conceptCreate = true;
+      this.addPd();
+    }
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
@@ -450,13 +468,26 @@ export class TestwerkzComponent implements OnInit {
     this.testWerkzCategory = false;
     this.conceptEdit = false;
     this.videoArr = [];
+    this.pickedTag = {
+      "id": "",
+      "name": "",
+      "state": ""
+    };
+    this.ischecked = "";
   }
-  backToTestWerkz() {
+  backToTag(type) {
+    console.log("TYPE~~~",type)
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit = false;
-    this.performanceDemands = [];
+    if(type == 'conceptCreate'){
+      this.performanceDemands = [];
+      this.pickedTag.state = "conceptCreate"
+    }else{
+      this.pickedTag.state = "conceptEdit"
+    }
+    // this.performanceDemands = [];
   }
   edit() {
     this.isEditComplete = true;
@@ -1799,6 +1830,11 @@ export class TestwerkzComponent implements OnInit {
     this.ischecked = "";
     this.performanceDemands = [];
     this.ptest = [];
+    this.pickedTag = {
+      "id": "",
+      "name": "",
+      "state": ""
+    };
     if (type == "redirect") {
       this.getConceptLists();
     }
@@ -2069,7 +2105,7 @@ export class TestwerkzComponent implements OnInit {
       name: this.concept.name,
       tag: [
         {
-          tagId: this.tagID
+          tagId: this.pickedTag.id
         }
       ],
       pd: [],
@@ -2205,12 +2241,15 @@ export class TestwerkzComponent implements OnInit {
   getSingleConcept(cID){
     const _that =this;
     _that.conceptEdit = true;
+   _that.getAllTag();
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
-      // console.log(res)
+      console.log("SingleConcept",res)
       _that.conceptsObj = res;
       _that.concept.name = res.name;  
       _that.concept.id = res._id; 
-      _that.tagID = res.tag[0].tagId;
+      _that.pickedTag.id = res.tag[0].tagId;
+      _that.pickedTag.name = res.tag[0].name;
+      _that.ischecked = res.tag[0].tagId;
       _that.blockUI.start('Loading') 
       async.map(
         res.pd, 
@@ -2396,7 +2435,7 @@ export class TestwerkzComponent implements OnInit {
       name: this.concept.name,
       tag: [
         {
-          tagId: this.tagID
+          tagId: this.pickedTag.id
         }
       ],
       pd: [],
