@@ -416,18 +416,22 @@ export class TestwerkzComponent implements OnInit {
     this.pickedTag.id = val;
     this.pickedTag.name = name;
     console.log(this.performanceDemands);
-    if(this.pickedTag.state != ""){
-      console.log("not first time pick")
-      if(this.pickedTag.state == 'conceptCreate'){
-        this.conceptCreate = true;
-        this.addPd();
-      }else{
-        this.conceptEdit = true;
-      }
-    }else{
-      console.log("first time pick")
+    if((this.pickedTag.state != "" && this.pickedTag.state == 'conceptCreate') || this.pickedTag.state == ""){
       this.conceptCreate = true;
       this.addPd();
+    }else if(this.pickedTag.state != "" && this.pickedTag.state == 'conceptEdit'){
+      this.conceptEdit = true;
+      console.log(this.performanceDemands)
+      setTimeout(()=>{
+        var pd = this.performanceDemands;
+        for(var i=0;i<pd.length;i++){
+          for(var j=0;j<pd[i].questions.length;j++){
+            if(pd[i].questions[j].html){
+              document.getElementById("q-" + i + "-" + j).innerHTML = pd[i].questions[j].html.question;
+            }
+          }
+        }
+      },200)   
     }
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
