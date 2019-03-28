@@ -1,4 +1,5 @@
-import { Input } from "@angular/core";
+import { element } from 'protractor';
+import { Input, ComponentFactoryResolver } from "@angular/core";
 // import { AppComponent } from "./../../app.component";
 import { Component, OnInit, HostListener } from "@angular/core";
 import { TargetLocator, promise } from "selenium-webdriver";
@@ -14,6 +15,7 @@ import { createWhile } from "typescript";
 import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable";
 import { nsend } from "q";
 import { resolve } from "path";
+import { connect } from 'tls';
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -58,7 +60,11 @@ export class TestwerkzComponent implements OnInit {
   public item: any = {};
   public editValue: any;
   public ischecked: any;
-  public tagID: any;
+  public pickedTag: any = {
+    "id": "",
+    "name": "",
+    "state": ""
+  };
   public goBackCat = false;
   public wordLength: any;
   public navIsFixed: boolean = false;
@@ -75,7 +81,9 @@ export class TestwerkzComponent implements OnInit {
   public isDrop: boolean = false;
   public selectEle: any;
   public isHover: boolean = false;
+  public isCollapse : boolean = true;
   public markDownHtml_arr: any = [];
+  public settingContents: any = [];
   public toolBarOptions = {
     toolbar: { buttons: ["bold", "italic", "underline", "image"] },
     static: true,
@@ -84,18 +92,21 @@ export class TestwerkzComponent implements OnInit {
     sticky: false,
     updateOnEmptySelection: false
   };
-
+  public contentType: string;
   public tagWerkz = {
     name: ""
   };
   public modalReference: any;
-  public contentArr: any = [];
+  public content_size:any;
+  public contentArr:any=[];
   public classCreate = false;
   public regionID = localStorage.getItem("regionId");
   public tagsWerkzList = [];
   public tempContentArr: any = [];
   public selectedImgArr: any = [];
   public ImgArr: any = [];
+  public videoArr: any = [];
+  public selectedVideoArr: any = [];
   public imgIdArr: any = [];
   public imgId: any;
   public clickType: boolean = false;
@@ -104,8 +115,10 @@ export class TestwerkzComponent implements OnInit {
   private invalidFiles: any = [];
   public ptest: any = [];
   public concept = {
-    name: ""
+    name: "",
+    id: ""
   };
+  public selectedDuration : any = {};
   public dragItem: any;
   public dragItemParent: any;
   public clickEle: any = "";
@@ -117,6 +130,9 @@ export class TestwerkzComponent implements OnInit {
   public focusType: any = {};
   public focusPlace: any;
   public conceptsObj: any = {};
+  public contentPage: number = 1;
+  public contentRes:any=[];
+
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -138,6 +154,13 @@ export class TestwerkzComponent implements OnInit {
     console.log(Promise);
     var turndownService = new TurndownService();
     // for div
+    this.dragulaService.cloned().subscribe(({name,clone,original})=>{
+      console.log(name,clone,original)
+      console.log($(original).children().children(".rmIcon"))
+      $(original).children().children(".rmIcon").css('display','none');
+    })  
+
+    
     turndownService.addRule("Tada", {
       filter: "div",
       replacement: function(content) {
@@ -153,6 +176,11 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists();
+    console.log(this.focusType = {
+      'no' : 0,
+      'type' : 'pd'
+    })
+
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     console.log(this.dragItem);
@@ -211,9 +239,8 @@ export class TestwerkzComponent implements OnInit {
           }
           // console.log($(img).remove());
           $(img).remove();
-          console.log("Delete Img",_this.editableId, _this.focusType)
+          console.log("Delete Img", _this.editableId, _this.focusType);
           _this.turn(_this.editableId, _this.focusType);
-
         });
       });
       $(".editableImg").mouseout(function(event) {
@@ -227,10 +254,10 @@ export class TestwerkzComponent implements OnInit {
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
-    if (window.innerWidth > 1366) {
+    if (window.innerWidth > 1200) {
       this.classCreate = true;
     }
-    if (window.innerWidth <= 1366) {
+    if (window.innerWidth <= 1200) {
       this.classCreate = false;
     }
   }
@@ -265,7 +292,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getConceptLists() {
-    this.blockUI.start('Loading')
+    this.blockUI.start("Loading");
     this._service.getAllConcept(this.regionID).subscribe((res: any) => {
       console.log("Concept lists", res);
       this.conceptsArr = res;
@@ -300,8 +327,30 @@ export class TestwerkzComponent implements OnInit {
     console.log(this.performanceDemands);
     this.showSettingSidebar = false;
     this.concept.name = "";
+    this.showHideSideBar('hide')
   }
-
+  showHideSideBar(type){
+    const notiSideBar: HTMLElement  = document.getElementById('noti-sidebar');
+    const header:HTMLElement = document.getElementById('header');
+    const header2:HTMLElement = document.getElementById('header2');
+    const largeCol:HTMLElement = document.getElementById('large-col');
+    if(type == 'hide'){
+      notiSideBar.setAttribute("style", "display:none;");
+      header.setAttribute("style", "display:none;");
+      header2.setAttribute("style", "display:none;");
+      largeCol.setAttribute("style", "width:100%!important;");
+    }else{
+      notiSideBar.setAttribute("style", "display:block;");
+      header.setAttribute("style", "display:block;");
+      header2.setAttribute("style", "display:block;");
+      if (window.innerWidth > 1200 && window.innerWidth < 1900) {
+        largeCol.setAttribute("style", "width:82%!important;");
+      }
+      if (window.innerWidth > 992 && window.innerWidth < 1199) {
+        largeCol.setAttribute("style", "width:75%!important;");
+      }
+    }
+  }
   getAllTag() {
     this.blockUI.start("Loading");
     this._service.getAllTags(this.regionID).subscribe(
@@ -386,12 +435,29 @@ export class TestwerkzComponent implements OnInit {
 
   somethingChanged(val, name) {
     console.log("hi", val);
-    this.conceptCreate = true;
+    // this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
-    this.tagID = val;
-    this.addPd();
+    this.pickedTag.id = val;
+    this.pickedTag.name = name;
     console.log(this.performanceDemands);
+    if((this.pickedTag.state != "" && this.pickedTag.state == 'conceptCreate') || this.pickedTag.state == ""){
+      this.conceptCreate = true;
+      this.addPd();
+    }else if(this.pickedTag.state != "" && this.pickedTag.state == 'conceptEdit'){
+      this.conceptEdit = true;
+      console.log(this.performanceDemands)
+      setTimeout(()=>{
+        var pd = this.performanceDemands;
+        for(var i=0;i<pd.length;i++){
+          for(var j=0;j<pd[i].questions.length;j++){
+            if(pd[i].questions[j].html){
+              document.getElementById("q-" + i + "-" + j).innerHTML = pd[i].questions[j].html.question;
+            }
+          }
+        }
+      },200)   
+    }
     // localStorage.setItem("categoryID", val);
     // localStorage.setItem("categoryName", name);
     // setTimeout(() => {
@@ -401,19 +467,34 @@ export class TestwerkzComponent implements OnInit {
   }
 
   backToList() {
+    this.showHideSideBar('show')
     this.performanceDemands = [];
     this.ptest = [];
     this.conceptList = true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
     this.conceptEdit = false;
+    this.videoArr = [];
+    this.pickedTag = {
+      "id": "",
+      "name": "",
+      "state": ""
+    };
+    this.ischecked = "";
   }
-  backToTestWerkz() {
+  backToTag(type) {
+    console.log("TYPE~~~",type)
     this.conceptList = false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit = false;
-    this.performanceDemands = [];
+    if(type == 'conceptCreate'){
+      this.performanceDemands = [];
+      this.pickedTag.state = "conceptCreate"
+    }else{
+      this.pickedTag.state = "conceptEdit"
+    }
+    // this.performanceDemands = [];
   }
   edit() {
     this.isEditComplete = true;
@@ -567,13 +648,13 @@ export class TestwerkzComponent implements OnInit {
       pickMultiple: false,
       viewType: "LIST",
       contents: [
-        {
-          contentId: "",
-          sequence: 0,
-          start: 0,
-          end: 0,
-          playAt: "BEFORE"
-        }
+        // {
+        //   contentId: "",
+        //   sequence: 0,
+        //   start: 0,
+        //   end: 0,
+        //   playAt: "BEFORE"
+        // }
       ],
       answers: [
         {
@@ -632,13 +713,13 @@ export class TestwerkzComponent implements OnInit {
           allowedAttempts: 0,
           viewType: "LIST",
           contents: [
-            {
-              contentId: "",
-              sequence: 0,
-              start: 0,
-              end: 0,
-              playAt: "BEFORE"
-            }
+            // {
+            //   contentId: "",
+            //   sequence: 0,
+            //   start: 0,
+            //   end: 0,
+            //   playAt: "BEFORE"
+            // }
           ],
           name: "",
           description: "",
@@ -716,11 +797,14 @@ export class TestwerkzComponent implements OnInit {
         $(this.dragItemParent).append(this.dragItem);
       }
     }
-    console.log($(window.getSelection().focusNode).parents(".img-wrapper").length ||$(window.getSelection().focusNode).hasClass("img-wrapper"))
+    console.log(
+      $(window.getSelection().focusNode).parents(".img-wrapper").length ||
+        $(window.getSelection().focusNode).hasClass("img-wrapper")
+    );
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper") ||
-      $(window.getSelection().focusNode).parents(".img-wrapper").length>0 ||
+      $(window.getSelection().focusNode).parents(".img-wrapper").length > 0 ||
       $(window.getSelection().focusNode).hasClass("img-wrapper")
     ) {
       if (event.inputType == "deleteContentBackward")
@@ -851,6 +935,7 @@ export class TestwerkzComponent implements OnInit {
 
   //open image modal
   openImgModal(content, type, t?) {
+    this.contentType = "image";
     $(t).blur();
     console.log("open modal>", type);
     this.modelType = type;
@@ -860,9 +945,25 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.contentPage=1;
+    this.getAllContent(this.contentPage,20,'');
+  }
+  openVideoModal(content) {
+    // $(t).blur();
+    this.contentType = "video";
+    console.log("open modal>", content);
+    this.modelType = "video";
+    this.modalReference = this.modalService.open(content, {
+      backdrop: "static",
+      keyboard: false,
+      windowClass:
+        "video-modal modal-xl modal-inv d-flex justify-content-center align-items-center"
+    });
+    this.contentPage=1;
+    this.getAllContent(1,20,'');
   }
   answerOpenImgModal(content, type, i, j, index) {
+    this.contentType = "image";
     console.log("open modal>", type);
     this.pdIndex = i;
     this.questionIndex = j;
@@ -874,7 +975,7 @@ export class TestwerkzComponent implements OnInit {
       windowClass:
         "modal-xl modal-inv d-flex justify-content-center align-items-center"
     });
-    this.getAllContent();
+    this.getAllContent(1,20,'');
   }
 
   cancelModal() {
@@ -882,32 +983,81 @@ export class TestwerkzComponent implements OnInit {
     this.selectedImgArr = [];
     this.imgIdArr = [];
     this.imgId = undefined;
+    this.selectedVideoArr = [];
+    this.contentPage=0;
+    this.ImgArr=[];
+    this.isDisabelInsert=false;
   }
-
+  public searchWord:any;
+  public isSearch:any;
+  public result:any;
+  contentSearch(keyword){
+    this.searchWord = keyword;
+    this.getAllContent(1,20,keyword)
+  }
+  showMoreVideo(){
+    this.contentPage += 1;
+    if(this.isSearch == true){
+      this.getAllContent(this.contentPage,20,this.searchWord)
+    }else{
+      this.getAllContent(this.contentPage,20,'')
+    }
+  }
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
-  getAllContent() {
-    this.ImgArr = [];
+  getAllContent(page,size,keyword) {
+    // this.ImgArr = [];
+    // this.videoArr = [];
+  //  console.error(page,size)
+    var isFirst;
+    if(page === 1){
+      isFirst = true;
+    }else{
+      isFirst = false;
+    }
     this.blockUI.start("Loading...");
-    return new Promise((resolve, reject) => {
-      this._service.getContent(this.regionID).subscribe(
+    // console.log(this.ImgArr)
+       return new Promise((resolve, reject) => {
+      this._service.getContent(this.regionID,page,size,keyword,this.contentType).subscribe(
         (res: any) => {
-          this.contentArr = res;
-
-          for (var i = 0; i < res.length; i++) {
-            if (
-              res[i].type == "image/gif" ||
-              res[i].type == "image/png" ||
-              res[i].type == "image/jpeg"
-            ) {
-              this.ImgArr.push(res[i]);
+          this.result = res;
+          // console.error(res);
+          this.contentRes=res;
+          if(res.length > 0){
+            this.contentArr=res;
+            this.content_size=size;
+            for (var i = 0; i < res.length; i++) {
+              if (this.contentType == "image") {
+                if (
+                  res[i].type == "image/gif" ||
+                  res[i].type == "image/png" ||
+                  res[i].type == "image/jpeg"
+                ) {
+                  this.ImgArr.push(res[i]);
+                }
+              } else {
+              }
             }
+            this.tempContentArr=this.ImgArr;
+            console.log(this.videoArr);
+            resolve();
+          }else{
+            console.log(this.ImgArr)
+            this.ImgArr=this.ImgArr;
           }
-          this.tempContentArr = this.ImgArr;
 
-          console.log(this.ImgArr);
-
-          resolve();
+          if (isFirst == true) {
+            this.videoArr = res;
+            this.isSearch = true;
+            this.contentPage = 1;
+            console.log(this.videoArr,'first time searching');
+          }else{
+            this.isSearch = false;
+            res.map(content => {
+              this.videoArr.push(content)
+            })
+            console.log(this.videoArr,'not first time searching');
+          }
           this.blockUI.stop();
         },
         err => {
@@ -915,29 +1065,50 @@ export class TestwerkzComponent implements OnInit {
         }
       );
     });
+
   }
 
+  showMoreContent(length){
+    this.contentPage+=1;
+    console.log(this.contentPage)
+    console.log(this.ImgArr)
+    this.getAllContent(this.contentPage,20,'');
+    console.log(length)
+  }
   //image upload
-  onloadImg(event) {
-    console.log("hello", this.isDrop);
-    console.log("dar", event);
+  onMetadata(e, id) {
+    console.log("metadata: ", e);
+    console.log("duration: ", e.target.duration);
+    this.videoArr[id]["duration"] = e.target.duration;
+    console.log(this.videoArr);
+    return true;
+    // var canvas1 = document.getElementById('canvas-' + id);
+    // var ctx = canvas1.getContext('2d');
+    // var video :any = e.target;
+    // canvas1.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    // console.log(canvas1)
+  }
+  onloadImg(event, ele?) {
     if (this.isDrop) {
       var file = event;
       this.isDrop = false;
     } else {
       var file = event.target.files;
     }
-    console.log(file);
+    // console.error(this.contentPage)
+    // console.error(this.selectedImgArr);
+    // console.error(20*this.contentPage)
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
         //getAllContent() use pormise because of html create value after use in ts
-        this.getAllContent().then(() => {
-          console.log("here me>", res);
-          setTimeout(() => {
-            this.autoSelectedImg(res.meta);
-          }, 300);
-        });
+        this.ImgArr=[];
+          this.getAllContent(1,20*this.contentPage,'').then(() => {
+            setTimeout(() => {
+              this.autoSelectedImg(res.meta);
+            }, 300);
+          });
+      
         this.blockUI.stop();
       },
       err => {
@@ -948,10 +1119,14 @@ export class TestwerkzComponent implements OnInit {
 
   //this is use for autoselected when upload finish or deleted finsih (this is only selected previous selection image after upload)
   autoSelectedImg(resturnobj) {
-    console.log(this.modelType);
-    console.log(this.selectedImgArr);
-    for (var i = 0; i < resturnobj.length; i++) {
-      for (var j = 0; j < this.tempContentArr.length; j++) {
+    // console.log(this.modelType);
+    // console.log(this.selectedImgArr);
+    // console.log(resturnobj);
+    // console.log(this.tempContentArr)
+    for (let i = 0; i < resturnobj.length; i++) {
+      for (let j = 0; j < this.tempContentArr.length; j++) {
+        // console.log(resturnobj[i]._id )
+        // console.log(this.tempContentArr[j]._id)
         if (resturnobj[i]._id == this.tempContentArr[j]._id) {
           this.onslectedImgDiv(
             this.tempContentArr[j]._id,
@@ -966,176 +1141,253 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
+    // console.log(i,img)
+    // console.error(this.modelType)
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
+    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
     const circle: HTMLElement = document.getElementById("cricle" + i);
     const check: HTMLElement = document.getElementById("check" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
     const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-
+    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
-        console.log(img)
+        // console.log(img);
         this.selectedImgArr = img;
         this.imgIdArr = i;
-        if (this.imgId != undefined && this.imgId != i) {
-          console.log(this.selectedImgArr)
-          this.removerSelected(this.imgId);
-          imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-          circle.setAttribute(
-            "style",
-            "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-          );
-          trashdiv.setAttribute("style", "display:block;");
-          check.setAttribute("style", "color:white;");
-          this.ischecked = true;
-          this.isDisabelInsert = true;
-        } else {
-          if (imgDiv.style.border == "solid") {
-            this.removerSelected(this.imgId);
-            this.isDisabelInsert = false;
-          } else {
-            imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-            circle.setAttribute(
-              "style",
-              "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-            );
-            check.setAttribute("style", "color:white;");
-            trashdiv.setAttribute("style", "display:block;");
-            this.isDisabelInsert = true;
-          }
-        }
+        console.log(imgDiv)
+        // console.error( $(imgDiv).hasClass("addImgDivBorder"))
+        // console.error(imgDiv.style.border == "solid");
+        this.isDisabelInsert = true;
+
+        // if (this.imgId != undefined && this.imgId != i) {
+        //   console.log(this.selectedImgArr);
+        //   // this.removerSelected(this.imgId);
+        //   imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+        //   circle.setAttribute(
+        //     "style",
+        //     "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        //   );
+        //   gShowImag.setAttribute(
+        //     "style",
+        //     "max-width:133px;max-height:130px;"
+        //   );
+        //   trashdiv.setAttribute("style", "display:block;");
+        //   check.setAttribute("style", "color:white;");
+        //   this.ischecked = true;
+        //   this.isDisabelInsert = true;
+        // } else {
+        //   if (imgDiv.style.border == "solid") {
+        //     // this.removerSelected(this.imgId);
+        //     this.isDisabelInsert = false;
+        //   } else {
+        //     imgDiv.setAttribute(
+        //       "style",
+        //       "border:solid;color:#007fff;border-width:3px;"
+        //     );
+        //     gShowImag.setAttribute(
+        //       "style",
+        //       "max-width:130px;max-height:130px;"
+        //     );
+        //     circle.setAttribute(
+        //       "style",
+        //       "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        //     );
+        //     check.setAttribute("style", "color:white;");
+        //     trashdiv.setAttribute("style", "display:block;");
+        //     this.isDisabelInsert = true;
+        //   }
+        // }
         this.imgId = i;
       }
+    } else if (this.modelType == "video") {
+      console.log(i, img);
+      console.log(imgDiv);
+      if ($(imgDiv).hasClass("highlight")) {
+        $(imgDiv).removeClass("highlight");
+        console.log(circle , check)
+        this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
+        circle.setAttribute(
+          "style",
+          "border: transparent; border-radius: 50%;width: 16px; height: 16px;position: absolute;background:transparent;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        );
+        check.setAttribute("style", "color:transparent;");
+        trash.setAttribute("style", "opacity: 0;");
+
+      } else {
+        $(imgDiv).addClass("highlight");
+        this.selectedVideoArr.push(img);
+        trash.setAttribute("style", "opacity: 1;");
+        overlay.setAttribute(
+          "style",
+          "display:block;  background: rgba(0, 0, 0, .3);"
+        );
+        circle.setAttribute(
+          "style",
+          "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+        );
+        check.setAttribute("style", "color:white;");
+      }
+
+      console.log(this.selectedVideoArr);
     } else {
       if (this.isRemove) {
         // console.log("is remove");
         this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
         this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-        this.autoImgLoop(this.imgIdArr);
+        // this.autoImgLoop(this.imgIdArr);
         this.isRemove = false;
       } else {
         console.log(this.imgIdArr.includes(i));
         if (this.imgIdArr.includes(i)) {
           // console.log("is remove seleccted");
-          this.removerSelected(i);
+          this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+          this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
+          // this.removerSelected(i);
         } else {
           // console.log("else");
           this.imgIdArr.push(i);
           this.selectedImgArr.push(img);
-          this.autoImgLoop(this.imgIdArr);
+          // this.autoImgLoop(this.imgIdArr);
         }
       }
     }
     this.isRemove = false;
-    console.log(this.imgIdArr);
-    console.log("this.selectedImgArr",this.selectedImgArr)
+    // console.error(this.imgIdArr);
+    // console.error("this.selectedImgArr", this.selectedImgArr);
   }
 
   //this is remove for image selected from gallery modal (this method can slected multiple or single)
-  removerSelected(i) {
-    // console.log(this.selectedImgArr, i);
-    const imgDiv3: HTMLElement = document.getElementById("img-" + i);
-    const circle3: HTMLElement = document.getElementById("cricle" + i);
-    const check3: HTMLElement = document.getElementById("check" + i);
-    const trash3: HTMLElement = document.getElementById("trash" + i);
-    const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
-    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-    imgDiv3.setAttribute("style", "border:none;");
-    circle3.setAttribute(
-      "style",
-      "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
-    );
-    check3.setAttribute("style", "color:#ffffff00;");
-    trash3.setAttribute("style", "opacity: 0;");
-    overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
-    trashdiv.setAttribute("style", "display:none");
-    if (this.modelType == "single") {
-      // this.selectedImgArr = [];
-      // this.imgIdArr = [];
-
-      // this.imgId=undefined;
-      // console.log(this.imgId);
-
-      // if(String(this.imgId)== i){
-      //   this.imgId=undefined;
-      //   console.log("hrerer",this.imgId)
-      // }
-    } else {
-      this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
-      this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-    }
-  }
+  // removerSelected(i) {
+  //   // console.log(this.selectedImgArr, i);
+  //   const imgDiv3: HTMLElement = document.getElementById("img-" + i);
+  //   const circle3: HTMLElement = document.getElementById("cricle" + i);
+  //   const check3: HTMLElement = document.getElementById("check" + i);
+  //   const trash3: HTMLElement = document.getElementById("trash" + i);
+  //   const overlay3: HTMLElement = document.getElementById("Imgoverlay" + i);
+  //   const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
+  //   const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
+  //   imgDiv3.setAttribute("style", "border:none;");
+  //   gShowImag.setAttribute("style", 
+  //     "max-width:135px;max-height:135px;"
+  //     );
+  //   circle3.setAttribute(
+  //     "style",
+  //     "border: none; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: none;margin-top: 8px;margin-left: 8px;z-index: 2;"
+  //   );
+  //   check3.setAttribute("style", "color:#ffffff00;");
+  //   trash3.setAttribute("style", "opacity: 0;");
+  //   overlay3.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+  //   trashdiv.setAttribute("style", "display:none");
+  //   if (this.modelType == "single") {
+  //     // this.selectedImgArr = [];
+  //     // this.imgIdArr = [];
+  //     // this.imgId=undefined;
+  //     // console.log(this.imgId);
+  //     // if(String(this.imgId)== i){
+  //     //   this.imgId=undefined;
+  //     //   console.log("hrerer",this.imgId)
+  //     // }
+  //   } else {
+  //     this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+  //     this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
+  //   }
+  // }
 
   //this is use for selected image value loop
-  autoImgLoop(arr) {
-    console.log(arr);
-    for (var i = 0; i < arr.length; i++) {
-      const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
-      const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
-      const check: HTMLElement = document.getElementById("check" + arr[i]);
-      const trash: HTMLElement = document.getElementById("trash" + arr[i]);
-      const overlay: HTMLElement = document.getElementById(
-        "Imgoverlay" + arr[i]
-      );
-      const trashdiv: HTMLElement = document.getElementById(
-        "trashdiv-" + arr[i]
-      );
-      // console.log(imgDiv);
-      // console.log(circle);
-      // console.log(check);
-      imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-      circle.setAttribute(
-        "style",
-        "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      );
-      check.setAttribute("style", "color:white;");
-      trashdiv.setAttribute("style", "display:block");
-      // console.log(arr[i]);
-    }
-  }
+  // autoImgLoop(arr) {
+  //   console.error(arr)
+  //   for (var i = 0; i < arr.length; i++) {
+  //     const imgDiv: HTMLElement = document.getElementById("img-" + arr[i]);
+  //     const circle: HTMLElement = document.getElementById("cricle" + arr[i]);
+  //     const check: HTMLElement = document.getElementById("check" + arr[i]);
+  //     const trash: HTMLElement = document.getElementById("trash" + arr[i]);
+  //     const gShowImag: HTMLElement = document.getElementById("gShowImag-" + arr[i]);
+  //     const overlay: HTMLElement = document.getElementById(
+  //       "Imgoverlay" + arr[i]
+  //     );
+  //     const trashdiv: HTMLElement = document.getElementById(
+  //       "trashdiv-" + arr[i]
+  //     );
+
+  //     imgDiv.setAttribute("style", "border:solid;color:#007fff;");
+  //     gShowImag.setAttribute(
+  //       "style",
+  //       "max-width:130px;max-height:130px;"
+  //     );
+  //     circle.setAttribute(
+  //       "style",
+  //       "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;top:6px; left:26px; z-index: 2;"
+  //     );
+  //     check.setAttribute("style", "color:white;");
+  //     trashdiv.setAttribute("style", "display:block");
+  //     // console.log(arr[i]);
+  //   }
+  // }
 
   //when over image from galery modal mouse over or mouse out
   onImgMouseEvent(e, i) {
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
     const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
-
-    if (e.type == "mouseenter" && imgDiv.style.border == "solid") {
-      trash.setAttribute("style", "opacity: 1;");
-      overlay.setAttribute(
-        "style",
-        "display:block;  background: rgba(0, 0, 0, .3);"
-      );
+    // console.log(this.contentType)
+    // console.log(imgDiv)
+    // console.log(e)
+    if (this.contentType == "video") {
+      // console.log('invideo')
+      if ($(imgDiv).hasClass("highlight") && e.type == "mouseenter") {
+        // console.log('inmouseenter')
+        trash.setAttribute("style", "opacity: 1;");
+        // console.log(trash)
+        // console.log(overlay)
+        overlay.setAttribute(
+          "style",
+          "display:block;  background: rgba(0, 0, 0, .3);"
+        );
+      } else {
+        trash.setAttribute("style", "opacity: 0;");
+        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      }
     } else {
-      trash.setAttribute("style", "opacity: 0;");
-      overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      if (e.type == "mouseenter" && $(imgDiv).hasClass("addImgDivBorder")) {
+        console.log("is me")
+        trash.setAttribute("style", "opacity: 1;");
+        overlay.setAttribute(
+          "style",
+          "display:block;  background: rgba(0, 0, 0, .3);"
+        );
+      } else {
+        trash.setAttribute("style", "opacity: 0;");
+        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      }
     }
+
     // console.log(e.type)
   }
 
   //delete image
   onremoveClick(id) {
     console.log(id);
+    this.ImgArr=[];
     this.isRemove = true;
+    // console.error(this.contentPage*20)
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
         // console.log(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
-        this.getAllContent().then(() => {
-          // console.log("here me>", res);
-          setTimeout(() => {
-            // console.log(this.selectedImgArr);
-            // console.log(this.imgIdArr);
-            if (this.modelType == "multiple") {
-              this.autoImgLoop(this.imgIdArr);
-            } else {
-              this.imgId = undefined;
-            }
-          }, 300);
-        });
+          this.getAllContent(1,(20*this.contentPage),'').then(() => {
+            setTimeout(() => {
+              if (this.modelType == "multiple") {
+                this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
+                // this.autoImgLoop(this.imgIdArr);
+              } else {
+                this.imgId = undefined;
+              }
+            }, 300);
+          });
       },
       err => {
         console.log(err);
@@ -1211,7 +1463,7 @@ export class TestwerkzComponent implements OnInit {
   //     this.cancelModal();
   //     // this.selectedImgArr=[];
   //   }
-  
+
   checkFocusPosition() {
     console.log(this.selectEle);
     if (this.selectEle != undefined) {
@@ -1223,11 +1475,53 @@ export class TestwerkzComponent implements OnInit {
       } else return false;
     }
   }
+  changeTimeFormat(element , type){
+    if(this.isVideo(element)){
+      if(type == 'toString'){
+        element.start = 0;
+        var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        var res= timeString.split(":");
+        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        res= timeString.split(":");
+        element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    }
+    else{
+      let res = element.start.split(" ");
+      let total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+      element.start = total;
+
+      res =  element.end.split(" ");
+      total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+      element.end  = total;
+    }
+    }
+  
+    
+  }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
     console.log(inImageWrapper);
     console.log("editableID", this.editableId);
-    if (this.editableId != "") {
+    if(this.editableId != "" && this.modelType == 'video'){
+      console.log("----------" , this.focusType)
+      var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents;
+ 
+      Array.prototype.push.apply(contArr, this.selectedVideoArr);
+      // for(var i in this.selectedVideoArr){
+
+      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      // }
+
+      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.forEach(element => {
+        this.changeTimeFormat(element,'toString');
+      });
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].showVideo = true;
+      console.log(this.performanceDemands)
+    }
+    else if (this.editableId != "") {
       var res = this.editableId.split("-");
       console.log("question ===== insert img");
       var imgWrapperId = "img-" + ++res[1] + "-" + new Date().getTime();
@@ -1288,7 +1582,7 @@ export class TestwerkzComponent implements OnInit {
       }, 100);
       this.turn(this.editableId, this.focusType);
     } else if (this.modelType == "single") {
-      console.log("answer === " , $(".answer-img") , );
+      console.log("answer === ", $(".answer-img"));
       this.performanceDemands[this.pdIndex].questions[
         this.questionIndex
       ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
@@ -1312,69 +1606,53 @@ export class TestwerkzComponent implements OnInit {
       //     img.css("padding-right", leftAndRight / 2);
       //   }
       // },200)
-      
+    } else if (this.modelType == "video") {
+      var contArr = this.performanceDemands[this.focusType.no].contents;
+      Array.prototype.push.apply(contArr, this.selectedVideoArr);
+      console.log("contArr",contArr);
+      // for(var i in this.selectedVideoArr){
+
+      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
+      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
+      // }
+
+      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
+      console.log(this.settingContents)
+      console.log(this.selectedVideoArr)
+      this.performanceDemands[this.focusType.no].contents.forEach(element => {
+        this.changeTimeFormat(element,'toString')
+        // element.start = 0;
+        // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        // var res= timeString.split(":");
+        // element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        // res= timeString.split(":");
+        // element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // element.start = 0;
+        // element.end = element.duration;
+      });
+      console.log(this.performanceDemands);
     } else {
       console.log("pd Insert Img======");
-
-      // var obj = {
-      //   contentId: "",
-      //   sequence: 0,
-      //   start: 0,
-      //   end: 0,
-      //   playAt: "BEFORE",
-      //   url:""
-      // }
       var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr, this.selectedImgArr);
+      console.log(this.performanceDemands);
     }
     this.cancelModal();
     console.log($(".editableImg"));
-    // var img;
-    // var _this = this;
-    // $(".editableImg").hover(function(event) {
-    //   $('.img-span').remove();
-    //   console.log($('.img-span'))
-    //   img = this;
-    //   var posLeft = 105 + $(this).position().left;
-    //   var posTop = $(this).position().top;
-    //   $(this).after(
-    //     $(`<span class='img-span' 
-    //       style='z-index: 1001;position:
-    //        absolute;
-    //        top: ${posTop}px;
-    //        left: ${posLeft}px;
-    //        cursor: pointer;
-    //        padding-top: 10px;'
-    //        >
-    //         <img src='./assets/images/remove-white.png'>
-    //        </span>`)
-    //   );
-    //     console.log($('.img-span'))
-    //   $(".img-span").click(function() {
-    //     $(img).remove();
-    //     $(".img-span").remove();
-    //     console.log($(img).parents(".question"))
-    //     // console.log($(img).remove());
-    //     console.log("Delete Img",_this.editableId, _this.focusType)
-    //     _this.turn(_this.editableId, _this.focusType);
-    //   });
-    // });
-    // $(".editableImg").mouseout(function(event) {
-    //   console.log(event);
-    //   if (event.offsetX >= 119 || event.offsetX < 0) $(".img-span").remove();
-    //   else if (event.offsetY >= 119 || event.offsetY < 0) $(".img-span").remove();
-    //   else console.log("out but not out");
-    // });
-
-
-
   }
 
   mouseOver(e, idx) {
-    console.log(e.target.className);
-    console.log("over ");
-    console.log($(event.target).children(".img-pd"));
-    console.log($(event.target).siblings(".img-pd"));
+    console.log(e,idx)
+    // console.log(e.target.className);
+    // console.log("over ");
+    // console.log($(event.target).children(".img-pd"));
+    // console.log($(event.target).siblings(".img-pd"));
+    if ($(e.target).hasClass("question-vd")) {
+      $(e.target)
+        .children(".img-pd")
+        .show();
+    }
     if ($(e.target).hasClass("editablePDImg")) {
       $(e.target)
         .siblings(".img-pd")
@@ -1387,6 +1665,8 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   mouseOut(event) {
+    console.log(event.offsetX , event.offsetY)
+    console.log(event.target)
     if (event.offsetX >= 119 || event.offsetX < 0) {
       if ($(event.target).hasClass("editablePDImg")) {
         $(event.target)
@@ -1410,27 +1690,41 @@ export class TestwerkzComponent implements OnInit {
           .hide();
       }
     } else console.log("out but not out", this.showRMIcon);
+
   }
 
   showID: any;
   onFocus(type, idx1, idx2, idx3) {
+    // this.settingContents = [];
     this.editableId = "";
     this.focusPlace = "";
     this.answerTootips = "";
+    var tempType = this.focusType.type;
     this.focusType.type = type;
     this.showID = "";
-    console.log(this.performanceDemands);
+    console.log(this.performanceDemands , type , idx1);
     console.log(this.performanceDemands.length);
     this.showSetting();
     switch (type) {
       case "pd":
+        if(this.focusType.no != idx1 || tempType != type)
+          this.isCollapse = true;
+
         this.showID = "";
         this.focusPlace = "pd" + idx1;
         this.focusType.no = idx1;
         this.focusType.parentIdx = "";
         this.performanceDemands[idx1].showTooltip = true;
+        // this.performanceDemands[idx1].contents.forEach(element => {
+        //   if(this.isVideo(element))
+        //     this.settingContents[idx1].push(element);
+        // console.log(this.settingContents)
+        // });
         break;
       case "question":
+      if(this.focusType.no != idx2 || tempType != type || this.focusType.parentIdx != idx1) 
+        this.isCollapse = true;
+
         this.showID = "q" + idx1 + idx2;
         this.focusPlace = "q" + idx1 + idx2;
         this.focusType.no = idx2;
@@ -1449,11 +1743,15 @@ export class TestwerkzComponent implements OnInit {
         }
         break;
       case "answer":
+      if(this.focusType.no != idx2 || tempType != type)
+      this.isCollapse = true;
+
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx2;
         this.focusType.parentIdx = idx1;
     }
     if (type == "answer") {
+      
       // var tootipsId = $('#answerTootips' + idx1 + idx2 + idx3)
       // tootipsId.show()
       // this.answerTootipsOptions = true;
@@ -1594,18 +1892,25 @@ export class TestwerkzComponent implements OnInit {
   }
 
   cancelConcept(type) {
+    this.showHideSideBar('show')
     this.conceptCreate = false;
     this.conceptEdit = false;
     this.testWerkzCategory = false;
     this.conceptList = true;
     this.performanceDemands = [];
     this.concept = {
-      name: ""
+      name: "",
+      id: ""
     };
     this.focusType = {};
     this.ischecked = "";
     this.performanceDemands = [];
     this.ptest = [];
+    this.pickedTag = {
+      "id": "",
+      "name": "",
+      "state": ""
+    };
     if (type == "redirect") {
       this.getConceptLists();
     }
@@ -1642,20 +1947,26 @@ export class TestwerkzComponent implements OnInit {
         //   return quest.answers.some(ans => ans.correctness === 100);
         // }
         var noAnswer = false;
-        const test = quest.answers.map((ans) => {
-          if((ans.answer == "" && ans.imgUrl != "") || (ans.answer != "" && ans.imgUrl == "") || (ans.answer != "" && ans.imgUrl != "")){
+        const test = quest.answers.map(ans => {
+          if (
+            (ans.answer == "" && ans.imgUrl != "") ||
+            (ans.answer != "" && ans.imgUrl == "") ||
+            (ans.answer != "" && ans.imgUrl != "")
+          ) {
             // console.log("has one~~~");
             // has on ans (Img Or text)
             noAnswer = true;
-          }else if(ans.answer == "" && ans.imgUrl == ""){
+          } else if (ans.answer == "" && ans.imgUrl == "") {
             // console.log("not has one")
             noAnswer = false;
           }
           // else{
           //   console.log("true~~~");
           // }
-        })
-         if (noAnswer) {  return quest.answers.some((ans) => ans.correctness === 100); }  
+        });
+        if (noAnswer) {
+          return quest.answers.some(ans => ans.correctness === 100);
+        }
 
         return false;
       });
@@ -1695,6 +2006,7 @@ export class TestwerkzComponent implements OnInit {
 
   removePDImg(img, idx, pdIdx) {
     console.log("Delete Img", img);
+
     this.performanceDemands[pdIdx].contents.splice(idx, 1);
   }
   // HSYL code
@@ -1716,7 +2028,7 @@ export class TestwerkzComponent implements OnInit {
   }
   createQuestions(_this, pd, question, callback) {
     // Update quesiton object and pass it to api
-    const testArr = [];
+    const tempArr = [];
     const questionFormat = {
       name: "",
       description: "",
@@ -1739,6 +2051,32 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
+    const tempContentArray = [];
+    question.contents.map( (contentObj,index) => {
+      _this.changeTimeFormat(contentObj,'temp')
+      if(contentObj.duration){
+        var tempVideoContentObj = {
+          contentId: "",
+          sequence: 0,
+          start:0,
+          end: 0
+        };
+        tempVideoContentObj.contentId = contentObj._id;
+        tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
+        tempContentArray.push(tempVideoContentObj);
+      }else{
+        var tempImgContentObj = {
+          contentId: "",
+          sequence: 0,
+        };
+        tempImgContentObj.contentId = contentObj._id;
+        tempImgContentObj.sequence = ++index;
+        tempContentArray.push(tempImgContentObj);
+      }
+    })
+
     question.answers.map(answer => {
       var tempObj = {
         name: "",
@@ -1752,13 +2090,16 @@ export class TestwerkzComponent implements OnInit {
       tempObj.imgUrl = answer.imgUrl;
       tempObj.correctness = answer.correctness;
       console.log(tempObj);
-      testArr.push(tempObj);
-      console.log(testArr);
+      tempArr.push(tempObj);
+      console.log(tempArr);
+      
     });
-    questionFormat.answers = testArr;
+    
+    questionFormat.answers = tempArr;
     questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
+    questionFormat.contents = tempContentArray;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
         console.log(res);
@@ -1803,13 +2144,28 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
-      var tempContentObj = {
-        contentId: "",
-        sequence: 0
-      };
-      tempContentObj.contentId = contentObj._id;
-      tempContentObj.sequence = ++index;
-      tempContentArray.push(tempContentObj);
+      _this.changeTimeFormat(contentObj,'temp')
+      if(contentObj.duration){
+        var tempVideoContentObj = {
+          contentId: "",
+          sequence: 0,
+          start:0,
+          end: 0
+        };
+        tempVideoContentObj.contentId = contentObj._id;
+        tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
+        tempContentArray.push(tempVideoContentObj);
+      }else{
+        var tempImgContentObj = {
+          contentId: "",
+          sequence: 0,
+        };
+        tempImgContentObj.contentId = contentObj._id;
+        tempImgContentObj.sequence = ++index;
+        tempContentArray.push(tempImgContentObj);
+      }
     });
     // Get pd.questions
     pdCreateFormat.questions = formattedQuestionIDs;
@@ -1857,7 +2213,7 @@ export class TestwerkzComponent implements OnInit {
       name: this.concept.name,
       tag: [
         {
-          tagId: this.tagID
+          tagId: this.pickedTag.id
         }
       ],
       pd: [],
@@ -1879,7 +2235,7 @@ export class TestwerkzComponent implements OnInit {
   pdLoopDone(_this, error, pdIds) {
     console.log(pdIds);
     if (error) {
-      console.error("Error in pdLoopDone", error);
+      console.log("Error in pdLoopDone", error);
       return;
     }
     const formattedPdIds = pdIds.map((id, index) => ({
@@ -1923,72 +2279,210 @@ export class TestwerkzComponent implements OnInit {
 
   /** ************** *** ************** *** **************  start conept  update*** ************** *** ************** *** ************** *** ************** */
   //start get method
-  async onUpdateTeskWerkz(id) {
-    console.log(id);
-    this.conceptId = id;
-    this.showSettingSidebar = false;
-    this.conceptEdit = true;
-    this.testWerkzCategory = false;
-    this.conceptList = false;
-    console.log(this.conceptList);
-    await this._service.getConceptById(this.regionID, id).subscribe(
-      async (res: any) => {
-        console.log(res);
-        this.conceptsObj = res;
-        this.concept.name = res.name;
-        this.tagID = res.tag[0].tagId;
-        await this.getPDById(res.pd);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-    console.log(this.ptest);
-    this.performanceDemands = this.ptest;
+  // june june code start (getSingleConcept)
+  // async onUpdateTeskWerkz(id) {
+  //   console.log(id);
+  //   this.conceptId = id;
+  //   this.showSettingSidebar = false;
+  //   this.conceptEdit = true;
+  //   this.testWerkzCategory = false;
+  //   this.conceptList = false;
+  //   console.log(this.conceptList);
+  //   await this._service.getConceptById(this.regionID, id).subscribe(
+  //     async (res: any) => {
+  //       console.log(res);
+  //       this.conceptsObj = res;
+  //       this.concept.name = res.name;
+  //       await this.getPDById(res.pd);
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  //   console.log(this.ptest);
+  //   this.performanceDemands = this.ptest;
+  // }
+
+  // async getPDById(pdObj) {
+  //   for (let i = 0; i < pdObj.length; i++) {
+  //     console.log(pdObj[i]);
+  //     await this._service.getPDById(this.regionID, pdObj[i].pdId).subscribe(
+  //       async (res: any) => {
+  //         console.log(res);
+  //         this.ptest.push(res);
+  //         await this.getQueById(res.questions, i);
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+  //   }
+  // }
+
+  // getQueById(qObj, id) {
+  //   console.log(this.ptest, id);
+  //   for (let i = 0; i < qObj.length; i++) {
+  //     this._service.getQuesById(this.regionID, qObj[i].questionId).subscribe(
+  //       (res: any) => {
+  //         console.log(res.html.question);
+  //         this.markDownHtml_arr.push(res.html.question);
+  //         setTimeout(() => {
+  //           document.getElementById("q-" + id + "-" + i).innerHTML =
+  //             res.html.question;
+  //           console.log(document.getElementById("dd"));
+  //         }, 200);
+  //         this.ptest[id].showTooltip = false;
+  //         this.ptest[id].questions[i] = res;
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+  //     // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
+  //     // console.log("q-"+id+i);
+  //     // console.log(inner_markDown);
+  //   }
+  // }
+// june june code end (getSingleConcept)
+
+// WaiYan code Start(getSingleConcept)
+  getSingleConcept(cID){
+    const _that =this;
+    _that.conceptEdit = true;
+   _that.getAllTag();
+    _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
+      console.log("SingleConcept",res)
+      _that.conceptsObj = res;
+      _that.concept.name = res.name;  
+      _that.concept.id = res._id; 
+      _that.pickedTag.id = res.tag[0].tagId;
+      _that.pickedTag.name = res.tag[0].name;
+      _that.ischecked = res.tag[0].tagId;
+      _that.blockUI.start('Loading') 
+      async.map(
+        res.pd, 
+        _that.getPDID.bind(null,_that), 
+        _that.getPDbyID.bind(null,_that)
+      )  
+      _that.conceptId = cID;
+      this.showHideSideBar('hide')
+      _that.showSettingSidebar = false;
+      _that.testWerkzCategory = false;
+      _that.conceptList = false;  
+      setTimeout(() => {
+        _that.blockUI.stop()
+      }, 500);
+    },err =>{
+      console.log(err)
+    })
+
+  }
+  getPDID(_that,pd,callback){
+    // console.log(pd.pdId, 'getPDID function ')
+    callback(null,pd.pdId)
   }
 
-  async getPDById(pdObj) {
-    for (let i = 0; i < pdObj.length; i++) {
-      console.log(pdObj[i]);
-      await this._service.getPDById(this.regionID, pdObj[i].pdId).subscribe(
-        async (res: any) => {
-          console.log(res);
-          this.ptest.push(res);
-          await this.getQueById(res.questions, i);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+  getPDbyID(_that,error,result){
+    if(error){
+      // console.error(error, 'error in getPDbyID function')
+      console.log(error, 'error in getPDbyID function')
     }
+    // console.log('getPDbyID function',result)
+    async.map(
+      result,
+      _that.getPDObject.bind(null,_that),
+      _that.pdObjectArray.bind(null,_that)
+    )
+  }
+  getPDObject(_that,pdObj,callback){
+    // console.log(pdObj,'getPDObject function')
+    _that._service.getPDById(_that.regionID, pdObj).subscribe(res => {
+      // console.log(res)
+      callback(null,res)
+    },err => {
+      console.log(err)
+    })
+  }
+  pdObjectArray(_that,error,result){
+    if(error){
+      console.error(error, 'error in pdObjectArray function')
+    }
+    // console.log(result,'pdObjectArray function')
+    _that.ptest = result
+    console.log(_that.ptest);
+    async.map(
+      result,
+      _that.getSinglePd.bind(null,_that,result),
+      _that.getSinglePd.bind(null,_that)
+    )
+  }
+  getSinglePd(_that,result,singlePD,callback){
+    // console.log(result);
+    // console.log(singlePD)
+    var pdIndex  = result.indexOf(singlePD)
+    console.log(pdIndex);
+    async.map(
+      singlePD.questions,
+      _that.getQuestionArray.bind(null,_that,singlePD.questions),
+      _that.getgQuestionObject.bind(null,_that,pdIndex,singlePD.questions)
+      )
+    // callback(null,'singlePD')
   }
 
-  getQueById(qObj, id) {
-    console.log(this.ptest, id);
-    for (let i = 0; i < qObj.length; i++) {
-      this._service.getQuesById(this.regionID, qObj[i].questionId).subscribe(
-        (res: any) => {
-          console.log(res.html.question);
-          this.markDownHtml_arr.push(res.html.question);
+  getSinglePdDone(_that,error,result){
+    console.log(result);
+  }
+
+  getQuestionArray(_that,questionArray,question,callback){
+    // console.log(question, 'getQuestionArray function')
+    callback(null,question.questionId)
+  }
+  getgQuestionObject(_that,pdIndex,questionArray,error,result){
+    if(error){
+      console.log(error, 'error in getgQuestionObject function')
+    }
+    // console.log(questionArray);
+    // console.log(result, 'getgQuestionObject function')
+    async.map(
+      result,
+      _that.getQuesById.bind(null,_that,pdIndex,result),
+      _that.assignValue.bind(null,_that,pdIndex)
+    )
+  }
+  getQuesById(_that,pdIndex,result,Id,callback){
+    console.log(result);
+    console.log(pdIndex);
+    console.log(result.indexOf(Id))
+    _that._service.getQuesById(_that.regionID,Id).subscribe(res => {
+      // console.log(res);
+      callback(null,res)
+    },err => {
+      console.log(err);
+    })
+  }
+  assignValue(_that,pdIndex,error,result){
+    if(error){
+      console.log(error, 'error in assignValue function')
+    }
+      _that.ptest[pdIndex].questions = result;
+      _that.performanceDemands = _that.ptest;
+      console.log(_that.performanceDemands);
+      _that.performanceDemands.map((pd,pdIndex) =>{
+        // console.log(pd,pdIndex)
+        pd.questions.map((question,Qindex) => {
+          console.log(question,Qindex)
           setTimeout(() => {
-            document.getElementById("q-" + id + "-" + i).innerHTML =
-              res.html.question;
-            console.log(document.getElementById("dd"));
+            if ( question.html) {
+              document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
+              question.html.question;
+            }
           }, 200);
-          this.ptest[id].showTooltip = false;
-          this.ptest[id].questions[i] = res;
-        },
-        err => {
-          console.log(err);
-        }
-      );
-      // const inner_markDown:HTMLElement= document.getElementById('q-'+id+i);
-      // console.log("q-"+id+i);
-      // console.log(inner_markDown);
-    }
-  }
+        })
+      })
 
+  }
   //end get method
+// WaiYan code end(getSingleConcept)
 
   //start put method
   updateConcept(id) {
@@ -2027,7 +2521,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(conceptId);
     console.log(_this);
     if (error) {
-      console.error("Error in pdLoopDone", error);
+      console.log("Error in pdLoopDone", error);
       return;
     }
     const formattedPdIds = pdIds.map((id, index) => ({
@@ -2050,7 +2544,7 @@ export class TestwerkzComponent implements OnInit {
       name: this.concept.name,
       tag: [
         {
-          tagId: this.tagID
+          tagId: this.pickedTag.id
         }
       ],
       pd: [],
@@ -2149,19 +2643,18 @@ export class TestwerkzComponent implements OnInit {
         );
     }
   }
-  deleteAnswerImg(i,j,index){
-    this.performanceDemands[i].questions[j].answers[index].imgUrl='';
+  deleteAnswerImg(i, j, index) {
+    this.performanceDemands[i].questions[j].answers[index].imgUrl = "";
   }
-  onmouseEnter(e,i,j,index){
-    var Id = String(i) + String(j) + String(index)
-    var imgId = $('#imgID' + Id)
-    imgId[0].style.display = 'block'
-
+  onmouseEnter(e, i, j, index) {
+    var Id = String(i) + String(j) + String(index);
+    var imgId = $("#imgID" + Id);
+    imgId[0].style.display = "block";
   }
-  onmouseLeave(event,i,j,index){
-    var Id = String(i) + String(j) + String(index)
-    var imgId = $('#imgID' + Id)
-    imgId[0].style.display = 'none'
+  onmouseLeave(event, i, j, index) {
+    var Id = String(i) + String(j) + String(index);
+    var imgId = $("#imgID" + Id);
+    imgId[0].style.display = "none";
   }
   updateQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
     console.log(pd);
@@ -2190,7 +2683,12 @@ export class TestwerkzComponent implements OnInit {
         contentId: "",
         sequence: 0
       };
-      tempContentObj.contentId = contentObj._id;
+      console.log("###############contentObj._id",contentObj._id);
+      if(contentObj._id == undefined){
+        tempContentObj.contentId = contentObj.contentId;
+      }else{
+        tempContentObj.contentId = contentObj._id;
+      }
       tempContentObj.sequence = ++index;
       tempContentArray.push(tempContentObj);
     });
@@ -2228,4 +2726,98 @@ export class TestwerkzComponent implements OnInit {
   }
   //end put method
   /** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
+
+  onClickDeleteConcept(content,concept){
+    console.log("concept",content,concept)
+    this.modalReference = this.modalService.open(content, { backdrop:'static', windowClass:'deleteModal d-flex justify-content-center align-items-center' });
+  }
+  conceptDelete(conceptId){
+    console.log("onClickDelete",conceptId);
+    this.modalReference.close();
+    this._service.deleteConcept(this.regionID,conceptId)
+    .subscribe((res:any)=>{
+      this.toastr.error("Successfully delete")
+      this.cancelConcept('redirect');
+    })
+  }
+  isVideo(img){
+    let testString = img.type;
+    if(testString.includes("video"))
+      return true;
+    else 
+      return false;
+  }
+  onClickSettingArrow(e){
+    console.log(e)
+    console.log(this.focusType)
+    console.log(this.performanceDemands)
+    this.contentType = 'video';
+    // if(this.isCollapse)
+    //   this.getAllContent();
+    this.isCollapse = !this.isCollapse;
+  }
+  onselectedVideoDiv(e,id,video){
+    if($(e.target).hasClass('duration')){
+
+    }else{
+      $(".vd").children("video").removeClass("highlight-video")
+      $(".duration-wrapper").hide();
+      console.log(this.focusType)
+      console.log(this.performanceDemands)
+      var videoDiv = $(e.target).parents(".vd");
+      // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
+      // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
+      // // console.log(timeString)
+      // var res= timeString.split(":");
+      // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+      // video.start = 0;
+      videoDiv.children(".duration-wrapper").show();
+      videoDiv.children("video").toggleClass("highlight-video");
+      if(videoDiv.children("video").hasClass("highlight-video")){
+        videoDiv.children(".setting-trash").css('opacity','1');
+        
+      }else
+      videoDiv.children("i").css('opacity','0');
+    }
+    
+  }
+  onHoverVideoDiv(e,id){
+    // console.log(id)
+    // console.log(e.target)
+    // console.log($(e.target).children("video"))
+    // console.log($(e.target).children("i"))
+    if(e.type == "mouseenter"){
+      if($(e.target).children("video").hasClass("highlight-video"))
+        $(e.target).children(".setting-trash").css('opacity','1');
+      else
+        $(e.target).children(".setting-trash").css('opacity','0');
+    }
+    else
+      $(e.target).children(".setting-trash").css('opacity','0');
+  }
+  deleteSettingContents(i){
+    // this.settingContents[this.focusType.no].contents.splice(i, 1)
+    // console.log(this.focusType)
+    let videoArr = [];
+    console.log(i)
+    if(this.focusType.type == 'pd'){
+      console.log(this.performanceDemands[this.focusType.no])
+      this.performanceDemands[this.focusType.no].contents.forEach((element,ind) => {
+        if(this.isVideo(element)){
+          console.log(ind)
+          videoArr.push(ind)
+        }
+      });
+      var deleteId = videoArr[i]
+      this.performanceDemands[this.focusType.no].contents.splice(deleteId, 1)
+    }
+    else if(this.focusType.type == 'question'){
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
+
+    }
+  }
+  removeQuestionVideo(video , i){
+    console.log(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no])
+    this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
+  }
 }
