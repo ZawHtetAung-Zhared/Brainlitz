@@ -4,6 +4,7 @@
   <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
 </div> -->
 <!-- *ngIf="conceptCreate &&  greterThan  && conceptEdit"  -->
+
 <div *ngIf="greterThan && (conceptEdit || conceptCreate)"  class="d-flex w-100 align-items-center justify-content-between sticky-back-bar">
   <div class="back-to d-flex" *ngIf="!conceptEdit" (click)="backToTag('conceptCreate')">
     <i class="fa fa-angle-left"></i>
@@ -34,8 +35,21 @@
     </button>
   </div>
 </div>
-<div *ngIf="conceptList" class="pdLR-15">
+<div  class="pdLR-15">
   <h2 class="testwerkzTitle pdLR-15 mt-3">TestWerkz</h2>
+    <!-- Start Collection -->
+    <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3">
+      <label class="cTitle mb-0">Concept</label>
+      <div>
+        <button class="btn btn-create" (click)="goToTestWerkz()">
+          Add new concept
+        </button>
+        <!-- <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button> -->
+      </div>
+    </div>
+  <!-- End Collection -->
+
+  <!-- Start Concept -->
   <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3">
     <label class="cTitle mb-0">Concept</label>
     <div>
@@ -499,7 +513,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolSVG
-                                      }}" alt="" class="cursor-on" />
+                                      }}" alt="" />
                                   </div>
 
                                   <div *ngIf="
@@ -508,7 +522,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolReverseSVG
-                                      }}" alt="" class="cursor-on"/>
+                                      }}" alt="" />
                                   </div>
                                 </div>
                               </label>
@@ -542,7 +556,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolSVG
-                                      }}" alt="" class="cursor-on" />
+                                      }}" alt="" />
                                   </div>
 
                                   <div *ngIf="
@@ -551,7 +565,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolReverseSVG
-                                      }}" alt="" class="cursor-on" />
+                                      }}" alt="" />
                                   </div>
                                 </div>
                               </label>
@@ -583,7 +597,7 @@
                     </div>
                   </div>
                   <div class="add-new-question">
-                    <p (click)="addQuestion(i)" class="mb-0 cursor-on">
+                    <p (click)="addQuestion(i)" class="mb-0">
                       Add new question
                     </p>
                   </div>
@@ -594,10 +608,10 @@
             <!-- Wai Yan UI End -->
 
             <div class="d-flex pl-3 mt-3">
-              <p (click)="addPd()" class="plus-sign cursor-on d-flex justify-content-center align-items-center">
+              <p (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
                 <span>+</span>
               </p>
-              <p (click)="addPd()" class="mb-0 mt-1 cursor-on pl-3 new-pd-text">
+              <p (click)="addPd()" class="mb-0 mt-1 pl-3 new-pd-text">
                 Add new performance demand
               </p>
             </div>
@@ -744,14 +758,14 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center delete-btnWrap ">
-          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length > 1" class="cursor-on" (click)="delete(focusType)">
+        <div class="d-flex justify-content-center align-items-center delete-btnWrap">
+          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length > 1" (click)="delete(focusType)">
             Delete
           </button>
           <button *ngIf="
               (focusType.type == 'question' || focusType.type == 'answer') &&
               performanceDemands[focusType.parentIdx].questions.length > 1
-            " (click)="delete(focusType)" class="cursor-on">
+            " (click)="delete(focusType)">
             Delete
           </button>
         </div>
