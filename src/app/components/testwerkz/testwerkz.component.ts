@@ -1079,7 +1079,15 @@ export class TestwerkzComponent implements OnInit {
   onMetadata(e, id) {
     console.log("metadata: ", e);
     console.log("duration: ", e.target.duration);
-    this.videoArr[id]["duration"] = e.target.duration;
+    console.log(this.conceptEdit)
+    // if(this.conceptEdit){
+    //   let obj={duration:''};
+    //   obj.duration=e.target.duration;
+    //   this.videoArr.push(obj);
+    // }else{
+      this.videoArr[id]["duration"] = e.target.duration;
+    // }
+   
     console.log(this.videoArr);
     return true;
     // var canvas1 = document.getElementById('canvas-' + id);
@@ -1476,27 +1484,37 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
-    if(this.isVideo(element)){
-      if(type == 'toString'){
-        element.start = 0;
-        var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-        var res= timeString.split(":");
-        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-        timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
-        res= timeString.split(":");
-        element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
-    }
-    else{
-      let res = element.start.split(" ");
-      let total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
-      element.start = total;
+    console.log(element)
+    // console.error(element.start)
+    // console.error(element.end)
+    // console.error(element.start && element.end)
 
-      res =  element.end.split(" ");
-      total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
-      element.end  = total;
-    }
-    }
+    // if(element.start && element.end){
+    //   console.log("is me")
+    // }else{
+      if(this.isVideo(element)){
+        if(type == 'toString'){
+          element.start = 0;
+          var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+          var res= timeString.split(":");
+          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+          timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+          res= timeString.split(":");
+          element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+      }
+      else{
+        let res = element.start.split(" ");
+        let total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+        element.start = total;
   
+        res =  element.end.split(" ");
+        total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
+        element.end  = total;
+      }
+      }
+    
+    // }
+    
     
   }
   insertImg() {
@@ -1505,6 +1523,7 @@ export class TestwerkzComponent implements OnInit {
     console.log("editableID", this.editableId);
     if(this.editableId != "" && this.modelType == 'video'){
       console.log("----------" , this.focusType)
+      // console.error("here 1")
       var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents;
  
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
@@ -1607,6 +1626,7 @@ export class TestwerkzComponent implements OnInit {
       //   }
       // },200)
     } else if (this.modelType == "video") {
+      // console.error("here 2")
       var contArr = this.performanceDemands[this.focusType.no].contents;
       Array.prototype.push.apply(contArr, this.selectedVideoArr);
       console.log("contArr",contArr);
@@ -1620,6 +1640,7 @@ export class TestwerkzComponent implements OnInit {
       console.log(this.settingContents)
       console.log(this.selectedVideoArr)
       this.performanceDemands[this.focusType.no].contents.forEach(element => {
+        // console.error(element)
         this.changeTimeFormat(element,'toString')
         // element.start = 0;
         // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
@@ -2144,6 +2165,7 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
+      console.log(contentObj)
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
         var tempVideoContentObj = {
@@ -2387,7 +2409,7 @@ export class TestwerkzComponent implements OnInit {
       // console.error(error, 'error in getPDbyID function')
       console.log(error, 'error in getPDbyID function')
     }
-    // console.log('getPDbyID function',result)
+    console.log('getPDbyID function',result)
     async.map(
       result,
       _that.getPDObject.bind(null,_that),
@@ -2417,8 +2439,8 @@ export class TestwerkzComponent implements OnInit {
     )
   }
   getSinglePd(_that,result,singlePD,callback){
-    // console.log(result);
-    // console.log(singlePD)
+    console.log(result);
+    console.log(singlePD)
     var pdIndex  = result.indexOf(singlePD)
     console.log(pdIndex);
     async.map(
@@ -2468,7 +2490,12 @@ export class TestwerkzComponent implements OnInit {
       _that.performanceDemands = _that.ptest;
       console.log(_that.performanceDemands);
       _that.performanceDemands.map((pd,pdIndex) =>{
-        // console.log(pd,pdIndex)
+        // console.error(pd)
+        pd.contents.map((cont,pIdx)=>{
+          console.log(cont)
+          cont["duration"] = cont.end
+          _that.changeTimeFormat(cont,'toString')
+        })
         pd.questions.map((question,Qindex) => {
           console.log(question,Qindex)
           setTimeout(() => {
@@ -2590,6 +2617,33 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
+   const tempContentArray = [];
+    question.contents.map( (contentObj,index) => {
+      // console.error(contentObj)
+      _this.changeTimeFormat(contentObj,'temp')
+      if(contentObj.duration){
+        var tempVideoContentObj = {
+          contentId: "",
+          sequence: 0,
+          start:0,
+          end: 0
+        };
+        tempVideoContentObj.contentId = contentObj._id;
+        tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
+        tempContentArray.push(tempVideoContentObj);
+      }else{
+        var tempImgContentObj = {
+          contentId: "",
+          sequence: 0,
+        };
+        tempImgContentObj.contentId = contentObj._id;
+        tempImgContentObj.sequence = ++index;
+        tempContentArray.push(tempImgContentObj);
+      }
+    })
+
     question.answers.map(answer => {
       var tempObj = {
         name: "",
@@ -2610,6 +2664,7 @@ export class TestwerkzComponent implements OnInit {
     questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
+    questionFormat.contents=tempContentArray;
     console.log(question._id);
     if (question._id == "" || question._id == undefined) {
       console.log("is create");
@@ -2683,14 +2738,49 @@ export class TestwerkzComponent implements OnInit {
         contentId: "",
         sequence: 0
       };
-      console.log("###############contentObj._id",contentObj._id);
-      if(contentObj._id == undefined){
-        tempContentObj.contentId = contentObj.contentId;
+      _this.changeTimeFormat(contentObj,'temp')
+      
+      // if(contentObj._id == undefined){
+      //   tempContentObj.contentId = contentObj.contentId;
+      // }else{
+      //   tempContentObj.contentId = contentObj._id;
+      // }
+      if(contentObj.duration){
+        var tempVideoContentObj = {
+          contentId: "",
+          sequence: 0,
+          start:0,
+          end: 0
+        };
+        if(contentObj._id == undefined){
+          tempVideoContentObj.contentId = contentObj.contentId;
+        }else{
+          tempVideoContentObj.contentId = contentObj._id;
+        }
+        // tempContentObj.contentId = contentObj.contentId;
+        // tempVideoContentObj.contentId = contentObj._id;
+        tempVideoContentObj.sequence = ++index;
+        tempVideoContentObj.start =  contentObj.start;
+        tempVideoContentObj.end = contentObj.end;
+        tempContentArray.push(tempVideoContentObj);
       }else{
-        tempContentObj.contentId = contentObj._id;
+        var tempImgContentObj = {
+          contentId: "",
+          sequence: 0,
+        };
+        if(contentObj._id == undefined){
+          tempImgContentObj.contentId = contentObj.contentId;
+        }else{
+          tempImgContentObj.contentId = contentObj._id;
+        }
+        // tempImgContentObj.contentId = contentObj._id;
+        tempImgContentObj.sequence = ++index;
+        tempContentArray.push(tempImgContentObj);
       }
-      tempContentObj.sequence = ++index;
-      tempContentArray.push(tempContentObj);
+      console.log("###############contentObj._id",contentObj._id);
+      console.log("###",contentObj.contentId)
+      
+      // tempContentArray.push(tempContentObj);
     });
     // Get pd.questions
     pdCreateFormat.questions = formattedQuestionIDs;
