@@ -499,7 +499,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolSVG
-                                      }}" alt="" />
+                                      }}" alt="" class="cursor-on" />
                                   </div>
 
                                   <div *ngIf="
@@ -508,7 +508,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolReverseSVG
-                                      }}" alt="" />
+                                      }}" alt="" class="cursor-on"/>
                                   </div>
                                 </div>
                               </label>
@@ -542,7 +542,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolSVG
-                                      }}" alt="" />
+                                      }}" alt="" class="cursor-on" />
                                   </div>
 
                                   <div *ngIf="
@@ -551,7 +551,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolReverseSVG
-                                      }}" alt="" />
+                                      }}" alt="" class="cursor-on" />
                                   </div>
                                 </div>
                               </label>
@@ -583,7 +583,7 @@
                     </div>
                   </div>
                   <div class="add-new-question">
-                    <p (click)="addQuestion(i)" class="mb-0">
+                    <p (click)="addQuestion(i)" class="mb-0 cursor-on">
                       Add new question
                     </p>
                   </div>
@@ -594,10 +594,10 @@
             <!-- Wai Yan UI End -->
 
             <div class="d-flex pl-3 mt-3">
-              <p (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
+              <p (click)="addPd()" class="plus-sign cursor-on d-flex justify-content-center align-items-center">
                 <span>+</span>
               </p>
-              <p (click)="addPd()" class="mb-0 mt-1 pl-3 new-pd-text">
+              <p (click)="addPd()" class="mb-0 mt-1 cursor-on pl-3 new-pd-text">
                 Add new performance demand
               </p>
             </div>
@@ -744,14 +744,14 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center delete-btnWrap">
-          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length > 1" (click)="delete(focusType)">
+        <div class="d-flex justify-content-center align-items-center delete-btnWrap ">
+          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length > 1" class="cursor-on" (click)="delete(focusType)">
             Delete
           </button>
           <button *ngIf="
               (focusType.type == 'question' || focusType.type == 'answer') &&
               performanceDemands[focusType.parentIdx].questions.length > 1
-            " (click)="delete(focusType)">
+            " (click)="delete(focusType)" class="cursor-on">
             Delete
           </button>
         </div>

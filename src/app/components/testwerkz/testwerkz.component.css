@@ -1750,3 +1750,7 @@ div.pdLine-wrap:last-child {
       max-width: 560px!important;
   }
 }
+
+.cursor-on{
+  cursor: pointer;
+}
