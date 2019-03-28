@@ -1157,8 +1157,8 @@ export class TestwerkzComponent implements OnInit {
         this.selectedImgArr = img;
         this.imgIdArr = i;
         console.log(imgDiv)
-        console.error( $(imgDiv).hasClass("addImgDivBorder"))
-        console.error(imgDiv.style.border == "solid");
+        // console.error( $(imgDiv).hasClass("addImgDivBorder"))
+        // console.error(imgDiv.style.border == "solid");
         this.isDisabelInsert = true;
 
         // if (this.imgId != undefined && this.imgId != i) {
@@ -2235,7 +2235,7 @@ export class TestwerkzComponent implements OnInit {
   pdLoopDone(_this, error, pdIds) {
     console.log(pdIds);
     if (error) {
-      console.error("Error in pdLoopDone", error);
+      console.log("Error in pdLoopDone", error);
       return;
     }
     const formattedPdIds = pdIds.map((id, index) => ({
@@ -2384,7 +2384,8 @@ export class TestwerkzComponent implements OnInit {
 
   getPDbyID(_that,error,result){
     if(error){
-      console.error(error, 'error in getPDbyID function')
+      // console.error(error, 'error in getPDbyID function')
+      console.log(error, 'error in getPDbyID function')
     }
     // console.log('getPDbyID function',result)
     async.map(
@@ -2399,7 +2400,7 @@ export class TestwerkzComponent implements OnInit {
       // console.log(res)
       callback(null,res)
     },err => {
-      console.error(err)
+      console.log(err)
     })
   }
   pdObjectArray(_that,error,result){
@@ -2438,7 +2439,7 @@ export class TestwerkzComponent implements OnInit {
   }
   getgQuestionObject(_that,pdIndex,questionArray,error,result){
     if(error){
-      console.error(error, 'error in getgQuestionObject function')
+      console.log(error, 'error in getgQuestionObject function')
     }
     // console.log(questionArray);
     // console.log(result, 'getgQuestionObject function')
@@ -2456,12 +2457,12 @@ export class TestwerkzComponent implements OnInit {
       // console.log(res);
       callback(null,res)
     },err => {
-      console.error(err);
+      console.log(err);
     })
   }
   assignValue(_that,pdIndex,error,result){
     if(error){
-      console.error(error, 'error in assignValue function')
+      console.log(error, 'error in assignValue function')
     }
       _that.ptest[pdIndex].questions = result;
       _that.performanceDemands = _that.ptest;
@@ -2520,7 +2521,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(conceptId);
     console.log(_this);
     if (error) {
-      console.error("Error in pdLoopDone", error);
+      console.log("Error in pdLoopDone", error);
       return;
     }
     const formattedPdIds = pdIds.map((id, index) => ({
