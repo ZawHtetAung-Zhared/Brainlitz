@@ -1410,7 +1410,7 @@ export class CoursecreateComponent implements OnInit {
         if (err.status == 409) {
           console.log(this.model.end)
           console.log(this.model.lessonCount)
-          this.toastr.error(err.error.message);
+          this.toastr.error("Need to resolve overlap schedule");
           this.conflitArr = err.error.lessons;
           console.log(this.conflitArr)
           this.conflitCourseId = err.error.courseId;
