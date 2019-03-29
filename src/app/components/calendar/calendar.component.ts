@@ -158,7 +158,7 @@ export class CalendarComponent implements OnInit {
     this.isHoliday = false;
     this.isChecked = '';
     this.yearLists = [];
-    this.getAllHolidaysCalendar(20, 0);
+    // this.getAllHolidaysCalendar(20, 0);
     this.formField = new calendarField();
   }
 
