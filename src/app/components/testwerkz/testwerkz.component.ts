@@ -183,7 +183,6 @@ export class TestwerkzComponent implements OnInit {
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
-    console.log(this.dragItem);
     var clickedEle = $event;
     if (clickedEle.className == "question-insert-img") {
       this.selectEle = this.clickEle;
@@ -1484,7 +1483,7 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
-    console.log(element)
+    // console.log(element)
     // console.error(element.start)
     // console.error(element.end)
     // console.error(element.start && element.end)
@@ -1495,7 +1494,9 @@ export class TestwerkzComponent implements OnInit {
       if(this.isVideo(element)){
         if(type == 'toString'){
           element.start = 0;
+          console.log("~~~duration",element.duration)
           var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+          console.log("time string",timeString);
           var res= timeString.split(":");
           element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
           timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
@@ -2435,14 +2436,14 @@ export class TestwerkzComponent implements OnInit {
     async.map(
       result,
       _that.getSinglePd.bind(null,_that,result),
-      _that.getSinglePd.bind(null,_that)
+      // _that.getSinglePd.bind(null,_that)
     )
   }
   getSinglePd(_that,result,singlePD,callback){
-    console.log(result);
-    console.log(singlePD)
+    // console.log(result);
+    // console.log(singlePD)
     var pdIndex  = result.indexOf(singlePD)
-    console.log(pdIndex);
+    // console.log(pdIndex);
     async.map(
       singlePD.questions,
       _that.getQuestionArray.bind(null,_that,singlePD.questions),
@@ -2472,9 +2473,9 @@ export class TestwerkzComponent implements OnInit {
     )
   }
   getQuesById(_that,pdIndex,result,Id,callback){
-    console.log(result);
-    console.log(pdIndex);
-    console.log(result.indexOf(Id))
+    // console.log(result);
+    // console.log(pdIndex);
+    // console.log(result.indexOf(Id))
     _that._service.getQuesById(_that.regionID,Id).subscribe(res => {
       // console.log(res);
       callback(null,res)
@@ -2491,13 +2492,29 @@ export class TestwerkzComponent implements OnInit {
       console.log(_that.performanceDemands);
       _that.performanceDemands.map((pd,pdIndex) =>{
         // console.error(pd)
+        // format duration time for pd content array 
         pd.contents.map((cont,pIdx)=>{
-          console.log(cont)
-          cont["duration"] = cont.end
-          _that.changeTimeFormat(cont,'toString')
+          if(_that.isVideo(cont)){
+            cont["duration"] = cont.end
+            setTimeout(()=>{
+              _that.changeTimeFormat(cont,'toString')
+            },50)
+          }
         })
         pd.questions.map((question,Qindex) => {
-          console.log(question,Qindex)
+          // console.log("#######question.contents",question.contents,"Qindex",Qindex)
+          // format duration time for question content array 
+          if(question.contents != undefined){
+            question.contents.map((quesCont)=>{
+              // console.log("###Q content",quesCont)
+              if(_that.isVideo(quesCont)){
+                quesCont["duration"] = quesCont.end
+                setTimeout(()=>{
+                  _that.changeTimeFormat(quesCont,'toString')
+                },50)
+              }
+            })
+          }
           setTimeout(() => {
             if ( question.html) {
               document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
@@ -2628,7 +2645,12 @@ export class TestwerkzComponent implements OnInit {
           start:0,
           end: 0
         };
-        tempVideoContentObj.contentId = contentObj._id;
+        if(contentObj._id == undefined){
+          tempVideoContentObj.contentId = contentObj.contentId;
+        }else{
+          tempVideoContentObj.contentId = contentObj._id;
+        }
+        // tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.start;
         tempVideoContentObj.end = contentObj.end;
@@ -2638,7 +2660,12 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
         };
-        tempImgContentObj.contentId = contentObj._id;
+        if(contentObj._id == undefined){
+          tempImgContentObj.contentId = contentObj.contentId;
+        }else{
+          tempImgContentObj.contentId = contentObj._id;
+        }
+        // tempImgContentObj.contentId = contentObj._id;
         tempImgContentObj.sequence = ++index;
         tempContentArray.push(tempImgContentObj);
       }
