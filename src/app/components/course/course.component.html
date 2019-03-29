@@ -718,7 +718,7 @@
         <div class="activeTab-content" *ngIf="activeTab == 'APG'">
           <div class="detail-info">
             <label>Progress</label>
-            <h4>Piano Grade 1</h4>
+            <h4>{{ apgLists.name }}</h4>
           </div>
           <div *ngIf="apgLists" class="row">
             <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3" *ngFor="let apg of apgLists.students">

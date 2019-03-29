@@ -274,7 +274,7 @@
 									
 					                <input type="checkbox" class="regular-checkbox" name="{{d.day}}" value={{d.val}} (change)="selectDay(d.val, $event)" [checked]="selectedDay.indexOf(d.val) != -1">
 					                <div class="box-label">{{d.day}}</div>
-					            </label>
+					      </label>
 							</span>
 						</div>
 					</div>
@@ -460,7 +460,7 @@
 					<!-- <hr class="no-conflit-hr"> -->
 				</div>
 				<div class="pad-t-15" *ngIf="conflit.conflictWith?.length > 0">
-					<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Conflicts</label>
+					<span class="number-wrap font-medium">{{ conflit.conflictWith?.length }}</span><label class="conflit-title font-medium">Overlap Schedule</label>
 					<div class="d-flex" style="padding-top: 15px">
 						<span class="round-number font-medium">{{ conflit.conflictWith?.length }}</span>
 						<span class="image-wrap">
@@ -473,7 +473,7 @@
 					</div>
 					<div class="d-flex font-medium msg-padding">
 						<span class="round-icon">!</span>
-						<div class="pad-left-10 warning-msg">Conflict on the following lessons</div>
+						<div class="pad-left-10 warning-msg">Overlap schedule on the following lessons</div>
 					</div>
 				</div>
 				<div class="conflit-wrapper" *ngFor="let lesson of conflit.conflictWith">
@@ -514,9 +514,9 @@
 
 						<div *ngIf="ignoreArr.indexOf(lesson._id) == -1 && skipArr.indexOf(lesson._id) == -1" class="d-flex">
 							<button [ngClass]="" class="skip-btn font-medium" (click)="skip(lesson._id,conflit.staffId)">
-							Skip
+							Not Ok
 							</button>
-							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ignore</button>
+							<button class="ignore-btn font-medium" (click)="ignore(lesson._id,lesson.staffId)">Ok</button>
 						</div>
 						<!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
 						<!-- hello {{conflit.staffId}} <br>
@@ -525,14 +525,14 @@
 						<button *ngIf="skipArr.indexOf(lesson._id) > -1" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
-								Skipped
+								Not Ok
 							</div>
 						</button>
 						<!-- <button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="d-flex"> -->
 						<button *ngIf="ignoreArr.indexOf(lesson._id) > -1" class="d-flex skipped">
 							<div class="tick-wrap"><img src="./assets/images/check@2x.png"></div>
 							<div class="skipped">
-								Ignored
+								Ok
 							</div>
 						</button>
 						<!-- <button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
@@ -548,10 +548,10 @@
 				</div>
 				<div *ngIf="conflit.conflictWith?.length > 0" class="d-flex allbtn-wrap">
 					<!-- [disabled]="tempID.indexOf(conflit.staffId) != -1" -->
-					<button class="skipAll font-medium" (click)="skipAll(conflit)">Skip all</button>
+					<button class="skipAll font-medium" (click)="skipAll(conflit)">All Not Ok</button>
 
 					<!-- [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" -->
-					<button class="cancelAll font-medium" (click)="ignoreAll(conflit)">Ignore all</button>
+					<button class="cancelAll font-medium" (click)="ignoreAll(conflit)">All Ok</button>
 				</div>
 				<hr class="conflit-list-line">
 			</div>
