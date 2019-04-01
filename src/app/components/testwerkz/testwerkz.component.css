@@ -1165,12 +1165,14 @@ p.g_title {
 
 .answer-tooltip-wrap {
   background: #2e3e4d;
-  width: 44px;
+  /*width: 44px;*/
   position: absolute;
   z-index: 999;
   left: 30px;
   top: -36px;
   border-radius: 4px;
+  padding: 5px 11px;
+  outline: none;
 }
 
 .ans-image {
@@ -1209,11 +1211,11 @@ p.g_title {
   margin: 3px 0px;
 }
 
-.answer-tooltip-wrap button {
+/*.answer-tooltip-wrap button {
   background: none;
   border: none;
   margin: 3px 3px;
-}
+}*/
 
 .carret-box {
   width: 20px;
@@ -1227,8 +1229,8 @@ p.g_title {
 }
 
 .answer-carret-box {
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   border-top: solid 10px #2e3e4d;
   border-left: solid 10px transparent;
   border-right: solid 10px transparent;
@@ -1579,7 +1581,7 @@ p.g_title {
 }
 
 .pdlist-wrap {
-  max-height: 195px;
+  max-height: 175px;
   overflow: overlay;
 }
 

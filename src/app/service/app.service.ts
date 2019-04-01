@@ -2426,13 +2426,13 @@ export class appService{
 
     getPDById(regionId:string, id: string){
       let apiUrl = this.baseUrl  + '/' + regionId + '/performance-demands/' + id;  
-      console.log(apiUrl)   
+      // console.log(apiUrl)   
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      console.log(this.tokenType+' '+this.accessToken)
+      // console.log(this.tokenType+' '+this.accessToken)
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
@@ -2442,13 +2442,13 @@ export class appService{
 
     getQuesById(regionId:string, id: string){
       let apiUrl = this.baseUrl  + '/' + regionId + '/questions/' + id;  
-      console.log(apiUrl)   
+      // console.log(apiUrl)   
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
-      console.log(this.tokenType+' '+this.accessToken)
+      // console.log(this.tokenType+' '+this.accessToken)
       return this.httpClient.get(apiUrl, httpOptions)
       .map((res:Response) => {
         let result = res; 
