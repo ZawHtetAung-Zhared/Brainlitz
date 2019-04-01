@@ -2470,6 +2470,7 @@ export class appService{
           return result;
       }) 
     }
+    
 
     deleteConcept(regionId:string,conceptId:string){
       let url = this.baseUrl + '/' + regionId + '/concepts/' + conceptId;
@@ -2486,5 +2487,19 @@ export class appService{
       }) 
     }
 
+    getAllCollection(regionId:string){
+      let url = this.baseUrl + '/' + regionId + '/assessment-plans';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
 }
 

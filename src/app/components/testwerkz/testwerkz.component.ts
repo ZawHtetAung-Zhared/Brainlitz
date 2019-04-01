@@ -122,6 +122,7 @@ export class TestwerkzComponent implements OnInit {
   public dragItem: any;
   public dragItemParent: any;
   public clickEle: any = "";
+  public collectionarr:any=[];
   // public focusType = {
   //   'type': "",
   //   'no': "",
@@ -176,6 +177,7 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists();
+    this.getCollectionlist();
     console.log(this.focusType = {
       'no' : 0,
       'type' : 'pd'
@@ -2937,4 +2939,19 @@ export class TestwerkzComponent implements OnInit {
     console.log(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no])
     this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
   }
+
+  //start collection group
+  getCollectionlist() {
+    this.blockUI.start("Loading");
+    this._service.getAllCollection(this.regionID).subscribe((res: any) => {
+      console.log("collection lists", res);
+      this.collectionarr = res;
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
+    });
+  }
+
+  //end collection group
+
 }

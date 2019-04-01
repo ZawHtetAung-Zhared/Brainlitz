@@ -1756,3 +1756,29 @@ div.pdLine-wrap:last-child {
 .cursor-on{
   cursor: pointer;
 }
+
+/* start collection */
+.single-collection {
+  height: 180px;
+  width: 303px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: rgba(0, 0, 0, 0.1);
+}
+.single-collectin-header {
+  height: 52px;
+  background-color: #64707d;
+  border-radius: 4px 4px 0px 0px;
+}
+
+.collection-wrapper.card-columns {
+  padding: 0px 15px;
+  column-count: 2;
+}
+
+p.single-collection-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 16px;
+}
