@@ -2485,45 +2485,40 @@ export class TestwerkzComponent implements OnInit {
   }
   assignValue(_that,pdIndex,error,result){
     if(error){
-      console.log(error, 'error in assignValue function')
+      console.log(error,'error in assignValue function');
     }
-      _that.ptest[pdIndex].questions = result;
-      _that.performanceDemands = _that.ptest;
-      console.log(_that.performanceDemands);
-      _that.performanceDemands.map((pd,pdIndex) =>{
-        // console.error(pd)
-        // format duration time for pd content array 
-        pd.contents.map((cont,pIdx)=>{
-          if(_that.isVideo(cont)){
-            cont["duration"] = cont.end
+    _that.ptest[pdIndex].questions = result;
+    _that.performanceDemands = _that.ptest;
+
+    console.log("assign PD",_that.performanceDemands[pdIndex].name)
+    _that.performanceDemands[pdIndex].contents.map((cont)=>{
+      if(_that.isVideo(cont)){
+        cont["duration"] = cont.end
+        setTimeout(()=>{
+          _that.changeTimeFormat(cont,'toString')
+        },50)
+      }
+    })
+    _that.performanceDemands[pdIndex].questions.map((question,Qindex) => {
+      // format duration time for question content array 
+      if(question.contents != undefined){
+        question.contents.map((quesCont)=>{
+          // console.log("###Q content",quesCont)
+          if(_that.isVideo(quesCont)){
+            quesCont["duration"] = quesCont.end
             setTimeout(()=>{
-              _that.changeTimeFormat(cont,'toString')
+              _that.changeTimeFormat(quesCont,'toString')
             },50)
           }
         })
-        pd.questions.map((question,Qindex) => {
-          // console.log("#######question.contents",question.contents,"Qindex",Qindex)
-          // format duration time for question content array 
-          if(question.contents != undefined){
-            question.contents.map((quesCont)=>{
-              // console.log("###Q content",quesCont)
-              if(_that.isVideo(quesCont)){
-                quesCont["duration"] = quesCont.end
-                setTimeout(()=>{
-                  _that.changeTimeFormat(quesCont,'toString')
-                },50)
-              }
-            })
-          }
-          setTimeout(() => {
-            if ( question.html) {
-              document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
-              question.html.question;
-            }
-          }, 200);
-        })
-      })
-
+      }
+      setTimeout(() => {
+        if ( question.html) {
+          document.getElementById("q-" + pdIndex + "-" + Qindex).innerHTML =
+          question.html.question;
+        }
+      }, 200);
+    })
   }
   //end get method
 // WaiYan code end(getSingleConcept)
