@@ -1554,6 +1554,10 @@ p.g_title {
   color: #2e3e4d;
   font-size: 18px;
 }
+.conceptName{
+  max-height: 55px;
+  overflow: overlay;
+}
 
 .cTitle {
   line-height: 2.5;
