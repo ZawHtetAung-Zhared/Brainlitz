@@ -492,6 +492,7 @@ export class TestwerkzComponent implements OnInit {
       this.pickedTag.state = "conceptCreate"
     }else{
       this.pickedTag.state = "conceptEdit"
+      this.getAllTag();
     }
     // this.performanceDemands = [];
   }
@@ -947,11 +948,11 @@ export class TestwerkzComponent implements OnInit {
     this.contentPage=1;
     this.getAllContent(this.contentPage,20,'');
   }
-  openVideoModal(content) {
+  openVideoModal(content,type) {
     // $(t).blur();
     this.contentType = "video";
     console.log("open modal>", content);
-    this.modelType = "video";
+    this.modelType = type;
     this.modalReference = this.modalService.open(content, {
       backdrop: "static",
       keyboard: false,
@@ -1208,7 +1209,7 @@ export class TestwerkzComponent implements OnInit {
         // }
         this.imgId = i;
       }
-    } else if (this.modelType == "video") {
+    } else if (this.modelType == "video" || this.modelType == "ansVideo") {
       console.log(i, img);
       console.log(imgDiv);
       if ($(imgDiv).hasClass("highlight")) {
@@ -1472,7 +1473,7 @@ export class TestwerkzComponent implements OnInit {
   //   }
 
   checkFocusPosition() {
-    console.log(this.selectEle);
+    console.log("this.selectEle",this.selectEle);
     if (this.selectEle != undefined) {
       if (
         this.selectEle.className == "img-wrapper" ||
@@ -1518,147 +1519,154 @@ export class TestwerkzComponent implements OnInit {
     
     
   }
+  isCollapseVid(content){
+    var videoCount = 0;
+    if(content.length>=1){
+      content.map((cont)=>{
+        console.log("cont~~~",cont)
+        if(this.isVideo(cont)){
+          videoCount += 1;
+        }
+      })
+      if(videoCount >= 1){
+        console.log("expand Video",videoCount)
+        this.isCollapse = false
+      }else{
+        this.isCollapse = true;
+      }
+    }else{
+      this.isCollapse = true;
+    }
+  }
   insertImg() {
     var inImageWrapper = this.checkFocusPosition();
-    console.log(inImageWrapper);
-    console.log("editableID", this.editableId);
-    if(this.editableId != "" && this.modelType == 'video'){
-      console.log("----------" , this.focusType)
-      // console.error("here 1")
-      var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents;
- 
-      Array.prototype.push.apply(contArr, this.selectedVideoArr);
-      // for(var i in this.selectedVideoArr){
+    console.log("###inImageWrapper",inImageWrapper)
+    // console.log("editableID", this.editableId);
+    // console.log("model type",this.modelType)
+    if(this.editableId != ""){
+      //insert for question
+      if(this.modelType == 'video'){
+        console.log("question ===== insert Video");
+        var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents;
+        Array.prototype.push.apply(contArr, this.selectedVideoArr);
+        this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.forEach(element => {
+          this.changeTimeFormat(element,'toString');
+        });
+        this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].showVideo = true;
+        console.log(this.performanceDemands)
+        this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents)
+      }else{
+        var res = this.editableId.split("-");
+        console.log("question ===== insert img");
+        var imgWrapperId = "img-" + ++res[1] + "-" + new Date().getTime();
 
-      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
-      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
-      // }
-
-      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
-      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.forEach(element => {
-        this.changeTimeFormat(element,'toString');
-      });
-      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].showVideo = true;
-      console.log(this.performanceDemands)
-    }
-    else if (this.editableId != "") {
-      var res = this.editableId.split("-");
-      console.log("question ===== insert img");
-      var imgWrapperId = "img-" + ++res[1] + "-" + new Date().getTime();
-
-      var e = document.getElementById(this.editableId);
-      if (inImageWrapper) {
-        for (var i in this.selectedImgArr) {
-          // console.log(this.selectedImgArr[i].url, "img");
-          var url = this.selectedImgArr[i].url;
-          // console.log(url);
-          // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
-          $(this.selectEle).append(
-            $('<img class="editableImg" src="' + url + '"  ></img>')
+        var e = document.getElementById(this.editableId);
+        if (inImageWrapper) {
+          for (var i in this.selectedImgArr) {
+            // console.log(this.selectedImgArr[i].url, "img");
+            var url = this.selectedImgArr[i].url;
+            // console.log(url);
+            // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+            console.log(this.selectEle)
+            $(this.selectEle).append(
+              $('<img class="editableImg" src="' + url + '"  ></img>')
+            );
+            k = this.selectEle;
+          }
+        } else {
+          var tempWrapperDiv = $(
+            `<div id="${imgWrapperId}" class="img-wrapper"></div>`
           );
-          k = this.selectEle;
+          console.log(tempWrapperDiv);
+          // console.log("~?~~~~e",e)
+          // console.log("this.selectEle",this.selectEle)
+          // console.log("selectELE classname~~~",this.selectEle.className)
+          $(e).append(tempWrapperDiv);
+          var k = document.getElementById(imgWrapperId);
+          for (var i in this.selectedImgArr) {
+            // console.log(this.selectedImgArr[i].url, "img");
+            var url = this.selectedImgArr[i].url;
+            // console.log(url);
+            // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
+            k.innerHTML += '<img class="editableImg" src="' + url + '"  ></img>';
+          }
         }
-      } else {
-        var tempWrapperDiv = $(
-          `<div id="${imgWrapperId}" class="img-wrapper"></div>`
-        );
-        console.log(tempWrapperDiv);
-        $(e).append(tempWrapperDiv);
-        var k = document.getElementById(imgWrapperId);
-        for (var i in this.selectedImgArr) {
-          // console.log(this.selectedImgArr[i].url, "img");
-          var url = this.selectedImgArr[i].url;
-          // console.log(url);
-          // k.innerHTML += ('<div style="width: 120px;height: 120px;float:left;position:relative;background: #f2f4f5"><img style="width:100%;position:absolute;margin: auto;top:0;left:0;right:0;bottom:0;" src="'+url+'"></img><div>');
-          k.innerHTML += '<img class="editableImg" src="' + url + '"  ></img>';
-        }
+        // e.innerHTML +=`<div id="${imgWrapperId}" class="img-wrapper"></div>`;
+
+        setTimeout(function() {
+          // console.log($(k).children(".editableImg"))
+          $(k)
+            .children(".editableImg")
+            .each(function(i, e) {
+              // console.log($(e).height());
+              var imgWidth = $(e).width();
+              var imgHeight = $(e).height();
+              var maxWidthAndHeight = 120;
+              console.log(imgWidth, imgHeight);
+              if (imgHeight < maxWidthAndHeight) {
+                var res = maxWidthAndHeight - imgHeight;
+                console.log(res);
+                $(e).css("padding-top", res / 2);
+                $(e).css("padding-bottom", res / 2);
+              }
+              if (imgWidth < maxWidthAndHeight) {
+                // console.log("less than 120")
+                var res = maxWidthAndHeight - imgWidth;
+                // console.log(res);
+                $(e).css("padding-left", res / 2);
+                $(e).css("padding-right", res / 2);
+              }
+            });
+        }, 100);
+        this.turn(this.editableId, this.focusType);
       }
-      // e.innerHTML +=`<div id="${imgWrapperId}" class="img-wrapper"></div>`;
-
-      setTimeout(function() {
-        // console.log($(k).children(".editableImg"))
-        $(k)
-          .children(".editableImg")
-          .each(function(i, e) {
-            // console.log($(e).height());
-            var imgWidth = $(e).width();
-            var imgHeight = $(e).height();
-            var maxWidthAndHeight = 120;
-            console.log(imgWidth, imgHeight);
-            if (imgHeight < maxWidthAndHeight) {
-              var res = maxWidthAndHeight - imgHeight;
-              console.log(res);
-              $(e).css("padding-top", res / 2);
-              $(e).css("padding-bottom", res / 2);
-            }
-            if (imgWidth < maxWidthAndHeight) {
-              // console.log("less than 120")
-              var res = maxWidthAndHeight - imgWidth;
-              // console.log(res);
-              $(e).css("padding-left", res / 2);
-              $(e).css("padding-right", res / 2);
-            }
-          });
-      }, 100);
-      this.turn(this.editableId, this.focusType);
-    } else if (this.modelType == "single") {
-      console.log("answer === ", $(".answer-img"));
-      this.performanceDemands[this.pdIndex].questions[
-        this.questionIndex
-      ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
-      // setTimeout(function(){
-      //   var img = $(".answer-img");
-      //   var imgWidth = img.width();
-      //   var imgHeight = img.height();
-      //   var maxWidthAndHeight = 120;
-      //   console.log(imgWidth, imgHeight);
-      //   if (imgHeight < maxWidthAndHeight) {
-      //     var topAndBottom = maxWidthAndHeight - imgHeight;
-      //     console.log(topAndBottom);
-      //     img.css("padding-top", topAndBottom / 2);
-      //     img.css("padding-bottom", topAndBottom / 2);
-      //   }
-      //   if (imgWidth < maxWidthAndHeight) {
-      //     // console.log("less than 120")
-      //     var leftAndRight = maxWidthAndHeight - imgWidth;
-      //     console.log(leftAndRight);
-      //     img.css("padding-left", leftAndRight / 2);
-      //     img.css("padding-right", leftAndRight / 2);
-      //   }
-      // },200)
-    } else if (this.modelType == "video") {
-      // console.error("here 2")
-      var contArr = this.performanceDemands[this.focusType.no].contents;
-      Array.prototype.push.apply(contArr, this.selectedVideoArr);
-      console.log("contArr",contArr);
-      // for(var i in this.selectedVideoArr){
-
-      //   console.log(this.selectedVideoArr[i].end ,this.selectedVideoArr[i].start )
-      //   // this.selectedVideoArr[i].end = this.selectedVideoArr.duration;
-      // }
-
-      // this.settingContents[this.focusType.no].contents =  this.settingContents[this.focusType.no].contents.concat(this.selectedVideoArr);
-      console.log(this.settingContents)
-      console.log(this.selectedVideoArr)
-      this.performanceDemands[this.focusType.no].contents.forEach(element => {
-        // console.error(element)
-        this.changeTimeFormat(element,'toString')
-        // element.start = 0;
-        // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-        // var res= timeString.split(":");
-        // element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-        // timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
-        // res= timeString.split(":");
-        // element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
-        // element.start = 0;
-        // element.end = element.duration;
-      });
-      console.log(this.performanceDemands);
-    } else {
-      console.log("pd Insert Img======");
-      var contArr = this.performanceDemands[this.focusType.no].contents;
-      Array.prototype.push.apply(contArr, this.selectedImgArr);
-      console.log(this.performanceDemands);
+    }else{
+      // insert for pd and answer
+      if(this.modelType == "single"){
+        console.log("answer Img === ", $(".answer-img"));
+        this.performanceDemands[this.pdIndex].questions[
+          this.questionIndex
+        ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
+      }else if(this.modelType == "ansVideo"){
+        // console.log("answer insert Video ===",this.focusType)
+        // console.log("focusType",this.focusType.no,this.focusType.parentIdx,this.focusType.parentQuesIdx)
+        // console.log("focus answer content",)
+        var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents;
+        Array.prototype.push.apply(contArr, this.selectedVideoArr);
+        this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents.forEach(element => {
+          console.log("~~~",element)
+          this.changeTimeFormat(element,'toString');
+        });
+        console.log(this.performanceDemands)
+        this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents)
+      }else if(this.modelType == "video"){
+        console.log("pd Insert Video======");
+        var contArr = this.performanceDemands[this.focusType.no].contents;
+        Array.prototype.push.apply(contArr, this.selectedVideoArr);
+        console.log("contArr",contArr);
+        console.log(this.settingContents)
+        console.log(this.selectedVideoArr)
+        this.performanceDemands[this.focusType.no].contents.forEach(element => {
+          // console.error(element)
+          this.changeTimeFormat(element,'toString')
+          // element.start = 0;
+          // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+          // var res= timeString.split(":");
+          // element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+          // timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+          // res= timeString.split(":");
+          // element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+          // element.start = 0;
+          // element.end = element.duration;
+        });
+        this.isCollapseVid(this.performanceDemands[this.focusType.no].contents)
+        console.log(this.performanceDemands);
+      }else if(this.modelType == "multiple"){
+        console.log("pd Insert Img======");
+        var contArr = this.performanceDemands[this.focusType.no].contents;
+        Array.prototype.push.apply(contArr, this.selectedImgArr);
+        console.log(this.performanceDemands);
+      }
     }
     this.cancelModal();
     console.log($(".editableImg"));
@@ -1729,8 +1737,13 @@ export class TestwerkzComponent implements OnInit {
     this.showSetting();
     switch (type) {
       case "pd":
-        if(this.focusType.no != idx1 || tempType != type)
-          this.isCollapse = true;
+      console.log("###",this.focusType.no != idx1 || tempType != type)
+        // if(this.focusType.no != idx1 || tempType != type)
+          // this.isCollapse = true;
+        var pdContent = this.performanceDemands[idx1].contents;
+        if(pdContent!= undefined){
+          this.isCollapseVid(pdContent)
+        }
 
         this.showID = "";
         this.focusPlace = "pd" + idx1;
@@ -1744,8 +1757,12 @@ export class TestwerkzComponent implements OnInit {
         // });
         break;
       case "question":
-      if(this.focusType.no != idx2 || tempType != type || this.focusType.parentIdx != idx1) 
-        this.isCollapse = true;
+      // if(this.focusType.no != idx2 || tempType != type || this.focusType.parentIdx != idx1) 
+        // this.isCollapse = true;
+        var quesContent = this.performanceDemands[idx1].questions[idx2].contents;
+        if(quesContent!=undefined){
+          this.isCollapseVid(quesContent)
+        }
 
         this.showID = "q" + idx1 + idx2;
         this.focusPlace = "q" + idx1 + idx2;
@@ -1765,12 +1782,13 @@ export class TestwerkzComponent implements OnInit {
         }
         break;
       case "answer":
-      if(this.focusType.no != idx2 || tempType != type)
-      this.isCollapse = true;
-
+      // if(this.focusType.no != idx2 || tempType != type)
+      // this.isCollapse = true;
         this.focusPlace = "a" + idx1 + idx2 + idx3;
-        this.focusType.no = idx2;
+        this.focusType.no = idx3;
         this.focusType.parentIdx = idx1;
+        this.focusType["parentQuesIdx"] = idx2; 
+        console.log(this.focusType)
     }
     if (type == "answer") {
       
@@ -2030,6 +2048,7 @@ export class TestwerkzComponent implements OnInit {
     console.log("Delete Img", img);
 
     this.performanceDemands[pdIdx].contents.splice(idx, 1);
+    this.isCollapseVid(this.performanceDemands[pdIdx].contents)
   }
   // HSYL code
 
@@ -2372,7 +2391,6 @@ export class TestwerkzComponent implements OnInit {
   getSingleConcept(cID){
     const _that =this;
     _that.conceptEdit = true;
-   _that.getAllTag();
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log("SingleConcept",res)
       _that.conceptsObj = res;
@@ -2922,14 +2940,16 @@ export class TestwerkzComponent implements OnInit {
       });
       var deleteId = videoArr[i]
       this.performanceDemands[this.focusType.no].contents.splice(deleteId, 1)
+      this.isCollapseVid(this.performanceDemands[this.focusType.no].contents)
     }
     else if(this.focusType.type == 'question'){
       this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
-
+      this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents)
     }
   }
   removeQuestionVideo(video , i){
     console.log(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no])
     this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
+    this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents)
   }
 }
