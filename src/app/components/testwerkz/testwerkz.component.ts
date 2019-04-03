@@ -123,6 +123,8 @@ export class TestwerkzComponent implements OnInit {
   public dragItemParent: any;
   public clickEle: any = "";
   public collectionarr:any=[];
+  public isTestwerkztitle:boolean=true;
+  public collectionName:string='';
   // public focusType = {
   //   'type': "",
   //   'no': "",
@@ -133,7 +135,14 @@ export class TestwerkzComponent implements OnInit {
   public conceptsObj: any = {};
   public contentPage: number = 1;
   public contentRes:any=[];
-
+  public conceptArrforconllection:any=[];
+  public isCollectionList:boolean=true;
+  public isCollection:boolean=false;
+  public isCollectionCreate:boolean=false;
+  public isCollectionEdit:boolean=false;
+  public isFocus_collection:boolean=false;
+  public concept_in_collection:any=[];
+  public selectedConcept:any=[];
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -323,6 +332,8 @@ export class TestwerkzComponent implements OnInit {
   goToTestWerkz() {
     this.testWerkzCategory = true;
     this.conceptList = false;
+    this.isCollection=false;
+    this.isCollectionList=false;
     this.getAllTag();
     // this.addPd();
     console.log(this.performanceDemands);
@@ -472,6 +483,7 @@ export class TestwerkzComponent implements OnInit {
     this.performanceDemands = [];
     this.ptest = [];
     this.conceptList = true;
+    this.isCollectionList=true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
     this.conceptEdit = false;
@@ -486,6 +498,7 @@ export class TestwerkzComponent implements OnInit {
   backToTag(type) {
     console.log("TYPE~~~",type)
     this.conceptList = false;
+    this.isCollectionList=false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit = false;
@@ -1946,12 +1959,15 @@ export class TestwerkzComponent implements OnInit {
   }
 
   public isConceptFormValid = false; // Global
+  public isCollectionFormValid = false; // Global
 
   validateForm() {
+   
     if (!this.concept.name) {
       this.isConceptFormValid = false;
       return this.isConceptFormValid;
     }
+   
 
     const pds = this.performanceDemands;
 
@@ -2946,12 +2962,164 @@ export class TestwerkzComponent implements OnInit {
     this._service.getAllCollection(this.regionID).subscribe((res: any) => {
       console.log("collection lists", res);
       this.collectionarr = res;
+      res.map(obj => {
+        console.log(obj.concepts)
+        
+        obj.concepts.map(concept=>{
+          console.log(concept.conceptId)
+          this._service.getConceptById(this.regionID,concept.conceptId).subscribe((res: any) => {
+            this.conceptArrforconllection.push(res);
+            console.log(this.conceptArrforconllection);
+          })
+         
+        })
+      })
+     
       setTimeout(() => {
         this.blockUI.stop();
       }, 300);
     });
   }
 
+  goToCollection(){
+    this.isCollection=true;
+    this.isCollectionList=false;
+    this.conceptList=false;
+    this.isTestwerkztitle=false;
+  }
+
+  goToaddNewCollection(){
+    this.isCollectionCreate=true;
+    this.isCollection=false;
+    this.conceptEdit=false;
+  }
+  
+  // start concept search
+  focusSearch(e) {
+    console.log(e)
+  
+    this.isFocus_collection = true;
+    // this.showfixedcreate = true;
+    // this.apgList = [];
+  }
+
+  hideSearch(e) {
+    console.log(e)
+    setTimeout(() => {
+      this.isFocus_collection  = false;
+      // this.showfixedcreate = false;
+    }, 300);
+  }
+
+  changeSearch(keyword, type) {
+    console.log(keyword,type)
+    if (keyword == 0 || keyword == "") {
+      this.concept_in_collection=[];
+      console.log(this.concept_in_collection)
+      // this.getAllAPG(20, 0)
+    } else {
+      this.getConceptSearchInCollection(keyword);
+    }
+  }
+
+  getConceptSearchInCollection(keyword){
+    this._service.getAllConceptBySearch(this.regionID,keyword).subscribe(
+      (res: any) => {
+        console.log(res)
+        this.concept_in_collection=res;
+        this.blockUI.stop();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  selectData(id) {
+    console.log(id)
+      // this.singleAPG(id);
+      // this.selectedAPGlists = true;
+    this._service.getConceptById(this.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res)
+        res.isExpand=false;
+        this.selectedConcept.push(res);
+     
+        // this.blockUI.stop();
+        this.isfocus = false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+   
+
+  }
+
+  removeSelectedConcept(data) {
+    console.log(data)
+    console.log(this.selectedConcept)
+    // this.model = '';
+    var index = this.selectedConcept.findIndex(function (element) {
+      return element._id === data._id;
+    })
+    if (index !== -1) {
+      this.selectedConcept.splice(index, 1)
+    }
+    console.log(this.selectedConcept)
+  }
+
+  expandAccessPoint(i, ind) {
+    console.log(i,ind)
+    console.log(this.selectedConcept[i])
+
+      this.selectedConcept[i].isExpand = !this.selectedConcept[i].isExpand;
+      console.log(i, ind)
+    
+  }
+  collectionvalidateForm() {
+
+    if (!this.collectionName || this.selectedConcept.length == 0) {
+      this.isCollectionFormValid = false;
+      return this.isCollectionFormValid;
+    }else{
+      this.isCollectionFormValid = true;
+      return this.isCollectionFormValid;
+    }
+  }
+
+  createCollection(){
+    let idArr=[];
+    for(let i=0;i<this.selectedConcept.length;i++){
+      let conceptIdObj={
+        "conceptId":this.selectedConcept[i]._id
+      }
+      idArr.push(conceptIdObj);
+    }
+    console.log(idArr)
+    let obj={
+      "name":this.collectionName,
+      "concepts":idArr
+    };
+    console.log(this.collectionName);
+    console.log(this.selectedConcept)
+    console.log(obj)
+    // let obj=this.selectedConcept.push(this.collectionName);
+    // console.log(obj)
+    this._service.createCollection(this.regionID,obj).subscribe(
+      (res: any) => {
+        console.log(res)
+        // res.isExpand=false;
+        // this.selectedConcept.push(res);
+     
+        // this.blockUI.stop();
+        // this.isfocus = false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   //end collection group
 
 }

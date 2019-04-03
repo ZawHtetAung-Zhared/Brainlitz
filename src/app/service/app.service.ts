@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
 import {Subject} from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
+import { unwatchFile } from 'fs';
 declare var $: any;
  
 @Injectable()
@@ -2218,13 +2219,17 @@ export class appService{
 
     // get contents for modal gallary show
     getContent(regionId: string , p:number, size:number, keyword:string, type?:string): Observable<any>{
-      // console.log(type,p,size)
+      console.log(keyword , keyword.length)
+      console.log(p,size)
+      console.log(type)
       let url;
     
-      if(type == "" || type == undefined){
+      if((type == "" || type == undefined)&& (keyword==""|| keyword==undefined)){
+        console.log("here")
         url = this.baseUrl+ '/' + regionId + '/contents/?&page='+p+'&size='+size;
       }
       else{
+        console.log("else")
         if(keyword && keyword.length >= 1){
           url =  this.baseUrl+ '/' + regionId + '/contents/?type=' + type+'&keyword=' + keyword +"&page="+p+"&size="+size;
         }else{
@@ -2470,6 +2475,21 @@ export class appService{
           return result;
       }) 
     }
+
+    getAllConceptBySearch(regionId:string,keyword:string){
+      let url = this.baseUrl + '/' + regionId + '/concepts?keyword='+keyword;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
     
 
     deleteConcept(regionId:string,conceptId:string){
@@ -2500,6 +2520,21 @@ export class appService{
           console.log(result);        
           return result;
       }) 
+    }
+
+    createCollection(regionId:string,data:any){
+      let url = this.baseUrl + '/' + regionId + '/assessment-plans';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.post(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
     }
 }
 

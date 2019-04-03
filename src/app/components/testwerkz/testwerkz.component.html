@@ -36,24 +36,29 @@
   </div>
 </div>
 <div  class="pdLR-15">
-  <h2 class="testwerkzTitle pdLR-15 mt-3">TestWerkz</h2>
+  <h2 class="testwerkzTitle pdLR-15 mt-3" *ngIf="isTestwerkztitle">TestWerkz</h2>
     <!-- Start Collection -->
-    <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3">
+    <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
       <label class="cTitle mb-0">Collection</label>
       <div>
-        <button class="btn btn-create">
+        <button class="btn btn-create" (click)="goToCollection()">
           Add new collection
         </button>
       </div>
     </div>
-    <div class="collection-wrapper card-columns">
+    <div class="collection-wrapper card-columns" *ngIf="isCollectionList">
         <div class="card" *ngFor="let col of collectionarr">
           <div class="single-collection">
             <div class="single-collectin-header">
               <p class="single-collection-title">{{col.name}}</p>
             </div>
-            <div class="single-collection-list">
-
+           {{conceptArrforconllection|json}}
+            <div class="single-collection-list"  *ngFor="let concept of conceptArrforconllection;let ci = index">
+              <span class="tagName">{{concept.tag[0].name}}</span>
+              <div class="d-flex flex-row">
+                  <span class="detail-dot"></span>
+                  <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': conceptArrforconllection?.length == ci+1}">{{concept.name}}</div>
+                </div>
             </div>
           </div>
         </div>
@@ -61,16 +66,16 @@
   <!-- End Collection -->
 
   <!-- Start Concept -->
-  <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3">
+  <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="conceptList">
     <label class="cTitle mb-0">Concept</label>
     <div>
-      <button class="btn btn-create" (click)="conceptList()">
+      <button class="btn btn-create" (click)="goToTestWerkz()">
         Add new concept
       </button>
       <!-- <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button> -->
     </div>
   </div>
-  <div class="card-columns pdLR-15">
+  <div class="card-columns pdLR-15" *ngIf="conceptList">
     <div class="card" *ngFor="let concept of conceptsArr">
       <div class="single-concept">
         <div class="pad-15">
@@ -119,6 +124,198 @@
     </div>
   </div>
 </div>
+
+<!-- start collection group -->
+<div *ngIf="isCollection">
+  <header [ngClass]="{ blury: isfocus == true || iseditfocus == true }" style="height: 115px;" class="pl-5">
+    <div class="d-flex" [ngClass]="{ stickywrap: navIsFixed == true }">
+      <div class="mr-auto p-2 pl-0 pb-0" >
+        <div class="back-to d-flex">
+          <i class="fa fa-angle-left"></i>
+          <p>TestWerkz</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <label class="cTitle mb-0">Collection</label>
+        <div>
+          <button class="btn btn-create" (click)="goToaddNewCollection()">
+            Add new collection
+          </button>
+        </div>
+    </div>
+  </header>
+  <div class="collection-wrapper1 card-columns pl-5">
+    <div class="card" *ngFor="let col of collectionarr">
+      <div class="single-collection1">
+        <div class="single-collectin-header1">
+          <p class="single-collection-title1">{{col.name}}</p>
+        </div>
+        
+        <div class="single-collection-list1"  *ngFor="let concept of conceptArrforconllection;let ci = index">
+          <span class="tagName">{{concept.tag[0].name}}</span>
+          <div class="d-flex flex-row">
+              <span class="detail-dot1"></span>
+              <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': conceptArrforconllection?.length == ci+1}">{{concept.name}}</div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- start collection create -->
+<div *ngIf="isCollectionCreate">
+  <div class="col-md-12">
+    <!-- <div class="createForm-wrap"> -->
+      <div class="mr-auto p-2 pl-0 pb-0" >
+        <div class="back-to d-flex">
+          <i class="fa fa-angle-left"></i>
+          <p>TestWerkz</p>
+        </div>
+      </div>
+      <h3 class="collection-title" *ngIf="isCollectionCreate">
+        Create Collection
+      </h3>
+      <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
+        <div class="d-flex justify-content-between collection-title">
+          <label class="form-title input-label-collection" for="address">
+            Collection name
+          </label>
+          <div class="limit-type-wordcount">
+            <span>{{ wordLength }}/60characters</span>
+          </div>
+        </div>
+
+        <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off"
+          placeholder="Type Collection name here" name="name" maxlength="60" [(ngModel)]="collectionName"
+          (focus)="focusMethod($event, 'name', $event.target.value)" (blur)="blurMethod($event, 'name')"
+          (input)="changeMethod($event.target.value)" required #name="ngModel" />
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+          <div [hidden]="!name.errors.required">
+            Name is required!
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+  <div class="custom-dropdown-width input-group col-md-12 all-title-font">
+    <div class="input-group w-100">
+      <span class="input-group-append">
+        <button class="bt btn-design btn-outline-secondary" type="button">
+          <i class="fa fa-search search-size"></i>
+        </button>
+      </span>
+      <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this collection" 
+      id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
+      (input)="changeSearch($event.target.value, 'apg')"
+      autocomplete="off"
+      >
+      </div>
+    <div>
+      <div class="search-result-box" *ngIf="isFocus_collection == true">
+        <div class="single-result" (click)="selectData(concept._id)" *ngFor="let concept of concept_in_collection">
+          <div class="d-flex">
+            <div class="circle1 plus"></div>
+            <div>
+              <div>{{ concept.name }}</div>
+              <!-- <div class="step-font font-12" *ngIf="apg.module">{{ apg.module.name }}</div>
+              <div class="step-font font-12" *ngIf="!apg.module"> - </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+
+    <!-- <div *ngIf="showfixedcreate == true" class="fixedText">
+      <div class="top-line">
+        <button type="button" class="bt btn-apg" (click)="goToModule()">
+          <div class="circle3 plus"></div>Create new APG
+        </button>
+      </div>
+    </div> -->
+  </div>
+  <div class="col-md-12 pl-zero" *ngIf="showfixedcreate == true">
+    <!-- <div style="
+    height: 341px;
+    border: 1px solid #eee;
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+  "></div> -->
+  </div>
+  <div  class="d-flex flex-row empty-concept" *ngIf="selectedConcept.length== 0">
+    <div class="d-flex img-pos">
+      <img src="assets/img/apg-list-default.png">
+    </div>
+    <div class="d-flex flex-row">
+        <div class="txt-default">
+            <h3>Add Concept to this Collection</h3>
+          </div>
+      <div class="arrow-pos">
+        <img src="assets/images/arrow.png">
+      </div>
+      
+    </div>
+  </div>
+  <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
+    <!-- <div class="wrap-height"> -->
+    <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
+      <span class="tagName_collection">{{sConcept.tag[0].name}}</span>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex group-text">
+            <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
+              <div class="circle2 minus"></div>
+            </button>	
+            <div class="conceptName_collection">{{sConcept.name}}</div>
+        </div>
+        <span class="lists-down-arrow" [ngClass]="{'transform-y': sConcept.isExpand}" (click)="expandAccessPoint(id,ind)">
+          <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
+        </span>
+      </div>
+      <div *ngIf="!sConcept.isExpand" class="d-flex flex-row list-dot-wrap">
+        <div  *ngFor="let pd of sConcept.pd"  class="flashImg">
+            <img src="/assets/images/un-thunder-flash-w.png" />
+        </div>
+        <!-- <span class="dot" *ngFor="let pd of sConcept.pd"></span> -->
+      </div>
+      <div *ngIf="sConcept.isExpand">
+        <div class="d-flex flex-row expandConcept" *ngFor="let pd of sConcept.pd;let idx = index">
+          <!-- <span class="detail-dot"></span> -->
+          <div class="flashImg">
+              <img src="/assets/images/un-thunder-flash-w.png" />
+          </div>
+          <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{sConcept.name}}</div>
+        </div>
+      </div>
+      <!-- <hr class="hr-style"> -->
+    </div>
+  </div>
+ 
+</div>
+<div class="d-flex justify-content-end form-footer" >
+ 
+  <div class="d-flex">
+    <button type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">
+      Cancel
+    </button>
+    <div *ngIf="isCollectionCreate">
+      <div class="d-none">{{ collectionvalidateForm() }}</div>
+      <button type="button" class="btn btn-submit" [disabled]="!isCollectionFormValid" (click)="createCollection()">
+        Create
+      </button>
+    </div>
+    <div  *ngIf="!isCollectionCreate">
+      <div class="d-none">{{ collectionvalidateForm() }}</div>
+      <button type="button" class="btn btn-submit" [disabled]="!isCollectionFormValid"
+        (click)="updateConcept(conceptId)">
+        Update
+      </button>
+    </div>
+  </div>
+</div>
+<!-- end collection create -->
+<!-- end collection group -->
 <div [ngClass]="{ overlay: isfocus == true || iseditfocus == true }"></div>
 <!-- For test List End -->
 
