@@ -442,10 +442,10 @@
 
                           <div class="carret-box"></div>
                         </div>
-                        <div id="q-{{ i }}-{{ j }}" class="mt-3 question" #t contenteditable="true"
+                        <div id="q-{{ i }}-{{ j }}" class="mt-3 question contentEditQues" #t contenteditable="true"
                           data-placeholder="Type question here" (focus)="onFocus('question', i, j, '', t)"
                           (input)="onInput(t, $event, editableId, focusType)" (focusout)="onFocusOut($event)"
-                          (dragstart)="onDragStart($event)" (drop)="onDrop($event)"></div>
+                          (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (keyup)="getCaretPosition($event)" (keydown)="getCaretPosition($event)" (mouseup)="getCaretPosition($event)" (mousedown)="getCaretPosition($event)"></div>
                         <!-- <div class="question-vd-wrapper row">
                           <div *ngFor="let video of  question.contents; let i = index"
                             class="position-relative mr-2 ml-2 question-vd innerPd" 

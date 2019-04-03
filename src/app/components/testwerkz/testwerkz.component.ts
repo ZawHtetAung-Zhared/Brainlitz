@@ -132,6 +132,7 @@ export class TestwerkzComponent implements OnInit {
   public conceptsObj: any = {};
   public contentPage: number = 1;
   public contentRes:any=[];
+  caretPos = 0;
 
   @BlockUI() blockUI: NgBlockUI;
 
@@ -184,7 +185,9 @@ export class TestwerkzComponent implements OnInit {
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     var clickedEle = $event;
+    // console.log("clickedEle~~~",clickedEle)
     if (clickedEle.className == "question-insert-img") {
+      console.log("####clickEle",clickedEle.className);
       this.selectEle = this.clickEle;
     }
     if (
@@ -228,8 +231,8 @@ export class TestwerkzComponent implements OnInit {
         );
 
         $(".img-span").click(function() {
-          console.log($(img).siblings(".editableImg"));
-          console.log($(img).parent());
+          // console.log($(img).siblings(".editableImg"));
+          // console.log($(img).parent());
           $(".img-span").remove();
           if ($(img).siblings(".editableImg").length == 0) {
             $(img)
@@ -238,8 +241,9 @@ export class TestwerkzComponent implements OnInit {
           }
           // console.log($(img).remove());
           $(img).remove();
-          console.log("Delete Img", _this.editableId, _this.focusType);
+          // console.log("Delete Img", _this.editableId, _this.focusType);
           _this.turn(_this.editableId, _this.focusType);
+
         });
       });
       $(".editableImg").mouseout(function(event) {
@@ -788,19 +792,39 @@ export class TestwerkzComponent implements OnInit {
     // });
     console.log(this.performanceDemands);
   }
+  range;
+  sel;
+  getCaretPosition(e,editableId) {
+    if (window.getSelection) {
+      this.sel = window.getSelection(); 
+      // console.log("sel",this.sel)
+
+      if (this.sel.rangeCount) {
+        this.range = this.sel.getRangeAt(0);
+        this.caretPos = this.range.endOffset;
+        // this.range.deleteContents();
+        // console.log("range",this.range)
+      }
+    } 
+  }
+
 
   onClickEditor(t) {}
   onInput(content, event, editableId, focusType, i?, j?) {
     if (event.inputType == "insertFromDrop") {
       if ($(window.getSelection().focusNode).attr("class") == "") {
-        console.log($(this.dragItem));
+        // console.log($(this.dragItem));
         $(this.dragItemParent).append(this.dragItem);
       }
     }
-    console.log(
-      $(window.getSelection().focusNode).parents(".img-wrapper").length ||
-        $(window.getSelection().focusNode).hasClass("img-wrapper")
-    );
+    // console.log(
+    //   $(window.getSelection().focusNode).parents(".img-wrapper").length ||
+    //     $(window.getSelection().focusNode).hasClass("img-wrapper")
+    // );
+    console.log("####", $(this.clickEle).parents(".img-wrapper").length > 0 ||
+      $(this.clickEle).hasClass("img-wrapper") ||
+      $(window.getSelection().focusNode).parents(".img-wrapper").length > 0 ||
+      $(window.getSelection().focusNode).hasClass("img-wrapper"))
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper") ||
@@ -826,7 +850,7 @@ export class TestwerkzComponent implements OnInit {
         this.selectEle = tempDiv;
         document.execCommand("undo", false);
         var range = document.createRange(),
-          sel = window.getSelection();
+        sel = window.getSelection();
         range.setStart(tempDiv, 0);
         range.setEnd(tempDiv, 0);
         sel.removeAllRanges();
@@ -835,6 +859,8 @@ export class TestwerkzComponent implements OnInit {
         console.log(sel);
       }
     }
+    // var divId=new Date().getTime();
+    // console.log("~~~time",divId)
     $(content)
       .contents()
       .eq("0")
@@ -842,6 +868,7 @@ export class TestwerkzComponent implements OnInit {
         return this.nodeType != 1;
       })
       .wrap("<div />");
+      // .wrap("<div id=t-"+divId +"/>");
     // console.log(this.selectEle)
     // console.log(window.getSelection())
     // console.log(ele);
@@ -1574,14 +1601,26 @@ export class TestwerkzComponent implements OnInit {
             k = this.selectEle;
           }
         } else {
-          var tempWrapperDiv = $(
-            `<div id="${imgWrapperId}" class="img-wrapper"></div>`
-          );
-          console.log(tempWrapperDiv);
-          // console.log("~?~~~~e",e)
-          // console.log("this.selectEle",this.selectEle)
-          // console.log("selectELE classname~~~",this.selectEle.className)
-          $(e).append(tempWrapperDiv);
+          // var tempWrapperDiv = $(
+          //   `<div id="${imgWrapperId}" class="img-wrapper"></div>`
+          // );
+         console.log("window.getSelection###",window.getSelection())
+          // $(this.selectEle).append(tempWrapperDiv);
+          var selectionContents = this.range.extractContents();
+          console.log(selectionContents)
+          var tempWrapperDiv = document.createElement("div");
+          tempWrapperDiv.id = imgWrapperId;
+          tempWrapperDiv.className = "img-wrapper";
+          // div.style.color = "yellow";
+          // tempWrapperDiv.innerHTML = '<div id="${imgWrapperId}" class="img-wrapper"></div>'
+          tempWrapperDiv.appendChild(selectionContents);
+          this.range.insertNode(tempWrapperDiv);
+          this.range = this.range.cloneRange();
+          this.range.setStartAfter(tempWrapperDiv);
+          this.range.collapse(true);
+          this.sel.removeAllRanges();
+          this.sel.addRange(this.range);
+          console.log(this.sel)
           var k = document.getElementById(imgWrapperId);
           for (var i in this.selectedImgArr) {
             // console.log(this.selectedImgArr[i].url, "img");
@@ -2040,7 +2079,7 @@ export class TestwerkzComponent implements OnInit {
       this.performanceDemands[fType.parentIdx].questions[
         fType.no
       ].question = markdownQues;
-      console.log("performanceDemands", this.performanceDemands);
+      // console.log("performanceDemands", this.performanceDemands);
     }, 200);
   }
 
