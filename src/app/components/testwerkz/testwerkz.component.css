@@ -1146,6 +1146,11 @@ p.g_title {
   color: #788796;
 }
 
+.contentEditQues{
+  font-size: 16px!important;
+  font-family: 'InterUI-Medium', Arial, sans-serif!important;
+}
+
 .question-wrap {
   width: 90%;
   padding-left: 20px;
@@ -1554,6 +1559,10 @@ p.g_title {
   color: #2e3e4d;
   font-size: 18px;
 }
+.conceptName{
+  max-height: 55px;
+  overflow: overlay;
+}
 
 .cTitle {
   line-height: 2.5;
@@ -1581,7 +1590,7 @@ p.g_title {
 }
 
 .pdlist-wrap {
-  max-height: 195px;
+  max-height: 175px;
   overflow: overlay;
 }
 
