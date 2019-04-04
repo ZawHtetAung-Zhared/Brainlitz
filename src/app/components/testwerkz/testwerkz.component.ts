@@ -562,13 +562,13 @@ export class TestwerkzComponent implements OnInit {
           correctness: 0,
           showTooltip: false,
           contents: [
-            {
-              contentId: "",
-              sequence: 0,
-              start: 0,
-              end: 0,
-              playAt: "BEFORE"
-            }
+            // {
+            //   contentId: "",
+            //   sequence: 0,
+            //   start: 0,
+            //   end: 0,
+            //   playAt: "BEFORE"
+            // }
           ]
         });
       }
@@ -668,13 +668,13 @@ export class TestwerkzComponent implements OnInit {
           correctness: 0,
           showTooltip: false,
           contents: [
-            {
-              contentId: "",
-              sequence: 0,
-              start: 0,
-              end: 0,
-              playAt: "BEFORE"
-            }
+            // {
+            //   contentId: "",
+            //   sequence: 0,
+            //   start: 0,
+            //   end: 0,
+            //   playAt: "BEFORE"
+            // }
           ]
         }
       ]
@@ -1667,7 +1667,7 @@ export class TestwerkzComponent implements OnInit {
           this.questionIndex
         ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
       }else if(this.modelType == "ansVideo"){
-        // console.log("answer insert Video ===",this.focusType)
+        console.log("answer insert Video ===",this.focusType)
         // console.log("focusType",this.focusType.no,this.focusType.parentIdx,this.focusType.parentQuesIdx)
         // console.log("focus answer content",)
         var contArr = this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents;
@@ -2188,6 +2188,34 @@ export class TestwerkzComponent implements OnInit {
       console.log(tempObj);
       tempArr.push(tempObj);
       console.log(tempArr);
+      console.log("answer.contents~~~",answer.contents)
+      answer.contents.map((ansCont,index) => {
+        console.log("idx",index)
+        _this.changeTimeFormat(ansCont,'temp');
+        if(ansCont.duration){
+          var tempVideoContentObj = {
+            contentId: "",
+            sequence: 0,
+            start:0,
+            end: 0
+          };
+          tempVideoContentObj.contentId = ansCont._id;
+          tempVideoContentObj.sequence = ++index;
+          tempVideoContentObj.start =  ansCont.start;
+          tempVideoContentObj.end = ansCont.end;
+          tempContentArray.push(tempVideoContentObj);
+        }else{
+          var tempImgContentObj = {
+            contentId: "",
+            sequence: 0,
+          };
+          tempImgContentObj.contentId = ansCont._id;
+          tempImgContentObj.sequence = ++index;
+          tempContentArray.push(tempImgContentObj);
+        }
+      })
+
+      tempObj.contents = tempContentArray;
       
     });
     
@@ -2591,6 +2619,18 @@ export class TestwerkzComponent implements OnInit {
           question.html.question;
         }
       }, 200);
+      console.log("answerContents",question.answers.contents)
+      if(question.answers.contents != undefined){
+        question.answer.contents.map((ansCont)=> {
+          if(_that.isVideo(ansCont)){
+            console.log("ansCont~~~",ansCont)
+            ansCont["duration"] = ansCont.end
+            setTimeout(()=>{
+              _that.changeTimeFormat(ansCont,'toString')
+            },50)
+          }
+        })
+      }
     })
   }
   //end get method
@@ -3000,6 +3040,10 @@ export class TestwerkzComponent implements OnInit {
     else if(this.focusType.type == 'question'){
       this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
       this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents)
+    }
+    else{
+      this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents.splice(i,1)
+      this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents)
     }
   }
   removeQuestionVideo(video , i){
