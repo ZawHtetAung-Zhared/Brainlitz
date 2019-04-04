@@ -135,7 +135,6 @@ export class TestwerkzComponent implements OnInit {
   public conceptsObj: any = {};
   public contentPage: number = 1;
   public contentRes:any=[];
-  public conceptArrforconllection:any=[];
   public isCollectionList:boolean=true;
   public isCollection:boolean=false;
   public isCollectionCreate:boolean=false;
@@ -143,6 +142,8 @@ export class TestwerkzComponent implements OnInit {
   public isFocus_collection:boolean=false;
   public concept_in_collection:any=[];
   public selectedConcept:any=[];
+
+  
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -494,6 +495,10 @@ export class TestwerkzComponent implements OnInit {
       "state": ""
     };
     this.ischecked = "";
+    this.isCollectionList=true;
+    this.isTestwerkztitle=true;
+    this.isCollection=false;
+    this.isCollectionCreate=false;
   }
   backToTag(type) {
     console.log("TYPE~~~",type)
@@ -2960,21 +2965,9 @@ export class TestwerkzComponent implements OnInit {
   getCollectionlist() {
     this.blockUI.start("Loading");
     this._service.getAllCollection(this.regionID).subscribe((res: any) => {
-      console.log("collection lists", res);
-      this.collectionarr = res;
-      res.map(obj => {
-        console.log(obj.concepts)
-        
-        obj.concepts.map(concept=>{
-          console.log(concept.conceptId)
-          this._service.getConceptById(this.regionID,concept.conceptId).subscribe((res: any) => {
-            this.conceptArrforconllection.push(res);
-            console.log(this.conceptArrforconllection);
-          })
-         
-        })
-      })
-     
+
+      console.log(res);
+      this.collectionarr=res;
       setTimeout(() => {
         this.blockUI.stop();
       }, 300);
@@ -2990,10 +2983,20 @@ export class TestwerkzComponent implements OnInit {
 
   goToaddNewCollection(){
     this.isCollectionCreate=true;
-    this.isCollection=false;
     this.conceptEdit=false;
+    this.isCollection=false;
+    this.isCollectionList=false;
+    this.conceptList=false;
+    this.isTestwerkztitle=false;
   }
   
+  backTocollectionList(){
+    this.isCollectionList=false;
+    this.isCollection=true;
+    this.conceptList=false;
+    this.isCollectionCreate=false;
+    this.isTestwerkztitle=false;
+  }
   // start concept search
   focusSearch(e) {
     console.log(e)

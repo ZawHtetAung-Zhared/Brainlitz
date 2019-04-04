@@ -41,28 +41,38 @@
     <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
       <label class="cTitle mb-0">Collection</label>
       <div>
-        <button class="btn btn-create" (click)="goToCollection()">
+        <button class="btn btn-create" (click)="goToaddNewCollection()">
           Add new collection
         </button>
       </div>
     </div>
-    <div class="collection-wrapper card-columns" *ngIf="isCollectionList">
-        <div class="card" *ngFor="let col of collectionarr">
-          <div class="single-collection">
-            <div class="single-collectin-header">
-              <p class="single-collection-title">{{col.name}}</p>
-            </div>
-           {{conceptArrforconllection|json}}
-            <div class="single-collection-list"  *ngFor="let concept of conceptArrforconllection;let ci = index">
+    <div class="d-flex collection-wrappe " *ngIf="isCollectionList">
+      <div class="card" *ngFor="let col of collectionarr">
+        <div class="single-collection">
+          <div class="single-collectin-header">
+            <p class="single-collection-title">{{col.name}}</p>
+          </div>
+          
+          <div class="single-collection-group">
+            <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
               <span class="tagName">{{concept.tag[0].name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot"></span>
-                  <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': conceptArrforconllection?.length == ci+1}">{{concept.name}}</div>
-                </div>
+                  <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="viewAllDiv" *ngIf="isCollectionList">
+      <button  class="btn-action remove-outline viewallBtn" (click)="goToCollection()">View All 
+        <span class="lists-down-arrow">
+            <i class="fa fa-angle-right rightArrow"></i>
+        </span>
+      </button>
+     
+    </div>
   <!-- End Collection -->
 
   <!-- Start Concept -->
@@ -130,7 +140,7 @@
   <header [ngClass]="{ blury: isfocus == true || iseditfocus == true }" style="height: 115px;" class="pl-5">
     <div class="d-flex" [ngClass]="{ stickywrap: navIsFixed == true }">
       <div class="mr-auto p-2 pl-0 pb-0" >
-        <div class="back-to d-flex">
+        <div class="back-to d-flex" (click)="backToList()">
           <i class="fa fa-angle-left"></i>
           <p>TestWerkz</p>
         </div>
@@ -148,16 +158,21 @@
   <div class="collection-wrapper1 card-columns pl-5">
     <div class="card" *ngFor="let col of collectionarr">
       <div class="single-collection1">
-        <div class="single-collectin-header1">
-          <p class="single-collection-title1">{{col.name}}</p>
+        <div class="info-section">
+          <div class="single-collectin-header1">
+            <p class="single-collection-title1">{{col.name}}</p>
+          </div>
+            
+          <div class="single-collection-list1"  *ngFor="let concept of col.concepts;let ci = index">
+            <span class="tagName">{{concept.tag[0].name}}</span>
+            <div class="d-flex flex-row">
+                <span class="detail-dot1"></span>
+                <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
+              </div>
+          </div>
         </div>
-        
-        <div class="single-collection-list1"  *ngFor="let concept of conceptArrforconllection;let ci = index">
-          <span class="tagName">{{concept.tag[0].name}}</span>
-          <div class="d-flex flex-row">
-              <span class="detail-dot1"></span>
-              <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': conceptArrforconllection?.length == ci+1}">{{concept.name}}</div>
-            </div>
+        <div class="d-flex justify-content-end single-collectin-footer1">
+            <button class="btn-action remove-outline">Edit</button>
         </div>
       </div>
     </div>
@@ -169,7 +184,7 @@
   <div class="col-md-12">
     <!-- <div class="createForm-wrap"> -->
       <div class="mr-auto p-2 pl-0 pb-0" >
-        <div class="back-to d-flex">
+        <div class="back-to d-flex" (click)="backTocollectionList()">
           <i class="fa fa-angle-left"></i>
           <p>TestWerkz</p>
         </div>

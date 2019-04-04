@@ -2413,9 +2413,8 @@ export class appService{
     }
 
     getConceptById(regionId:string, id: string){
-      
       let apiUrl = this.baseUrl  + '/' + regionId + '/concepts/' + id;  
-      console.log(apiUrl)   
+      // console.log(apiUrl)   
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 

@@ -1758,12 +1758,18 @@ div.pdLine-wrap:last-child {
 }
 
 /* start collection */
-.single-collection ,.single-collection1{
+.d-flex .collection-wrapper .card{
+  padding-right: 20px;  
+}
+.single-collection{
   height: 180px;
   width: 303px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   border: rgba(0, 0, 0, 0.1);
+}
+.single-collection {
+  margin-right: 20px;
 }
 .single-collectin-header,.single-collectin-header1 {
   height: 52px;
@@ -1810,9 +1816,9 @@ span.tagName {
 }
 
 .single-collection-list {
-  height: 128px;
+  /* height: 128px; */
   overflow: overlay;
-  padding-top: 12px;
+  /* padding-top: 12px; */
   max-height: 128px;
   padding-left: 16px;
   padding-right: 16px;
@@ -1825,19 +1831,48 @@ span.tagName {
 .single-collection1 {
   width: 352px !important;
   max-height: 312px !important;
+  width: 303px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: rgba(0, 0, 0, 0.1);
 }
 
-.single-collection-list1 {
-  padding: 16px;
-}
-
-.single-collection-list1 {
-  padding: 16px;
+.single-collection-list1{
+  padding: 0px 16px 16px 16px;
   font-size: 14px;
   color: #2e3d4d;
+  max-height: 185px;
+  overflow: overlay;
 }
 
+.single-collectin-footer1 {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  /* padding: 10px; */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  height: 48px;
+  padding-right: 16px;
+}
 
+button.btn-action.remove-outline {
+  border: none;
+  cursor: pointer;
+  color: #ff6a00;
+  font-size: 14px;
+}
+
+.rightArrow{
+  font-size: 20px;
+  color: #007fff;
+  font-weight: bold;
+}
+
+.single-collection-group {
+  height: 128px;
+  overflow: overlay;
+}
+span.lists-down-arrow {
+  padding-left: 3px;
+}
 /* start collection create */
 h3.collection-title {
   padding-top: 16px;
@@ -1849,7 +1884,16 @@ h3.collection-title {
   font-weight: 600;
   padding-top: 36px;
 }
-
+.viewAllDiv {
+  padding-top: 20px;
+  border-bottom: 1px solid #edeff0;
+  padding-bottom: 20px;
+}
+button.btn-action.remove-outline.viewallBtn {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0080ff;
+}
 /*start empty search condition */
 .d-flex.flex-row.empty-concept {
   margin-top: 43px;
