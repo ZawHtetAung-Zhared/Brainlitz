@@ -2152,8 +2152,8 @@ export class TestwerkzComponent implements OnInit {
     };
     var tempContentArray = [];
     var tempAnsContentArr = [];
+    console.log("question contents~~~",question.contents)
     question.contents.map( (contentObj,index) => {
-      tempContentArray = [];
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
         var tempVideoContentObj = {
@@ -2757,7 +2757,6 @@ export class TestwerkzComponent implements OnInit {
    var tempAnsContentArr = [];
     question.contents.map( (contentObj,index) => {
       // console.error(contentObj)
-      tempContentArray=[];
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
         var tempVideoContentObj = {
