@@ -2535,5 +2535,37 @@ export class appService{
         return result;
       })
     }
+
+
+    getCollectionById(regionId:string, id: string){
+      let apiUrl = this.baseUrl  + '/' + regionId + '/assessment-plans/' + id;  
+      // console.log(apiUrl)   
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      console.log(this.tokenType+' '+this.accessToken)
+      return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        return result;
+      })
+    }
+
+    updateCollection(regionId:string,data:any,id:string){
+      let url = this.baseUrl + '/' + regionId + '/assessment-plans/'+id;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.put(url, data, httpOptions)
+      .map((res:Response) => {
+        let result = res; 
+        console.log(result)
+        return result;
+      })
+    }
 }
 

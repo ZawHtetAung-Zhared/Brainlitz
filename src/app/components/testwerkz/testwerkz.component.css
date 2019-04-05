@@ -1767,6 +1767,11 @@ div.pdLine-wrap:last-child {
 }
 
 /* start collection */
+
+.d-flex.collection-wrappe {
+  overflow: overlay;
+}
+
 .d-flex .collection-wrapper .card{
   padding-right: 20px;  
 }
@@ -1775,7 +1780,7 @@ div.pdLine-wrap:last-child {
   width: 303px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  border: rgba(0, 0, 0, 0.1);
+  border: solid 1px rgba(0, 0, 0, 0.1);
 }
 .single-collection {
   margin-right: 20px;
@@ -1838,9 +1843,9 @@ span.tagName {
 }
 
 .single-collection1 {
-  width: 352px !important;
+  width: 428px !important;
   max-height: 312px !important;
-  width: 303px;
+  /* width: 303px; */
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   border: rgba(0, 0, 0, 0.1);
@@ -2102,6 +2107,10 @@ span.tagName_collection {
   border-bottom: 1px solid #edeff0;
   margin: 0px 20px;
   /*margin: 20px 20px 0;*/
+}
+.single-collection-list1-group {
+  max-height: 212px;
+  overflow: overlay;
 }
 /* end selected concept */
 

@@ -142,6 +142,7 @@ export class TestwerkzComponent implements OnInit {
   public isFocus_collection:boolean=false;
   public concept_in_collection:any=[];
   public selectedConcept:any=[];
+  public collectionId:any=[];
   caretPos = 0;
 
   
@@ -497,11 +498,15 @@ export class TestwerkzComponent implements OnInit {
       "name": "",
       "state": ""
     };
+    this.selectedConcept=[];
+    this.collectionName="";
+    this.collectionId="";
     this.ischecked = "";
     this.isCollectionList=true;
     this.isTestwerkztitle=true;
     this.isCollection=false;
     this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
   }
   backToTag(type) {
     console.log("TYPE~~~",type)
@@ -2506,6 +2511,7 @@ export class TestwerkzComponent implements OnInit {
   getSingleConcept(cID){
     const _that =this;
     _that.conceptEdit = true;
+    _that.isCollectionList=false;
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log("SingleConcept",res)
       _that.conceptsObj = res;
@@ -3146,6 +3152,9 @@ export class TestwerkzComponent implements OnInit {
     this.isCollectionList=false;
     this.conceptList=false;
     this.isTestwerkztitle=false;
+    // this.selectedConcept=[];
+    // this.collectionId="";
+    // this.collectionName="";
   }
 
   goToaddNewCollection(){
@@ -3162,7 +3171,11 @@ export class TestwerkzComponent implements OnInit {
     this.isCollection=true;
     this.conceptList=false;
     this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
     this.isTestwerkztitle=false;
+    this.selectedConcept=[];
+    this.collectionId="";
+    this.collectionName="";
   }
   // start concept search
   focusSearch(e) {
@@ -3278,17 +3291,94 @@ export class TestwerkzComponent implements OnInit {
     // console.log(obj)
     this._service.createCollection(this.regionID,obj).subscribe(
       (res: any) => {
+        console.log(res);
+        this.getCollectionlist();
+        this.toastr.success("Successfully Collection created.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Collection created.");
+      }
+    );
+    this.isCollectionCreate=false;
+    this.backToList();
+  }
+
+  // collection edit
+  goTocollectionEdit(id){
+    console.log(id);
+    this.blockUI.start("Loading...");
+    this._service.getCollectionById(this.regionID,id).subscribe(
+      (res: any) => {
         console.log(res)
-        // res.isExpand=false;
-        // this.selectedConcept.push(res);
-     
-        // this.blockUI.stop();
-        // this.isfocus = false;
+        this.isCollectionEdit=true;
+        this.isCollection=false;
+        this.collectionName=res.name;
+        this.collectionId=res._id;
+        res.concepts.map(obj=>{
+          this.getConceptByIdForCollection(obj.conceptId)
+        })
+        this.blockUI.stop();
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+  getConceptByIdForCollection(id){
+    this._service.getConceptById(this.regionID,id).subscribe(
+      (conceptRes: any) => {
+        console.log(conceptRes)
+        this.selectedConcept.push(conceptRes);
+      },
+      err => {
+        console.log(err);
+      });
+    
+  }
+
+  updateCollection(id){
+    console.log(id)
+    let idArr=[];
+    this.isCollectionEdit=false;
+    this.backToList();
+    this.getCollectionlist();
+    for(let i=0;i<this.selectedConcept.length;i++){
+      let conceptIdObj={
+        "conceptId":this.selectedConcept[i]._id
+      }
+      idArr.push(conceptIdObj);
+    }
+    console.log(idArr)
+    let obj={
+      "name":this.collectionName,
+      "concepts":idArr
+    };
+    this._service.updateCollection(this.regionID,obj,id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.toastr.success("Successfully Collection updated.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Collection updated.");
+      }
+    );
+  }
+
+  cancelCollection(){
+    this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
+    this.isCollection=false;
+    this.isCollectionList=true;
+    this.conceptCreate = false;
+    this.conceptEdit = false;
+    this.testWerkzCategory = false;
+    this.conceptList = true;
+    this.selectedConcept=[];
+    this.collectionName="";
+    console.log("cancel")
   }
   //end collection group
 
