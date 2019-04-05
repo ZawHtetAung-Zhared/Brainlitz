@@ -635,14 +635,13 @@
                         <div class="col-md-4 position-relative mb-3" *ngFor="let img of pd.contents; let idx = index">
                           <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
                           <div class="innerPd p-0" 
-                          (mouseenter)="mouseOver($event, idx)" 
-                          (mouseout)="mouseOut($event)"
+                          (mouseenter)="mouseOver($event,'pdRMI', i, idx, '')"  (mouseleave)="mouseOut($event)"
                             [ngClass]="isVideo(img) ? 'transparent-bg' : ''">
                             <img class="editablePDImg" src="{{ img.url }}" *ngIf="!isVideo(img)" />
                             <img src="../../../assets/images/play-icon.png" class="play-img" *ngIf="isVideo(img)" />
                             <video class="editablePDImg" width="120" height="72" preload="metadata" *ngIf="isVideo(img)"
                               src="{{ img.url }}"></video>
-                            <img (click)="removePDImg(img, idx, i)" class="img-pd rmIcon" [ngClass]="{'isVid':isVideo(img)}"
+                            <img *ngIf="showRemove && hoverIcon == 'pdRMI-'+ i + idx" (click)="removePDImg(img, idx, i)" class="img-pd rmIcon" [ngClass]="{'isVid':isVideo(img)}"
                               src="./assets/img/remove-white.png" />
                           </div>
                         </div>
@@ -688,21 +687,21 @@
                           data-placeholder="Type question here" (focus)="onFocus('question', i, j, '', t)"
                           (input)="onInput(t, $event, editableId, focusType)" (focusout)="onFocusOut($event)"
                           (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (keyup)="getCaretPosition($event)" (keydown)="getCaretPosition($event)" (mouseup)="getCaretPosition($event)" (mousedown)="getCaretPosition($event)"></div>
-                        <!-- <div class="question-vd-wrapper row">
-                          <div *ngFor="let video of  question.contents; let i = index"
+                        <div class="question-vd-wrapper row">
+                          <div *ngFor="let video of  question.contents; let idx = index"
                             class="position-relative mr-2 ml-2 question-vd innerPd" 
-                            (mouseenter)="mouseOver($event, i)"
-                            (mouseout)="mouseOut($event)"
+                            (mouseenter)="mouseOver($event, 'qRMI', i, j, idx)"
+                            (mouseleave)="mouseOut($event)"
                             [ngClass]="isVideo(video) ? 'transparent-bg' : ''">
                             <img src="../../../assets/images/play-icon.png" class="play-img" *ngIf="isVideo(video)" />
                             <video class="editablePDImg" width="120" height="72" preload="metadata"
                               *ngIf="isVideo(video)" src="{{ video.url }}"
                              
                               ></video>
-                              <img (click)="removeQuestionVideo(video, i)" class="img-pd rmIcon"
+                              <img *ngIf="showRemove && hoverIcon == 'qRMI-' + i + j + idx" (click)="removeQuestionVideo(video, idx)" class="img-pd rmIcon"
                               src="./assets/img/remove-white.png" />
                           </div>
-                        </div> -->
+                        </div>
                         <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                         <div class="" style="padding-top: 20px;" *ngFor="
                             let answer of question.answers;

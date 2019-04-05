@@ -143,8 +143,9 @@ export class TestwerkzComponent implements OnInit {
   public concept_in_collection:any=[];
   public selectedConcept:any=[];
   public collectionId:any=[];
-  caretPos = 0;
-
+  public caretPos = 0;
+  public showRemove:boolean =false;
+  public hoverIcon:any=""
   
   @BlockUI() blockUI: NgBlockUI;
 
@@ -1735,54 +1736,62 @@ export class TestwerkzComponent implements OnInit {
     console.log($(".editableImg"));
   }
 
-  mouseOver(e, idx) {
-    console.log(e,idx)
+  mouseOver(e, type , i , idx1, idx2) {
+    console.log("mouseover",e, i, idx1, idx2);
+    this.showRemove = true;
+    if(type == 'pdRMI'){
+      this.hoverIcon = type + '-' + i + idx1;
+    }else{
+      this.hoverIcon = type + '-' + i + idx1 + idx2;
+    }
     // console.log(e.target.className);
     // console.log("over ");
     // console.log($(event.target).children(".img-pd"));
     // console.log($(event.target).siblings(".img-pd"));
-    if ($(e.target).hasClass("question-vd")) {
-      $(e.target)
-        .children(".img-pd")
-        .show();
-    }
-    if ($(e.target).hasClass("editablePDImg")) {
-      $(e.target)
-        .siblings(".img-pd")
-        .show();
-    }
-    if ($(e.target).hasClass("innerPd")) {
-      $(e.target)
-        .children(".img-pd")
-        .show();
-    }
+    // if ($(e.target).hasClass("question-vd")) {
+    //   $(e.target)
+    //     .children(".img-pd")
+    //     .show();
+    // }
+    // if ($(e.target).hasClass("editablePDImg")) {
+    //   $(e.target)
+    //     .siblings(".img-pd")
+    //     .show();
+    // }
+    // if ($(e.target).hasClass("innerPd")) {
+    //   $(e.target)
+    //     .children(".img-pd")
+    //     .show();
+    // }
   }
   mouseOut(event) {
-    console.log(event.offsetX , event.offsetY)
+    console.log("mouse out",event.offsetX , event.offsetY)
     console.log(event.target)
-    if (event.offsetX >= 119 || event.offsetX < 0) {
-      if ($(event.target).hasClass("editablePDImg")) {
-        $(event.target)
-          .siblings(".img-pd")
-          .hide();
-      }
-      if ($(event.target).hasClass("innerPd")) {
-        $(event.target)
-          .children(".img-pd")
-          .hide();
-      }
-    } else if (event.offsetY >= 119 || event.offsetY < 0) {
-      if ($(event.target).hasClass("editablePDImg")) {
-        $(event.target)
-          .siblings(".img-pd")
-          .hide();
-      }
-      if ($(event.target).hasClass("innerPd")) {
-        $(event.target)
-          .children(".img-pd")
-          .hide();
-      }
-    } else console.log("out but not out", this.showRMIcon);
+    this.showRemove = false;
+    this.hoverIcon = "";
+    // if (event.offsetX >= 119 || event.offsetX < 0) {
+    //   if ($(event.target).hasClass("editablePDImg")) {
+    //     $(event.target)
+    //       .siblings(".img-pd")
+    //       .hide();
+    //   }
+    //   if ($(event.target).hasClass("innerPd")) {
+    //     $(event.target)
+    //       .children(".img-pd")
+    //       .hide();
+    //   }
+    // } else if (event.offsetY >= 119 || event.offsetY < 0) {
+    //   if ($(event.target).hasClass("editablePDImg")) {
+    //     $(event.target)
+    //       .siblings(".img-pd")
+    //       .hide();
+    //   }
+    //   if ($(event.target).hasClass("innerPd")) {
+    //     $(event.target)
+    //       .children(".img-pd")
+    //       .hide();
+    //   }
+    // } else console.log("out but not out", this.showRMIcon);
 
   }
 
