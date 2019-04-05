@@ -122,6 +122,9 @@ export class TestwerkzComponent implements OnInit {
   public dragItem: any;
   public dragItemParent: any;
   public clickEle: any = "";
+  public collectionarr:any=[];
+  public isTestwerkztitle:boolean=true;
+  public collectionName:string='';
   // public focusType = {
   //   'type': "",
   //   'no': "",
@@ -132,8 +135,17 @@ export class TestwerkzComponent implements OnInit {
   public conceptsObj: any = {};
   public contentPage: number = 1;
   public contentRes:any=[];
+  public isCollectionList:boolean=true;
+  public isCollection:boolean=false;
+  public isCollectionCreate:boolean=false;
+  public isCollectionEdit:boolean=false;
+  public isFocus_collection:boolean=false;
+  public concept_in_collection:any=[];
+  public selectedConcept:any=[];
+  public collectionId:any=[];
   caretPos = 0;
 
+  
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -177,6 +189,7 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists();
+    this.getCollectionlist();
     console.log(this.focusType = {
       'no' : 0,
       'type' : 'pd'
@@ -325,6 +338,8 @@ export class TestwerkzComponent implements OnInit {
   goToTestWerkz() {
     this.testWerkzCategory = true;
     this.conceptList = false;
+    this.isCollection=false;
+    this.isCollectionList=false;
     this.getAllTag();
     // this.addPd();
     console.log(this.performanceDemands);
@@ -473,6 +488,7 @@ export class TestwerkzComponent implements OnInit {
     this.performanceDemands = [];
     this.ptest = [];
     this.conceptList = true;
+    this.isCollectionList=true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
     this.conceptEdit = false;
@@ -482,11 +498,20 @@ export class TestwerkzComponent implements OnInit {
       "name": "",
       "state": ""
     };
+    this.selectedConcept=[];
+    this.collectionName="";
+    this.collectionId="";
     this.ischecked = "";
+    this.isCollectionList=true;
+    this.isTestwerkztitle=true;
+    this.isCollection=false;
+    this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
   }
   backToTag(type) {
     console.log("TYPE~~~",type)
     this.conceptList = false;
+    this.isCollectionList=false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit = false;
@@ -2004,12 +2029,15 @@ export class TestwerkzComponent implements OnInit {
   }
 
   public isConceptFormValid = false; // Global
+  public isCollectionFormValid = false; // Global
 
   validateForm() {
+   
     if (!this.concept.name) {
       this.isConceptFormValid = false;
       return this.isConceptFormValid;
     }
+   
 
     const pds = this.performanceDemands;
 
@@ -2483,6 +2511,7 @@ export class TestwerkzComponent implements OnInit {
   getSingleConcept(cID){
     const _that =this;
     _that.conceptEdit = true;
+    _that.isCollectionList=false;
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log("SingleConcept",res)
       _that.conceptsObj = res;
@@ -3103,4 +3132,253 @@ export class TestwerkzComponent implements OnInit {
     this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
     this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents)
   }
+
+  //start collection group
+  getCollectionlist() {
+    this.blockUI.start("Loading");
+    this._service.getAllCollection(this.regionID).subscribe((res: any) => {
+
+      console.log(res);
+      this.collectionarr=res;
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
+    });
+  }
+
+  goToCollection(){
+    this.isCollection=true;
+    this.isCollectionList=false;
+    this.conceptList=false;
+    this.isTestwerkztitle=false;
+    // this.selectedConcept=[];
+    // this.collectionId="";
+    // this.collectionName="";
+  }
+
+  goToaddNewCollection(){
+    this.isCollectionCreate=true;
+    this.conceptEdit=false;
+    this.isCollection=false;
+    this.isCollectionList=false;
+    this.conceptList=false;
+    this.isTestwerkztitle=false;
+  }
+  
+  backTocollectionList(){
+    this.isCollectionList=false;
+    this.isCollection=true;
+    this.conceptList=false;
+    this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
+    this.isTestwerkztitle=false;
+    this.selectedConcept=[];
+    this.collectionId="";
+    this.collectionName="";
+  }
+  // start concept search
+  focusSearch(e) {
+    console.log(e)
+  
+    this.isFocus_collection = true;
+    // this.showfixedcreate = true;
+    // this.apgList = [];
+  }
+
+  hideSearch(e) {
+    console.log(e)
+    setTimeout(() => {
+      this.isFocus_collection  = false;
+      // this.showfixedcreate = false;
+    }, 300);
+  }
+
+  changeSearch(keyword, type) {
+    console.log(keyword,type)
+    if (keyword == 0 || keyword == "") {
+      this.concept_in_collection=[];
+      console.log(this.concept_in_collection)
+      // this.getAllAPG(20, 0)
+    } else {
+      this.getConceptSearchInCollection(keyword);
+    }
+  }
+
+  getConceptSearchInCollection(keyword){
+    this._service.getAllConceptBySearch(this.regionID,keyword).subscribe(
+      (res: any) => {
+        console.log(res)
+        this.concept_in_collection=res;
+        this.blockUI.stop();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  selectData(id) {
+    console.log(id)
+      // this.singleAPG(id);
+      // this.selectedAPGlists = true;
+    this._service.getConceptById(this.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res)
+        res.isExpand=false;
+        this.selectedConcept.push(res);
+     
+        // this.blockUI.stop();
+        this.isfocus = false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+   
+
+  }
+
+  removeSelectedConcept(data) {
+    console.log(data)
+    console.log(this.selectedConcept)
+    // this.model = '';
+    var index = this.selectedConcept.findIndex(function (element) {
+      return element._id === data._id;
+    })
+    if (index !== -1) {
+      this.selectedConcept.splice(index, 1)
+    }
+    console.log(this.selectedConcept)
+  }
+
+  expandAccessPoint(i, ind) {
+    console.log(i,ind)
+    console.log(this.selectedConcept[i])
+
+      this.selectedConcept[i].isExpand = !this.selectedConcept[i].isExpand;
+      console.log(i, ind)
+    
+  }
+  collectionvalidateForm() {
+
+    if (!this.collectionName || this.selectedConcept.length == 0) {
+      this.isCollectionFormValid = false;
+      return this.isCollectionFormValid;
+    }else{
+      this.isCollectionFormValid = true;
+      return this.isCollectionFormValid;
+    }
+  }
+
+  createCollection(){
+    let idArr=[];
+    for(let i=0;i<this.selectedConcept.length;i++){
+      let conceptIdObj={
+        "conceptId":this.selectedConcept[i]._id
+      }
+      idArr.push(conceptIdObj);
+    }
+    console.log(idArr)
+    let obj={
+      "name":this.collectionName,
+      "concepts":idArr
+    };
+    console.log(this.collectionName);
+    console.log(this.selectedConcept)
+    console.log(obj)
+    // let obj=this.selectedConcept.push(this.collectionName);
+    // console.log(obj)
+    this._service.createCollection(this.regionID,obj).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.getCollectionlist();
+        this.toastr.success("Successfully Collection created.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Collection created.");
+      }
+    );
+    this.isCollectionCreate=false;
+    this.backToList();
+  }
+
+  // collection edit
+  goTocollectionEdit(id){
+    console.log(id);
+    this.blockUI.start("Loading...");
+    this._service.getCollectionById(this.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res)
+        this.isCollectionEdit=true;
+        this.isCollection=false;
+        this.collectionName=res.name;
+        this.collectionId=res._id;
+        res.concepts.map(obj=>{
+          this.getConceptByIdForCollection(obj.conceptId)
+        })
+        this.blockUI.stop();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  getConceptByIdForCollection(id){
+    this._service.getConceptById(this.regionID,id).subscribe(
+      (conceptRes: any) => {
+        console.log(conceptRes)
+        this.selectedConcept.push(conceptRes);
+      },
+      err => {
+        console.log(err);
+      });
+    
+  }
+
+  updateCollection(id){
+    console.log(id)
+    let idArr=[];
+    this.isCollectionEdit=false;
+    this.backToList();
+    this.getCollectionlist();
+    for(let i=0;i<this.selectedConcept.length;i++){
+      let conceptIdObj={
+        "conceptId":this.selectedConcept[i]._id
+      }
+      idArr.push(conceptIdObj);
+    }
+    console.log(idArr)
+    let obj={
+      "name":this.collectionName,
+      "concepts":idArr
+    };
+    this._service.updateCollection(this.regionID,obj,id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.toastr.success("Successfully Collection updated.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Collection updated.");
+      }
+    );
+  }
+
+  cancelCollection(){
+    this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
+    this.isCollection=false;
+    this.isCollectionList=true;
+    this.conceptCreate = false;
+    this.conceptEdit = false;
+    this.testWerkzCategory = false;
+    this.conceptList = true;
+    this.selectedConcept=[];
+    this.collectionName="";
+    console.log("cancel")
+  }
+  //end collection group
+
 }
