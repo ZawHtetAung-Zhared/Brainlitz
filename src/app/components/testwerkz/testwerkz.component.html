@@ -1219,14 +1219,13 @@
         </div>
         <div class="row imgGp">
           <div class="col-md-3 imgDiv" *ngFor="let video of videoArr; let i = index" [class.disabled]="!video.duration">
-            ==={{vidIdArr.indexOf(video._id)}}
             <div class="inner-imgVideo" (click)="onslectedImgDiv(video._id, video)" id="img-{{ video._id }}" [ngClass]="{'hightlight': vidIdArr.indexOf(video._id) != -1}"
-              (mouseenter)="onImgMouseEvent($event, video._id)" (mouseleave)="onImgMouseEvent($event, video._id)">
+              (mouseenter)="onVidMouseEvent($event, video._id,'mouseenter')" (mouseleave)="onVidMouseEvent($event, video._id,'mouseleave')">
               <div id="cricle{{ video._id }}" [ngClass]="{'video-circle': vidIdArr.indexOf(video._id) != -1}">
                 <i class="fa fa-check" id="check{{ video._id }}" [ngClass]="{'checkedVid': vidIdArr.indexOf(video._id) != -1}"></i>
               </div>
-              <div (click)="onremoveClick(video._id)" id="trashdiv-{{ video._id }}" class="video-trashDiv" >
-                <i class="fa fa-trash" id="trash{{ video._id }}"></i>
+              <div (click)="onremoveClick(video._id)" id="trashdiv-{{ video._id }}" class="video-trashDiv">
+                <i class="fa fa-trash" id="trash{{ video._id }}" [ngStyle]="vidIdArr.indexOf(video._id) != -1 && isMouseOverID == video._id ?{'opacity': 1} : {'opacity': 0}"></i>
               </div>
               <video width="216" height="130" preload="metadata" src="{{ video.url }}"
                 (loadedmetadata)="onMetadata($event, i)"></video>
@@ -1235,7 +1234,7 @@
                 <img src="../../../assets/images/play-icon.png" />
               </div>
 
-              <div class="Imgoverlay video" id="Imgoverlay{{ video._id }}"></div>
+              <div class="Imgoverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': vidIdArr.indexOf(video._id) != -1 && isMouseOverID == video._id}"></div>
             </div>
           </div>
         </div>

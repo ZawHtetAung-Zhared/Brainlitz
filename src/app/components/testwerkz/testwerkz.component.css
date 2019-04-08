@@ -1121,6 +1121,11 @@ p.g_title {
   width: 216px !important;
 }
 
+.overlayDiv{
+  display:block;  
+  background: rgba(0, 0, 0, .3);
+}
+
 .for-video {
   width: 100%;
 }

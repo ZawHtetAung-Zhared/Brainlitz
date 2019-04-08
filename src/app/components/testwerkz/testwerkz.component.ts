@@ -1408,20 +1408,22 @@ export class TestwerkzComponent implements OnInit {
     // console.log(imgDiv)
     // console.log(e)
     if (this.contentType == "video") {
+
       // console.log('invideo')
-      if ($(imgDiv).hasClass("highlight") && e.type == "mouseenter") {
-        // console.log('inmouseenter')
-        trash.setAttribute("style", "opacity: 1;");
-        // console.log(trash)
-        // console.log(overlay)
-        overlay.setAttribute(
-          "style",
-          "display:block;  background: rgba(0, 0, 0, .3);"
-        );
-      } else {
-        trash.setAttribute("style", "opacity: 0;");
-        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
-      }
+      // if ($(imgDiv).hasClass("highlight") && e.type == "mouseenter") {
+      //   // console.log('inmouseenter')
+      //   trash.setAttribute("style", "opacity: 1;");
+      //   // console.log(trash)
+      //   // console.log(overlay)
+      //   overlay.setAttribute(
+      //     "style",
+      //     "display:block;  background: rgba(0, 0, 0, .3);"
+      //   );
+      // } else {
+      //   trash.setAttribute("style", "opacity: 0;");
+      //   overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      // }
+
     } else {
       if (e.type == "mouseenter" && $(imgDiv).hasClass("addImgDivBorder")) {
         console.log("is me")
@@ -1438,7 +1440,14 @@ export class TestwerkzComponent implements OnInit {
 
     // console.log(e.type)
   }
-
+  isMouseOverID:any;
+  onVidMouseEvent(e,vID, type){
+    if(type == "mouseenter"){
+      this.isMouseOverID = vID;
+    }else{
+      this.isMouseOverID = "";
+    }
+  }
   //delete image
   onremoveClick(id) {
     console.log(id);
