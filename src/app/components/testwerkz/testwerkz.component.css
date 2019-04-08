@@ -715,8 +715,8 @@ h3.category-h3 {
   z-index: 2;
 }
 
-.hightlight .video-circle .i {
-  color: white;
+.checkedVid {
+  color: #ffffff!important;
 }
 
 .plus-sign-video {
@@ -1278,8 +1278,15 @@ p.g_title {
   box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.4);
   /*display: none;*/
 }
+.img-qpd{
+  position: absolute;
+  right: 5px;
+  top: 28px;
+  border-radius: 50%;
+  box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.4);
+}
 .isVid{
-  top: 32px;
+  top: 25px;
 }
 .editablePDImg {
   /*width: 100%;*/
@@ -1290,6 +1297,11 @@ p.g_title {
 .editablePDImg+video {
   /*width: 100%;*/
   border-radius: 4px;
+}
+
+.testVid{
+  height: 120px;
+  width: 72px;
 }
 
 .img-wrapper {
@@ -1404,9 +1416,14 @@ p.g_title {
 
 .play-img {
   position: absolute;
-  top: 32px;
+  top: 25px;
   left: 20px;
+}
 
+.play-qimg{
+  position: absolute;
+  top: 28px;
+  left: 5px;
 }
 
 .video-trashDiv i {
