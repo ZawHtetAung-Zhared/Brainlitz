@@ -1462,10 +1462,12 @@ ul.options-box li:last-child,.create-box li:last-child {
   font-family: 'Inter-UI-Semibold',Arial,sans-serif;
 }
 .course-name{
-  color:#2e3e4d;
+  /* color:#2e3e4d; */
   font-family: 'Inter-UI-SemiBold',Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
+  color: #0080ff !important;
+  cursor: pointer;
 }
 .lessoncount-EndDate{
   font-size: 12px;
