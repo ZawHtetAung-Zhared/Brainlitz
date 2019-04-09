@@ -1055,14 +1055,17 @@ export class TestwerkzComponent implements OnInit {
   showMoreVideo(){
     this.contentPage += 1;
     if(this.isSearch == true){
+      console.log("isSearchTrue",this.isSearch)
       this.getAllContent(this.contentPage,20,this.searchWord)
     }else{
+      console.log("isSearchfalse",this.isSearch)
       this.getAllContent(this.contentPage,20,'')
     }
   }
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
   getAllContent(page,size,keyword) {
+    console.log(page,size,keyword);
     // this.ImgArr = [];
     // this.videoArr = [];
   //  console.error(page,size)
@@ -1106,7 +1109,7 @@ export class TestwerkzComponent implements OnInit {
             }else{
               if (isFirst == true) {
                 this.videoArr = res;
-                this.isSearch = true;
+                // this.isSearch = true;
                 this.contentPage = 1;
                 console.log(this.videoArr,'first time searching');
                 this.tempContentArr = this.videoArr;
