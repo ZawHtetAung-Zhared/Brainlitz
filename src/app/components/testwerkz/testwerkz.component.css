@@ -1060,7 +1060,7 @@ p.g_title {
 .inner-imgDiv {
   width: 139px;
   height: 138px;
-  border: solid 1px #edeff0;
+  /*border: solid 1px #edeff0;*/
   border-radius: 4px;
   background: #f2f4f5;
 }
@@ -1068,10 +1068,12 @@ p.g_title {
 .inner-imgVideo {
   width: 216px;
   height: 130px;
-  border: solid 1px #edeff0;
+  /*border: solid 1px #edeff0;*/
   border-radius: 4px;
 }
-
+.not-selected{
+  box-shadow: 0px 0px 0px 1px rgb(237, 239, 240);
+}
 .inner-imgVideo video {
   object-fit: fill;
 }
@@ -1085,12 +1087,25 @@ p.g_title {
   margin-top: 16px;
 }
 
+.vidDiv{
+  margin-bottom: 60px;
+}
+
 img.gShowImag {
-  max-width: 135px;
-  max-height: 135px;
+  max-width: 139px;
+  max-height: 138px;
   /* border-radius: 4px; */
   object-fit: cover;
   transition: all 0.1s ease;
+}
+
+.imgName{
+  position: absolute;
+  z-index: 9;
+  bottom: 8px;
+  color: #ffffff;
+  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-size: 14px;
 }
 
 .d-flex.flex-column.gallery {
@@ -1107,14 +1122,21 @@ p.g_title {
   padding-top: 24px;
 }
 
-.Imgoverlay {
+.Imgoverlay,.VidOverlay {
   position: absolute;
   top: 0;
-  width: 136px;
   height: 100%;
   /* background: rgba(0, 0, 0, 0); */
   transition: background 0.5s ease;
-  border-radius: 4px;
+  /*border-radius: 4px;*/
+}
+
+.Imgoverlay{
+  width: 139px;
+}
+
+.VidOverlay{
+  width: 216px;
 }
 
 .video.Imgoverlay {
@@ -1128,6 +1150,23 @@ p.g_title {
 
 .for-video {
   width: 100%;
+}
+
+.videoNameShort,.videoNameLong{
+  position: absolute;
+  z-index: 9;
+  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-size: 14px;
+  color: #2e3d4d;
+  width: 216px;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+.videoNameShort{
+  bottom: -32px
+}
+.videoNameLong{
+  bottom: -52px;
 }
 
 /* end image upload modal css */
@@ -1693,8 +1732,11 @@ div.pdLine-wrap:last-child {
    z-index: 2;
 }
 .addImgDivBorder{
-  border:solid;
-  color:#007fff;
+  /*border:solid;
+  color:#007fff;*/
+  -webkit-box-shadow: 0px 0px 0px 3px rgba(0, 127, 255, 1);
+  -moz-box-shadow: 0px 0px 0px 3px rgba(0, 127, 255, 1);
+  box-shadow: 0px 0px 0px 3px rgba(0, 127, 255, 1);
 }
 
 .addCheck{
@@ -1706,8 +1748,8 @@ div.pdLine-wrap:last-child {
 }
 
 .addgshwoImg{
-  max-width:130px !important;
-  max-height:130px !important;
+  max-width:139px !important;
+  max-height:139px !important;
 }
 
 .iconCheck{

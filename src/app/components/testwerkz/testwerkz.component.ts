@@ -1406,7 +1406,7 @@ export class TestwerkzComponent implements OnInit {
   // }
 
   //when over image from galery modal mouse over or mouse out
-  onImgMouseEvent(e, i) {
+  onImgMouseEvent(e, i,type) {
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
     const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
@@ -1431,17 +1431,22 @@ export class TestwerkzComponent implements OnInit {
       // }
 
     } else {
-      if (e.type == "mouseenter" && $(imgDiv).hasClass("addImgDivBorder")) {
-        console.log("is me")
-        trash.setAttribute("style", "opacity: 1;");
-        overlay.setAttribute(
-          "style",
-          "display:block;  background: rgba(0, 0, 0, .3);"
-        );
-      } else {
-        trash.setAttribute("style", "opacity: 0;");
-        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      if(type == "mouseenter"){
+        this.isMouseOverID = i;
+      }else{
+        this.isMouseOverID = "";
       }
+      // if (e.type == "mouseenter" && $(imgDiv).hasClass("addImgDivBorder")) {
+      //   console.log("is me")
+      //   trash.setAttribute("style", "opacity: 1;");
+      //   overlay.setAttribute(
+      //     "style",
+      //     "display:block;  background: rgba(0, 0, 0, .3);"
+      //   );
+      // } else {
+      //   trash.setAttribute("style", "opacity: 0;");
+      //   overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      // }
     }
 
     // console.log(e.type)
