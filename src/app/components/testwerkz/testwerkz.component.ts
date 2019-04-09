@@ -146,6 +146,7 @@ export class TestwerkzComponent implements OnInit {
   public caretPos = 0;
   public showRemove:boolean =false;
   public hoverIcon:any=""
+  public pageConcept:any=1;
   
   @BlockUI() blockUI: NgBlockUI;
 
@@ -189,7 +190,7 @@ export class TestwerkzComponent implements OnInit {
     }
 
     console.log(this.pdLists);
-    this.getConceptLists();
+    this.getConceptLists(1,20);
     this.getCollectionlist();
     console.log(this.focusType = {
       'no' : 0,
@@ -308,9 +309,10 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  getConceptLists() {
+  getConceptLists(page,size) {
+    console.log(page,size)
     this.blockUI.start("Loading");
-    this._service.getAllConcept(this.regionID).subscribe((res: any) => {
+    this._service.getAllConcept(this.regionID,1,size).subscribe((res: any) => {
       console.log("Concept lists", res);
       this.conceptsArr = res;
       setTimeout(() => {
@@ -337,6 +339,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   goToTestWerkz() {
+    this.pageConcept=1;
     this.testWerkzCategory = true;
     this.conceptList = false;
     this.isCollection=false;
@@ -2013,6 +2016,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptEdit = false;
     this.testWerkzCategory = false;
     this.conceptList = true;
+    this.pageConcept=1;
     this.performanceDemands = [];
     this.concept = {
       name: "",
@@ -2028,8 +2032,10 @@ export class TestwerkzComponent implements OnInit {
       "state": ""
     };
     if (type == "redirect") {
-      this.getConceptLists();
+      this.getConceptLists(1,20);
     }
+    this.isCollectionList=true;
+    
   }
   // HSYL code
   inputQuestion(quesId, type) {
@@ -3146,7 +3152,6 @@ export class TestwerkzComponent implements OnInit {
   getCollectionlist() {
     this.blockUI.start("Loading");
     this._service.getAllCollection(this.regionID).subscribe((res: any) => {
-
       console.log(res);
       this.collectionarr=res;
       setTimeout(() => {
@@ -3175,6 +3180,7 @@ export class TestwerkzComponent implements OnInit {
   }
   
   backTocollectionList(){
+  
     this.isCollectionList=false;
     this.isCollection=true;
     this.conceptList=false;
@@ -3209,15 +3215,21 @@ export class TestwerkzComponent implements OnInit {
       console.log(this.concept_in_collection)
       // this.getAllAPG(20, 0)
     } else {
-      this.getConceptSearchInCollection(keyword);
+      this.getConceptSearch(keyword);
     }
   }
 
-  getConceptSearchInCollection(keyword){
+  getConceptSearch(keyword){
+    // console.error(this.isCollectionList,this.pageConcept)
+    this.blockUI.start("Loading...");
     this._service.getAllConceptBySearch(this.regionID,keyword).subscribe(
       (res: any) => {
         console.log(res)
-        this.concept_in_collection=res;
+        if(this.isCollectionList){
+          this.conceptsArr=res;
+        }else{
+          this.concept_in_collection=res;
+        }
         this.blockUI.stop();
       },
       err => {
@@ -3225,6 +3237,8 @@ export class TestwerkzComponent implements OnInit {
       }
     );
   }
+
+  
 
   selectData(id) {
     console.log(id)
@@ -3350,8 +3364,6 @@ export class TestwerkzComponent implements OnInit {
     console.log(id)
     let idArr=[];
     this.isCollectionEdit=false;
-    this.backToList();
-    this.getCollectionlist();
     for(let i=0;i<this.selectedConcept.length;i++){
       let conceptIdObj={
         "conceptId":this.selectedConcept[i]._id
@@ -3373,6 +3385,8 @@ export class TestwerkzComponent implements OnInit {
         this.toastr.error("Fail Collection updated.");
       }
     );
+    this.backToList();
+    this.getCollectionlist();
   }
 
   cancelCollection(){
@@ -3387,6 +3401,12 @@ export class TestwerkzComponent implements OnInit {
     this.selectedConcept=[];
     this.collectionName="";
     console.log("cancel")
+  }
+  showmoreConcept(length){
+    this.pageConcept+=1;
+    console.log(length)
+    console.log(this.pageConcept)
+    this.getConceptLists(1,this.pageConcept*20);
   }
   //end collection group
 
