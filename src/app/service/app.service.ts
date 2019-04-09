@@ -2460,8 +2460,8 @@ export class appService{
       })
     }
 
-    getAllConcept(regionId:string){
-      let url = this.baseUrl + '/' + regionId + '/concepts';
+    getAllConcept(regionId:string,page,size){
+      let url = this.baseUrl + '/' + regionId + '/concepts?&page='+page+'&size='+size;
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
@@ -2489,6 +2489,8 @@ export class appService{
           return result;
       }) 
     }
+
+
     
 
     deleteConcept(regionId:string,conceptId:string){

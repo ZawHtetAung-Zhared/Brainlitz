@@ -1483,6 +1483,7 @@ p.g_title {
 
 .pdLR-15 {
   padding: 0px 15px;
+  margin-top: 20px;
 }
 
 .pad-15 {
@@ -1786,6 +1787,25 @@ div.pdLine-wrap:last-child {
 
 .cursor-on{
   cursor: pointer;
+}
+
+/* concept loadmore */
+.load-more {
+  position: fixed;
+  z-index: 1;
+  width: 85%;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 10px;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+}
+
+.load-more button {
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 /* start collection */
