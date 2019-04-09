@@ -1791,14 +1791,20 @@ div.pdLine-wrap:last-child {
 .question-vd .play-img {
   left:12px !important;
 }
+.stickyNav{
+  top: 0!important;
+}
 .sticky-back-bar{
   position: fixed;
   left: 0;
+  top: -80px;
   box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);
   padding-left: 50px;
   z-index: 999;
   background: white;
-  height: 80.35px
+  height: 80.35px;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 .create-title{
   font-size: 16px;
