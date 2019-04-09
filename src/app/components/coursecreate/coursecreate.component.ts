@@ -850,6 +850,7 @@ export class CoursecreateComponent implements OnInit {
       //   datePicker.close();
     }
     else {
+      console.log("##########",event.target.className)
       this.searchMenuShow= false;
       // if (type == "start")
       //   datePicker.close();
@@ -863,9 +864,26 @@ export class CoursecreateComponent implements OnInit {
             datePicker.close();
          }
      }
-      this.feeOptShow = false;
-      this.taxOptShow = false;
-      this.durationMenuShow = false;
+     if(event.target.className.includes("taxDownOpt")){
+       this.taxOptShow = true;
+     }else{
+       this.taxOptShow = false
+     }
+
+     if(event.target.className.includes("feeDownOpt")){
+       this.feeOptShow = true;
+     }else{
+       this.feeOptShow = false;
+     }
+
+     if(event.target.className.includes("durationDownOpt")){
+       this.durationMenuShow = true;
+     }else{
+       this.durationMenuShow = false;
+     }
+      // this.feeOptShow = false;
+      // this.taxOptShow = false;
+      // this.durationMenuShow = false;
       this.showListWrap = false;
     }
     //this.taxOptShow = !this.taxOptShow;
