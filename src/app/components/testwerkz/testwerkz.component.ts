@@ -1572,40 +1572,28 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
-    // console.log(element)
-    // console.error(element.start)
-    // console.error(element.end)
-    // console.error(element.start && element.end)
-
-    // if(element.start && element.end){
-    //   console.log("is me")
-    // }else{
-      if(this.isVideo(element)){
-        if(type == 'toString'){
-          element.start = 0;
-          console.log("~~~duration",element.duration)
-          var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-          console.log("time string",timeString);
-          var res= timeString.split(":");
-          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-          timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
-          res= timeString.split(":");
-          element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    if(this.isVideo(element)){
+      if(type == 'toString'){
+        element.start = 0;
+        console.log("~~~duration",element.duration)
+        var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        console.log("time string",timeString);
+        var res= timeString.split(":");
+        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        res= timeString.split(":");
+        element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
       }
       else{
         let res = element.start.split(" ");
         let total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
-        element.start = total;
-  
+        element.startNumber = total;
+
         res =  element.end.split(" ");
         total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
-        element.end  = total;
+        element.endNumber  = total;
       }
-      }
-    
-    // }
-    
-    
+    } 
   }
   isCollapseVid(content){
     var videoCount = 0;
@@ -2241,8 +2229,8 @@ export class TestwerkzComponent implements OnInit {
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2281,8 +2269,8 @@ export class TestwerkzComponent implements OnInit {
             };
             tempVideoContentObj.contentId = ansCont._id;
             tempVideoContentObj.sequence = ++index;
-            tempVideoContentObj.start =  ansCont.start;
-            tempVideoContentObj.end = ansCont.end;
+            tempVideoContentObj.start =  ansCont.startNumber;
+            tempVideoContentObj.end = ansCont.endNumber;
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -2365,8 +2353,8 @@ export class TestwerkzComponent implements OnInit {
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2796,7 +2784,8 @@ export class TestwerkzComponent implements OnInit {
     this._service.updateConcept(this.regionID, conceptFormat, cid).subscribe(
       res => {
         console.log("FINALLY", res);
-        this.cancelConcept("redirect");
+
+        // this.cancelConcept("redirect");
       },
       err => {
         console.log("err");
@@ -2850,8 +2839,8 @@ export class TestwerkzComponent implements OnInit {
         }
         // tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2901,8 +2890,8 @@ export class TestwerkzComponent implements OnInit {
             }
             // tempVideoContentObj.contentId = ansCont._id;
             tempVideoContentObj.sequence = ++index;
-            tempVideoContentObj.start =  ansCont.start;
-            tempVideoContentObj.end = ansCont.end;
+            tempVideoContentObj.start =  ansCont.startNumber;
+            tempVideoContentObj.end = ansCont.endNumber;
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -3025,8 +3014,8 @@ export class TestwerkzComponent implements OnInit {
         // tempContentObj.contentId = contentObj.contentId;
         // tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
