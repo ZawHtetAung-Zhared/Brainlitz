@@ -1574,15 +1574,33 @@ export class TestwerkzComponent implements OnInit {
   changeTimeFormat(element , type){
     if(this.isVideo(element)){
       if(type == 'toString'){
-        element.start = 0;
-        console.log("~~~duration",element.duration)
-        var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        var timeString;
+        var res;
+        //validate for custom start time
+        if(typeof element.start == "number"){
+          timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+          res= timeString.split(":");
+          element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }else if(element.start == undefined){
+          element.start = 0;
+          timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+          res= timeString.split(":");
+          element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }
+        timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
         console.log("time string",timeString);
-        var res= timeString.split(":");
-        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-        timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
         res= timeString.split(":");
-        element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+
+        // element.start = 0;
+        // console.log("~~~duration",element.duration)
+        // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        // console.log("time string",timeString);
+        // var res= timeString.split(":");
+        // element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        // res= timeString.split(":");
+        // element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
       }
       else{
         let res = element.start.split(" ");
