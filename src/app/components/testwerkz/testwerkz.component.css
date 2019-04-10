@@ -1859,7 +1859,8 @@ div.pdLine-wrap:last-child {
 /* start collection */
 
 .d-flex.collection-wrappe {
-  overflow: overlay;
+  overflow-x: overlay;
+  overflow-y: hidden;
 }
 
 .d-flex .collection-wrapper .card{
@@ -1933,7 +1934,7 @@ span.tagName {
 }
 
 .single-collection1 {
-  width: 428px !important;
+  /* width: 428px !important; */
   max-height: 312px !important;
   /* width: 303px; */
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -2191,6 +2192,7 @@ span.tagName_collection {
 }
 .col-md-12.pl-zero {
   padding-top: 18px;
+  margin-bottom: 120px;
 }
 .ap-wrapper{
   padding-top: 10px;

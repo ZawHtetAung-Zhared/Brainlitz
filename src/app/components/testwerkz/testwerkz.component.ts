@@ -148,6 +148,7 @@ export class TestwerkzComponent implements OnInit {
   public showRemove:boolean =false;
   public hoverIcon:any=""
   public pageConcept:any=1;
+  public collectionArr_slice:any;
   
   @BlockUI() blockUI: NgBlockUI;
 
@@ -1218,7 +1219,7 @@ export class TestwerkzComponent implements OnInit {
           console.log("to call onselecedImgDiv~~~")
             this.onslectedImgDiv(
               this.tempContentArr[j]._id,
-              this.tempContentArr[j]
+              this.tempContentArr[j],1
             );
           // break;
         }
@@ -1228,37 +1229,18 @@ export class TestwerkzComponent implements OnInit {
 
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
-  onslectedImgDiv(i, img) {
-    console.log("onslectedImgDiv")
-    // console.log(i,img)
-    // console.error(this.modelType)
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
-    const circle: HTMLElement = document.getElementById("cricle" + i);
-    const check: HTMLElement = document.getElementById("check" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
+  onslectedImgDiv(i, img,id) {
+    console.log("onslectedImgDiv",img)
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
-        // console.log(img);
         this.selectedImgArr = img;
         this.imgIdArr = i;
-        console.log(imgDiv)
-        // console.error( $(imgDiv).hasClass("addImgDivBorder"))
-        // console.error(imgDiv.style.border == "solid");
         this.isDisabelInsert = true;
         this.imgId = i;
       }
     }else if (this.modelType == "video" || this.modelType == "ansVideo") {
-      // if(!this.isRemove){
-      //   this.selectedVideoArr = img;
-      //   this.vidIdArr = i;
-      //   this.isDisabelInsert = true;
-      //   console.log("selectedVideoArr",this.selectedVideoArr)
-      //   console.log("vidIdArr",this.vidIdArr)
-      // }
+      console.log("else if")
       if (this.isRemove) {
         // console.log("is remove");
         this.selectedVideoArr.splice(this.selectedImgArr.indexOf(i), 1);
@@ -1279,56 +1261,19 @@ export class TestwerkzComponent implements OnInit {
           // this.autoImgLoop(this.imgIdArr);
         }
       }
-      // console.log(i, img);
-      // console.log(imgDiv);
-      // if ($(imgDiv).hasClass("highlight")) {
-      //   console.log("hasClass highlight")
-      //   $(imgDiv).removeClass("highlight");
-      //   console.log(circle , check)
-      //   this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
-      //   circle.setAttribute(
-      //     "style",
-      //     "border: transparent; border-radius: 50%;width: 16px; height: 16px;position: absolute;background:transparent;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      //   );
-      //   check.setAttribute("style", "color:transparent;");
-      //   trash.setAttribute("style", "opacity: 0;");
-
-      // } else {
-      //   console.log("no class highlight")
-      //   $(imgDiv).addClass("highlight");
-      //   this.selectedVideoArr.push(img);
-      //   trash.setAttribute("style", "opacity: 1;");
-      //   overlay.setAttribute(
-      //     "style",
-      //     "display:block;  background: rgba(0, 0, 0, .3);"
-      //   );
-      //   circle.setAttribute(
-      //     "style",
-      //     "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      //   );
-      //   check.setAttribute("style", "color:white;");
-      // }
-
-      // console.log(this.selectedVideoArr);
     } else {
       if (this.isRemove) {
-        // console.log("is remove");
-        this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+        console.log("is remove image");
+        this.selectedImgArr.splice(this.selectedImgArr.map(x => x._id).indexOf(i), 1);
         this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-        // this.autoImgLoop(this.imgIdArr);
         this.isRemove = false;
       } else {
-        console.log(this.imgIdArr.includes(i));
         if (this.imgIdArr.includes(i)) {
-          // console.log("is remove seleccted");
-          this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+          this.selectedImgArr.splice(this.selectedImgArr.map(x => x._id).indexOf(i), 1);
           this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-          // this.removerSelected(i);
         } else {
-          // console.log("else");
           this.imgIdArr.push(i);
           this.selectedImgArr.push(img);
-          // this.autoImgLoop(this.imgIdArr);
         }
       }
     }
@@ -3184,7 +3129,9 @@ export class TestwerkzComponent implements OnInit {
   getCollectionlist() {
     this.blockUI.start("Loading");
     this._service.getAllCollection(this.regionID).subscribe((res: any) => {
-      console.log(res);
+      console.log(res)
+      console.log(res.slice(0,3));
+      this.collectionArr_slice=res.slice(0,3);
       this.collectionarr=res;
       setTimeout(() => {
         this.blockUI.stop();
@@ -3230,6 +3177,8 @@ export class TestwerkzComponent implements OnInit {
     this.isFocus_collection = true;
     // this.showfixedcreate = true;
     // this.apgList = [];
+    this.concept_in_collection=[];
+    // this.conceptsArr=[];
   }
 
   hideSearch(e) {
@@ -3347,11 +3296,11 @@ export class TestwerkzComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.getCollectionlist();
-        this.toastr.success("Successfully Collection created.");
+        this.toastr.success("Successfully Plan created.");
       },
       err => {
         console.log(err);
-        this.toastr.error("Fail Collection created.");
+        this.toastr.error("Fail Plan created.");
       }
     );
     this.isCollectionCreate=false;
@@ -3410,11 +3359,11 @@ export class TestwerkzComponent implements OnInit {
     this._service.updateCollection(this.regionID,obj,id).subscribe(
       (res: any) => {
         console.log(res);
-        this.toastr.success("Successfully Collection updated.");
+        this.toastr.success("Successfully Plan updated.");
       },
       err => {
         console.log(err);
-        this.toastr.error("Fail Collection updated.");
+        this.toastr.error("Fail Plan updated.");
       }
     );
     this.backToList();
@@ -3439,6 +3388,21 @@ export class TestwerkzComponent implements OnInit {
     console.log(length)
     console.log(this.pageConcept)
     this.getConceptLists(1,this.pageConcept*20);
+  }
+
+  onclickCollectionDelete(id){
+    console.log(id)
+    this._service.deleteCollection(this.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.getCollectionlist();
+        this.toastr.success("Successfully Plan Delete.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Plan Delete.");
+      }
+    );
   }
   //end collection group
 
