@@ -98,13 +98,13 @@
 					<div class="col-md-6 p-feeOpt" *ngIf="feesOptions">
 						<label class="input-title font-medium" [ngClass]="{'changeColor': chooseFee == ''}">CourseFee Options</label>
 						<div>
-							 <div class="form-group has-feedback feeOpt-wrap" (click)="showDropdown('feeOpt','')" >
-						    	<input class="cursor-on form-control br-bshadow-none dropD feeInput"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
+							 <div class="form-group has-feedback feeOpt-wrap cursor-on" (click)="showDropdown('feeOpt','')" >
+						    	<input class="form-control br-bshadow-none dropD feeInput"  name="feesName" type="text" placeholder="username" [(ngModel)]="chooseFee" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon feeDownOpt"></span>
 						     </div>
 						     <div class="dropdown-wrap" *ngIf="feeOptShow == true">
 					          <ul class="feeOpt-dropdown">
 					            <li *ngFor="let key of objectKeys(feesOptions)">
-					              <span (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ currency.invCurrencySign }} {{ feesOptions[key]}}</span>
+					              <div class="w-100" (click)="chooseFeeOption(key,feesOptions[key])">{{key}} - {{ currency.invCurrencySign }} {{ feesOptions[key]}}</div>
 					            </li>
 					          </ul>
 					        </div>
@@ -113,17 +113,17 @@
 					<div class="col-md-6 p-0">
 						<label class="input-title font-medium" [ngClass]="{'changeColor': chooseTax == ''}">Tax Options</label>
 						<div>
-							<div class="form-group has-feedback taxOpt-wrap" (click)="showDropdown('taxOpt','')" >
-						    	<input class="cursor-on form-control br-bshadow-none dropD taxInput"  name="taxName" type="text" placeholder="username" [(ngModel)]="chooseTax" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon"></span>
+							<div class="form-group has-feedback taxOpt-wrap cursor-on" (click)="showDropdown('taxOpt','')" >
+						    	<input class="form-control br-bshadow-none dropD taxInput"  name="taxName" type="text" placeholder="username" [(ngModel)]="chooseTax" placeholder="None" autocomplete="off" readonly><span class="fa fa-angle-down down-icon taxDownOpt"></span>
 						     </div>
 						     <div class="dropdown-wrap" *ngIf="taxOptShow == true">
 					          <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
 					          <ul class="taxOpt-dropdown">
 					            <li>
-					              <span (click)="chooseTaxOption('inclusive')">Inclusive</span>
+					              <div class="w-100" (click)="chooseTaxOption('inclusive')">Inclusive</div>
 					            </li>
 					            <li>
-					            	<span (click)="chooseTaxOption('exclusive')">Exclusive</span>
+					            	<div class="w-100" (click)="chooseTaxOption('exclusive')">Exclusive</div>
 					            </li>
 					          </ul>
 					        </div>
@@ -250,12 +250,12 @@
 						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.duration == '' || model.duration == undefined}">Duration</label>
 						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi durationDp dropD durationInput" (click)="showDropdown('duration',isEdit)" >
 							{{ model.duration }} min
-							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon durationDownOpt"></span>
 						</div>
 						<div class="dropdown-wrap" *ngIf="durationMenuShow == true">
 				          <ul class="duration-dropdown">
 				            <li *ngFor="let test of testList;let i = index;">
-				              <span (click)="onClickDuration(test,i)">{{ test }} min</span>
+				              <div class="w-100" (click)="onClickDuration(test,i)">{{ test }} min</div>
 				            </li>
 				          </ul>
 				        </div>
