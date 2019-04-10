@@ -108,6 +108,7 @@ export class TestwerkzComponent implements OnInit {
   public videoArr: any = [];
   public selectedVideoArr: any = [];
   public imgIdArr: any = [];
+  public vidIdArr: any = [];
   public imgId: any;
   public clickType: boolean = false;
   public editableId: any = "";
@@ -122,6 +123,9 @@ export class TestwerkzComponent implements OnInit {
   public dragItem: any;
   public dragItemParent: any;
   public clickEle: any = "";
+  public collectionarr:any=[];
+  public isTestwerkztitle:boolean=true;
+  public collectionName:string='';
   // public focusType = {
   //   'type': "",
   //   'no': "",
@@ -132,8 +136,19 @@ export class TestwerkzComponent implements OnInit {
   public conceptsObj: any = {};
   public contentPage: number = 1;
   public contentRes:any=[];
-  caretPos = 0;
-
+  public isCollectionList:boolean=true;
+  public isCollection:boolean=false;
+  public isCollectionCreate:boolean=false;
+  public isCollectionEdit:boolean=false;
+  public isFocus_collection:boolean=false;
+  public concept_in_collection:any=[];
+  public selectedConcept:any=[];
+  public collectionId:any=[];
+  public caretPos = 0;
+  public showRemove:boolean =false;
+  public hoverIcon:any=""
+  public pageConcept:any=1;
+  
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -176,7 +191,8 @@ export class TestwerkzComponent implements OnInit {
     }
 
     console.log(this.pdLists);
-    this.getConceptLists();
+    this.getConceptLists(1,20);
+    this.getCollectionlist();
     console.log(this.focusType = {
       'no' : 0,
       'type' : 'pd'
@@ -294,9 +310,10 @@ export class TestwerkzComponent implements OnInit {
     }
   }
 
-  getConceptLists() {
+  getConceptLists(page,size) {
+    console.log(page,size)
     this.blockUI.start("Loading");
-    this._service.getAllConcept(this.regionID).subscribe((res: any) => {
+    this._service.getAllConcept(this.regionID,1,size).subscribe((res: any) => {
       console.log("Concept lists", res);
       this.conceptsArr = res;
       setTimeout(() => {
@@ -323,8 +340,11 @@ export class TestwerkzComponent implements OnInit {
   }
 
   goToTestWerkz() {
+    this.pageConcept=1;
     this.testWerkzCategory = true;
     this.conceptList = false;
+    this.isCollection=false;
+    this.isCollectionList=false;
     this.getAllTag();
     // this.addPd();
     console.log(this.performanceDemands);
@@ -419,7 +439,6 @@ export class TestwerkzComponent implements OnInit {
     this.wordLength = 0;
   }
   changeMethod(val: string) {
-    console.log(val);
     this.wordLength = val.length;
   }
   close(status, id) {
@@ -474,6 +493,7 @@ export class TestwerkzComponent implements OnInit {
     this.performanceDemands = [];
     this.ptest = [];
     this.conceptList = true;
+    this.isCollectionList=true;
     this.conceptCreate = false;
     this.testWerkzCategory = false;
     this.conceptEdit = false;
@@ -483,11 +503,20 @@ export class TestwerkzComponent implements OnInit {
       "name": "",
       "state": ""
     };
+    this.selectedConcept=[];
+    this.collectionName="";
+    this.collectionId="";
     this.ischecked = "";
+    this.isCollectionList=true;
+    this.isTestwerkztitle=true;
+    this.isCollection=false;
+    this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
   }
   backToTag(type) {
     console.log("TYPE~~~",type)
     this.conceptList = false;
+    this.isCollectionList=false;
     this.conceptCreate = false;
     this.testWerkzCategory = true;
     this.conceptEdit = false;
@@ -1009,6 +1038,7 @@ export class TestwerkzComponent implements OnInit {
     this.modalReference.close();
     this.selectedImgArr = [];
     this.imgIdArr = [];
+    this.vidIdArr = [];
     this.imgId = undefined;
     this.selectedVideoArr = [];
     this.contentPage=0;
@@ -1025,14 +1055,17 @@ export class TestwerkzComponent implements OnInit {
   showMoreVideo(){
     this.contentPage += 1;
     if(this.isSearch == true){
+      console.log("isSearchTrue",this.isSearch)
       this.getAllContent(this.contentPage,20,this.searchWord)
     }else{
+      console.log("isSearchfalse",this.isSearch)
       this.getAllContent(this.contentPage,20,'')
     }
   }
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
   getAllContent(page,size,keyword) {
+    console.log(page,size,keyword);
     // this.ImgArr = [];
     // this.videoArr = [];
   //  console.error(page,size)
@@ -1044,56 +1077,65 @@ export class TestwerkzComponent implements OnInit {
     }
     this.blockUI.start("Loading...");
     // console.log(this.ImgArr)
-       return new Promise((resolve, reject) => {
-      this._service.getContent(this.regionID,page,size,keyword,this.contentType).subscribe(
-        (res: any) => {
-          this.result = res;
-          // console.error(res);
-          this.contentRes=res;
-          if(res.length > 0){
+      return new Promise((resolve, reject) => {
+        this._service.getContent(this.regionID,page,size,keyword,this.contentType).subscribe(
+          (res: any) => {
+            this.result = res;
+            this.contentRes=res;
             this.contentArr=res;
             this.content_size=size;
-            for (var i = 0; i < res.length; i++) {
-              if (this.contentType == "image") {
-                if (
-                  res[i].type == "image/gif" ||
-                  res[i].type == "image/png" ||
-                  res[i].type == "image/jpeg"
-                ) {
-                  this.ImgArr.push(res[i]);
+            if(this.modelType == 'multiple' || this.modelType == 'single'){
+              if(res.length > 0){
+                for (var i = 0; i < res.length; i++) {
+                  if (this.contentType == "image") {
+                    if (
+                      res[i].type == "image/gif" ||
+                      res[i].type == "image/png" ||
+                      res[i].type == "image/jpeg"
+                    ) {
+                      this.ImgArr.push(res[i]);
+                    }
+                  } else {
+                  }
                 }
-              } else {
+                this.tempContentArr=this.ImgArr;
+                console.log("ImgArr",this.tempContentArr)
+                resolve();
+              }else{
+                this.ImgArr=this.ImgArr;
+                console.log('ImgArr####',this.ImgArr)
+              }
+
+            }else{
+              if (isFirst == true) {
+                this.videoArr = res;
+                // this.isSearch = true;
+                this.contentPage = 1;
+                console.log(this.videoArr,'first time searching');
+                this.tempContentArr = this.videoArr;
+                if(this.videoArr.length >= 1){
+                  this.autoSelectedImg(this.uploadedVid,"video")
+                }
+              }else{
+                this.isSearch = false;
+                res.map(content => {
+                  this.videoArr.push(content)
+                })
+                console.log(this.videoArr,'not first time searching');
               }
             }
-            this.tempContentArr=this.ImgArr;
-            console.log(this.videoArr);
-            resolve();
-          }else{
-            console.log(this.ImgArr)
-            this.ImgArr=this.ImgArr;
+            
+            this.blockUI.stop();
+          },
+          err => {
+            console.log(err);
           }
-
-          if (isFirst == true) {
-            this.videoArr = res;
-            this.isSearch = true;
-            this.contentPage = 1;
-            console.log(this.videoArr,'first time searching');
-          }else{
-            this.isSearch = false;
-            res.map(content => {
-              this.videoArr.push(content)
-            })
-            console.log(this.videoArr,'not first time searching');
-          }
-          this.blockUI.stop();
-        },
-        err => {
-          console.log(err);
-        }
-      );
-    });
+        );
+      });
 
   }
+
+
 
   showMoreContent(length){
     this.contentPage+=1;
@@ -1123,6 +1165,7 @@ export class TestwerkzComponent implements OnInit {
     // canvas1.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     // console.log(canvas1)
   }
+  uploadedVid = [];
   onloadImg(event, ele?) {
     if (this.isDrop) {
       var file = event;
@@ -1136,13 +1179,21 @@ export class TestwerkzComponent implements OnInit {
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
+        console.log("res.meta~~~",res.meta)
         //getAllContent() use pormise because of html create value after use in ts
         this.ImgArr=[];
+        if(this.modelType == "single" || this.modelType == "multiple"){
           this.getAllContent(1,20*this.contentPage,'').then(() => {
             setTimeout(() => {
-              this.autoSelectedImg(res.meta);
+              console.log("res.meta~~~",res.meta)
+              this.autoSelectedImg(res.meta,"img");
             }, 300);
           });
+        }else{
+          this.uploadedVid = res.meta
+          this.getAllContent(1,20*this.contentPage,'').then(()=>{
+          })
+        }
       
         this.blockUI.stop();
       },
@@ -1153,7 +1204,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //this is use for autoselected when upload finish or deleted finsih (this is only selected previous selection image after upload)
-  autoSelectedImg(resturnobj) {
+  autoSelectedImg(resturnobj,type) {
+    console.log("autoSelectedImg")
     // console.log(this.modelType);
     // console.log(this.selectedImgArr);
     // console.log(resturnobj);
@@ -1163,10 +1215,11 @@ export class TestwerkzComponent implements OnInit {
         // console.log(resturnobj[i]._id )
         // console.log(this.tempContentArr[j]._id)
         if (resturnobj[i]._id == this.tempContentArr[j]._id) {
-          this.onslectedImgDiv(
-            this.tempContentArr[j]._id,
-            this.tempContentArr[j]
-          );
+          console.log("to call onselecedImgDiv~~~")
+            this.onslectedImgDiv(
+              this.tempContentArr[j]._id,
+              this.tempContentArr[j]
+            );
           // break;
         }
       }
@@ -1176,6 +1229,7 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
+    console.log("onslectedImgDiv")
     // console.log(i,img)
     // console.error(this.modelType)
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
@@ -1195,77 +1249,67 @@ export class TestwerkzComponent implements OnInit {
         // console.error( $(imgDiv).hasClass("addImgDivBorder"))
         // console.error(imgDiv.style.border == "solid");
         this.isDisabelInsert = true;
-
-        // if (this.imgId != undefined && this.imgId != i) {
-        //   console.log(this.selectedImgArr);
-        //   // this.removerSelected(this.imgId);
-        //   imgDiv.setAttribute("style", "border:solid;color:#007fff;");
-        //   circle.setAttribute(
-        //     "style",
-        //     "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-        //   );
-        //   gShowImag.setAttribute(
-        //     "style",
-        //     "max-width:133px;max-height:130px;"
-        //   );
-        //   trashdiv.setAttribute("style", "display:block;");
-        //   check.setAttribute("style", "color:white;");
-        //   this.ischecked = true;
-        //   this.isDisabelInsert = true;
-        // } else {
-        //   if (imgDiv.style.border == "solid") {
-        //     // this.removerSelected(this.imgId);
-        //     this.isDisabelInsert = false;
-        //   } else {
-        //     imgDiv.setAttribute(
-        //       "style",
-        //       "border:solid;color:#007fff;border-width:3px;"
-        //     );
-        //     gShowImag.setAttribute(
-        //       "style",
-        //       "max-width:130px;max-height:130px;"
-        //     );
-        //     circle.setAttribute(
-        //       "style",
-        //       "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-        //     );
-        //     check.setAttribute("style", "color:white;");
-        //     trashdiv.setAttribute("style", "display:block;");
-        //     this.isDisabelInsert = true;
-        //   }
-        // }
         this.imgId = i;
       }
-    } else if (this.modelType == "video" || this.modelType == "ansVideo") {
-      console.log(i, img);
-      console.log(imgDiv);
-      if ($(imgDiv).hasClass("highlight")) {
-        $(imgDiv).removeClass("highlight");
-        console.log(circle , check)
-        this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
-        circle.setAttribute(
-          "style",
-          "border: transparent; border-radius: 50%;width: 16px; height: 16px;position: absolute;background:transparent;margin-top: 8px;margin-left: 8px;z-index: 2;"
-        );
-        check.setAttribute("style", "color:transparent;");
-        trash.setAttribute("style", "opacity: 0;");
-
+    }else if (this.modelType == "video" || this.modelType == "ansVideo") {
+      // if(!this.isRemove){
+      //   this.selectedVideoArr = img;
+      //   this.vidIdArr = i;
+      //   this.isDisabelInsert = true;
+      //   console.log("selectedVideoArr",this.selectedVideoArr)
+      //   console.log("vidIdArr",this.vidIdArr)
+      // }
+      if (this.isRemove) {
+        // console.log("is remove");
+        this.selectedVideoArr.splice(this.selectedImgArr.indexOf(i), 1);
+        this.vidIdArr.splice(this.vidIdArr.indexOf(i), 1);
+        // this.autoImgLoop(this.imgIdArr);
+        this.isRemove = false;
       } else {
-        $(imgDiv).addClass("highlight");
-        this.selectedVideoArr.push(img);
-        trash.setAttribute("style", "opacity: 1;");
-        overlay.setAttribute(
-          "style",
-          "display:block;  background: rgba(0, 0, 0, .3);"
-        );
-        circle.setAttribute(
-          "style",
-          "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-        );
-        check.setAttribute("style", "color:white;");
+        console.log(this.vidIdArr.includes(i));
+        if (this.vidIdArr.includes(i)) {
+          // console.log("is remove seleccted");
+          this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(i), 1);
+          this.vidIdArr.splice(this.vidIdArr.indexOf(i), 1);
+          // this.removerSelected(i);
+        } else {
+          // console.log("else");
+          this.vidIdArr.push(i);
+          this.selectedVideoArr.push(img);
+          // this.autoImgLoop(this.imgIdArr);
+        }
       }
+      // console.log(i, img);
+      // console.log(imgDiv);
+      // if ($(imgDiv).hasClass("highlight")) {
+      //   console.log("hasClass highlight")
+      //   $(imgDiv).removeClass("highlight");
+      //   console.log(circle , check)
+      //   this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
+      //   circle.setAttribute(
+      //     "style",
+      //     "border: transparent; border-radius: 50%;width: 16px; height: 16px;position: absolute;background:transparent;margin-top: 8px;margin-left: 8px;z-index: 2;"
+      //   );
+      //   check.setAttribute("style", "color:transparent;");
+      //   trash.setAttribute("style", "opacity: 0;");
 
-      console.log(this.selectedVideoArr);
+      // } else {
+      //   console.log("no class highlight")
+      //   $(imgDiv).addClass("highlight");
+      //   this.selectedVideoArr.push(img);
+      //   trash.setAttribute("style", "opacity: 1;");
+      //   overlay.setAttribute(
+      //     "style",
+      //     "display:block;  background: rgba(0, 0, 0, .3);"
+      //   );
+      //   circle.setAttribute(
+      //     "style",
+      //     "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
+      //   );
+      //   check.setAttribute("style", "color:white;");
+      // }
+
+      // console.log(this.selectedVideoArr);
     } else {
       if (this.isRemove) {
         // console.log("is remove");
@@ -1362,7 +1406,7 @@ export class TestwerkzComponent implements OnInit {
   // }
 
   //when over image from galery modal mouse over or mouse out
-  onImgMouseEvent(e, i) {
+  onImgMouseEvent(e, i,type) {
     const imgDiv: HTMLElement = document.getElementById("img-" + i);
     const trash: HTMLElement = document.getElementById("trash" + i);
     const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
@@ -1370,37 +1414,51 @@ export class TestwerkzComponent implements OnInit {
     // console.log(imgDiv)
     // console.log(e)
     if (this.contentType == "video") {
+
       // console.log('invideo')
-      if ($(imgDiv).hasClass("highlight") && e.type == "mouseenter") {
-        // console.log('inmouseenter')
-        trash.setAttribute("style", "opacity: 1;");
-        // console.log(trash)
-        // console.log(overlay)
-        overlay.setAttribute(
-          "style",
-          "display:block;  background: rgba(0, 0, 0, .3);"
-        );
-      } else {
-        trash.setAttribute("style", "opacity: 0;");
-        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
-      }
+      // if ($(imgDiv).hasClass("highlight") && e.type == "mouseenter") {
+      //   // console.log('inmouseenter')
+      //   trash.setAttribute("style", "opacity: 1;");
+      //   // console.log(trash)
+      //   // console.log(overlay)
+      //   overlay.setAttribute(
+      //     "style",
+      //     "display:block;  background: rgba(0, 0, 0, .3);"
+      //   );
+      // } else {
+      //   trash.setAttribute("style", "opacity: 0;");
+      //   overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      // }
+
     } else {
-      if (e.type == "mouseenter" && $(imgDiv).hasClass("addImgDivBorder")) {
-        console.log("is me")
-        trash.setAttribute("style", "opacity: 1;");
-        overlay.setAttribute(
-          "style",
-          "display:block;  background: rgba(0, 0, 0, .3);"
-        );
-      } else {
-        trash.setAttribute("style", "opacity: 0;");
-        overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      if(type == "mouseenter"){
+        this.isMouseOverID = i;
+      }else{
+        this.isMouseOverID = "";
       }
+      // if (e.type == "mouseenter" && $(imgDiv).hasClass("addImgDivBorder")) {
+      //   console.log("is me")
+      //   trash.setAttribute("style", "opacity: 1;");
+      //   overlay.setAttribute(
+      //     "style",
+      //     "display:block;  background: rgba(0, 0, 0, .3);"
+      //   );
+      // } else {
+      //   trash.setAttribute("style", "opacity: 0;");
+      //   overlay.setAttribute("style", " background: rgba(0, 0, 0, 0);");
+      // }
     }
 
     // console.log(e.type)
   }
-
+  isMouseOverID:any;
+  onVidMouseEvent(e,vID, type){
+    if(type == "mouseenter"){
+      this.isMouseOverID = vID;
+    }else{
+      this.isMouseOverID = "";
+    }
+  }
   //delete image
   onremoveClick(id) {
     console.log(id);
@@ -1418,8 +1476,10 @@ export class TestwerkzComponent implements OnInit {
               if (this.modelType == "multiple") {
                 this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
                 // this.autoImgLoop(this.imgIdArr);
-              } else {
+              } else if(this.modelType == "single") {
                 this.imgId = undefined;
+              }else if(this.modelType == "video" || this.modelType == "ansVideo"){
+                this.vidIdArr.splice(this.vidIdArr.indexOf(id),1);
               }
             }, 300);
           });
@@ -1711,54 +1771,62 @@ export class TestwerkzComponent implements OnInit {
     console.log($(".editableImg"));
   }
 
-  mouseOver(e, idx) {
-    console.log(e,idx)
+  mouseOver(e, type , i , idx1, idx2) {
+    console.log("mouseover",e, i, idx1, idx2);
+    this.showRemove = true;
+    if(type == 'pdRMI'){
+      this.hoverIcon = type + '-' + i + idx1;
+    }else{
+      this.hoverIcon = type + '-' + i + idx1 + idx2;
+    }
     // console.log(e.target.className);
     // console.log("over ");
     // console.log($(event.target).children(".img-pd"));
     // console.log($(event.target).siblings(".img-pd"));
-    if ($(e.target).hasClass("question-vd")) {
-      $(e.target)
-        .children(".img-pd")
-        .show();
-    }
-    if ($(e.target).hasClass("editablePDImg")) {
-      $(e.target)
-        .siblings(".img-pd")
-        .show();
-    }
-    if ($(e.target).hasClass("innerPd")) {
-      $(e.target)
-        .children(".img-pd")
-        .show();
-    }
+    // if ($(e.target).hasClass("question-vd")) {
+    //   $(e.target)
+    //     .children(".img-pd")
+    //     .show();
+    // }
+    // if ($(e.target).hasClass("editablePDImg")) {
+    //   $(e.target)
+    //     .siblings(".img-pd")
+    //     .show();
+    // }
+    // if ($(e.target).hasClass("innerPd")) {
+    //   $(e.target)
+    //     .children(".img-pd")
+    //     .show();
+    // }
   }
   mouseOut(event) {
-    console.log(event.offsetX , event.offsetY)
+    console.log("mouse out",event.offsetX , event.offsetY)
     console.log(event.target)
-    if (event.offsetX >= 119 || event.offsetX < 0) {
-      if ($(event.target).hasClass("editablePDImg")) {
-        $(event.target)
-          .siblings(".img-pd")
-          .hide();
-      }
-      if ($(event.target).hasClass("innerPd")) {
-        $(event.target)
-          .children(".img-pd")
-          .hide();
-      }
-    } else if (event.offsetY >= 119 || event.offsetY < 0) {
-      if ($(event.target).hasClass("editablePDImg")) {
-        $(event.target)
-          .siblings(".img-pd")
-          .hide();
-      }
-      if ($(event.target).hasClass("innerPd")) {
-        $(event.target)
-          .children(".img-pd")
-          .hide();
-      }
-    } else console.log("out but not out", this.showRMIcon);
+    this.showRemove = false;
+    this.hoverIcon = "";
+    // if (event.offsetX >= 119 || event.offsetX < 0) {
+    //   if ($(event.target).hasClass("editablePDImg")) {
+    //     $(event.target)
+    //       .siblings(".img-pd")
+    //       .hide();
+    //   }
+    //   if ($(event.target).hasClass("innerPd")) {
+    //     $(event.target)
+    //       .children(".img-pd")
+    //       .hide();
+    //   }
+    // } else if (event.offsetY >= 119 || event.offsetY < 0) {
+    //   if ($(event.target).hasClass("editablePDImg")) {
+    //     $(event.target)
+    //       .siblings(".img-pd")
+    //       .hide();
+    //   }
+    //   if ($(event.target).hasClass("innerPd")) {
+    //     $(event.target)
+    //       .children(".img-pd")
+    //       .hide();
+    //   }
+    // } else console.log("out but not out", this.showRMIcon);
 
   }
 
@@ -1823,6 +1891,10 @@ export class TestwerkzComponent implements OnInit {
       case "answer":
       // if(this.focusType.no != idx2 || tempType != type)
       // this.isCollapse = true;
+        var ansContent = this.performanceDemands[idx1].questions[idx2].answers[idx3].contents;
+        if(ansContent!=undefined){
+          this.isCollapseVid(ansContent)
+        }
         this.focusPlace = "a" + idx1 + idx2 + idx3;
         this.focusType.no = idx3;
         this.focusType.parentIdx = idx1;
@@ -1976,6 +2048,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptEdit = false;
     this.testWerkzCategory = false;
     this.conceptList = true;
+    this.pageConcept=1;
     this.performanceDemands = [];
     this.concept = {
       name: "",
@@ -1991,8 +2064,10 @@ export class TestwerkzComponent implements OnInit {
       "state": ""
     };
     if (type == "redirect") {
-      this.getConceptLists();
+      this.getConceptLists(1,20);
     }
+    this.isCollectionList=true;
+    
   }
   // HSYL code
   inputQuestion(quesId, type) {
@@ -2001,12 +2076,15 @@ export class TestwerkzComponent implements OnInit {
   }
 
   public isConceptFormValid = false; // Global
+  public isCollectionFormValid = false; // Global
 
   validateForm() {
+   
     if (!this.concept.name) {
       this.isConceptFormValid = false;
       return this.isConceptFormValid;
     }
+   
 
     const pds = this.performanceDemands;
 
@@ -2147,7 +2225,9 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
-    const tempContentArray = [];
+    var tempContentArray = [];
+    var tempAnsContentArr = [];
+    console.log("question contents~~~",question.contents)
     question.contents.map( (contentObj,index) => {
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
@@ -2174,6 +2254,7 @@ export class TestwerkzComponent implements OnInit {
     })
 
     question.answers.map(answer => {
+      tempAnsContentArr = [];
       var tempObj = {
         name: "",
         answer: "",
@@ -2185,37 +2266,40 @@ export class TestwerkzComponent implements OnInit {
       tempObj.answer = answer.answer;
       tempObj.imgUrl = answer.imgUrl;
       tempObj.correctness = answer.correctness;
-      console.log(tempObj);
+      if(answer.contents.length >=1){
+        answer.contents.map((ansCont,index) => {
+          console.log("idx",index,"ansCont",ansCont)
+          _this.changeTimeFormat(ansCont,'temp');
+          if(ansCont.duration){
+            var tempVideoContentObj = {
+              contentId: "",
+              sequence: 0,
+              start:0,
+              end: 0
+            };
+            tempVideoContentObj.contentId = ansCont._id;
+            tempVideoContentObj.sequence = ++index;
+            tempVideoContentObj.start =  ansCont.start;
+            tempVideoContentObj.end = ansCont.end;
+            tempAnsContentArr.push(tempVideoContentObj);
+          }else{
+            var tempImgContentObj = {
+              contentId: "",
+              sequence: 0,
+            };
+            tempImgContentObj.contentId = ansCont._id;
+            tempImgContentObj.sequence = ++index;
+            tempAnsContentArr.push(tempImgContentObj);
+          }
+        })
+        tempObj.contents = tempAnsContentArr;
+      }
+      console.log("~~~",tempObj);
       tempArr.push(tempObj);
       console.log(tempArr);
-      console.log("answer.contents~~~",answer.contents)
-      answer.contents.map((ansCont,index) => {
-        console.log("idx",index)
-        _this.changeTimeFormat(ansCont,'temp');
-        if(ansCont.duration){
-          var tempVideoContentObj = {
-            contentId: "",
-            sequence: 0,
-            start:0,
-            end: 0
-          };
-          tempVideoContentObj.contentId = ansCont._id;
-          tempVideoContentObj.sequence = ++index;
-          tempVideoContentObj.start =  ansCont.start;
-          tempVideoContentObj.end = ansCont.end;
-          tempContentArray.push(tempVideoContentObj);
-        }else{
-          var tempImgContentObj = {
-            contentId: "",
-            sequence: 0,
-          };
-          tempImgContentObj.contentId = ansCont._id;
-          tempImgContentObj.sequence = ++index;
-          tempContentArray.push(tempImgContentObj);
-        }
-      })
+      console.log("ques answer~~~",answer)
 
-      tempObj.contents = tempContentArray;
+      // tempObj.contents = tempContentArray;
       
     });
     
@@ -2474,6 +2558,7 @@ export class TestwerkzComponent implements OnInit {
   getSingleConcept(cID){
     const _that =this;
     _that.conceptEdit = true;
+    _that.isCollectionList=false;
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log("SingleConcept",res)
       _that.conceptsObj = res;
@@ -2619,18 +2704,20 @@ export class TestwerkzComponent implements OnInit {
           question.html.question;
         }
       }, 200);
-      console.log("answerContents",question.answers.contents)
-      if(question.answers.contents != undefined){
-        question.answer.contents.map((ansCont)=> {
-          if(_that.isVideo(ansCont)){
-            console.log("ansCont~~~",ansCont)
-            ansCont["duration"] = ansCont.end
-            setTimeout(()=>{
-              _that.changeTimeFormat(ansCont,'toString')
-            },50)
-          }
-        })
-      }
+      question.answers.map((ans)=>{
+        if(ans.contents != undefined){
+          console.log("answerContents",ans.contents)
+          ans.contents.map((ansCont)=> {
+            if(_that.isVideo(ansCont)){
+              console.log("ansCont~~~",ansCont)
+              ansCont["duration"] = ansCont.end
+              setTimeout(()=>{
+                _that.changeTimeFormat(ansCont,'toString')
+              },50)
+            }
+          })
+        }
+      })
     })
   }
   //end get method
@@ -2742,7 +2829,8 @@ export class TestwerkzComponent implements OnInit {
         }
       ]
     };
-   const tempContentArray = [];
+   var tempContentArray = [];
+   var tempAnsContentArr = [];
     question.contents.map( (contentObj,index) => {
       // console.error(contentObj)
       _this.changeTimeFormat(contentObj,'temp')
@@ -2780,6 +2868,7 @@ export class TestwerkzComponent implements OnInit {
     })
 
     question.answers.map(answer => {
+      tempAnsContentArr = [];
       var tempObj = {
         name: "",
         answer: "",
@@ -2791,6 +2880,45 @@ export class TestwerkzComponent implements OnInit {
       tempObj.answer = answer.answer;
       tempObj.imgUrl = answer.imgUrl;
       tempObj.correctness = answer.correctness;
+      if(answer.contents.length >=1){
+        console.log("ans conr",answer.contents)
+        answer.contents.map((ansCont,index) => {
+          console.log("idx",index,"ansCont",ansCont)
+          _this.changeTimeFormat(ansCont,'temp');
+          if(ansCont.duration){
+            var tempVideoContentObj = {
+              contentId: "",
+              sequence: 0,
+              start:0,
+              end: 0
+            };
+            if(ansCont._id == undefined){
+              tempVideoContentObj.contentId = ansCont.contentId;
+            }else{
+              tempVideoContentObj.contentId = ansCont._id;
+            }
+            // tempVideoContentObj.contentId = ansCont._id;
+            tempVideoContentObj.sequence = ++index;
+            tempVideoContentObj.start =  ansCont.start;
+            tempVideoContentObj.end = ansCont.end;
+            tempAnsContentArr.push(tempVideoContentObj);
+          }else{
+            var tempImgContentObj = {
+              contentId: "",
+              sequence: 0,
+            };
+            if(ansCont._id == undefined){
+              tempImgContentObj.contentId = ansCont.contentId;
+            }else{
+              tempImgContentObj.contentId = ansCont._id;
+            }
+            tempImgContentObj.contentId = ansCont._id;
+            tempImgContentObj.sequence = ++index;
+            tempAnsContentArr.push(tempImgContentObj);
+          }
+        })
+        tempObj.contents = tempAnsContentArr;
+      }
       console.log(tempObj);
       testArr.push(tempObj);
       console.log(testArr);
@@ -3051,4 +3179,267 @@ export class TestwerkzComponent implements OnInit {
     this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents.splice(i, 1)
     this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.no].contents)
   }
+
+  //start collection group
+  getCollectionlist() {
+    this.blockUI.start("Loading");
+    this._service.getAllCollection(this.regionID).subscribe((res: any) => {
+      console.log(res);
+      this.collectionarr=res;
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
+    });
+  }
+
+  goToCollection(){
+    this.isCollection=true;
+    this.isCollectionList=false;
+    this.conceptList=false;
+    this.isTestwerkztitle=false;
+    // this.selectedConcept=[];
+    // this.collectionId="";
+    // this.collectionName="";
+  }
+
+  goToaddNewCollection(){
+    this.isCollectionCreate=true;
+    this.conceptEdit=false;
+    this.isCollection=false;
+    this.isCollectionList=false;
+    this.conceptList=false;
+    this.isTestwerkztitle=false;
+  }
+  
+  backTocollectionList(){
+  
+    this.isCollectionList=false;
+    this.isCollection=true;
+    this.conceptList=false;
+    this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
+    this.isTestwerkztitle=false;
+    this.selectedConcept=[];
+    this.collectionId="";
+    this.collectionName="";
+  }
+  // start concept search
+  focusSearch(e) {
+    console.log(e)
+  
+    this.isFocus_collection = true;
+    // this.showfixedcreate = true;
+    // this.apgList = [];
+  }
+
+  hideSearch(e) {
+    console.log(e)
+    setTimeout(() => {
+      this.isFocus_collection  = false;
+      // this.showfixedcreate = false;
+    }, 300);
+  }
+
+  changeSearch(keyword, type) {
+    console.log(keyword,type)
+    if (keyword == 0 || keyword == "") {
+      this.concept_in_collection=[];
+      console.log(this.concept_in_collection)
+      // this.getAllAPG(20, 0)
+    } else {
+      this.getConceptSearch(keyword);
+    }
+  }
+
+  getConceptSearch(keyword){
+    // console.error(this.isCollectionList,this.pageConcept)
+    this.blockUI.start("Loading...");
+    this._service.getAllConceptBySearch(this.regionID,keyword).subscribe(
+      (res: any) => {
+        console.log(res)
+        if(this.isCollectionList){
+          this.conceptsArr=res;
+        }else{
+          this.concept_in_collection=res;
+        }
+        this.blockUI.stop();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  
+
+  selectData(id) {
+    console.log(id)
+      // this.singleAPG(id);
+      // this.selectedAPGlists = true;
+    this._service.getConceptById(this.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res)
+        res.isExpand=false;
+        this.selectedConcept.push(res);
+     
+        // this.blockUI.stop();
+        this.isfocus = false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+   
+
+  }
+
+  removeSelectedConcept(data) {
+    console.log(data)
+    console.log(this.selectedConcept)
+    // this.model = '';
+    var index = this.selectedConcept.findIndex(function (element) {
+      return element._id === data._id;
+    })
+    if (index !== -1) {
+      this.selectedConcept.splice(index, 1)
+    }
+    console.log(this.selectedConcept)
+  }
+
+  expandAccessPoint(i, ind) {
+    console.log(i,ind)
+    console.log(this.selectedConcept[i])
+
+      this.selectedConcept[i].isExpand = !this.selectedConcept[i].isExpand;
+      console.log(i, ind)
+    
+  }
+  collectionvalidateForm() {
+
+    if (!this.collectionName || this.selectedConcept.length == 0) {
+      this.isCollectionFormValid = false;
+      return this.isCollectionFormValid;
+    }else{
+      this.isCollectionFormValid = true;
+      return this.isCollectionFormValid;
+    }
+  }
+
+  createCollection(){
+    let idArr=[];
+    for(let i=0;i<this.selectedConcept.length;i++){
+      let conceptIdObj={
+        "conceptId":this.selectedConcept[i]._id
+      }
+      idArr.push(conceptIdObj);
+    }
+    console.log(idArr)
+    let obj={
+      "name":this.collectionName,
+      "concepts":idArr
+    };
+    console.log(this.collectionName);
+    console.log(this.selectedConcept)
+    console.log(obj)
+    // let obj=this.selectedConcept.push(this.collectionName);
+    // console.log(obj)
+    this._service.createCollection(this.regionID,obj).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.getCollectionlist();
+        this.toastr.success("Successfully Collection created.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Collection created.");
+      }
+    );
+    this.isCollectionCreate=false;
+    this.backToList();
+  }
+
+  // collection edit
+  goTocollectionEdit(id){
+    console.log(id);
+    this.blockUI.start("Loading...");
+    this._service.getCollectionById(this.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res)
+        this.isCollectionEdit=true;
+        this.isCollection=false;
+        this.collectionName=res.name;
+        this.collectionId=res._id;
+        res.concepts.map(obj=>{
+          this.getConceptByIdForCollection(obj.conceptId)
+        })
+        this.blockUI.stop();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  getConceptByIdForCollection(id){
+    this._service.getConceptById(this.regionID,id).subscribe(
+      (conceptRes: any) => {
+        console.log(conceptRes)
+        this.selectedConcept.push(conceptRes);
+      },
+      err => {
+        console.log(err);
+      });
+    
+  }
+
+  updateCollection(id){
+    console.log(id)
+    let idArr=[];
+    this.isCollectionEdit=false;
+    for(let i=0;i<this.selectedConcept.length;i++){
+      let conceptIdObj={
+        "conceptId":this.selectedConcept[i]._id
+      }
+      idArr.push(conceptIdObj);
+    }
+    console.log(idArr)
+    let obj={
+      "name":this.collectionName,
+      "concepts":idArr
+    };
+    this._service.updateCollection(this.regionID,obj,id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.toastr.success("Successfully Collection updated.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Collection updated.");
+      }
+    );
+    this.backToList();
+    this.getCollectionlist();
+  }
+
+  cancelCollection(){
+    this.isCollectionCreate=false;
+    this.isCollectionEdit=false;
+    this.isCollection=false;
+    this.isCollectionList=true;
+    this.conceptCreate = false;
+    this.conceptEdit = false;
+    this.testWerkzCategory = false;
+    this.conceptList = true;
+    this.selectedConcept=[];
+    this.collectionName="";
+    console.log("cancel")
+  }
+  showmoreConcept(length){
+    this.pageConcept+=1;
+    console.log(length)
+    console.log(this.pageConcept)
+    this.getConceptLists(1,this.pageConcept*20);
+  }
+  //end collection group
+
 }

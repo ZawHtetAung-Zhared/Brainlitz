@@ -4,7 +4,8 @@
   <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button>
 </div> -->
 <!-- *ngIf="conceptCreate &&  greterThan  && conceptEdit"  -->
-<div *ngIf="greterThan && (conceptEdit || conceptCreate)"  class="d-flex w-100 align-items-center justify-content-between sticky-back-bar">
+
+<!-- <div *ngIf="greterThan && (conceptEdit || conceptCreate)"  class="d-flex w-100 align-items-center justify-content-between sticky-back-bar">
   <div class="back-to d-flex" *ngIf="!conceptEdit" (click)="backToTag('conceptCreate')">
     <i class="fa fa-angle-left"></i>
     <p>Back</p>
@@ -33,10 +34,49 @@
       Update
     </button>
   </div>
-</div>
-<div *ngIf="conceptList" class="pdLR-15">
-  <h2 class="testwerkzTitle pdLR-15 mt-3">TestWerkz</h2>
-  <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3">
+</div> -->
+<div  class="pdLR-15">
+  <h2 class="testwerkzTitle pdLR-15 mt-3" *ngIf="isTestwerkztitle">TestWerkz</h2>
+    <!-- Start Collection -->
+    <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
+      <label class="cTitle mb-0">Collection</label>
+      <div>
+        <button class="btn btn-create" (click)="goToaddNewCollection()">
+          Add new collection
+        </button>
+      </div>
+    </div>
+    <div class="d-flex collection-wrappe " *ngIf="isCollectionList">
+      <div  *ngFor="let col of collectionarr">
+        <div class="single-collection">
+          <div class="single-collectin-header">
+            <p class="single-collection-title">{{col.name}}</p>
+          </div>
+          
+          <div class="single-collection-group">
+            <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
+              <span class="tagName">{{concept.tag[0].name}}</span>
+              <div class="d-flex flex-row">
+                  <span class="detail-dot"></span>
+                  <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="viewAllDiv" *ngIf="isCollectionList">
+      <button  class="btn-action remove-outline viewallBtn" (click)="goToCollection()">View All 
+        <span class="lists-down-arrow">
+            <i class="fa fa-angle-right rightArrow"></i>
+        </span>
+      </button>
+     
+    </div>
+  <!-- End Collection -->
+
+  <!-- Start Concept -->
+  <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="conceptList">
     <label class="cTitle mb-0">Concept</label>
     <div>
       <button class="btn btn-create" (click)="goToTestWerkz()">
@@ -45,7 +85,16 @@
       <!-- <button class="btn btn-success" (click)="onUpdateTeskWerkz('5c8b7c80dd6ff06bc903f1d5')"> Edit tag </button> -->
     </div>
   </div>
-  <div class="card-columns pdLR-15">
+  <div class="input-group col-md-12 mt-30" *ngIf="conceptList">
+    <span class="input-group-append">
+      <button class="bt btn-design btn-outline-secondary" type="button">
+        <i class="fa fa-search search-size"></i>
+      </button>
+    </span>
+    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search concept to collect" id="example-search-input"
+      (input)="getConceptSearch($event.target.value)" autocomplete="off">
+  </div>
+  <div class="card-columns pdLR-15" *ngIf="conceptList">
     <div class="card" *ngFor="let concept of conceptsArr">
       <div class="single-concept">
         <div class="pad-15">
@@ -92,8 +141,214 @@
         </div>
       </div>
     </div>
+    <div *ngIf="conceptsArr.length == this.pageConcept * 20" class="load-more">
+        <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
+        <button class="btn remove-outline" (click)="showmoreConcept(conceptsArr.length)">load more</button>
+    </div>
   </div>
 </div>
+
+<!-- start collection group -->
+<div *ngIf="isCollection">
+  <header [ngClass]="{ blury: isfocus == true || iseditfocus == true }" style="height: 115px;" class="pl-5">
+    <div class="d-flex" [ngClass]="{ stickywrap: navIsFixed == true }">
+      <div class="mr-auto p-2 pl-0 pb-0" >
+        <div class="back-to d-flex" (click)="backToList()">
+          <i class="fa fa-angle-left"></i>
+          <p>TestWerkz</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <label class="cTitle mb-0">Collection</label>
+        <div>
+          <button class="btn btn-create" (click)="goToaddNewCollection()">
+            Add new collection
+          </button>
+        </div>
+    </div>
+  </header>
+  <div class="collection-wrapper1 card-columns pl-5">
+    <div class="card" *ngFor="let col of collectionarr">
+      <div class="single-collection1">
+        <div class="info-section">
+          <div class="single-collectin-header1">
+            <p class="single-collection-title1">{{col.name}}</p>
+          </div>
+          
+          <div class="single-collection-list1-group">
+            <div class="single-collection-list1"  *ngFor="let concept of col.concepts;let ci = index">
+              <span class="tagName">{{concept.tag[0].name}}</span>
+              <div class="d-flex flex-row">
+                  <span class="detail-dot1"></span>
+                  <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end single-collectin-footer1">
+            <button class="btn-action remove-outline" (click)="goTocollectionEdit(col._id)">Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- start collection create -->
+<div *ngIf="isCollectionCreate || isCollectionEdit">
+  <div class="col-md-12">
+    <!-- <div class="createForm-wrap"> -->
+      <div class="mr-auto p-2 pl-0 pb-0" >
+        <div class="back-to d-flex" (click)="backTocollectionList()">
+          <i class="fa fa-angle-left"></i>
+          <p>TestWerkz</p>
+        </div>
+      </div>
+      <h3 class="collection-title" *ngIf="isCollectionCreate">
+        Create Collection
+      </h3>
+      <h3 class="collection-title" *ngIf="isCollectionEdit">
+        Update Collection
+      </h3>
+      <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
+        <div class="d-flex justify-content-between collection-title">
+          <label class="form-title input-label-collection" for="address">
+            Collection name
+          </label>
+          <div class="limit-type-wordcount">
+            <span>{{ wordLength }}/60characters</span>
+          </div>
+        </div>
+
+        <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off"
+          placeholder="Type Collection name here" name="name" maxlength="60" [(ngModel)]="collectionName"
+          (focus)="focusMethod($event, 'name', $event.target.value)" (blur)="blurMethod($event, 'name')"
+          (input)="changeMethod($event.target.value)" required #name="ngModel" />
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+          <div [hidden]="!name.errors.required">
+            Name is required!
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+  <div class="custom-dropdown-width input-group col-md-12 all-title-font">
+    <div class="input-group w-100">
+      <span class="input-group-append">
+        <button class="bt btn-design btn-outline-secondary" type="button">
+          <i class="fa fa-search search-size"></i>
+        </button>
+      </span>
+      <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this collection" 
+      id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
+      (input)="changeSearch($event.target.value, 'apg')"
+      autocomplete="off"
+      >
+      </div>
+    <div>
+  
+      <div class="search-result-box" *ngIf="isFocus_collection == true">
+        <div class="single-result" (click)="selectData(concept._id)" *ngFor="let concept of concept_in_collection">
+          <div class="d-flex">
+            <div class="circle1 plus"></div>
+            <div>
+              <div>{{ concept.name }}</div>
+              <!-- <div class="step-font font-12" *ngIf="apg.module">{{ apg.module.name }}</div>
+              <div class="step-font font-12" *ngIf="!apg.module"> - </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+
+    <!-- <div *ngIf="showfixedcreate == true" class="fixedText">
+      <div class="top-line">
+        <button type="button" class="bt btn-apg" (click)="goToModule()">
+          <div class="circle3 plus"></div>Create new APG
+        </button>
+      </div>
+    </div> -->
+  </div>
+  <div class="col-md-12 pl-zero" *ngIf="showfixedcreate == true">
+    <!-- <div style="
+    height: 341px;
+    border: 1px solid #eee;
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+  "></div> -->
+  </div>
+  <div  class="d-flex flex-row empty-concept" *ngIf="selectedConcept.length== 0">
+    <div class="d-flex img-pos">
+      <img src="assets/img/apg-list-default.png">
+    </div>
+    <div class="d-flex flex-row">
+        <div class="txt-default">
+            <h3>Add Concept to this Collection</h3>
+          </div>
+      <div class="arrow-pos">
+        <img src="assets/images/arrow.png">
+      </div>
+      
+    </div>
+  </div>
+  <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
+    <!-- <div class="wrap-height"> -->
+    <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
+      <span class="tagName_collection">{{sConcept.tag[0].name}}</span>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex group-text">
+            <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
+              <div class="circle2 minus"></div>
+            </button>	
+            <div class="conceptName_collection">{{sConcept.name}}</div>
+        </div>
+        <span class="lists-down-arrow" [ngClass]="{'transform-y': sConcept.isExpand}" (click)="expandAccessPoint(id,ind)">
+          <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
+        </span>
+      </div>
+      <div *ngIf="!sConcept.isExpand" class="d-flex flex-row list-dot-wrap">
+        <div  *ngFor="let pd of sConcept.pd"  class="flashImg">
+            <img src="/assets/images/un-thunder-flash-w.png" />
+        </div>
+        <!-- <span class="dot" *ngFor="let pd of sConcept.pd"></span> -->
+      </div>
+      <div *ngIf="sConcept.isExpand">
+        <div class="d-flex flex-row expandConcept" *ngFor="let pd of sConcept.pd;let idx = index">
+          <!-- <span class="detail-dot"></span> -->
+          <div class="flashImg">
+              <img src="/assets/images/un-thunder-flash-w.png" />
+          </div>
+          <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{sConcept.name}}</div>
+        </div>
+      </div>
+      <!-- <hr class="hr-style"> -->
+    </div>
+  </div>
+ 
+</div>
+<div class="d-flex justify-content-end form-footer" *ngIf="isCollectionCreate || isCollectionEdit">
+  <div class="d-flex">
+    <button type="button" class="btn btn-cancel" (click)="cancelCollection('cancel')">
+      Cancel
+    </button>
+    <div *ngIf="isCollectionCreate">
+      <div class="d-none">{{ collectionvalidateForm() }}</div>
+      <button type="button" class="btn btn-submit" [disabled]="!isCollectionFormValid" (click)="createCollection()">
+        Create
+      </button>
+    </div>
+    <div  *ngIf="!isCollectionCreate">
+      <div class="d-none">{{ collectionvalidateForm() }}</div>
+      <button type="button" class="btn btn-submit" [disabled]="!isCollectionFormValid"
+        (click)="updateCollection(collectionId)">
+        Update
+      </button>
+    </div>
+  </div>
+</div>
+<!-- end collection create -->
+<!-- end collection group -->
 <div [ngClass]="{ overlay: isfocus == true || iseditfocus == true }"></div>
 <!-- For test List End -->
 
@@ -235,6 +490,36 @@
 
 <!-- For Concept Create Start -->
 <div *ngIf="conceptCreate || conceptEdit">
+  <div class="d-flex w-100 align-items-center justify-content-between sticky-back-bar" [ngClass]="{'stickyNav': greterThan == true}">
+    <div class="back-to d-flex" *ngIf="!conceptEdit" (click)="backToTag('conceptCreate')">
+      <i class="fa fa-angle-left"></i>
+      <p>Back</p>
+    </div>
+    <div class="back-to d-flex" *ngIf="conceptEdit" (click)="backToTag('conceptEdit')">
+      <i class="fa fa-angle-left"></i>
+      <p>Back</p>
+    </div>
+    <div>
+      <div *ngIf="!conceptEdit"><h5 class="mb-0 create-title text-center">Create Concept</h5></div>
+      <div *ngIf="conceptEdit"><h5 class="mb-0 create-title text-center">Update Concept</h5></div>
+      <div class="d-flex flex-row concept_info ">
+        <p class="mb-0">tag</p><span class="dott">&#183;</span><p class="mb-0">{{ pickedTag.name }}</p> 
+      </div>
+    </div>
+    <div *ngIf="!conceptEdit" class="mr-2">
+      <div class="d-none">{{ validateForm() }}</div>
+      <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid" (click)="createConcept()">
+        Create
+      </button>
+    </div>
+    <div *ngIf="conceptEdit" class="mr-2">
+      <div class="d-none">{{ validateForm() }}</div>
+      <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid"
+        (click)="updateConcept(conceptId)">
+        Update
+      </button>
+    </div>
+  </div>
   <div class="w-100  h-100">
     <div class="w-100 d-flex mt-1 h-100" [ngClass]="{
         'justify-content-center': classCreate == true,
@@ -393,14 +678,13 @@
                         <div class="col-md-4 position-relative mb-3" *ngFor="let img of pd.contents; let idx = index">
                           <!-- <img *ngIf="showRMIcon==idx" (click)="removePDImg(img,idx,i)" class="img-pd" src="./assets/img/remove-white.png"> -->
                           <div class="innerPd p-0" 
-                          (mouseenter)="mouseOver($event, idx)" 
-                          (mouseout)="mouseOut($event)"
+                          (mouseenter)="mouseOver($event,'pdRMI', i, idx, '')"  (mouseleave)="mouseOut($event)"
                             [ngClass]="isVideo(img) ? 'transparent-bg' : ''">
                             <img class="editablePDImg" src="{{ img.url }}" *ngIf="!isVideo(img)" />
                             <img src="../../../assets/images/play-icon.png" class="play-img" *ngIf="isVideo(img)" />
-                            <video class="editablePDImg" width="120" height="72" preload="metadata" *ngIf="isVideo(img)"
+                            <video width="120" height="72" preload="metadata" *ngIf="isVideo(img)"
                               src="{{ img.url }}"></video>
-                            <img (click)="removePDImg(img, idx, i)" class="img-pd rmIcon" [ngClass]="{'isVid':isVideo(img)}"
+                            <img *ngIf="showRemove && hoverIcon == 'pdRMI-'+ i + idx" (click)="removePDImg(img, idx, i)" class="img-pd rmIcon" [ngClass]="{'isVid':isVideo(img)}"
                               src="./assets/img/remove-white.png" />
                           </div>
                         </div>
@@ -446,21 +730,19 @@
                           data-placeholder="Type question here" (focus)="onFocus('question', i, j, '', t)"
                           (input)="onInput(t, $event, editableId, focusType)" (focusout)="onFocusOut($event)"
                           (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (keyup)="getCaretPosition($event)" (keydown)="getCaretPosition($event)" (mouseup)="getCaretPosition($event)" (mousedown)="getCaretPosition($event)"></div>
-                        <!-- <div class="question-vd-wrapper row">
-                          <div *ngFor="let video of  question.contents; let i = index"
+                        <div class="question-vd-wrapper row">
+                          <div *ngFor="let video of  question.contents; let idx = index"
                             class="position-relative mr-2 ml-2 question-vd innerPd" 
-                            (mouseenter)="mouseOver($event, i)"
-                            (mouseout)="mouseOut($event)"
+                            (mouseenter)="mouseOver($event, 'qRMI', i, j, idx)"
+                            (mouseleave)="mouseOut($event)"
                             [ngClass]="isVideo(video) ? 'transparent-bg' : ''">
-                            <img src="../../../assets/images/play-icon.png" class="play-img" *ngIf="isVideo(video)" />
-                            <video class="editablePDImg" width="120" height="72" preload="metadata"
-                              *ngIf="isVideo(video)" src="{{ video.url }}"
-                             
-                              ></video>
-                              <img (click)="removeQuestionVideo(video, i)" class="img-pd rmIcon"
+                            <img src="../../../assets/images/play-icon.png" class="play-qimg" *ngIf="isVideo(video)" />
+                            <video width="120" height="72" preload="metadata"
+                              *ngIf="isVideo(video)" src="{{ video.url }}"></video>
+                              <img *ngIf="showRemove && hoverIcon == 'qRMI-' + i + j + idx" (click)="removeQuestionVideo(video, idx)" class="img-qpd rmIcon"
                               src="./assets/img/remove-white.png" />
                           </div>
-                        </div> -->
+                        </div>
                         <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                         <div class="" style="padding-top: 20px;" *ngFor="
                             let answer of question.answers;
@@ -509,7 +791,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolSVG
-                                      }}" alt="" class="cursor-on" />
+                                      }}" alt="" />
                                   </div>
 
                                   <div *ngIf="
@@ -518,7 +800,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolReverseSVG
-                                      }}" alt="" class="cursor-on"/>
+                                      }}" alt="" />
                                   </div>
                                 </div>
                               </label>
@@ -552,7 +834,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolSVG
-                                      }}" alt="" class="cursor-on" />
+                                      }}" alt="" />
                                   </div>
 
                                   <div *ngIf="
@@ -561,7 +843,7 @@
                                     ">
                                     <img src="{{ imagePath }}{{ symbol }}{{
                                         answerSymbolReverseSVG
-                                      }}" alt="" class="cursor-on" />
+                                      }}" alt="" />
                                   </div>
                                 </div>
                               </label>
@@ -593,7 +875,7 @@
                     </div>
                   </div>
                   <div class="add-new-question">
-                    <p (click)="addQuestion(i)" class="mb-0 cursor-on">
+                    <p (click)="addQuestion(i)" class="mb-0">
                       Add new question
                     </p>
                   </div>
@@ -604,10 +886,10 @@
             <!-- Wai Yan UI End -->
 
             <div class="d-flex pl-3 mt-3">
-              <p (click)="addPd()" class="plus-sign cursor-on d-flex justify-content-center align-items-center">
+              <p (click)="addPd()" class="plus-sign d-flex justify-content-center align-items-center">
                 <span>+</span>
               </p>
-              <p (click)="addPd()" class="mb-0 mt-1 cursor-on pl-3 new-pd-text">
+              <p (click)="addPd()" class="mb-0 mt-1 pl-3 new-pd-text">
                 Add new performance demand
               </p>
             </div>
@@ -780,14 +1062,14 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center delete-btnWrap ">
-          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length > 1" class="cursor-on" (click)="delete(focusType)">
+        <div class="d-flex justify-content-center align-items-center delete-btnWrap">
+          <button *ngIf="focusType.type == 'pd' && performanceDemands?.length > 1" (click)="delete(focusType)">
             Delete
           </button>
           <button *ngIf="
               (focusType.type == 'question' || focusType.type == 'answer') &&
               performanceDemands[focusType.parentIdx].questions.length > 1
-            " (click)="delete(focusType)" class="cursor-on">
+            " (click)="delete(focusType)">
             Delete
           </button>
         </div>
@@ -795,9 +1077,11 @@
     </div>
 
     <div class="d-flex justify-content-between form-footer">
-      <button type="button" class="btn-delete" (click)="onClickDeleteConcept(deletemodal, concept)">
-        Delete
-      </button>
+      <div>
+        <button *ngIf="conceptEdit" type="button" class="btn-delete" (click)="onClickDeleteConcept(deletemodal, concept)">
+          Delete
+        </button>
+      </div>
       <div class="d-flex">
         <button type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">
           Cancel
@@ -868,19 +1152,22 @@
 
       <div class="d-flex flex-column gallery">
         <p class="g_title">Image gallery</p>
-        <div class="row imgGp">
+        <div class="row imgGp pb-3">
           <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr; let i = index">
             <div class="d-flex justify-content-center align-items-center inner-imgDiv"
               (click)="onslectedImgDiv(img._id, img)" id="img-{{ img._id }}" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
-              (mouseenter)="onImgMouseEvent($event, img._id)" (mouseleave)="onImgMouseEvent($event, img._id)">
+              (mouseenter)="onImgMouseEvent($event, img._id, 'mouseenter')" (mouseleave)="onImgMouseEvent($event, img._id,'mouseleave')">
               <div id="cricle{{ img._id }}" [ngClass]="{'iconCheck': imgIdArr.indexOf(img._id) != -1}">
                 <i _ngcontent-c1="" class="fa fa-check" id="check{{ img._id }}" [ngClass]="{'check': imgIdArr.indexOf(img._id) != -1}"></i>
               </div>
-              <div (click)="onremoveClick(img._id)" id="trashdiv-{{ img._id }}" class="trashDiv" [ngClass]="{'trashdivClass': imgIdArr.indexOf(img._id) != -1}">
-                <i _ngcontent-c1="" class="fa fa-trash" id="trash{{ img._id }}"></i>
+              <div (click)="onremoveClick(img._id)" id="trashdiv-{{ img._id }}" class="trashdivClass">
+                <i _ngcontent-c1="" class="fa fa-trash" id="trash{{ img._id }}" [ngStyle]="imgIdArr.indexOf(img._id) != -1 && isMouseOverID == img._id ? {'opacity': 1} : {'opacity': 0}"></i>
               </div>
               <img src="{{ img.url }}" class="gShowImag" id="gShowImag-{{ img._id }}"  [ngClass]="{'addgshwoImg': imgIdArr.indexOf(img._id) != -1}"/>
-              <div class="Imgoverlay" id="Imgoverlay{{ img._id }}"></div>
+              <div class="imgName" *ngIf="imgIdArr.indexOf(img._id) != -1 && isMouseOverID == img._id">
+                {{ (img.name.length > 17) ? (img.name | slice:0:14)+'...' : (img.name) }}
+              </div>
+              <div class="Imgoverlay" id="Imgoverlay{{ img._id }}" [ngClass]="{'overlayDiv': imgIdArr.indexOf(img._id) != -1 && isMouseOverID == img._id}"></div>
             </div>
           </div>
         </div>
@@ -978,15 +1265,15 @@
           <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Videos"
             id="example-search-input" (input)="contentSearch($event.target.value)" autocomplete="off">
         </div>
-        <div class="row imgGp">
-          <div class="col-md-3 imgDiv" *ngFor="let video of videoArr; let i = index" [class.disabled]="!video.duration">
-            <div class="inner-imgVideo" (click)="onslectedImgDiv(video._id, video)" id="img-{{ video._id }}"
-              (mouseenter)="onImgMouseEvent($event, video._id)" (mouseleave)="onImgMouseEvent($event, video._id)">
-              <div id="cricle{{ video._id }}" class="video-circle">
-                <i class="fa fa-check" id="check{{ video._id }}"></i>
+        <div class="row imgGp pt-3">
+          <div class="col-md-3 vidDiv" *ngFor="let video of videoArr; let i = index" [class.disabled]="!video.duration">
+            <div class="inner-imgVideo" (click)="onslectedImgDiv(video._id, video)" id="img-{{ video._id }}" [ngClass]="{'hightlight': vidIdArr.indexOf(video._id) != -1, 'not-selected':vidIdArr.indexOf(video._id) == -1 }"
+              (mouseenter)="onVidMouseEvent($event, video._id,'mouseenter')" (mouseleave)="onVidMouseEvent($event, video._id,'mouseleave')">
+              <div id="cricle{{ video._id }}" [ngClass]="{'video-circle': vidIdArr.indexOf(video._id) != -1}">
+                <i class="fa fa-check" id="check{{ video._id }}" [ngClass]="{'checkedVid': vidIdArr.indexOf(video._id) != -1}"></i>
               </div>
               <div (click)="onremoveClick(video._id)" id="trashdiv-{{ video._id }}" class="video-trashDiv">
-                <i class="fa fa-trash" id="trash{{ video._id }}"></i>
+                <i class="fa fa-trash" id="trash{{ video._id }}" [ngStyle]="vidIdArr.indexOf(video._id) != -1 && isMouseOverID == video._id ?{'opacity': 1} : {'opacity': 0}"></i>
               </div>
               <video width="216" height="130" preload="metadata" src="{{ video.url }}"
                 (loadedmetadata)="onMetadata($event, i)"></video>
@@ -994,8 +1281,11 @@
               <div id="play{{ video._id }}" class="play-circle">
                 <img src="../../../assets/images/play-icon.png" />
               </div>
+              <div class="videoNameShort" [ngClass]="{'videoNameLong': video.name.length > 26}">
+                {{ (video.name.length > 40) ? (video.name | slice:0:40)+'...':(video.name) }}
+              </div>
 
-              <div class="Imgoverlay video" id="Imgoverlay{{ video._id }}"></div>
+              <div class="VidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': vidIdArr.indexOf(video._id) != -1 && isMouseOverID == video._id}"></div>
             </div>
           </div>
         </div>

@@ -6,10 +6,11 @@ import { MinuteSecondsPipe } from '../../service/pipe/time.pipe'
 import { NgbModal, ModalDismissReasons, NgbDatepickerConfig, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { isConstructorDeclaration } from 'typescript';
+
 declare var $: any;
 @Component({
   selector: 'app-schedule',
@@ -679,7 +680,7 @@ export class ScheduleComponent implements OnInit {
   //   this.scheduleList=false;
   // }
 
-  constructor(private _service: appService, private dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
+  constructor(private _service: appService, private dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef, private router: Router, private dataService: DataService) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
       console.log('goooo')
@@ -2027,7 +2028,7 @@ export class ScheduleComponent implements OnInit {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date,weekday) {
-
+    
     $(".disabledScroll").css("overflow","hidden");
     this.screenValue=window.innerWidth; //for resize condition to mactch window size
 
@@ -2278,6 +2279,7 @@ export class ScheduleComponent implements OnInit {
 
   courseInfo = {};
   onClickCourse(course, lesson, e, date) {
+    
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
@@ -2300,8 +2302,6 @@ export class ScheduleComponent implements OnInit {
     if ($(event.target).parents(".options-box").length > 0 || $(event.target).hasClass("options-box")) {
       console.log("fffffffffff")
     } else {
-
-
       if (course.seat != {}) {
         console.log("dfdfdfdfdfdfdf")
         this.popUpHeight = 260;
@@ -2364,61 +2364,62 @@ export class ScheduleComponent implements OnInit {
     this.yPosition = e.layerY + 25;
     this.xPosition = e.layerX - 25;
 
-    console.log($(event.target))
     this.xPosition = $(event.target).offset().left - 150 + $(event.target).width() / 2;
     this.yPosition = $(event.target).offset().top + $(event.target).height() + 10;
-    this.arrTop = $(event.target).offset().top + $(event.target).height() - 10;
-    this.arrLeft = this.xPosition + 140;
+    let arrTemptop = $(event.target).offset().top + $(event.target).height() - 10;
+    let arrTempLeft = this.xPosition + 140;
 
-    console.log("xPostiton>"+this.xPosition)
-    console.log("yPosition>"+this.yPosition)
-    console.log("arrTop>"+this.arrTop)
-    console.log("arrLeft>"+this.arrLeft)
-    console.log("width>",$(document).width());
-    if ($(document).height() - this.yPosition < 180) {
-      this.yPosition = $(event.target).offset().top - 170;
-      this.arrTop = this.yPosition + 160;
-      this.arrClasses = {
-        'arr-box': true,
-        'arr-down': true
+    setTimeout(() => {
+      if(e.target.className=="selectedCourse" || e.target.className=="lesson-slot selectedCourse"){
+        this.arrTop=arrTemptop;
+        this.arrLeft=arrTempLeft;
+        if ($(document).height() - this.yPosition < 180) {
+          this.yPosition = $(event.target).offset().top - 170;
+          this.arrTop = this.yPosition + 160;
+          this.arrClasses = {
+            'arr-box': true,
+            'arr-down': true
+          }
+        } else {
+          this.arrClasses = {
+            'arr-box': true,
+            'arr-up': true
+          }
+        } 
+        console.log("here me")
+        this.styleArrDefault = {
+          'top': this.yPosition + "px",
+          'left': this.xPosition + "px"
+        }
+        if ($(document).width() - this.xPosition < 300) {
+          console.log("here 1")
+          this.xPosition = 0;
+          this.isSide=true;
+          this.styleArr = {
+            'top': this.yPosition + "px",
+            'right': '0px'
+          }
+        }
+        else if (this.xPosition < 0) {
+          console.log("here 2")
+          this.isSide=true;
+          this.xPosition = 0;
+          this.styleArr = {
+            'top': this.yPosition + "px",
+            'left': '0px'
+          }
+        }
+        else {
+          console.log("here 3")
+          this.isSide=false;
+          this.styleArr = {
+            'top': this.yPosition + "px",
+            'left': this.xPosition + "px"
+          }
+        }
       }
-    } else {
-      this.arrClasses = {
-        'arr-box': true,
-        'arr-up': true
-      }
-    }
-
-    this.styleArrDefault = {
-      'top': this.yPosition + "px",
-      'left': this.xPosition + "px"
-    }
-    if ($(document).width() - this.xPosition < 300) {
-      console.log("here 1")
-      this.xPosition = 0;
-      this.isSide=true;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'right': '0px'
-      }
-    }
-    else if (this.xPosition < 0) {
-      console.log("here 2")
-      this.isSide=true;
-      this.xPosition = 0;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'left': '0px'
-      }
-    }
-    else {
-      console.log("here 3")
-      this.isSide=false;
-      this.styleArr = {
-        'top': this.yPosition + "px",
-        'left': this.xPosition + "px"
-      }
-    }
+    }, 20);
+   
   }
 
 
@@ -2497,5 +2498,10 @@ export class ScheduleComponent implements OnInit {
   
     // scrollbar.scrollLeft = content.scrollLeft;
     // content.scrollLeft = scrollbar.scrollLeft;
+  }
+
+  goToCourse(course){
+    this.router.navigate(['/course']);
+    this.dataService.nevigateCourse(course.courseId)
   }
 }
