@@ -1044,6 +1044,7 @@ export class TestwerkzComponent implements OnInit {
     this.contentPage=0;
     this.ImgArr=[];
     this.isDisabelInsert=false;
+    this.uploadedVid = [];
   }
   public searchWord:any;
   public isSearch:any;
@@ -1626,6 +1627,7 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   insertImg() {
+    this.uploadedVid = [];
     var inImageWrapper = this.checkFocusPosition();
     console.log("###inImageWrapper",inImageWrapper)
     // console.log("editableID", this.editableId);
